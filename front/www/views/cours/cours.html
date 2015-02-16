@@ -1,0 +1,23 @@
+<!-- <div class="col-md-3 col-xs-12" ng-repeat-start="matiere in matieres">
+    <div class="up-ticket">
+        <h1>{{ matiere.nom }}</h1>
+        <ul>
+            <li ng-repeat="fichier in matiere.fichiers"><a href="{{ '/api/exercices/'+fichier.slug+'/download' }}" class="up-ticket-link">{{ fichier.name }}</a></li>
+        </ul>
+    </div>
+</div> -->
+<div class="col-md-3 col-xs-12" ng-repeat-start="exercice in exercices">
+    <div class="up-ticket ">
+        <h1>{{ exercice.name }}</h1>
+        <h3>Publié par {{exercice.uploader.first_name+' '+exercice.uploader.last_name}}</h3>
+        <a class="up-ticket-link" href="{{'/api/exercices/'+exercice.slug+'/download'}}">Télécharger</a>
+    </div>
+</div>
+<div class="clearfix visible-md visible-lg" ng-if="$index%4 == 3"></div>
+<div class="clearfix visible-xs visible-sm" ng-repeat-end></div>
+
+<div class="col-xs-12">
+    <div class="up-ticket" ng-if="!exercices.length">
+        <h1>Pas d'annales à afficher</h1>
+    </div>
+</div>

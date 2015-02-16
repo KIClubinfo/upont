@@ -1,0 +1,36 @@
+# Les routes sont splitées en plusieurs sous fichiers
+# Les catégories correspondent aux répartitions dans la doc
+
+fos_user_resetting:
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /resetting
+
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /
+
+ki_upont_api_pontub:
+    resource: "@KIUpontBundle/Resources/config/ponthub.yml"
+    prefix:   /ponthub
+
+ki_upont_api_general:
+    resource: "@KIUpontBundle/Resources/config/general.yml"
+    prefix:   /
+
+ki_upont_api_publications:
+    resource: "@KIUpontBundle/Resources/config/publications.yml"
+    prefix:   /
+
+ki_upont_api_users:
+    resource: "@KIUpontBundle/Resources/config/users.yml"
+    prefix:   /
+
+ki_upont_api_foyer:
+    resource: "@KIUpontBundle/Resources/config/foyer.yml"
+    prefix:   /foyer
+    
+upont_api_migration:
+    pattern: /migration
+    defaults: { _controller: KIUpontBundle:Migration:migration }
+    requirements:
+        _method: GET

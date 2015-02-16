@@ -1,0 +1,381 @@
+<ons-page ng-controller="EventsController" data-ng-init="init()">
+    <ons-navigator animation="slide" var="nav">
+        <ons-toolbar fixed-style>
+            <div class="left">
+                <ons-toolbar-button ng-click="menu.toggle()">
+                    <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+            <div class="center">Événements</div>
+            <!--<div class="right">
+                <ons-toolbar-button ng-click="nav.pushPage('redactorEvents.html');">
+                    <ons-icon icon="ion-compose" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                </ons-toolbar-button>
+            </div>-->
+        </ons-toolbar>
+
+        <div class="navigation-bar">
+            <div class="navigation-bar__center">
+                <div class="button-bar" style="width:200px; margin:8px auto 0;">
+                    <div class="button-bar__item">
+                        <input type="radio" name="navi-segment-a" ng-model="eventToday" value="true" checked>
+                        <div class="button-bar__button">Aujourd'hui</div>
+                    </div>
+                    <div class="button-bar__item">
+                        <input type="radio" name="navi-segment-a" ng-model="eventToday" value="false">
+                        <div class="button-bar__button">Plus tard</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ons-list class="plan-list">
+            <ons-list-item modifier="chevron" class="plan"
+                           ng-repeat="event in events | orderBy:['start_date']"
+                           ng-click="load(event.slug)"
+                           ng-if="eventToday == 'true' ? event.start_date <= endDay : event.start_date > endDay">
+                <ons-row>
+                    <ons-col width="80px" class="plan-left">
+                        <div class="plan-date">{{ event.start_date*1000 | date: "HH'h'mm" }}</div>
+                        <div class="plan-duration">{{ event.end_date-event.start_date | duration }}</div>
+                    </ons-col>
+
+                    <ons-col width="6px" class="plan-center" ng-style="{backgroundColor:event % 3 == 1 ? '#3399ff' : '#ccc'}">
+                    </ons-col>
+
+                    <ons-col class="plan-right">
+                        <div class="plan-name">{{ event.title }}</div>
+                        <div class="plan-info">
+                            <div ng-hide="event.author_club.short_name == null">
+                                <ons-icon icon="fa-user"></ons-icon> {{ event.author_club.short_name }}
+                            </div>
+
+                            <div ng-hide="event.place == null">
+                                <ons-icon icon="fa-map-marker"></ons-icon> {{ event.place }}
+                            </div>
+                        </div>
+                    </ons-col>
+                </ons-row>
+            </ons-list-item>
+        </ons-list>
+    </ons-navigator>
+</ons-page>
+
+
+
+
+
+
+
+
+
+
+
+<ons-template id="event.html">
+    <ons-page modifier="shop-details">
+        <ons-toolbar fixed-style>
+            <div class="left">
+                <ons-toolbar-button ng-click="menu.toggle()">
+                    <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+            <div class="center">Événement</div>
+            <div class="right"><ons-toolbar-button ng-click="nav.popPage()">Retour</ons-toolbar-button></div>
+        </ons-toolbar>
+
+        <div class="card" style="background-image: url({{ url + '/' + eventItem.image_url }});">
+            <div class="card-name">{{ eventItem.title }}</div>
+            <div class="card-desc">
+                {{ eventItem.start_date | readableDate }}<br>
+                Entrée : {{ eventItem.entry_method }}
+            </div>
+        </div>
+
+        <div class="rating"><div class="rating-num">{{ eventItem.author_club.short_name }}</div></div>
+
+        <ons-list style="border-top: none"><ons-list-item style="line-height: 1; padding: 0;"><ons-row class="action">
+            <ons-col class="action-col" ng-class="{'action-active': eventItem.attend}" ng-click="attendClick()">
+                <div class="action-icon"><ons-icon icon="fa-check"></ons-icon></div>
+                <div class="action-label">Participer</div>
+            </ons-col>
+
+            <ons-col class="action-col" ng-class="{'action-active': eventItem.pookie}" ng-click="declineClick()">
+                <div class="action-icon"><ons-icon icon="fa-times"></ons-icon></div>
+                <div class="action-label">Masquer</div>
+            </ons-col>
+
+            <ons-col class="action-col" ng-class="{'action-active': eventItem.like}" ng-click="likeClick()">
+                <div class="action-icon"><ons-icon icon="fa-thumbs-up"></ons-icon></div>
+                <div class="action-label">Like</div> <div class="notification like-badge">{{ eventItem.likes }}</div>
+            </ons-col>
+
+            <ons-col class="action-col" ng-class="{'action-active': eventItem.unlike}" ng-click="unlikeClick()">
+                <div class="action-icon"><ons-icon icon="fa-thumbs-down"></ons-icon></div>
+                <div class="action-label">Unlike</div> <div class="notification like-badge">{{ eventItem.unlikes }}</div>
+            </ons-col>
+        </ons-row></ons-list-item></ons-list>
+
+        <p class="timeline-li" ng-bind-html="eventItem.text_long | nl2br"></p>
+
+        <ons-list style="margin-top: 12px;">
+            <ons-list-item ng-hide="eventItem.attendees == 0" modifier="chevron" ng-click="loadAttendees()">
+                <div class="prop-desc">
+                    <ons-icon icon="fa-users"></ons-icon>
+                    {{ eventItem.attendees }} {{ eventItem.attendees == 1 ? 'personne y participe' : 'personnes y participent' }}
+                </div>
+            </ons-list-item>
+
+            <ons-list-item>
+                <div class="prop-desc">
+                    <ons-icon icon="fa-map-marker"></ons-icon>
+                    {{ eventItem.place }}
+                </div>
+            </ons-list-item>
+
+            <ons-list-item>
+                <div class="prop-desc">
+                    <ons-icon icon="fa-clock-o"></ons-icon>
+                    {{ eventItem.start_date | readableDate }}
+                </div>
+            </ons-list-item>
+
+            <ons-list-item ng-hide="eventItem.entry_method != 'Shotgun'" modifier="chevron" ng-click="loadShotgun()">
+                <div class="prop-desc">
+                    <ons-icon icon="fa-bolt"></ons-icon>
+                    {{ eventItem.shotgun_date | readableDate }} - SHOTGUN - {{ eventItem.shotgun_limit }} places
+                </div>
+            </ons-list-item>
+
+            <ons-list-item ng-hide="eventItem.likes == 0 || eventItem.entry_method == 'Shotgun'" modifier="chevron" ng-click="loadLikes()">
+                <div class="prop-desc">
+                    <ons-icon icon="fa-thumbs-up"></ons-icon>
+                    {{ eventItem.likes }} {{ eventItem.likes == 1 ? 'personne aime' : 'personnes aiment' }} ça
+                </div>
+            </ons-list-item>
+        </ons-list>
+    </ons-page>
+</ons-template>
+
+
+
+
+
+
+
+
+
+<ons-template id="likes.html">
+    <ons-page>
+        <ons-toolbar fixed-style>
+            <div class="left">
+                <ons-toolbar-button ng-click="menu.toggle()">
+                    <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+            <div class="center">Likes</div>
+            <div class="right"><ons-toolbar-button ng-click="nav.popPage()">Retour</ons-toolbar-button></div>
+        </ons-toolbar>
+
+        <ons-list class="person-list">
+            <ons-list-item class="person" ng-repeat="like in likes | orderBy:['first_name','last_name']">
+                <ons-row>
+                    <ons-col width="40px">
+                        <img style="background-image: url('{{ url + '/' + like.image_url }}')" class="person-image">
+                    </ons-col>
+                    <ons-col class="person-name">
+                        {{ like.first_name }} {{ like.last_name }}
+                    </ons-col>
+                </ons-row>
+            </ons-list-item>
+        </ons-list>
+    </ons-page>
+</ons-template>
+
+
+
+
+
+
+
+<ons-template id="attendees.html">
+    <ons-page>
+        <ons-toolbar fixed-style>
+            <div class="left">
+                <ons-toolbar-button ng-click="menu.toggle()">
+                    <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+            <div class="center">Participants</div>
+            <div class="right"><ons-toolbar-button ng-click="nav.popPage()">Retour</ons-toolbar-button></div>
+        </ons-toolbar>
+
+        <ons-list class="person-list">
+            <ons-list-item class="person" ng-repeat="attendee in attendees | orderBy:['first_name','last_name']">
+                <ons-row>
+                    <ons-col width="40px">
+                        <img style="background-image: url('{{ url + '/' + attendee.image_url }}')" class="person-image">
+                    </ons-col>
+                    <ons-col class="person-name">
+                        {{ attendee.first_name }} {{ attendee.last_name }}
+                    </ons-col>
+                </ons-row>
+            </ons-list-item>
+        </ons-list>
+    </ons-page>
+</ons-template>
+
+
+
+
+
+
+
+
+
+
+<ons-template id="shotgun.html">
+    <ons-page>
+        <ons-toolbar fixed-style>
+            <div class="left">
+                <ons-toolbar-button ng-click="menu.toggle()">
+                    <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+            <div class="center">Shotgun</div>
+            <div class="right"><ons-toolbar-button ng-click="nav.popPage()">Retour</ons-toolbar-button></div>
+        </ons-toolbar>
+
+        <div ng-hide="shotgunned" modifier="tappable">
+            <div class="container-shotgun">
+                <ons-icon icon="fa-bolt" ng-click="shotgunEvent()"></ons-icon><br><br>
+                Shotgun !<br>
+                <p class="shotgun-text">(attention, cette appli ne soigne pas les shotgun précoces)</p>
+            </div>
+
+            <form ng-submit="shotgunEvent()" class="center">
+                <textarea ng-model="motivation" class="textarea" placeholder="Motivation obligatoire, puis tapper l'éclair" ngMinlength="1" required rows="5"></textarea>
+            </form>
+        </div>
+
+        <div ng-hide="!shotgunned">
+            <div ng-hide="!shotgun.status">
+                <div class="container-shotgun">
+                    <ons-icon icon="fa-smile-o"></ons-icon><br><br>
+                    Shotgun réussi !<br>
+                    <p class="shotgun-text">Tu arrives en {{ shotgun.position | position }} position !</p>
+                    <p class="shotgun-text">Un petit mot de la part de l'organisateur :</p>
+                    <p class="shotgun-text">{{ shotgun.shotgunText }}</p>
+                </div>
+
+                <div class="center">
+                    <br><ons-button ng-click="deleteShotgun()">Annuler le shotgun</ons-button>
+                </div>
+            </div>
+
+            <div ng-hide="shotgun.status">
+                <div ng-hide="shotgun.position != 0" class="container-shotgun">
+                    <ons-icon icon="fa-frown-o"></ons-icon><br><br>
+                    Shotgun raté !<br>
+                    <p class="shotgun-text">En voulant aller trop vite, tu as répondu trop tôt...</p>
+                </div>
+
+                <div ng-hide="shotgun.position === 0">
+                    <div class="container-shotgun">
+                        <ons-icon icon="fa-meh-o"></ons-icon><br><br>
+                        Shotgun raté !<br>
+                        <p class="shotgun-text">Tu n'as pas répondu à temps, mais tu es quand même en {{ shotgun.waitingList | position }} position sur la liste d'attente.</p>
+                        <br>
+                    </div>
+                    <div class="center">
+                        <br><ons-button ng-click="deleteShotgun()">Annuler le shotgun</ons-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ons-page>
+</ons-template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ons-template id="redactorEvents.html">
+    <ons-page>
+        <ons-toolbar fixed-style>
+            <div class="left">
+                <ons-toolbar-button ng-click="menu.toggle()">
+                    <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+            <div class="center">Publier un événement</div>
+            <div class="right"><ons-toolbar-button ng-click="nav.popPage()">Annuler</ons-toolbar-button></div>
+        </ons-toolbar>
+
+        <ons-list modifier="inset" style="margin-top: 10px">
+            <ons-list-item class="to-wrapper" modifier="chevron">
+                <ons-row>
+                    <ons-col width="52px">
+                        <img src="images/profile.jpg" width="42" class="to-image">
+                    </ons-col>
+                    <ons-col>
+                        <div class="to-name">Club Informatique</div>
+                        <div class="to-email">@ki</div>
+                    </ons-col>
+                </ons-row>
+            </ons-list-item>
+            <ons-list-item>
+                <input type="text" class="text-input text-input--transparent" placeholder="Titre" style="width: 100%">
+            </ons-list-item>
+            <ons-list-item>
+                <input type="text" class="text-input text-input--transparent" placeholder="Texte court (optionnel)" style="width: 100%">
+            </ons-list-item>
+
+            <ons-list-item>
+                <textarea class="textarea textarea--transparent" placeholder="Description" style="width: 100%; height: 100px;"></textarea>
+            </ons-list-item>
+
+            <ons-list-item>
+                <input type="text" class="text-input text-input--transparent" placeholder="Lieu">
+            </ons-list-item>
+
+            <ons-list-item>
+                <input type="date" class="text-input text-input--transparent">
+            </ons-list-item>
+
+            <ons-list-item>
+                <input type="time" class="text-input text-input--transparent">
+            </ons-list-item>
+
+            <ons-list-item>
+                Shotgun
+                <ons-switch modifier="list-item"></ons-switch>
+            </ons-list-item>
+
+            <ons-list-item>
+                <input type="date" class="text-input text-input--transparent">
+            </ons-list-item>
+
+            <ons-list-item>
+                <input type="time" class="text-input text-input--transparent">
+            </ons-list-item>
+
+            <ons-list-item>
+                <textarea class="textarea textarea--transparent" placeholder="Texte reçu par ceux ayant réussi le " style="width: 100%; height: 100px;"></textarea>
+            </ons-list-item>
+        </ons-list>
+
+        <div style="padding: 10px 9px">
+            <ons-button modifier="large" style="margin: 0 auto;">
+                Send
+            </ons-button>
+        </div>
+    </ons-page>
+</ons-template>

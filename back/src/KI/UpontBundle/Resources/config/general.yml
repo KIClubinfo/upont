@@ -1,0 +1,70 @@
+upont_api_clean:
+    pattern: /clean
+    defaults: { _controller: KIUpontBundle:Default:clean }
+    requirements:
+        _method: GET
+
+upont_api_dirty:
+    pattern: /dirty
+    defaults: { _controller: KIUpontBundle:Default:dirty }
+    requirements:
+        _method: GET
+
+login:
+    path: /login
+    defaults: { _controller: KIUpontBundle:Default:login }
+    requirements:
+        _method: POST
+
+upont_api_ping:
+    pattern: /ping
+    defaults: { _controller: KIUpontBundle:Default:ping }
+    requirements:
+        _method: HEAD
+
+upont_api_coffee:
+    pattern: /coffee
+    defaults: { _controller: KIUpontBundle:Default:coffee }
+    requirements:
+        _method: GET
+
+upont_api_online:
+    pattern: /online
+    defaults: { _controller: KIUpontBundle:Default:online }
+    requirements:
+        _method: GET
+        
+upont_api_maintenance_lock:
+    pattern: /maintenance
+    defaults: { _controller: KIUpontBundle:Default:maintenanceLock }
+    requirements:
+        _method: POST
+
+upont_api_maintenance_unlock:
+    pattern: /maintenance
+    defaults: { _controller: KIUpontBundle:Default:maintenanceUnlock }
+    requirements:
+        _method: DELETE
+
+upont_api_resetting_token:
+    pattern: /resetting/token/{token}
+    defaults: { _controller: KIUpontBundle:Default:resettingToken }
+    requirements:
+        _method: POST
+        
+upont_api_resetting_request:
+    pattern: /resetting/request
+    defaults: { _controller: KIUpontBundle:Default:resetting }
+    requirements:
+        _method: POST
+
+upont_api_parse_courses:
+    pattern: /courses
+    defaults: { _controller: KIUpontBundle:Default:parseCourses }
+    requirements:
+        _method: HEAD
+
+
+logs:
+    type:     rest
+    resource: KI\UpontBundle\Controller\LogsController

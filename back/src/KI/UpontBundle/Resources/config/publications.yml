@@ -1,0 +1,15 @@
+events:
+    type:     rest
+    resource: KI\UpontBundle\Controller\Publications\EventsController
+
+exercices:
+    type:     rest
+    resource: KI\UpontBundle\Controller\Publications\ExercicesController
+
+newsitems:
+    type:     rest
+    resource: KI\UpontBundle\Controller\Publications\NewsitemsController
+    
+courses:
+    type:     rest
+    resource: KI\UpontBundle\Controller\Publications\CoursesController

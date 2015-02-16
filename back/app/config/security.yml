@@ -1,0 +1,82 @@
+security:
+    encoders:
+        FOS\UserBundle\Model\UserInterface: sha512
+
+    role_hierarchy:
+        ROLE_MODO:       ROLE_USER
+        ROLE_ADMIN:      [ROLE_MODO, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username
+
+    firewalls:
+        # Procédure de login
+        login:
+            pattern:  ^/login
+            stateless: true
+            anonymous: true
+            form_login:
+                check_path:               /login
+                success_handler:          lexik_jwt_authentication.handler.authentication_success
+                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
+                require_previous_session: false
+                username_parameter: username
+                password_parameter: password
+                
+        # Pas de firewall pour ces exceptions
+        exceptionsHead:
+            methods: [HEAD]
+            pattern:  ^/ping
+            security: false
+        
+        exceptionsGet1:
+            methods: [GET]
+            pattern: ^/$
+            security: false
+            
+        exceptionsGet2:
+            methods: [GET]
+            pattern: ^/(_(profiler|wdt|doc))/
+            security: false
+        
+        exceptionsGet3:
+            methods: [GET]
+            pattern: ^/(coffee|ping|clubs|migration)
+            security: false
+            pattern: ^/(users/calendar/\w)
+        
+        exceptionsGet4:
+            methods: [GET]
+            pattern: ^/exercices/.+/download
+            security: false
+        
+        exceptionsPost:
+            methods: [POST]
+            pattern: ^/(resetting)
+            security: false
+        
+        #exceptionsPatch:
+        #    methods: [PATCH]
+        #    security: false
+        
+        #exceptionsDelete:
+        #    methods: [DELETE]
+        #    security: false
+
+        # Firewall principal
+        api:
+            pattern:   ^/.+
+            switch_user: { parameter: _nsa }
+            stateless: true
+            lexik_jwt:
+                authorization_header:
+                    enabled: true
+                    prefix: Bearer
+                query_parameter:
+                    enabled: true
+                    name: bearer    
+
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^,       roles: IS_AUTHENTICATED_FULLY }
