@@ -13,6 +13,7 @@ Windows
 - Installer Linux
 - Installer Linux
 - Installer Linux
+- Installer Linux
 - Non sérieusement **vous allez galérer** autrement, prenez au moins une VM ou mettez ça sur une clé Live.
 
 Linux
