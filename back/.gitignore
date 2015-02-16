@@ -1,0 +1,16 @@
+/web/bundles/
+/web/libs
+/web/uploads
+/web/maintenance.lock
+/app/bootstrap.php.cache
+/app/cache/*
+/app/config/parameters.yml
+/app/logs/*
+/build/
+/vendor/
+/bin/
+/coverage/
+/composer.phar
+cache
+composer.lock
+app/SymfonyRequirements.php

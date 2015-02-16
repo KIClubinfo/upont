@@ -1,0 +1,149 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+
+framework:
+    #esi:             ~
+    translator:      ~
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+        #assets_version: SomeVersionScheme
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+        # handler_id set to null will use default session handler from php.ini
+        handler_id:  ~
+    fragments:       ~
+    http_method_override: true
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+
+# Assetic Configuration
+assetic:
+    debug:          "%kernel.debug%"
+    use_controller: false
+    bundles:        [ ]
+    #java: /usr/bin/java
+    filters:
+        cssrewrite: ~
+        #closure:
+        #    jar: "%kernel.root_dir%/Resources/java/compiler.jar"
+        #yui_css:
+        #    jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        default_connection:   default
+        connections:
+            default:
+                driver:   %database_driver%
+                host:     %database_host%
+                port:     %database_port%
+                dbname:   %database_name%
+                user:     %database_user%
+                password: %database_password%
+                charset:  UTF8
+    orm:
+        default_entity_manager:   default
+        entity_managers:
+            default:
+                connection:       default
+                mappings:
+                    KIUpontBundle: ~
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport:  %mailer_transport%
+    host:       %mailer_host%
+    auth_mode:  %mailer_auth_mode%
+    port:       %mailer_port%
+    username:   %mailer_user%
+    password:   %mailer_password%
+    encryption: %mailer_encryption%
+
+# Fos UserBundle
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: KI\UpontBundle\Entity\Users\User
+    group:
+        group_class: KI\UpontBundle\Entity\Users\Group
+    from_email:
+        address:        noreply@upont.enpc.fr
+        sender_name:    KI
+
+# Fos RestBundle
+fos_rest:
+    # Pas besoin de protection CSRF vu qu'il n'y a pas de formulaire HTML rendered
+    disable_csrf_role: NONE
+    # Activation des listener
+    param_fetcher_listener: true
+    body_listener: true
+    format_listener: true
+    routing_loader:
+        include_format: false
+        default_format: json                # Tout est renvoyé en JSON
+    view:
+        view_response_listener: 'force'
+        formats:
+            json: true
+    format_listener:
+        prefer_extension: false
+        default_priorities:
+            - json
+
+# Nécessaire pour que FOSRestBundle prenne le pas sur la génération des vues
+sensio_framework_extra:
+    view:    { annotations: false }
+    router:  { annotations: true }
+
+# Nécessaire pour adopter des politiques d'exclusion sur les champs des entités étendues (type FOSUserBundle etc.)
+jms_serializer:
+    metadata:
+        directories:
+            FOSUB:
+                namespace_prefix: "FOS\\UserBundle"
+                path: "%kernel.root_dir%/serializer/FOSUserBundle"
+
+# JSON Web Token
+lexik_jwt_authentication:
+    private_key_path: %kernel.root_dir%/var/jwt/private.pem   # ssh private key path
+    public_key_path:  %kernel.root_dir%/var/jwt/public.pem    # ssh public key path
+    pass_phrase:      '-Lcdpdp,npe1e1'                        # ssh key pass phrase
+    token_ttl:        86400                                   # token ttl - defaults to 86400
+
+# Génération auto de la doc
+nelmio_api_doc:
+    name: uPont API
+    sandbox:
+        authentication:
+            name: Authorization
+            delivery: header
+            type:     bearer
+        accept_type: application/json
+        body_format:
+            formats: [ ]
+            default_format: json
+        request_format:
+            formats:
+                json: application/json
+            method: format_param
+            default_format: json
+
+# Permet de créer des slugs
+stof_doctrine_extensions:
+    orm:
+        default:
+            sluggable: true
