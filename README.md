@@ -100,15 +100,15 @@ Conseils pour le back (PHP)
 
 Maintenant des exemples d'indentation respectable, le reste n'est que poussière :
 
-    // Les commentaires tous comme ceux-ci (norme 
+    // Les commentaires tous comme ceux-ci (norme
     // Même en multiligne
     // L'usage de /* est réservé pour les annotations qui s'écrivent comme ceci
-    
+
     /**
      * Commentaire
      * @Assert\Type("string")
      */
-    
+
     // Les if : pas d'accolades si toutes les briques du if sont monolignes
     // Noter les espaces entre if et (
     if ($test)
@@ -123,16 +123,16 @@ Maintenant des exemples d'indentation respectable, le reste n'est que poussière
         $bouffe = 'carotte';
         echo $bouffe;
     }
-    
+
     // Boucles
     while($a === 'b') {
         doSomeStuff();
     }
-    
+
     foreach($array as $key => $value) {
         doThat($a, $b);
     }
-    
+
     // Les switch
     switch ($suffix) {
     case 'G':
@@ -150,34 +150,34 @@ Maintenant des exemples d'indentation respectable, le reste n'est que poussière
     default:
         break;
     }
-    
+
     // Les classes ont des accolades dans le retour à la ligne
     class Chien
     {
         // On préfère protected à private si c'est pas nécéssaire
         protected $variable;
-        
+
         // Idem pour les fonctions sauf si elles tiennent en un ligne
         public function veryLong()
         {
             echo 1;
             echo 2;
         }
-        
+
         public function returnTrue() { return false; }
     }
-    
+
     // Le nommage des fonctions/variables se fait en anglais en camelCase
     $goodVariable
     $Mauvaise_Variable
-    
+
     // Préférer l'usage des simple quotes ' au lieu des double "
     // On insère des espaces de chaque coté autour de == <= >= += -= + - = * / . etc.
     // On n'écarte pas les parenthèses dans les fonctions
     pasBien( $a, $b, $c);
     bien($a, $b, $c);
-    
-    
+
+
 
 Conseils pour le front (Javasale)
 ---------------------------------
