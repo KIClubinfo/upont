@@ -16,7 +16,7 @@ proxy="http://user:password@etuproxy.enpc.fr:3128" # Décommenter si proxy
 
 ### INSTALL ###
 echo "Installation des dépendances..."
-#sudo apt-get install lamp-server^ php5-curl php5-intl php5-gd phpmyadmin curl phpunit git nodejs npm ant
+sudo apt-get install lamp-server^ php5-curl php5-intl php5-gd phpmyadmin curl phpunit git nodejs npm ant gource libav-tools xvfb
 
 echo "Configuration de npm..."
 if [ -z "$proxy" ]; then
