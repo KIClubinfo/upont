@@ -1,0 +1,17 @@
+upont_api_foyer_balance:
+    pattern: /balance
+    defaults: { _controller: KI\UpontBundle\Controller\Foyer\FoyerController::balanceAction }
+    requirements:
+        _method: GET
+
+upont_api_foyer_rankings:
+    pattern: /rankings
+    defaults: { _controller: KI\UpontBundle\Controller\Foyer\FoyerController::rankingsAction }
+    requirements:
+        _method: GET
+        
+upont_api_foyer_statistics:
+    pattern: /statistics
+    defaults: { _controller: KI\UpontBundle\Controller\Foyer\FoyerController::statisticsAction }
+    requirements:
+        _method: GET

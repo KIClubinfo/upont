@@ -1,0 +1,90 @@
+<ons-page ng-controller="SettingsController" data-ng-init="init()">
+    <ons-navigator animation="slide" var="nav">
+        <ons-toolbar fixed-style>
+            <div class="left">
+                <ons-toolbar-button ng-click="menu.toggle()">
+                    <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+            <div class="center">Réglages</div>
+        </ons-toolbar>
+
+        <!--<div class="settings-header">Notifications</div>
+
+        <ons-list modifier="inset" class="settings-list">
+            <ons-list-item>
+                Événements
+                <ons-switch modifier="list-item"></ons-switch>
+            </ons-list-item>
+
+            <ons-list-item>
+                News
+                <ons-switch modifier="list-item" checked></ons-switch>
+            </ons-list-item>
+        </ons-list>-->
+
+        <div class="settings-header">Suivis</div>
+
+        <ons-list modifier="inset" class="settings-list">
+            <ons-list-item modifier="chevron" ng-click="loadClubsFollowed()">
+                Clubs suivis
+            </ons-list-item>
+
+            <ons-list-item ng-hide="registered" modifier="tappable" ng-click="register()">
+                Activer les notifications push
+            </ons-list-item>
+
+            <ons-list-item ng-hide="!registered" modifier="tappable chevron" ng-click="onsAlert('bla', 'fuck')">
+                Configurer les notifications push
+            </ons-list-item>
+
+            <ons-list-item ng-hide="!registered" modifier="tappable chevron" ng-click="unregister()">
+                Désactiver les notifications push
+            </ons-list-item>
+<!--
+            <ons-list-item modifier="chevron">
+                Cours suivis
+            </ons-list-item>
+-->
+        </ons-list>
+
+        <br>
+        <div class="settings-header">Autre</div>
+
+        <ons-list modifier="inset" class="settings-list">
+            <ons-list-item ng-hide="balance === null">
+                <ons-icon icon="fa-eur"></ons-icon>
+                Solde Foyer : {{ balance }} €
+            </ons-list-item>
+
+            <ons-list-item modifier="tappable" ng-click="logout()">
+                <ons-icon icon="fa-sign-out"></ons-icon>
+                Se déconnecter
+            </ons-list-item>
+        </ons-list>
+    </ons-navigator>
+</ons-page>
+
+
+<ons-template id="clubsFollowed.html">
+    <ons-page>
+        <ons-toolbar fixed-style>
+            <div class="left">
+                <ons-toolbar-button ng-click="menu.toggle()">
+                    <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+            <div class="center">Clubs suivis</div>
+            <div class="right"><ons-toolbar-button ng-click="nav.popPage()">Retour</ons-toolbar-button></div>
+        </ons-toolbar>
+
+        <div class="settings-header">Liste des clubs</div>
+
+        <ons-list modifier="inset" style="margin-top: 10px;">
+            <ons-list-item ng-repeat="club in clubs" ng-click="changeFollowed(club)">
+                {{ clubsNames[$index] }}
+                <ons-switch modifier="list-item" ng-checked="clubsFollowed.indexOf(club) > -1"></ons-switch>
+            </ons-list-item>
+        </ons-list>
+    </ons-page>
+</ons-template>

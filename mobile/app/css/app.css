@@ -1,0 +1,23 @@
+.container-error {
+  margin-top: 50px;
+  text-align: center;
+  opacity: 0.5;
+  font-size: 30px;
+}
+
+.container-error ons-icon {
+  font-size: 100px;
+}
+
+.container-error:active ons-icon {
+  opacity: 0.9;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.center {
+  text-align: center;
+}

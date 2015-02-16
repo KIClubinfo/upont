@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" ng-app="upont">
+    <head>
+        <meta charset="utf-8">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="mobile-web-app-capable" content="yes">
+        <title>uPont Mobile</title>
+
+        <link rel="stylesheet" href="lib/onsen/css/onsenui.css">
+        <link rel="stylesheet" href="styles/onsen-css-components-blue-basic-theme.css">
+        <link rel="stylesheet" href="style.min.css"/>
+
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="PushNotification.js"></script>
+
+        <script src="lib/onsen/js/angular/angular.min.js"></script>
+        <script src="lib/angular-resource/angular-resource.min.js"></script>
+        <script src="lib/onsen/js/onsenui.min.js"></script>
+
+        <script src="lib/strftime.min.js"></script>
+        <script src="upont.min.js"></script>
+    </head>
+
+    <body>
+        <ons-sliding-menu
+            menu-page="views/menu.html" main-page="views/events.html" side="left"
+            var="menu" type="reveal" max-slide-distance="260px" swipable="true">
+        </ons-sliding-menu>
+    </body>
+</html>

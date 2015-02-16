@@ -1,0 +1,32 @@
+<div class="up-ticket" ng-repeat="publication in publications">
+    <div ng-if="!publication.start_date">
+        <img class="col-sm-3 col-sm-offset-0 col-xs-6 col-xs-offset-3" src="{{ publication.image_url | urlFile }}" alt="" />
+        <div class="col-sm-9 col-xs-12">
+            <div class="up-ticket-auteur">{{ publication.author_club.short_name }}</div>
+            <div class="up-ticket-date">{{ publication.date*1000 | date : 'd MMMM yyyy' }}</div>
+            <h2>{{ publication.title }}</h2>
+        </div>
+        <p class="up-chapeau stacked-row" up-publi-text string="publication.text_long"></p>
+        <div class="clearfix"></div>
+        <div up-likes objet="publication" url="'newsitems/'+publication.slug"></div>
+        <div class="clearfix"></div>
+    </div>
+
+    <div ng-if="!!publication.start_date">
+        <img class="col-sm-3 col-sm-offset-0 col-xs-6 col-xs-offset-3" src="{{ publication.image_url | urlFile }}" alt="" />
+        <div class="col-sm-9 col-xs-12">
+            <div class="up-ticket-auteur">{{ publication.author_club.short_name }}</div>
+            <div class="up-ticket-date">{{ publication.date*1000 | date : 'd MMMM yyyy' }}</div>
+            <h2>{{ publication.title }}</h2>
+            <p class="up-date-evenement">
+                Le {{ publication.start_date*1000 | date : 'dd/MM/yyyy à H:mm' }}<br>
+                <span ng-if="publication.entry_method == 'Shotgun'">Shotgun le {{ publication.shotgun_date*1000 | date : 'dd/MM/yyyy'  }}</span>
+            </p>
+            <!-- <a ui-sref="home.connected.event({ slug : publication.slug })" class="up-ticket-link">Page</a> -->
+        </div>
+        <div class="clearfix"></div>
+        <p class="up-chapeau stacked-row" up-publi-text string="publication.text_long"></p>
+        <div up-likes objet="publication" url="'events/'+publication.slug"></div>
+        <div class="clearfix"></div>
+    </div>
+</div>

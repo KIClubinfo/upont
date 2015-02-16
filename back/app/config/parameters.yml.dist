@@ -1,0 +1,26 @@
+# This file is auto-generated during the composer install
+parameters:
+    # Paramètres pertinents
+    database_host: 127.0.0.1
+    database_name: upont
+    database_user: root
+    database_password: null
+    database_v1_password: null
+    locale: fr
+    proxy_url: null     # http://etuproxy.enpc.fr:3128
+    proxy_user: null    # utilisateur:motdepasse
+        
+    # Paramètres pas pertinents
+    database_driver: pdo_mysql
+    database_port: null
+    mailer_transport: smtp
+    mailer_auth_mode: login
+    mailer_host: eleves.enpc.fr
+    mailer_port: 587
+    mailer_user: null
+    mailer_password: null
+    mailer_encryption: tls
+    secret: ThisTokenIsNotSoSecretChangeIt
+    debug_toolbar: true
+    debug_redirects: false
+    use_assetic_controller: true

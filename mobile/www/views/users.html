@@ -1,0 +1,134 @@
+<ons-page ng-controller="UsersController" data-ng-init="init()">
+    <ons-navigator animation="slide" var="nav">
+        <ons-toolbar fixed-style>
+            <div class="left">
+                <ons-toolbar-button ng-click="menu.toggle()">
+                    <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+            <div class="center">Élèves</div>
+        </ons-toolbar>
+
+        <div class="navigation-bar">
+            <div class="navigation-bar__center">
+                <input ng-model="search" type="search" class="search-input" style="width: 96%; margin: 6px auto 6px auto;" placeholder="Recherche">
+            </div>
+        </div>
+
+        <ons-list class="person-list" ng-repeat="char in chars | orderBy">
+            <ons-list-header ng-hide="(users[char] | filter:search).length == 0" class="person-list-header">{{char}}</ons-list-header>
+            <ons-list-item class="person" modifier="tappable chevron" ng-repeat="user in users[char] | filter:search | orderBy:['first_name','last_name']:true" ng-click="load(user.username)">
+                <ons-row>
+                    <ons-col width="40px">
+                        <img style="background-image: url('{{ url + '/' + user.image_url }}')" class="person-image">
+                    </ons-col>
+                    <ons-col class="person-name">
+                        {{ user.first_name }} {{ user.last_name }}
+                    </ons-col>
+                </ons-row>
+            </ons-list-item>
+        </ons-list>
+    </ons-navigator>
+</ons-page>
+
+
+
+
+<ons-template id="user.html">
+    <ons-page>
+        <ons-toolbar fixed-style>
+            <div class="left">
+                <ons-toolbar-button ng-click="menu.toggle()">
+                    <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+            <div class="center">{{ userItem | acronyme }}</div>
+            <div class="right"><ons-toolbar-button ng-click="nav.popPage()">Retour</ons-toolbar-button></div>
+        </ons-toolbar>
+
+        <div class="profile-card">
+            <img style="background-image: url('{{ url + '/' + userItem.image_url }}')" class="profile-image">
+            <div class="profile-name">{{ userItem.first_name }} {{ userItem.last_name }}</div>
+            <div class="profile-id">@{{ userItem.username }}</div>
+            <!--<div class="profile-desc">Pq pas le texte du pontlyvalent ici ?</div>-->
+        </div>
+
+        <!--<ons-list>
+            <ons-list-item>
+                <ons-row>
+                    <ons-col class="info-col">
+                        <div class="info-num">87</div>
+                        <div class="info-unit">Commentaires</div>
+                    </ons-col>
+                    <ons-col class="info-col">
+                        <div class="info-num">40</div>
+                        <div class="info-unit">Likes</div>
+                    </ons-col>
+                    <ons-col class="info-col">
+                        <div class="info-num">38</div>
+                        <div class="info-unit">Unlikes</div>
+                    </ons-col>
+                </ons-row>
+            </ons-list-item>
+        </ons-list>-->
+
+        <ons-list modifier="inset" style="margin-top: 10px">
+            <ons-list-item modifier="tappable" ng-hide="userItem.phone == null">
+                <a href="tel:{{ userItem.phone }}"><div class="prop-desc" style="opacity: 1;">
+                    <ons-icon icon="fa-phone"></ons-icon>
+                    {{ userItem.phone }}
+                </div></a>
+            </ons-list-item>
+
+            <ons-list-item modifier="tappable" ng-hide="userItem.email == null">
+                <a href="mailto:{{ userItem.email }}"><div class="prop-desc" style="opacity: 1;">
+                    <ons-icon icon="fa-envelope-o"></ons-icon>
+                    {{ userItem.email }}
+                </div></a>
+            </ons-list-item>
+
+            <ons-list-item modifier="tappable" ng-hide="userItem.skype == null">
+                <a href="mailto:{{ userItem.skype }}"><div class="prop-desc" style="opacity: 1;">
+                    <ons-icon icon="fa-skype"></ons-icon>
+                    {{ userItem.skype }}
+                </div></a>
+            </ons-list-item>
+
+            <ons-list-item ng-hide="userItem.location == null">
+                <div class="prop-desc">
+                    <ons-icon icon="fa-map-marker"></ons-icon>
+                    {{ userItem.location }}
+                </div>
+            </ons-list-item>
+
+            <ons-list-item ng-hide="userItem.department == null">
+                <div class="prop-desc">
+                    <ons-icon icon="fa-institution"></ons-icon>
+                    {{ userItem.department }}
+                </div>
+            </ons-list-item>
+
+            <ons-list-item ng-hide="userItem.promo == null">
+                <div class="prop-desc">
+                    <ons-icon icon="fa-graduation-cap"></ons-icon>
+                    {{ userItem.promo }}
+                </div>
+            </ons-list-item>
+
+            <ons-list-item ng-hide="userItem.nationality == null">
+                <div class="prop-desc">
+                    <ons-icon icon="fa-globe"></ons-icon>
+                    {{ userItem.nationality }}
+                </div>
+            </ons-list-item>
+
+            <ons-list-item ng-repeat="club in clubs">
+                <div class="prop-desc">
+                    <ons-icon icon="fa-{{ club.club.icon ? club.club.icon : 'users' }}"></ons-icon>
+                    {{ club.club.name }} : {{ club.role }}
+                </div>
+            </ons-list-item>
+        </ons-list>
+        <br>
+    </ons-page>
+</ons-template>

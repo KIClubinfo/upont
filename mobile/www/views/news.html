@@ -1,0 +1,188 @@
+<ons-page ng-controller="NewsController" data-ng-init="init()">
+    <ons-navigator animation="slide" var="nav">
+        <ons-toolbar fixed-style>
+            <div class="left">
+                <ons-toolbar-button ng-click="menu.toggle()">
+                    <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+            <div class="center">News</div>
+            <!--<div class="right">
+                <ons-toolbar-button ng-click="nav.pushPage('redactorNews.html');">
+                    <ons-icon icon="ion-compose" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                </ons-toolbar-button>
+            </div>-->
+        </ons-toolbar>
+
+        <ons-list class="timeline" modifier="inset">
+            <ons-list-item class="timeline-li" modifier="tappable" ng-repeat="new in news" ng-click="load(new.slug)">
+                <ons-row>
+                    <ons-col width="50px">
+                        <img style="background-image: url('{{ url + '/' + new.image_url }}')" class="timeline-image">
+                    </ons-col>
+
+                    <ons-col>
+                        <div class="timeline-date">{{ new.date | readableDate }}</div>
+                        <div class="timline-from">
+                            <span class="timeline-name">{{ new.title }}</span>
+                            <span class="timeline-id">{{ new.author_club.short_name }}</span>
+                        </div>
+
+                        <div class="timeline-message">
+                            {{ new.text_short || (new.text_long.length > 140) ? new.text_long.substring(0,140) + '...' : new.text_long}}
+                        </div>
+                    </ons-col>
+                </ons-row>
+            </ons-list-item>
+        </ons-list>
+    </ons-navigator>
+</ons-page>
+
+
+
+
+
+
+
+
+
+
+
+<ons-template id="new.html">
+    <ons-page modifier="shop-details">
+        <ons-toolbar fixed-style>
+            <div class="left">
+                <ons-toolbar-button ng-click="menu.toggle()">
+                    <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+            <div class="center">News</div>
+            <div class="right"><ons-toolbar-button ng-click="nav.popPage()">Retour</ons-toolbar-button></div>
+        </ons-toolbar>
+
+        <div class="card-news" style="background-image: url({{ url + '/' + newItem.image_url }});">
+            <div class="card-name">{{ newItem.title }}</div>
+            <div class="card-desc">
+                {{ newItem.date | readableDate }}
+            </div>
+        </div>
+
+        <div class="rating"><div class="rating-num">{{ newItem.author_club.short_name }}</div></div>
+
+        <ons-list style="border-top: none"><ons-list-item style="line-height: 1; padding: 0;"><ons-row class="action">
+            <ons-col class="action-col" ng-class="{'action-active': newItem.like}" ng-click="likeClick()">
+                <div class="action-icon"><ons-icon icon="fa-thumbs-up"></ons-icon></div>
+                <div class="action-label">Like</div> <div class="notification like-badge">{{ newItem.likes }}</div>
+            </ons-col>
+
+            <ons-col class="action-col" ng-class="{'action-active': newItem.unlike}" ng-click="unlikeClick()">
+                <div class="action-icon"><ons-icon icon="fa-thumbs-down"></ons-icon></div>
+                <div class="action-label">Unlike</div> <div class="notification like-badge">{{ newItem.unlikes }}</div>
+            </ons-col>
+        </ons-row></ons-list-item></ons-list>
+
+        <p class="timeline-li" ng-bind-html="newItem.text_long | nl2br"></p>
+
+        <ons-list style="margin-top: 12px;">
+            <ons-list-item ng-hide="newItem.likes == 0" modifier="chevron" ng-click="loadLikes()">
+                <div class="prop-desc">
+                    <ons-icon icon="fa-thumbs-up"></ons-icon>
+                    {{ newItem.likes }} {{ newItem.likes == 1 ? 'personne aime' : 'personnes aiment' }} ça
+                </div>
+            </ons-list-item>
+        </ons-list>
+    </ons-page>
+</ons-template>
+
+
+
+
+
+
+
+
+
+
+<ons-template id="likes.html">
+    <ons-page>
+        <ons-toolbar fixed-style>
+            <div class="left">
+                <ons-toolbar-button ng-click="menu.toggle()">
+                    <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+            <div class="center">Likes</div>
+            <div class="right"><ons-toolbar-button ng-click="nav.popPage()">Retour</ons-toolbar-button></div>
+        </ons-toolbar>
+
+        <ons-list class="person-list">
+            <ons-list-item class="person" ng-repeat="like in likes | orderBy:['first_name','last_name']">
+                <ons-row>
+                    <ons-col width="40px">
+                        <img style="background-image: url('{{ url + '/' + like.image_url }}')" class="person-image">
+                    </ons-col>
+                    <ons-col class="person-name">
+                        {{ like.first_name }} {{ like.last_name }}
+                    </ons-col>
+                </ons-row>
+            </ons-list-item>
+        </ons-list>
+    </ons-page>
+</ons-template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ons-template id="redactorNews.html">
+    <ons-page>
+        <ons-toolbar fixed-style>
+            <div class="left">
+                <ons-toolbar-button ng-click="menu.toggle()">
+                    <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+            <div class="center">Écrire une news</div>
+            <div class="right"><ons-toolbar-button ng-click="navNews.popPage()">Annuler</ons-toolbar-button></div>
+        </ons-toolbar>
+
+        <ons-list modifier="inset" style="margin-top: 10px">
+            <ons-list-item class="to-wrapper" modifier="chevron">
+                <ons-row>
+                    <ons-col width="52px">
+                        <img src="images/profile.jpg" width="42" class="to-image">
+                    </ons-col>
+                    <ons-col>
+                        <div class="to-name">Club Informatique</div>
+                        <div class="to-email">@ki</div>
+                    </ons-col>
+                </ons-row>
+            </ons-list-item>
+            <ons-list-item>
+                <input type="text" class="text-input text-input--transparent" placeholder="Titre" style="width: 100%">
+            </ons-list-item>
+            <ons-list-item>
+                <input type="text" class="text-input text-input--transparent" placeholder="Texte court (optionnel)" style="width: 100%">
+            </ons-list-item>
+
+            <ons-list-item>
+                <textarea class="textarea textarea--transparent" placeholder="News" style="width: 100%; height: 100px;"></textarea>
+            </ons-list-item>
+        </ons-list>
+
+        <div style="padding: 10px 9px">
+            <ons-button modifier="large" style="margin: 0 auto;">
+                Envoyer
+            </ons-button>
+        </div>
+    </ons-page>
+</ons-template>

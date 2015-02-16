@@ -1,0 +1,18 @@
+{
+  "name": "angular",
+  "version": "1.0.0",
+  "dependencies": {
+    "angular": "latest",
+    "angular-resource": "latest",
+    "angular-redactor": "latest",
+    "angular-animate": "latest",
+    "angular-sanitize" : "latest",
+    "angular-strap" : "latest",
+    "angular-i18n" : "latest",
+    "angular-ui-router" : "latest",
+    "scheduler" : "latest",
+    "jquery": "latest",
+    "js-base64": "latest",
+    "bootstrap" : "latest"
+  }
+}
