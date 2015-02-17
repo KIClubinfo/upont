@@ -11,6 +11,10 @@ imports:
 #        result_cache_driver: apc
 #        query_cache_driver: apc
 
+nelmio_api_doc:
+    cache:
+        enabled: true
+
 monolog:
     handlers:
         main:
