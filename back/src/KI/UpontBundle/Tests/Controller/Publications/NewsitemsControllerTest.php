@@ -68,9 +68,25 @@ class NewsitemsControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
+        $this->client->request('GET', '/newsitems/la-porte');
+        $this->assertJsonResponse($this->client->getResponse(), 200);
+        $response = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertArrayHasKey('like', $response);
+        $this->assertArrayHasKey('dislike', $response);
+        $this->assertTrue($response['like']);
+        $this->assertTrue(!$response['dislike']);
+
         $this->client->request('POST', '/newsitems/la-porte/dislike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
+
+        $this->client->request('GET', '/newsitems/la-porte');
+        $this->assertJsonResponse($this->client->getResponse(), 200);
+        $response = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertArrayHasKey('like', $response);
+        $this->assertArrayHasKey('dislike', $response);
+        $this->assertTrue(!$response['like']);
+        $this->assertTrue($response['dislike']);
 
         $this->client->request('DELETE', '/newsitems/la-porte/like');
         $response = $this->client->getResponse();
