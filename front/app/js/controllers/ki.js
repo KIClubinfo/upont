@@ -1,29 +1,32 @@
-angular.module('upont').controller('KI_Ctrl', ['$scope', '$resource', function ($scope, $resource) {
-	$scope.ContactKI = function(type, data){
-		if(type > 0 && data !== "")
-			return true;
-	};
-}])
-    .config(['$stateProvider', function ($stateProvider){
+angular.module('upont').controller('KI_Ctrl', ['$scope', '$resource', function($scope, $resource) {
+        $scope.ContactKI = function(type, data) {
+            if (type > 0 && data !== "")
+                return true;
+        };
+    }])
+    .config(['$stateProvider', function($stateProvider) {
         $stateProvider
             .state("ki", {
-                url : "/ki",
+                url: "/ki",
                 templateUrl: "views/ki/index.html",
-                data : { defaultChild : "contact", parent : "ki" }
+                data: {
+                    defaultChild: "contact",
+                    parent: "ki"
+                }
             })
             .state("ki.contact", {
-                url : "/contact",
-                templateUrl : 'views/ki/contact.html',
-                controller : 'KI_Ctrl'
+                url: "/contact",
+                templateUrl: 'views/ki/contact.html',
+                controller: 'KI_Ctrl'
             })
             .state("ki.tutos", {
-                url : "/tutoriels",
-                templateUrl : 'views/ki/tutos.html',
-                controller : 'KI_Ctrl'
+                url: "/tutoriels",
+                templateUrl: 'views/ki/tutos.html',
+                controller: 'KI_Ctrl'
             })
             .state("ki.avancement", {
-                url : "/avancement",
-                templateUrl : 'views/ki/avancement.html',
-                controller : 'KI_Ctrl'
+                url: "/avancement",
+                templateUrl: 'views/ki/avancement.html',
+                controller: 'KI_Ctrl'
             });
     }]);
