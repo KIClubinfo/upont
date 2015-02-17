@@ -150,6 +150,12 @@ class Post
      */
     protected $unlike = false;
 
+    /**
+     * Les commentaires
+     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Comment", cascade={"persist"})
+     */
+    protected $comments;
+
 
 
 
@@ -457,5 +463,48 @@ class Post
     public function setLike($like)
     {
         return $this->like = $like;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \KI\UpontBundle\Entity\Comment $comments
+     * @return PonthubFile
+     */
+    public function addcomment(\KI\UpontBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comments
+     *
+     * @param \KI\UpontBundle\Entity\Comment $comments
+     */
+    public function removeComment(\KI\UpontBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * Set comments
+     *
+     * @return PonthubFile
+     */
+    public function setComments($comments)
+    {
+        return $this->comments = $comments;
     }
 }
