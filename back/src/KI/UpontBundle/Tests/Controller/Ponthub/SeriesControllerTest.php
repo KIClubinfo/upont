@@ -20,7 +20,7 @@ class SeriesControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }
-    
+
     public function testPatch()
     {
         $this->client->request('PATCH', '/ponthub/series/how-i-met-your-mother',  array('year' => '2004'));
@@ -41,39 +41,39 @@ class SeriesControllerTest extends WebTestCase
         $this->client->request('GET', '/ponthub/series/basdsqdqsdqck-in-black/like');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
-        
+
         $this->client->request('GET', '/ponthub/series/how-i-met-your-mother/unkike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
-        
+
         $this->client->request('GET', '/ponthub/series/how-i-met-your-mother/like');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
-        
-        $this->client->request('GET', '/ponthub/series/how-i-met-your-mother/unlike');
+
+        $this->client->request('GET', '/ponthub/series/how-i-met-your-mother/dislike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
-        
+
         $this->client->request('POST', '/ponthub/series/how-i-met-your-mother/like');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
-        
-        $this->client->request('POST', '/ponthub/series/how-i-met-your-mother/unlike');
+
+        $this->client->request('POST', '/ponthub/series/how-i-met-your-mother/dislike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
-        
+
         $this->client->request('DELETE', '/ponthub/series/how-i-met-your-mother/like');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
-        
-        $this->client->request('DELETE', '/ponthub/series/how-i-met-your-mother/unlike');
+
+        $this->client->request('DELETE', '/ponthub/series/how-i-met-your-mother/dislike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
     }
-    
-    
+
+
     // Relatif aux épisodes
-    
+
     public function testGetEpisode()
     {
         $this->client->request('GET', '/ponthub/series/how-i-met-your-mother/episodes');
@@ -83,12 +83,12 @@ class SeriesControllerTest extends WebTestCase
         $this->client->request('GET', '/ponthub/series/sjoajsiohaysahais-asbsksaba7/episodes');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
-        
+
         $this->client->request('GET', '/ponthub/series/how-i-met-your-mother/episodes/pilot');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
     }
-    
+
     public function testPatchEpisode()
     {
         $this->client->request('PATCH', '/ponthub/series/how-i-met-your-mother/episodes/pilot',  array('name' => 'PiLoT'));
@@ -103,17 +103,17 @@ class SeriesControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }
-    
+
     public function testStats()
     {
         $this->client->request('GET', '/ponthub/series/how-i-met-your-mother/episodes/pilot/download');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 302);
-        
+
         $this->client->request('GET', '/ponthub/series/how-i-met-your-mother/episodes/pilot/download');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 302);
-        
+
         $this->client->request('GET', '/ponthub/series/how-i-met-your-mother/episodes/pilot');
         $response = $this->client->getResponse();
         $infos = json_decode($response->getContent(), true);

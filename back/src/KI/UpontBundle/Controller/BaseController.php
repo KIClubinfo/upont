@@ -24,6 +24,7 @@ class BaseController extends FOSRestController
     protected $repo;
     protected $em;
     protected $save;
+    protected $user = null;
 
     // Initialise le controleur de base pour la classe $class
     // On peut éventuellement préciser un sous chemin de $namespace
@@ -37,6 +38,9 @@ class BaseController extends FOSRestController
         $this->form = 'KI\UpontBundle\Form\\'. $this->namespace . $this->className. 'Type';
         $this->em = $this->getDoctrine()->getManager();
         $this->repo = $this->em->getRepository('KIUpontBundle:' . $this->namespace . $this->className);
+
+        if ($token = $this->container->get('security.context')->getToken())
+            $this->user = $token->getUser();
     }
 
     // Permet de changer le repo actuel. Si $class non précisé, revient au précédent
@@ -150,6 +154,8 @@ class BaseController extends FOSRestController
 
         // On génère les résultats et les liens
         $results = $this->repo->findBy($findBy, $sortBy, $limit, ($page-1)*$limit);
+        foreach($results as $key => $result)
+            $results[$key] = $this->retrieveLikes($result);
         $baseUrl = '<' . str_replace($this->getRequest()->getBaseUrl(), '', $this->getRequest()->getRequestUri()) . '?page=';
         $links = array(
             $baseUrl . $page . '&limit=' . $limit . '>;rel=self',
@@ -179,16 +185,19 @@ class BaseController extends FOSRestController
     {
         $item = $this->findBySlug($slug);
 
-        // Si l'entité a un système de like/unlike, précise si l'user actuel (un)like
+        return $this->retrieveLikes($item);
+    }
+
+    protected function retrieveLikes($item)
+    {
+        // Si l'entité a un système de like/dislike, précise si l'user actuel (un)like
         if (property_exists($item, 'like')) {
-            $user = $this->container->get('security.context')->getToken()->getUser();
-            $item->setLike($item->getLikes()->contains($user));
-            $item->setUnlike($item->getUnlikes()->contains($user));
+            $item->setLike($item->getLikes()->contains($this->user));
+            $item->setDislike($item->getDislikes()->contains($this->user));
         }
         if (property_exists($item, 'attend')) {
-            $user = $this->container->get('security.context')->getToken()->getUser();
-            $item->setAttend($item->getAttendees()->contains($user));
-            $item->setPookie($item->getPookies()->contains($user));
+            $item->setAttend($item->getAttendees()->contains($this->user));
+            $item->setPookie($item->getPookies()->contains($this->user));
         }
         return $item;
     }
@@ -279,9 +288,8 @@ class BaseController extends FOSRestController
             return false;
 
         // On vérifie que l'utilisateur fait bien partie du club
-        $user = $this->container->get('security.context')->getToken()->getUser();
         $repo = $this->em->getRepository('KIUpontBundle:Users\ClubUser');
-        $clubUser = $repo->findOneBy(array('club' => $club, 'user' => $user));
+        $clubUser = $repo->findOneBy(array('club' => $club, 'user' => $this->user));
 
         if ($clubUser)
             return true;
@@ -344,7 +352,7 @@ class BaseController extends FOSRestController
 
 
 
-    // Fonctions relatives aux likes/unlikes
+    // Fonctions relatives aux likes/dislikes
 
     /**
      * @View()
@@ -354,14 +362,13 @@ class BaseController extends FOSRestController
         if (!$this->get('security.context')->isGranted('ROLE_USER') && !$auth)
             throw new AccessDeniedException('Accès refusé');
         $item = $this->findBySlug($slug);
-        $user = $this->container->get('security.context')->getToken()->getUser();
 
         // Si l'utilisateur n'a pas déjà liké ce fichier on le rajoute
-        if (!$item->getLikes()->contains($user))
-            $item->addLike($user);
+        if (!$item->getLikes()->contains($this->user))
+            $item->addLike($this->user);
         // Si l'utilisateur avait précédemment unliké, on l'enlève
-        if ($item->getUnlikes()->contains($user))
-            $item->removeUnlike($user);
+        if ($item->getDislikes()->contains($this->user))
+            $item->removeDislike($this->user);
 
         $this->em->flush();
     }
@@ -369,19 +376,18 @@ class BaseController extends FOSRestController
     /**
      * @View()
      */
-    protected function unlike($slug, $auth = false)
+    protected function dislike($slug, $auth = false)
     {
         if (!$this->get('security.context')->isGranted('ROLE_USER') && !$auth)
             throw new AccessDeniedException('Accès refusé');
         $item = $this->findBySlug($slug);
-        $user = $this->container->get('security.context')->getToken()->getUser();
 
         // Si l'utilisateur n'a pas déjà unliké ce fichier on le rajoute
-        if (!$item->getUnlikes()->contains($user))
-            $item->addUnlike($user);
+        if (!$item->getDislikes()->contains($this->user))
+            $item->addDislike($this->user);
         // Si l'utilisateur avait précédemment liké, on l'enlève
-        if ($item->getLikes()->contains($user))
-            $item->removeLike($user);
+        if ($item->getLikes()->contains($this->user))
+            $item->removeLike($this->user);
 
         $this->em->flush();
     }
@@ -399,11 +405,11 @@ class BaseController extends FOSRestController
     /**
      * @View()
      */
-    protected function getUnlikes($slug)
+    protected function getDislikes($slug)
     {
         $item = $this->findBySlug($slug);
 
-        return $item->getUnlikes();
+        return $item->getDislikes();
     }
 
     /**
@@ -414,27 +420,25 @@ class BaseController extends FOSRestController
         if (!$this->get('security.context')->isGranted('ROLE_USER') && !$auth)
             throw new AccessDeniedException('Accès refusé');
         $item = $this->findBySlug($slug);
-        $user = $this->container->get('security.context')->getToken()->getUser();
 
         // Si l'utilisateur a déjà unliké on l'enlève
-        if ($item->getLikes()->contains($user))
-            $item->removeLike($user);
+        if ($item->getLikes()->contains($this->user))
+            $item->removeLike($this->user);
         $this->em->flush();
     }
 
     /**
      * @View()
      */
-    protected function deleteUnlike($slug, $auth = false)
+    protected function deleteDislike($slug, $auth = false)
     {
         if (!$this->get('security.context')->isGranted('ROLE_USER'))
             throw new AccessDeniedException('Accès refusé');
         $item = $this->findBySlug($slug);
-        $user = $this->container->get('security.context')->getToken()->getUser();
 
         // Si l'utilisateur a déjà unliké on l'enlève
-        if ($item->getUnlikes()->contains($user))
-            $item->removeUnlike($user);
+        if ($item->getDislikes()->contains($this->user))
+            $item->removeDislike($this->user);
         $this->em->flush();
     }
 
