@@ -21,34 +21,29 @@ class Image
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
+
     /**
      * @ORM\Column(name="ext", type="string")
      * @Assert\Type("string")
      */
     protected $ext;
-    
+
     /**
      * @ORM\Column(name="alt", type="string", nullable=true)
      * @Assert\Type("string")
      */
     protected $alt;
-	
-	 /**
-     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User")
-     */
-	protected $uploader;
-	
+
     /**
      * @Assert\File(maxSize="6000000")
      */
     protected $file;
-    
+
 	public function getAbsolutePathReduced()
     {
         return __DIR__ . '/../../../../web/uploads/images/' . $this->id;
     }
-	
+
     public function getAbsolutePath()
     {
         return __DIR__ . '/../../../../web/uploads/images/' . $this->id . '.' . $this->ext;
@@ -88,21 +83,21 @@ class Image
     {
         if ($this->file === null)
             return;
-        
-        // Exception lancée si le fichier ne peut pas être bougé et donc 
+
+        // Exception lancée si le fichier ne peut pas être bougé et donc
         // arrête le Persist
         $this->file->move($this->getUploadRootDir(), $this->id.'.'.$this->ext);
 
         unset($this->file);
     }
-    
-    
-    
-    
+
+
+
+
     // Temporary name that is used to remove the file
     protected $filenameForRemove;
-    
-    /** 
+
+    /**
      * @ORM\PreRemove()
      */
     public function storeFilenameForRemove()
@@ -120,36 +115,36 @@ class Image
         if ($file = $this->filenameForRemove)
             unlink($file);
     }
-    
+
     // Setter/Getter non généré automatiquement
     public function getFile()
     {
         return $this->file;
     }
-    
+
     public function setFile($newFile)
     {
         $this->file = $newFile;
         return $this;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
     //===== GENERATED AUTOMATICALLY =====//
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -172,7 +167,7 @@ class Image
     /**
      * Get ext
      *
-     * @return string 
+     * @return string
      */
     public function getExt()
     {
@@ -195,7 +190,7 @@ class Image
     /**
      * Get alt
      *
-     * @return string 
+     * @return string
      */
     public function getAlt()
     {
