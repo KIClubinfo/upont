@@ -157,6 +157,25 @@ class DefaultController extends BaseController
 
     /**
      * @ApiDoc(
+     *  description="Déclenche le déploiement de master. DANGEREUX ! Ne doit pas être testé pour des raisons évidentes.",
+     *  statusCodes={
+     *   202="Requête traitée mais sans garantie de résultat",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  tags={
+     *    "WARNING"
+     *  },
+     *  section="Général"
+     * )
+     */
+    public function deployAction()
+    {
+        shell_exec(__DIR__ . '/../../../../../utils/update-prod.sh');
+        return $this->jsonResponse(null, 202);
+    }
+
+    /**
+     * @ApiDoc(
      *  description="Let's get dirty !",
      *  statusCodes={
      *   202="Requête traitée mais sans garantie de résultat",
