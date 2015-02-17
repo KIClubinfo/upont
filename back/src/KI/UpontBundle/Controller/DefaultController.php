@@ -170,7 +170,7 @@ class DefaultController extends BaseController
      */
     public function deployAction()
     {
-        shell_exec(__DIR__ . '/../../../../../utils/update-prod.sh');
+        shell_exec("ssh root@localhost '/bin/bash /server/upont/utils/update-prod.sh'");
         return $this->jsonResponse(null, 202);
     }
 
