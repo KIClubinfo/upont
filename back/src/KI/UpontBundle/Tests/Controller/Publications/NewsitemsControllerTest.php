@@ -81,6 +81,13 @@ class NewsitemsControllerTest extends WebTestCase
         $this->assertJsonResponse($response, 204);
     }
 
+    public function testComments()
+    {
+        $this->client->request('GET', '/newsitems/la-porte/comments');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 200);
+    }
+
     public function testDelete()
     {
         $this->client->request('DELETE', '/newsitems/la-porte');
