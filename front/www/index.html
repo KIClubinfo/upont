@@ -1,64 +1,84 @@
 <!doctype html>
 <html lang="fr">
-	<head>
-		<meta charset="UTF-8">
-		<base href="/front/">
-		<title>Bienvenue sur uPont</title>
-		<link rel="stylesheet" href="style.min.css">
 
-		<script type="text/javascript"> var apiPrefix = "/api/"; </script>
-		<script src="libs/jquery/dist/jquery.min.js"></script>
-		<script src="libs/angular/angular.min.js"></script>
-		<script src="libs/angular-i18n/angular-locale_fr-fr.js"></script>
-		<script src="libs/angular-animate/angular-animate.js"></script>
-		<script src="libs/angular-sanitize/angular-sanitize.js"></script>
-		<script src="libs/angular-strap/dist/angular-strap.min.js"></script>
-		<script src="libs/angular-strap/dist/angular-strap.tpl.min.js"></script>
-		<script src="libs/angular-ui-router/release/angular-ui-router.min.js"></script>
-		<script src="libs/angular-resource/angular-resource.min.js"></script>
-		<script src="libs/scheduler/codebase/dhtmlxscheduler.js"></script>
-		<script src="libs/scheduler/codebase/locale/locale_fr.js"></script>
-		<script src="libs/js-base64/base64.min.js"></script>
-		<script src="upont.min.js"></script>
-	</head>
-	<body ng-app="upont" ng-controller="Main_Controller" ng-class="theme?'theme-dark':'theme-clear'">
-		<header class="navbar navbar-default navbar-fixed-top">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<a class="up-title" ui-sref="home"></a>
-				</div>
-				<div class="col-xs-1 col-xs-offset-7">
-					<a ui-sref="home" ng-show="isAdmin()" class="btn btn-upload up-navbar-link">Publier</a>
-				</div>
-				<ul class="navbar-nav nav pull-right" ng-show="isLogged()">
-					<li><a ui-sref="profil" ui-sref-active="active" class="up-navbar-link">Profil</a></li>
-					<li><a ui-sref="admin" ui-sref-active="active" class="up-navbar-link" ng-show="isAdmin()">Admin</a></li>
-				</ul>
-			</div>
-		</header>
-		
-		<div class="container-fluid">
-			<aside class="up-aside col-xs-2" ng-show="isLogged()">
-				<ul>
-					<li><a ui-sref="home" ui-sref-active="active"><span class="glyphicon glyphicon-comment"></span> News</a></li>
-					<li><a ui-sref="ponthub" ui-sref-active="active"><span class="glyphicon glyphicon-film"></span> PontHub</a></li>
-					<li><a ui-sref="channels" ui-sref-active="active"><span class="glyphicon glyphicon-thumbs-up"></span> Assos</a></li>
-					<li><a ui-sref="promo" ui-sref-active="active"><span class="glyphicon glyphicon-education"></span> Promo</a></li>
-					<li><a ui-sref="ki" ui-sref-active="active"><span class="glyphicon glyphicon-flash"></span> KI</a></li>
-					<li><a ui-sref="cours" ui-sref-active="active"><span class="glyphicon glyphicon-briefcase"></span> Cours</a></li>
-					<li><a ui-sref="calendrier" ui-sref-active="active"><span class="glyphicon glyphicon-calendar"></span> Calendrier</a></li>
-					<li><a ui-sref="profil" ui-sref-active="active"><span class="glyphicon glyphicon-star"></span> Profil</a></li>
-				</ul>
-			</aside>
-			<div ui-view autoscroll="false" class="up-main-view" up-fill-window ng-class="{'col-xs-10':isLogged(), 'col-xs-12':!isLogged()}"></div>
-		</div>
+<head>
+    <meta charset="UTF-8">
+    <base href="/front/">
+    <title>Bienvenue sur uPont</title>
+    <link rel="stylesheet" href="style.min.css">
 
-		<footer class="container-fluid" ng-show="!inArbo('calendrier')">
-			<div class="row">
-				<div class="col-sm-2 col-xs-6 up-theme-selector"><label class="unbold"><input type="checkbox" ng-model="theme">&nbsp;&nbsp;Thème sombre</label></div>
-				<div class="col-sm-8 col-xs-12">uPont 2.0</div>
-				<div ng-if="isLogged()" class="col-sm-2 col-xs-6"><button class="btn btn-default" ng-click="logOut()">Logout</button></div>
-			</div>
-		</footer>
-	</body>
+    <script type="text/javascript">
+    var apiPrefix = "/api/";
+    </script>
+    <script src="libs/jquery/dist/jquery.min.js"></script>
+    <script src="libs/angular/angular.min.js"></script>
+    <script src="libs/angular-i18n/angular-locale_fr-fr.js"></script>
+    <script src="libs/angular-animate/angular-animate.js"></script>
+    <script src="libs/angular-sanitize/angular-sanitize.js"></script>
+    <script src="libs/angular-strap/dist/angular-strap.min.js"></script>
+    <script src="libs/angular-strap/dist/angular-strap.tpl.min.js"></script>
+    <script src="libs/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="libs/angular-resource/angular-resource.min.js"></script>
+    <script src="libs/scheduler/codebase/dhtmlxscheduler.js"></script>
+    <script src="libs/scheduler/codebase/locale/locale_fr.js"></script>
+    <script src="libs/js-base64/base64.min.js"></script>
+    <script src="upont.min.js"></script>
+</head>
+
+<body ng-app="upont" ng-controller="Main_Controller" ng-class="theme?'theme-dark':'theme-clear'">
+    <header class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="up-title" ui-sref="home"></a>
+            </div>
+            <div class="col-xs-1 col-xs-offset-7">
+                <a ui-sref="home" ng-show="isAdmin()" class="btn btn-upload up-navbar-link">Publier</a>
+            </div>
+            <ul class="navbar-nav nav pull-right" ng-show="isLogged()">
+                <li><a ui-sref="profil" ui-sref-active="active" class="up-navbar-link">Profil</a>
+                </li>
+                <li><a ui-sref="admin" ui-sref-active="active" class="up-navbar-link" ng-show="isAdmin()">Admin</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="container-fluid">
+        <aside class="up-aside col-xs-2" ng-show="isLogged()">
+            <ul>
+                <li><a ui-sref="home" ui-sref-active="active"><span class="glyphicon glyphicon-comment"></span> News</a>
+                </li>
+                <li><a ui-sref="ponthub" ui-sref-active="active"><span class="glyphicon glyphicon-film"></span> PontHub</a>
+                </li>
+                <li><a ui-sref="channels" ui-sref-active="active"><span class="glyphicon glyphicon-thumbs-up"></span> Assos</a>
+                </li>
+                <li><a ui-sref="promo" ui-sref-active="active"><span class="glyphicon glyphicon-education"></span> Promo</a>
+                </li>
+                <li><a ui-sref="ki" ui-sref-active="active"><span class="glyphicon glyphicon-flash"></span> KI</a>
+                </li>
+                <li><a ui-sref="cours" ui-sref-active="active"><span class="glyphicon glyphicon-briefcase"></span> Cours</a>
+                </li>
+                <li><a ui-sref="calendrier" ui-sref-active="active"><span class="glyphicon glyphicon-calendar"></span> Calendrier</a>
+                </li>
+                <li><a ui-sref="profil" ui-sref-active="active"><span class="glyphicon glyphicon-star"></span> Profil</a>
+                </li>
+            </ul>
+        </aside>
+        <div ui-view autoscroll="false" class="up-main-view" up-fill-window ng-class="{'col-xs-10':isLogged(), 'col-xs-12':!isLogged()}"></div>
+    </div>
+
+    <footer class="container-fluid" ng-show="!inArbo('calendrier')">
+        <div class="row">
+            <div class="col-sm-2 col-xs-6 up-theme-selector">
+                <label class="unbold">
+                    <input type="checkbox" ng-model="theme">&nbsp;&nbsp;Thème sombre</label>
+            </div>
+            <div class="col-sm-8 col-xs-12">uPont 2.0</div>
+            <div ng-if="isLogged()" class="col-sm-2 col-xs-6">
+                <button class="btn btn-default" ng-click="logOut()">Logout</button>
+            </div>
+        </div>
+    </footer>
+</body>
+
 </html>

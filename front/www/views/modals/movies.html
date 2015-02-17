@@ -8,7 +8,8 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-sm-4">
-                        <div><img class="img-responsive" src="{{ image_url | urlFile }}" alt=""/></div>
+                        <div><img class="img-responsive" src="{{ image_url | urlFile }}" alt="" />
+                        </div>
                         <span class="label label-upont" ng-if="vo">VO</span>
                         <span class="label label-upont" ng-if="vf">VF</span>
                         <span class="label label-upont" ng-if="vost">VOST</span>
@@ -17,8 +18,10 @@
                         <p>{{ description }}</p>
                         <ul>
                             <li ng-if="year">Année de sortie : {{ year }}</li>
-                            <li ng-if="genres && genres.length">Genres : <span ng-repeat="genre in genres">{{ genre }}{{$last ? '' : ', '}}</span></li>
-                            <li ng-if="actors">Acteurs : <span ng-repeat="actor in actors">{{ actor }}{{$last ? '' : ', '}}</span></li>
+                            <li ng-if="genres && genres.length">Genres : <span ng-repeat="genre in genres">{{ genre }}{{$last ? '' : ', '}}</span>
+                            </li>
+                            <li ng-if="actors">Acteurs : <span ng-repeat="actor in actors">{{ actor }}{{$last ? '' : ', '}}</span>
+                            </li>
                             <li ng-if="real">Réalisateur : {{ real }}</li>
                             <li ng-if="duration">Durée : {{ duration | formatDuration }}</li>
                             <li ng-if="size">Taille : {{ size | formatSize }}</li>
