@@ -68,7 +68,7 @@ class BaseController extends FOSRestController
 
     public function restResponse($data, $code = 200, array $headers = array())
     {
-        return new Response($this->get('jms_serializer')->serialize($data, 'json', SerializationContext::create()->enableMaxDepthChecks()), $code, $headers);
+        return new Response($this->get('jms_serializer')->serialize($data, 'json'), $code, $headers);
     }
 
     public function jsonResponse($data, $code = 200, array $headers = array())
