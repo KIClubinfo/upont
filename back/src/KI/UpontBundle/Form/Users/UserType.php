@@ -15,6 +15,7 @@ class UserType extends AbstractType
             ->add('dsi')
             ->add('firstName')
             ->add('lastName')
+            ->add('nickname')
             ->add('promo')
             ->add('department')
             ->add('origin')
