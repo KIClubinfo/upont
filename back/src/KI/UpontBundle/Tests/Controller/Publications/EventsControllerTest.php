@@ -68,7 +68,7 @@ class EventsControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
-        $this->client->request('GET', '/events/manger-des-chips/unlike');
+        $this->client->request('GET', '/events/manger-des-chips/dislike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
@@ -80,11 +80,11 @@ class EventsControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('POST', '/events/manger-des-chips/unlike');
+        $this->client->request('POST', '/events/manger-des-chips/dislike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('DELETE', '/events/manger-des-chips/unlike');
+        $this->client->request('DELETE', '/events/manger-des-chips/dislike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
     }

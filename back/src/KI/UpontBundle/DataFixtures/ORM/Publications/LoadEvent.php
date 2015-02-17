@@ -35,7 +35,7 @@ Encore une fois, n\'hésitez pas à venir, et même si vous n\'y connaissez rien
         $event->addAttendee($this->getReference('user-taquet-c'));
         $event->addAttendee($this->getReference('user-de-boisc'));
         $event->setLikes(array($this->getReference('user-taquet-c')));
-        $event->setUnlikes(array($this->getReference('user-trancara')));
+        $event->setDislikes(array($this->getReference('user-trancara')));
         $manager->persist($event);
 
         $event = new Event();

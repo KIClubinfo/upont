@@ -63,22 +63,22 @@ class Likeable
     }
 
     /**
-     * Ceux qui unlikent
+     * Ceux qui dislikent
      * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
-     * @ORM\JoinTable(name="post_unlikes",
+     * @ORM\JoinTable(name="post_dislikes",
      *      joinColumns={@ORM\JoinColumn(name="post_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="unliker_id", referencedColumnName="id")}
+     *      inverseJoinColumns={@ORM\JoinColumn(name="disliker_id", referencedColumnName="id")}
      *  )
      */
-    protected $listUnlikes;
+    protected $listDislikes;
 
     /**
-     * Nombre de ceux qui unlikent
+     * Nombre de ceux qui dislikent
      * @VirtualProperty()
      */
-    public function unlikes()
+    public function dislikes()
     {
-        return count($this->listUnlikes);
+        return count($this->listDislikes);
     }
 
     /**
@@ -89,7 +89,7 @@ class Likeable
     /**
      * @Expose
      */
-    protected $unlike = false;
+    protected $dislike = false;
 
     /**
      * Les commentaires
@@ -235,56 +235,56 @@ class Likeable
     }
 
     /**
-     * Add unlike
+     * Add dislike
      *
-     * @param \KI\UpontBundle\Entity\User $unlikes
+     * @param \KI\UpontBundle\Entity\User $dislikes
      * @return PonthubFile
      */
-    public function addUnlike(\KI\UpontBundle\Entity\Users\User $unlike)
+    public function addDislike(\KI\UpontBundle\Entity\Users\User $dislike)
     {
-        $this->listUnlikes[] = $unlike;
+        $this->listDislikes[] = $dislike;
 
         return $this;
     }
 
     /**
-     * Remove unlikes
+     * Remove dislikes
      *
-     * @param \KI\UpontBundle\Entity\User $unlikes
+     * @param \KI\UpontBundle\Entity\User $dislikes
      */
-    public function removeUnlike(\KI\UpontBundle\Entity\Users\User $unlike)
+    public function removeDislike(\KI\UpontBundle\Entity\Users\User $dislike)
     {
-        $this->listUnlikes->removeElement($unlike);
+        $this->listDislikes->removeElement($dislike);
     }
 
     /**
-     * Get unlikes
+     * Get dislikes
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getUnlikes()
+    public function getDislikes()
     {
-        return $this->listUnlikes;
+        return $this->listDislikes;
     }
 
     /**
-     * Set unlikes
+     * Set dislikes
      *
      * @return PonthubFile
      */
-    public function setUnlikes($unlikes)
+    public function setDislikes($dislikes)
     {
-        return $this->listUnlikes = $unlikes;
+        return $this->listDislikes = $dislikes;
     }
 
-    public function getUnlike()
+    public function getDislike()
     {
-        return $this->unlike;
+        return $this->dislike;
     }
 
-    public function setUnlike($unlike)
+    public function setDislike($dislike)
     {
-        return $this->unlike = $unlike;
+        return $this->dislike = $dislike;
     }
 
     public function getLike()

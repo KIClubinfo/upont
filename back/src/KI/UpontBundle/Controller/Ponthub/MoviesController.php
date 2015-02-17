@@ -116,7 +116,7 @@ class MoviesController extends BaseController
 
     /**
      * @ApiDoc(
-     *  description="Retourne la liste des gens qui unlikent",
+     *  description="Retourne la liste des gens qui dislikent",
      *  statusCodes={
      *   200="Requête traitée avec succès mais pas d’information à renvoyer",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -126,9 +126,9 @@ class MoviesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Get("/movies/{slug}/unlike")
+     * @Get("/movies/{slug}/dislike")
      */
-    public function getUnlikeMovieAction($slug) { return $this->getUnlikes($slug); }
+    public function getDislikeMovieAction($slug) { return $this->getDislikes($slug); }
 
     /**
      * @ApiDoc(
@@ -148,7 +148,7 @@ class MoviesController extends BaseController
 
     /**
      * @ApiDoc(
-     *  description="Unlike",
+     *  description="Dislike",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -158,9 +158,9 @@ class MoviesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Post("/movies/{slug}/unlike")
+     * @Post("/movies/{slug}/dislike")
      */
-    public function unlikeMovieAction($slug) { return $this->unlike($slug); }
+    public function dislikeMovieAction($slug) { return $this->dislike($slug); }
 
     /**
      * @ApiDoc(
@@ -180,7 +180,7 @@ class MoviesController extends BaseController
 
     /**
      * @ApiDoc(
-     *  description="Enlève son unlike",
+     *  description="Enlève son dislike",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -190,7 +190,7 @@ class MoviesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Delete("/movies/{slug}/unlike")
+     * @Delete("/movies/{slug}/dislike")
      */
-    public function deleteUnlikeMovieAction($slug) { return $this->deleteUnlike($slug); }
+    public function deleteDislikeMovieAction($slug) { return $this->deleteDislike($slug); }
 }

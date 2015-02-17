@@ -20,7 +20,7 @@ class OthersControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }
-    
+
     public function testPatch()
     {
         $this->client->request('PATCH', '/ponthub/others/windows-vista', array('description' => 'De la daube...', 'tags' => array(array('name' => 'windaube'), array('name' => 'vista'))));
@@ -35,17 +35,17 @@ class OthersControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }
-    
+
     public function testStats()
     {
         $this->client->request('GET', '/ponthub/others/windows-vista/download');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 302);
-        
+
         $this->client->request('GET', '/ponthub/others/windows-vista/download');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 302);
-        
+
         $this->client->request('GET', '/ponthub/others/windows-vista');
         $response = $this->client->getResponse();
         $infos = json_decode($response->getContent(), true);
@@ -53,38 +53,38 @@ class OthersControllerTest extends WebTestCase
         $this->assertNotEquals($infos, null);
         $this->assertEquals($infos['downloads'], 1);
     }
-    
+
     public function testLike()
     {
         $this->client->request('GET', '/ponthub/others/basdsqdqsdqck-in-black/like');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
-        
+
         $this->client->request('GET', '/ponthub/others/windows-vista/unkike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
-        
+
         $this->client->request('GET', '/ponthub/others/windows-vista/like');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
-        
-        $this->client->request('GET', '/ponthub/others/windows-vista/unlike');
+
+        $this->client->request('GET', '/ponthub/others/windows-vista/dislike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
-        
+
         $this->client->request('POST', '/ponthub/others/windows-vista/like');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
-        
-        $this->client->request('POST', '/ponthub/others/windows-vista/unlike');
+
+        $this->client->request('POST', '/ponthub/others/windows-vista/dislike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
-        
+
         $this->client->request('DELETE', '/ponthub/others/windows-vista/like');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
-        
-        $this->client->request('DELETE', '/ponthub/others/windows-vista/unlike');
+
+        $this->client->request('DELETE', '/ponthub/others/windows-vista/dislike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
     }

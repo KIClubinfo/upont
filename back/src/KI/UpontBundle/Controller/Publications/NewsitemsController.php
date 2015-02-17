@@ -137,7 +137,7 @@ class NewsitemsController extends BaseController
 
     /**
      * @ApiDoc(
-     *  description="Retourne la liste des gens qui unlikent",
+     *  description="Retourne la liste des gens qui dislikent",
      *  statusCodes={
      *   200="Requête traitée avec succès mais pas d’information à renvoyer",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -147,9 +147,9 @@ class NewsitemsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Get("/newsitems/{slug}/unlike")
+     * @Get("/newsitems/{slug}/dislike")
      */
-    public function getUnlikeNewsitemAction($slug) { return $this->getUnlikes($slug); }
+    public function getDislikeNewsitemAction($slug) { return $this->getDislikes($slug); }
 
     /**
      * @ApiDoc(
@@ -185,7 +185,7 @@ class NewsitemsController extends BaseController
 
     /**
      * @ApiDoc(
-     *  description="Unlike",
+     *  description="Dislike",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -195,9 +195,9 @@ class NewsitemsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Post("/newsitems/{slug}/unlike")
+     * @Post("/newsitems/{slug}/dislike")
      */
-    public function unlikeNewsitemAction($slug) { return $this->unlike($slug); }
+    public function dislikeNewsitemAction($slug) { return $this->dislike($slug); }
 
     /**
      * @ApiDoc(
@@ -217,7 +217,7 @@ class NewsitemsController extends BaseController
 
     /**
      * @ApiDoc(
-     *  description="Enlève son unlike",
+     *  description="Enlève son dislike",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -227,7 +227,7 @@ class NewsitemsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Delete("/newsitems/{slug}/unlike")
+     * @Delete("/newsitems/{slug}/dislike")
      */
-    public function deleteUnlikeNewsitemAction($slug) { return $this->deleteUnlike($slug); }
+    public function deleteDislikeNewsitemAction($slug) { return $this->deleteDislike($slug); }
 }
