@@ -1,6 +1,9 @@
 #!/bin/bash
 # [AT'016] Script d'update pour Clubinfo
 
+cd /server/upont
+git pull
+
 export SYMFONY_ENV=prod
 
 cd front
