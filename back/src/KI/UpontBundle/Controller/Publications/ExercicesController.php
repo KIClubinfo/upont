@@ -69,7 +69,7 @@ class ExercicesController extends BaseController
     {
         $exercice = $this->findBySlug($slug);
 
-        if (!file_exists())
+        if (!file_exists($exercice->getAbsolutePath()))
             throw new NotFoundHttpException('Fichier PDF non trouvé');
 
         // On lit le fichier PDF
