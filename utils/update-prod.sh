@@ -4,7 +4,7 @@
 git pull
 export SYMFONY_ENV=prod
 
-cd /server/www/front
+cd /server/upont/front
 npm install
 bower update --allow-root
 grunt build
