@@ -1,11 +1,12 @@
 #!/bin/bash
 # [AT'016] Script d'update pour Clubinfo
 
+git pull
 export SYMFONY_ENV=prod
 
-cd front
+cd /server/www/front
 npm install
-bower update --allow-root option
+bower update --allow-root
 grunt build
 
 cd ../mobile
