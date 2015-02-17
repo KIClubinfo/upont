@@ -360,7 +360,7 @@ class DefaultController extends BaseController
      *   }
      *  },
      *  statusCodes={
-     *   200="Requête traitée avec succès",
+     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   401="Mauvaise combinaison username/password ou champ nom rempli",
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
@@ -389,5 +389,36 @@ class DefaultController extends BaseController
         }
         else
             throw new NotFoundHttpException('Utilisateur non trouvé');
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Retourne la version de uPont",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Général"
+     * )
+     */
+    public function versionAction()
+    {
+        $env = $this->get('kernel')->getEnvironment();
+
+        // On récupère le tag de release le plus proche
+        $tags = shell_exec('git tag');
+        $out = array();
+        preg_match_all('#v([0-9]+)\.([0-9]+)\.([0-9]+)#', $tags, $out);
+
+        // On ne garde que le dernier numéro de version
+        $i = count($out[0]) - 1;
+
+        return $this->jsonResponse(array(
+            'version'     => $out[1][$i],
+            'major'       => $out[2][$i],
+            'minor'       => $out[3][$i],
+            'build'       => shell_exec('git log --pretty=format:"%h" -n 1'),
+            'environment' => $env
+        ));
     }
 }
