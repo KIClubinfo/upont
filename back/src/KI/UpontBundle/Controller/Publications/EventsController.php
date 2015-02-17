@@ -173,11 +173,7 @@ class EventsController extends BaseController
      * )
      * @Get("/events/{slug}/comments")
      */
-    public function getCommentsEventAction($slug)
-    {
-        $event = $this->findBySlug($slug);
-        return $this->restResponse($event->getComments());
-    }
+    public function getCommentsEventAction($slug) { return $this->getAllSub($slug, 'Comment', true); }
 
     /**
      * @ApiDoc(

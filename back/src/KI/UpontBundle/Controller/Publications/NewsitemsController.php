@@ -165,11 +165,7 @@ class NewsitemsController extends BaseController
      * )
      * @Get("/newsitems/{slug}/comments")
      */
-    public function getCommentsNewsitemAction($slug)
-    {
-        $newsitem = $this->findBySlug($slug);
-        return $this->restResponse($newsitem->getComments());
-    }
+    public function getCommentsNewsitemAction($slug) { return $this->getAllSub($slug, 'Comment', true); }
 
     /**
      * @ApiDoc(
