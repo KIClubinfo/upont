@@ -24,6 +24,7 @@ Linux
 - Modifier le début du script d'installation suivant ses paramètres
 - Avoir réglé convenablement le proxy partout si nécessaire. (apt-get, export)
 - Éxecuter le script d'installation.
+- Pour coder l'appli mobile, voir ci-dessous (fin de ce fichier).
 
 Windows
 -------
@@ -185,3 +186,24 @@ Conseils pour le front (Javasale)
 ---------------------------------
 
 Coco amuse-toi
+
+
+Conseils pour l'application mobile (Javasale)
+---------------------------------------------
+
+Au niveau de l'entretien du code, les contraintes sont globalement les mêmes que pour le front (Angular).
+Il y a cependant une petite spécificité au niveau de l'installation.
+Après avoir exécuté le script d'installation, il faut :
+
+- Télécharger l'[Android SDK](http://developer.android.com/sdk/installing/index.html?pkg=tools)
+- Ajouter le chemin ~/android-sdk-linux/tools/android (ou tout autre endroit ou vous avez installé le SDK) dans la variable PATH (ajoutez ce réglage de façon permanente dans le .profile).
+- Lancez le SDK avec la commande `android`.
+- Téléchargez les SDK Tools et l'API 19 dans le gestionnaire de paquets.
+- Dans Tools > Manage AVDs, créer un AVD, choisir un modèle de téléphone, une architecture et un skin.
+- Dans le dossier /mobile, lancer la commande `cordova platform add android`.
+- Maintenant, à chaque fois que vous voudrez build l'application, il suffira de faire un `cordova emulate android`.
+
+**Attention !** L'émulateur ne remplacera jamais un test sur un vrai téléphone, notamment pour ce qui est très spécifique au matériel (notifications push par exemple).
+
+La configuration se trouve dans /mobile/www/config.xml et c'est ce fichier qui sera utilisé par PhoneGap Build pour configurer l'application et injecter les plugins.
+Pour utiliser PhoneGap Build, compresser le dossier /mobile/www et l'envoyer sur PhoneGap Buid.
