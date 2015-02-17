@@ -12,7 +12,7 @@ class LoadEventFixture extends AbstractFixture implements OrderedFixtureInterfac
     public function load(ObjectManager $manager)
     {
         $event = new Event();
-        $event->setTitle('Passation');
+        $event->setName('Passation');
         $event->setTextLong('Une fois n\'est pas coutume, c\'est au KI d\'ouvrir le bal des passations durant cette période de campagne !
 
 Plusieurs choses à savoir donc : la réunion de passation aura lieu VENDREDI 16 JANVIER À 12H30 EN P102.
@@ -39,7 +39,7 @@ Encore une fois, n\'hésitez pas à venir, et même si vous n\'y connaissez rien
         $manager->persist($event);
 
         $event = new Event();
-        $event->setTitle('Le Faucon MilLANium');
+        $event->setName('Le Faucon MilLANium');
         $event->setTextLong('Un nouvel espoir pour vous après cette période de partiels!
 
 Venez assister les troupes d\'Obi LAN Kenobi dans leur combat contre le vil empereur PLANpatine! Viens dégainer ton sabre LANser comme LANakin au 4ème étage de Prony le mercredi 17 décembre à partir de 21 heures. Nous revisiterons des épisodes comme LANttaque des clones à travers Star Wars Empire at War - Forces of Corruption (RTS - style Age Of Empires) et Star Wars Battlefront 2 (FPS - style counter strike) tout en dégustant les victuailles habituelles des LANs.
@@ -59,7 +59,7 @@ Venez nombreux, ce n\'est pas une LAN Solo! Les jeux seront fournis sur place ma
         $manager->persist($event);
 
         $event = new Event();
-        $event->setTitle('Jeux de Rôles');
+        $event->setName('Jeux de Rôles');
         $event->setTextLong('C\'est l\'heure de se mettre aux jeux de rôle, préparez vos sorts et vos pavois de feu +7 !
 Que tu ne sois pas initié aux lancers de d20 ou que la magie profane n\'ait plus de secrets pour toi, nous serons ravis de t\'accueillir pour partir à l\'assaut des méchants les plus maléfiques.
 
@@ -87,7 +87,7 @@ PS: un Glyphe de Garde FP6 a été déposé à l\'entrée, merci de ne pas le d�
         $manager->persist($event);
 
         $event = new Event();
-        $event->setTitle('Formations PEP - Objectif recrutement');
+        $event->setName('Formations PEP - Objectif recrutement');
         $event->setTextLong('Soirée de formations poussées en vue du recrutement de la Toussaint.
 
 Dîner/cocktail assuré par PEP.
@@ -105,7 +105,7 @@ OUVERT AUX COTISANTS UNIQUEMENT.');
         $manager->persist($event);
 
         $event = new Event();
-        $event->setTitle('Interne de Noël');
+        $event->setName('Interne de Noël');
         $event->setTextLong('Doux 1A, Très cher 2A, étranger,
 
 Voici venue la période de Noël, le temps des cadeaux, le retour des guirlandes qui illuminent les foyers… En cette fin d\'année, il est d\'usage de faire plaisir à votre entourage.
@@ -133,7 +133,7 @@ Le BDE veut mettre le paquet pour sa dernière interne. On espère que vous sere
         $manager->persist($event);
 
         $event = new Event();
-        $event->setTitle('Don Giovanni');
+        $event->setName('Don Giovanni');
         $event->setTextLong('Bonjour à tous,
 
 Pour cette nouvelle année, on commence avec un opéra que vous connaissez déjà surement tous : Don Giovanni.
