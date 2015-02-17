@@ -66,6 +66,12 @@ class User extends BaseUser
     protected $lastName;
 
     /**
+     * Surnom/pseudo
+     * @ORM\Column(name="nickname", type="string", nullable=true)
+     */
+    protected $nickname;
+
+    /**
      * Promo (format: '0*', ie 016, 017...)
      * @ORM\Column(name="promo", type="string", nullable=true)
      * @Expose
@@ -188,6 +194,22 @@ class User extends BaseUser
         return $this->image !== null ? $this->image->getWebPath() : 'uploads/images/default-user.png';
     }
 
+    /**
+     * @VirtualProperty()
+     */
+    public function nick()
+    {
+        return $this->nickname !== null ? $this->nickname : $this->acronyme();
+    }
+
+    protected function acronyme()
+    {
+        $r = '';
+        foreach(explode(' ', $this->firstName . ' ' . $this->lastName) as $v)
+            $r .= $v[0];
+        return $r . '\'' . $this->promo;
+    }
+
     // On définit des alias pour le slug
     public function getSlug() { return $this->getUsername(); }
     public function setSlug($slug) { return $this->setUsername($slug); }
@@ -307,6 +329,29 @@ class User extends BaseUser
     public function getLastName()
     {
         return $this->lastName;
+    }
+
+    /**
+     * Set nickname
+     *
+     * @param string $nickname
+     * @return User
+     */
+    public function setNickname($nickname)
+    {
+        $this->nickname = $nickname;
+
+        return $this;
+    }
+
+    /**
+     * Get nickname
+     *
+     * @return string
+     */
+    public function getNickname()
+    {
+        return $this->nickname;
     }
 
     /**
