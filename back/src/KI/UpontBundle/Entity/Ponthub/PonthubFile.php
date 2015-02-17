@@ -146,8 +146,6 @@ class PonthubFile extends Likeable
         $this->listGenres = new \Doctrine\Common\Collections\ArrayCollection();
         $this->listTags = new \Doctrine\Common\Collections\ArrayCollection();
         $this->users = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->likes = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->unlikes = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

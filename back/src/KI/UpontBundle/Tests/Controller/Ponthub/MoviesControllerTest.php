@@ -20,7 +20,7 @@ class MoviesControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }
-    
+
     public function testPatch()
     {
         $this->client->request('PATCH', '/ponthub/movies/pumping-iron', array('actors' => array(array('name' => 'Arnold Schwarzenegger')), 'genres' => array(array('name' => 'Bodybuilding'), array('name' => 'Documentaire')), 'year' => 1977, 'tags' => array(array('name' => 'hjihjk'))));
@@ -35,17 +35,17 @@ class MoviesControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }
-    
+
     public function testStats()
     {
         $this->client->request('GET', '/ponthub/movies/pumping-iron/download');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 302);
-        
+
         $this->client->request('GET', '/ponthub/movies/pumping-iron/download');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 302);
-        
+
         $this->client->request('GET', '/ponthub/movies/pumping-iron');
         $response = $this->client->getResponse();
         $infos = json_decode($response->getContent(), true);
@@ -53,38 +53,38 @@ class MoviesControllerTest extends WebTestCase
         $this->assertNotEquals($infos, null);
         $this->assertEquals($infos['downloads'], 3);
     }
-    
+
     public function testLike()
     {
         $this->client->request('GET', '/ponthub/movies/basdsqdqsdqck-in-black/like');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
-        
+
         $this->client->request('GET', '/ponthub/movies/pumping-iron/unkike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
-        
+
         $this->client->request('GET', '/ponthub/movies/pumping-iron/like');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
-        
-        $this->client->request('GET', '/ponthub/movies/pumping-iron/unlike');
+
+        $this->client->request('GET', '/ponthub/movies/pumping-iron/dislike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
-        
+
         $this->client->request('POST', '/ponthub/movies/pumping-iron/like');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
-        
-        $this->client->request('POST', '/ponthub/movies/pumping-iron/unlike');
+
+        $this->client->request('POST', '/ponthub/movies/pumping-iron/dislike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
-        
+
         $this->client->request('DELETE', '/ponthub/movies/pumping-iron/like');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
-        
-        $this->client->request('DELETE', '/ponthub/movies/pumping-iron/unlike');
+
+        $this->client->request('DELETE', '/ponthub/movies/pumping-iron/dislike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
     }

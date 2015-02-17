@@ -60,7 +60,7 @@ class NewsitemsControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
-        $this->client->request('GET', '/newsitems/la-porte/unlike');
+        $this->client->request('GET', '/newsitems/la-porte/dislike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
@@ -68,7 +68,7 @@ class NewsitemsControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('POST', '/newsitems/la-porte/unlike');
+        $this->client->request('POST', '/newsitems/la-porte/dislike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
@@ -76,7 +76,7 @@ class NewsitemsControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('DELETE', '/newsitems/la-porte/unlike');
+        $this->client->request('DELETE', '/newsitems/la-porte/dislike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
     }

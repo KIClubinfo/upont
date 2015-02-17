@@ -179,11 +179,11 @@ class BaseController extends FOSRestController
     {
         $item = $this->findBySlug($slug);
 
-        // Si l'entité a un système de like/unlike, précise si l'user actuel (un)like
+        // Si l'entité a un système de like/dislike, précise si l'user actuel (un)like
         if (property_exists($item, 'like')) {
             $user = $this->container->get('security.context')->getToken()->getUser();
             $item->setLike($item->getLikes()->contains($user));
-            $item->setUnlike($item->getUnlikes()->contains($user));
+            $item->setDislike($item->getDislikes()->contains($user));
         }
         if (property_exists($item, 'attend')) {
             $user = $this->container->get('security.context')->getToken()->getUser();
@@ -344,7 +344,7 @@ class BaseController extends FOSRestController
 
 
 
-    // Fonctions relatives aux likes/unlikes
+    // Fonctions relatives aux likes/dislikes
 
     /**
      * @View()
@@ -360,8 +360,8 @@ class BaseController extends FOSRestController
         if (!$item->getLikes()->contains($user))
             $item->addLike($user);
         // Si l'utilisateur avait précédemment unliké, on l'enlève
-        if ($item->getUnlikes()->contains($user))
-            $item->removeUnlike($user);
+        if ($item->getDislikes()->contains($user))
+            $item->removeDislike($user);
 
         $this->em->flush();
     }
@@ -369,7 +369,7 @@ class BaseController extends FOSRestController
     /**
      * @View()
      */
-    protected function unlike($slug, $auth = false)
+    protected function dislike($slug, $auth = false)
     {
         if (!$this->get('security.context')->isGranted('ROLE_USER') && !$auth)
             throw new AccessDeniedException('Accès refusé');
@@ -377,8 +377,8 @@ class BaseController extends FOSRestController
         $user = $this->container->get('security.context')->getToken()->getUser();
 
         // Si l'utilisateur n'a pas déjà unliké ce fichier on le rajoute
-        if (!$item->getUnlikes()->contains($user))
-            $item->addUnlike($user);
+        if (!$item->getDislikes()->contains($user))
+            $item->addDislike($user);
         // Si l'utilisateur avait précédemment liké, on l'enlève
         if ($item->getLikes()->contains($user))
             $item->removeLike($user);
@@ -399,11 +399,11 @@ class BaseController extends FOSRestController
     /**
      * @View()
      */
-    protected function getUnlikes($slug)
+    protected function getDislikes($slug)
     {
         $item = $this->findBySlug($slug);
 
-        return $item->getUnlikes();
+        return $item->getDislikes();
     }
 
     /**
@@ -425,7 +425,7 @@ class BaseController extends FOSRestController
     /**
      * @View()
      */
-    protected function deleteUnlike($slug, $auth = false)
+    protected function deleteDislike($slug, $auth = false)
     {
         if (!$this->get('security.context')->isGranted('ROLE_USER'))
             throw new AccessDeniedException('Accès refusé');
@@ -433,8 +433,8 @@ class BaseController extends FOSRestController
         $user = $this->container->get('security.context')->getToken()->getUser();
 
         // Si l'utilisateur a déjà unliké on l'enlève
-        if ($item->getUnlikes()->contains($user))
-            $item->removeUnlike($user);
+        if ($item->getDislikes()->contains($user))
+            $item->removeDislike($user);
         $this->em->flush();
     }
 

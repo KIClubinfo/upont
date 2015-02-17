@@ -66,22 +66,22 @@ class Comment
     }
 
     /**
-     * Ceux qui unlikent
+     * Ceux qui dislikent
      * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
-     * @ORM\JoinTable(name="comment_unlikes",
+     * @ORM\JoinTable(name="comment_dislikes",
      *      joinColumns={@ORM\JoinColumn(name="comment_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="unliker_id", referencedColumnName="id")}
+     *      inverseJoinColumns={@ORM\JoinColumn(name="disliker_id", referencedColumnName="id")}
      *  )
      */
-    protected $listUnlikes;
+    protected $listDislikes;
 
     /**
-     * Nombre de ceux qui unlikent
+     * Nombre de ceux qui dislikent
      * @VirtualProperty()
      */
-    public function unlikes()
+    public function dislikes()
     {
-        return count($this->listUnlikes);
+        return count($this->listDislikes);
     }
 
     /**
@@ -92,7 +92,7 @@ class Comment
     /**
      * @Expose
      */
-    protected $unlike = false;
+    protected $dislike = false;
 
 
 
@@ -108,7 +108,7 @@ class Comment
     public function __construct()
     {
         $this->listLikes = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->listUnlikes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listDislikes = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -224,35 +224,35 @@ class Comment
     }
 
     /**
-     * Add listUnlikes
+     * Add listDislikes
      *
-     * @param \KI\UpontBundle\Entity\Users\User $listUnlikes
+     * @param \KI\UpontBundle\Entity\Users\User $listDislikes
      * @return Comment
      */
-    public function addUnlike(\KI\UpontBundle\Entity\Users\User $listUnlikes)
+    public function addDislike(\KI\UpontBundle\Entity\Users\User $listDislikes)
     {
-        $this->listUnlikes[] = $listUnlikes;
+        $this->listDislikes[] = $listDislikes;
 
         return $this;
     }
 
     /**
-     * Remove listUnlikes
+     * Remove listDislikes
      *
-     * @param \KI\UpontBundle\Entity\Users\User $listUnlikes
+     * @param \KI\UpontBundle\Entity\Users\User $listDislikes
      */
-    public function removeUnlike(\KI\UpontBundle\Entity\Users\User $listUnlikes)
+    public function removeDislike(\KI\UpontBundle\Entity\Users\User $listDislikes)
     {
-        $this->listUnlikes->removeElement($listUnlikes);
+        $this->listDislikes->removeElement($listDislikes);
     }
 
     /**
-     * Get listUnlikes
+     * Get listDislikes
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getUnlikes()
+    public function getDislikes()
     {
-        return $this->listUnlikes;
+        return $this->listDislikes;
     }
 }
