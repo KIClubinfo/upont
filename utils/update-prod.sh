@@ -8,7 +8,7 @@ export SYMFONY_ENV=prod
 
 cd front
 npm install
-bower update --allow-root option
+bower update --allow-root
 grunt build
 
 cd ../mobile
