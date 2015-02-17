@@ -161,6 +161,26 @@ class EventsController extends BaseController
 
     /**
      * @ApiDoc(
+     *  description="Retourne les commentaires",
+     *  statusCodes={
+     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   404="Ressource non trouvée",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Publications"
+     * )
+     * @Get("/events/{slug}/comments")
+     */
+    public function getCommentsEventAction($slug)
+    {
+        $event = $this->findBySlug($slug);
+        return $this->restResponse($event->getComments());
+    }
+
+    /**
+     * @ApiDoc(
      *  description="Like",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
