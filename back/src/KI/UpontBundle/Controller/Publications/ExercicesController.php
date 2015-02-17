@@ -7,6 +7,7 @@ use FOS\RestBundle\Controller\Annotations\Get;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -67,6 +68,9 @@ class ExercicesController extends BaseController
     public function downloadExerciceAction($slug)
     {
         $exercice = $this->findBySlug($slug);
+
+        if (!file_exists($exercice->getAbsolutePath()))
+            throw new NotFoundHttpException('Fichier PDF non trouvé');
 
         // On lit le fichier PDF
         return new Response(file_get_contents($exercice->getAbsolutePath()), 200, array(
