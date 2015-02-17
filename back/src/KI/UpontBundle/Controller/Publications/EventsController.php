@@ -445,7 +445,7 @@ class EventsController extends BaseController
      * )
      * @Post("/events/{slug}/attend")
      */
-    public function addAttendeeAction($slug){
+    public function attendAction($slug){
         $user = $this->get('security.context')->getToken()->getUser();
         $event = $this->findBySlug($slug);
 
@@ -477,7 +477,7 @@ class EventsController extends BaseController
      * )
      * @Delete("/events/{slug}/attend")
      */
-    public function removeAttendeeAction($slug){
+    public function noAttendAction($slug){
         $user = $this->get('security.context')->getToken()->getUser();
         $event = $this->findBySlug($slug);
 
