@@ -16,7 +16,7 @@ class SecurityTest extends WebTestCase
             array('GET',    401, '/newsitems'),
             array('GET',    200, '/clubs/ki'),
             array('GET',    404, '/clubs/sddsdqs'),
-            array('GET',    200, '/exercices/1a-test/download'),
+            array('GET',    404, '/exercices/test/download'),
             //array('GET',    200, ''),
             array('POST',   401, '/clubs'),
             array('POST',   400, '/resetting/request'),
@@ -53,7 +53,7 @@ class SecurityTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 403);
 
-        $this->client->request('POST', '/newsitems', array('title' => 'Manger', 'textLong' => 'C\'est comme perdre', 'authorClub' => 'bda'));
+        $this->client->request('POST', '/newsitems', array('name' => 'Manger', 'textLong' => 'C\'est comme perdre', 'authorClub' => 'bda'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
 

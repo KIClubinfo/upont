@@ -9,7 +9,7 @@ class NewsitemsControllerTest extends WebTestCase
     // On crée une ressource sur laquelle seront effectués les tests. Ne pas oublier de supprimer à la fin avec le test DELETE.
     public function testPost()
     {
-        $this->client->request('POST', '/newsitems', array('title' => 'La Porte', 'textLong' => 'C\'est comme perdre', 'authorClub' => 'ki'));
+        $this->client->request('POST', '/newsitems', array('name' => 'La Porte', 'textLong' => 'C\'est comme perdre', 'authorClub' => 'ki'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
         // On vérifie que le lieu du nouvel objet a été indiqué
@@ -60,7 +60,7 @@ class NewsitemsControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
-        $this->client->request('GET', '/newsitems/la-porte/unlike');
+        $this->client->request('GET', '/newsitems/la-porte/dislike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
@@ -68,15 +68,31 @@ class NewsitemsControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('POST', '/newsitems/la-porte/unlike');
+        $this->client->request('GET', '/newsitems/la-porte');
+        $this->assertJsonResponse($this->client->getResponse(), 200);
+        $response = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertArrayHasKey('like', $response);
+        $this->assertArrayHasKey('dislike', $response);
+        $this->assertTrue($response['like']);
+        $this->assertTrue(!$response['dislike']);
+
+        $this->client->request('POST', '/newsitems/la-porte/dislike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
+
+        $this->client->request('GET', '/newsitems/la-porte');
+        $this->assertJsonResponse($this->client->getResponse(), 200);
+        $response = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertArrayHasKey('like', $response);
+        $this->assertArrayHasKey('dislike', $response);
+        $this->assertTrue(!$response['like']);
+        $this->assertTrue($response['dislike']);
 
         $this->client->request('DELETE', '/newsitems/la-porte/like');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('DELETE', '/newsitems/la-porte/unlike');
+        $this->client->request('DELETE', '/newsitems/la-porte/dislike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
     }

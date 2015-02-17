@@ -145,7 +145,7 @@ class EventsController extends BaseController
 
     /**
      * @ApiDoc(
-     *  description="Retourne la liste des gens qui unlikent",
+     *  description="Retourne la liste des gens qui dislikent",
      *  statusCodes={
      *   200="Requête traitée avec succès mais pas d’information à renvoyer",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -155,9 +155,9 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Get("/events/{slug}/unlike")
+     * @Get("/events/{slug}/dislike")
      */
-    public function getUnlikeEventAction($slug) { return $this->getUnlikes($slug); }
+    public function getDislikeEventAction($slug) { return $this->getDislikes($slug); }
 
     /**
      * @ApiDoc(
@@ -173,11 +173,7 @@ class EventsController extends BaseController
      * )
      * @Get("/events/{slug}/comments")
      */
-    public function getCommentsEventAction($slug)
-    {
-        $event = $this->findBySlug($slug);
-        return $this->restResponse($event->getComments());
-    }
+    public function getCommentsEventAction($slug) { return $this->getAllSub($slug, 'Comment', true); }
 
     /**
      * @ApiDoc(
@@ -197,7 +193,7 @@ class EventsController extends BaseController
 
     /**
      * @ApiDoc(
-     *  description="Unlike",
+     *  description="Dislike",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -207,9 +203,9 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Post("/events/{slug}/unlike")
+     * @Post("/events/{slug}/dislike")
      */
-    public function unlikeEventAction($slug) { return $this->unlike($slug); }
+    public function dislikeEventAction($slug) { return $this->dislike($slug); }
 
     /**
      * @ApiDoc(
@@ -229,7 +225,7 @@ class EventsController extends BaseController
 
     /**
      * @ApiDoc(
-     *  description="Enlève son unlike",
+     *  description="Enlève son dislike",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -239,9 +235,9 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Delete("/events/{slug}/unlike")
+     * @Delete("/events/{slug}/dislike")
      */
-    public function deleteUnlikeEventAction($slug) { return $this->deleteUnlike($slug); }
+    public function deleteDislikeEventAction($slug) { return $this->deleteDislike($slug); }
 
     /**
      * @ApiDoc(

@@ -88,7 +88,7 @@ class AlbumsController extends BaseController
 
     /**
      * @ApiDoc(
-     *  description="Retourne la liste des gens qui unlikent",
+     *  description="Retourne la liste des gens qui dislikent",
      *  statusCodes={
      *   200="Requête traitée avec succès mais pas d’information à renvoyer",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -98,9 +98,9 @@ class AlbumsController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Get("/albums/{slug}/unlike")
+     * @Get("/albums/{slug}/dislike")
      */
-    public function getUnlikeAlbumAction($slug) { return $this->getUnlikes($slug); }
+    public function getDislikeAlbumAction($slug) { return $this->getDislikes($slug); }
 
     /**
      * @ApiDoc(
@@ -120,7 +120,7 @@ class AlbumsController extends BaseController
 
     /**
      * @ApiDoc(
-     *  description="Unlike",
+     *  description="Dislike",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -130,9 +130,9 @@ class AlbumsController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Post("/albums/{slug}/unlike")
+     * @Post("/albums/{slug}/dislike")
      */
-    public function unlikeAlbumAction($slug) { return $this->unlike($slug); }
+    public function dislikeAlbumAction($slug) { return $this->dislike($slug); }
 
     /**
      * @ApiDoc(
@@ -152,7 +152,7 @@ class AlbumsController extends BaseController
 
     /**
      * @ApiDoc(
-     *  description="Enlève son unlike",
+     *  description="Enlève son dislike",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -162,9 +162,9 @@ class AlbumsController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Delete("/albums/{slug}/unlike")
+     * @Delete("/albums/{slug}/dislike")
      */
-    public function deleteUnlikeAlbumAction($slug) { return $this->deleteUnlike($slug); }
+    public function deleteDislikeAlbumAction($slug) { return $this->deleteDislike($slug); }
 
 
 
