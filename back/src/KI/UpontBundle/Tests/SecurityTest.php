@@ -53,7 +53,7 @@ class SecurityTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 403);
 
-        $this->client->request('POST', '/newsitems', array('title' => 'Manger', 'textLong' => 'C\'est comme perdre', 'authorClub' => 'bda'));
+        $this->client->request('POST', '/newsitems', array('name' => 'Manger', 'textLong' => 'C\'est comme perdre', 'authorClub' => 'bda'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
 

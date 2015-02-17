@@ -9,7 +9,7 @@ class NewsitemsControllerTest extends WebTestCase
     // On crée une ressource sur laquelle seront effectués les tests. Ne pas oublier de supprimer à la fin avec le test DELETE.
     public function testPost()
     {
-        $this->client->request('POST', '/newsitems', array('title' => 'La Porte', 'textLong' => 'C\'est comme perdre', 'authorClub' => 'ki'));
+        $this->client->request('POST', '/newsitems', array('name' => 'La Porte', 'textLong' => 'C\'est comme perdre', 'authorClub' => 'ki'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
         // On vérifie que le lieu du nouvel objet a été indiqué
