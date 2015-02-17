@@ -64,7 +64,18 @@ upont_api_parse_courses:
     requirements:
         _method: HEAD
 
-
+upont_api_version:
+    pattern: /version
+    defaults: { _controller: KIUpontBundle:Default:version }
+    requirements:
+        _method: GET
+        
+upont_api_deploy:
+    pattern: /deploy
+    defaults: { _controller: KIUpontBundle:Default:deploy }
+    requirements:
+        _method: HEAD
+        
 logs:
     type:     rest
     resource: KI\UpontBundle\Controller\LogsController

@@ -3,6 +3,7 @@ Résumé
 
 Version 2.0 de YouPont, l'intranet de l'ENPC.
 
+[ ![Codeship Status for KIClubinfo/upont](https://codeship.com/projects/afc79d00-982e-0132-79b1-36ce558856a0/status?branch=master)](https://codeship.com/projects/63332)
 
 Installation
 ============
@@ -19,7 +20,7 @@ Windows
 Linux
 -----
 
-- Télécharger le [script d'installation](http://git.enpc.org/ki/youpont/raw/master/install.sh)
+- Télécharger le [script d'installation](https://raw.githubusercontent.com/KIClubinfo/upont/master/install.sh)
 - Modifier le début du script d'installation suivant ses paramètres
 - Avoir réglé convenablement le proxy partout si nécessaire. (apt-get, export)
 - Éxecuter le script d'installation.
@@ -49,8 +50,8 @@ Les règles de base :
 Aussi :
 
 - Suivre le [board Trello](https://trello.com/b/a7pIk6zk/youpont) et s'assigner des tâches en cours
-- L'[appli mobile](http://localhost/v2-pg/) est visible en navigateur
-- Le [front](http://localhost/v2-ng/) aussi
+- L'[appli mobile](http://upont.enpc.fr/mobile/) est visible en navigateur (il faut cependant un émulateur pour le support complet)
+- Le [front](http://upont.enpc.fr/front/) aussi
 - Une explication générale du fonctionnement de uPont est disponible dans le manuel du KI
 
 
@@ -66,7 +67,7 @@ Pour apprendre :
 
 La doc utile :
 
-- [API uPont](http://localhost/v2-api/)
+- [API uPont](http://upont.enpc.fr/api/)
 - [Symfony](http://symfony.com/doc/current/index.html)
 - [FOSRestBundle](http://symfony.com/doc/master/bundles/FOSRestBundle/index.html)
 - [FOSUserBundle](https://github.com/FriendsOfSymfony/FOSUserBundle/blob/master/Resources/doc/index.md)

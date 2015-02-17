@@ -147,4 +147,16 @@ class DefaultControllerTest extends WebTestCase
         $this->client->request('POST', '/resetting/token/' . $token, array('password' => 'password', 'check' => 'password'));
         $this->assertJsonResponse($this->client->getResponse(), 204);
     }
+
+    public function testVersion()
+    {
+        $this->client->request('GET', '/version');
+        $this->assertJsonResponse($this->client->getResponse(), 200);
+        $response = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertArrayHasKey('version', $response);
+        $this->assertArrayHasKey('major', $response);
+        $this->assertArrayHasKey('minor', $response);
+        $this->assertArrayHasKey('build', $response);
+        $this->assertArrayHasKey('environment', $response);
+    }
 }
