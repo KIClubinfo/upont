@@ -116,7 +116,7 @@ class GamesController extends BaseController
 
     /**
      * @ApiDoc(
-     *  description="Retourne la liste des gens qui unlikent",
+     *  description="Retourne la liste des gens qui dislikent",
      *  statusCodes={
      *   200="Requête traitée avec succès mais pas d’information à renvoyer",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -126,9 +126,9 @@ class GamesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Get("/games/{slug}/unlike")
+     * @Get("/games/{slug}/dislike")
      */
-    public function getUnlikeGameAction($slug) { return $this->getUnlikes($slug); }
+    public function getDislikeGameAction($slug) { return $this->getDislikes($slug); }
 
     /**
      * @ApiDoc(
@@ -148,7 +148,7 @@ class GamesController extends BaseController
 
     /**
      * @ApiDoc(
-     *  description="Unlike",
+     *  description="Dislike",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -158,9 +158,9 @@ class GamesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Post("/games/{slug}/unlike")
+     * @Post("/games/{slug}/dislike")
      */
-    public function unlikeGameAction($slug) { return $this->unlike($slug); }
+    public function dislikeGameAction($slug) { return $this->dislike($slug); }
 
     /**
      * @ApiDoc(
@@ -180,7 +180,7 @@ class GamesController extends BaseController
 
     /**
      * @ApiDoc(
-     *  description="Enlève son unlike",
+     *  description="Enlève son dislike",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -190,7 +190,7 @@ class GamesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Delete("/games/{slug}/unlike")
+     * @Delete("/games/{slug}/dislike")
      */
-    public function deleteUnlikeGameAction($slug) { return $this->deleteUnlike($slug); }
+    public function deleteDislikeGameAction($slug) { return $this->deleteDislike($slug); }
 }

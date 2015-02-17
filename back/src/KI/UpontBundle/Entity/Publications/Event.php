@@ -78,7 +78,7 @@ class Event extends Post
     /**
      * Participants
      * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
-     * @ORM\JoinTable(name="events_attendees",
+     * @ORM\JoinTable(name="event_attendee",
      *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="attendee_id", referencedColumnName="id")}
      * )
@@ -107,13 +107,13 @@ class Event extends Post
     /**
      * Personnes ayant refusées
      * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
-     * @ORM\JoinTable(name="events_pookies",
+     * @ORM\JoinTable(name="event_pookie",
      *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="pooky_id", referencedColumnName="id")}
      *  )
      */
     protected $listPookies;
-    
+
     /**
      * Nombre de ceux qui sont des pookies
      * @VirtualProperty()
@@ -122,14 +122,14 @@ class Event extends Post
     {
         return count($this->listPookies);
     }
-    
 
 
 
 
 
-    
-    
+
+
+
     //===== GENERATED AUTOMATICALLY =====//
 
     /**
@@ -157,7 +157,7 @@ class Event extends Post
     /**
      * Get startDate
      *
-     * @return integer 
+     * @return integer
      */
     public function getStartDate()
     {
@@ -180,7 +180,7 @@ class Event extends Post
     /**
      * Get endDate
      *
-     * @return integer 
+     * @return integer
      */
     public function getEndDate()
     {
@@ -203,7 +203,7 @@ class Event extends Post
     /**
      * Get entryMethod
      *
-     * @return string 
+     * @return string
      */
     public function getEntryMethod()
     {
@@ -226,7 +226,7 @@ class Event extends Post
     /**
      * Get shotgunDate
      *
-     * @return integer 
+     * @return integer
      */
     public function getShotgunDate()
     {
@@ -249,7 +249,7 @@ class Event extends Post
     /**
      * Get shotgunLimit
      *
-     * @return integer 
+     * @return integer
      */
     public function getShotgunLimit()
     {
@@ -272,7 +272,7 @@ class Event extends Post
     /**
      * Get shotgunText
      *
-     * @return string 
+     * @return string
      */
     public function getShotgunText()
     {
@@ -295,7 +295,7 @@ class Event extends Post
     /**
      * Get place
      *
-     * @return string 
+     * @return string
      */
     public function getPlace()
     {
@@ -328,7 +328,7 @@ class Event extends Post
     /**
      * Get attendees
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getAttendees()
     {
@@ -361,34 +361,34 @@ class Event extends Post
     /**
      * Get pookies
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getPookies()
     {
         return $this->listPookies;
     }
-    
+
     public function getAttend()
     {
         return $this->attend;
     }
-    
+
     public function setAttend($attend)
     {
         return $this->attend = $attend;
     }
-    
+
     public function getPookie()
     {
         return $this->pookie;
     }
-    
+
     public function setPookie($pookie)
     {
         return $this->pookie = $pookie;
     }
-    
-    
+
+
 
 
     //===== CUSTOM METHODS =====//
