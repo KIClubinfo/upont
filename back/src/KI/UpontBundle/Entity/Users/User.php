@@ -162,7 +162,6 @@ class User extends BaseUser
     /**
      * Token faible permettant de créer des urls personnalisées pour l'user
      * @ORM\Column(name="token", type="string", nullable=true)
-     * @Expose
      * @Assert\Type("string")
      */
     protected $token;
