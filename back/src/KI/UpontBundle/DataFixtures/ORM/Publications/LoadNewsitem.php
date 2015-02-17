@@ -49,6 +49,7 @@ Il existe trois règles fondamentales :
     	$newsitem->setAuthorClub($this->getReference('club-bde'));
     	$newsitem->setAuthorUser($this->getReference('user-dziris'));
         $newsitem->setUnlikes(array($this->getReference('user-trancara'), $this->getReference('user-dziris')));
+        $newsitem->addComment($this->getReference('comment-genial'));
         $manager->persist($newsitem);
 
         $newsitem = new Newsitem();

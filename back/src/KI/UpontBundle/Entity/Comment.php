@@ -3,6 +3,7 @@
 namespace KI\UpontBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\VirtualProperty;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -41,6 +42,7 @@ class Comment
     /**
      * Auteur
      * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
+     * @Expose
      */
     protected $author;
 
@@ -112,7 +114,7 @@ class Comment
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -135,7 +137,7 @@ class Comment
     /**
      * Get date
      *
-     * @return integer 
+     * @return integer
      */
     public function getDate()
     {
@@ -158,7 +160,7 @@ class Comment
     /**
      * Get text
      *
-     * @return string 
+     * @return string
      */
     public function getText()
     {
@@ -181,7 +183,7 @@ class Comment
     /**
      * Get author
      *
-     * @return \KI\UpontBundle\Entity\Users\User 
+     * @return \KI\UpontBundle\Entity\Users\User
      */
     public function getAuthor()
     {
@@ -194,7 +196,7 @@ class Comment
      * @param \KI\UpontBundle\Entity\Users\User $listLikes
      * @return Comment
      */
-    public function addListLike(\KI\UpontBundle\Entity\Users\User $listLikes)
+    public function addLike(\KI\UpontBundle\Entity\Users\User $listLikes)
     {
         $this->listLikes[] = $listLikes;
 
@@ -206,7 +208,7 @@ class Comment
      *
      * @param \KI\UpontBundle\Entity\Users\User $listLikes
      */
-    public function removeListLike(\KI\UpontBundle\Entity\Users\User $listLikes)
+    public function removeLike(\KI\UpontBundle\Entity\Users\User $listLikes)
     {
         $this->listLikes->removeElement($listLikes);
     }
@@ -214,9 +216,9 @@ class Comment
     /**
      * Get listLikes
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getListLikes()
+    public function getLikes()
     {
         return $this->listLikes;
     }
@@ -227,7 +229,7 @@ class Comment
      * @param \KI\UpontBundle\Entity\Users\User $listUnlikes
      * @return Comment
      */
-    public function addListUnlike(\KI\UpontBundle\Entity\Users\User $listUnlikes)
+    public function addUnlike(\KI\UpontBundle\Entity\Users\User $listUnlikes)
     {
         $this->listUnlikes[] = $listUnlikes;
 
@@ -239,7 +241,7 @@ class Comment
      *
      * @param \KI\UpontBundle\Entity\Users\User $listUnlikes
      */
-    public function removeListUnlike(\KI\UpontBundle\Entity\Users\User $listUnlikes)
+    public function removeUnlike(\KI\UpontBundle\Entity\Users\User $listUnlikes)
     {
         $this->listUnlikes->removeElement($listUnlikes);
     }
@@ -247,9 +249,9 @@ class Comment
     /**
      * Get listUnlikes
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getListUnlikes()
+    public function getUnlikes()
     {
         return $this->listUnlikes;
     }
