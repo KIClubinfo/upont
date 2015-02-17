@@ -22,7 +22,7 @@ Il existe trois règles fondamentales :
     	$newsitem->setAuthorClub($this->getReference('club-ki'));
     	$newsitem->setAuthorUser($this->getReference('user-taquet-c'));
         $newsitem->setLikes(array($this->getReference('user-taquet-c')));
-        $newsitem->setUnlikes(array($this->getReference('user-trancara')));
+        $newsitem->setDislikes(array($this->getReference('user-trancara')));
         $manager->persist($newsitem);
 
         $newsitem = new Newsitem();
@@ -48,7 +48,7 @@ Il existe trois règles fondamentales :
     	$newsitem->setDate(1412831521);
     	$newsitem->setAuthorClub($this->getReference('club-bde'));
     	$newsitem->setAuthorUser($this->getReference('user-dziris'));
-        $newsitem->setUnlikes(array($this->getReference('user-trancara'), $this->getReference('user-dziris')));
+        $newsitem->setDislikes(array($this->getReference('user-trancara'), $this->getReference('user-dziris')));
         $newsitem->addComment($this->getReference('comment-genial'));
         $manager->persist($newsitem);
 

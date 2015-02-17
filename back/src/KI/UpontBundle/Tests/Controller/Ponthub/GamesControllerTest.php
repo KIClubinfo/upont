@@ -20,7 +20,7 @@ class GamesControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }
-    
+
     public function testPatch()
     {
         $this->client->request('PATCH', '/ponthub/games/age-of-empires-2', array('genres' => array(array('name' => 'Geekage'), array('name' => 'Lanage')), 'year' => 1999));
@@ -35,17 +35,17 @@ class GamesControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }
-    
+
     public function testStats()
     {
         $this->client->request('GET', '/ponthub/games/age-of-empires-2/download');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 302);
-        
+
         $this->client->request('GET', '/ponthub/games/age-of-empires-2/download');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 302);
-        
+
         $this->client->request('GET', '/ponthub/games/age-of-empires-2');
         $response = $this->client->getResponse();
         $infos = json_decode($response->getContent(), true);
@@ -53,38 +53,38 @@ class GamesControllerTest extends WebTestCase
         $this->assertNotEquals($infos, null);
         $this->assertEquals($infos['downloads'], 1);
     }
-    
+
     public function testLike()
     {
         $this->client->request('GET', '/ponthub/games/basdsqdqsdqck-in-black/like');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
-        
+
         $this->client->request('GET', '/ponthub/games/age-of-empires-2/unkike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
-        
+
         $this->client->request('GET', '/ponthub/games/age-of-empires-2/like');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
-        
-        $this->client->request('GET', '/ponthub/games/age-of-empires-2/unlike');
+
+        $this->client->request('GET', '/ponthub/games/age-of-empires-2/dislike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
-        
+
         $this->client->request('POST', '/ponthub/games/age-of-empires-2/like');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
-        
-        $this->client->request('POST', '/ponthub/games/age-of-empires-2/unlike');
+
+        $this->client->request('POST', '/ponthub/games/age-of-empires-2/dislike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
-        
+
         $this->client->request('DELETE', '/ponthub/games/age-of-empires-2/like');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
-        
-        $this->client->request('DELETE', '/ponthub/games/age-of-empires-2/unlike');
+
+        $this->client->request('DELETE', '/ponthub/games/age-of-empires-2/dislike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
     }
