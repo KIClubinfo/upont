@@ -153,6 +153,26 @@ class NewsitemsController extends BaseController
 
     /**
      * @ApiDoc(
+     *  description="Retourne les commentaires",
+     *  statusCodes={
+     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   404="Ressource non trouvée",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Publications"
+     * )
+     * @Get("/newsitems/{slug}/comments")
+     */
+    public function getCommentsNewsitemAction($slug)
+    {
+        $newsitem = $this->findBySlug($slug);
+        return $this->restResponse($newsitem->getComments());
+    }
+
+    /**
+     * @ApiDoc(
      *  description="Like",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
