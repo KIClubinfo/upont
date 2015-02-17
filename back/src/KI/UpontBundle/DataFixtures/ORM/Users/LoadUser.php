@@ -75,6 +75,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
 
         $user = $userManager->createUser();
         $user->setUsername('de-boisc');
+        $user->setNickname('Deboissque');
         $user->setEmail('corentin.de-boisset@eleves.enpc.fr');
         $user->setPlainPassword('123');
         $user->setFirstName('Corentin');
