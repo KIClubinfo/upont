@@ -18,7 +18,7 @@ class LoadExerciceFixture extends AbstractFixture implements OrderedFixtureInter
         $basePath = __DIR__ . '/../../../../../../web/uploads/tmp/';
         $fs = new Filesystem();
         $fs->copy($basePath . 'file.pdf', $basePath . 'file_tmp.pdf');
-    	$file = new File($basePath . 'file_tmp.pdf');
+        $file = new File($basePath . 'file_tmp.pdf');
 
         $exercice = new Exercice();
         $exercice->setCourse($this->getReference('course-mecastru'));
@@ -26,7 +26,7 @@ class LoadExerciceFixture extends AbstractFixture implements OrderedFixtureInter
         $exercice->setFile($file);
         $exercice->setName('Final 016');
         $exercice->setDate(time());
-    	$exercice->setValid(false);
+        $exercice->setValid(false);
         $manager->persist($exercice);
         $this->addReference('exercice-final-016', $exercice);
 
@@ -36,7 +36,7 @@ class LoadExerciceFixture extends AbstractFixture implements OrderedFixtureInter
         $exercice->setFile($file);
         $exercice->setName('Final 015');
         $exercice->setDate(time());
-    	$exercice->setValid(false);
+        $exercice->setValid(false);
         $manager->persist($exercice);
         $this->addReference('exercice-final-015', $exercice);
 
@@ -46,7 +46,7 @@ class LoadExerciceFixture extends AbstractFixture implements OrderedFixtureInter
         $exercice->setFile($file);
         $exercice->setName('Final 014');
         $exercice->setDate(time());
-    	$exercice->setValid(false);
+        $exercice->setValid(false);
         $manager->persist($exercice);
         $this->addReference('exercice-final-014', $exercice);
 
@@ -56,7 +56,7 @@ class LoadExerciceFixture extends AbstractFixture implements OrderedFixtureInter
         $exercice->setFile($file);
         $exercice->setName('Apprendre à parler d\'un sujet que l\'on ne maitrise pas');
         $exercice->setDate(time());
-    	$exercice->setValid(false);
+        $exercice->setValid(false);
         $manager->persist($exercice);
         $this->addReference('exercice-pipo', $exercice);
 
@@ -66,7 +66,7 @@ class LoadExerciceFixture extends AbstractFixture implements OrderedFixtureInter
         $exercice->setFile($file);
         $exercice->setName('Partiel 016');
         $exercice->setDate(time());
-    	$exercice->setValid(false);
+        $exercice->setValid(false);
         $manager->persist($exercice);
         $this->addReference('exercice-partiel-016', $exercice);
 
@@ -76,7 +76,7 @@ class LoadExerciceFixture extends AbstractFixture implements OrderedFixtureInter
         $exercice->setFile($file);
         $exercice->setName('Partiel 016 (corrigé)');
         $exercice->setDate(time());
-    	$exercice->setValid(false);
+        $exercice->setValid(false);
         $manager->persist($exercice);
         $this->addReference('exercice-partiel-016-corrige', $exercice);
 

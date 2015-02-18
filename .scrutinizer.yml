@@ -34,4 +34,4 @@ tools:
     external_code_coverage: false 
 
 filter:
-    excluded_paths: [back/vendor/*]
+    excluded_paths: [back/vendor/*, /back/app/*]

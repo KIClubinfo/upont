@@ -511,7 +511,7 @@ class BaseController extends \FOS\RestBundle\Controller\FOSRestController
             throw new AccessDeniedException('Accès refusé');
 
         // On n'en a pas besoin ici mais on vérifie que l'item parent existe bien
-        $item = $this->findBySlug($slug);
+        $this->findBySlug($slug);
 
         $this->switchClass($name);
         $item = $this->findBySlug($id);
@@ -529,7 +529,7 @@ class BaseController extends \FOS\RestBundle\Controller\FOSRestController
             throw new AccessDeniedException('Accès refusé');
 
         // On n'en a pas besoin ici mais on vérifie que l'item parent existe bien
-        $item = $this->findBySlug($slug);
+        $this->findBySlug($slug);
 
         $this->switchClass($name);
         $item = $this->findBySlug($id);

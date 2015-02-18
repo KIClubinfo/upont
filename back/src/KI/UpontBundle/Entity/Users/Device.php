@@ -40,7 +40,7 @@ class Device
      * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User", inversedBy="devices")
      * @ORM\JoinColumn(nullable=false)
      */
-	protected $owner;
+    protected $owner;
 
 
 

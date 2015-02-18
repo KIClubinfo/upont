@@ -17,12 +17,8 @@ class SecurityTest extends WebTestCase
             array('GET',    200, '/clubs/ki'),
             array('GET',    404, '/clubs/sddsdqs'),
             array('GET',    404, '/courses/mecanique-des-structures/exercices/test/download'),
-            //array('GET',    200, ''),
             array('POST',   401, '/clubs'),
             array('POST',   400, '/resetting/request'),
-            //array('POST',   201, ''),
-            //array('PATCH',  204, ''),
-            //array('DELETE', 204, ''),
         );
 
         foreach($routes as $route) {

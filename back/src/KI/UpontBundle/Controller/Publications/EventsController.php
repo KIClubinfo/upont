@@ -406,7 +406,8 @@ class EventsController extends BaseController
             $success[$i] = $shotgun;
         }
 
-        for ($i = $limit; $i < count($userEvent); $i++) {
+        $count = count($userEvent);
+        for ($i = $limit; $i < $count; $i++) {
             if ($user == $userEvent[$i]->getUser())
                 $position = $i + 1;
             $shotgun['user'] = $userEvent[$i]->getUser();
