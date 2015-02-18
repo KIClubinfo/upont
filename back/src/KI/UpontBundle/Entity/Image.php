@@ -37,7 +37,7 @@ class Image
      */
     protected $file;
 
-	public function getAbsolutePathReduced()
+    public function getAbsolutePathReduced()
     {
         return __DIR__ . '/../../../../web/uploads/images/' . $this->id;
     }

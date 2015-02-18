@@ -301,11 +301,9 @@ class OwnController extends BaseController
      */
     public function getPollsAction()
     {
-        //$repo = $this->em->getRepository('KIUpontBundle:Polls');
-        $user = $this->get('security.context')->getToken()->getUser();
         $polls = array();
 
-        //Traitement TODO CBo15
+        // Traitement TODO CBo15
         return $this->restResponse($polls);
     }
 

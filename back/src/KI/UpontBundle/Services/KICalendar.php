@@ -65,7 +65,6 @@ class KICalendar extends ContainerAware
         array_multisort($dates, SORT_DESC, $listEvents);
 
         foreach ($listEvents as $eventDb) {
-            $datetime = new \Datetime();
             $event = $cal->newEvent();
             $event
                 ->setStartDate($this->toDateTime($eventDb->getStartDate()))

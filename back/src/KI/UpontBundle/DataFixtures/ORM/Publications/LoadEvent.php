@@ -27,7 +27,7 @@ Bien sûr ce n\'est pas une liste restrictive, le principe est que c\'est VOUS q
 Encore une fois, n\'hésitez pas à venir, et même si vous n\'y connaissez rien, on vous trouvera un poste afin que vous puissiez être utile au club. Une seule condition : il faut être motivé (et ça commence par venir à la réunion).');
         $event->setDate(1420653127);
         $event->setAuthorClub($this->getReference('club-ki'));
-    	$event->setAuthorUser($this->getReference('user-trancara'));
+        $event->setAuthorUser($this->getReference('user-trancara'));
         $event->setEntryMethod('Libre');
         $event->setStartDate(mktime(0, 0, 0) + 36*3600);
         $event->setEndDate(mktime(0, 0, 0) + 36.5*3600);
@@ -48,7 +48,7 @@ Tl;dr: mercredi 17 décembre de 21 heures à 1 heures en P402, thème Star Wars.
 Venez nombreux, ce n\'est pas une LAN Solo! Les jeux seront fournis sur place mais pour gagner du temps téléchargez les sur uPont avant de venir.');
         $event->setDate(1418634252);
         $event->setAuthorClub($this->getReference('club-ki'));
-    	$event->setAuthorUser($this->getReference('user-muzardt'));
+        $event->setAuthorUser($this->getReference('user-muzardt'));
         $event->setEntryMethod('Libre');
         $event->setStartDate(1418846400);
         $event->setEndDate(1418860800);
@@ -75,7 +75,7 @@ Alors ? Qu\'attends tu ? Prends ton grimoire et ton épée longue et pars à la 
 PS: un Glyphe de Garde FP6 a été déposé à l\'entrée, merci de ne pas le déclencher...');
         $event->setDate(1413038106);
         $event->setAuthorClub($this->getReference('club-mediatek'));
-    	$event->setAuthorUser($this->getReference('user-trancara'));
+        $event->setAuthorUser($this->getReference('user-trancara'));
         $event->setEntryMethod('Shotgun');
         $event->setStartDate(1413918000);
         $event->setEndDate(1413930600);
@@ -95,7 +95,7 @@ Dîner/cocktail assuré par PEP.
 OUVERT AUX COTISANTS UNIQUEMENT.');
         $event->setDate(1411836660);
         $event->setAuthorClub($this->getReference('club-pep'));
-    	$event->setAuthorUser($this->getReference('user-guerinh'));
+        $event->setAuthorUser($this->getReference('user-guerinh'));
         $event->setEntryMethod('Libre');
         $event->setStartDate(1413999000);
         $event->setEndDate(1414009800);
@@ -119,7 +119,7 @@ Notez que cette fois-ci, il n\'y aura pas de pizzas car nous préférons vous é
 Le BDE veut mettre le paquet pour sa dernière interne. On espère que vous serez présents au rendez-vous !');
         $event->setDate(1418254132);
         $event->setAuthorClub($this->getReference('club-bde'));
-    	$event->setAuthorUser($this->getReference('user-dziris'));
+        $event->setAuthorUser($this->getReference('user-dziris'));
         $event->setEntryMethod('Libre');
         $event->setStartDate(mktime(0, 0, 0) + 9*3600);
         $event->setEndDate(mktime(0, 0, 0) + 15*3600);
@@ -148,7 +148,7 @@ Celle qui fera dire à Richard Wagner que Don Giovanni est « l’opéra des op�
 La mise en scène très noire et désormais devenue légendaire a été faite par le metteur en scène et cinéaste autrichien Michael Haneke.');
         $event->setDate(1421778600);
         $event->setAuthorClub($this->getReference('club-bda'));
-    	$event->setAuthorUser($this->getReference('user-donat-bb'));
+        $event->setAuthorUser($this->getReference('user-donat-bb'));
         $event->setEntryMethod('Shotgun');
         $event->setStartDate(mktime(0, 0, 0) + 40*3600);
         $event->setEndDate(mktime(0, 0, 0) + 44*3600);
