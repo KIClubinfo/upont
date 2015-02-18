@@ -3,15 +3,13 @@
 namespace KI\UpontBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
-
 
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
 class Image
 {

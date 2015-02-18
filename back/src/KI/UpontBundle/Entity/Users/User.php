@@ -4,17 +4,14 @@ namespace KI\UpontBundle\Entity\Users;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
-use JMS\Serializer\Annotation\VirtualProperty;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="fos_user")
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  * @UniqueEntity("email")
  * @UniqueEntity("username")
  */
@@ -37,7 +34,7 @@ class User extends BaseUser
     /**
      * Genre [M|Mme]
      * @ORM\Column(name="gender", type="string", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $gender;
@@ -52,7 +49,7 @@ class User extends BaseUser
     /**
      * Prénom
      * @ORM\Column(name="firstName", type="string")
-     * @Expose
+     * @JMS\Expose
      * @Assert\NotBlank()
      */
     protected $firstName;
@@ -60,7 +57,7 @@ class User extends BaseUser
     /**
      * Nom
      * @ORM\Column(name="lastName", type="string")
-     * @Expose
+     * @JMS\Expose
      * @Assert\NotBlank()
      */
     protected $lastName;
@@ -74,7 +71,7 @@ class User extends BaseUser
     /**
      * Promo (format: '0*', ie 016, 017...)
      * @ORM\Column(name="promo", type="string", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      * @Assert\Length(min=2,max=3)
      */
@@ -83,7 +80,7 @@ class User extends BaseUser
     /**
      * Département [1A|GCC|GCC-Archi|GMM|GI|IMI|VET|SEGF]
      * @ORM\Column(name="department", type="string", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $department;
@@ -91,7 +88,7 @@ class User extends BaseUser
     /**
      * Origine [CC|DD]
      * @ORM\Column(name="origin", type="string", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $origin;
@@ -99,7 +96,7 @@ class User extends BaseUser
     /**
      * Nationalité
      * @ORM\Column(name="nationality", type="string", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $nationality;
@@ -107,7 +104,7 @@ class User extends BaseUser
     /**
      * Chambre (M016, A53, 3èmeG), lieu de résidence
      * @ORM\Column(name="location", type="string", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $location;
@@ -115,7 +112,7 @@ class User extends BaseUser
     /**
      * Téléphone au format 06.12.34.56.78
      * @ORM\Column(name="phone", type="string", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $phone;
@@ -123,7 +120,7 @@ class User extends BaseUser
     /**
      * Pseudo Skype
      * @ORM\Column(name="skype", type="string", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $skype;
@@ -160,7 +157,7 @@ class User extends BaseUser
      * Tableau contenant les préférences utilisateurs. Les valeurs possibles des clés de ce tableau ainsi que
      * leur valeurs par défaut sont définies dans $preferencesArray
      * @ORM\Column(name="preferences", type="array", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("array")
      */
     protected $preferences = array();
@@ -187,7 +184,7 @@ class User extends BaseUser
     );
 
     /**
-     * @VirtualProperty()
+     * @JMS\VirtualProperty()
      */
     public function imageUrl()
     {
@@ -195,7 +192,7 @@ class User extends BaseUser
     }
 
     /**
-     * @VirtualProperty()
+     * @JMS\VirtualProperty()
      */
     public function nick()
     {

@@ -3,22 +3,21 @@
 namespace KI\UpontBundle\Entity\Publications;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use KI\UpontBundle\Entity\Likeable;
 
 /**
  * @ORM\HasLifecycleCallbacks
  * @ORM\Entity
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
 class Exercice extends Likeable
 {
     /**
      * Utilisateur qui a uploadé l'annale
      * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User")
-     * @Expose
+     * @JMS\Expose
      * @ORM\JoinColumn(nullable=false)
      */
     private $uploader;
@@ -26,7 +25,7 @@ class Exercice extends Likeable
     /**
      * Date de l'upload
      * @ORM\Column(name="date", type="integer")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $date;
@@ -36,7 +35,7 @@ class Exercice extends Likeable
      * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Publications\Course", cascade={"persist"}, inversedBy="exercices")
      * Comme on veut éviter que l'entité se join sur sa propre colonne
      * @ORM\JoinColumn(name="course_id", referencedColumnName="id", nullable=false)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Valid()
      */
     protected $course;
@@ -44,7 +43,7 @@ class Exercice extends Likeable
     /**
      * Indique si l'annale a été validée ou non
      * @ORM\Column(name="valid", type="boolean", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("boolean")
      */
     protected $valid;
