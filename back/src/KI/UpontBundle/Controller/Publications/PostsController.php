@@ -2,7 +2,6 @@
 
 namespace KI\UpontBundle\Controller\Publications;
 
-use KI\UpontBundle\Entity\Publications\Post;
 use KI\UpontBundle\Controller\BaseController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
@@ -13,7 +12,7 @@ class PostsController extends BaseController
         parent::setContainer($container);
         $this->initialize('Post', 'Publications');
     }
-    
+
     /**
      * @ApiDoc(
      *  resource=true,

@@ -2,13 +2,9 @@
 
 namespace KI\UpontBundle\Controller\Ponthub;
 
-use KI\UpontBundle\Entity\Ponthub\Serie;
-use KI\UpontBundle\Form\Ponthub\SerieType;
+use FOS\RestBundle\Controller\Annotations as Route;
 use KI\UpontBundle\Controller\BaseController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Post;
-use FOS\RestBundle\Controller\Annotations\Delete;
 
 class SeriesController extends BaseController
 {
@@ -82,7 +78,7 @@ class SeriesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Get("/series/{slug}/like")
+     * @Route\Get("/series/{slug}/like")
      */
     public function getLikeSerieAction($slug) { return $this->getLikes($slug); }
 
@@ -98,7 +94,7 @@ class SeriesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Get("/series/{slug}/dislike")
+     * @Route\Get("/series/{slug}/dislike")
      */
     public function getDislikeSerieAction($slug) { return $this->getDislikes($slug); }
 
@@ -114,7 +110,7 @@ class SeriesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Post("/series/{slug}/like")
+     * @Route\Post("/series/{slug}/like")
      */
     public function likeSerieAction($slug) { return $this->like($slug); }
 
@@ -130,7 +126,7 @@ class SeriesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Post("/series/{slug}/dislike")
+     * @Route\Post("/series/{slug}/dislike")
      */
     public function dislikeSerieAction($slug) { return $this->dislike($slug); }
 
@@ -146,7 +142,7 @@ class SeriesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Delete("/series/{slug}/like")
+     * @Route\Delete("/series/{slug}/like")
      */
     public function deleteLikeSerieAction($slug) { return $this->deleteLike($slug); }
 
@@ -162,7 +158,7 @@ class SeriesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Delete("/series/{slug}/dislike")
+     * @Route\Delete("/series/{slug}/dislike")
      */
     public function deleteDislikeSerieAction($slug) { return $this->deleteDislike($slug); }
 
@@ -243,7 +239,7 @@ class SeriesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Get("/series/{slug}/episodes/{id}/download")
+     * @Route\Get("/series/{slug}/episodes/{id}/download")
      */
     public function downloadEpisodeAction($slug, $id)
     {
