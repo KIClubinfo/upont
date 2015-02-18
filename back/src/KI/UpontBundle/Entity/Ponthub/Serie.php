@@ -350,7 +350,7 @@ class Serie extends PonthubFile
     /**
      * Remove episodes
      *
-     * @param \KI\UpontBundle\Entity\Ponthub\Episode $episodes
+     * @param \KI\UpontBundle\Entity\Ponthub\Episode $episode
      */
     public function removeEpisode(\KI\UpontBundle\Entity\Ponthub\Episode $episode)
     {

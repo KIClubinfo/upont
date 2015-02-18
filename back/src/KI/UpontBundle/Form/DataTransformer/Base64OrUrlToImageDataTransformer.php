@@ -17,7 +17,7 @@ class Base64OrUrlToImageDataTransformer implements DataTransformerInterface
      * @var ObjectManager
      */
     private $om;
-    
+
 
     private $uploaderService;
 
@@ -33,7 +33,7 @@ class Base64OrUrlToImageDataTransformer implements DataTransformerInterface
     /**
      * En théorie, ne doit pas être utilisé.
      *
-     * @param  Issue|null $issue
+     * @param  $img
      * @return string
      */
     public function transform($img)
@@ -47,24 +47,24 @@ class Base64OrUrlToImageDataTransformer implements DataTransformerInterface
     /**
      * Transforms an url/base64 to an Image.
      *
-     * @param  string $input
+     * @param  string $base64orUrl
      * @return Image|null
      * @throws TransformationFailedException if Image is not good/uploaded.
      */
-    public function reverseTransform($Base64orUrl)
+    public function reverseTransform($base64orUrl)
     {
-        if (!$Base64orUrl)
+        if (!$base64orUrl)
             return null;
-    
-        
+
+
         $fs = new Filesystem();
         $img = new Image();
-        
+
         // Check if the input is an URL or not and return an array with the image and the extension
-        if (preg_match('#^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$#', $Base64orUrl)) 
-            $imgArray = $this->uploaderService->uploadUrl($Base64orUrl);
+        if (preg_match('#^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$#', $base64orUrl))
+            $imgArray = $this->uploaderService->uploadUrl($base64orUrl);
         else
-            $imgArray = $this->uploaderService->uploadBase64($Base64orUrl);
+            $imgArray = $this->uploaderService->uploadBase64($base64orUrl);
 
         $img->setExt($imgArray['extension']);
 
@@ -74,5 +74,5 @@ class Base64OrUrlToImageDataTransformer implements DataTransformerInterface
         $imgFile = new File($temporaryPath);
         $img->setFile($imgFile);
         return $img;
-    }        
+    }
 }
