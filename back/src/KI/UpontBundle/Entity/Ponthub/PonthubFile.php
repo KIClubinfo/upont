@@ -195,8 +195,8 @@ class PonthubFile extends Likeable
     /**
      * Set status
      *
-     * @param boolean $status
-     * @return Album
+     * @param string $status
+     * @return PonthubFile
      */
     public function setStatus($status)
     {

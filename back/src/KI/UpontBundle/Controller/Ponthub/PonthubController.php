@@ -191,9 +191,10 @@ class PonthubController extends BaseController
                     $pathsDone[] = '/root/web/series/' . $serie . '/';
 
                 //On range l'épisode en commencant par déterminer le numéro de saison et d'épisode
-                if (preg_match('#^S([0-9]{2}) E([0-9]{2})#', $episode, $matches))
-                    list($blank, $numberS, $numberE) = $matches;
+                if (!preg_match('#^S([0-9]{2}) E([0-9]{2})#', $episode, $matches))
+                    continue;
 
+                list(, $numberS, $numberE) = $matches;
                 $item = new Episode();
                 $item->setSize($size);
                 $item->setPath($line);
@@ -210,7 +211,6 @@ class PonthubController extends BaseController
                 $genre = preg_replace('#/.*#', '', str_replace('/root/web/musiques/', '', $line));
                 $artist = preg_replace('#/.*#', '', str_replace('/root/web/musiques/' . $genre . '/', '', $line));
                 $album = preg_replace('#/.*#', '', str_replace('/root/web/musiques/' . $genre . '/' . $artist . '/', '', $line));
-                $music = str_replace($ext, '', preg_replace('#.*/#', '', $line));
 
                 // Si le genre existe, on le récupère, sinon on le rajoute
                 if (!isset($genres[$genre])) {
