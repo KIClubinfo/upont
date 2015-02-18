@@ -3,22 +3,20 @@
 namespace KI\UpontBundle\Entity\Publications;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
-use JMS\Serializer\Annotation\VirtualProperty;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use KI\UpontBundle\Entity\Likeable;
 
 /**
  * @ORM\Entity
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
 class Course extends Likeable
 {
     /**
      * Groupe du cours (0 si pas de groupe)
      * @ORM\Column(name="course_group", type="integer")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $group;
@@ -26,7 +24,7 @@ class Course extends Likeable
     /**
      * Heure de début du cours (secondes depuis 00:00:00)
      * @ORM\Column(name="startDate", type="integer", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $startDate;
@@ -34,7 +32,7 @@ class Course extends Likeable
     /**
      * Heure de fin du cours (secondes depuis 00:00:00)
      * @ORM\Column(name="endDate", type="integer", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $endDate;
@@ -42,7 +40,7 @@ class Course extends Likeable
     /**
      * Semestre (0: toute l'année, 1: premier, 2: second)
      * @ORM\Column(name="semester", type="integer", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $semester;
@@ -50,7 +48,7 @@ class Course extends Likeable
     /**
      * Département
      * @ORM\Column(name="department", type="string")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      * @Assert\NotBlank()
      */

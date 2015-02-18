@@ -3,15 +3,13 @@
 namespace KI\UpontBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\VirtualProperty;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Stocke un commentaire utilisateur
  * @ORM\Entity
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
 class Comment
 {
@@ -25,7 +23,7 @@ class Comment
     /**
      * Date
      * @ORM\Column(name="date", type="integer")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $date;
@@ -33,7 +31,7 @@ class Comment
     /**
      * Le commentaire en lui même
      * @ORM\Column(name="text", type="text")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      * @Assert\NotBlank()
      */
@@ -42,7 +40,7 @@ class Comment
     /**
      * Auteur
      * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
-     * @Expose
+     * @JMS\Expose
      */
     protected $author;
 
@@ -58,7 +56,7 @@ class Comment
 
     /**
      * Nombre de ceux qui likent
-     * @VirtualProperty()
+     * @JMS\VirtualProperty()
      */
     public function likes()
     {
@@ -77,7 +75,7 @@ class Comment
 
     /**
      * Nombre de ceux qui dislikent
-     * @VirtualProperty()
+     * @JMS\VirtualProperty()
      */
     public function dislikes()
     {
@@ -85,12 +83,12 @@ class Comment
     }
 
     /**
-     * @Expose
+     * @JMS\Expose
      */
     protected $like = false;
 
     /**
-     * @Expose
+     * @JMS\Expose
      */
     protected $dislike = false;
 

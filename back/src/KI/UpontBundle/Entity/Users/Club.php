@@ -3,15 +3,13 @@
 namespace KI\UpontBundle\Entity\Users;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
-use JMS\Serializer\Annotation\VirtualProperty;
-use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation as JMS;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
 class Club
 {
@@ -25,7 +23,7 @@ class Club
     /**
      * Nom court, abbréviation
      * @ORM\Column(name="shortName", type="string", length=20)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      * @Assert\NotBlank()
      */
@@ -34,7 +32,7 @@ class Club
     /**
      * Nom complet
      * @ORM\Column(name="name", type="string")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $name;
@@ -49,7 +47,7 @@ class Club
     /**
      * Icône (utilisée par l'application mobile)
      * @ORM\Column(name="icon", type="string", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $icon;
@@ -58,7 +56,7 @@ class Club
      * Slug
      * @Gedmo\Slug(fields={"shortName"})
      * @ORM\Column(name="slug", type="string", unique=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $slug;
@@ -66,13 +64,13 @@ class Club
     /**
      * Club actif ou non ?
      * @ORM\Column(name="active", type="boolean", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("boolean")
      */
     protected $active;
 
     /**
-     * @VirtualProperty()
+     * @JMS\VirtualProperty()
      */
     public function imageUrl()
     {
