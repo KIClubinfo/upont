@@ -571,7 +571,7 @@ class User extends BaseUser
     /**
      * Add courses
      *
-     * @param \KI\UpontBundle\Entity\Device $courses
+     * @param \KI\UpontBundle\Entity\Publications\Course $course
      * @return User
      */
     public function addCourse(\KI\UpontBundle\Entity\Publications\Course $course)
@@ -584,7 +584,7 @@ class User extends BaseUser
     /**
      * Remove courses
      *
-     * @param \KI\UpontBundle\Entity\Device $courses
+     * @param \KI\UpontBundle\Entity\Publications\Course $course
      */
     public function removeCourse(\KI\UpontBundle\Entity\Publications\Course $course)
     {
@@ -644,7 +644,7 @@ class User extends BaseUser
     public function addPreference($cle, $valeur)
     {
         if (array_key_exists($cle,$this->preferencesArray)) {
-            if(is_null($this->preferences) || !array_key_exists($cle,$this->preferences))
+            if ($this->preferences === null || !array_key_exists($cle,$this->preferences))
                 $this->preferences[$cle] = $valeur;
 
             return true;
@@ -662,7 +662,7 @@ class User extends BaseUser
     public function removePreference($cle)
     {
         if (array_key_exists($cle,$this->preferencesArray)) {
-            if (!is_null($this->preferences) && array_key_exists($cle, $this->preferences))
+            if ($this->preferences !== null && array_key_exists($cle, $this->preferences))
                 unset($this->preferences[$cle]);
             return true;
         }
