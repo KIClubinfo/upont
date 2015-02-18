@@ -7,30 +7,14 @@ use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\VirtualProperty;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
+use KI\UpontBundle\Entity\Likeable;
 
 /**
  * @ORM\Entity
  * @ExclusionPolicy("all")
  */
-class Course
+class Course extends Likeable
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
-
-    /**
-     * Nom du cours
-     * @ORM\Column(name="name", type="string")
-     * @Expose
-     * @Assert\Type("string")
-     * @Assert\NotBlank()
-     */
-    protected $name;
-
     /**
      * Groupe du cours (0 si pas de groupe)
      * @ORM\Column(name="course_group", type="integer")
@@ -73,20 +57,18 @@ class Course
     protected $department;
 
     /**
-     * Slug
-     * @Gedmo\Slug(fields={"department","name"})
-     * @ORM\Column(name="slug", type="string", unique=true)
-     * @Expose
-     * @Assert\Type("string")
-     */
-    protected $slug;
-
-    /**
      * Personnes suivant ce cours
      * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\User", mappedBy="courses", cascade={"persist"})
      * @Assert\Valid()
      */
     protected $attendees;
+
+    /**
+     * Liste des annales de ce cours
+     * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Publications\Exercice", mappedBy="course")
+     * @Assert\Valid()
+     */
+    protected $exercices;
 
     //===== GENERATED AUTOMATICALLY =====//
 
@@ -96,39 +78,7 @@ class Course
     public function __construct()
     {
         $this->attendees = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return Course
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
+        $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -247,29 +197,6 @@ class Course
     }
 
     /**
-     * Set slug
-     *
-     * @param string $slug
-     * @return Course
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * Get slug
-     *
-     * @return string
-     */
-    public function getSlug()
-    {
-        return $this->slug;
-    }
-
-    /**
      * Add attendees
      *
      * @param \KI\UpontBundle\Entity\Users\User $attendees
@@ -300,5 +227,48 @@ class Course
     public function getAttendees()
     {
         return $this->attendees;
+    }
+
+    /**
+     * Add exercices
+     *
+     * @param \KI\UpontBundle\Entity\Publications\Exercice $exercices
+     * @return Course
+     */
+    public function addExercice(\KI\UpontBundle\Entity\Publications\Exercice $exercices)
+    {
+        $this->exercices[] = $exercices;
+
+        return $this;
+    }
+
+    /**
+     * Remove exercices
+     *
+     * @param \KI\UpontBundle\Entity\Publications\Exercice $exercices
+     */
+    public function removeExercice(\KI\UpontBundle\Entity\Publications\Exercice $exercices)
+    {
+        $this->exercices->removeElement($exercices);
+    }
+
+    /**
+     * Get exercices
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getExercices()
+    {
+        return $this->exercices;
+    }
+
+    /**
+     * Set exercices
+     *
+     * @return Course
+     */
+    public function setExercices($exercices)
+    {
+        return $this->exercices = $exercices;
     }
 }
