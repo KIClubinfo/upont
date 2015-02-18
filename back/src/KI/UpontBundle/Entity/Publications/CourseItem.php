@@ -3,15 +3,12 @@
 namespace KI\UpontBundle\Entity\Publications;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
-use JMS\Serializer\Annotation\VirtualProperty;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
 class CourseItem
 {
@@ -25,7 +22,7 @@ class CourseItem
     /**
      * Salle de cours/amphi
      * @ORM\Column(name="location", type="string")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      * @Assert\NotBlank()
      */
@@ -34,7 +31,7 @@ class CourseItem
     /**
      * Heure de début du cours (timestamp)
      * @ORM\Column(name="startDate", type="integer", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $startDate;
@@ -42,7 +39,7 @@ class CourseItem
     /**
      * Heure de fin du cours (timestamp)
      * @ORM\Column(name="endDate", type="integer", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $endDate;
@@ -50,7 +47,7 @@ class CourseItem
     /**
      * Le cours parent
      * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Publications\Course", cascade={"persist"})
-     * @Expose
+     * @JMS\Expose
      * @Assert\Valid()
      */
     protected $course;

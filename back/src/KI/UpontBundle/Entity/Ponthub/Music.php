@@ -4,14 +4,12 @@ namespace KI\UpontBundle\Entity\Ponthub;
 
 use KI\UpontBundle\Entity\Ponthub\PonthubFile;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
 class Music extends PonthubFile
 {
@@ -23,13 +21,13 @@ class Music extends PonthubFile
      * @Assert\Valid()
      */
     protected $album;
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
     //===== GENERATED AUTOMATICALLY =====//
 
     /**
@@ -48,7 +46,7 @@ class Music extends PonthubFile
     /**
      * Get album
      *
-     * @return \KI\UpontBundle\Entity\Ponthub\Album 
+     * @return \KI\UpontBundle\Entity\Ponthub\Album
      */
     public function getAlbum()
     {

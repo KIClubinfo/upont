@@ -4,15 +4,12 @@ namespace KI\UpontBundle\Entity\Ponthub;
 
 use KI\UpontBundle\Entity\Ponthub\PonthubFile;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
-use JMS\Serializer\Annotation\VirtualProperty;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
 class Serie extends PonthubFile
 {
@@ -22,80 +19,80 @@ class Serie extends PonthubFile
      * @Assert\Valid()
      */
     protected $episodes;
-    
+
     /**
      * Durée moyenne d'un épisode (en secondes)
      * @ORM\Column(name="duration", type="integer", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Range(min = 0, max = 86400)
      */
     protected $duration;
-    
+
     /**
      * Année de début
      * @ORM\Column(name="year", type="integer", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Range(min = 1000, max = 2050)
      */
     protected $year;
-    
+
     /**
      * Son en VO ?
      * @ORM\Column(name="vo", type="boolean", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("boolean")
      */
     protected $vo;
-    
+
     /**
      * Son en VF ?
      * @ORM\Column(name="vf", type="boolean", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("boolean")
      */
     protected $vf;
-    
+
     /**
      * Sous-titres VO ?
      * @ORM\Column(name="vost", type="boolean", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("boolean")
      */
     protected $vost;
-    
+
     /**
      * Sous-titres VF ?
      * @ORM\Column(name="vostfr", type="boolean", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("boolean")
      */
     protected $vostfr;
-    
+
     /**
      * Version HD ?
      * @ORM\Column(name="hd", type="boolean", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("boolean")
      */
     protected $hd;
-    
+
     /**
      * Réalisateur
      * @ORM\Column(name="director", type="string", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $director;
-    
+
     /**
      * Acteurs
      * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Ponthub\Actor", cascade={"persist"})
      * @Assert\Valid()
      */
     protected $actors;
-    
+
     /**
-     * @VirtualProperty()
+     * @JMS\VirtualProperty()
      */
     public function actorsList()
     {
@@ -104,21 +101,21 @@ class Serie extends PonthubFile
             $actors[] = $actor->getName();
         return $actors;
     }
-    
+
     /**
      * Score Metascore/Imdb (en %)
      * @ORM\Column(name="rating", type="integer", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Range(min = 0, max = 100)
      */
     protected $rating;
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
     //===== GENERATED AUTOMATICALLY =====//
 
     /**
@@ -129,7 +126,7 @@ class Serie extends PonthubFile
         parent::__construct();
         $this->episodes = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Set duration
      *
@@ -146,7 +143,7 @@ class Serie extends PonthubFile
     /**
      * Get duration
      *
-     * @return integer 
+     * @return integer
      */
     public function getDuration()
     {
@@ -169,7 +166,7 @@ class Serie extends PonthubFile
     /**
      * Get year
      *
-     * @return integer 
+     * @return integer
      */
     public function getYear()
     {
@@ -192,7 +189,7 @@ class Serie extends PonthubFile
     /**
      * Get vo
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getVo()
     {
@@ -215,7 +212,7 @@ class Serie extends PonthubFile
     /**
      * Get vf
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getVf()
     {
@@ -238,7 +235,7 @@ class Serie extends PonthubFile
     /**
      * Get vost
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getVost()
     {
@@ -261,7 +258,7 @@ class Serie extends PonthubFile
     /**
      * Get vostfr
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getVostfr()
     {
@@ -284,13 +281,13 @@ class Serie extends PonthubFile
     /**
      * Get hd
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getHd()
     {
         return $this->hd;
     }
-    
+
     /**
      * Set director
      *
@@ -307,13 +304,13 @@ class Serie extends PonthubFile
     /**
      * Get director
      *
-     * @return string 
+     * @return string
      */
     public function getDirector()
     {
         return $this->director;
     }
-    
+
     /**
      * Set actors
      *
@@ -330,13 +327,13 @@ class Serie extends PonthubFile
     /**
      * Get actors
      *
-     * @return array 
+     * @return array
      */
     public function getActors()
     {
         return $this->actors;
     }
-    
+
     /**
      * Add episodes
      *
@@ -363,13 +360,13 @@ class Serie extends PonthubFile
     /**
      * Get episodes
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getEpisodes()
     {
         return $this->episodes;
     }
-    
+
     /**
      * Set episodes
      *
@@ -379,7 +376,7 @@ class Serie extends PonthubFile
     {
         return $this->episodes = $episodes;
     }
-    
+
     /**
      * Set rating
      *
@@ -396,7 +393,7 @@ class Serie extends PonthubFile
     /**
      * Get rating
      *
-     * @return integer 
+     * @return integer
      */
     public function getRating()
     {
