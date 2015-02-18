@@ -3,7 +3,9 @@ Résumé
 
 Version 2.0 de YouPont, l'intranet de l'ENPC.
 
-[ ![Codeship Status for KIClubinfo/upont](https://codeship.com/projects/afc79d00-982e-0132-79b1-36ce558856a0/status?branch=master)](https://codeship.com/projects/63332)
+[![Build Status](https://scrutinizer-ci.com/g/KIClubinfo/upont/badges/build.png?b=master)](https://scrutinizer-ci.com/g/KIClubinfo/upont/build-status/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/KIClubinfo/upont/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/KIClubinfo/upont/?branch=master)
+[![Codeship Status for KIClubinfo/upont](https://codeship.com/projects/afc79d00-982e-0132-79b1-36ce558856a0/status?branch=master)](https://codeship.com/projects/63332)
 
 Installation
 ============
