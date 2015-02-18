@@ -386,10 +386,10 @@ class EventsController extends BaseController
         $position = -1;
         $limit = $event->getShotgunLimit();
 
-        $fail = array();
-        $success = array();
+        $fail = $success = $shotgun = array();
+        $count = count($userEvent);
 
-        for ($i = 0; $i < min(count($userEvent), $limit); $i++) {
+        for ($i = 0; $i < min($count, $limit); $i++) {
             // Si le shotgun a été fait avant la date prévue, on passe
             if ($userEvent[$i]->getDate() < $event->getShotgunDate()) {
                 $position = 0;
