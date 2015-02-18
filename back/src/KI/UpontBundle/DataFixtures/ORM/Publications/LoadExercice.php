@@ -19,11 +19,11 @@ class LoadExerciceFixture extends AbstractFixture implements OrderedFixtureInter
         $exercice->setDate(time());
     	$exercice->setValid(false);
         $manager->persist($exercice);
-        $this->addReference('1a-test', $exercice);
-        
+        $this->addReference('exercice-test', $exercice);
+
         $manager->flush();
     }
-    
+
     public function getOrder()
     {
         return 25;

@@ -9,7 +9,7 @@ class CoursesControllerTest extends WebTestCase
     // On crée une ressource sur laquelle seront effectués les tests. Ne pas oublier de supprimer à la fin avec le test DELETE.
     public function testPost()
     {
-        $this->client->request('POST', '/courses', array('name' => 'Mécanique des familles', 'semester' => 0, 'startDate' => 151515, 'endDate' => 31415, 'department' => 'GCC'));
+        $this->client->request('POST', '/courses', array('name' => 'Mécanique des familles', 'group' => 3, 'semester' => 0, 'startDate' => 151515, 'endDate' => 31415, 'department' => 'GCC'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
         // On vérifie que le lieu du nouvel objet a été indiqué

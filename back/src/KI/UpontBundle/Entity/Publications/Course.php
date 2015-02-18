@@ -32,6 +32,14 @@ class Course
     protected $name;
 
     /**
+     * Groupe du cours (0 si pas de groupe)
+     * @ORM\Column(name="course_group", type="integer")
+     * @Expose
+     * @Assert\Type("integer")
+     */
+    protected $group;
+
+    /**
      * Heure de début du cours (secondes depuis 00:00:00)
      * @ORM\Column(name="startDate", type="integer", nullable=true)
      * @Expose
@@ -121,6 +129,29 @@ class Course
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set group
+     *
+     * @param string $group
+     * @return Course
+     */
+    public function setGroup($group)
+    {
+        $this->group = $group;
+
+        return $this;
+    }
+
+    /**
+     * Get group
+     *
+     * @return string
+     */
+    public function getGroup()
+    {
+        return $this->group;
     }
 
     /**
