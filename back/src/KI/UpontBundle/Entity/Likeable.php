@@ -108,7 +108,15 @@ class Likeable
 
 
 
-
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->listLikes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listDislikes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -118,29 +126,6 @@ class Likeable
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set path
-     *
-     * @param string $path
-     * @return Album
-     */
-    public function setPath($path)
-    {
-        $this->path = $path;
-
-        return $this;
-    }
-
-    /**
-     * Get path
-     *
-     * @return string
-     */
-    public function getPath()
-    {
-        return $this->path;
     }
 
     /**
@@ -192,7 +177,7 @@ class Likeable
     /**
      * Add like
      *
-     * @param \KI\UpontBundle\Entity\User $likes
+     * @param \KI\UpontBundle\Entity\Users\User $like
      * @return PonthubFile
      */
     public function addLike(\KI\UpontBundle\Entity\Users\User $like)
@@ -205,7 +190,7 @@ class Likeable
     /**
      * Remove likes
      *
-     * @param \KI\UpontBundle\Entity\User $likes
+     * @param \KI\UpontBundle\Entity\Users\User $like
      */
     public function removeLike(\KI\UpontBundle\Entity\Users\User $like)
     {
@@ -235,7 +220,7 @@ class Likeable
     /**
      * Add dislike
      *
-     * @param \KI\UpontBundle\Entity\User $dislikes
+     * @param \KI\UpontBundle\Entity\User $dislike
      * @return PonthubFile
      */
     public function addDislike(\KI\UpontBundle\Entity\Users\User $dislike)
@@ -246,9 +231,9 @@ class Likeable
     }
 
     /**
-     * Remove dislikes
+     * Remove dislike
      *
-     * @param \KI\UpontBundle\Entity\User $dislikes
+     * @param \KI\UpontBundle\Entity\User $dislike
      */
     public function removeDislike(\KI\UpontBundle\Entity\Users\User $dislike)
     {
@@ -298,7 +283,7 @@ class Likeable
     /**
      * Add comment
      *
-     * @param \KI\UpontBundle\Entity\Comment $comments
+     * @param \KI\UpontBundle\Entity\Comment $comment
      * @return PonthubFile
      */
     public function addcomment(\KI\UpontBundle\Entity\Comment $comment)
@@ -311,7 +296,7 @@ class Likeable
     /**
      * Remove comments
      *
-     * @param \KI\UpontBundle\Entity\Comment $comments
+     * @param \KI\UpontBundle\Entity\Comment $comment
      */
     public function removeComment(\KI\UpontBundle\Entity\Comment $comment)
     {

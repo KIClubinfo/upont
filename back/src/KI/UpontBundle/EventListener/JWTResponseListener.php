@@ -16,7 +16,7 @@ class JWTResponseListener
     {
         $this->container = $container;
     }
-    
+
     /**
      * Add public data to the authentication response
      */
@@ -26,11 +26,11 @@ class JWTResponseListener
         $dispatcher = $this->container->get('event_dispatcher');
         $achievementCheck = new AchievementCheckEvent(Achievement::LOGIN);
         $dispatcher->dispatch('upont.achievement', $achievementCheck);
-        
+
         $data = $event->getData();
         $user = $event->getUser();
 
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof \KI\UpontBundle\Entity\Users\User) {
             return;
         }
 
@@ -42,4 +42,3 @@ class JWTResponseListener
         $event->setData($data);
     }
 }
-

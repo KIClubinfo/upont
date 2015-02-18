@@ -56,10 +56,9 @@ class Software extends PonthubFile
     }
 
     /**
-     * Set studio
+     * Set author
      *
-     * @param string $studio
-     * @return Game
+     * @param string $author
      */
     public function setAuthor($author)
     {
@@ -69,7 +68,7 @@ class Software extends PonthubFile
     }
 
     /**
-     * Get studio
+     * Get author
      *
      * @return string
      */
