@@ -11,17 +11,17 @@ class KIImages extends ContainerAware
     {
         // On n'enregistre des données que si elles sont non nulles
         if ($data !== null && $data !== '') {
-		    $imgString = base64_decode($data);
+            $imgString = base64_decode($data);
             $image = imagecreatefromstring($imgString);
 
-		    if ($image != null)
-			    $ext = explode('/', getimagesizefromstring($imgString)['mime'])[1];
+            if ($image != null)
+                $ext = explode('/', getimagesizefromstring($imgString)['mime'])[1];
         }
 
         return array(
-		    'image' => $imgString,
-		    'extension' => $ext
-		);
+            'image' => $imgString,
+            'extension' => $ext
+        );
     }
 
     // Upload d'une image à partir d'une URL et renvoie l'image sous forme de string et son extension
@@ -43,17 +43,17 @@ class KIImages extends ContainerAware
         if (!$data)
             throw new \Exception('Impossible de télécharger l\'image à l\'url ' . $url);
 
-		//Récupération de l'extension
-		$image = imagecreatefromstring($data);
-		if ($image != null)
-			$ext = explode('/', getimagesizefromstring($data)['mime'])[1];
-		else
-			throw new \Exception('Image non reconnue');
+        //Récupération de l'extension
+        $image = imagecreatefromstring($data);
+        if ($image != null)
+            $ext = explode('/', getimagesizefromstring($data)['mime'])[1];
+        else
+            throw new \Exception('Image non reconnue');
 
-		return array(
-		    'image' => $data,
-		    'extension' => $ext
-		);
+        return array(
+            'image' => $data,
+            'extension' => $ext
+        );
     }
 
     // Suppression d'une image

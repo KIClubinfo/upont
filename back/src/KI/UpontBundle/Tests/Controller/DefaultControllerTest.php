@@ -108,7 +108,7 @@ class DefaultControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->enableProfiler();
-        $crawler = $client->request('POST', '/resetting/request', array('username' => 'iqhjioqiosois'));
+        $client->request('POST', '/resetting/request', array('username' => 'iqhjioqiosois'));
 
         // On vérifie que l'email a été envoyé
         $mailCollector = $client->getProfile()->getCollector('swiftmailer');
@@ -117,7 +117,7 @@ class DefaultControllerTest extends WebTestCase
 
         $client = static::createClient();
         $client->enableProfiler();
-        $crawler = $client->request('POST', '/resetting/request', array('username' => 'trancara'));
+        $client->request('POST', '/resetting/request', array('username' => 'trancara'));
 
         // On vérifie que l'email a été envoyé
         $mailCollector = $client->getProfile()->getCollector('swiftmailer');

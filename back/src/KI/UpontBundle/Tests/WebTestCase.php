@@ -11,9 +11,6 @@ use Liip\FunctionalTestBundle\Test\WebTestCase as LiipWebTestCase;
 
 abstract class WebTestCase extends LiipWebTestCase
 {
-    /**
-    * @var ContainerInterface
-    */
     protected $container;
     protected $client;
     protected $authorizationHeaderPrefix = 'Bearer';

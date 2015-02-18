@@ -18,8 +18,8 @@ class ExerciceType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
        $resolver->setDefaults(array(
-            'csrf_protection' => false,
-            'data_class' => 'KI\UpontBundle\Entity\Publications\Exercice'));
+           'csrf_protection' => false,
+           'data_class' => 'KI\UpontBundle\Entity\Publications\Exercice'));
     }
 
     public function getName()

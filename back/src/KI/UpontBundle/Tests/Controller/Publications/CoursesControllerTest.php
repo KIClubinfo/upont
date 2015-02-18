@@ -101,7 +101,7 @@ class CoursesControllerTest extends WebTestCase
         $basePath = __DIR__ . '/../../../../../../web/uploads/tmp/';
         $fs = new Filesystem();
         $fs->copy($basePath . 'file.pdf', $basePath . 'file_tmp.pdf');
-    	$file = new UploadedFile($basePath . 'file_tmp.pdf', 'file.pdf');
+        $file = new UploadedFile($basePath . 'file_tmp.pdf', 'file.pdf');
 
         $this->client->request('POST', '/courses/mecanique-des-familles/exercices', array('name' => 'Examen'), array('file' => $file));
         $response = $this->client->getResponse();

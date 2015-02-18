@@ -19,5 +19,5 @@ class Group extends BaseGroup
      * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-     protected $id;
+    protected $id;
 }
