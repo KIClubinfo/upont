@@ -3,22 +3,21 @@
 namespace KI\UpontBundle\Entity\Publications;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use KI\UpontBundle\Entity\Likeable;
 
 /**
  * @ORM\HasLifecycleCallbacks
  * @ORM\Entity
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
 class Exercice extends Likeable
 {
     /**
      * Utilisateur qui a uploadé l'annale
      * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User")
-     * @Expose
+     * @JMS\Expose
      * @ORM\JoinColumn(nullable=false)
      */
     private $uploader;
@@ -26,23 +25,25 @@ class Exercice extends Likeable
     /**
      * Date de l'upload
      * @ORM\Column(name="date", type="integer")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $date;
 
     /**
-     * Département dans lequel l'annale a été posée
-     * @ORM\Column(name="department", type="string")
-     * @Expose
-     * @Assert\Type("string")
+     * Le cours parent
+     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Publications\Course", cascade={"persist"}, inversedBy="exercices")
+     * Comme on veut éviter que l'entité se join sur sa propre colonne
+     * @ORM\JoinColumn(name="course_id", referencedColumnName="id", nullable=false)
+     * @JMS\Expose
+     * @Assert\Valid()
      */
-    protected $department;
+    protected $course;
 
     /**
      * Indique si l'annale a été validée ou non
      * @ORM\Column(name="valid", type="boolean", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("boolean")
      */
     protected $valid;
@@ -136,29 +137,6 @@ class Exercice extends Likeable
     }
 
     /**
-     * Set department
-     *
-     * @param string $department
-     * @return Exercice
-     */
-    public function setDepartment($department)
-    {
-        $this->department = $department;
-
-        return $this;
-    }
-
-    /**
-     * Get department
-     *
-     * @return string
-     */
-    public function getDepartment()
-    {
-        return $this->department;
-    }
-
-    /**
      * Set valid
      *
      * @param boolean $valid
@@ -202,5 +180,28 @@ class Exercice extends Likeable
     public function getUploader()
     {
         return $this->uploader;
+    }
+
+    /**
+     * Set course
+     *
+     * @param \KI\UpontBundle\Entity\Publications\Course $course
+     * @return Exercice
+     */
+    public function setCourse(\KI\UpontBundle\Entity\Publications\Course $course = null)
+    {
+        $this->course = $course;
+
+        return $this;
+    }
+
+    /**
+     * Get course
+     *
+     * @return \KI\UpontBundle\Entity\Publications\Course
+     */
+    public function getCourse()
+    {
+        return $this->course;
     }
 }

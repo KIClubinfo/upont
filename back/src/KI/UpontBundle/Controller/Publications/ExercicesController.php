@@ -2,22 +2,18 @@
 
 namespace KI\UpontBundle\Controller\Publications;
 
+use FOS\RestBundle\Controller\Annotations as Route;
 use KI\UpontBundle\Controller\BaseController;
-use FOS\RestBundle\Controller\Annotations\Get;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class ExercicesController extends BaseController
 {
-
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
         parent::setContainer($container);
-        $this->initialize('Exercice', 'Publications');
+        $this->initialize('Course', 'Publications');
     }
 
     /**
@@ -33,7 +29,7 @@ class ExercicesController extends BaseController
      *  section="Publications"
      * )
      */
-    public function getExercicesAction() { return $this->getAll(); }
+    public function getCourseExercicesAction($slug) { return $this->getAllSub($slug, 'Exercice'); }
 
     /**
      * @ApiDoc(
@@ -49,7 +45,7 @@ class ExercicesController extends BaseController
      *  section="Publications"
      * )
      */
-    public function getExerciceAction($slug) { return $this->getOne($slug); }
+    public function getCourseExerciceAction($slug, $id) { return $this->getOneSub($slug, 'Exercice', $id); }
 
     /**
      * @ApiDoc(
@@ -63,19 +59,21 @@ class ExercicesController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Get("/exercices/{slug}/download")
+     * @Route\Get("/courses/{slug}/exercices/{id}/download")
      */
-    public function downloadExerciceAction($slug)
+    public function downloadCourseExerciceAction($slug, $id)
     {
-        $exercice = $this->findBySlug($slug);
+        $this->switchClass('Exercice');
+        $exercice = $this->findBySlug($id);
+        $this->switchClass();
 
         if (!file_exists($exercice->getAbsolutePath()))
             throw new NotFoundHttpException('Fichier PDF non trouvé');
 
         // On lit le fichier PDF
-        return new Response(file_get_contents($exercice->getAbsolutePath()), 200, array(
+        return new \Symfony\Component\HttpFoundation\Response(file_get_contents($exercice->getAbsolutePath()), 200, array(
             'Content-Type' => 'application/pdf',
-            'Content-Disposition: attachment; filename="' . $exercice->getDepartment() . '' . $exercice->getName() . '"'
+            'Content-Disposition: attachment; filename="' . $exercice->getCourse()->getDepartment() . '' . $exercice->getName() . '"'
         ));
     }
 
@@ -92,15 +90,21 @@ class ExercicesController extends BaseController
      *  },
      *  section="Publications"
      * )
+     * @Route\Post("/courses/{slug}/exercices")
      */
-     public function postExerciceAction(Request $request) {
+     public function postCourseExerciceAction($slug) {
+        $request = $this->getRequest();
+        $course = $this->findBySlug($slug);
         $uploader = $this->container->get('security.context')->getToken()->getUser();
+
+        $this->switchClass('Exercice');
         $return = $this->partialPost($this->get('security.context')->isGranted('ROLE_USER'));
 
         if ($return['code'] != 400) {
             // On règle tout comme on veut
             $return['item']->setDate(time());
             $return['item']->setUploader($uploader);
+            $return['item']->setCourse($course);
             $return['item']->setValid($this->get('security.context')->isGranted('ROLE_MODO'));
 
             // On upload le fichier
@@ -110,8 +114,10 @@ class ExercicesController extends BaseController
             $this->em->flush();
             $request->files->get('file')->move($return['item']->getBasePath(), $return['item']->getId() . '.pdf');
         }
+        $this->switchClass();
 
-        return $this->postView($return);
+        // FIXME route bizarre, ne comprends pas
+        return $this->subPostView($return, $slug, 'get_course_exercice');
     }
 
     /**
@@ -129,9 +135,9 @@ class ExercicesController extends BaseController
      *  section="Publications"
      * )
      */
-    public function patchExerciceAction($slug)
+    public function patchCourseExerciceAction($slug, $id)
     {
-        return $this->patch($slug, $this->get('security.context')->isGranted('ROLE_MODO'));
+        return $this->patchSub($slug, 'Exercice', $id, $this->get('security.context')->isGranted('ROLE_MODO'));
     }
 
     /**
@@ -147,8 +153,8 @@ class ExercicesController extends BaseController
      *  section="Publications"
      * )
      */
-    public function deleteExerciceAction($slug)
+    public function deleteCourseExerciceAction($slug, $id)
     {
-        return $this->delete($slug, $this->get('security.context')->isGranted('ROLE_MODO'));
+        return $this->deleteSub($slug, 'Exercice', $id, $this->get('security.context')->isGranted('ROLE_MODO'));
     }
 }

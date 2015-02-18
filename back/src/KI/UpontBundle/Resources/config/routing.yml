@@ -10,24 +10,28 @@ NelmioApiDocBundle:
     prefix:   /
 
 ki_upont_api_pontub:
+    type:   rest
+    prefix: /ponthub
     resource: "@KIUpontBundle/Resources/config/ponthub.yml"
-    prefix:   /ponthub
 
 ki_upont_api_general:
+    type:   rest
+    prefix: /
     resource: "@KIUpontBundle/Resources/config/general.yml"
-    prefix:   /
 
 ki_upont_api_publications:
+    type:   rest
+    prefix: /
     resource: "@KIUpontBundle/Resources/config/publications.yml"
-    prefix:   /
 
 ki_upont_api_users:
+    type:   rest
+    prefix: /
     resource: "@KIUpontBundle/Resources/config/users.yml"
-    prefix:   /
 
 ki_upont_api_foyer:
-    resource: "@KIUpontBundle/Resources/config/foyer.yml"
     prefix:   /foyer
+    resource: "@KIUpontBundle/Resources/config/foyer.yml"
     
 upont_api_migration:
     pattern: /migration

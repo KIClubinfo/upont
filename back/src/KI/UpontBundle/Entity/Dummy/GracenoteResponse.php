@@ -3,12 +3,11 @@
 namespace KI\UpontBundle\Entity\Dummy;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * @ORM\Entity
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
 class GracenoteResponse
 {
@@ -18,32 +17,32 @@ class GracenoteResponse
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
+
     /**
      * Nom de l'album
      * @ORM\Column(name="name", type="string")
-     * @Expose
+     * @JMS\Expose
      */
     protected $name;
-    
+
     /**
      * Artiste
      * @ORM\Column(name="artist", type="string")
-     * @Expose
+     * @JMS\Expose
      */
     protected $artist;
-    
+
     /**
      * Année
      * @ORM\Column(name="year", type="string")
-     * @Expose
+     * @JMS\Expose
      */
     protected $year;
-    
+
     /**
      * URL de la couverture d'album
      * @ORM\Column(name="image", type="string")
-     * @Expose
+     * @JMS\Expose
      */
     protected $image;
 }

@@ -2,7 +2,7 @@
 
 namespace KI\UpontBundle\Controller;
 
-use KI\UpontBundle\Entity\Log;
+use FOS\RestBundle\Controller\Annotations as Route;
 use KI\UpontBundle\Controller\BaseController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
@@ -13,7 +13,7 @@ class LogsController extends BaseController
         parent::setContainer($container);
         $this->initialize('Log');
     }
-    
+
     /**
      * @ApiDoc(
      *  resource=true,

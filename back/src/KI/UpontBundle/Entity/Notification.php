@@ -3,14 +3,13 @@
 namespace KI\UpontBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Stocke les notifications utilisateur
  * @ORM\Entity
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
 class Notification
 {
@@ -20,47 +19,47 @@ class Notification
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
+
     /**
      * Date
      * @ORM\Column(name="date", type="integer")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $date;
-    
+
     /**
      * Titre
      * @ORM\Column(name="title", type="string")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $title;
-    
+
     /**
      * Message
      * @ORM\Column(name="message", type="string")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $message;
-    
+
     /**
      * Ressource : lien éventuel vers l'objet de la notification
      * @ORM\Column(name="resource", type="string")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $resource;
-    
+
     /**
      * Mode d'envoi (to|exclude)
      * @ORM\Column(name="mode", type="string")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $mode;
-    
+
     /**
      * Destinataire(s) ou liste d'exclusion suivant le mode d'envoi choisi
      * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
@@ -80,13 +79,13 @@ class Notification
      *  )
      */
     protected $read;
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
     //===== GENERATED AUTOMATICALLY =====//
 
     /**
@@ -96,7 +95,7 @@ class Notification
     {
         $this->recipient = new \Doctrine\Common\Collections\ArrayCollection();
         $this->read = new \Doctrine\Common\Collections\ArrayCollection();
-        
+
         $this->setTitle($title);
         $this->setMessage($message);
         $this->setDate(time());
@@ -107,13 +106,13 @@ class Notification
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
-    
+
     /**
      * Set date
      *
@@ -130,7 +129,7 @@ class Notification
     /**
      * Get date
      *
-     * @return integer 
+     * @return integer
      */
     public function getDate()
     {
@@ -153,7 +152,7 @@ class Notification
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -176,7 +175,7 @@ class Notification
     /**
      * Get message
      *
-     * @return string 
+     * @return string
      */
     public function getMessage()
     {
@@ -199,7 +198,7 @@ class Notification
     /**
      * Get resource
      *
-     * @return string 
+     * @return string
      */
     public function getResource()
     {
@@ -222,7 +221,7 @@ class Notification
     /**
      * Get mode
      *
-     * @return string 
+     * @return string
      */
     public function getMode()
     {
@@ -255,7 +254,7 @@ class Notification
     /**
      * Get recipient
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getRecipient()
     {
@@ -288,7 +287,7 @@ class Notification
     /**
      * Get read
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getRead()
     {

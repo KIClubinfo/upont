@@ -3,23 +3,20 @@
 namespace KI\UpontBundle\Entity\Publications;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
-use JMS\Serializer\Annotation\VirtualProperty;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
 use KI\UpontBundle\Entity\Likeable;
 
 /**
  * @ORM\Entity
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
 class Post extends Likeable
 {
     /**
      * Au nom de quel club a été publié l'event, null si aucun club
      * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\Club", cascade={"persist"})
-     * @Expose
+     * @JMS\Expose
      * @Assert\Valid()
      */
     protected $authorClub;
@@ -27,7 +24,7 @@ class Post extends Likeable
     /**
      * Auteur réel
      * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
-     * @Expose
+     * @JMS\Expose
      * @Assert\Valid()
      */
     protected $authorUser;
@@ -35,7 +32,7 @@ class Post extends Likeable
     /**
      * Date (timestamp)
      * @ORM\Column(name="date", type="integer")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $date;
@@ -43,7 +40,7 @@ class Post extends Likeable
     /**
      * Texte d'accroche
      * @ORM\Column(name="textShort", type="string", length=150, nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $textShort;
@@ -51,7 +48,7 @@ class Post extends Likeable
     /**
      * Corps du texte
      * @ORM\Column(name="textLong", type="text")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      * @Assert\NotBlank()
      */
@@ -66,7 +63,7 @@ class Post extends Likeable
 
     /**
      * Délivre l'url de l'image du post par défaut, l'url de l'image du club si l'image du post est null, l'image de l'auteur si les deux premières sont null, et null si les trois images sont null
-     * @VirtualProperty()
+     * @JMS\VirtualProperty()
      */
     public function imageUrl()
     {

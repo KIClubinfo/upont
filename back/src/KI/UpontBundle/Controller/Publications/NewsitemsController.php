@@ -2,13 +2,9 @@
 
 namespace KI\UpontBundle\Controller\Publications;
 
-use KI\UpontBundle\Entity\Publications\Newsitem;
-use KI\UpontBundle\Form\Publications\NewsitemType;
+use FOS\RestBundle\Controller\Annotations as Route;
 use KI\UpontBundle\Controller\BaseController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Post;
-use FOS\RestBundle\Controller\Annotations\Delete;
 
 class NewsitemsController extends BaseController
 {
@@ -131,7 +127,7 @@ class NewsitemsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Get("/newsitems/{slug}/like")
+     * @Route\Get("/newsitems/{slug}/like")
      */
     public function getLikeNewsitemAction($slug) { return $this->getLikes($slug); }
 
@@ -147,7 +143,7 @@ class NewsitemsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Get("/newsitems/{slug}/dislike")
+     * @Route\Get("/newsitems/{slug}/dislike")
      */
     public function getDislikeNewsitemAction($slug) { return $this->getDislikes($slug); }
 
@@ -163,7 +159,7 @@ class NewsitemsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Get("/newsitems/{slug}/comments")
+     * @Route\Get("/newsitems/{slug}/comments")
      */
     public function getCommentsNewsitemAction($slug) { return $this->getAllSub($slug, 'Comment', true); }
 
@@ -179,7 +175,7 @@ class NewsitemsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Post("/newsitems/{slug}/like")
+     * @Route\Post("/newsitems/{slug}/like")
      */
     public function likeNewsitemAction($slug) { return $this->like($slug); }
 
@@ -195,7 +191,7 @@ class NewsitemsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Post("/newsitems/{slug}/dislike")
+     * @Route\Post("/newsitems/{slug}/dislike")
      */
     public function dislikeNewsitemAction($slug) { return $this->dislike($slug); }
 
@@ -211,7 +207,7 @@ class NewsitemsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Delete("/newsitems/{slug}/like")
+     * @Route\Delete("/newsitems/{slug}/like")
      */
     public function deleteLikeNewsitemAction($slug) { return $this->deleteLike($slug); }
 
@@ -227,7 +223,7 @@ class NewsitemsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Delete("/newsitems/{slug}/dislike")
+     * @Route\Delete("/newsitems/{slug}/dislike")
      */
     public function deleteDislikeNewsitemAction($slug) { return $this->deleteDislike($slug); }
 }

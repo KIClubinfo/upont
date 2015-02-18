@@ -3,38 +3,28 @@
 namespace KI\UpontBundle\Entity\Publications;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
-use JMS\Serializer\Annotation\VirtualProperty;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
+use KI\UpontBundle\Entity\Likeable;
 
 /**
  * @ORM\Entity
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
-class Course
+class Course extends Likeable
 {
     /**
-     * @ORM\Id
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * Groupe du cours (0 si pas de groupe)
+     * @ORM\Column(name="course_group", type="integer")
+     * @JMS\Expose
+     * @Assert\Type("integer")
      */
-    protected $id;
-
-    /**
-     * Nom du cours
-     * @ORM\Column(name="name", type="string")
-     * @Expose
-     * @Assert\Type("string")
-     * @Assert\NotBlank()
-     */
-    protected $name;
+    protected $group;
 
     /**
      * Heure de début du cours (secondes depuis 00:00:00)
      * @ORM\Column(name="startDate", type="integer", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $startDate;
@@ -42,7 +32,7 @@ class Course
     /**
      * Heure de fin du cours (secondes depuis 00:00:00)
      * @ORM\Column(name="endDate", type="integer", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $endDate;
@@ -50,7 +40,7 @@ class Course
     /**
      * Semestre (0: toute l'année, 1: premier, 2: second)
      * @ORM\Column(name="semester", type="integer", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $semester;
@@ -58,20 +48,11 @@ class Course
     /**
      * Département
      * @ORM\Column(name="department", type="string")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      * @Assert\NotBlank()
      */
     protected $department;
-
-    /**
-     * Slug
-     * @Gedmo\Slug(fields={"department","name"})
-     * @ORM\Column(name="slug", type="string", unique=true)
-     * @Expose
-     * @Assert\Type("string")
-     */
-    protected $slug;
 
     /**
      * Personnes suivant ce cours
@@ -79,6 +60,13 @@ class Course
      * @Assert\Valid()
      */
     protected $attendees;
+
+    /**
+     * Liste des annales de ce cours
+     * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Publications\Exercice", mappedBy="course")
+     * @Assert\Valid()
+     */
+    protected $exercices;
 
     //===== GENERATED AUTOMATICALLY =====//
 
@@ -88,39 +76,30 @@ class Course
     public function __construct()
     {
         $this->attendees = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
-     * Get id
+     * Set group
      *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
+     * @param string $group
      * @return Course
      */
-    public function setName($name)
+    public function setGroup($group)
     {
-        $this->name = $name;
+        $this->group = $group;
 
         return $this;
     }
 
     /**
-     * Get name
+     * Get group
      *
      * @return string
      */
-    public function getName()
+    public function getGroup()
     {
-        return $this->name;
+        return $this->group;
     }
 
     /**
@@ -216,29 +195,6 @@ class Course
     }
 
     /**
-     * Set slug
-     *
-     * @param string $slug
-     * @return Course
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * Get slug
-     *
-     * @return string
-     */
-    public function getSlug()
-    {
-        return $this->slug;
-    }
-
-    /**
      * Add attendees
      *
      * @param \KI\UpontBundle\Entity\Users\User $attendees
@@ -269,5 +225,48 @@ class Course
     public function getAttendees()
     {
         return $this->attendees;
+    }
+
+    /**
+     * Add exercices
+     *
+     * @param \KI\UpontBundle\Entity\Publications\Exercice $exercices
+     * @return Course
+     */
+    public function addExercice(\KI\UpontBundle\Entity\Publications\Exercice $exercices)
+    {
+        $this->exercices[] = $exercices;
+
+        return $this;
+    }
+
+    /**
+     * Remove exercices
+     *
+     * @param \KI\UpontBundle\Entity\Publications\Exercice $exercices
+     */
+    public function removeExercice(\KI\UpontBundle\Entity\Publications\Exercice $exercices)
+    {
+        $this->exercices->removeElement($exercices);
+    }
+
+    /**
+     * Get exercices
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getExercices()
+    {
+        return $this->exercices;
+    }
+
+    /**
+     * Set exercices
+     *
+     * @return Course
+     */
+    public function setExercices($exercices)
+    {
+        return $this->exercices = $exercices;
     }
 }

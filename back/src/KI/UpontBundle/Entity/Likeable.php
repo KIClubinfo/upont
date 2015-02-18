@@ -3,18 +3,16 @@
 namespace KI\UpontBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use JMS\Serializer\Annotation\VirtualProperty;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation as JMS;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Classe générique pouvant être likée/commentée
  * @ORM\Entity
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
 class Likeable
 {
@@ -28,7 +26,7 @@ class Likeable
     /**
      * Nom apparent
      * @ORM\Column(name="name", type="string")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      * @Assert\NotBlank()
      */
@@ -38,7 +36,7 @@ class Likeable
      * Slug
      * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(name="slug", type="string", unique=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $slug;
@@ -55,7 +53,7 @@ class Likeable
 
     /**
      * Nombre de ceux qui likent
-     * @VirtualProperty()
+     * @JMS\VirtualProperty()
      */
     public function likes()
     {
@@ -74,7 +72,7 @@ class Likeable
 
     /**
      * Nombre de ceux qui dislikent
-     * @VirtualProperty()
+     * @JMS\VirtualProperty()
      */
     public function dislikes()
     {
@@ -82,12 +80,12 @@ class Likeable
     }
 
     /**
-     * @Expose
+     * @JMS\Expose
      */
     protected $like = false;
 
     /**
-     * @Expose
+     * @JMS\Expose
      */
     protected $dislike = false;
 
