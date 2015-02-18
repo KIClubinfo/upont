@@ -3,6 +3,9 @@
 @sizeSm: 768px;
 @sizeMd: 992px;
 @sizeLg: 1200px;
+@navbarHgt: 50px;
+
+
 *, *:before, *:after {
     box-sizing: border-box;
     outline: 0 !important;
@@ -10,7 +13,7 @@
 .theme(@col1, @col2, @col3, @col4, @col5, @col6, @col7, @footerUp) {
     color: @col2;
     background: @col6;
-    .navbar {
+    .up-navbar {
         background: @col3;
         border-bottom: solid 1px @col4;
         .up-title {
@@ -101,6 +104,21 @@
     .up-date-evenement {
         color: @col1;
     }
+
+    #loading-bar-spinner .spinner-icon {
+        border-top-color:  @col1;
+        border-left-color: @col1;
+    }
+    #loading-bar .bar {
+        background: @col1;
+    }
+
+    #loading-bar .peg {
+        -moz-box-shadow: @col1 1px 0 6px 1px;
+        -ms-box-shadow: @col1 1px 0 6px 1px;
+        -webkit-box-shadow: @col1 1px 0 6px 1px;
+        box-shadow: @col1 1px 0 6px 1px;
+    }
 }
 body.theme-clear {
     .theme(#649BCC, #888, #FFF, #aaa, #d3d6d8, #dcdcdd, #808080, "img/footerUp_clear.png");
@@ -118,7 +136,7 @@ body.theme-dark {
 }
 //------- Modifs éléments de base
 body {
-    padding-top: 50px; //Pour la navbar
+    padding-top: @navbarHgt; //Pour la navbar
     font-family: montserrat;
     margin: 0px;
     position: relative;
@@ -175,9 +193,6 @@ input {
     padding: 0.5em;
     vertical-align: middle;
 }
-header {
-    padding: 0.5em 3em;
-}
 footer {
     z-index: 5;
     position: relative;
@@ -197,17 +212,21 @@ footer {
 .container-fluid {
     padding: 0px;
 }
-.navbar {
-    z-index: 5;
+.up-navbar {
+    z-index: 200;
+    padding: 0 3em;
+    position:fixed;
+    top:0px;
+    width:100%;
     margin: 0px;
-    padding-top: 0.6em;
-    padding-bottom: 0.6em;
+    height:@navbarHgt;
     box-shadow: 0px -5px 10px #000;
     .up-title {
         border-radius: 6px;
         font-size: 1.5em;
         padding: 0.3em;
         font-family: 'caviarDreams';
+        line-height:@navbarHgt;
         &:before {
             @media(min-width: @sizeMd) {
                 content: "u";
@@ -222,10 +241,19 @@ footer {
         }
     }
     .up-navbar-link {
+        line-height:@navbarHgt;
         text-transform: uppercase;
         font-family: 'montserrat';
         font-size: 0.9em;
         padding: 0.4em 1em;
+    }
+    .up-navbar-list{
+        list-style: none;
+        margin:0px;
+        text-align: right;
+        li{
+            display:inline-block;
+        }
     }
 }
 .modal-header h1 {
@@ -282,7 +310,7 @@ footer {
         }
     }
     .up-zp-image {
-        height: 250px;
+        max-height: 250px;
         overflow: hidden;
         position: relative;
         top: -1px;

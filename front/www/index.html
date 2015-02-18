@@ -19,6 +19,7 @@
     <script src="libs/angular-strap/dist/angular-strap.tpl.min.js"></script>
     <script src="libs/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="libs/angular-resource/angular-resource.min.js"></script>
+    <script src="libs/angular-loading-bar/build/loading-bar.min.js"></script>
     <script src="libs/scheduler/codebase/dhtmlxscheduler.js"></script>
     <script src="libs/scheduler/codebase/locale/locale_fr.js"></script>
     <script src="libs/js-base64/base64.min.js"></script>
@@ -26,15 +27,15 @@
 </head>
 
 <body ng-app="upont" ng-controller="Main_Controller" ng-class="theme?'theme-dark':'theme-clear'">
-    <header class="navbar navbar-default navbar-fixed-top">
+    <header class="up-navbar">
         <div class="container-fluid">
-            <div class="navbar-header">
+            <div class="col-xs-4 col-sm-5">
                 <a class="up-title" ui-sref="home"></a>
             </div>
-            <div class="col-xs-1 col-xs-offset-7">
-                <a ui-sref="home" ng-show="isAdmin()" class="btn btn-upload up-navbar-link">Publier</a>
+            <div class="up-navbar-list col-xs-3">
+                <a ui-sref="home" ng-show="isAdmin()" class="up-navbar-link">Publier</a>
             </div>
-            <ul class="navbar-nav nav pull-right" ng-show="isLogged()">
+            <ul class="up-navbar-list col-xs-5 col-sm-4" ng-show="isLogged()">
                 <li><a ui-sref="profil" ui-sref-active="active" class="up-navbar-link">Profil</a>
                 </li>
                 <li><a ui-sref="admin" ui-sref-active="active" class="up-navbar-link" ng-show="isAdmin()">Admin</a>
