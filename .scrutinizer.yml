@@ -23,8 +23,12 @@ coding_style:
         spaces:
             around_operators:
                 multiplicative: false
+                concatenation: true
             other:
                 after_type_cast: false
+        braces:
+            if:
+                always: false
 
 tools:
-    external_code_coverage: false
+    external_code_coverage: false 

@@ -41,7 +41,7 @@ class KIImages extends ContainerAware
 
         // Récupération de l'image
         if (!$data)
-              throw new \Exception('Impossible de télécharger l\'image à l\'url ' . $url);
+            throw new \Exception('Impossible de télécharger l\'image à l\'url ' . $url);
 
 		//Récupération de l'extension
 		$image = imagecreatefromstring($data);
