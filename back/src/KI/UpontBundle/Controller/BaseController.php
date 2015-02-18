@@ -483,6 +483,9 @@ class BaseController extends FOSRestController
         }
     }
 
+    /**
+     * @View()
+     */
     protected function getOneSub($slug, $name, $id)
     {
         $item = $this->findBySlug($slug);
@@ -502,15 +505,62 @@ class BaseController extends FOSRestController
         return $return;
     }
 
+    /**
+     * @View()
+     */
     protected function patchSub($slug, $name, $id, $auth = false)
     {
         if (!$this->get('security.context')->isGranted('ROLE_MODO') && !$auth)
             throw new AccessDeniedException('Accès refusé');
-        $item = $this->getOneSub($slug, $name, $id);
+
+        // On n'en a pas besoin ici mais on vérifie que l'item parent existe bien
+        $item = $this->findBySlug($slug);
 
         $this->switchClass($name);
+        $item = $this->findBySlug($id);
         $return = $this->processForm($item);
         $this->switchClass();
         return $this->postView($return);
+    }
+
+    /**
+     * @View()
+     */
+    protected function deleteSub($slug, $name, $id, $auth = false)
+    {
+        if (!$this->get('security.context')->isGranted('ROLE_MODO') && !$auth)
+            throw new AccessDeniedException('Accès refusé');
+
+        // On n'en a pas besoin ici mais on vérifie que l'item parent existe bien
+        $item = $this->findBySlug($slug);
+
+        $this->switchClass($name);
+        $item = $this->findBySlug($id);
+        $this->em->remove($item);
+        $this->switchClass();
+
+        $this->em->flush();
+    }
+
+    protected function subPostView($data, $slug, $route)
+    {
+        if ($data['code'] == 400) {
+            return RestView::create($data['form'], 400);
+        } else if ($data['code'] == 204) {
+            $this->em->flush();
+            return RestView::create(null, 204);
+        } else {
+            $this->em->flush();
+            return RestView::create($data['item'],
+                201,
+                array(
+                    'Location' => $this->generateUrl(
+                        $route,
+                        array('slug' => $slug, 'id' => $data['item']->getSlug()),
+                        true
+                    )
+                )
+            );
+        }
     }
 }
