@@ -3,15 +3,13 @@
 namespace KI\UpontBundle\Entity\Ponthub;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
-use JMS\Serializer\Annotation\VirtualProperty;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use KI\UpontBundle\Entity\Likeable;
 
 /**
  * @ORM\Entity
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
 class PonthubFile extends Likeable
 {
@@ -33,7 +31,7 @@ class PonthubFile extends Likeable
     /**
      * Taille en octets
      * @ORM\Column(name="size", type="integer", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $size;
@@ -41,7 +39,7 @@ class PonthubFile extends Likeable
     /**
      * Date d'ajout (timestamp)
      * @ORM\Column(name="added", type="integer", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $added;
@@ -49,7 +47,7 @@ class PonthubFile extends Likeable
     /**
      * Statut [OK|NeedInfos|NotFound]
      * @ORM\Column(name="status", type="string")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $status;
@@ -57,7 +55,7 @@ class PonthubFile extends Likeable
     /**
      * Description
      * @ORM\Column(name="description", type="string", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $description;
@@ -70,7 +68,7 @@ class PonthubFile extends Likeable
     protected $image;
 
     /**
-     * @VirtualProperty()
+     * @JMS\VirtualProperty()
      */
     public function imageUrl()
     {
@@ -85,7 +83,7 @@ class PonthubFile extends Likeable
     protected $listTags;
 
     /**
-     * @VirtualProperty()
+     * @JMS\VirtualProperty()
      */
     public function tags()
     {
@@ -103,7 +101,7 @@ class PonthubFile extends Likeable
     protected $listGenres;
 
     /**
-     * @VirtualProperty()
+     * @JMS\VirtualProperty()
      */
     public function genres()
     {
@@ -122,7 +120,7 @@ class PonthubFile extends Likeable
 
     /**
      * Nombre de fois où le fichier a été téléchargé
-     * @VirtualProperty()
+     * @JMS\VirtualProperty()
      */
     public function downloads()
     {

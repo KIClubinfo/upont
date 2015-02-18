@@ -2,17 +2,13 @@
 
 namespace KI\UpontBundle\Controller\Users;
 
-use KI\UpontBundle\Entity\Users\User;
-use KI\UpontBundle\Form\Users\UserType;
+use FOS\RestBundle\Controller\Annotations as Route;
 use KI\UpontBundle\Controller\BaseController;
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Post;
-use FOS\RestBundle\Controller\Annotations\Delete;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpFoundation\Response;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 class UsersController extends BaseController
 {
@@ -124,7 +120,7 @@ class UsersController extends BaseController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Get("/users/{slug}/clubs")
+     * @Route\Get("/users/{slug}/clubs")
      */
     public function getUserClubsAction($slug)
     {
@@ -155,7 +151,7 @@ class UsersController extends BaseController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Get("/users/{token}/calendar")
+     * @Route\Get("/users/{token}/calendar")
      */
     public function getCalendarAction($token)
     {
@@ -165,7 +161,7 @@ class UsersController extends BaseController
         } else {
             $calStr = $this->get('ki_upont.calendar')->getCalendar($user);
 
-            return new Response($calStr, 200, array(
+            return new \Symfony\Component\HttpFoundation\Response($calStr, 200, array(
                     'Content-Type' => 'text/calendar; charset=utf-8',
                     'Content-Disposition' => 'attachment; filename="calendar.ics"',
                 )
@@ -184,7 +180,7 @@ class UsersController extends BaseController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Get("/promo_game")
+     * @Route\Get("/promo_game")
      */
     public function getPromoGameAction()
     {

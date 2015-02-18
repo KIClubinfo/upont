@@ -2,20 +2,13 @@
 
 namespace KI\UpontBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations\View;
-use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\Annotations as Route;
 use FOS\RestBundle\View\View as RestView;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
-use JMS\Serializer\SerializerBuilder;
-use KI\UpontBundle\Entity\User;
 
-
-class BaseController extends FOSRestController
+class BaseController extends \FOS\RestBundle\Controller\FOSRestController
 {
     protected $className;
     protected $class;
@@ -68,17 +61,21 @@ class BaseController extends FOSRestController
 
     public function restResponse($data, $code = 200, array $headers = array())
     {
-        return new Response($this->get('jms_serializer')->serialize($data, 'json'), $code, $headers);
+        return new \Symfony\Component\HttpFoundation\Response(
+            $this->get('jms_serializer')->serialize($data, 'json'),
+            $code,
+            $headers
+        );
     }
 
     public function jsonResponse($data, $code = 200, array $headers = array())
     {
-        return new JsonResponse($data, $code, $headers);
+        return new \Symfony\Component\HttpFoundation\JsonResponse($data, $code, $headers);
     }
 
     public function htmlResponse($data, $code = 200, array $headers = array())
     {
-        return new Response($data, $code, $headers);
+        return new \Symfony\Component\HttpFoundation\Response($data, $code, $headers);
     }
 
 
@@ -113,7 +110,7 @@ class BaseController extends FOSRestController
     }
 
     /**
-     * @View()
+     * @Route\View()
      */
     protected function getAll()
     {
@@ -179,7 +176,7 @@ class BaseController extends FOSRestController
     }
 
     /**
-     * @View()
+     * @Route\View()
      */
     protected function getOne($slug)
     {
@@ -297,7 +294,7 @@ class BaseController extends FOSRestController
     }
 
     /**
-     * @View()
+     * @Route\View()
      */
     protected function post()
     {
@@ -305,7 +302,7 @@ class BaseController extends FOSRestController
     }
 
     /**
-     * @View()
+     * @Route\View()
      */
     protected function put($slug, $auth = false)
     {
@@ -316,7 +313,7 @@ class BaseController extends FOSRestController
     }
 
     /**
-     * @View()
+     * @Route\View()
      */
     protected function patch($slug, $auth = false)
     {
@@ -327,7 +324,7 @@ class BaseController extends FOSRestController
     }
 
     /**
-     * @View()
+     * @Route\View()
      */
     protected function delete($slug, $auth = false)
     {
@@ -355,7 +352,7 @@ class BaseController extends FOSRestController
     // Fonctions relatives aux likes/dislikes
 
     /**
-     * @View()
+     * @Route\View()
      */
     protected function like($slug, $auth = false)
     {
@@ -374,7 +371,7 @@ class BaseController extends FOSRestController
     }
 
     /**
-     * @View()
+     * @Route\View()
      */
     protected function dislike($slug, $auth = false)
     {
@@ -393,7 +390,7 @@ class BaseController extends FOSRestController
     }
 
     /**
-     * @View()
+     * @Route\View()
      */
     protected function getLikes($slug)
     {
@@ -403,7 +400,7 @@ class BaseController extends FOSRestController
     }
 
     /**
-     * @View()
+     * @Route\View()
      */
     protected function getDislikes($slug)
     {
@@ -413,7 +410,7 @@ class BaseController extends FOSRestController
     }
 
     /**
-     * @View()
+     * @Route\View()
      */
     protected function deleteLike($slug, $auth = false)
     {
@@ -428,7 +425,7 @@ class BaseController extends FOSRestController
     }
 
     /**
-     * @View()
+     * @Route\View()
      */
     protected function deleteDislike($slug, $auth = false)
     {
@@ -467,7 +464,7 @@ class BaseController extends FOSRestController
      * Renvoie une sous ressource
      * Si $manyToMany = true, renvoie le paramètre $name de l'entité relié par une relation Many To Many
      * Sinon, renvoie les éléments d'une relation avec attribut en se basant sur la classe conjointe $name
-     * @View()
+     * @Route\View()
      */
     protected function getAllSub($slug, $name, $manyToMany = true)
     {
@@ -483,6 +480,9 @@ class BaseController extends FOSRestController
         }
     }
 
+    /**
+     * @Route\View()
+     */
     protected function getOneSub($slug, $name, $id)
     {
         $item = $this->findBySlug($slug);
@@ -502,15 +502,62 @@ class BaseController extends FOSRestController
         return $return;
     }
 
+    /**
+     * @Route\View()
+     */
     protected function patchSub($slug, $name, $id, $auth = false)
     {
         if (!$this->get('security.context')->isGranted('ROLE_MODO') && !$auth)
             throw new AccessDeniedException('Accès refusé');
-        $item = $this->getOneSub($slug, $name, $id);
+
+        // On n'en a pas besoin ici mais on vérifie que l'item parent existe bien
+        $item = $this->findBySlug($slug);
 
         $this->switchClass($name);
+        $item = $this->findBySlug($id);
         $return = $this->processForm($item);
         $this->switchClass();
         return $this->postView($return);
+    }
+
+    /**
+     * @Route\View()
+     */
+    protected function deleteSub($slug, $name, $id, $auth = false)
+    {
+        if (!$this->get('security.context')->isGranted('ROLE_MODO') && !$auth)
+            throw new AccessDeniedException('Accès refusé');
+
+        // On n'en a pas besoin ici mais on vérifie que l'item parent existe bien
+        $item = $this->findBySlug($slug);
+
+        $this->switchClass($name);
+        $item = $this->findBySlug($id);
+        $this->em->remove($item);
+        $this->switchClass();
+
+        $this->em->flush();
+    }
+
+    protected function subPostView($data, $slug, $route)
+    {
+        if ($data['code'] == 400) {
+            return RestView::create($data['form'], 400);
+        } else if ($data['code'] == 204) {
+            $this->em->flush();
+            return RestView::create(null, 204);
+        } else {
+            $this->em->flush();
+            return RestView::create($data['item'],
+                201,
+                array(
+                    'Location' => $this->generateUrl(
+                        $route,
+                        array('slug' => $slug, 'id' => $data['item']->getSlug()),
+                        true
+                    )
+                )
+            );
+        }
     }
 }

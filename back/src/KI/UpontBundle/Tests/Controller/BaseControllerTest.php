@@ -14,10 +14,10 @@ class BaseControllerTest extends WebTestCase
         $this->assertTrue($response->headers->has('Links'), $response->headers);
         $this->assertTrue($response->headers->has('Total-count'), $response->headers);
     }
-    
+
     public function testFilter()
     {
-        $this->client->request('GET', '/exercices?filterBy=department&filterValue=1A');
+        $this->client->request('GET', '/courses/mecanique-des-structures/exercices?filterBy=department&filterValue=1A');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
     }

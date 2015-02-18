@@ -2,10 +2,10 @@
 
 namespace KI\UpontBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use FOS\RestBundle\Controller\Annotations as Route;
 use KI\UpontBundle\Controller\BaseController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use FOS\RestBundle\Controller\Annotations\Get;
+
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -90,7 +90,7 @@ class DefaultController extends BaseController
         $coursesNames = array();
         foreach($results as $course) {
             $courses[$course->getId()] = $course;
-            $coursesNames[$course->getId()] = $course->getName();
+            $coursesNames[$course->getId()] = $course->getName() . $course->getGroup();
         }
 
         // On récupère les cours de la prochaine semaine
@@ -118,9 +118,9 @@ class DefaultController extends BaseController
             list($all, $start, $end, $department, $location, $courseName, $group) = $out;
 
             foreach($all as $id => $blank) {
-
                 $gr = str_replace('(&nbsp;)', '', $group[$id]);
-                $name = $courseName[$id] . ($gr != '' ? ' ' . $gr : '');
+                $gr = $gr != '' ? (int) str_replace(array('(Gr', ')'), array('', ''), $gr) : 0;
+                $name = $courseName[$id];
                 $data = explode(':', $start[$id]);
                 $startDate = $data[0] * 3600 + $data[1] * 60;
                 $data = explode(':', $end[$id]);
@@ -128,11 +128,12 @@ class DefaultController extends BaseController
 
                 // Si le cours existe déjà, on le récupère
                 // Sinon on crée un nouveau cours
-                if ($key = array_search($name, $coursesNames)) {
+                if ($key = array_search($name . $gr, $coursesNames)) {
                     $course = $courses[$key];
                 } else {
                     $course = new Course();
                     $course->setName($name);
+                    $course->setGroup($gr);
                     $course->setStartDate($startDate);
                     $course->setEndDate($endDate);
                     $course->setDepartment($department[$id]);
@@ -306,7 +307,7 @@ class DefaultController extends BaseController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Get("/online")
+     * @Route\Get("/online")
      */
     public function onlineAction(Request $request)
     {

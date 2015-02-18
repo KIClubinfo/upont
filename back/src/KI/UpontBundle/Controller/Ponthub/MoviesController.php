@@ -2,13 +2,9 @@
 
 namespace KI\UpontBundle\Controller\Ponthub;
 
-use KI\UpontBundle\Entity\Ponthub\Movie;
-use KI\UpontBundle\Form\Ponthub\MovieType;
+use FOS\RestBundle\Controller\Annotations as Route;
 use KI\UpontBundle\Controller\BaseController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Post;
-use FOS\RestBundle\Controller\Annotations\Delete;
 
 class MoviesController extends BaseController
 {
@@ -82,7 +78,7 @@ class MoviesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Get("/movies/{slug}/download")
+     * @Route\Get("/movies/{slug}/download")
      */
     public function downloadMovieAction($slug)
     {
@@ -110,7 +106,7 @@ class MoviesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Get("/movies/{slug}/like")
+     * @Route\Get("/movies/{slug}/like")
      */
     public function getLikeMovieAction($slug) { return $this->getLikes($slug); }
 
@@ -126,7 +122,7 @@ class MoviesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Get("/movies/{slug}/dislike")
+     * @Route\Get("/movies/{slug}/dislike")
      */
     public function getDislikeMovieAction($slug) { return $this->getDislikes($slug); }
 
@@ -142,7 +138,7 @@ class MoviesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Post("/movies/{slug}/like")
+     * @Route\Post("/movies/{slug}/like")
      */
     public function likeMovieAction($slug) { return $this->like($slug); }
 
@@ -158,7 +154,7 @@ class MoviesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Post("/movies/{slug}/dislike")
+     * @Route\Post("/movies/{slug}/dislike")
      */
     public function dislikeMovieAction($slug) { return $this->dislike($slug); }
 
@@ -174,7 +170,7 @@ class MoviesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Delete("/movies/{slug}/like")
+     * @Route\Delete("/movies/{slug}/like")
      */
     public function deleteLikeMovieAction($slug) { return $this->deleteLike($slug); }
 
@@ -190,7 +186,7 @@ class MoviesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Delete("/movies/{slug}/dislike")
+     * @Route\Delete("/movies/{slug}/dislike")
      */
     public function deleteDislikeMovieAction($slug) { return $this->deleteDislike($slug); }
 }
