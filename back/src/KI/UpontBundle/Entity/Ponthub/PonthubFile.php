@@ -170,6 +170,29 @@ class PonthubFile extends Likeable
     }
 
     /**
+     * Set path
+     *
+     * @param string $path
+     * @return PonthubFile
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Get path
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
      * Set added
      *
      * @param integer $added
@@ -264,7 +287,7 @@ class PonthubFile extends Likeable
     /**
      * Add tags
      *
-     * @param \KI\UpontBundle\Entity\Tag $tag
+     * @param \KI\UpontBundle\Entity\Tag $tags
      * @return Album
      */
     public function addTag(\KI\UpontBundle\Entity\Tag $tag)
@@ -277,7 +300,7 @@ class PonthubFile extends Likeable
     /**
      * Remove tags
      *
-     * @param \KI\UpontBundle\Entity\Tag $tag
+     * @param \KI\UpontBundle\Entity\Tag $tags
      */
     public function removeTag(\KI\UpontBundle\Entity\Tag $tag)
     {
@@ -307,7 +330,7 @@ class PonthubFile extends Likeable
     /**
      * Add genres
      *
-     * @param \KI\UpontBundle\Entity\Ponthub\Genre $genre
+     * @param \KI\UpontBundle\Entity\Ponthub\Genre $genres
      * @return Album
      */
     public function addGenre(\KI\UpontBundle\Entity\Ponthub\Genre $genre)
@@ -320,7 +343,7 @@ class PonthubFile extends Likeable
     /**
      * Remove genres
      *
-     * @param \KI\UpontBundle\Entity\Ponthub\Genre $genre
+     * @param \KI\UpontBundle\Entity\Ponthub\Genre $genres
      */
     public function removeGenre(\KI\UpontBundle\Entity\Ponthub\Genre $genre)
     {
@@ -351,7 +374,7 @@ class PonthubFile extends Likeable
     /**
      * Add user
      *
-     * @param \KI\UpontBundle\Entity\User $user
+     * @param \KI\UpontBundle\Entity\User $users
      * @return PonthubFile
      */
     public function addUser(\KI\UpontBundle\Entity\Users\User $user)
@@ -364,7 +387,7 @@ class PonthubFile extends Likeable
     /**
      * Remove users
      *
-     * @param \KI\UpontBundle\Entity\User $user
+     * @param \KI\UpontBundle\Entity\User $users
      */
     public function removeUser(\KI\UpontBundle\Entity\Users\User $user)
     {
