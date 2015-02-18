@@ -196,14 +196,14 @@ class OwnController extends BaseController
         // On filtre celles qui sont uniquement destinées à l'utilisateur actuel
         foreach($notifications as $notification) {
             $mode = $notification->getMode();
-            if($mode == 'to' && $notification->getRecipient()->contains($user)) {
+            if($mode == 'to') {
                 // Si la notification n'a pas été lue
-                if(!$notification->getRead()->contains($user))
+                if ($notification->getRecipient()->contains($user) && !$notification->getRead()->contains($user))
                     $return[] = $notification;
             }
-            else if($mode == 'exclude' && !$notification->getRecipient()->contains($user)) {
+            else if($mode == 'exclude') {
                 // Si la notification n'a pas été lue
-                if(!$notification->getRead()->contains($user))
+                if (!$notification->getRead()->contains($user) && !$notification->getRecipient()->contains($user))
                     $return[] = $notification;
             }
             else
