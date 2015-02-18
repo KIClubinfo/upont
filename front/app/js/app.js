@@ -1,5 +1,5 @@
-angular.module('upont', ['ui.router', 'ngResource', 'ngAnimate', 'mgcrea.ngStrap', 'ngSanitize'])
-    .controller('Main_Controller', ['$scope', '$location', 'StorageService', '$state', '$rootScope', "isLogged", "isAdmin", "$window", function($scope, $location, StorageService, $state, $rootScope, isLogged, isAdmin, $window) {
+angular.module('upont', ['ui.router', 'ngResource', 'ngAnimate', 'mgcrea.ngStrap', 'ngSanitize', 'cfp.loadingBar'])
+    .controller('Main_Controller', ['$scope', '$location', 'StorageService', '$state', '$rootScope', "isLogged", "isAdmin", "$window", "cfpLoadingBar", function($scope, $location, StorageService, $state, $rootScope, isLogged, isAdmin, $window, cfpLoadingBar) {
         $scope.inArbo = function(string) {
             if (string === '')
                 if ($location.path() == '/') return true;
@@ -60,7 +60,11 @@ angular.module('upont', ['ui.router', 'ngResource', 'ngAnimate', 'mgcrea.ngStrap
             }
 
             if (toState.data && toState.data.parent && toState.data.defaultChild) {
+                if (toState.resolve) {
+                   cfpLoadingBar.start();
+                }
                 var reg = new RegExp("^" + toState.data.parent, "g");
+
                 if (toState.name == toState.data.parent) {
                     // Si le state d'origine n'est pas un enfant du state de destination ou alors possède une valeur true sur data.toParent, on renvoie sur l'enfant par défaut, sinon on recharge juste la page
                     if (!fromState.name.match(reg) || (fromState.data && fromState.data.toParent)) {
@@ -73,6 +77,13 @@ angular.module('upont', ['ui.router', 'ngResource', 'ngAnimate', 'mgcrea.ngStrap
                 }
             }
         });
+
+        $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+            if (toState.resolve) {
+                cfpLoadingBar.complete();
+            }
+        });
+
     }])
     .factory('Login_Interceptor', ['StorageService', '$location', '$q', function(StorageService, $location, $q) {
         return {
@@ -135,4 +146,7 @@ angular.module('upont', ['ui.router', 'ngResource', 'ngAnimate', 'mgcrea.ngStrap
         angular.extend($modalProvider.defaults, {
             html: true
         });
+    }])
+    .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+        cfpLoadingBarProvider.latencyThreshold = 200;
     }]);
