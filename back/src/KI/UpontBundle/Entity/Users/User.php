@@ -223,6 +223,7 @@ class User extends BaseUser
     {
         $this->devices = new \Doctrine\Common\Collections\ArrayCollection();
         $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->clubsNotFollowed = new \Doctrine\Common\Collections\ArrayCollection();
         parent::__construct();
     }
 

@@ -264,7 +264,7 @@ class PonthubFile extends Likeable
     /**
      * Add tags
      *
-     * @param \KI\UpontBundle\Entity\Tag $tags
+     * @param \KI\UpontBundle\Entity\Tag $tag
      * @return Album
      */
     public function addTag(\KI\UpontBundle\Entity\Tag $tag)
@@ -277,7 +277,7 @@ class PonthubFile extends Likeable
     /**
      * Remove tags
      *
-     * @param \KI\UpontBundle\Entity\Tag $tags
+     * @param \KI\UpontBundle\Entity\Tag $tag
      */
     public function removeTag(\KI\UpontBundle\Entity\Tag $tag)
     {
@@ -307,7 +307,7 @@ class PonthubFile extends Likeable
     /**
      * Add genres
      *
-     * @param \KI\UpontBundle\Entity\Ponthub\Genre $genres
+     * @param \KI\UpontBundle\Entity\Ponthub\Genre $genre
      * @return Album
      */
     public function addGenre(\KI\UpontBundle\Entity\Ponthub\Genre $genre)
@@ -320,7 +320,7 @@ class PonthubFile extends Likeable
     /**
      * Remove genres
      *
-     * @param \KI\UpontBundle\Entity\Ponthub\Genre $genres
+     * @param \KI\UpontBundle\Entity\Ponthub\Genre $genre
      */
     public function removeGenre(\KI\UpontBundle\Entity\Ponthub\Genre $genre)
     {
@@ -351,7 +351,7 @@ class PonthubFile extends Likeable
     /**
      * Add user
      *
-     * @param \KI\UpontBundle\Entity\User $users
+     * @param \KI\UpontBundle\Entity\User $user
      * @return PonthubFile
      */
     public function addUser(\KI\UpontBundle\Entity\Users\User $user)
@@ -364,7 +364,7 @@ class PonthubFile extends Likeable
     /**
      * Remove users
      *
-     * @param \KI\UpontBundle\Entity\User $users
+     * @param \KI\UpontBundle\Entity\User $user
      */
     public function removeUser(\KI\UpontBundle\Entity\Users\User $user)
     {

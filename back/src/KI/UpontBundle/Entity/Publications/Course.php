@@ -76,7 +76,7 @@ class Course extends Likeable
     public function __construct()
     {
         $this->attendees = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->exercices = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
