@@ -2,10 +2,10 @@
 
 namespace KI\UpontBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use FOS\RestBundle\Controller\Annotations as Route;
 use KI\UpontBundle\Controller\BaseController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use FOS\RestBundle\Controller\Annotations\Get;
+
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -307,7 +307,7 @@ class DefaultController extends BaseController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Get("/online")
+     * @Route\Get("/online")
      */
     public function onlineAction(Request $request)
     {

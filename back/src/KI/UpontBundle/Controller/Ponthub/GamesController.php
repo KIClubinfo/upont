@@ -2,13 +2,9 @@
 
 namespace KI\UpontBundle\Controller\Ponthub;
 
-use KI\UpontBundle\Entity\Ponthub\Game;
-use KI\UpontBundle\Form\Ponthub\GameType;
+use FOS\RestBundle\Controller\Annotations as Route;
 use KI\UpontBundle\Controller\BaseController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Post;
-use FOS\RestBundle\Controller\Annotations\Delete;
 
 class GamesController extends BaseController
 {
@@ -82,7 +78,7 @@ class GamesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Get("/games/{slug}/download")
+     * @Route\Get("/games/{slug}/download")
      */
     public function downloadGameAction($slug)
     {
@@ -110,7 +106,7 @@ class GamesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Get("/games/{slug}/like")
+     * @Route\Get("/games/{slug}/like")
      */
     public function getLikeGameAction($slug) { return $this->getLikes($slug); }
 
@@ -126,7 +122,7 @@ class GamesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Get("/games/{slug}/dislike")
+     * @Route\Get("/games/{slug}/dislike")
      */
     public function getDislikeGameAction($slug) { return $this->getDislikes($slug); }
 
@@ -142,7 +138,7 @@ class GamesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Post("/games/{slug}/like")
+     * @Route\Post("/games/{slug}/like")
      */
     public function likeGameAction($slug) { return $this->like($slug); }
 
@@ -158,7 +154,7 @@ class GamesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Post("/games/{slug}/dislike")
+     * @Route\Post("/games/{slug}/dislike")
      */
     public function dislikeGameAction($slug) { return $this->dislike($slug); }
 
@@ -174,7 +170,7 @@ class GamesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Delete("/games/{slug}/like")
+     * @Route\Delete("/games/{slug}/like")
      */
     public function deleteLikeGameAction($slug) { return $this->deleteLike($slug); }
 
@@ -190,7 +186,7 @@ class GamesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Delete("/games/{slug}/dislike")
+     * @Route\Delete("/games/{slug}/dislike")
      */
     public function deleteDislikeGameAction($slug) { return $this->deleteDislike($slug); }
 }

@@ -2,13 +2,9 @@
 
 namespace KI\UpontBundle\Controller\Ponthub;
 
-use KI\UpontBundle\Entity\Ponthub\Music;
-use KI\UpontBundle\Form\Ponthub\MusicType;
+use FOS\RestBundle\Controller\Annotations as Route;
 use KI\UpontBundle\Controller\BaseController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Post;
-use FOS\RestBundle\Controller\Annotations\Delete;
 
 class AlbumsController extends BaseController
 {
@@ -82,7 +78,7 @@ class AlbumsController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Get("/albums/{slug}/like")
+     * @Route\Get("/albums/{slug}/like")
      */
     public function getLikeAlbumAction($slug) { return $this->getLikes($slug); }
 
@@ -98,7 +94,7 @@ class AlbumsController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Get("/albums/{slug}/dislike")
+     * @Route\Get("/albums/{slug}/dislike")
      */
     public function getDislikeAlbumAction($slug) { return $this->getDislikes($slug); }
 
@@ -114,7 +110,7 @@ class AlbumsController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Post("/albums/{slug}/like")
+     * @Route\Post("/albums/{slug}/like")
      */
     public function likeAlbumAction($slug) { return $this->like($slug); }
 
@@ -130,7 +126,7 @@ class AlbumsController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Post("/albums/{slug}/dislike")
+     * @Route\Post("/albums/{slug}/dislike")
      */
     public function dislikeAlbumAction($slug) { return $this->dislike($slug); }
 
@@ -146,7 +142,7 @@ class AlbumsController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Delete("/albums/{slug}/like")
+     * @Route\Delete("/albums/{slug}/like")
      */
     public function deleteLikeAlbumAction($slug) { return $this->deleteLike($slug); }
 
@@ -162,7 +158,7 @@ class AlbumsController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Delete("/albums/{slug}/dislike")
+     * @Route\Delete("/albums/{slug}/dislike")
      */
     public function deleteDislikeAlbumAction($slug) { return $this->deleteDislike($slug); }
 
@@ -244,7 +240,7 @@ class AlbumsController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Get("/albums/{slug}/musics/{id}/download")
+     * @Route\Get("/albums/{slug}/musics/{id}/download")
      */
     public function downloadMusicAction($slug, $id)
     {
