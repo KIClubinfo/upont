@@ -14,24 +14,24 @@ class LogListener extends ContainerAware
         $log->setDate(time());
         $request = $event->getRequest();
         $response = $event->getResponse();
-        
+
         $log->setMethod($request->getMethod());
         $log->setUrl(str_replace($request->getBaseUrl(), '', $request->getRequestUri()));
         $log->setParams(json_encode($request->request->all()));
         $log->setCode($response->getStatusCode());
-        
+
         $session = $this->container->get('security.context')->getToken();
         $user = method_exists($session, 'getUser') ? $session->getUser()->getUsername() : '';
         $log->setUsername($user);
         $log->setIp($request->getClientIp());
-        
+
         $agent = $request->headers->get('User-Agent');
         $log->setBrowser($this->browserUserAgent($agent));
         $log->setSystem($this->systemUserAgent($agent));
         $log->setAgent($agent);
-        
+
         $manager = $this->container->get('doctrine')->getManager();
-        
+
         // ATTENTION ! On ne veut pas flusher toutes les entités éventuellement
         // mal changées jusqu'ici, on les détache toutes pour être certain de ne
         // pas faire de connerie quand le kernel se termine.
@@ -39,7 +39,7 @@ class LogListener extends ContainerAware
         $manager->persist($log);
         $manager->flush();
     }
-    
+
     // Retourne le système pour un user agent donné
     // L'ORDRE DE VÉRIFICATION EST IMPORTANT!
     // Par exemple Android est aussi un système Linux... il ne faudrait pas confondre les deux
@@ -58,14 +58,14 @@ class LogListener extends ContainerAware
             'iPad'           => 'iOS',
             'Intel Mac OS X' => 'MacOS X'
         );
-        
+
         $system = 'Autre';
         foreach ($systems as $needle => $result)
             $system = preg_match('#' . $needle . '#isU', $agent) ? $result : $system;
-        
+
         return $system;
     }
-    
+
     // Retourne le navigateur internet pour un user agent donné
     public function browserUserAgent($agent)
     {

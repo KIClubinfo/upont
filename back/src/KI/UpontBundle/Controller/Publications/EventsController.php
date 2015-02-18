@@ -2,18 +2,14 @@
 
 namespace KI\UpontBundle\Controller\Publications;
 
-use KI\UpontBundle\Entity\Publications\Event;
-use KI\UpontBundle\Entity\Publications\EventUser;
-use KI\UpontBundle\Entity\Notification;
-use KI\UpontBundle\Form\Publications\EventType;
+use FOS\RestBundle\Controller\Annotations as Route;
 use KI\UpontBundle\Controller\BaseController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Post;
-use FOS\RestBundle\Controller\Annotations\Delete;
-use FOS\RestBundle\Controller\Annotations\Patch;
+
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use KI\UpontBundle\Entity\Publications\EventUser;
+use KI\UpontBundle\Entity\Notification;
 
 class EventsController extends BaseController
 {
@@ -139,7 +135,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Get("/events/{slug}/like")
+     * @Route\Get("/events/{slug}/like")
      */
     public function getLikeEventAction($slug) { return $this->getLikes($slug); }
 
@@ -155,7 +151,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Get("/events/{slug}/dislike")
+     * @Route\Get("/events/{slug}/dislike")
      */
     public function getDislikeEventAction($slug) { return $this->getDislikes($slug); }
 
@@ -171,7 +167,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Get("/events/{slug}/comments")
+     * @Route\Get("/events/{slug}/comments")
      */
     public function getCommentsEventAction($slug) { return $this->getAllSub($slug, 'Comment', true); }
 
@@ -187,7 +183,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Post("/events/{slug}/like")
+     * @Route\Post("/events/{slug}/like")
      */
     public function likeEventAction($slug) { return $this->like($slug); }
 
@@ -203,7 +199,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Post("/events/{slug}/dislike")
+     * @Route\Post("/events/{slug}/dislike")
      */
     public function dislikeEventAction($slug) { return $this->dislike($slug); }
 
@@ -219,7 +215,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Delete("/events/{slug}/like")
+     * @Route\Delete("/events/{slug}/like")
      */
     public function deleteLikeEventAction($slug) { return $this->deleteLike($slug); }
 
@@ -235,7 +231,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Delete("/events/{slug}/dislike")
+     * @Route\Delete("/events/{slug}/dislike")
      */
     public function deleteDislikeEventAction($slug) { return $this->deleteDislike($slug); }
 
@@ -259,7 +255,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Post("/events/{slug}/shotgun")
+     * @Route\Post("/events/{slug}/shotgun")
      */
     public function postEventUserAction($slug)
     {
@@ -309,7 +305,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Patch("/events/{slug}/shotgun")
+     * @Route\Patch("/events/{slug}/shotgun")
      */
     public function patchEventUserAction($slug)
     {
@@ -347,7 +343,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Delete("/events/{slug}/shotgun")
+     * @Route\Delete("/events/{slug}/shotgun")
      */
     public function deleteEventUserAction($slug) {
 
@@ -377,7 +373,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Get("/events/{slug}/shotgun")
+     * @Route\Get("/events/{slug}/shotgun")
      */
     public function getEventUserAction($slug) {
 
@@ -459,7 +455,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Post("/events/{slug}/attend")
+     * @Route\Post("/events/{slug}/attend")
      */
     public function attendAction($slug){
         $user = $this->get('security.context')->getToken()->getUser();
@@ -491,7 +487,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Delete("/events/{slug}/attend")
+     * @Route\Delete("/events/{slug}/attend")
      */
     public function noAttendAction($slug){
         $user = $this->get('security.context')->getToken()->getUser();
@@ -519,7 +515,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Post("/events/{slug}/decline")
+     * @Route\Post("/events/{slug}/decline")
      */
     public function addPookieAction($slug){
         $user = $this->get('security.context')->getToken()->getUser();
@@ -551,7 +547,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Delete("/events/{slug}/decline")
+     * @Route\Delete("/events/{slug}/decline")
      */
     public function removePookieAction($slug){
         $user = $this->get('security.context')->getToken()->getUser();
@@ -579,7 +575,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Get("/events/{slug}/attendees")
+     * @Route\Get("/events/{slug}/attendees")
      */
     public function getAttendeesAction($slug){ return $this->restResponse($this->findBySlug($slug)->getAttendees()); }
 
@@ -595,7 +591,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Get("/events/{slug}/pookies")
+     * @Route\Get("/events/{slug}/pookies")
      */
     public function getPookiesAction($slug){ return $this->restResponse($this->findBySlug($slug)->getPookies()); }
 }

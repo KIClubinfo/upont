@@ -4,21 +4,19 @@ namespace KI\UpontBundle\Entity\Ponthub;
 
 use KI\UpontBundle\Entity\Ponthub\PonthubFile;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
 class Episode extends PonthubFile
 {
     /**
      * Numéro de saison
      * @ORM\Column(name="season", type="integer")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $season;
@@ -26,11 +24,11 @@ class Episode extends PonthubFile
     /**
      * Numéro d'épisode
      * @ORM\Column(name="number", type="integer")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $number;
-    
+
     /**
      * Série parente
      * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Ponthub\Serie", inversedBy="episodes")
@@ -39,13 +37,13 @@ class Episode extends PonthubFile
      * @Assert\Valid()
      */
     protected $serie;
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
     //===== GENERATED AUTOMATICALLY =====//
 
     /**
@@ -64,7 +62,7 @@ class Episode extends PonthubFile
     /**
      * Get season
      *
-     * @return integer 
+     * @return integer
      */
     public function getSeason()
     {
@@ -87,13 +85,13 @@ class Episode extends PonthubFile
     /**
      * Get number
      *
-     * @return integer 
+     * @return integer
      */
     public function getNumber()
     {
         return $this->number;
     }
-    
+
     /**
      * Set serie
      *
@@ -110,7 +108,7 @@ class Episode extends PonthubFile
     /**
      * Get serie
      *
-     * @return \KI\UpontBundle\Entity\Ponthub\Serie 
+     * @return \KI\UpontBundle\Entity\Ponthub\Serie
      */
     public function getSerie()
     {

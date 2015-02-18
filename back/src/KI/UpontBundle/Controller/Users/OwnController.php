@@ -2,16 +2,16 @@
 
 namespace KI\UpontBundle\Controller\Users;
 
-use KI\UpontBundle\Entity\Achievement;
-use KI\UpontBundle\Entity\Users\Device;
-use KI\UpontBundle\Entity\Notification;
 use KI\UpontBundle\Controller\BaseController;
-use KI\UpontBundle\Entity\Users\Club;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
+use KI\UpontBundle\Entity\Users\Device;
+use KI\UpontBundle\Entity\Achievement;
+use KI\UpontBundle\Entity\Notification;
 
 
 class OwnController extends BaseController

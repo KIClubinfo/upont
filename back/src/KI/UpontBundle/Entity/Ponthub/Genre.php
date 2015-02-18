@@ -3,16 +3,12 @@
 namespace KI\UpontBundle\Entity\Ponthub;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
- * @ExclusionPolicy("all")
- * @UniqueEntity("name")
+ * @JMS\ExclusionPolicy("all")
  */
 class Genre
 {
@@ -25,24 +21,24 @@ class Genre
 
     /**
      * Nom du genre
-     * @ORM\Column(name="name", type="string")
-     * @Expose
+     * @ORM\Column(name="name", type="string", unique=true)
+     * @JMS\Expose
      * @Assert\Type("string")
      * @Assert\NotBlank()
      */
     protected $name;
 
-    
-    
-    
-    
-    
+
+
+
+
+
     //===== GENERATED AUTOMATICALLY =====//
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -65,7 +61,7 @@ class Genre
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {

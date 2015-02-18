@@ -2,13 +2,9 @@
 
 namespace KI\UpontBundle\Controller\Ponthub;
 
-use KI\UpontBundle\Entity\Ponthub\Other;
-use KI\UpontBundle\Form\Ponthub\OtherType;
+use FOS\RestBundle\Controller\Annotations as Route;
 use KI\UpontBundle\Controller\BaseController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Post;
-use FOS\RestBundle\Controller\Annotations\Delete;
 
 class OthersController extends BaseController
 {
@@ -82,7 +78,7 @@ class OthersController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Get("/others/{slug}/download")
+     * @Route\Get("/others/{slug}/download")
      */
     public function downloadOtherAction($slug)
     {
@@ -110,7 +106,7 @@ class OthersController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Get("/others/{slug}/like")
+     * @Route\Get("/others/{slug}/like")
      */
     public function getLikeOtherAction($slug) { return $this->getLikes($slug); }
 
@@ -126,7 +122,7 @@ class OthersController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Get("/others/{slug}/dislike")
+     * @Route\Get("/others/{slug}/dislike")
      */
     public function getDislikeOtherAction($slug) { return $this->getDislikes($slug); }
 
@@ -142,7 +138,7 @@ class OthersController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Post("/others/{slug}/like")
+     * @Route\Post("/others/{slug}/like")
      */
     public function likeOtherAction($slug) { return $this->like($slug); }
 
@@ -158,7 +154,7 @@ class OthersController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Post("/others/{slug}/dislike")
+     * @Route\Post("/others/{slug}/dislike")
      */
     public function dislikeOtherAction($slug) { return $this->dislike($slug); }
 
@@ -174,7 +170,7 @@ class OthersController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Delete("/others/{slug}/like")
+     * @Route\Delete("/others/{slug}/like")
      */
     public function deleteLikeOtherAction($slug) { return $this->deleteLike($slug); }
 
@@ -190,7 +186,7 @@ class OthersController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Delete("/others/{slug}/dislike")
+     * @Route\Delete("/others/{slug}/dislike")
      */
     public function deleteDislikeOtherAction($slug) { return $this->deleteDislike($slug); }
 }

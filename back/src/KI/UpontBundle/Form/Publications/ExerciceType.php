@@ -12,17 +12,16 @@ class ExerciceType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('department')
             ->add('file');
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
        $resolver->setDefaults(array(
             'csrf_protection' => false,
             'data_class' => 'KI\UpontBundle\Entity\Publications\Exercice'));
     }
-        
+
     public function getName()
     {
         return '';
