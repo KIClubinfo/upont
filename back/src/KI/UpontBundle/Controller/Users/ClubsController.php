@@ -2,18 +2,14 @@
 
 namespace KI\UpontBundle\Controller\Users;
 
-use KI\UpontBundle\Entity\Users\Club;
-use KI\UpontBundle\Entity\Users\ClubUser;
-use KI\UpontBundle\Form\Users\ClubUserType;
-use KI\UpontBundle\Form\Users\ClubType;
+use FOS\RestBundle\Controller\Annotations as Route;
 use KI\UpontBundle\Controller\BaseController;
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Post;
-use FOS\RestBundle\Controller\Annotations\Delete;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpFoundation\Response;
+use KI\UpontBundle\Form\Users\ClubUserType;
+use KI\UpontBundle\Entity\Users\ClubUser;
 
 class ClubsController extends BaseController
 {
@@ -139,7 +135,7 @@ class ClubsController extends BaseController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Post("/clubs/{slug}/users/{id}")
+     * @Route\Post("/clubs/{slug}/users/{id}")
      */
     public function postClubUserAction($slug, $id)
     {
@@ -193,7 +189,7 @@ class ClubsController extends BaseController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Delete("/clubs/{slug}/users/{id}")
+     * @Route\Delete("/clubs/{slug}/users/{id}")
      */
     public function deleteClubUserAction($slug, $id)
     {
@@ -232,7 +228,7 @@ class ClubsController extends BaseController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Post("/clubs/{slug}/follow")
+     * @Route\Post("/clubs/{slug}/follow")
      */
     public function followClubAction($slug)
     {
@@ -262,8 +258,7 @@ class ClubsController extends BaseController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Post("/clubs/{slug}/unfollow")
-     *
+     * @Route\Post("/clubs/{slug}/unfollow")
      */
     public function unFollowClubAction($slug)
     {
@@ -292,7 +287,7 @@ class ClubsController extends BaseController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Get("/clubs/{slug}/publications")
+     * @Route\Get("/clubs/{slug}/publications")
      */
     public function getPublicationsClubAction($slug)
     {

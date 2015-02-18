@@ -2,16 +2,11 @@
 
 namespace KI\UpontBundle\Controller\Publications;
 
-use KI\UpontBundle\Entity\Publications\Course;
-use KI\UpontBundle\Entity\Publications\CourseUser;
+use FOS\RestBundle\Controller\Annotations as Route;
 use KI\UpontBundle\Controller\BaseController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Post;
-use FOS\RestBundle\Controller\Annotations\Delete;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CoursesController extends BaseController
 {
@@ -114,7 +109,7 @@ class CoursesController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Post("/courses/{slug}/attend")
+     * @Route\Post("/courses/{slug}/attend")
      */
     public function addAttendeeAction($slug){
         $user = $this->get('security.context')->getToken()->getUser();
@@ -142,7 +137,7 @@ class CoursesController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Delete("/courses/{slug}/attend")
+     * @Route\Delete("/courses/{slug}/attend")
      */
     public function removeAttendeeAction($slug){
         $user = $this->get('security.context')->getToken()->getUser();

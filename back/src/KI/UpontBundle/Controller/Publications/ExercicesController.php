@@ -2,17 +2,11 @@
 
 namespace KI\UpontBundle\Controller\Publications;
 
-use KI\UpontBundle\Entity\Publications\Course;
-use KI\UpontBundle\Entity\Publications\CourseUser;
+use FOS\RestBundle\Controller\Annotations as Route;
 use KI\UpontBundle\Controller\BaseController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Post;
-use FOS\RestBundle\Controller\Annotations\Delete;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpFoundation\Response;
 
 class ExercicesController extends BaseController
 {
@@ -65,7 +59,7 @@ class ExercicesController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Get("/courses/{slug}/exercices/{id}/download")
+     * @Route\Get("/courses/{slug}/exercices/{id}/download")
      */
     public function downloadCourseExerciceAction($slug, $id)
     {
@@ -77,7 +71,7 @@ class ExercicesController extends BaseController
             throw new NotFoundHttpException('Fichier PDF non trouvé');
 
         // On lit le fichier PDF
-        return new Response(file_get_contents($exercice->getAbsolutePath()), 200, array(
+        return new \Symfony\Component\HttpFoundation\Response(file_get_contents($exercice->getAbsolutePath()), 200, array(
             'Content-Type' => 'application/pdf',
             'Content-Disposition: attachment; filename="' . $exercice->getCourse()->getDepartment() . '' . $exercice->getName() . '"'
         ));
@@ -96,7 +90,7 @@ class ExercicesController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Post("/courses/{slug}/exercices")
+     * @Route\Post("/courses/{slug}/exercices")
      */
      public function postCourseExerciceAction($slug) {
         $request = $this->getRequest();

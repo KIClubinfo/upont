@@ -2,13 +2,9 @@
 
 namespace KI\UpontBundle\Controller\Ponthub;
 
-use KI\UpontBundle\Entity\Ponthub\Software;
-use KI\UpontBundle\Form\Ponthub\SoftwareType;
+use FOS\RestBundle\Controller\Annotations as Route;
 use KI\UpontBundle\Controller\BaseController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Post;
-use FOS\RestBundle\Controller\Annotations\Delete;
 
 class SoftwaresController extends BaseController
 {
@@ -82,7 +78,7 @@ class SoftwaresController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Get("/softwares/{slug}/download")
+     * @Route\Get("/softwares/{slug}/download")
      */
     public function downloadSoftwareAction($slug)
     {
@@ -110,7 +106,7 @@ class SoftwaresController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Get("/softwares/{slug}/like")
+     * @Route\Get("/softwares/{slug}/like")
      */
     public function getLikeSoftwareAction($slug) { return $this->getLikes($slug); }
 
@@ -126,7 +122,7 @@ class SoftwaresController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Get("/softwares/{slug}/dislike")
+     * @Route\Get("/softwares/{slug}/dislike")
      */
     public function getDislikeSoftwareAction($slug) { return $this->getDislikes($slug); }
 
@@ -142,7 +138,7 @@ class SoftwaresController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Post("/softwares/{slug}/like")
+     * @Route\Post("/softwares/{slug}/like")
      */
     public function likeSoftwareAction($slug) { return $this->like($slug); }
 
@@ -158,7 +154,7 @@ class SoftwaresController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Post("/softwares/{slug}/dislike")
+     * @Route\Post("/softwares/{slug}/dislike")
      */
     public function dislikeSoftwareAction($slug) { return $this->dislike($slug); }
 
@@ -174,7 +170,7 @@ class SoftwaresController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Delete("/softwares/{slug}/like")
+     * @Route\Delete("/softwares/{slug}/like")
      */
     public function deleteLikeSoftwareAction($slug) { return $this->deleteLike($slug); }
 
@@ -190,7 +186,7 @@ class SoftwaresController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Delete("/softwares/{slug}/dislike")
+     * @Route\Delete("/softwares/{slug}/dislike")
      */
     public function deleteDislikeSoftwareAction($slug) { return $this->deleteDislike($slug); }
 }
