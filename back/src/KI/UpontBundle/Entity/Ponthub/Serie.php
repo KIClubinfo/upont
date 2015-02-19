@@ -4,15 +4,12 @@ namespace KI\UpontBundle\Entity\Ponthub;
 
 use KI\UpontBundle\Entity\Ponthub\PonthubFile;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
-use JMS\Serializer\Annotation\VirtualProperty;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
 class Serie extends PonthubFile
 {
@@ -26,7 +23,7 @@ class Serie extends PonthubFile
     /**
      * Durée moyenne d'un épisode (en secondes)
      * @ORM\Column(name="duration", type="integer", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Range(min = 0, max = 86400)
      */
     protected $duration;
@@ -34,7 +31,7 @@ class Serie extends PonthubFile
     /**
      * Année de début
      * @ORM\Column(name="year", type="integer", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Range(min = 1000, max = 2050)
      */
     protected $year;
@@ -42,7 +39,7 @@ class Serie extends PonthubFile
     /**
      * Son en VO ?
      * @ORM\Column(name="vo", type="boolean", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("boolean")
      */
     protected $vo;
@@ -50,7 +47,7 @@ class Serie extends PonthubFile
     /**
      * Son en VF ?
      * @ORM\Column(name="vf", type="boolean", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("boolean")
      */
     protected $vf;
@@ -58,7 +55,7 @@ class Serie extends PonthubFile
     /**
      * Sous-titres VO ?
      * @ORM\Column(name="vost", type="boolean", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("boolean")
      */
     protected $vost;
@@ -66,7 +63,7 @@ class Serie extends PonthubFile
     /**
      * Sous-titres VF ?
      * @ORM\Column(name="vostfr", type="boolean", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("boolean")
      */
     protected $vostfr;
@@ -74,7 +71,7 @@ class Serie extends PonthubFile
     /**
      * Version HD ?
      * @ORM\Column(name="hd", type="boolean", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("boolean")
      */
     protected $hd;
@@ -82,7 +79,7 @@ class Serie extends PonthubFile
     /**
      * Réalisateur
      * @ORM\Column(name="director", type="string", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $director;
@@ -95,7 +92,7 @@ class Serie extends PonthubFile
     protected $actors;
 
     /**
-     * @VirtualProperty()
+     * @JMS\VirtualProperty()
      */
     public function actorsList()
     {
@@ -108,7 +105,7 @@ class Serie extends PonthubFile
     /**
      * Score Metascore/Imdb (en %)
      * @ORM\Column(name="rating", type="integer", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Range(min = 0, max = 100)
      */
     protected $rating;
@@ -192,7 +189,7 @@ class Serie extends PonthubFile
     /**
      * Get vo
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getVo()
     {
@@ -215,7 +212,7 @@ class Serie extends PonthubFile
     /**
      * Get vf
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getVf()
     {
@@ -238,7 +235,7 @@ class Serie extends PonthubFile
     /**
      * Get vost
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getVost()
     {
@@ -261,7 +258,7 @@ class Serie extends PonthubFile
     /**
      * Get vostfr
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getVostfr()
     {
@@ -284,13 +281,13 @@ class Serie extends PonthubFile
     /**
      * Get hd
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getHd()
     {
         return $this->hd;
     }
-    
+
     /**
      * Set director
      *
@@ -307,13 +304,13 @@ class Serie extends PonthubFile
     /**
      * Get director
      *
-     * @return string 
+     * @return string
      */
     public function getDirector()
     {
         return $this->director;
     }
-    
+
     /**
      * Set actors
      *
@@ -330,13 +327,13 @@ class Serie extends PonthubFile
     /**
      * Get actors
      *
-     * @return array 
+     * @return array
      */
     public function getActors()
     {
         return $this->actors;
     }
-    
+
     /**
      * Add episodes
      *
@@ -353,7 +350,7 @@ class Serie extends PonthubFile
     /**
      * Remove episodes
      *
-     * @param \KI\UpontBundle\Entity\Ponthub\Episode $episodes
+     * @param \KI\UpontBundle\Entity\Ponthub\Episode $episode
      */
     public function removeEpisode(\KI\UpontBundle\Entity\Ponthub\Episode $episode)
     {
@@ -363,13 +360,13 @@ class Serie extends PonthubFile
     /**
      * Get episodes
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getEpisodes()
     {
         return $this->episodes;
     }
-    
+
     /**
      * Set episodes
      *
@@ -379,7 +376,7 @@ class Serie extends PonthubFile
     {
         return $this->episodes = $episodes;
     }
-    
+
     /**
      * Set rating
      *
@@ -396,7 +393,7 @@ class Serie extends PonthubFile
     /**
      * Get rating
      *
-     * @return integer 
+     * @return integer
      */
     public function getRating()
     {

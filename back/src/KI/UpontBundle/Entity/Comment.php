@@ -3,14 +3,13 @@
 namespace KI\UpontBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Stocke un commentaire utilisateur
  * @ORM\Entity
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
 class Comment
 {
@@ -18,13 +17,14 @@ class Comment
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @JMS\Expose
      */
     protected $id;
 
     /**
      * Date
      * @ORM\Column(name="date", type="integer")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $date;
@@ -32,7 +32,7 @@ class Comment
     /**
      * Le commentaire en lui même
      * @ORM\Column(name="text", type="text")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      * @Assert\NotBlank()
      */
@@ -41,6 +41,7 @@ class Comment
     /**
      * Auteur
      * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
+     * @JMS\Expose
      */
     protected $author;
 
@@ -56,7 +57,7 @@ class Comment
 
     /**
      * Nombre de ceux qui likent
-     * @VirtualProperty()
+     * @JMS\VirtualProperty()
      */
     public function likes()
     {
@@ -64,33 +65,33 @@ class Comment
     }
 
     /**
-     * Ceux qui unlikent
+     * Ceux qui dislikent
      * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
-     * @ORM\JoinTable(name="comment_unlikes",
+     * @ORM\JoinTable(name="comment_dislikes",
      *      joinColumns={@ORM\JoinColumn(name="comment_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="unliker_id", referencedColumnName="id")}
+     *      inverseJoinColumns={@ORM\JoinColumn(name="disliker_id", referencedColumnName="id")}
      *  )
      */
-    protected $listUnlikes;
+    protected $listDislikes;
 
     /**
-     * Nombre de ceux qui unlikent
-     * @VirtualProperty()
+     * Nombre de ceux qui dislikent
+     * @JMS\VirtualProperty()
      */
-    public function unlikes()
+    public function dislikes()
     {
-        return count($this->listUnlikes);
+        return count($this->listDislikes);
     }
 
     /**
-     * @Expose
+     * @JMS\Expose
      */
     protected $like = false;
 
     /**
-     * @Expose
+     * @JMS\Expose
      */
-    protected $unlike = false;
+    protected $dislike = false;
 
 
 
@@ -106,13 +107,13 @@ class Comment
     public function __construct()
     {
         $this->listLikes = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->listUnlikes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listDislikes = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -135,7 +136,7 @@ class Comment
     /**
      * Get date
      *
-     * @return integer 
+     * @return integer
      */
     public function getDate()
     {
@@ -158,7 +159,7 @@ class Comment
     /**
      * Get text
      *
-     * @return string 
+     * @return string
      */
     public function getText()
     {
@@ -181,7 +182,7 @@ class Comment
     /**
      * Get author
      *
-     * @return \KI\UpontBundle\Entity\Users\User 
+     * @return \KI\UpontBundle\Entity\Users\User
      */
     public function getAuthor()
     {
@@ -194,7 +195,7 @@ class Comment
      * @param \KI\UpontBundle\Entity\Users\User $listLikes
      * @return Comment
      */
-    public function addListLike(\KI\UpontBundle\Entity\Users\User $listLikes)
+    public function addLike(\KI\UpontBundle\Entity\Users\User $listLikes)
     {
         $this->listLikes[] = $listLikes;
 
@@ -206,7 +207,7 @@ class Comment
      *
      * @param \KI\UpontBundle\Entity\Users\User $listLikes
      */
-    public function removeListLike(\KI\UpontBundle\Entity\Users\User $listLikes)
+    public function removeLike(\KI\UpontBundle\Entity\Users\User $listLikes)
     {
         $this->listLikes->removeElement($listLikes);
     }
@@ -214,43 +215,43 @@ class Comment
     /**
      * Get listLikes
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getListLikes()
+    public function getLikes()
     {
         return $this->listLikes;
     }
 
     /**
-     * Add listUnlikes
+     * Add listDislikes
      *
-     * @param \KI\UpontBundle\Entity\Users\User $listUnlikes
+     * @param \KI\UpontBundle\Entity\Users\User $listDislikes
      * @return Comment
      */
-    public function addListUnlike(\KI\UpontBundle\Entity\Users\User $listUnlikes)
+    public function addDislike(\KI\UpontBundle\Entity\Users\User $listDislikes)
     {
-        $this->listUnlikes[] = $listUnlikes;
+        $this->listDislikes[] = $listDislikes;
 
         return $this;
     }
 
     /**
-     * Remove listUnlikes
+     * Remove listDislikes
      *
-     * @param \KI\UpontBundle\Entity\Users\User $listUnlikes
+     * @param \KI\UpontBundle\Entity\Users\User $listDislikes
      */
-    public function removeListUnlike(\KI\UpontBundle\Entity\Users\User $listUnlikes)
+    public function removeDislike(\KI\UpontBundle\Entity\Users\User $listDislikes)
     {
-        $this->listUnlikes->removeElement($listUnlikes);
+        $this->listDislikes->removeElement($listDislikes);
     }
 
     /**
-     * Get listUnlikes
+     * Get listDislikes
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getListUnlikes()
+    public function getDislikes()
     {
-        return $this->listUnlikes;
+        return $this->listDislikes;
     }
 }

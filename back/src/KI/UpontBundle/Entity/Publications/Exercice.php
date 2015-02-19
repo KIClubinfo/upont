@@ -3,78 +3,56 @@
 namespace KI\UpontBundle\Entity\Publications;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
+use KI\UpontBundle\Entity\Likeable;
 
 /**
  * @ORM\HasLifecycleCallbacks
  * @ORM\Entity
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
-class Exercice
-{   
-    /**
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
-    
+class Exercice extends Likeable
+{
     /**
      * Utilisateur qui a uploadé l'annale
      * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User")
-     * @Expose
+     * @JMS\Expose
      * @ORM\JoinColumn(nullable=false)
      */
     private $uploader;
-    
+
     /**
      * Date de l'upload
      * @ORM\Column(name="date", type="integer")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $date;
-    
+
     /**
-     * Nom de l'annale
-     * @ORM\Column(name="name", type="string")
-     * @Expose
-     * @Assert\Type("string")
+     * Le cours parent
+     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Publications\Course", cascade={"persist"}, inversedBy="exercices")
+     * Comme on veut éviter que l'entité se join sur sa propre colonne
+     * @ORM\JoinColumn(name="course_id", referencedColumnName="id", nullable=false)
+     * @JMS\Expose
+     * @Assert\Valid()
      */
-    protected $name;
-    
-    /**
-     * Département dans lequel l'annale a été posée
-     * @ORM\Column(name="department", type="string")
-     * @Expose
-     * @Assert\Type("string")
-     */
-    protected $department;
+    protected $course;
 
     /**
      * Indique si l'annale a été validée ou non
      * @ORM\Column(name="valid", type="boolean", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("boolean")
      */
     protected $valid;
-    
-    /**
-     * @Gedmo\Slug(fields={"department","name"})
-     * @ORM\Column(name="slug", type="string", unique=true)
-     * @Expose
-     * @Assert\Type("string")
-     */
-    protected $slug;
-    
+
     public function getBasePath()
     {
         return __DIR__.'/../../../../../web/uploads/exercices/';
     }
-    
+
     public function getAbsolutePath()
     {
         return __DIR__.'/../../../../../web/uploads/exercices/' . $this->id . '.pdf';
@@ -84,11 +62,11 @@ class Exercice
     {
         return 'uploads/exercices/' . $this->id . '.pdf';
     }
-    
+
     // Variable temporaire pour la suppression du fichier
     protected $filenameForRemove;
-    
-    /** 
+
+    /**
      * @ORM\PreRemove()
      */
     public function storeFilenameForRemove()
@@ -105,21 +83,21 @@ class Exercice
         if ($this->filenameForRemove)
             unlink($this->filenameForRemove);
     }
-    
-    
-    
-    
+
+
+
+
     /**
      * Propriété dummy pour valider le formulaire, l'upload réel se fait par le controleur
      * @Assert\File(maxSize="6000000")
      */
     protected $file;
-    
+
     public function getFile()
     {
         return $this->file;
     }
-    
+
     public function setFile($newFile)
     {
         $this->file = $newFile;
@@ -134,16 +112,6 @@ class Exercice
 
 
     //===== GENERATED AUTOMATICALLY =====//
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Set date
@@ -161,57 +129,11 @@ class Exercice
     /**
      * Get date
      *
-     * @return integer 
+     * @return integer
      */
     public function getDate()
     {
         return $this->date;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return Exercice
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set department
-     *
-     * @param string $department
-     * @return Exercice
-     */
-    public function setDepartment($department)
-    {
-        $this->department = $department;
-
-        return $this;
-    }
-
-    /**
-     * Get department
-     *
-     * @return string 
-     */
-    public function getDepartment()
-    {
-        return $this->department;
     }
 
     /**
@@ -230,34 +152,11 @@ class Exercice
     /**
      * Get valid
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getValid()
     {
         return $this->valid;
-    }
-
-    /**
-     * Set slug
-     *
-     * @param string $slug
-     * @return Exercice
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * Get slug
-     *
-     * @return string 
-     */
-    public function getSlug()
-    {
-        return $this->slug;
     }
 
     /**
@@ -276,10 +175,33 @@ class Exercice
     /**
      * Get uploader
      *
-     * @return \KI\UpontBundle\Entity\User 
+     * @return \KI\UpontBundle\Entity\User
      */
     public function getUploader()
     {
         return $this->uploader;
+    }
+
+    /**
+     * Set course
+     *
+     * @param \KI\UpontBundle\Entity\Publications\Course $course
+     * @return Exercice
+     */
+    public function setCourse(\KI\UpontBundle\Entity\Publications\Course $course = null)
+    {
+        $this->course = $course;
+
+        return $this;
+    }
+
+    /**
+     * Get course
+     *
+     * @return \KI\UpontBundle\Entity\Publications\Course
+     */
+    public function getCourse()
+    {
+        return $this->course;
     }
 }

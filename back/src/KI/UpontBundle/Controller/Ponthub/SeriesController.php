@@ -2,15 +2,10 @@
 
 namespace KI\UpontBundle\Controller\Ponthub;
 
-use KI\UpontBundle\Entity\Ponthub\Serie;
-use KI\UpontBundle\Form\Ponthub\SerieType;
-use KI\UpontBundle\Controller\BaseController;
+use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Post;
-use FOS\RestBundle\Controller\Annotations\Delete;
 
-class SeriesController extends BaseController
+class SeriesController extends \KI\UpontBundle\Controller\Core\SubresourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
@@ -69,115 +64,6 @@ class SeriesController extends BaseController
     {
         return $this->patch($slug, $this->get('security.context')->isGranted('ROLE_PONTHUB'));
     }
-
-    /**
-     * @ApiDoc(
-     *  description="Retourne la liste des gens qui likent",
-     *  statusCodes={
-     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Ponthub"
-     * )
-     * @Get("/series/{slug}/like")
-     */
-    public function getLikeSerieAction($slug) { return $this->getLikes($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Retourne la liste des gens qui unlikent",
-     *  statusCodes={
-     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Ponthub"
-     * )
-     * @Get("/series/{slug}/unlike")
-     */
-    public function getUnlikeSerieAction($slug) { return $this->getUnlikes($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Like",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Ponthub"
-     * )
-     * @Post("/series/{slug}/like")
-     */
-    public function likeSerieAction($slug) { return $this->like($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Unlike",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Ponthub"
-     * )
-     * @Post("/series/{slug}/unlike")
-     */
-    public function unlikeSerieAction($slug) { return $this->unlike($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Enlève son like",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Ponthub"
-     * )
-     * @Delete("/series/{slug}/like")
-     */
-    public function deleteLikeSerieAction($slug) { return $this->deleteLike($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Enlève son unlike",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Ponthub"
-     * )
-     * @Delete("/series/{slug}/unlike")
-     */
-    public function deleteUnlikeSerieAction($slug) { return $this->deleteUnlike($slug); }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /**
      * @ApiDoc(
@@ -243,7 +129,7 @@ class SeriesController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Get("/series/{slug}/episodes/{id}/download")
+     * @Route\Get("/series/{slug}/episodes/{id}/download")
      */
     public function downloadEpisodeAction($slug, $id)
     {

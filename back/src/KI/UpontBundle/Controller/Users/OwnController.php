@@ -2,19 +2,17 @@
 
 namespace KI\UpontBundle\Controller\Users;
 
-use KI\UpontBundle\Entity\Achievement;
-use KI\UpontBundle\Entity\Users\Device;
-use KI\UpontBundle\Entity\Notification;
-use KI\UpontBundle\Controller\BaseController;
-use KI\UpontBundle\Entity\Users\Club;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
+use KI\UpontBundle\Entity\Users\Device;
+use KI\UpontBundle\Entity\Achievement;
+use KI\UpontBundle\Entity\Notification;
 
 
-class OwnController extends BaseController
+class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
@@ -196,14 +194,14 @@ class OwnController extends BaseController
         // On filtre celles qui sont uniquement destinées à l'utilisateur actuel
         foreach($notifications as $notification) {
             $mode = $notification->getMode();
-            if($mode == 'to' && $notification->getRecipient()->contains($user)) {
+            if($mode == 'to') {
                 // Si la notification n'a pas été lue
-                if(!$notification->getRead()->contains($user))
+                if ($notification->getRecipient()->contains($user) && !$notification->getRead()->contains($user))
                     $return[] = $notification;
             }
-            else if($mode == 'exclude' && !$notification->getRecipient()->contains($user)) {
+            else if($mode == 'exclude') {
                 // Si la notification n'a pas été lue
-                if(!$notification->getRead()->contains($user))
+                if (!$notification->getRead()->contains($user) && !$notification->getRecipient()->contains($user))
                     $return[] = $notification;
             }
             else
@@ -301,11 +299,9 @@ class OwnController extends BaseController
      */
     public function getPollsAction()
     {
-        //$repo = $this->em->getRepository('KIUpontBundle:Polls');
-        $user = $this->get('security.context')->getToken()->getUser();
         $polls = array();
 
-        //Traitement TODO CBo15
+        // Traitement TODO CBo15
         return $this->restResponse($polls);
     }
 

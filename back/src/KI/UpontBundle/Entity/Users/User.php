@@ -4,17 +4,14 @@ namespace KI\UpontBundle\Entity\Users;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
-use JMS\Serializer\Annotation\VirtualProperty;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="fos_user")
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  * @UniqueEntity("email")
  * @UniqueEntity("username")
  */
@@ -37,7 +34,7 @@ class User extends BaseUser
     /**
      * Genre [M|Mme]
      * @ORM\Column(name="gender", type="string", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $gender;
@@ -52,7 +49,7 @@ class User extends BaseUser
     /**
      * Prénom
      * @ORM\Column(name="firstName", type="string")
-     * @Expose
+     * @JMS\Expose
      * @Assert\NotBlank()
      */
     protected $firstName;
@@ -60,15 +57,21 @@ class User extends BaseUser
     /**
      * Nom
      * @ORM\Column(name="lastName", type="string")
-     * @Expose
+     * @JMS\Expose
      * @Assert\NotBlank()
      */
     protected $lastName;
 
     /**
+     * Surnom/pseudo
+     * @ORM\Column(name="nickname", type="string", nullable=true)
+     */
+    protected $nickname;
+
+    /**
      * Promo (format: '0*', ie 016, 017...)
      * @ORM\Column(name="promo", type="string", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      * @Assert\Length(min=2,max=3)
      */
@@ -77,7 +80,7 @@ class User extends BaseUser
     /**
      * Département [1A|GCC|GCC-Archi|GMM|GI|IMI|VET|SEGF]
      * @ORM\Column(name="department", type="string", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $department;
@@ -85,7 +88,7 @@ class User extends BaseUser
     /**
      * Origine [CC|DD]
      * @ORM\Column(name="origin", type="string", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $origin;
@@ -93,7 +96,7 @@ class User extends BaseUser
     /**
      * Nationalité
      * @ORM\Column(name="nationality", type="string", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $nationality;
@@ -101,7 +104,7 @@ class User extends BaseUser
     /**
      * Chambre (M016, A53, 3èmeG), lieu de résidence
      * @ORM\Column(name="location", type="string", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $location;
@@ -109,7 +112,7 @@ class User extends BaseUser
     /**
      * Téléphone au format 06.12.34.56.78
      * @ORM\Column(name="phone", type="string", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $phone;
@@ -117,7 +120,7 @@ class User extends BaseUser
     /**
      * Pseudo Skype
      * @ORM\Column(name="skype", type="string", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $skype;
@@ -154,7 +157,7 @@ class User extends BaseUser
      * Tableau contenant les préférences utilisateurs. Les valeurs possibles des clés de ce tableau ainsi que
      * leur valeurs par défaut sont définies dans $preferencesArray
      * @ORM\Column(name="preferences", type="array", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("array")
      */
     protected $preferences = array();
@@ -162,7 +165,6 @@ class User extends BaseUser
     /**
      * Token faible permettant de créer des urls personnalisées pour l'user
      * @ORM\Column(name="token", type="string", nullable=true)
-     * @Expose
      * @Assert\Type("string")
      */
     protected $token;
@@ -182,11 +184,27 @@ class User extends BaseUser
     );
 
     /**
-     * @VirtualProperty()
+     * @JMS\VirtualProperty()
      */
     public function imageUrl()
     {
         return $this->image !== null ? $this->image->getWebPath() : 'uploads/images/default-user.png';
+    }
+
+    /**
+     * @JMS\VirtualProperty()
+     */
+    public function nick()
+    {
+        return $this->nickname !== null ? $this->nickname : $this->acronyme();
+    }
+
+    protected function acronyme()
+    {
+        $r = '';
+        foreach(explode(' ', $this->firstName . ' ' . $this->lastName) as $v)
+            $r .= $v[0];
+        return $r . '\'' . $this->promo;
     }
 
     // On définit des alias pour le slug
@@ -205,6 +223,7 @@ class User extends BaseUser
     {
         $this->devices = new \Doctrine\Common\Collections\ArrayCollection();
         $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->clubsNotFollowed = new \Doctrine\Common\Collections\ArrayCollection();
         parent::__construct();
     }
 
@@ -308,6 +327,29 @@ class User extends BaseUser
     public function getLastName()
     {
         return $this->lastName;
+    }
+
+    /**
+     * Set nickname
+     *
+     * @param string $nickname
+     * @return User
+     */
+    public function setNickname($nickname)
+    {
+        $this->nickname = $nickname;
+
+        return $this;
+    }
+
+    /**
+     * Get nickname
+     *
+     * @return string
+     */
+    public function getNickname()
+    {
+        return $this->nickname;
     }
 
     /**
@@ -530,7 +572,7 @@ class User extends BaseUser
     /**
      * Add courses
      *
-     * @param \KI\UpontBundle\Entity\Device $courses
+     * @param \KI\UpontBundle\Entity\Publications\Course $course
      * @return User
      */
     public function addCourse(\KI\UpontBundle\Entity\Publications\Course $course)
@@ -543,7 +585,7 @@ class User extends BaseUser
     /**
      * Remove courses
      *
-     * @param \KI\UpontBundle\Entity\Device $courses
+     * @param \KI\UpontBundle\Entity\Publications\Course $course
      */
     public function removeCourse(\KI\UpontBundle\Entity\Publications\Course $course)
     {
@@ -603,7 +645,7 @@ class User extends BaseUser
     public function addPreference($cle, $valeur)
     {
         if (array_key_exists($cle,$this->preferencesArray)) {
-            if(is_null($this->preferences) || !array_key_exists($cle,$this->preferences))
+            if ($this->preferences === null || !array_key_exists($cle,$this->preferences))
                 $this->preferences[$cle] = $valeur;
 
             return true;
@@ -621,7 +663,7 @@ class User extends BaseUser
     public function removePreference($cle)
     {
         if (array_key_exists($cle,$this->preferencesArray)) {
-            if (!is_null($this->preferences) && array_key_exists($cle, $this->preferences))
+            if ($this->preferences !== null && array_key_exists($cle, $this->preferences))
                 unset($this->preferences[$cle]);
             return true;
         }

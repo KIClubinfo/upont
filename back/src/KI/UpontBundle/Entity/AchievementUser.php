@@ -3,13 +3,12 @@
 namespace KI\UpontBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
 class AchievementUser
 {
@@ -23,7 +22,7 @@ class AchievementUser
     /**
      * Date d'obtention de l'achievement
      * @ORM\Column(name="date", type="integer")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     private $date;
@@ -31,14 +30,14 @@ class AchievementUser
     /**
      * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Achievement")
      * @ORM\JoinColumn(nullable=false)
-     * @Expose
+     * @JMS\Expose
      */
     private $achievement;
 
     /**
      * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User")
      * @ORM\JoinColumn(nullable=false)
-     * @Expose
+     * @JMS\Expose
      */
     private $user;
 
@@ -50,7 +49,7 @@ class AchievementUser
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -73,7 +72,7 @@ class AchievementUser
     /**
      * Get date
      *
-     * @return integer 
+     * @return integer
      */
     public function getDate()
     {
@@ -96,7 +95,7 @@ class AchievementUser
     /**
      * Get achievement
      *
-     * @return \KI\UpontBundle\Entity\Achievement 
+     * @return \KI\UpontBundle\Entity\Achievement
      */
     public function getAchievement()
     {
@@ -119,7 +118,7 @@ class AchievementUser
     /**
      * Get user
      *
-     * @return \KI\UpontBundle\Entity\User 
+     * @return \KI\UpontBundle\Entity\User
      */
     public function getUser()
     {

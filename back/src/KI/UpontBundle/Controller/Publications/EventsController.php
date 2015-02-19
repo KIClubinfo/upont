@@ -2,20 +2,15 @@
 
 namespace KI\UpontBundle\Controller\Publications;
 
-use KI\UpontBundle\Entity\Publications\Event;
-use KI\UpontBundle\Entity\Publications\EventUser;
-use KI\UpontBundle\Entity\Notification;
-use KI\UpontBundle\Form\Publications\EventType;
-use KI\UpontBundle\Controller\BaseController;
+use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Post;
-use FOS\RestBundle\Controller\Annotations\Delete;
-use FOS\RestBundle\Controller\Annotations\Patch;
+
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use KI\UpontBundle\Entity\Publications\EventUser;
+use KI\UpontBundle\Entity\Notification;
 
-class EventsController extends BaseController
+class EventsController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
@@ -129,122 +124,6 @@ class EventsController extends BaseController
 
     /**
      * @ApiDoc(
-     *  description="Retourne la liste des gens qui likent",
-     *  statusCodes={
-     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Publications"
-     * )
-     * @Get("/events/{slug}/like")
-     */
-    public function getLikeEventAction($slug) { return $this->getLikes($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Retourne la liste des gens qui unlikent",
-     *  statusCodes={
-     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Publications"
-     * )
-     * @Get("/events/{slug}/unlike")
-     */
-    public function getUnlikeEventAction($slug) { return $this->getUnlikes($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Retourne les commentaires",
-     *  statusCodes={
-     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Publications"
-     * )
-     * @Get("/events/{slug}/comments")
-     */
-    public function getCommentsEventAction($slug)
-    {
-        $event = $this->findBySlug($slug);
-        return $this->restResponse($event->getComments());
-    }
-
-    /**
-     * @ApiDoc(
-     *  description="Like",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Publications"
-     * )
-     * @Post("/events/{slug}/like")
-     */
-    public function likeEventAction($slug) { return $this->like($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Unlike",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Publications"
-     * )
-     * @Post("/events/{slug}/unlike")
-     */
-    public function unlikeEventAction($slug) { return $this->unlike($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Enlève son like",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Publications"
-     * )
-     * @Delete("/events/{slug}/like")
-     */
-    public function deleteLikeEventAction($slug) { return $this->deleteLike($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Enlève son unlike",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Publications"
-     * )
-     * @Delete("/events/{slug}/unlike")
-     */
-    public function deleteUnlikeEventAction($slug) { return $this->deleteUnlike($slug); }
-
-    /**
-     * @ApiDoc(
      *  description="Shotgunne un événement",
      *  requirements={
      *   {
@@ -263,7 +142,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Post("/events/{slug}/shotgun")
+     * @Route\Post("/events/{slug}/shotgun")
      */
     public function postEventUserAction($slug)
     {
@@ -313,7 +192,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Patch("/events/{slug}/shotgun")
+     * @Route\Patch("/events/{slug}/shotgun")
      */
     public function patchEventUserAction($slug)
     {
@@ -351,7 +230,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Delete("/events/{slug}/shotgun")
+     * @Route\Delete("/events/{slug}/shotgun")
      */
     public function deleteEventUserAction($slug) {
 
@@ -381,7 +260,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Get("/events/{slug}/shotgun")
+     * @Route\Get("/events/{slug}/shotgun")
      */
     public function getEventUserAction($slug) {
 
@@ -394,10 +273,10 @@ class EventsController extends BaseController
         $position = -1;
         $limit = $event->getShotgunLimit();
 
-        $fail = array();
-        $success = array();
+        $fail = $success = $shotgun = array();
+        $count = count($userEvent);
 
-        for ($i = 0; $i < min(count($userEvent), $limit); $i++) {
+        for ($i = 0; $i < min($count, $limit); $i++) {
             // Si le shotgun a été fait avant la date prévue, on passe
             if ($userEvent[$i]->getDate() < $event->getShotgunDate()) {
                 $position = 0;
@@ -414,7 +293,8 @@ class EventsController extends BaseController
             $success[$i] = $shotgun;
         }
 
-        for ($i = $limit; $i < count($userEvent); $i++) {
+        $count = count($userEvent);
+        for ($i = $limit; $i < $count; $i++) {
             if ($user == $userEvent[$i]->getUser())
                 $position = $i + 1;
             $shotgun['user'] = $userEvent[$i]->getUser();
@@ -463,7 +343,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Post("/events/{slug}/attend")
+     * @Route\Post("/events/{slug}/attend")
      */
     public function attendAction($slug){
         $user = $this->get('security.context')->getToken()->getUser();
@@ -495,7 +375,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Delete("/events/{slug}/attend")
+     * @Route\Delete("/events/{slug}/attend")
      */
     public function noAttendAction($slug){
         $user = $this->get('security.context')->getToken()->getUser();
@@ -523,7 +403,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Post("/events/{slug}/decline")
+     * @Route\Post("/events/{slug}/decline")
      */
     public function addPookieAction($slug){
         $user = $this->get('security.context')->getToken()->getUser();
@@ -555,7 +435,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Delete("/events/{slug}/decline")
+     * @Route\Delete("/events/{slug}/decline")
      */
     public function removePookieAction($slug){
         $user = $this->get('security.context')->getToken()->getUser();
@@ -583,7 +463,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Get("/events/{slug}/attendees")
+     * @Route\Get("/events/{slug}/attendees")
      */
     public function getAttendeesAction($slug){ return $this->restResponse($this->findBySlug($slug)->getAttendees()); }
 
@@ -599,7 +479,7 @@ class EventsController extends BaseController
      *  },
      *  section="Publications"
      * )
-     * @Get("/events/{slug}/pookies")
+     * @Route\Get("/events/{slug}/pookies")
      */
     public function getPookiesAction($slug){ return $this->restResponse($this->findBySlug($slug)->getPookies()); }
 }

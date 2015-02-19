@@ -3,41 +3,25 @@
 namespace KI\UpontBundle\Entity\Users;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
-use JMS\Serializer\Annotation\VirtualProperty;
-use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation as JMS;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+use KI\UpontBundle\Entity\Likeable;
 
 /**
  * @ORM\Entity
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
-class Club
+class Club extends Likeable
 {
     /**
-     * @ORM\Id
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
-
-    /**
-     * Nom court, abbréviation
-     * @ORM\Column(name="shortName", type="string", length=20)
-     * @Expose
+     * Nom complet du club
+     * @ORM\Column(name="fullName", type="string")
+     * @JMS\Expose
      * @Assert\Type("string")
      * @Assert\NotBlank()
      */
-    protected $shortName;
-
-    /**
-     * Nom complet
-     * @ORM\Column(name="name", type="string")
-     * @Expose
-     * @Assert\Type("string")
-     */
-    protected $name;
+    protected $fullName;
 
     /**
      * Logo
@@ -49,30 +33,21 @@ class Club
     /**
      * Icône (utilisée par l'application mobile)
      * @ORM\Column(name="icon", type="string", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $icon;
 
     /**
-     * Slug
-     * @Gedmo\Slug(fields={"shortName"})
-     * @ORM\Column(name="slug", type="string", unique=true)
-     * @Expose
-     * @Assert\Type("string")
-     */
-    protected $slug;
-
-    /**
      * Club actif ou non ?
      * @ORM\Column(name="active", type="boolean", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("boolean")
      */
     protected $active;
 
     /**
-     * @VirtualProperty()
+     * @JMS\VirtualProperty()
      */
     public function imageUrl()
     {
@@ -88,59 +63,26 @@ class Club
     //===== GENERATED AUTOMATICALLY =====//
 
     /**
-     * Get id
+     * Set fullName
      *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set shortName
-     *
-     * @param string $shortName
+     * @param string $fullName
      * @return Club
      */
-    public function setShortName($shortName)
+    public function setFullName($fullName)
     {
-        $this->shortName = $shortName;
+        $this->fullName = $fullName;
 
         return $this;
     }
 
     /**
-     * Get shortName
+     * Get fullName
      *
      * @return string
      */
-    public function getShortName()
+    public function getFullName()
     {
-        return $this->shortName;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return Club
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
+        return $this->fullName;
     }
 
     /**
@@ -164,29 +106,6 @@ class Club
     public function getIcon()
     {
         return $this->icon;
-    }
-
-    /**
-     * Set slug
-     *
-     * @param string $slug
-     * @return Club
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * Get slug
-     *
-     * @return string
-     */
-    public function getSlug()
-    {
-        return $this->slug;
     }
 
     /**

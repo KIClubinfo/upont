@@ -2,18 +2,16 @@
 
 namespace KI\UpontBundle\Controller\Publications;
 
-use KI\UpontBundle\Entity\Publications\Post;
-use KI\UpontBundle\Controller\BaseController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
-class PostsController extends BaseController
+class PostsController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->initialize('Post', 'Publications');
     }
-    
+
     /**
      * @ApiDoc(
      *  resource=true,

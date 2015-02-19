@@ -3,13 +3,12 @@
 namespace KI\UpontBundle\Entity\Users;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
 class ClubUser
 {
@@ -23,7 +22,7 @@ class ClubUser
     /**
      * Rôle du membre
      * @ORM\Column(name="role", type="string", length=255)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      * @Assert\NotBlank()
      */
@@ -32,14 +31,14 @@ class ClubUser
     /**
      * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\Club")
      * @ORM\JoinColumn(nullable=false)
-     * @Expose
+     * @JMS\Expose
      */
     private $club;
 
     /**
      * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User")
      * @ORM\JoinColumn(nullable=false)
-     * @Expose
+     * @JMS\Expose
      */
     private $user;
 
@@ -50,7 +49,7 @@ class ClubUser
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -73,7 +72,7 @@ class ClubUser
     /**
      * Get role
      *
-     * @return string 
+     * @return string
      */
     public function getRole()
     {
@@ -96,7 +95,7 @@ class ClubUser
     /**
      * Get club
      *
-     * @return \KI\UpontBundle\Entity\Club 
+     * @return \KI\UpontBundle\Entity\Club
      */
     public function getClub()
     {
@@ -119,7 +118,7 @@ class ClubUser
     /**
      * Get user
      *
-     * @return \KI\UpontBundle\Entity\User 
+     * @return \KI\UpontBundle\Entity\User
      */
     public function getUser()
     {

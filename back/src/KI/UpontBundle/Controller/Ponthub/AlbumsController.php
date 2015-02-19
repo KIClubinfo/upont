@@ -2,15 +2,10 @@
 
 namespace KI\UpontBundle\Controller\Ponthub;
 
-use KI\UpontBundle\Entity\Ponthub\Music;
-use KI\UpontBundle\Form\Ponthub\MusicType;
-use KI\UpontBundle\Controller\BaseController;
+use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Post;
-use FOS\RestBundle\Controller\Annotations\Delete;
 
-class AlbumsController extends BaseController
+class AlbumsController extends \KI\UpontBundle\Controller\Core\SubresourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
@@ -69,116 +64,6 @@ class AlbumsController extends BaseController
     {
         return $this->patch($slug, $this->get('security.context')->isGranted('ROLE_PONTHUB'));
     }
-
-    /**
-     * @ApiDoc(
-     *  description="Retourne la liste des gens qui likent",
-     *  statusCodes={
-     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Ponthub"
-     * )
-     * @Get("/albums/{slug}/like")
-     */
-    public function getLikeAlbumAction($slug) { return $this->getLikes($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Retourne la liste des gens qui unlikent",
-     *  statusCodes={
-     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Ponthub"
-     * )
-     * @Get("/albums/{slug}/unlike")
-     */
-    public function getUnlikeAlbumAction($slug) { return $this->getUnlikes($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Like",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Ponthub"
-     * )
-     * @Post("/albums/{slug}/like")
-     */
-    public function likeAlbumAction($slug) { return $this->like($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Unlike",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Ponthub"
-     * )
-     * @Post("/albums/{slug}/unlike")
-     */
-    public function unlikeAlbumAction($slug) { return $this->unlike($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Enlève son like",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Ponthub"
-     * )
-     * @Delete("/albums/{slug}/like")
-     */
-    public function deleteLikeAlbumAction($slug) { return $this->deleteLike($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Enlève son unlike",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Ponthub"
-     * )
-     * @Delete("/albums/{slug}/unlike")
-     */
-    public function deleteUnlikeAlbumAction($slug) { return $this->deleteUnlike($slug); }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /**
      * @ApiDoc(
@@ -244,7 +129,7 @@ class AlbumsController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Get("/albums/{slug}/musics/{id}/download")
+     * @Route\Get("/albums/{slug}/musics/{id}/download")
      */
     public function downloadMusicAction($slug, $id)
     {

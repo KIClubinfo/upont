@@ -3,80 +3,51 @@
 namespace KI\UpontBundle\Entity\Ponthub;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
-use JMS\Serializer\Annotation\VirtualProperty;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
+use KI\UpontBundle\Entity\Likeable;
 
 /**
  * @ORM\Entity
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="discr", type="string")
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
-class PonthubFile
+class PonthubFile extends Likeable
 {
     protected $fleurDn = 'fleur.enpc.fr';
     protected $fleurPort = 8080;
-    
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
-    
+
     /**
      * Chemin complet sur Fleur
      * @ORM\Column(name="path", type="string")
      * @Assert\Type("string")
      */
-    protected $path; 
+    protected $path;
 
     public function fileUrl()
     {
         return 'http://' . $this->fleurDn . ':' . $this->fleurPort . str_replace('/root/web', '', $this->path);
     }
-    
-    /**
-     * Nom apparent
-     * @ORM\Column(name="name", type="string")
-     * @Expose
-     * @Assert\Type("string")
-     * @Assert\NotBlank()
-     */
-    protected $name;
-    
-    /**
-     * Slug
-     * @Gedmo\Slug(fields={"name"})
-     * @ORM\Column(name="slug", type="string", unique=true)
-     * @Expose
-     * @Assert\Type("string")
-     */
-    protected $slug;
-    
+
     /**
      * Taille en octets
      * @ORM\Column(name="size", type="integer", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $size;
-    
+
     /**
      * Date d'ajout (timestamp)
      * @ORM\Column(name="added", type="integer", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $added;
-    
+
     /**
      * Statut [OK|NeedInfos|NotFound]
      * @ORM\Column(name="status", type="string")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $status;
@@ -84,35 +55,35 @@ class PonthubFile
     /**
      * Description
      * @ORM\Column(name="description", type="string", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $description;
-    
+
     /**
      * Image (affiche/jaquette/screenshot...)
      * @ORM\OneToOne(targetEntity="KI\UpontBundle\Entity\Image", cascade={"persist", "remove"})
      * @Assert\Valid()
      */
     protected $image;
-    
+
     /**
-     * @VirtualProperty()
+     * @JMS\VirtualProperty()
      */
     public function imageUrl()
     {
         return $this->image !== null ? $this->image->getWebPath() : 'uploads/images/default-user.png';
     }
-    
+
     /**
      * Tags
      * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Tag", cascade={"persist"})
      * @Assert\Valid()
      */
     protected $listTags;
-    
+
     /**
-     * @VirtualProperty()
+     * @JMS\VirtualProperty()
      */
     public function tags()
     {
@@ -121,16 +92,16 @@ class PonthubFile
             $tags[] = $tag->getName();
         return $tags;
     }
-    
+
     /**
      * Genres
      * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Ponthub\Genre", cascade={"persist"})
      * @Assert\Valid()
      */
     protected $listGenres;
-    
+
     /**
-     * @VirtualProperty()
+     * @JMS\VirtualProperty()
      */
     public function genres()
     {
@@ -139,80 +110,32 @@ class PonthubFile
             $genres[] = $genre->getName();
         return $genres;
     }
-    
+
     /**
      * Utilisateurs ayant téléchargé le fichier
      * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
      * @Assert\Valid()
      */
     protected $users;
-    
+
     /**
      * Nombre de fois où le fichier a été téléchargé
-     * @VirtualProperty()
+     * @JMS\VirtualProperty()
      */
     public function downloads()
     {
         return count($this->users);
     }
-    
-    /**
-     * Ceux qui likent
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
-     * @ORM\JoinTable(name="ponthub_likes",
-     *      joinColumns={@ORM\JoinColumn(name="ponthub_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="liker_id", referencedColumnName="id")}
-     * )
-     */
-    protected $listLikes;
-    
-    /**
-     * Nombre de ceux qui likent
-     * @VirtualProperty()
-     */
-    public function likes()
-    {
-        return count($this->listLikes);
-    }
-    
-    /**
-     * Ceux qui unlikent
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
-     * @ORM\JoinTable(name="ponthub_unlikes",
-     *      joinColumns={@ORM\JoinColumn(name="ponthub_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="unliker_id", referencedColumnName="id")}
-     *  )
-     */
-    protected $listUnlikes;
 
-    /**
-     * Nombre de ceux qui unlikent
-     * @VirtualProperty()
-     */
-    public function unlikes()
-    {
-        return count($this->listUnlikes);
-    }
-    
-    /**
-     * @Expose
-     */
-    protected $like = false;
-    
-    /**
-     * @Expose
-     */
-    protected $unlike = false;
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
     //===== GENERATED AUTOMATICALLY =====//
-    
+
     /**
      * Constructor
      */
@@ -221,87 +144,6 @@ class PonthubFile
         $this->listGenres = new \Doctrine\Common\Collections\ArrayCollection();
         $this->listTags = new \Doctrine\Common\Collections\ArrayCollection();
         $this->users = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->likes = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->unlikes = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set path
-     *
-     * @param string $path
-     * @return Album
-     */
-    public function setPath($path)
-    {
-        $this->path = $path;
-
-        return $this;
-    }
-
-    /**
-     * Get path
-     *
-     * @return string 
-     */
-    public function getPath()
-    {
-        return $this->path;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return Album
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set slug
-     *
-     * @param string $slug
-     * @return Album
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * Get slug
-     *
-     * @return string 
-     */
-    public function getSlug()
-    {
-        return $this->slug;
     }
 
     /**
@@ -320,11 +162,34 @@ class PonthubFile
     /**
      * Get size
      *
-     * @return integer 
+     * @return integer
      */
     public function getSize()
     {
         return $this->size;
+    }
+
+    /**
+     * Set path
+     *
+     * @param string $path
+     * @return PonthubFile
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Get path
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
     }
 
     /**
@@ -343,7 +208,7 @@ class PonthubFile
     /**
      * Get added
      *
-     * @return integer 
+     * @return integer
      */
     public function getAdded()
     {
@@ -353,8 +218,8 @@ class PonthubFile
     /**
      * Set status
      *
-     * @param boolean $status
-     * @return Album
+     * @param string $status
+     * @return PonthubFile
      */
     public function setStatus($status)
     {
@@ -366,7 +231,7 @@ class PonthubFile
     /**
      * Get status
      *
-     * @return string 
+     * @return string
      */
     public function getStatus()
     {
@@ -389,7 +254,7 @@ class PonthubFile
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -412,17 +277,17 @@ class PonthubFile
     /**
      * Get image
      *
-     * @return \KI\UpontBundle\Entity\Image 
+     * @return \KI\UpontBundle\Entity\Image
      */
     public function getImage()
     {
         return $this->image;
     }
-    
+
     /**
      * Add tags
      *
-     * @param \KI\UpontBundle\Entity\Tag $tags
+     * @param \KI\UpontBundle\Entity\Tag $tag
      * @return Album
      */
     public function addTag(\KI\UpontBundle\Entity\Tag $tag)
@@ -435,7 +300,7 @@ class PonthubFile
     /**
      * Remove tags
      *
-     * @param \KI\UpontBundle\Entity\Tag $tags
+     * @param \KI\UpontBundle\Entity\Tag $tag
      */
     public function removeTag(\KI\UpontBundle\Entity\Tag $tag)
     {
@@ -445,13 +310,13 @@ class PonthubFile
     /**
      * Get tags
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getTags()
     {
         return $this->listTags;
     }
-    
+
     /**
      * Set tags
      *
@@ -465,7 +330,7 @@ class PonthubFile
     /**
      * Add genres
      *
-     * @param \KI\UpontBundle\Entity\Ponthub\Genre $genres
+     * @param \KI\UpontBundle\Entity\Ponthub\Genre $genre
      * @return Album
      */
     public function addGenre(\KI\UpontBundle\Entity\Ponthub\Genre $genre)
@@ -478,7 +343,7 @@ class PonthubFile
     /**
      * Remove genres
      *
-     * @param \KI\UpontBundle\Entity\Ponthub\Genre $genres
+     * @param \KI\UpontBundle\Entity\Ponthub\Genre $genre
      */
     public function removeGenre(\KI\UpontBundle\Entity\Ponthub\Genre $genre)
     {
@@ -488,13 +353,13 @@ class PonthubFile
     /**
      * Get genres
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getGenres()
     {
         return $this->listGenres;
     }
-    
+
     /**
      * Set genres
      *
@@ -504,12 +369,12 @@ class PonthubFile
     {
         return $this->listGenres = $genres;
     }
-    
-    
+
+
     /**
      * Add user
      *
-     * @param \KI\UpontBundle\Entity\User $users
+     * @param \KI\UpontBundle\Entity\User $user
      * @return PonthubFile
      */
     public function addUser(\KI\UpontBundle\Entity\Users\User $user)
@@ -522,7 +387,7 @@ class PonthubFile
     /**
      * Remove users
      *
-     * @param \KI\UpontBundle\Entity\User $users
+     * @param \KI\UpontBundle\Entity\User $user
      */
     public function removeUser(\KI\UpontBundle\Entity\Users\User $user)
     {
@@ -532,13 +397,13 @@ class PonthubFile
     /**
      * Get users
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getUsers()
     {
         return $this->users;
     }
-    
+
     /**
      * Set users
      *
@@ -547,111 +412,5 @@ class PonthubFile
     public function setUsers($users)
     {
         return $this->users = $users;
-    }
-    
-    /**
-     * Add like
-     *
-     * @param \KI\UpontBundle\Entity\User $likes
-     * @return PonthubFile
-     */
-    public function addLike(\KI\UpontBundle\Entity\Users\User $like)
-    {
-        $this->listLikes[] = $like;
-
-        return $this;
-    }
-
-    /**
-     * Remove likes
-     *
-     * @param \KI\UpontBundle\Entity\User $likes
-     */
-    public function removeLike(\KI\UpontBundle\Entity\Users\User $like)
-    {
-        $this->listLikes->removeElement($like);
-    }
-
-    /**
-     * Get likes
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getLikes()
-    {
-        return $this->listLikes;
-    }
-    
-    /**
-     * Set likes
-     *
-     * @return PonthubFile
-     */
-    public function setLikes($likes)
-    {
-        return $this->listLikes = $likes;
-    }
-    
-    /**
-     * Add unlike
-     *
-     * @param \KI\UpontBundle\Entity\User $unlikes
-     * @return PonthubFile
-     */
-    public function addUnlike(\KI\UpontBundle\Entity\Users\User $unlike)
-    {
-        $this->listUnlikes[] = $unlike;
-
-        return $this;
-    }
-
-    /**
-     * Remove unlikes
-     *
-     * @param \KI\UpontBundle\Entity\User $unlikes
-     */
-    public function removeUnlike(\KI\UpontBundle\Entity\Users\User $unlike)
-    {
-        $this->listUnlikes->removeElement($unlike);
-    }
-
-    /**
-     * Get unlikes
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getUnlikes()
-    {
-        return $this->listUnlikes;
-    }
-    
-    /**
-     * Set unlikes
-     *
-     * @return PonthubFile
-     */
-    public function setUnlikes($unlikes)
-    {
-        return $this->listUnlikes = $unlikes;
-    }
-    
-    public function getUnlike()
-    {
-        return $this->unlike;
-    }
-    
-    public function setUnlike($unlike)
-    {
-        return $this->unlike = $unlike;
-    }
-    
-    public function getLike()
-    {
-        return $this->like;
-    }
-    
-    public function setLike($like)
-    {
-        return $this->like = $like;
     }
 }

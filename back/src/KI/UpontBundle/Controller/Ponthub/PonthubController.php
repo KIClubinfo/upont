@@ -8,9 +8,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use FOS\RestBundle\View\View as RestView;
 
-use KI\UpontBundle\Controller\BaseController;
 use KI\UpontBundle\Entity\Ponthub\Album;
 use KI\UpontBundle\Entity\Ponthub\Episode;
 use KI\UpontBundle\Entity\Ponthub\Game;
@@ -21,14 +19,14 @@ use KI\UpontBundle\Entity\Ponthub\Serie;
 use KI\UpontBundle\Entity\Ponthub\Software;
 use KI\UpontBundle\Entity\Ponthub\Genre;
 
-class PonthubController extends BaseController
+class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->initialize('PonthubFile', 'Ponthub');
     }
-    
+
     /**
      * @ApiDoc(
      *  description="Actualise la base de données à partir de la liste des fichiers sur Fleur",
@@ -54,10 +52,10 @@ class PonthubController extends BaseController
         // On récupère le fichier envoyé
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
             throw new AccessDeniedException();
-        
+
         if (!$request->files->has('filelist'))
             throw new BadRequestHttpException();
-        
+
         // Quelques variables qui vont servir
         $match = $genres = $series = $albums = $pathsDone = array();
         $path = __DIR__ . '/../../../../../web/uploads/files/';
@@ -67,13 +65,13 @@ class PonthubController extends BaseController
             'rar', 'iso', 'exe', 'msi',
             'jpg', 'jpeg', 'png', 'bmp', 'gif'
         );
-        
+
         // On récupère le contenu du fichier
         $request->files->get('filelist')->move($path);
         $list = fopen($path . 'files.list', 'r+');
         if ($list === false)
             throw new BadRequestHttpException();
-         
+
         // On va modifier les entités en fonction de la liste, on récupère les
         // chemins de toutes les entités Ponthub
         $this->em = $this->getDoctrine()->getManager();
@@ -81,7 +79,7 @@ class PonthubController extends BaseController
         $repoAlbums = $this->em->getRepository('KIUpontBundle:Ponthub\Album');
         $paths = $this->repo->createQueryBuilder('r')->select('r.path')->getQuery()->getScalarResult();;
         $paths = array_map('current', $paths);;
-        
+
         // On stocke les albums et les séries existantes
         $result = $repoSeries->findAll();
         foreach($result as $serie)
@@ -89,41 +87,41 @@ class PonthubController extends BaseController
         $result = $repoAlbums->findAll();
         foreach($result as $album)
             $albums[$album->getName()] = $album;
-            
+
         // On liste aussi les genres pour les musiques
         $repoGenres = $this->em->getRepository('KIUpontBundle:Ponthub\Genre');
         $result = $repoGenres->findAll();
         foreach($result as $genre)
             $genres[$genre->getName()] = $genre;
-        
+
         // On parcourt la liste ligne par ligne
         while (!feof($list)) {
             // On enlève le caractère de fin de line
-            $line = str_replace(array("\r", "\n"), array('', ''), fgets($list)); 
-            
+            $line = str_replace(array("\r", "\n"), array('', ''), fgets($list));
+
             // On récupère la taille du fichier et on l'enlève de la line
             // pour garder uniquement le chemin
             preg_match('#^(([0-9]+)[\t ]*)#', $line, $match);
-            
+
             // On vérifie que la line a bien la bonne syntaxe, càd
             // %size%          %path%
             if (!(isset($match[1]) && isset($match[2])))
                 continue;
             $size = $match[2]*1000;
             $line = str_replace($match[1], '', $line);
-            
+
             // On exclut tous les fichiers de type non valide
             $name = preg_replace(array('#.*/#', '#\.[a-zA-Z0-9]+$#'), array('', ''), $line);
             $ext = strtolower(substr(strrchr($line, '.'), 1));
             if (!in_array($ext, $validExt))
                 continue;
-            
+
             // On ne crée une nouvelle entrée que si le fichier n'existe pas
             if (in_array($line, $paths)) {
                 $pathsDone[] = $line;
                 continue;
             }
-            
+
             // On détermine le dossier dans lequel est rangé le fichier et on range selon le type.
             if (preg_match('#^/root/web/films/#', $line)) {
                 $item = new Movie();
@@ -173,7 +171,7 @@ class PonthubController extends BaseController
                 // On détermine les différentes données
                 $serie = preg_replace('#/.*#', '', str_replace('/root/web/series/', '', $line));
                 $episode = str_replace($ext, '', preg_replace('#.*/#', '', $line));
-                
+
                 // Si la série existe, on la récupère, sinon on la rajoute
                 if (!isset($series[$serie])) {
                     $serieItem = new Serie();
@@ -190,11 +188,12 @@ class PonthubController extends BaseController
                     $serieItem = $series[$serie];
                 if (!in_array('/root/web/series/' . $serie . '/', $pathsDone))
                     $pathsDone[] = '/root/web/series/' . $serie . '/';
-                
-                //On range l'épisode en commencant par déterminer le numéro de saison et d'épisode
-                if (preg_match('#^S([0-9]{2}) E([0-9]{2})#', $episode, $matches))
-                    list($blank, $numberS, $numberE) = $matches;
 
+                //On range l'épisode en commencant par déterminer le numéro de saison et d'épisode
+                if (!preg_match('#^S([0-9]{2}) E([0-9]{2})#', $episode, $matches))
+                    continue;
+
+                list(, $numberS, $numberE) = $matches;
                 $item = new Episode();
                 $item->setSize($size);
                 $item->setPath($line);
@@ -211,8 +210,7 @@ class PonthubController extends BaseController
                 $genre = preg_replace('#/.*#', '', str_replace('/root/web/musiques/', '', $line));
                 $artist = preg_replace('#/.*#', '', str_replace('/root/web/musiques/' . $genre . '/', '', $line));
                 $album = preg_replace('#/.*#', '', str_replace('/root/web/musiques/' . $genre . '/' . $artist . '/', '', $line));
-                $music = str_replace($ext, '', preg_replace('#.*/#', '', $line));
-                
+
                 // Si le genre existe, on le récupère, sinon on le rajoute
                 if (!isset($genres[$genre])) {
                     $genreItem = new Genre();
@@ -223,7 +221,7 @@ class PonthubController extends BaseController
                 }
                 else
                     $genreItem = $genres[$genre];
-                
+
                 // Si l'album existe, on le récupère, sinon on le rajoute
                 if (!isset($albums[$album])) {
                     $albumItem = new Album();
@@ -240,7 +238,7 @@ class PonthubController extends BaseController
                     $albumItem = $albums[$album];
                 if (!in_array('/root/web/musiques/' . $genre .'/' . $artist . '/' . $album . '/', $pathsDone))
                     $pathsDone[] = '/root/web/musiques/' . $genre .'/' . $artist . '/' . $album . '/';
-                    
+
                 // Maintenant on range la musique
                 $item = new Music();
                 $item->setSize($size);
@@ -254,21 +252,21 @@ class PonthubController extends BaseController
             }
         }
         $this->em->flush();
-        
+
         // Maintenant on marque les fichiers non trouvés
         $notFound = array_diff($paths, $pathsDone);
         $items = $this->repo->findByPath($notFound);
-        
+
         foreach($items as $item) {
             if (get_class($item) != 'KI\UpontBundle\Entity\Ponthub\Album'
              && get_class($item) != 'KI\UpontBundle\Entity\Ponthub\Serie')
                 $item->setStatus('NotFound');
         }
         $this->em->flush();
-        
+
         return $this->jsonResponse(null, 202);
     }
-    
+
     /**
      * @ApiDoc(
      *  description="Récupère des informations sur un album de musique grâce à l'API Gracenote",
@@ -302,22 +300,22 @@ class PonthubController extends BaseController
     {
         if (!$this->get('security.context')->isGranted('ROLE_USER'))
             throw new AccessDeniedException();
-        
+
         if (!$request->request->has('album'))
             throw new BadRequestHttpException();
-        
+
         $album = $request->request->get('album');
         $artist = $request->request->has('artist') ? $request->request->get('artist') : '';
         $gracenote = $this->get('ki_upont.gracenote');
         $infos = $gracenote->searchAlbum($album, $artist);
-        
+
         $response = new Response();
         $response->setContent(json_encode($infos));
         $response->setStatusCode(200);
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
-    
+
     /**
      * @ApiDoc(
      *  description="Recherche des films/séries sur Imdb",
@@ -343,20 +341,20 @@ class PonthubController extends BaseController
     {
         if (!$this->get('security.context')->isGranted('ROLE_USER'))
             throw new AccessDeniedException();
-        
+
         if (!$request->request->has('name'))
             throw new BadRequestHttpException();
-            
+
         $imdb = $this->get('ki_upont.imdb');
         $infos = $imdb->search($request->request->get('name'));
-        
+
         $response = new Response();
         $response->setContent(json_encode($infos));
         $response->setStatusCode(200);
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
-    
+
     /**
      * @ApiDoc(
      *  description="Retourne les informations sur un film/une série d'Imdb",
@@ -384,16 +382,16 @@ class PonthubController extends BaseController
     {
         if (!$this->get('security.context')->isGranted('ROLE_USER'))
             throw new AccessDeniedException();
-        
+
         if (!$request->request->has('id'))
             throw new BadRequestHttpException();
-            
+
         $imdb = $this->get('ki_upont.imdb');
         $infos = $imdb->infos($request->request->get('id'));
-        
+
         if ($infos === null)
             throw new NotFoundHttpException('Ce film/cette série n\'existe pas dans la base Imdb');
-            
+
         $response = new Response();
         $response->setContent(json_encode($infos));
         $response->setStatusCode(200);
@@ -496,7 +494,7 @@ class PonthubController extends BaseController
         $connection = $this->em->getConnection();
         $results = array();
         $type = $params->has('type') ? $params->get('type') : '';
-        
+
         // On va chercher dans tous les repos les objets qui correspondent à la requête
         $repoA = $this->em->getRepository('KIUpontBundle:Ponthub\Album');
         $repoE = $this->em->getRepository('KIUpontBundle:Ponthub\Episode');
@@ -505,7 +503,7 @@ class PonthubController extends BaseController
         $repoMu = $this->em->getRepository('KIUpontBundle:Ponthub\Music');
         $repoO = $this->em->getRepository('KIUpontBundle:Ponthub\Other');
         $repoS = $this->em->getRepository('KIUpontBundle:Ponthub\Serie');
-        
+
         if ($type == '' || $type == 'movie') {
             $qb = $this->em->createQueryBuilder();
             $qb->select('m')

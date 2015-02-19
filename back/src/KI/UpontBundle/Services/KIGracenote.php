@@ -18,7 +18,7 @@ class KIGracenote extends ContainerAware
             $this->container->getParameter('proxy_url'),
             $this->container->getParameter('proxy_user')
         );
-        
+
         $response = $api->searchAlbum($artistHint, $name, GracenoteWebAPI::BEST_MATCH_ONLY);
 
         // On garde le premier résultat, c'est le plus pertinent
@@ -30,7 +30,7 @@ class KIGracenote extends ContainerAware
                 'image' => preg_replace('#\?.*$#Ui', '', $response[0]['album_art_url']),
             );
         }
-        
+
         return null;
     }
 }
@@ -271,8 +271,8 @@ class GracenoteWebAPI
         // Check for any error codes and handle accordingly.
         switch ($status)
         {
-            case "ERROR":    throw new GNException(GNError::API_RESPONSE_ERROR, (string) $xml->MESSAGE); break;
-            case "NO_MATCH": throw new GNException(GNError::API_NO_MATCH); break;
+            case "ERROR":    throw new GNException(GNError::API_RESPONSE_ERROR, (string) $xml->MESSAGE);
+            case "NO_MATCH": throw new GNException(GNError::API_NO_MATCH);
             default:
                 if ($status != "OK") { throw new GNException(GNError::API_NON_OK_RESPONSE, $status); }
         }
@@ -378,8 +378,10 @@ class GracenoteWebAPI
         $array = array();
         foreach($root as $data)
         {
-             $array[] = array("id"   => (int)($data["ID"]),
-                              "text" => (string)($data));
+            $array[] = array(
+                "id"   => (int)($data["ID"]),
+                "text" => (string)($data)
+            );
         }
         return $array;
     }
@@ -417,10 +419,10 @@ class GNError
     const INVALID_INPUT_SPECIFIED  = 3000; // Some input the user gave wasn't valid.
 
     // The human readable error messages
-    static $_MESSAGES = array
+    static public $_MESSAGES = array
     (
         // Generic Errors
-         1    => "Unable to parse response from Gracenote WebAPI."
+        1    => "Unable to parse response from Gracenote WebAPI."
 
         // Specific API Errors
         ,1000 => "The API returned an error code."
@@ -474,7 +476,7 @@ class HTTP
         curl_setopt($this->_ch, CURLOPT_FOLLOWLOCATION, true);            // Follow any redirects
         curl_setopt($this->_ch, CURLOPT_RETURNTRANSFER, true);            // Put the response into a variable instead of printing.
         curl_setopt($this->_ch, CURLOPT_TIMEOUT_MS,     $this->_timeout); // Don't want to hang around forever.
-        
+
         // Code custom !!!
         if($proxyUrl !== null){
             curl_setopt($this->_ch, CURLOPT_PROXY, $proxyUrl);
@@ -589,4 +591,3 @@ class HTTP
         return $this->execute();
     }
 };
-

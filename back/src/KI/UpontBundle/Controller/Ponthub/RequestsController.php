@@ -2,14 +2,10 @@
 
 namespace KI\UpontBundle\Controller\Ponthub;
 
-use KI\UpontBundle\Entity\Ponthub\Music;
-use KI\UpontBundle\Form\Ponthub\MusicType;
-use KI\UpontBundle\Controller\BaseController;
+use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use FOS\RestBundle\View\View as RestView;
-use Symfony\Component\HttpFoundation\Request;
 
-class RequestsController extends BaseController
+class RequestsController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {

@@ -43,12 +43,12 @@ class DefaultControllerTest extends WebTestCase
         // On vérifie qu'un mauvais token ne marche pas
         $client = static::createClient();
         $client->setServerParameter('HTTP_Authorization', sprintf('%s %s', $this->authorizationHeaderPrefix, $response['token'] . 'changed'));
-        $client->request('GET', '/ponthub/movies');
+        $client->request('GET', '/movies');
         $this->assertJsonResponse($client->getResponse(), 401);
 
         // On vérifie qu'une erreur est retournée si l'on ne précise pas le header d'autorisation
         $client = static::createClient();
-        $client->request('GET', '/ponthub/movies');
+        $client->request('GET', '/movies');
         $this->assertJsonResponse($client->getResponse(), 401);
     }
 
@@ -108,7 +108,7 @@ class DefaultControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->enableProfiler();
-        $crawler = $client->request('POST', '/resetting/request', array('username' => 'iqhjioqiosois'));
+        $client->request('POST', '/resetting/request', array('username' => 'iqhjioqiosois'));
 
         // On vérifie que l'email a été envoyé
         $mailCollector = $client->getProfile()->getCollector('swiftmailer');
@@ -117,7 +117,7 @@ class DefaultControllerTest extends WebTestCase
 
         $client = static::createClient();
         $client->enableProfiler();
-        $crawler = $client->request('POST', '/resetting/request', array('username' => 'trancara'));
+        $client->request('POST', '/resetting/request', array('username' => 'trancara'));
 
         // On vérifie que l'email a été envoyé
         $mailCollector = $client->getProfile()->getCollector('swiftmailer');

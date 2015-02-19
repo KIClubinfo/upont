@@ -11,9 +11,16 @@ class KICalendar extends ContainerAware
 {
     protected $em;
 
-    public function __construct(\Doctrine\ORM\EntityManager $em) //Constructeur qui dote le service de l'Entity Manager accessible depuis $this->em
+    public function __construct(\Doctrine\ORM\EntityManager $em)
     {
-      $this->em = $em;
+        $this->em = $em;
+    }
+
+    private function toDateTime($timestamp)
+    {
+        $date = new \DateTime();
+        $date->setTimestamp($timestamp);
+        return $date;
     }
 
     //Retourne un calendrier au format ICS
@@ -21,23 +28,25 @@ class KICalendar extends ContainerAware
     {
         $provider = $this->container->get('bomo_ical.ics_provider');
 
+        //On se positionne à Paris
         $tz = $provider->createTimezone();
-        $tz->setTzid('Europe/Paris')->setProperty('X-LIC-LOCATION', $tz->getTzid()); //On se positionne à Paris
+        $tz->setTzid('Europe/Paris')->setProperty('X-LIC-LOCATION', $tz->getTzid());
 
+        //Titre et description
         $cal = $provider->createCalendar($tz);
-        $cal->setName('Calendrier Youpont')->setDescription('Calendrier ICS des évènements YouPont'); //Titre et description
+        $cal->setName('Calendrier Youpont')
+            ->setDescription('Calendrier ICS des évènements YouPont');
 
         $repoClub = $this->em->getRepository('KIUpontBundle:Users\Club');
         $clubs = $repoClub->findAll();
-
         $clubsNotFollowed = $user->getClubsNotFollowed();
         $followedClubs = array();
         foreach($clubs as $club) {
-            if (!$clubsNotFollowed->contains($club)) {
+            if (!$clubsNotFollowed->contains($club))
                 $followedClubs[] = $club;
-            }
         }
 
+        // On va chercher les événements voulus
         $repoEvent = $this->em->getRepository('KIUpontBundle:Publications\Event');
         $followedEvents = $repoEvent->findBy(array('authorClub'=> $followedClubs));
         $persoEvents = $repoEvent->findBy(array('authorUser' => $user, 'authorClub' => null));
@@ -55,14 +64,13 @@ class KICalendar extends ContainerAware
         }
         array_multisort($dates, SORT_DESC, $listEvents);
 
-        foreach ($listEvents as $eventDB) {
-            $datetime = new \Datetime('now');
+        foreach ($listEvents as $eventDb) {
             $event = $cal->newEvent();
             $event
-                ->setStartDate($eventDB->getStartDateTime())
-                ->setEndDate($eventDB->getEndDateTime())
-                ->setName($eventDB->getTitle())
-                ->setDescription($eventDB->getTextLong())
+                ->setStartDate($this->toDateTime($eventDb->getStartDate()))
+                ->setEndDate($this->toDateTime($eventDb->getEndDate()))
+                ->setName($eventDb->getName())
+                ->setDescription($eventDb->getTextLong())
                 ->setAttendee('yael.mith@eleves.enpc.fr')
                 ->setAttendee('Yaya Mith');
         }

@@ -9,7 +9,7 @@ class EventsControllerTest extends WebTestCase
     // On crée une ressource sur laquelle seront effectués les tests. Ne pas oublier de supprimer à la fin avec le test DELETE.
     public function testPost()
     {
-        $this->client->request('POST', '/events', array('title' => 'Manger des chips', 'textLong' => 'C\'est bon', 'startDate' => 151515, 'endDate' => 31415, 'entryMethod' => 'libre', 'place' => 'DTC'));
+        $this->client->request('POST', '/events', array('name' => 'Manger des chips', 'textLong' => 'C\'est bon', 'startDate' => 151515, 'endDate' => 31415, 'entryMethod' => 'libre', 'place' => 'DTC'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
         // On vérifie que le lieu du nouvel objet a été indiqué
@@ -54,48 +54,6 @@ class EventsControllerTest extends WebTestCase
         $this->assertJsonResponse($response, 404);
     }
 
-    public function testLike()
-    {
-        $this->client->request('GET', '/events/basdsqdqsdqck-in-black/like');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 404);
-
-        $this->client->request('GET', '/events/manger-des-chips/unkike');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 404);
-
-        $this->client->request('GET', '/events/manger-des-chips/like');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-
-        $this->client->request('GET', '/events/manger-des-chips/unlike');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-
-        $this->client->request('POST', '/events/manger-des-chips/like');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-
-        $this->client->request('DELETE', '/events/manger-des-chips/like');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-
-        $this->client->request('POST', '/events/manger-des-chips/unlike');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-
-        $this->client->request('DELETE', '/events/manger-des-chips/unlike');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-    }
-
-    public function testComments()
-    {
-        $this->client->request('GET', '/events/manger-des-chips/comments');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-    }
-
     public function testAttend()
     {
         $this->client->request('POST', '/events/manger-des-chips/attend');
@@ -134,7 +92,7 @@ class EventsControllerTest extends WebTestCase
 
     public function testPostShotgunEvent()
     {
-        $this->client->request('POST', '/events', array('title' => 'Semaine Ski', 'textLong' => 'Il fait froid', 'startDate' => 151515, 'endDate' => 31415, 'entryMethod' => 'shotgun', 'shotgunDate' => 101010, 'shotgunLimit' => 1, 'shotgunText' => 'Il est deux heures du matin, et tout va bien', 'place' => 'Far Far Away'));
+        $this->client->request('POST', '/events', array('name' => 'Semaine Ski', 'textLong' => 'Il fait froid', 'startDate' => 151515, 'endDate' => 31415, 'entryMethod' => 'shotgun', 'shotgunDate' => 101010, 'shotgunLimit' => 1, 'shotgunText' => 'Il est deux heures du matin, et tout va bien', 'place' => 'Far Far Away'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
     }

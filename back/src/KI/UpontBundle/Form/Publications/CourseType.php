@@ -12,6 +12,7 @@ class CourseType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('group')
             ->add('department')
             ->add('semester')
             ->add('startDate')
