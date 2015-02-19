@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Tests\Controller;
+namespace KI\UpontBundle\Tests\Controller\Core;
 
 use KI\UpontBundle\Tests\WebTestCase;
 
@@ -56,22 +56,22 @@ class BaseControllerTest extends WebTestCase
         $this->client->request('DELETE', '/newsitems/le-jeu/dislike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
-/*
-        $this->client->request('POST', '/courses/shark/exercices/partiel-016/like');
+
+        $this->client->request('POST', '/courses/mecanique-des-structures/exercices/final-016/like');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('DELETE', '/courses/shark/exercices/partiel-016/like');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-/*
-        $this->client->request('POST', '/ponthub/albums/black-album/musics/enter-sandman/like');
+        $this->client->request('DELETE', '/courses/mecanique-des-structures/exercices/final-016/like');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('DELETE', '/ponthub/albums/black-album/musics/enter-sandman/like');
+        $this->client->request('POST', '/albums/black-album/musics/enter-sandman/like');
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);*/
+        $this->assertJsonResponse($response, 204);
+
+        $this->client->request('DELETE', '/albums/black-album/musics/enter-sandman/like');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 204);
     }
 
     public function testComments()
@@ -104,6 +104,22 @@ class BaseControllerTest extends WebTestCase
         $this->client->request('PATCH', '/comments/qsdqdsq', array('text' => 'J\'ai perdu au Jeu.'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
+
+        $this->client->request('POST', '/comments/' . $out[1] . '/like');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 204);
+
+        $this->client->request('DELETE', '/comments/' . $out[1] . '/like');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 204);
+
+        $this->client->request('POST', '/comments/' . $out[1] . '/dislike');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 204);
+
+        $this->client->request('DELETE', '/comments/' . $out[1] . '/dislike');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 204);
 
         $this->client->request('DELETE', '/comments/' . $out[1], array('text' => 'J\'ai perdu au Jeu.'));
         $response = $this->client->getResponse();

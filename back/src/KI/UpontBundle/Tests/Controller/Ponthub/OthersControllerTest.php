@@ -8,45 +8,45 @@ class OthersControllerTest extends WebTestCase
 {
     public function testGet()
     {
-        $this->client->request('GET', '/ponthub/others');
+        $this->client->request('GET', '/others');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
-        $this->client->request('GET', '/ponthub/others/windows-vista');
+        $this->client->request('GET', '/others/windows-vista');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
-        $this->client->request('GET', '/ponthub/others/sjoajsiohaysahais-asbsksaba7');
+        $this->client->request('GET', '/others/sjoajsiohaysahais-asbsksaba7');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }
 
     public function testPatch()
     {
-        $this->client->request('PATCH', '/ponthub/others/windows-vista', array('description' => 'De la daube...', 'tags' => array(array('name' => 'windaube'), array('name' => 'vista'))));
+        $this->client->request('PATCH', '/others/windows-vista', array('description' => 'De la daube...', 'tags' => array(array('name' => 'windaube'), array('name' => 'vista'))));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/ponthub/others/windows-vista', array('size' => 0));
+        $this->client->request('PATCH', '/others/windows-vista', array('size' => 0));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('PATCH', '/ponthub/others/sjoajsiohaysahais-asbsksaba7', array('username' => 'miam', 'email' => '123@mail.fr'));
+        $this->client->request('PATCH', '/others/sjoajsiohaysahais-asbsksaba7', array('username' => 'miam', 'email' => '123@mail.fr'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }
 
     public function testStats()
     {
-        $this->client->request('GET', '/ponthub/others/windows-vista/download');
+        $this->client->request('GET', '/others/windows-vista/download');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 302);
 
-        $this->client->request('GET', '/ponthub/others/windows-vista/download');
+        $this->client->request('GET', '/others/windows-vista/download');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 302);
 
-        $this->client->request('GET', '/ponthub/others/windows-vista');
+        $this->client->request('GET', '/others/windows-vista');
         $response = $this->client->getResponse();
         $infos = json_decode($response->getContent(), true);
         $this->assertJsonResponse($response, 200);

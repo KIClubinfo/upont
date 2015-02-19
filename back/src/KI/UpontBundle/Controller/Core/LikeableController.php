@@ -33,12 +33,16 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
         case 'newsitems': $this->initialize('Newsitem', 'Publications'); break;
         case 'events'   : $this->initialize('Event', 'Publications');    break;
         case 'courses'  : $this->initialize('Course', 'Publications');   break;
+        case 'exercices': $this->initialize('Exercice', 'Publications'); break;
         case 'movies'   : $this->initialize('Movie', 'Ponthub');         break;
         case 'series'   : $this->initialize('Serie', 'Ponthub');         break;
+        case 'episodes' : $this->initialize('Episode', 'Ponthub');       break;
         case 'albums'   : $this->initialize('Album', 'Ponthub');         break;
+        case 'musics'   : $this->initialize('Music', 'Ponthub');         break;
         case 'games'    : $this->initialize('Game', 'Ponthub');          break;
         case 'softwares': $this->initialize('Software', 'Ponthub');      break;
         case 'others'   : $this->initialize('Other', 'Ponthub');         break;
+        case 'comments' : $this->initialize('Comment');                  break;
 
         default: return;
         }
@@ -199,6 +203,7 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
 
 
 
+
     // Commentaires
 
     /**
@@ -327,8 +332,156 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
 
         $this->initialize('Comment');
         $comment = $this->findBySlug($id);
-        $item->removeComment($comment);
+        $this->em->remove($comment);
         $this->em->flush();
         return $this->jsonResponse(null, 204);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Même chose pour les sous ressources
+
+    /**
+     * @ApiDoc(
+     *  description="Like une sous ressource",
+     *  statusCodes={
+     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   404="Ressource non trouvée",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Likeable"
+     * )
+     */
+    public function likeSubAction($object, $slug, $subobject, $subslug)
+    {
+        $this->autoInitialize($object);
+        $this->like($this->findBySlug($slug));
+        return $this->jsonResponse(null, 204);
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Dislike une sous ressource",
+     *  statusCodes={
+     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   404="Ressource non trouvée",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Likeable"
+     * )
+     */
+    public function dislikeSubAction($object, $slug, $subobject, $subslug)
+    {
+        $this->autoInitialize($object);
+        $this->findBySlug($slug);
+        $this->autoInitialize($subobject);
+        $this->dislike($this->findBySlug($subslug));
+        return $this->jsonResponse(null, 204);
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Enlève son like d'une sous ressource",
+     *  statusCodes={
+     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   404="Ressource non trouvée",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Likeable"
+     * )
+     */
+    public function deleteLikeSubAction($object, $slug, $subobject, $subslug)
+    {
+        $this->autoInitialize($object);
+        $this->findBySlug($slug);
+        $this->autoInitialize($subobject);
+        $this->deleteLike($this->findBySlug($subslug));
+        return $this->jsonResponse(null, 204);
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Enlève son dislike d'une sous ressource",
+     *  statusCodes={
+     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   404="Ressource non trouvée",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Likeable"
+     * )
+     */
+    public function deleteDislikeSubAction($object, $slug, $subobject, $subslug)
+    {
+        $this->autoInitialize($object);
+        $this->findBySlug($slug);
+        $this->autoInitialize($subobject);
+        $this->deleteDislike($this->findBySlug($subslug));
+        return $this->jsonResponse(null, 204);
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Retourne les commentaires d'une sous ressource",
+     *  statusCodes={
+     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   404="Ressource non trouvée",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Likeable"
+     * )
+     */
+    public function getCommentsSubAction($object, $slug, $subobject, $subslug)
+    {
+        $this->autoInitialize($object);
+        $this->findBySlug($slug);
+        $this->autoInitialize($subobject);
+        $item = $this->findBySlug($subslug);
+        return $this->restResponse($item->getComments());
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Ajoute un commentaire à une sous ressource",
+     *  statusCodes={
+     *   201="Requête traitée avec succès avec création d’un document",
+     *   400="La syntaxe de la requête est erronée",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   404="Ressource non trouvée",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Likeable"
+     * )
+     */
+    public function postCommentSubAction($object, $slug, $subobject, $subslug)
+    {
+        $this->autoInitialize($object);
+        $this->findBySlug($slug);
+        $this->autoInitialize($subobject);
+        $item = $this->findBySlug($subslug);
+        return $this->postComment($item);
     }
 }
