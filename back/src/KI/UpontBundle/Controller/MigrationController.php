@@ -9,7 +9,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\File;
-use KI\UpontBundle\Controller\BaseController;
 use KI\UpontBundle\Entity\Ponthub;
 use KI\UpontBundle\Entity\Publications;
 use KI\UpontBundle\Entity\Users\User;
@@ -18,7 +17,7 @@ use KI\UpontBundle\Entity\Users\ClubUser;
 use KI\UpontBundle\Entity\Image;
 use KI\UpontBundle\Entity;
 
-class MigrationController extends BaseController
+class MigrationController extends \KI\UpontBundle\Controller\Core\BaseController
 {
     public function migrationAction()
     {

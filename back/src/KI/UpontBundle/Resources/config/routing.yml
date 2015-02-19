@@ -9,16 +9,24 @@ NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /
 
-ki_upont_api_pontub:
-    type:   rest
-    prefix: /ponthub
-    resource: "@KIUpontBundle/Resources/config/ponthub.yml"
-
+ki_upont_api_foyer:
+    prefix:   /foyer
+    resource: "@KIUpontBundle/Resources/config/foyer.yml"
+ 
 ki_upont_api_general:
     type:   rest
     prefix: /
     resource: "@KIUpontBundle/Resources/config/general.yml"
-
+ 
+ki_upont_api_likes:
+    prefix: /
+    resource: "@KIUpontBundle/Resources/config/likes.yml"
+    
+ki_upont_api_pontub:
+    type:   rest
+    prefix: /
+    resource: "@KIUpontBundle/Resources/config/ponthub.yml"
+    
 ki_upont_api_publications:
     type:   rest
     prefix: /
@@ -29,10 +37,6 @@ ki_upont_api_users:
     prefix: /
     resource: "@KIUpontBundle/Resources/config/users.yml"
 
-ki_upont_api_foyer:
-    prefix:   /foyer
-    resource: "@KIUpontBundle/Resources/config/foyer.yml"
-    
 upont_api_migration:
     pattern: /migration
     defaults: { _controller: KIUpontBundle:Migration:migration }

@@ -29,6 +29,11 @@
 
                     <li ng-if="element.rating">Note Rotten Tomatoes : {{ element.rating+'%' }}</li>
                 </ul>
+                <div class="col-xs-12" ng-if="saisons" ng-repeat="saison in saisons">
+                    <h2>Saison {{ $index+1 }} </h2>
+
+                    <h3 ng-repeat="episode in saison"><a class="up-ticket-link" href="">S{{ episode.season < 10?'0':'' }}{{episode.season}}E{{episode.number < 10 ? '0':'' }}{{episode.number}} : {{episode.name}}</a></h3>
+                </div>
             </div>
         </div>
     </div>
