@@ -2,37 +2,37 @@
 
 upont_api_likes_post_like:
     pattern: /{object}/{slug}/like
-    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::likeAction }
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::likeView }
     requirements:
         _method: POST
 
 upont_api_likes_post_dislike:
     pattern: /{object}/{slug}/dislike
-    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::dislikeAction }
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::dislikeView }
     requirements:
         _method: POST
         
 upont_api_likes_delete_like:
     pattern: /{object}/{slug}/like
-    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::deleteLikeAction }
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::deleteLikeView }
     requirements:
         _method: DELETE
 
 upont_api_likes_delete_dislike:
     pattern: /{object}/{slug}/dislike
-    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::deleteDislikeAction }
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::deleteDislikeView }
     requirements:
         _method: DELETE
 
 upont_api_likes_get_comments:
     pattern: /{object}/{slug}/comments
-    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::getCommentsAction }
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::getCommentsView }
     requirements:
         _method: GET
 
 upont_api_likes_post_comments:
     pattern: /{object}/{slug}/comments
-    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::postCommentAction }
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::postCommentView }
     requirements:
         _method: POST
 
@@ -47,37 +47,37 @@ upont_api_likes_post_comments:
 # Gestion des sous ressources, on répète la même chose
 upont_api_sublikes_post_like:
     pattern: /{object}/{slug}/{subobject}/{subslug}/like
-    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::likeSubAction }
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::likeSubView }
     requirements:
         _method: POST
 
 upont_api_sublikes_post_dislike:
     pattern: /{object}/{slug}/{subobject}/{subslug}/dislike
-    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::dislikeSubAction }
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::dislikeSubView }
     requirements:
         _method: POST
         
 upont_api_sublikes_delete_like:
     pattern: /{object}/{slug}/{subobject}/{subslug}/like
-    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::deleteLikeSubAction }
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::deleteLikeSubView }
     requirements:
         _method: DELETE
 
 upont_api_sublikes_delete_dislike:
     pattern: /{object}/{slug}/{subobject}/{subslug}/dislike
-    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::deleteDislikeSubAction }
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::deleteDislikeSubView }
     requirements:
         _method: DELETE
 
 upont_api_sublikes_get_comments:
     pattern: /{object}/{slug}/{subobject}/{subslug}/comments
-    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::getCommentsSubAction }
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::getCommentsSubView }
     requirements:
         _method: GET
 
 upont_api_sublikes_post_comments:
     pattern: /{object}/{slug}/{subobject}/{subslug}/comments
-    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::postCommentSubAction }
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::postCommentSubView }
     requirements:
         _method: POST
 
@@ -88,12 +88,12 @@ upont_api_sublikes_post_comments:
 # Maintenant, les commentaires
 upont_api_patch_comment:
     pattern: /comments/{id}
-    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::patchCommentAction }
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::patchCommentView }
     requirements:
         _method: PATCH
                
 upont_api_delete_comment:
     pattern: /comments/{id}
-    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::deleteCommentAction }
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::deleteCommentView }
     requirements:
         _method: DELETE

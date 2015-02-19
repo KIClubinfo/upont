@@ -9,6 +9,7 @@ grunt build
 
 cd ../mobile
 sudo npm install
+bower update
 grunt build
 
 cd ../back
