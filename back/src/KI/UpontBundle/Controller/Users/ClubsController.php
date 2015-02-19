@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use KI\UpontBundle\Form\Users\ClubUserType;
 use KI\UpontBundle\Entity\Users\ClubUser;
 
-class ClubsController extends \KI\UpontBundle\Controller\Core\ResourceController
+class ClubsController extends \KI\UpontBundle\Controller\Core\SubresourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
