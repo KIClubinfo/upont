@@ -9,7 +9,6 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
-use KI\UpontBundle\Controller\BaseController;
 use KI\UpontBundle\Entity\Ponthub\Album;
 use KI\UpontBundle\Entity\Ponthub\Episode;
 use KI\UpontBundle\Entity\Ponthub\Game;
@@ -20,7 +19,7 @@ use KI\UpontBundle\Entity\Ponthub\Serie;
 use KI\UpontBundle\Entity\Ponthub\Software;
 use KI\UpontBundle\Entity\Ponthub\Genre;
 
-class PonthubController extends BaseController
+class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {

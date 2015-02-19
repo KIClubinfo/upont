@@ -93,7 +93,16 @@ class Likeable
      * Les commentaires
      * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Comment", cascade={"persist"})
      */
-    protected $comments;
+    protected $listComments;
+
+    /**
+     * Nombre de commentaires
+     * @JMS\VirtualProperty()
+     */
+    public function comments()
+    {
+        return count($this->listComments);
+    }
 
 
 
@@ -115,7 +124,7 @@ class Likeable
     {
         $this->listLikes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->listDislikes = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listComments = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -288,7 +297,7 @@ class Likeable
      */
     public function addcomment(\KI\UpontBundle\Entity\Comment $comment)
     {
-        $this->comments[] = $comment;
+        $this->listComments[] = $comment;
 
         return $this;
     }
@@ -300,7 +309,7 @@ class Likeable
      */
     public function removeComment(\KI\UpontBundle\Entity\Comment $comment)
     {
-        $this->comments->removeElement($comment);
+        $this->listComments->removeElement($comment);
     }
 
     /**
@@ -310,7 +319,7 @@ class Likeable
      */
     public function getComments()
     {
-        return $this->comments;
+        return $this->listComments;
     }
 
     /**
@@ -320,6 +329,6 @@ class Likeable
      */
     public function setComments($comments)
     {
-        return $this->comments = $comments;
+        return $this->listComments = $comments;
     }
 }

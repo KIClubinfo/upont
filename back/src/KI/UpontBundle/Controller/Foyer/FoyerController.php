@@ -3,10 +3,9 @@
 namespace KI\UpontBundle\Controller\Foyer;
 
 use FOS\RestBundle\Controller\Annotations as Route;
-use KI\UpontBundle\Controller\BaseController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
-class FoyerController extends BaseController
+class FoyerController extends \KI\UpontBundle\Controller\Core\BaseController
 {
     /**
      * @ApiDoc(
