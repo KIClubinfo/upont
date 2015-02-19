@@ -1,0 +1,40 @@
+<div class="col-xs-12">
+    <div class="up-ticket">
+        <div class="row">
+            <div class="col-xs-3 centering">
+                <img class="img-responsive" src="{{ element.image_url | urlFile }}" alt="" />
+                <span class="label label-upont" ng-if="element.vo">VO</span>
+                <span class="label label-upont" ng-if="element.vf">VF</span>
+                <span class="label label-upont" ng-if="element.vost">VOST</span>
+                <span class="label label-upont" ng-if="element.hd">HD</span>
+            </div>
+            <div class="col-xs-9">
+                <h1>{{ element.name }}</h1>
+                <p>{{ element.description }}</p>
+                <ul class="up-ph-list-infos">
+                    <li ng-if="element.year">Année de sortie : {{ element.year }}</li>
+                    <li ng-if="element.genres && element.genres.length">Genres : <span ng-repeat="genre in element.genres">{{ genre }}{{$last ? '' : ', '}}</span>
+                    </li>
+                    <li ng-if="element.actors_list && element.actors_list.length">Acteurs : <span ng-repeat="actor in element.actors_list">{{ actor }}{{$last ? '' : ', '}}</span>
+                    </li>
+                    <li ng-if="element.artist">Artiste : {{ element.artist }}</li>
+
+                    <li ng-if="element.studio">Studio : {{ element.studio }}</li>
+                    <li ng-if="element.director">Réalisateur : {{ element.director }}</li>
+
+                    <li ng-if="element.duration">Durée : {{ element.duration | formatDuration }}</li>
+
+
+                    <li ng-if="element.size">Taille : {{ element.size | formatSize }}</li>
+
+                    <li ng-if="element.rating">Note Rotten Tomatoes : {{ element.rating+'%' }}</li>
+                </ul>
+                <div class="col-xs-12" ng-if="saisons" ng-repeat="saison in saisons">
+                    <h2>Saison {{ $index+1 }} </h2>
+
+                    <h3 ng-repeat="episode in saison"><a class="up-ticket-link" href="">S{{ episode.season < 10?'0':'' }}{{episode.season}}E{{episode.number < 10 ? '0':'' }}{{episode.number}} : {{episode.name}}</a></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
