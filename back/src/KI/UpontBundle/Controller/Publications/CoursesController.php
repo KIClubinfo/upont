@@ -3,12 +3,11 @@
 namespace KI\UpontBundle\Controller\Publications;
 
 use FOS\RestBundle\Controller\Annotations as Route;
-use KI\UpontBundle\Controller\BaseController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-class CoursesController extends BaseController
+class CoursesController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {

@@ -3,10 +3,9 @@
 namespace KI\UpontBundle\Controller\Ponthub;
 
 use FOS\RestBundle\Controller\Annotations as Route;
-use KI\UpontBundle\Controller\BaseController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
-class GamesController extends BaseController
+class GamesController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
@@ -93,100 +92,4 @@ class GamesController extends BaseController
 
         return $this->redirect($item->fileUrl());
     }
-
-    /**
-     * @ApiDoc(
-     *  description="Retourne la liste des gens qui likent",
-     *  statusCodes={
-     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Ponthub"
-     * )
-     * @Route\Get("/games/{slug}/like")
-     */
-    public function getLikeGameAction($slug) { return $this->getLikes($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Retourne la liste des gens qui dislikent",
-     *  statusCodes={
-     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Ponthub"
-     * )
-     * @Route\Get("/games/{slug}/dislike")
-     */
-    public function getDislikeGameAction($slug) { return $this->getDislikes($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Like",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Ponthub"
-     * )
-     * @Route\Post("/games/{slug}/like")
-     */
-    public function likeGameAction($slug) { return $this->like($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Dislike",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Ponthub"
-     * )
-     * @Route\Post("/games/{slug}/dislike")
-     */
-    public function dislikeGameAction($slug) { return $this->dislike($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Enlève son like",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Ponthub"
-     * )
-     * @Route\Delete("/games/{slug}/like")
-     */
-    public function deleteLikeGameAction($slug) { return $this->deleteLike($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Enlève son dislike",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Ponthub"
-     * )
-     * @Route\Delete("/games/{slug}/dislike")
-     */
-    public function deleteDislikeGameAction($slug) { return $this->deleteDislike($slug); }
 }

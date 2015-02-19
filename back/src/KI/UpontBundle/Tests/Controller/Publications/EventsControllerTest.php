@@ -54,48 +54,6 @@ class EventsControllerTest extends WebTestCase
         $this->assertJsonResponse($response, 404);
     }
 
-    public function testLike()
-    {
-        $this->client->request('GET', '/events/basdsqdqsdqck-in-black/like');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 404);
-
-        $this->client->request('GET', '/events/manger-des-chips/unkike');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 404);
-
-        $this->client->request('GET', '/events/manger-des-chips/like');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-
-        $this->client->request('GET', '/events/manger-des-chips/dislike');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-
-        $this->client->request('POST', '/events/manger-des-chips/like');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-
-        $this->client->request('DELETE', '/events/manger-des-chips/like');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-
-        $this->client->request('POST', '/events/manger-des-chips/dislike');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-
-        $this->client->request('DELETE', '/events/manger-des-chips/dislike');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-    }
-
-    public function testComments()
-    {
-        $this->client->request('GET', '/events/manger-des-chips/comments');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-    }
-
     public function testAttend()
     {
         $this->client->request('POST', '/events/manger-des-chips/attend');
