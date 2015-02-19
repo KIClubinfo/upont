@@ -1,5 +1,3 @@
-{{profil}}
-
 <div class="up-ticket" ng-submit="">
     <h1>Informations Générales :</h1>
     <div class="col-xs-12 col-sm-6 row">
@@ -36,35 +34,52 @@
         </div>
     </div>
     <div class="col-xs-12 col-sm-6 row stacked-row">
-        <div class="col-xs-4">Chambre :</div><div class="col-xs-8"><input type="text" name="chambre" /></div>
+        <div class="col-xs-4">Chambre :</div>
+        <div class="col-xs-8">
+            <input type="text" name="chambre" />
+        </div>
     </div>
     <div class="col-xs-12 col-sm-6 row stacked-row">
-        <div class="col-xs-4">Telephone :</div><div class="col-xs-8"><input type="text" name="telephone" /></div>
+        <div class="col-xs-4">Telephone :</div>
+        <div class="col-xs-8">
+            <input type="text" name="telephone" />
+        </div>
     </div>
     <div class="col-xs-12 col-sm-6 row stacked-row">
-        <div class="col-xs-4">Adresse email :</div><div class="col-xs-8"><input type="text" name="email" /></div>
+        <div class="col-xs-4">Adresse email :</div>
+        <div class="col-xs-8">
+            <input type="text" name="email" />
+        </div>
     </div>
     <div class="clearfix"></div>
     <div class="col-xs-12 col-sm-6 row stacked-row">
-        <div class="col-xs-4">Nouveau mot de passe :</div><div class="col-xs-8"><input type="password" name="mdp" /></div>
+        <div class="col-xs-4">Nouveau mot de passe :</div>
+        <div class="col-xs-8">
+            <input type="password" name="mdp" />
+        </div>
     </div>
     <div class="col-xs-12 col-sm-6 row stacked-row">
-        <div class="col-xs-4">Vérification du nouveau mot de passe :</div><div class="col-xs-8"><input type="password" name="mdpConfirm" /></div>
-    </div> 
+        <div class="col-xs-4">Vérification du nouveau mot de passe :</div>
+        <div class="col-xs-8">
+            <input type="password" name="mdpConfirm" />
+        </div>
+    </div>
     <div class="clearfix"></div>
 </div>
 
 <div class="up-ticket">
     <h1>Channels suivis</h1>
     <div class="row">
-        <div class="col-xs-12 col-sm-6 stacked-row row" ng-repeat="club in clubs">
-            <div class="col-xs-4"><img class="img-responsive" src="{{club.picture || 'img/bde.jpg'}}" /></div>
+        <div class="col-xs-12 col-sm-6 stacked-row row" ng-repeat-start="club in clubs">
+            <div class="col-xs-4"><img class="img-responsive" src="{{ club.image_url | urlFile}}" />
+            </div>
             <div class="col-xs-8">
                 <h2>{{ club.short_name }}</h2>
                 <button class="btn-suivi active" ng-show="club.suivi" ng-click="club.suivi = false; unsubscribe(club.slug);">Suivi</button>
                 <button class="btn-suivi" ng-show="!club.suivi" ng-click="club.suivi = true; subscribe(club.slug);">Suivre</button>
             </div>
         </div>
+        <div ng-repeat-end ng-if="$index%2 == 1" class="clearfix visible-lg visible-md visible-sm"></div>
     </div>
 </div>
 
@@ -73,73 +88,169 @@
     <div class="col-xs-11 col-sm-12">
         <h2 class="up-deroulant" ng-init="cours1a=false" ng-click="cours1a=!cours1a"><span class="glyphicon" ng-class="cours1a?'glyphicon-minus-sign':'glyphicon-plus-sign'"></span> Département 1A</h2>
         <div ng-show="cours1a">
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
         </div>
     </div>
     <div class="col-xs-11 col-sm-12">
         <h2 class="up-deroulant" ng-init="coursgcc=false" ng-click="coursgcc=!coursgcc"><span class="glyphicon" ng-class="coursgcc?'glyphicon-minus-sign':'glyphicon-plus-sign'"></span> Département GCC</h2>
         <div ng-show="coursgcc">
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
         </div>
     </div>
     <div class="col-xs-11 col-sm-12">
         <h2 class="up-deroulant" ng-init="coursgmm=false" ng-click="coursgmm=!coursgmm"><span class="glyphicon" ng-class="coursgmm?'glyphicon-minus-sign':'glyphicon-plus-sign'"></span> Département GMM</h2>
         <div ng-show="coursgmm">
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
         </div>
     </div>
     <div class="col-xs-11 col-sm-12">
         <h2 class="up-deroulant" ng-init="coursgi=false" ng-click="coursgi=!coursgi"><span class="glyphicon" ng-class="coursgi?'glyphicon-minus-sign':'glyphicon-plus-sign'"></span> Département GI</h2>
         <div ng-show="coursgi">
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
         </div>
     </div>
     <div class="col-xs-11 col-sm-12">
         <h2 class="up-deroulant" ng-init="coursimi=false" ng-click="coursimi=!coursimi"><span class="glyphicon" ng-class="coursimi?'glyphicon-minus-sign':'glyphicon-plus-sign'"></span> Département IMI</h2>
         <div ng-show="coursimi">
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
         </div>
     </div>
     <div class="col-xs-11 col-sm-12">
         <h2 class="up-deroulant" ng-init="cours1a=false" ng-click="courssegf=!courssegf"><span class="glyphicon" ng-class="courssegf?'glyphicon-minus-sign':'glyphicon-plus-sign'"></span> Département SEGF</h2>
         <div ng-show="courssegf">
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
         </div>
     </div>
     <div class="col-xs-11 col-sm-12">
         <h2 class="up-deroulant" ng-init="coursvet=false" ng-click="coursvet=!coursvet"><span class="glyphicon" ng-class="coursvet?'glyphicon-minus-sign':'glyphicon-plus-sign'"></span> Département VET</h2>
         <div ng-show="coursvet">
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
         </div>
     </div>
     <div class="col-xs-11 col-sm-12">
         <h2 class="up-deroulant" ng-init="coursdfl=false" ng-click="coursdfl=!coursdfl"><span class="glyphicon" ng-class="coursdfl?'glyphicon-minus-sign':'glyphicon-plus-sign'"></span> Département DFL</h2>
         <div ng-show="coursdfl">
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
-            <div><label><input type="checkbox" value="c1" />Cours 1</label></div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" value="c1" />Cours 1</label>
+            </div>
         </div>
     </div>
     <div class="clearfix"></div>

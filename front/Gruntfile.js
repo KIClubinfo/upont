@@ -40,9 +40,9 @@ module.exports = function(grunt) {
     },
 
     // COOL TASKS ==============================================================
-    // watch css and js files and process the above tasks
+    // watch less and js files and process the above tasks
     watch: {
-      css: {
+      less: {
         files: ['app/css/**/*.less'],
         tasks: ['less', 'cssmin']
       },
