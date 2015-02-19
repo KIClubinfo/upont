@@ -12,14 +12,14 @@ class FoyerControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
     }
-    
+
     public function testStatistics()
     {
         $this->client->request('GET', '/foyer/statistics');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
     }
-    
+
     public function testRankings()
     {
         $this->client->request('GET', '/foyer/rankings');
