@@ -209,6 +209,7 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Mauvaise combinaison username/password ou champ nom rempli",
+     *   502="Erreur Proxy : l'utilisateur se connecte pour la première fois, mais le proxy DSI n'est pas configuré",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
      *  section="Général"
