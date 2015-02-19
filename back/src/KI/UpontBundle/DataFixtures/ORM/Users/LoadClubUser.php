@@ -15,66 +15,66 @@ class LoadClubUserFixture extends AbstractFixture implements OrderedFixtureInter
         $clubUser = new ClubUser();
         $clubUser->setClub($this->getReference('club-ki'));
         $clubUser->setUser($this->getReference('user-taquet-c'));
-    	$clubUser->setRole('Prez\'');
+        $clubUser->setRole('Prez\'');
         $manager->persist($clubUser);
-        
+
         $clubUser = new ClubUser();
         $clubUser->setClub($this->getReference('club-ki'));
         $clubUser->setUser($this->getReference('user-trancara'));
-    	$clubUser->setRole('Prez\'');
+        $clubUser->setRole('Prez\'');
         $manager->persist($clubUser);
-        
+
         $clubUser = new ClubUser();
         $clubUser->setClub($this->getReference('club-ki'));
         $clubUser->setUser($this->getReference('user-de-boisc'));
-    	$clubUser->setRole('Prez\' Tech');
+        $clubUser->setRole('Prez\' Tech');
         $manager->persist($clubUser);
-        
+
         $clubUser = new ClubUser();
         $clubUser->setClub($this->getReference('club-ki'));
         $clubUser->setUser($this->getReference('user-muzardt'));
-    	$clubUser->setRole('Sec\' Gen, Respo LAN, Modérateur');
+        $clubUser->setRole('Sec\' Gen, Respo LAN, Modérateur');
         $manager->persist($clubUser);
-        
+
         $clubUser = new ClubUser();
         $clubUser->setClub($this->getReference('club-ki'));
         $clubUser->setUser($this->getReference('user-guerinh'));
-    	$clubUser->setRole('Modérateur');
+        $clubUser->setRole('Modérateur');
         $manager->persist($clubUser);
-        
+
         $clubUser = new ClubUser();
         $clubUser->setClub($this->getReference('club-mediatek'));
         $clubUser->setUser($this->getReference('user-muzardt'));
-    	$clubUser->setRole('Président');
+        $clubUser->setRole('Président');
         $manager->persist($clubUser);
-        
+
         $clubUser = new ClubUser();
         $clubUser->setClub($this->getReference('club-mediatek'));
         $clubUser->setUser($this->getReference('user-trancara'));
-    	$clubUser->setRole('Respo JdR');
+        $clubUser->setRole('Respo JdR');
         $manager->persist($clubUser);
-        
+
         $clubUser = new ClubUser();
         $clubUser->setClub($this->getReference('club-bde'));
         $clubUser->setUser($this->getReference('user-dziris'));
-    	$clubUser->setRole('Respo Clubs');
+        $clubUser->setRole('Respo Clubs');
         $manager->persist($clubUser);
-        
+
         $clubUser = new ClubUser();
         $clubUser->setClub($this->getReference('club-bda'));
         $clubUser->setUser($this->getReference('user-donat-bb'));
-    	$clubUser->setRole('Respo Opéra');
+        $clubUser->setRole('Respo Opéra');
         $manager->persist($clubUser);
-        
+
         $clubUser = new ClubUser();
         $clubUser->setClub($this->getReference('club-pep'));
         $clubUser->setUser($this->getReference('user-guerinh'));
-    	$clubUser->setRole('DRH');
+        $clubUser->setRole('DRH');
         $manager->persist($clubUser);
-        
+
         $manager->flush();
     }
-    
+
     public function getOrder()
     {
         return 21;

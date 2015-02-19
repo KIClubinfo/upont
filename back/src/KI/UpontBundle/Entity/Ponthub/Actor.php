@@ -3,16 +3,12 @@
 namespace KI\UpontBundle\Entity\Ponthub;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
- * @ExclusionPolicy("all")
- * @UniqueEntity("name")
+ * @JMS\ExclusionPolicy("all")
  */
 class Actor
 {
@@ -25,23 +21,23 @@ class Actor
 
     /**
      * Nom de l'acteur
-     * @ORM\Column(name="name", type="string", nullable=true)
-     * @Expose
+     * @ORM\Column(name="name", type="string", nullable=true, unique=true)
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $name;
 
-    
-    
-    
-    
-    
+
+
+
+
+
     //===== GENERATED AUTOMATICALLY =====//
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -64,7 +60,7 @@ class Actor
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {

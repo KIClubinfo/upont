@@ -2,18 +2,17 @@
 
 namespace KI\UpontBundle\Controller;
 
-use KI\UpontBundle\Entity\Log;
-use KI\UpontBundle\Controller\BaseController;
+use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
-class LogsController extends BaseController
+class LogsController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->initialize('Log');
     }
-    
+
     /**
      * @ApiDoc(
      *  resource=true,

@@ -79,15 +79,15 @@ class NotificationListener
     public function pushAndroid(Notification $notification, array $to)
     {
         $message = array(
-	        'title'     => $notification->getTitle(),
-	        'message'   => $notification->getMessage(),
-	        'vibrate'   => 1,
-	        'sound'     => 1,
+            'title'     => $notification->getTitle(),
+            'message'   => $notification->getMessage(),
+            'vibrate'   => 1,
+            'sound'     => 1,
         );
 
         $fields = array(
-	        'registration_ids' 	=> $to,
-	        'data'			    => $message
+            'registration_ids'     => $to,
+            'data'                => $message
         );
 
         $headers = array(
@@ -117,22 +117,22 @@ class NotificationListener
     // envoyer un nombre illimité de notifications
     public function pushWP(Notification $notification, $device)
     {
-        $message =	'<?xml version="1.0" encoding="utf-8"?>' .
-				    '<wp:Notification xmlns:wp="WPNotification">' .
-				    '<wp:Toast>' .
-				    '<wp:Text1>uPont</wp:Text1>' .
-				    '<wp:Text2>' . htmlspecialchars($notification->getTitle()) . '</wp:Text2>' .
-				    '</wp:Toast>' .
-				    '</wp:Notification>';
+        $message =    '<?xml version="1.0" encoding="utf-8"?>' .
+                    '<wp:Notification xmlns:wp="WPNotification">' .
+                    '<wp:Toast>' .
+                    '<wp:Text1>uPont</wp:Text1>' .
+                    '<wp:Text2>' . htmlspecialchars($notification->getTitle()) . '</wp:Text2>' .
+                    '</wp:Toast>' .
+                    '</wp:Notification>';
 
-		$headers =  array(
+        $headers =  array(
             'Content-Type: text/xml',
             'Accept: application/*',
-			'X-NotificationClass: 0',
-			'X-WindowsPhone-Target:toast'
+            'X-NotificationClass: 0',
+            'X-WindowsPhone-Target:toast'
         );
 
-		$this->curl->curl($device->getDevice(), array(
+        $this->curl->curl($device->getDevice(), array(
             CURLOPT_HEADER     => true,
             CURLOPT_POST       => true,
             CURLOPT_HTTPHEADER => $headers,

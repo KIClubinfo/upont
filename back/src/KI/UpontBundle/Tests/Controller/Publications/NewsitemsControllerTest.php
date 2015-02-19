@@ -9,7 +9,7 @@ class NewsitemsControllerTest extends WebTestCase
     // On crée une ressource sur laquelle seront effectués les tests. Ne pas oublier de supprimer à la fin avec le test DELETE.
     public function testPost()
     {
-        $this->client->request('POST', '/newsitems', array('title' => 'La Porte', 'textLong' => 'C\'est comme perdre', 'authorClub' => 'ki'));
+        $this->client->request('POST', '/newsitems', array('name' => 'La Porte', 'textLong' => 'C\'est comme perdre', 'authorClub' => 'ki'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
         // On vérifie que le lieu du nouvel objet a été indiqué
@@ -44,48 +44,6 @@ class NewsitemsControllerTest extends WebTestCase
         $this->client->request('PATCH', '/newsitems/sjoajsiohaysahais-asbsksaba7', array('username' => 'miam', 'email' => '123@mail.fr'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
-    }
-
-    public function testLike()
-    {
-        $this->client->request('GET', '/newsitems/basdsqdqsdqck-in-black/like');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 404);
-
-        $this->client->request('GET', '/newsitems/la-porte/unkike');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 404);
-
-        $this->client->request('GET', '/newsitems/la-porte/like');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-
-        $this->client->request('GET', '/newsitems/la-porte/unlike');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-
-        $this->client->request('POST', '/newsitems/la-porte/like');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-
-        $this->client->request('POST', '/newsitems/la-porte/unlike');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-
-        $this->client->request('DELETE', '/newsitems/la-porte/like');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-
-        $this->client->request('DELETE', '/newsitems/la-porte/unlike');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-    }
-
-    public function testComments()
-    {
-        $this->client->request('GET', '/newsitems/la-porte/comments');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
     }
 
     public function testDelete()

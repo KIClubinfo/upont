@@ -4,47 +4,45 @@ namespace KI\UpontBundle\Entity\Ponthub;
 
 use KI\UpontBundle\Entity\Ponthub\PonthubFile;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
 class Album extends PonthubFile
 {
     /**
      * Artiste/Groupe
      * @ORM\Column(name="artist", type="string")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      * @Assert\NotBlank
      */
     protected $artist;
-    
+
     /**
      * Année
      * @ORM\Column(name="year", type="integer", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Range(min = 1000, max = 2050)
      */
     protected $year;
-    
+
     /**
      * Liste des musiques
      * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Ponthub\Music", mappedBy="album")
      * @Assert\Valid()
      */
     protected $musics;
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
     //===== GENERATED AUTOMATICALLY =====//
 
     /**
@@ -72,13 +70,13 @@ class Album extends PonthubFile
     /**
      * Get artist
      *
-     * @return string 
+     * @return string
      */
     public function getArtist()
     {
         return $this->artist;
     }
-    
+
     /**
      * Set year
      *
@@ -95,7 +93,7 @@ class Album extends PonthubFile
     /**
      * Get year
      *
-     * @return integer 
+     * @return integer
      */
     public function getYear()
     {
@@ -128,13 +126,13 @@ class Album extends PonthubFile
     /**
      * Get musics
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getMusics()
     {
         return $this->musics;
     }
-    
+
     /**
      * Set musics
      *

@@ -15,24 +15,24 @@ class LoadAchievementUserFixture extends AbstractFixture implements OrderedFixtu
         $achievementUser = new AchievementUser();
         $achievementUser->setAchievement($this->getReference('achievement-17'));
         $achievementUser->setUser($this->getReference('user-taquet-c'));
-    	$achievementUser->setDate(time());
+        $achievementUser->setDate(time());
         $manager->persist($achievementUser);
-        
+
         $achievementUser = new AchievementUser();
         $achievementUser->setAchievement($this->getReference('achievement-38'));
         $achievementUser->setUser($this->getReference('user-trancara'));
-    	$achievementUser->setDate(time());
+        $achievementUser->setDate(time());
         $manager->persist($achievementUser);
-        
+
         $achievementUser = new AchievementUser();
         $achievementUser->setAchievement($this->getReference('achievement-50'));
         $achievementUser->setUser($this->getReference('user-trancara'));
-    	$achievementUser->setDate(time());
+        $achievementUser->setDate(time());
         $manager->persist($achievementUser);
-        
+
         $manager->flush();
     }
-    
+
     public function getOrder()
     {
         return 11;

@@ -27,7 +27,7 @@ security:
         # Pas de firewall pour ces exceptions
         exceptionsHead:
             methods: [HEAD]
-            pattern:  ^/ping
+            pattern:  ^/(ping|deploy)
             security: false
         
         exceptionsGet1:
@@ -44,11 +44,10 @@ security:
             methods: [GET]
             pattern: ^/(coffee|ping|clubs|migration|version)
             security: false
-            pattern: ^/(users/calendar/\w)
         
         exceptionsGet4:
             methods: [GET]
-            pattern: ^/exercices/.+/download
+            pattern: ^/courses/.+/exercices/.+/download
             security: false
         
         exceptionsPost:

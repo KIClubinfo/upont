@@ -2,10 +2,9 @@
 
 namespace KI\UpontBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use KI\UpontBundle\Controller\BaseController;
+use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use FOS\RestBundle\Controller\Annotations\Get;
+
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -13,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use KI\UpontBundle\Entity\Publications\Course;
 use KI\UpontBundle\Entity\Publications\CourseItem;
 
-class DefaultController extends BaseController
+class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
 {
     /**
      * @ApiDoc(
@@ -90,7 +89,7 @@ class DefaultController extends BaseController
         $coursesNames = array();
         foreach($results as $course) {
             $courses[$course->getId()] = $course;
-            $coursesNames[$course->getId()] = $course->getName();
+            $coursesNames[$course->getId()] = $course->getName() . $course->getGroup();
         }
 
         // On récupère les cours de la prochaine semaine
@@ -118,9 +117,9 @@ class DefaultController extends BaseController
             list($all, $start, $end, $department, $location, $courseName, $group) = $out;
 
             foreach($all as $id => $blank) {
-
                 $gr = str_replace('(&nbsp;)', '', $group[$id]);
-                $name = $courseName[$id] . ($gr != '' ? ' ' . $gr : '');
+                $gr = $gr != '' ? (int) str_replace(array('(Gr', ')'), array('', ''), $gr) : 0;
+                $name = $courseName[$id];
                 $data = explode(':', $start[$id]);
                 $startDate = $data[0] * 3600 + $data[1] * 60;
                 $data = explode(':', $end[$id]);
@@ -128,11 +127,12 @@ class DefaultController extends BaseController
 
                 // Si le cours existe déjà, on le récupère
                 // Sinon on crée un nouveau cours
-                if ($key = array_search($name, $coursesNames)) {
+                if ($key = array_search($name . $gr, $coursesNames)) {
                     $course = $courses[$key];
                 } else {
                     $course = new Course();
                     $course->setName($name);
+                    $course->setGroup($gr);
                     $course->setStartDate($startDate);
                     $course->setEndDate($endDate);
                     $course->setDepartment($department[$id]);
@@ -152,6 +152,25 @@ class DefaultController extends BaseController
         }
         $manager->flush();
 
+        return $this->jsonResponse(null, 202);
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Déclenche le déploiement de master. DANGEREUX ! Ne doit pas être testé pour des raisons évidentes.",
+     *  statusCodes={
+     *   202="Requête traitée mais sans garantie de résultat",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  tags={
+     *    "WARNING"
+     *  },
+     *  section="Général"
+     * )
+     */
+    public function deployAction()
+    {
+        shell_exec("ssh root@localhost '/bin/bash /server/upont/utils/update-prod.sh'");
         return $this->jsonResponse(null, 202);
     }
 
@@ -190,6 +209,7 @@ class DefaultController extends BaseController
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Mauvaise combinaison username/password ou champ nom rempli",
+     *   502="Erreur Proxy : l'utilisateur se connecte pour la première fois, mais le proxy DSI n'est pas configuré",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
      *  section="Général"
@@ -287,7 +307,7 @@ class DefaultController extends BaseController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Get("/online")
+     * @Route\Get("/online")
      */
     public function onlineAction(Request $request)
     {

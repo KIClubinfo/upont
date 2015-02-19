@@ -3,14 +3,13 @@
 namespace KI\UpontBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Contient une ligne de log de connexion
  * @ORM\Entity
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
 class Log
 {
@@ -20,101 +19,101 @@ class Log
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
+
     /**
      * Nom d'utilisateur (username)
      * @ORM\Column(name="username", type="string")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $username;
-    
+
     /**
      * Date (timestamp)
      * @ORM\Column(name="date", type="integer")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $date;
-    
+
     /**
      * Verbe HTTP
      * @ORM\Column(name="method", type="string")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $method;
-    
+
     /**
      * Route demandée
      * @ORM\Column(name="url", type="string")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $url;
-    
+
     /**
      * Paramètres
      * @ORM\Column(name="params", type="string")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $params;
-    
+
     /**
      * Code HTTP de réponse
      * @ORM\Column(name="code", type="integer")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $code;
-    
+
     /**
      * Adresse IP
      * @ORM\Column(name="ip", type="string")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $ip;
-    
+
     /**
      * Navigateur internet
      * @ORM\Column(name="browser", type="string")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $browser;
-    
+
     /**
      * Système d'exploitation
      * @ORM\Column(name="system", type="string")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $system;
-    
+
     /**
      * User Agent complet
      * @ORM\Column(name="agent", type="string")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $agent;
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
     //===== GENERATED AUTOMATICALLY =====//
 
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -137,7 +136,7 @@ class Log
     /**
      * Get username
      *
-     * @return string 
+     * @return string
      */
     public function getUsername()
     {
@@ -160,7 +159,7 @@ class Log
     /**
      * Get date
      *
-     * @return integer 
+     * @return integer
      */
     public function getDate()
     {
@@ -183,7 +182,7 @@ class Log
     /**
      * Get method
      *
-     * @return string 
+     * @return string
      */
     public function getMethod()
     {
@@ -206,7 +205,7 @@ class Log
     /**
      * Get url
      *
-     * @return string 
+     * @return string
      */
     public function getUrl()
     {
@@ -229,7 +228,7 @@ class Log
     /**
      * Get params
      *
-     * @return string 
+     * @return string
      */
     public function getParams()
     {
@@ -252,7 +251,7 @@ class Log
     /**
      * Get code
      *
-     * @return integer 
+     * @return integer
      */
     public function getCode()
     {
@@ -275,7 +274,7 @@ class Log
     /**
      * Get ip
      *
-     * @return string 
+     * @return string
      */
     public function getIp()
     {
@@ -298,7 +297,7 @@ class Log
     /**
      * Get browser
      *
-     * @return string 
+     * @return string
      */
     public function getBrowser()
     {
@@ -321,7 +320,7 @@ class Log
     /**
      * Get system
      *
-     * @return string 
+     * @return string
      */
     public function getSystem()
     {
@@ -344,7 +343,7 @@ class Log
     /**
      * Get agent
      *
-     * @return string 
+     * @return string
      */
     public function getAgent()
     {

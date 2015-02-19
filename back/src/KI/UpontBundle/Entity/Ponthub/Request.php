@@ -2,16 +2,14 @@
 
 namespace KI\UpontBundle\Entity\Ponthub;
 
-use KI\UpontBundle\Entity\Ponthub\Request;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
-use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation as JMS;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
 class Request
 {
@@ -21,59 +19,59 @@ class Request
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
+
     /**
      * Nom de la demande d'ajout de fichier
      * @ORM\Column(name="name", type="string")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      * @Assert\NotBlank()
      */
     protected $name;
-    
+
     /**
      * Slug
      * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(name="slug", type="string", unique=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $slug;
-    
+
     /**
      * Date de la demande (timestamp)
      * @ORM\Column(name="date", type="integer", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $date;
-    
+
     /**
      * Utilisateur ayant créé la demande
      * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
      * @Assert\Valid()
      */
     protected $user;
-    
+
     /**
      * Nombre de votes
      * @ORM\Column(name="votes", type="integer", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $votes;
-    
-    
-    
-    
-    
+
+
+
+
+
     //===== GENERATED AUTOMATICALLY =====//
 
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -96,7 +94,7 @@ class Request
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -119,7 +117,7 @@ class Request
     /**
      * Get slug
      *
-     * @return string 
+     * @return string
      */
     public function getSlug()
     {
@@ -142,7 +140,7 @@ class Request
     /**
      * Get date
      *
-     * @return integer 
+     * @return integer
      */
     public function getDate()
     {
@@ -165,7 +163,7 @@ class Request
     /**
      * Get votes
      *
-     * @return integer 
+     * @return integer
      */
     public function getVotes()
     {
@@ -188,7 +186,7 @@ class Request
     /**
      * Get user
      *
-     * @return \KI\UpontBundle\Entity\User 
+     * @return \KI\UpontBundle\Entity\User
      */
     public function getUser()
     {
