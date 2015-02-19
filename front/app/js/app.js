@@ -1,15 +1,5 @@
 angular.module('upont', ['ui.router', 'ngResource', 'ngAnimate', 'mgcrea.ngStrap', 'ngSanitize', 'cfp.loadingBar'])
     .controller('Main_Controller', ['$scope', '$location', 'StorageService', '$state', '$rootScope', "isLogged", "isAdmin", "$window", "cfpLoadingBar", function($scope, $location, StorageService, $state, $rootScope, isLogged, isAdmin, $window, cfpLoadingBar) {
-        $scope.inArbo = function(string) {
-            if (string === '')
-                if ($location.path() == '/') return true;
-                else return false;
-
-            if ($location.path().substr(0, string.length + 1) == '/' + string)
-                return true;
-            return false;
-        };
-
         $scope.isLogged = isLogged;
         $scope.isAdmin = isAdmin;
 
@@ -61,7 +51,7 @@ angular.module('upont', ['ui.router', 'ngResource', 'ngAnimate', 'mgcrea.ngStrap
 
             if (toState.data && toState.data.parent && toState.data.defaultChild) {
                 if (toState.resolve) {
-                   cfpLoadingBar.start();
+                    cfpLoadingBar.start();
                 }
                 var reg = new RegExp("^" + toState.data.parent, "g");
 
@@ -79,13 +69,25 @@ angular.module('upont', ['ui.router', 'ngResource', 'ngAnimate', 'mgcrea.ngStrap
         });
 
         $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
-            if (toState.resolve) {
+            if (toState.resolve)
                 cfpLoadingBar.complete();
-            }
+        });
+
+        $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
+            cfpLoadingBar.complete();
+            console.log(error);
+            // $state.go('404');
+        });
+
+        $rootScope.$on('$stateNotFound', function(event, toState, toParams, fromState, fromParams) {
+            cfpLoadingBar.complete();
+            $state.go('404');
         });
 
     }])
     .factory('Login_Interceptor', ['StorageService', '$location', '$q', function(StorageService, $location, $q) {
+        //On est obligé d'utiliser $location pour les changements d'url parcque le router n'est initialisé qu'après $http
+
         return {
             request: function(config) {
                 config.headers = config.headers || {};
@@ -107,16 +109,18 @@ angular.module('upont', ['ui.router', 'ngResource', 'ngAnimate', 'mgcrea.ngStrap
                     }
                     $location.path('/');
                 }
-                if (response.status == 500) {
-                    $location.path('/erreur');
-                }
+                if (response.status == 500)
+                    $state.go('erreur');
                 if (response.status == 503) {
-                    $location.path('/maintenance');
                     if (response.data.until)
                         StorageService.set('maintenance', response.data.until);
                     else
                         StorageService.remove('maintenance');
+                    $location.path('/maintenance');
                 }
+                // if (response.status == 404)
+                //     $location.path('/404');
+
                 return $q.reject(response);
             }
         };

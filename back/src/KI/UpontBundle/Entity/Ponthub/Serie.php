@@ -22,7 +22,7 @@ class Serie extends PonthubFile
      * @Assert\Valid()
      */
     protected $episodes;
-    
+
     /**
      * Durée moyenne d'un épisode (en secondes)
      * @ORM\Column(name="duration", type="integer", nullable=true)
@@ -30,7 +30,7 @@ class Serie extends PonthubFile
      * @Assert\Range(min = 0, max = 86400)
      */
     protected $duration;
-    
+
     /**
      * Année de début
      * @ORM\Column(name="year", type="integer", nullable=true)
@@ -38,7 +38,7 @@ class Serie extends PonthubFile
      * @Assert\Range(min = 1000, max = 2050)
      */
     protected $year;
-    
+
     /**
      * Son en VO ?
      * @ORM\Column(name="vo", type="boolean", nullable=true)
@@ -46,7 +46,7 @@ class Serie extends PonthubFile
      * @Assert\Type("boolean")
      */
     protected $vo;
-    
+
     /**
      * Son en VF ?
      * @ORM\Column(name="vf", type="boolean", nullable=true)
@@ -54,7 +54,7 @@ class Serie extends PonthubFile
      * @Assert\Type("boolean")
      */
     protected $vf;
-    
+
     /**
      * Sous-titres VO ?
      * @ORM\Column(name="vost", type="boolean", nullable=true)
@@ -62,7 +62,7 @@ class Serie extends PonthubFile
      * @Assert\Type("boolean")
      */
     protected $vost;
-    
+
     /**
      * Sous-titres VF ?
      * @ORM\Column(name="vostfr", type="boolean", nullable=true)
@@ -70,7 +70,7 @@ class Serie extends PonthubFile
      * @Assert\Type("boolean")
      */
     protected $vostfr;
-    
+
     /**
      * Version HD ?
      * @ORM\Column(name="hd", type="boolean", nullable=true)
@@ -78,7 +78,7 @@ class Serie extends PonthubFile
      * @Assert\Type("boolean")
      */
     protected $hd;
-    
+
     /**
      * Réalisateur
      * @ORM\Column(name="director", type="string", nullable=true)
@@ -86,14 +86,14 @@ class Serie extends PonthubFile
      * @Assert\Type("string")
      */
     protected $director;
-    
+
     /**
      * Acteurs
      * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Ponthub\Actor", cascade={"persist"})
      * @Assert\Valid()
      */
     protected $actors;
-    
+
     /**
      * @VirtualProperty()
      */
@@ -104,7 +104,7 @@ class Serie extends PonthubFile
             $actors[] = $actor->getName();
         return $actors;
     }
-    
+
     /**
      * Score Metascore/Imdb (en %)
      * @ORM\Column(name="rating", type="integer", nullable=true)
@@ -112,13 +112,13 @@ class Serie extends PonthubFile
      * @Assert\Range(min = 0, max = 100)
      */
     protected $rating;
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
     //===== GENERATED AUTOMATICALLY =====//
 
     /**
@@ -129,7 +129,7 @@ class Serie extends PonthubFile
         parent::__construct();
         $this->episodes = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Set duration
      *
@@ -146,7 +146,7 @@ class Serie extends PonthubFile
     /**
      * Get duration
      *
-     * @return integer 
+     * @return integer
      */
     public function getDuration()
     {
@@ -169,7 +169,7 @@ class Serie extends PonthubFile
     /**
      * Get year
      *
-     * @return integer 
+     * @return integer
      */
     public function getYear()
     {

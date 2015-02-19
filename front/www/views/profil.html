@@ -70,8 +70,8 @@
 <div class="up-ticket">
     <h1>Channels suivis</h1>
     <div class="row">
-        <div class="col-xs-12 col-sm-6 stacked-row row" ng-repeat="club in clubs">
-            <div class="col-xs-4"><img class="img-responsive" src="{{club.picture || 'img/bde.jpg'}}" />
+        <div class="col-xs-12 col-sm-6 stacked-row row" ng-repeat-start="club in clubs">
+            <div class="col-xs-4"><img class="img-responsive" src="{{ club.image_url | urlFile}}" />
             </div>
             <div class="col-xs-8">
                 <h2>{{ club.short_name }}</h2>
@@ -79,6 +79,7 @@
                 <button class="btn-suivi" ng-show="!club.suivi" ng-click="club.suivi = true; subscribe(club.slug);">Suivre</button>
             </div>
         </div>
+        <div ng-repeat-end ng-if="$index%2 == 1" class="clearfix visible-lg visible-md visible-sm"></div>
     </div>
 </div>
 
