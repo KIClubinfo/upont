@@ -4,8 +4,6 @@
 @sizeMd: 992px;
 @sizeLg: 1200px;
 @navbarHgt: 50px;
-
-
 *, *:before, *:after {
     box-sizing: border-box;
     outline: 0 !important;
@@ -104,15 +102,13 @@
     .up-date-evenement {
         color: @col1;
     }
-
     #loading-bar-spinner .spinner-icon {
-        border-top-color:  @col1;
+        border-top-color: @col1;
         border-left-color: @col1;
     }
     #loading-bar .bar {
         background: @col1;
     }
-
     #loading-bar .peg {
         -moz-box-shadow: @col1 1px 0 6px 1px;
         -ms-box-shadow: @col1 1px 0 6px 1px;
@@ -215,18 +211,18 @@ footer {
 .up-navbar {
     z-index: 200;
     padding: 0 3em;
-    position:fixed;
-    top:0px;
-    width:100%;
+    position: fixed;
+    top: 0px;
+    width: 100%;
     margin: 0px;
-    height:@navbarHgt;
+    height: @navbarHgt;
     box-shadow: 0px -5px 10px #000;
     .up-title {
         border-radius: 6px;
         font-size: 1.5em;
         padding: 0.3em;
         font-family: 'caviarDreams';
-        line-height:@navbarHgt;
+        line-height: @navbarHgt;
         &:before {
             @media(min-width: @sizeMd) {
                 content: "u";
@@ -241,18 +237,18 @@ footer {
         }
     }
     .up-navbar-link {
-        line-height:@navbarHgt;
+        line-height: @navbarHgt;
         text-transform: uppercase;
         font-family: 'montserrat';
         font-size: 0.9em;
         padding: 0.4em 1em;
     }
-    .up-navbar-list{
+    .up-navbar-list {
         list-style: none;
-        margin:0px;
+        margin: 0px;
         text-align: right;
-        li{
-            display:inline-block;
+        li {
+            display: inline-block;
         }
     }
 }
@@ -353,6 +349,7 @@ footer {
     &.up-ticket-liste {
         padding: 1em;
         text-align: center;
+        position: relative;
         h1 {
             font-size: 1.3em;
             margin: 0px;
@@ -440,7 +437,7 @@ footer {
 }
 .btn-suivi {
     padding: 0 0.7em;
-    border-radius: 3px;
+    // border-radius: 3px;
 }
 .up-date-evenement {
     font-weight: bold;
