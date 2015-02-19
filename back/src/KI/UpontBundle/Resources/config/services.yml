@@ -120,12 +120,16 @@ services:
         class: %upont_api.event.jwt_response_listener.class%
         arguments:
             container: "@service_container"
+            manager: "@doctrine.orm.entity_manager"
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_failure, method: onAuthenticationFailureResponse }
+           
     upont_api.event.jwt_created_listener:
         class: %upont_api.event.jwt_created_listener.class%
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
+            
     upont_api.event.jwt_decoded_listener:
         class: %upont_api.event.jwt_decoded_listener.class%
         tags:
