@@ -4,23 +4,19 @@ namespace KI\UpontBundle\Entity\Publications;
 
 use KI\UpontBundle\Entity\Publications\Post;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
-use JMS\Serializer\Annotation\VirtualProperty;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
-use \DateTime;
 
 /**
  * @ORM\Entity
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
 class Event extends Post
 {
     /**
      * Début (timestamp)
      * @ORM\Column(name="startDate", type="integer")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $startDate;
@@ -28,7 +24,7 @@ class Event extends Post
     /**
      * Fin (timestamp)
      * @ORM\Column(name="endDate", type="integer")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $endDate;
@@ -36,7 +32,7 @@ class Event extends Post
     /**
      * Mode d'entrée [libre|shotgun]
      * @ORM\Column(name="entryMethod", type="string", length=255)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      * @Assert\NotBlank()
      */
@@ -45,7 +41,7 @@ class Event extends Post
     /**
      * Date du shotgun (timestamp)
      * @ORM\Column(name="shotgunDate", type="integer", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $shotgunDate;
@@ -53,7 +49,7 @@ class Event extends Post
     /**
      * Nombre de places limite
      * @ORM\Column(name="shotgunLimit", type="integer", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $shotgunLimit;
@@ -61,7 +57,7 @@ class Event extends Post
     /**
      * Texte dévoilé à ceux qui ont réussi le shotgun
      * @ORM\Column(name="shotgunText", type="text", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $shotgunText;
@@ -69,7 +65,7 @@ class Event extends Post
     /**
      * Lieu
      * @ORM\Column(name="place", type="string", length=255)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      * @Assert\NotBlank()
      */
@@ -78,7 +74,7 @@ class Event extends Post
     /**
      * Participants
      * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
-     * @ORM\JoinTable(name="events_attendees",
+     * @ORM\JoinTable(name="event_attendee",
      *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="attendee_id", referencedColumnName="id")}
      * )
@@ -86,18 +82,18 @@ class Event extends Post
     protected $listAttendees;
 
     /**
-     * @Expose
+     * @JMS\Expose
      */
     protected $attend = false;
 
     /**
-     * @Expose
+     * @JMS\Expose
      */
     protected $pookie = false;
 
     /**
      * Nombre de ceux qui participent
-     * @VirtualProperty()
+     * @JMS\VirtualProperty()
      */
     public function attendees()
     {
@@ -107,29 +103,29 @@ class Event extends Post
     /**
      * Personnes ayant refusées
      * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
-     * @ORM\JoinTable(name="events_pookies",
+     * @ORM\JoinTable(name="event_pookie",
      *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="pooky_id", referencedColumnName="id")}
      *  )
      */
     protected $listPookies;
-    
+
     /**
      * Nombre de ceux qui sont des pookies
-     * @VirtualProperty()
+     * @JMS\VirtualProperty()
      */
     public function pookies()
     {
         return count($this->listPookies);
     }
-    
 
 
 
 
 
-    
-    
+
+
+
     //===== GENERATED AUTOMATICALLY =====//
 
     /**
@@ -138,7 +134,7 @@ class Event extends Post
     public function __construct()
     {
         $this->listAttendees = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->pookies = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listPookies = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -157,7 +153,7 @@ class Event extends Post
     /**
      * Get startDate
      *
-     * @return integer 
+     * @return integer
      */
     public function getStartDate()
     {
@@ -180,7 +176,7 @@ class Event extends Post
     /**
      * Get endDate
      *
-     * @return integer 
+     * @return integer
      */
     public function getEndDate()
     {
@@ -203,7 +199,7 @@ class Event extends Post
     /**
      * Get entryMethod
      *
-     * @return string 
+     * @return string
      */
     public function getEntryMethod()
     {
@@ -226,7 +222,7 @@ class Event extends Post
     /**
      * Get shotgunDate
      *
-     * @return integer 
+     * @return integer
      */
     public function getShotgunDate()
     {
@@ -249,7 +245,7 @@ class Event extends Post
     /**
      * Get shotgunLimit
      *
-     * @return integer 
+     * @return integer
      */
     public function getShotgunLimit()
     {
@@ -272,7 +268,7 @@ class Event extends Post
     /**
      * Get shotgunText
      *
-     * @return string 
+     * @return string
      */
     public function getShotgunText()
     {
@@ -295,7 +291,7 @@ class Event extends Post
     /**
      * Get place
      *
-     * @return string 
+     * @return string
      */
     public function getPlace()
     {
@@ -328,7 +324,7 @@ class Event extends Post
     /**
      * Get attendees
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getAttendees()
     {
@@ -361,58 +357,30 @@ class Event extends Post
     /**
      * Get pookies
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getPookies()
     {
         return $this->listPookies;
     }
-    
+
     public function getAttend()
     {
         return $this->attend;
     }
-    
+
     public function setAttend($attend)
     {
         return $this->attend = $attend;
     }
-    
+
     public function getPookie()
     {
         return $this->pookie;
     }
-    
+
     public function setPookie($pookie)
     {
         return $this->pookie = $pookie;
-    }
-    
-    
-
-
-    //===== CUSTOM METHODS =====//
-    /**
-     * Get StartDateTime
-     *
-     * @return \DateTime
-     */
-    public function getStartDateTime()
-    {
-        $date = new DateTime();
-        $date->setTimestamp($this->getStartDate());
-        return $date;
-    }
-
-    /**
-     * Get EndDateTime
-     *
-     * @return \DateTme
-     */
-    public function getEndDateTime()
-    {
-        $date = new DateTime();
-        $date->setTimestamp($this->getEndDate());
-        return $date;
     }
 }

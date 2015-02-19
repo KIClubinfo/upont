@@ -6,14 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\User\User;
-
 use Liip\FunctionalTestBundle\Test\WebTestCase as LiipWebTestCase;
 
 abstract class WebTestCase extends LiipWebTestCase
 {
-    /**
-    * @var ContainerInterface
-    */
     protected $container;
     protected $client;
     protected $authorizationHeaderPrefix = 'Bearer';

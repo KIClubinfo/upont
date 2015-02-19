@@ -4,19 +4,16 @@ namespace KI\UpontBundle\Entity\Publications;
 
 use KI\UpontBundle\Entity\Publications\Post;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
-use \DateTime;
 
 /**
  * @ORM\Entity
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
 class EventUser
 {
-	/**
+    /**
      * @ORM\Id
      * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -26,7 +23,7 @@ class EventUser
     /**
      * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Publications\Event")
      * @ORM\JoinColumn(nullable=false)
-     * @Expose
+     * @JMS\Expose
      * @Assert\NotBlank()
      */
     private $event;
@@ -34,14 +31,14 @@ class EventUser
     /**
      * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User")
      * @ORM\JoinColumn(nullable=false)
-     * @Expose
+     * @JMS\Expose
      */
     private $user;
 
     /**
      * Date du shotgun (timestamp)
      * @ORM\Column(name="shotgunDate", type="integer")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("integer")
      */
     protected $date;
@@ -49,7 +46,7 @@ class EventUser
     /**
      * Texte de motivation
      * @ORM\Column(name="motivation", type="text", nullable=true)
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $motivation;
@@ -60,7 +57,7 @@ class EventUser
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -83,7 +80,7 @@ class EventUser
     /**
      * Get event
      *
-     * @return \KI\UpontBundle\Entity\Event 
+     * @return \KI\UpontBundle\Entity\Event
      */
     public function getEvent()
     {
@@ -106,7 +103,7 @@ class EventUser
     /**
      * Get user
      *
-     * @return \KI\UpontBundle\Entity\User 
+     * @return \KI\UpontBundle\Entity\User
      */
     public function getUser()
     {
@@ -129,7 +126,7 @@ class EventUser
     /**
      * Get date
      *
-     * @return integer 
+     * @return integer
      */
     public function getDate()
     {
@@ -152,7 +149,7 @@ class EventUser
     /**
      * Get motivation
      *
-     * @return string 
+     * @return string
      */
     public function getMotivation()
     {

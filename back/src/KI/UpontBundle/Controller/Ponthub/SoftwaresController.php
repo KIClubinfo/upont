@@ -2,15 +2,10 @@
 
 namespace KI\UpontBundle\Controller\Ponthub;
 
-use KI\UpontBundle\Entity\Ponthub\Software;
-use KI\UpontBundle\Form\Ponthub\SoftwareType;
-use KI\UpontBundle\Controller\BaseController;
+use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Post;
-use FOS\RestBundle\Controller\Annotations\Delete;
 
-class SoftwaresController extends BaseController
+class SoftwaresController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
@@ -82,7 +77,7 @@ class SoftwaresController extends BaseController
      *  },
      *  section="Ponthub"
      * )
-     * @Get("/softwares/{slug}/download")
+     * @Route\Get("/softwares/{slug}/download")
      */
     public function downloadSoftwareAction($slug)
     {
@@ -97,100 +92,4 @@ class SoftwaresController extends BaseController
 
         return $this->redirect($item->fileUrl());
     }
-
-    /**
-     * @ApiDoc(
-     *  description="Retourne la liste des gens qui likent",
-     *  statusCodes={
-     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Ponthub"
-     * )
-     * @Get("/softwares/{slug}/like")
-     */
-    public function getLikeSoftwareAction($slug) { return $this->getLikes($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Retourne la liste des gens qui unlikent",
-     *  statusCodes={
-     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Ponthub"
-     * )
-     * @Get("/softwares/{slug}/unlike")
-     */
-    public function getUnlikeSoftwareAction($slug) { return $this->getUnlikes($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Like",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Ponthub"
-     * )
-     * @Post("/softwares/{slug}/like")
-     */
-    public function likeSoftwareAction($slug) { return $this->like($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Unlike",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Ponthub"
-     * )
-     * @Post("/softwares/{slug}/unlike")
-     */
-    public function unlikeSoftwareAction($slug) { return $this->unlike($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Enlève son like",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Ponthub"
-     * )
-     * @Delete("/softwares/{slug}/like")
-     */
-    public function deleteLikeSoftwareAction($slug) { return $this->deleteLike($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Enlève son unlike",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Ponthub"
-     * )
-     * @Delete("/softwares/{slug}/unlike")
-     */
-    public function deleteUnlikeSoftwareAction($slug) { return $this->deleteUnlike($slug); }
 }

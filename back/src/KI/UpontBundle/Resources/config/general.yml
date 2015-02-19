@@ -70,7 +70,12 @@ upont_api_version:
     requirements:
         _method: GET
         
-
+upont_api_deploy:
+    pattern: /deploy
+    defaults: { _controller: KIUpontBundle:Default:deploy }
+    requirements:
+        _method: HEAD
+        
 logs:
     type:     rest
     resource: KI\UpontBundle\Controller\LogsController

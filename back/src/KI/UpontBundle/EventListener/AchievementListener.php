@@ -5,7 +5,6 @@ namespace KI\UpontBundle\EventListener;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use KI\UpontBundle\Entity\Achievement;
 use KI\UpontBundle\Entity\AchievementUser;
-use KI\UpontBundle\Entity\User;
 use KI\UpontBundle\Entity\Notification;
 use KI\UpontBundle\Event\AchievementCheckEvent;
 
@@ -21,7 +20,7 @@ class AchievementListener
     {
         $this->container = $container;
         $this->manager = $this->container->get('doctrine')->getManager();
-        
+
         $repoAU = $this->manager->getRepository('KIUpontBundle:AchievementUser');
         $token = $this->container->get('security.context')->getToken();
         $this->user = $token === null ? null : $token->getUser();
@@ -31,48 +30,48 @@ class AchievementListener
                 $this->achievements[] = $achievementUser->getAchievement();
         }
     }
-    
+
     // Check si un achievement donné est accompli, si oui envoie une notification
     public function check(AchievementCheckEvent $event)
     {
         // On vérifie tout d'abord si l'achievement concerné n'est pas déjà reçu
         $achievement = $event->getAchievement();
 
-        if(!$this->user instanceof User || in_array($achievement, $this->achievements))
+        if(!$this->user instanceof \KI\UpontBundle\Entity\Users\User || in_array($achievement, $this->achievements))
             return false;
-        
+
         // Sinon, on lance le check associé
         $check = false;
         $method = 'check' . $achievement->getAchievement();
         if(method_exists($this, $method))
             $check = $this->$method();
-        
+
         // Si le check est bon, on ajoute l'achievement et on crée une notification
         if(!$check)
             return false;
-        
+
         $achievementUser = new AchievementUser();
         $repoA = $this->manager->getRepository('KIUpontBundle:Achievement');
         $achievementUser->setAchievement($repoA->findOneByAchievement($achievement->getAchievement()));
         $achievementUser->setUser($this->user);
         $achievementUser->setDate(time());
         $this->manager->persist($achievementUser);
-        
+
         $notification = new Notification($achievement->name(), $achievement->description(), 'to');
         $notification->addRecipient($this->user);
         $this->manager->persist($notification);
-        
+
         $this->manager->flush();
         return true;
     }
-    
+
     // Fonctions de check correspondant aux divers achievements
     // Attention, ne pas changer les IDs des achievements à la légère !!!
     // Les checks qui retournent true sont en fait assez simples :
     // L'achievement associé est donc du type "faire ça action au moins une fois"
     // Les check marqués d'un TODO ne sont pas encore faits
     // Ceux marqués par un FIXME ne sont pas encore déclenché par un event dispatch
-    
+
     // FIXME
     // ID : 0
     // Ponts inside
@@ -81,7 +80,7 @@ class AchievementListener
     {
         return true;
     }
-    
+
     // FIXME
     // ID : 1
     // Photogénique
@@ -90,7 +89,7 @@ class AchievementListener
     {
         return true;
     }
-    
+
     // FIXME
     // ID : 2
     // Travailleur
@@ -99,7 +98,7 @@ class AchievementListener
     {
         return true;
     }
-    
+
     // FIXME
     // ID : 3
     // Autobiographie
@@ -108,7 +107,7 @@ class AchievementListener
     {
         return true;
     }
-    
+
     // FIXME
     // ID : 4
     // Data Provider
@@ -117,7 +116,7 @@ class AchievementListener
     {
         return true;
     }
-    
+
     // FIXME
     // ID : 5
     // Smart
@@ -126,7 +125,7 @@ class AchievementListener
     {
         return true;
     }
-    
+
     // FIXME
     // ID : 6
     // Connecté
@@ -135,7 +134,7 @@ class AchievementListener
     {
         return true;
     }
-    
+
     // FIXME
     // ID : 7
     // Au courant
@@ -144,7 +143,7 @@ class AchievementListener
     {
         return true;
     }
-    
+
     // FIXME
     // ID : 8
     // Downloader
@@ -153,7 +152,7 @@ class AchievementListener
     {
         return true;
     }
-    
+
     // TODO
     // FIXME
     // ID : 9
@@ -163,7 +162,7 @@ class AchievementListener
     {
         return false;
     }
-    
+
     // TODO
     // FIXME
     // ID : 10
@@ -173,7 +172,7 @@ class AchievementListener
     {
         return false;
     }
-    
+
     // FIXME
     // ID : 11
     // Ça va pomper sévère !
@@ -182,7 +181,7 @@ class AchievementListener
     {
         return true;
     }
-    
+
     // FIXME
     // ID : 12
     // Sondé
@@ -191,7 +190,7 @@ class AchievementListener
     {
         return true;
     }
-    
+
     // FIXME
     // ID : 13
     // Will be there !
@@ -200,7 +199,7 @@ class AchievementListener
     {
         return true;
     }
-    
+
     // FIXME
     // ID : 14
     // Shotgun !
@@ -209,7 +208,7 @@ class AchievementListener
     {
         return true;
     }
-    
+
     // FIXME
     // ID : 15
     // Égoïste
@@ -218,7 +217,7 @@ class AchievementListener
     {
         return true;
     }
-    
+
     // FIXME
     // ID : 16
     // Pookie
@@ -227,7 +226,7 @@ class AchievementListener
     {
         return true;
     }
-    
+
     // TODO
     // FIXME
     // ID : 17
@@ -237,7 +236,7 @@ class AchievementListener
     {
         return false;
     }
-    
+
     // FIXME
     // ID : 18
     // Référendum
@@ -246,7 +245,7 @@ class AchievementListener
     {
         return true;
     }
-    
+
     // FIXME
     // ID : 19
     // Nouvelliste
@@ -255,7 +254,7 @@ class AchievementListener
     {
         return true;
     }
-    
+
     // FIXME
     // ID : 20
     // Organisateur
@@ -264,7 +263,7 @@ class AchievementListener
     {
         return true;
     }
-    
+
     // FIXME
     // ID : 21
     // Distrait
@@ -273,7 +272,7 @@ class AchievementListener
     {
         return true;
     }
-    
+
     // FIXME
     // ID : 22
     // Altruiste
@@ -282,7 +281,7 @@ class AchievementListener
     {
         return true;
     }
-    
+
     // FIXME
     // ID : 23
     // C'est 15€ de l'heure non négociables
@@ -291,7 +290,7 @@ class AchievementListener
     {
         return true;
     }
-    
+
     // FIXME
     // ID : 24
     // Shark
@@ -300,151 +299,151 @@ class AchievementListener
     {
         return true;
     }
-    
+
     // FIXME
     // ID : 25
-    // 
-    // 
+    //
+    //
     public function check25()
     {
         return false;
     }
-    
+
     // FIXME
     // ID : 26
-    // 
-    // 
+    //
+    //
     public function check26()
     {
         return false;
     }
-    
+
     // FIXME
     // ID : 27
-    // 
-    // 
+    //
+    //
     public function check27()
     {
         return false;
     }
-    
+
     // FIXME
     // ID : 28
-    // 
-    // 
+    //
+    //
     public function check28()
     {
         return false;
     }
-    
+
     // FIXME
     // ID : 29
-    // 
-    // 
+    //
+    //
     public function check29()
     {
         return false;
     }
-    
+
     // FIXME
     // ID : 30
-    // 
-    // 
+    //
+    //
     public function check30()
     {
         return false;
     }
-    
+
     // FIXME
     // ID : 31
-    // 
-    // 
+    //
+    //
     public function check31()
     {
         return false;
     }
-    
+
     // FIXME
     // ID : 32
-    // 
-    // 
+    //
+    //
     public function check32()
     {
         return false;
     }
-    
+
     // FIXME
     // ID : 33
-    // 
-    // 
+    //
+    //
     public function check33()
     {
         return false;
     }
-    
+
     // FIXME
     // ID : 34
-    // 
-    // 
+    //
+    //
     public function check34()
     {
         return false;
     }
-    
+
     // FIXME
     // ID : 35
-    // 
-    // 
+    //
+    //
     public function check35()
     {
         return false;
     }
-    
+
     // FIXME
     // ID : 36
-    // 
-    // 
+    //
+    //
     public function check36()
     {
         return false;
     }
-    
+
     // FIXME
     // ID : 37
-    // 
-    // 
+    //
+    //
     public function check37()
     {
         return false;
     }
-    
+
     // FIXME
     // ID : 38
-    // 
-    // 
+    //
+    //
     public function check38()
     {
         return false;
     }
-    
+
     // FIXME
     // ID : 39
-    // 
-    // 
+    //
+    //
     public function check39()
     {
         return false;
     }
-    
+
     // FIXME
     // ID : 40
-    // 
-    // 
+    //
+    //
     public function check40()
     {
         return false;
     }
-    
+
     // TODO
     // FIXME
     // ID : 41
@@ -454,7 +453,7 @@ class AchievementListener
     {
         return false;
     }
-    
+
     // TODO
     // FIXME
     // ID : 42
@@ -464,83 +463,83 @@ class AchievementListener
     {
         return false;
     }
-    
+
     // FIXME
     // ID : 43
-    // 
-    // 
+    //
+    //
     public function check43()
     {
         return false;
     }
-    
+
     // FIXME
     // ID : 44
-    // 
-    // 
+    //
+    //
     public function check44()
     {
         return false;
     }
-    
+
     // FIXME
     // ID : 45
-    // 
-    // 
+    //
+    //
     public function check45()
     {
         return false;
     }
-    
+
     // FIXME
     // ID : 46
-    // 
-    // 
+    //
+    //
     public function check46()
     {
         return false;
     }
-    
+
     // FIXME
     // ID : 47
-    // 
-    // 
+    //
+    //
     public function check47()
     {
         return false;
     }
-    
+
     // FIXME
     // ID : 48
-    // 
-    // 
+    //
+    //
     public function check48()
     {
         return false;
     }
-    
+
     // FIXME
     // ID : 49
-    // 
-    // 
+    //
+    //
     public function check49()
     {
         return false;
     }
-    
+
     // FIXME
     // ID : 50
-    // 
-    // 
+    //
+    //
     public function check50()
     {
         return false;
     }
-    
+
     // FIXME
     // ID : 51
-    // 
-    // 
+    //
+    //
     public function check51()
     {
         return false;

@@ -18,6 +18,7 @@ class UsersControllerTest extends WebTestCase
                 'plainPassword' => array('first' => 'test1234', 'second' => 'test1234'),
                 'firstName' => 'KI',
                 'lastName' => 'OP',
+                'nickname' => 'Testeur en chef'
             )
         );
         return $this->client->getResponse();

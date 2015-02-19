@@ -2,15 +2,10 @@
 
 namespace KI\UpontBundle\Controller\Foyer;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use KI\UpontBundle\Controller\BaseController;
+use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use FOS\RestBundle\Controller\Annotations\Get;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpFoundation\Request;
 
-class FoyerController extends BaseController
+class FoyerController extends \KI\UpontBundle\Controller\Core\BaseController
 {
     /**
      * @ApiDoc(
@@ -24,18 +19,18 @@ class FoyerController extends BaseController
      *  },
      *  section="Foyer"
      * )
-     */    
+     */
     public function balanceAction()
     {
         $service = $this->get('ki_upont.foyer');
         $service->initialize();
-        
+
         if ($service->hasFailed())
             return $this->jsonResponse(null, 409);
-            
+
         return $this->jsonResponse($service->balance());
     }
-    
+
     /**
      * @ApiDoc(
      *  description="Retourne un classement des plus gros buveurs du Foyer",
@@ -48,18 +43,18 @@ class FoyerController extends BaseController
      *  },
      *  section="Foyer"
      * )
-     */    
+     */
     public function rankingsAction()
     {
         $service = $this->get('ki_upont.foyer');
         $service->initialize();
-        
+
         if ($service->hasFailed())
             return $this->jsonResponse(null, 409);
-            
+
         return $this->jsonResponse($service->rankings());
     }
-    
+
     /**
      * @ApiDoc(
      *  description="Retourne des statistiques Foyer de l'utilisateur",
@@ -72,15 +67,15 @@ class FoyerController extends BaseController
      *  },
      *  section="Foyer"
      * )
-     */     
+     */
     public function statisticsAction()
     {
         $service = $this->get('ki_upont.foyer');
         $service->initialize();
-        
+
         if ($service->hasFailed())
             return $this->jsonResponse(null, 409);
-            
+
         return $this->jsonResponse($service->statistics());
     }
 }

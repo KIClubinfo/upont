@@ -3,16 +3,13 @@
 namespace KI\UpontBundle\Entity\Users;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Définit un appareil (téléphone, tablette) enregistré pour recevoir des notifications push
  * @ORM\Entity
- * @ExclusionPolicy("all")
- * @UniqueEntity("device")
+ * @JMS\ExclusionPolicy("all")
  */
 class Device
 {
@@ -22,41 +19,41 @@ class Device
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
+
     /**
      * Identifiant du téléphone
-     * @ORM\Column(name="device", type="string")
-     * @Expose
+     * @ORM\Column(name="device", type="string", unique=true)
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $device;
-    
+
     /**
      * Type (iOS|Android|WP)
      * @ORM\Column(name="type", type="string")
-     * @Expose
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $type;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User", inversedBy="devices")
      * @ORM\JoinColumn(nullable=false)
      */
-	protected $owner;
-    
-    
-    
-    
-    
-    
-    
+    protected $owner;
+
+
+
+
+
+
+
     //===== GENERATED AUTOMATICALLY =====//
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -79,7 +76,7 @@ class Device
     /**
      * Get device
      *
-     * @return string 
+     * @return string
      */
     public function getDevice()
     {
@@ -102,7 +99,7 @@ class Device
     /**
      * Get type
      *
-     * @return string 
+     * @return string
      */
     public function getType()
     {
@@ -125,7 +122,7 @@ class Device
     /**
      * Get owner
      *
-     * @return \KI\UpontBundle\Entity\User 
+     * @return \KI\UpontBundle\Entity\User
      */
     public function getOwner()
     {
