@@ -63,6 +63,7 @@ grunt build
 echo "Installation de l'appli mobile..."
 cd ../mobile
 sudo npm install
+bower install
 grunt build
 
 echo "Installation du back..."

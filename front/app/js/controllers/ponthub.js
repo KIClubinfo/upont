@@ -58,7 +58,7 @@ angular.module('upont')
                 controller: 'PH_Liste_Ctrl',
                 resolve: {
                     elements: ['$resource', '$stateParams', 'PH_categories', function($resource, $stateParams, PH_categories) {
-                        return $resource(apiPrefix + "ponthub/:cat").query({
+                        return $resource(apiPrefix + ":cat").query({
                             cat: PH_categories($stateParams.category)
                         }).$promise;
                     }]
@@ -73,7 +73,7 @@ angular.module('upont')
                 controller: 'PH_Element_Ctrl',
                 resolve: {
                     element: ['$resource', '$stateParams', 'PH_categories', function($resource, $stateParams, PH_categories) {
-                        return $resource(apiPrefix + 'ponthub/:cat/:slug').get({
+                        return $resource(apiPrefix + ':cat/:slug').get({
                             cat: PH_categories($stateParams.category),
                             slug: $stateParams.slug
                         }).$promise;
@@ -81,7 +81,7 @@ angular.module('upont')
                     episodes: ['$resource', '$stateParams', 'PH_categories', function($resource, $stateParams, PH_categories) {
                         if(PH_categories($stateParams.category) != 'series')
                             return true;
-                        return $resource(apiPrefix + 'ponthub/:cat/:slug/episodes').query({
+                        return $resource(apiPrefix + ':cat/:slug/episodes').query({
                             cat: 'series',
                             slug: $stateParams.slug
                         }).$promise;

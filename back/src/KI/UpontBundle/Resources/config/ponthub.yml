@@ -1,3 +1,4 @@
+# Système de likes remis ici pour que cela fonctionne avec le prefixe /ponthub
 upont_api_ponthub_filelist:
     pattern: /filelist
     defaults: { _controller: KI\UpontBundle\Controller\Ponthub\PonthubController::filelistAction }
