@@ -36,42 +36,6 @@ class AlbumsControllerTest extends WebTestCase
         $this->assertJsonResponse($response, 404);
     }
 
-    public function testLike()
-    {
-        $this->client->request('GET', '/ponthub/albums/basdsqdqsdqck-in-black/like');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 404);
-
-        $this->client->request('GET', '/ponthub/albums/back-in-black/unkike');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 404);
-
-        $this->client->request('GET', '/ponthub/albums/back-in-black/like');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-
-        $this->client->request('GET', '/ponthub/albums/back-in-black/dislike');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-
-        $this->client->request('POST', '/ponthub/albums/back-in-black/like');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-
-        $this->client->request('POST', '/ponthub/albums/back-in-black/dislike');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-
-        $this->client->request('DELETE', '/ponthub/albums/back-in-black/like');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-
-        $this->client->request('DELETE', '/ponthub/albums/back-in-black/dislike');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-    }
-
-
     // Relatif aux musiques en elles-mêmes
 
     public function testGetMusic()

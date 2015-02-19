@@ -3,7 +3,6 @@
 namespace KI\UpontBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
-use KI\UpontBundle\Controller\BaseController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -13,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use KI\UpontBundle\Entity\Publications\Course;
 use KI\UpontBundle\Entity\Publications\CourseItem;
 
-class DefaultController extends BaseController
+class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
 {
     /**
      * @ApiDoc(

@@ -2,9 +2,7 @@
 
 namespace KI\UpontBundle\Controller\Users;
 
-use KI\UpontBundle\Controller\BaseController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -14,7 +12,7 @@ use KI\UpontBundle\Entity\Achievement;
 use KI\UpontBundle\Entity\Notification;
 
 
-class OwnController extends BaseController
+class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {

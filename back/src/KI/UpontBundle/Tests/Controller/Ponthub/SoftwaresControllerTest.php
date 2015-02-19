@@ -53,39 +53,4 @@ class SoftwaresControllerTest extends WebTestCase
         $this->assertNotEquals($infos, null);
         $this->assertEquals($infos['downloads'], 1);
     }
-
-    public function testLike()
-    {
-        $this->client->request('GET', '/ponthub/softwares/szdqsdqsq/like');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 404);
-
-        $this->client->request('GET', '/ponthub/softwares/windows-vista-1/unkike');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 404);
-
-        $this->client->request('GET', '/ponthub/softwares/windows-vista-1/like');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-
-        $this->client->request('GET', '/ponthub/softwares/windows-vista-1/dislike');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-
-        $this->client->request('POST', '/ponthub/softwares/windows-vista-1/like');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-
-        $this->client->request('POST', '/ponthub/softwares/windows-vista-1/dislike');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-
-        $this->client->request('DELETE', '/ponthub/softwares/windows-vista-1/like');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-
-        $this->client->request('DELETE', '/ponthub/softwares/windows-vista-1/dislike');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-    }
 }
