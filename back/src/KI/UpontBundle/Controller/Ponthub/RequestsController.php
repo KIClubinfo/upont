@@ -3,10 +3,9 @@
 namespace KI\UpontBundle\Controller\Ponthub;
 
 use FOS\RestBundle\Controller\Annotations as Route;
-use KI\UpontBundle\Controller\BaseController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
-class RequestsController extends BaseController
+class RequestsController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {

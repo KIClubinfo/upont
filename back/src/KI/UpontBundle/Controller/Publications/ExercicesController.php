@@ -3,12 +3,10 @@
 namespace KI\UpontBundle\Controller\Publications;
 
 use FOS\RestBundle\Controller\Annotations as Route;
-use KI\UpontBundle\Controller\BaseController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class ExercicesController extends BaseController
+class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {

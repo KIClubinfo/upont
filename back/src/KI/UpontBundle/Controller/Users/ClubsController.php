@@ -3,7 +3,6 @@
 namespace KI\UpontBundle\Controller\Users;
 
 use FOS\RestBundle\Controller\Annotations as Route;
-use KI\UpontBundle\Controller\BaseController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -11,7 +10,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use KI\UpontBundle\Form\Users\ClubUserType;
 use KI\UpontBundle\Entity\Users\ClubUser;
 
-class ClubsController extends BaseController
+class ClubsController extends \KI\UpontBundle\Controller\Core\SubresourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
