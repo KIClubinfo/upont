@@ -12,7 +12,7 @@ angular.module('upont')
             .state("cours.section", {
                 url: "/:section",
                 params: {
-                    section: "1a"
+                    section: '1a'
                 },
                 templateUrl: "views/cours/cours.html",
                 controller: ['$scope', "exercices", function($scope, exercices) {

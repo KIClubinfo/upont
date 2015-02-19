@@ -54,8 +54,12 @@ angular.module('upont')
         return function(duration) {
             if (duration > 3600)
                 return Math.floor(duration / 3600) + 'h' + Math.floor((duration % 3600) / 60);
-            if (duration > 60)
-                return Math.floor(duration / 60) + 'mn' + duration % 60;
+            if (duration > 60){
+                var retour = Math.floor(duration / 60) + ' mn';
+                if(duration%60 > 0)
+                    retour += ' '+duration%60;
+                return retour;
+            }
             return duration + 's';
         };
     })
