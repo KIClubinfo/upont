@@ -13,8 +13,8 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $club = new Club();
-        $club->setShortName('KI');
-        $club->setName('Club Informatique');
+        $club->setName('KI');
+        $club->setFullName('Club Informatique');
         $club->setActive(true);
         $club->setIcon('download');
         $club->setImage($this->getReference('image-club-ki'));
@@ -22,16 +22,16 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $this->addReference('club-ki', $club);
 
         $club = new Club();
-        $club->setShortName('BDE');
-        $club->setName('Bureau Des Élèves');
+        $club->setName('BDE');
+        $club->setFullName('Bureau Des Élèves');
         $club->setActive(true);
         $club->setImage($this->getReference('image-club-bde'));
         $manager->persist($club);
         $this->addReference('club-bde', $club);
 
         $club = new Club();
-        $club->setShortName('BDA');
-        $club->setName('Bureau Des Arts');
+        $club->setName('BDA');
+        $club->setFullName('Bureau Des Arts');
         $club->setActive(true);
         $club->setIcon('paint-brush');
         $club->setImage($this->getReference('image-club-bda'));
@@ -39,8 +39,8 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $this->addReference('club-bda', $club);
 
         $club = new Club();
-        $club->setShortName('PEP');
-        $club->setName('Ponts Études Projets');
+        $club->setName('PEP');
+        $club->setFullName('Ponts Études Projets');
         $club->setActive(true);
         $club->setIcon('eur');
         $club->setImage($this->getReference('image-club-pep'));
@@ -48,8 +48,8 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $this->addReference('club-pep', $club);
 
         $club = new Club();
-        $club->setShortName('Mediatek');
-        $club->setName('Médiatek');
+        $club->setName('Mediatek');
+        $club->setFullName('Médiatek');
         $club->setActive(true);
         $manager->persist($club);
         $this->addReference('club-mediatek', $club);

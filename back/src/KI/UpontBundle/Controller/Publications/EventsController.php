@@ -3,7 +3,6 @@
 namespace KI\UpontBundle\Controller\Publications;
 
 use FOS\RestBundle\Controller\Annotations as Route;
-use KI\UpontBundle\Controller\BaseController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -11,7 +10,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use KI\UpontBundle\Entity\Publications\EventUser;
 use KI\UpontBundle\Entity\Notification;
 
-class EventsController extends BaseController
+class EventsController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
@@ -122,118 +121,6 @@ class EventsController extends BaseController
         $club = $club ? $club->getSlug() : $club;
         return $this->delete($slug, $this->checkClubMembership($club));
     }
-
-    /**
-     * @ApiDoc(
-     *  description="Retourne la liste des gens qui likent",
-     *  statusCodes={
-     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Publications"
-     * )
-     * @Route\Get("/events/{slug}/like")
-     */
-    public function getLikeEventAction($slug) { return $this->getLikes($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Retourne la liste des gens qui dislikent",
-     *  statusCodes={
-     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Publications"
-     * )
-     * @Route\Get("/events/{slug}/dislike")
-     */
-    public function getDislikeEventAction($slug) { return $this->getDislikes($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Retourne les commentaires",
-     *  statusCodes={
-     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Publications"
-     * )
-     * @Route\Get("/events/{slug}/comments")
-     */
-    public function getCommentsEventAction($slug) { return $this->getAllSub($slug, 'Comment', true); }
-
-    /**
-     * @ApiDoc(
-     *  description="Like",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Publications"
-     * )
-     * @Route\Post("/events/{slug}/like")
-     */
-    public function likeEventAction($slug) { return $this->like($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Dislike",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Publications"
-     * )
-     * @Route\Post("/events/{slug}/dislike")
-     */
-    public function dislikeEventAction($slug) { return $this->dislike($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Enlève son like",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Publications"
-     * )
-     * @Route\Delete("/events/{slug}/like")
-     */
-    public function deleteLikeEventAction($slug) { return $this->deleteLike($slug); }
-
-    /**
-     * @ApiDoc(
-     *  description="Enlève son dislike",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Publications"
-     * )
-     * @Route\Delete("/events/{slug}/dislike")
-     */
-    public function deleteDislikeEventAction($slug) { return $this->deleteDislike($slug); }
 
     /**
      * @ApiDoc(
