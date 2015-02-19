@@ -117,15 +117,15 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
      *  description="Like",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   401="Une authentification est nécessaire pour effectuer cette View",
+     *   403="Pas les droits suffisants pour effectuer cette View",
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
      *  section="Likeable"
      * )
      */
-    public function likeAction($object, $slug)
+    public function likeView($object, $slug)
     {
         $this->autoInitialize($object);
         $this->like($this->findBySlug($slug));
@@ -137,15 +137,15 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
      *  description="Dislike",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   401="Une authentification est nécessaire pour effectuer cette View",
+     *   403="Pas les droits suffisants pour effectuer cette View",
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
      *  section="Likeable"
      * )
      */
-    public function dislikeAction($object, $slug)
+    public function dislikeView($object, $slug)
     {
         $this->autoInitialize($object);
         $this->dislike($this->findBySlug($slug));
@@ -157,15 +157,15 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
      *  description="Enlève son like",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   401="Une authentification est nécessaire pour effectuer cette View",
+     *   403="Pas les droits suffisants pour effectuer cette View",
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
      *  section="Likeable"
      * )
      */
-    public function deleteLikeAction($object, $slug)
+    public function deleteLikeView($object, $slug)
     {
         $this->autoInitialize($object);
         $this->deleteLike($this->findBySlug($slug));
@@ -177,15 +177,15 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
      *  description="Enlève son dislike",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   401="Une authentification est nécessaire pour effectuer cette View",
+     *   403="Pas les droits suffisants pour effectuer cette View",
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
      *  section="Likeable"
      * )
      */
-    public function deleteDislikeAction($object, $slug)
+    public function deleteDislikeView($object, $slug)
     {
         $this->autoInitialize($object);
         $this->deleteDislike($this->findBySlug($slug));
@@ -211,15 +211,15 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
      *  description="Retourne les commentaires",
      *  statusCodes={
      *   200="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   401="Une authentification est nécessaire pour effectuer cette View",
+     *   403="Pas les droits suffisants pour effectuer cette View",
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
      *  section="Likeable"
      * )
      */
-    public function getCommentsAction($object, $slug)
+    public function getCommentsView($object, $slug)
     {
         $this->autoInitialize($object);
         $item = $this->findBySlug($slug);
@@ -232,15 +232,15 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   401="Une authentification est nécessaire pour effectuer cette View",
+     *   403="Pas les droits suffisants pour effectuer cette View",
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
      *  section="Likeable"
      * )
      */
-    public function postCommentAction($object, $slug)
+    public function postCommentView($object, $slug)
     {
         $this->autoInitialize($object);
         $item = $this->findBySlug($slug);
@@ -283,15 +283,15 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   401="Une authentification est nécessaire pour effectuer cette View",
+     *   403="Pas les droits suffisants pour effectuer cette View",
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
      *  section="Likeable"
      * )
      */
-    public function patchCommentAction($id)
+    public function patchCommentView($id)
     {
         // L'id doit être entier
         if (!($id > 0))
@@ -316,15 +316,15 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   401="Une authentification est nécessaire pour effectuer cette View",
+     *   403="Pas les droits suffisants pour effectuer cette View",
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
      *  section="Likeable"
      * )
      */
-    public function deleteCommentAction($id)
+    public function deleteCommentView($id)
     {
         // L'id doit être entier
         if (!($id > 0))
@@ -359,15 +359,15 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
      *  description="Like une sous ressource",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   401="Une authentification est nécessaire pour effectuer cette View",
+     *   403="Pas les droits suffisants pour effectuer cette View",
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
      *  section="Likeable"
      * )
      */
-    public function likeSubAction($object, $slug, $subobject, $subslug)
+    public function likeSubView($object, $slug, $subobject, $subslug)
     {
         $this->autoInitialize($object);
         $this->like($this->findBySlug($slug));
@@ -379,15 +379,15 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
      *  description="Dislike une sous ressource",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   401="Une authentification est nécessaire pour effectuer cette View",
+     *   403="Pas les droits suffisants pour effectuer cette View",
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
      *  section="Likeable"
      * )
      */
-    public function dislikeSubAction($object, $slug, $subobject, $subslug)
+    public function dislikeSubView($object, $slug, $subobject, $subslug)
     {
         $this->autoInitialize($object);
         $this->findBySlug($slug);
@@ -401,15 +401,15 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
      *  description="Enlève son like d'une sous ressource",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   401="Une authentification est nécessaire pour effectuer cette View",
+     *   403="Pas les droits suffisants pour effectuer cette View",
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
      *  section="Likeable"
      * )
      */
-    public function deleteLikeSubAction($object, $slug, $subobject, $subslug)
+    public function deleteLikeSubView($object, $slug, $subobject, $subslug)
     {
         $this->autoInitialize($object);
         $this->findBySlug($slug);
@@ -423,15 +423,15 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
      *  description="Enlève son dislike d'une sous ressource",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   401="Une authentification est nécessaire pour effectuer cette View",
+     *   403="Pas les droits suffisants pour effectuer cette View",
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
      *  section="Likeable"
      * )
      */
-    public function deleteDislikeSubAction($object, $slug, $subobject, $subslug)
+    public function deleteDislikeSubView($object, $slug, $subobject, $subslug)
     {
         $this->autoInitialize($object);
         $this->findBySlug($slug);
@@ -445,15 +445,15 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
      *  description="Retourne les commentaires d'une sous ressource",
      *  statusCodes={
      *   200="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   401="Une authentification est nécessaire pour effectuer cette View",
+     *   403="Pas les droits suffisants pour effectuer cette View",
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
      *  section="Likeable"
      * )
      */
-    public function getCommentsSubAction($object, $slug, $subobject, $subslug)
+    public function getCommentsSubView($object, $slug, $subobject, $subslug)
     {
         $this->autoInitialize($object);
         $this->findBySlug($slug);
@@ -468,15 +468,15 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   401="Une authentification est nécessaire pour effectuer cette View",
+     *   403="Pas les droits suffisants pour effectuer cette View",
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
      *  section="Likeable"
      * )
      */
-    public function postCommentSubAction($object, $slug, $subobject, $subslug)
+    public function postCommentSubView($object, $slug, $subobject, $subslug)
     {
         $this->autoInitialize($object);
         $this->findBySlug($slug);
