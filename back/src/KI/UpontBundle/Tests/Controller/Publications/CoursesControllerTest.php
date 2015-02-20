@@ -45,13 +45,6 @@ class CoursesControllerTest extends WebTestCase
         $this->assertJsonResponse($response, 200);
     }
 
-    public function testGetOwn()
-    {
-        $this->client->request('GET', '/own/coursesitems');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-    }
-
     public function testAttend()
     {
         $this->client->request('POST', '/courses/mecanique-des-familles/attend');

@@ -46,7 +46,7 @@ class CourseItem
 
     /**
      * Le cours parent
-     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Publications\Course", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Publications\Course", inversedBy="courseitems")
      * @JMS\Expose
      * @Assert\Valid()
      */

@@ -15,7 +15,7 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
     /**
      * @Route\View()
      */
-    protected function getAll()
+    protected function getAll($results = null)
     {
         // On pagine les résultats
         $request = $this->getRequest()->query;
@@ -54,8 +54,16 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
 
         // On génère les résultats et les liens
         $results = $this->repo->findBy($findBy, $sortBy, $limit, ($page-1)*$limit);
-        foreach($results as $key => $result)
+
+        foreach ($results as $key => $result) {
             $results[$key] = $this->retrieveLikes($result);
+
+            // Cas spécial pour les événements : on ne veut pas afficher les événements
+            // perso de tout le monde
+            if ($this->className == 'Event' && $results[$key]->getAuthorClub() === null)
+                unset($results[$key]);
+        }
+
         $baseUrl = '<' . str_replace($this->getRequest()->getBaseUrl(), '', $this->getRequest()->getRequestUri()) . '?page=';
         $links = array(
             $baseUrl . $page . '&limit=' . $limit . '>;rel=self',
