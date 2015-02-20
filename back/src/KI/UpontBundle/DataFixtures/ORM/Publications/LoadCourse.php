@@ -19,7 +19,7 @@ class LoadCourseFixture extends AbstractFixture implements OrderedFixtureInterfa
         $course->setEndDate(3600 * 12);
         $course->setSemester(0);
         $course->setDepartment('SEGF');
-        $course->addAttendee($this->getReference('user-kadaouic'));
+        $this->getReference('user-kadaouic')->addCourse($course);
         $manager->persist($course);
         $this->addReference('course-shark', $course);
 
@@ -30,7 +30,7 @@ class LoadCourseFixture extends AbstractFixture implements OrderedFixtureInterfa
         $course->setEndDate(3600 * 9);
         $course->setSemester(1);
         $course->setDepartment('1A');
-        $course->addAttendee($this->getReference('user-taquet-c'));
+        $this->getReference('user-taquet-c')->addCourse($course);
         $manager->persist($course);
         $this->addReference('course-pipo', $course);
 
@@ -41,10 +41,10 @@ class LoadCourseFixture extends AbstractFixture implements OrderedFixtureInterfa
         $course->setEndDate(3600 * 18);
         $course->setSemester(1);
         $course->setDepartment('GCC');
-        $course->addAttendee($this->getReference('user-trancara'));
-        $course->addAttendee($this->getReference('user-guerinh'));
-        $course->addAttendee($this->getReference('user-dziris'));
-        $course->addAttendee($this->getReference('user-de-boisc'));
+        $this->getReference('user-trancara')->addCourse($course);
+        $this->getReference('user-de-boisc')->addCourse($course);
+        $this->getReference('user-guerinh')->addCourse($course);
+        $this->getReference('user-dziris')->addCourse($course);
         $manager->persist($course);
         $this->addReference('course-mecastru', $course);
 
@@ -55,7 +55,7 @@ class LoadCourseFixture extends AbstractFixture implements OrderedFixtureInterfa
         $course->setEndDate(3600 * 12);
         $course->setSemester(2);
         $course->setDepartment('VET');
-        $course->addAttendee($this->getReference('user-muzardt'));
+        $this->getReference('user-muzardt')->addCourse($course);
         $manager->persist($course);
         $this->addReference('course-rer', $course);
 
