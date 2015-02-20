@@ -29,7 +29,12 @@ class CoursesController extends \KI\UpontBundle\Controller\Core\ResourceControll
      *  section="Publications"
      * )
      */
-    public function getCoursesAction() { return $this->getAll(); }
+    public function getCoursesAction()
+    {
+        if ($this->getRequest()->query->has('exercices'))
+            return $this->getAll(null, 'exercices');
+        return $this->getAll();
+    }
 
     /**
      * @ApiDoc(

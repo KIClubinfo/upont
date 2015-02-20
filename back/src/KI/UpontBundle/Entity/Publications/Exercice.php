@@ -17,7 +17,6 @@ class Exercice extends Likeable
     /**
      * Utilisateur qui a uploadé l'annale
      * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User")
-     * @JMS\Expose
      * @ORM\JoinColumn(nullable=false)
      */
     private $uploader;
