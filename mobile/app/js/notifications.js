@@ -2,77 +2,89 @@
 var pushNotification;
 var gcmExpeditor = '124672424252';
 
-module.factory('PushNotifications', ['$http', '$rootScope', 'StorageService', function ($http, $rootScope, StorageService) {
-        return {
-            initialize : function () {
-                pushNotification = window.plugins.pushNotification;
+if(window.plugins) {
+    module
+        .factory('PushNotifications', ['$http', '$rootScope', 'StorageService', function ($http, $rootScope, StorageService) {
+            return {
+                initialize : function () {
+                    pushNotification = window.plugins.pushNotification;
 
-                // On demande si l'utilisateur veut recevoir des notifications push
-                ons.notification.confirm({
-                    title: 'Notifications Push',
-                    message: 'Activer les notifications push te permettra de rester au courant de ce qui se passe même l\'appli éteinte.',
-                    buttonLabels: ['>> Activer <<', 'Non merci'],
-                    animation: 'default',
-                    primaryButtonIndex: 1,
-                    callback: function(index) {
-                        if(index === 0) {
-                             if (device.platform == 'android' || device.platform == 'Android' || device.platform == "amazon-fireos") {
-                                pushNotification.register(
-                                    function() {
-                                        StorageService.set('registered', true);
-                                        $rootScope.registered = true;
-                                    },
-                                    function (error) { onsAlert('Erreur', error); },
-                                    {'senderID': gcmExpeditor, 'ecb': 'onNotificationGCM' }
-                                );
-                            }
-                            else if(device.platform == 'Win32NT'){
-                                pushNotification.register(
-                                    function(result) {
-                                        StorageService.set('registered', true);
-                                        $rootScope.registered = true;
-                                        StorageService.set('registeredId', result.uri);
-                                        $http.post(url + '/own/device', {device: result.uri, type: 'iOS'});
-                                    },
-                                    function (error) { onsAlert('Erreur', error); },
-                                    {'channelName': channelName, 'ecb': 'onNotificationWP8'}
-                                );
+                    // On demande si l'utilisateur veut recevoir des notifications push
+                    ons.notification.confirm({
+                        title: 'Notifications Push',
+                        message: 'Activer les notifications push te permettra de rester au courant de ce qui se passe même l\'appli éteinte.',
+                        buttonLabels: ['>> Activer <<', 'Non merci'],
+                        animation: 'default',
+                        primaryButtonIndex: 1,
+                        callback: function(index) {
+                            if(index === 0) {
+                                 if (device.platform == 'android' || device.platform == 'Android' || device.platform == "amazon-fireos") {
+                                    pushNotification.register(
+                                        function() {
+                                            StorageService.set('registered', true);
+                                            $rootScope.registered = true;
+                                        },
+                                        function (error) { onsAlert('Erreur', error); },
+                                        {'senderID': gcmExpeditor, 'ecb': 'onNotificationGCM' }
+                                    );
+                                }
+                                else if(device.platform == 'Win32NT'){
+                                    pushNotification.register(
+                                        function(result) {
+                                            StorageService.set('registered', true);
+                                            $rootScope.registered = true;
+                                            StorageService.set('registeredId', result.uri);
+                                            $http.post(url + '/own/device', {device: result.uri, type: 'iOS'});
+                                        },
+                                        function (error) { onsAlert('Erreur', error); },
+                                        {'channelName': channelName, 'ecb': 'onNotificationWP8'}
+                                    );
+                                } else {
+                                    pushNotification.register(
+                                        function(token) {
+                                            StorageService.set('registered', true);
+                                            $rootScope.registered = true;
+                                            StorageService.set('registeredId', token);
+                                            $http.post(url + '/own/device', {device: token, type: 'iOS'});
+                                        },
+                                        function (error) { onsAlert('Erreur', error); },
+                                        {'badge': 'true', 'sound': 'true', 'alert': 'true', 'ecb': 'onNotificationAPN'}
+                                    );
+                                }
                             } else {
-                                pushNotification.register(
-                                    function(token) {
-                                        StorageService.set('registered', true);
-                                        $rootScope.registered = true;
-                                        StorageService.set('registeredId', token);
-                                        $http.post(url + '/own/device', {device: token, type: 'iOS'});
-                                    },
-                                    function (error) { onsAlert('Erreur', error); },
-                                    {'badge': 'true', 'sound': 'true', 'alert': 'true', 'ecb': 'onNotificationAPN'}
-                                );
+                                StorageService.set('registered', false);
+                                $rootScope.registered = false;
                             }
-                        } else {
-                            StorageService.set('registered', false);
-                            $rootScope.registered = false;
                         }
-                    }
-                });
-            },
-            registerID : function (id) {
-                StorageService.set('registeredId', id);
-                $http.post(url + '/own/device', {device: id, type: 'Android'});
-            },
-            unregister : function () {
-                pushNotification = window.plugins.pushNotification;
+                    });
+                },
+                registerID : function (id) {
+                    StorageService.set('registeredId', id);
+                    $http.post(url + '/own/device', {device: id, type: 'Android'});
+                },
+                unregister : function () {
+                    pushNotification = window.plugins.pushNotification;
 
-                pushNotification.unregister(function () {
-                    StorageService.set('registered', false);
-                    $rootScope.registered = false;
+                    pushNotification.unregister(function () {
+                        StorageService.set('registered', false);
+                        $rootScope.registered = false;
 
-                    if(StorageService.get('registeredId'))
-                        $http.delete(url + '/own/device/' + StorageService.get('registeredId')).success(function() { onsAlert('Ok', 'Notifications Push désactivées'); });
-                });
-            }
-        };
-    }]);
+                        if(StorageService.get('registeredId'))
+                            $http.delete(url + '/own/device/' + StorageService.get('registeredId')).success(function() { onsAlert('Ok', 'Notifications Push désactivées'); });
+                    });
+                }
+            };
+        }]);
+} else {
+    module
+        .factory('PushNotifications', ['$http', '$rootScope', 'StorageService', function ($http, $rootScope, StorageService) {
+            return {
+                initialize : function () {
+                },
+            };
+        }]);
+}
+
 /*
 document.addEventListener('deviceready', function() {
     var elem = angular.element(document.querySelector('[ng-app]'));

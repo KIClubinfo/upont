@@ -97,3 +97,9 @@ upont_api_get_promogame:
     defaults: { _controller: KI\UpontBundle\Controller\Users\PromoGameController::getPromoGameAction }
     requirements:
         _method: GET
+
+upont_api_get_courseitems:
+    pattern: /own/courseitems
+    defaults: { _controller: KI\UpontBundle\Controller\Users\OwnController::getCourseitemsAction }
+    requirements:
+        _method: GET

@@ -15,17 +15,14 @@
   font-weight: 500;
   line-height: 16px;
   font-size: 15px;
-  margin-bottom: 6px;
 }
 
 .location {
   font-size: 14px;
   opacity: 0.4;
-  margin-bottom: 6px;
 }
 
 .desc {
   line-height: 1.2;
   font-size: 13px;
 }
-
