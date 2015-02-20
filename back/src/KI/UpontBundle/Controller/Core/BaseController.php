@@ -57,6 +57,28 @@ class BaseController extends \FOS\RestBundle\Controller\FOSRestController
         );
     }
 
+    // FIXME attendre que le vendor soit updaté, on doit passer par le service
+    // et ne pas créer le serializer nous même. Le résultat est que la configuration
+    // du serializer n'est pas chargée, ce qui fait par exemple que toute entité
+    // serializée par cette fonction qui contiendra un User exposera le hash du
+    // mot de passe...
+    public function restContextResponse($data, $code = 200, array $headers = array(), $context = null)
+    {
+        $serializer = \JMS\Serializer\SerializerBuilder::create()->build();
+        if ($context) {
+            $config = \JMS\Serializer\SerializationContext::create();
+            $serialized = $serializer->serialize($data, 'json', $config->setGroups(array('Default', $context)));
+        } else {
+            $serialized = $serializer->serialize($data, 'json');
+        }
+
+        return new \Symfony\Component\HttpFoundation\Response(
+            $serialized,
+            $code,
+            $headers
+        );
+    }
+
     public function jsonResponse($data, $code = 200, array $headers = array())
     {
         return new \Symfony\Component\HttpFoundation\JsonResponse($data, $code, $headers);
