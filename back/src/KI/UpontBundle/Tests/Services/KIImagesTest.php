@@ -39,13 +39,15 @@ class KIImagesTest extends WebTestCase
         $url = 'http://www.youtube.com/yt/brand/media/image/YouTube-logo-full_color.png';
         $result = $this->service->uploadUrl($url);
         $this->assertTrue($result['image'] !== null);
+        $this->assertEquals($result['extension'], 'png');
     }
 
-    public function testExtUploadUrl()
+    public function testFailUploadUrl()
     {
-        $url = 'http://www.youtube.com/yt/brand/media/image/YouTube-logo-full_color.png';
+        $this->setExpectedException('Exception');
+        $url = 'httzpqq//wsqdqww.youtube.com/yt/brand/media/image/YouTube-logo-full_color.png';
         $result = $this->service->uploadUrl($url);
-        $this->assertEquals($result['extension'], 'png');
+        $this->assertEquals($result, null);
     }
 
 
