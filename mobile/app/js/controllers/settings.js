@@ -12,6 +12,20 @@ module
 	    $scope.clubsNames = [];
 	    $scope.clubsFollowed = [];
 	    $scope.balance = null;
+	    $scope.notifs = [];
+	    $scope.notifTexts = {
+	        'notif_followed_event' : 'Nouvel événement',
+            'notif_followed_news'  : 'Nouvelle news',
+            'notif_followed_poll'  : 'Nouveau sondage',
+            'notif_ponthub'        : 'Nouveaux fichiers Ponthub',
+            'notif_ki_answer'      : 'Réponse à une requête de dépannage',
+            'notif_shotgun_h-1'    : 'Avertissement Shotgun H-1',
+            'notif_shotgun_m-5'    : 'Avertissement Shotgun M-5',
+            'notif_followed_annal' : 'Ajout d\'une annale',
+            'notif_next_class'     : 'Un cours va bientôt commencer',
+            'notif_achievement'    : 'Obtention d\'un achievement',
+            'notif_next_level'     : 'Passage au niveau suivant'
+	    };
 
 	    $scope.init = function() {
 		    $http.get(url + '/foyer/balance').success(function(data){
@@ -53,5 +67,18 @@ module
 
 	    $scope.unregister = function() {
 	        PushNotifications.unregister();
+	    };
+
+	    $scope.configNotifs = function() {
+		    $http.get(url + '/own/preferences').success(function(data){
+			    $scope.notifs = data;
+			    nav.pushPage('notifications.html');
+		    });
+	    };
+
+	    $scope.changeNotif = function(notif) {
+		    $http.patch(url + '/own/preferences', {key: notif, value: !$scope.notifs[notif]}).success(function(data){
+			    $scope.notifs[notif] = !$scope.notifs[notif];
+		    });
 	    };
     }]);
