@@ -432,10 +432,10 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         $user = $this->get('security.context')->getToken()->getUser();
 
         if (!$this->get('security.context')->isGranted('ROLE_USER'))
-            throw new AccessDeniedException();
+            throw new AccessDeniedException('Accès refusé');
 
         if (!($request->request->has('key') && $request->request->has('value')))
-            throw new BadRequestHttpException();
+            throw new BadRequestHttpException('Champ manquant');
 
         if ($user->addPreference($request->request->get('key'), $request->request->get('value'))) {
             $this->em->flush();
@@ -470,10 +470,10 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         $user = $this->get('security.context')->getToken()->getUser();
 
         if (!$this->get('security.context')->isGranted('ROLE_USER'))
-            throw new AccessDeniedException();
+            throw new AccessDeniedException('Accès refusé');
 
         if (!($request->request->has('key')))
-            throw new BadRequestHttpException();
+            throw new BadRequestHttpException('Champ manquant');
 
         if ($user->removePreference($request->request->get('key'))) {
             $this->em->flush();
@@ -500,7 +500,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
     public function getPreferencesAction()
     {
         $user = $this->get('security.context')->getToken()->getUser();
-        return $this->jsonResponse($user->getPreferences());
+        return $this->restResponse($user->getPreferences());
     }
 
     /**
