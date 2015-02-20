@@ -35,11 +35,15 @@ class LoadCourseItemFixture extends AbstractFixture implements OrderedFixtureInt
 
         $courseItem = new CourseItem();
         $courseItem->setLocation('F 102');
+        $courseItem->setStartDate(time() + 3600 * 3);
+        $courseItem->setEndDate(time() + 3600 * 4.5);
         $courseItem->setCourse($this->getReference('course-pipo'));
         $manager->persist($courseItem);
 
         $courseItem = new CourseItem();
         $courseItem->setLocation('Cauchy');
+        $courseItem->setStartDate(time() + 3600 * 1);
+        $courseItem->setEndDate(time() + 3600 * 3.5);
         $courseItem->setCourse($this->getReference('course-mecastru'));
         $manager->persist($courseItem);
 

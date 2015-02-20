@@ -23,7 +23,7 @@ class Course extends Likeable
 
     /**
      * Heure de début du cours (secondes depuis 00:00:00)
-     * @ORM\Column(name="startDate", type="integer", nullable=true)
+     * @ORM\Column(name="startDate", type="integer")
      * @JMS\Expose
      * @Assert\Type("integer")
      */
@@ -31,7 +31,7 @@ class Course extends Likeable
 
     /**
      * Heure de fin du cours (secondes depuis 00:00:00)
-     * @ORM\Column(name="endDate", type="integer", nullable=true)
+     * @ORM\Column(name="endDate", type="integer")
      * @JMS\Expose
      * @Assert\Type("integer")
      */
@@ -71,7 +71,6 @@ class Course extends Likeable
     /**
      * Liste des annales de ce cours
      * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Publications\CourseItem", mappedBy="course")
-     * @JMS\Expose
      * @Assert\Valid()
      */
     protected $courseitems;

@@ -16,10 +16,25 @@ module
 	    endDay.setHours(23, 59, 59, 999);
         $scope.startDay = Math.floor(startDay.getTime() / 1000);
         $scope.endDay = Math.floor(endDay.getTime() / 1000);
+        var now = new Date();
+        now = Math.floor(now.getTime() / 1000);
 
 	    $scope.init = function(){
-		    $http.get(url + '/own/events').success(function(data){
-			    $scope.events = data;
+		    var events;
+		    $http.get(url + '/own/events').success(function(data) {
+			    events = data;
+
+			    // On charge aussi les cours et on les fait passer pour des events
+		        $http.get(url + '/own/courseitems').success(function(data) {
+		            for (var key in data) {
+		                // On ejecte les cours du matin déjà passés et ceux du lendemain
+		                if (data[key].start_date > $scope.endDay || data[key].end_date < now)
+		                    continue;
+
+		                events.push(data[key]);
+		            }
+		            $scope.events = events;
+		        });
 		    });
 	    };
 
@@ -43,25 +58,25 @@ module
 			        $scope.eventItem.likes++;
 
 			        // Si la personne unlikait avant
-			        if ($scope.eventItem.unlike) {
-			            $scope.eventItem.unlike = false;
-			            $scope.eventItem.unlikes--;
+			        if ($scope.eventItem.dislike) {
+			            $scope.eventItem.dislike = false;
+			            $scope.eventItem.dislikes--;
 			        }
 		        });
 		    }
 	    };
 
-	    $scope.unlikeClick = function(){
+	    $scope.dislikeClick = function(){
 	        // Si la personne like déjà on ne fait qu'annuler le like
-	        if ($scope.eventItem.unlike) {
-		        $http.delete(url + '/events/' + $scope.eventItem.slug + '/unlike').success(function(data){
-			        $scope.eventItem.unlike = false;
-			        $scope.eventItem.unlikes--;
+	        if ($scope.eventItem.dislike) {
+		        $http.delete(url + '/events/' + $scope.eventItem.slug + '/dislike').success(function(data){
+			        $scope.eventItem.dislike = false;
+			        $scope.eventItem.dislikes--;
 		        });
 		    } else {
-		        $http.post(url + '/events/' + $scope.eventItem.slug + '/unlike').success(function(data){
-			        $scope.eventItem.unlike = true;
-			        $scope.eventItem.unlikes++;
+		        $http.post(url + '/events/' + $scope.eventItem.slug + '/dislike').success(function(data){
+			        $scope.eventItem.dislike = true;
+			        $scope.eventItem.dislikes++;
 
 			        // Si la personne unlikait avant
 			        if ($scope.eventItem.like) {
@@ -114,10 +129,9 @@ module
 		    }
 	    };
 
-	    $scope.loadLikes = function(){
-		    $http.get(url + '/events/' + $scope.eventItem.slug + '/like').success(function(data){
-			    $scope.likes = data;
-			    nav.pushPage('likes.html');
+	    $scope.loadComments = function(){
+		    $http.get(url + '/events/' + $scope.eventItem.slug + '/comments').success(function(data){
+			    nav.pushPage('views/comments.html', {comments: data, route: '/events/' + $scope.eventItem.slug});
 		    });
 	    };
 

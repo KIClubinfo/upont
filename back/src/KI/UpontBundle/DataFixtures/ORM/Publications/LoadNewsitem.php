@@ -50,6 +50,8 @@ Il existe trois règles fondamentales :
         $newsitem->setAuthorUser($this->getReference('user-dziris'));
         $newsitem->setDislikes(array($this->getReference('user-trancara'), $this->getReference('user-dziris')));
         $newsitem->addComment($this->getReference('comment-genial'));
+        $newsitem->addComment($this->getReference('comment-rage'));
+        $newsitem->addComment($this->getReference('comment-arret'));
         $manager->persist($newsitem);
 
         $newsitem = new Newsitem();
