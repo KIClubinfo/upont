@@ -16,10 +16,25 @@ module
 	    endDay.setHours(23, 59, 59, 999);
         $scope.startDay = Math.floor(startDay.getTime() / 1000);
         $scope.endDay = Math.floor(endDay.getTime() / 1000);
+        var now = new Date();
+        now = Math.floor(now.getTime() / 1000);
 
 	    $scope.init = function(){
-		    $http.get(url + '/own/events').success(function(data){
-			    $scope.events = data;
+		    var events;
+		    $http.get(url + '/own/events').success(function(data) {
+			    events = data;
+
+			    // On charge aussi les cours et on les fait passer pour des events
+		        $http.get(url + '/own/courseitems').success(function(data) {
+		            for (var key in data) {
+		                // On ejecte les cours du matin déjà passés et ceux du lendemain
+		                if (data[key].start_date > $scope.endDay || data[key].end_date < now)
+		                    continue;
+
+		                events.push(data[key]);
+		            }
+		            $scope.events = events;
+		        });
 		    });
 	    };
 

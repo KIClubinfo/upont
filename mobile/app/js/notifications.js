@@ -75,7 +75,16 @@ if(window.plugins) {
                 }
             };
         }]);
+} else {
+    module
+        .factory('PushNotifications', ['$http', '$rootScope', 'StorageService', function ($http, $rootScope, StorageService) {
+            return {
+                initialize : function () {
+                },
+            };
+        }]);
 }
+
 /*
 document.addEventListener('deviceready', function() {
     var elem = angular.element(document.querySelector('[ng-app]'));
