@@ -24,6 +24,13 @@ class OwnControllerTest extends WebTestCase
         $this->assertArrayHasKey('image', $infos['current_level']);
     }
 
+    public function testGetCourses()
+    {
+        $this->client->request('GET', '/own/courses');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 200);
+    }
+
     public function testGetNotifications()
     {
         $this->client->request('GET', '/own/notifications');
