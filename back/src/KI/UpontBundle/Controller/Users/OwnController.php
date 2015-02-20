@@ -354,6 +354,37 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
 
     /**
      * @ApiDoc(
+     *  description="Renvoie la liste des prochains cours de l'utilisateur",
+     *  output="KI\UpontBundle\Entity\Publications\Courseitem",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Utilisateurs"
+     * )
+     */
+    public function getCourseitemsAction()
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $courses = $user->getCourses();
+
+        // On extraie les Courseitem et on les trie par date de début
+        $result = array();
+        $timestamp = array();
+        foreach ($courses as $course) {
+            foreach ($course->getCourseitems() as $courseitem) {
+                $result[] = $courseitem;
+                $timestamp[] = $courseitem->getStartDate();
+            }
+        }
+        array_multisort($timestamp, SORT_ASC, $result);
+        return $this->restResponse($result);
+    }
+
+    /**
+     * @ApiDoc(
      *  description="Renvoie la liste des cours suivis qui auront lieu bientôt, et leur salle",
      *  output="KI\UpontBundle\Entity\Publications\Course",
      *  statusCodes={

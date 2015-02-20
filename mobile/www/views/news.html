@@ -25,7 +25,7 @@
                         <div class="timeline-date">{{ new.date | readableDate }}</div>
                         <div class="timline-from">
                             <span class="timeline-name">{{ new.name }}</span>
-                            <span class="timeline-id">{{ new.author_club.short_name }}</span>
+                            <span class="timeline-id">{{ new.author_club.name }}</span>
                         </div>
 
                         <div class="timeline-message">
@@ -67,7 +67,7 @@
             </div>
         </div>
 
-        <div class="rating"><div class="rating-num">{{ newItem.author_club.short_name }}</div></div>
+        <div class="rating"><div class="rating-num">{{ newItem.author_club.name }}</div></div>
 
         <ons-list style="border-top: none"><ons-list-item style="line-height: 1; padding: 0;"><ons-row class="action">
             <ons-col class="action-col" ng-class="{'action-active': newItem.like}" ng-click="likeClick()">
