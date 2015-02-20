@@ -98,11 +98,4 @@ class UsersControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
     }
-
-    public function testPromoGame()
-    {
-        $this->client->request('GET', '/promo_game');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-    }
 }

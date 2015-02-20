@@ -3,6 +3,7 @@
 namespace KI\UpontBundle\Services;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class KIImages extends ContainerAware
 {
@@ -27,6 +28,9 @@ class KIImages extends ContainerAware
     // Upload d'une image à partir d'une URL et renvoie l'image sous forme de string et son extension
     public function uploadUrl($url)
     {
+        if (!preg_match('#^(https?://)?([\da-z\.-]+)\.([a-z\.]{2,6})([/\w \.-]*)*/?$#', $url))
+            throw new BadRequestHttpException('Ceci n\'est pas une url : ' . $url);
+
         $curl = $this->container->get('ki_upont.curl');
 
         // Réglage des options cURL
