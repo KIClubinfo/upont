@@ -90,9 +90,3 @@ upont_api_get_courses:
     defaults: { _controller: KI\UpontBundle\Controller\Users\OwnController::getCoursesAction }
     requirements:
         _method: GET
-
-upont_api_get_coursesitems:
-    pattern: /own/coursesitems
-    defaults: { _controller: KI\UpontBundle\Controller\Users\OwnController::getCoursesitemsAction }
-    requirements:
-        _method: GET
