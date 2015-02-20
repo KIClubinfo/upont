@@ -223,12 +223,25 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
     {
         $this->autoInitialize($object);
         $item = $this->findBySlug($slug);
-        return $this->restResponse($item->getComments());
+        $comments = $item->getComments();
+
+        foreach ($comments as &$comment) {
+            $comment = $this->retrieveLikes($comment);
+        }
+
+        return $this->restResponse($comments);
     }
 
     /**
      * @ApiDoc(
      *  description="Ajoute un commentaire",
+     *  requirements={
+     *   {
+     *    "name"="text",
+     *    "dataType"="string",
+     *    "description"="Le commentaire"
+     *   }
+     *  },
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",
@@ -265,7 +278,7 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
         $item->addComment($comment);
         $this->em->flush();
 
-        return RestView::create($comment,
+        return $this->restResponse($comment,
             201,
             array(
                 'Location' => $this->generateUrl(

@@ -24,8 +24,8 @@
                     <ons-col>
                         <div class="timeline-date">{{ new.date | readableDate }}</div>
                         <div class="timline-from">
-                            <span class="timeline-name">{{ new.title }}</span>
-                            <span class="timeline-id">{{ new.author_club.short_name }}</span>
+                            <span class="timeline-name">{{ new.name }}</span>
+                            <span class="timeline-id">{{ new.author_club.name }}</span>
                         </div>
 
                         <div class="timeline-message">
@@ -61,13 +61,13 @@
         </ons-toolbar>
 
         <div class="card-news" style="background-image: url({{ url + '/' + newItem.image_url }});">
-            <div class="card-name">{{ newItem.title }}</div>
+            <div class="card-name">{{ newItem.name }}</div>
             <div class="card-desc">
                 {{ newItem.date | readableDate }}
             </div>
         </div>
 
-        <div class="rating"><div class="rating-num">{{ newItem.author_club.short_name }}</div></div>
+        <div class="rating"><div class="rating-num">{{ newItem.author_club.name }}</div></div>
 
         <ons-list style="border-top: none"><ons-list-item style="line-height: 1; padding: 0;"><ons-row class="action">
             <ons-col class="action-col" ng-class="{'action-active': newItem.like}" ng-click="likeClick()">
@@ -75,62 +75,24 @@
                 <div class="action-label">Like</div> <div class="notification like-badge">{{ newItem.likes }}</div>
             </ons-col>
 
-            <ons-col class="action-col" ng-class="{'action-active': newItem.unlike}" ng-click="unlikeClick()">
+            <ons-col class="action-col" ng-class="{'action-active': newItem.dislike}" ng-click="dislikeClick()">
                 <div class="action-icon"><ons-icon icon="fa-thumbs-down"></ons-icon></div>
-                <div class="action-label">Unlike</div> <div class="notification like-badge">{{ newItem.unlikes }}</div>
+                <div class="action-label">Dislike</div> <div class="notification like-badge">{{ newItem.dislikes }}</div>
             </ons-col>
         </ons-row></ons-list-item></ons-list>
 
         <p class="timeline-li" ng-bind-html="newItem.text_long | nl2br"></p>
 
         <ons-list style="margin-top: 12px;">
-            <ons-list-item ng-hide="newItem.likes == 0" modifier="chevron" ng-click="loadLikes()">
+            <ons-list-item modifier="chevron" ng-click="loadComments()">
                 <div class="prop-desc">
-                    <ons-icon icon="fa-thumbs-up"></ons-icon>
-                    {{ newItem.likes }} {{ newItem.likes == 1 ? 'personne aime' : 'personnes aiment' }} ça
+                    <ons-icon icon="fa-comments"></ons-icon>
+                    {{ newItem.comments }} commentaire{{ newItem.comments == 1 ? '' : 's' }}
                 </div>
             </ons-list-item>
         </ons-list>
     </ons-page>
 </ons-template>
-
-
-
-
-
-
-
-
-
-
-<ons-template id="likes.html">
-    <ons-page>
-        <ons-toolbar fixed-style>
-            <div class="left">
-                <ons-toolbar-button ng-click="menu.toggle()">
-                    <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
-                </ons-toolbar-button>
-            </div>
-            <div class="center">Likes</div>
-            <div class="right"><ons-toolbar-button ng-click="nav.popPage()">Retour</ons-toolbar-button></div>
-        </ons-toolbar>
-
-        <ons-list class="person-list">
-            <ons-list-item class="person" ng-repeat="like in likes | orderBy:['first_name','last_name']">
-                <ons-row>
-                    <ons-col width="40px">
-                        <img style="background-image: url('{{ url + '/' + like.image_url }}')" class="person-image">
-                    </ons-col>
-                    <ons-col class="person-name">
-                        {{ like.first_name }} {{ like.last_name }}
-                    </ons-col>
-                </ons-row>
-            </ons-list-item>
-        </ons-list>
-    </ons-page>
-</ons-template>
-
-
 
 
 
