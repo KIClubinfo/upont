@@ -254,4 +254,24 @@ class Comment
     {
         return $this->listDislikes;
     }
+
+    public function getDislike()
+    {
+        return $this->dislike;
+    }
+
+    public function setDislike($dislike)
+    {
+        return $this->dislike = $dislike;
+    }
+
+    public function getLike()
+    {
+        return $this->like;
+    }
+
+    public function setLike($like)
+    {
+        return $this->like = $like;
+    }
 }
