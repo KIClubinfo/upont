@@ -24,7 +24,7 @@
                     <ons-col>
                         <div class="timeline-date">{{ new.date | readableDate }}</div>
                         <div class="timline-from">
-                            <span class="timeline-name">{{ new.title }}</span>
+                            <span class="timeline-name">{{ new.name }}</span>
                             <span class="timeline-id">{{ new.author_club.short_name }}</span>
                         </div>
 
@@ -61,7 +61,7 @@
         </ons-toolbar>
 
         <div class="card-news" style="background-image: url({{ url + '/' + newItem.image_url }});">
-            <div class="card-name">{{ newItem.title }}</div>
+            <div class="card-name">{{ newItem.name }}</div>
             <div class="card-desc">
                 {{ newItem.date | readableDate }}
             </div>
