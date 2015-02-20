@@ -32,26 +32,48 @@
         <ons-list class="plan-list">
             <ons-list-item modifier="chevron" class="plan"
                            ng-repeat="event in events | orderBy:['start_date']"
-                           ng-click="load(event.slug)"
                            ng-if="eventToday == 'true' ? event.start_date <= endDay : event.start_date > endDay">
-                <ons-row>
+                <ons-row ng-if="event.name" ng-click="load(event.slug)">
                     <ons-col width="80px" class="plan-left">
                         <div class="plan-date">{{ event.start_date*1000 | date: "HH'h'mm" }}</div>
-                        <div class="plan-duration">{{ event.end_date-event.start_date | duration }}</div>
+                        <div class="plan-duration">{{ event.end_date*1000 | date: "HH'h'mm" }}</div>
                     </ons-col>
 
-                    <ons-col width="6px" class="plan-center" ng-style="{backgroundColor:event % 3 == 1 ? '#3399ff' : '#ccc'}">
+                    <ons-col width="6px" class="plan-center" style="background-color: #39f">
                     </ons-col>
 
                     <ons-col class="plan-right">
                         <div class="plan-name">{{ event.name }}</div>
                         <div class="plan-info">
-                            <div ng-hide="event.author_club.short_name == null">
-                                <ons-icon icon="fa-user"></ons-icon> {{ event.author_club.short_name }}
-                            </div>
-
                             <div ng-hide="event.place == null">
                                 <ons-icon icon="fa-map-marker"></ons-icon> {{ event.place }}
+                            </div>
+
+                            <div ng-hide="event.author_club.name == null">
+                                <ons-icon icon="fa-user"></ons-icon> {{ event.author_club.name }}
+                            </div>
+                        </div>
+                    </ons-col>
+                </ons-row>
+
+                <ons-row ng-if="event.course != null">
+                    <ons-col width="80px" class="plan-left">
+                        <div class="plan-date">{{ event.start_date*1000 | date: "HH'h'mm" }}</div>
+                        <div class="plan-duration">{{ event.end_date*1000 | date: "HH'h'mm" }}</div>
+                    </ons-col>
+
+                    <ons-col width="6px" class="plan-center" style="background-color: #ccc">
+                    </ons-col>
+
+                    <ons-col class="plan-right">
+                        <div class="plan-name">{{ event.course.name }}</div>
+                        <div class="plan-info">
+                            <div ng-hide="event.location == null">
+                                <ons-icon icon="fa-map-marker"></ons-icon> {{ event.location }}
+                            </div>
+
+                            <div ng-hide="event.course.group == null">
+                                <ons-icon icon="fa-user"></ons-icon> Groupe {{ event.course.group }}
                             </div>
                         </div>
                     </ons-col>
@@ -91,7 +113,7 @@
             </div>
         </div>
 
-        <div class="rating"><div class="rating-num">{{ eventItem.author_club.short_name }}</div></div>
+        <div class="rating"><div class="rating-num">{{ eventItem.author_club.name }}</div></div>
 
         <ons-list style="border-top: none"><ons-list-item style="line-height: 1; padding: 0;"><ons-row class="action">
             <ons-col class="action-col" ng-class="{'action-active': eventItem.attend}" ng-click="attendClick()">
