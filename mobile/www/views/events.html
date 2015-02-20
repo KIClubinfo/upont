@@ -44,7 +44,7 @@
                     </ons-col>
 
                     <ons-col class="plan-right">
-                        <div class="plan-name">{{ event.title }}</div>
+                        <div class="plan-name">{{ event.name }}</div>
                         <div class="plan-info">
                             <div ng-hide="event.author_club.short_name == null">
                                 <ons-icon icon="fa-user"></ons-icon> {{ event.author_club.short_name }}
@@ -84,7 +84,7 @@
         </ons-toolbar>
 
         <div class="card" style="background-image: url({{ url + '/' + eventItem.image_url }});">
-            <div class="card-name">{{ eventItem.title }}</div>
+            <div class="card-name">{{ eventItem.name }}</div>
             <div class="card-desc">
                 {{ eventItem.start_date | readableDate }}<br>
                 Entrée : {{ eventItem.entry_method }}

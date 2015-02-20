@@ -10,14 +10,14 @@ module
 			    $scope.news = data;
 		    });
 	    };
-	    
+
 	    $scope.load = function(slug){
 		    $http.get(url + '/newsitems/' + slug).success(function(data){
 			    $scope.newItem = data;
 			    nav.pushPage('new.html');
 		    });
 	    };
-	    
+
 	    $scope.likeClick = function(){
 	        // Si la personne like déjà on ne fait qu'annuler le like
 	        if ($scope.newItem.like) {
@@ -29,7 +29,7 @@ module
 		        $http.post(url + '/newsitems/' + $scope.newItem.slug + '/like').success(function(data){
 			        $scope.newItem.like = true;
 			        $scope.newItem.likes++;
-			        
+
 			        // Si la personne unlikait avant
 			        if ($scope.newItem.unlike) {
 			            $scope.newItem.unlike = false;
@@ -38,7 +38,7 @@ module
 		        });
 		    }
 	    };
-	    
+
 	    $scope.unlikeClick = function(){
 	        // Si la personne like déjà on ne fait qu'annuler le like
 	        if ($scope.newItem.unlike) {
@@ -50,7 +50,7 @@ module
 		        $http.post(url + '/newsitems/' + $scope.newItem.slug + '/unlike').success(function(data){
 			        $scope.newItem.unlike = true;
 			        $scope.newItem.unlikes++;
-			        
+
 			        // Si la personne unlikait avant
 			        if ($scope.newItem.like) {
 			            $scope.newItem.like = false;
@@ -59,7 +59,7 @@ module
 		        });
 		    }
 	    };
-	    
+
 	    $scope.loadLikes = function(){
 		    $http.get(url + '/newsitems/' + $scope.newItem.slug + '/like').success(function(data){
 			    $scope.likes = data;
