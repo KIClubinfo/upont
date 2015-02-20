@@ -15,7 +15,7 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
     /**
      * @Route\View()
      */
-    protected function getAll($results = null)
+    protected function getAll($results = null, $context = null)
     {
         // On pagine les résultats
         $request = $this->getRequest()->query;
@@ -75,6 +75,20 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
             $links[] = $baseUrl . ($page - 1) . '&limit=' . $limit . '>;rel=previous';
         if ($page < $totalPages)
             $links[] = $baseUrl . ($page + 1) . '&limit=' . $limit . '>;rel=next';
+
+        // FIXME à refacto quand la PR sur le JMSSerializerBundle sera effectuée
+        // (voir BaseController::restResponseContext pour plus de détails)
+        if ($context) {
+            return $this->restContextResponse(
+                $results,
+                200,
+                array(
+                    'Links' => implode(',', $links),
+                    'Total-count' => $count
+                ),
+                $context
+            );
+        }
 
         return $this->restResponse(
             $results,
