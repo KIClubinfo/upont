@@ -15,20 +15,20 @@
         </ons-toolbar>
 
         <ons-list class="timeline" modifier="inset">
-            <ons-list-item class="timeline-li" modifier="tappable" ng-repeat="new in news" ng-click="load(new.slug)">
+            <ons-list-item modifier="tappable" ng-repeat="new in news" ng-click="load(new.slug)">
                 <ons-row>
                     <ons-col width="50px">
-                        <img style="background-image: url('{{ url + '/' + new.image_url }}')" class="timeline-image">
+                        <img style="background-image: url('{{ url + '/' + new.image_url }}')" class="image">
                     </ons-col>
 
                     <ons-col>
-                        <div class="timeline-date">{{ new.date | readableDate }}</div>
-                        <div class="timline-from">
-                            <span class="timeline-name">{{ new.name }}</span>
-                            <span class="timeline-id">{{ new.author_club.name }}</span>
+                        <div class="date">{{ new.date | readableDate }}</div>
+                        <div class="from">
+                            <span class="name">{{ new.name }}</span>
+                            <span class="id">{{ new.author_club.name }}</span>
                         </div>
 
-                        <div class="timeline-message">
+                        <div class="message">
                             {{ new.text_short || (new.text_long.length > 140) ? new.text_long.substring(0,140) + '...' : new.text_long}}
                         </div>
                     </ons-col>
@@ -60,24 +60,24 @@
             <div class="right"><ons-toolbar-button ng-click="nav.popPage()">Retour</ons-toolbar-button></div>
         </ons-toolbar>
 
-        <div class="card-news" style="background-image: url({{ url + '/' + newItem.image_url }});">
-            <div class="card-name">{{ newItem.name }}</div>
-            <div class="card-desc">
+        <div class="card news" style="background-image: url({{ url + '/' + newItem.image_url }});">
+            <div class="name">{{ newItem.name }}</div>
+            <div class="desc">
                 {{ newItem.date | readableDate }}
             </div>
         </div>
 
-        <div class="rating"><div class="rating-num">{{ newItem.author_club.name }}</div></div>
+        <div class="card-label"><div class="label">{{ newItem.author_club.name }}</div></div>
 
         <ons-list style="border-top: none"><ons-list-item style="line-height: 1; padding: 0;"><ons-row class="action">
-            <ons-col class="action-col" ng-class="{'action-active': newItem.like}" ng-click="likeClick()">
-                <div class="action-icon"><ons-icon icon="fa-thumbs-up"></ons-icon></div>
-                <div class="action-label">Like</div> <div class="notification like-badge">{{ newItem.likes }}</div>
+            <ons-col class="action" up-active="newItem.like" ng-click="likeClick()">
+                <div class="icon"><ons-icon icon="fa-thumbs-up"></ons-icon></div>
+                <div class="label">Like</div> <div class="notification like-badge">{{ newItem.likes }}</div>
             </ons-col>
 
-            <ons-col class="action-col" ng-class="{'action-active': newItem.dislike}" ng-click="dislikeClick()">
-                <div class="action-icon"><ons-icon icon="fa-thumbs-down"></ons-icon></div>
-                <div class="action-label">Dislike</div> <div class="notification like-badge">{{ newItem.dislikes }}</div>
+            <ons-col class="action" up-active="newItem.dislike" ng-click="dislikeClick()">
+                <div class="icon"><ons-icon icon="fa-thumbs-down"></ons-icon></div>
+                <div class="label">Dislike</div> <div class="notification like-badge">{{ newItem.dislikes }}</div>
             </ons-col>
         </ons-row></ons-list-item></ons-list>
 
@@ -85,7 +85,7 @@
 
         <ons-list style="margin-top: 12px;">
             <ons-list-item modifier="chevron" ng-click="loadComments()">
-                <div class="prop-desc">
+                <div class="desc">
                     <ons-icon icon="fa-comments"></ons-icon>
                     {{ newItem.comments }} commentaire{{ newItem.comments == 1 ? '' : 's' }}
                 </div>
@@ -121,11 +121,11 @@
             <ons-list-item class="to-wrapper" modifier="chevron">
                 <ons-row>
                     <ons-col width="52px">
-                        <img src="images/profile.jpg" width="42" class="to-image">
+                        <img class="image" src="images/profile.jpg" width="42">
                     </ons-col>
                     <ons-col>
-                        <div class="to-name">Club Informatique</div>
-                        <div class="to-email">@ki</div>
+                        <div class="name">Club Informatique</div>
+                        <div class="email">@ki</div>
                     </ons-col>
                 </ons-row>
             </ons-list-item>

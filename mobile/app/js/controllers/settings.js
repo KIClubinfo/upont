@@ -1,5 +1,5 @@
 module
-    .controller('SettingsController', ['$scope', 'StorageService', '$http', 'PushNotifications', function($scope, StorageService, $http, PushNotifications) {
+    .controller('SettingsController', ['$scope', '$rootScope', 'StorageService', '$http', 'PushNotifications', function($scope, $rootScope, StorageService, $http, PushNotifications) {
 	    $scope.logout = function(){
 	        StorageService.remove('token');
 			StorageService.remove('token_exp');
@@ -53,5 +53,13 @@ module
 
 	    $scope.unregister = function() {
 	        PushNotifications.unregister();
+	    };
+
+	    $scope.switchTheme = function() {
+	        $rootScope.dark = !$rootScope.dark;
+	        if ($rootScope.dark)
+	            StorageService.set('dark', true);
+	        else
+	            StorageService.remove('dark');
 	    };
     }]);
