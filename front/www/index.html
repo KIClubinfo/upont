@@ -68,18 +68,7 @@
         <div ui-view autoscroll="false" class="up-main-view" up-fill-window ng-class="{'col-xs-10':isLogged(), 'col-xs-12':!isLogged()}"></div>
     </div>
 
-    <footer class="container-fluid" ng-show="!inArbo('calendrier')">
-        <div class="row">
-            <div class="col-sm-2 col-xs-6 up-theme-selector">
-                <label class="unbold">
-                    <input type="checkbox" ng-model="theme">&nbsp;&nbsp;Thème sombre</label>
-            </div>
-            <div class="col-sm-8 col-xs-12">uPont 2.0</div>
-            <div ng-if="isLogged()" class="col-sm-2 col-xs-6">
-                <button class="btn btn-default" ng-click="logOut()">Logout</button>
-            </div>
-        </div>
-    </footer>
+    <footer class="container-fluid" ui-view="footer"></footer>
 </body>
 
 </html>

@@ -69,14 +69,13 @@ angular.module('upont', ['ui.router', 'ngResource', 'ngAnimate', 'mgcrea.ngStrap
         });
 
         $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
-            if (toState.resolve)
-                cfpLoadingBar.complete();
+            // if (toState.resolve)
+            cfpLoadingBar.complete();
         });
 
         $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
             cfpLoadingBar.complete();
             console.log(error);
-            // $state.go('404');
         });
 
         $rootScope.$on('$stateNotFound', function(event, toState, toParams, fromState, fromParams) {
@@ -110,7 +109,7 @@ angular.module('upont', ['ui.router', 'ngResource', 'ngAnimate', 'mgcrea.ngStrap
                     $location.path('/');
                 }
                 if (response.status == 500)
-                    $state.go('erreur');
+                    $location.path('/erreur');
                 if (response.status == 503) {
                     if (response.data.until)
                         StorageService.set('maintenance', response.data.until);
@@ -118,8 +117,6 @@ angular.module('upont', ['ui.router', 'ngResource', 'ngAnimate', 'mgcrea.ngStrap
                         StorageService.remove('maintenance');
                     $location.path('/maintenance');
                 }
-                // if (response.status == 404)
-                //     $location.path('/404');
 
                 return $q.reject(response);
             }
@@ -144,6 +141,14 @@ angular.module('upont', ['ui.router', 'ngResource', 'ngAnimate', 'mgcrea.ngStrap
             .state("404", {
                 url: '/404',
                 templateUrl: 'views/404.html',
+            })
+            .state("root", {
+                abstract: true,
+                views:{
+                    "footer@":{
+                        templateUrl : 'views/misc/footer.html'
+                    }
+                }
             });
     }])
     .config(['$modalProvider', function($modalProvider) {

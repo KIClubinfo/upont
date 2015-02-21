@@ -54,17 +54,44 @@ angular.module('upont')
         return function(duration) {
             if (duration > 3600)
                 return Math.floor(duration / 3600) + 'h' + Math.floor((duration % 3600) / 60);
-            if (duration > 60){
+            if (duration > 60) {
                 var retour = Math.floor(duration / 60) + ' mn';
-                if(duration%60 > 0)
-                    retour += ' '+duration%60;
+                if (duration % 60 > 0)
+                    retour += ' ' + duration % 60;
                 return retour;
             }
             return duration + 's';
         };
     })
     .filter('urlFile', function() {
-        return function(url) {
-            return apiPrefix + url;
+        return function(input, inputParent) {
+            if (typeof(input) == 'string')
+                return apiPrefix + input;
+            // return apiPrefix + url;
+            else if (typeof(input) == 'object') {
+                switch (input.type) {
+                    case 'movie':
+                        return apiPrefix + 'movies/' + input.slug + '/download';
+                    case 'album':
+                        return apiPrefix + 'album/' + input.slug + '/download';
+                    case 'game':
+                        return apiPrefix + 'games/' + input.slug + '/download';
+                    case 'software':
+                        return apiPrefix + 'softwares/' + input.slug + '/download';
+                    case 'other':
+                        return apiPrefix + 'others/' + input.slug + '/download';
+                    case 'serie':
+                        if (!inputParent)
+                            return;
+                        return apiPrefix + 'series/' + inpuParent.slug + '/episodes/' + input.slug + '/download';
+                    case 'exercice':
+                        if (!inputParent)
+                            return;
+                        return apiPrefix + 'courses/' + inpuParent.slug + '/exercices/' + input.slug + '/download';
+                    default:
+                        return;
+
+                }
+            }
         };
     });
