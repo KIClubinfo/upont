@@ -72,16 +72,16 @@
         <ons-list style="border-top: none"><ons-list-item style="line-height: 1; padding: 0;"><ons-row class="action">
             <ons-col class="action" up-active="newItem.like" ng-click="likeClick()">
                 <div class="icon"><ons-icon icon="fa-thumbs-up"></ons-icon></div>
-                <div class="label">Like</div> <div class="notification like-badge">{{ newItem.likes }}</div>
+                <div class="label">Like</div> <div class="notification like-badge tab-badge">{{ newItem.likes }}</div>
             </ons-col>
 
             <ons-col class="action" up-active="newItem.dislike" ng-click="dislikeClick()">
                 <div class="icon"><ons-icon icon="fa-thumbs-down"></ons-icon></div>
-                <div class="label">Dislike</div> <div class="notification like-badge">{{ newItem.dislikes }}</div>
+                <div class="label">Dislike</div> <div class="notification like-badge tab-badge">{{ newItem.dislikes }}</div>
             </ons-col>
         </ons-row></ons-list-item></ons-list>
 
-        <p class="timeline-li" ng-bind-html="newItem.text_long | nl2br"></p>
+        <p class="content" ng-bind-html="newItem.text_long | nl2br"></p>
 
         <ons-list style="margin-top: 12px;">
             <ons-list-item modifier="chevron" ng-click="loadComments()">
