@@ -2,7 +2,6 @@
 
 namespace KI\UpontBundle\Controller\Publications;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 class NewsitemsController extends \KI\UpontBundle\Controller\Core\ResourceController

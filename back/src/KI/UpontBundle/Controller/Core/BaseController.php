@@ -2,8 +2,6 @@
 
 namespace KI\UpontBundle\Controller\Core;
 
-use FOS\RestBundle\Controller\Annotations as Route;
-use FOS\RestBundle\View\View as RestView;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use KI\UpontBundle\Entity\Notification;
 
@@ -162,7 +160,7 @@ class BaseController extends \FOS\RestBundle\Controller\FOSRestController
             $users = $this->em->getRepository('KIUpontBundle:Users\User')->findAll();
 
             foreach ($users as $user) {
-                if (in_array($user, $exclude))
+                if (in_array($user, $recipient))
                     continue;
                 $notification->addRecipient($user);
             }

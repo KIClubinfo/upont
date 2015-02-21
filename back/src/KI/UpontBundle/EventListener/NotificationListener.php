@@ -2,7 +2,6 @@
 
 namespace KI\UpontBundle\EventListener;
 
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use KI\UpontBundle\Entity\Notification;
@@ -123,7 +122,7 @@ class NotificationListener
     // donc on peut se permettre de faire une boucle dessus.
     // TODO vérifier le certificat uPont auprès de Microsoft pour pouvoir
     // envoyer un nombre illimité de notifications
-    public function pushWP(Notification $notification, $device)
+    public function pushWP(Notification $notification, Device $device)
     {
         $message =    '<?xml version="1.0" encoding="utf-8"?>' .
                     '<wp:Notification xmlns:wp="WPNotification">' .
