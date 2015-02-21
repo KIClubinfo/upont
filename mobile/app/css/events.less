@@ -1,0 +1,70 @@
+// Liste des événements
+
+@import 'main.less';
+
+.event-list {
+    border-top: none;
+    background-image: none !important;
+
+    .event {
+        line-height: 1;
+        padding: 0;
+
+        .left {
+            text-align: right;
+            padding: 10px 10px 10px 0;
+        }
+        .center {
+            background-color: #3399ff;
+            opacity: 0.5;
+            &.event-item { background-color: @main-color; }
+            &.course-item { background-color: #ccc; }
+        }
+        .right { padding: 10px 40px 10px 10px; }
+        .date {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+        .duration {
+            font-size: 11px;
+            opacity: 0.4;
+        }
+        .name {
+            font-size: 17px;
+            margin-bottom: 8px;
+        }
+        .info {
+            opacity: 0.4;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+    }
+}
+
+// Détails d'un événement
+.page--shop-details__content {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 0px !important;
+  bottom: 0px;
+}
+
+// Page de shotgun
+.container-shotgun {
+    margin-top: 50px;
+    text-align: center;
+    opacity: 0.5;
+    font-size: 30px;
+
+    p {
+        text-decoration: none;
+        font-size: 12px;
+    }
+    ons-icon { font-size: 100px; }
+    &:active {
+        ons-icon { opacity: 0.9; }
+    }
+}

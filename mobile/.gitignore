@@ -1,7 +1,8 @@
 node_modules
 platforms
 plugins
-www/style.css
-www/style.min.css
+www/styles/dark-*.css
+www/styles/light-*.css
+www/*.css
 www/upont.min.js
 www/libs
