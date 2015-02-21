@@ -9,20 +9,6 @@
             <div class="center">Réglages</div>
         </ons-toolbar>
 
-        <!--<div class="settings-header">Notifications</div>
-
-        <ons-list modifier="inset" class="settings-list">
-            <ons-list-item>
-                Événements
-                <ons-switch modifier="list-item"></ons-switch>
-            </ons-list-item>
-
-            <ons-list-item>
-                News
-                <ons-switch modifier="list-item" checked></ons-switch>
-            </ons-list-item>
-        </ons-list>-->
-
         <div class="settings-header">Suivis</div>
 
         <ons-list modifier="inset" class="settings-list">
@@ -52,6 +38,11 @@
         <div class="settings-header">Autre</div>
 
         <ons-list modifier="inset" class="settings-list">
+            <ons-list-item ng-click="switchTheme()">
+                Thème sombre
+                <ons-switch modifier="list-item" ng-checked="$root.dark"></ons-switch>
+            </ons-list-item>
+
             <ons-list-item ng-hide="balance === null">
                 <ons-icon icon="fa-eur"></ons-icon>
                 Solde Foyer : {{ balance }} €
@@ -64,8 +55,6 @@
         </ons-list>
     </ons-navigator>
 </ons-page>
-
-
 
 
 
