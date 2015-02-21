@@ -5,6 +5,7 @@ namespace KI\UpontBundle\Controller\Core;
 use FOS\RestBundle\Controller\Annotations as Route;
 use FOS\RestBundle\View\View as RestView;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use KI\UpontBundle\Entity\Notification;
 
 // Fonctions génériques
 class BaseController extends \FOS\RestBundle\Controller\FOSRestController
@@ -46,6 +47,13 @@ class BaseController extends \FOS\RestBundle\Controller\FOSRestController
         // À priori, une sous ressource garde le même namespace
         $this->initialize($class, str_replace('\\', '', $this->namespace));
     }
+
+
+
+
+
+
+
 
     // Fonctions de génération de réponse
     public function restResponse($data, $code = 200, array $headers = array())
@@ -89,6 +97,12 @@ class BaseController extends \FOS\RestBundle\Controller\FOSRestController
         return new \Symfony\Component\HttpFoundation\Response($data, $code, $headers);
     }
 
+
+
+
+
+
+
     // Sert à checker si l'utilisateur actuel est membre du club au nom duquel il poste
     protected function checkClubMembership($slug = null)
     {
@@ -129,5 +143,30 @@ class BaseController extends \FOS\RestBundle\Controller\FOSRestController
             throw new NotFoundHttpException('Objet ' . $this->className . ' non trouvé');
 
         return $item;
+    }
+
+    // Emet une notification
+    protected function notify($reason, $title, $message, $mode = 'to', $recipient = array(), $resource = '')
+    {
+        $notification = new Notification($reason, $title, $message, $mode, $resource);
+
+        if ($mode == 'to') {
+            if (is_array($recipient)) {
+                foreach ($recipient as $user) {
+                    $notification->addRecipient($user);
+                }
+            } else {
+                $notification->addRecipient($recipient);
+            }
+        } else if ($mode == 'exclude') {
+            $users = $this->em->getRepository('KIUpontBundle:Users\User')->findAll();
+
+            foreach ($users as $user) {
+                if (in_array($user, $exclude))
+                    continue;
+                $notification->addRecipient($user);
+            }
+        }
+        $this->em->persist($notification);
     }
 }
