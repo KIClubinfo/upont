@@ -1,0 +1,27 @@
+// Boutons contextuels
+@import 'variables.less';
+
+.action {
+    text-align: center;
+    padding: 10px 0 8px;
+
+    ons-button {
+        padding: 0;
+        line-height: 1;
+    }
+    &.icon {
+        padding: 0 0 4px 0;
+        ons-icon {
+            font-size: 28px;
+        }
+    }
+    &.label {
+        font-size: 12px;
+    }
+    &:active { opacity: 0.8; }
+    &.active {
+        opacity: 0.8;
+        color: @main-color;
+    }
+    &.inactive { opacity: 0.4; }
+}
