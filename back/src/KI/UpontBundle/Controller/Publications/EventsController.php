@@ -259,6 +259,22 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
         $userEvent = $repo->findBy(array('event' => $event, 'user' => $user));
 
         if (count($userEvent) == 1) {
+            $event = $userEvent[0]->getEvent();
+
+            // On regarde si une place s'est libérée pour quelqu'un, au cas où
+            // on le prévient
+            $userEvents = $repo->findBy(array('event' => $event));
+
+            if (isset($userEvents[$event->getShotgunLimit()])) {
+                $this->notify(
+                    'notif_shotgun_freed',
+                    $event->getName(),
+                    'Des places de shotgun se sont libérées, tu as maintenant accès à l\'événément !',
+                    'to',
+                    $userEvents[$event->getShotgunLimit()]->getUser()
+                );
+            }
+
             $this->em->remove($userEvent[0]);
             $this->em->flush();
         } else {
