@@ -3,7 +3,6 @@ namespace KI\UpontBundle\Form\DataTransformer;
 
 use KI\UpontBundle\Services\KIImages;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Form\Exception\TransformationFailedException;
@@ -13,17 +12,8 @@ use KI\UpontBundle\Entity\Image;
 
 class Base64OrUrlToImageDataTransformer implements DataTransformerInterface
 {
-    /**
-     * @var ObjectManager
-     */
-    private $om;
-
-
     private $uploaderService;
 
-    /**
-     * @param ObjectManager $om
-     */
     public function __construct(ObjectManager $om,KIImages $uploaderService)
     {
         $this->om = $om;

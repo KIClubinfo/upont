@@ -2,7 +2,6 @@
 
 namespace KI\UpontBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 class LogsController extends \KI\UpontBundle\Controller\Core\ResourceController

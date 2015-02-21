@@ -4,9 +4,7 @@ namespace KI\UpontBundle\EventListener;
 
 use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationFailureEvent;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\ORM\EntityManager;
 use KI\UpontBundle\Entity\Achievement;
@@ -15,7 +13,6 @@ use KI\UpontBundle\Event\AchievementCheckEvent;
 class JWTResponseListener
 {
     private $container;
-    private $em;
 
     public function __construct(ContainerInterface $container, EntityManager $manager)
     {
@@ -48,7 +45,7 @@ class JWTResponseListener
         $event->setData($data);
     }
 
-    protected function badCredentials($event)
+    protected function badCredentials(AuthenticationFailureEvent $event)
     {
         return $event->setResponse(new JsonResponse(array(
             'code' => 401,

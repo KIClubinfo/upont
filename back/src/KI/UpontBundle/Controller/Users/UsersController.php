@@ -5,7 +5,6 @@ namespace KI\UpontBundle\Controller\Users;
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UsersController extends \KI\UpontBundle\Controller\Core\ResourceController
@@ -154,7 +153,7 @@ class UsersController extends \KI\UpontBundle\Controller\Core\ResourceController
     public function getCalendarAction($token)
     {
         $user = $this->repo->findOneByToken($token);
-        if ($user == null) {
+        if ($user === null) {
             throw new NotFoundHttpException('Aucun utilisateur ne correspond au token saisi');
         } else {
             $calStr = $this->get('ki_upont.calendar')->getCalendar($user);

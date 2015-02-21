@@ -5,7 +5,6 @@ namespace KI\UpontBundle\Controller\Core;
 use FOS\RestBundle\Controller\Annotations as Route;
 use FOS\RestBundle\View\View as RestView;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 // Fonctions générales pour servir une ressource de type REST
 class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableController
