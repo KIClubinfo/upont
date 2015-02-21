@@ -4,11 +4,9 @@ namespace KI\UpontBundle\Controller\Publications;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use KI\UpontBundle\Entity\Publications\EventUser;
-use KI\UpontBundle\Entity\Notification;
 
 class EventsController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
@@ -69,13 +67,33 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
     {
         $return = $this->partialPost($this->checkClubMembership());
 
-        // On modifie légèrement la ressource qui vient d'être créée
-        $return['item']->setDate(time());
-        $return['item']->setAuthorUser($this->container->get('security.context')->getToken()->getUser());
+        if ($return['code'] == 201) {
+            // On modifie légèrement la ressource qui vient d'être créée
+            $return['item']->setDate(time());
+            $return['item']->setAuthorUser($this->container->get('security.context')->getToken()->getUser());
 
-        $notif = new Notification('Notif test', 'Ceci est une notification test crée lors de la création d\'un event. Elle est envoyée a tous les utilisateurs de YouPont', 'exclude');
-        $this->em->persist($notif);
-        $this->em->flush();
+            $club = $return['item']->getAuthorClub();
+
+            // Si ce n'est pas un event perso, on notifie les utilisateurs suivant le club
+            if ($club) {
+                $allUsers = $this->em->getRepository('KIUpontBundle:Users\User')->findAll();
+                $users = array();
+
+                foreach ($allUsers as $candidate) {
+                    if (!$candidate->getClubsNotFollowed()->contains($club))
+                        $users[] = $candidate;
+                }
+
+                $text = $return['item']->getTextShort() !== null ? $return['item']->getTextShort() : '';
+                $this->notify(
+                    'notif_followed_event',
+                    $return['item']->getName(),
+                    $text,
+                    'to',
+                    $users
+                );
+            }
+        }
 
         return $this->postView($return);
     }

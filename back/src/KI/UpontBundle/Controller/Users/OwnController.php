@@ -89,7 +89,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
             'number'        => $response['number'],
             'points'        => ceil($factor*$points),
             'current_level' => $response['current'],
-            'next_level' => isset($response['next']) ? $response['next'] : null,
+            'next_level'    => isset($response['next']) ? $response['next'] : null,
             'unlocked'      => $unlocked,
             'locked'        => $locked,
         );

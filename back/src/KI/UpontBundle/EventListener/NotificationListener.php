@@ -33,14 +33,18 @@ class NotificationListener
 
         // Si le mode d'envoi est direct, on envoie aux utilisateurs qui ont
         // enregistré un ou plusieurs Devices
-        if($notification->getMode() == 'to') {
-            foreach($notification->getRecipient() as $user) {
-                foreach($user->getDevices() as $device) {
-                    if($device->getType() == 'Android')
+        if ($notification->getMode() == 'to') {
+            foreach ($notification->getRecipient() as $user) {
+                // Si l'utilisateur a indiqué ne pas vouloir recevoir la notification
+                if ($user->getPreferences()[$notification->getReason()])
+                    continue;
+
+                foreach ($user->getDevices() as $device) {
+                    if ($device->getType() == 'Android')
                         $sendToAndroid[] = $device;
-                    else if($device->getType() == 'iOS')
+                    else if ($device->getType() == 'iOS')
                         $sendToIOS[] = $device;
-                    else if($device->getType() == 'WP')
+                    else if ($device->getType() == 'WP')
                         $sendToWP[] = $device;
                 }
             }
@@ -48,15 +52,19 @@ class NotificationListener
 
         // Si on est en mode exclusion, on parcourt les Devices enregistrés
         // et on envoie à ceux qui ne sont pas dans la liste d'exclusion
-        if($notification->getMode() == 'exclude') {
+        if ($notification->getMode() == 'exclude') {
             $list = $notification->getRecipient();
-            foreach($devices as $device) {
-                if(!$list->contains($device->getOwner())) {
-                    if($device->getType() == 'Android')
+            foreach ($devices as $device) {
+                if (!$list->contains($device->getOwner())) {
+                    // Si l'utilisateur a indiqué ne pas vouloir recevoir la notification
+                    if ($device->getOwner()->getPreferences()[$notification->getReason()])
+                        continue;
+
+                    if ($device->getType() == 'Android')
                         $sendToAndroid[] = $device->getDevice();
-                    else if($device->getType() == 'iOS')
+                    else if ($device->getType() == 'iOS')
                         $sendToIOS[] = $device->getDevice();
-                    else if($device->getType() == 'WP')
+                    else if ($device->getType() == 'WP')
                         $sendToWP[] = $device->getDevice();
                 }
             }
