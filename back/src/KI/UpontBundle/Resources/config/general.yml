@@ -33,7 +33,7 @@ upont_api_online:
     defaults: { _controller: KIUpontBundle:Default:online }
     requirements:
         _method: GET
-        
+
 upont_api_maintenance_lock:
     pattern: /maintenance
     defaults: { _controller: KIUpontBundle:Default:maintenanceLock }
@@ -51,7 +51,7 @@ upont_api_resetting_token:
     defaults: { _controller: KIUpontBundle:Default:resettingToken }
     requirements:
         _method: POST
-        
+
 upont_api_resetting_request:
     pattern: /resetting/request
     defaults: { _controller: KIUpontBundle:Default:resetting }
@@ -69,13 +69,13 @@ upont_api_version:
     defaults: { _controller: KIUpontBundle:Default:version }
     requirements:
         _method: GET
-        
+
 upont_api_deploy:
     pattern: /deploy
     defaults: { _controller: KIUpontBundle:Default:deploy }
     requirements:
         _method: HEAD
-        
+
 logs:
     type:     rest
     resource: KI\UpontBundle\Controller\LogsController

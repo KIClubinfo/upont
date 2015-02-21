@@ -51,22 +51,38 @@ angular.module('upont')
                 },
                 resolve: {
                     publications: ["$resource", "$stateParams", function($resource, $stateParams) {
-                        return $resource(apiPrefix + "clubs/" + $stateParams.slug + "/publications").query().$promise;
+                        return $resource(apiPrefix + "clubs/:slug/publications").query({
+                            slug: $stateParams.slug
+                        }).$promise;
                     }]
                 }
             })
             .state("channels.simple.presentation", {
                 url: "/presentation",
                 templateUrl: "views/channels/simple.presentation.html",
-                // controller : "ChannelSimple_Ctrl",
+                controller : ["$scope", "channel", "membres", function($scope, channel, membres) {
+                    $scope.channel = channel;
+                    $scope.membres = membres;
+                }],
                 data: {
                     toParent: true
+                },
+                resolve: {
+                    channel: ["$resource", "$stateParams", function($resource, $stateParams) {
+                        return $resource(apiPrefix + "clubs/:slug").get({
+                            slug: $stateParams.slug
+                        }).$promise;
+                    }],
+                    membres: ["$resource", "$stateParams", function($resource, $stateParams) {
+                        return $resource(apiPrefix + "clubs/:slug/users").query({
+                            slug: $stateParams.slug
+                        }).$promise;
+                    }],
                 }
             })
             .state("channels.simple.gestion", {
                 url: "/gestion",
                 templateUrl: "views/channels/simple.gestion.html",
-                // controller : "ChannelSimple_Ctrl",
                 data: {
                     toParent: true
                 }

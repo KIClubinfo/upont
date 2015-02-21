@@ -16,16 +16,8 @@ angular.module('upont')
                 },
                 templateUrl: "views/cours/cours.html",
                 controller: ['$scope', "exercices", function($scope, exercices) {
-                    // var matieres = {};
-                    // for(var i=0; i<exercices.length; i++)
-                    // {
-                    //     if(!matieres[exercices[i].matiere])
-                    //         matiere[exercices[i].matiere] = [];
-                    //     matiere[exercices[i].matiere].push(exercices[i]);
-                    // }
-                    // $scope.matieres = matieres;
 
-                    $scope.exercices = exercices;
+
                 }],
                 resolve: {
                     exercices: ["$resource", "$stateParams", function($resource, $stateParams) {
