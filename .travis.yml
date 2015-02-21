@@ -1,0 +1,22 @@
+language: php
+php:
+  - 5.5
+
+before_script:
+  - cd back
+  - composer self-update
+  - composer install --prefer-source --no-interaction --dev
+
+script: phpunit -c app --coverage-clover=coverage.clover
+
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+
+matrix:
+  fast_finish: true
+
+notifications:
+    on_success: never
+    on_failure: never
+    slack: clubinfo:htwfVIm1K9HgMr0ztVvfVo0i
