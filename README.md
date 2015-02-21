@@ -4,6 +4,7 @@ Résumé
 Version 2.0 de YouPont, l'intranet de l'ENPC.
 
 [![Codeship Status for KIClubinfo/upont](https://codeship.com/projects/afc79d00-982e-0132-79b1-36ce558856a0/status?branch=master)](https://codeship.com/projects/63332)
+[![SensioLabs Insight medal](https://insight.sensiolabs.com/projects/35270f9e-ec9c-44c8-911d-399bf991cf45/big.png)](https://codeship.com/projects/63332)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/KIClubinfo/upont/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/KIClubinfo/upont/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/KIClubinfo/upont/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/KIClubinfo/upont/?branch=master)
 
