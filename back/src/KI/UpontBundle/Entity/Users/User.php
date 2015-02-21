@@ -179,8 +179,8 @@ class User extends BaseUser
         //'notif_shotgun_m-5'    => false,
         'notif_followed_annal' => true,
         //'notif_next_class'     => true,
-        //'notif_achievement'    => true,
-        //'notif_next_level'     => true
+        'notif_achievement'    => true,
+        'notif_next_level'     => true
     );
 
     /**
