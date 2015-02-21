@@ -15,14 +15,16 @@ class KIImages extends ContainerAware
             $imgString = base64_decode($data);
             $image = imagecreatefromstring($imgString);
 
-            if ($image != null)
+            if ($image !== null) {
                 $ext = explode('/', getimagesizefromstring($imgString)['mime'])[1];
-        }
 
-        return array(
-            'image' => $imgString,
-            'extension' => $ext
-        );
+                return array(
+                    'image' => $imgString,
+                    'extension' => $ext
+                );
+            }
+        }
+        return null;
     }
 
     // Upload d'une image à partir d'une URL et renvoie l'image sous forme de string et son extension
@@ -49,7 +51,7 @@ class KIImages extends ContainerAware
 
         //Récupération de l'extension
         $image = imagecreatefromstring($data);
-        if ($image != null)
+        if ($image !== null)
             $ext = explode('/', getimagesizefromstring($data)['mime'])[1];
         else
             throw new \Exception('Image non reconnue');

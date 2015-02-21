@@ -308,9 +308,9 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
         $limit = $event->getShotgunLimit();
 
         $fail = $success = $shotgun = array();
-        $count = count($userEvent);
+        $count = min(count($userEvent), $limit);
 
-        for ($i = 0; $i < min($count, $limit); $i++) {
+        for ($i = 0; $i < $count; $i++) {
             // Si le shotgun a été fait avant la date prévue, on passe
             if ($userEvent[$i]->getDate() < $event->getShotgunDate()) {
                 $position = 0;

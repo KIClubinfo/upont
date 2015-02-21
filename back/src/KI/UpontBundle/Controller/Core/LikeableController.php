@@ -3,10 +3,7 @@
 namespace KI\UpontBundle\Controller\Core;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use FOS\RestBundle\Controller\Annotations as Route;
-use FOS\RestBundle\View\View as RestView;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use KI\UpontBundle\Entity\Comment;
 
 // Fonctions de like/dislike/commentaire

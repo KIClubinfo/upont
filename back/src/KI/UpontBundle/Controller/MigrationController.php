@@ -4,9 +4,7 @@ namespace KI\UpontBundle\Controller;
 
 use PDO;
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\File;
 use KI\UpontBundle\Entity\Ponthub;
@@ -51,15 +49,16 @@ class Generator extends AbstractFixture
         $this->loadImages();
         $this->loadUsers();
         $this->loadClubs();
-        //$this->loadNews();
-        //$this->loadEvents(); // event eleve
-        //$this->loadDepannage();
-        //$this->loadCourses();
-        //$this->loadPonthub();
-        //$this->loadMdtk();
-        //$this->loadContent();
-        //$this->loadPontlyvalent();
-        //$this->loadSondage();
+        //News
+        //Events // event eleve
+        //Courses
+        //Ponthub
+
+        //Depannage
+        //Mdtk
+        //Content
+        //Pontlyvalent
+        //Sondage
 
         return $this->log;
     }
@@ -193,7 +192,7 @@ class Generator extends AbstractFixture
 
         foreach($items as $id => $item) {
             $entity = new Club();
-            $entity->setShortName($item['nom']);
+            $entity->setName($item['nom']);
             $entity->setName($item['nom_long']);
             $entity->setActive(true);
             if (isset($this->images[$item['id_image']]))
@@ -213,7 +212,7 @@ class Generator extends AbstractFixture
         $i = 0;
 
         foreach($items as $id => $item) {
-            if ($this->clubs[$item['id_club']] == null || $this->users[$item['id_eleve']] == null)
+            if ($this->clubs[$item['id_club']] === null || $this->users[$item['id_eleve']] === null)
                 continue;
 
             $entity = new ClubUser();
@@ -253,7 +252,7 @@ class Generator extends AbstractFixture
 
         foreach($items as $id => $item) {
             $entity = new Club();
-            $entity->setShortName($item['nom']);
+            $entity->setName($item['nom']);
             $entity->setName($item['nom_long']);
             $entity->setActive(true);
             if (isset($this->images[$item['id_image']]))
@@ -273,7 +272,7 @@ class Generator extends AbstractFixture
         $i = 0;
 
         foreach($items as $id => $item) {
-            if ($this->clubs[$item['id_club']] == null || $this->users[$item['id_eleve']] == null)
+            if ($this->clubs[$item['id_club']] === null || $this->users[$item['id_eleve']] === null)
                 continue;
 
             $entity = new ClubUser();

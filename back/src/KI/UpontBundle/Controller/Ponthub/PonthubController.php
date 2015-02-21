@@ -181,7 +181,6 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
                     $serieItem->setVo(true);
                     $serieItem->setHd(false);
                     $this->em->persist($serieItem);
-                    $this->em->flush();
                     $series[$serie] = $serieItem;
                 }
                 else
@@ -216,7 +215,6 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
                     $genreItem = new Genre();
                     $genreItem->setName($genre);
                     $this->em->persist($genreItem);
-                    $this->em->flush();
                     $genres[$genre] = $genreItem;
                 }
                 else
@@ -230,7 +228,6 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
                     $albumItem->setStatus('NeedInfos');
                     $albumItem->setPath('/root/web/musiques/' . $genre .'/' . $artist . '/' . $album . '/');
                     $this->em->persist($albumItem);
-                    $this->em->flush();
                     $albums[$album] = $albumItem;
                     $pathsDone[] = '/root/web/musiques/' . $genre .'/' . $artist . '/' . $album . '/';
                 }

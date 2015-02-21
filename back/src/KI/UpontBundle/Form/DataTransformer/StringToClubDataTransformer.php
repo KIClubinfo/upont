@@ -2,9 +2,7 @@
 namespace KI\UpontBundle\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\Exception\TransformationFailedException;
 use Doctrine\Common\Persistence\ObjectManager;
-use KI\UpontBundle\Entity\Users\Club;
 
 
 class StringToClubDataTransformer implements DataTransformerInterface
