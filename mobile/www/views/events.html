@@ -29,22 +29,21 @@
             </div>
         </div>
 
-        <ons-list class="plan-list">
-            <ons-list-item modifier="chevron" class="plan"
+        <ons-list class="event-list">
+            <ons-list-item modifier="chevron" class="event"
                            ng-repeat="event in events | orderBy:['start_date']"
                            ng-if="eventToday == 'true' ? event.start_date <= endDay : event.start_date > endDay">
                 <ons-row ng-if="event.name" ng-click="load(event.slug)">
-                    <ons-col width="80px" class="plan-left">
-                        <div class="plan-date">{{ event.start_date*1000 | date: "HH'h'mm" }}</div>
-                        <div class="plan-duration">{{ event.end_date*1000 | date: "HH'h'mm" }}</div>
+                    <ons-col width="80px" class="left">
+                        <div class="date">{{ event.start_date*1000 | date: "HH'h'mm" }}</div>
+                        <div class="duration">{{ event.end_date*1000 | date: "HH'h'mm" }}</div>
                     </ons-col>
 
-                    <ons-col width="6px" class="plan-center" style="background-color: #39f">
-                    </ons-col>
+                    <ons-col width="6px" class="center event-item"></ons-col>
 
-                    <ons-col class="plan-right">
-                        <div class="plan-name">{{ event.name }}</div>
-                        <div class="plan-info">
+                    <ons-col class="right">
+                        <div class="name">{{ event.name }}</div>
+                        <div class="info">
                             <div ng-hide="event.place == null">
                                 <ons-icon icon="fa-map-marker"></ons-icon> {{ event.place }}
                             </div>
@@ -57,17 +56,16 @@
                 </ons-row>
 
                 <ons-row ng-if="event.course != null">
-                    <ons-col width="80px" class="plan-left">
-                        <div class="plan-date">{{ event.start_date*1000 | date: "HH'h'mm" }}</div>
-                        <div class="plan-duration">{{ event.end_date*1000 | date: "HH'h'mm" }}</div>
+                    <ons-col width="80px" class="left">
+                        <div class="date">{{ event.start_date*1000 | date: "HH'h'mm" }}</div>
+                        <div class="duration">{{ event.end_date*1000 | date: "HH'h'mm" }}</div>
                     </ons-col>
 
-                    <ons-col width="6px" class="plan-center" style="background-color: #ccc">
-                    </ons-col>
+                    <ons-col width="6px" class="center course-item"></ons-col>
 
-                    <ons-col class="plan-right">
-                        <div class="plan-name">{{ event.course.name }}</div>
-                        <div class="plan-info">
+                    <ons-col class="right">
+                        <div class="name">{{ event.course.name }}</div>
+                        <div class="info">
                             <div ng-hide="event.location == null">
                                 <ons-icon icon="fa-map-marker"></ons-icon> {{ event.location }}
                             </div>
@@ -105,71 +103,71 @@
             <div class="right"><ons-toolbar-button ng-click="nav.popPage()">Retour</ons-toolbar-button></div>
         </ons-toolbar>
 
-        <div class="card" style="background-image: url({{ url + '/' + eventItem.image_url }});">
-            <div class="card-name">{{ eventItem.name }}</div>
-            <div class="card-desc">
+        <div class="card event" style="background-image: url({{ url + '/' + eventItem.image_url }});">
+            <div class="name">{{ eventItem.name }}</div>
+            <div class="desc">
                 {{ eventItem.start_date | readableDate }}<br>
                 Entrée : {{ eventItem.entry_method }}
             </div>
         </div>
 
-        <div class="rating"><div class="rating-num">{{ eventItem.author_club.name }}</div></div>
+        <div class="card-label"><div class="label">{{ eventItem.author_club.name }}</div></div>
 
         <ons-list style="border-top: none"><ons-list-item style="line-height: 1; padding: 0;"><ons-row class="action">
-            <ons-col class="action-col" ng-class="{'action-active': eventItem.attend}" ng-click="attendClick()">
-                <div class="action-icon"><ons-icon icon="fa-check"></ons-icon></div>
-                <div class="action-label">Participer</div>
+            <ons-col class="action" up-active="eventItem.attend" ng-click="attendClick()">
+                <div class="icon"><ons-icon icon="fa-check"></ons-icon></div>
+                <div class="label">Participer</div>
             </ons-col>
 
-            <ons-col class="action-col" ng-class="{'action-active': eventItem.pookie}" ng-click="declineClick()">
-                <div class="action-icon"><ons-icon icon="fa-times"></ons-icon></div>
-                <div class="action-label">Masquer</div>
+            <ons-col class="action" up-active="eventItem.pookie" ng-click="declineClick()">
+                <div class="icon"><ons-icon icon="fa-times"></ons-icon></div>
+                <div class="label">Masquer</div>
             </ons-col>
 
-            <ons-col class="action-col" ng-class="{'action-active': eventItem.like}" ng-click="likeClick()">
-                <div class="action-icon"><ons-icon icon="fa-thumbs-up"></ons-icon></div>
-                <div class="action-label">Like</div> <div class="notification like-badge">{{ eventItem.likes }}</div>
+            <ons-col class="action" up-active="eventItem.like" ng-click="likeClick()">
+                <div class="icon"><ons-icon icon="fa-thumbs-up"></ons-icon></div>
+                <div class="label">Like</div> <div class="notification like-badge tab-badge">{{ eventItem.likes }}</div>
             </ons-col>
 
-            <ons-col class="action-col" ng-class="{'action-active': eventItem.dislike}" ng-click="dislikeClick()">
-                <div class="action-icon"><ons-icon icon="fa-thumbs-down"></ons-icon></div>
-                <div class="action-label">Dislike</div> <div class="notification like-badge">{{ eventItem.dislikes }}</div>
+            <ons-col class="action" up-active="eventItem.dislike" ng-click="dislikeClick()">
+                <div class="icon"><ons-icon icon="fa-thumbs-down"></ons-icon></div>
+                <div class="label">Dislike</div> <div class="notification like-badge tab-badge">{{ eventItem.dislikes }}</div>
             </ons-col>
         </ons-row></ons-list-item></ons-list>
 
-        <p class="timeline-li" ng-bind-html="eventItem.text_long | nl2br"></p>
+        <p class="content" ng-bind-html="eventItem.text_long | nl2br"></p>
 
         <ons-list style="margin-top: 12px;">
             <ons-list-item ng-hide="eventItem.attendees == 0" modifier="chevron" ng-click="loadAttendees()">
-                <div class="prop-desc">
+                <div class="desc">
                     <ons-icon icon="fa-users"></ons-icon>
                     {{ eventItem.attendees }} {{ eventItem.attendees == 1 ? 'personne y participe' : 'personnes y participent' }}
                 </div>
             </ons-list-item>
 
             <ons-list-item>
-                <div class="prop-desc">
+                <div class="desc">
                     <ons-icon icon="fa-map-marker"></ons-icon>
                     {{ eventItem.place }}
                 </div>
             </ons-list-item>
 
             <ons-list-item>
-                <div class="prop-desc">
+                <div class="desc">
                     <ons-icon icon="fa-clock-o"></ons-icon>
                     {{ eventItem.start_date | readableDate }}
                 </div>
             </ons-list-item>
 
             <ons-list-item ng-hide="eventItem.entry_method != 'Shotgun'" modifier="chevron" ng-click="loadShotgun()">
-                <div class="prop-desc">
+                <div class="desc">
                     <ons-icon icon="fa-bolt"></ons-icon>
                     {{ eventItem.shotgun_date | readableDate }} - SHOTGUN - {{ eventItem.shotgun_limit }} places
                 </div>
             </ons-list-item>
 
             <ons-list-item modifier="chevron" ng-click="loadComments()">
-                <div class="prop-desc">
+                <div class="desc">
                     <ons-icon icon="fa-comments"></ons-icon>
                     {{ eventItem.comments }} commentaire{{ eventItem.comments == 1 ? '' : 's' }}
                 </div>
@@ -205,9 +203,9 @@
             <ons-list-item class="person" ng-repeat="attendee in attendees | orderBy:['first_name','last_name']">
                 <ons-row>
                     <ons-col width="40px">
-                        <img style="background-image: url('{{ url + '/' + attendee.image_url }}')" class="person-image">
+                        <img style="background-image: url('{{ url + '/' + attendee.image_url }}')" class="image">
                     </ons-col>
-                    <ons-col class="person-name">
+                    <ons-col class="name">
                         {{ attendee.first_name }} {{ attendee.last_name }}
                     </ons-col>
                 </ons-row>
@@ -237,26 +235,31 @@
             <div class="right"><ons-toolbar-button ng-click="nav.popPage()">Retour</ons-toolbar-button></div>
         </ons-toolbar>
 
+
+
         <div ng-hide="shotgunned" modifier="tappable">
             <div class="container-shotgun">
                 <ons-icon icon="fa-bolt" ng-click="shotgunEvent()"></ons-icon><br><br>
                 Shotgun !<br>
-                <p class="shotgun-text">(attention, cette appli ne soigne pas les shotgun précoces)</p>
+                <p>(attention, cette appli ne soigne pas les shotgun précoces)</p>
             </div>
 
             <form ng-submit="shotgunEvent()" class="center">
-                <textarea ng-model="motivation" class="textarea" placeholder="Motivation obligatoire, puis tapper l'éclair" ngMinlength="1" required rows="5"></textarea>
+                <textarea ng-model="motivation" class="textarea shotgun-textarea" placeholder="Motivation obligatoire, puis tapper l'éclair" ngMinlength="1" required rows="5"></textarea>
             </form>
         </div>
+
+
+
 
         <div ng-hide="!shotgunned">
             <div ng-hide="!shotgun.status">
                 <div class="container-shotgun">
                     <ons-icon icon="fa-smile-o"></ons-icon><br><br>
                     Shotgun réussi !<br>
-                    <p class="shotgun-text">Tu arrives en {{ shotgun.position | position }} position !</p>
-                    <p class="shotgun-text">Un petit mot de la part de l'organisateur :</p>
-                    <p class="shotgun-text">{{ shotgun.shotgunText }}</p>
+                    <p>Tu arrives en {{ shotgun.position | position }} position !</p>
+                    <p>Un petit mot de la part de l'organisateur :</p>
+                    <p>{{ shotgun.shotgunText }}</p>
                 </div>
 
                 <div class="center">
@@ -268,14 +271,14 @@
                 <div ng-hide="shotgun.position != 0" class="container-shotgun">
                     <ons-icon icon="fa-frown-o"></ons-icon><br><br>
                     Shotgun raté !<br>
-                    <p class="shotgun-text">En voulant aller trop vite, tu as répondu trop tôt...</p>
+                    <p>En voulant aller trop vite, tu as répondu trop tôt...</p>
                 </div>
 
                 <div ng-hide="shotgun.position === 0">
                     <div class="container-shotgun">
                         <ons-icon icon="fa-meh-o"></ons-icon><br><br>
                         Shotgun raté !<br>
-                        <p class="shotgun-text">Tu n'as pas répondu à temps, mais tu es quand même en {{ shotgun.waitingList | position }} position sur la liste d'attente.</p>
+                        <p>Tu n'as pas répondu à temps, mais tu es quand même en {{ shotgun.waitingList | position }} position sur la liste d'attente.</p>
                         <br>
                     </div>
                     <div class="center">
@@ -315,11 +318,11 @@
             <ons-list-item class="to-wrapper" modifier="chevron">
                 <ons-row>
                     <ons-col width="52px">
-                        <img src="images/profile.jpg" width="42" class="to-image">
+                        <img src="images/profile.jpg" width="42" class="image">
                     </ons-col>
                     <ons-col>
-                        <div class="to-name">Club Informatique</div>
-                        <div class="to-email">@ki</div>
+                        <div class="name">Club Informatique</div>
+                        <div class="email">@ki</div>
                     </ons-col>
                 </ons-row>
             </ons-list-item>

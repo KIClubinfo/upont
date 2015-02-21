@@ -1,0 +1,12 @@
+// Règle toutes les couleurs
+@dark: false;
+@main-blue:   #649bcc;
+@main-orange: #f08630;
+
+.dark(@dark) when (@dark = true) {
+    @main-color: @main-orange;
+}
+.dark(@dark) when (@dark = false) {
+    @main-color: @main-blue;
+}
+.dark(@dark);
