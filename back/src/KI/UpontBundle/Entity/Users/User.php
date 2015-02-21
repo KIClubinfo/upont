@@ -170,17 +170,18 @@ class User extends BaseUser
     protected $token;
 
     protected $preferencesArray = array(
-        'notif_followed_event' => array('1', 'Lorsqu\'un club suivi publi un évènement'),
-        'notif_followed_news'  => array('1', 'Lorsqu\'un club suivi publi une news'),
-        'notif_followed_poll'  => array('1', 'Lorsqu\'un club suivi publi un sondage'),
-        'notif_ponthub'        => array('1', 'Lorsque de nouveaux fichiers sont ajoutés à PontHub'),
-        'notif_ki_answer'      => array('1', 'Lorsque le KI t\'envoie un message'),
-        'notif_shotgun_h-1'    => array('0', 'Une heure avant un shotgun suivi'),
-        'notif_shotgun_m-5'    => array('0', 'Cinq minutes avant un shotgun suivi'),
-        'notif_followed_annal' => array('1', 'Lorsqu\'une annale d\'un de tes cours est publiée'),
-        'notif_next_class'     => array('1', 'Lorsqu\'un de tes cours est sur le point de commencer'),
-        'notif_achievement'    => array('1', 'Lorsque tu réussi à débloquer une nouvelle réussite sur YouPont'),
-        'notif_next_level'     => array('1', 'Lorsque tu passes au niveau suivant')
+        'notif_followed_event' => true,
+        'notif_followed_news'  => true,
+        //'notif_followed_poll'  => true,
+        'notif_ponthub'        => true,
+        //'notif_ki_answer'      => true,
+        //'notif_shotgun_h-1'    => false,
+        //'notif_shotgun_m-5'    => false,
+        'notif_followed_annal' => true,
+        //'notif_next_class'     => true,
+        'notif_shotgun_freed'     => true,
+        'notif_achievement'    => true,
+        'notif_next_level'     => true
     );
 
     /**
@@ -638,16 +639,14 @@ class User extends BaseUser
     /**
      * Add Preference
      *
-     * @param string $cle
-     * @param string $valeur
+     * @param string $key
+     * @param string $value
      * @return bool
      */
-    public function addPreference($cle, $valeur)
+    public function addPreference($key, $value)
     {
-        if (array_key_exists($cle,$this->preferencesArray)) {
-            if ($this->preferences === null || !array_key_exists($cle,$this->preferences))
-                $this->preferences[$cle] = $valeur;
-
+        if (array_key_exists($key, $this->preferencesArray)) {
+            $this->preferences[$key] = $value;
             return true;
         }
 
@@ -657,14 +656,13 @@ class User extends BaseUser
     /**
      * Remove Preference
      *
-     * @param string $cle
+     * @param string $key
      * @return bool
      */
-    public function removePreference($cle)
+    public function removePreference($key)
     {
-        if (array_key_exists($cle,$this->preferencesArray)) {
-            if ($this->preferences !== null && array_key_exists($cle, $this->preferences))
-                unset($this->preferences[$cle]);
+        if (array_key_exists($key, $this->preferencesArray)) {
+            unset($this->preferences[$key]);
             return true;
         }
         return false;
@@ -677,23 +675,19 @@ class User extends BaseUser
      */
     public function getPreferences()
     {
-        $retour = $this->preferencesArray;
-        foreach ($this->preferences as $preference => $valeur) {
-            $retour[$preference][0] = $valeur;
-        }
-        return $retour;
+        return array_merge($this->preferencesArray, $this->preferences);
     }
 
     /**
-     * Get Preference $cle value
+     * Get Preference $key value
      *
-     * @param string $cle
+     * @param string $key
      * @return string
      */
-    public function getPreference($cle)
+    public function getPreference($key)
     {
-        if(array_key_exists($cle,$this->preferences))
-            return $this->preferences[$cle];
+        if(array_key_exists($key, $this->preferences))
+            return $this->preferences[$key];
     }
 
     /**

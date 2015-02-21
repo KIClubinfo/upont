@@ -262,6 +262,16 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
              && get_class($item) != 'KI\UpontBundle\Entity\Ponthub\Serie')
                 $item->setStatus('NotFound');
         }
+
+        // Si des nouveaux fichiers ont été ajoutés, on notifie les utilisateurs
+        $count = count(array_diff($pathsDone, $paths));
+        if ($count > 0) {
+            $this->notify(
+                'notif_ponthub',
+                'Ponthub',
+                'De nouveaux fichiers sont disponibles sur Ponthub !'
+            );
+        }
         $this->em->flush();
 
         return $this->jsonResponse(null, 202);
