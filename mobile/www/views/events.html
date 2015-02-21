@@ -61,7 +61,7 @@
                         <div class="duration">{{ event.end_date*1000 | date: "HH'h'mm" }}</div>
                     </ons-col>
 
-                    <ons-col width="6px" class="center "></ons-col>
+                    <ons-col width="6px" class="center course-item"></ons-col>
 
                     <ons-col class="right">
                         <div class="name">{{ event.course.name }}</div>
@@ -126,16 +126,16 @@
 
             <ons-col class="action" up-active="eventItem.like" ng-click="likeClick()">
                 <div class="icon"><ons-icon icon="fa-thumbs-up"></ons-icon></div>
-                <div class="label">Like</div> <div class="notification like-badge">{{ eventItem.likes }}</div>
+                <div class="label">Like</div> <div class="notification like-badge tab-badge">{{ eventItem.likes }}</div>
             </ons-col>
 
             <ons-col class="action" up-active="eventItem.dislike" ng-click="dislikeClick()">
                 <div class="icon"><ons-icon icon="fa-thumbs-down"></ons-icon></div>
-                <div class="label">Dislike</div> <div class="notification like-badge">{{ eventItem.dislikes }}</div>
+                <div class="label">Dislike</div> <div class="notification like-badge tab-badge">{{ eventItem.dislikes }}</div>
             </ons-col>
         </ons-row></ons-list-item></ons-list>
 
-        <p class="timeline-li" ng-bind-html="eventItem.text_long | nl2br"></p>
+        <p class="content" ng-bind-html="eventItem.text_long | nl2br"></p>
 
         <ons-list style="margin-top: 12px;">
             <ons-list-item ng-hide="eventItem.attendees == 0" modifier="chevron" ng-click="loadAttendees()">
@@ -245,7 +245,7 @@
             </div>
 
             <form ng-submit="shotgunEvent()" class="center">
-                <textarea ng-model="motivation" class="textarea" placeholder="Motivation obligatoire, puis tapper l'éclair" ngMinlength="1" required rows="5"></textarea>
+                <textarea ng-model="motivation" class="textarea shotgun-textarea" placeholder="Motivation obligatoire, puis tapper l'éclair" ngMinlength="1" required rows="5"></textarea>
             </form>
         </div>
 
