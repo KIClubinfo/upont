@@ -64,6 +64,7 @@ class Course extends Likeable
     /**
      * Liste des annales de ce cours
      * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Publications\Exercice", mappedBy="course")
+     * @JMS\Expose
      * @Assert\Valid()
      */
     protected $exercices;

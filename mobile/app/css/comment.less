@@ -1,0 +1,53 @@
+// Liste de commentaires
+
+@import 'main.less';
+
+.comment-list {
+    .comment {
+        line-height: 1;
+        padding: 7px 0px 5px 5px;
+
+        .image {
+            .cover;
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+        }
+        .name {
+            font-weight: 500;
+            line-height: 16px;
+            font-size: 17px;
+            opacity: 0.4;
+            margin-bottom: 6px;
+        }
+        .desc {
+            line-height: 1.2;
+            font-size: 17px;
+        }
+        .icon {
+            padding: 0 0 4px 0;
+
+            &.active {
+                padding: 0 0 4px 0;
+                color: @main-color;
+            }
+            ons-icon {
+                font-size: 30px;
+                opacity: 0.7;
+            }
+        }
+    }
+    .new-comment {
+        line-height: 1;
+        padding: 15px 0px 15px 15px;
+
+        .input-comment {
+            width: 96%;
+            margin-right: 40px;
+        }
+        .button-comment {
+            width: 96%;
+            margin-top: 5px;
+        }
+    }
+}
