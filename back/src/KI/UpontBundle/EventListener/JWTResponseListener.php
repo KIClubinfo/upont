@@ -26,7 +26,7 @@ class JWTResponseListener
     // Renvoi du token avec des informations supplémentaires
     public function onAuthenticationSuccessResponse(AuthenticationSuccessEvent $event)
     {
-        // On commence par cehcker éventuellement l'achievement de login
+        // On commence par checker éventuellement l'achievement de login
         $dispatcher = $this->container->get('event_dispatcher');
         $achievementCheck = new AchievementCheckEvent(Achievement::LOGIN);
         $dispatcher->dispatch('upont.achievement', $achievementCheck);

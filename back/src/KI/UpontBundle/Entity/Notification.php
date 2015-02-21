@@ -29,6 +29,14 @@ class Notification
     protected $date;
 
     /**
+     * Raison d'envoi (string unique)
+     * @ORM\Column(name="reason", type="string")
+     * @JMS\Expose
+     * @Assert\Type("string")
+     */
+    protected $reason;
+
+    /**
      * Titre
      * @ORM\Column(name="title", type="string")
      * @JMS\Expose
@@ -91,11 +99,12 @@ class Notification
     /**
      * Constructor
      */
-    public function __construct($title, $message, $mode = 'to', $resource = '')
+    public function __construct($reason, $title, $message, $mode = 'to', $resource = '')
     {
         $this->recipient = new \Doctrine\Common\Collections\ArrayCollection();
         $this->read = new \Doctrine\Common\Collections\ArrayCollection();
 
+        $this->setReason($reason);
         $this->setTitle($title);
         $this->setMessage($message);
         $this->setDate(time());
@@ -134,6 +143,29 @@ class Notification
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * Set reason
+     *
+     * @param string $reason
+     * @return Notification
+     */
+    public function setReason($reason)
+    {
+        $this->reason = $reason;
+
+        return $this;
+    }
+
+    /**
+     * Get reason
+     *
+     * @return string
+     */
+    public function getReason()
+    {
+        return $this->reason;
     }
 
     /**

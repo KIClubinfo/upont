@@ -64,10 +64,33 @@ class NewsitemsController extends \KI\UpontBundle\Controller\Core\ResourceContro
     {
         $return = $this->partialPost($this->checkClubMembership());
 
-        // On modifie légèrement la ressource qui vient d'être créée
-        $return['item']->setDate(time());
-        $return['item']->setAuthorUser($this->container->get('security.context')->getToken()->getUser());
-        $this->em->flush();
+        if ($return['code'] == 201) {
+            // On modifie légèrement la ressource qui vient d'être créée
+            $return['item']->setDate(time());
+            $return['item']->setAuthorUser($this->container->get('security.context')->getToken()->getUser());
+
+            $club = $return['item']->getAuthorClub();
+
+            // Si ce n'est pas un event perso, on notifie les utilisateurs suivant le club
+            if ($club) {
+                $allUsers = $this->em->getRepository('KIUpontBundle:Users\User')->findAll();
+                $users = array();
+
+                foreach ($allUsers as $candidate) {
+                    if ($candidate->getClubsNotFollowed()->contains($club))
+                        $users[] = $candidate;
+                }
+
+                $text = $return['item']->getTextShort() !== null ? $return['item']->getTextShort() : '';
+                $this->notify(
+                    'notif_followed_event',
+                    $return['item']->getName(),
+                    $text,
+                    'to',
+                    $users
+                );
+            }
+        }
 
         return $this->postView($return);
     }
