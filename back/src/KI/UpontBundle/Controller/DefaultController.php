@@ -138,7 +138,8 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
                     $course->setDepartment($department[$id]);
                     $course->setSemester(0);
                     $manager->persist($course);
-                    $manager->flush();
+                    $courses[] = $course;
+                    $coursesNames[] = $name . $gr;
                 }
 
                 // On ajoute l'objet à ce cours
