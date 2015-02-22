@@ -133,7 +133,6 @@ class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceCon
         }
         $this->switchClass();
 
-        // FIXME route bizarre, ne comprends pas
         return $this->subPostView($return, $slug, 'get_course_exercice');
     }
 

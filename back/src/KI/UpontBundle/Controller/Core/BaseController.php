@@ -63,7 +63,7 @@ class BaseController extends \FOS\RestBundle\Controller\FOSRestController
         );
     }
 
-    // FIXME attendre que le vendor soit updaté, on doit passer par le service
+    // TODO attendre que le vendor soit updaté, on doit passer par le service
     // et ne pas créer le serializer nous même. Le résultat est que la configuration
     // du serializer n'est pas chargée, ce qui fait par exemple que toute entité
     // serializée par cette fonction qui contiendra un User exposera le hash du
