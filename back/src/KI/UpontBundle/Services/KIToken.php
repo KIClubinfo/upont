@@ -28,7 +28,7 @@ class KIToken extends ContainerAware
             //On check que le token n'est pas deja pris, au cas ou on aurait la poisse
             $repo = $manager->getRepository('KIUpontBundle:Users\User');
             $userSameToken = $repo->findByToken($token);
-            if ($userSameToken === null) {
+            if (empty($userSameToken)) {
                 $user->setToken(substr($token, 0, 8));
                 $manager->flush();
             } else {
