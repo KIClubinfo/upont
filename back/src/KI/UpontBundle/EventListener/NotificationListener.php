@@ -76,7 +76,7 @@ class NotificationListener
         // Microsoft étant d'immense débiles, on ne peut pas envoyer à plein de
         // destinataires en une fois. On est donc obligé de faire autant de
         // requêtes vers l'extérieur que de destinataires.
-        // FIXME quand ils feront preuve d'intelligence chez Microsoft.
+        // TODO quand ils feront preuve d'intelligence chez Microsoft.
         foreach($sendToWP as $devie) {
             $this->pushWP($notification, $device);
         }
@@ -116,7 +116,7 @@ class NotificationListener
 
     }
 
-    // FIXME : quand ces cons de Microsoft auront appris à gérer l'envoi à
+    // TODO : quand ces cons de Microsoft auront appris à gérer l'envoi à
     // des utilisateurs multiples, refacto cette fonction.
     // En l'état, il y a de toutes façons suffisamment peu d'utilisateurs de WP
     // donc on peut se permettre de faire une boucle dessus.

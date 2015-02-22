@@ -136,6 +136,7 @@ class DefaultControllerTest extends WebTestCase
         // On récupère le token
         $this->assertTrue(preg_match('#/reset/(.*)\n\n.*Si#is', $message->getBody(), $token) == 1);
         $token = $token[1];
+        $this->assertTrue(!empty($token));
 
         // On teste le reset en lui même
         $this->client->request('POST', '/resetting/token/dfdsdsfdsfsfds', array('password' => '1234', 'check' => '1234'));
