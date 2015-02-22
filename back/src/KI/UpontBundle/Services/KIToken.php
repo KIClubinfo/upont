@@ -19,7 +19,7 @@ class KIToken extends ContainerAware
         }
 
 
-        if ($user->getToken() === null) {
+        if (empty($user->getToken())) {
             $manager = $this->container->get('doctrine.orm.entity_manager');
             $char = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             //OHHHH OUI que c'est beau !

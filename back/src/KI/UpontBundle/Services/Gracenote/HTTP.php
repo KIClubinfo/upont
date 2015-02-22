@@ -107,7 +107,7 @@ class HTTP
     // This validates a cURL response and throws an exception if it's invalid in any way.
     public function validateResponse()
     {
-        $curlError = ($errno === null) ? curl_errno($this->ch) : $errno;
+        $curlError = curl_errno($this->ch);
         if ($curlError !== CURLE_OK)
         {
             switch ($curlError)
