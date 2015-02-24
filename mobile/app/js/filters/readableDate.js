@@ -3,63 +3,62 @@
 
 module.filter('readableDate', function() {
     return function(date) {
-        var oNow = new Date();
-        var oDate = new Date(date*1000);
-        var now = Math.floor(oNow.getTime() / 1000);
+        var mNow = moment();
+        var now = mNow.unix();
+        var mDate = moment.unix(date);
         var format = '';
         var intervalle;
 
         // Gestion des dates proches
-        if ((now-10*3600) <= date && date < now-3600) {
-            intervalle = Math.floor((now-date)/3600);
+        if ((now - 10*3600) <= date && date < now - 3600) {
+            intervalle = Math.floor((now - date)/3600);
             if (intervalle == 1)
-                format = 'Il y a une heure';
+                return 'Il y a une heure';
             else
-                format = 'Il y a ' + intervalle + ' heures';
+                return 'Il y a ' + intervalle + ' heures';
         }
-        else if (now-3600 <= date && date < now-60){
-            intervalle = Math.floor((now-date)/60);
+        else if (now - 3600 <= date && date < now - 60){
+            intervalle = Math.floor((now - date)/60);
             if(intervalle == 1)
-                format = 'Il y a une minute';
+                return 'Il y a une minute';
             else
-                format = 'Il y a ' + intervalle + ' minutes';
+                return 'Il y a ' + intervalle + ' minutes';
         }
-        else if (now-60 <= date && date < now-10)
-            format = 'Il y a ' + (now-date) + ' secondes';
-        else if (now-10 <= date && date < now+120)
-            format = 'Maintenant';
-        else if (now+60 <= date && date < now+3600)
-            format = 'Dans ' + Math.floor((date-now)/60) + ' minutes';
+        else if (now - 60 <= date && date < now - 10)
+            return 'Il y a ' + (now-date) + ' secondes';
+        else if (now - 10 <= date && date < now + 120)
+            return 'Maintenant';
+        else if (now + 60 <= date && date < now + 3600)
+            return 'Dans ' + Math.floor((date - now)/60) + ' minutes';
         else {
-            // %A: jour au format 'Lundi' etc
-            format = oDate.strftime('%A');
+            // Jour au format 'Lundi' etc
+            format = 'dddd';
 
-            // On vérifie que la date est dans l'année (%Y: year)
-            if (oDate.getFullYear() == oNow.getFullYear()){
-                // Si la date n'est pas dans la semaine courante, on précise le jour et le mois (%U: numéro de la semaine)
-                if (oDate.strftime('%U') != oNow.strftime('%U'))
-                    format += ' ' + oDate.getDate() + ' ' + oDate.strftime('%B'); // %B mois au format 'janvier'
+            // On vérifie que la date est dans l'année
+            if (mDate.year() == mNow.year()){
+                // Si la date n'est pas dans la semaine courante, on précise le jour et le mois
+                if (mDate.week() != mNow.week())
+                    format += ' D MMMM'; // D jour du mois, MMMM mois au format 'janvier'
 
-                // Si on est hier, aujourd'hui ou demain (%j: jour de l'année (de 1 à 365))
-                var dayDate = oDate.strftime('%j');
-                var dayNow = oNow.strftime('%j');
+                // Si on est hier, aujourd'hui ou demain
+                var dayDate = mDate.dayOfYear();
+                var dayNow = mNow.dayOfYear();
                 if (dayDate == dayNow)
-                    format = 'Aujourd\'hui';
-                else if (parseInt(dayDate) == parseInt(dayNow)-1)
-                    format = 'Hier';
-                else if (parseInt(dayDate) == parseInt(dayNow)+1)
-                    format = 'Demain';
+                    format = '[Aujourd\'hui]';
+                else if (parseInt(dayDate) == parseInt(dayNow) - 1)
+                    format = '[Hier]';
+                else if (parseInt(dayDate) == parseInt(dayNow) + 1)
+                    format = '[Demain]';
             }
             else
-                format += ' ' + oDate.getDate() + ' ' + oDate.strftime('%B') + ' ' + oDate.getFullYear();
+                format += ' D MMMM YYYY'; // YYYY année
 
-            if (oDate.strftime('%Hh%M') == '23h59' || oDate.strftime('%Hh%M') == '00h00')
-                format += ' à minuit';
+            if (mDate.format('HH[h]mm') == '23h59' || mDate.format('HH[h]mm') == '00h00')
+                format += ' [à minuit]';
             else
-                format += ' à ' + oDate.strftime('%Hh%M');
+                format += ' [à] HH[h]mm';
         }
 
-
-        return ucfirst(format);
+        return ucfirst(mDate.format(format));
     };
 });
