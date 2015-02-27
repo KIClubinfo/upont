@@ -1,38 +1,38 @@
 angular.module('upont')
     .controller('Jeu_Ctrl', ['$scope', '$resource', function($scope, $resource) {
-        $scope.score = 0;
+        // $scope.score = 0;
 
 
-        function newSet() {
-            trueName = Math.floor(Math.random() * 3) + 1;
-            $resource("/v2-api/promo_game").get(function(newEleves) {
-                $scope.elevePhoto = newEleves.user1;
-                console.log(newEleves);
-                switch (trueName) {
-                    case 1:
-                        $scope.nom1 = newEleves.user1;
-                        $scope.nom2 = newEleves.user2;
-                        $scope.nom3 = newEleves.user3;
-                        break;
-                    case 2:
-                        $scope.nom2 = newEleves.user1;
-                        $scope.nom1 = newEleves.user2;
-                        $scope.nom3 = newEleves.user3;
-                        break;
-                    case 3:
-                        $scope.nom3 = newEleves.user1;
-                        $scope.nom2 = newEleves.user2;
-                        $scope.nom1 = newEleves.user3;
-                        break;
-                }
-            });
-        }
+        // function newSet() {
+        //     trueName = Math.floor(Math.random() * 3) + 1;
+        //     $resource("/v2-api/promo_game").get(function(newEleves) {
+        //         $scope.elevePhoto = newEleves.user1;
+        //         console.log(newEleves);
+        //         switch (trueName) {
+        //             case 1:
+        //                 $scope.nom1 = newEleves.user1;
+        //                 $scope.nom2 = newEleves.user2;
+        //                 $scope.nom3 = newEleves.user3;
+        //                 break;
+        //             case 2:
+        //                 $scope.nom2 = newEleves.user1;
+        //                 $scope.nom1 = newEleves.user2;
+        //                 $scope.nom3 = newEleves.user3;
+        //                 break;
+        //             case 3:
+        //                 $scope.nom3 = newEleves.user1;
+        //                 $scope.nom2 = newEleves.user2;
+        //                 $scope.nom1 = newEleves.user3;
+        //                 break;
+        //         }
+        //     });
+        // }
 
-        $scope.actionJeu = function(nb) {
-            if (trueName == nb)
-                $scope.score++;
-            newSet();
-        };
+        // $scope.actionJeu = function(nb) {
+        //     if (trueName == nb)
+        //         $scope.score++;
+        //     newSet();
+        // };
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider

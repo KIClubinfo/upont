@@ -1,4 +1,7 @@
 angular.module('upont')
+    .controller('Cours_Ctrl', ['$scope', 'exos', function($scope, exos) {
+        $scope.exos = exos;
+    }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
             .state("cours", {
@@ -15,13 +18,11 @@ angular.module('upont')
                     section: '1a'
                 },
                 templateUrl: "views/cours/cours.html",
-                controller: ['$scope', "exercices", function($scope, exercices) {
-
-
-                }],
+                controller: 'Cours_Ctrl',
                 resolve: {
-                    exercices: ["$resource", "$stateParams", function($resource, $stateParams) {
-                        return $resource(apiPrefix + "exercices?filterBy=department&filterValue=" + $stateParams.section).query().$promise;
+                    exos: ["$resource", "$stateParams", function($resource, $stateParams) {
+                        return true;
+                        // return $resource(apiPrefix + "exercices/" + $stateParams.section).query().$promise;
                     }]
                 }
             });
