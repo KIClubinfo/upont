@@ -1,8 +1,4 @@
 angular.module('upont').controller('KI_Ctrl', ['$scope', '$resource', function($scope, $resource) {
-        $scope.ContactKI = function(type, data) {
-            if (type > 0 && data !== "")
-                return true;
-        };
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider

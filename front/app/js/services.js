@@ -6,7 +6,10 @@ angular.module('upont')
             },
 
             set: function(key, data) {
-                localStorage.setItem(key, JSON.stringify(data));
+                if (typeof(data) == 'object')
+                    localStorage.setItem(key, JSON.stringify(data));
+                else
+                    localStorage.setItem(key, data);
             },
 
             remove: function(key) {
@@ -18,49 +21,41 @@ angular.module('upont')
             }
         };
     }])
-    .factory("isLogged", ["StorageService", function(StorageService) {
-        return function() {
-            if (StorageService.get('token') && StorageService.get('token_exp') > Math.floor(Date.now() / 1000))
-                return true;
-            else
-                return false;
-        };
-    }])
-    .factory("isAdmin", ["StorageService", function(StorageService) {
-        return function() {
-            // alert(StorageService.get('droits'));
-            if (StorageService.get('droits'))
-                return StorageService.get('droits').indexOf("ROLE_ADMIN") != -1;
-            else return false;
-        };
-    }])
-    .factory("isModo", ["StorageService", function(StorageService) {
-        return function() {
-            return StorageService.get('droits').indexOf("ROLE_MODO") != -1;
-        };
-    }])
+    // .factory("isModo", ["StorageService", function(StorageService) {
+    //     return function() {
+    //         return StorageService.get('droits').indexOf("ROLE_MODO") != -1;
+    //     };
+    // }])
     .filter('formatSize', function() {
         return function(size) {
-            if (size > 1000000000)
-                return Math.floor(size / 10000000) / 100 + ' Go';
-            if (size > 1000000)
-                return Math.floor(size / 10000) / 100 + ' Mo';
-            if (size > 1000)
-                return Math.floor(size / 10) / 100 + ' Ko';
-            return size + ' Octets';
+            if (typeof(size) == 'number') {
+                if (size >= 1024 * 1024 * 1024 * 0.8)
+                    return Math.floor(size / 10737418.24) / 100 + ' Gio';
+                if (size >= 1024 * 1024 * 0.8)
+                    return Math.floor(size / 10485.76) / 100 + ' Mio';
+                if (size >= 1024 * 0.8)
+                    return Math.floor(size / 10.24) / 100 + ' Kio';
+                return size + ' Octets';
+            } else return null;
         };
     })
     .filter('formatDuration', function() {
         return function(duration) {
-            if (duration > 3600)
-                return Math.floor(duration / 3600) + 'h' + Math.floor((duration % 3600) / 60);
-            if (duration > 60) {
-                var retour = Math.floor(duration / 60) + ' mn';
-                if (duration % 60 > 0)
-                    retour += ' ' + duration % 60;
-                return retour;
+            if(typeof(duration) == 'number'){
+                if (duration >= 3600)
+                    if(duration % 3600 === 0)
+                        return Math.floor(duration / 3600) + 'h';
+                    else
+                        return Math.floor(duration / 3600) + 'h'+ Math.floor((duration % 3600) / 60);
+                if (duration >= 60)
+                    if(duration%60 === 0)
+                        return Math.floor(duration / 60) + 'mn';
+                    else
+                        return Math.floor(duration / 60) + 'mn' + Math.floor(duration % 60);
+                return duration + 's';
             }
-            return duration + 's';
+            else
+                return null;
         };
     })
     .filter('urlFile', function() {
@@ -73,25 +68,22 @@ angular.module('upont')
                     case 'movie':
                         return apiPrefix + 'movies/' + input.slug + '/download';
                     case 'album':
-                        return apiPrefix + 'album/' + input.slug + '/download';
+                        return apiPrefix + 'albums/' + input.slug + '/download';
                     case 'game':
                         return apiPrefix + 'games/' + input.slug + '/download';
                     case 'software':
                         return apiPrefix + 'softwares/' + input.slug + '/download';
                     case 'other':
                         return apiPrefix + 'others/' + input.slug + '/download';
-                    case 'serie':
-                        if (!inputParent)
-                            return;
-                        return apiPrefix + 'series/' + inpuParent.slug + '/episodes/' + input.slug + '/download';
+                    case 'episode':
+                        if (inputParent && typeof(inputParent) == 'object' && inputParent.type == 'serie')
+                            return apiPrefix + 'series/' + inputParent.slug + '/episodes/' + input.slug + '/download';
+                        break;
                     case 'exercice':
-                        if (!inputParent)
-                            return;
-                        return apiPrefix + 'courses/' + inpuParent.slug + '/exercices/' + input.slug + '/download';
-                    default:
-                        return;
-
+                        if (inputParent && typeof(inputParent) == 'object' && inputParent.type == 'course')
+                            return apiPrefix + 'courses/' + inputParent.slug + '/exercices/' + input.slug + '/download';
                 }
             }
+            return '#';
         };
     });

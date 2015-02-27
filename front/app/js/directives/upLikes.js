@@ -5,9 +5,9 @@ angular.module('upont').directive('upLikes', ['$window', function($window) {
             url: '='
         },
         controller: ["$scope", "$resource", function($scope, $resource) {
-            $scope.upvote = function(url) {
+            $scope.upvote = function() {
                 if (!$scope.objet.like) {
-                    $resource(apiPrefix + url + '/like').save(function() {
+                    $resource(apiPrefix + $scope.url + '/like').save(function() {
                         $scope.objet.likes++;
                         $scope.objet.like = true;
                         if ($scope.objet.unlike) {
@@ -16,16 +16,16 @@ angular.module('upont').directive('upLikes', ['$window', function($window) {
                         }
                     });
                 } else {
-                    $resource(apiPrefix + url + '/like').remove(function() {
+                    $resource(apiPrefix + $scope.url + '/like').remove(function() {
                         $scope.objet.likes--;
                         $scope.objet.like = false;
                     });
                 }
             };
 
-            $scope.downvote = function(url) {
+            $scope.downvote = function() {
                 if (!$scope.objet.unlike) {
-                    $resource(apiPrefix + url + '/unlike').save(function() {
+                    $resource(apiPrefix + $scope.url + '/dislike').save(function() {
                         $scope.objet.unlikes++;
                         $scope.objet.unlike = true;
                         if ($scope.objet.like) {
@@ -34,7 +34,7 @@ angular.module('upont').directive('upLikes', ['$window', function($window) {
                         }
                     });
                 } else {
-                    $resource(apiPrefix + url + '/unlike').remove(function() {
+                    $resource(apiPrefix + $scope.url + '/dislike').remove(function() {
                         $scope.objet.unlikes--;
                         $scope.objet.unlike = false;
                     });
