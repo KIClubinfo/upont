@@ -4,7 +4,7 @@
         <div class="col-sm-9 col-xs-12">
             <div class="up-ticket-auteur">{{ publication.author_club.name }}</div>
             <div class="up-ticket-date">{{ publication.date*1000 | date : 'd MMMM yyyy' }}</div>
-            <h2>{{ publication.title }}</h2>
+            <h2>{{ publication.name }}</h2>
         </div>
         <p class="up-chapeau stacked-row" up-publi-text string="publication.text_long"></p>
         <div class="clearfix"></div>
@@ -17,7 +17,7 @@
         <div class="col-sm-9 col-xs-12">
             <div class="up-ticket-auteur">{{ publication.author_club.name }}</div>
             <div class="up-ticket-date">{{ publication.date*1000 | date : 'd MMMM yyyy' }}</div>
-            <h2>{{ publication.title }}</h2>
+            <h2>{{ publication.name }}</h2>
             <p class="up-date-evenement">
                 Le {{ publication.start_date*1000 | date : 'dd/MM/yyyy à H:mm' }}
                 <br>

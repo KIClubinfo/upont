@@ -11,7 +11,7 @@ angular.module('upont').directive('upFillWindow', ['$window', function($window) 
                 $element.css('min-height', newHeight.toString() + 'px');
             }
 
-            //On vérifie si le header ou le footer changent de taille
+            //On vérifie si le footer changent de taille
             $scope.$watch(function() {
                 return $('footer').outerHeight();
             }, function() {

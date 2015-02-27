@@ -1,56 +1,59 @@
 angular.module('upont')
-    .controller('Disconnected_Ctrl', ['$scope', '$state', 'StorageService', '$http', function($scope, $state, StorageService, $http) {
+    .controller('Disconnected_Ctrl', ['$scope', '$rootScope', '$state', 'StorageService', '$http', function($scope, $rootScope, $state, StorageService, $http) {
         $scope.login = function(pseudo, mdp) {
-            $http
-                .post(apiPrefix + "login", {
-                    username: pseudo,
-                    password: mdp
-                })
-                .success(function(data, status, headers, config) {
-                    var tokenData = (data.token).split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
-                    switch (tokenData.length % 4) {
-                        case 0:
-                            {
-                                break;
-                            }
-                        case 2:
-                            {
-                                tokenData += '==';
-                                break;
-                            }
-                        case 3:
-                            {
-                                tokenData += '=';
-                                break;
-                            }
-                        default:
-                            return false;
-                    }
-                    tokenData = JSON.parse(Base64.decode(tokenData));
-                    StorageService.set('token_exp', tokenData.exp);
-                    StorageService.set('token', data.token);
-                    StorageService.set('droits', data.data.roles);
-                    $state.go("home.connected");
-                })
-                .error(function(data, status, headers, config) {
-                    // Supprime tout token en cas de mauvaise identification
-                    if (StorageService.get('token')) {
-                        StorageService.remove('token');
-                        StorageService.remove('token_exp');
-                        StorageService.remove('droits');
-                    }
-                });
+            if(pseudo.length && mdp.length)
+                $http
+                    .post(apiPrefix + "login", {
+                        username: pseudo,
+                        password: mdp
+                    })
+                    .success(function(data, status, headers, config) {
+                        var tokenData = (data.token).split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+                        switch (tokenData.length % 4) {
+                            case 0:
+                                {
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    tokenData += '==';
+                                    break;
+                                }
+                            case 3:
+                                {
+                                    tokenData += '=';
+                                    break;
+                                }
+                            default:
+                                return false;
+                        }
+                        tokenData = JSON.parse(Base64.decode(tokenData));
+                        StorageService.set('token_exp', tokenData.exp);
+                        StorageService.set('token', data.token);
+                        StorageService.set('droits', data.data.roles);
+                        $rootScope.isLogged = true;
+                        $state.go("home.connected");
+                    })
+                    .error(function(data, status, headers, config) {
+                        // Supprime tout token en cas de mauvaise identification
+                        if (StorageService.get('token')) {
+                            StorageService.remove('token');
+                            StorageService.remove('token_exp');
+                            StorageService.remove('droits');
+                        }
+                        $rootScope.isLogged = false;
+                    });
         };
     }])
     .controller('Publis_Ctrl', ['$scope', '$resource', 'newsItems', 'events', function($scope, $resource, newsItems, events) {
         $scope.publications = events.concat(newsItems).sort(function(a, b) {
-            return a.date < b.date;
+            return b.date - a.date;
         });
     }])
-    .controller('Event_Ctrl', ['$scope', '$resource', "$stateParams", 'evenement', function($scope, $resource, $stateParams, evenement) {
-        $scope.evenement = evenement;
-        $scope.url = 'events/' + $stateParams.slug;
-    }])
+    // .controller('Event_Ctrl', ['$scope', '$resource', "$stateParams", 'evenement', function($scope, $resource, $stateParams, evenement) {
+    //     $scope.evenement = evenement;
+    //     $scope.url = 'events/' + $stateParams.slug;
+    // }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
             .state("home", {
@@ -83,19 +86,8 @@ angular.module('upont')
                         return $resource(apiPrefix + "own/newsitems").query().$promise;
                     }],
                     events: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "own/events").query().$promise;
+                        return $resource(apiPrefix + "events").query().$promise;
                     }]
                 }
             });
-        // .state("home.connected.event", {
-        //     url : "events/:slug",
-        //     templateUrl : "views/home/event.html",
-        //     controller : "Event_Ctrl",
-        //     data : { toParent : true },
-        //     resolve : {
-        //         evenement : ["$resource", "$stateParams", function($resource, $stateParams){
-        //             return $resource(apiPrefix+"events/:slug").get({ slug : $stateParams.slug }).$promise;
-        //         }]
-        //     }
-        // });
     }]);

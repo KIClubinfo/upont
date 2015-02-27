@@ -5,7 +5,8 @@ sudo ls > /dev/null
 cd front
 sudo npm install
 bower update
-grunt build
+gulp build-js
+gulp build-css
 
 cd ../mobile
 sudo npm install

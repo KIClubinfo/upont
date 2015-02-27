@@ -16,7 +16,7 @@ proxy="http://user:password@etuproxy.enpc.fr:3128" # Décommenter si proxy
 
 ### INSTALL ###
 echo "Installation des dépendances..."
-sudo apt-get install lamp-server^ php5-curl php5-intl php5-gd phpmyadmin curl phpunit git nodejs npm ant gource libav-tools xvfb
+sudo apt-get install lamp-server^ php5-curl php5-intl php5-gd phpmyadmin curl phpunit git nodejs npm ant gource libav-tools xvfb phantomjs
 
 echo "Configuration de npm..."
 if [ -z "$proxy" ]; then
@@ -26,7 +26,7 @@ else
     npm config set https-proxy $proxy
 fi
 sudo ln -s /usr/bin/nodejs /usr/bin/node
-sudo npm install -g grunt-cli bower phonegap cordova
+sudo npm install -g grunt-cli gulp karma-cli bower phonegap cordova
 
 echo "Configuration de git..."
 sudo chown -R $user:www-data /var/www
@@ -58,7 +58,8 @@ echo "Installation du front..."
 cd front
 sudo npm install
 bower install
-grunt build
+gulp build-js
+gulp build-css
 
 echo "Installation de l'appli mobile..."
 cd ../mobile
