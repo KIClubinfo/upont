@@ -75,7 +75,7 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
         if ($page < $totalPages)
             $links[] = $baseUrl . ($page + 1) . '&limit=' . $limit . '>;rel=next';
 
-        // TODO à refacto quand la PR sur le JMSSerializerBundle sera effectuée
+        // À refacto quand la PR sur le JMSSerializerBundle sera effectuée
         // (voir BaseController::restResponseContext pour plus de détails)
         if ($context) {
             return $this->restContextResponse(

@@ -71,16 +71,15 @@ class NotificationListener
 
         // Maintenant qu'on a la liste des appareils auxquels envoyer, on envoie
         $this->pushAndroid($notification, $sendToAndroid);
-        /*$this->pushIOS($notification, $sendToIOS);
+        $this->pushIOS($notification, $sendToIOS);
 
         // Microsoft étant d'immense débiles, on ne peut pas envoyer à plein de
         // destinataires en une fois. On est donc obligé de faire autant de
         // requêtes vers l'extérieur que de destinataires.
-        // TODO quand ils feront preuve d'intelligence chez Microsoft.
-        foreach($sendToWP as $devie) {
-            $this->pushWP($notification, $device);
+        // À corriger quand ils feront preuve d'intelligence chez Microsoft.
+        foreach ($sendToWP as $devie) {
+            //pushWP
         }
-        */
     }
 
     public function pushAndroid(Notification $notification, array $to)
@@ -110,21 +109,14 @@ class NotificationListener
         ));
     }
 
-    // TODO
     public function pushIOS(Notification $notification, array $to)
     {
 
     }
 
-    // TODO : quand ces cons de Microsoft auront appris à gérer l'envoi à
-    // des utilisateurs multiples, refacto cette fonction.
-    // En l'état, il y a de toutes façons suffisamment peu d'utilisateurs de WP
-    // donc on peut se permettre de faire une boucle dessus.
-    // TODO vérifier le certificat uPont auprès de Microsoft pour pouvoir
-    // envoyer un nombre illimité de notifications
     public function pushWP(Notification $notification, Device $device)
     {
-        $message =    '<?xml version="1.0" encoding="utf-8"?>' .
+        $message =  '<?xml version="1.0" encoding="utf-8"?>' .
                     '<wp:Notification xmlns:wp="WPNotification">' .
                     '<wp:Toast>' .
                     '<wp:Text1>uPont</wp:Text1>' .
