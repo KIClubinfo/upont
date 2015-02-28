@@ -5,7 +5,6 @@ namespace KI\UpontBundle\Tests\Controller\Publications;
 use KI\UpontBundle\Tests\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 class CoursesControllerTest extends WebTestCase
 {

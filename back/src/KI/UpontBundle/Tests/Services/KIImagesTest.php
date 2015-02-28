@@ -3,7 +3,6 @@
 namespace KI\UpontBundle\Tests\Services;
 
 use KI\UpontBundle\Tests\WebTestCase;
-use KI\UpontBundle\Services\KIImages;
 
 class KIImagesTest extends WebTestCase
 {
@@ -28,7 +27,6 @@ class KIImagesTest extends WebTestCase
 
     public function testExtUploadBase64()
     {
-         $imgResult = array();
          $result = $this->service->uploadBase64($this->base64);
          $this->assertEquals($result['extension'], 'png');
     }

@@ -8,7 +8,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 use KI\UpontBundle\Entity\Publications\Exercice;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 
 class LoadExerciceFixture extends AbstractFixture implements OrderedFixtureInterface
