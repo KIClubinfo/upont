@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Entity;
+namespace KI\UpontBundle\Entity\Core;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
@@ -91,7 +91,7 @@ class Likeable
 
     /**
      * Les commentaires
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Comment", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Core\Comment", cascade={"persist"})
      */
     protected $listComments;
 
@@ -292,10 +292,10 @@ class Likeable
     /**
      * Add comment
      *
-     * @param \KI\UpontBundle\Entity\Comment $comment
+     * @param \KI\UpontBundle\Entity\Core\Comment $comment
      * @return PonthubFile
      */
-    public function addcomment(\KI\UpontBundle\Entity\Comment $comment)
+    public function addcomment(\KI\UpontBundle\Entity\Core\Comment $comment)
     {
         $this->listComments[] = $comment;
 
@@ -305,9 +305,9 @@ class Likeable
     /**
      * Remove comments
      *
-     * @param \KI\UpontBundle\Entity\Comment $comment
+     * @param \KI\UpontBundle\Entity\Core\Comment $comment
      */
-    public function removeComment(\KI\UpontBundle\Entity\Comment $comment)
+    public function removeComment(\KI\UpontBundle\Entity\Core\Comment $comment)
     {
         $this->listComments->removeElement($comment);
     }

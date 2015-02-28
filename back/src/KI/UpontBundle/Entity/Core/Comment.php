@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Entity;
+namespace KI\UpontBundle\Entity\Core;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
