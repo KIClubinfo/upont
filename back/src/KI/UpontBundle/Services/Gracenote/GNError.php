@@ -39,5 +39,10 @@ class GNError
         ,3000 => 'Invalid input.'
     );
 
+    /**
+     * @param integer $code
+     *
+     * @return string|null
+     */
     public static function getMessage($code) { return self::$_MESSAGES[$code]; }
 }
