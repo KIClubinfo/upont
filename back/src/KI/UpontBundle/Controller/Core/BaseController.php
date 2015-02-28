@@ -26,7 +26,7 @@ class BaseController extends \FOS\RestBundle\Controller\FOSRestController
 
         // Fully qualified class names
         $this->class = 'KI\UpontBundle\Entity\\' . $this->namespace . $this->className;
-        $this->form = 'KI\UpontBundle\Form\\'. $this->namespace . $this->className. 'Type';
+        $this->form = 'KI\UpontBundle\Form\\' . $this->namespace . $this->className . 'Type';
         $this->em = $this->getDoctrine()->getManager();
         $this->repo = $this->em->getRepository('KIUpontBundle:' . $this->namespace . $this->className);
 

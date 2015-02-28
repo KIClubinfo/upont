@@ -38,7 +38,7 @@ class LoadImageFixture extends AbstractFixture implements OrderedFixtureInterfac
         $path = __DIR__ . '/../../../../../web/uploads/tmp/';
         $fs = new Filesystem();
 
-        foreach($images as $tag => $name) {
+        foreach ($images as $tag => $name) {
             $fs->copy($path . $name, $path . 'tmp_' . $name);
             $file = new File($path . 'tmp_' . $name);
             $image = new Image();

@@ -64,8 +64,8 @@ class Achievement
         $number = 0;
         $current = self::$levels[0];
 
-        foreach(self::$levels as $key => $level) {
-            if($points >= $level['points']) {
+        foreach (self::$levels as $key => $level) {
+            if ($points >= $level['points']) {
                 $current = $level;
                 $number = $key;
             }
@@ -74,7 +74,7 @@ class Achievement
         return array(
             'number' => $number,
             'current' => $current,
-            'next' => isset(self::$levels[$number+1]) ? self::$levels[$number+1] : null,
+            'next' => isset(self::$levels[$number + 1]) ? self::$levels[$number + 1] : null,
         );
     }
 

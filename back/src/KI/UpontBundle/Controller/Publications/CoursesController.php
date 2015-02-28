@@ -4,7 +4,6 @@ namespace KI\UpontBundle\Controller\Publications;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class CoursesController extends \KI\UpontBundle\Controller\Core\ResourceController
@@ -115,7 +114,7 @@ class CoursesController extends \KI\UpontBundle\Controller\Core\ResourceControll
      * )
      * @Route\Post("/courses/{slug}/attend")
      */
-    public function addAttendeeAction($slug){
+    public function addAttendeeAction($slug) {
         $user = $this->get('security.context')->getToken()->getUser();
         $course = $this->findBySlug($slug);
 
@@ -143,7 +142,7 @@ class CoursesController extends \KI\UpontBundle\Controller\Core\ResourceControll
      * )
      * @Route\Delete("/courses/{slug}/attend")
      */
-    public function removeAttendeeAction($slug){
+    public function removeAttendeeAction($slug) {
         $user = $this->get('security.context')->getToken()->getUser();
         $course = $this->findBySlug($slug);
 

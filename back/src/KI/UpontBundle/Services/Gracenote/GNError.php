@@ -5,7 +5,7 @@ namespace KI\UpontBundle\Services\Gracenote;
 // A simple class to encapsulate errors that can be returned by the API.
 class GNError
 {
-    const UNABLE_TO_PARSE_RESPONSE = 1;    // The response couldn't be parsed. Maybe an error, or maybe the API changed.
+    const UNABLE_TO_PARSE_RESPONSE = 1; // The response couldn't be parsed. Maybe an error, or maybe the API changed.
 
     const API_RESPONSE_ERROR       = 1000; // There was a GN error code returned in the response.
     const API_NO_MATCH             = 1001; // The API returned a NO_MATCH (i.e. there were no results).
@@ -19,8 +19,7 @@ class GNError
     const INVALID_INPUT_SPECIFIED  = 3000; // Some input the user gave wasn't valid.
 
     // The human readable error messages
-    static public $_MESSAGES = array
-    (
+    static public $_MESSAGES = array(
         // Generic Errors
         1    => 'Unable to parse response from Gracenote WebAPI.'
 
