@@ -128,6 +128,12 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
                 // Sinon on crée un nouveau cours
                 if ($key = array_search($name . $gr, $coursesNames)) {
                     $course = $courses[$key];
+
+                    // On règle quand même l'heure de début et de fin si ce n'était pas fait
+                    if ($course->getStartDate() == null)
+                        $course->setStartDate($startDate);
+                    if ($course->getEndDate() == null)
+                        $course->setEndDate($endDate);
                 } else {
                     $course = new Course();
                     $course->setName($name);

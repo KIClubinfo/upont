@@ -23,7 +23,7 @@ class Course extends Likeable
 
     /**
      * Heure de début du cours (secondes depuis 00:00:00)
-     * @ORM\Column(name="startDate", type="integer")
+     * @ORM\Column(name="startDate", type="integer", nullable=true)
      * @JMS\Expose
      * @Assert\Type("integer")
      */
@@ -31,7 +31,7 @@ class Course extends Likeable
 
     /**
      * Heure de fin du cours (secondes depuis 00:00:00)
-     * @ORM\Column(name="endDate", type="integer")
+     * @ORM\Column(name="endDate", type="integer", nullable=true)
      * @JMS\Expose
      * @Assert\Type("integer")
      */
