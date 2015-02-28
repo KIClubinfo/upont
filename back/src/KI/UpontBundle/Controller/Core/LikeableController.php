@@ -4,7 +4,7 @@ namespace KI\UpontBundle\Controller\Core;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use KI\UpontBundle\Entity\Comment;
+use KI\UpontBundle\Entity\Core\Comment;
 
 // Fonctions de like/dislike/commentaire
 class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
@@ -39,7 +39,7 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
         case 'games'    : $this->initialize('Game', 'Ponthub');          break;
         case 'softwares': $this->initialize('Software', 'Ponthub');      break;
         case 'others'   : $this->initialize('Other', 'Ponthub');         break;
-        case 'comments' : $this->initialize('Comment');                  break;
+        case 'comments' : $this->initialize('Comment', 'Core');          break;
 
         default: return;
         }
@@ -313,7 +313,7 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
         if ($request->get('text') == '')
             return $this->jsonResponse('Texte de commentaire non précisé', 400);
 
-        $this->initialize('Comment');
+        $this->initialize('Comment', 'Core');
         $comment = $this->findBySlug($id);
         $comment->setText($request->get('text'));
         $this->em->flush();
@@ -340,7 +340,7 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
         if (!($id > 0))
             return $this->jsonResponse(null, 404);
 
-        $this->initialize('Comment');
+        $this->initialize('Comment', 'Core');
         $comment = $this->findBySlug($id);
         $this->em->remove($comment);
         $this->em->flush();

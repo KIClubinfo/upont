@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Entity;
+namespace KI\UpontBundle\Entity\Core;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
@@ -21,7 +21,7 @@ class Log
     protected $id;
 
     /**
-     * Nom d'utilisateur (username)
+     * Utilisateur
      * @ORM\Column(name="username", type="string")
      * @JMS\Expose
      * @Assert\Type("string")
