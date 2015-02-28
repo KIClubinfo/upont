@@ -40,7 +40,7 @@ class Generator extends AbstractFixture
     {
         // [AT'016] Comme au bon vieux temps, faisons du PHP très sale pour migrer cette foutue BDD
         $_bddpass = $this->container->getParameter('database_v1_password');
-        $this->bdd = new PDO('mysql:host=localhost; dbname=enpcintra', 'root', $_bddpass, array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC)) ;
+        $this->bdd = new PDO('mysql:host=localhost; dbname=enpcintra', 'root', $_bddpass, array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC));
         $this->bdd->exec("SET CHARACTER SET utf8");
         $this->bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->em = $manager;
@@ -60,7 +60,7 @@ class Generator extends AbstractFixture
             'event_pookie'
         );
 
-        foreach($tables as $table)
+        foreach ($tables as $table)
             $this->truncate($table);
 
         // Effectue les diverses opérations de migration
@@ -101,7 +101,7 @@ class Generator extends AbstractFixture
     {
         $items = array();
         $requete = $this->bdd->query('SELECT * FROM ' . $table);
-        while($donnees = $requete->fetch())
+        while ($donnees = $requete->fetch())
             $items[$donnees['id']] = $donnees;
         $requete->closeCursor();
         return $items;
@@ -117,7 +117,7 @@ class Generator extends AbstractFixture
         $path = __DIR__ . '/../../../../web/uploads/tmp/';
         $fs = new Filesystem();
 
-        foreach($items as $id => $item) {
+        foreach ($items as $id => $item) {
             $ext = $item['nom'] . '.' . $item['extension'];
 
             if (!file_exists($path . $ext) || empty($item['nom']) || empty($item['extension']))
@@ -161,7 +161,7 @@ class Generator extends AbstractFixture
         $i = 0;
         $this->users = array();
 
-        foreach($items as $id => $item) {
+        foreach ($items as $id => $item) {
             $entity = new User();
             $entity->setFirstName($item['prenom']);
             $entity->setLastName($item['nom']);
@@ -206,7 +206,7 @@ class Generator extends AbstractFixture
         $i = 0;
         $this->clubs = array();
 
-        foreach($items as $id => $item) {
+        foreach ($items as $id => $item) {
             $entity = new Club();
             $entity->setName($item['nom']);
             $entity->setName($item['nom_long']);
@@ -227,7 +227,7 @@ class Generator extends AbstractFixture
         $this->truncate('ClubUser');
         $i = 0;
 
-        foreach($items as $id => $item) {
+        foreach ($items as $id => $item) {
             if ($this->clubs[$item['id_club']] === null || $this->users[$item['id_eleve']] === null)
                 continue;
 
@@ -265,7 +265,7 @@ class Generator extends AbstractFixture
         $i = 0;
         $this->clubs = array();
 
-        foreach($items as $id => $item) {
+        foreach ($items as $id => $item) {
             $entity = new Club();
             $entity->setName($item['nom']);
             $entity->setName($item['nom_long']);
@@ -285,7 +285,7 @@ class Generator extends AbstractFixture
         $items = $this->loadTable('club_eleve');
         $i = 0;
 
-        foreach($items as $id => $item) {
+        foreach ($items as $id => $item) {
             if ($this->clubs[$item['id_club']] === null || $this->users[$item['id_eleve']] === null)
                 continue;
 
@@ -314,7 +314,7 @@ class Generator extends AbstractFixture
         $items = $this->loadTable('news');
         $i = 0;
 
-        foreach($items as $id => $item) {
+        foreach ($items as $id => $item) {
             $entity = new Newsitem();
             $entity->setName($item['prenom']);
             $entity->setTextLong($item['nom']);
@@ -343,7 +343,7 @@ class Generator extends AbstractFixture
         $i = 0;
         $this->events = array();
 
-        foreach($items as $id => $item) {
+        foreach ($items as $id => $item) {
             $entity = new Event();
             $entity->setName($item['prenom']);
             $entity->setTextLong($item['nom']);

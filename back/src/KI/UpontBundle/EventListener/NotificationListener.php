@@ -22,7 +22,7 @@ class NotificationListener
     {
         $notification = $args->getEntity();
 
-        if(!$notification instanceof Notification)
+        if (!$notification instanceof Notification)
             return;
 
         $manager = $args->getEntityManager();
@@ -116,7 +116,7 @@ class NotificationListener
 
     public function pushWP(Notification $notification, Device $device)
     {
-        $message =  '<?xml version="1.0" encoding="utf-8"?>' .
+        $message = '<?xml version="1.0" encoding="utf-8"?>' .
                     '<wp:Notification xmlns:wp="WPNotification">' .
                     '<wp:Toast>' .
                     '<wp:Text1>uPont</wp:Text1>' .
@@ -124,7 +124,7 @@ class NotificationListener
                     '</wp:Toast>' .
                     '</wp:Notification>';
 
-        $headers =  array(
+        $headers = array(
             'Content-Type: text/xml',
             'Accept: application/*',
             'X-NotificationClass: 0',
