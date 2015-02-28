@@ -112,7 +112,6 @@ class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceCon
             $this->em->flush();
 
             // On crée une notification
-            // TODO récupérer par une requête avec JOIN, sans faire de boucle for ensuite
             $allUsers = $this->em->getRepository('KIUpontBundle:Users\User')->findAll();
             $users = array();
 

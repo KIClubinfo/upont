@@ -3,7 +3,6 @@
 namespace KI\UpontBundle\Tests\Services;
 
 use KI\UpontBundle\Tests\WebTestCase;
-use KI\UpontBundle\EventListener\LogListener;
 
 class KILogsTest extends WebTestCase
 {

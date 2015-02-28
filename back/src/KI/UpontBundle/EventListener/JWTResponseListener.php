@@ -13,6 +13,7 @@ use KI\UpontBundle\Event\AchievementCheckEvent;
 class JWTResponseListener
 {
     private $container;
+    private $em;
 
     public function __construct(ContainerInterface $container, EntityManager $manager)
     {
