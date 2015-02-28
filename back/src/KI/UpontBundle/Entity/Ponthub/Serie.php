@@ -335,6 +335,29 @@ class Serie extends PonthubFile
     }
 
     /**
+     * Add actor
+     *
+     * @param \KI\UpontBundle\Entity\Ponthub\Actor $actor
+     * @return Serie
+     */
+    public function addActor(\KI\UpontBundle\Entity\Ponthub\Actor $actor)
+    {
+        $this->actors[] = $actor;
+
+        return $this;
+    }
+
+    /**
+     * Remove actor
+     *
+     * @param \KI\UpontBundle\Entity\Ponthub\Actor $actor
+     */
+    public function removeActor(\KI\UpontBundle\Entity\Ponthub\Actor $actor)
+    {
+        $this->actors->removeElement($actor);
+    }
+
+    /**
      * Add episodes
      *
      * @param \KI\UpontBundle\Entity\Ponthub\Episode $episode

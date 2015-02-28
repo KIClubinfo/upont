@@ -328,6 +328,29 @@ class Movie extends PonthubFile
     }
 
     /**
+     * Add actor
+     *
+     * @param \KI\UpontBundle\Entity\Ponthub\Actor $actor
+     * @return Movie
+     */
+    public function addActor(\KI\UpontBundle\Entity\Ponthub\Actor $actor)
+    {
+        $this->actors[] = $actor;
+
+        return $this;
+    }
+
+    /**
+     * Remove actor
+     *
+     * @param \KI\UpontBundle\Entity\Ponthub\Actor $actor
+     */
+    public function removeActor(\KI\UpontBundle\Entity\Ponthub\Actor $actor)
+    {
+        $this->actors->removeElement($actor);
+    }
+
+    /**
      * Set rating
      *
      * @param string $rating
