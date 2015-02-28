@@ -139,8 +139,7 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
             } else {
                 $code = 204;
             }
-        }
-        else
+        } else
             $this->em->detach($item);
 
         return array('form' => $form, 'item' => $item, 'code' => $code);

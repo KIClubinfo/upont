@@ -132,8 +132,9 @@ class LogsController extends \KI\UpontBundle\Controller\Core\ResourceController
         ->getQuery()
         ->getResult();
 
-        foreach ($promos as $promo)
-            $results[] = $promo['promo'];
+        foreach ($promos as $promo) {
+                    $results[] = $promo['promo'];
+        }
         return $results;
     }
 
@@ -144,8 +145,9 @@ class LogsController extends \KI\UpontBundle\Controller\Core\ResourceController
         $users = $repo->findAll();
         $results = array();
 
-        foreach ($users as $user)
-            $results[$user->getUsername()] = $user->getPromo();
+        foreach ($users as $user) {
+                    $results[$user->getUsername()] = $user->getPromo();
+        }
         return $results;
     }
 

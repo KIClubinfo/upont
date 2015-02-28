@@ -69,8 +69,8 @@ class Image
      */
     public function preUpload()
     {
-        if($this->file === null)
-            throw new \Exception($this->ext.'Il n\'y a aucun fichier');
+        if ($this->file === null)
+            throw new \Exception($this->ext . 'Il n\'y a aucun fichier');
     }
 
     /**
@@ -84,7 +84,7 @@ class Image
 
         // Exception lancée si le fichier ne peut pas être bougé et donc
         // arrête le Persist
-        $this->file->move($this->getUploadRootDir(), $this->id.'.'.$this->ext);
+        $this->file->move($this->getUploadRootDir(), $this->id . '.' . $this->ext);
 
         unset($this->file);
     }

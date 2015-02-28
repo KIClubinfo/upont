@@ -25,8 +25,7 @@ class SubresourceController extends \KI\UpontBundle\Controller\Core\ResourceCont
         if ($manyToMany) {
             $method = 'get' . ucfirst($name) . 's';
             return $item->$method();
-        }
-        else {
+        } else {
             $repo = $this->em->getRepository('KIUpontBundle:' . $this->namespace . $this->className . $name);
             return $repo->findBy(array(strtolower($this->className) => $item));
         }
@@ -47,7 +46,7 @@ class SubresourceController extends \KI\UpontBundle\Controller\Core\ResourceCont
         $this->switchClass($name);
         $return = $this->repo->findOneBy(array(strtolower($this->save) => $item, $filter => $id));
 
-        if(!$return instanceof $this->class)
+        if (!$return instanceof $this->class)
             throw new NotFoundHttpException('Objet ' . $this->className . ' non trouvée');
 
         $this->switchClass();

@@ -217,8 +217,7 @@ class GracenoteWebAPI
         try
         {
             $xml = new \SimpleXMLElement($response);
-        }
-        catch (\Exception $e)
+        } catch (\Exception $e)
         {
             throw new GNException(GNError::UNABLE_TO_PARSE_RESPONSE);
         }
