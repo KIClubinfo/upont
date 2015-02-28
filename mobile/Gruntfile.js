@@ -9,11 +9,9 @@ module.exports = function(grunt) {
         uglify: {
             build: {
                 files: {
-                    'www/upont.min.js': ['app/js/scripts/strftime.js',
-                                         'app/js/app.js',
+                    'www/upont.min.js': ['app/js/app.js',
                                          'app/js/scripts/notifications.js',
-                                         'app/js/**/*.js',
-                                         'app/js/*.js']
+                                         'app/js/**/*.js']
                 }
             }
         },
