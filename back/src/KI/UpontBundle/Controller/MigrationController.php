@@ -45,11 +45,30 @@ class Generator extends AbstractFixture
         $this->bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->em = $manager;
 
+        // On vide la BDD actuelle
+        // Normalement la BDD devra être reset proprement à la main, là on le
+        // fait manuellement pour pouvoir tester la migration rapidement
+        $tables = array(
+            'fos_user',
+            'Club',
+            'ClubUser',
+            'Image',
+            'Post',
+            'Newsitem',
+            'Event',
+            'event_attendee',
+            'event_pookie'
+        );
+
+        foreach($tables as $table)
+            $this->truncate($table);
+
         // Effectue les diverses opérations de migration
         $this->loadImages();
         $this->loadUsers();
         $this->loadClubs();
-        //News
+        $this->loadNews();
+        $this->loadEvents();
         //Events // event eleve
         //Courses
         //Ponthub
@@ -92,7 +111,6 @@ class Generator extends AbstractFixture
     {
         $this->log('===== IMAGES =====');
         $items = $this->loadTable('image');
-        $this->truncate('Image');
         $i = 0;
         $this->images = array();
 
@@ -140,7 +158,6 @@ class Generator extends AbstractFixture
     {
         $this->log('===== UTILISATEURS =====');
         $items = $this->loadTable('eleve');
-        $this->truncate('fos_user');
         $i = 0;
         $this->users = array();
 
@@ -186,7 +203,6 @@ class Generator extends AbstractFixture
     {
         $this->log('===== CLUBS =====');
         $items = $this->loadTable('club');
-        $this->truncate('Club');
         $i = 0;
         $this->clubs = array();
 
@@ -246,7 +262,6 @@ class Generator extends AbstractFixture
     {
         $this->log('===== CLUBS =====');
         $items = $this->loadTable('club');
-        $this->truncate('Club');
         $i = 0;
         $this->clubs = array();
 
@@ -268,7 +283,6 @@ class Generator extends AbstractFixture
 
         // Membres de clubs
         $items = $this->loadTable('club_eleve');
-        $this->truncate('ClubUser');
         $i = 0;
 
         foreach($items as $id => $item) {
@@ -284,5 +298,71 @@ class Generator extends AbstractFixture
         }
         $this->em->flush();
         $this->log($i . ' membres de clubs importés');
+    }
+
+
+
+
+
+
+
+
+
+    protected function loadNews()
+    {
+        $this->log('===== NEWS =====');
+        $items = $this->loadTable('news');
+        $i = 0;
+
+        foreach($items as $id => $item) {
+            $entity = new Newsitem();
+            $entity->setName($item['prenom']);
+            $entity->setTextLong($item['nom']);
+            $entity->setAuthorClub($item['pseudo']);
+            $entity->setAuthorUser($item['email']);
+            $entity->setDate($item['nationalite']);
+            $this->em->persist($entity);
+            $i++;
+        }
+
+        $this->em->flush();
+        $this->log($i . ' news importées');
+    }
+
+
+
+
+
+
+
+
+    protected function loadEvents()
+    {
+        $this->log('===== EVENEMENTS =====');
+        $items = $this->loadTable('evenement');
+        $i = 0;
+        $this->events = array();
+
+        foreach($items as $id => $item) {
+            $entity = new Event();
+            $entity->setName($item['prenom']);
+            $entity->setTextLong($item['nom']);
+            $entity->setStartDate($item['pseudo']);
+            $entity->setEndDate($item['email']);
+            $entity->setAuthorClub($item['promo']);
+            $entity->setAuthorUser($item['departement']);
+            $entity->setEntryMethod('Libre');
+            $entity->setPlace($item['departement']);
+            $this->em->persist($entity);
+            $this->events[$id] = $entity;
+            $i++;
+        }
+
+        // Attendees
+
+        // Pookies
+
+        $this->em->flush();
+        $this->log($i . ' utilisateurs importés');
     }
 }

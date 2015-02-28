@@ -1,11 +1,11 @@
 <?php
 
-namespace OC\PlatformBundle\DataFixtures\ORM;
+namespace OC\PlatformBundle\DataFixtures\ORM\Core;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use KI\UpontBundle\Entity\Comment;
+use KI\UpontBundle\Entity\Core\Comment;
 
 class LoadCommentFixture extends AbstractFixture implements OrderedFixtureInterface
 {
