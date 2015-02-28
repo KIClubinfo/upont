@@ -12,4 +12,11 @@ class LogsControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
     }
+
+    public function testPatch()
+    {
+        $this->client->request('PATCH', '/logs');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 204);
+    }
 }
