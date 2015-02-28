@@ -27,7 +27,7 @@ class KICurl extends ContainerAware
         if ($proxyUser !== null)
             curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyUser);
 
-        foreach($options as $option => $value) {
+        foreach ($options as $option => $value) {
             curl_setopt($ch, $option, $value);
         }
 

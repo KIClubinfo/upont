@@ -49,12 +49,12 @@ class Exercice extends Likeable
 
     public function getBasePath()
     {
-        return __DIR__.'/../../../../../web/uploads/exercices/';
+        return __DIR__ . '/../../../../../web/uploads/exercices/';
     }
 
     public function getAbsolutePath()
     {
-        return __DIR__.'/../../../../../web/uploads/exercices/' . $this->id . '.pdf';
+        return __DIR__ . '/../../../../../web/uploads/exercices/' . $this->id . '.pdf';
     }
 
     public function getWebPath()

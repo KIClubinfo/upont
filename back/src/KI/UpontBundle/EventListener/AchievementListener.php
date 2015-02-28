@@ -26,7 +26,7 @@ class AchievementListener
         $this->user = $token === null ? null : $token->getUser();
         if ($this->user !== null) {
             $response = $repoAU->findByUser($this->user);
-            foreach($response as $achievementUser)
+            foreach ($response as $achievementUser)
                 $this->achievements[] = $achievementUser->getAchievement()->getIdA();
         }
     }
@@ -88,15 +88,15 @@ class AchievementListener
         // On regarde quels achievements sont locked et on en profite pour
         // calculer le nombre de points de l'utilisateur obtenus par les
         // achievements
-        foreach($this->achievements as $achievement) {
+        foreach ($this->achievements as $achievement) {
             $achievement = new Achievement($achievement);
-            if(gettype($achievement->points()) == 'integer') {
+            if (gettype($achievement->points()) == 'integer') {
                 $points += $achievement->points();
-            } else if($achievement->points() == '+10%') {
+            } else if ($achievement->points() == '+10%') {
                 $factor += 0.1;
-            } else if($achievement->points() == '+15%') {
+            } else if ($achievement->points() == '+15%') {
                 $factor += 0.15;
-            } else if($achievement->points() == '+75%') {
+            } else if ($achievement->points() == '+75%') {
                 $factor += 0.75;
             }
         }

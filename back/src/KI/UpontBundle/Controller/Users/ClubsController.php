@@ -4,7 +4,6 @@ namespace KI\UpontBundle\Controller\Users;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use KI\UpontBundle\Form\Users\ClubUserType;
@@ -166,13 +165,11 @@ class ClubsController extends \KI\UpontBundle\Controller\Core\SubresourceControl
                 $this->em->flush();
 
                 return $this->jsonResponse(null, 204);
-            }
-            else {
+            } else {
                 $this->em->detach($link);
                 return $this->jsonResponse($form, 400);
             }
-        }
-        else
+        } else
             throw new BadRequestHttpException('La relation entre Club et User existe déjà');
     }
 
@@ -208,8 +205,7 @@ class ClubsController extends \KI\UpontBundle\Controller\Core\SubresourceControl
         if (count($link) == 1) {
             $this->em->remove($link[0]);
             $this->em->flush();
-        }
-        else
+        } else
             throw new NotFoundHttpException('Relation entre Club et User non trouvée');
         return $this->jsonResponse(null, 204);
     }
