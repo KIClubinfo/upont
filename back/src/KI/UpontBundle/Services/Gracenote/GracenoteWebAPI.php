@@ -242,21 +242,7 @@ class GracenoteWebAPI
     protected function parseResponse($response)
     {
         // Parse the response from Gracenote, check for errors, etc.
-        try
-        {
-            $xml = $this->checkResponse($response);
-        }
-        catch (\SAPIException $e)
-        {
-            // If it was a no match, just give empty array back
-            if ($e->getCode() == SAPIError::GRACENOTE_NO_MATCH)
-            {
-                return array();
-            }
-
-            // Otherwise, re-throw the exception
-            throw $e;
-        }
+        $xml = $this->checkResponse($response);
 
         // If we get to here, there were no errors, so continue to parse the response.
         $output = array();
