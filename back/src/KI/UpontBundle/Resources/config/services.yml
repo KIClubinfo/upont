@@ -26,12 +26,12 @@ services:
             - { name: doctrine.event_listener, event: postPersist }
 
     # Écoute les checks d'achievements demandés un peu partout dans le code
-    ki_upont.listener.achievement:
-        class: KI\UpontBundle\EventListener\AchievementListener
-        arguments:
-            container: "@service_container"
-        tags:
-            - { name: kernel.event_listener, event: upont.achievement, method: check }
+    #ki_upont.listener.achievement:
+    #    class: KI\UpontBundle\EventListener\AchievementListener
+    #    arguments:
+    #        container: "@service_container"
+    #    tags:
+    #        - { name: kernel.event_listener, event: upont.achievement, method: check }
 
 
 

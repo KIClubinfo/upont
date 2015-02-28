@@ -4,7 +4,7 @@ namespace KI\UpontBundle\EventListener;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpKernel\Event\PostResponseEvent;
-use KI\UpontBundle\Entity\Log;
+use KI\UpontBundle\Entity\Core\Log;
 
 class LogListener extends ContainerAware
 {
