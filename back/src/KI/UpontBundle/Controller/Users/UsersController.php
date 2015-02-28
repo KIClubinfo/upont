@@ -126,7 +126,7 @@ class UsersController extends \KI\UpontBundle\Controller\Core\ResourceController
         $repo = $this->em->getRepository('KIUpontBundle:Users\ClubUser');
         $clubUsers = $repo->findByUser($user);
 
-        foreach($clubUsers as $clubUser) {
+        foreach ($clubUsers as $clubUser) {
             $clubs[] = array(
                 'club' => $clubUser->getClub(),
                 'role' => $clubUser->getRole()

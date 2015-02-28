@@ -203,7 +203,7 @@ class User extends BaseUser
     protected function acronyme()
     {
         $r = '';
-        foreach(explode(' ', $this->firstName . ' ' . $this->lastName) as $v)
+        foreach (explode(' ', $this->firstName . ' ' . $this->lastName) as $v)
             $r .= $v[0];
         return $r . '\'' . $this->promo;
     }
@@ -686,7 +686,7 @@ class User extends BaseUser
      */
     public function getPreference($key)
     {
-        if(array_key_exists($key, $this->preferences))
+        if (array_key_exists($key, $this->preferences))
             return $this->preferences[$key];
     }
 

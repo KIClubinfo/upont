@@ -29,7 +29,7 @@ class ImageUploaderSelectorType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $transformer = new Base64OrUrlToImageDataTransformer($this->om,$this->uploaderService);
+        $transformer = new Base64OrUrlToImageDataTransformer($this->om, $this->uploaderService);
         $builder->addModelTransformer($transformer);
     }
 

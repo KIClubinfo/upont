@@ -41,7 +41,7 @@ class KICalendar extends ContainerAware
         $clubs = $repoClub->findAll();
         $clubsNotFollowed = $user->getClubsNotFollowed();
         $followedClubs = array();
-        foreach($clubs as $club) {
+        foreach ($clubs as $club) {
             if (!$clubsNotFollowed->contains($club))
                 $followedClubs[] = $club;
         }
