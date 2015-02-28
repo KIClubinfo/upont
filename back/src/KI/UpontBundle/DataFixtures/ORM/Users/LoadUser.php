@@ -7,7 +7,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use KI\UpontBundle\Entity\Users\User;
 
 // Cette fixture est un peu spéciale car elle doit utiliser la classe User de l'UserBundle
 class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
