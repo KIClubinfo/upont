@@ -73,7 +73,7 @@ class Event extends Post
 
     /**
      * Participants
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\User")
      * @ORM\JoinTable(name="event_attendee",
      *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="attendee_id", referencedColumnName="id")}
@@ -102,7 +102,7 @@ class Event extends Post
 
     /**
      * Personnes ayant refusées
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\User")
      * @ORM\JoinTable(name="event_pookie",
      *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="pooky_id", referencedColumnName="id")}
