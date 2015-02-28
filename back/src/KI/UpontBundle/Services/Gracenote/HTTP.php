@@ -91,7 +91,7 @@ class HTTP
             // Execute the request
             $response = curl_exec($this->ch);
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             throw new GNException(GNError::HTTP_REQUEST_ERROR);
         }
