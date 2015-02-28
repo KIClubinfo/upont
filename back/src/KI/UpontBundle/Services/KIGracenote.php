@@ -4,9 +4,6 @@ namespace KI\UpontBundle\Services;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 use KI\UpontBundle\Services\Gracenote\GracenoteWebAPI;
-use KI\UpontBundle\Services\Gracenote\GNException;
-use KI\UpontBundle\Services\Gracenote\GNError;
-use KI\UpontBundle\Services\Gracenote\HTTP;
 
 // Échange des informations avec l'API Gracenote pour récupérer des informations
 // sur la musique (utilisé par Ponthub)
