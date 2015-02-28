@@ -6,19 +6,16 @@ use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationFailureEvent;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Doctrine\ORM\EntityManager;
 use KI\UpontBundle\Entity\Achievement;
 use KI\UpontBundle\Event\AchievementCheckEvent;
 
 class JWTResponseListener
 {
     private $container;
-    private $em;
 
-    public function __construct(ContainerInterface $container, EntityManager $manager)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        $this->em = $manager;
     }
 
     // Renvoi du token avec des informations supplémentaires
