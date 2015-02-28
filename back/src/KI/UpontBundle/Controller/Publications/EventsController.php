@@ -379,7 +379,7 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
      * )
      * @Route\Post("/events/{slug}/attend")
      */
-    public function attendAction($slug){
+    public function attendAction($slug) {
         $user = $this->get('security.context')->getToken()->getUser();
         $event = $this->findBySlug($slug);
 
@@ -411,7 +411,7 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
      * )
      * @Route\Delete("/events/{slug}/attend")
      */
-    public function noAttendAction($slug){
+    public function noAttendAction($slug) {
         $user = $this->get('security.context')->getToken()->getUser();
         $event = $this->findBySlug($slug);
 
@@ -439,7 +439,7 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
      * )
      * @Route\Post("/events/{slug}/decline")
      */
-    public function addPookieAction($slug){
+    public function addPookieAction($slug) {
         $user = $this->get('security.context')->getToken()->getUser();
         $event = $this->findBySlug($slug);
 
@@ -471,7 +471,7 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
      * )
      * @Route\Delete("/events/{slug}/decline")
      */
-    public function removePookieAction($slug){
+    public function removePookieAction($slug) {
         $user = $this->get('security.context')->getToken()->getUser();
         $event = $this->findBySlug($slug);
 
@@ -499,7 +499,7 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
      * )
      * @Route\Get("/events/{slug}/attendees")
      */
-    public function getAttendeesAction($slug){ return $this->restResponse($this->findBySlug($slug)->getAttendees()); }
+    public function getAttendeesAction($slug) { return $this->restResponse($this->findBySlug($slug)->getAttendees()); }
 
     /**
      * @ApiDoc(
@@ -515,5 +515,5 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
      * )
      * @Route\Get("/events/{slug}/pookies")
      */
-    public function getPookiesAction($slug){ return $this->restResponse($this->findBySlug($slug)->getPookies()); }
+    public function getPookiesAction($slug) { return $this->restResponse($this->findBySlug($slug)->getPookies()); }
 }

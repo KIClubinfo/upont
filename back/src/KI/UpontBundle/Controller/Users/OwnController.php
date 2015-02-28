@@ -40,7 +40,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         $unlocked = array();
         $oUnlocked = array();
         $response = $repoAU->findByUser($user);
-        foreach($response as $achievementUser) {
+        foreach ($response as $achievementUser) {
             $achievement = $achievementUser->getAchievement();
             $unlocked[] = array(
                 'name'        => $achievement->name(),
@@ -60,8 +60,8 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         // On regarde quels achievements sont locked et on en profite pour
         // calculer le nombre de points de l'utilisateur obtenus par les
         // achievements
-        foreach($all as $achievement) {
-            if(!in_array($achievement, $oUnlocked)) {
+        foreach ($all as $achievement) {
+            if (!in_array($achievement, $oUnlocked)) {
                 $locked[] = array(
                     'name'        => $achievement->name(),
                     'description' => $achievement->description(),
@@ -70,13 +70,13 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
                     'ownedBy'     => count($repoAU->findByAchievement($achievement)),
                 );
             } else {
-                if(gettype($achievement->points()) == 'integer') {
+                if (gettype($achievement->points()) == 'integer') {
                     $points += $achievement->points();
-                } else if($achievement->points() == '+10%') {
+                } else if ($achievement->points() == '+10%') {
                     $factor += 0.1;
-                } else if($achievement->points() == '+15%') {
+                } else if ($achievement->points() == '+15%') {
                     $factor += 0.15;
-                } else if($achievement->points() == '+75%') {
+                } else if ($achievement->points() == '+75%') {
                     $factor += 0.75;
                 }
             }
@@ -191,14 +191,14 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         $return = array();
 
         // On filtre celles qui sont uniquement destinées à l'utilisateur actuel
-        foreach($notifications as $notification) {
+        foreach ($notifications as $notification) {
             $mode = $notification->getMode();
-            if($mode == 'to') {
+            if ($mode == 'to') {
                 // Si la notification n'a pas été lue
                 if ($notification->getRecipient()->contains($user) && !$notification->getRead()->contains($user))
                     $return[] = $notification;
             }
-            else if($mode == 'exclude') {
+            else if ($mode == 'exclude') {
                 // Si la notification n'a pas été lue
                 if (!$notification->getRead()->contains($user) && !$notification->getRecipient()->contains($user))
                     $return[] = $notification;
@@ -235,7 +235,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
 
         $clubs = $repo->findAll();
         $return = array();
-        foreach($clubs as $club) {
+        foreach ($clubs as $club) {
             if (!$userNotFollowed->contains($club)) {
                 $return[] = $club;
             }
