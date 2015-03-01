@@ -143,7 +143,7 @@ class Generator extends AbstractFixture
 
             $entity = new Image();
             $entity->setFile($file);
-            $entity->setExt($file->getExtension());
+            $entity->setExt($item['extension']);
             $this->em->persist($entity);
             $this->images[$id] = $entity;
             $i++;
@@ -185,7 +185,7 @@ class Generator extends AbstractFixture
             $entity->setPromo($item['promo']);
             $entity->setDepartment($item['departement']);
             $entity->setOrigin($item['origine']);
-            $entity->setPlainPassword('<d\'cv 511s2q)d4s5qqs');
+            $entity->setPlainPassword('');
             $entity->setNationality(ucfirst(strtolower($item['nationalite'])));
             if (isset($this->images[$item['id_image']]))
                 $entity->setImage($this->images[$item['id_image']]);
