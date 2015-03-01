@@ -8,27 +8,6 @@ angular.module('upont')
                         password: mdp
                     })
                     .success(function(data, status, headers, config) {
-                        var tokenData = (data.token).split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
-                        switch (tokenData.length % 4) {
-                            case 0:
-                                {
-                                    break;
-                                }
-                            case 2:
-                                {
-                                    tokenData += '==';
-                                    break;
-                                }
-                            case 3:
-                                {
-                                    tokenData += '=';
-                                    break;
-                                }
-                            default:
-                                return false;
-                        }
-                        tokenData = JSON.parse(Base64.decode(tokenData));
-                        StorageService.set('token_exp', tokenData.exp);
                         StorageService.set('token', data.token);
                         StorageService.set('droits', data.data.roles);
                         $rootScope.isLogged = true;
@@ -38,7 +17,6 @@ angular.module('upont')
                         // Supprime tout token en cas de mauvaise identification
                         if (StorageService.get('token')) {
                             StorageService.remove('token');
-                            StorageService.remove('token_exp');
                             StorageService.remove('droits');
                         }
                         $rootScope.isLogged = false;

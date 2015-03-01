@@ -3,9 +3,12 @@ describe('factory StorageService', function() {
     beforeEach(module('upont'));
 
     beforeEach(inject(function(_StorageService_) {
-        localStorage.clear();
         StorageService = _StorageService_;
     }));
+
+    afterEach(function(){
+        localStorage.clear();
+    });
 
     it('should be able to write simple objects on local storage', function(){
         StorageService.set('str', 'potato');

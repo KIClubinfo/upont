@@ -1,28 +1,12 @@
 angular.module('upont')
-    .factory('Login_Interceptor', ['StorageService', '$rootScope', '$location', '$q', function(StorageService, $rootScope, $location, $q) {
+    .factory('ErrorCodes_Interceptor', ['StorageService', '$rootScope', '$location', '$q', function(StorageService, $rootScope, $location, $q) {
         //On est obligé d'utiliser $location pour les changements d'url parcque le router n'est initialisé qu'après $http
 
         return {
-            request: function(config) {
-                if ($rootScope.isLogged) {
-                    if (StorageService.get('token_exp') > Math.floor(Date.now() / 1000)) {
-                        var token = StorageService.get('token');
-                        config.headers.Authorization = 'Bearer ' + token;
-                    }
-                    else{
-                        $location.path('/');
-                        return $q.reject(config);
-                    }
-                }
-                return config;
-            },
             responseError: function(response) {
                 if (response.status == 401) {
-                    if ($rootScope.isLogged) {
-                        StorageService.remove('token');
-                        StorageService.remove('token_exp');
-                        StorageService.remove('droits');
-                    }
+                    StorageService.remove('token');
+                    StorageService.remove('droits');
                     $rootScope.isLogged = false;
                     $location.path('/');
                 }
@@ -42,8 +26,25 @@ angular.module('upont')
             }
         };
     }])
-    .config(['$httpProvider', function($httpProvider) {
-        $httpProvider.interceptors.push('Login_Interceptor');
+    .config(['$httpProvider', 'jwtInterceptorProvider', function($httpProvider, jwtInterceptorProvider) {
+        jwtInterceptorProvider.tokenGetter = ['StorageService', 'config', 'jwtHelper', '$rootScope', '$q', function(StorageService, config, jwtHelper, $rootScope, $q) {
+            //On n'envoie pas le token pour les templates
+            if (config.url.substr(config.url.length - 5) == '.html')
+                return null;
+
+            if (StorageService.get('token') && jwtHelper.isTokenExpired(StorageService.get('token'))){
+                $rootScope.isLogged = false;
+                $rootScope.isAdmin = false;
+                StorageService.remove('token');
+                StorageService.remove('droits');
+                return $q.reject(config);
+            }
+            return StorageService.get('token');
+        }];
+
+
+        $httpProvider.interceptors.push('jwtInterceptor');
+        $httpProvider.interceptors.push('ErrorCodes_Interceptor');
     }])
     .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider) {
         $urlRouterProvider.otherwise("/404");
@@ -71,14 +72,21 @@ angular.module('upont')
     .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
         cfpLoadingBarProvider.latencyThreshold = 200;
     }])
-    .run(['$rootScope', 'StorageService', '$state', 'cfpLoadingBar', function($rootScope, StorageService, $state, cfpLoadingBar){
-        $rootScope.isLogged = (StorageService.get('token') && StorageService.get('token_exp') > Math.floor(Date.now() / 1000))?true:false;
-        $rootScope.isAdmin = (StorageService.get('droits') && StorageService.get('droits').indexOf("ROLE_ADMIN") != -1)?true:false;
+    .run(['$rootScope', 'StorageService', '$state', 'cfpLoadingBar', 'jwtHelper', function($rootScope, StorageService, $state, cfpLoadingBar, jwtHelper){
+        if(StorageService.get('token') && jwtHelper.isTokenExpired(StorageService.get('token'))){
+            $rootScope.isLogged = true;
+            $rootScope.isAdmin = (StorageService.get('droits').indexOf("ROLE_ADMIN") != -1)?true:false;
+        }
+        else{
+            $rootScope.isLogged = false;
+            $rootScope.isAdmin = false;
+            StorageService.remove('token');
+            StorageService.remove('droits');
+        }
 
         $rootScope.logout = function() {
             StorageService.remove('token');
-            StorageService.remove('token_exp');
-            StorageService.remove('droits');
+            StorageService.remove('roles');
             $rootScope.isLogged = false;
             $state.go('home.disconnected');
         };

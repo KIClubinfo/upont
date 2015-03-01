@@ -33,6 +33,7 @@ class KIToken extends ContainerAware
                 $manager->flush();
             } else {
                 //Oh oui #2 J'ose ou j'ose pas ! Dieu (ou Albe) seul sait si cette instruction marche !
+                // Mouais, c'est juste une boucle récursive jusqu'à ce que ca marche... #codeSale #moche #CeluiOuCelleQuiAFaitCaMériteDeMangerDesPhallusEnEnfer
                 return $this->getToken();
             }
         }
