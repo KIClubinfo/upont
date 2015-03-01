@@ -43,11 +43,12 @@ class JWTResponseListener
         $event->setData($data);
     }
 
-    protected function badCredentials(AuthenticationFailureEvent $event)
+    protected function badCredentials(AuthenticationFailureEvent $event, $reason)
     {
         return $event->setResponse(new JsonResponse(array(
             'code' => 401,
-            'message' => 'Bad credentials'
+            'message' => 'Bad credentials',
+            'reason' => $reason
         ), 401));
     }
 
@@ -63,7 +64,7 @@ class JWTResponseListener
             && $request->has('password')
             && $request->get('username') != ''
             && $request->get('password') != ''))
-            return $this->badCredentials($event);
+            return $this->badCredentials($event, 'Champs non remplis');
 
         $username = $request->get('username');
         $password = $request->get('password');
@@ -71,13 +72,13 @@ class JWTResponseListener
         $user = $userManager->findUserByUsername($username);
 
         if (!$user instanceof \KI\UpontBundle\Entity\Users\User)
-            return $this->badCredentials($event);
+            return $this->badCredentials($event, 'Utilisateur non trouvé');
 
         // On regarde si le mot de passe stocké dans la BDD est vide, si non on
         // balance une 401
         $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);
         if (!$encoder->isPasswordValid($user->getPassword(), 'migration_pass_impossible_to_reproduce', $user->getSalt()))
-            return $this->badCredentials($event);
+            return $this->badCredentials($event, 'Mauvais mot de passe');
 
         // Si le mot de passe de la BDD est vide, l'utilisateur se connecte pour
         // la première fois : on teste le mot de passe contre le proxy
@@ -102,7 +103,7 @@ class JWTResponseListener
         curl_close($ch);
 
         if (in_array($code, array(0, 401, 403, 407)))
-            return $this->badCredentials($event);
+            return $this->badCredentials($event, 'Mauvais mot de passe proxy');
 
         // Si la connexion a réussie, le mot de passe proxy est bon
         // On le stocke dans la BDD (vol de mot de passe mwahahahah)
