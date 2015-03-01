@@ -25,9 +25,6 @@ class MigrationController extends \KI\UpontBundle\Controller\Core\BaseController
 }
 
 
-// Pour bien migrer
-// enlever le duplicata du bochet
-// enlever Marina Fois
 class Generator extends AbstractFixture
 {
     private $container;
@@ -488,7 +485,7 @@ class Generator extends AbstractFixture
             $entity->setName($item['nom']);
             $entity->setPath($item['chemin']);
             $entity->setSize($item['taille']);
-            $entity->setAdded(strtotime($item['chemin']));
+            $entity->setAdded(strtotime($item['date']));
 
             $status = $item['statut'] == 'ok' ? 'OK' : 'NEEDINFOS';
             $entity->setStatus($status);
