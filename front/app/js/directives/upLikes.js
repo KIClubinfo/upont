@@ -10,9 +10,9 @@ angular.module('upont').directive('upLikes', ['$window', function($window) {
                     $resource(apiPrefix + $scope.url + '/like').save(function() {
                         $scope.objet.likes++;
                         $scope.objet.like = true;
-                        if ($scope.objet.unlike) {
-                            $scope.objet.unlike = false;
-                            $scope.objet.unlikes--;
+                        if ($scope.objet.dislike) {
+                            $scope.objet.dislike = false;
+                            $scope.objet.dislikes--;
                         }
                     });
                 } else {
@@ -24,10 +24,10 @@ angular.module('upont').directive('upLikes', ['$window', function($window) {
             };
 
             $scope.downvote = function() {
-                if (!$scope.objet.unlike) {
+                if (!$scope.objet.dislike) {
                     $resource(apiPrefix + $scope.url + '/dislike').save(function() {
-                        $scope.objet.unlikes++;
-                        $scope.objet.unlike = true;
+                        $scope.objet.dislikes++;
+                        $scope.objet.dislike = true;
                         if ($scope.objet.like) {
                             $scope.objet.like = false;
                             $scope.objet.likes--;
@@ -35,8 +35,8 @@ angular.module('upont').directive('upLikes', ['$window', function($window) {
                     });
                 } else {
                     $resource(apiPrefix + $scope.url + '/dislike').remove(function() {
-                        $scope.objet.unlikes--;
-                        $scope.objet.unlike = false;
+                        $scope.objet.dislikes--;
+                        $scope.objet.dislike = false;
                     });
                 }
             };
