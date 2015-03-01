@@ -74,10 +74,8 @@ class JWTResponseListener
         if (!$user instanceof \KI\UpontBundle\Entity\Users\User)
             return $this->badCredentials($event, 'Utilisateur non trouvé');
 
-        // On regarde si le mot de passe stocké dans la BDD est vide, si non on
-        // balance une 401
-        $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);
-        if (!$encoder->isPasswordValid($user->getPassword(), 'migration_pass_impossible_to_reproduce', $user->getSalt()))
+        // On regarde si l'utilisateur est activé ou non, si oui on balance une 401
+        if ($user->isEnabled())
             return $this->badCredentials($event, 'Mauvais mot de passe');
 
         // Si le mot de passe de la BDD est vide, l'utilisateur se connecte pour
@@ -107,7 +105,8 @@ class JWTResponseListener
 
         // Si la connexion a réussie, le mot de passe proxy est bon
         // On le stocke dans la BDD (vol de mot de passe mwahahahah)
-        $user->setPlainPassword($request->get('password'));
+        $user->setPlainPassword($password);
+        $user->setEnabled(true);
         $userManager->updateUser($user);
 
         // On reteste le login maintenant que le mot de passe est bon
