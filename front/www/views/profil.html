@@ -75,8 +75,8 @@
             </div>
             <div class="col-xs-8">
                 <h2>{{ club.short_name }}</h2>
-                <button class="btn-suivi active" ng-show="club.suivi" ng-click="club.suivi = false; unsubscribe(club.slug);">Suivi</button>
-                <button class="btn-suivi" ng-show="!club.suivi" ng-click="club.suivi = true; subscribe(club.slug);">Suivre</button>
+                <button class="btn-suivi active" ng-show="club.suivi" ng-click="unsubscribe(club.slug);">Suivi</button>
+                <button class="btn-suivi" ng-show="!club.suivi" ng-click="subscribe(club.slug);">Suivre</button>
             </div>
         </div>
         <div ng-repeat-end ng-if="$index%2 == 1" class="clearfix visible-lg visible-md visible-sm"></div>
