@@ -12,7 +12,6 @@ class UserType extends AbstractType
     {
         $builder
             ->add('gender')
-            ->add('dsi')
             ->add('firstName')
             ->add('lastName')
             ->add('nickname')
@@ -22,7 +21,8 @@ class UserType extends AbstractType
             ->add('nationality')
             ->add('location')
             ->add('phone')
-            ->add('skype');
+            ->add('skype')
+            ->add('image', 'imageuploader_selector');
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
