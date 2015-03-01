@@ -15,7 +15,13 @@ describe("Disconnected_Ctrl", function() {
             return jsonData.username == 'de-boisc' && jsonData.password == '123';
         })
         .respond(200, {
-            "token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE0MjUyNTgwMDAsInVzZXJuYW1lIjoiZGUtYm9pc2MiLCJpcCI6IjEyNy4wLjAuMSIsImlhdCI6IjE0MjQ2NTI3NDUifQ.j5OykI6mxltE0Hlb-8_GrdQt4hU6FHT82B9LZJUUWorPl0qoj9MkLTgEboPBQyzp7avUZCBMXVGbxiwZSaMSIcGA27yBaFWRvRmwW1yLRTYCnO6xPsaCbpDW7GP_7S7NTgB3h5xqolZ0xmuoghmn1Fu-QPDrGr81fzFd2gKthFSMPCUBFvx-mFcCyfVkYwK1L3gEdsvNhZeeH2GhrCNLriA2g7ZgAM8x1tHmsaKFpwU9FPaNIhgV-6KrR_UCh2MtMqRv97eEHPOZPFLRcq8y2YJ6VnBT9LlEcRb9DyYI0H-6QXqnIQ7kzbb-f42wH002SDIWyrbcGE0IZWcQSzAzRg",
+            'token': 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjMwMDMwOTQ4MDAsI'+
+            'nVzZXJuYW1lIjoiZGUtYm9pc2MiLCJpcCI6IjEyNy4wLjAuMSIsImlhdCI6IjE0MjUyMzg4'+
+            'MTIifQ.g75obLfQmHXC5gsgA1F2SO42NYS4QISBoz5M0LdzdrrEdAMbRMYYUR7AUzU2i-td'+
+            'f2SCnFUQx6bXQn3dItxNG8_HJrsIWV31H892KsawQlry6DhovH_jFf97uc7p466_u881ff9'+
+            'Qk_qFJdBHP2aou6glArWhGjqFaSI_2ISE3DvDBY8nWKQF1hXP3OaZR7mK4PScFmO2kkAudj'+
+            'yNWouaZ5O_oBBEFoMvu68W3-3xuM65ATwN7kgd86ZROIYUC44fAPNcy3cO7Uh3Tvuds_by2'+
+            'Risfdh1TF_K0xTyjQudY1q8Z0kf1JdE2KdlMc-_D1346bWncJMElb1pcIWAQ_uZ5g',
             "code": 200,
             "data": {
                 "username": "de-boisc",
@@ -26,6 +32,7 @@ describe("Disconnected_Ctrl", function() {
                 "first": false
             }
         });
+        //Ce token est valable jusqu'en 2065 donc ça va...
         $scope = $rootScope.$new();
 
         //Cancel the behavior of $state.go(..)
@@ -37,7 +44,8 @@ describe("Disconnected_Ctrl", function() {
     afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
-        localStorage.setItem('token_exp', Math.floor(Date.now() / 1000) + 3600 );
+
+        localStorage.clear();
     });
 
     it('should not try logging without the inputs being filled', function(){

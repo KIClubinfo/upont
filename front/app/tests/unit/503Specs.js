@@ -1,6 +1,5 @@
 describe("503_Ctrl", function() {
     var $rootScope, $controller,$state, $scope;
-
     beforeEach(module('upont'));
 
     beforeEach(inject(function(_$rootScope_, _$controller_, _$state_) {
@@ -14,6 +13,10 @@ describe("503_Ctrl", function() {
         spyOn($state, 'go').and.callFake(function(state, params) {
         });
     }));
+
+    afterEach(function(){
+        localStorage.clear();
+    });
 
     it('should load the maintenance remaining time', function(){
         localStorage.setItem('maintenance', 10);
