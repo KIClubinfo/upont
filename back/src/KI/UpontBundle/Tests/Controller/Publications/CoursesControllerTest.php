@@ -5,7 +5,6 @@ namespace KI\UpontBundle\Tests\Controller\Publications;
 use KI\UpontBundle\Tests\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 class CoursesControllerTest extends WebTestCase
 {
@@ -41,13 +40,6 @@ class CoursesControllerTest extends WebTestCase
         $this->assertJsonResponse($response, 404);
 
         $this->client->request('GET', '/own/courses');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-    }
-
-    public function testGetOwn()
-    {
-        $this->client->request('GET', '/own/coursesitems');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
     }

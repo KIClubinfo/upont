@@ -19,7 +19,7 @@ class KIToken extends ContainerAware
         }
 
 
-        if ($user->getToken() == null) {
+        if (empty($user->getToken())) {
             $manager = $this->container->get('doctrine.orm.entity_manager');
             $char = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             //OHHHH OUI que c'est beau !
@@ -28,12 +28,11 @@ class KIToken extends ContainerAware
             //On check que le token n'est pas deja pris, au cas ou on aurait la poisse
             $repo = $manager->getRepository('KIUpontBundle:Users\User');
             $userSameToken = $repo->findByToken($token);
-            if ($userSameToken == null) {
+            if (empty($userSameToken)) {
                 $user->setToken(substr($token, 0, 8));
                 $manager->flush();
             } else {
                 //Oh oui #2 J'ose ou j'ose pas ! Dieu (ou Albe) seul sait si cette instruction marche !
-                // Mouais, c'est juste une boucle récursive jusqu'à ce que ca marche... #codeSale #moche #CeluiOuCelleQuiAFaitCaMériteDeMangerDesPhallusEnEnfer
                 return $this->getToken();
             }
         }

@@ -13,7 +13,7 @@ class AchievementListener
     protected $container;
     protected $manager;
     protected $user;
-    // Liste des achievements unlockés actuellement
+    // Liste des achievements unlockés actuellement (identifiants)
     protected $achievements = array();
 
     public function __construct(ContainerInterface $container)
@@ -26,8 +26,8 @@ class AchievementListener
         $this->user = $token === null ? null : $token->getUser();
         if ($this->user !== null) {
             $response = $repoAU->findByUser($this->user);
-            foreach($response as $achievementUser)
-                $this->achievements[] = $achievementUser->getAchievement();
+            foreach ($response as $achievementUser)
+                $this->achievements[] = $achievementUser->getAchievement()->getIdA();
         }
     }
 
@@ -37,32 +37,70 @@ class AchievementListener
         // On vérifie tout d'abord si l'achievement concerné n'est pas déjà reçu
         $achievement = $event->getAchievement();
 
-        if(!$this->user instanceof \KI\UpontBundle\Entity\Users\User || in_array($achievement, $this->achievements))
+        if (!$this->user instanceof \KI\UpontBundle\Entity\Users\User
+            || in_array($achievement->getIdA(), $this->achievements))
             return false;
 
         // Sinon, on lance le check associé
         $check = false;
-        $method = 'check' . $achievement->getAchievement();
-        if(method_exists($this, $method))
+        $method = 'check' . $achievement->getIdA();
+        if (method_exists($this, $method))
             $check = $this->$method();
 
-        // Si le check est bon, on ajoute l'achievement et on crée une notification
-        if(!$check)
+        // Si le check est bon
+        if (!$check)
             return false;
 
+        // On ajoute l'achievement
+        $pointsBefore = $this->points();
         $achievementUser = new AchievementUser();
         $repoA = $this->manager->getRepository('KIUpontBundle:Achievement');
-        $achievementUser->setAchievement($repoA->findOneByAchievement($achievement->getAchievement()));
+        $achievementUser->setAchievement($repoA->findOneByAchievement($achievement->getIdA()));
         $achievementUser->setUser($this->user);
         $achievementUser->setDate(time());
         $this->manager->persist($achievementUser);
+        $this->achievements[] = $achievement->getIdA();
 
-        $notification = new Notification($achievement->name(), $achievement->description(), 'to');
+        // On crée des notifications
+        $notification = new Notification('notif_achievement', $achievement->name(), $achievement->description(), 'to');
         $notification->addRecipient($this->user);
         $this->manager->persist($notification);
 
+        // Si l'utilisateur passe de niveau
+        if (Achievement::getLevel($this->points()) > Achievement::getLevel($pointsBefore)) {
+            $level = Achievement::getLevel($this->points())['current'];
+            $title = 'Passage au statut de ' . $level['name'];
+            $notification = new Notification('notif_next_level', $title, $level['description'], 'to');
+            $notification->addRecipient($this->user);
+            $this->manager->persist($notification);
+        }
+
         $this->manager->flush();
         return true;
+    }
+
+    // Calcule le nombre de points de l'utilisateur
+    public function points()
+    {
+        $points = 0;
+        $factor = 1;
+
+        // On regarde quels achievements sont locked et on en profite pour
+        // calculer le nombre de points de l'utilisateur obtenus par les
+        // achievements
+        foreach ($this->achievements as $achievement) {
+            $achievement = new Achievement($achievement);
+            if (gettype($achievement->points()) == 'integer') {
+                $points += $achievement->points();
+            } else if ($achievement->points() == '+10%') {
+                $factor += 0.1;
+            } else if ($achievement->points() == '+15%') {
+                $factor += 0.15;
+            } else if ($achievement->points() == '+75%') {
+                $factor += 0.75;
+            }
+        }
+        return ceil($factor*$points);
     }
 
     // Fonctions de check correspondant aux divers achievements

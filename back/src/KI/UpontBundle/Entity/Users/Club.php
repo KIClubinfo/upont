@@ -4,9 +4,8 @@ namespace KI\UpontBundle\Entity\Users;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
-use KI\UpontBundle\Entity\Likeable;
+use KI\UpontBundle\Entity\Core\Likeable;
 
 /**
  * @ORM\Entity

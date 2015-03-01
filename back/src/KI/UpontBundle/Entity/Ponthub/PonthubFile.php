@@ -5,7 +5,7 @@ namespace KI\UpontBundle\Entity\Ponthub;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use KI\UpontBundle\Entity\Likeable;
+use KI\UpontBundle\Entity\Core\Likeable;
 
 /**
  * @ORM\Entity
@@ -88,7 +88,7 @@ class PonthubFile extends Likeable
     public function tags()
     {
         $tags = array();
-        foreach($this->listTags as $tag)
+        foreach ($this->listTags as $tag)
             $tags[] = $tag->getName();
         return $tags;
     }
@@ -106,7 +106,7 @@ class PonthubFile extends Likeable
     public function genres()
     {
         $genres = array();
-        foreach($this->listGenres as $genre)
+        foreach ($this->listGenres as $genre)
             $genres[] = $genre->getName();
         return $genres;
     }

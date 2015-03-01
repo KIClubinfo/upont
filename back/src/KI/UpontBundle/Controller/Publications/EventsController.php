@@ -4,11 +4,9 @@ namespace KI\UpontBundle\Controller\Publications;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use KI\UpontBundle\Entity\Publications\EventUser;
-use KI\UpontBundle\Entity\Notification;
 
 class EventsController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
@@ -69,13 +67,33 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
     {
         $return = $this->partialPost($this->checkClubMembership());
 
-        // On modifie légèrement la ressource qui vient d'être créée
-        $return['item']->setDate(time());
-        $return['item']->setAuthorUser($this->container->get('security.context')->getToken()->getUser());
+        if ($return['code'] == 201) {
+            // On modifie légèrement la ressource qui vient d'être créée
+            $return['item']->setDate(time());
+            $return['item']->setAuthorUser($this->container->get('security.context')->getToken()->getUser());
 
-        $notif = new Notification('Notif test', 'Ceci est une notification test crée lors de la création d\'un event. Elle est envoyée a tous les utilisateurs de YouPont', 'exclude');
-        $this->em->persist($notif);
-        $this->em->flush();
+            $club = $return['item']->getAuthorClub();
+
+            // Si ce n'est pas un event perso, on notifie les utilisateurs suivant le club
+            if ($club) {
+                $allUsers = $this->em->getRepository('KIUpontBundle:Users\User')->findAll();
+                $users = array();
+
+                foreach ($allUsers as $candidate) {
+                    if (!$candidate->getClubsNotFollowed()->contains($club))
+                        $users[] = $candidate;
+                }
+
+                $text = $return['item']->getTextShort() !== null ? $return['item']->getTextShort() : '';
+                $this->notify(
+                    'notif_followed_event',
+                    $return['item']->getName(),
+                    $text,
+                    'to',
+                    $users
+                );
+            }
+        }
 
         return $this->postView($return);
     }
@@ -241,6 +259,22 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
         $userEvent = $repo->findBy(array('event' => $event, 'user' => $user));
 
         if (count($userEvent) == 1) {
+            $event = $userEvent[0]->getEvent();
+
+            // On regarde si une place s'est libérée pour quelqu'un, au cas où
+            // on le prévient
+            $userEvents = $repo->findBy(array('event' => $event));
+
+            if (isset($userEvents[$event->getShotgunLimit()])) {
+                $this->notify(
+                    'notif_shotgun_freed',
+                    $event->getName(),
+                    'Des places de shotgun se sont libérées, tu as maintenant accès à l\'événément !',
+                    'to',
+                    $userEvents[$event->getShotgunLimit()]->getUser()
+                );
+            }
+
             $this->em->remove($userEvent[0]);
             $this->em->flush();
         } else {
@@ -274,9 +308,9 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
         $limit = $event->getShotgunLimit();
 
         $fail = $success = $shotgun = array();
-        $count = count($userEvent);
+        $count = min(count($userEvent), $limit);
 
-        for ($i = 0; $i < min($count, $limit); $i++) {
+        for ($i = 0; $i < $count; $i++) {
             // Si le shotgun a été fait avant la date prévue, on passe
             if ($userEvent[$i]->getDate() < $event->getShotgunDate()) {
                 $position = 0;
@@ -345,7 +379,7 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
      * )
      * @Route\Post("/events/{slug}/attend")
      */
-    public function attendAction($slug){
+    public function attendAction($slug) {
         $user = $this->get('security.context')->getToken()->getUser();
         $event = $this->findBySlug($slug);
 
@@ -377,7 +411,7 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
      * )
      * @Route\Delete("/events/{slug}/attend")
      */
-    public function noAttendAction($slug){
+    public function noAttendAction($slug) {
         $user = $this->get('security.context')->getToken()->getUser();
         $event = $this->findBySlug($slug);
 
@@ -405,7 +439,7 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
      * )
      * @Route\Post("/events/{slug}/decline")
      */
-    public function addPookieAction($slug){
+    public function addPookieAction($slug) {
         $user = $this->get('security.context')->getToken()->getUser();
         $event = $this->findBySlug($slug);
 
@@ -437,7 +471,7 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
      * )
      * @Route\Delete("/events/{slug}/decline")
      */
-    public function removePookieAction($slug){
+    public function removePookieAction($slug) {
         $user = $this->get('security.context')->getToken()->getUser();
         $event = $this->findBySlug($slug);
 
@@ -465,7 +499,7 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
      * )
      * @Route\Get("/events/{slug}/attendees")
      */
-    public function getAttendeesAction($slug){ return $this->restResponse($this->findBySlug($slug)->getAttendees()); }
+    public function getAttendeesAction($slug) { return $this->restResponse($this->findBySlug($slug)->getAttendees()); }
 
     /**
      * @ApiDoc(
@@ -481,5 +515,5 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
      * )
      * @Route\Get("/events/{slug}/pookies")
      */
-    public function getPookiesAction($slug){ return $this->restResponse($this->findBySlug($slug)->getPookies()); }
+    public function getPookiesAction($slug) { return $this->restResponse($this->findBySlug($slug)->getPookies()); }
 }

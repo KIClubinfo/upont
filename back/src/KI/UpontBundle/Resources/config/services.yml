@@ -26,12 +26,12 @@ services:
             - { name: doctrine.event_listener, event: postPersist }
 
     # Écoute les checks d'achievements demandés un peu partout dans le code
-    ki_upont.listener.achievement:
-        class: KI\UpontBundle\EventListener\AchievementListener
-        arguments:
-            container: "@service_container"
-        tags:
-            - { name: kernel.event_listener, event: upont.achievement, method: check }
+    #ki_upont.listener.achievement:
+    #    class: KI\UpontBundle\EventListener\AchievementListener
+    #    arguments:
+    #        container: "@service_container"
+    #    tags:
+    #        - { name: kernel.event_listener, event: upont.achievement, method: check }
 
 
 
@@ -120,7 +120,6 @@ services:
         class: %upont_api.event.jwt_response_listener.class%
         arguments:
             container: "@service_container"
-            manager: "@doctrine.orm.entity_manager"
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_failure, method: onAuthenticationFailureResponse }

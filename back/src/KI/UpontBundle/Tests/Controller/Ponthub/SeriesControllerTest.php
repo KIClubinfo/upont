@@ -23,7 +23,7 @@ class SeriesControllerTest extends WebTestCase
 
     public function testPatch()
     {
-        $this->client->request('PATCH', '/series/how-i-met-your-mother',  array('year' => '2004'));
+        $this->client->request('PATCH', '/series/how-i-met-your-mother', array('year' => '2004'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
@@ -55,7 +55,7 @@ class SeriesControllerTest extends WebTestCase
 
     public function testPatchEpisode()
     {
-        $this->client->request('PATCH', '/series/how-i-met-your-mother/episodes/pilot',  array('name' => 'PiLoT'));
+        $this->client->request('PATCH', '/series/how-i-met-your-mother/episodes/pilot', array('name' => 'PiLoT'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 

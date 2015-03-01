@@ -2,9 +2,8 @@
 
 namespace KI\UpontBundle\Controller\Core;
 
-use FOS\RestBundle\Controller\Annotations as Route;
-use FOS\RestBundle\View\View as RestView;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use KI\UpontBundle\Entity\Notification;
 
 // Fonctions génériques
 class BaseController extends \FOS\RestBundle\Controller\FOSRestController
@@ -27,7 +26,7 @@ class BaseController extends \FOS\RestBundle\Controller\FOSRestController
 
         // Fully qualified class names
         $this->class = 'KI\UpontBundle\Entity\\' . $this->namespace . $this->className;
-        $this->form = 'KI\UpontBundle\Form\\'. $this->namespace . $this->className. 'Type';
+        $this->form = 'KI\UpontBundle\Form\\' . $this->namespace . $this->className . 'Type';
         $this->em = $this->getDoctrine()->getManager();
         $this->repo = $this->em->getRepository('KIUpontBundle:' . $this->namespace . $this->className);
 
@@ -47,11 +46,40 @@ class BaseController extends \FOS\RestBundle\Controller\FOSRestController
         $this->initialize($class, str_replace('\\', '', $this->namespace));
     }
 
+
+
+
+
+
+
+
     // Fonctions de génération de réponse
     public function restResponse($data, $code = 200, array $headers = array())
     {
         return new \Symfony\Component\HttpFoundation\Response(
             $this->get('jms_serializer')->serialize($data, 'json'),
+            $code,
+            $headers
+        );
+    }
+
+    // Attendre que le vendor soit updaté, on doit passer par le service
+    // et ne pas créer le serializer nous même. Le résultat est que la configuration
+    // du serializer n'est pas chargée, ce qui fait par exemple que toute entité
+    // serializée par cette fonction qui contiendra un User exposera le hash du
+    // mot de passe...
+    public function restContextResponse($data, $code = 200, array $headers = array(), $context = null)
+    {
+        $serializer = \JMS\Serializer\SerializerBuilder::create()->build();
+        if ($context) {
+            $config = \JMS\Serializer\SerializationContext::create();
+            $serialized = $serializer->serialize($data, 'json', $config->setGroups(array('Default', $context)));
+        } else {
+            $serialized = $serializer->serialize($data, 'json');
+        }
+
+        return new \Symfony\Component\HttpFoundation\Response(
+            $serialized,
             $code,
             $headers
         );
@@ -66,6 +94,12 @@ class BaseController extends \FOS\RestBundle\Controller\FOSRestController
     {
         return new \Symfony\Component\HttpFoundation\Response($data, $code, $headers);
     }
+
+
+
+
+
+
 
     // Sert à checker si l'utilisateur actuel est membre du club au nom duquel il poste
     protected function checkClubMembership($slug = null)
@@ -107,5 +141,30 @@ class BaseController extends \FOS\RestBundle\Controller\FOSRestController
             throw new NotFoundHttpException('Objet ' . $this->className . ' non trouvé');
 
         return $item;
+    }
+
+    // Emet une notification
+    protected function notify($reason, $title, $message, $mode = 'to', $recipient = array(), $resource = '')
+    {
+        $notification = new Notification($reason, $title, $message, $mode, $resource);
+
+        if ($mode == 'to') {
+            if (is_array($recipient)) {
+                foreach ($recipient as $user) {
+                    $notification->addRecipient($user);
+                }
+            } else {
+                $notification->addRecipient($recipient);
+            }
+        } else if ($mode == 'exclude') {
+            $users = $this->em->getRepository('KIUpontBundle:Users\User')->findAll();
+
+            foreach ($users as $user) {
+                if (in_array($user, $recipient))
+                    continue;
+                $notification->addRecipient($user);
+            }
+        }
+        $this->em->persist($notification);
     }
 }

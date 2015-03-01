@@ -5,7 +5,7 @@ namespace KI\UpontBundle\Entity\Publications;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use KI\UpontBundle\Entity\Likeable;
+use KI\UpontBundle\Entity\Core\Likeable;
 
 /**
  * @ORM\HasLifecycleCallbacks
@@ -17,7 +17,6 @@ class Exercice extends Likeable
     /**
      * Utilisateur qui a uploadé l'annale
      * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User")
-     * @JMS\Expose
      * @ORM\JoinColumn(nullable=false)
      */
     private $uploader;
@@ -50,12 +49,12 @@ class Exercice extends Likeable
 
     public function getBasePath()
     {
-        return __DIR__.'/../../../../../web/uploads/exercices/';
+        return __DIR__ . '/../../../../../web/uploads/exercices/';
     }
 
     public function getAbsolutePath()
     {
-        return __DIR__.'/../../../../../web/uploads/exercices/' . $this->id . '.pdf';
+        return __DIR__ . '/../../../../../web/uploads/exercices/' . $this->id . '.pdf';
     }
 
     public function getWebPath()

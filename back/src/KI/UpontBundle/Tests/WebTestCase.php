@@ -2,10 +2,7 @@
 
 namespace KI\UpontBundle\Tests;
 
-use Symfony\Bundle\FrameworkBundle\Client;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\User\User;
 use Liip\FunctionalTestBundle\Test\WebTestCase as LiipWebTestCase;
 
 abstract class WebTestCase extends LiipWebTestCase
@@ -20,14 +17,22 @@ abstract class WebTestCase extends LiipWebTestCase
     {
         parent::__construct();
 
-        $client = static::createClient();
-        $client->request('POST', $this->getUrl('login'), array('username' => 'trancara', 'password' => 'password'));
-        $response = $client->getResponse();
-        $data = json_decode($response->getContent(), true);
+        // On ne se logge qu'une fois pour tous les tests
+        $path = __DIR__ . '/../../../../app/cache/token';
+        if (!file_exists($path)) {
+            $client = static::createClient();
+            $client->request('POST', $this->getUrl('login'), array('username' => 'trancara', 'password' => 'password'));
+            $response = $client->getResponse();
+            $data = json_decode($response->getContent(), true);
+            $this->assertArrayHasKey('token', $data);
+            file_put_contents($path, $data['token']);
+
+            // On charge aussi les fixtures
+            self::runCommand('doctrine:fixtures:load --purge-with-truncate --append');
+        }
 
         $client = static::createClient();
-        $this->assertArrayHasKey('token', $data);
-        $client->setServerParameter('HTTP_Authorization', sprintf('%s %s', $this->authorizationHeaderPrefix, $data['token']));
+        $client->setServerParameter('HTTP_Authorization', $this->authorizationHeaderPrefix . ' ' . file_get_contents($path));
         $this->client = $client;
     }
 

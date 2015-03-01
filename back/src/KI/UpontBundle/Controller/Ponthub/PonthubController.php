@@ -8,7 +8,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-
 use KI\UpontBundle\Entity\Ponthub\Album;
 use KI\UpontBundle\Entity\Ponthub\Episode;
 use KI\UpontBundle\Entity\Ponthub\Game;
@@ -77,21 +76,21 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
         $this->em = $this->getDoctrine()->getManager();
         $repoSeries = $this->em->getRepository('KIUpontBundle:Ponthub\Serie');
         $repoAlbums = $this->em->getRepository('KIUpontBundle:Ponthub\Album');
-        $paths = $this->repo->createQueryBuilder('r')->select('r.path')->getQuery()->getScalarResult();;
-        $paths = array_map('current', $paths);;
+        $paths = $this->repo->createQueryBuilder('r')->select('r.path')->getQuery()->getScalarResult(); ;
+        $paths = array_map('current', $paths); ;
 
         // On stocke les albums et les séries existantes
         $result = $repoSeries->findAll();
-        foreach($result as $serie)
+        foreach ($result as $serie)
             $series[$serie->getName()] = $serie;
         $result = $repoAlbums->findAll();
-        foreach($result as $album)
+        foreach ($result as $album)
             $albums[$album->getName()] = $album;
 
         // On liste aussi les genres pour les musiques
         $repoGenres = $this->em->getRepository('KIUpontBundle:Ponthub\Genre');
         $result = $repoGenres->findAll();
-        foreach($result as $genre)
+        foreach ($result as $genre)
             $genres[$genre->getName()] = $genre;
 
         // On parcourt la liste ligne par ligne
@@ -181,10 +180,8 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
                     $serieItem->setVo(true);
                     $serieItem->setHd(false);
                     $this->em->persist($serieItem);
-                    $this->em->flush();
                     $series[$serie] = $serieItem;
-                }
-                else
+                } else
                     $serieItem = $series[$serie];
                 if (!in_array('/root/web/series/' . $serie . '/', $pathsDone))
                     $pathsDone[] = '/root/web/series/' . $serie . '/';
@@ -216,10 +213,8 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
                     $genreItem = new Genre();
                     $genreItem->setName($genre);
                     $this->em->persist($genreItem);
-                    $this->em->flush();
                     $genres[$genre] = $genreItem;
-                }
-                else
+                } else
                     $genreItem = $genres[$genre];
 
                 // Si l'album existe, on le récupère, sinon on le rajoute
@@ -228,16 +223,15 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
                     $albumItem->setName($album);
                     $albumItem->setArtist($artist);
                     $albumItem->setStatus('NeedInfos');
-                    $albumItem->setPath('/root/web/musiques/' . $genre .'/' . $artist . '/' . $album . '/');
+                    $albumItem->setPath('/root/web/musiques/' . $genre . '/' . $artist . '/' . $album . '/');
                     $this->em->persist($albumItem);
-                    $this->em->flush();
                     $albums[$album] = $albumItem;
-                    $pathsDone[] = '/root/web/musiques/' . $genre .'/' . $artist . '/' . $album . '/';
+                    $pathsDone[] = '/root/web/musiques/' . $genre . '/' . $artist . '/' . $album . '/';
                 }
                 else
                     $albumItem = $albums[$album];
-                if (!in_array('/root/web/musiques/' . $genre .'/' . $artist . '/' . $album . '/', $pathsDone))
-                    $pathsDone[] = '/root/web/musiques/' . $genre .'/' . $artist . '/' . $album . '/';
+                if (!in_array('/root/web/musiques/' . $genre . '/' . $artist . '/' . $album . '/', $pathsDone))
+                    $pathsDone[] = '/root/web/musiques/' . $genre . '/' . $artist . '/' . $album . '/';
 
                 // Maintenant on range la musique
                 $item = new Music();
@@ -257,10 +251,20 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
         $notFound = array_diff($paths, $pathsDone);
         $items = $this->repo->findByPath($notFound);
 
-        foreach($items as $item) {
+        foreach ($items as $item) {
             if (get_class($item) != 'KI\UpontBundle\Entity\Ponthub\Album'
              && get_class($item) != 'KI\UpontBundle\Entity\Ponthub\Serie')
                 $item->setStatus('NotFound');
+        }
+
+        // Si des nouveaux fichiers ont été ajoutés, on notifie les utilisateurs
+        $count = count(array_diff($pathsDone, $paths));
+        if ($count > 0) {
+            $this->notify(
+                'notif_ponthub',
+                'Ponthub',
+                'De nouveaux fichiers sont disponibles sur Ponthub !'
+            );
         }
         $this->em->flush();
 

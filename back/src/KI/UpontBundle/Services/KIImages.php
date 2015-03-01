@@ -3,6 +3,7 @@
 namespace KI\UpontBundle\Services;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class KIImages extends ContainerAware
 {
@@ -14,19 +15,24 @@ class KIImages extends ContainerAware
             $imgString = base64_decode($data);
             $image = imagecreatefromstring($imgString);
 
-            if ($image != null)
+            if ($image !== null) {
                 $ext = explode('/', getimagesizefromstring($imgString)['mime'])[1];
-        }
 
-        return array(
-            'image' => $imgString,
-            'extension' => $ext
-        );
+                return array(
+                    'image' => $imgString,
+                    'extension' => $ext
+                );
+            }
+        }
+        return null;
     }
 
     // Upload d'une image à partir d'une URL et renvoie l'image sous forme de string et son extension
     public function uploadUrl($url)
     {
+        if (!preg_match('#^(https?://)?([\da-z\.-]+)\.([a-z\.]{2,6})([/\w \.-]*)*/?$#', $url))
+            throw new BadRequestHttpException('Ceci n\'est pas une url : ' . $url);
+
         $curl = $this->container->get('ki_upont.curl');
 
         // Réglage des options cURL
@@ -45,7 +51,7 @@ class KIImages extends ContainerAware
 
         //Récupération de l'extension
         $image = imagecreatefromstring($data);
-        if ($image != null)
+        if ($image !== null)
             $ext = explode('/', getimagesizefromstring($data)['mime'])[1];
         else
             throw new \Exception('Image non reconnue');
