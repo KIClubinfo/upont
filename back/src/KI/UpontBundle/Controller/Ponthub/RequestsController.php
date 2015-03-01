@@ -2,7 +2,6 @@
 
 namespace KI\UpontBundle\Controller\Ponthub;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 class RequestsController extends \KI\UpontBundle\Controller\Core\ResourceController

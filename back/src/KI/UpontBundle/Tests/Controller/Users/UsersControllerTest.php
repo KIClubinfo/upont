@@ -61,7 +61,7 @@ class UsersControllerTest extends WebTestCase
 
     public function testPatch()
     {
-        $this->client->request('PATCH', '/users/testificate', array('firstName' => 'KIMiam', 'gender' => 'M', 'phone' => '06.45.03.69.58'));
+        $this->client->request('PATCH', '/users/testificate', array('firstName' => 'KIMiam', 'gender' => 'M', 'phone' => '06.45.03.69.58', 'promo' => '016', 'department' => 'GCC', 'skype' => 'megaPseudo', 'origin' => 'Concours Commun', 'nationality' => 'France', 'location' => 'A51', 'image' => 'http://i.imgur.com/QKKfs.png'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
@@ -95,13 +95,6 @@ class UsersControllerTest extends WebTestCase
     public function testCalendar()
     {
         $this->client->request('GET', '/users/4wtyfMWp/calendar');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-    }
-
-    public function testPromoGame()
-    {
-        $this->client->request('GET', '/promo_game');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
     }

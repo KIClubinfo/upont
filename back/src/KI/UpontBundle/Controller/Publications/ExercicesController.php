@@ -110,11 +110,28 @@ class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceCon
                 throw new BadRequestHttpException('Aucun fichier présent');
 
             $this->em->flush();
+
+            // On crée une notification
+            $allUsers = $this->em->getRepository('KIUpontBundle:Users\User')->findAll();
+            $users = array();
+
+            foreach ($allUsers as $candidate) {
+                if ($candidate->getCourses()->contains($return['item']))
+                    $users[] = $candidate;
+            }
+
+            $this->notify(
+                'notif_followed_annal',
+                $return['item']->getName(),
+                'Une annale pour le cours ' . $course->getName() . ' est maintenant disponible',
+                'to',
+                $users
+            );
+
             $request->files->get('file')->move($return['item']->getBasePath(), $return['item']->getId() . '.pdf');
         }
         $this->switchClass();
 
-        // FIXME route bizarre, ne comprends pas
         return $this->subPostView($return, $slug, 'get_course_exercice');
     }
 

@@ -5,7 +5,6 @@ namespace KI\UpontBundle\Form\Ponthub;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use KI\UpontBundle\Form\TagType;
 
 class EpisodeType extends AbstractType
 {
@@ -14,7 +13,7 @@ class EpisodeType extends AbstractType
         $builder
             ->add('name');
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
@@ -22,7 +21,7 @@ class EpisodeType extends AbstractType
             'data_class' => 'KI\UpontBundle\Entity\Ponthub\Episode'
         ));
     }
-        
+
     public function getName()
     {
         return '';

@@ -5,7 +5,7 @@ namespace KI\UpontBundle\Entity\Publications;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use KI\UpontBundle\Entity\Likeable;
+use KI\UpontBundle\Entity\Core\Likeable;
 
 /**
  * @ORM\Entity
@@ -64,9 +64,17 @@ class Course extends Likeable
     /**
      * Liste des annales de ce cours
      * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Publications\Exercice", mappedBy="course")
+     * @JMS\Expose
      * @Assert\Valid()
      */
     protected $exercices;
+
+    /**
+     * Liste des annales de ce cours
+     * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Publications\CourseItem", mappedBy="course")
+     * @Assert\Valid()
+     */
+    protected $courseitems;
 
     //===== GENERATED AUTOMATICALLY =====//
 
@@ -77,6 +85,7 @@ class Course extends Likeable
     {
         $this->attendees = new \Doctrine\Common\Collections\ArrayCollection();
         $this->exercices = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->courseitems = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -268,5 +277,48 @@ class Course extends Likeable
     public function setExercices($exercices)
     {
         return $this->exercices = $exercices;
+    }
+
+    /**
+     * Add courseitems
+     *
+     * @param \KI\UpontBundle\Entity\Publications\Courseitem $courseitems
+     * @return Course
+     */
+    public function addCourseitem(\KI\UpontBundle\Entity\Publications\Courseitem $courseitems)
+    {
+        $this->courseitems[] = $courseitems;
+
+        return $this;
+    }
+
+    /**
+     * Remove courseitems
+     *
+     * @param \KI\UpontBundle\Entity\Publications\Courseitem $courseitems
+     */
+    public function removeCourseitem(\KI\UpontBundle\Entity\Publications\Courseitem $courseitems)
+    {
+        $this->courseitems->removeElement($courseitems);
+    }
+
+    /**
+     * Get courseitems
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCourseitems()
+    {
+        return $this->courseitems;
+    }
+
+    /**
+     * Set courseitems
+     *
+     * @return Course
+     */
+    public function setCourseitems($courseitems)
+    {
+        return $this->courseitems = $courseitems;
     }
 }

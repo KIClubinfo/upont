@@ -5,7 +5,6 @@ namespace KI\UpontBundle\Controller\Core;
 use FOS\RestBundle\Controller\Annotations as Route;
 use FOS\RestBundle\View\View as RestView;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 // Fonctions générales pour servir une ressource de type REST
 class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableController
@@ -15,7 +14,7 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
     /**
      * @Route\View()
      */
-    protected function getAll()
+    protected function getAll($results = null, $context = null)
     {
         // On pagine les résultats
         $request = $this->getRequest()->query;
@@ -54,8 +53,16 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
 
         // On génère les résultats et les liens
         $results = $this->repo->findBy($findBy, $sortBy, $limit, ($page-1)*$limit);
-        foreach($results as $key => $result)
+
+        foreach ($results as $key => $result) {
             $results[$key] = $this->retrieveLikes($result);
+
+            // Cas spécial pour les événements : on ne veut pas afficher les événements
+            // perso de tout le monde
+            if ($this->className == 'Event' && $results[$key]->getAuthorClub() === null)
+                unset($results[$key]);
+        }
+
         $baseUrl = '<' . str_replace($this->getRequest()->getBaseUrl(), '', $this->getRequest()->getRequestUri()) . '?page=';
         $links = array(
             $baseUrl . $page . '&limit=' . $limit . '>;rel=self',
@@ -67,6 +74,20 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
             $links[] = $baseUrl . ($page - 1) . '&limit=' . $limit . '>;rel=previous';
         if ($page < $totalPages)
             $links[] = $baseUrl . ($page + 1) . '&limit=' . $limit . '>;rel=next';
+
+        // À refacto quand la PR sur le JMSSerializerBundle sera effectuée
+        // (voir BaseController::restResponseContext pour plus de détails)
+        if ($context) {
+            return $this->restContextResponse(
+                $results,
+                200,
+                array(
+                    'Links' => implode(',', $links),
+                    'Total-count' => $count
+                ),
+                $context
+            );
+        }
 
         return $this->restResponse(
             $results,
@@ -118,8 +139,7 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
             } else {
                 $code = 204;
             }
-        }
-        else
+        } else
             $this->em->detach($item);
 
         return array('form' => $form, 'item' => $item, 'code' => $code);

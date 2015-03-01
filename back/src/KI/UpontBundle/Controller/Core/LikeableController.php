@@ -3,11 +3,8 @@
 namespace KI\UpontBundle\Controller\Core;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use FOS\RestBundle\Controller\Annotations as Route;
-use FOS\RestBundle\View\View as RestView;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use KI\UpontBundle\Entity\Comment;
+use KI\UpontBundle\Entity\Core\Comment;
 
 // Fonctions de like/dislike/commentaire
 class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
@@ -42,7 +39,7 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
         case 'games'    : $this->initialize('Game', 'Ponthub');          break;
         case 'softwares': $this->initialize('Software', 'Ponthub');      break;
         case 'others'   : $this->initialize('Other', 'Ponthub');         break;
-        case 'comments' : $this->initialize('Comment');                  break;
+        case 'comments' : $this->initialize('Comment', 'Core');          break;
 
         default: return;
         }
@@ -223,12 +220,25 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
     {
         $this->autoInitialize($object);
         $item = $this->findBySlug($slug);
-        return $this->restResponse($item->getComments());
+        $comments = $item->getComments();
+
+        foreach ($comments as &$comment) {
+            $comment = $this->retrieveLikes($comment);
+        }
+
+        return $this->restResponse($comments);
     }
 
     /**
      * @ApiDoc(
      *  description="Ajoute un commentaire",
+     *  requirements={
+     *   {
+     *    "name"="text",
+     *    "dataType"="string",
+     *    "description"="Le commentaire"
+     *   }
+     *  },
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",
@@ -265,7 +275,7 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
         $item->addComment($comment);
         $this->em->flush();
 
-        return RestView::create($comment,
+        return $this->restResponse($comment,
             201,
             array(
                 'Location' => $this->generateUrl(
@@ -303,7 +313,7 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
         if ($request->get('text') == '')
             return $this->jsonResponse('Texte de commentaire non précisé', 400);
 
-        $this->initialize('Comment');
+        $this->initialize('Comment', 'Core');
         $comment = $this->findBySlug($id);
         $comment->setText($request->get('text'));
         $this->em->flush();
@@ -330,7 +340,7 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
         if (!($id > 0))
             return $this->jsonResponse(null, 404);
 
-        $this->initialize('Comment');
+        $this->initialize('Comment', 'Core');
         $comment = $this->findBySlug($id);
         $this->em->remove($comment);
         $this->em->flush();

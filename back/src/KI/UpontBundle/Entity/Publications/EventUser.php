@@ -2,7 +2,6 @@
 
 namespace KI\UpontBundle\Entity\Publications;
 
-use KI\UpontBundle\Entity\Publications\Post;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;

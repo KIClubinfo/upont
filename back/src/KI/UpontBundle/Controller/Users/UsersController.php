@@ -5,7 +5,6 @@ namespace KI\UpontBundle\Controller\Users;
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UsersController extends \KI\UpontBundle\Controller\Core\ResourceController
@@ -127,7 +126,7 @@ class UsersController extends \KI\UpontBundle\Controller\Core\ResourceController
         $repo = $this->em->getRepository('KIUpontBundle:Users\ClubUser');
         $clubUsers = $repo->findByUser($user);
 
-        foreach($clubUsers as $clubUser) {
+        foreach ($clubUsers as $clubUser) {
             $clubs[] = array(
                 'club' => $clubUser->getClub(),
                 'role' => $clubUser->getRole()
@@ -154,7 +153,7 @@ class UsersController extends \KI\UpontBundle\Controller\Core\ResourceController
     public function getCalendarAction($token)
     {
         $user = $this->repo->findOneByToken($token);
-        if ($user == null) {
+        if ($user === null) {
             throw new NotFoundHttpException('Aucun utilisateur ne correspond au token saisi');
         } else {
             $calStr = $this->get('ki_upont.calendar')->getCalendar($user);
@@ -165,38 +164,5 @@ class UsersController extends \KI\UpontBundle\Controller\Core\ResourceController
                 )
             );
         }
-    }
-
-    /**
-     * @ApiDoc(
-     *  description="Retourne un tableau de données pour le jeu",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Utilisateurs"
-     * )
-     * @Route\Get("/promo_game")
-     */
-    public function getPromoGameAction()
-    {
-        $maxId = $this->em->createQuery('SELECT MAX(u.id) FROM KIUpontBundle:Users\User u')->getSingleScalarResult();
-        $query = $this->em->createQuery('SELECT u FROM KIUpontBundle:Users\User u WHERE u.id >= :rand ORDER BY u.id ASC');
-        $rand1 = rand(0,$maxId);
-
-        do{
-            $rand2 = rand(0, $maxId);
-        } while($rand1 == $rand2);
-
-        do{
-            $rand3 = rand(0, $maxId);
-        } while($rand3 == $rand2 || $rand3 == $rand1);
-
-        return $this->jsonResponse(array("user1" => $query->setParameter('rand',$rand1)->setMaxResults(1)->getSingleResult()->getFirstName(),
-            "user2" => $query->setParameter('rand',$rand2)->setMaxResults(1)->getSingleResult()->getFirstName(),
-            "user3" => $query->setParameter('rand',$rand3)->setMaxResults(1)->getSingleResult()->getFirstName()
-        ),200);
     }
 }

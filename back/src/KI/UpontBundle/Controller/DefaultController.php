@@ -4,7 +4,6 @@ namespace KI\UpontBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -34,7 +33,7 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
         $repo = $manager->getRepository('KIUpontBundle:Notification');
         $notifications = $repo->findAll();
 
-        foreach($notifications as $notification) {
+        foreach ($notifications as $notification) {
             if ($notification->getDate() < time() - 15*24*3600)
                 $manager->remove($notification);
         }
@@ -87,14 +86,14 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
         $results = $repo->findAll();
         $courses = array();
         $coursesNames = array();
-        foreach($results as $course) {
+        foreach ($results as $course) {
             $courses[$course->getId()] = $course;
             $coursesNames[$course->getId()] = $course->getName() . $course->getGroup();
         }
 
         // On récupère les cours de la prochaine semaine
-        for($day = 0; $day < 8; $day++){
-            $date = time() + $day * 3600 * 24;
+        for ($day = 0; $day < 8; $day++) {
+            $date = time() + $day*3600*24;
             $url = 'http://emploidutemps.enpc.fr/index_mobile.php?code_departement=&mydate='
             . date('d', $date) . '%2F' . date('m', $date) . '%2F' . date('Y', $date);
             $result = $curl->curl($url);
@@ -116,19 +115,25 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
             // )
             list($all, $start, $end, $department, $location, $courseName, $group) = $out;
 
-            foreach($all as $id => $blank) {
+            foreach ($all as $id => $blank) {
                 $gr = str_replace('(&nbsp;)', '', $group[$id]);
                 $gr = $gr != '' ? (int) str_replace(array('(Gr', ')'), array('', ''), $gr) : 0;
                 $name = $courseName[$id];
                 $data = explode(':', $start[$id]);
-                $startDate = $data[0] * 3600 + $data[1] * 60;
+                $startDate = $data[0]*3600 + $data[1]*60;
                 $data = explode(':', $end[$id]);
-                $endDate = $data[0] * 3600 + $data[1] * 60;
+                $endDate = $data[0]*3600 + $data[1]*60;
 
                 // Si le cours existe déjà, on le récupère
                 // Sinon on crée un nouveau cours
                 if ($key = array_search($name . $gr, $coursesNames)) {
                     $course = $courses[$key];
+
+                    // On règle quand même l'heure de début et de fin si ce n'était pas fait
+                    if ($course->getStartDate() == null)
+                        $course->setStartDate($startDate);
+                    if ($course->getEndDate() == null)
+                        $course->setEndDate($endDate);
                 } else {
                     $course = new Course();
                     $course->setName($name);
@@ -138,7 +143,8 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
                     $course->setDepartment($department[$id]);
                     $course->setSemester(0);
                     $manager->persist($course);
-                    $manager->flush();
+                    $courses[] = $course;
+                    $coursesNames[] = $name . $gr;
                 }
 
                 // On ajoute l'objet à ce cours
@@ -318,7 +324,7 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
             ->from('KIUpontBundle:Users\User', 'u')
             ->where('u.lastLogin > :date')
             ->setParameter('date', new \Datetime('-' . $delay . ' minutes'));
-        return $qb->getQuery()->getResult();;
+        return $qb->getQuery()->getResult(); ;
     }
 
     /**
@@ -359,8 +365,7 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
             $this->get('mailer')->send($message);
 
             return $this->restResponse(null, 204);
-        }
-        else
+        } else
             throw new NotFoundHttpException('Utilisateur non trouvé');
     }
 
@@ -406,8 +411,7 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
             $manager->flush();
 
             return $this->restResponse(null, 204);
-        }
-        else
+        } else
             throw new NotFoundHttpException('Utilisateur non trouvé');
     }
 

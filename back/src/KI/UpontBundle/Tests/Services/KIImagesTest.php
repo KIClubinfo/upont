@@ -3,7 +3,6 @@
 namespace KI\UpontBundle\Tests\Services;
 
 use KI\UpontBundle\Tests\WebTestCase;
-use KI\UpontBundle\Services\KIImages;
 
 class KIImagesTest extends WebTestCase
 {
@@ -28,7 +27,6 @@ class KIImagesTest extends WebTestCase
 
     public function testExtUploadBase64()
     {
-         $imgResult = array();
          $result = $this->service->uploadBase64($this->base64);
          $this->assertEquals($result['extension'], 'png');
     }
@@ -39,13 +37,15 @@ class KIImagesTest extends WebTestCase
         $url = 'http://www.youtube.com/yt/brand/media/image/YouTube-logo-full_color.png';
         $result = $this->service->uploadUrl($url);
         $this->assertTrue($result['image'] !== null);
+        $this->assertEquals($result['extension'], 'png');
     }
 
-    public function testExtUploadUrl()
+    public function testFailUploadUrl()
     {
-        $url = 'http://www.youtube.com/yt/brand/media/image/YouTube-logo-full_color.png';
+        $this->setExpectedException('Exception');
+        $url = 'httzpqq//wsqdqww.youtube.com/yt/brand/media/image/YouTube-logo-full_color.png';
         $result = $this->service->uploadUrl($url);
-        $this->assertEquals($result['extension'], 'png');
+        $this->assertEquals($result, null);
     }
 
 

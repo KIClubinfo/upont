@@ -3,7 +3,6 @@ namespace KI\UpontBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use KI\UpontBundle\Form\DataTransformer\Base64OrUrlToImageDataTransformer;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use KI\UpontBundle\Form\DataTransformer\StringToClubDataTransformer;

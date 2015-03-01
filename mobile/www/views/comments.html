@@ -1,0 +1,50 @@
+<ons-page ng-controller="CommentsController">
+    <ons-toolbar fixed-style>
+        <div class="left">
+            <ons-toolbar-button ng-click="menu.toggle()">
+                <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+            </ons-toolbar-button>
+        </div>
+        <div class="center">Commentaires</div>
+        <div class="right"><ons-toolbar-button ng-click="nav.popPage()">Retour</ons-toolbar-button></div>
+    </ons-toolbar>
+
+    <ons-list class="comment-list">
+        <!-- track by index : voir la doc Angular. Ne fait pas bugger si deux commentaires sont identiques -->
+        <ons-list-item class="comment"
+                       ng-repeat="comment in comments track by $index | orderBy:['first_name','last_name']">
+            <ons-row>
+                <ons-col width="60px">
+                    <img class="image" style="background-image: url('{{ url + '/' + comment.author.image_url }}')">
+                </ons-col>
+
+                <ons-col>
+                    <span class="name">{{ comment.author.nick }}</span>
+                    <span class="desc" ng-bind-html="comment.text | nl2br"></span>
+                </ons-col>
+
+                <ons-col width="50px" style="padding-left: 5px;">
+                    <div class="icon"
+                         ng-click="likeComment($index)"
+                         up-active="comment.like">
+                        <ons-icon icon="fa-thumbs-up"></ons-icon>
+                        <div class="notification like-badge comment-badge">{{ comment.likes }}</div>
+                    </div>
+                    <div class="icon"
+                         ng-click="dislikeComment($index)"
+                         up-active="comment.dislike">
+                        <ons-icon icon="fa-thumbs-down"></ons-icon>
+                        <div class="notification like-badge comment-badge">{{ comment.dislikes }}</div>
+                    </div>
+                </ons-col>
+            </ons-row>
+        </ons-list-item>
+
+        <ons-list-item class="new-comment">
+                <form ng-submit="comment(text)" class="center">
+                    <textarea class="textarea input-comment" ng-model="text" placeholder="Écrire un commentaire" rows="2"></textarea>
+                    <button modifier="large" class="button-comment ng-isolate-scope button effeckt-button button--large slide-left" type="submit">Envoyer</button>
+                </form>
+        </ons-list-item>
+    </ons-list>
+</ons-page>

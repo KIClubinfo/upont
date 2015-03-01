@@ -5,19 +5,25 @@ module.exports = function(grunt) {
         jshint: {
             all: ['app/js/*.js', 'app/js/**/*.js']
         },
-        // Uglify le JS
+        // Uglify le JS, L'ORDRE DES FICHIERS EST IMPORTANT !!!
         uglify: {
             build: {
                 files: {
-                    'www/upont.min.js': ['app/js/strftime.js', 'app/js/app.js', 'app/js/notifications.js', 'app/js/**/*.js', 'app/js/*.js']
+                    'www/upont.min.js': ['app/js/app.js',
+                                         'app/js/scripts/notifications.js',
+                                         'app/js/**/*.js']
                 }
             }
         },
         // Génère le CSS
         less: {
-            build: {
-                files: {
-                    'www/style.css': ['app/css/*.less', 'app/css/*.css']
+            light: {
+                files: {'www/styles/light-theme.css': ['app/css/*.less', 'app/css/*.css']},
+            },
+            dark: {
+                files: {'www/styles/dark-theme.css': ['app/css/*.less', 'app/css/*.css']},
+                options: {
+                    modifyVars: { dark: true }
                 }
             }
         },
@@ -25,14 +31,15 @@ module.exports = function(grunt) {
         cssmin: {
             build: {
                 files: {
-                    'www/style.min.css': ['www/style.css']
+                    'www/styles/light-theme.min.css': ['www/styles/light-theme.css'],
+                    'www/styles/dark-theme.min.css': ['www/styles/dark-theme.css'],
                 }
             }
         },
         // Permet de surveiller les fichiers et de reexecuter les taches ci-dessus
         watch: {
             css: {
-                files: ['app/css/**/*.css'],
+                files: ['app/css/**/*.less'],
                 tasks: ['less', 'cssmin']
             },
             js: {

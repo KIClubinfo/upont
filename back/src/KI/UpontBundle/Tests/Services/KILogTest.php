@@ -3,21 +3,19 @@
 namespace KI\UpontBundle\Tests\Services;
 
 use KI\UpontBundle\Tests\WebTestCase;
-use KI\UpontBundle\EventListener\LogListener;
-use KI\UpontBundle\Entity\Log;
 
 class KILogsTest extends WebTestCase
 {
     protected $container;
     protected $service;
-    
+
     public function __construct()
     {
         parent::__construct();
         $this->container = static::$kernel->getContainer();
         $this->service = $this->container->get('ki_upont.log');
     }
-    
+
     public function testUserAgent()
     {
         // On teste quelques user agent de base
@@ -48,73 +46,10 @@ class KILogsTest extends WebTestCase
                 'browser' => 'Internet Explorer'
             )
         );
-        
+
         foreach ($agents as $agent) {
             $this->assertEquals($this->service->systemUserAgent($agent['agent']), $agent['system']);
             $this->assertEquals($this->service->browserUserAgent($agent['agent']), $agent['browser']);
         }
-    }
-    
-    public function testLog()
-    {
-        // On effectue une requête quelconque
-        $this->client->request(
-            'PATCH', 
-            '/users/tdsdsssddssdds', 
-            array(
-                'firstName' => 'KIMiam',
-                'gender' => 'M',
-                'phone' => '06.45.03.69.58'
-            ),
-            array(), 
-            array('User-Agent' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0')
-        );
-        
-        // On va chercher la ligne insérée
-        $repo = $this->container->get('doctrine.orm.entity_manager')->getRepository('KIUpontBundle:Log');
-        $qb = $repo->createQueryBuilder('l');
-        $qb->orderBy('l.date', 'DESC')->setMaxResults(1);
-        /*$log = $qb->getQuery()->getSingleResult();
-        
-        // La ligne insérée doit correspondre à l'objet log suivant :
-        $session = $this->container->get('security.context')->getToken();
-        if (method_exists($session, 'getUser')) {
-            $this->assertEquals(
-                $log->getUser(),
-                $session->getUser()
-            );
-        }
-        $this->assertEquals(
-            $log->getMethod(),
-            'PATCH'
-        );
-        $this->assertEquals(
-            $log->getUrl(),
-            '/users/testificate'
-        );
-        $this->assertEquals(
-            $log->getParams(),
-            serialize(array('firstName' => 'KIMiam', 'gender' => 'M', 'phone' => '06.45.03.69.58'))
-        );
-        $this->assertEquals(
-            $log->getCode(),
-            404
-        );
-        $this->assertEquals(
-            $log->getIp(),
-            '127.0.0.1'
-        );
-        $this->assertEquals(
-            $log->getBrowser(),
-            'Autre'
-        );
-        $this->assertEquals(
-            $log->getSystem(),
-            'Autre'
-        );
-        $this->assertEquals(
-            $log->getAgent(),
-            'Symfony2 BrowserKit'
-        );*/
     }
 }
