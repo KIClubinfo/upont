@@ -76,7 +76,7 @@ class JWTResponseListener
         // On regarde si le mot de passe stocké dans la BDD est vide, si non on
         // balance une 401
         $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);
-        if (!$encoder->isPasswordValid($user->getPassword(), '', $user->getSalt()))
+        if (!$encoder->isPasswordValid($user->getPassword(), 'migration_pass_impossible_to_reproduce', $user->getSalt()))
             return $this->badCredentials($event);
 
         // Si le mot de passe de la BDD est vide, l'utilisateur se connecte pour
