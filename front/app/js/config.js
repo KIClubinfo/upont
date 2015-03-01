@@ -1,7 +1,6 @@
 angular.module('upont')
     .factory('ErrorCodes_Interceptor', ['StorageService', '$rootScope', '$location', '$q', function(StorageService, $rootScope, $location, $q) {
         //On est obligé d'utiliser $location pour les changements d'url parcque le router n'est initialisé qu'après $http
-
         return {
             responseError: function(response) {
                 if (response.status == 401) {
@@ -73,7 +72,7 @@ angular.module('upont')
         cfpLoadingBarProvider.latencyThreshold = 200;
     }])
     .run(['$rootScope', 'StorageService', '$state', 'cfpLoadingBar', 'jwtHelper', function($rootScope, StorageService, $state, cfpLoadingBar, jwtHelper){
-        if(StorageService.get('token') && jwtHelper.isTokenExpired(StorageService.get('token'))){
+        if(StorageService.get('token') && !jwtHelper.isTokenExpired(StorageService.get('token'))){
             $rootScope.isLogged = true;
             $rootScope.isAdmin = (StorageService.get('droits').indexOf("ROLE_ADMIN") != -1)?true:false;
         }
