@@ -4,6 +4,7 @@ var concat = require('gulp-concat');
 
 var less = require('gulp-less');
 var minifyCSS = require('gulp-minify-css');
+var autoprefixer = require('gulp-autoprefixer');
 
 var jshint = require('gulp-jshint');
 var uglify = require('gulp-uglify');
@@ -20,7 +21,10 @@ gulp.task('build-css', function() {
     return gulp.src(['app/css/*.less', 'www/libs/scheduler/codebase/dhtmlxscheduler.css'])
         .pipe(less())
         .pipe(concat('style.min.css'))
-        .pipe(minifyCSS())
+        .pipe(autoprefixer({
+            cascade: false
+        }))
+        .pipe(gutil.env.type === 'production' ? minifyCSS() : gutil.noop())
         .pipe(gulp.dest('www/'));
 });
 
@@ -35,10 +39,10 @@ gulp.task('build-js', function() {
 
 gulp.task('unit-tests', function() {
     return gulp.src('foobar') //On met une source nulle pour que karma charge son propre fichier de config
-    .pipe(karma({
-        configFile: 'karma.conf.js',
-        action: 'watch'
-    }));
+        .pipe(karma({
+            configFile: 'karma.conf.js',
+            action: 'watch'
+        }));
 });
 
 gulp.task('e2e-tests', function() {
