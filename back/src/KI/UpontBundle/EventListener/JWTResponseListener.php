@@ -79,28 +79,10 @@ class JWTResponseListener
             return $this->badCredentials($event, 'Mauvais mot de passe');
 
         // Si le mot de passe de la BDD est vide, l'utilisateur se connecte pour
-        // la première fois : on teste le mot de passe contre le proxy
-        $proxyUrl = $this->container->getParameter('proxy_url');
+        // la première fois : on teste le mot de passe contre le serveur IMAP
 
-        // Si pas de proxy configuré on affiche une erreur
-        if ($proxyUrl === null)
-            return $event->setResponse(new JsonResponse(array(
-                'code' => 502,
-                'message' => 'Proxy Error'
-            ), 401));
-
-        // Réglage des options cURL
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://www.google.com');
-        curl_setopt($ch, CURLOPT_PROXY, $proxyUrl);
-        curl_setopt($ch, CURLOPT_PROXYUSERPWD, $username . ':' . $password);
-
-        // Récupération du HTTP CODE
-        curl_exec($ch);
-        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-
-        if (in_array($code, array(0, 401, 403, 407)))
+        @imap_open('{eleves.enpc.fr:993/imap/ssl}INBOX', $username, $password, OP_READONLY);
+        if(imap_last_error() != '')
             return $this->badCredentials($event, 'Mauvais mot de passe proxy');
 
         // Si la connexion a réussie, le mot de passe proxy est bon
