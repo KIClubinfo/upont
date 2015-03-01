@@ -5,38 +5,38 @@ angular.module('upont').directive('upLikes', ['$window', function($window) {
             url: '='
         },
         controller: ["$scope", "$resource", function($scope, $resource) {
-            $scope.upvote = function(url) {
+            $scope.upvote = function() {
                 if (!$scope.objet.like) {
-                    $resource(apiPrefix + url + '/like').save(function() {
+                    $resource(apiPrefix + $scope.url + '/like').save(function() {
                         $scope.objet.likes++;
                         $scope.objet.like = true;
-                        if ($scope.objet.unlike) {
-                            $scope.objet.unlike = false;
-                            $scope.objet.unlikes--;
+                        if ($scope.objet.dislike) {
+                            $scope.objet.dislike = false;
+                            $scope.objet.dislikes--;
                         }
                     });
                 } else {
-                    $resource(apiPrefix + url + '/like').remove(function() {
+                    $resource(apiPrefix + $scope.url + '/like').remove(function() {
                         $scope.objet.likes--;
                         $scope.objet.like = false;
                     });
                 }
             };
 
-            $scope.downvote = function(url) {
-                if (!$scope.objet.unlike) {
-                    $resource(apiPrefix + url + '/unlike').save(function() {
-                        $scope.objet.unlikes++;
-                        $scope.objet.unlike = true;
+            $scope.downvote = function() {
+                if (!$scope.objet.dislike) {
+                    $resource(apiPrefix + $scope.url + '/dislike').save(function() {
+                        $scope.objet.dislikes++;
+                        $scope.objet.dislike = true;
                         if ($scope.objet.like) {
                             $scope.objet.like = false;
                             $scope.objet.likes--;
                         }
                     });
                 } else {
-                    $resource(apiPrefix + url + '/unlike').remove(function() {
-                        $scope.objet.unlikes--;
-                        $scope.objet.unlike = false;
+                    $resource(apiPrefix + $scope.url + '/dislike').remove(function() {
+                        $scope.objet.dislikes--;
+                        $scope.objet.dislike = false;
                     });
                 }
             };
