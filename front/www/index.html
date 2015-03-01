@@ -7,9 +7,6 @@
     <title>Bienvenue sur uPont</title>
     <link rel="stylesheet" href="style.min.css">
 
-    <script type="text/javascript">
-    var apiPrefix = "/api/";
-    </script>
     <script src="libs/jquery/dist/jquery.min.js"></script>
     <script src="libs/angular/angular.min.js"></script>
     <script src="libs/angular-i18n/angular-locale_fr-fr.js"></script>
@@ -20,32 +17,33 @@
     <script src="libs/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="libs/angular-resource/angular-resource.min.js"></script>
     <script src="libs/angular-loading-bar/build/loading-bar.min.js"></script>
+    <script src="libs/angular-jwt/dist/angular-jwt.min.js"></script>
     <script src="libs/scheduler/codebase/dhtmlxscheduler.js"></script>
     <script src="libs/scheduler/codebase/locale/locale_fr.js"></script>
     <script src="libs/js-base64/base64.min.js"></script>
     <script src="upont.min.js"></script>
 </head>
 
-<body ng-app="upont" ng-controller="Main_Controller" ng-class="theme?'theme-dark':'theme-clear'">
+<body ng-app="upont" ng-class="theme?'theme-dark':'theme-clear'">
     <header class="up-navbar">
         <div class="container-fluid">
             <div class="col-xs-4 col-sm-5">
                 <a class="up-title" ui-sref="home"></a>
             </div>
             <div class="up-navbar-list col-xs-3">
-                <a ui-sref="home" ng-show="isAdmin()" class="up-navbar-link">Publier</a>
+                <a ui-sref="home" ng-show="isAdmin" class="up-navbar-link">Publier</a>
             </div>
-            <ul class="up-navbar-list col-xs-5 col-sm-4" ng-show="isLogged()">
+            <ul class="up-navbar-list col-xs-5 col-sm-4" ng-show="isLogged">
                 <li><a ui-sref="profil" ui-sref-active="active" class="up-navbar-link">Profil</a>
                 </li>
-                <li><a ui-sref="admin" ui-sref-active="active" class="up-navbar-link" ng-show="isAdmin()">Admin</a>
+                <li><a ui-sref="admin" ui-sref-active="active" class="up-navbar-link" ng-show="isAdmin">Admin</a>
                 </li>
             </ul>
         </div>
     </header>
 
     <div class="container-fluid">
-        <aside class="up-aside col-xs-2" ng-show="isLogged()">
+        <aside class="up-aside col-xs-2" ng-show="isLogged">
             <ul>
                 <li><a ui-sref="home" ui-sref-active="active"><span class="glyphicon glyphicon-comment"></span> News</a>
                 </li>
@@ -65,18 +63,18 @@
                 </li>
             </ul>
         </aside>
-        <div ui-view autoscroll="false" class="up-main-view" up-fill-window ng-class="{'col-xs-10':isLogged(), 'col-xs-12':!isLogged()}"></div>
+        <div ui-view autoscroll="false" class="up-main-view" up-fill-window ng-class="{'col-xs-10':isLogged, 'col-xs-12':!isLogged}"></div>
     </div>
 
-    <footer class="container-fluid" ng-show="!inArbo('calendrier')">
+    <footer class="container-fluid" ng-hide="hideFooter">
         <div class="row">
             <div class="col-sm-2 col-xs-6 up-theme-selector">
                 <label class="unbold">
                     <input type="checkbox" ng-model="theme">&nbsp;&nbsp;Thème sombre</label>
             </div>
             <div class="col-sm-8 col-xs-12">uPont 2.0</div>
-            <div ng-if="isLogged()" class="col-sm-2 col-xs-6">
-                <button class="btn btn-default" ng-click="logOut()">Logout</button>
+            <div ng-if="isLogged" class="col-sm-2 col-xs-6">
+                <button class="btn btn-default" ng-click="logout()">Logout</button>
             </div>
         </div>
     </footer>
