@@ -90,11 +90,14 @@ upont_api_get_courses:
     defaults: { _controller: KI\UpontBundle\Controller\Users\OwnController::getCoursesAction }
     requirements:
         _method: GET
-        
-# Routes pour le jeu du trombinoscope
+
+
+
+
+# Routes spécifiques aux promos de manière générale
 upont_api_get_promogame:
     pattern: /promogame
-    defaults: { _controller: KI\UpontBundle\Controller\Users\PromoGameController::getPromoGameAction }
+    defaults: { _controller: KI\UpontBundle\Controller\Users\PromoController::getPromoGameAction }
     requirements:
         _method: GET
 
@@ -103,3 +106,9 @@ upont_api_get_courseitems:
     defaults: { _controller: KI\UpontBundle\Controller\Users\OwnController::getCourseitemsAction }
     requirements:
         _method: GET
+        
+upont_api_patch_promo_pictures:
+    pattern: /promo/{promo}/pictures
+    defaults: { _controller: KI\UpontBundle\Controller\Users\PromoController::patchPromoPicturesAction }
+    requirements:
+        _method: PATCH
