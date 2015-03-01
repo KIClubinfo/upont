@@ -41,7 +41,7 @@ class KICalendar extends ContainerAware
         $clubs = $repoClub->findAll();
         $clubsNotFollowed = $user->getClubsNotFollowed();
         $followedClubs = array();
-        foreach($clubs as $club) {
+        foreach ($clubs as $club) {
             if (!$clubsNotFollowed->contains($club))
                 $followedClubs[] = $club;
         }
@@ -75,22 +75,6 @@ class KICalendar extends ContainerAware
                 ->setAttendee('Yaya Mith');
         }
 
-        /*$alarm = $event->newAlarm();
-        $alarm
-            ->setAction('display')
-            ->setDescription($event->getProperty('description'))
-            ->setTrigger('-PT2H') //See Dateinterval string format
-        ;*/
-
-        // All Day event
-        /*$event = $cal->newEvent();
-        $event
-            ->setIsAllDayEvent()
-            ->setStartDate($datetime)
-            ->setEndDate($datetime->modify('+10 days'))
-            ->setName('All day event')
-            ->setDescription('All day visualisation')
-        ;*/
         return $cal->returnCalendar();
     }
 }

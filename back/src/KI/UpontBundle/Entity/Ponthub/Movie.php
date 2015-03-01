@@ -90,7 +90,7 @@ class Movie extends PonthubFile
     public function actorsList()
     {
         $actors = array();
-        foreach($this->actors as $actor)
+        foreach ($this->actors as $actor)
             $actors[] = $actor->getName();
         return $actors;
     }
@@ -325,6 +325,29 @@ class Movie extends PonthubFile
     public function getActors()
     {
         return $this->actors;
+    }
+
+    /**
+     * Add actor
+     *
+     * @param \KI\UpontBundle\Entity\Ponthub\Actor $actor
+     * @return Movie
+     */
+    public function addActor(\KI\UpontBundle\Entity\Ponthub\Actor $actor)
+    {
+        $this->actors[] = $actor;
+
+        return $this;
+    }
+
+    /**
+     * Remove actor
+     *
+     * @param \KI\UpontBundle\Entity\Ponthub\Actor $actor
+     */
+    public function removeActor(\KI\UpontBundle\Entity\Ponthub\Actor $actor)
+    {
+        $this->actors->removeElement($actor);
     }
 
     /**

@@ -78,4 +78,4 @@ upont_api_deploy:
 
 logs:
     type:     rest
-    resource: KI\UpontBundle\Controller\LogsController
+    resource: KI\UpontBundle\Controller\Core\LogsController

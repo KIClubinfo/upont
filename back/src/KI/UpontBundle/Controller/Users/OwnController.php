@@ -9,7 +9,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use KI\UpontBundle\Entity\Users\Device;
 use KI\UpontBundle\Entity\Achievement;
-use KI\UpontBundle\Entity\Notification;
 
 
 class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
@@ -41,7 +40,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         $unlocked = array();
         $oUnlocked = array();
         $response = $repoAU->findByUser($user);
-        foreach($response as $achievementUser) {
+        foreach ($response as $achievementUser) {
             $achievement = $achievementUser->getAchievement();
             $unlocked[] = array(
                 'name'        => $achievement->name(),
@@ -61,8 +60,8 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         // On regarde quels achievements sont locked et on en profite pour
         // calculer le nombre de points de l'utilisateur obtenus par les
         // achievements
-        foreach($all as $achievement) {
-            if(!in_array($achievement, $oUnlocked)) {
+        foreach ($all as $achievement) {
+            if (!in_array($achievement, $oUnlocked)) {
                 $locked[] = array(
                     'name'        => $achievement->name(),
                     'description' => $achievement->description(),
@@ -71,13 +70,13 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
                     'ownedBy'     => count($repoAU->findByAchievement($achievement)),
                 );
             } else {
-                if(gettype($achievement->points()) == 'integer') {
+                if (gettype($achievement->points()) == 'integer') {
                     $points += $achievement->points();
-                } else if($achievement->points() == '+10%') {
+                } else if ($achievement->points() == '+10%') {
                     $factor += 0.1;
-                } else if($achievement->points() == '+15%') {
+                } else if ($achievement->points() == '+15%') {
                     $factor += 0.15;
-                } else if($achievement->points() == '+75%') {
+                } else if ($achievement->points() == '+75%') {
                     $factor += 0.75;
                 }
             }
@@ -89,7 +88,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
             'number'        => $response['number'],
             'points'        => ceil($factor*$points),
             'current_level' => $response['current'],
-            'next_level' => isset($response['next']) ? $response['next'] : null,
+            'next_level'    => isset($response['next']) ? $response['next'] : null,
             'unlocked'      => $unlocked,
             'locked'        => $locked,
         );
@@ -192,14 +191,14 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         $return = array();
 
         // On filtre celles qui sont uniquement destinées à l'utilisateur actuel
-        foreach($notifications as $notification) {
+        foreach ($notifications as $notification) {
             $mode = $notification->getMode();
-            if($mode == 'to') {
+            if ($mode == 'to') {
                 // Si la notification n'a pas été lue
                 if ($notification->getRecipient()->contains($user) && !$notification->getRead()->contains($user))
                     $return[] = $notification;
             }
-            else if($mode == 'exclude') {
+            else if ($mode == 'exclude') {
                 // Si la notification n'a pas été lue
                 if (!$notification->getRead()->contains($user) && !$notification->getRecipient()->contains($user))
                     $return[] = $notification;
@@ -236,7 +235,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
 
         $clubs = $repo->findAll();
         $return = array();
-        foreach($clubs as $club) {
+        foreach ($clubs as $club) {
             if (!$userNotFollowed->contains($club)) {
                 $return[] = $club;
             }
@@ -272,6 +271,11 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         $return = array();
         $today = mktime(0, 0, 0);
         foreach ($events as $key => $event) {
+            // On enlève l'événement si l'élève l'a masqué
+            if ($event->getPookies()->contains($user))
+                continue;
+
+            // On élimine les anciens événements
             if ($event->getStartDate() > $today) {
                 $return[$key] = $event;
                 $dates[$key] = $event->getStartDate();
@@ -354,6 +358,37 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
 
     /**
      * @ApiDoc(
+     *  description="Renvoie la liste des prochains cours de l'utilisateur",
+     *  output="KI\UpontBundle\Entity\Publications\Courseitem",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Utilisateurs"
+     * )
+     */
+    public function getCourseitemsAction()
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $courses = $user->getCourses();
+
+        // On extraie les Courseitem et on les trie par date de début
+        $result = array();
+        $timestamp = array();
+        foreach ($courses as $course) {
+            foreach ($course->getCourseitems() as $courseitem) {
+                $result[] = $courseitem;
+                $timestamp[] = $courseitem->getStartDate();
+            }
+        }
+        array_multisort($timestamp, SORT_ASC, $result);
+        return $this->restResponse($result);
+    }
+
+    /**
+     * @ApiDoc(
      *  description="Renvoie la liste des cours suivis qui auront lieu bientôt, et leur salle",
      *  output="KI\UpontBundle\Entity\Publications\Course",
      *  statusCodes={
@@ -401,10 +436,10 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         $user = $this->get('security.context')->getToken()->getUser();
 
         if (!$this->get('security.context')->isGranted('ROLE_USER'))
-            throw new AccessDeniedException();
+            throw new AccessDeniedException('Accès refusé');
 
         if (!($request->request->has('key') && $request->request->has('value')))
-            throw new BadRequestHttpException();
+            throw new BadRequestHttpException('Champ manquant');
 
         if ($user->addPreference($request->request->get('key'), $request->request->get('value'))) {
             $this->em->flush();
@@ -439,10 +474,10 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         $user = $this->get('security.context')->getToken()->getUser();
 
         if (!$this->get('security.context')->isGranted('ROLE_USER'))
-            throw new AccessDeniedException();
+            throw new AccessDeniedException('Accès refusé');
 
         if (!($request->request->has('key')))
-            throw new BadRequestHttpException();
+            throw new BadRequestHttpException('Champ manquant');
 
         if ($user->removePreference($request->request->get('key'))) {
             $this->em->flush();
@@ -469,7 +504,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
     public function getPreferencesAction()
     {
         $user = $this->get('security.context')->getToken()->getUser();
-        return $this->jsonResponse($user->getPreferences());
+        return $this->restResponse($user->getPreferences());
     }
 
     /**

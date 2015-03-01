@@ -4,29 +4,24 @@ namespace KI\UpontBundle\EventListener;
 
 use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationFailureEvent;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Doctrine\ORM\EntityManager;
 use KI\UpontBundle\Entity\Achievement;
 use KI\UpontBundle\Event\AchievementCheckEvent;
 
 class JWTResponseListener
 {
     private $container;
-    private $em;
 
-    public function __construct(ContainerInterface $container, EntityManager $manager)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        $this->em = $manager;
     }
 
     // Renvoi du token avec des informations supplémentaires
     public function onAuthenticationSuccessResponse(AuthenticationSuccessEvent $event)
     {
-        // On commence par cehcker éventuellement l'achievement de login
+        // On commence par checker éventuellement l'achievement de login
         $dispatcher = $this->container->get('event_dispatcher');
         $achievementCheck = new AchievementCheckEvent(Achievement::LOGIN);
         $dispatcher->dispatch('upont.achievement', $achievementCheck);
@@ -48,7 +43,7 @@ class JWTResponseListener
         $event->setData($data);
     }
 
-    protected function badCredentials($event)
+    protected function badCredentials(AuthenticationFailureEvent $event)
     {
         return $event->setResponse(new JsonResponse(array(
             'code' => 401,

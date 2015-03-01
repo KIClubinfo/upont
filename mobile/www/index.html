@@ -1,14 +1,16 @@
 <!doctype html>
-<html lang="en" ng-app="upont">
+<html lang="en" ng-app="upont" ng-controller="MainController">
     <head>
         <meta charset="utf-8">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="mobile-web-app-capable" content="yes">
         <title>uPont Mobile</title>
 
-        <link rel="stylesheet" href="libs/onsen/css/onsenui.css">
-        <link rel="stylesheet" href="styles/onsen-css-components-blue-basic-theme.css">
-        <link rel="stylesheet" href="style.min.css"/>
+        <link rel="stylesheet" href="libs/onsenui/build/css/onsenui.css">
+        <link rel="stylesheet" href="styles/onsen-light-theme.min.css" ng-if="!$root.dark">
+        <link rel="stylesheet" href="styles/light-theme.min.css" ng-if="!$root.dark">
+        <link rel="stylesheet" href="styles/onsen-dark-theme.min.css" ng-if="$root.dark">
+        <link rel="stylesheet" href="styles/dark-theme.min.css" ng-if="$root.dark">
 
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="PushNotification.js"></script>
@@ -16,8 +18,8 @@
         <script src="libs/angular/angular.min.js"></script>
         <script src="libs/angular-resource/angular-resource.min.js"></script>
         <script src="libs/onsenui/build/js/onsenui.min.js"></script>
+        <script src="libs/moment/min/moment-with-locales.min.js"></script>
 
-        <!-- <script src="lib/strftime.min.js"></script> -->
         <script src="upont.min.js"></script>
     </head>
 

@@ -29,6 +29,14 @@ class Software extends PonthubFile
      */
     protected $author;
 
+    /**
+     * Version
+     * @ORM\Column(name="version", type="string", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("string")
+     */
+    protected $version;
+
 
     //===== GENERATED AUTOMATICALLY =====//
 
@@ -75,5 +83,27 @@ class Software extends PonthubFile
     public function getAuthor()
     {
         return $this->author;
+    }
+
+    /**
+     * Set version
+     *
+     * @param string $version
+     */
+    public function setVersion($version)
+    {
+        $this->version = $version;
+
+        return $this;
+    }
+
+    /**
+     * Get version
+     *
+     * @return string
+     */
+    public function getVersion()
+    {
+        return $this->version;
     }
 }

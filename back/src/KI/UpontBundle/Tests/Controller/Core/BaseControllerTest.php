@@ -90,7 +90,7 @@ class BaseControllerTest extends WebTestCase
         $this->assertTrue($response->headers->has('Location'));
 
         $out = array();
-        $url = preg_match('#.*/comments/([0-9]+)$#', $response->headers->get('Location'), $out);
+        preg_match('#.*/comments/([0-9]+)$#', $response->headers->get('Location'), $out);
         $this->assertTrue(!empty($out));
 
         $this->client->request('PATCH', '/comments/' . $out[1], array('text' => 'J\'ai perdu au Jeu.'));

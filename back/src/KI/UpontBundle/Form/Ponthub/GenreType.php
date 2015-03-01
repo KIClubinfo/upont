@@ -5,7 +5,6 @@ namespace KI\UpontBundle\Form\Ponthub;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use KI\UpontBundle\Form\TagType;
 
 class GenreType extends AbstractType
 {
@@ -14,7 +13,7 @@ class GenreType extends AbstractType
         $builder
             ->add('name');
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
@@ -22,7 +21,7 @@ class GenreType extends AbstractType
             'data_class' => 'KI\UpontBundle\Entity\Ponthub\Genre'
         ));
     }
-        
+
     public function getName()
     {
         return '';

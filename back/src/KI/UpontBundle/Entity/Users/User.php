@@ -2,35 +2,23 @@
 
 namespace KI\UpontBundle\Entity\Users;
 
-use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
+ * La classe User est divisée en deux (autre partie dans CoreUser)
+ * Ici sont stockées les infos secondaires (infos de contact) dont on n'a pas
+ * besoin 100% du temps.
  * @ORM\Entity
  * @ORM\Table(name="fos_user")
  * @JMS\ExclusionPolicy("all")
  * @UniqueEntity("email")
  * @UniqueEntity("username")
  */
-class User extends BaseUser
+class User extends \KI\UpontBundle\Entity\Users\CoreUser
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
-
-    /**
-     * Image de profil
-     * @ORM\OneToOne(targetEntity="KI\UpontBundle\Entity\Image", cascade={"persist", "remove"})
-     * @Assert\Valid()
-     */
-    protected $image;
-
     /**
      * Genre [M|Mme]
      * @ORM\Column(name="gender", type="string", nullable=true)
@@ -38,35 +26,6 @@ class User extends BaseUser
      * @Assert\Type("string")
      */
     protected $gender;
-
-    /**
-     * Identifiant DSI
-     * @ORM\Column(name="dsi", type="string", nullable=true)
-     * @Assert\Type("string")
-     */
-    protected $dsi;
-
-    /**
-     * Prénom
-     * @ORM\Column(name="firstName", type="string")
-     * @JMS\Expose
-     * @Assert\NotBlank()
-     */
-    protected $firstName;
-
-    /**
-     * Nom
-     * @ORM\Column(name="lastName", type="string")
-     * @JMS\Expose
-     * @Assert\NotBlank()
-     */
-    protected $lastName;
-
-    /**
-     * Surnom/pseudo
-     * @ORM\Column(name="nickname", type="string", nullable=true)
-     */
-    protected $nickname;
 
     /**
      * Promo (format: '0*', ie 016, 017...)
@@ -125,117 +84,18 @@ class User extends BaseUser
      */
     protected $skype;
 
-    /**
-     * Groupes de permissions FOSUserBundle
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\Group")
-     * @ORM\JoinTable(name="fos_user_user_group",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
-     * )
-     */
-    protected $groups;
-
-    /**
-     * Appareils mobiles enregistrés pour recevoir des notifications Push
-     * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Users\Device", mappedBy="owner")
-     */
-    protected $devices;
-
-    /**
-     * Clubs auquels l'utilisateur n'est PAS abonné
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\Club")
-     */
-    protected $clubsNotFollowed;
-
-    /**
-     * Cours que l'utilisateur suit
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Publications\Course", inversedBy="attendees", cascade={"persist"})
-     */
-    protected $courses;
-
-    /**
-     * Tableau contenant les préférences utilisateurs. Les valeurs possibles des clés de ce tableau ainsi que
-     * leur valeurs par défaut sont définies dans $preferencesArray
-     * @ORM\Column(name="preferences", type="array", nullable=true)
-     * @JMS\Expose
-     * @Assert\Type("array")
-     */
-    protected $preferences = array();
-
-    /**
-     * Token faible permettant de créer des urls personnalisées pour l'user
-     * @ORM\Column(name="token", type="string", nullable=true)
-     * @Assert\Type("string")
-     */
-    protected $token;
-
-    protected $preferencesArray = array(
-        'notif_followed_event' => array('1', 'Lorsqu\'un club suivi publi un évènement'),
-        'notif_followed_news'  => array('1', 'Lorsqu\'un club suivi publi une news'),
-        'notif_followed_poll'  => array('1', 'Lorsqu\'un club suivi publi un sondage'),
-        'notif_ponthub'        => array('1', 'Lorsque de nouveaux fichiers sont ajoutés à PontHub'),
-        'notif_ki_answer'      => array('1', 'Lorsque le KI t\'envoie un message'),
-        'notif_shotgun_h-1'    => array('0', 'Une heure avant un shotgun suivi'),
-        'notif_shotgun_m-5'    => array('0', 'Cinq minutes avant un shotgun suivi'),
-        'notif_followed_annal' => array('1', 'Lorsqu\'une annale d\'un de tes cours est publiée'),
-        'notif_next_class'     => array('1', 'Lorsqu\'un de tes cours est sur le point de commencer'),
-        'notif_achievement'    => array('1', 'Lorsque tu réussi à débloquer une nouvelle réussite sur YouPont'),
-        'notif_next_level'     => array('1', 'Lorsque tu passes au niveau suivant')
-    );
-
-    /**
-     * @JMS\VirtualProperty()
-     */
-    public function imageUrl()
-    {
-        return $this->image !== null ? $this->image->getWebPath() : 'uploads/images/default-user.png';
-    }
-
-    /**
-     * @JMS\VirtualProperty()
-     */
-    public function nick()
-    {
-        return $this->nickname !== null ? $this->nickname : $this->acronyme();
-    }
-
     protected function acronyme()
     {
         $r = '';
-        foreach(explode(' ', $this->firstName . ' ' . $this->lastName) as $v)
+        foreach (explode(' ', $this->firstName . ' ' . $this->lastName) as $v)
             $r .= $v[0];
         return $r . '\'' . $this->promo;
     }
-
-    // On définit des alias pour le slug
-    public function getSlug() { return $this->getUsername(); }
-    public function setSlug($slug) { return $this->setUsername($slug); }
 
 
 
 
     //===== GENERATED AUTOMATICALLY =====//
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->devices = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->clubsNotFollowed = new \Doctrine\Common\Collections\ArrayCollection();
-        parent::__construct();
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Set gender
@@ -258,98 +118,6 @@ class User extends BaseUser
     public function getGender()
     {
         return $this->gender;
-    }
-
-    /**
-     * Set dsi
-     *
-     * @param string $dsi
-     * @return User
-     */
-    public function setDsi($dsi)
-    {
-        $this->dsi = $dsi;
-
-        return $this;
-    }
-
-    /**
-     * Get dsi
-     *
-     * @return string
-     */
-    public function getDsi()
-    {
-        return $this->dsi;
-    }
-
-    /**
-     * Set firstName
-     *
-     * @param string $firstName
-     * @return User
-     */
-    public function setFirstName($firstName)
-    {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    /**
-     * Get firstName
-     *
-     * @return string
-     */
-    public function getFirstName()
-    {
-        return $this->firstName;
-    }
-
-    /**
-     * Set lastName
-     *
-     * @param string $lastName
-     * @return User
-     */
-    public function setLastName($lastName)
-    {
-        $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    /**
-     * Get lastName
-     *
-     * @return string
-     */
-    public function getLastName()
-    {
-        return $this->lastName;
-    }
-
-    /**
-     * Set nickname
-     *
-     * @param string $nickname
-     * @return User
-     */
-    public function setNickname($nickname)
-    {
-        $this->nickname = $nickname;
-
-        return $this;
-    }
-
-    /**
-     * Get nickname
-     *
-     * @return string
-     */
-    public function getNickname()
-    {
-        return $this->nickname;
     }
 
     /**
@@ -511,211 +279,5 @@ class User extends BaseUser
     public function getSkype()
     {
         return $this->skype;
-    }
-
-    /**
-     * Set image
-     *
-     * @param \KI\UpontBundle\Entity\Image $image
-     * @return User
-     */
-    public function setImage(\KI\UpontBundle\Entity\Image $image = null)
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return \KI\UpontBundle\Entity\Image
-     */
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-    /**
-     * Add devices
-     *
-     * @param \KI\UpontBundle\Entity\Device $devices
-     * @return User
-     */
-    public function addDevice(\KI\UpontBundle\Entity\Users\Device $devices)
-    {
-        $this->devices[] = $devices;
-
-        return $this;
-    }
-
-    /**
-     * Remove devices
-     *
-     * @param \KI\UpontBundle\Entity\Device $devices
-     */
-    public function removeDevice(\KI\UpontBundle\Entity\Users\Device $devices)
-    {
-        $this->devices->removeElement($devices);
-    }
-
-    /**
-     * Get devices
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getDevices()
-    {
-        return $this->devices;
-    }
-
-    /**
-     * Add courses
-     *
-     * @param \KI\UpontBundle\Entity\Publications\Course $course
-     * @return User
-     */
-    public function addCourse(\KI\UpontBundle\Entity\Publications\Course $course)
-    {
-        $this->courses[] = $course;
-
-        return $this;
-    }
-
-    /**
-     * Remove courses
-     *
-     * @param \KI\UpontBundle\Entity\Publications\Course $course
-     */
-    public function removeCourse(\KI\UpontBundle\Entity\Publications\Course $course)
-    {
-        $this->courses->removeElement($course);
-    }
-
-    /**
-     * Get courses
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCourses()
-    {
-        return $this->courses;
-    }
-
-    /**
-     * Add Club Not Followed
-     *
-     * @param \KI\UpontBundle\Entity\Club $club
-     * @return User
-     */
-    public function addClubNotFollowed(\KI\UpontBundle\Entity\Users\Club $club)
-    {
-        $this->clubsNotFollowed[] = $club;
-
-        return $this;
-    }
-
-    /**
-     * Remove Club Not Followed
-     *
-     * @param \KI\UpontBundle\Entity\Club $club
-     */
-    public function removeClubNotFollowed(\KI\UpontBundle\Entity\Users\Club $club)
-    {
-        $this->clubsNotFollowed->removeElement($club);
-    }
-
-    /**
-     * Get Clubs Not Followed
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getClubsNotFollowed()
-    {
-        return $this->clubsNotFollowed;
-    }
-
-    /**
-     * Add Preference
-     *
-     * @param string $cle
-     * @param string $valeur
-     * @return bool
-     */
-    public function addPreference($cle, $valeur)
-    {
-        if (array_key_exists($cle,$this->preferencesArray)) {
-            if ($this->preferences === null || !array_key_exists($cle,$this->preferences))
-                $this->preferences[$cle] = $valeur;
-
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Remove Preference
-     *
-     * @param string $cle
-     * @return bool
-     */
-    public function removePreference($cle)
-    {
-        if (array_key_exists($cle,$this->preferencesArray)) {
-            if ($this->preferences !== null && array_key_exists($cle, $this->preferences))
-                unset($this->preferences[$cle]);
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Get Preferences Array
-     *
-     * @return array
-     */
-    public function getPreferences()
-    {
-        $retour = $this->preferencesArray;
-        foreach ($this->preferences as $preference => $valeur) {
-            $retour[$preference][0] = $valeur;
-        }
-        return $retour;
-    }
-
-    /**
-     * Get Preference $cle value
-     *
-     * @param string $cle
-     * @return string
-     */
-    public function getPreference($cle)
-    {
-        if(array_key_exists($cle,$this->preferences))
-            return $this->preferences[$cle];
-    }
-
-    /**
-     * Set token
-     *
-     * @param string $token
-     * @return User
-     */
-    public function setToken($token)
-    {
-        $this->token = $token;
-
-        return $this;
-    }
-
-    /**
-     * Get token
-     *
-     * @return string
-     */
-    public function getToken()
-    {
-        return $this->token;
     }
 }

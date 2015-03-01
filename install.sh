@@ -34,12 +34,6 @@ cd /var/www
 git config --global user.name $name
 git config --global user.email $mail
 git config --global http.postBuffer 524288000
-if [ -z "$proxy" ]; then
-    echo "Pas de proxy pour git"
-else
-    git config --global http.proxy $proxy
-    git config --global https.proxy $proxy
-fi
 git config --global push.default simple
 git config --global credential.helper 'cache --timeout=86400'
 

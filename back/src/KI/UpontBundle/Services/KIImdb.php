@@ -17,8 +17,8 @@ class KIImdb extends ContainerAware
         $curl = $this->container->get('ki_upont.curl');
         $response = json_decode($curl->curl($url), true);
         
-        $return  = array();
-        foreach($response['Search'] as $result) {
+        $return = array();
+        foreach ($response['Search'] as $result) {
             $return[] = array(
                 'name' => $result['Title'],
                 'year' => $result['Year'],
