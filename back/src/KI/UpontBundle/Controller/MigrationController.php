@@ -185,7 +185,7 @@ class Generator extends AbstractFixture
             $entity->setPromo($item['promo']);
             $entity->setDepartment($item['departement']);
             $entity->setOrigin($item['origine']);
-            $entity->setPlainPassword('');
+            $entity->setPlainPassword('migration_pass_impossible_to_reproduce');
             $entity->setNationality(ucfirst(strtolower($item['nationalite'])));
             if (isset($this->images[$item['id_image']]))
                 $entity->setImage($this->images[$item['id_image']]);
