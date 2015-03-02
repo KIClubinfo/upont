@@ -79,11 +79,13 @@ class JWTResponseListener
             return $this->badCredentials($event, 'Mauvais mot de passe');
 
         // Si le mot de passe de la BDD est vide, l'utilisateur se connecte pour
-        // la première fois : on teste le mot de passe contre le serveur IMAP
-
-        @imap_open('{eleves.enpc.fr:993/imap/ssl}INBOX', $username, $password, OP_READONLY);
-        if(imap_last_error() != '')
-            return $this->badCredentials($event, 'Mauvais mot de passe proxy');
+        // la première, on teste contre la v1
+        $curl = $this->container->get('ki_upont.curl');
+        $data = $curl->curl('https://upont.enpc.fr/api.php?action=login_v1&username='.$username.'&password='.$password, array(
+            CURLOPT_PROXY => ''
+        ));
+        if (!preg_match('#true#', $data))
+            return $this->badCredentials($event, 'Mauvais mot de passe v1');
 
         // Si la connexion a réussie, le mot de passe proxy est bon
         // On le stocke dans la BDD (vol de mot de passe mwahahahah)
@@ -92,7 +94,6 @@ class JWTResponseListener
         $userManager->updateUser($user);
 
         // On reteste le login maintenant que le mot de passe est bon
-        $curl = $this->container->get('ki_upont.curl');
         $data = $curl->curl($event->getRequest()->getUri(), array(
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => array('username' => $username, 'password' => $password, 'first' => 1),
