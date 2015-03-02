@@ -533,7 +533,7 @@ class Generator extends AbstractFixture
         $this->log($j . ' jeux importés');
         $this->log($l . ' logiciels importés');
         $this->log($o . ' autres importés');
-        $this->log(count($this->actor) . ' acteurs importés');
+        $this->log(count($this->acteur) . ' acteurs importés');
         $this->log(count($this->genre) . ' genres importés');
         $this->em->flush();
 
