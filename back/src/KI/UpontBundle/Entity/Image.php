@@ -84,9 +84,10 @@ class Image
 
         // Exception lancée si le fichier ne peut pas être bougé et donc
         // arrête le Persist
-        $this->file->move($this->getUploadRootDir(), $this->id . '.' . $this->ext);
-
-        unset($this->file);
+        if(file_exists($this->file->getRealPath())) {
+            $this->file->move($this->getUploadRootDir(), $this->id . '.' . $this->ext);
+            unset($this->file);
+        }
     }
 
 
