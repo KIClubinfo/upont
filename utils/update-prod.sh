@@ -9,16 +9,18 @@ export SYMFONY_ENV=prod
 cd front
 npm install
 bower update --allow-root
-grunt build
+gulp build-js
+gulp build-css
 
 cd ../mobile
 npm install
-grunt build
+bower update --allow-root
+gulp build-js
+gulp build-css-light
+gulp build-css-dark
 
 cd ../back
 composer self-update
 composer update --no-dev --optimize-autoloader
 php app/console cache:clear --env=prod --no-debug
 sudo chmod 777 -R app/cache && sudo chmod 777 -R app/logs
-php app/check.php
-cp web/.htaccess.prod web/.htaccess

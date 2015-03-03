@@ -1,4 +1,12 @@
 angular.module('upont')
+    .controller('ChannelsListe_Ctrl', ['$scope', 'channels', function($scope, channels) {
+        $scope.channels = channels;
+    }])
+    .controller('ChannelsSimple_Ctrl', ['$scope', 'channel', 'membres', 'publications', function($scope, channel, membres, publications) {
+        $scope.channel = channel;
+        $scope.membres = membres;
+        $scope.publications = publications;
+    }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
             .state("channels", {
@@ -12,9 +20,7 @@ angular.module('upont')
             .state("channels.liste", {
                 url: "",
                 templateUrl: "views/channels/liste.html",
-                controller: ['$scope', 'channels', function($scope, channels) {
-                    $scope.channels = channels;
-                }],
+                controller: 'ChannelsListe_Ctrl',
                 resolve: {
                     channels: ["$resource", function($resource) {
                         return $resource(apiPrefix + "clubs?sort=name").query().$promise;
@@ -36,37 +42,43 @@ angular.module('upont')
                         }).$promise;
                     }]
                 },
-                controller: ["$scope", "channel", function($scope, channel) {
-                    $scope.channel = channel;
-                }]
+                controller: 'ChannelsSimple_Ctrl'
             })
             .state("channels.simple.publications", {
                 url: "",
                 templateUrl: "views/channels/simple.publications.html",
-                controller: ["$scope", "publications", function($scope, publications) {
-                    $scope.publications = publications;
-                }],
+                controller: 'ChannelSimple_Ctrl',
                 data: {
                     toParent: true
                 },
                 resolve: {
                     publications: ["$resource", "$stateParams", function($resource, $stateParams) {
-                        return $resource(apiPrefix + "clubs/" + $stateParams.slug + "/publications").query().$promise;
-                    }]
+                        return $resource(apiPrefix + "clubs/:slug/publications").query({
+                            slug: $stateParams.slug
+                        }).$promise;
+                    }],
+                    membres : true
                 }
             })
             .state("channels.simple.presentation", {
                 url: "/presentation",
                 templateUrl: "views/channels/simple.presentation.html",
-                // controller : "ChannelSimple_Ctrl",
+                controller : 'ChannelsSimple_Ctrl',
                 data: {
                     toParent: true
+                },
+                resolve: {
+                    publications : true,
+                    membres: ["$resource", "$stateParams", function($resource, $stateParams) {
+                        return $resource(apiPrefix + "clubs/:slug/users").query({
+                            slug: $stateParams.slug
+                        }).$promise;
+                    }],
                 }
             })
             .state("channels.simple.gestion", {
                 url: "/gestion",
                 templateUrl: "views/channels/simple.gestion.html",
-                // controller : "ChannelSimple_Ctrl",
                 data: {
                     toParent: true
                 }
