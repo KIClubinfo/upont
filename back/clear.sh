@@ -8,4 +8,4 @@ sudo rm -rf app/logs/*
 php app/console doctrine:schema:drop --force
 php app/console doctrine:schema:create
 echo "Y" | php app/console doctrine:fixtures:load
-sudo chmod 777 -R app/cache && sudo chmod 777 -R app/logs
+sudo chmod 777 -R app/cache && sudo chmod 777 -R app/logs && sudo chmod 777 -R web/uploads
