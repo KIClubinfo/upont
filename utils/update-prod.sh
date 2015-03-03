@@ -15,7 +15,9 @@ gulp build-css
 cd ../mobile
 npm install
 bower update --allow-root
-grunt build
+gulp build-js
+gulp build-css-light
+gulp build-css-dark
 
 cd ../back
 composer self-update
