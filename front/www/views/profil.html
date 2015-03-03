@@ -1,85 +1,93 @@
 <div class="up-ticket" ng-submit="">
     <h1>Informations Générales :</h1>
-    <div class="col-xs-12 col-sm-6 row">
-        <div class="col-xs-4">Promo :</div>
-        <div class="col-xs-8">
-            <select name="promo">
-                <option disabled selected value=""> - </option>
-                <option value="09">09</option>
-                <option value="010">010</option>
-                <option value="011">011</option>
-                <option value="012">012</option>
-                <option value="013">013</option>
-                <option value="014">014</option>
-                <option value="015">015</option>
-                <option value="016">016</option>
-                <option value="017">017</option>
-            </select>
+    <div class="up-column padded">
+        <div class="up-row">
+            <div class="up-col-xs-6 up-row center padded">
+                <div class="up-col-xs-4">Promo :</div>
+                <div class="up-col-xs-8">
+                    <select name="promo">
+                        <option disabled selected value=""> - </option>
+                        <option value="09">09</option>
+                        <option value="010">010</option>
+                        <option value="011">011</option>
+                        <option value="012">012</option>
+                        <option value="013">013</option>
+                        <option value="014">014</option>
+                        <option value="015">015</option>
+                        <option value="016">016</option>
+                        <option value="017">017</option>
+                    </select>
+                </div>
+            </div>
+            <div class="up-col-xs-6 up-row center padded">
+                <div class="up-col-xs-4">Département :</div>
+                <div class="up-col-xs-8">
+                    <select name="departement">
+                        <option disabled selected value=""> - </option>
+                        <option value="1A">1A</option>
+                        <option value="GCC">GCC</option>
+                        <option value="GCC-Archi">GCC-Archi</option>
+                        <option value="GMM">GMM</option>
+                        <option value="GI">GI</option>
+                        <option value="IMI">IMI</option>
+                        <option value="SEGF">SEGF</option>
+                        <option value="VET">VET</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="up-row">
+            <div class="up-col-xs-6 up-row left padded">
+                <div class="up-col-xs-4">Chambre :</div>
+                <div class="up-col-xs-8">
+                    <input type="text" name="chambre" />
+                </div>
+            </div>
+            <div class="up-col-xs-6 up-row left padded">
+                <div class="up-col-xs-4">Telephone :</div>
+                <div class="up-col-xs-8">
+                    <input type="text" name="telephone" />
+                </div>
+            </div>
+        </div>
+        <div class="up-row left">
+            <div class="up-col-xs-6 up-row left padded">
+                <div class="up-col-xs-4">Adresse email :</div>
+                <div class="up-col-xs-8">
+                    <input type="text" name="email" />
+                </div>
+            </div>
+        </div>
+        <div class="up-row">
+            <div class="up-col-xs-6 up-row left padded">
+                <div class="up-col-xs-4">Nouveau mot de passe :</div>
+                <div class="up-col-xs-8">
+                    <input type="password" name="mdp" />
+                </div>
+            </div>
+
+            <div class="up-col-xs-6 up-row left padded">
+                <div class="up-col-xs-4">Vérification du nouveau mot de passe :</div>
+                <div class="up-col-xs-8">
+                    <input type="password" name="mdpConfirm" />
+                </div>
+            </div>
         </div>
     </div>
-    <div class="col-xs-12 col-sm-6 row">
-        <div class="col-xs-4">Département :</div>
-        <div class="col-xs-8">
-            <select name="departement">
-                <option disabled selected value=""></option>
-                <option value="1A">1A</option>
-                <option value="GCC">GCC</option>
-                <option value="GCC-Archi">GCC-Archi</option>
-                <option value="GMM">GMM</option>
-                <option value="GI">GI</option>
-                <option value="IMI">IMI</option>
-                <option value="SEGF">SEGF</option>
-                <option value="VET">VET</option>
-            </select>
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-6 row stacked-row">
-        <div class="col-xs-4">Chambre :</div>
-        <div class="col-xs-8">
-            <input type="text" name="chambre" />
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-6 row stacked-row">
-        <div class="col-xs-4">Telephone :</div>
-        <div class="col-xs-8">
-            <input type="text" name="telephone" />
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-6 row stacked-row">
-        <div class="col-xs-4">Adresse email :</div>
-        <div class="col-xs-8">
-            <input type="text" name="email" />
-        </div>
-    </div>
-    <div class="clearfix"></div>
-    <div class="col-xs-12 col-sm-6 row stacked-row">
-        <div class="col-xs-4">Nouveau mot de passe :</div>
-        <div class="col-xs-8">
-            <input type="password" name="mdp" />
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-6 row stacked-row">
-        <div class="col-xs-4">Vérification du nouveau mot de passe :</div>
-        <div class="col-xs-8">
-            <input type="password" name="mdpConfirm" />
-        </div>
-    </div>
-    <div class="clearfix"></div>
 </div>
 
 <div class="up-ticket">
     <h1>Channels suivis</h1>
-    <div class="row">
-        <div class="col-xs-12 col-sm-6 stacked-row row" ng-repeat-start="club in clubs">
-            <div class="col-xs-4"><img class="img-responsive" src="{{ club.image_url | urlFile}}" />
+    <div class="up-row left padded">
+        <div class="up-col-xs-12 up-col-sm-6 up-row padded" ng-repeat="club in clubs | orderBy:'name'">
+            <div class="up-col-xs-4"><img class="img-responsive" src="{{ club.image_url | urlFile}}" />
             </div>
-            <div class="col-xs-8">
-                <h2>{{ club.short_name }}</h2>
+            <div class="up-col-xs-8">
+                <h2>{{ club.name }}</h2>
                 <button class="btn-suivi active" ng-show="club.suivi" ng-click="unsubscribe(club.slug);">Suivi</button>
                 <button class="btn-suivi" ng-show="!club.suivi" ng-click="subscribe(club.slug);">Suivre</button>
             </div>
         </div>
-        <div ng-repeat-end ng-if="$index%2 == 1" class="clearfix visible-lg visible-md visible-sm"></div>
     </div>
 </div>
 
