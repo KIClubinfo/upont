@@ -14,7 +14,7 @@ class LoadExerciceFixture extends AbstractFixture implements OrderedFixtureInter
 {
     public function load(ObjectManager $manager)
     {
-        $basePath = __DIR__ . '/../../../../../../web/uploads/tmp/';
+        $basePath = __DIR__ . '/../../../../../../web/uploads/tests/';
         $fs = new Filesystem();
         $fs->copy($basePath . 'file.pdf', $basePath . 'file_tmp.pdf');
         $file = new File($basePath . 'file_tmp.pdf');

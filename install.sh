@@ -78,7 +78,7 @@ php app/console doctrine:fixtures:load
 
 echo "Vidage du cache..."
 php app/console cache:clear
-sudo chmod 777 -R app/cache && sudo chmod 777 -R app/logs
+sudo chmod 777 -R app/cache && sudo chmod 777 -R app/logs && sudo chmod 777 -R web/uploads
 git stash
 
 echo "Test final à effectuer manuellement pour vérifier que tout va bien"
