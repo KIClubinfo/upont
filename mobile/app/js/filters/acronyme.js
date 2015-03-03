@@ -4,8 +4,11 @@ module.filter('acronyme', function () {
     {
         var r = '';
         var string = (user.first_name + ' ' + user.last_name).split(' ');
-        for(var key in string)
-            r += string[key][0];
+        for(var key in string) {
+            if (string.hasOwnProperty(key)) {
+                r += string[key][0];
+            }
+        }
         return (r + '\'' + user.promo).toUpperCase();
     };
 });

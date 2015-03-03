@@ -27,11 +27,13 @@ module
 			    // On charge aussi les cours et on les fait passer pour des events
 		        $http.get(url + '/own/courseitems').success(function(data) {
 		            for (var key in data) {
-		                // On ejecte les cours du matin déjà passés et ceux du lendemain
-		                if (data[key].start_date > $scope.endDay || data[key].end_date < now)
-		                    continue;
-
-		                events.push(data[key]);
+		                if (data.hasOwnProperty(key)) {
+		                    // On ejecte les cours du matin déjà passés et ceux du lendemain
+		                    if (data[key].start_date > $scope.endDay || data[key].end_date < now) {
+		                        continue;
+                            }
+		                    events.push(data[key]);
+		                }
 		            }
 		            $scope.events = events;
 		        });
@@ -147,15 +149,17 @@ module
 			    $scope.shotgun = data;
 
 			    // On regarde si le shotgun a déjà eu lieu ou non
-			    if (typeof data.position != 'undefined' || typeof data.waitingList != 'undefined')
+			    if (typeof data.position != 'undefined' || typeof data.waitingList != 'undefined') {
 			        $scope.shotgunned = true;
+			    }
 			    nav.pushPage('shotgun.html');
 		    });
 	    };
 
 	    $scope.shotgunEvent = function(){
-		    if ($scope.motivation === '')
+		    if ($scope.motivation === '') {
                 $scope.motivation = ' ';
+            }
 
 		    $http.post(url + '/events/' + $scope.eventItem.slug + '/shotgun', {motivation: $scope.motivation}).success(function(data){
 			    $http.get(url + '/events/' + $scope.eventItem.slug + '/shotgun').success(function(data){
