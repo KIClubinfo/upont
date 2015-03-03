@@ -32,7 +32,7 @@ class KIToken extends ContainerAware
                 $user->setToken(substr($token, 0, 8));
                 $manager->flush();
             } else {
-                // Oh oui #2 J'ose ou j'ose pas ! Dieu (ou Albe) seul sait si cette instruction marche !
+                //Oh oui #2 J'ose ou j'ose pas ! Dieu (ou Albe) seul sait si cette instruction marche !
                 return $this->getToken();
             }
         }

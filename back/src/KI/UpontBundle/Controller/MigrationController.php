@@ -25,9 +25,6 @@ class MigrationController extends \KI\UpontBundle\Controller\Core\BaseController
 }
 
 
-// Pour bien migrer
-// enlever le duplicata du bochet
-// enlever Marina Fois
 class Generator extends AbstractFixture
 {
     private $container;
@@ -146,7 +143,7 @@ class Generator extends AbstractFixture
 
             $entity = new Image();
             $entity->setFile($file);
-            $entity->setExt($file->getExtension());
+            $entity->setExt($item['extension']);
             $this->em->persist($entity);
             $this->images[$id] = $entity;
             $i++;
@@ -188,7 +185,7 @@ class Generator extends AbstractFixture
             $entity->setPromo($item['promo']);
             $entity->setDepartment($item['departement']);
             $entity->setOrigin($item['origine']);
-            $entity->setPlainPassword('<d\'cv 511s2q)d4s5qqs');
+            $entity->setPlainPassword('migration_pass_impossible_to_reproduce');
             $entity->setNationality(ucfirst(strtolower($item['nationalite'])));
             if (isset($this->images[$item['id_image']]))
                 $entity->setImage($this->images[$item['id_image']]);
@@ -488,7 +485,7 @@ class Generator extends AbstractFixture
             $entity->setName($item['nom']);
             $entity->setPath($item['chemin']);
             $entity->setSize($item['taille']);
-            $entity->setAdded(strtotime($item['chemin']));
+            $entity->setAdded(strtotime($item['date']));
 
             $status = $item['statut'] == 'ok' ? 'OK' : 'NEEDINFOS';
             $entity->setStatus($status);
@@ -536,7 +533,7 @@ class Generator extends AbstractFixture
         $this->log($j . ' jeux importés');
         $this->log($l . ' logiciels importés');
         $this->log($o . ' autres importés');
-        $this->log(count($this->actor) . ' acteurs importés');
+        $this->log(count($this->acteur) . ' acteurs importés');
         $this->log(count($this->genre) . ' genres importés');
         $this->em->flush();
 
