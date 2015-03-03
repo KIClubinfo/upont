@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * La classe User est divisée en deux (autre partie dans User)
  * Ici sont stockées les infos primaires dont on a besoin 100% du temps.
+ * @JMS\ExclusionPolicy("all")
  */
 class CoreUser extends \FOS\UserBundle\Model\User
 {
@@ -82,7 +83,6 @@ class CoreUser extends \FOS\UserBundle\Model\User
      * Tableau contenant les préférences utilisateurs. Les valeurs possibles des clés de ce tableau ainsi que
      * leur valeurs par défaut sont définies dans $preferencesArray
      * @ORM\Column(name="preferences", type="array", nullable=true)
-     * @JMS\Expose
      * @Assert\Type("array")
      */
     protected $preferences = array();
