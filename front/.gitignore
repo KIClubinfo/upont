@@ -1,6 +1,6 @@
-/node_modules/
+node_modules
 /www/libs/
 /www/style.css
 /www/style.min.css
 /www/upont.min.js
-/bower_components/
+coverage

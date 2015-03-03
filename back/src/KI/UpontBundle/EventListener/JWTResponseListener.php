@@ -43,11 +43,12 @@ class JWTResponseListener
         $event->setData($data);
     }
 
-    protected function badCredentials(AuthenticationFailureEvent $event)
+    protected function badCredentials(AuthenticationFailureEvent $event, $reason)
     {
         return $event->setResponse(new JsonResponse(array(
             'code' => 401,
-            'message' => 'Bad credentials'
+            'message' => 'Bad credentials',
+            'reason' => $reason
         ), 401));
     }
 
@@ -63,7 +64,7 @@ class JWTResponseListener
             && $request->has('password')
             && $request->get('username') != ''
             && $request->get('password') != ''))
-            return $this->badCredentials($event);
+            return $this->badCredentials($event, 'Champs non remplis');
 
         $username = $request->get('username');
         $password = $request->get('password');
@@ -71,46 +72,28 @@ class JWTResponseListener
         $user = $userManager->findUserByUsername($username);
 
         if (!$user instanceof \KI\UpontBundle\Entity\Users\User)
-            return $this->badCredentials($event);
+            return $this->badCredentials($event, 'Utilisateur non trouvé');
 
-        // On regarde si le mot de passe stocké dans la BDD est vide, si non on
-        // balance une 401
-        $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);
-        if (!$encoder->isPasswordValid($user->getPassword(), '', $user->getSalt()))
-            return $this->badCredentials($event);
+        // On regarde si l'utilisateur est activé ou non, si oui on balance une 401
+        if ($user->isEnabled())
+            return $this->badCredentials($event, 'Mauvais mot de passe');
 
         // Si le mot de passe de la BDD est vide, l'utilisateur se connecte pour
-        // la première fois : on teste le mot de passe contre le proxy
-        $proxyUrl = $this->container->getParameter('proxy_url');
-
-        // Si pas de proxy configuré on affiche une erreur
-        if ($proxyUrl === null)
-            return $event->setResponse(new JsonResponse(array(
-                'code' => 502,
-                'message' => 'Proxy Error'
-            ), 401));
-
-        // Réglage des options cURL
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://www.google.com');
-        curl_setopt($ch, CURLOPT_PROXY, $proxyUrl);
-        curl_setopt($ch, CURLOPT_PROXYUSERPWD, $username . ':' . $password);
-
-        // Récupération du HTTP CODE
-        curl_exec($ch);
-        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-
-        if (in_array($code, array(0, 401, 403, 407)))
-            return $this->badCredentials($event);
+        // la première, on teste contre la v1
+        $curl = $this->container->get('ki_upont.curl');
+        $data = $curl->curl('https://upont.enpc.fr/api.php?action=login_v1&username='.$username.'&password='.$password, array(
+            CURLOPT_PROXY => ''
+        ));
+        if (!preg_match('#true#', $data))
+            return $this->badCredentials($event, 'Mauvais mot de passe v1');
 
         // Si la connexion a réussie, le mot de passe proxy est bon
         // On le stocke dans la BDD (vol de mot de passe mwahahahah)
-        $user->setPlainPassword($request->get('password'));
+        $user->setPlainPassword($password);
+        $user->setEnabled(true);
         $userManager->updateUser($user);
 
         // On reteste le login maintenant que le mot de passe est bon
-        $curl = $this->container->get('ki_upont.curl');
         $data = $curl->curl($event->getRequest()->getUri(), array(
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => array('username' => $username, 'password' => $password, 'first' => 1),
