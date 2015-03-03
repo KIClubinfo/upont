@@ -11,16 +11,15 @@
 .theme(@col1, @col2, @col3, @col4, @col5, @col6, @col7, @footerUp) {
     color: @col2;
     background: @col6;
-    .up-navbar {
+    .up-main-title {
+        border: solid 1px @col1;
+        &:after {
+            color: @col1;
+        }
+    }
+    header {
         background: @col3;
         border-bottom: solid 1px @col4;
-        .up-title {
-            border: solid 1px @col1;
-            &:after {
-                color: @col1;
-            }
-        }
-        // background:@col2;
     }
     footer {
         background: @col3;
@@ -50,7 +49,10 @@
     select, textarea, input, .btn-default {
         background: @col3;
         border: solid 1px @col5;
-        color: @col2
+        color: @col2;
+    }
+    select, textarea, input {
+        width: 100%;
     }
     input:focus {
         border-color: @col1;
@@ -74,8 +76,8 @@
         }
     }
     .up-aside {
-        color: #FFF-@col6;
-        > ul a {
+        color: #FFF-@col6*0.8;
+        a {
             &:hover {
                 border-bottom: solid 1px @col2;
             }
@@ -209,48 +211,37 @@ footer {
 .container-fluid {
     padding: 0px;
 }
-.up-navbar {
+header {
     z-index: 200;
-    padding: 0 3em;
-    position: fixed;
+    position: fixed !important;
     top: 0px;
-    width: 100%;
     margin: 0px;
-    height: @navbarHgt;
     box-shadow: 0px -5px 10px #000;
-    .up-title {
-        border-radius: 6px;
-        font-size: 1.5em;
-        padding: 0.3em;
-        font-family: 'caviarDreams';
-        line-height: @navbarHgt;
-        &:before {
-            @media(min-width: @sizeMd) {
-                content: "u";
-            }
-            content:"u";
-        }
-        &:after {
-            @media(min-width: @sizeMd) {
-                content: "Pont";
-            }
-            content:"P";
-        }
-    }
+    height: @navbarHgt;
+    align-items: center;
     .up-navbar-link {
-        line-height: @navbarHgt;
         text-transform: uppercase;
         font-family: 'montserrat';
         font-size: 0.9em;
-        padding: 0.4em 1em;
     }
-    .up-navbar-list {
-        list-style: none;
-        margin: 0px;
-        text-align: right;
-        li {
-            display: inline-block;
+}
+.up-main-title {
+    border-radius: 6px;
+    font-size: 1.5em;
+    padding: 0.3em;
+    margin: 0px 1em;
+    font-family: 'caviarDreams';
+    &:before {
+        @media(min-width: @sizeMd) {
+            content: "u";
         }
+        content:"u";
+    }
+    &:after {
+        @media(min-width: @sizeMd) {
+            content: "Pont";
+        }
+        content:"P";
     }
 }
 .modal-header h1 {
@@ -295,13 +286,10 @@ footer {
 }
 // ------ Classes Perso
 .up-zone-picker {
-    display: block;
-    font-size: 1em;
-    padding: 0px !important;
     a {
         padding: 0.5em 1.5em;
         margin: 0px 0.5em;
-        display: inline-block;
+        // display: inline-block;
         &.active {
             font-weight: bold;
         }
@@ -318,8 +306,9 @@ footer {
 }
 .up-ticket {
     position: relative;
-    padding: 1.5em;
+    margin: 0 1em 1em;
     &:not(.up-zone-picker) {
+        padding: 1.5em;
         margin-top: 1.5em;
     }
     .up-chapeau {
@@ -355,6 +344,9 @@ footer {
             font-size: 1.3em;
             margin: 0px;
             padding: 0px;
+        }
+        .up-ticket-head {
+            height: 10em;
         }
     }
 }
@@ -407,24 +399,19 @@ footer {
 }
 .up-aside {
     padding: 1em 0 0 1%;
-    font-size: 1.2em;
-    > ul {
-        list-style: none;
-        padding: 0;
-        li {
-            margin: 0.5em
-        }
-        a {
-            display: block;
-            padding: 0em 0.8em;
-            margin: 0;
-        }
-        a:hover {
-            margin-bottom: -1px;
-        }
-        a.active {
-            margin-bottom: -1px;
-        }
+    font-size: 1.05em;
+    list-style: none;
+    padding: 0.5em;
+    a {
+        display: block;
+        padding: 0em 0.8em;
+        margin: 0;
+    }
+    a:hover {
+        margin-bottom: -1px;
+    }
+    a.active {
+        margin-bottom: -1px;
     }
 }
 .up-main-view {
