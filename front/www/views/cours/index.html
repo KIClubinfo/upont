@@ -1,14 +1,16 @@
-<div class="up-ticket up-zone-picker">
+<div class="up-column up-zone-picker up-ticket">
     <div class="up-zp-image"><img src="img/cours.jpg" />
     </div>
-    <a ui-sref="cours.section({section: '1a'})" ui-sref-active="active">1A</a>
-    <a ui-sref="cours.section({section: 'gcc'})" ui-sref-active="active">GCC</a>
-    <a ui-sref="cours.section({section: 'gi'})" ui-sref-active="active">GI</a>
-    <a ui-sref="cours.section({section: 'gmm'})" ui-sref-active="active">GMM</a>
-    <a ui-sref="cours.section({section: 'segf'})" ui-sref-active="active">SEGF</a>
-    <a ui-sref="cours.section({section: 'imi'})" ui-sref-active="active">IMI</a>
-    <a ui-sref="cours.section({section: 'vet'})" ui-sref-active="active">VET</a>
-    <a ui-sref="cours.section({section: 'autres'})" ui-sref-active="active">Autres</a>
+    <div class="up-row left">
+        <a ui-sref="cours.section({section: '1a'})" ui-sref-active="active">1A</a>
+        <a ui-sref="cours.section({section: 'gcc'})" ui-sref-active="active">GCC</a>
+        <a ui-sref="cours.section({section: 'gi'})" ui-sref-active="active">GI</a>
+        <a ui-sref="cours.section({section: 'gmm'})" ui-sref-active="active">GMM</a>
+        <a ui-sref="cours.section({section: 'segf'})" ui-sref-active="active">SEGF</a>
+        <a ui-sref="cours.section({section: 'imi'})" ui-sref-active="active">IMI</a>
+        <a ui-sref="cours.section({section: 'vet'})" ui-sref-active="active">VET</a>
+        <a ui-sref="cours.section({section: 'autres'})" ui-sref-active="active">Autres</a>
+    </div>
 </div>
 
-<div ui-view autoscroll="false" class="row"></div>
+<div ui-view autoscroll="false"></div>
