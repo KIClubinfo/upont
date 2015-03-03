@@ -1,29 +1,33 @@
-<div class="col-xs-12 centering" ng-submit="ContactKI(type, contenu)">
-    <div class="up-ticket">
-        <div class="row stacked-row">
-            <label class="col-xs-12 col-sm-2 col-sm-offset-2" for="contact_type">Type :</label>
-            <select class="col-xs-12 col-sm-6" ng-model="type" id="contact_type">
-                <option value=""></option>
-                <optgroup label="--- YouPont ---"></optgroup>
-                <option value="1">Rapporter un bug</option>
-                <option value="2">Demande de fonctionnalité</option>
-                <option value="3">Demande de création de page/club</option>
-                <option value="4">Changement de nom/prénom</option>
-                <option value="5">Autre</option>
-                <optgroup label="--- Dépannage ---"></optgroup>
-                <option value="6">Internet ne marche pas</option>
-                <option value="7">Problème logiciel</option>
-                <option value="8">Problème matériel</option>
-                <option value="9">Autre</option>
-                <optgroup label="------"></optgroup>
-                <option value="10">Ou juste envoyer un message au KI :D</option>
-            </select>
+<div ng-submit="ContactKI(type, contenu)">
+    <div class="up-ticket up-column padded">
+        <div class="up-row center">
+            <label class="up-col-xs-12 up-col-sm-2" for="contact_type">Type :</label>
+            <div class="up-col-xs-12 up-col-sm-5">
+                <select ng-model="type" id="contact_type">
+                    <option value=""></option>
+                    <optgroup label="--- YouPont ---"></optgroup>
+                    <option value="1">Rapporter un bug</option>
+                    <option value="2">Demande de fonctionnalité</option>
+                    <option value="3">Demande de création de page/club</option>
+                    <option value="4">Changement de nom/prénom</option>
+                    <option value="5">Autre</option>
+                    <optgroup label="--- Dépannage ---"></optgroup>
+                    <option value="6">Internet ne marche pas</option>
+                    <option value="7">Problème logiciel</option>
+                    <option value="8">Problème matériel</option>
+                    <option value="9">Autre</option>
+                    <optgroup label="------"></optgroup>
+                    <option value="10">Ou juste envoyer un message au KI :D</option>
+                </select>
+            </div>
         </div>
-        <div class="row stacked-row">
-            <label class="col-xs-12 col-sm-2 col-sm-offset-2" for="contact_contenu">Message :</label>
-            <textarea class="col-xs-12 col-sm-6" ng-model="contenu" id="contact_contenu"></textarea>
+        <div class="up-row center">
+            <label class="up-col-xs-12 up-col-sm-2" for="contact_contenu">Message :</label>
+            <div class="up-col-xs-12 up-col-sm-5">
+                <textarea ng-model="contenu" id="contact_contenu"></textarea>
+            </div>
         </div>
-        <div class="row stacked-row">
+        <div class="centering">
             <button type="button" class="btn btn-default">Envoyer</button>
         </div>
     </div>
