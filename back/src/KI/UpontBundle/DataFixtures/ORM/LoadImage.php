@@ -35,7 +35,7 @@ class LoadImageFixture extends AbstractFixture implements OrderedFixtureInterfac
             'software-vista' => 'vista.png',
         );
 
-        $path = __DIR__ . '/../../../../../web/uploads/tmp/';
+        $path = __DIR__ . '/../../../../../web/uploads/tests/';
         $fs = new Filesystem();
 
         foreach ($images as $tag => $name) {
