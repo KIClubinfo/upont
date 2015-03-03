@@ -51,6 +51,7 @@ class Generator extends AbstractFixture
         // Normalement la BDD devra être reset proprement à la main, là on le
         // fait manuellement pour pouvoir tester la migration rapidement
         $this->truncate(array(
+            'Likeable',
             'fos_user',
             'Club',
             'ClubUser',
@@ -62,6 +63,7 @@ class Generator extends AbstractFixture
             'event_pookie',
             'Movie',
             'Serie',
+            'Game',
             'Episode',
             'Album',
             'Music',
@@ -226,8 +228,6 @@ class Generator extends AbstractFixture
             $entity->setName($item['nom']);
             $entity->setFullname($item['nom_long']);
             $entity->setActive(true);
-            if (isset($this->images[$item['id_image']]))
-                $entity->setImage($this->images[$item['id_image']]);
             $this->em->persist($entity);
             $this->clubs[$id] = $entity;
             $i++;
@@ -593,9 +593,9 @@ class Generator extends AbstractFixture
                     $this->episode[$id] = $entity;
                     break;
             }
-            if($e%500 == 1)
+            if($e%100 == 1)
                 $this->em->flush();
-            if($m%500 == 1)
+            if($m%100 == 1)
                 $this->em->flush();
         }
         $this->log($e . ' épisodes importés');
@@ -627,7 +627,7 @@ class Generator extends AbstractFixture
             }
             $i++;
 
-            if($i%500 == 1)
+            if($i%100 == 1)
                 $this->em->flush();
         }
         $this->log($i . ' fichiers Ponthub téléchargés');
