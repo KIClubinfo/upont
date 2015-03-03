@@ -9,18 +9,15 @@ angular.module('upont')
                     $rootScope.isLogged = false;
                     $location.path('/');
                 }
-                if (response.status == 500)
-                    $location.path('/erreur');
+                if (response.status == 500) $location.path('/erreur');
                 if (response.status == 503) {
                     if (response.data.until)
                         StorageService.set('maintenance', response.data.until);
-                    else
-                        StorageService.remove('maintenance');
+                    else StorageService.remove('maintenance');
                     $location.path('/maintenance');
                 }
-                if(response.status == 404)
+                if (response.status == 404)
                     $location.path('/404');
-
                 return $q.reject(response);
             }
         };
@@ -31,7 +28,7 @@ angular.module('upont')
             if (config.url.substr(config.url.length - 5) == '.html')
                 return null;
 
-            if (StorageService.get('token') && jwtHelper.isTokenExpired(StorageService.get('token'))){
+            if (StorageService.get('token') && jwtHelper.isTokenExpired(StorageService.get('token'))) {
                 $rootScope.isLogged = false;
                 $rootScope.isAdmin = false;
                 StorageService.remove('token');
@@ -71,12 +68,11 @@ angular.module('upont')
     .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
         cfpLoadingBarProvider.latencyThreshold = 200;
     }])
-    .run(['$rootScope', 'StorageService', '$state', 'cfpLoadingBar', 'jwtHelper', function($rootScope, StorageService, $state, cfpLoadingBar, jwtHelper){
-        if(StorageService.get('token') && !jwtHelper.isTokenExpired(StorageService.get('token'))){
+    .run(['$rootScope', 'StorageService', '$state', 'cfpLoadingBar', 'jwtHelper', function($rootScope, StorageService, $state, cfpLoadingBar, jwtHelper) {
+        if (StorageService.get('token') && !jwtHelper.isTokenExpired(StorageService.get('token'))) {
             $rootScope.isLogged = true;
-            $rootScope.isAdmin = (StorageService.get('droits').indexOf("ROLE_ADMIN") != -1)?true:false;
-        }
-        else{
+            $rootScope.isAdmin = (StorageService.get('droits').indexOf("ROLE_ADMIN") != -1) ? true : false;
+        } else {
             $rootScope.isLogged = false;
             $rootScope.isAdmin = false;
             StorageService.remove('token');
@@ -90,7 +86,7 @@ angular.module('upont')
             $state.go('home.disconnected');
         };
 
-        if($state.is('calendrier'))
+        if ($state.is('calendrier'))
             $rootScope.hideFooter = true;
         else
             $rootScope.hideFooter = false;
