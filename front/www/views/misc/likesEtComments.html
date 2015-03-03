@@ -1,10 +1,12 @@
-<div class="up-likes col-xs-6 col-sm-2 col-sm-offset-2" ng-click="upvote(url);" ng-class="{active : objet.like}">
-    <span class="glyphicon glyphicon-thumbs-up"></span>{{ objet.likes }}
-</div>
+<div class="up-row padded center">
+    <div class="up-likes" ng-click="upvote(url);" ng-class="{active : objet.like}">
+        <span class="glyphicon glyphicon-thumbs-up"></span>{{ objet.likes }}
+    </div>
 
-<div class="up-likes col-xs-6 col-sm-2" ng-click="downvote(url);" ng-class="{active : objet.unlike}">
-    <span class="glyphicon glyphicon-thumbs-down"></span>{{ objet.unlikes }}
-</div>
+    <div class="up-likes" ng-click="downvote(url);" ng-class="{active : objet.dislike}">
+        <span class="glyphicon glyphicon-thumbs-down"></span>{{ objet.dislikes }}
+    </div>
 
-<div class="col-xs-12 col-sm-4"><span class="glyphicon glyphicon-comment"></span>
+    <div><span class="glyphicon glyphicon-comment"></span>
+    </div>
 </div>
