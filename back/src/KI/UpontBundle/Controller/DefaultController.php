@@ -442,6 +442,7 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
             'major'       => $out[2][$i],
             'minor'       => $out[3][$i],
             'build'       => shell_exec('git log --pretty=format:"%h" -n 1'),
+            'date'        => (int) shell_exec('git log -1 --pretty=format:%ct'),
             'environment' => $env
         ));
     }
