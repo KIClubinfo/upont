@@ -60,6 +60,9 @@
 
                     <ons-col class="right">
                         <div class="name">{{ event.name }}</div>
+                        <div class="important" ng-if="event.entry_method == 'Shotgun'">
+                            <ons-icon icon="fa-bolt"></ons-icon> {{ event.shotgun_date | readableDate }} - SHOTGUN - {{ event.shotgun_limit }} places
+                        </div>
                         <div class="info">
                             <div ng-hide="event.place == null">
                                 <ons-icon icon="fa-map-marker"></ons-icon> {{ event.place }}
@@ -82,7 +85,7 @@
 
                     <ons-col class="right">
                         <div class="name">{{ event.course.name }}</div>
-                        <div class="course-location">
+                        <div class="important">
                             <div ng-hide="event.location == null">
                                 <ons-icon icon="fa-map-marker"></ons-icon> {{ event.location }}
                             </div>
