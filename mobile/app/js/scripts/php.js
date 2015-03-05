@@ -17,7 +17,9 @@ function in_array(needle, haystack, recherche) {
             haystack[i] = haystack[i].sansAccent().toUpperCase();
             needle = needle.toUpperCase();
         }
-        if(haystack[i] == needle) return true;
+        if(haystack[i] == needle) {
+            return true;
+        }
     }
     return false;
 }
@@ -72,12 +74,12 @@ function htmlspecialchars(string, quote_style) {
             if (OPTS[quote_style[i]] === 0) {
                 noquotes = true;
             } else if (OPTS[quote_style[i]]) {
-                optTemp = optTemp | OPTS[quote_style[i]];
+                optTemp = optTemp || OPTS[quote_style[i]];
             }
         }
         quote_style = optTemp;
     }
-    if (quote_style & OPTS.ENT_HTML_QUOTE_SINGLE) {
+    if (quote_style && OPTS.ENT_HTML_QUOTE_SINGLE) {
         string = string.replace(/&#0*39;/g, "'"); // PHP doesn't currently escape if more than one 0, but it should
         // string = string.replace(/&apos;|&#x0*27;/g, "'"); // This would also be useful here, but not a part of PHP
     }

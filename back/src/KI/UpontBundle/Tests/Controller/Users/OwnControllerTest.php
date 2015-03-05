@@ -68,6 +68,10 @@ class OwnControllerTest extends WebTestCase
         $this->client->request('GET', '/own/newsitems');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
+
+        $this->client->request('GET', '/own/newsitems?limit=20&page=2');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 200);
     }
 
     public function testGetPreferences()
