@@ -326,15 +326,17 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
     {
         $repo = $this->em->getRepository('KIUpontBundle:Publications\Newsitem');
 
-        $followedNews = $repo->findBy(array('authorClub'=> $this->getFollowedClubs()));
+        list($findBy, $sortBy, $limit, $offset, $page, $totalPages, $count) = $this->paginate($repo);
+        $findBy['authorClub'] = $this->getFollowedClubs();
+        $results = $repo->findBy($findBy, $sortBy, $limit, $offset);
 
         // Tri des données
         $dates = array();
-        foreach ($followedNews as $key => $newsitem) {
+        foreach ($results as $key => $newsitem) {
             $dates[$key] = $newsitem->getDate();
         }
-        array_multisort($dates, SORT_DESC, $followedNews);
-        return $this->restResponse($followedNews);
+        array_multisort($dates, SORT_DESC, $results);
+        return $this->generatePages($results, $limit, $page, $totalPages, $count);
     }
 
     /**

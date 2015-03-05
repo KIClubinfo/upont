@@ -11,10 +11,7 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
 {
     // Actions REST
 
-    /**
-     * @Route\View()
-     */
-    protected function getAll($results = null, $context = null)
+    protected function paginate($repo)
     {
         // On pagine les résultats
         $request = $this->getRequest()->query;
@@ -31,7 +28,7 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
         }
 
         // On compte le nombre total d'entrées dans la BDD
-        $qb = $this->repo->createQueryBuilder('o');
+        $qb = $repo->createQueryBuilder('o');
         $qb->select('count(o.id)');
         $count = $qb->getQuery()->getSingleScalarResult();
 
@@ -51,9 +48,11 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
         if ($request->has('filterBy') && $request->has('filterValue'))
             $findBy = array($request->get('filterBy') => $request->get('filterValue'));
 
-        // On génère les résultats et les liens
-        $results = $this->repo->findBy($findBy, $sortBy, $limit, ($page-1)*$limit);
+        return array($findBy, $sortBy, $limit, ($page - 1)*$limit, $page, $totalPages, $count);
+    }
 
+    public function generatePages($results, $limit, $page, $totalPages, $count, $context = null)
+    {
         foreach ($results as $key => $result) {
             $results[$key] = $this->retrieveLikes($result);
 
@@ -97,6 +96,16 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
                 'Total-count' => $count
             )
         );
+    }
+
+    /**
+     * @Route\View()
+     */
+    public function getAll()
+    {
+        list($findBy, $sortBy, $limit, $offset, $page, $totalPages, $count) = $this->paginate($this->repo);
+        $results = $this->repo->findBy($findBy, $sortBy, $limit, $offset);
+        return $this->generatePages($results, $limit, $page, $totalPages, $count);
     }
 
     /**
