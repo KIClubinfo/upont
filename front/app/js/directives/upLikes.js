@@ -1,10 +1,16 @@
-angular.module('upont').directive('upLikes', ['$window', function($window) {
+angular.module('upont').directive('upLikes', function() {
     return {
         scope: {
             objet: '=',
             url: '='
         },
         controller: ["$scope", "$resource", function($scope, $resource) {
+            if($scope.objet.comments > 0)
+                $resource(apiPrefix + $scope.url + '/comments').query(function(data){
+                    $scope.comments = data;
+                    $scope.shownComments = -2;
+                });
+
             $scope.upvote = function() {
                 if (!$scope.objet.like) {
                     $resource(apiPrefix + $scope.url + '/like').save(function() {
@@ -40,7 +46,19 @@ angular.module('upont').directive('upLikes', ['$window', function($window) {
                     });
                 }
             };
+
+            $scope.openComments = function(){
+                $scope.shownComments = $scope.objet.comments;
+            };
+
+            // $scope.comment = function(text){
+            //     if(text.length > 0){
+            //         $resource(apiPrefix + $scope.url + '/comments').save({ text: text }, function(){
+            //             $scope.comments.push({ });
+            //         });
+            //     }
+            // };
         }],
         templateUrl : 'views/misc/likesEtComments.html'
     };
-}]);
+});
