@@ -25,10 +25,10 @@
         "lexik/jwt-authentication-bundle": "@stable",
         "doctrine/doctrine-fixtures-bundle": "2.2.*",
         "nelmio/api-doc-bundle": "~2.7",
-        "bomo/ical-bundle": "1.0.*"
+        "bomo/ical-bundle": "1.0.*",
+        "sensio/generator-bundle": "~2.3"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~2.3",
         "liip/functional-test-bundle": "dev-master"
     },
     "scripts": {
