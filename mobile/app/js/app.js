@@ -1,5 +1,5 @@
-var url = 'https://upont.enpc.fr/api';
-//var url = 'http://localhost/api';
+//var url = 'https://upont.enpc.fr/api';
+var url = 'http://localhost/api';
 moment.locale('fr');
 
 var onsAlert = function(title, message) {
