@@ -47,7 +47,7 @@
         </ons-pull-hook>
 
         <ons-list class="event-list">
-            <ons-list-item modifier="chevron" class="event"
+            <ons-list-item modifier="{{ event.course == null ? 'chevron' : '' }}" class="event"
                            ng-repeat="event in events | orderBy:['start_date']"
                            ng-if="eventToday == 'true' ? event.start_date <= endDay : event.start_date > endDay">
                 <ons-row ng-if="event.name" ng-click="load(event.slug)">
@@ -82,11 +82,12 @@
 
                     <ons-col class="right">
                         <div class="name">{{ event.course.name }}</div>
-                        <div class="info">
+                        <div class="course-location">
                             <div ng-hide="event.location == null">
                                 <ons-icon icon="fa-map-marker"></ons-icon> {{ event.location }}
                             </div>
-
+                        </div>
+                        <div class="info">
                             <div ng-hide="event.course.group == null">
                                 <ons-icon icon="fa-user"></ons-icon> Groupe {{ event.course.group }}
                             </div>
