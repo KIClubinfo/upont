@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('Disconnected_Ctrl', ['$scope', '$rootScope', '$state', 'StorageService', '$http', function($scope, $rootScope, $state, StorageService, $http) {
+    .controller('Disconnected_Ctrl', ['$scope', '$rootScope', '$state', 'StorageService', '$http', 'jwtHelper', function($scope, $rootScope, $state, StorageService, $http, jwtHelper) {
         $scope.login = function(pseudo, mdp) {
             if(pseudo.length && mdp.length)
                 $http
@@ -11,6 +11,9 @@ angular.module('upont')
                         StorageService.set('token', data.token);
                         StorageService.set('droits', data.data.roles);
                         $rootScope.isLogged = true;
+                        $resource(apiPrefix + 'users/:slug', {slug: jwtHelper.decodeToken(data.token).username }).get(function(data){
+                            $rootScope.me = data;
+                        });
                         $state.go("home.connected");
                     })
                     .error(function(data, status, headers, config) {

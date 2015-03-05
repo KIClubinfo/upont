@@ -431,3 +431,27 @@ header {
     font-weight: bold;
     font-size: 0.95em;
 }
+
+.up-comment-img{
+    height:35px;
+    margin: 0 0.5em;
+}
+
+.up-comment{
+    margin: 0.6em;
+}
+
+.up-comment.ng-move, .up-comment.ng-enter, .up-comment.ng-leave {
+  -webkit-transition:all linear 0.5s;
+  transition:all linear 0.5s;
+}
+
+.up-comment.ng-leave.ng-leave-active, .up-comment.ng-move, .up-comment.ng-enter {
+  opacity:0;
+  max-height:0;
+}
+
+.up-comment.ng-leave, .up-comment.ng-move.ng-move-active, .up-comment.ng-enter.ng-enter-active {
+  opacity:1;
+  max-height:initial;
+}
