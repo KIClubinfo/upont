@@ -29,6 +29,23 @@
             </div>
         </div>
 
+        <ons-pull-hook ng-action="init($done)" var="loader">
+            <span ng-switch="loader.getCurrentState()">
+                <span ng-switch-when="initial">
+                    <ons-icon size="35px" icon="ion-arrow-down-a"></ons-icon>
+                    Tirer pour actualiser
+                </span>
+                <span ng-switch-when="preaction">
+                    <ons-icon size="35px" icon="ion-arrow-up-a"></ons-icon>
+                    Relacher pour actualiser
+                </span>
+                <span ng-switch-when="action">
+                    <ons-icon size="35px" spin="true" icon="ion-load-d"></ons-icon>
+                    Chargement...
+                </span>
+            </span>
+        </ons-pull-hook>
+
         <ons-list class="event-list">
             <ons-list-item modifier="chevron" class="event"
                            ng-repeat="event in events | orderBy:['start_date']"
