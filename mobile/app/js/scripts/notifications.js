@@ -69,8 +69,9 @@ if(window.plugins) {
                         StorageService.set('registered', false);
                         $rootScope.registered = false;
 
-                        if(StorageService.get('registeredId'))
+                        if(StorageService.get('registeredId')) {
                             $http.delete(url + '/own/device/' + StorageService.get('registeredId')).success(function() { onsAlert('Ok', 'Notifications Push désactivées'); });
+                        }
                     });
                 }
             };
@@ -128,12 +129,14 @@ function onNotificationGCM(e) {
     case 'message':
         // Appli en cours d'utilisation
         if (e.foreground) {
-
+            alert('');
         } else {
             if (e.coldstart) {
                 // Appli lancée depuis le pannel des notifs
+                alert('');
             } else {
                 // Appli en background
+                alert('');
             }
         }
         break;

@@ -1,34 +1,54 @@
 <ons-page ng-controller="UsersController" data-ng-init="init()">
     <ons-navigator animation="slide" var="nav">
-        <ons-toolbar fixed-style>
-            <div class="left">
-                <ons-toolbar-button ng-click="menu.toggle()">
-                    <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
-                </ons-toolbar-button>
-            </div>
-            <div class="center">Élèves</div>
-        </ons-toolbar>
+        <ons-tabbar var="tabbar">
+            <ons-tab page="people.html">
+                <span class="tab-label">0{{ promo - 1 }}</span>
+            </ons-tab>
 
-        <div class="navigation-bar">
-            <div class="navigation-bar__center">
-                <input ng-model="search" type="search" class="search-input" style="width: 96%; margin: 6px auto 6px auto;" placeholder="Recherche">
-            </div>
-        </div>
 
-        <ons-list class="person-list" ng-repeat="char in chars | orderBy">
-            <ons-list-header ng-hide="(users[char] | filter:search).length == 0" class="header">{{char}}</ons-list-header>
-            <ons-list-item class="person" modifier="tappable chevron" ng-click="load(user.username)"
-                           ng-repeat="user in users[char] | filter:search | orderBy:['first_name','last_name']:true">
-                <ons-row>
-                    <ons-col width="40px">
-                        <img style="background-image: url('{{ url + '/' + user.image_url }}')" class="image">
-                    </ons-col>
-                    <ons-col class="name">
-                        {{ user.first_name }} {{ user.last_name }}
-                    </ons-col>
-                </ons-row>
-            </ons-list-item>
-        </ons-list>
+            <ons-tab page="people.html" active="true">
+                <span class="tab-label">0{{ promo }}</span>
+            </ons-tab>
+
+            <!-- A changer à chaque rentrée !!! -->
+            <ons-tab page="people.html" ng-if="promo < 17">
+                <span class="tab-label">0{{ promo + 1 }}</span>
+            </ons-tab>
+        </ons-tabbar>
+
+        <ons-template id="people.html">
+            <ons-toolbar fixed-style>
+                <div class="left">
+                    <ons-toolbar-button ng-click="menu.toggle()">
+                        <ons-icon icon="fa-bars" fixed-width="false"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+                <div class="center">Élèves</div>
+            </ons-toolbar>
+
+
+
+            <div class="navigation-bar">
+                <div class="navigation-bar__center">
+                    <input ng-model="search" type="search" class="search-input" style="width: 96%; margin: 6px auto 6px auto;" placeholder="Recherche">
+                </div>
+            </div>
+
+            <ons-list class="person-list" ng-repeat="char in chars | orderBy">
+                <ons-list-header ng-hide="(users[char] | filter:search).length == 0" class="header">{{char}}</ons-list-header>
+                <ons-list-item class="person" modifier="tappable chevron" ng-click="load(user.username)"
+                               ng-repeat="user in users[char] | filter:search | orderBy:['first_name','last_name']">
+                    <ons-row>
+                        <ons-col width="40px">
+                            <img style="background-image: url('{{ url + '/' + user.image_url }}')" class="image">
+                        </ons-col>
+                        <ons-col class="name">
+                            {{ user.first_name }} {{ user.last_name }}
+                        </ons-col>
+                    </ons-row>
+                </ons-list-item>
+            </ons-list>
+        </ons-template>
     </ons-navigator>
 </ons-page>
 
@@ -40,7 +60,7 @@
         <ons-toolbar fixed-style>
             <div class="left">
                 <ons-toolbar-button ng-click="menu.toggle()">
-                    <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+                    <ons-icon icon="fa-bars" fixed-width="false"></ons-icon>
                 </ons-toolbar-button>
             </div>
             <div class="center">{{ userItem.nick }}</div>
