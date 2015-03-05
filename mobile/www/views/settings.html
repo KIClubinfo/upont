@@ -17,17 +17,17 @@
                 Clubs suivis
             </ons-list-item>
 
-            <ons-list-item ng-hide="registered" modifier="tappable" ng-click="register()">
+            <ons-list-item ng-hide="!pushable || registered" modifier="tappable" ng-click="register()">
                 <ons-icon icon="fa-send-o"></ons-icon>
                 Activer les notifications push
             </ons-list-item>
 
-            <ons-list-item ng-hide="!registered" modifier="tappable chevron" ng-click="configNotifs()">
+            <ons-list-item ng-hide="!pushable || !registered" modifier="tappable chevron" ng-click="configNotifs()">
                 <ons-icon icon="fa-gears"></ons-icon>
                 Configurer les notifications push
             </ons-list-item>
 
-            <ons-list-item ng-hide="!registered" modifier="tappable chevron" ng-click="unregister()">
+            <ons-list-item ng-hide="!pushable || !registered" modifier="tappable chevron" ng-click="unregister()">
                 <ons-icon icon="fa-send-o"></ons-icon>
                 Désactiver les notifications push
             </ons-list-item>
