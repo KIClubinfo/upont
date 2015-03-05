@@ -19,7 +19,7 @@ module
         var now = new Date();
         now = Math.floor(now.getTime() / 1000);
 
-	    $scope.init = function(){
+	    $scope.init = function($done){
 		    var events;
 		    $http.get(url + '/own/events').success(function(data) {
 			    events = data;
@@ -36,7 +36,12 @@ module
 		                }
 		            }
 		            $scope.events = events;
-		        });
+		        })
+		        .finally(function() {
+                    if ($done) {
+                        $done();
+                    }
+                });
 		    });
 	    };
 

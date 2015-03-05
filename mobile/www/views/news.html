@@ -14,6 +14,23 @@
             </div>-->
         </ons-toolbar>
 
+        <ons-pull-hook ng-action="init($done)" var="loader">
+            <span ng-switch="loader.getCurrentState()">
+                <span ng-switch-when="initial">
+                    <ons-icon size="35px" icon="ion-arrow-down-a"></ons-icon>
+                    Tirer pour actualiser
+                </span>
+                <span ng-switch-when="preaction">
+                    <ons-icon size="35px" icon="ion-arrow-up-a"></ons-icon>
+                    Relacher pour actualiser
+                </span>
+                <span ng-switch-when="action">
+                    <ons-icon size="35px" spin="true" icon="ion-load-d"></ons-icon>
+                    Chargement...
+                </span>
+            </span>
+        </ons-pull-hook>
+
         <ons-list class="timeline" modifier="inset">
             <ons-list-item modifier="tappable" ng-repeat="new in news" ng-click="load(new.slug)">
                 <ons-row>

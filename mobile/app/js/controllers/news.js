@@ -5,10 +5,15 @@ module
 	    $scope.comments = [];
 	    $scope.url = url;
 
-	    $scope.init = function(){
+	    $scope.init = function($done){
 		    $http.get(url + '/own/newsitems').success(function(data){
 			    $scope.news = data;
-		    });
+		    })
+	        .finally(function() {
+                if ($done) {
+                    $done();
+                }
+            });
 	    };
 
 	    $scope.load = function(slug){
