@@ -68,10 +68,13 @@ angular.module('upont')
     .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
         cfpLoadingBarProvider.latencyThreshold = 200;
     }])
-    .run(['$rootScope', 'StorageService', '$state', 'cfpLoadingBar', 'jwtHelper', function($rootScope, StorageService, $state, cfpLoadingBar, jwtHelper) {
+    .run(['$rootScope', 'StorageService', '$state', 'cfpLoadingBar', 'jwtHelper', '$resource', function($rootScope, StorageService, $state, cfpLoadingBar, jwtHelper, $resource) {
         if (StorageService.get('token') && !jwtHelper.isTokenExpired(StorageService.get('token'))) {
             $rootScope.isLogged = true;
             $rootScope.isAdmin = (StorageService.get('droits').indexOf("ROLE_ADMIN") != -1) ? true : false;
+            $resource(apiPrefix + 'users/:slug', {slug: jwtHelper.decodeToken(StorageService.get('token')).username }).get(function(data){
+                $rootScope.me = data;
+            });
         } else {
             $rootScope.isLogged = false;
             $rootScope.isAdmin = false;
