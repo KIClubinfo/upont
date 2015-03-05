@@ -212,23 +212,23 @@
     }
 }
 
-@media(min-height:@sizeSm) {
-    .visible-xs {
+.invisible-xs {
+    @media(max-width:@sizeSm) {
         display: none !important;
     }
 }
-@media(min-height: @sizeSm) and (max-height: @sizeMd) {
-    .visible-sm {
+.invisible-sm {
+    @media(min-width: @sizeSm) and (max-width: @sizeMd) {
         display: none !important;
     }
 }
-@media(min-height: @sizeMd) and (max-height: @sizeLg) {
-    .visible-md {
+.invisible-md {
+    @media(min-width: @sizeMd) and (max-width: @sizeLg) {
         display: none !important;
     }
 }
-@media(min-height: @sizeLg) {
-    .visible-lg {
+.invisible-lg {
+    @media(min-width: @sizeLg) {
         display: none !important;
     }
 }
