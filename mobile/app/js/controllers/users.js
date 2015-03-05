@@ -7,7 +7,7 @@ module
 	    $scope.url = url;
 
 	    $scope.init = function(){
-		    $http.get(url + '/users').success(function(data){
+		    $http.get(url + '/users?limit=1000').success(function(data){
 			    var sorted = [];
 			    var first;
 			    $scope.chars = [];
