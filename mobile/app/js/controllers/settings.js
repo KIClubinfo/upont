@@ -12,6 +12,7 @@ module
 	    $scope.clubsNames = [];
 	    $scope.clubsFollowed = [];
 	    $scope.balance = null;
+	    $scope.pushable = false;
 	    $scope.notifs = [];
 	    $scope.notifTexts = {
 	        'notif_followed_event' : 'Nouvel événement',
@@ -31,6 +32,7 @@ module
 		    $http.get(url + '/foyer/balance').success(function(data){
 			    $scope.balance = data;
 		    });
+		    $scope.pushable = /Android/i.test(navigator.userAgent);
 	    };
 
 	    $scope.loadClubsFollowed = function() {
