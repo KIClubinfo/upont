@@ -67,30 +67,30 @@ describe('upLikes', function(){
     it('should be able to upvote(), usual case', function(){
         $rootScope.potato = {
             like: false,
-            unlike: false,
+            dislike: false,
             likes: 10,
-            unlikes: 10,
+            dislikes: 10,
         };
-        $rootScope.url='events';
+        $rootScope.url='carrot';
 
         var element = $compile("<div up-likes objet='potato' url='url'></div>")($rootScope);
         $rootScope.$digest();
         var scope = element.isolateScope();
-        $httpBackend.expectPOST('/api/events/like').respond(200, '');
+        $httpBackend.expectPOST('/api/carrot/like').respond(200, '');
         scope.upvote();
         $httpBackend.flush();
         expect($rootScope.potato.like).toBe(true);
-        expect($rootScope.potato.unlike).toBe(false);
+        expect($rootScope.potato.dislike).toBe(false);
         expect($rootScope.potato.likes).toBe(11);
-        expect($rootScope.potato.unlikes).toBe(10);
+        expect($rootScope.potato.dislikes).toBe(10);
     });
 
     it('should be able to upvote(), having already upvoted', function(){
         $rootScope.potato = {
             like: true,
-            unlike: false,
+            dislike: false,
             likes: 11,
-            unlikes: 10,
+            dislikes: 10,
         };
         $rootScope.url='events';
 
@@ -101,93 +101,93 @@ describe('upLikes', function(){
         scope.upvote();
         $httpBackend.flush();
         expect($rootScope.potato.like).toBe(false);
-        expect($rootScope.potato.unlike).toBe(false);
+        expect($rootScope.potato.dislike).toBe(false);
         expect($rootScope.potato.likes).toBe(10);
-        expect($rootScope.potato.unlikes).toBe(10);
+        expect($rootScope.potato.dislikes).toBe(10);
     });
 
     it('should be able to upvote(), having already downvoted', function(){
         $rootScope.potato = {
             like: false,
-            unlike: true,
+            dislike: true,
             likes: 10,
-            unlikes: 11,
+            dislikes: 11,
         };
-        $rootScope.url='events';
+        $rootScope.url='carrot';
 
         var element = $compile("<div up-likes objet='potato' url='url'></div>")($rootScope);
         $rootScope.$digest();
         var scope = element.isolateScope();
-        $httpBackend.expectPOST('/api/events/like').respond(200, '');
+        $httpBackend.expectPOST('/api/carrot/like').respond(200, '');
         scope.upvote();
         $httpBackend.flush();
         expect($rootScope.potato.like).toBe(true);
-        expect($rootScope.potato.unlike).toBe(false);
+        expect($rootScope.potato.dislike).toBe(false);
         expect($rootScope.potato.likes).toBe(11);
-        expect($rootScope.potato.unlikes).toBe(10);
+        expect($rootScope.potato.dislikes).toBe(10);
     });
 
     it('should be able to downvote(), usual case', function(){
         $rootScope.potato = {
             like: false,
-            unlike: false,
+            dislike: false,
             likes: 10,
-            unlikes: 10,
+            dislikes: 10,
         };
-        $rootScope.url='events';
+        $rootScope.url='carrot';
 
         var element = $compile("<div up-likes objet='potato' url='url'></div>")($rootScope);
         $rootScope.$digest();
         var scope = element.isolateScope();
-        $httpBackend.expectPOST('/api/events/dislike').respond(200, '');
+        $httpBackend.expectPOST('/api/carrot/dislike').respond(200, '');
         scope.downvote();
         $httpBackend.flush();
         expect($rootScope.potato.like).toBe(false);
-        expect($rootScope.potato.unlike).toBe(true);
+        expect($rootScope.potato.dislike).toBe(true);
         expect($rootScope.potato.likes).toBe(10);
-        expect($rootScope.potato.unlikes).toBe(11);
+        expect($rootScope.potato.dislikes).toBe(11);
     });
 
     it('should be able to downvote(), having already downvoted', function(){
         $rootScope.potato = {
             like: false,
-            unlike: true,
+            dislike: true,
             likes: 10,
-            unlikes: 11,
+            dislikes: 11,
         };
-        $rootScope.url='events';
+        $rootScope.url='carrot';
 
         var element = $compile("<div up-likes objet='potato' url='url'></div>")($rootScope);
         $rootScope.$digest();
         var scope = element.isolateScope();
-        $httpBackend.expectDELETE('/api/events/dislike').respond(200, '');
+        $httpBackend.expectDELETE('/api/carrot/dislike').respond(200, '');
         scope.downvote();
         $httpBackend.flush();
         expect($rootScope.potato.like).toBe(false);
-        expect($rootScope.potato.unlike).toBe(false);
+        expect($rootScope.potato.dislike).toBe(false);
         expect($rootScope.potato.likes).toBe(10);
-        expect($rootScope.potato.unlikes).toBe(10);
+        expect($rootScope.potato.dislikes).toBe(10);
     });
 
     it('should be able to downvote(), having already upvoted', function(){
         $rootScope.potato = {
             like: true,
-            unlike: false,
+            dislike: false,
             likes: 11,
-            unlikes: 10,
+            dislikes: 10,
         };
-        $rootScope.url='events';
+        $rootScope.url='carrot';
 
         var element = $compile("<div up-likes objet='potato' url='url'></div>")($rootScope);
         $rootScope.$digest();
         var scope = element.isolateScope();
-        $httpBackend.expectPOST('/api/events/dislike').respond(200, '');
+        $httpBackend.expectPOST('/api/carrot/dislike').respond(200, '');
         scope.downvote();
         $httpBackend.flush();
         expect($rootScope.potato.like).toBe(false);
-        expect($rootScope.potato.unlike).toBe(true);
+        expect($rootScope.potato.dislike).toBe(true);
         expect($rootScope.potato.likes).toBe(10);
-        expect($rootScope.potato.unlikes).toBe(11);
+        expect($rootScope.potato.dislikes).toBe(11);
     });
 });
 
