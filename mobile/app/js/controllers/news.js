@@ -6,7 +6,7 @@ module
 	    $scope.url = url;
 
 	    $scope.init = function($done){
-		    $http.get(url + '/own/newsitems').success(function(data){
+		    $http.get(url + '/own/newsitems?limit=20').success(function(data){
 			    $scope.news = data;
 		    })
 	        .finally(function() {
