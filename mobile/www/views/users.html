@@ -18,7 +18,7 @@
         <ons-list class="person-list" ng-repeat="char in chars | orderBy">
             <ons-list-header ng-hide="(users[char] | filter:search).length == 0" class="header">{{char}}</ons-list-header>
             <ons-list-item class="person" modifier="tappable chevron" ng-click="load(user.username)"
-                           ng-repeat="user in users[char] | filter:search | orderBy:['first_name','last_name']:true">
+                           ng-repeat="user in users[char] | filter:search | orderBy:['first_name','last_name']">
                 <ons-row>
                     <ons-col width="40px">
                         <img style="background-image: url('{{ url + '/' + user.image_url }}')" class="image">
