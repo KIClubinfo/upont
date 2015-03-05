@@ -8,7 +8,7 @@ angular.module('upont').directive('upLikes', function() {
             if($scope.objet.comments > 0)
                 $resource(apiPrefix + $scope.url + '/comments').query(function(data){
                     $scope.comments = data;
-                    $scope.shownComments = -2;
+                    $scope.shownComments = -3;
                 });
 
             $scope.upvote = function() {
@@ -51,13 +51,18 @@ angular.module('upont').directive('upLikes', function() {
                 $scope.shownComments = $scope.objet.comments;
             };
 
-            // $scope.comment = function(text){
-            //     if(text.length > 0){
-            //         $resource(apiPrefix + $scope.url + '/comments').save({ text: text }, function(){
-            //             $scope.comments.push({ });
-            //         });
-            //     }
-            // };
+            $scope.submitComment = function(){
+                // if(text.length > 0){
+                    $resource(apiPrefix + $scope.url + '/comments').save({ text: $scope.commentText }, function(){
+                        $scope.comments.push({ text: $scope.commentText, author: $scope.$root.me });
+                        $scope.commentText = '';
+                        if($scope.shownComments < 0)
+                            $scope.shownComments--;
+                        else
+                            $scope.shownComments++;
+                    });
+                // }
+            };
         }],
         templateUrl : 'views/misc/likesEtComments.html'
     };
