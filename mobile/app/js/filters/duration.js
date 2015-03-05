@@ -12,8 +12,9 @@ module.filter('duration', function(){
             }
             return result;
         }
-        if(duration > 60)
+        if(duration > 60) {
             return minutes+'min';
+        }
         return duration+'s';
     };
 });

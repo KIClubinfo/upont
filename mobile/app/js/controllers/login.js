@@ -19,19 +19,26 @@ module
 
 			        // On regarde si l'utilisateur a déjà répondu pour les notifications push
 			        // Sinon on lui souhaite la bienvenue
-			        if (StorageService.get('registered'))
+			        if (StorageService.get('registered')) {
 			            onsAlert('Connexion', 'Connecté avec succès !');
-			        else
+			        } else {
 			            PushNotifications.initialize();
+                    }
 
                     menu.setMainPage('views/events.html', {closeMenu: true});
                     menu.setSwipeable(true);
+
+                    // On met en cache les données de l'utilisateur actuel
+                    $http.get(url + '/users/' + username).success(function(data) {
+			            StorageService.set('user', data);
+        		    });
 		        })
 		        .error(function (data, status, headers, config) {
 			        // Supprime tout token en cas de mauvaise identification
 			        if(StorageService.get('token')){
 				        StorageService.remove('token');
 				        StorageService.remove('token_exp');
+				        StorageService.remove('user');
 			        }
 			        onsAlert('Connexion', 'Mauvaise combinaison identifiant/mot de passe !');
 		        });

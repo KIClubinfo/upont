@@ -12,6 +12,7 @@ module
 	    $scope.clubsNames = [];
 	    $scope.clubsFollowed = [];
 	    $scope.balance = null;
+	    $scope.pushable = false;
 	    $scope.notifs = [];
 	    $scope.notifTexts = {
 	        'notif_followed_event' : 'Nouvel événement',
@@ -31,18 +32,23 @@ module
 		    $http.get(url + '/foyer/balance').success(function(data){
 			    $scope.balance = data;
 		    });
+		    $scope.pushable = /Android/i.test(navigator.userAgent);
 	    };
 
 	    $scope.loadClubsFollowed = function() {
 	        $http.get(url + '/own/followed').success(function(data){
 	            for(var key in data) {
-			        $scope.clubsFollowed.push(data[key].slug);
+	                if (data.hasOwnProperty(key)) {
+			            $scope.clubsFollowed.push(data[key].slug);
+			        }
 			    }
 		    });
 		    $http.get(url + '/clubs?sort=name').success(function(data){
 		        for(var key in data) {
-			        $scope.clubs.push(data[key].slug);
-			        $scope.clubsNames.push(data[key].name);
+		            if (data.hasOwnProperty(key)) {
+			            $scope.clubs.push(data[key].slug);
+			            $scope.clubsNames.push(data[key].name);
+			        }
 			    }
 	        });
 
@@ -71,10 +77,11 @@ module
 
 	    $scope.switchTheme = function() {
 	        $rootScope.dark = !$rootScope.dark;
-	        if ($rootScope.dark)
+	        if ($rootScope.dark) {
 	            StorageService.set('dark', true);
-	        else
+	        } else {
 	            StorageService.remove('dark');
+            }
         };
 
 	    $scope.configNotifs = function() {
