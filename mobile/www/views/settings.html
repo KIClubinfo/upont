@@ -3,7 +3,7 @@
         <ons-toolbar fixed-style>
             <div class="left">
                 <ons-toolbar-button ng-click="menu.toggle()">
-                    <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+                    <ons-icon icon="fa-bars" fixed-width="false"></ons-icon>
                 </ons-toolbar-button>
             </div>
             <div class="center">Réglages</div>
@@ -13,18 +13,22 @@
 
         <ons-list modifier="inset" class="settings-list">
             <ons-list-item modifier="chevron" ng-click="loadClubsFollowed()">
+                <ons-icon icon="fa-users"></ons-icon>
                 Clubs suivis
             </ons-list-item>
 
             <ons-list-item ng-hide="registered" modifier="tappable" ng-click="register()">
+                <ons-icon icon="fa-send-o"></ons-icon>
                 Activer les notifications push
             </ons-list-item>
 
             <ons-list-item ng-hide="!registered" modifier="tappable chevron" ng-click="configNotifs()">
+                <ons-icon icon="fa-gears"></ons-icon>
                 Configurer les notifications push
             </ons-list-item>
 
             <ons-list-item ng-hide="!registered" modifier="tappable chevron" ng-click="unregister()">
+                <ons-icon icon="fa-send-o"></ons-icon>
                 Désactiver les notifications push
             </ons-list-item>
 <!--
@@ -39,6 +43,7 @@
 
         <ons-list modifier="inset" class="settings-list">
             <ons-list-item ng-click="switchTheme()">
+                <ons-icon icon="fa-eye"></ons-icon>
                 Thème sombre
                 <ons-switch modifier="list-item" ng-checked="$root.dark"></ons-switch>
             </ons-list-item>
@@ -69,7 +74,7 @@
         <ons-toolbar fixed-style>
             <div class="left">
                 <ons-toolbar-button ng-click="menu.toggle()">
-                    <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+                    <ons-icon icon="fa-bars" fixed-width="false"></ons-icon>
                 </ons-toolbar-button>
             </div>
             <div class="center">Clubs suivis</div>
@@ -99,7 +104,7 @@
         <ons-toolbar fixed-style>
             <div class="left">
                 <ons-toolbar-button ng-click="menu.toggle()">
-                    <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+                    <ons-icon icon="fa-bars" fixed-width="false"></ons-icon>
                 </ons-toolbar-button>
             </div>
             <div class="center">Notifications</div>

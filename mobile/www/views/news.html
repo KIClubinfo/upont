@@ -3,13 +3,13 @@
         <ons-toolbar fixed-style>
             <div class="left">
                 <ons-toolbar-button ng-click="menu.toggle()">
-                    <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+                    <ons-icon icon="fa-bars" fixed-width="false"></ons-icon>
                 </ons-toolbar-button>
             </div>
             <div class="center">News</div>
             <!--<div class="right">
                 <ons-toolbar-button ng-click="nav.pushPage('redactorNews.html');">
-                    <ons-icon icon="ion-compose" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
+                    <ons-icon icon="fa-compose" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
                 </ons-toolbar-button>
             </div>-->
         </ons-toolbar>
@@ -17,15 +17,15 @@
         <ons-pull-hook ng-action="init($done)" var="loader">
             <span ng-switch="loader.getCurrentState()">
                 <span ng-switch-when="initial">
-                    <ons-icon size="35px" icon="ion-arrow-down-a"></ons-icon>
+                    <ons-icon size="35px" icon="fa-arrow-down"></ons-icon>
                     Tirer pour actualiser
                 </span>
                 <span ng-switch-when="preaction">
-                    <ons-icon size="35px" icon="ion-arrow-up-a"></ons-icon>
+                    <ons-icon size="35px" icon="fa-arrow-up"></ons-icon>
                     Relacher pour actualiser
                 </span>
                 <span ng-switch-when="action">
-                    <ons-icon size="35px" spin="true" icon="ion-load-d"></ons-icon>
+                    <ons-icon size="35px" spin="true" icon="fa-spinner"></ons-icon>
                     Chargement...
                 </span>
             </span>
@@ -70,7 +70,7 @@
         <ons-toolbar fixed-style>
             <div class="left">
                 <ons-toolbar-button ng-click="menu.toggle()">
-                    <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+                    <ons-icon icon="fa-bars" fixed-width="false"></ons-icon>
                 </ons-toolbar-button>
             </div>
             <div class="center">News</div>
@@ -84,7 +84,12 @@
             </div>
         </div>
 
-        <div class="card-label"><div class="label">{{ newItem.author_club.name }}</div></div>
+        <div class="card-label">
+            <div class="label">
+                <ons-icon ng-if="newItem.author_club.icon" icon="fa-{{ newItem.author_club.icon }}"></ons-icon>
+                {{ newItem.author_club.name }}
+            </div>
+        </div>
 
         <ons-list style="border-top: none"><ons-list-item style="line-height: 1; padding: 0;"><ons-row class="action">
             <ons-col class="action" up-active="newItem.like" ng-click="likeClick()">
@@ -127,7 +132,7 @@
         <ons-toolbar fixed-style>
             <div class="left">
                 <ons-toolbar-button ng-click="menu.toggle()">
-                    <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+                    <ons-icon icon="fa-bars" fixed-width="false"></ons-icon>
                 </ons-toolbar-button>
             </div>
             <div class="center">Écrire une news</div>
