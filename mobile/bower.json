@@ -5,6 +5,7 @@
     "angular": "latest",
     "angular-resource": "latest",
     "onsenui": "latest",
-    "moment": "latest"
+    "moment": "latest",
+    "jquery": "~2.1.3"
   }
 }
