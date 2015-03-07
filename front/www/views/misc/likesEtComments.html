@@ -1,4 +1,4 @@
-<div up-row left>
+<div up-row padded right>
     <div class="up-likes" ng-click="upvote(url);" ng-class="{active : objet.like}">
         <i class="fa fa-thumbs-o-up"></i> {{ objet.likes }}
     </div>
@@ -18,13 +18,13 @@
     <div ng-if="shownComments < 0 && comments.length > 3">
         <h3 class="up-likes" ng-click="openComments()" ng-class="{active : shownComments > 0 }" >Afficher {{ comments.length-3 }} commentaires précédents</h3>
     </div>
-    <h3 class="up-comment" ng-repeat="comment in comments | orderBy: date | limitTo: shownComments">
-        <img class="up-comment-img" ng-src="{{comment.author.image_url | urlFile}}" />
-        <strong>{{ comment.author.nick || comment.author.fist_name+' '+comment.author.last_name  }} : </strong>
-        {{ comment.text }}
+    <h3 class="up-comment" ng-repeat="comment in comments | orderBy: date | limitTo: shownComments" up-row left>
+        <img class="up-profile-picture" ng-src="{{comment.author.image_url | urlFile}}"/>
+        <div><strong>{{ comment.author.nick || comment.author.fist_name+' '+comment.author.last_name  }} : </strong>
+        {{ comment.text }}</div>
     </h3>
     <form up-row left ng-submit="submitComment()">
-        <div up-col="15%"><img class="up-comment-img" ng-src="{{ $root.me.image_url | urlFile }}" />
+        <div up-col="15%"><img class="up-profile-picture" ng-src="{{ $root.me.image_url | urlFile }}" />
         </div>
         <div class="85%">
             <input ng-model="commentText" type="text" placeholder="Ajouter un commentaire" />

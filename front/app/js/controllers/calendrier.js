@@ -16,6 +16,9 @@ angular.module('upont')
                 url: '/calendrier',
                 templateUrl: 'views/calendrier.html',
                 controller: 'Calendrier_Ctrl',
+                data: {
+                    title: "uPont - Calendrier"
+                },
                 resolve: {
                     events: ["$resource", function($resource) {
                         return $resource(apiPrefix + "events").query().$promise;

@@ -1,0 +1,64 @@
+.up-ticket {
+    position: relative;
+    margin: 0 0.75em 0.75em;
+    &:not(.up-zone-picker, .divided){
+        padding: 1.5em;
+    }
+    &:not(.up-zone-picker){
+        margin-top: 1.5em;
+    }
+
+    .up-ticket-header{
+        background-color:rgba(red(#fdbe37), green(#fdbe37),  blue(#fdbe37),0.8);
+        padding:1.5em;
+    }
+    .up-ticket-body{
+        padding:1.5em;
+        text-indent: 2em;
+    }
+
+    .up-ticket-texte {
+        text-align: justify;
+        font-family: verdana;
+    }
+    .up-ticket-date {
+        float: right;
+        display: inline-block;
+        font-family: Helvetica, arial;
+        letter-spacing: 0.15em;
+        ;
+        font-size: 0.75em;
+        color: #999;
+    }
+    .up-ticket-auteur {
+        float: left;
+        margin-left: 1em;
+        font-family: 'Noto Sans B';
+        text-transform: uppercase;
+        font-size: 0.9em;
+        letter-spacing: 0.1em;
+        font-weight: bold;
+    }
+    .up-ticket-link {
+        cursor: pointer;
+    }
+    &.up-ticket-liste {
+        padding: 0.75em;
+        text-align: center;
+        position: relative;
+        h1 {
+            font-size: 1.3em;
+            margin: 0px;
+            padding: 0px;
+        }
+        .up-ticket-head {
+            height: 10em;
+        }
+    }
+    &.rounded-top {
+        border-radius: 10px 10px 0px 0px;
+        .up-ticket-header {
+            border-radius: 10px 10px 0px 0px;
+        }
+    }
+}

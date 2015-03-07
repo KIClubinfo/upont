@@ -14,13 +14,17 @@ angular.module('upont')
                 template: '<div ui-view></div>',
                 data: {
                     parent: "channels",
-                    defaultChild: "liste"
+                    defaultChild: "liste",
+                    title: "uPont - Clubs & Assos"
                 }
             })
             .state("channels.liste", {
                 url: "",
                 templateUrl: "views/channels/liste.html",
                 controller: 'ChannelsListe_Ctrl',
+                data: {
+                    title: "uPont - Clubs & Assos"
+                },
                 resolve: {
                     channels: ["$resource", function($resource) {
                         return $resource(apiPrefix + "clubs?sort=name").query().$promise;
@@ -33,7 +37,7 @@ angular.module('upont')
                 data: {
                     toParent: true,
                     parent: "channels.simple",
-                    defaultChild: "publications"
+                    defaultChild: "publications",
                 },
                 resolve: {
                     channel: ["$resource", "$stateParams", function($resource, $stateParams) {
@@ -58,7 +62,8 @@ angular.module('upont')
                 url: "",
                 templateUrl: "views/home/publiListe.html",
                 data: {
-                    toParent: true
+                    toParent: true,
+                    title: 'uPont - Publications'
                 }
             })
             .state("channels.simple.presentation", {
@@ -66,14 +71,16 @@ angular.module('upont')
                 templateUrl: "views/channels/simple.presentation.html",
                 controller : 'ChannelsSimple_Ctrl',
                 data: {
-                    toParent: true
+                    toParent: true,
+                    title: 'uPont - Présentation'
                 },
             })
             .state("channels.simple.gestion", {
                 url: "/gestion",
                 templateUrl: "views/channels/simple.gestion.html",
                 data: {
-                    toParent: true
+                    toParent: true,
+                    title: 'uPont - Gestion'
                 }
             });
     }]);
