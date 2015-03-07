@@ -92,6 +92,13 @@ angular.module('upont')
         $resource(apiPrefix + 'version').get(function(data){
             $rootScope.version = data;
         });
+        $resource(apiPrefix + 'foyer/balance').get(function(data){
+            $rootScope.foyer = data.balance;
+        });
+        $resource(apiPrefix + 'online').query(function(data){
+            $rootScope.online = data;
+        });
+
         $rootScope.url = location.origin + apiPrefix;
 
         // N'est utile que si on se sert des modaux bootstrap

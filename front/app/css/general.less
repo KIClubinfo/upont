@@ -370,6 +370,12 @@ header {
             height: 10em;
         }
     }
+    &.rounded-top {
+        border-radius: 10px 10px 0px 0px;
+        .up-ticket-header {
+            border-radius: 10px 10px 0px 0px;
+        }
+    }
 }
 .up-login-form {
     text-align: center;
@@ -475,6 +481,11 @@ header {
     text-align: center;
     font-size:0.85em;
     padding:0.5em;
+    width: 100%;
+    margin-left: -5px;
+    a {
+        margin: 0.75em 30% !important;
+    }
 }
 
 .up-aside-menu{
@@ -485,6 +496,12 @@ header {
         display: block;
         margin: 0.75em 10%;
         height:2em;
+    }
+    hr {
+        width: 30%;
+    }
+    .up-online-users {
+        margin: 0.5em 10%;
     }
 }
 
@@ -500,6 +517,8 @@ header {
     height: 40px;
     width: 40px;
     margin-right: 10px;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .up-profile-form {
