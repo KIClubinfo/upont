@@ -17,6 +17,6 @@ angular.module('upont').directive('upPubliText', ['$window', function($window) {
                 $scope.content = $scope.string;
             };
         }],
-        template: "<div><span ng-bind-html='content'>content</span><span ng-if='!opened' ng-click='open()' class='up-ticket-link'>Afficher la suite</span></div>",
+        template: "<div class='up-ticket-texte'><span ng-bind-html='content'>content</span><span ng-if='!opened' ng-click='open()' class='up-ticket-link'>Afficher la suite</span></div>",
     };
 }]);
