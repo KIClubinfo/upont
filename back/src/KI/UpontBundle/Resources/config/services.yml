@@ -15,7 +15,8 @@ services:
         calls:
             - [ setContainer,[ @service_container ] ]
         tags:
-            - { name: kernel.event_listener, event: kernel.terminate, method: log }
+            - { name: kernel.event_listener, event: kernel.terminate, method: onKernelTerminate }
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
     # Écoute le lancement de notifications push
     ki_upont.listener.notification:
