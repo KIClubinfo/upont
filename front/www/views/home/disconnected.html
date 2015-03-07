@@ -1,41 +1,55 @@
-<div class="up-row left">
-    <div class="up-col-xs-6">
-        <div class="up-ticket">
+<div class="up-row">
+    <div class="up-col-xs-12 up-col-sm-6 up-row">
+        <div class="up-col-xs-12 up-ticket">
             <h1>Bienvenue sur uPont !</h1>
             <p>uPont est l'intranet étudiant de l'École nationale des ponts et chaussées.</p>
         </div>
     </div>
-    <div class="up-col-xs-6">
-        <div class="up-ticket">
+    <div class="up-col-xs-12 up-col-sm-6 up-row">
+        <div class="up-col-xs-12 up-ticket">
             <h2>Élève ?</h2>
 
             <form class="up-login-form" ng-submit="login(pseudo, password)">
-                <div class="up-row">
-                    <input class="up-col-xs-6" ng-model="pseudo" type="text" placeholder="Identifiant"/>
-                    <input class="up-col-xs-6" ng-model="password" type="password" placeholder="Mot de passe"/>
+                <div class="up-row padded">
+                    <div class="up-col-xs-12 up-col-sm-6">
+                    <input  ng-model="pseudo" type="text" placeholder="Identifiant"/>
+                    </div>
+                    <div class="up-col-xs-12 up-col-sm-6">
+                    <input ng-model="password" type="password" placeholder="Mot de passe"/>
+                    </div>
                 </div>
-                <button class="btn btn-default">Connecte-toi !</button>
+                <br>
+
+                <div class="up-row">
+                    <div class="up-col-xs-12 up-col-sm-8"></div>
+                    <button class="up-col-xs-12 up-col-sm-4 btn btn-default">Connecte-toi !</button>
+                </div>
             </form>
         </div>
     </div>
-</div>
 
-<div class="up-row padded">
-    <div class="up-col-xs-6">
-        <div class="up-ticket">
-            <h2>Simple visiteur ?</h2>
-            <p>Regarde à quelle point la vie associative aux Ponts est bien remplie !</p>
-
-            <button class="btn btn-default" disabled>Voir les clubs/assos (à venir...)</button>
-        </div>
-    </div>
-    <div class="up-col-xs-6">
-        <div class="up-ticket">
+    <div class="up-col-xs-12 up-col-sm-6 up-row">
+        <div class="up-col-xs-12 up-ticket">
             <h2>Admissible ?</h2>
             <p>Tu as eu la chance d'être reçu admissible au concours Mines-Ponts...<br>
             Ça se passe par ici !</p>
 
-            <button class="btn btn-default" disabled>Espace admissible (à venir...)</button>
+            <div class="up-row">
+                <div class="up-col-xs-12 up-col-sm-8"></div>
+                <button class="up-col-xs-12 up-col-sm-4 btn btn-default" disabled>Espace admissible (à venir...)</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="up-col-xs-12 up-col-sm-6 up-row">
+        <div class="up-col-xs-12 up-ticket">
+            <h2>Simple visiteur ?</h2>
+            <p>Regarde à quelle point la vie associative aux Ponts est bien remplie !</p>
+
+            <div class="up-row">
+                <div class="up-col-xs-12 up-col-sm-8"></div>
+                <button class="up-col-xs-12 up-col-sm-4 btn btn-default" disabled>Voir les clubs/assos (à venir...)</button>
+            </div>
         </div>
     </div>
 </div>
