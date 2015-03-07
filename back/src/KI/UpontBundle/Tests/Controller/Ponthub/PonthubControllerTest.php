@@ -72,6 +72,10 @@ class PonthubControllerTest extends WebTestCase
         $this->client->request('POST', '/gracenote', array('Back In Black'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
+
+        $this->client->request('POST', '/gracenote', array('album' => 'dfsdffszaevzev', 'artist' => 'avrzarzqvzqddq'));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 500);
     }
 
     public function testImdbSearch()
