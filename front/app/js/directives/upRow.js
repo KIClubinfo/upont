@@ -3,15 +3,23 @@ angular.module('upont').directive('upRow', ['$window', function($window) {
         link: function(scope, element, args){
             element.children().each(function(){
                 angular.element(this).wrap('<div></div>');
-                // if(this.attributes['up-col'] && this.attributes['up-row-elmt'].value)
-                    // angular.element(this).parent().css('width', this.attributes['up-row-elmt'].value);
+
+                if(this.attributes['up-col']){
+                    var width = this.attributes['up-col'].value;
+                    var suffix = width.indexOf('%') ? 'pct':'px;';
+                    angular.element(this).parent().addClass('up-col-'+parseInt(width)+suffix);
+                    if(document.querySelector('style').textContent.indexOf('.up-col-'+parseInt(width)+suffix) == -1){
+                        document.querySelector('style').textContent +=
+                            ' .up-col-'+parseInt(width)+suffix+'{'+
+                                    'width:'+ width+
+                            '}';
+                    }
+                }
                 if(this.attributes['up-col-xs']){
                     var widthXs = this.attributes['up-col-xs'].value;
                     var suffixXs = widthXs.indexOf('%') ? 'pct':'px;';
                     angular.element(this).parent().addClass('up-col-xs-'+parseInt(widthXs)+suffixXs);
                     if(document.querySelector('style').textContent.indexOf('.up-col-xs-'+parseInt(widthXs)+suffixXs) == -1){
-                        console.log('cc');
-
                         document.querySelector('style').textContent +=
                             ' @media (max-width:768px){'+
                                 ' .up-col-xs-'+parseInt(widthXs)+suffixXs+'{'+

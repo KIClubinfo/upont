@@ -185,13 +185,11 @@ angular.module('upont')
             }
             else
                 $rootScope.name = 'Bienvenue sur uPont';
-            console.log($rootScope.name);
 
         });
 
         $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
             cfpLoadingBar.complete();
-            console.log(error);
         });
 
         $rootScope.$on('$stateNotFound', function(event, toState, toParams, fromState, fromParams) {
