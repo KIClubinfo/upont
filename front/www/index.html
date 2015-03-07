@@ -40,9 +40,9 @@
                     <a ng-click="publishModal = !publishModal" ng-show="isAdmin" class="up-navbar-link">Publier</a>
                     <a ui-sref="admin" ui-sref-active="active" class="up-navbar-link" ng-show="isAdmin">Admin</a>
                 </div>
-                <div class="up-col-sm-3 up-col-xs-3">
+                <div ng-show="isLogged" class="up-col-sm-3 up-col-xs-3">
                     <a ui-sref="profil" ui-sref-active="active" class="up-navbar-link">
-                        <img style="background-image: url('{{ url + me.image_url }}')" class="up-profile-picture" />
+                        <div style="background-image: url('{{ url + me.image_url }}')" class="up-profile-picture"></div>
                         {{ me.nick }}
                     </a>
                 </div>
