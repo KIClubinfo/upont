@@ -9,7 +9,8 @@ angular.module('upont')
                 templateUrl: "views/admin/index.html",
                 data: {
                     defaultChild: "eleves",
-                    parent: "admin"
+                    parent: "admin",
+                    title: "uPont - Administration"
                 }
             })
             .state("admin.eleves", {

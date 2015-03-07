@@ -39,7 +39,8 @@ angular.module('upont')
                 templateUrl: "views/ponthub/index.html",
                 data: {
                     defaultChild: "category",
-                    parent: "ponthub"
+                    parent: "ponthub",
+                    title: 'uPont - PontHub'
                 },
             })
             .state("ponthub.category", {
