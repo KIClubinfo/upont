@@ -62,10 +62,11 @@ angular.module('upont').directive('upRow', ['$window', function($window) {
 
                 if(args.hasOwnProperty('padded'))
                     angular.element(this).parent().css('padding', '1em');
-
             });
             if(args.hasOwnProperty('left'))
                 element.addClass('left');
+            if(args.hasOwnProperty('wrap'))
+                element.addClass('wrap');
             element.addClass('up-row');
         }
     };
