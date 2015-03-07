@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('Profil_Ctrl', ['$scope', '$resource', 'preferences', 'clubs', 'clubsSuivis', function($scope, $resource, preferences, clubs, clubsSuivis) {
+    .controller('Profil_Ctrl', ['$scope', '$rootScope', '$resource', 'preferences', 'clubs', 'clubsSuivis', function($scope, $rootScope, $resource, preferences, clubs, clubsSuivis) {
         for (var i = 0; i < clubsSuivis.length; i++)
             clubsSuivis[i] = clubsSuivis[i].slug;
 
@@ -8,6 +8,7 @@ angular.module('upont')
 
         $scope.preferences = preferences;
         $scope.clubs = clubs;
+        $scope.user = $rootScope.me;
 
         $scope.subscribe = function(slug) {
             $resource(apiPrefix + "clubs/:slug/follow", {slug: slug}).save();
@@ -23,6 +24,10 @@ angular.module('upont')
                 if(element.slug == slug)
                     element.suivi = false;
             });
+        };
+
+        $scope.submitUser = function(promo, nationality, phone, location, department, origin, skype, nickname) {
+            alert(nickname);
         };
     }])
     .config(['$stateProvider', function($stateProvider) {
