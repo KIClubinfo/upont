@@ -95,7 +95,18 @@ class ClubsController extends \KI\UpontBundle\Controller\Core\SubresourceControl
      *  section="Utilisateurs"
      * )
      */
-    public function deleteClubAction($slug) { return $this->delete($slug); }
+    public function deleteClubAction($slug)
+    {
+        $repoLink = $this->em->getRepository('KIUpontBundle:Users\ClubUser');
+        $club = $this->findBySlug($slug);
+        $link = $repoLink->findBy(array('club' => $club));
+
+        foreach ($link as $clubUser) {
+            $this->em->remove($clubUser);
+        }
+
+        return $this->delete($slug);
+    }
 
     /**
      * @ApiDoc(
