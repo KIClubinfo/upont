@@ -4,9 +4,34 @@ namespace KI\UpontBundle\Services;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\File;
+use KI\UpontBundle\Entity\Image;
 
 class KIImages extends ContainerAware
 {
+    public function upload($src, $url = null)
+    {
+        $fs = new Filesystem();
+        $image = new Image();
+
+        // Check if the input is an URL or not and return an array with the image and the extension
+        $regex = '#^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$#';
+        if ($url || preg_match($regex, $src))
+            $data = $this->uploadUrl($src, true);
+        else
+            $data = $this->uploadBase64($src);
+
+        $image->setExt($data['extension']);
+
+        // Save the image locally thanks to md5 hash and put it in the $img
+        $path = $image->getTemporaryDir() . md5($data['image']);
+        $fs->dumpFile($path, $data['image']);
+        $file = new File($path);
+        $image->setFile($file);
+        return $image;
+    }
+
     // Upload d'une image à partir de données en base 64 et renvoie l'extension de l'image
     public function uploadBase64($data)
     {
@@ -28,9 +53,9 @@ class KIImages extends ContainerAware
     }
 
     // Upload d'une image à partir d'une URL et renvoie l'image sous forme de string et son extension
-    public function uploadUrl($url)
+    public function uploadUrl($url, $byPassCheck = false)
     {
-        if (!preg_match('#^(https?://)?([\da-z\.-]+)\.([a-z\.]{2,6})([/\w \.-]*)*/?$#', $url))
+        if (!($byPassCheck || preg_match('#^(https?://)?([\da-z\.-]+)\.([a-z\.]{2,6})([/\w \.-]*)*/?$#', $url)))
             throw new BadRequestHttpException('Ceci n\'est pas une url : ' . $url);
 
         $curl = $this->container->get('ki_upont.curl');

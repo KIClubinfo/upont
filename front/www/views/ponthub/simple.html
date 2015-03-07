@@ -1,14 +1,14 @@
-<div class="col-xs-12">
-    <div class="up-ticket">
-        <div class="row">
-            <div class="col-xs-3 centering">
+    <div class="up-ticket up-row padded">
+            <div class="up-col-xs-3">
                 <img class="img-responsive" src="{{ element.image_url | urlFile }}" alt="" />
-                <span class="label label-upont" ng-if="element.vo">VO</span>
-                <span class="label label-upont" ng-if="element.vf">VF</span>
-                <span class="label label-upont" ng-if="element.vost">VOST</span>
-                <span class="label label-upont" ng-if="element.hd">HD</span>
+                <div class="up-row">
+                    <div ng-if="element.vo"><span class="label label-upont">VO</span></div>
+                    <div ng-if="element.vf"><span class="label label-upont">VF</span></div>
+                    <div ng-if="element.vost"><span class="label label-upont">VOST</span></div>
+                    <div ng-if="element.hd"><span class="label label-upont">HD</span></div>
+                </div>
             </div>
-            <div class="col-xs-9">
+            <div class="up-col-xs-9">
                 <h1>{{ element.name }}</h1>
                 <p>{{ element.description }}</p>
                 <ul class="up-ph-list-infos">
@@ -29,16 +29,14 @@
 
                     <li ng-if="element.rating">Note Rotten Tomatoes : {{ element.rating+'%' }}</li>
                 </ul>
-                <div class="col-xs-12" ng-if="saisons" ng-repeat="saison in saisons">
+                <div ng-if="saisons" ng-repeat="saison in saisons">
                     <h2>Saison {{ $index+1 }} </h2>
 
                     <h3 ng-repeat="episode in saison"><a class="up-ticket-link" href="">S{{ episode.season < 10?'0':'' }}{{episode.season}}E{{episode.number < 10 ? '0':'' }}{{episode.number}} : {{episode.name}}</a></h3>
                 </div>
 
-                <div class="col-xs-6 col-xs-offset-6" ng-if="!saisons">
+                <div ng-if="!saisons">
                     <a href=""></a>
                 </div>
             </div>
-        </div>
     </div>
-</div>

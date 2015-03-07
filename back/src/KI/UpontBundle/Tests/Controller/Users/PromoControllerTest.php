@@ -4,7 +4,7 @@ namespace KI\UpontBundle\Tests\Controller\Users;
 
 use KI\UpontBundle\Tests\WebTestCase;
 
-class PromoGameControllerTest extends WebTestCase
+class PromoControllerTest extends WebTestCase
 {
     public function testPromoGame()
     {

@@ -50,7 +50,7 @@ class Club extends Likeable
      */
     public function imageUrl()
     {
-        return $this->image !== null ? $this->image->getWebPath() : 'uploads/images/default-user.png';
+        return $this->image !== null ? $this->image->getWebPath() : 'uploads/others/default-user.png';
     }
 
 
