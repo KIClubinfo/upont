@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('Disconnected_Ctrl', ['$scope', '$rootScope', '$state', 'StorageService', '$http', 'jwtHelper', function($scope, $rootScope, $state, StorageService, $http, jwtHelper) {
+    .controller('Disconnected_Ctrl', ['$scope', '$rootScope', '$state', 'StorageService', '$http', 'jwtHelper', '$resource', function($scope, $rootScope, $state, StorageService, $http, jwtHelper, $resource) {
         $scope.login = function(pseudo, mdp) {
             if(pseudo.length && mdp.length)
                 $http
