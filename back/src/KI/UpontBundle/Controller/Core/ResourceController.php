@@ -13,19 +13,8 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
 
     protected function paginate($repo)
     {
-        // On pagine les résultats
         $request = $this->getRequest()->query;
-        $page  = $request->has('page')  ? $request->get('page')  : 1;
-        $limit = $request->has('limit') ? $request->get('limit') : 100;
-        $sort  = $request->has('sort')  ? $request->get('sort')  : null;
-
-        if ($sort === null) {
-            $sortBy = array('id' => 'DESC');
-        } else {
-            $order = preg_match('#^\-.*#isU', $sort) ? 'DESC' : 'ASC' ;
-            $field = preg_replace('#^\-#isU', '', $sort);
-            $sortBy = array($field => $order);
-        }
+        list($page, $limit, $sort, $sortBy) = $this->getPaginateData($request);
 
         // On compte le nombre total d'entrées dans la BDD
         $qb = $repo->createQueryBuilder('o');
@@ -49,6 +38,21 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
             $findBy = array($request->get('filterBy') => $request->get('filterValue'));
 
         return array($findBy, $sortBy, $limit, ($page - 1)*$limit, $page, $totalPages, $count);
+    }
+
+    protected function getPaginateData($request) {
+        $page  = $request->has('page')  ? $request->get('page')  : 1;
+        $limit = $request->has('limit') ? $request->get('limit') : 100;
+        $sort  = $request->has('sort')  ? $request->get('sort')  : null;
+
+        if ($sort === null) {
+            $sortBy = array('id' => 'DESC');
+        } else {
+            $order = preg_match('#^\-.*#isU', $sort) ? 'DESC' : 'ASC' ;
+            $field = preg_replace('#^\-#isU', '', $sort);
+            $sortBy = array($field => $order);
+        }
+        return array($page, $limit, $sort, $sortBy);
     }
 
     public function generatePages($results, $limit, $page, $totalPages, $count, $context = null)
