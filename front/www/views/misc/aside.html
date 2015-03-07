@@ -15,9 +15,12 @@
         <div><a ui-sref="calendrier" ui-sref-active="active"><i class="fa fa-calendar"></i> Calendrier</a>
         </div>
         <div><a ui-sref="profil" ui-sref-active="active"><i class="fa fa-star"></i> Profil</a>
-        <div><a ng-click="logout()"><span class="fa fa-trash"></span> Déconnexion</a></div>
+        <hr style="margin-op: 50px;">
+        <div><a ng-hide="foyer == null"><span class="fa fa-beer"></span> Compte Foyer : {{ foyer }}<span class="fa fa-euro"></a></div>
     </div>
     <div class="up-aside-footer">
+        <hr style="margin-op: 50px;">
+        <div><a ng-click="logout()"><span class="fa fa-sign-out"></span> Déconnexion</a></div>
         <label class="unbold">
             <input type="checkbox" ng-model="$root.theme">&nbsp;Thème sombre
         </label>
