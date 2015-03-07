@@ -6,6 +6,7 @@
     <base href="/front/">
     <title>Bienvenue sur uPont</title>
     <link rel="stylesheet" href="style.min.css">
+    <link rel="stylesheet" href="libs/fontawesome/css/font-awesome.min.css">
 
     <script src="libs/jquery/dist/jquery.min.js"></script>
     <script src="libs/angular/angular.min.js"></script>
@@ -32,17 +33,18 @@
         </div>
         <div class="up-main-content" ng-class="{'up-col-xs-8 up-col-sm-10':isLogged, 'up-col-xs-12':!isLogged}">
             <header class="up-container up-row">
-                <div class="up-col-sm-4">
+                <div class="up-col-sm-6 up-col-xs-3">
                     <a class="up-main-title" ui-sref="home"></a>
                 </div>
-                <div>
+                <div class="up-col-sm-2 up-col-xs-3">
                     <a ng-click="publishModal = !publishModal" ng-show="isAdmin" class="up-navbar-link">Publier</a>
+                    <a ui-sref="admin" ui-sref-active="active" class="up-navbar-link" ng-show="isAdmin">Admin</a>
                 </div>
-                <div class="up-row padded right-aligned" ng-show="isLogged">
-                    <div><a ui-sref="profil" ui-sref-active="active" class="up-navbar-link">Profil</a>
-                    </div>
-                    <div><a ui-sref="admin" ui-sref-active="active" class="up-navbar-link" ng-show="isAdmin">Admin</a>
-                    </div>
+                <div class="up-col-sm-3 up-col-xs-3">
+                    <a ui-sref="profil" ui-sref-active="active" class="up-navbar-link">
+                        <img style="background-image: url('{{ url + me.image_url }}')" class="up-profile-picture" />
+                        {{ me.nick }}
+                    </a>
                 </div>
             </header>
             <div ui-view autoscroll="false" class="up-main-view" up-fill-window ></div>
