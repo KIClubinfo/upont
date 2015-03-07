@@ -27,7 +27,10 @@
                     <option>France</option>
                     <option>Algérie</option>
                     <option>Allemagne</option>
+                    <option>Argentine</option>
+                    <option>Australie</option>
                     <option>Brésil</option>
+                    <option>Bulgarie</option>
                     <option>Cambodge</option>
                     <option>Canada</option>
                     <option>Chine</option>
@@ -37,8 +40,15 @@
                     <option>Italie</option>
                     <option>Japon</option>
                     <option>Liban</option>
+                    <option>Luxembourg</option>
+                    <option>Malaisie</option>
                     <option>Maroc</option>
                     <option>Pologne</option>
+                    <option>République Tchèque</option>
+                    <option>Roumanie</option>
+                    <option>Russe</option>
+                    <option>Slovaque</option>
+                    <option>Suède</option>
                     <option>Tunisie</option>
                     <option>Viêt Nam</option>
                     <option>Autre</option>
@@ -117,46 +127,6 @@
                 <button class="up-col-xs-12 btn btn-default">Modifier !</button>
             </div>
         </form>
-
-            <!--
-        </div>
-        <div class="up-row">
-            <div class="up-col-xs-6 up-row left padded">
-                <div class="up-col-xs-4">Chambre :</div>
-                <div class="up-col-xs-8">
-                    <input type="text" name="chambre" />
-                </div>
-            </div>
-            <div class="up-col-xs-6 up-row left padded">
-                <div class="up-col-xs-4">Telephone :</div>
-                <div class="up-col-xs-8">
-                    <input type="text" name="telephone" />
-                </div>
-            </div>
-        </div>
-        <div class="up-row left">
-            <div class="up-col-xs-6 up-row left padded">
-                <div class="up-col-xs-4">Adresse email :</div>
-                <div class="up-col-xs-8">
-                    <input type="text" name="email" />
-                </div>
-            </div>
-        </div>
-        <div class="up-row">
-            <div class="up-col-xs-6 up-row left padded">
-                <div class="up-col-xs-4">Nouveau mot de passe :</div>
-                <div class="up-col-xs-8">
-                    <input type="password" name="mdp" />
-                </div>
-            </div>
-
-            <div class="up-col-xs-6 up-row left padded">
-                <div class="up-col-xs-4">Vérification du nouveau mot de passe :</div>
-                <div class="up-col-xs-8">
-                    <input type="password" name="mdpConfirm" />
-                </div>
-            </div>
-        </div>-->
     </div>
 </div>
 
@@ -168,7 +138,7 @@
 <div class="up-ticket">
     <h1>Channels suivis</h1>
     <div class="up-row left padded">
-        <div class="up-col-xs-12 up-col-sm-3 up-row padded" ng-repeat="club in clubs | orderBy:'name'">
+        <div class="up-col-xs-12 up-col-sm-4 up-row padded" ng-repeat="club in clubs | orderBy:'name'">
             <div class="up-col-xs-4"><img class="img-responsive" src="{{ club.image_url | urlFile}}" />
             </div>
             <div class="up-col-xs-8">
