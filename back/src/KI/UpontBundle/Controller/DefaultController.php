@@ -301,7 +301,7 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
      *    "name"="delay",
      *    "dataType"="integer",
      *    "required"=false,
-     *    "description"="Temps de l'intervalle considéré en minutes (5 minutes par défaut)"
+     *    "description"="Temps de l'intervalle considéré en minutes (30 minutes par défaut)"
      *   }
      *  },
      *  statusCodes={
@@ -317,7 +317,7 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
      */
     public function onlineAction(Request $request)
     {
-        $delay = $request->query->has('delay') ? (int) $request->query->get('delay') : 5;
+        $delay = $request->query->has('delay') ? (int) $request->query->get('delay') : 30;
 
         $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
         $qb->select('u')
