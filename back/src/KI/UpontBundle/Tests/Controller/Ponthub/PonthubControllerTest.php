@@ -9,7 +9,7 @@ class PonthubControllerTest extends WebTestCase
 {
     public function testFilelist()
     {
-        $list = new UploadedFile(__DIR__ . '/../../../../../../web/uploads/files/files.list', 'files.list');
+        $list = new UploadedFile(__DIR__ . '/../../../../../../web/uploads/tests/files.list', 'files.list');
         $this->client->request('POST', '/filelist', array(), array('filelist' => $list));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 202);

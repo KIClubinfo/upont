@@ -417,7 +417,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *    "dataType"="string",
      *    "description"="Préférence éditée ou changée"
      *   },
-     * {
+     *   {
      *    "name"="value",
      *    "dataType"="string",
      *    "description"="Valeur de la préférence"

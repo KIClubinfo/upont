@@ -4,9 +4,9 @@ angular.module('upont').directive('upPubliText', ['$window', function($window) {
             string: '='
         },
         controller: ["$scope", function($scope) {
-            if ($scope.string.length > 240) {
+            if ($scope.string.length > 550) {
                 $scope.opened = false;
-                $scope.content = $scope.string.substring(0, 240) + '... ';
+                $scope.content = $scope.string.substring(0, 350) + '... ';
             } else {
                 $scope.opened = true;
                 $scope.content = $scope.string;

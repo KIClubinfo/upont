@@ -57,7 +57,7 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
 
         // Quelques variables qui vont servir
         $match = $genres = $series = $albums = $pathsDone = array();
-        $path = __DIR__ . '/../../../../../web/uploads/files/';
+        $path = __DIR__ . '/../../../../../web/uploads/tmp/';
         $validExt = array(
             'mp3', 'wav', 'ogg', 'flac', 'mp2', 'aac',
             'avi', 'mpeg', 'mp4', 'mkv',

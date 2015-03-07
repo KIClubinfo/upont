@@ -18,7 +18,7 @@ gulp.task('jshint', function() {
 });
 
 gulp.task('build-css', function() {
-    return gulp.src(['app/css/*.less', 'www/libs/scheduler/codebase/dhtmlxscheduler.css'])
+    return gulp.src(['app/css/upont.less', 'www/libs/scheduler/codebase/dhtmlxscheduler.css'])
         .pipe(less())
         .pipe(concat('style.min.css'))
         .pipe(autoprefixer({

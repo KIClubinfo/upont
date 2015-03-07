@@ -25,59 +25,69 @@
 </head>
 
 <body ng-app="upont" ng-class="theme?'theme-dark':'theme-clear'">
-    <header class="up-navbar">
-        <div class="container-fluid">
-            <div class="col-xs-4 col-sm-5">
-                <a class="up-title" ui-sref="home"></a>
+    <header class="up-container up-row">
+        <div class="up-col-sm-4">
+            <a class="up-main-title" ui-sref="home"></a>
+        </div>
+        <div>
+            <a ui-sref="home" ng-show="isAdmin" class="up-navbar-link">Publier</a>
+        </div>
+        <div class="up-row padded right-aligned" ng-show="isLogged">
+            <div><a ui-sref="profil" ui-sref-active="active" class="up-navbar-link">Profil</a>
             </div>
-            <div class="up-navbar-list col-xs-3">
-                <a ui-sref="home" ng-show="isAdmin" class="up-navbar-link">Publier</a>
+            <div><a ui-sref="admin" ui-sref-active="active" class="up-navbar-link" ng-show="isAdmin">Admin</a>
             </div>
-            <ul class="up-navbar-list col-xs-5 col-sm-4" ng-show="isLogged">
-                <li><a ui-sref="profil" ui-sref-active="active" class="up-navbar-link">Profil</a>
-                </li>
-                <li><a ui-sref="admin" ui-sref-active="active" class="up-navbar-link" ng-show="isAdmin">Admin</a>
-                </li>
-            </ul>
         </div>
     </header>
 
-    <div class="container-fluid">
-        <aside class="up-aside col-xs-2" ng-show="isLogged">
-            <ul>
-                <li><a ui-sref="home" ui-sref-active="active"><span class="glyphicon glyphicon-comment"></span> News</a>
-                </li>
-                <li><a ui-sref="ponthub" ui-sref-active="active"><span class="glyphicon glyphicon-film"></span> PontHub</a>
-                </li>
-                <li><a ui-sref="channels" ui-sref-active="active"><span class="glyphicon glyphicon-thumbs-up"></span> Assos</a>
-                </li>
-                <li><a ui-sref="promo" ui-sref-active="active"><span class="glyphicon glyphicon-education"></span> Promo</a>
-                </li>
-                <li><a ui-sref="ki" ui-sref-active="active"><span class="glyphicon glyphicon-flash"></span> KI</a>
-                </li>
-                <li><a ui-sref="cours" ui-sref-active="active"><span class="glyphicon glyphicon-briefcase"></span> Cours</a>
-                </li>
-                <li><a ui-sref="calendrier" ui-sref-active="active"><span class="glyphicon glyphicon-calendar"></span> Calendrier</a>
-                </li>
-                <li><a ui-sref="profil" ui-sref-active="active"><span class="glyphicon glyphicon-star"></span> Profil</a>
-                </li>
-            </ul>
+    <div class="up-container up-row">
+        <aside class="up-col-xs-2 up-column padded up-aside" ng-show="isLogged">
+            <div><a ui-sref="home" ui-sref-active="active"><span class="glyphicon glyphicon-comment"></span> News</a>
+            </div>
+            <div><a ui-sref="ponthub" ui-sref-active="active"><span class="glyphicon glyphicon-film"></span> PontHub</a>
+            </div>
+            <div><a ui-sref="channels" ui-sref-active="active"><span class="glyphicon glyphicon-thumbs-up"></span> Assos</a>
+            </div>
+            <div><a ui-sref="promo" ui-sref-active="active"><span class="glyphicon glyphicon-education"></span> Promo</a>
+            </div>
+            <div><a ui-sref="ki" ui-sref-active="active"><span class="glyphicon glyphicon-flash"></span> KI</a>
+            </div>
+            <div><a ui-sref="cours" ui-sref-active="active"><span class="glyphicon glyphicon-briefcase"></span> Cours</a>
+            </div>
+            <div><a ui-sref="calendrier" ui-sref-active="active"><span class="glyphicon glyphicon-calendar"></span> Calendrier</a>
+            </div>
+            <div><a ui-sref="profil" ui-sref-active="active"><span class="glyphicon glyphicon-star"></span> Profil</a>
+            </div>
         </aside>
-        <div ui-view autoscroll="false" class="up-main-view" up-fill-window ng-class="{'col-xs-10':isLogged, 'col-xs-12':!isLogged}"></div>
+        <div ui-view autoscroll="false" class="up-main-view" up-fill-window ng-class="{'up-col-xs-10':isLogged, 'up-col-xs-12':!isLogged}"></div>
     </div>
 
-    <footer class="container-fluid" ng-hide="hideFooter">
-        <div class="row">
-            <div class="col-sm-2 col-xs-6 up-theme-selector">
-                <label class="unbold">
-                    <input type="checkbox" ng-model="theme">&nbsp;&nbsp;Thème sombre</label>
-            </div>
-            <div class="col-sm-8 col-xs-12">uPont 2.0</div>
-            <div ng-if="isLogged" class="col-sm-2 col-xs-6">
-                <button class="btn btn-default" ng-click="logout()">Logout</button>
-            </div>
+    <footer class="up-container up-row" ng-hide="hideFooter">
+        <div class="up-col-sm-2 up-col-xs-6 up-theme-selector">
+            <label class="unbold">
+                <input type="checkbox" ng-model="theme">&nbsp;&nbsp;Thème sombre</label>
+        </div>
+        <div class="up-col-sm-8 up-col-xs-12">uPont 2.0</div>
+        <div ng-if="isLogged" class="up-col-sm-2 up-col-xs-6">
+            <button class="btn btn-default" ng-click="logout()">Logout</button>
         </div>
     </footer>
+
+    <!-- Piwik -->
+    <script type="text/javascript">
+        var _paq = _paq || [];
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+            var u="//upont.enpc.fr/piwik/";
+            _paq.push(['setTrackerUrl', u+'piwik.php']);
+            _paq.push(['setSiteId', 1]);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+        })();
+    </script>
+    <noscript><p><img src="//upont.enpc.fr/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+    <!-- End Piwik Code -->
 </body>
 
 </html>
