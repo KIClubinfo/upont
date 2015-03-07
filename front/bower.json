@@ -16,6 +16,7 @@
     "js-base64": "latest",
     "bootstrap": "latest",
     "angular-mocks": "latest",
-    "angular-jwt": "~0.0.6"
+    "angular-jwt": "~0.0.6",
+    "moment": "latest"
   }
 }
