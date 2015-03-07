@@ -137,11 +137,11 @@
 
 <div class="up-ticket">
     <h1>Channels suivis</h1>
-    <div class="up-row left padded">
-        <div class="up-col-xs-12 up-col-sm-4 up-row padded" ng-repeat="club in clubs | orderBy:'name'">
-            <div class="up-col-xs-4"><img class="img-responsive" src="{{ club.image_url | urlFile}}" />
+    <div up-row padded>
+        <div up-col="100%" up-col-xs="33%" up-row padded ng-repeat="club in clubs | orderBy:'name'">
+            <div up-col="33%"><img class="img-responsive" src="{{ club.image_url | urlFile}}" />
             </div>
-            <div class="up-col-xs-8">
+            <div up-col="66%">
                 <h2>{{ club.name }}</h2>
                 <button class="btn-suivi active" ng-show="club.suivi" ng-click="unsubscribe(club.slug);">Suivi</button>
                 <button class="btn-suivi" ng-show="!club.suivi" ng-click="subscribe(club.slug);">Suivre</button>

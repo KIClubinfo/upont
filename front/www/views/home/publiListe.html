@@ -1,12 +1,14 @@
 <div class="up-ticket divided rounded-top" ng-repeat="publication in publications">
     <div ng-if="!publication.start_date">
-        <div class="up-row padded up-ticket-header">
-            <div class="up-col-sm-3 up-col-xs-6">
+        <div up-row padded class="up-ticket-header">
+            <div up-col="25%" up-col-xs="50%">
                 <img class="img-responsive" ng-src="{{ publication.image_url | urlFile }}" alt="" />
             </div>
-            <div class="up-col-sm-9 up-col-xs-12">
-                <div class="up-ticket-auteur">{{ publication.author_club.name }}</div>
-                <div class="up-ticket-date">{{ publication.date*1000 | date : 'd MMMM yyyy' }}</div>
+            <div up-col="75%" up-col-xs="100%">
+                <div up-row>
+                    <div up-col="50%" class="up-ticket-auteur">{{ publication.author_club.name }}</div>
+                    <div up-col="50%" class="up-ticket-date">{{ publication.date*1000 | date : 'd MMMM yyyy' }}</div>
+                </div>
                 <h2>{{ publication.name }}</h2>
             </div>
         </div>
@@ -17,13 +19,15 @@
     </div>
 
     <div ng-if="!!publication.start_date">
-        <div class="up-row padded up-ticket-header">
-            <div class="up-col-sm-3 up-col-xs-6">
+        <div up-row padded class="up-ticket-header">
+            <div up-col="25%" up-col-xs="25%">
                 <img class="img-responsive" ng-src="{{ publication.image_url | urlFile }}" alt="" />
             </div>
-            <div class="up-col-sm-9 up-col-xs-12">
-                <div class="up-ticket-auteur">{{ publication.author_club.name }}</div>
-                <div class="up-ticket-date">{{ publication.date*1000 | date : 'd MMMM yyyy' }}</div>
+            <div up-col="75%" up-col-xs="100%">
+                <div up-row>
+                    <div up-col="50%" class="up-ticket-auteur">{{ publication.author_club.name }}</div>
+                    <div up-col="50%" class="up-ticket-date">{{ publication.date*1000 | date : 'd MMMM yyyy' }}</div>
+                </div>
                 <h2>{{ publication.name }}</h2>
                 <p class="up-date-evenement">
                     Le {{ publication.start_date*1000 | date : 'dd/MM/yyyy à H:mm' }}

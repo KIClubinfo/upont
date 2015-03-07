@@ -1,4 +1,4 @@
-<div class="up-row padded left">
+<div up-row left>
     <div class="up-likes" ng-click="upvote(url);" ng-class="{active : objet.like}">
         <i class="fa fa-thumbs-o-up"></i> {{ objet.likes }}
     </div>
@@ -23,10 +23,10 @@
         <strong>{{ comment.author.nick || comment.author.fist_name+' '+comment.author.last_name  }} : </strong>
         {{ comment.text }}
     </h3>
-    <form class="up-row left" ng-submit="submitComment()">
-        <div><img class="up-comment-img" ng-src="{{ $root.me.image_url | urlFile }}" />
+    <form up-row left ng-submit="submitComment()">
+        <div up-col="15%"><img class="up-comment-img" ng-src="{{ $root.me.image_url | urlFile }}" />
         </div>
-        <div class="up-col-xs-10">
+        <div class="85%">
             <input ng-model="commentText" type="text" placeholder="Ajouter un commentaire" />
         </div>
     </form>
