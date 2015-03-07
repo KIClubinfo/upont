@@ -2,13 +2,9 @@
 namespace KI\UpontBundle\Form\DataTransformer;
 
 use KI\UpontBundle\Services\KIImages;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Doctrine\Common\Persistence\ObjectManager;
-use KI\UpontBundle\Entity\Image;
-
 
 class Base64OrUrlToImageDataTransformer implements DataTransformerInterface
 {
@@ -26,12 +22,12 @@ class Base64OrUrlToImageDataTransformer implements DataTransformerInterface
      * @param  $img
      * @return string
      */
-    public function transform($img)
+    public function transform($image)
     {
-        if (null === $img)
+        if (null === $image)
             return '';
 
-        return $img->getWebPath();
+        return $image->getWebPath();
     }
 
     /**
@@ -45,24 +41,6 @@ class Base64OrUrlToImageDataTransformer implements DataTransformerInterface
     {
         if (!$base64orUrl)
             return null;
-
-
-        $fs = new Filesystem();
-        $img = new Image();
-
-        // Check if the input is an URL or not and return an array with the image and the extension
-        if (preg_match('#^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$#', $base64orUrl))
-            $imgArray = $this->uploaderService->uploadUrl($base64orUrl);
-        else
-            $imgArray = $this->uploaderService->uploadBase64($base64orUrl);
-
-        $img->setExt($imgArray['extension']);
-
-        // Save the image locally thanks to md5 hash and put it in the $img
-        $temporaryPath = $img->getTemporaryDir() . md5($imgArray['image']);
-        $fs->dumpFile($temporaryPath, $imgArray['image']);
-        $imgFile = new File($temporaryPath);
-        $img->setFile($imgFile);
-        return $img;
+        return $this->uploaderService->upload($base64orUrl);
     }
 }

@@ -50,7 +50,7 @@ gulp.task('build-js', function() {
 
 gulp.task('watch', function() {
     gulp.watch(['app/js/**/*.js', 'app/js/*.js'], ['build-js']);
-    gulp.watch('app/css/*.less', ['build-css-dark', 'build-css-light']);
+    gulp.watch(['app/css/**/*.less', 'app/css/**/*.less'], ['build-css-dark', 'build-css-light']);
 });
 
 gulp.task('default', ['build-js', 'build-css-dark', 'build-css-light', 'watch']);
