@@ -1,15 +1,15 @@
-<div class="up-row">
-    <div class="up-ticket up-row up-col-xs-12">
-            <div class="up-col-xs-3">
+<div un-row>
+    <div up-row up-col="100%">
+            <div up-col="25%">
                 <img class="img-responsive" src="{{ element.image_url | urlFile }}" alt="" />
-                <div class="up-row">
+                <div up-row>
                     <div ng-if="element.vo"><span class="label label-upont">VO</span></div>
                     <div ng-if="element.vf"><span class="label label-upont">VF</span></div>
                     <div ng-if="element.vost"><span class="label label-upont">VOST</span></div>
                     <div ng-if="element.hd"><span class="label label-upont">HD</span></div>
                 </div>
             </div>
-            <div class="up-col-xs-9">
+            <div up-col="75%">
                 <h1>{{ element.name }}</h1>
                 <p>{{ element.description }}</p>
                 <ul class="up-ph-list-infos">
