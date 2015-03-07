@@ -1,0 +1,40 @@
+.modal-ponthub {
+    h1 {
+        font-size: 0.8em;
+    }
+}
+
+.modal-body .left {
+    text-align: left;
+}
+
+.modal-backdrop {
+    bottom: 0px; //Fix de bootstrap
+    z-index: 10;
+}
+
+.modal-content {
+    border-radius: 0px;
+    z-index: 15;
+}
+
+.modal-backdrop.am-fade {
+    opacity: .5;
+    transition: opacity .15s linear;
+    &.ng-enter {
+        opacity: 0;
+        &.ng-enter-active {
+            opacity: .5;
+        }
+    }
+    &.ng-leave {
+        opacity: .5;
+        &.ng-leave-active {
+            opacity: 0;
+        }
+    }
+}
+
+.modal-header h1 {
+    font-size: 2.5em !important;
+}
