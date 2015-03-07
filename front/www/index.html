@@ -18,6 +18,7 @@
     <script src="libs/angular-resource/angular-resource.min.js"></script>
     <script src="libs/angular-loading-bar/build/loading-bar.min.js"></script>
     <script src="libs/angular-jwt/dist/angular-jwt.min.js"></script>
+    <script src="libs/moment/min/moment-with-locales.min.js"></script>
     <script src="libs/scheduler/codebase/dhtmlxscheduler.js"></script>
     <script src="libs/scheduler/codebase/locale/locale_fr.js"></script>
     <script src="libs/js-base64/base64.min.js"></script>
@@ -51,7 +52,7 @@
                 <input type="checkbox" ng-model="theme">&nbsp;Thème sombre
             </label>
         </div>
-        <div class="up-col-sm-8 up-col-xs-12">uPont {{ version.version }}.{{ version.major }}.{{ version.minor }} - Build {{ version.build }} ({{ version.date }})</div>
+        <div class="up-col-sm-8 up-col-xs-12">uPont {{ version.version }}.{{ version.major }}.{{ version.minor }} - Build {{ version.build }} ({{ version.date | formatDate }})</div>
         <div ng-if="isLogged" class="up-col-sm-2 up-col-xs-6">
             <button class="btn btn-default" ng-click="logout()">Déconnexion</button>
         </div>
