@@ -1,14 +1,14 @@
 <div class="up-row padded left">
     <div class="up-likes" ng-click="upvote(url);" ng-class="{active : objet.like}">
-        <span class="glyphicon glyphicon-thumbs-up"></span> {{ objet.likes }}
+        <i class="fa fa-thumbs-o-up"></i> {{ objet.likes }}
     </div>
 
     <div class="up-likes" ng-click="downvote(url);" ng-class="{active : objet.dislike}">
-        <span class="glyphicon glyphicon-thumbs-down"></span> {{ objet.dislikes }}
+        <i class="fa fa-thumbs-o-down"></i> {{ objet.dislikes }}
     </div>
 
     <div>
-        <span class="glyphicon glyphicon-comment"></span> {{ objet.comments }}
+        <i class="fa fa-comment"></i> {{ objet.comments }}
     </div>
 </div>
 

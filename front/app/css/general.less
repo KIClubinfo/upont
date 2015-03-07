@@ -89,6 +89,10 @@
             &.active {
                 border-bottom: solid 1px @col1;
             }
+            .fa {
+                width: 20px;
+                text-align: center;
+            }
         }
     }
     .up-club-subscribe.active h2 {
@@ -226,7 +230,8 @@ header {
     .up-navbar-link {
         text-transform: uppercase;
         font-family: 'montserrat';
-        font-size: 0.9em;
+        font-size: 1.1em;
+        margin-right: 15px;
     }
 }
 .up-main-title {
@@ -459,4 +464,18 @@ header {
 
 .up-main-content{
     padding-top: @navbarHgt; //Pour la navbar
+}
+
+.cover {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.up-profile-picture {
+    .cover;
+    border-radius: 5px;
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
 }
