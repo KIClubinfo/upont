@@ -25,24 +25,27 @@
 </head>
 
 <body ng-app="upont" ng-class="theme?'theme-dark':'theme-clear'">
-    <header class="up-container up-row">
-        <div class="up-col-sm-4">
-            <a class="up-main-title" ui-sref="home"></a>
+    <div class="up-row">
+        <div  class="up-col-xs-4 up-col-sm-2 up-row">
+            <div ng-if="isLogged" ng-include="'views/misc/aside.html'" class="up-aside up-col-xs-4 up-col-sm-2 "></div>
         </div>
-        <div>
-            <a ng-click="publishModal = !publishModal" ng-show="isAdmin" class="up-navbar-link">Publier</a>
+        <div class="up-main-content" ng-class="{'up-col-xs-8 up-col-sm-10':isLogged, 'up-col-xs-12':!isLogged}">
+            <header class="up-container up-row">
+                <div class="up-col-sm-4">
+                    <a class="up-main-title" ui-sref="home"></a>
+                </div>
+                <div>
+                    <a ng-click="publishModal = !publishModal" ng-show="isAdmin" class="up-navbar-link">Publier</a>
+                </div>
+                <div class="up-row padded right-aligned" ng-show="isLogged">
+                    <div><a ui-sref="profil" ui-sref-active="active" class="up-navbar-link">Profil</a>
+                    </div>
+                    <div><a ui-sref="admin" ui-sref-active="active" class="up-navbar-link" ng-show="isAdmin">Admin</a>
+                    </div>
+                </div>
+            </header>
+            <div ui-view autoscroll="false" class="up-main-view" up-fill-window ></div>
         </div>
-        <div class="up-row padded right-aligned" ng-show="isLogged">
-            <div><a ui-sref="profil" ui-sref-active="active" class="up-navbar-link">Profil</a>
-            </div>
-            <div><a ui-sref="admin" ui-sref-active="active" class="up-navbar-link" ng-show="isAdmin">Admin</a>
-            </div>
-        </div>
-    </header>
-
-    <div class="up-container up-row">
-        <div ng-if="isLogged" ng-include="'views/misc/aside.html'" class="up-col-xs-4 up-col-sm-2"></div>
-        <div ui-view autoscroll="false" class="up-main-view" up-fill-window ng-class="{'up-col-xs-8 up-col-sm-10':isLogged, 'up-col-xs-12':!isLogged}"></div>
     </div>
 
     <footer class="up-container up-row" ng-hide="hideFooter">
