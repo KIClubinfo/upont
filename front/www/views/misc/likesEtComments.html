@@ -1,14 +1,14 @@
 <div class="up-row padded left">
     <div class="up-likes" ng-click="upvote(url);" ng-class="{active : objet.like}">
-        <span class="glyphicon glyphicon-thumbs-up"></span> {{ objet.likes }}
+        <i class="fa fa-thumbs-o-up"></i> {{ objet.likes }}
     </div>
 
     <div class="up-likes" ng-click="downvote(url);" ng-class="{active : objet.dislike}">
-        <span class="glyphicon glyphicon-thumbs-down"></span> {{ objet.dislikes }}
+        <i class="fa fa-thumbs-o-down"></i> {{ objet.dislikes }}
     </div>
 
     <div>
-        <span class="glyphicon glyphicon-comment"></span> {{ objet.comments }}
+        <i class="fa fa-comment"></i> {{ objet.comments }}
     </div>
 </div>
 
@@ -18,7 +18,7 @@
     <div ng-if="shownComments < 0 && comments.length > 3">
         <h3 class="up-likes" ng-click="openComments()" ng-class="{active : shownComments > 0 }" >Afficher {{ comments.length-3 }} commentaires précédents</h3>
     </div>
-    <h3 class="up-comment" ng-repeat="comment in comments | limitTo: shownComments">
+    <h3 class="up-comment" ng-repeat="comment in comments | orderBy: date | limitTo: shownComments">
         <img class="up-comment-img" ng-src="{{comment.author.image_url | urlFile}}" />
         <strong>{{ comment.author.nick || comment.author.fist_name+' '+comment.author.last_name  }} : </strong>
         {{ comment.text }}

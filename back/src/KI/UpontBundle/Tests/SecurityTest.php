@@ -57,5 +57,10 @@ class SecurityTest extends WebTestCase
         $this->client->request('DELETE', '/newsitems/manger');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
+
+        // On teste que l'utilisateur puisse modifier son propre profil
+        $this->client->request('PATCH', '/users/donat-bb', array('firstName' => 'Benoît'));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 204);
     }
 }

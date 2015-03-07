@@ -23,9 +23,10 @@ class SoftwareType extends AbstractType
                 'allow_add' => true
             ))
             ->add('year')
+            ->add('version')
             ->add('author');
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
@@ -33,7 +34,7 @@ class SoftwareType extends AbstractType
             'data_class' => 'KI\UpontBundle\Entity\Ponthub\Software'
         ));
     }
-        
+
     public function getName()
     {
         return '';
