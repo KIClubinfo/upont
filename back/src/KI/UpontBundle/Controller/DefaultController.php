@@ -322,8 +322,8 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
         $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
         $qb->select('u')
             ->from('KIUpontBundle:Users\User', 'u')
-            ->where('u.lastLogin > :date')
-            ->setParameter('date', new \Datetime('-' . $delay . ' minutes'));
+            ->where('u.lastConnect > :date')
+            ->setParameter('date', time() - $delay*60);
         return $qb->getQuery()->getResult(); ;
     }
 
