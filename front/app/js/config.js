@@ -94,6 +94,9 @@ angular.module('upont')
         else
             $rootScope.hideFooter = false;
 
+        $resource(apiPrefix + 'version').get(function(data){
+            $rootScope.version = data;
+        });
 
         // N'est utile que si on se sert des modaux bootstrap
 
