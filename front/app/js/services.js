@@ -21,11 +21,6 @@ angular.module('upont')
             }
         };
     }])
-    // .factory("isModo", ["StorageService", function(StorageService) {
-    //     return function() {
-    //         return StorageService.get('droits').indexOf("ROLE_MODO") != -1;
-    //     };
-    // }])
     .filter('formatSize', function() {
         return function(size) {
             if (typeof(size) == 'number') {
@@ -85,5 +80,11 @@ angular.module('upont')
                 }
             }
             return '#';
+        };
+    })
+    .filter('formatDate', function() {
+        return function(date) {
+            date = moment.unix(date);
+            return ucfirst(date.calendar());
         };
     });

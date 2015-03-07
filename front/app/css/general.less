@@ -8,7 +8,7 @@
     box-sizing: border-box;
     outline: 0 !important;
 }
-.theme(@col1, @col2, @col3, @col4, @col5, @col6, @col7, @footerUp) {
+.theme(@col1, @col2, @col3, @col4, @col5, @col6, @col7, @col8, @footerUp) {
     color: @col2;
     background: @col6;
     .up-main-title {
@@ -30,6 +30,7 @@
     .up-zone-picker {
         background: @col3;
         border: solid 1px @col4;
+        margin-bottom:0px;
         a:hover, a.active {
             border-bottom: solid 3px @col1;
         }
@@ -51,7 +52,10 @@
         border: solid 1px @col5;
         color: @col2;
     }
-    select, textarea, input {
+    // .btn-default{
+    //     background: #;
+    // }
+    select, textarea {
         width: 100%;
     }
     input:focus {
@@ -76,7 +80,8 @@
         }
     }
     .up-aside {
-        color: #FFF-@col6*0.8;
+        color: @col5;
+        background-color: @col8;
         a {
             &:hover {
                 border-bottom: solid 1px @col2;
@@ -120,14 +125,14 @@
     }
 }
 body.theme-clear {
-    .theme(#649BCC, #888, #FFF, #aaa, #d3d6d8, #dcdcdd, #808080, "img/footerUp_clear.png");
+    .theme(#5584AD, #888, #FFF, #aaa, #d3d6d8, #dddfe4, #808080, #222732, "img/footerUp_clear.png");
     .btn-default:hover {
         background-color: #f0f0f0;
         border-color: #57ABC2;
     }
 }
 body.theme-dark {
-    .theme(#F08630, #a0a0a0, #222, #555, #595B5C, #2a2c2f, #707070, "img/footerUp_dark.png");
+    .theme(#F08630, #a0a0a0, #222, #555, #595B5C, #2a2c2f, #707070, #000, "img/footerUp_dark.png");
     .btn-default:hover {
         background-color: #333;
         border-color: #F08630;
@@ -135,7 +140,6 @@ body.theme-dark {
 }
 //------- Modifs éléments de base
 body {
-    padding-top: @navbarHgt; //Pour la navbar
     font-family: montserrat;
     margin: 0px;
     position: relative;
@@ -274,16 +278,16 @@ header {
         }
     }
 }
-.navbar-header {
-    text-align: center !important;
-}
+// .navbar-header {
+//     text-align: center !important;
+// }
 .dhx_cal_container {
     min-height: 100%;
 }
-.container-fluid > .row {
-    margin-left: 0;
-    margin-right: 0;
-}
+// .container-fluid > .row {
+//     margin-left: 0;
+//     margin-right: 0;
+// }
 // ------ Classes Perso
 .up-zone-picker {
     a {
@@ -306,7 +310,7 @@ header {
 }
 .up-ticket {
     position: relative;
-    margin: 0 1em 1em;
+    margin: 0 0.75em 0.75em;
     &:not(.up-zone-picker) {
         padding: 1.5em;
         margin-top: 1.5em;
@@ -337,7 +341,7 @@ header {
         cursor: pointer;
     }
     &.up-ticket-liste {
-        padding: 1em;
+        padding: 0.75em;
         text-align: center;
         position: relative;
         h1 {
@@ -398,20 +402,17 @@ header {
     text-align: center;
 }
 .up-aside {
+    position:fixed;
+    left:0px;
+    height:100%;
     padding: 1em 0 0 1%;
     font-size: 1.05em;
     list-style: none;
     padding: 0.5em;
     a {
         display: block;
-        padding: 0em 0.8em;
-        margin: 0;
-    }
-    a:hover {
-        margin-bottom: -1px;
-    }
-    a.active {
-        margin-bottom: -1px;
+        margin: 0.75em 10%;
+        height:2em;
     }
 }
 .up-main-view {
@@ -454,4 +455,8 @@ header {
 .up-comment.ng-leave, .up-comment.ng-move.ng-move-active, .up-comment.ng-enter.ng-enter-active {
   opacity:1;
   max-height:initial;
+}
+
+.up-main-content{
+    padding-top: @navbarHgt; //Pour la navbar
 }

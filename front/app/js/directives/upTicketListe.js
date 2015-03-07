@@ -3,7 +3,7 @@ angular.module('upont').directive('upTicketListe', ['$window', function($window)
         scope: {
             content: '=',
             ponthub: '=',
-            games: '=',
+            category: '=',
         },
         template: "<div class='up-ticket up-ticket-liste outer up-col-xs-12'>" +
             "<a ui-sref='ponthub.category.simple({slug: ponthub})'>"+
@@ -15,20 +15,30 @@ angular.module('upont').directive('upTicketListe', ['$window', function($window)
             if(!scope.ponthub){
                 element.find('div.header').unwrap();
             }
-            if(scope.games){
-                element.css('width', '27em');
-                element.find('div.header').css({
-                    'overflow': 'hidden',
-                    'height': '15em',
-                });
+
+            var wdt;
+            switch(scope.category){
+                case 'jeux':
+                    wdt = 30;
+                    break;
+                case 'films':
+                case 'series':
+                    wdt = 13.5;
+                    break;
+                case 'musiques':
+                case 'autres':
+                case 'logiciels':
+                    wdt = 18.5;
+                    break;
+                default:
+                    wdt = 15;
             }
-            else{
-                element.css('width', '17em');
-                element.find('div.header').css({
-                    'overflow': 'hidden',
-                    'height': scope.ponthub? '15em':'10em',
-                });
-            }
+            element.css('width', wdt+'em');
+            element.find('div.header').css({
+                'overflow': 'hidden',
+                'height': '15em',
+            });
+
             element.find('div.header').css({
                 'background-image':  'url('+apiPrefix+scope.content.img+')',
                 'background-repeat': 'no-repeat',
