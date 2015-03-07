@@ -67,6 +67,8 @@ angular.module('upont').directive('upRow', ['$window', function($window) {
                 element.addClass('left');
             if(args.hasOwnProperty('wrap'))
                 element.addClass('wrap');
+            if(args.hasOwnProperty('right'))
+                element.addClass('right');
             element.addClass('up-row');
         }
     };

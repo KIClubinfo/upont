@@ -55,6 +55,9 @@ angular.module('upont')
                     clubsSuivis: ["$resource", function($resource) {
                         return $resource(apiPrefix + "own/followed").query().$promise;
                     }]
+                },
+                data: {
+                    title: 'uPont - Profil'
                 }
             });
     }]);
