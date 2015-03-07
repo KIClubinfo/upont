@@ -5,10 +5,9 @@
 }
 .up-row {
     display: flex;
-    flex-flow: row wrap;
+    flex-direction: row;
     justify-content: space-around;
     position: relative;
-    // align-items: stretch;
     &.padded>*{
         padding: 0px 1em;
     }
@@ -21,10 +20,13 @@
     &.left{
         justify-content: flex-start;
     }
+    &.wrap{
+        flex-wrap:wrap;
+    }
 }
 .up-column {
     display: flex;
-    flex-flow: column wrap;
+    flex-direction: column;
     justify-content: flew-start;
     position: relative;
     &.padded>* {
