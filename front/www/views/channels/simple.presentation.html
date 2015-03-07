@@ -1,18 +1,14 @@
-<div class="col-xs-12">
-    <div class="up-ticket">
-        <div class="row">
-            <div class="col-xs-12 col-sm-3">
-                <img class="img-responsive" src="{{ channel.image_url | urlFile }}" alt="" />
-            </div>
-            <div class="col-xs-12 col-sm-9">
-                <h1>{{ channel.full_name }}</h1>
-                <h2>Description :</h2>
-                <p> {{ channel.description }}</p>
-                <h2>Membres :</h2>
-                <ul>
-                    <li ng-repeat="membre in membres">{{ membre.role }} : {{membre.user.first_name}} {{membre.user.last_name}}</li>
-                </ul>
-            </div>
-        </div>
+<div class="up-ticket up-row padded">
+    <div class="up-col-xs-12 up-col-sm-3">
+        <img class="img-responsive" src="{{ channel.image_url | urlFile }}" alt="" />
+    </div>
+    <div class="up-col-xs-12 up-col-sm-9">
+        <h1>{{ channel.full_name }}</h1>
+        <h2>Description :</h2>
+        <p> {{ channel.description }}</p>
+        <h2>Membres :</h2>
+        <ul>
+            <li ng-repeat="membre in membres">{{ membre.role }} : {{membre.user.first_name}} {{membre.user.last_name}}</li>
+        </ul>
     </div>
 </div>
