@@ -67,7 +67,7 @@ angular.module('upont')
                         return $resource(apiPrefix + "own/newsitems").query().$promise;
                     }],
                     events: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "events").query().$promise;
+                        return $resource(apiPrefix + "own/events").query().$promise;
                     }]
                 }
             });
