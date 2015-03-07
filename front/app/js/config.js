@@ -89,11 +89,6 @@ angular.module('upont')
             $state.go('home.disconnected');
         };
 
-        if ($state.is('calendrier'))
-            $rootScope.hideFooter = true;
-        else
-            $rootScope.hideFooter = false;
-
         $resource(apiPrefix + 'version').get(function(data){
             $rootScope.version = data;
         });
@@ -162,7 +157,29 @@ angular.module('upont')
 
         $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
             // if (toState.resolve)
+            getName = function(state){
+                if(state.data && state.data.title)
+                    return state.data.title;
+                if(state.parent){
+                    if(state.parent.data && state.parent.data.title)
+                        return state.parent.data.title;
+                    return getName(state.parent);
+                }
+                return;
+            };
+
             cfpLoadingBar.complete();
+            if($rootScope.isLogged){
+                var title = getName(toState);
+                if(title)
+                    $rootScope.name = title;
+                else
+                    $rootScope.name = 'uPont';
+            }
+            else
+                $rootScope.name = 'Bienvenue sur uPont';
+            console.log($rootScope.name);
+
         });
 
         $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
