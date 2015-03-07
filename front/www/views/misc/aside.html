@@ -15,12 +15,20 @@
         <div><a ui-sref="calendrier" ui-sref-active="active"><i class="fa fa-calendar"></i> Calendrier</a>
         </div>
         <div><a ui-sref="profil" ui-sref-active="active"><i class="fa fa-star"></i> Profil</a>
+
         <hr style="margin-op: 50px;">
-        <div><a ng-hide="foyer == null"><span class="fa fa-beer"></span> Compte Foyer : {{ foyer }}<span class="fa fa-euro"></a></div>
+        <div><a ng-hide="foyer == null"><i class="fa fa-beer"></i> Compte Foyer : {{ foyer }}<i class="fa fa-euro"></i></a></div>
+
+        <div class="up-online-users">
+            <div><i class="fa fa-child"></i> En ligne :</div>
+            <span ng-repeat="user in online">
+                <span>{{ user.nick }}</span><span ng-if="$index != online.length-1">,</span>
+            </span>
+        </div>
     </div>
     <div class="up-aside-footer">
         <hr style="margin-op: 50px;">
-        <div><a ng-click="logout()"><span class="fa fa-sign-out"></span> Déconnexion</a></div>
+        <div><a ng-click="logout()"><i class="fa fa-sign-out"></i> Déconnexion</a></div>
         <label class="unbold">
             <input type="checkbox" ng-model="$root.theme">&nbsp;Thème sombre
         </label>
