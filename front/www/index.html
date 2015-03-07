@@ -30,7 +30,7 @@
             <a class="up-main-title" ui-sref="home"></a>
         </div>
         <div>
-            <a ui-sref="home" ng-show="isAdmin" class="up-navbar-link">Publier</a>
+            <a ng-click="publishModal = !publishModal" ng-show="isAdmin" class="up-navbar-link">Publier</a>
         </div>
         <div class="up-row padded right-aligned" ng-show="isLogged">
             <div><a ui-sref="profil" ui-sref-active="active" class="up-navbar-link">Profil</a>
@@ -41,31 +41,14 @@
     </header>
 
     <div class="up-container up-row">
-        <aside class="up-col-xs-2 up-column padded up-aside" ng-show="isLogged">
-            <div><a ui-sref="home" ui-sref-active="active"><span class="glyphicon glyphicon-comment"></span> News</a>
-            </div>
-            <div><a ui-sref="ponthub" ui-sref-active="active"><span class="glyphicon glyphicon-film"></span> PontHub</a>
-            </div>
-            <div><a ui-sref="channels" ui-sref-active="active"><span class="glyphicon glyphicon-thumbs-up"></span> Assos</a>
-            </div>
-            <!--<div><a ui-sref="promo" ui-sref-active="active"><span class="glyphicon glyphicon-education"></span> Promo</a>
-            </div>-->
-            <!--<div><a ui-sref="ki" ui-sref-active="active"><span class="glyphicon glyphicon-flash"></span> KI</a>
-            </div>-->
-            <!--<div><a ui-sref="cours" ui-sref-active="active"><span class="glyphicon glyphicon-briefcase"></span> Cours</a>
-            </div>-->
-            <div><a ui-sref="calendrier" ui-sref-active="active"><span class="glyphicon glyphicon-calendar"></span> Calendrier</a>
-            </div>
-            <div><a ui-sref="profil" ui-sref-active="active"><span class="glyphicon glyphicon-star"></span> Profil</a>
-            </div>
-        </aside>
-        <div ui-view autoscroll="false" class="up-main-view" up-fill-window ng-class="{'up-col-xs-10':isLogged, 'up-col-xs-12':!isLogged}"></div>
+        <div ng-if="isLogged" ng-include="'views/misc/aside.html'" class="up-col-xs-4 up-col-sm-2"></div>
+        <div ui-view autoscroll="false" class="up-main-view" up-fill-window ng-class="{'up-col-xs-8 up-col-sm-10':isLogged, 'up-col-xs-12':!isLogged}"></div>
     </div>
 
     <footer class="up-container up-row" ng-hide="hideFooter">
         <div class="up-col-sm-2 up-col-xs-6 up-theme-selector">
             <label class="unbold">
-                <input type="checkbox" ng-model="theme">&nbsp;&nbsp;Thème sombre</label>
+                <input type="checkbox" ng-model="theme">&nbsp;Thème sombre</label>
         </div>
         <div class="up-col-sm-8 up-col-xs-12">uPont 2.0</div>
         <div ng-if="isLogged" class="up-col-sm-2 up-col-xs-6">
