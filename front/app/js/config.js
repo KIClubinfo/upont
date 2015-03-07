@@ -179,13 +179,12 @@ angular.module('upont')
             if($rootScope.isLogged){
                 var title = getName(toState);
                 if(title)
-                    $rootScope.name = title;
+                    $rootScope.title = title;
                 else
-                    $rootScope.name = 'uPont';
+                    $rootScope.title = 'uPont';
             }
             else
-                $rootScope.name = 'Bienvenue sur uPont';
-
+                $rootScope.title = 'Bienvenue sur uPont';
         });
 
         $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
