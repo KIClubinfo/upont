@@ -31,7 +31,7 @@ angular.module('upont').directive('upTicketListe', ['$window', function($window)
                     wdt = 18.5;
                     break;
                 default:
-                    wdt = 13.5;
+                    wdt = 15;
             }
             element.css('width', wdt+'em');
             element.find('div.header').css({
