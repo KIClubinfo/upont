@@ -10,13 +10,9 @@
             <h2>Élève ?</h2>
 
             <form class="up-login-form" ng-submit="login(pseudo, password)">
-                <div class="up-row padded">
-                    <div class="up-col-xs-12 up-col-sm-6">
-                    <input  ng-model="pseudo" type="text" placeholder="Identifiant"/>
-                    </div>
-                    <div class="up-col-xs-12 up-col-sm-6">
-                    <input ng-model="password" type="password" placeholder="Mot de passe"/>
-                    </div>
+                <div class="up-row">
+                    <input class="up-col-xs-12 up-col-sm-6" ng-model="pseudo" type="text" placeholder="Identifiant"/>
+                    <input class="up-col-xs-12 up-col-sm-6" ng-model="password" type="password" placeholder="Mot de passe"/>
                 </div>
                 <br>
 
