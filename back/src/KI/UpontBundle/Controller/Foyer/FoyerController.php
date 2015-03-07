@@ -27,7 +27,7 @@ class FoyerController extends \KI\UpontBundle\Controller\Core\BaseController
         if ($service->hasFailed())
             return $this->jsonResponse('Erreur - impossible de déterminer le solde');
 
-        return $this->jsonResponse($service->balance());
+        return $this->jsonResponse(array('balance' => $service->balance()));
     }
 
     /**
