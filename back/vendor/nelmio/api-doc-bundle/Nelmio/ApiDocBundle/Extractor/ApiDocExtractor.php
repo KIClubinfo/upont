@@ -282,9 +282,9 @@ class ApiDocExtractor
             $parameters = $this->clearClasses($parameters);
             $parameters = $this->generateHumanReadableTypes($parameters);
 
-            if ('PUT' === $method) {
+            if ('PUT' === $annotation->getMethod()) {
                 // All parameters are optional with PUT (update)
-                array_walk($parameters, function ($val, $key) use (&$data) {
+                array_walk($parameters, function ($val, $key) use (&$parameters) {
                     $parameters[$key]['required'] = false;
                 });
             }
@@ -317,6 +317,45 @@ class ApiDocExtractor
             $response = $this->generateHumanReadableTypes($response);
 
             $annotation->setResponse($response);
+            $annotation->setResponseForStatusCode($response, $normalizedOutput, 200);
+        }
+
+        if (count($annotation->getResponseMap()) > 0) {
+
+            foreach ($annotation->getResponseMap() as $code => $modelName) {
+
+                if ('200' === (string) $code && isset($modelName['type']) && isset($modelName['model'])) {
+                    /*
+                     * Model was already parsed as the default `output` for this ApiDoc.
+                     */
+                    continue;
+                }
+
+                $normalizedModel = $this->normalizeClassParameter($modelName);
+
+                $parameters = array();
+                $supportedParsers = array();
+                foreach ($this->getParsers($normalizedModel) as $parser) {
+                    if ($parser->supports($normalizedModel)) {
+                        $supportedParsers[] = $parser;
+                        $parameters = $this->mergeParameters($parameters, $parser->parse($normalizedModel));
+                    }
+                }
+
+                foreach ($supportedParsers as $parser) {
+                    if ($parser instanceof PostParserInterface) {
+                        $mp = $parser->postParse($normalizedModel, $parameters);
+                        $parameters = $this->mergeParameters($parameters, $mp);
+                    }
+                }
+
+                $parameters = $this->clearClasses($parameters);
+                $parameters = $this->generateHumanReadableTypes($parameters);
+
+                $annotation->setResponseForStatusCode($parameters, $normalizedModel, $code);
+
+            }
+
         }
 
         return $annotation;
@@ -332,6 +371,24 @@ class ApiDocExtractor
         // normalize strings
         if (is_string($input)) {
             $input = array('class' => $input);
+        }
+
+        $collectionData = array();
+
+        /*
+         * Match array<Fully\Qualified\ClassName> as alias; "as alias" optional.
+         */
+        if (preg_match_all("/^array<([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*(?:\\\\[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)*)>(?:\\s+as\\s+(.+))?$/", $input['class'], $collectionData)) {
+            $input['class'] = $collectionData[1][0];
+            $input['collection'] = true;
+            $input['collectionName'] = $collectionData[2][0];
+        } elseif (preg_match('/^array</', $input['class'])) { //See if a collection directive was attempted. Must be malformed.
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Malformed collection directive: %s. Proper format is: array<Fully\\Qualified\\ClassName> or array<Fully\\Qualified\\ClassName> as collectionName',
+                    $input['class']
+                )
+            );
         }
 
         // normalize groups
@@ -351,6 +408,9 @@ class ApiDocExtractor
      *  - Array parameters are recursively merged.
      *  - Non-null default values prevail over null default values. Later values overrides previous defaults.
      *
+     * However, if newly-returned parameter array contains a parameter with NULL, the parameter is removed from the merged results.
+     * If the parameter is not present in the newly-returned array, then it is left as-is.
+     *
      * @param  array $p1 The pre-existing parameters array.
      * @param  array $p2 The newly-returned parameters array.
      * @return array The resulting, merged array.
@@ -360,9 +420,15 @@ class ApiDocExtractor
         $params = $p1;
 
         foreach ($p2 as $propname => $propvalue) {
+
+            if ($propvalue === null) {
+                unset($params[$propname]);
+                continue;
+            }
+
             if (!isset($p1[$propname])) {
                 $params[$propname] = $propvalue;
-            } else {
+            } elseif (is_array($propvalue)) {
                 $v1 = $p1[$propname];
 
                 foreach ($propvalue as $name => $value) {
@@ -440,10 +506,7 @@ class ApiDocExtractor
     {
         foreach ($array as $name => $info) {
 
-            if ( empty($info['dataType']) && !isset($info['actualType']) && function_exists('dump') ) { //Zz
-                dump($name, $info);
-            }
-            if ( empty($info['dataType'])     && isset($info['actualType']) ) {  //Zz
+            if (empty($info['dataType'])) {
                 $array[$name]['dataType'] = $this->generateHumanReadableType($info['actualType'], $info['subType']);
             }
 
@@ -465,9 +528,14 @@ class ApiDocExtractor
     protected function generateHumanReadableType($actualType, $subType)
     {
         if ($actualType == DataTypes::MODEL) {
-            $parts = explode('\\', $subType);
 
-            return sprintf('object (%s)', end($parts));
+            if (class_exists($subType)) {
+                $parts = explode('\\', $subType);
+
+                return sprintf('object (%s)', end($parts));
+            }
+
+            return sprintf('object (%s)', $subType);
         }
 
         if ($actualType == DataTypes::COLLECTION) {
