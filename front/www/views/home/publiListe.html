@@ -1,6 +1,6 @@
-<div class="up-ticket" ng-repeat="publication in publications">
+<div class="up-ticket divided" ng-repeat="publication in publications">
     <div ng-if="!publication.start_date">
-        <div class="up-row padded">
+        <div class="up-row padded up-ticket-header">
             <div class="up-col-sm-3 up-col-xs-6">
                 <img class="img-responsive" ng-src="{{ publication.image_url | urlFile }}" alt="" />
             </div>
@@ -10,12 +10,14 @@
                 <h2>{{ publication.name }}</h2>
             </div>
         </div>
-        <p class="up-chapeau stacked-row" up-publi-text string="publication.text_long"></p>
-        <div up-likes objet="publication" url="'newsitems/'+publication.slug"></div>
+        <div class="up-ticket-body">
+            <p up-publi-text string="publication.text_long"></p>
+            <div up-likes objet="publication" url="'newsitems/'+publication.slug"></div>
+        </div>
     </div>
 
     <div ng-if="!!publication.start_date">
-        <div class="up-row padded">
+        <div class="up-row padded up-ticket-header">
             <div class="up-col-sm-3 up-col-xs-6">
                 <img class="img-responsive" ng-src="{{ publication.image_url | urlFile }}" alt="" />
             </div>
@@ -30,7 +32,9 @@
                 </p>
             </div>
         </div>
-        <p class="up-chapeau stacked-row" up-publi-text string="publication.text_long"></p>
-        <div up-likes objet="publication" url="'events/'+publication.slug"></div>
+        <div class="up-ticket-body">
+            <p class="up-chapeau" up-publi-text string="publication.text_long"></p>
+            <div up-likes objet="publication" url="'events/'+publication.slug"></div>
+        </div>
     </div>
 </div>

@@ -80,14 +80,14 @@
         }
     }
     .up-aside {
-        color: @col5;
+        color: @col3;
         background-color: @col8;
         a {
             &:hover {
-                border-bottom: solid 1px @col2;
+                border-bottom: solid 1px @col3;
             }
             &.active {
-                border-bottom: solid 1px @col1;
+                border-bottom: solid 1px @col3;
             }
         }
     }
@@ -311,11 +311,23 @@ header {
 .up-ticket {
     position: relative;
     margin: 0 0.75em 0.75em;
-    &:not(.up-zone-picker) {
+    &:not(.up-zone-picker .divided){
         padding: 1.5em;
+    }
+    &:not(.up-zone-picker){
         margin-top: 1.5em;
     }
-    .up-chapeau {
+
+    .up-ticket-header{
+        background-color:rgba(red(#fdbe37), green(#fdbe37),  blue(#fdbe37),0.8);
+        padding:1.5em;
+    }
+    .up-ticket-body{
+        padding:1.5em;
+        text-indent: 2em;
+    }
+
+    .up-ticket-texte {
         text-align: justify;
         font-family: verdana;
     }
@@ -405,15 +417,6 @@ header {
     position:fixed;
     left:0px;
     height:100%;
-    padding: 1em 0 0 1%;
-    font-size: 1.05em;
-    list-style: none;
-    padding: 0.5em;
-    a {
-        display: block;
-        margin: 0.75em 10%;
-        height:2em;
-    }
 }
 .up-main-view {
     padding-bottom: 30px;
@@ -459,4 +462,23 @@ header {
 
 .up-main-content{
     padding-top: @navbarHgt; //Pour la navbar
+}
+
+.up-aside-footer{
+    position:absolute;
+    bottom:0px;
+    text-align: center;
+    font-size:0.85em;
+    padding:0.5em;
+}
+
+.up-aside-menu{
+    padding: 1em 0 0 1%;
+    font-size: 1.05em;
+    list-style: none;
+    a {
+        display: block;
+        margin: 0.75em 10%;
+        height:2em;
+    }
 }
