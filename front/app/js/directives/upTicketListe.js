@@ -5,7 +5,7 @@ angular.module('upont').directive('upTicketListe', ['$window', function($window)
             ponthub: '=',
             category: '=',
         },
-        template: "<div class='up-ticket up-ticket-liste outer up-col-xs-12'>" +
+        template: "<div class='up-ticket up-ticket-liste outer up-col-xs-100pct'>" +
             "<a ui-sref='ponthub.category.simple({slug: ponthub})'>"+
             "<div class='header' ></div>" +
             "<h1>{{ content.title }}</h1>" +

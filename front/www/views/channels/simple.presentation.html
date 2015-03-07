@@ -1,8 +1,8 @@
-<div class="up-ticket up-row padded">
-    <div class="up-col-xs-12 up-col-sm-3">
+<div up-row padded wrap class="up-ticket">
+    <div up-col="100%" up-col-sm="25%" up-col-md="25%" up-col-lg="25%">
         <img class="img-responsive" src="{{ channel.image_url | urlFile }}" alt="" />
     </div>
-    <div class="up-col-xs-12 up-col-sm-9">
+    <div up-col="100%" up-col-sm="75%" up-col-md="75%" up-col-lg="75%">
         <h1>{{ channel.full_name }}</h1>
         <h2>Description :</h2>
         <p> {{ channel.description }}</p>
