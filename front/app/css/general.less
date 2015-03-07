@@ -30,6 +30,7 @@
     .up-zone-picker {
         background: @col3;
         border: solid 1px @col4;
+        margin-bottom:0px;
         a:hover, a.active {
             border-bottom: solid 3px @col1;
         }
@@ -306,7 +307,7 @@ header {
 }
 .up-ticket {
     position: relative;
-    margin: 0 1em 1em;
+    margin: 0 0.75em 0.75em;
     &:not(.up-zone-picker) {
         padding: 1.5em;
         margin-top: 1.5em;
@@ -337,7 +338,7 @@ header {
         cursor: pointer;
     }
     &.up-ticket-liste {
-        padding: 1em;
+        padding: 0.75em;
         text-align: center;
         position: relative;
         h1 {
@@ -404,14 +405,8 @@ header {
     padding: 0.5em;
     a {
         display: block;
-        padding: 0em 0.8em;
-        margin: 0;
-    }
-    a:hover {
-        margin-bottom: -1px;
-    }
-    a.active {
-        margin-bottom: -1px;
+        margin: 0.75em 10%;
+        height:2em;
     }
 }
 .up-main-view {
