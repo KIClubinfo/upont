@@ -79,7 +79,12 @@ class UsersController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  section="Utilisateurs"
      * )
      */
-    public function patchUserAction($slug) { return $this->patch($slug); }
+    public function patchUserAction($slug)
+    {
+        // Un utilisateur peut se modifier lui même
+        $user = $this->get('security.context')->getToken()->getUser();
+        return $this->patch($slug, $user->getUsername() == $slug);
+    }
 
     /**
      * @ApiDoc(

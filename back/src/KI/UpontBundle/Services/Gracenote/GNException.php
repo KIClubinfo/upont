@@ -11,7 +11,6 @@ class GNException extends \Exception
     {
         parent::__construct(GNError::getMessage($code), $code);
         $this->extInfo = $extInfo;
-        echo('exception: code=' . $code . ', message=' . GNError::getMessage($code) . ', ext=' . $extInfo . '\n');
     }
 
     public function getExtraInfo() { return $this->extInfo; }
