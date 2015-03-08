@@ -20,14 +20,16 @@
     <div class="up-aside-middle">
         <hr style="margin-op: 50px;">
         <div>
-            <a ng-hide="foyer == null"><i class="fa fa-beer"></i> Compte Foyer : {{ foyer }}<i class="fa fa-euro"></i></a>
+            <div ng-hide="foyer == null"><i class="fa fa-beer"></i> Compte Foyer : {{ foyer }}<i class="fa fa-euro"></i></div>
         </div>
 
-        <div class="up-online-users">
-            <div><i class="fa fa-child"></i> En ligne :</div>
-            <span ng-repeat="user in online">
-            <span>{{ user.nick }}</span><span ng-if="$index != online.length-1">,</span>
-            </span>
+        <div>
+            <div>
+                <i class="fa fa-child"></i> En ligne :
+                <span ng-repeat="user in online">
+                    <span>{{ user.nick }}</span><span ng-if="$index != online.length-1">,</span>
+                </span>
+            </div>
         </div>
     </div>
     <div class="up-aside-footer">
