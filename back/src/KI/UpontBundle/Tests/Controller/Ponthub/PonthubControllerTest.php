@@ -4,12 +4,17 @@ namespace KI\UpontBundle\Tests\Controller\Ponthub;
 
 use KI\UpontBundle\Tests\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Filesystem\Filesystem;
 
 class PonthubControllerTest extends WebTestCase
 {
     public function testFilelist()
     {
-        $list = new UploadedFile(__DIR__ . '/../../../../../../web/uploads/tests/files.list', 'files.list');
+        $basePath = __DIR__ . '/../../../../../../web/uploads/tests/';
+        $fs = new Filesystem();
+        $fs->copy($basePath . 'files_tmp.list', $basePath . 'files.list');
+        $list = new UploadedFile($basePath . 'files.list', 'files.list');
+
         $this->client->request('POST', '/filelist', array(), array('filelist' => $list));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 202);
