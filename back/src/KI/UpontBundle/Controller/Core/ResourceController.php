@@ -22,7 +22,7 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
         $count = $qb->getQuery()->getSingleScalarResult();
 
         // On vérifie que l'utilisateur ne fasse pas de connerie avec les variables
-        $totalPages = ceil($count / $limit);
+        $totalPages = ceil($count/$limit);
         if ($limit > 10000)
             $limit = 10000;
         if ($limit < 1)
@@ -41,14 +41,14 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
     }
 
     protected function getPaginateData($request) {
-        $page  = $request->has('page')  ? $request->get('page')  : 1;
+        $page  = $request->has('page') ? $request->get('page') : 1;
         $limit = $request->has('limit') ? $request->get('limit') : 100;
-        $sort  = $request->has('sort')  ? $request->get('sort')  : null;
+        $sort  = $request->has('sort') ? $request->get('sort') : null;
 
         if ($sort === null) {
             $sortBy = array('id' => 'DESC');
         } else {
-            $order = preg_match('#^\-.*#isU', $sort) ? 'DESC' : 'ASC' ;
+            $order = preg_match('#^\-.*#isU', $sort) ? 'DESC' : 'ASC';
             $field = preg_replace('#^\-#isU', '', $sort);
             $sortBy = array($field => $order);
         }
@@ -66,17 +66,17 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
                 unset($results[$key]);
         }
 
-        $baseUrl = '<' . str_replace($this->getRequest()->getBaseUrl(), '', $this->getRequest()->getRequestUri()) . '?page=';
+        $baseUrl = '<'.str_replace($this->getRequest()->getBaseUrl(), '', $this->getRequest()->getRequestUri()).'?page=';
         $links = array(
-            $baseUrl . $page . '&limit=' . $limit . '>;rel=self',
-            $baseUrl . '1' . '&limit=' . $limit . '>;rel=first',
-            $baseUrl . $totalPages . '&limit=' . $limit . '>;rel=last'
+            $baseUrl.$page.'&limit='.$limit.'>;rel=self',
+            $baseUrl.'1'.'&limit='.$limit.'>;rel=first',
+            $baseUrl.$totalPages.'&limit='.$limit.'>;rel=last'
         );
 
         if ($page > 1)
-            $links[] = $baseUrl . ($page - 1) . '&limit=' . $limit . '>;rel=previous';
+            $links[] = $baseUrl.($page - 1).'&limit='.$limit.'>;rel=previous';
         if ($page < $totalPages)
-            $links[] = $baseUrl . ($page + 1) . '&limit=' . $limit . '>;rel=next';
+            $links[] = $baseUrl.($page + 1).'&limit='.$limit.'>;rel=next';
 
         // À refacto quand la PR sur le JMSSerializerBundle sera effectuée
         // (voir BaseController::restResponseContext pour plus de détails)
@@ -178,7 +178,7 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
                 201,
                 array(
                     'Location' => $this->generateUrl(
-                        'get_' . strtolower($this->className),
+                        'get_'.strtolower($this->className),
                         array('slug' => $data['item']->getSlug()),
                         true
                     )

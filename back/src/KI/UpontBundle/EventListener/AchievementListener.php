@@ -26,8 +26,9 @@ class AchievementListener
         $this->user = $token === null ? null : $token->getUser();
         if ($this->user !== null) {
             $response = $repoAU->findByUser($this->user);
-            foreach ($response as $achievementUser)
-                $this->achievements[] = $achievementUser->getAchievement()->getIdA();
+            foreach ($response as $achievementUser) {
+                            $this->achievements[] = $achievementUser->getAchievement()->getIdA();
+            }
         }
     }
 
@@ -43,7 +44,7 @@ class AchievementListener
 
         // Sinon, on lance le check associé
         $check = false;
-        $method = 'check' . $achievement->getIdA();
+        $method = 'check'.$achievement->getIdA();
         if (method_exists($this, $method))
             $check = $this->$method();
 
@@ -69,7 +70,7 @@ class AchievementListener
         // Si l'utilisateur passe de niveau
         if (Achievement::getLevel($this->points()) > Achievement::getLevel($pointsBefore)) {
             $level = Achievement::getLevel($this->points())['current'];
-            $title = 'Passage au statut de ' . $level['name'];
+            $title = 'Passage au statut de '.$level['name'];
             $notification = new Notification('notif_next_level', $title, $level['description'], 'to');
             $notification->addRecipient($this->user);
             $this->manager->persist($notification);

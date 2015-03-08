@@ -21,7 +21,7 @@ class KIFoyer extends ContainerAware
         $user = $this->container->get('security.context')->getToken()->getUser();
 
         // Recupere l'id foyer correspondant
-        $response = $this->curl->curl('http://dev-foyer.enpc.org/uPonts/qui.php?prenom=' . urlencode($user->getFirstName()) . '&nom=' . urlencode($user->getLastName()));
+        $response = $this->curl->curl('http://dev-foyer.enpc.org/uPonts/qui.php?prenom='.urlencode($user->getFirstName()).'&nom='.urlencode($user->getLastName()));
         $data = json_decode($response, true);
 
         $this->error = $data['erreur'] != '';
@@ -30,7 +30,7 @@ class KIFoyer extends ContainerAware
         if ($this->token === null)
             return;
 
-        $response = $this->curl->curl('http://dev-foyer.enpc.org/uPonts/stats.php?id=' . $this->token);
+        $response = $this->curl->curl('http://dev-foyer.enpc.org/uPonts/stats.php?id='.$this->token);
         $data = json_decode($response, true);
         $this->balance = $data['solde'];
     }
@@ -58,7 +58,7 @@ class KIFoyer extends ContainerAware
             return;
 
         $response = $this->curl->curl(
-            'http://dev-foyer.enpc.org/uPonts/stats.php?id=' . $this->token);
+            'http://dev-foyer.enpc.org/uPonts/stats.php?id='.$this->token);
         $data = json_decode($response, true);
 
         return array(

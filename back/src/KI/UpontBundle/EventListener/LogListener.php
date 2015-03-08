@@ -74,7 +74,7 @@ class LogListener extends ContainerAware
 
         $system = 'Autre';
         foreach ($systems as $needle => $result)
-            $system = preg_match('#' . $needle . '#isU', $agent) ? $result : $system;
+            $system = preg_match('#'.$needle.'#isU', $agent) ? $result : $system;
 
         return $system;
     }
@@ -93,7 +93,7 @@ class LogListener extends ContainerAware
 
         $browser = 'Autre';
         foreach ($browsers as $needle => $result)
-            $browser = preg_match('#' . $needle . '#isU', $agent) ? $result : $browser;
+            $browser = preg_match('#'.$needle.'#isU', $agent) ? $result : $browser;
 
         return $browser;
     }

@@ -356,8 +356,7 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
         }
         if ($position <= $limit && $position > 0) {
             $result['shotgunText'] = $event->getShotgunText();
-        }
-        else if ($position > $limit) {
+        } else if ($position > $limit) {
             // La liste d'attente commence à 0.
             $result['waitingList'] = $position - $limit;
         }
