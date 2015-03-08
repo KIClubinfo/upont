@@ -12,8 +12,8 @@ class PonthubControllerTest extends WebTestCase
     {
         $basePath = __DIR__ . '/../../../../../../web/uploads/tests/';
         $fs = new Filesystem();
-        $fs->copy($basePath . 'files.list', $basePath . 'files_tmp.list');
-        $list = new UploadedFile($basePath . 'files_tmp.list', 'files.list');
+        $fs->copy($basePath . 'files_tmp.list', $basePath . 'files.list');
+        $list = new UploadedFile($basePath . 'files.list', 'files.list');
 
         $this->client->request('POST', '/filelist', array(), array('filelist' => $list));
         $response = $this->client->getResponse();
