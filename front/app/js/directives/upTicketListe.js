@@ -5,12 +5,11 @@ angular.module('upont').directive('upTicketListe', ['$window', function($window)
             ponthub: '=',
             category: '=',
         },
-        template: "<div>" +
-            "<a ui-sref='ponthub.category.simple({slug: ponthub})'>"+
-            "<div class='up-img-ponthub'><div class='img-ph'></div></div>" +
-            "<h1>{{ content.title }}</h1>" +
-            "</div>"+
-            "</a>",
+        template:
+            '<a ui-sref="ponthub.category.simple({slug: ponthub})">' +
+            '<div class="up-img-ponthub"><div class="img-ph"></div></div>' +
+            '<div class="up-title-ponthub">{{ content.title }}</div>' +
+            '</a>',
         link: function(scope, element, attrs) {
             if(!scope.ponthub){
                 element.find('div.header').unwrap();
@@ -19,19 +18,17 @@ angular.module('upont').directive('upTicketListe', ['$window', function($window)
             var clas;
             switch(scope.category){
                 case 'jeux':
-                    clas = "up-col-xs-6";
+                    clas = "up-col-xs-12 up-col-sm-6 up-col-md-4";
                     break;
                 case 'films':
                 case 'series':
-                    clas = "up-col-xs-2";
-                    break;
                 case 'musiques':
                 case 'autres':
                 case 'logiciels':
-                    clas = "up-col-xs-6";
+                    clas = 'up-col-xs-12 up-col-sm-4 up-col-md-2';
                     break;
                 default:
-                    clas = "up-col-xs-6";
+                    clas = 'up-col-xs-12 up-col-sm-4 up-col-md-2';
             }
             //element.css('width', wdt+'em');
             element.addClass(clas);
