@@ -18,18 +18,18 @@
         }
     }
     .up-zone-picker {
-        background: @col3;
-        border: solid 1px @col4;
         margin-bottom:0px;
         a:hover, a.active {
             border-bottom: solid 3px @col1;
         }
     }
+
     .up-ticket {
         color: @col2;
-        // box-shadow: 0px 1px 2px @col7;
-        background: @col3;
-        border: solid 1px @col4;
+        &:before{
+            background: @col3;
+            border: solid 1px @col4;
+        }
         .up-ticket-link {
             color: @col1;
             &:hover {
