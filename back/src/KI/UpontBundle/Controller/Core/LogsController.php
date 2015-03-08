@@ -81,9 +81,9 @@ class LogsController extends \KI\UpontBundle\Controller\Core\ResourceController
                     $stat->setPromo($promo);
                     $stat->setConnections(0);
                     $stat->setConnectionsUnique(0);
-                    $stat->setYear((int) strftime('%Y', $log->getDate()));
-                    $stat->setWeek((int) strftime('%W', $log->getDate()));
-                    $stat->setDay((int) strftime('%j', $log->getDate()));
+                    $stat->setYear((int)strftime('%Y', $log->getDate()));
+                    $stat->setWeek((int)strftime('%W', $log->getDate()));
+                    $stat->setDay((int)strftime('%j', $log->getDate()));
                     $daily[$promo] = $stat;
                     $uniqueUsers[$promo] = array();
                 }
@@ -186,6 +186,6 @@ class LogsController extends \KI\UpontBundle\Controller\Core\ResourceController
         $stat->increment('httpCodes', $log->getCode());
         $stat->increment('browsers', $log->getBrowser());
         $stat->increment('systems', $log->getSystem());
-        $stat->increment('hours', (int) strftime('%H', $log->getDate()));
+        $stat->increment('hours', (int)strftime('%H', $log->getDate()));
     }
 }

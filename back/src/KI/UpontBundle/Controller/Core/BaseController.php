@@ -22,13 +22,13 @@ class BaseController extends \FOS\RestBundle\Controller\FOSRestController
     public function initialize($class, $namespace = null)
     {
         $this->className = $class;
-        $this->namespace = $namespace === null ? '' : $namespace . '\\';
+        $this->namespace = $namespace === null ? '' : $namespace.'\\';
 
         // Fully qualified class names
-        $this->class = 'KI\UpontBundle\Entity\\' . $this->namespace . $this->className;
-        $this->form = 'KI\UpontBundle\Form\\' . $this->namespace . $this->className . 'Type';
+        $this->class = 'KI\UpontBundle\Entity\\'.$this->namespace.$this->className;
+        $this->form = 'KI\UpontBundle\Form\\'.$this->namespace.$this->className.'Type';
         $this->em = $this->getDoctrine()->getManager();
-        $this->repo = $this->em->getRepository('KIUpontBundle:' . $this->namespace . $this->className);
+        $this->repo = $this->em->getRepository('KIUpontBundle:'.$this->namespace.$this->className);
 
         if ($token = $this->container->get('security.context')->getToken())
             $this->user = $token->getUser();
@@ -138,7 +138,7 @@ class BaseController extends \FOS\RestBundle\Controller\FOSRestController
                 $item = $this->repo->findOneByUsername($slug);
         }
         if (!$item instanceof $this->class)
-            throw new NotFoundHttpException('Objet ' . $this->className . ' non trouvé');
+            throw new NotFoundHttpException('Objet '.$this->className.' non trouvé');
 
         return $item;
     }

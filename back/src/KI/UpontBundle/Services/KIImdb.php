@@ -13,7 +13,7 @@ class KIImdb extends ContainerAware
     
     public function search($name)
     {
-        $url = $this->baseUrl . '?s=' . urlencode($name);
+        $url = $this->baseUrl.'?s='.urlencode($name);
         $curl = $this->container->get('ki_upont.curl');
         $response = json_decode($curl->curl($url), true);
         
@@ -32,7 +32,7 @@ class KIImdb extends ContainerAware
     
     public function infos($id)
     {
-        $url = $this->baseUrl . '?i=' . urlencode($id);
+        $url = $this->baseUrl.'?i='.urlencode($id);
         $curl = $this->container->get('ki_upont.curl');
         $response = json_decode($curl->curl($url), true);
         

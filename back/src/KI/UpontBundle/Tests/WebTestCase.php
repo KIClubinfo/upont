@@ -18,7 +18,7 @@ abstract class WebTestCase extends LiipWebTestCase
         parent::__construct();
 
         // On ne se logge qu'une fois pour tous les tests
-        $path = __DIR__ . '/../../../../app/cache/token';
+        $path = __DIR__.'/../../../../app/cache/token';
         if (!file_exists($path)) {
             $client = static::createClient();
             $client->request('POST', $this->getUrl('login'), array('username' => 'trancara', 'password' => 'password'));
@@ -32,7 +32,7 @@ abstract class WebTestCase extends LiipWebTestCase
         }
 
         $client = static::createClient();
-        $client->setServerParameter('HTTP_Authorization', $this->authorizationHeaderPrefix . ' ' . file_get_contents($path));
+        $client->setServerParameter('HTTP_Authorization', $this->authorizationHeaderPrefix.' '.file_get_contents($path));
         $this->client = $client;
     }
 
@@ -55,7 +55,7 @@ abstract class WebTestCase extends LiipWebTestCase
             $decode = json_decode($response->getContent(), true);
             $this->assertTrue(
                 ($decode !== null && $decode !== false),
-                'is response valid json: [' . $response->getContent() . ']'
+                'is response valid json: ['.$response->getContent().']'
             );
         }
     }

@@ -97,8 +97,9 @@ class Serie extends PonthubFile
     public function actorsList()
     {
         $actors = array();
-        foreach ($this->actors as $actor)
-            $actors[] = $actor->getName();
+        foreach ($this->actors as $actor) {
+                    $actors[] = $actor->getName();
+        }
         return $actors;
     }
 

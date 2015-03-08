@@ -57,7 +57,7 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
 
         // Quelques variables qui vont servir
         $match = $genres = $series = $albums = $pathsDone = array();
-        $path = __DIR__ . '/../../../../../web/uploads/tmp/';
+        $path = __DIR__.'/../../../../../web/uploads/tmp/';
         $validExt = array(
             'mp3', 'wav', 'ogg', 'flac', 'mp2', 'aac',
             'avi', 'mpeg', 'mp4', 'mkv',
@@ -67,7 +67,7 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
 
         // On récupère le contenu du fichier
         $request->files->get('filelist')->move($path);
-        $list = fopen($path . 'files.list', 'r+');
+        $list = fopen($path.'files.list', 'r+');
         if ($list === false)
             throw new BadRequestHttpException();
 
@@ -81,17 +81,20 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
 
         // On stocke les albums et les séries existantes
         $result = $repoSeries->findAll();
-        foreach ($result as $serie)
-            $series[$serie->getName()] = $serie;
+        foreach ($result as $serie) {
+                    $series[$serie->getName()] = $serie;
+        }
         $result = $repoAlbums->findAll();
-        foreach ($result as $album)
-            $albums[$album->getName()] = $album;
+        foreach ($result as $album) {
+                    $albums[$album->getName()] = $album;
+        }
 
         // On liste aussi les genres pour les musiques
         $repoGenres = $this->em->getRepository('KIUpontBundle:Ponthub\Genre');
         $result = $repoGenres->findAll();
-        foreach ($result as $genre)
-            $genres[$genre->getName()] = $genre;
+        foreach ($result as $genre) {
+                    $genres[$genre->getName()] = $genre;
+        }
 
         // On parcourt la liste ligne par ligne
         while (!feof($list)) {
@@ -174,7 +177,7 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
                 // Si la série existe, on la récupère, sinon on la rajoute
                 if (!isset($series[$serie])) {
                     $serieItem = new Serie();
-                    $serieItem->setPath('/root/web/series/' . $serie . '/');
+                    $serieItem->setPath('/root/web/series/'.$serie.'/');
                     $serieItem->setStatus('NeedInfos');
                     $serieItem->setName($serie);
                     $serieItem->setVo(true);
@@ -183,8 +186,8 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
                     $series[$serie] = $serieItem;
                 } else
                     $serieItem = $series[$serie];
-                if (!in_array('/root/web/series/' . $serie . '/', $pathsDone))
-                    $pathsDone[] = '/root/web/series/' . $serie . '/';
+                if (!in_array('/root/web/series/'.$serie.'/', $pathsDone))
+                    $pathsDone[] = '/root/web/series/'.$serie.'/';
 
                 //On range l'épisode en commencant par déterminer le numéro de saison et d'épisode
                 if (!preg_match('#^S([0-9]{2}) E([0-9]{2})#', $episode, $matches))
@@ -205,8 +208,8 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
             if (preg_match('#^/root/web/musiques/#', $line)) {
                 // On détermine les différentes données
                 $genre = preg_replace('#/.*#', '', str_replace('/root/web/musiques/', '', $line));
-                $artist = preg_replace('#/.*#', '', str_replace('/root/web/musiques/' . $genre . '/', '', $line));
-                $album = preg_replace('#/.*#', '', str_replace('/root/web/musiques/' . $genre . '/' . $artist . '/', '', $line));
+                $artist = preg_replace('#/.*#', '', str_replace('/root/web/musiques/'.$genre.'/', '', $line));
+                $album = preg_replace('#/.*#', '', str_replace('/root/web/musiques/'.$genre.'/'.$artist.'/', '', $line));
 
                 // Si le genre existe, on le récupère, sinon on le rajoute
                 if (!isset($genres[$genre])) {
@@ -223,15 +226,15 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
                     $albumItem->setName($album);
                     $albumItem->setArtist($artist);
                     $albumItem->setStatus('NeedInfos');
-                    $albumItem->setPath('/root/web/musiques/' . $genre . '/' . $artist . '/' . $album . '/');
+                    $albumItem->setPath('/root/web/musiques/'.$genre.'/'.$artist.'/'.$album.'/');
                     $this->em->persist($albumItem);
                     $albums[$album] = $albumItem;
-                    $pathsDone[] = '/root/web/musiques/' . $genre . '/' . $artist . '/' . $album . '/';
+                    $pathsDone[] = '/root/web/musiques/'.$genre.'/'.$artist.'/'.$album.'/';
                 }
                 else
                     $albumItem = $albums[$album];
-                if (!in_array('/root/web/musiques/' . $genre . '/' . $artist . '/' . $album . '/', $pathsDone))
-                    $pathsDone[] = '/root/web/musiques/' . $genre . '/' . $artist . '/' . $album . '/';
+                if (!in_array('/root/web/musiques/'.$genre.'/'.$artist.'/'.$album.'/', $pathsDone))
+                    $pathsDone[] = '/root/web/musiques/'.$genre.'/'.$artist.'/'.$album.'/';
 
                 // Maintenant on range la musique
                 $item = new Music();

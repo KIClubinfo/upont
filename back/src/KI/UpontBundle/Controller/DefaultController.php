@@ -88,14 +88,14 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
         $coursesNames = array();
         foreach ($results as $course) {
             $courses[$course->getId()] = $course;
-            $coursesNames[$course->getId()] = $course->getName() . $course->getGroup();
+            $coursesNames[$course->getId()] = $course->getName().$course->getGroup();
         }
 
         // On récupère les cours de la prochaine semaine
         for ($day = 0; $day < 8; $day++) {
             $date = time() + $day*3600*24;
             $url = 'http://emploidutemps.enpc.fr/index_mobile.php?code_departement=&mydate='
-            . date('d', $date) . '%2F' . date('m', $date) . '%2F' . date('Y', $date);
+            . date('d', $date).'%2F'.date('m', $date).'%2F'.date('Y', $date);
             $result = $curl->curl($url);
 
             // On parse le résultat
@@ -117,7 +117,7 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
 
             foreach ($all as $id => $blank) {
                 $gr = str_replace('(&nbsp;)', '', $group[$id]);
-                $gr = $gr != '' ? (int) str_replace(array('(Gr', ')'), array('', ''), $gr) : 0;
+                $gr = $gr != '' ? (int)str_replace(array('(Gr', ')'), array('', ''), $gr) : 0;
                 $name = $courseName[$id];
                 $data = explode(':', $start[$id]);
                 $startDate = $data[0]*3600 + $data[1]*60;
@@ -126,7 +126,7 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
 
                 // Si le cours existe déjà, on le récupère
                 // Sinon on crée un nouveau cours
-                if ($key = array_search($name . $gr, $coursesNames)) {
+                if ($key = array_search($name.$gr, $coursesNames)) {
                     $course = $courses[$key];
 
                     // On règle quand même l'heure de début et de fin si ce n'était pas fait
@@ -144,7 +144,7 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
                     $course->setSemester(0);
                     $manager->persist($course);
                     $courses[] = $course;
-                    $coursesNames[] = $name . $gr;
+                    $coursesNames[] = $name.$gr;
                 }
 
                 // On ajoute l'objet à ce cours
@@ -249,8 +249,8 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
             throw new AccessDeniedException();
 
-        $path = $this->get('kernel')->getRootDir() . $this->container->getParameter('upont_maintenance_lock');
-        $until = $request->request->has('until') ? (string) $request->request->get('until') : '';
+        $path = $this->get('kernel')->getRootDir().$this->container->getParameter('upont_maintenance_lock');
+        $until = $request->request->has('until') ? (string)$request->request->get('until') : '';
         file_put_contents($path, $until);
         return $this->jsonResponse(null, 204);
     }
@@ -271,7 +271,7 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
             throw new AccessDeniedException();
 
-        $path = $this->get('kernel')->getRootDir() . $this->container->getParameter('upont_maintenance_lock');
+        $path = $this->get('kernel')->getRootDir().$this->container->getParameter('upont_maintenance_lock');
 
         if (file_exists($path))
             unlink($path);
@@ -317,7 +317,7 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
      */
     public function onlineAction(Request $request)
     {
-        $delay = $request->query->has('delay') ? (int) $request->query->get('delay') : 30;
+        $delay = $request->query->has('delay') ? (int)$request->query->get('delay') : 30;
 
         $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
         $qb->select('u')
@@ -442,7 +442,7 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
                 'major'       => $out[2][$i],
                 'minor'       => $out[3][$i],
                 'build'       => shell_exec('git log --pretty=format:"%h" -n 1'),
-                'date'        => (int) shell_exec('git log -1 --pretty=format:%ct'),
+                'date'        => (int)shell_exec('git log -1 --pretty=format:%ct'),
                 'environment' => $env
             ));
         }
