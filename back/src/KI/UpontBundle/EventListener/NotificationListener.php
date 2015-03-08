@@ -97,7 +97,7 @@ class NotificationListener
         );
 
         $headers = array(
-            'Authorization: key=' . $this->container->getParameter('upont_push_GCM_API_key'),
+            'Authorization: key='.$this->container->getParameter('upont_push_GCM_API_key'),
             'Content-Type: application/json'
         );
 
@@ -116,12 +116,12 @@ class NotificationListener
 
     public function pushWP(Notification $notification, Device $device)
     {
-        $message = '<?xml version="1.0" encoding="utf-8"?>' .
-                    '<wp:Notification xmlns:wp="WPNotification">' .
-                    '<wp:Toast>' .
-                    '<wp:Text1>uPont</wp:Text1>' .
-                    '<wp:Text2>' . htmlspecialchars($notification->getTitle()) . '</wp:Text2>' .
-                    '</wp:Toast>' .
+        $message = '<?xml version="1.0" encoding="utf-8"?>'.
+                    '<wp:Notification xmlns:wp="WPNotification">'.
+                    '<wp:Toast>'.
+                    '<wp:Text1>uPont</wp:Text1>'.
+                    '<wp:Text2>'.htmlspecialchars($notification->getTitle()).'</wp:Text2>'.
+                    '</wp:Toast>'.
                     '</wp:Notification>';
 
         $headers = array(

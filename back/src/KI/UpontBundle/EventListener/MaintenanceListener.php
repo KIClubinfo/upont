@@ -17,7 +17,7 @@ class MaintenanceListener
 
     public function onKernelRequest(GetResponseEvent $event)
     {
-        $path = $this->container->get('kernel')->getRootDir() . $this->container->getParameter('upont_maintenance_lock');
+        $path = $this->container->get('kernel')->getRootDir().$this->container->getParameter('upont_maintenance_lock');
         $maintenance = file_exists($path);
         $unlock = preg_match('#/maintenance$#', $event->getRequest()->getRequestUri());
 
@@ -28,7 +28,7 @@ class MaintenanceListener
             // Durée de la maintenance
             $until = file_get_contents($path);
             if ($until !== '')
-                $content['until'] = (int) $until;
+                $content['until'] = (int)$until;
            
             $event->setResponse(new Response(json_encode($content), 503));
             $event->stopPropagation();

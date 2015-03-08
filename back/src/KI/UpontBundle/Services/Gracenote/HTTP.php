@@ -10,11 +10,11 @@ class HTTP
     const POST = 1;
 
     // Members
-    private $url;                  // URL to send the request to.
-    private $timeout;              // Seconds before we give up.
-    private $headers  = array();   // Any headers to send with the request.
-    private $postData = null;      // The POST data.
-    private $ch       = null;      // cURL handle
+    private $url; // URL to send the request to.
+    private $timeout; // Seconds before we give up.
+    private $headers  = array(); // Any headers to send with the request.
+    private $postData = null; // The POST data.
+    private $ch       = null; // cURL handle
     private $type     = HTTP::GET; // Default is GET
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,15 +29,15 @@ class HTTP
         $this->ch = curl_init();
 
         // Set connection options.
-        curl_setopt($this->ch, CURLOPT_URL,            $this->url);     // API URL
-        curl_setopt($this->ch, CURLOPT_USERAGENT,      'php-gracenote'); // Set our user agent
-        curl_setopt($this->ch, CURLOPT_FAILONERROR,    true);            // Fail on error response.
-        curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, true);            // Follow any redirects
-        curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);            // Put the response into a variable instead of printing.
-        curl_setopt($this->ch, CURLOPT_TIMEOUT_MS,     $this->timeout); // Don't want to hang around forever.
+        curl_setopt($this->ch, CURLOPT_URL, $this->url); // API URL
+        curl_setopt($this->ch, CURLOPT_USERAGENT, 'php-gracenote'); // Set our user agent
+        curl_setopt($this->ch, CURLOPT_FAILONERROR, true); // Fail on error response.
+        curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, true); // Follow any redirects
+        curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true); // Put the response into a variable instead of printing.
+        curl_setopt($this->ch, CURLOPT_TIMEOUT_MS, $this->timeout); // Don't want to hang around forever.
 
         // Code custom !!!
-        if($proxyUrl !== null){
+        if ($proxyUrl !== null) {
             curl_setopt($this->ch, CURLOPT_PROXY, $proxyUrl);
             curl_setopt($this->ch, CURLOPT_PROXYUSERPWD, $proxyUser);
         }
@@ -70,7 +70,7 @@ class HTTP
         // Add POST data if it's a POST request
         if ($this->type == HTTP::POST)
         {
-            curl_setopt($this->ch, CURLOPT_POST,       true);
+            curl_setopt($this->ch, CURLOPT_POST, true);
             curl_setopt($this->ch, CURLOPT_POSTFIELDS, $this->postData);
         }
     }
@@ -86,12 +86,11 @@ class HTTP
         $response = null;
         try
         {
-            if (GN_DEBUG) { echo('http: external request '.(($this->type == HTTP::GET) ? 'GET' : 'POST').' url=' . $this->url. ', timeout=' . $this->timeout . '\n'); }
+            if (GN_DEBUG) { echo('http: external request '.(($this->type == HTTP::GET) ? 'GET' : 'POST').' url='.$this->url.', timeout='.$this->timeout.'\n'); }
 
             // Execute the request
             $response = curl_exec($this->ch);
-        }
-        catch (\Exception $e)
+        } catch (\Exception $e)
         {
             throw new GNException(GNError::HTTP_REQUEST_ERROR);
         }
@@ -112,8 +111,8 @@ class HTTP
         {
             switch ($curlError)
             {
-                case CURLE_HTTP_NOT_FOUND:      throw new GNException(GNError::HTTP_RESPONSE_ERROR_CODE, $this->getResponseCode());
-                case CURLE_OPERATION_TIMEOUTED: throw new GNException(GNError::HTTP_REQUEST_TIMEOUT);
+            case CURLE_HTTP_NOT_FOUND:      throw new GNException(GNError::HTTP_RESPONSE_ERROR_CODE, $this->getResponseCode());
+            case CURLE_OPERATION_TIMEOUTED: throw new GNException(GNError::HTTP_REQUEST_TIMEOUT);
             }
 
             throw new GNException(GNError::HTTP_RESPONSE_ERROR, $curlError);
@@ -122,17 +121,17 @@ class HTTP
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public function getHandle()          { return $this->ch; }
-    public function getResponseCode()    { return curl_getinfo($this->ch, CURLINFO_HTTP_CODE); }
+    public function getHandle() { return $this->ch; }
+    public function getResponseCode() { return curl_getinfo($this->ch, CURLINFO_HTTP_CODE); }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public function setPOST()            { $this->type = HTTP::POST; }
-    public function setGET()             { $this->type = HTTP::GET; }
-    public function setPOSTData($data)   { $this->postData = $data; }
+    public function setPOST() { $this->type = HTTP::POST; }
+    public function setGET() { $this->type = HTTP::GET; }
+    public function setPOSTData($data) { $this->postData = $data; }
     public function setHeaders($headers) { $this->headers = $headers; }
-    public function addHeader($header)   { $this->headers[] = $header; }
-    public function setCurlOpt($o, $v)   { curl_setopt($this->ch, $o, $v); }
+    public function addHeader($header) { $this->headers[] = $header; }
+    public function setCurlOpt($o, $v) { curl_setopt($this->ch, $o, $v); }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 

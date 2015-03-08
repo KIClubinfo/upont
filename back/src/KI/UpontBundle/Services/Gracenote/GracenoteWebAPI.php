@@ -6,7 +6,7 @@ namespace KI\UpontBundle\Services\Gracenote;
 // Code modifié en tenant compte des paramètres proxy
 
 // Defaults
-if(!defined('GN_DEBUG')) { define('GN_DEBUG', false); }
+if (!defined('GN_DEBUG')) { define('GN_DEBUG', false); }
 
 class GracenoteWebAPI
 {
@@ -26,7 +26,7 @@ class GracenoteWebAPI
     public function __construct($clientID, $clientTag, $userID = null, $proxyUrl, $proxyUser)
     {
         // Sanity checks
-        if ($clientID === null || $clientID == '')   { throw new GNException(GNError::INVALID_INPUT_SPECIFIED, 'clientID'); }
+        if ($clientID === null || $clientID == '') { throw new GNException(GNError::INVALID_INPUT_SPECIFIED, 'clientID'); }
         if ($clientTag === null || $clientTag == '') { throw new GNException(GNError::INVALID_INPUT_SPECIFIED, 'clientTag'); }
 
         $this->clientID  = $clientID;
@@ -124,8 +124,8 @@ class GracenoteWebAPI
 
         $output = array();
         $output['artist_origin'] = ($xml->RESPONSE->ALBUM->ARTIST_ORIGIN) ? $this->getOETElem($xml->RESPONSE->ALBUM->ARTIST_ORIGIN) : '';
-        $output['artist_era']    = ($xml->RESPONSE->ALBUM->ARTIST_ERA)    ? $this->getOETElem($xml->RESPONSE->ALBUM->ARTIST_ERA)    : '';
-        $output['artist_type']   = ($xml->RESPONSE->ALBUM->ARTIST_TYPE)    ? $this->getOETElem($xml->RESPONSE->ALBUM->ARTIST_TYPE)  : '';
+        $output['artist_era']    = ($xml->RESPONSE->ALBUM->ARTIST_ERA) ? $this->getOETElem($xml->RESPONSE->ALBUM->ARTIST_ERA) : '';
+        $output['artist_type']   = ($xml->RESPONSE->ALBUM->ARTIST_TYPE) ? $this->getOETElem($xml->RESPONSE->ALBUM->ARTIST_TYPE) : '';
         return $output;
     }
 
@@ -184,8 +184,8 @@ class GracenoteWebAPI
 
             // If a search scenario, then need the text input
             if ($artist != '') { $body .= '<TEXT TYPE=\'ARTIST\'>'.$artist.'</TEXT>'; }
-            if ($track != '')  { $body .= '<TEXT TYPE=\'TRACK_TITLE\'>'.$track.'</TEXT>'; }
-            if ($album != '')  { $body .= '<TEXT TYPE=\'ALBUM_TITLE\'>'.$album.'</TEXT>'; }
+            if ($track != '') { $body .= '<TEXT TYPE=\'TRACK_TITLE\'>'.$track.'</TEXT>'; }
+            if ($album != '') { $body .= '<TEXT TYPE=\'ALBUM_TITLE\'>'.$album.'</TEXT>'; }
         }
 
         // Include extended data.
@@ -228,10 +228,10 @@ class GracenoteWebAPI
         // Check for any error codes and handle accordingly.
         switch ($status)
         {
-            case 'ERROR':    throw new GNException(GNError::API_RESPONSE_ERROR, (string) $xml->MESSAGE);
-            case 'NO_MATCH': throw new GNException(GNError::API_NO_MATCH);
-            default:
-                if ($status != 'OK') { throw new GNException(GNError::API_NON_OK_RESPONSE, $status); }
+        case 'ERROR':    throw new GNException(GNError::API_RESPONSE_ERROR, (string) $xml->MESSAGE);
+        case 'NO_MATCH': throw new GNException(GNError::API_NO_MATCH);
+        default:
+            if ($status != 'OK') { throw new GNException(GNError::API_NON_OK_RESPONSE, $status); }
         }
 
         return $xml;
@@ -276,7 +276,7 @@ class GracenoteWebAPI
             }
 
             // Parse track metadata if there is any.
-            foreach($a->TRACK as $t)
+            foreach ($a->TRACK as $t)
             {
                 $track = array();
 
@@ -292,9 +292,9 @@ class GracenoteWebAPI
                 $track['tempo']             = $this->getOETElem($t->TEMPO);
 
                 // If track level GOET data exists, overwrite metadata from album.
-                if (isset($t->GENRE))         { $obj['genre']         = $this->getOETElem($t->GENRE); }
-                if (isset($t->ARTIST_ERA))    { $obj['artist_era']    = $this->getOETElem($t->ARTIST_ERA); }
-                if (isset($t->ARTIST_TYPE))   { $obj['artist_type']   = $this->getOETElem($t->ARTIST_TYPE); }
+                if (isset($t->GENRE)) { $obj['genre']         = $this->getOETElem($t->GENRE); }
+                if (isset($t->ARTIST_ERA)) { $obj['artist_era']    = $this->getOETElem($t->ARTIST_ERA); }
+                if (isset($t->ARTIST_TYPE)) { $obj['artist_type']   = $this->getOETElem($t->ARTIST_TYPE); }
                 if (isset($t->ARTIST_ORIGIN)) { $obj['artist_origin'] = $this->getOETElem($t->ARTIST_ORIGIN); }
 
                 $obj['tracks'][] = $track;
@@ -319,7 +319,7 @@ class GracenoteWebAPI
     private function getOETElem($root)
     {
         $array = array();
-        foreach($root as $data)
+        foreach ($root as $data)
         {
             $array[] = array(
                 'id'   => (int)($data['ID']),
