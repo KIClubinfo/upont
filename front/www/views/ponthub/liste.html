@@ -1,4 +1,8 @@
-<div class="up-row left">
-    <div up-ticket-liste content="{img: element.image_url, title: element.name }"  class="up-row" ng-repeat="element in elements" ponthub="element.slug" category="category">
+<div up-row left wrap padded class="up-ticket">
+    <div up-ticket-liste class="up-elemt-ponthub" content="{img: element.image_url, title: element.name }" ng-repeat="element in elements" ponthub="element.slug" category="category">
+    </div>
+    <div ng-if='!elements.length'>
+        <h2>Il n'y a rien dans cette section...<br>
+        Ajoute des demandes aux jardiniers pour corriger cela !</h2>
     </div>
 </div>

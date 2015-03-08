@@ -4,11 +4,24 @@ namespace KI\UpontBundle\EventListener;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpKernel\Event\PostResponseEvent;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use KI\UpontBundle\Entity\Core\Log;
 
 class LogListener extends ContainerAware
 {
-    public function log(PostResponseEvent $event)
+    public function onKernelRequest(GetResponseEvent $event)
+    {
+        $session = $this->container->get('security.context')->getToken();
+        if (!method_exists($session, 'getUser'))
+            return;
+
+        $manager = $this->container->get('doctrine')->getManager();
+        $user = $session->getUser();
+        $user->setLastConnect(time());
+        $manager->flush();
+    }
+
+    public function onKernelTerminate(PostResponseEvent $event)
     {
         $log = new Log();
         $log->setDate(time());

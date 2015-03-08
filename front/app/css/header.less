@@ -1,0 +1,34 @@
+header {
+    z-index: 200;
+    position: fixed !important;
+    top: 0px;
+    margin: 0px;
+    box-shadow: 0px -5px 10px #000;
+    height: @navbarHgt;
+    align-items: center;
+    .up-navbar-link {
+        text-transform: uppercase;
+        font-size: 0.9em;
+        margin-right: 15px;
+    }
+}
+
+.up-main-title {
+    border-radius: 6px;
+    font-size: 1.5em;
+    padding: 0.3em;
+    margin: 0px 1em;
+    font-family: 'caviarDreams';
+    &:before {
+        @media(min-width: @sizeMd) {
+            content: "u";
+        }
+        content:"u";
+    }
+    &:after {
+        @media(min-width: @sizeMd) {
+            content: "Pont";
+        }
+        content:"P";
+    }
+}

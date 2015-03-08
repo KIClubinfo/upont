@@ -61,6 +61,13 @@ class CoreUser extends \FOS\UserBundle\Model\User
     protected $groups;
 
     /**
+     * Date de dernière connexion (timestamp)
+     * @ORM\Column(name="lastConnect", type="integer", nullable=true)
+     * @Assert\Type("integer")
+     */
+    protected $lastConnect;
+
+    /**
      * Appareils mobiles enregistrés pour recevoir des notifications Push
      * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Users\Device", mappedBy="owner")
      */
@@ -205,6 +212,29 @@ class CoreUser extends \FOS\UserBundle\Model\User
     public function setNickname($nickname)
     {
         $this->nickname = $nickname;
+
+        return $this;
+    }
+
+    /**
+     * Get lastConnect
+     *
+     * @return integer
+     */
+    public function getLastConnect()
+    {
+        return $this->lastConnect;
+    }
+
+    /**
+     * Set lastConnect
+     *
+     * @param integer $lastConnect
+     * @return User
+     */
+    public function setLastConnect($lastConnect)
+    {
+        $this->lastConnect = $lastConnect;
 
         return $this;
     }

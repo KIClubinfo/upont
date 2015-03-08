@@ -1,29 +1,31 @@
 angular.module('upont')
     .controller('Disconnected_Ctrl', ['$scope', '$rootScope', '$state', 'StorageService', '$http', 'jwtHelper', '$resource', function($scope, $rootScope, $state, StorageService, $http, jwtHelper, $resource) {
         $scope.login = function(pseudo, mdp) {
-            if(pseudo.length && mdp.length)
+            if (pseudo.length && mdp.length)
                 $http
-                    .post(apiPrefix + "login", {
-                        username: pseudo,
-                        password: mdp
-                    })
-                    .success(function(data, status, headers, config) {
-                        StorageService.set('token', data.token);
-                        StorageService.set('droits', data.data.roles);
-                        $rootScope.isLogged = true;
-                        $resource(apiPrefix + 'users/:slug', {slug: jwtHelper.decodeToken(data.token).username }).get(function(data){
-                            $rootScope.me = data;
-                        });
-                        $state.go("home.connected");
-                    })
-                    .error(function(data, status, headers, config) {
-                        // Supprime tout token en cas de mauvaise identification
-                        if (StorageService.get('token')) {
-                            StorageService.remove('token');
-                            StorageService.remove('droits');
-                        }
-                        $rootScope.isLogged = false;
+                .post(apiPrefix + "login", {
+                    username: pseudo,
+                    password: mdp
+                })
+                .success(function(data, status, headers, config) {
+                    StorageService.set('token', data.token);
+                    StorageService.set('droits', data.data.roles);
+                    $rootScope.isLogged = true;
+                    $resource(apiPrefix + 'users/:slug', {
+                        slug: jwtHelper.decodeToken(data.token).username
+                    }).get(function(data) {
+                        $rootScope.me = data;
                     });
+                    $state.go("home.connected");
+                })
+                .error(function(data, status, headers, config) {
+                    // Supprime tout token en cas de mauvaise identification
+                    if (StorageService.get('token')) {
+                        StorageService.remove('token');
+                        StorageService.remove('droits');
+                    }
+                    $rootScope.isLogged = false;
+                });
         };
     }])
     .controller('Publis_Ctrl', ['$scope', '$resource', 'newsItems', 'events', function($scope, $resource, newsItems, events) {
@@ -50,7 +52,8 @@ angular.module('upont')
                 templateUrl: "views/home/connected.html",
                 data: {
                     parent: "home.connected",
-                    defaultChild: "liste"
+                    defaultChild: "liste",
+                    title: 'uPont - Accueil'
                 },
             })
             .state("home.disconnected", {
