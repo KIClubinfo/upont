@@ -15,8 +15,8 @@ angular.module('upont')
                             '}';
                     }
                 }
-                if( typeof element.parent().attr("padded") != 'undefined' && !element.parent().hasClass('padded'))
-                    element.parent().addClass('padded');
+                // if( typeof element.parent().attr("padded") != 'undefined' && !element.parent().hasClass('padded'))
+                    // element.parent().addClass('padded');
             }
         };
     })
@@ -37,8 +37,8 @@ angular.module('upont')
                                 '}}';
                     }
                 }
-                if( typeof element.parent().attr("padded") != 'undefined' && !element.parent().hasClass('padded'))
-                    element.parent().addClass('padded');
+                // if( typeof element.parent().attr("padded") != 'undefined' && !element.parent().hasClass('padded'))
+                    // element.parent().addClass('padded');
             }
         };
     })
@@ -58,8 +58,8 @@ angular.module('upont')
                                     'width:'+ width+' !important'+
                             '}}';
                 }
-                if( typeof element.parent().attr("padded") != 'undefined' && !element.parent().hasClass('padded'))
-                    element.parent().addClass('padded');
+                // if( typeof element.parent().attr("padded") != 'undefined' && !element.parent().hasClass('padded'))
+                    // element.parent().addClass('padded');
             }
         };
     })
@@ -79,8 +79,8 @@ angular.module('upont')
                                     'width:'+ width+' !important'+
                             '}}';
                 }
-                if( typeof element.parent().attr("padded") != 'undefined' && !element.parent().hasClass('padded'))
-                    element.parent().addClass('padded');
+                // if( typeof element.parent().attr("padded") != 'undefined' && !element.parent().hasClass('padded'))
+                    // element.parent().addClass('padded');
             }
         };
     })
@@ -100,8 +100,8 @@ angular.module('upont')
                                     'width:'+ width+' !important'+
                             '}}';
                 }
-                if( typeof element.parent().attr("padded") != 'undefined' && !element.parent().hasClass('padded'))
-                    element.parent().addClass('padded');
+                // if( typeof element.parent().attr("padded") != 'undefined' && !element.parent().hasClass('padded'))
+                    // element.parent().addClass('padded');
             }
         };
     });
