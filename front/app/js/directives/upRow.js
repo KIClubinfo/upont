@@ -8,6 +8,8 @@ angular.module('upont').directive('upRow', ['$window', function($window) {
                     element.addClass('wrap');
                 if(args.hasOwnProperty('right'))
                     element.addClass('right');
+                if(args.hasOwnProperty('padded'))
+                    element.addClass('padded');
                 element.addClass('up-row');
             }
         }
