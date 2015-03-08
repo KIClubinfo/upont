@@ -1,9 +1,11 @@
 .up-aside {
-    position:fixed;
-    left:0px;
-    height:100%;
+    position: fixed;
+    left: 0px;
+    height: 100%;
+    hr {
+        width: 30%;
+    }
 }
-
 .up-aside-menu {
     padding: 1em 0 0 1%;
     font-size: 1.05em;
@@ -11,16 +13,16 @@
     a {
         display: block;
         margin: 0.75em 10%;
-        height:2em;
+        height: 2em;
     }
-    hr {
-        width: 30%;
-    }
-    .up-online-users {
+}
+.up-aside-middle {
+    &:extend(.up-aside-menu);
+    font-size: 0.9em;
+    a, .up-online-users {
         margin: 0.5em 10%;
     }
 }
-
 .up-deconnection {
     display: inline !important;
     margin: 0.75 30% !important;
@@ -29,13 +31,12 @@
     }
     margin-bottom:2em;
 }
-
-.up-aside-footer{
-    position:absolute;
-    bottom:0px;
+.up-aside-footer {
+    position: absolute;
+    bottom: 0px;
     text-align: center;
-    font-size:0.85em;
-    padding:0.5em;
+    font-size: 0.85em;
+    padding: 0.5em;
     width: 100%;
     margin-left: -5px;
 }

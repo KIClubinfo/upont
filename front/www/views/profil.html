@@ -1,7 +1,7 @@
 <div class="up-ticket">
     <h2>Informations Générales :</h1>
     <div class="up-profile-form">
-        <form up-row padded left ng-submit="submitUser(me.promo, me.nationality, me.phone, me.location, me.department, me.origin, me.skype, me.nick)">
+        <form up-row padded left wrap ng-submit="submitUser(me.promo, me.nationality, me.phone, me.location, me.department, me.origin, me.skype, me.nick)">
             <div up-col-sm="50%" up-col="25%">
                 <i class="fa fa-graduation-cap"></i>
                 Promo
@@ -119,12 +119,11 @@
                 Pseudo
             </div>
             <div up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="text" ng-model="me.nick" placeholder="Ce que tu souhaites..."/>
+                <input type="text" class="up-col-xs-12" ng-model="me.nick" placeholder="Ce que tu souhaites..." />
             </div>
 
-            <!-- <div class="up-col-sm-8"></div> -->
-            <div class="up-col-xs-12 up-col-sm-4">
-                <button class="up-col-xs-12 btn btn-default">Modifier !</button>
+            <div up-col="75%" up-row right>
+                <button up-col="33%" class="btn btn-default">Modifier !</button>
             </div>
         </form>
     </div>
@@ -137,8 +136,8 @@
 
 <div class="up-ticket">
     <h1>Channels suivis</h1>
-    <div up-row padded>
-        <div up-col="100%" up-col-xs="33%" up-row padded ng-repeat="club in clubs | orderBy:'name'">
+    <div up-row padded left wrap>
+        <div up-row padded ng-repeat="club in clubs | orderBy:'name'" up-col="33%" up-col-xs="100%">
             <div up-col="33%"><img class="img-responsive" src="{{ club.image_url | urlFile}}" />
             </div>
             <div up-col="66%">
