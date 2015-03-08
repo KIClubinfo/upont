@@ -1,11 +1,44 @@
 .up-img-ponthub{
     position:relative;
     width:100%;
-    &.films {
-        &:before{
-            content:"";
-            display: block;
-         padding-top: 130%;
-        }
+    &:before{
+        content:"";
+        display: block;
     }
+    &.films:before{
+        padding-top: 130%;
+    }
+    &.series:before{
+        padding-top: 130%;
+    }
+    &.autres:before{
+        padding-top: 100%;
+    }
+    &.logiciels:before{
+        padding-top: 100%;
+    }
+    &.jeux:before{
+        padding-top: 50%;
+    }
+    &.musiques:before{
+        padding-top: 100%;
+    }
+}
+
+.up-elemt-ponthub{
+    a{
+        display:block;
+    }
+    padding: 0.75em;
+    text-align: center;
+    position: relative;
+    h1 {
+        font-size: 1.3em;
+        margin: 0px;
+        padding: 0px;
+    }
+}
+
+.up-img-ponthub{
+    margin-bottom:0.5em;
 }

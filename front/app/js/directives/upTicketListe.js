@@ -13,13 +13,13 @@ angular.module('upont').directive('upTicketListe', ['$window', function($window)
             "</a>",
         link: function(scope, element, attrs) {
             if(!scope.ponthub){
-                element.find('div.header').unwrap();
+                element.find('div.up-img-ponthub').unwrap();
             }
 
             var clas;
             switch(scope.category){
                 case 'jeux':
-                    clas = "up-col-xs-6";
+                    clas = "up-col-xs-4";
                     break;
                 case 'films':
                 case 'series':
@@ -28,12 +28,11 @@ angular.module('upont').directive('upTicketListe', ['$window', function($window)
                 case 'musiques':
                 case 'autres':
                 case 'logiciels':
-                    clas = "up-col-xs-6";
+                    clas = "up-col-xs-2";
                     break;
                 default:
-                    clas = "up-col-xs-6";
+                    clas = "up-col-xs-3";
             }
-            //element.css('width', wdt+'em');
             element.addClass(clas);
             element.css('position', 'relative');
             element.find('div.up-img-ponthub').addClass(scope.category);
