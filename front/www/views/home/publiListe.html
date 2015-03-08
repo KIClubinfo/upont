@@ -1,42 +1,45 @@
 <div class="up-ticket divided rounded-top" ng-repeat="publication in publications">
     <div ng-if="!publication.start_date">
-        <div up-row padded class="up-ticket-header">
-            <div up-col="25%" up-col-xs="50%">
-                <img class="img-responsive" ng-src="{{ publication.image_url | urlFile }}" alt="" />
+        <div class="up-ticket-header" ng-class="'color{{ publication.slug.length%5+1 }}'" ng-style="{'background-image': 'url({{publication.author_club.image_url | urlFile}})'}">
+            <div class="up-img-home-container">
+                <div class="up-img-home" ng-style="{'background-image': 'url({{ publication.image_url | urlFile }})'}" ></div>
             </div>
-            <div up-col="75%" up-col-xs="100%">
-                <div up-row>
-                    <div up-col="50%" class="up-ticket-auteur">{{ publication.author_club.name }}</div>
-                    <div up-col="50%" class="up-ticket-date">{{ publication.date*1000 | date : 'd MMMM yyyy' }}</div>
-                </div>
-                <h2>{{ publication.name }}</h2>
-            </div>
+            <div class="up-news-icon"><i class="fa fa-envelope"></i></div>
         </div>
         <div class="up-ticket-body">
+            <div up-row>
+                <div  class="up-ticket-title" up-col="70%">
+                    <h2>{{ publication.name }}</h2>
+                   <div>Par {{ publication.author_club.name }}</div>
+                </div>
+                <div up-col="30%" class="up-ticket-date">{{ publication.date*1000 | date : 'd MMMM yyyy' }}</div>
+            </div>
             <p up-publi-text string="publication.text_long"></p>
             <div up-likes objet="publication" url="'newsitems/'+publication.slug"></div>
         </div>
     </div>
-
     <div ng-if="!!publication.start_date">
-        <div up-row padded class="up-ticket-header">
-            <div up-col="25%" up-col-xs="25%">
-                <img class="img-responsive" ng-src="{{ publication.image_url | urlFile }}" alt="" />
+        <div class="up-ticket-header" ng-class="'color{{ publication.slug.length%5+1 }}'" ng-style="{'background-image': 'url({{publication.author_club.image_url | urlFile}})'}">
+            <div class="up-img-home-container">
+                <div class="up-img-home" ng-style="{'background-image': 'url({{ publication.image_url | urlFile }})'}" />
             </div>
-            <div up-col="75%" up-col-xs="100%">
-                <div up-row>
-                    <div up-col="50%" class="up-ticket-auteur">{{ publication.author_club.name }}</div>
-                    <div up-col="50%" class="up-ticket-date">{{ publication.date*1000 | date : 'd MMMM yyyy' }}</div>
-                </div>
-                <h2>{{ publication.name }}</h2>
+            <div class="up-news-icon"><i class="fa fa-calendar"></i></div>
+            <!--
                 <p class="up-date-evenement">
                     Le {{ publication.start_date*1000 | date : 'dd/MM/yyyy à H:mm' }}
                     <br>
                     <span ng-if="publication.entry_method == 'Shotgun'">Shotgun le {{ publication.shotgun_date*1000 | date : 'dd/MM/yyyy'  }}</span>
                 </p>
-            </div>
+            </div> -->
         </div>
         <div class="up-ticket-body">
+            <div up-row>
+                <div  class="up-ticket-title" up-col="70%">
+                    <h2>{{ publication.name }}</h2>
+                   <div>Par {{ publication.author_club.name }}</div>
+                </div>
+                <div up-col="30%" class="up-ticket-date">{{ publication.date*1000 | date : 'd MMMM yyyy' }}</div>
+            </div>
             <p class="up-chapeau" up-publi-text string="publication.text_long"></p>
             <div up-likes objet="publication" url="'events/'+publication.slug"></div>
         </div>
