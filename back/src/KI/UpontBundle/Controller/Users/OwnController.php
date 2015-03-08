@@ -204,7 +204,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
                     $return[] = $notification;
             }
             else
-                throw new \Exception('Notification : mode d\'envoi inconnu (' . $mode . ')');
+                throw new \Exception('Notification : mode d\'envoi inconnu ('.$mode.')');
         }
 
         return $this->restResponse($return);

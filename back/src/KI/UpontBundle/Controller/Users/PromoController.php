@@ -81,17 +81,17 @@ class PromoController extends \KI\UpontBundle\Controller\Core\ResourceController
         $request = $this->getRequest()->request;
         if (!$request->has('token'))
             throw new BadRequestHttpException('Il faut préciser un token Facebook');
-        $token = '?access_token=' . $request->get('token');
+        $token = '?access_token='.$request->get('token');
 
         // Ids des différents groupes facebook
         switch ($promo) {
             // Attention, toujours préciser l'id facebook de la promo d'après
             // pour avoir les étrangers
-            case '014': $id = 0; break; // Kohlant'wei
-            case '015': $id = 359646667495742; break; // Wei't spirit
-            case '016': $id = 1451446761806184; break; // Wei't the phoque
-            case '017': $id = 1451446761806184; break; // Wei't the phoque
-            default: throw new \Exception('Promo ' . $promo . ' non prise en charge');
+        case '014': $id = 0; break; // Kohlant'wei
+        case '015': $id = 359646667495742; break; // Wei't spirit
+        case '016': $id = 1451446761806184; break; // Wei't the phoque
+        case '017': $id = 1451446761806184; break; // Wei't the phoque
+        default: throw new \Exception('Promo ' . $promo . ' non prise en charge');
         }
 
         // On récupère la liste des membres
@@ -113,8 +113,8 @@ class PromoController extends \KI\UpontBundle\Controller\Core\ResourceController
             }
 
             if ($bestPercent > 70 && !in_array($user, $alreadyMatched)) {
-                $url = '/' . $bestMatch['id'] . '/picture' . $token . '&width=9999&redirect=false';
-                $dataImage = json_decode($curl->curl($baseUrl . $url), true);
+                $url = '/'.$bestMatch['id'].'/picture'.$token.'&width=9999&redirect=false';
+                $dataImage = json_decode($curl->curl($baseUrl.$url), true);
                 $image = $images->upload($dataImage['data']['url'], true);
                 $user->setImage($image);
                 $alreadyMatched[] = $user;
@@ -126,7 +126,7 @@ class PromoController extends \KI\UpontBundle\Controller\Core\ResourceController
         return $this->jsonResponse(array(
             'hits'  => $i,
             'fails' => count($users) - $i,
-            'ratio' => $i / count($users)
+            'ratio' => $i/count($users)
         ));
     }
 
@@ -135,7 +135,7 @@ class PromoController extends \KI\UpontBundle\Controller\Core\ResourceController
     private function isSimilar(\KI\UpontBundle\Entity\Users\User $user, array $member)
     {
         $percent = 0;
-        similar_text($user->getFirstName() . ' ' . $user->getLastName(), $member['name'], $percent);
+        similar_text($user->getFirstName().' '.$user->getLastName(), $member['name'], $percent);
         return $percent;
     }
 }

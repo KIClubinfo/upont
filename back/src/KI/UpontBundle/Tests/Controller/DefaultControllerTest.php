@@ -42,7 +42,7 @@ class DefaultControllerTest extends WebTestCase
 
         // On vérifie qu'un mauvais token ne marche pas
         $client = static::createClient();
-        $client->setServerParameter('HTTP_Authorization', sprintf('%s %s', $this->authorizationHeaderPrefix, $response['token'] . 'changed'));
+        $client->setServerParameter('HTTP_Authorization', sprintf('%s %s', $this->authorizationHeaderPrefix, $response['token'].'changed'));
         $client->request('GET', '/movies');
         $this->assertJsonResponse($client->getResponse(), 401);
 
@@ -142,10 +142,10 @@ class DefaultControllerTest extends WebTestCase
         $this->client->request('POST', '/resetting/token/dfdsdsfdsfsfds', array('password' => '1234', 'check' => '1234'));
         $this->assertJsonResponse($this->client->getResponse(), 404);
 
-        $this->client->request('POST', '/resetting/token/' . $token, array('password' => 'password', 'check' => '12sdqsdsqdqds34'));
+        $this->client->request('POST', '/resetting/token/'.$token, array('password' => 'password', 'check' => '12sdqsdsqdqds34'));
         $this->assertJsonResponse($this->client->getResponse(), 400);
 
-        $this->client->request('POST', '/resetting/token/' . $token, array('password' => 'password', 'check' => 'password'));
+        $this->client->request('POST', '/resetting/token/'.$token, array('password' => 'password', 'check' => 'password'));
         $this->assertJsonResponse($this->client->getResponse(), 204);
     }
 

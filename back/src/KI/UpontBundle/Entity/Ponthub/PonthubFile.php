@@ -25,7 +25,7 @@ class PonthubFile extends Likeable
 
     public function fileUrl()
     {
-        return 'http://' . $this->fleurDn . ':' . $this->fleurPort . str_replace('/root/web', '', $this->path);
+        return 'http://'.$this->fleurDn.':'.$this->fleurPort.str_replace('/root/web', '', $this->path);
     }
 
     /**
@@ -88,8 +88,9 @@ class PonthubFile extends Likeable
     public function tags()
     {
         $tags = array();
-        foreach ($this->listTags as $tag)
-            $tags[] = $tag->getName();
+        foreach ($this->listTags as $tag) {
+                    $tags[] = $tag->getName();
+        }
         return $tags;
     }
 
@@ -106,8 +107,9 @@ class PonthubFile extends Likeable
     public function genres()
     {
         $genres = array();
-        foreach ($this->listGenres as $genre)
-            $genres[] = $genre->getName();
+        foreach ($this->listGenres as $genre) {
+                    $genres[] = $genre->getName();
+        }
         return $genres;
     }
 

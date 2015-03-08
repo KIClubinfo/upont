@@ -71,7 +71,7 @@ class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceCon
         // On lit le fichier PDF
         return new \Symfony\Component\HttpFoundation\Response(file_get_contents($exercice->getAbsolutePath()), 200, array(
             'Content-Type' => 'application/pdf',
-            'Content-Disposition: attachment; filename="' . $exercice->getCourse()->getDepartment() . '' . $exercice->getName() . '"'
+            'Content-Disposition: attachment; filename="'.$exercice->getCourse()->getDepartment().''.$exercice->getName().'"'
         ));
     }
 
@@ -123,12 +123,12 @@ class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceCon
             $this->notify(
                 'notif_followed_annal',
                 $return['item']->getName(),
-                'Une annale pour le cours ' . $course->getName() . ' est maintenant disponible',
+                'Une annale pour le cours '.$course->getName().' est maintenant disponible',
                 'to',
                 $users
             );
 
-            $request->files->get('file')->move($return['item']->getBasePath(), $return['item']->getId() . '.pdf');
+            $request->files->get('file')->move($return['item']->getBasePath(), $return['item']->getId().'.pdf');
         }
         $this->switchClass();
 
