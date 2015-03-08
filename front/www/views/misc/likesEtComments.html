@@ -1,13 +1,13 @@
-<div class="up-row padded left">
-    <div class="up-likes" ng-click="upvote(url);" ng-class="{active : objet.like}">
+<div up-row padded right>
+    <div class="up-likes up-clickable" ng-click="upvote(url);" ng-class="{active : objet.like}">
         <i class="fa fa-thumbs-o-up"></i> {{ objet.likes }}
     </div>
 
-    <div class="up-likes" ng-click="downvote(url);" ng-class="{active : objet.dislike}">
+    <div class="up-likes up-clickable" ng-click="downvote(url);" ng-class="{active : objet.dislike}">
         <i class="fa fa-thumbs-o-down"></i> {{ objet.dislikes }}
     </div>
 
-    <div>
+    <div class="up-likes">
         <i class="fa fa-comment"></i> {{ objet.comments }}
     </div>
 </div>
@@ -16,18 +16,15 @@
 
 <div>
     <div ng-if="shownComments < 0 && comments.length > 3">
-        <h3 class="up-likes" ng-click="openComments()" ng-class="{active : shownComments > 0 }" >Afficher {{ comments.length-3 }} commentaires précédents</h3>
+        <h3 class="up-likes up-clickable" ng-click="openComments()" ng-class="{active : shownComments > 0 }" >Afficher {{ comments.length-3 }} commentaires précédents</h3>
     </div>
-    <h3 class="up-comment" ng-repeat="comment in comments | orderBy: date | limitTo: shownComments">
-        <img class="up-comment-img" ng-src="{{comment.author.image_url | urlFile}}" />
-        <strong>{{ comment.author.nick || comment.author.fist_name+' '+comment.author.last_name  }} : </strong>
-        {{ comment.text }}
-    </h3>
-    <form class="up-row left" ng-submit="submitComment()">
-        <div><img class="up-comment-img" ng-src="{{ $root.me.image_url | urlFile }}" />
-        </div>
-        <div class="up-col-xs-10">
-            <input ng-model="commentText" type="text" placeholder="Ajouter un commentaire" />
-        </div>
+    <div class="up-comment" ng-repeat="comment in comments | orderBy: date | limitTo: shownComments" up-row left>
+        <img class="up-profile-picture" ng-src="{{comment.author.image_url | urlFile}}"/>
+        <div><strong>{{ comment.author.nick || comment.author.fist_name+' '+comment.author.last_name  }} : </strong>
+        {{ comment.text }}</div>
+    </div>
+    <form up-row left ng-submit="submitComment()">
+        <img class="up-profile-picture" ng-src="{{ $root.me.image_url | urlFile }}" />
+        <input class="up-col-xs-12" ng-model="commentText" type="text" placeholder="Ajouter un commentaire" />
     </form>
 </div>

@@ -30,7 +30,7 @@ module
 
 	    $scope.init = function() {
 		    $http.get(url + '/foyer/balance').success(function(data){
-			    $scope.balance = data;
+			    $scope.balance = data.balance;
 		    });
 		    $scope.pushable = /Android/i.test(navigator.userAgent);
 	    };

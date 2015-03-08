@@ -322,8 +322,8 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
         $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
         $qb->select('u')
             ->from('KIUpontBundle:Users\User', 'u')
-            ->where('u.lastLogin > :date')
-            ->setParameter('date', new \Datetime('-' . $delay . ' minutes'));
+            ->where('u.lastConnect > :date')
+            ->setParameter('date', time() - $delay*60);
         return $qb->getQuery()->getResult(); ;
     }
 
@@ -432,17 +432,26 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
         // On récupère le tag de release le plus proche
         $tags = shell_exec('git tag');
         $out = array();
-        preg_match_all('#v([0-9]+)\.([0-9]+)\.([0-9]+)#', $tags, $out);
 
-        // On ne garde que le dernier numéro de version
-        $i = count($out[0]) - 1;
+        if (preg_match_all('#v([0-9]+)\.([0-9]+)\.([0-9]+)#', $tags, $out)) {
+            // On ne garde que le dernier numéro de version
+            $i = count($out[0]) - 1;
 
+            return $this->jsonResponse(array(
+                'version'     => $out[1][$i],
+                'major'       => $out[2][$i],
+                'minor'       => $out[3][$i],
+                'build'       => shell_exec('git log --pretty=format:"%h" -n 1'),
+                'date'        => (int) shell_exec('git log -1 --pretty=format:%ct'),
+                'environment' => $env
+            ));
+        }
         return $this->jsonResponse(array(
-            'version'     => $out[1][$i],
-            'major'       => $out[2][$i],
-            'minor'       => $out[3][$i],
-            'build'       => shell_exec('git log --pretty=format:"%h" -n 1'),
-            'date'        => (int) shell_exec('git log -1 --pretty=format:%ct'),
+            'version'     => 2,
+            'major'       => 0,
+            'minor'       => 0,
+            'build'       => 'Erreur - no tag found',
+            'date'        => time(),
             'environment' => $env
         ));
     }

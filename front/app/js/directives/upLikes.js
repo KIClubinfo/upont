@@ -8,8 +8,10 @@ angular.module('upont').directive('upLikes', function() {
             if($scope.objet.comments > 0)
                 $resource(apiPrefix + $scope.url + '/comments').query(function(data){
                     $scope.comments = data;
-                    $scope.shownComments = -3;
                 });
+            else
+                $scope.comments = [];
+            $scope.shownComments = -3;
 
             $scope.upvote = function() {
                 if (!$scope.objet.like) {
@@ -60,6 +62,7 @@ angular.module('upont').directive('upLikes', function() {
                             $scope.shownComments--;
                         else
                             $scope.shownComments++;
+                        $scope.objet.comments++;
                     });
                 // }
             };

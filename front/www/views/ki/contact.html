@@ -1,8 +1,8 @@
 <div ng-submit="ContactKI(type, contenu)">
     <div class="up-ticket up-column padded">
-        <div class="up-row center">
-            <label class="up-col-xs-12 up-col-sm-2" for="contact_type">Type :</label>
-            <div class="up-col-xs-12 up-col-sm-5">
+        <div up-row center>
+            <label up-col="15%" up-col-xs="50%" for="contact_type">Type :</label>
+            <div up-col="35%" up-col-xs="50%">
                 <select ng-model="type" id="contact_type">
                     <option value=""></option>
                     <optgroup label="--- YouPont ---"></optgroup>
@@ -21,9 +21,9 @@
                 </select>
             </div>
         </div>
-        <div class="up-row center">
-            <label class="up-col-xs-12 up-col-sm-2" for="contact_contenu">Message :</label>
-            <div class="up-col-xs-12 up-col-sm-5">
+        <div up-row center>
+            <label up-col="15%" up-col-xs="50%" for="contact_contenu">Message :</label>
+            <div up-col="35%" up-col-xs="50%">
                 <textarea ng-model="contenu" id="contact_contenu"></textarea>
             </div>
         </div>

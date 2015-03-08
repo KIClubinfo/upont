@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="fr">
+<html lang="fr" ng-app="upont">
 
 <head>
     <meta charset="UTF-8">
     <base href="/front/">
-    <title>Bienvenue sur uPont</title>
+    <title ng-bind="title">uPont</title>
     <link rel="stylesheet" href="style.min.css">
     <link rel="stylesheet" href="libs/fontawesome/css/font-awesome.min.css">
 
@@ -26,23 +26,23 @@
     <script src="upont.min.js"></script>
 </head>
 
-<body ng-app="upont" ng-class="theme?'theme-dark':'theme-clear'">
-    <div class="up-row">
-        <div  class="up-col-xs-4 up-col-sm-2 up-row">
-            <div ng-if="isLogged" ng-include="'views/misc/aside.html'" class="up-aside up-col-xs-4 up-col-sm-2 "></div>
+<body ng-class="theme?'theme-dark':'theme-clear'">
+    <div up-row>
+        <div ng-if="isLogged" class="up-col-xs-4 up-col-sm-2">
+            <div ng-include="'views/misc/aside.html'" class="up-aside up-col-xs-4 up-col-sm-2"></div>
         </div>
         <div class="up-main-content" ng-class="{'up-col-xs-8 up-col-sm-10':isLogged, 'up-col-xs-12':!isLogged}">
-            <header class="up-container up-row">
-                <div class="up-col-sm-6 up-col-xs-3">
+            <header up-row ng-class="{ 'up-col-xs-8 up-col-sm-10': isLogged, 'up-col-xs-12': !isLogged }">
+                <div up-col="25%" up-col-xs="50%">
                     <a class="up-main-title" ui-sref="home"></a>
                 </div>
-                <div class="up-col-sm-2 up-col-xs-3">
+                <div>
                     <a ng-click="publishModal = !publishModal" ng-show="isAdmin" class="up-navbar-link">Publier</a>
                     <a ui-sref="admin" ui-sref-active="active" class="up-navbar-link" ng-show="isAdmin">Admin</a>
                 </div>
-                <div class="up-col-sm-3 up-col-xs-3">
+                <div ng-show="isLogged">
                     <a ui-sref="profil" ui-sref-active="active" class="up-navbar-link">
-                        <img style="background-image: url('{{ url + me.image_url }}')" class="up-profile-picture" />
+                        <div style="background-image: url('{{ url + me.image_url }}')" class="up-profile-picture"></div>
                         {{ me.nick }}
                     </a>
                 </div>
@@ -50,18 +50,6 @@
             <div ui-view autoscroll="false" class="up-main-view" up-fill-window ></div>
         </div>
     </div>
-
-    <footer class="up-container up-row" ng-hide="hideFooter">
-        <div class="up-col-sm-2 up-col-xs-6 up-theme-selector">
-            <label class="unbold">
-                <input type="checkbox" ng-model="theme">&nbsp;Thème sombre
-            </label>
-        </div>
-        <div class="up-col-sm-8 up-col-xs-12">uPont {{ version.version }}.{{ version.major }}.{{ version.minor }} - Build {{ version.build }} ({{ version.date | formatDate }})</div>
-        <div ng-if="isLogged" class="up-col-sm-2 up-col-xs-6">
-            <button class="btn btn-default" ng-click="logout()">Déconnexion</button>
-        </div>
-    </footer>
 
     <!-- Piwik -->
     <script type="text/javascript">

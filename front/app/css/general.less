@@ -8,143 +8,10 @@
     box-sizing: border-box;
     outline: 0 !important;
 }
-.theme(@col1, @col2, @col3, @col4, @col5, @col6, @col7, @col8, @footerUp) {
-    color: @col2;
-    background: @col6;
-    .up-main-title {
-        border: solid 1px @col1;
-        &:after {
-            color: @col1;
-        }
-    }
-    header {
-        background: @col3;
-        border-bottom: solid 1px @col4;
-    }
-    footer {
-        background: @col3;
-        &:before {
-            background: url("@{footerUp}");
-        }
-    }
-    .up-zone-picker {
-        background: @col3;
-        border: solid 1px @col4;
-        margin-bottom:0px;
-        a:hover, a.active {
-            border-bottom: solid 3px @col1;
-        }
-    }
-    .up-ticket {
-        color: @col2;
-        // box-shadow: 0px 1px 2px @col7;
-        background: @col3;
-        border: solid 1px @col4;
-        .up-ticket-link {
-            color: @col1;
-            &:hover {
-                color: @col2;
-            }
-        }
-    }
-    select, textarea, input, .btn-default {
-        background: @col3;
-        border: solid 1px @col5;
-        color: @col2;
-    }
-    // .btn-default{
-    //     background: #;
-    // }
-    select, textarea {
-        width: 100%;
-    }
-    input:focus {
-        border-color: @col1;
-    }
-    input[type="radio"], input[type="checkbox"] {
-        margin: 0 0.5em;
-        vertical-align: middle;
-    }
-    h1, h2, h3, h4, h5, h6 {
-        a:hover {
-            color: @col1;
-        }
-    }
-    .label-upont {
-        background-color: @col1;
-    }
-    .modal-content {
-        background: @col3;
-        &, .modal-dialog, .modal-header, .modal-body, .modal-footer {
-            border-color: rgba(red(@col4), green(@col4), blue(@col4), 0.4) !important;
-        }
-    }
-    .up-aside {
-        color: @col5;
-        background-color: @col8;
-        a {
-            &:hover {
-                border-bottom: solid 1px @col2;
-            }
-            &.active {
-                border-bottom: solid 1px @col1;
-            }
-            .fa {
-                width: 20px;
-                text-align: center;
-            }
-        }
-    }
-    .up-club-subscribe.active h2 {
-        color: @col1;
-        border-bottom: solid 1px @col1;
-    }
-    .btn-suivi {
-        border: solid 1px @col4;
-        background: @col5;
-        color: @col2;
-        &.active {
-            background: @col1;
-            color: @col3;
-        }
-    }
-    .up-likes:hover, .up-likes.active {
-        color: @col1;
-    }
-    .up-date-evenement {
-        color: @col1;
-    }
-    #loading-bar-spinner .spinner-icon {
-        border-top-color: @col1;
-        border-left-color: @col1;
-    }
-    #loading-bar .bar {
-        background: @col1;
-    }
-    #loading-bar .peg {
-        -moz-box-shadow: @col1 1px 0 6px 1px;
-        -ms-box-shadow: @col1 1px 0 6px 1px;
-        -webkit-box-shadow: @col1 1px 0 6px 1px;
-        box-shadow: @col1 1px 0 6px 1px;
-    }
-}
-body.theme-clear {
-    .theme(#5584AD, #888, #FFF, #aaa, #d3d6d8, #dddfe4, #808080, #222732, "img/footerUp_clear.png");
-    .btn-default:hover {
-        background-color: #f0f0f0;
-        border-color: #57ABC2;
-    }
-}
-body.theme-dark {
-    .theme(#F08630, #a0a0a0, #222, #555, #595B5C, #2a2c2f, #707070, #000, "img/footerUp_dark.png");
-    .btn-default:hover {
-        background-color: #333;
-        border-color: #F08630;
-    }
-}
+
 //------- Modifs éléments de base
 body {
-    font-family: montserrat;
+    font-family:'Open Sans';
     margin: 0px;
     position: relative;
     overflow-y: scroll;
@@ -174,9 +41,6 @@ h3 {
 }
 h4 {
     .title(1.2em);
-}
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Walkway B';
 }
 select, textarea, label, input {
     // margin: 0.5em;
@@ -219,70 +83,11 @@ footer {
 .container-fluid {
     padding: 0px;
 }
-header {
-    z-index: 200;
-    position: fixed !important;
-    top: 0px;
-    margin: 0px;
-    box-shadow: 0px -5px 10px #000;
-    height: @navbarHgt;
-    align-items: center;
-    .up-navbar-link {
-        text-transform: uppercase;
-        font-family: 'montserrat';
-        font-size: 1.1em;
-        margin-right: 15px;
-    }
-}
-.up-main-title {
-    border-radius: 6px;
-    font-size: 1.5em;
-    padding: 0.3em;
-    margin: 0px 1em;
-    font-family: 'caviarDreams';
-    &:before {
-        @media(min-width: @sizeMd) {
-            content: "u";
-        }
-        content:"u";
-    }
-    &:after {
-        @media(min-width: @sizeMd) {
-            content: "Pont";
-        }
-        content:"P";
-    }
-}
-.modal-header h1 {
-    font-size: 2.5em !important;
-}
+
 .btn {
     border-radius: 0px;
 }
-.modal-backdrop {
-    bottom: 0px; //Fix de bootstrap
-    z-index: 10;
-}
-.modal-content {
-    border-radius: 0px;
-    z-index: 15;
-}
-.modal-backdrop.am-fade {
-    opacity: .5;
-    transition: opacity .15s linear;
-    &.ng-enter {
-        opacity: 0;
-        &.ng-enter-active {
-            opacity: .5;
-        }
-    }
-    &.ng-leave {
-        opacity: .5;
-        &.ng-leave-active {
-            opacity: 0;
-        }
-    }
-}
+
 // .navbar-header {
 //     text-align: center !important;
 // }
@@ -313,64 +118,12 @@ header {
         }
     }
 }
-.up-ticket {
-    position: relative;
-    margin: 0 0.75em 0.75em;
-    &:not(.up-zone-picker) {
-        padding: 1.5em;
-        margin-top: 1.5em;
-    }
-    .up-chapeau {
-        text-align: justify;
-        font-family: verdana;
-    }
-    .up-ticket-date {
-        float: right;
-        display: inline-block;
-        font-family: Helvetica, arial;
-        letter-spacing: 0.15em;
-        ;
-        font-size: 0.75em;
-        color: #999;
-    }
-    .up-ticket-auteur {
-        float: left;
-        margin-left: 1em;
-        font-family: 'Noto Sans B';
-        text-transform: uppercase;
-        font-size: 0.9em;
-        letter-spacing: 0.1em;
-        font-weight: bold;
-    }
-    .up-ticket-link {
-        cursor: pointer;
-    }
-    &.up-ticket-liste {
-        padding: 0.75em;
-        text-align: center;
-        position: relative;
-        h1 {
-            font-size: 1.3em;
-            margin: 0px;
-            padding: 0px;
-        }
-        .up-ticket-head {
-            height: 10em;
-        }
-    }
-}
+
 .up-login-form {
     text-align: center;
     font-size: 1.2em !important;
 }
-.modal-ponthub {
-    h1 {
-        font-size: 0.8em;
-    }
-}
-.modal-body .left {
-    text-align: left;
-}
+
 .collapse.am-collapse {
     animation-duration: .5s;
     animation-timing-function: ease;
@@ -393,33 +146,14 @@ header {
     font-weight: bold;
     padding: 0.25em 0.75em;
 }
-.up-likes {
-    font-size: 1em;
-    text-align: center;
-    &:hover, &.active {
-        cursor: pointer;
-    }
-}
+
 .stacked-row {
     margin-top: 1em;
 }
 .centering {
     text-align: center;
 }
-.up-aside {
-    position:fixed;
-    left:0px;
-    height:100%;
-    padding: 1em 0 0 1%;
-    font-size: 1.05em;
-    list-style: none;
-    padding: 0.5em;
-    a {
-        display: block;
-        margin: 0.75em 10%;
-        height:2em;
-    }
-}
+
 .up-main-view {
     padding-bottom: 30px;
 }
@@ -438,30 +172,6 @@ header {
     font-size: 0.95em;
 }
 
-.up-comment-img{
-    height:35px;
-    margin: 0 0.5em;
-}
-
-.up-comment{
-    margin: 0.6em;
-}
-
-.up-comment.ng-move, .up-comment.ng-enter, .up-comment.ng-leave {
-  -webkit-transition:all linear 0.5s;
-  transition:all linear 0.5s;
-}
-
-.up-comment.ng-leave.ng-leave-active, .up-comment.ng-move, .up-comment.ng-enter {
-  opacity:0;
-  max-height:0;
-}
-
-.up-comment.ng-leave, .up-comment.ng-move.ng-move-active, .up-comment.ng-enter.ng-enter-active {
-  opacity:1;
-  max-height:initial;
-}
-
 .up-main-content{
     padding-top: @navbarHgt; //Pour la navbar
 }
@@ -475,9 +185,11 @@ header {
 .up-profile-picture {
     .cover;
     border-radius: 5px;
-    height: 40px;
-    width: 40px;
+    height: 30px;
+    width: 30px;
     margin-right: 10px;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .up-profile-form {
@@ -485,4 +197,8 @@ header {
         width: 20px;
         text-align: center;
     }
+}
+
+.up-clickable{
+    cursor: pointer;
 }
