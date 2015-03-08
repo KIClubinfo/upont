@@ -9,7 +9,8 @@ angular.module('upont')
                 templateUrl: "views/cours/index.html",
                 data: {
                     defaultChild: "section",
-                    parent: "cours"
+                    parent: "cours",
+                    title: "uPont - Cours"
                 },
             })
             .state("cours.section", {

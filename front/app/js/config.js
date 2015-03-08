@@ -89,14 +89,16 @@ angular.module('upont')
             $state.go('home.disconnected');
         };
 
-        if ($state.is('calendrier'))
-            $rootScope.hideFooter = true;
-        else
-            $rootScope.hideFooter = false;
-
         $resource(apiPrefix + 'version').get(function(data){
             $rootScope.version = data;
         });
+        $resource(apiPrefix + 'foyer/balance').get(function(data){
+            $rootScope.foyer = data.balance;
+        });
+        $resource(apiPrefix + 'online').query(function(data){
+            $rootScope.online = data;
+        });
+
         $rootScope.url = location.origin + apiPrefix;
 
         // N'est utile que si on se sert des modaux bootstrap
@@ -162,12 +164,31 @@ angular.module('upont')
 
         $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
             // if (toState.resolve)
+            getName = function(state){
+                if(state.data && state.data.title)
+                    return state.data.title;
+                if(state.parent){
+                    if(state.parent.data && state.parent.data.title)
+                        return state.parent.data.title;
+                    return getName(state.parent);
+                }
+                return;
+            };
+
             cfpLoadingBar.complete();
+            if($rootScope.isLogged){
+                var title = getName(toState);
+                if(title)
+                    $rootScope.title = title;
+                else
+                    $rootScope.title = 'uPont';
+            }
+            else
+                $rootScope.title = 'Bienvenue sur uPont';
         });
 
         $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
             cfpLoadingBar.complete();
-            console.log(error);
         });
 
         $rootScope.$on('$stateNotFound', function(event, toState, toParams, fromState, fromParams) {

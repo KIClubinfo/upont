@@ -1,12 +1,10 @@
-<div class="up-row left">
-    <div class="up-col-xs-4 up-row left" ng-repeat="channel in channels">
-        <div class="up-ticket up-row padded up-col-xs-12">
-            <div class="up-col-xs-5">
-                <img class="up-col-xs-12" src="{{ channel.image_url | urlFile }}" alt="" />
-            </div>
-            <div class="up-col-xs-7">
-                <h2><a class="up-ticket-link" ui-sref="channels.simple({ slug: channel.slug})">{{ channel.name }}</a></h2>
-            </div>
+<div up-row left wrap>
+    <div up-col="25%" class="up-ticket"  up-row padded ng-repeat="channel in channels">
+        <div up-col="40%">
+            <img class="img-responsive" ng-src="{{ channel.image_url | urlFile }}" alt="" />
+        </div>
+        <div up-col="60%">
+            <h2><a class="up-ticket-link" ui-sref="channels.simple({ slug: channel.slug})">{{ channel.name }}</a></h2>
         </div>
     </div>
 </div>

@@ -1,36 +1,47 @@
-<div class="up-ticket" ng-repeat="publication in publications">
+<div class="up-ticket divided rounded-top" ng-repeat="publication in publications">
     <div ng-if="!publication.start_date">
-        <div class="up-row padded">
-            <div class="up-col-sm-3 up-col-xs-6">
-                <img class="img-responsive" ng-src="{{ publication.image_url | urlFile }}" alt="" />
+        <div class="up-ticket-header" ng-class="'color{{ publication.slug.length%5+1 }}'" ng-style="{'background-image': 'url({{publication.author_club.image_url | urlFile}})'}">
+            <div class="up-img-home-container">
+                <div class="up-img-home" ng-style="{'background-image': 'url({{ publication.image_url | urlFile }})'}" ></div>
             </div>
-            <div class="up-col-sm-9 up-col-xs-12">
-                <div class="up-ticket-auteur">{{ publication.author_club.name }}</div>
-                <div class="up-ticket-date">{{ publication.date*1000 | date : 'd MMMM yyyy' }}</div>
-                <h2>{{ publication.name }}</h2>
-            </div>
+            <div class="up-news-icon"><i class="fa fa-envelope"></i></div>
         </div>
-        <p class="up-chapeau stacked-row" up-publi-text string="publication.text_long"></p>
-        <div up-likes objet="publication" url="'newsitems/'+publication.slug"></div>
-    </div>
-
-    <div ng-if="!!publication.start_date">
-        <div class="up-row padded">
-            <div class="up-col-sm-3 up-col-xs-6">
-                <img class="img-responsive" ng-src="{{ publication.image_url | urlFile }}" alt="" />
+        <div class="up-ticket-body">
+            <div up-row>
+                <div  class="up-ticket-title" up-col="70%">
+                    <h2>{{ publication.name }}</h2>
+                   <div>Par {{ publication.author_club.name }}</div>
+                </div>
+                <div up-col="30%" class="up-ticket-date">{{ publication.date*1000 | date : 'd MMMM yyyy' }}</div>
             </div>
-            <div class="up-col-sm-9 up-col-xs-12">
-                <div class="up-ticket-auteur">{{ publication.author_club.name }}</div>
-                <div class="up-ticket-date">{{ publication.date*1000 | date : 'd MMMM yyyy' }}</div>
-                <h2>{{ publication.name }}</h2>
+            <p up-publi-text string="publication.text_long"></p>
+            <div up-likes objet="publication" url="'newsitems/'+publication.slug"></div>
+        </div>
+    </div>
+    <div ng-if="!!publication.start_date">
+        <div class="up-ticket-header" ng-class="'color{{ publication.slug.length%5+1 }}'" ng-style="{'background-image': 'url({{publication.author_club.image_url | urlFile}})'}">
+            <div class="up-img-home-container">
+                <div class="up-img-home" ng-style="{'background-image': 'url({{ publication.image_url | urlFile }})'}" />
+            </div>
+            <div class="up-news-icon"><i class="fa fa-calendar"></i></div>
+            <!--
                 <p class="up-date-evenement">
                     Le {{ publication.start_date*1000 | date : 'dd/MM/yyyy à H:mm' }}
                     <br>
                     <span ng-if="publication.entry_method == 'Shotgun'">Shotgun le {{ publication.shotgun_date*1000 | date : 'dd/MM/yyyy'  }}</span>
                 </p>
-            </div>
+            </div> -->
         </div>
-        <p class="up-chapeau stacked-row" up-publi-text string="publication.text_long"></p>
-        <div up-likes objet="publication" url="'events/'+publication.slug"></div>
+        <div class="up-ticket-body">
+            <div up-row>
+                <div  class="up-ticket-title" up-col="70%">
+                    <h2>{{ publication.name }}</h2>
+                   <div>Par {{ publication.author_club.name }}</div>
+                </div>
+                <div up-col="30%" class="up-ticket-date">{{ publication.date*1000 | date : 'd MMMM yyyy' }}</div>
+            </div>
+            <p class="up-chapeau" up-publi-text string="publication.text_long"></p>
+            <div up-likes objet="publication" url="'events/'+publication.slug"></div>
+        </div>
     </div>
 </div>

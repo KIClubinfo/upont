@@ -5,45 +5,45 @@ angular.module('upont').directive('upTicketListe', ['$window', function($window)
             ponthub: '=',
             category: '=',
         },
-        template: "<div class='up-ticket up-ticket-liste outer up-col-xs-12'>" +
-            "<a ui-sref='ponthub.category.simple({slug: ponthub})'>"+
-            "<div class='header' ></div>" +
-            "<h1>{{ content.title }}</h1>" +
-            "</div>"+
-            "</a>",
+        template:
+            '<a ui-sref="ponthub.category.simple({slug: ponthub})">' +
+            '<div class="up-img-ponthub"><div class="img-ph"></div></div>' +
+            '<div class="up-title-ponthub">{{ content.title }}</div>' +
+            '</a>',
         link: function(scope, element, attrs) {
             if(!scope.ponthub){
-                element.find('div.header').unwrap();
+                element.find('div.up-img-ponthub').unwrap();
             }
 
-            var wdt;
+            var classe;
             switch(scope.category){
                 case 'jeux':
-                    wdt = 30;
+                    classe = "up-col-xs-12 up-col-sm-6 up-col-md-4";
                     break;
                 case 'films':
                 case 'series':
-                    wdt = 13.5;
-                    break;
                 case 'musiques':
                 case 'autres':
                 case 'logiciels':
-                    wdt = 18.5;
+                    classe = "up-col-xs-2";
                     break;
                 default:
-                    wdt = 15;
+                    classe = 'up-col-xs-12 up-col-sm-4 up-col-md-2';
             }
-            element.css('width', wdt+'em');
-            element.find('div.header').css({
+            element.addClass(classe);
+            element.css('position', 'relative');
+            element.find('div.up-img-ponthub').addClass(scope.category);
+            element.find('div.img-ph').css({
                 'overflow': 'hidden',
-                'height': '15em',
-            });
-
-            element.find('div.header').css({
                 'background-image':  'url('+apiPrefix+scope.content.img+')',
                 'background-repeat': 'no-repeat',
                 'background-position': 'center',
-                'background-size': 'contain'
+                'background-size': 'cover',
+                'position': 'absolute',
+                'top':'0',
+                'bottom':'0',
+                'right':'0',
+                'left':'0',
             });
         }
     };
