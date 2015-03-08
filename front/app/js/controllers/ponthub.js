@@ -1,6 +1,6 @@
 angular.module('upont')
     .controller("PH_Liste_Ctrl", ['$scope', '$stateParams', 'elements', function($scope, $stateParams, elements) {
-        $scope.elements = [];
+        $scope.elements = elements;
         $scope.category = $stateParams.category;
     }])
     .controller("PH_Element_Ctrl", ['$scope', 'element', 'episodes', function($scope, element, episodes) {
