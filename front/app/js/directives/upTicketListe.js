@@ -5,9 +5,9 @@ angular.module('upont').directive('upTicketListe', ['$window', function($window)
             ponthub: '=',
             category: '=',
         },
-        template: "<div class='up-ticket up-ticket-liste outer up-col-xs-100pct'>" +
+        template: "<div>" +
             "<a ui-sref='ponthub.category.simple({slug: ponthub})'>"+
-            "<div class='header' ></div>" +
+            "<div class='up-img-ponthub'><div class='img-ph'></div></div>" +
             "<h1>{{ content.title }}</h1>" +
             "</div>"+
             "</a>",
@@ -16,34 +16,38 @@ angular.module('upont').directive('upTicketListe', ['$window', function($window)
                 element.find('div.header').unwrap();
             }
 
-            var wdt;
+            var clas;
             switch(scope.category){
                 case 'jeux':
-                    wdt = 30;
+                    clas = "up-col-xs-6";
                     break;
                 case 'films':
                 case 'series':
-                    wdt = 13.5;
+                    clas = "up-col-xs-2";
                     break;
                 case 'musiques':
                 case 'autres':
                 case 'logiciels':
-                    wdt = 18.5;
+                    clas = "up-col-xs-6";
                     break;
                 default:
-                    wdt = 15;
+                    clas = "up-col-xs-6";
             }
-            element.css('width', wdt+'em');
-            element.find('div.header').css({
+            //element.css('width', wdt+'em');
+            element.addClass(clas);
+            element.css('position', 'relative');
+            element.find('div.up-img-ponthub').addClass(scope.category);
+            element.find('div.img-ph').css({
                 'overflow': 'hidden',
-                'height': '15em',
-            });
-
-            element.find('div.header').css({
                 'background-image':  'url('+apiPrefix+scope.content.img+')',
                 'background-repeat': 'no-repeat',
                 'background-position': 'center',
-                'background-size': 'contain'
+                'background-size': 'cover',
+                'position': 'absolute',
+                'top':'0',
+                'bottom':'0',
+                'right':'0',
+                'left':'0',
             });
         }
     };
