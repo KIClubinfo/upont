@@ -1,19 +1,37 @@
 .up-ticket {
     position: relative;
-    margin: 0 0.75em 0.75em;
-    &:not(.up-zone-picker, .divided){
-        padding: 1.5em;
+
+    &:before{
+        content:'';
+        z-index:-10;
+        position:absolute;
+        top:20px;
+        right:10px;
+        left:10px;
+        bottom:10px;
     }
-    &:not(.up-zone-picker){
-        margin-top: 1.5em;
+
+    &.up-zone-picker:before{
+        top:0;
+        bottom:0px;
+    }
+
+    padding:25px 30px;
+    &.up-zone-picker{
+        padding:0px 10px!important;
+    }
+
+    &.divided{
+        padding: 21px 11px !important; //On ajoute 1px pour contenir la bordure
     }
 
     .up-ticket-header{
+        //FIXME corriger pour adapter au theme
         background-color:rgba(red(#fdbe37), green(#fdbe37),  blue(#fdbe37),0.8);
-        padding:1.5em;
+        padding:0.5em 1em;
     }
     .up-ticket-body{
-        padding:1.5em;
+        padding:1em 2.25em;
         text-indent: 2em;
     }
 
@@ -56,9 +74,11 @@
         }
     }
     &.rounded-top {
-        border-radius: 10px 10px 0px 0px;
-        .up-ticket-header {
+        &:before{
             border-radius: 10px 10px 0px 0px;
+        }
+        .up-ticket-header {
+            border-radius: 9px 9px 0px 0px;
         }
     }
 }

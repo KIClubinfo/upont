@@ -1,8 +1,8 @@
 <div up-row left wrap>
-    <div up-col="25%" up-row left ng-repeat="channel in channels">
-        <div up-row padded up-col="100%" class="up-ticket">
+    <div up-col="25%"  ng-repeat="channel in channels">
+        <div up-row padded class="up-ticket">
             <div up-col="40%">
-                <img up-col="100%" ng-src="{{ channel.image_url | urlFile }}" alt="" />
+                <img class="img-responsive" ng-src="{{ channel.image_url | urlFile }}" alt="" />
             </div>
             <div up-col="60%">
                 <h2><a class="up-ticket-link" ui-sref="channels.simple({ slug: channel.slug})">{{ channel.name }}</a></h2>
