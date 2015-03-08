@@ -28,9 +28,6 @@ angular.module('upont').directive('upTicketListe', ['$window', function($window)
                     classe = "up-col-xs-2";
                     break;
                 default:
-                    classe = "up-col-xs-3";
-                    break;
-                default:
                     classe = 'up-col-xs-12 up-col-sm-4 up-col-md-2';
             }
             element.addClass(classe);
