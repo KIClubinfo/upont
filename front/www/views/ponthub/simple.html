@@ -1,44 +1,50 @@
-<div un-row>
-    <div up-row up-col="100%">
-            <div up-col="25%">
-                <img class="img-responsive" src="{{ element.image_url | urlFile }}" alt="" />
-                <div up-row>
-                    <div ng-if="element.vo"><span class="label label-upont">VO</span></div>
-                    <div ng-if="element.vf"><span class="label label-upont">VF</span></div>
-                    <div ng-if="element.vost"><span class="label label-upont">VOST</span></div>
-                    <div ng-if="element.hd"><span class="label label-upont">HD</span></div>
-                </div>
-            </div>
-            <div up-col="75%">
-                <h1>{{ element.name }}</h1>
-                <p>{{ element.description }}</p>
-                <ul class="up-ph-list-infos">
-                    <li ng-if="element.year">Année de sortie : {{ element.year }}</li>
-                    <li ng-if="element.genres && element.genres.length">Genres : <span ng-repeat="genre in element.genres">{{ genre }}{{$last ? '' : ', '}}</span>
-                    </li>
-                    <li ng-if="element.actors_list && element.actors_list.length">Acteurs : <span ng-repeat="actor in element.actors_list">{{ actor }}{{$last ? '' : ', '}}</span>
-                    </li>
-                    <li ng-if="element.artist">Artiste : {{ element.artist }}</li>
+<div up-row padded>
+    <div up-col="25%">
+        <a ui-sref="ponthub.category">
+            <img class="img-responsive" style="margin: 0 auto;" src="{{ element.image_url | urlFile }}" alt="Image du fichier" />
+        </a>
 
-                    <li ng-if="element.studio">Studio : {{ element.studio }}</li>
-                    <li ng-if="element.director">Réalisateur : {{ element.director }}</li>
+        <div up-row>
+            <div ng-if="element.vo"><span class="label label-upont">VO</span></div>
+            <div ng-if="element.vf"><span class="label label-upont">VF</span></div>
+            <div ng-if="element.vost"><span class="label label-upont">VOST</span></div>
+            <div ng-if="element.hd"><span class="label label-upont">HD</span></div>
+        </div>
+    </div>
+    <div up-col="75%">
+        <h1>{{ element.name }}</h1>
+        <p>{{ element.description }}</p>
+        <ul class="up-ph-list-infos">
+            <li ng-if="element.year">Année : {{ element.year }}</li>
+            <li ng-if="element.genres && element.genres.length">Genres : <span ng-repeat="genre in element.genres">{{ genre }}{{$last ? '' : ', '}}</span>
+            </li>
+            <li ng-if="element.actors_list && element.actors_list.length">Acteurs : <span ng-repeat="actor in element.actors_list">{{ actor }}{{$last ? '' : ', '}}</span>
+            </li>
+            <li ng-if="element.artist">Artiste : {{ element.artist }}</li>
 
-                    <li ng-if="element.duration">Durée : {{ element.duration | formatDuration }}</li>
+            <li ng-if="element.studio">Studio : {{ element.studio }}</li>
+            <li ng-if="element.director">Réalisateur : {{ element.director }}</li>
+
+            <li ng-if="element.duration">Durée : {{ element.duration | formatDuration }}</li>
 
 
-                    <li ng-if="element.size">Taille : {{ element.size | formatSize }}</li>
+            <li ng-if="element.size">Taille : {{ element.size | formatSize }}</li>
 
-                    <li ng-if="element.rating">Note Rotten Tomatoes : {{ element.rating+'%' }}</li>
-                </ul>
-                <div ng-if="saisons" ng-repeat="saison in saisons">
-                    <h2>Saison {{ $index+1 }} </h2>
+            <li ng-if="element.rating">Note Rotten Tomatoes : {{ element.rating+'%' }}</li>
+        </ul>
 
-                    <h3 ng-repeat="episode in saison"><a class="up-ticket-link" href="">S{{ episode.season < 10?'0':'' }}{{episode.season}}E{{episode.number < 10 ? '0':'' }}{{episode.number}} : {{episode.name}}</a></h3>
-                </div>
+        <div ng-if="saisons" ng-repeat="saison in saisons">
+            <h2>Saison {{ $index+1 }}</h2>
 
-                <div ng-if="!saisons">
-                    <a href=""></a>
-                </div>
-            </div>
+            <h4 ng-repeat="episode in saison | orderBy:['name']">
+                <a class="up-ticket-link" ng-href="{{ url + 'series/' + element.slug + '/episodes/' + episode.slug + '/download' }}">
+                    {{ episode.name }}
+                </a>
+            </h4>
+        </div>
+
+        <div ng-if="!saisons">
+            <a href=""></a>
+        </div>
     </div>
 </div>
