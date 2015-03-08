@@ -12,17 +12,17 @@ class SecurityTest extends WebTestCase
         $client = static::createClient();
 
         $routes = array(
-            array('GET',    200, '/clubs'),
-            array('GET',    401, '/newsitems'),
-            array('GET',    200, '/clubs/ki'),
-            array('GET',    404, '/clubs/sddsdqs'),
-            array('GET',    404, '/courses/mecanique-des-structures/exercices/test/download'),
-            array('POST',   401, '/clubs'),
-            array('POST',   400, '/resetting/request'),
-            array('PATCH',  401, '/promo/016/pictures'),
+            array('GET', 200, '/clubs'),
+            array('GET', 401, '/newsitems'),
+            array('GET', 200, '/clubs/ki'),
+            array('GET', 404, '/clubs/sddsdqs'),
+            array('GET', 404, '/courses/mecanique-des-structures/exercices/test/download'),
+            array('POST', 401, '/clubs'),
+            array('POST', 400, '/resetting/request'),
+            array('PATCH', 401, '/promo/016/pictures'),
         );
 
-        foreach($routes as $route) {
+        foreach ($routes as $route) {
             $client->request($route[0], $route[2]);
             $this->assertJsonResponse($client->getResponse(), $route[1]);
         }

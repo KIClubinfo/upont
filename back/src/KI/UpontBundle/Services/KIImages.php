@@ -25,7 +25,7 @@ class KIImages extends ContainerAware
         $image->setExt($data['extension']);
 
         // Save the image locally thanks to md5 hash and put it in the $img
-        $path = $image->getTemporaryDir() . md5($data['image']);
+        $path = $image->getTemporaryDir().md5($data['image']);
         $fs->dumpFile($path, $data['image']);
         $file = new File($path);
         $image->setFile($file);
@@ -56,7 +56,7 @@ class KIImages extends ContainerAware
     public function uploadUrl($url, $byPassCheck = false)
     {
         if (!($byPassCheck || preg_match('#^(https?://)?([\da-z\.-]+)\.([a-z\.]{2,6})([/\w \.-]*)*/?$#', $url)))
-            throw new BadRequestHttpException('Ceci n\'est pas une url : ' . $url);
+            throw new BadRequestHttpException('Ceci n\'est pas une url : '.$url);
 
         $curl = $this->container->get('ki_upont.curl');
 
@@ -72,7 +72,7 @@ class KIImages extends ContainerAware
 
         // Récupération de l'image
         if (!$data)
-            throw new \Exception('Impossible de télécharger l\'image à l\'url ' . $url);
+            throw new \Exception('Impossible de télécharger l\'image à l\'url '.$url);
 
         //Récupération de l'extension
         $image = imagecreatefromstring($data);

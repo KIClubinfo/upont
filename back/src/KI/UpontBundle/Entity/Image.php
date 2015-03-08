@@ -39,28 +39,28 @@ class Image
 
     public function getAbsolutePathReduced()
     {
-        return __DIR__ . '/../../../../web/uploads/images/' . $this->id;
+        return __DIR__.'/../../../../web/uploads/images/'.$this->id;
     }
 
     public function getAbsolutePath()
     {
-        return __DIR__ . '/../../../../web/uploads/images/' . $this->id . '.' . $this->ext;
+        return __DIR__.'/../../../../web/uploads/images/'.$this->id.'.'.$this->ext;
     }
 
     public function getUploadRootDir()
     {
-        return __DIR__ . '/../../../../web/uploads/images/';
+        return __DIR__.'/../../../../web/uploads/images/';
     }
 
 
     public function getTemporaryDir()
     {
-        return __DIR__ . '/../../../../web/uploads/tmp/';
+        return __DIR__.'/../../../../web/uploads/tmp/';
     }
 
     public function getWebPath()
     {
-        return 'uploads/images/' . $this->id . '.' . $this->ext;
+        return 'uploads/images/'.$this->id.'.'.$this->ext;
     }
 
     /**
@@ -70,7 +70,7 @@ class Image
     public function preUpload()
     {
         if ($this->file === null)
-            throw new \Exception($this->ext . 'Il n\'y a aucun fichier');
+            throw new \Exception($this->ext.'Il n\'y a aucun fichier');
     }
 
     /**
@@ -84,8 +84,8 @@ class Image
 
         // Exception lancée si le fichier ne peut pas être bougé et donc
         // arrête le Persist
-        if(file_exists($this->file->getRealPath())) {
-            $this->file->move($this->getUploadRootDir(), $this->id . '.' . $this->ext);
+        if (file_exists($this->file->getRealPath())) {
+            $this->file->move($this->getUploadRootDir(), $this->id.'.'.$this->ext);
             unset($this->file);
         }
     }
