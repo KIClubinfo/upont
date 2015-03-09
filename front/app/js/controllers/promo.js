@@ -34,6 +34,9 @@ angular.module('upont')
         //     newSet();
         // };
     }])
+    .controller('Trombi_Ctrl', ['$scope', 'eleves', '$filter', function($scope, eleves, $filter){
+        $scope.eleves = eleves;
+    }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
             .state("promo", {
@@ -47,9 +50,7 @@ angular.module('upont')
             .state("promo.trombi", {
                 url: "/trombi",
                 templateUrl: "views/promo/trombi.html",
-                controller: ['$scope', 'eleves', function($scope, eleves) {
-                    $scope.eleves = eleves;
-                }],
+                controller: 'Trombi_Ctrl',
                 resolve: {
                     eleves: ["$resource", function($resource) {
                         return $resource(apiPrefix + "users").query().$promise;
