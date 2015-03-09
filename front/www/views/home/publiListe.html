@@ -1,6 +1,7 @@
 <div class="up-ticket divided rounded-top" ng-repeat="publication in publications">
     <div ng-if="!publication.start_date">
-        <div class="up-ticket-header" ng-class="'color{{ publication.slug.length%5+1 }}'" ng-style="{'background-image': 'url({{publication.author_club.image_url | urlFile}})'}">
+        <div class="up-ticket-header" ng-class="'color{{ publication.slug.length%5+1 }}'">
+            <div class="background" ng-style="{'background-image': 'url({{publication.author_club.image_url | urlFile}})'}"></div>
             <div class="up-img-home-container">
                 <div class="up-img-home" ng-style="{'background-image': 'url({{ publication.image_url | urlFile }})'}" ></div>
             </div>
@@ -19,7 +20,8 @@
         </div>
     </div>
     <div ng-if="!!publication.start_date">
-        <div class="up-ticket-header" ng-class="'color{{ publication.slug.length%5+1 }}'" ng-style="{'background-image': 'url({{publication.author_club.image_url | urlFile}})'}">
+        <div class="up-ticket-header" ng-class="'color{{ publication.slug.length%5+1 }}'">
+            <div class="background" ng-style="{'background-image': 'url({{publication.author_club.image_url | urlFile}})'}"></div>
             <div class="up-img-home-container">
                 <div class="up-img-home" ng-style="{'background-image': 'url({{ publication.image_url | urlFile }})'}" />
             </div>

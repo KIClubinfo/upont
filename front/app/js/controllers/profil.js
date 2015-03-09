@@ -41,8 +41,8 @@ angular.module('upont')
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state("profil", {
-                url: '/profil',
+            .state("root.profil", {
+                url: 'profil',
                 templateUrl: "views/profil.html",
                 controller: "Profil_Ctrl",
                 resolve: {

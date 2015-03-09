@@ -16,7 +16,7 @@ angular.module('upont')
                     }).get(function(data) {
                         $rootScope.me = data;
                     });
-                    $state.go("home.connected");
+                    $state.go("root.home.connected");
                 })
                 .error(function(data, status, headers, config) {
                     // Supprime tout token en cas de mauvaise identification
@@ -39,15 +39,15 @@ angular.module('upont')
     // }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state("home", {
-                url: "/",
+            .state("root.home", {
+                url: "",
                 template: "<div ui-view></div>",
                 data: {
                     parent: "home",
                     defaultChild: "connected"
                 },
             })
-            .state("home.connected", {
+            .state("root.home.connected", {
                 url: "",
                 templateUrl: "views/home/connected.html",
                 data: {
@@ -56,12 +56,12 @@ angular.module('upont')
                     title: 'uPont - Accueil'
                 },
             })
-            .state("home.disconnected", {
+            .state("root.home.disconnected", {
                 url: "",
                 templateUrl: "views/home/disconnected.html",
                 controller: "Disconnected_Ctrl"
             })
-            .state("home.connected.liste", {
+            .state("root.home.connected.liste", {
                 url: "publications",
                 templateUrl: "views/home/publiListe.html",
                 controller: "Publis_Ctrl",

@@ -12,8 +12,8 @@ angular.module('upont')
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state("calendrier", {
-                url: '/calendrier',
+            .state("root.calendrier", {
+                url: 'calendrier',
                 templateUrl: 'views/calendrier.html',
                 controller: 'Calendrier_Ctrl',
                 data: {
