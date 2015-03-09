@@ -9,8 +9,8 @@ angular.module('upont')
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state("channels", {
-                url: '/channels',
+            .state("root.channels", {
+                url: 'channels',
                 template: '<div ui-view></div>',
                 data: {
                     parent: "channels",
@@ -18,7 +18,7 @@ angular.module('upont')
                     title: "uPont - Clubs & Assos"
                 }
             })
-            .state("channels.liste", {
+            .state("root.channels.liste", {
                 url: "",
                 templateUrl: "views/channels/liste.html",
                 controller: 'ChannelsListe_Ctrl',
@@ -31,7 +31,7 @@ angular.module('upont')
                     }]
                 }
             })
-            .state("channels.simple", {
+            .state("root.channels.simple", {
                 url: "/:slug",
                 templateUrl: "views/channels/simple.html",
                 data: {
@@ -58,7 +58,7 @@ angular.module('upont')
                 },
                 controller: 'ChannelsSimple_Ctrl'
             })
-            .state("channels.simple.publications", {
+            .state("root.channels.simple.publications", {
                 url: "",
                 templateUrl: "views/home/publiListe.html",
                 data: {
@@ -66,7 +66,7 @@ angular.module('upont')
                     title: 'uPont - Publications'
                 }
             })
-            .state("channels.simple.presentation", {
+            .state("root.channels.simple.presentation", {
                 url: "/presentation",
                 templateUrl: "views/channels/simple.presentation.html",
                 controller : 'ChannelsSimple_Ctrl',
@@ -75,7 +75,7 @@ angular.module('upont')
                     title: 'uPont - Présentation'
                 },
             })
-            .state("channels.simple.gestion", {
+            .state("root.channels.simple.gestion", {
                 url: "/gestion",
                 templateUrl: "views/channels/simple.gestion.html",
                 data: {

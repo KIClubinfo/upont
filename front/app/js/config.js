@@ -47,16 +47,21 @@ angular.module('upont')
         $locationProvider.html5Mode(true);
 
         $stateProvider
-            .state("erreur", {
-                url: '/erreur',
+            .state('root', {
+                abstract: true,
+                url: '/',
+                template: '<div ui-view></div>'
+            })
+            .state("root.erreur", {
+                url: 'erreur',
                 templateUrl: 'views/500.html',
             })
-            .state("maintenance", {
-                url: '/maintenance',
+            .state("root.maintenance", {
+                url: 'maintenance',
                 templateUrl: 'views/503.html',
             })
-            .state("404", {
-                url: '/404',
+            .state("root.404", {
+                url: '404',
                 templateUrl: 'views/404.html',
             });
     }])
@@ -86,7 +91,7 @@ angular.module('upont')
             StorageService.remove('token');
             StorageService.remove('roles');
             $rootScope.isLogged = false;
-            $state.go('home.disconnected');
+            $state.go('root.home.disconnected');
         };
 
         $resource(apiPrefix + 'version').get(function(data){
@@ -137,9 +142,11 @@ angular.module('upont')
         // });
 
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+            console.log($state.current);
+
             if (!$rootScope.isLogged && toState.name != "home.disconnected") {
                 event.preventDefault();
-                $state.go("home.disconnected");
+                $state.go("root.home.disconnected");
             }
 
             if (toState.resolve) {
@@ -147,13 +154,13 @@ angular.module('upont')
             }
 
             if (toState.data && toState.data.parent && toState.data.defaultChild) {
-                var reg = new RegExp("^" + toState.data.parent, "g");
+                var reg = new RegExp("^root." + toState.data.parent, "g");
 
-                if (toState.name == toState.data.parent) {
+                if (toState.name == 'root.'+toState.data.parent) {
                     // Si le state d'origine n'est pas un enfant du state de destination ou alors possède une valeur true sur data.toParent, on renvoie sur l'enfant par défaut, sinon on recharge juste la page
                     if (!fromState.name.match(reg) || (fromState.data && fromState.data.toParent)) {
                         event.preventDefault();
-                        $state.go(toState.data.parent + '.' + toState.data.defaultChild, toParams);
+                        $state.go('root.'+toState.data.parent + '.' + toState.data.defaultChild, toParams);
                     } else {
                         event.preventDefault();
                         $state.reload();
@@ -193,6 +200,6 @@ angular.module('upont')
 
         $rootScope.$on('$stateNotFound', function(event, toState, toParams, fromState, fromParams) {
             cfpLoadingBar.complete();
-            $state.go('404');
+            $state.go('root.404');
         });
     }]);

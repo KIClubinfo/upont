@@ -34,8 +34,8 @@ angular.module('upont')
         };
     })
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state("ponthub", {
-                url: "/ponthub",
+        $stateProvider.state("root.ponthub", {
+                url: "ponthub",
                 templateUrl: "views/ponthub/index.html",
                 data: {
                     defaultChild: "category",
@@ -43,7 +43,7 @@ angular.module('upont')
                     title: 'uPont - PontHub'
                 },
             })
-            .state("ponthub.category", {
+            .state("root.ponthub.category", {
                 url: "/:category",
                 template: '<div ui-view></div>',
                 data: {
@@ -54,7 +54,7 @@ angular.module('upont')
                     category: 'films'
                 }
             })
-            .state("ponthub.category.liste", {
+            .state("root.ponthub.category.liste", {
                 url: "",
                 templateUrl: "views/ponthub/liste.html",
                 controller: 'PH_Liste_Ctrl',
@@ -69,7 +69,7 @@ angular.module('upont')
                     toParent: true
                 }
             })
-            .state("ponthub.category.simple", {
+            .state("root.ponthub.category.simple", {
                 url: "/:slug",
                 templateUrl: "views/ponthub/simple.html",
                 controller: 'PH_Element_Ctrl',
