@@ -81,13 +81,6 @@ class OwnControllerTest extends WebTestCase
         $this->assertJsonResponse($response, 200);
     }
 
-    public function testGetCalendar()
-    {
-        $this->client->request('GET', '/own/calendar');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-    }
-
     public function testAddPreferences()
     {
         $this->client->request('PATCH', '/own/preferences', array('key' => 'lmlqkjflnimpquoi', 'value'=>'ok'));

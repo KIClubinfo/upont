@@ -259,6 +259,50 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      */
     public function getEventsAction()
     {
+        $events = $this->getFollowedEvents();
+        $return = array();
+        $today = time();
+
+        foreach ($events as $event) {
+            // On élimine les anciens événements
+            if ($event->getStartDate() > $today)
+                $return[] = $event;
+        }
+
+        return $this->restResponse($return);
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Retourne le calendrier de l'utilisateur au format ICS",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Utilisateurs"
+     * )
+     */
+    public function getOwnCalendarAction($token)
+    {
+        $user = $this->repo->findOneByToken($token);
+        if ($user === null) {
+            throw new NotFoundHttpException('Aucun utilisateur ne correspond au token saisi');
+        } else {
+            $events = $this->getFollowedEvents();
+            $calStr = $this->get('ki_upont.calendar')->getCalendar($user, $events);
+
+            return new \Symfony\Component\HttpFoundation\Response($calStr, 200, array(
+                    'Content-Type' => 'text/calendar; charset=utf-8',
+                    'Content-Disposition' => 'attachment; filename="calendar.ics"',
+                )
+            );
+        }
+    }
+
+    // Va chercher les événements suivis
+    private function getFollowedEvents() {
         $repo = $this->em->getRepository('KIUpontBundle:Publications\Event');
         $user = $this->get('security.context')->getToken()->getUser();
 
@@ -275,14 +319,13 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
             if ($event->getPookies()->contains($user))
                 continue;
 
-            // On élimine les anciens événements
-            if ($event->getStartDate() > $today) {
-                $return[$key] = $event;
-                $dates[$key] = $event->getStartDate();
-            }
+            // On trie par date
+            $return[$key] = $event;
+            $dates[$key] = $event->getStartDate();
         }
         array_multisort($dates, SORT_DESC, $return);
-        return $this->restResponse($return);
+
+        return $return;
     }
 
     /**
@@ -511,30 +554,6 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
 
     /**
      * @ApiDoc(
-     *  description="Retourne le calendrier de l'utilisateur au format ICS",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Utilisateurs"
-     * )
-     */
-    public function getOwnCalendarAction()
-    {
-        $user = $this->get('security.context')->getToken()->getUser();
-        $calStr = $this->get('ki_upont.calendar')->getCalendar($user);
-
-        return $this->restResponse($calStr, 200, array(
-                'Content-Type'        => 'text/calendar; charset=utf-8',
-                'Content-Disposition' => 'attachment; filename="calendar.ics"',
-            )
-        );
-    }
-
-    /**
-     * @ApiDoc(
      *  description="Crée un token si non existant et le retourne",
      *  statusCodes={
      *   200="Requête traitée avec succès",
@@ -547,6 +566,6 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      */
     public function getTokenAction()
     {
-        return $this->get('ki_upont.token')->getToken();
+        return array('token' => $this->get('ki_upont.token')->getToken());
     }
 }
