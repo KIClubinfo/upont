@@ -19,6 +19,7 @@
     "angular-jwt": "latest",
     "moment": "latest",
     "fontawesome": "latest",
-    "angular-filter": "latest"
+    "angular-filter": "latest",
+    "angular-base64-upload": "~0.0.5"
   }
 }

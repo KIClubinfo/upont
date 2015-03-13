@@ -3,7 +3,7 @@ angular.module('upont')
         $scope.elements = elements;
         $scope.category = $stateParams.category;
     }])
-    .controller("PH_Element_Ctrl", ['$scope', 'element', 'episodes', function($scope, element, episodes) {
+    .controller("PH_Element_Ctrl", ['$scope', '$http', 'element', 'episodes', function($scope, $http, element, episodes) {
         $scope.element = element;
         if(episodes){
             $scope.saisons = [];
@@ -14,6 +14,9 @@ angular.module('upont')
                 $scope.saisons[episodes[i].season - 1].push(episodes[i]);
             }
         }
+        $scope.download = function(url) {
+            $http.get(url + '/download');
+        };
     }])
     .factory('PH_categories', function(){
         return function(category){

@@ -30,13 +30,19 @@
             <li ng-if="element.size">Taille : {{ element.size | formatSize }}</li>
 
             <li ng-if="element.rating">Note Rotten Tomatoes : {{ element.rating+'%' }}</li>
+
+            <h4>
+                <a class="up-ticket-link" ng-click="download(url + 'movies/' + element.slug)">
+                    {{ element.name }}
+                </a>
+            </h4>
         </ul>
 
         <div ng-if="saisons" ng-repeat="saison in saisons">
             <h2>Saison {{ $index+1 }}</h2>
 
             <h4 ng-repeat="episode in saison | orderBy:['name']">
-                <a class="up-ticket-link" ng-href="{{ url + 'series/' + element.slug + '/episodes/' + episode.slug + '/download' }}">
+                <a class="up-ticket-link" ng-click="download(url + 'series/' + element.slug + '/episodes/' + episode.slug)">
                     {{ episode.name }}
                 </a>
             </h4>

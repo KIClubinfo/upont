@@ -9,6 +9,7 @@ angular.module('upont')
         $scope.preferences = preferences;
         $scope.clubs = clubs;
         $scope.user = $rootScope.me;
+        $scope.profilePicture = null;
 
         $scope.subscribe = function(slug) {
             $resource(apiPrefix + "clubs/:slug/follow", {slug: slug}).save();
@@ -26,8 +27,8 @@ angular.module('upont')
             });
         };
 
-        $scope.submitUser = function(promo, nationality, phone, location, department, origin, skype, nickname) {
-            $http.patch($rootScope.url + 'users/' + $rootScope.me.username, {
+        $scope.submitUser = function(promo, nationality, phone, location, department, origin, skype, nickname, image) {
+            var params = {
                 'promo' : promo,
                 'nationality' : nationality,
                 'phone' : phone,
@@ -36,6 +37,17 @@ angular.module('upont')
                 'origin' : origin,
                 'skype' : skype,
                 'nickname' : nickname
+            };
+
+            if (image) {
+                params.image = image.base64;
+            }
+
+            $http.patch($rootScope.url + 'users/' + $rootScope.me.username, params).success(function(){
+                // On recharge 'user pour être sûr d'avoir la nouvelle photo
+                $http.get(apiPrefix + 'users/' + $rootScope.me.username).success(function(data){
+                    $rootScope.me = data;
+                });
             });
         };
     }])
