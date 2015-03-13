@@ -68,7 +68,7 @@ angular.module('upont')
     .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
         cfpLoadingBarProvider.latencyThreshold = 200;
     }])
-    .run(['$rootScope', 'StorageService', '$state', 'cfpLoadingBar', 'jwtHelper', '$resource', function($rootScope, StorageService, $state, cfpLoadingBar, jwtHelper, $resource) {
+    .run(['$rootScope', 'StorageService', '$state', '$interval', 'cfpLoadingBar', 'jwtHelper', '$resource', function($rootScope, StorageService, $state, $interval, cfpLoadingBar, jwtHelper, $resource) {
         if (StorageService.get('token') && !jwtHelper.isTokenExpired(StorageService.get('token'))) {
             $rootScope.isLogged = true;
             $rootScope.isAdmin = (StorageService.get('droits').indexOf("ROLE_ADMIN") != -1) ? true : false;
@@ -95,9 +95,14 @@ angular.module('upont')
         $resource(apiPrefix + 'foyer/balance').get(function(data){
             $rootScope.foyer = data.balance;
         });
-        $resource(apiPrefix + 'online').query(function(data){
-            $rootScope.online = data;
-        });
+
+        reloadOnline = function() {
+            $resource(apiPrefix + 'online').query(function(data){
+                $rootScope.online = data;
+            });
+        };
+        reloadOnline();
+        $interval(reloadOnline, 60000);
 
         $rootScope.url = location.origin + apiPrefix;
 
