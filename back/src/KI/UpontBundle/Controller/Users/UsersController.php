@@ -143,7 +143,7 @@ class UsersController extends \KI\UpontBundle\Controller\Core\ResourceController
 
     /**
      * @ApiDoc(
-     *  description="Retourne le calendrier de l'utilisateur dont le token correpsond",
+     *  description="Retourne le calendrier de l'utilisateur au format ICS",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -153,7 +153,6 @@ class UsersController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/users/{token}/calendar")
      */
     public function getCalendarAction($token)
     {
