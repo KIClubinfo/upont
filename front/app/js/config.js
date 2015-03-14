@@ -42,21 +42,27 @@ angular.module('upont')
         $httpProvider.interceptors.push('jwtInterceptor');
         $httpProvider.interceptors.push('ErrorCodes_Interceptor');
     }])
-    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider) {
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$urlMatcherFactoryProvider', function($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) {
+        $urlMatcherFactoryProvider.strictMode(false);
         $urlRouterProvider.otherwise("/404");
         $locationProvider.html5Mode(true);
 
         $stateProvider
-            .state("erreur", {
-                url: '/erreur',
+            .state('root', {
+                abstract: true,
+                url: '/',
+                template: '<div ui-view></div>'
+            })
+            .state("root.erreur", {
+                url: 'erreur',
                 templateUrl: 'views/500.html',
             })
-            .state("maintenance", {
-                url: '/maintenance',
+            .state("root.maintenance", {
+                url: 'maintenance',
                 templateUrl: 'views/503.html',
             })
-            .state("404", {
-                url: '/404',
+            .state("root.404", {
+                url: '404',
                 templateUrl: 'views/404.html',
             });
     }])
@@ -65,10 +71,7 @@ angular.module('upont')
             html: true
         });
     }])
-    .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
-        cfpLoadingBarProvider.latencyThreshold = 200;
-    }])
-    .run(['$rootScope', 'StorageService', '$state', '$interval', 'cfpLoadingBar', 'jwtHelper', '$resource', function($rootScope, StorageService, $state, $interval, cfpLoadingBar, jwtHelper, $resource) {
+    .run(['$rootScope', 'StorageService', '$state', '$interval',  'jwtHelper', '$resource', function($rootScope, StorageService, $state, $interval, jwtHelper, $resource) {
         if (StorageService.get('token') && !jwtHelper.isTokenExpired(StorageService.get('token'))) {
             $rootScope.isLogged = true;
             $rootScope.isAdmin = (StorageService.get('droits').indexOf("ROLE_ADMIN") != -1) ? true : false;
@@ -86,7 +89,7 @@ angular.module('upont')
             StorageService.remove('token');
             StorageService.remove('roles');
             $rootScope.isLogged = false;
-            $state.go('home.disconnected');
+            $state.go('root.disconnected');
         };
 
         $resource(apiPrefix + 'version').get(function(data){
@@ -143,29 +146,25 @@ angular.module('upont')
         // });
 
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-            if (!$rootScope.isLogged && toState.name != "home.disconnected") {
+            if (!$rootScope.isLogged && toState.name != "root.disconnected") {
                 event.preventDefault();
-                $state.go("home.disconnected");
+                $state.go("root.disconnected");
             }
 
-            if (toState.resolve) {
-                cfpLoadingBar.start();
-            }
+            // if (toState.data && toState.data.parent && toState.data.defaultChild) {
+            //     var reg = new RegExp("^root." + toState.data.parent, "g");
 
-            if (toState.data && toState.data.parent && toState.data.defaultChild) {
-                var reg = new RegExp("^" + toState.data.parent, "g");
-
-                if (toState.name == toState.data.parent) {
-                    // Si le state d'origine n'est pas un enfant du state de destination ou alors possède une valeur true sur data.toParent, on renvoie sur l'enfant par défaut, sinon on recharge juste la page
-                    if (!fromState.name.match(reg) || (fromState.data && fromState.data.toParent)) {
-                        event.preventDefault();
-                        $state.go(toState.data.parent + '.' + toState.data.defaultChild, toParams);
-                    } else {
-                        event.preventDefault();
-                        $state.reload();
-                    }
-                }
-            }
+            //     if (toState.name == 'root.'+toState.data.parent) {
+            //         // Si le state d'origine n'est pas un enfant du state de destination ou alors possède une valeur true sur data.toParent, on renvoie sur l'enfant par défaut, sinon on recharge juste la page
+            //         if (!fromState.name.match(reg) || (fromState.data && fromState.data.toParent)) {
+            //             event.preventDefault();
+            //             $state.go('root.'+toState.data.parent + '.' + toState.data.defaultChild, toParams);
+            //         } else {
+            //             event.preventDefault();
+            //             $state.reload();
+            //         }
+            //     }
+            // }
         });
 
         $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
@@ -181,7 +180,6 @@ angular.module('upont')
                 return;
             };
 
-            cfpLoadingBar.complete();
             if($rootScope.isLogged){
                 var title = getName(toState);
                 if(title)
@@ -193,12 +191,7 @@ angular.module('upont')
                 $rootScope.title = 'Bienvenue sur uPont';
         });
 
-        $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
-            cfpLoadingBar.complete();
-        });
-
         $rootScope.$on('$stateNotFound', function(event, toState, toParams, fromState, fromParams) {
-            cfpLoadingBar.complete();
-            $state.go('404');
+            $state.go('root.404');
         });
     }]);

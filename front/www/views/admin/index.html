@@ -1,11 +1,11 @@
 <div class="up-zone-picker">
     <div up-row left>
-        <a ui-sref="admin.eleves" ui-sref-active="active">Éleves</a>
-        <a ui-sref="admin.channels" ui-sref-active="active">Channels</a>
-        <a ui-sref="admin.logs" ui-sref-active="active">Logs</a>
-        <a ui-sref="admin.moderation" ui-sref-active="active">Modération</a>
-        <a ui-sref="admin.permissions" ui-sref-active="active">Permissions</a>
+        <a ui-sref="root.admin.eleves" up-state-active>Éleves</a>
+        <a ui-sref="root.admin.channels" up-state-active>Channels</a>
+        <a ui-sref="root.admin.logs" up-state-active>Logs</a>
+        <a ui-sref="root.admin.moderation" up-state-active>Modération</a>
+        <a ui-sref="root.admin.permissions" up-state-active>Permissions</a>
     </div>
 </div>
 
-<div autoscroll="false" ui-view class="row"></div>
+<div autoscroll="false" ui-view root-state="root.admin" class="row"></div>

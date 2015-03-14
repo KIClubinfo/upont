@@ -37,27 +37,18 @@ angular.module('upont')
         };
     })
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state("ponthub", {
-                url: "/ponthub",
+        $stateProvider.state("root.ponthub", {
+                url: "ponthub/:category",
                 templateUrl: "views/ponthub/index.html",
+                abstract: true,
                 data: {
-                    defaultChild: "category",
-                    parent: "ponthub",
                     title: 'uPont - PontHub'
-                },
-            })
-            .state("ponthub.category", {
-                url: "/:category",
-                template: '<div ui-view></div>',
-                data: {
-                    parent: 'ponthub.category',
-                    defaultChild: 'liste'
                 },
                 params: {
                     category: 'films'
                 }
             })
-            .state("ponthub.category.liste", {
+            .state("root.ponthub.liste", {
                 url: "",
                 templateUrl: "views/ponthub/liste.html",
                 controller: 'PH_Liste_Ctrl',
@@ -65,14 +56,11 @@ angular.module('upont')
                     elements: ['$resource', '$stateParams', 'PH_categories', function($resource, $stateParams, PH_categories) {
                         return $resource(apiPrefix + ":cat").query({
                             cat: PH_categories($stateParams.category)
-                        }).$promise;
+                        });
                     }]
-                },
-                data:{
-                    toParent: true
                 }
             })
-            .state("ponthub.category.simple", {
+            .state("root.ponthub.simple", {
                 url: "/:slug",
                 templateUrl: "views/ponthub/simple.html",
                 controller: 'PH_Element_Ctrl',
@@ -81,7 +69,7 @@ angular.module('upont')
                         return $resource(apiPrefix + ':cat/:slug').get({
                             cat: PH_categories($stateParams.category),
                             slug: $stateParams.slug
-                        }).$promise;
+                        });
                     }],
                     episodes: ['$resource', '$stateParams', 'PH_categories', function($resource, $stateParams, PH_categories) {
                         if(PH_categories($stateParams.category) != 'series')
@@ -89,11 +77,8 @@ angular.module('upont')
                         return $resource(apiPrefix + ':cat/:slug/episodes').query({
                             cat: 'series',
                             slug: $stateParams.slug
-                        }).$promise;
+                        });
                     }],
-                },
-                data:{
-                    toParent: true
                 }
             });
     }]);
