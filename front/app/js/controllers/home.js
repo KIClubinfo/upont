@@ -16,7 +16,7 @@ angular.module('upont')
                     }).get(function(data) {
                         $rootScope.me = data;
                     });
-                    $state.go("home.connected");
+                    $state.go("root.home.connected");
                 })
                 .error(function(data, status, headers, config) {
                     // Supprime tout token en cas de mauvaise identification
@@ -29,49 +29,32 @@ angular.module('upont')
         };
     }])
     .controller('Publis_Ctrl', ['$scope', '$resource', 'newsItems', 'events', function($scope, $resource, newsItems, events) {
-        $scope.publications = events.concat(newsItems).sort(function(a, b) {
-            return b.date - a.date;
-        });
+        // $scope.publications = events.concat(newsItems).sort(function(a, b) {
+        //     return b.date - a.date;
+        // });
+    $scope.events = events;
+    $scope.newsItems = newsItems;
     }])
-    // .controller('Event_Ctrl', ['$scope', '$resource', "$stateParams", 'evenement', function($scope, $resource, $stateParams, evenement) {
-    //     $scope.evenement = evenement;
-    //     $scope.url = 'events/' + $stateParams.slug;
-    // }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state("home", {
-                url: "/",
-                template: "<div ui-view></div>",
-                data: {
-                    parent: "home",
-                    defaultChild: "connected"
-                },
-            })
-            .state("home.connected", {
-                url: "",
+            .state("root.home", {
+                url: '',
                 templateUrl: "views/home/connected.html",
                 data: {
-                    parent: "home.connected",
-                    defaultChild: "liste",
                     title: 'uPont - Accueil'
                 },
-            })
-            .state("home.disconnected", {
-                url: "",
-                templateUrl: "views/home/disconnected.html",
-                controller: "Disconnected_Ctrl"
-            })
-            .state("home.connected.liste", {
-                url: "publications",
-                templateUrl: "views/home/publiListe.html",
                 controller: "Publis_Ctrl",
                 resolve: {
                     newsItems: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "own/newsitems").query().$promise;
+                        return $resource(apiPrefix + "own/newsitems").query();
                     }],
                     events: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "own/events").query().$promise;
+                        return $resource(apiPrefix + "own/events").query();
                     }]
                 }
+            })
+            .state("root.disconnected", {
+                templateUrl: "views/home/disconnected.html",
+                controller: "Disconnected_Ctrl"
             });
     }]);

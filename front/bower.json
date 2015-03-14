@@ -10,7 +10,6 @@
     "angular-strap": "latest",
     "angular-i18n": "latest",
     "angular-ui-router": "latest",
-    "angular-loading-bar": "latest",
     "scheduler": "latest",
     "jquery": "latest",
     "js-base64": "latest",

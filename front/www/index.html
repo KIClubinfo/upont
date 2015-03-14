@@ -17,10 +17,11 @@
     <script src="libs/angular-strap/dist/angular-strap.tpl.min.js"></script>
     <script src="libs/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="libs/angular-resource/angular-resource.min.js"></script>
-    <script src="libs/angular-loading-bar/build/loading-bar.min.js"></script>
     <script src="libs/angular-jwt/dist/angular-jwt.min.js"></script>
     <script src="libs/angular-base64-upload/dist/angular-base64-upload.min.js"></script>
     <script src="libs/angular-filter/dist/angular-filter.min.js"></script>
+    <script src="libs/spin.js/spin.js"></script>
+    <script src="libs/angular-spinner/angular-spinner.min.js"></script>
     <script src="libs/moment/min/moment-with-locales.min.js"></script>
     <script src="libs/scheduler/codebase/dhtmlxscheduler.js"></script>
     <script src="libs/scheduler/codebase/locale/locale_fr.js"></script>
@@ -34,22 +35,22 @@
             <div ng-include="'views/misc/aside.html'" class="up-aside up-col-xs-4 up-col-sm-2"></div>
         </div>
         <div class="up-main-content" ng-class="{'up-col-xs-8 up-col-sm-10':isLogged, 'up-col-xs-12':!isLogged}">
-            <header up-row ng-class="{ 'up-col-xs-8 up-col-sm-10': isLogged, 'up-col-xs-12': !isLogged }">
-                <div up-col="25%" up-col-xs="50%">
-                    <a class="up-main-title" ui-sref="home"></a>
+            <header up-row space-between ng-class="{ 'up-col-xs-8 up-col-sm-10': isLogged, 'up-col-xs-12': !isLogged }">
+                <div>
+                    <a class="up-main-title" ui-sref="root.home"></a>
                 </div>
                 <div>
                     <a ng-click="publishModal = !publishModal" ng-show="isAdmin" class="up-navbar-link">Publier</a>
-                    <a ui-sref="admin" ui-sref-active="active" class="up-navbar-link" ng-show="isAdmin">Admin</a>
+                    <a ui-sref="root.admin" ui-sref-active="active" class="up-navbar-link" ng-show="isAdmin">Admin</a>
                 </div>
                 <div ng-show="isLogged">
-                    <a ui-sref="profil" ui-sref-active="active" class="up-navbar-link">
+                    <a ui-sref="root.profil" ui-sref-active="active" class="up-navbar-link">
                         <div style="background-image: url('{{ url + me.image_url }}')" class="up-profile-picture"></div>
                         {{ me.nick }}
                     </a>
                 </div>
             </header>
-            <div ui-view autoscroll="false" class="up-main-view" up-fill-window ></div>
+            <div ui-view root-state="root" size="small" autoscroll="false" class="up-main-view" up-fill-window ></div>
         </div>
     </div>
 
