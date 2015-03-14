@@ -105,6 +105,7 @@ angular.module('upont')
         $interval(reloadOnline, 60000);
 
         $rootScope.url = location.origin + apiPrefix;
+        $rootScope.promos = ['014', '015', '016', '017'];
 
         // N'est utile que si on se sert des modaux bootstrap
 
