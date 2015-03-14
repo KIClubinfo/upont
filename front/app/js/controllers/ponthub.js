@@ -56,7 +56,7 @@ angular.module('upont')
                     elements: ['$resource', '$stateParams', 'PH_categories', function($resource, $stateParams, PH_categories) {
                         return $resource(apiPrefix + ":cat").query({
                             cat: PH_categories($stateParams.category)
-                        });
+                        }).$promise;
                     }]
                 }
             })
@@ -69,7 +69,7 @@ angular.module('upont')
                         return $resource(apiPrefix + ':cat/:slug').get({
                             cat: PH_categories($stateParams.category),
                             slug: $stateParams.slug
-                        });
+                        }).$promise;
                     }],
                     episodes: ['$resource', '$stateParams', 'PH_categories', function($resource, $stateParams, PH_categories) {
                         if(PH_categories($stateParams.category) != 'series')
@@ -77,7 +77,7 @@ angular.module('upont')
                         return $resource(apiPrefix + ':cat/:slug/episodes').query({
                             cat: 'series',
                             slug: $stateParams.slug
-                        });
+                        }).$promise;
                     }],
                 }
             });

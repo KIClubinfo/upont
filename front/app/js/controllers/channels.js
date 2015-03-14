@@ -25,7 +25,7 @@ angular.module('upont')
                 controller: 'ChannelsListe_Ctrl',
                 resolve: {
                     channels: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "clubs?sort=name").query();
+                        return $resource(apiPrefix + "clubs?sort=name").query().$promise;
                     }]
                 }
             })

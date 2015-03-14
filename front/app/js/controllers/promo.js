@@ -50,7 +50,7 @@ angular.module('upont')
                 controller: 'Trombi_Ctrl',
                 resolve: {
                     eleves: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "users").query();
+                        return $resource(apiPrefix + "users").query().$promise;
                     }]
                 }
             })
