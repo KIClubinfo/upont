@@ -1,5 +1,5 @@
 angular.module('upont')
-    .factory('StorageService', ['$rootScope', function($rootScope) {
+    .factory('StorageService', function() {
         return {
             get: function(key) {
                 return localStorage.getItem(key);
@@ -18,6 +18,23 @@ angular.module('upont')
 
             clearAll: function() {
                 localStorage.clear();
+            }
+        };
+    })
+    .factory('Paginate', ["$resource", "$q", function($resource, $q) {
+        return {
+            get: function(url){
+                  var defered = $q.defer();
+                  $resource(apiPrefix + url).query(function(data, headers){
+                         defered.resolve({data: data, headers: headers()});
+                  }, function(httpResponse){
+                         defered.reject(httpResponse);
+                  });
+                  return defered.promise;
+            },
+
+            next: function(data) {
+                //TODO
             }
         };
     }])
