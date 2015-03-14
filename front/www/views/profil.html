@@ -1,5 +1,12 @@
 <div class="up-ticket">
     <h2>Informations Générales :</h1>
+
+    <div up-row padded>
+        <div up-col-xs="100%" up-col-sm="100%" up-col="50%" class="centering">
+            <img ng-src="{{ url + me.image_url }}" class="up-profile-page-picture">
+        </div>
+    </div>
+
     <div class="up-profile-form">
         <form up-row padded left wrap ng-submit="submitUser(me.promo, me.nationality, me.phone, me.location, me.department, me.origin, me.skype, me.nick, profilePicture)">
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
