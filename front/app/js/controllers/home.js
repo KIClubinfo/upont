@@ -56,10 +56,10 @@ angular.module('upont')
                 controller: "Publis_Ctrl",
                 resolve: {
                     newsItems: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "own/newsitems").query();
+                        return $resource(apiPrefix + "own/newsitems").query().$promise;
                     }],
                     events: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "own/events").query();
+                        return $resource(apiPrefix + "own/events").query().$promise;
                     }]
                 }
             })
