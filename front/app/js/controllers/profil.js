@@ -53,19 +53,19 @@ angular.module('upont')
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state("profil", {
-                url: '/profil',
+            .state("root.profil", {
+                url: 'profil',
                 templateUrl: "views/profil.html",
                 controller: "Profil_Ctrl",
                 resolve: {
                     preferences: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "own/preferences").get().$promise;
+                        return $resource(apiPrefix + "own/preferences").get();
                     }],
                     clubs: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "clubs?sort=name").query().$promise;
+                        return $resource(apiPrefix + "clubs?sort=name").query();
                     }],
                     clubsSuivis: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "own/followed").query().$promise;
+                        return $resource(apiPrefix + "own/followed").query();
                     }]
                 },
                 data: {

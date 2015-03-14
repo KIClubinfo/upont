@@ -10,36 +10,28 @@ angular.module('upont')
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state("channels", {
-                url: '/channels',
+            .state("root.channels", {
+                url: 'channels',
+                abstract: true,
                 template: '<div ui-view></div>',
                 data: {
-                    parent: "channels",
-                    defaultChild: "liste",
                     title: "uPont - Clubs & Assos"
                 }
             })
-            .state("channels.liste", {
+            .state("root.channels.liste", {
                 url: "",
                 templateUrl: "views/channels/liste.html",
                 controller: 'ChannelsListe_Ctrl',
-                data: {
-                    title: "uPont - Clubs & Assos"
-                },
                 resolve: {
                     channels: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "clubs?sort=name").query().$promise;
+                        return $resource(apiPrefix + "clubs?sort=name").query();
                     }]
                 }
             })
-            .state("channels.simple", {
+            .state("root.channels.simple", {
                 url: "/:slug",
+                abstract: true,
                 templateUrl: "views/channels/simple.html",
-                data: {
-                    toParent: true,
-                    parent: "channels.simple",
-                    defaultChild: "publications",
-                },
                 resolve: {
                     channel: ["$resource", "$stateParams", function($resource, $stateParams) {
                         return $resource(apiPrefix + "clubs/:slug").get({
@@ -57,30 +49,28 @@ angular.module('upont')
                         }).$promise;
                     }]
                 },
-                controller: 'ChannelsSimple_Ctrl'
             })
-            .state("channels.simple.publications", {
+            .state("root.channels.simple.publications", {
                 url: "",
-                templateUrl: "views/home/publiListe.html",
+                templateUrl: "views/home/liste-publis.html",
+                controller: 'ChannelsSimple_Ctrl',
                 data: {
-                    toParent: true,
                     title: 'uPont - Publications'
                 }
             })
-            .state("channels.simple.presentation", {
+            .state("root.channels.simple.presentation", {
                 url: "/presentation",
                 templateUrl: "views/channels/simple.presentation.html",
                 controller : 'ChannelsSimple_Ctrl',
                 data: {
-                    toParent: true,
                     title: 'uPont - Présentation'
                 },
             })
-            .state("channels.simple.gestion", {
+            .state("root.channels.simple.gestion", {
                 url: "/gestion",
+                controller: 'ChannelsSimple_Ctrl',
                 templateUrl: "views/channels/simple.gestion.html",
                 data: {
-                    toParent: true,
                     title: 'uPont - Gestion'
                 }
             });

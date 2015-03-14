@@ -2,15 +2,15 @@
     <div class="up-zp-image"><img src="img/cours.jpg" />
     </div>
     <div class="up-row left">
-        <a ui-sref="cours.section({section: '1a'})" ui-sref-active="active">1A</a>
-        <a ui-sref="cours.section({section: 'gcc'})" ui-sref-active="active">GCC</a>
-        <a ui-sref="cours.section({section: 'gi'})" ui-sref-active="active">GI</a>
-        <a ui-sref="cours.section({section: 'gmm'})" ui-sref-active="active">GMM</a>
-        <a ui-sref="cours.section({section: 'segf'})" ui-sref-active="active">SEGF</a>
-        <a ui-sref="cours.section({section: 'imi'})" ui-sref-active="active">IMI</a>
-        <a ui-sref="cours.section({section: 'vet'})" ui-sref-active="active">VET</a>
-        <a ui-sref="cours.section({section: 'autres'})" ui-sref-active="active">Autres</a>
+        <a ui-sref="root.cours.section({section: '1a'})" up-state-active="root.cours.section" up-state-active-params="{section: '1a'}">1A</a>
+        <a ui-sref="root.cours.section({section: 'gcc'})" up-state-active="root.cours.section" up-state-active-params="{section: 'gcc'}">GCC</a>
+        <a ui-sref="root.cours.section({section: 'gi'})" up-state-active="root.cours.section" up-state-active-params="{section: 'gi'}">GI</a>
+        <a ui-sref="root.cours.section({section: 'gmm'})" up-state-active="root.cours.section" up-state-active-params="{section: 'gmm'}">GMM</a>
+        <a ui-sref="root.cours.section({section: 'segf'})" up-state-active="root.cours.section" up-state-active-params="{section: 'segf'}">SEGF</a>
+        <a ui-sref="root.cours.section({section: 'imi'})" up-state-active="root.cours.section" up-state-active-params="{section: 'imi'}">IMI</a>
+        <a ui-sref="root.cours.section({section: 'vet'})" up-state-active="root.cours.section" up-state-active-params="{section: 'vet'}">VET</a>
+        <a ui-sref="root.cours.section({section: 'autres'})" up-state-active="root.cours.section" up-state-active-params="{section: 'autres'}">Autres</a>
     </div>
 </div>
 
-<div ui-view autoscroll="false"></div>
+<div uig-view root-state="root.cours" autoscroll="false"></div>

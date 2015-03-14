@@ -12,8 +12,8 @@ angular.module('upont')
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state("calendrier", {
-                url: '/calendrier',
+            .state("root.calendrier", {
+                url: 'calendrier',
                 templateUrl: 'views/calendrier.html',
                 controller: 'Calendrier_Ctrl',
                 data: {
@@ -21,7 +21,7 @@ angular.module('upont')
                 },
                 resolve: {
                     events: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "events").query().$promise;
+                        return $resource(apiPrefix + "events").query();
                     }]
                 },
                 onEnter: ['$rootScope', function($rootScope) {
