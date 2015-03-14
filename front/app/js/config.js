@@ -42,7 +42,8 @@ angular.module('upont')
         $httpProvider.interceptors.push('jwtInterceptor');
         $httpProvider.interceptors.push('ErrorCodes_Interceptor');
     }])
-    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider) {
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$urlMatcherFactoryProvider', function($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) {
+        $urlMatcherFactoryProvider.strictMode(false);
         $urlRouterProvider.otherwise("/404");
         $locationProvider.html5Mode(true);
 
@@ -70,10 +71,7 @@ angular.module('upont')
             html: true
         });
     }])
-    .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
-        cfpLoadingBarProvider.latencyThreshold = 200;
-    }])
-    .run(['$rootScope', 'StorageService', '$state', 'cfpLoadingBar', 'jwtHelper', '$resource', function($rootScope, StorageService, $state, cfpLoadingBar, jwtHelper, $resource) {
+    .run(['$rootScope', 'StorageService', '$state', 'jwtHelper', '$resource', function($rootScope, StorageService, $state, jwtHelper, $resource) {
         if (StorageService.get('token') && !jwtHelper.isTokenExpired(StorageService.get('token'))) {
             $rootScope.isLogged = true;
             $rootScope.isAdmin = (StorageService.get('droits').indexOf("ROLE_ADMIN") != -1) ? true : false;
@@ -91,7 +89,7 @@ angular.module('upont')
             StorageService.remove('token');
             StorageService.remove('roles');
             $rootScope.isLogged = false;
-            $state.go('root.home.disconnected');
+            $state.go('root.disconnected');
         };
 
         $resource(apiPrefix + 'version').get(function(data){
@@ -142,31 +140,25 @@ angular.module('upont')
         // });
 
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-            console.log($state.current);
-
-            if (!$rootScope.isLogged && toState.name != "home.disconnected") {
+            if (!$rootScope.isLogged && toState.name != "root.disconnected") {
                 event.preventDefault();
-                $state.go("root.home.disconnected");
+                $state.go("root.disconnected");
             }
 
-            if (toState.resolve) {
-                cfpLoadingBar.start();
-            }
+            // if (toState.data && toState.data.parent && toState.data.defaultChild) {
+            //     var reg = new RegExp("^root." + toState.data.parent, "g");
 
-            if (toState.data && toState.data.parent && toState.data.defaultChild) {
-                var reg = new RegExp("^root." + toState.data.parent, "g");
-
-                if (toState.name == 'root.'+toState.data.parent) {
-                    // Si le state d'origine n'est pas un enfant du state de destination ou alors possède une valeur true sur data.toParent, on renvoie sur l'enfant par défaut, sinon on recharge juste la page
-                    if (!fromState.name.match(reg) || (fromState.data && fromState.data.toParent)) {
-                        event.preventDefault();
-                        $state.go('root.'+toState.data.parent + '.' + toState.data.defaultChild, toParams);
-                    } else {
-                        event.preventDefault();
-                        $state.reload();
-                    }
-                }
-            }
+            //     if (toState.name == 'root.'+toState.data.parent) {
+            //         // Si le state d'origine n'est pas un enfant du state de destination ou alors possède une valeur true sur data.toParent, on renvoie sur l'enfant par défaut, sinon on recharge juste la page
+            //         if (!fromState.name.match(reg) || (fromState.data && fromState.data.toParent)) {
+            //             event.preventDefault();
+            //             $state.go('root.'+toState.data.parent + '.' + toState.data.defaultChild, toParams);
+            //         } else {
+            //             event.preventDefault();
+            //             $state.reload();
+            //         }
+            //     }
+            // }
         });
 
         $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
@@ -182,7 +174,6 @@ angular.module('upont')
                 return;
             };
 
-            cfpLoadingBar.complete();
             if($rootScope.isLogged){
                 var title = getName(toState);
                 if(title)
@@ -194,12 +185,7 @@ angular.module('upont')
                 $rootScope.title = 'Bienvenue sur uPont';
         });
 
-        $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
-            cfpLoadingBar.complete();
-        });
-
         $rootScope.$on('$stateNotFound', function(event, toState, toParams, fromState, fromParams) {
-            cfpLoadingBar.complete();
             $state.go('root.404');
         });
     }]);

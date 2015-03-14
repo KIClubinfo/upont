@@ -21,7 +21,7 @@ angular.module('upont')
                 },
                 resolve: {
                     events: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "events").query().$promise;
+                        return $resource(apiPrefix + "events").query();
                     }]
                 },
                 onEnter: ['$rootScope', function($rootScope) {

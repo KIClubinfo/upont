@@ -11,10 +11,9 @@ angular.module('upont')
         $stateProvider
             .state("root.channels", {
                 url: 'channels',
+                abstract: true,
                 template: '<div ui-view></div>',
                 data: {
-                    parent: "channels",
-                    defaultChild: "liste",
                     title: "uPont - Clubs & Assos"
                 }
             })
@@ -22,23 +21,16 @@ angular.module('upont')
                 url: "",
                 templateUrl: "views/channels/liste.html",
                 controller: 'ChannelsListe_Ctrl',
-                data: {
-                    title: "uPont - Clubs & Assos"
-                },
                 resolve: {
                     channels: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "clubs?sort=name").query().$promise;
+                        return $resource(apiPrefix + "clubs?sort=name").query();
                     }]
                 }
             })
             .state("root.channels.simple", {
                 url: "/:slug",
+                abstract: true,
                 templateUrl: "views/channels/simple.html",
-                data: {
-                    toParent: true,
-                    parent: "channels.simple",
-                    defaultChild: "publications",
-                },
                 resolve: {
                     channel: ["$resource", "$stateParams", function($resource, $stateParams) {
                         return $resource(apiPrefix + "clubs/:slug").get({
@@ -56,13 +48,12 @@ angular.module('upont')
                         }).$promise;
                     }]
                 },
-                controller: 'ChannelsSimple_Ctrl'
             })
             .state("root.channels.simple.publications", {
                 url: "",
-                templateUrl: "views/home/publiListe.html",
+                templateUrl: "views/home/liste-publis.html",
+                controller: 'ChannelsSimple_Ctrl',
                 data: {
-                    toParent: true,
                     title: 'uPont - Publications'
                 }
             })
@@ -71,15 +62,14 @@ angular.module('upont')
                 templateUrl: "views/channels/simple.presentation.html",
                 controller : 'ChannelsSimple_Ctrl',
                 data: {
-                    toParent: true,
                     title: 'uPont - Présentation'
                 },
             })
             .state("root.channels.simple.gestion", {
                 url: "/gestion",
+                controller: 'ChannelsSimple_Ctrl',
                 templateUrl: "views/channels/simple.gestion.html",
                 data: {
-                    toParent: true,
                     title: 'uPont - Gestion'
                 }
             });

@@ -4,10 +4,9 @@ angular.module('upont').controller('KI_Ctrl', ['$scope', '$resource', function($
         $stateProvider
             .state("root.ki", {
                 url: "ki",
+                abstract: true,
                 templateUrl: "views/ki/index.html",
                 data: {
-                    defaultChild: "contact",
-                    parent: "ki",
                     title: "uPont - KI"
                 }
             })
