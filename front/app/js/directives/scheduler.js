@@ -1,7 +1,9 @@
 angular.module('upont').directive('dhxScheduler', function() {
     return {
         restrict: 'A',
-        scope: false,
+        scope: {
+
+        },
         transclude: true,
         template: '<div class="dhx_cal_navline" ng-transclude></div><div class="dhx_cal_header"></div><div class="dhx_cal_data"></div>',
 
@@ -28,9 +30,10 @@ angular.module('upont').directive('dhxScheduler', function() {
                     scheduler.setCurrentView($scope.scheduler.date, $scope.scheduler.mode);
             }, true);
 
-            //size of scheduler
+            // size of scheduler
             $scope.$watch(function() {
-                return $element[0].offsetWidth + "." + $element[0].offsetHeight;
+                return $element[0].offsetHeight ;
+                    // w: $element[0].offsetWidth,;
             }, function() {
                 scheduler.setCurrentView();
             });

@@ -6,10 +6,9 @@ angular.module('upont')
         $stateProvider
             .state("root.cours", {
                 url: "cours",
+                abstract: true,
                 templateUrl: "views/cours/index.html",
                 data: {
-                    defaultChild: "section",
-                    parent: "cours",
                     title: "uPont - Cours"
                 },
             })

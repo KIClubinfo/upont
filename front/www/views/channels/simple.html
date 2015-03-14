@@ -2,14 +2,14 @@
     <div class="up-zp-image"><img src="img/promo.jpg" alt="" />
     </div>
     <div class="up-row left">
-        <a ui-sref="root.channels.simple.publications" ui-sref-active="active">Activité</a>
-        <a ui-sref="root.channels.simple.presentation" ui-sref-active="active">Présentation</a>
+        <a ui-sref="root.channels.simple.publications" up-state-active>Activité</a>
+        <a ui-sref="root.channels.simple.presentation" up-state-active>Présentation</a>
         <!-- <a ui-sref="channels.simple.gestion" ui-sref-active="active">Gestion</a> -->
     </div>
 </div>
 
 <div up-row left>
-    <div up-col="100%" up-col-md="60%" up-col-lg="60%"  autoscroll="false" ui-view></div>
+    <div up-col="60%" up-col-xs="100%" up-col-sm="100%"  autoscroll="false" ui-view root-state="root.channels.simple"></div>
 
     <div up-col="0%" up-col-md="40%" up-col-lg="40%">
         <div class="up-ticket centering">

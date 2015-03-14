@@ -1,13 +1,13 @@
-<div class="up-ticket divided rounded-top" ng-repeat="publication in publications">
+<div class="up-ticket divided rounded-top" ng-class="'color{{ publication.slug.length%5+1 }}'" ng-repeat="publication in events | concat: newsItems | orderBy: 'date' | reverse">
     <div ng-if="!publication.start_date">
-        <div class="up-ticket-header" ng-class="'color{{ publication.slug.length%5+1 }}'">
+        <div class="up-ticket-header">
             <div class="background" ng-style="{'background-image': 'url({{publication.author_club.image_url | urlFile}})'}"></div>
             <div class="up-img-home-container">
                 <div class="up-img-home" ng-style="{'background-image': 'url({{ publication.image_url | urlFile }})'}" ></div>
             </div>
-            <div class="up-news-icon"><i class="fa fa-envelope"></i></div>
         </div>
         <div class="up-ticket-body">
+            <div class="up-news-icon"><i class="fa fa-envelope"></i></div>
             <div up-row>
                 <div  class="up-ticket-title" up-col="70%">
                     <h2>{{ publication.name }}</h2>
@@ -20,12 +20,11 @@
         </div>
     </div>
     <div ng-if="!!publication.start_date">
-        <div class="up-ticket-header" ng-class="'color{{ publication.slug.length%5+1 }}'">
+        <div class="up-ticket-header">
             <div class="background" ng-style="{'background-image': 'url({{publication.author_club.image_url | urlFile}})'}"></div>
             <div class="up-img-home-container">
                 <div class="up-img-home" ng-style="{'background-image': 'url({{ publication.image_url | urlFile }})'}" />
             </div>
-            <div class="up-news-icon"><i class="fa fa-calendar"></i></div>
             <!--
                 <p class="up-date-evenement">
                     Le {{ publication.start_date*1000 | date : 'dd/MM/yyyy à H:mm' }}
@@ -36,6 +35,7 @@
         </div>
 
         <div class="up-ticket-body">
+            <div class="up-news-icon"><i class="fa fa-calendar"></i></div>
             <div up-row>
                 <div  class="up-ticket-title" up-col="70%">
                     <h2>{{ publication.name }}</h2>

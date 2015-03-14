@@ -41,11 +41,8 @@ angular.module('upont')
         $stateProvider
             .state("root.promo", {
                 url: "promo",
-                templateUrl: "views/promo/index.html",
-                data: {
-                    defaultChild: "trombi",
-                    parent: "promo"
-                }
+                abstract: true,
+                templateUrl: "views/promo/index.html"
             })
             .state("root.promo.trombi", {
                 url: "/trombi",
@@ -53,7 +50,7 @@ angular.module('upont')
                 controller: 'Trombi_Ctrl',
                 resolve: {
                     eleves: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "users").query().$promise;
+                        return $resource(apiPrefix + "users").query();
                     }]
                 }
             })

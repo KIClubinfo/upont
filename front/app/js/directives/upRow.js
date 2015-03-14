@@ -10,6 +10,8 @@ angular.module('upont').directive('upRow', ['$window', function($window) {
                     element.addClass('right');
                 if(args.hasOwnProperty('padded'))
                     element.addClass('padded');
+                if(args.hasOwnProperty('spaceBetween'))
+                    element.addClass('space-between');
                 element.addClass('up-row');
             }
         }
