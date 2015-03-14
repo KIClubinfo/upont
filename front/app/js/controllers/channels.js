@@ -2,10 +2,11 @@ angular.module('upont')
     .controller('ChannelsListe_Ctrl', ['$scope', 'channels', function($scope, channels) {
         $scope.channels = channels;
     }])
-    .controller('ChannelsSimple_Ctrl', ['$scope', 'channel', 'members', 'publications', function($scope, channel, members, publications) {
+    .controller('ChannelsSimple_Ctrl', ['$scope', 'channel', 'members', 'events', 'newsItems', function($scope, channel, members, events, newsItems) {
         $scope.channel = channel;
         $scope.members = members;
-        $scope.publications = publications;
+        $scope.events = events;
+        $scope.newsItems = newsItems;
         $scope.promo = '017';
     }])
     .config(['$stateProvider', function($stateProvider) {
@@ -38,8 +39,13 @@ angular.module('upont')
                             slug: $stateParams.slug
                         }).$promise;
                     }],
-                    publications: ["$resource", "$stateParams", function($resource, $stateParams) {
-                        return $resource(apiPrefix + "clubs/:slug/publications").query({
+                    events: ["$resource", "$stateParams", function($resource, $stateParams) {
+                        return $resource(apiPrefix + "clubs/:slug/events").query({
+                            slug: $stateParams.slug
+                        }).$promise;
+                    }],
+                    newsItems: ["$resource", "$stateParams", function($resource, $stateParams) {
+                        return $resource(apiPrefix + "clubs/:slug/newsItems").query({
                             slug: $stateParams.slug
                         }).$promise;
                     }],
