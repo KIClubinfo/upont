@@ -1,5 +1,6 @@
 angular.module('upont')
     .controller('Profil_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'preferences', 'clubs', 'clubsSuivis', function($scope, $rootScope, $resource, $http, preferences, clubs, clubsSuivis) {
+        console.log(clubsSuivis);
         for (var i = 0; i < clubsSuivis.length; i++)
             clubsSuivis[i] = clubsSuivis[i].slug;
 
@@ -59,13 +60,13 @@ angular.module('upont')
                 controller: "Profil_Ctrl",
                 resolve: {
                     preferences: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "own/preferences").get();
+                        return $resource(apiPrefix + "own/preferences").get().$promise;
                     }],
                     clubs: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "clubs?sort=name").query();
+                        return $resource(apiPrefix + "clubs?sort=name").query().$promise;
                     }],
                     clubsSuivis: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "own/followed").query();
+                        return $resource(apiPrefix + "own/followed").query().$promise;
                     }]
                 },
                 data: {
