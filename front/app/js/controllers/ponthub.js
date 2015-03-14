@@ -1,7 +1,11 @@
 angular.module('upont')
-    .controller("PH_Liste_Ctrl", ['$scope', '$stateParams', 'elements', function($scope, $stateParams, elements) {
+    .controller("PH_Liste_Ctrl", ['$scope', '$stateParams', 'elements', 'Paginate', function($scope, $stateParams, elements, Paginate) {
         $scope.elements = elements;
         $scope.category = $stateParams.category;
+
+        $scope.next = function() {
+            Paginate.next($scope.elements);
+        };
     }])
     .controller("PH_Element_Ctrl", ['$scope', '$http', 'element', 'episodes', function($scope, $http, element, episodes) {
         $scope.element = element;
