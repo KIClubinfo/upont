@@ -55,11 +55,11 @@ angular.module('upont')
                 },
                 controller: "Publis_Ctrl",
                 resolve: {
-                    newsItems: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "own/newsitems").query().$promise;
+                    newsItems: ['Paginate', function(Paginate) {
+                        return Paginate.get('own/newsitems');
                     }],
                     events: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "own/events").query().$promise;
+                        return $resource(apiPrefix + 'own/events').query().$promise;
                     }]
                 }
             })

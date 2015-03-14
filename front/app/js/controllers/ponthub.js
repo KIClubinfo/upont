@@ -53,10 +53,8 @@ angular.module('upont')
                 templateUrl: "views/ponthub/liste.html",
                 controller: 'PH_Liste_Ctrl',
                 resolve: {
-                    elements: ['$resource', '$stateParams', 'PH_categories', function($resource, $stateParams, PH_categories) {
-                        return $resource(apiPrefix + ":cat").query({
-                            cat: PH_categories($stateParams.category)
-                        }).$promise;
+                    elements: ['Paginate', '$stateParams', 'PH_categories', function(Paginate, $stateParams, PH_categories) {
+                        return Paginate.get(PH_categories($stateParams.category));
                     }]
                 }
             })
