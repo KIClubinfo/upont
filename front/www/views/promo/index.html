@@ -2,9 +2,9 @@
     <div class="up-zp-image"><img src="img/promo.jpg" style="margin-top:-200px" alt="" />
     </div>
     <div class="up-row left">
-        <a ui-sref="promo.trombi" ui-sref-active="active">Trombinoscope</a>
-        <a ui-sref="promo.jeu" ui-sref-active="active">Jeu</a>
+        <a ui-sref="root.promo.trombi" up-state-active="root.promo.trombi">Trombinoscope</a>
+        <a ui-sref="root.promo.jeu" up-state-active="root.promo.jeu">Jeu</a>
     </div>
 </div>
 
-<div ui-view autoscroll="false"></div>
+<div ui-view root-state="root.promo" autoscroll="false"></div>

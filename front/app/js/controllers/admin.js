@@ -4,8 +4,8 @@ angular.module('upont')
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state("admin", {
-                url: "/admin",
+            .state("root.admin", {
+                url: "admin",
                 templateUrl: "views/admin/index.html",
                 data: {
                     defaultChild: "eleves",
@@ -13,27 +13,27 @@ angular.module('upont')
                     title: "uPont - Administration"
                 }
             })
-            .state("admin.eleves", {
+            .state("root.admin.eleves", {
                 url: "/eleves",
                 templateUrl: 'views/admin/eleves.html',
                 controller: 'Admin_Ctrl'
             })
-            .state("admin.channels", {
+            .state("root.admin.channels", {
                 url: "/channels",
                 templateUrl: 'views/admin/channels.html',
                 controller: 'Admin_Ctrl'
             })
-            .state("admin.permissions", {
+            .state("root.admin.permissions", {
                 url: "/permissions",
                 templateUrl: 'views/admin/perms.html',
                 controller: 'Admin_Ctrl'
             })
-            .state("admin.logs", {
+            .state("root.admin.logs", {
                 url: "/logs",
                 templateUrl: 'views/admin/logs.html',
                 controller: 'Admin_Ctrl'
             })
-            .state("admin.moderation", {
+            .state("root.admin.moderation", {
                 url: "/moderation",
                 templateUrl: 'views/admin/moderation.html',
                 controller: 'Admin_Ctrl'
