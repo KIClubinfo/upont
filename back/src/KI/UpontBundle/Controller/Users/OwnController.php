@@ -234,9 +234,10 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         return $this->restResponse($this->getFollowedClubs());
     }
 
-    protected function getFollowedClubs() {
+    protected function getFollowedClubs($user = null) {
         $repo = $this->em->getRepository('KIUpontBundle:Users\Club');
-        $user = $this->get('security.context')->getToken()->getUser();
+        if ($user === null)
+            $user = $this->get('security.context')->getToken()->getUser();
         $userNotFollowed = $user->getClubsNotFollowed();
 
         $clubs = $repo->findAll();
@@ -297,7 +298,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         if ($user === null) {
             throw new NotFoundHttpException('Aucun utilisateur ne correspond au token saisi');
         } else {
-            $events = $this->getFollowedEvents();
+            $events = $this->getFollowedEvents($user);
             $calStr = $this->get('ki_upont.calendar')->getCalendar($user, $events);
 
             return new \Symfony\Component\HttpFoundation\Response($calStr, 200, array(
@@ -309,11 +310,13 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
     }
 
     // Va chercher les événements suivis
-    private function getFollowedEvents() {
+    private function getFollowedEvents($user = null) {
         $repo = $this->em->getRepository('KIUpontBundle:Publications\Event');
-        $user = $this->get('security.context')->getToken()->getUser();
 
-        $followedEvents = $repo->findBy(array('authorClub'=> $this->getFollowedClubs()));
+        if ($user === null)
+            $user = $this->get('security.context')->getToken()->getUser();
+
+        $followedEvents = $repo->findBy(array('authorClub'=> $this->getFollowedClubs($user)));
         $persoEvents = $repo->findBy(array('authorUser' => $user, 'authorClub' => null));
         $events = array_merge($followedEvents, $persoEvents);
 
