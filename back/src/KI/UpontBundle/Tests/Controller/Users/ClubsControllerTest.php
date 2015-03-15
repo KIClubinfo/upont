@@ -33,7 +33,11 @@ class ClubsControllerTest extends WebTestCase
 
     public function testGetPublications()
     {
-        $this->client->request('GET', '/clubs/cpt/publications');
+        $this->client->request('GET', '/clubs/cpt/events');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 200);
+
+        $this->client->request('GET', '/clubs/cpt/newsitems');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 

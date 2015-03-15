@@ -2,6 +2,7 @@
 
 namespace KI\UpontBundle\Controller\Users;
 
+use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -30,6 +31,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Get("/own/achievements")
      */
     public function getAchievementsAction()
     {
@@ -108,6 +110,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Post("/own/device")
      */
     public function postDeviceAction()
     {
@@ -149,6 +152,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Delete("/own/device/{id}")
      */
     public function deleteDeviceAction($id)
     {
@@ -180,6 +184,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Get("/own/notifications")
      */
     public function getNotificationsAction()
     {
@@ -222,6 +227,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Get("/own/followed")
      */
     public function getFollowedAction()
     {
@@ -256,6 +262,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Get("/own/events")
      */
     public function getEventsAction()
     {
@@ -343,6 +350,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Get("/own/polls")
      */
     public function getPollsAction()
     {
@@ -364,6 +372,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Get("/own/newsitems")
      */
     public function getNewsItemsAction()
     {
@@ -394,6 +403,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Get("/own/courses")
      */
     public function getCoursesAction()
     {
@@ -413,6 +423,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Get("/own/courseitems")
      */
     public function getCourseitemsAction()
     {
@@ -430,25 +441,6 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         }
         array_multisort($timestamp, SORT_ASC, $result);
         return $this->restResponse($result);
-    }
-
-    /**
-     * @ApiDoc(
-     *  description="Renvoie la liste des cours suivis qui auront lieu bientôt, et leur salle",
-     *  output="KI\UpontBundle\Entity\Publications\Course",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Utilisateurs"
-     * )
-     */
-    public function getCoursesitemsAction()
-    {
-        $user = $this->get('security.context')->getToken()->getUser();
-        return $this->restResponse($user->getCourses());
     }
 
     /**
@@ -475,6 +467,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Patch("/own/preferences")
      */
     public function changePreferenceAction(Request $request)
     {
@@ -513,6 +506,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Delete("/own/preferences")
      */
     public function removePreferenceAction(Request $request)
     {
@@ -545,6 +539,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Get("/own/preferences")
      */
     public function getPreferencesAction()
     {
@@ -563,6 +558,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Get("/own/token")
      */
     public function getTokenAction()
     {
