@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('Profil_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'preferences', 'clubs', 'clubsSuivis', 'token', function($scope, $rootScope, $resource, $http, preferences, clubs, clubsSuivis, token) {
+    .controller('Profil_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'preferences', 'clubs', 'clubsSuivis', 'token', 'devices', function($scope, $rootScope, $resource, $http, preferences, clubs, clubsSuivis, token, devices) {
         console.log(clubsSuivis);
         for (var i = 0; i < clubsSuivis.length; i++)
             clubsSuivis[i] = clubsSuivis[i].slug;
@@ -12,6 +12,7 @@ angular.module('upont')
         $scope.user = $rootScope.me;
         $scope.profilePicture = null;
         $scope.token = token.token;
+        $scope.devices = devices;
 
         $scope.subscribe = function(slug) {
             $resource(apiPrefix + "clubs/:slug/follow", {slug: slug}).save();
@@ -63,8 +64,11 @@ angular.module('upont')
                     preferences: ["$resource", function($resource) {
                         return $resource(apiPrefix + "own/preferences").get().$promise;
                     }],
-                    token: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "own/token").get().$promise;
+                    token: ['$resource', function($resource) {
+                        return $resource(apiPrefix + 'own/token').get().$promise;
+                    }],
+                    devices: ['$resource', function($resource) {
+                        return $resource(apiPrefix + 'own/devices').query().$promise;
                     }],
                     clubs: ["$resource", function($resource) {
                         return $resource(apiPrefix + "clubs?sort=name").query().$promise;
