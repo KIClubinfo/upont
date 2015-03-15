@@ -1,5 +1,5 @@
 <div infinite-scroll="next()" infinite-scroll-distance="1" infinite-scroll-disabled="$root.infiniteLoading">
-    <div class="up-ticket divided rounded-top" ng-class="'color{{ publication.slug.length%5+1 }}'" ng-repeat="publication in events | concat: newsItems.data | orderBy: 'date' | reverse">
+    <div class="up-ticket divided rounded-top" ng-class="'color{{ publication.slug.length%5+1 }}'" ng-repeat="publication in events.data | concat: newsItems.data | orderBy: 'date' | reverse">
         <div ng-if="!publication.start_date">
             <div class="up-ticket-header">
                 <div class="background" ng-style="{'background-image': 'url({{publication.author_club.image_url | urlFile}})'}"></div>

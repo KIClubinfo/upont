@@ -64,8 +64,8 @@ angular.module('upont')
                     newsItems: ['Paginate', function(Paginate) {
                         return Paginate.get('own/newsitems?sort=date', 10);
                     }],
-                    events: ["$resource", function($resource) {
-                        return $resource(apiPrefix + 'own/events').query().$promise;
+                    events: ['Paginate', function(Paginate) {
+                        return Paginate.get('own/events');
                     }]
                 }
             })

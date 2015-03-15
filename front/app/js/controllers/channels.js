@@ -2,12 +2,21 @@ angular.module('upont')
     .controller('ChannelsListe_Ctrl', ['$scope', 'channels', function($scope, channels) {
         $scope.channels = channels;
     }])
-    .controller('ChannelsSimple_Ctrl', ['$scope', 'channel', 'members', 'events', 'newsItems', function($scope, channel, members, events, newsItems) {
+    .controller('ChannelsSimple_Ctrl', ['$scope', 'channel', 'members', 'events', 'newsItems', 'Paginate', function($scope, channel, members, events, newsItems, Paginate) {
         $scope.channel = channel;
         $scope.members = members;
         $scope.events = events;
         $scope.newsItems = newsItems;
         $scope.promo = '017';
+
+        $scope.next = function() {
+            Paginate.next($scope.newsItems).then(function(data){
+                $scope.newsItems = data;
+                Paginate.next($scope.events).then(function(data){
+                    $scope.events = data;
+                });
+            });
+        };
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
@@ -39,15 +48,11 @@ angular.module('upont')
                             slug: $stateParams.slug
                         }).$promise;
                     }],
-                    events: ["$resource", "$stateParams", function($resource, $stateParams) {
-                        return $resource(apiPrefix + "clubs/:slug/events").query({
-                            slug: $stateParams.slug
-                        }).$promise;
+                    events: ['$stateParams', 'Paginate', function($stateParams, Paginate) {
+                        return Paginate.get('clubs/' + $stateParams.slug + '/events?sort=date', 10);
                     }],
-                    newsItems: ["$resource", "$stateParams", function($resource, $stateParams) {
-                        return $resource(apiPrefix + "clubs/:slug/newsItems").query({
-                            slug: $stateParams.slug
-                        }).$promise;
+                    newsItems: ['$stateParams', 'Paginate', function($stateParams, Paginate) {
+                        return Paginate.get('clubs/' + $stateParams.slug + '/newsitems?sort=date', 10);
                     }],
                     members: ["$resource", "$stateParams", function($resource, $stateParams) {
                         return $resource(apiPrefix + "clubs/:slug/users").query({
