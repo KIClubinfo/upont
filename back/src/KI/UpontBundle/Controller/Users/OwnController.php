@@ -123,6 +123,18 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
     /**
      * @ApiDoc(
      *  description="Enregistre un smartphone auprès de l'API",
+     *  requirements={
+     *   {
+     *    "name"="device",
+     *    "dataType"="string",
+     *    "description"="Identifiant du téléphone"
+     *   },
+     *   {
+     *    "name"="type",
+     *    "dataType"="string",
+     *    "description"="Android | iOS | WP"
+     *   }
+     *  },
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   400="La syntaxe de la requête est erronée",
