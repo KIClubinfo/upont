@@ -18,6 +18,7 @@ class SecurityTest extends WebTestCase
             array('GET', 404, '/clubs/sddsdqs'),
             array('GET', 404, '/courses/mecanique-des-structures/exercices/test/download'),
             array('GET', 401, '/series/how-i-met-your-mother/episodes/pilot/download'),
+            array('GET', 200, '/users/VpqtuEGC/calendar'),
             array('POST', 401, '/clubs'),
             array('POST', 400, '/resetting/request'),
             array('PATCH', 401, '/promo/016/pictures'),
