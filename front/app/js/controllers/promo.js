@@ -39,15 +39,12 @@ angular.module('upont')
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state("promo", {
-                url: "/promo",
-                templateUrl: "views/promo/index.html",
-                data: {
-                    defaultChild: "trombi",
-                    parent: "promo"
-                }
+            .state("root.promo", {
+                url: "promo",
+                abstract: true,
+                templateUrl: "views/promo/index.html"
             })
-            .state("promo.trombi", {
+            .state("root.promo.trombi", {
                 url: "/trombi",
                 templateUrl: "views/promo/trombi.html",
                 controller: 'Trombi_Ctrl',
@@ -57,7 +54,7 @@ angular.module('upont')
                     }]
                 }
             })
-            .state("promo.jeu", {
+            .state("root.promo.jeu", {
                 url: "/jeu",
                 templateUrl: "views/promo/jeu.html",
                 controller: 'Jeu_Ctrl'

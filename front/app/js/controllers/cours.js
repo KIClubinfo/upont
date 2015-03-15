@@ -4,16 +4,15 @@ angular.module('upont')
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state("cours", {
-                url: "/cours",
+            .state("root.cours", {
+                url: "cours",
+                abstract: true,
                 templateUrl: "views/cours/index.html",
                 data: {
-                    defaultChild: "section",
-                    parent: "cours",
                     title: "uPont - Cours"
                 },
             })
-            .state("cours.section", {
+            .state("root.cours.section", {
                 url: "/:section",
                 params: {
                     section: '1a'

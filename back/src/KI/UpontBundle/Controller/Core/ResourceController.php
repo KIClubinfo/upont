@@ -66,15 +66,21 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
                 unset($results[$key]);
         }
 
-        $baseUrl = '<'.str_replace($this->getRequest()->getBaseUrl(), '', $this->getRequest()->getRequestUri()).'?page=';
-        $links = array(
-            $baseUrl.$page.'&limit='.$limit.'>;rel=self',
-            $baseUrl.'1'.'&limit='.$limit.'>;rel=first',
-            $baseUrl.$totalPages.'&limit='.$limit.'>;rel=last'
-        );
+        // On prend l'url de la requête
+        $baseUrl = '<'.str_replace($this->getRequest()->getBaseUrl(), '', $this->getRequest()->getRequestUri());
+        // On enlève tous les paramètres GET de type "page" et "limit" précédents s'il y en avait
+        $baseUrl = preg_replace('#[\?&](page|limit)=\d+#', '', $baseUrl);
+        $baseUrl .= !preg_match('#\?#', $baseUrl) ? '?' : '&';
+
+        // On va générer les notres pour les links
+        $baseUrl .= 'page=';
+        $links = array();
 
         if ($page > 1)
             $links[] = $baseUrl.($page - 1).'&limit='.$limit.'>;rel=previous';
+        $links[] = $baseUrl.'1'.'&limit='.$limit.'>;rel=first';
+        $links[] = $baseUrl.$page.'&limit='.$limit.'>;rel=self';
+        $links[] = $baseUrl.$totalPages.'&limit='.$limit.'>;rel=last';
         if ($page < $totalPages)
             $links[] = $baseUrl.($page + 1).'&limit='.$limit.'>;rel=next';
 

@@ -111,14 +111,14 @@ class CoursesControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
 
-        $this->client->request('GET', '/courses/mecanique-des-familles/exercices/examen-1');
+        $this->client->request('GET', '/courses/mecanique-des-familles/exercices/examen');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
     }
 
     public function testDownloadExercice()
     {
-        $this->client->request('GET', '/courses/mecanique-des-familles/exercices/examen-1/download');
+        $this->client->request('GET', '/courses/mecanique-des-familles/exercices/examen/download');
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($response->headers->contains('Content-Type', 'application/pdf'));
@@ -126,7 +126,7 @@ class CoursesControllerTest extends WebTestCase
 
     public function testPatchExercice()
     {
-        $this->client->request('PATCH', '/courses/mecanique-des-familles/exercices/examen-1', array('name' => 'Annale Test'));
+        $this->client->request('PATCH', '/courses/mecanique-des-familles/exercices/examen', array('name' => 'Annale Test'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 

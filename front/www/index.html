@@ -8,23 +8,24 @@
     <link rel="stylesheet" href="style.min.css">
     <link rel="stylesheet" href="libs/fontawesome/css/font-awesome.min.css">
 
-    <script src="libs/jquery/dist/jquery.min.js"></script>
-    <script src="libs/angular/angular.min.js"></script>
-    <script src="libs/angular-i18n/angular-locale_fr-fr.js"></script>
-    <script src="libs/angular-animate/angular-animate.js"></script>
-    <script src="libs/angular-sanitize/angular-sanitize.js"></script>
-    <script src="libs/angular-strap/dist/angular-strap.min.js"></script>
-    <script src="libs/angular-strap/dist/angular-strap.tpl.min.js"></script>
-    <script src="libs/angular-ui-router/release/angular-ui-router.min.js"></script>
-    <script src="libs/angular-resource/angular-resource.min.js"></script>
-    <script src="libs/angular-loading-bar/build/loading-bar.min.js"></script>
-    <script src="libs/angular-jwt/dist/angular-jwt.min.js"></script>
-    <script src="libs/angular-filter/dist/angular-filter.min.js"></script>
-    <script src="libs/moment/min/moment-with-locales.min.js"></script>
-    <script src="libs/scheduler/codebase/dhtmlxscheduler.js"></script>
-    <script src="libs/scheduler/codebase/locale/locale_fr.js"></script>
-    <script src="libs/js-base64/base64.min.js"></script>
-    <script src="upont.min.js"></script>
+    <script type="text/javascript" src="libs/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="libs/angular/angular.min.js"></script>
+    <script type="text/javascript" src="libs/angular-i18n/angular-locale_fr-fr.js"></script>
+    <script type="text/javascript" src="libs/angular-animate/angular-animate.js"></script>
+    <script type="text/javascript" src="libs/angular-sanitize/angular-sanitize.js"></script>
+    <script type="text/javascript" src="libs/angular-strap/dist/angular-strap.min.js"></script>
+    <script type="text/javascript" src="libs/angular-strap/dist/angular-strap.tpl.min.js"></script>
+    <script type="text/javascript" src="libs/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="libs/angular-resource/angular-resource.min.js"></script>
+    <script type="text/javascript" src="libs/angular-jwt/dist/angular-jwt.min.js"></script>
+    <script type="text/javascript" src="libs/angular-base64-upload/dist/angular-base64-upload.min.js"></script>
+    <script type="text/javascript" src="libs/angular-filter/dist/angular-filter.min.js"></script>
+    <script type="text/javascript" src="libs/moment/min/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="libs/scheduler/codebase/dhtmlxscheduler.js"></script>
+    <script type="text/javascript" src="libs/scheduler/codebase/locale/locale_fr.js"></script>
+    <script type="text/javascript" src="libs/js-base64/base64.min.js"></script>
+    <script type="text/javascript" src="libs/ngInfiniteScroll/build/ng-infinite-scroll.min.js"></script>
+    <script type="text/javascript" src="upont.min.js"></script>
 </head>
 
 <body ng-class="theme?'theme-dark':'theme-clear'">
@@ -33,27 +34,27 @@
             <div ng-include="'views/misc/aside.html'" class="up-aside up-col-xs-4 up-col-sm-2"></div>
         </div>
         <div class="up-main-content" ng-class="{'up-col-xs-8 up-col-sm-10':isLogged, 'up-col-xs-12':!isLogged}">
-            <header up-row ng-class="{ 'up-col-xs-8 up-col-sm-10': isLogged, 'up-col-xs-12': !isLogged }">
-                <div up-col="25%" up-col-xs="50%">
-                    <a class="up-main-title" ui-sref="home"></a>
+            <header up-row space-between ng-class="{ 'up-col-xs-8 up-col-sm-10': isLogged, 'up-col-xs-12': !isLogged }">
+                <div>
+                    <a class="up-main-title" ui-sref="root.home"></a>
                 </div>
                 <div>
                     <a ng-click="publishModal = !publishModal" ng-show="isAdmin" class="up-navbar-link">Publier</a>
-                    <a ui-sref="admin" ui-sref-active="active" class="up-navbar-link" ng-show="isAdmin">Admin</a>
+                    <a ui-sref="root.admin" ui-sref-active="active" class="up-navbar-link" ng-show="isAdmin">Admin</a>
                 </div>
                 <div ng-show="isLogged">
-                    <a ui-sref="profil" ui-sref-active="active" class="up-navbar-link">
+                    <a ui-sref="root.profil" ui-sref-active="active" class="up-navbar-link">
                         <div style="background-image: url('{{ url + me.image_url }}')" class="up-profile-picture"></div>
                         {{ me.nick }}
                     </a>
                 </div>
             </header>
-            <div ui-view autoscroll="false" class="up-main-view" up-fill-window ></div>
+            <div ui-view root-state="root" size="small" autoscroll="false" class="up-main-view" up-fill-window ></div>
         </div>
     </div>
 
     <!-- Piwik -->
-    <script type="text/javascript">
+    <script type="text/javascript" type="text/javascript">
         var _paq = _paq || [];
         _paq.push(['trackPageView']);
         _paq.push(['enableLinkTracking']);

@@ -1,24 +1,24 @@
 <aside>
     <div class="up-aside-menu">
-        <div><a ui-sref="home" ui-sref-active="active"><i class="fa fa-comment"></i> News</a>
+        <div><a ui-sref="root.home" up-state-active="root.home"><i class="fa fa-comment"></i> News</a>
         </div>
-        <div><a ui-sref="ponthub" ui-sref-active="active"><i class="fa fa-film"></i> PontHub</a>
+        <div><a ui-sref="root.ponthub.liste" up-state-active="root.ponthub"><i class="fa fa-film"></i> PontHub</a>
         </div>
-        <div><a ui-sref="channels" ui-sref-active="active"><i class="fa fa-thumbs-o-up"></i> Assos</a>
+        <div><a ui-sref="root.channels.liste" up-state-active="root.channels"><i class="fa fa-thumbs-o-up"></i> Assos</a>
         </div>
-        <!--<div><a ui-sref="promo" ui-sref-active="active"><i class="fa fa-graduation-cap"></i> Promo</a>
+        <!--<div><a ui-sref="root.promo.trombi" up-state-active="root.promo"><i class="fa fa-graduation-cap"></i> Promo</a>
         </div>
-        <div><a ui-sref="ki" ui-sref-active="active"><i class="fa fa-flash"></i> KI</a>
+        <div><a ui-sref="root.ki.contact" up-state-active="root.ki"><i class="fa fa-flash"></i> KI</a>
         </div>
-        <div><a ui-sref="cours" ui-sref-active="active"><i class="fa fa-briefcase"></i> Cours</a>
+        <div><a ui-sref="root.cours" up-state-active><i class="fa fa-briefcase"></i> Cours</a>
         </div>-->
-        <div><a ui-sref="calendrier" ui-sref-active="active"><i class="fa fa-calendar"></i> Calendrier</a>
+        <div><a ui-sref="root.calendrier" up-state-active><i class="fa fa-calendar"></i> Calendrier</a>
         </div>
-        <div><a ui-sref="profil" ui-sref-active="active"><i class="fa fa-star"></i> Profil</a>
+        <div><a ui-sref="root.profil" up-state-active><i class="fa fa-star"></i> Profil</a>
         </div>
     </div>
+    <hr>
     <div class="up-aside-middle">
-        <hr style="margin-op: 50px;">
         <div>
             <div ng-hide="foyer == null"><i class="fa fa-beer"></i> Compte Foyer : {{ foyer }}<i class="fa fa-euro"></i></div>
         </div>
@@ -36,9 +36,11 @@
         <hr>
         <div class="up-deconnection"><a ng-click="logout()"><i class="fa fa-sign-out"></i> Déconnexion</a>
         </div>
-        <label class="unbold">
-            <input type="checkbox" ng-model="$root.theme">&nbsp;Thème sombre
-        </label>
+        <div>
+            <label class="unbold">
+                <input type="checkbox" ng-model="$root.theme">&nbsp;Thème sombre
+            </label>
+        </div>
         <div class="up-version">uPont {{ version.version }}.{{ version.major }}.{{ version.minor }}
             <br> Build {{ version.build }} ({{ version.date | formatDate }})</div>
     </div>

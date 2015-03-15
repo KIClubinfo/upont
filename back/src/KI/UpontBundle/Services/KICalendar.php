@@ -24,7 +24,7 @@ class KICalendar extends ContainerAware
     }
 
     //Retourne un calendrier au format ICS
-    public function getCalendar(User $user)
+    public function getCalendar(User $user, array $events)
     {
         $provider = $this->container->get('bomo_ical.ics_provider');
 
@@ -37,34 +37,7 @@ class KICalendar extends ContainerAware
         $cal->setName('Calendrier Youpont')
             ->setDescription('Calendrier ICS des évènements YouPont');
 
-        $repoClub = $this->em->getRepository('KIUpontBundle:Users\Club');
-        $clubs = $repoClub->findAll();
-        $clubsNotFollowed = $user->getClubsNotFollowed();
-        $followedClubs = array();
-        foreach ($clubs as $club) {
-            if (!$clubsNotFollowed->contains($club))
-                $followedClubs[] = $club;
-        }
-
-        // On va chercher les événements voulus
-        $repoEvent = $this->em->getRepository('KIUpontBundle:Publications\Event');
-        $followedEvents = $repoEvent->findBy(array('authorClub'=> $followedClubs));
-        $persoEvents = $repoEvent->findBy(array('authorUser' => $user, 'authorClub' => null));
-        $events = array_merge($followedEvents, $persoEvents);
-
-        // Tri et élimination des données
-        $dates = array();
-        $listEvents = array();
-        $today = mktime(0, 0, 0);
-        foreach ($events as $key => $event) {
-            if ($event->getStartDate() > $today) {
-                $listEvents[$key] = $event;
-                $dates[$key] = $event->getStartDate();
-            }
-        }
-        array_multisort($dates, SORT_DESC, $listEvents);
-
-        foreach ($listEvents as $eventDb) {
+        foreach ($events as $eventDb) {
             $event = $cal->newEvent();
             $event
                 ->setStartDate($this->toDateTime($eventDb->getStartDate()))
