@@ -120,19 +120,23 @@ class OwnControllerTest extends WebTestCase
 
     public function testDeviceRegistration()
     {
-        $this->client->request('POST', '/own/device', array('device' => 'sjoajsiohaysahais-asbsksaba7', 'type' => 'iOS'));
+        $this->client->request('POST', '/own/devices', array('device' => 'sjoajsiohaysahais-asbsksaba7', 'type' => 'iOS'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('POST', '/own/device', array('device' => 'sjoajsiohaysahais-asbsksaba7', 'type' => 'iOS'));
+        $this->client->request('POST', '/own/devices', array('device' => 'sjoajsiohaysahais-asbsksaba7', 'type' => 'iOS'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('DELETE', '/own/device/sjoajsiohaysahais-asbsksaba7');
+        $this->client->request('GET', '/own/devices');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 200);
+
+        $this->client->request('DELETE', '/own/devices/sjoajsiohaysahais-asbsksaba7');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('DELETE', '/own/device/sjoajsiohaysahais-asbsksaba7');
+        $this->client->request('DELETE', '/own/devices/sjoajsiohaysahais-asbsksaba7');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }
