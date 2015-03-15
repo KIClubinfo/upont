@@ -13,7 +13,3 @@ courses:
 exercices:
     type:     rest
     resource: KI\UpontBundle\Controller\Publications\ExercicesController
-    
-posts:
-    type:     rest
-    resource: KI\UpontBundle\Controller\Publications\PostsController

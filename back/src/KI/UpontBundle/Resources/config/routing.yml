@@ -9,14 +9,14 @@ NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /
 
-ki_upont_api_foyer:
-    prefix:   /foyer
-    resource: "@KIUpontBundle/Resources/config/foyer.yml"
- 
 ki_upont_api_general:
     type:   rest
     prefix: /
     resource: "@KIUpontBundle/Resources/config/general.yml"
+    
+ki_upont_api_foyer:
+    prefix:   /foyer
+    resource: "@KIUpontBundle/Resources/config/foyer.yml"
  
 ki_upont_api_likes:
     prefix: /
