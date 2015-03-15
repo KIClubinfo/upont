@@ -6,109 +6,16 @@ users:
     type:     rest
     resource: KI\UpontBundle\Controller\Users\UsersController
 
-# Routes perso
-upont_api_achievements:
-    pattern: /own/achievements
-    defaults: { _controller: KI\UpontBundle\Controller\Users\OwnController::getAchievementsAction }
-    requirements:
-        _method: GET
+own:
+    type:     rest
+    resource: KI\UpontBundle\Controller\Users\OwnController
+
+promo:
+    type:     rest
+    resource: KI\UpontBundle\Controller\Users\PromoController
 
 upont_api_own_calendar:
     pattern: /users/{token}/calendar
     defaults: { _controller: KI\UpontBundle\Controller\Users\OwnController::getOwnCalendarAction }
     requirements:
         _method: GET
-
-upont_api_notifications:
-    pattern: /own/notifications
-    defaults: { _controller: KI\UpontBundle\Controller\Users\OwnController::getNotificationsAction }
-    requirements:
-        _method: GET
-
-upont_api_get_own_followed:
-    pattern: /own/followed
-    defaults: { _controller: KI\UpontBundle\Controller\Users\OwnController::getFollowedAction }
-    requirements:
-        _method: GET
-
-upont_api_get_own_events:
-    pattern: /own/events
-    defaults: { _controller: KI\UpontBundle\Controller\Users\OwnController::getEventsAction }
-    requirements:
-        _method: GET
-
-upont_api_get_own_polls:
-    pattern: /own/polls
-    defaults: { _controller: KI\UpontBundle\Controller\Users\OwnController::getPollsAction }
-    requirements:
-        _method: GET
-
-upont_api_get_own_newsitems:
-    pattern: /own/newsitems
-    defaults: { _controller: KI\UpontBundle\Controller\Users\OwnController::getNewsItemsAction }
-    requirements:
-        _method: GET
-
-upont_api_change_preference:
-    pattern: /own/preferences
-    defaults: { _controller: KI\UpontBundle\Controller\Users\OwnController::changePreferenceAction }
-    requirements:
-        _method: PATCH
-
-upont_api_remove_preference:
-    pattern: /own/preferences
-    defaults: { _controller: KI\UpontBundle\Controller\Users\OwnController::removePreferenceAction }
-    requirements:
-        _method: DELETE
-
-upont_api_get_preferences:
-    pattern: /own/preferences
-    defaults: { _controller: KI\UpontBundle\Controller\Users\OwnController::getPreferencesAction }
-    requirements:
-        _method: GET
-
-upont_api_get_token:
-    pattern: /own/token
-    defaults: { _controller: KI\UpontBundle\Controller\Users\OwnController::getTokenAction }
-    requirements:
-        _method: GET
-
-upont_api_post_device:
-    pattern: /own/device
-    defaults: { _controller: KI\UpontBundle\Controller\Users\OwnController::postDeviceAction }
-    requirements:
-        _method: POST
-
-upont_api_delete_device:
-    pattern: /own/device/{id}
-    defaults: { _controller: KI\UpontBundle\Controller\Users\OwnController::deleteDeviceAction }
-    requirements:
-        _method: DELETE
-
-upont_api_get_courses:
-    pattern: /own/courses
-    defaults: { _controller: KI\UpontBundle\Controller\Users\OwnController::getCoursesAction }
-    requirements:
-        _method: GET
-
-
-
-
-# Routes spécifiques aux promos de manière générale
-upont_api_get_promogame:
-    pattern: /promogame
-    defaults: { _controller: KI\UpontBundle\Controller\Users\PromoController::getPromoGameAction }
-    requirements:
-        _method: GET
-
-upont_api_get_courseitems:
-    pattern: /own/courseitems
-    defaults: { _controller: KI\UpontBundle\Controller\Users\OwnController::getCourseitemsAction }
-    requirements:
-        _method: GET
-        
-upont_api_patch_promo_pictures:
-    pattern: /promo/{promo}/pictures
-    defaults: { _controller: KI\UpontBundle\Controller\Users\PromoController::patchPromoPicturesAction }
-    requirements:
-        _method: PATCH
