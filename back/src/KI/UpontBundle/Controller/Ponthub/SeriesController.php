@@ -142,6 +142,6 @@ class SeriesController extends \KI\UpontBundle\Controller\Core\SubresourceContro
 
         $this->em->flush();
 
-        return $this->redirect($item->fileUrl());
+        return $this->jsonResponse(array('redirect' => $item->fileUrl()));
     }
 }

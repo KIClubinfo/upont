@@ -13,7 +13,7 @@ class LoadMovieFixture extends AbstractFixture implements OrderedFixtureInterfac
     {
         $movie = new Movie();
         $movie->setSize(1024*1024*1024);
-        $movie->setPath('/root/web/films/Pumping Iron.avi');
+        $movie->setPath('/root/web/films/Pumping Iron 1.mkv');
         $movie->setName('Pumping Iron');
         $movie->setDescription('Do you even lift?');
         $movie->setVf(false);
