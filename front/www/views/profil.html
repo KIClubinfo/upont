@@ -157,6 +157,32 @@
         </div>
         <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
             <h2>Smartphones</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Identifiant</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="device in devices">
+                        <td>{{ device.type }}</td>
+                        <td>{{ device.device }}</td>
+                    </tr>
+                    <tr ng-hide="devices.length">
+                        <td>Aucun téléphone enregistré !</td>
+                        <td>Télécharge l'appli mobile !</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+
+            <div up-row wrap padded>
+                <a href="" up-col-xs="100%" up-col-sm="100%" up-col="30%" class="btn btn-default centering">Android</a>
+                <a href="" up-col-xs="100%" up-col-sm="100%" up-col="30%" class="btn btn-default centering">iOS</a>
+                <a href="" up-col-xs="100%" up-col-sm="100%" up-col="30%" class="btn btn-default centering">Windows Phone</a>
+            </div>
         </div>
     </div>
 </div>
