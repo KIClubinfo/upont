@@ -100,6 +100,28 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
 
     /**
      * @ApiDoc(
+     *  description="Retourne la liste des smartphones enregistrés",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Utilisateurs"
+     * )
+     * @Route\Get("/own/devices")
+     */
+    public function getDevicesAction()
+    {
+        if (!$this->get('security.context')->isGranted('ROLE_USER'))
+            throw new AccessDeniedException();
+
+        $user = $this->get('security.context')->getToken()->getUser();
+        return $this->restResponse($user->getDevices());
+    }
+
+    /**
+     * @ApiDoc(
      *  description="Enregistre un smartphone auprès de l'API",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
@@ -110,7 +132,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Post("/own/device")
+     * @Route\Post("/own/devices")
      */
     public function postDeviceAction()
     {
@@ -152,7 +174,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Delete("/own/device/{id}")
+     * @Route\Delete("/own/devices/{id}")
      */
     public function deleteDeviceAction($id)
     {
