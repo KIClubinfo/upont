@@ -39,9 +39,6 @@ angular.module('upont')
         };
     }])
     .controller('Publis_Ctrl', ['$scope', '$resource', 'newsItems', 'events', 'Paginate', function($scope, $resource, newsItems, events, Paginate) {
-        // $scope.publications = events.concat(newsItems).sort(function(a, b) {
-        //     return b.date - a.date;
-        // });
         $scope.events = events;
         $scope.newsItems = newsItems;
 

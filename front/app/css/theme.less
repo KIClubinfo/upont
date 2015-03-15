@@ -1,6 +1,6 @@
-.theme(@col1, @col2, @col3, @col4, @col5, @col6, @col7, @col8, @footerUp, @begin-border-aside) {
+.theme(@col1, @col2, @col3, @col4, @col5, @col6, @col7, @footerUp, @begin-border-aside) {
     color: @col2;
-    background: @col6;
+    background: @col5;
     .up-main-title {
         border: solid 1px @col1;
         &:after {
@@ -38,20 +38,8 @@
         }
     }
 
-    select, textarea, input, .btn-default {
-        background: @col3;
-        border: solid 1px @col5;
-        color: @col2;
-    }
-    select, textarea {
-        width: 100%;
-    }
     input:focus {
         border-color: @col1;
-    }
-    input[type="radio"], input[type="checkbox"] {
-        margin: 0 0.5em;
-        vertical-align: middle;
     }
     h1, h2, h3, h4, h5, h6 {
         a:hover {
@@ -61,15 +49,15 @@
     .label-upont {
         background-color: @col1;
     }
-    .modal-content {
-        background: @col3;
-        &, .modal-dialog, .modal-header, .modal-body, .modal-footer {
-            border-color: rgba(red(@col4), green(@col4), blue(@col4), 0.4) !important;
-        }
-    }
+    // .modal-content {
+    //     background: @col3;
+    //     &, .modal-dialog, .modal-header, .modal-body, .modal-footer {
+    //         border-color: rgba(red(@col4), green(@col4), blue(@col4), 0.4) !important;
+    //     }
+    // }
     .up-aside {
-        color: @col7;
-        background-color: @col8;
+        color: @col6;
+        background-color: @col7;
         &:before{
             content:"";
             position:absolute;
@@ -81,10 +69,10 @@
         }
         a {
             &:hover {
-                border-bottom: solid 1px @col7;
+                border-bottom: solid 1px @col6;
             }
             &.active {
-                border-bottom: solid 1px @col7;
+                border-bottom: solid 1px @col6;
             }
             .fa {
                 width: 20px;
@@ -96,15 +84,15 @@
         color: @col1;
         border-bottom: solid 1px @col1;
     }
-    .btn-suivi {
-        border: solid 1px @col4;
-        background: @col5;
-        color: @col2;
-        &.active {
-            background: @col1;
-            color: @col3;
-        }
-    }
+    // .btn-suivi {
+    //     border: solid 1px @col4;
+    //     background: @col5;
+    //     color: @col2;
+    //     &.active {
+    //         background: @col1;
+    //         color: @col3;
+    //     }
+    // }
     .up-clickable:hover, .up-clickable.active {
         color: @col1;
     }
@@ -126,16 +114,52 @@
     }
 }
 body.theme-clear {
-    .theme(#5584AD, #888, #FFF, #aaa, #d3d6d8, #dddfe4, #d0d0d0, #2A303D, "img/footerUp_clear.png", 0);
+    .theme(#5584AD, #777, #FFF, #aaa, #dddfe4, #d0d0d0, #2A303D, "img/footerUp_clear.png", 0);
+    select, textarea, input, .btn-default{
+        border: solid 1px #a3a3a3;
+        background: #e8e8e8;
+        color: #666;
+    }
+    .btn-publier{
+        font-size:12px;
+        border-color: #5584AD !important;
+        box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.05);
+    }
+    .btn-default{
+        color:#333;
+    }
     .btn-default:hover {
-        background-color: #f0f0f0;
-        border-color: #57ABC2;
+        background-color: #e1e1e1;
+        border-color: #999;
+        box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
+    }
+    .btn-default:active{
+        background-color: #e0e0e0;
+        box-shadow: 0px 0px 0px #ddd inset;
     }
 }
 body.theme-dark {
-    .theme(#F08630, #a0a0a0, #222, #555, #595B5C, #2a2c2f, #d0d0d0, #222, "img/footerUp_dark.png", @navbarHgt - 1px);
+    .theme(#F08630, #a0a0a0, #222, #555, #2a2c2f, #d0d0d0, #222, "img/footerUp_dark.png", @navbarHgt - 1px);
+    select, textarea, input, .btn-default{
+        border: solid 1px #a3a3a3;
+        background: #404040;
+        color: #c0c0c0;
+    }
+    .btn-publier{
+        font-size:12px;
+        border-color: #F08630 !important;
+        // box-shadow: 0px 0px 2px rgba(255, 255, 255, 0.4);
+    }
+    .btn-default{
+        color:#ddd;
+    }
     .btn-default:hover {
-        background-color: #333;
-        border-color: #F08630;
+        background-color: #383838;
+        border-color: #999;
+        // box-shadow: 0px 0px 2px rgba(255, 255, 255, 0.5);
+    }
+    .btn-default:active{
+        background-color: #2f2f2f;
+        box-shadow: 0px 0px 2px #505050 inset;
     }
 }

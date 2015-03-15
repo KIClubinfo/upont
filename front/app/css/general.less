@@ -6,7 +6,6 @@
 @navbarHgt: 50px;
 *, *:before, *:after {
     box-sizing: border-box;
-    outline: 0 !important;
 }
 
 //------- Modifs éléments de base
@@ -24,8 +23,11 @@ body {
 a, a:hover, a:visited, a:active, a:focus {
     text-decoration: none;
     color: inherit;
-    outline: none;
+    outline: 0px none;
     cursor: pointer;
+}
+button::-moz-focus-inner {
+  border: 0;
 }
 .title(@size) {
     font-size: @size;
@@ -42,8 +44,8 @@ h3 {
 h4 {
     .title(1.2em);
 }
-select, textarea, label, input {
-    // margin: 0.5em;
+select, textarea {
+    width: 100%;
 }
 select {
     border-radius: 0px;
@@ -64,6 +66,9 @@ input {
     padding: 0.5em;
     vertical-align: middle;
 }
+input[type="radio"], input[type="checkbox"] {
+    margin: 0 0.5em;
+}
 footer {
     z-index: 5;
     position: relative;
@@ -79,25 +84,18 @@ footer {
         height: 14px;
     }
 }
-//------- Modifs éléments bootstrap
-.container-fluid {
-    padding: 0px;
-}
-
 .btn {
-    border-radius: 0px;
+    font-family: arial;
+    // border-radius: 2px;
+    font-size:11px;
+    font-weight: bold;
+    padding:0.4em 0.6em;
 }
 
-// .navbar-header {
-//     text-align: center !important;
-// }
 .dhx_cal_container {
     min-height: 100%;
 }
-// .container-fluid > .row {
-//     margin-left: 0;
-//     margin-right: 0;
-// }
+
 // ------ Classes Perso
 .up-zone-picker {
     a {
@@ -167,6 +165,11 @@ footer {
     padding: 0 0.7em;
     // border-radius: 3px;
 }
+
+.btn-publier{
+    font-size:12px;
+}
+
 .up-date-evenement {
     font-weight: bold;
     font-size: 0.95em;

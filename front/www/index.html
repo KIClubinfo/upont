@@ -39,8 +39,9 @@
                 <div>
                     <a class="up-main-title" ui-sref="root.home"></a>
                 </div>
-                <div>
-                    <!-- <a ui-sref="root.admin" ui-sref-active="active" class="up-navbar-link" ng-show="isAdmin">Admin</a> -->
+                <div></div>
+                <div ng-if="isAdmin && isState('root.home')" >
+                    <button class="btn btn-default btn-publier" ng-click="$root.publier=!$root.publier">Publier !</button>
                 </div>
                 <div ng-show="isLogged">
                     <a ui-sref="root.profil" ui-sref-active="active" class="up-navbar-link">

@@ -7,9 +7,13 @@
         <h2>Élève ?</h2>
 
         <form class="up-login-form" ng-submit="login(pseudo, password)">
-            <div up-row left>
-                <input up-col="50%" up-col-xs="100%" ng-model="pseudo" type="text" placeholder="Identifiant"/>
-                <input up-col="50%" up-col-xs="100%" ng-model="password" type="password" placeholder="Mot de passe"/>
+            <div up-row left padded>
+                <div up-col="50%" up-col-xs="100%">
+                    <input up-col="100%" ng-model="pseudo" type="text" placeholder="Identifiant"/>
+                </div>
+                <div up-col="50%" up-col-xs="100%">
+                    <input up-col="100%" ng-model="password" type="password" placeholder="Mot de passe"/>
+                </div>
             </div>
             <br>
 
