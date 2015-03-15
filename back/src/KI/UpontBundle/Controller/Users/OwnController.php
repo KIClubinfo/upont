@@ -268,11 +268,16 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
     public function getOwnEventsAction()
     {
         $events = $this->getFollowedEvents();
+
+        // Si on prend tout on renvoie comme ça
+        if ($this->getRequest()->query->has('all'))
+            return $this->restResponse($events);
+
         $return = array();
         $today = time();
 
+        // On élimine les anciens événements si on ne souhaite pas tout
         foreach ($events as $event) {
-            // On élimine les anciens événements
             if ($event->getStartDate() > $today)
                 $return[] = $event;
         }
