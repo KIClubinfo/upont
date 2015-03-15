@@ -9,8 +9,10 @@ angular.module('upont')
             });
         };
     }])
-    .controller("PH_Element_Ctrl", ['$scope', '$http', 'element', 'episodes', function($scope, $http, element, episodes) {
+    .controller('PH_Element_Ctrl', ['$scope', '$stateParams', 'PH_categories', '$window', '$http', 'element', 'episodes', function($scope, $stateParams, PH_categories, $window, $http, element, episodes) {
         $scope.element = element;
+        $scope.category = $stateParams.category;
+
         if(episodes){
             $scope.saisons = [];
             for (var i = 0; i < episodes.length; i++) {
@@ -21,7 +23,12 @@ angular.module('upont')
             }
         }
         $scope.download = function(url) {
-            $http.get(url + '/download');
+            if (!url)
+                url = apiPrefix + PH_categories($stateParams.category) + '/' + element.slug + '/download';
+
+            $http.get(url).success(function(data){
+                $window.location.href = data.redirect;
+            });
         };
     }])
     .factory('PH_categories', function(){
@@ -60,7 +67,7 @@ angular.module('upont')
                 controller: 'PH_Liste_Ctrl',
                 resolve: {
                     elements: ['Paginate', '$stateParams', 'PH_categories', function(Paginate, $stateParams, PH_categories) {
-                        return Paginate.get(PH_categories($stateParams.category));
+                        return Paginate.get(PH_categories($stateParams.category), 50);
                     }]
                 }
             })
