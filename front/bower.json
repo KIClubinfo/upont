@@ -19,6 +19,7 @@
     "moment": "latest",
     "fontawesome": "latest",
     "angular-filter": "latest",
-    "angular-base64-upload": "~0.0.5"
+    "angular-base64-upload": "~0.0.5",
+    "ngInfiniteScroll": "~1.2.0"
   }
 }

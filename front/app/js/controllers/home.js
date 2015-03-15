@@ -16,7 +16,17 @@ angular.module('upont')
                     }).get(function(data) {
                         $rootScope.me = data;
                     });
-                    $state.go("root.home.connected");
+                    if (data.data.first) {
+                        $state.go("root.profil");
+                        // TODO passer en modal
+                        alert("Bienvenue sur uPont 2.0 !\n\n" +
+"Dans un premier temps, vérifie bien tes infos (notamment ta photo de profil, que nous avons essayé de récupérer par Facebook de façon automatique)." +
+"C'est super important que les infos soient remplies pour pouvoir profiter de uPont au max." +
+"\n\n" +
+"La version 2 est encore en gros développement, nous avons besoin de ton avis pour l'améliorer de façon continue ! (au moins une mise à jour par semaine sera faite)");
+                    } else {
+                        $state.go("root.home.connected");
+                    }
                 })
                 .error(function(data, status, headers, config) {
                     // Supprime tout token en cas de mauvaise identification
@@ -45,11 +55,11 @@ angular.module('upont')
                 },
                 controller: "Publis_Ctrl",
                 resolve: {
-                    newsItems: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "own/newsitems").query().$promise;
+                    newsItems: ['Paginate', function(Paginate) {
+                        return Paginate.get('own/newsitems');
                     }],
                     events: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "own/events").query().$promise;
+                        return $resource(apiPrefix + 'own/events').query().$promise;
                     }]
                 }
             })

@@ -66,15 +66,16 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
                 unset($results[$key]);
         }
 
-        $baseUrl = '<'.str_replace($this->getRequest()->getBaseUrl(), '', $this->getRequest()->getRequestUri()).'?page=';
-        $links = array(
-            $baseUrl.$page.'&limit='.$limit.'>;rel=self',
-            $baseUrl.'1'.'&limit='.$limit.'>;rel=first',
-            $baseUrl.$totalPages.'&limit='.$limit.'>;rel=last'
-        );
+        $baseUrl = '<'.str_replace($this->getRequest()->getBaseUrl(), '', $this->getRequest()->getRequestUri());
+        $baseUrl = preg_replace('#\?.*$#', '', $baseUrl);
+        $baseUrl .= '?page=';
+        $links = array();
 
         if ($page > 1)
             $links[] = $baseUrl.($page - 1).'&limit='.$limit.'>;rel=previous';
+        $links[] = $baseUrl.'1'.'&limit='.$limit.'>;rel=first';
+        $links[] = $baseUrl.$page.'&limit='.$limit.'>;rel=self';
+        $links[] = $baseUrl.$totalPages.'&limit='.$limit.'>;rel=last';
         if ($page < $totalPages)
             $links[] = $baseUrl.($page + 1).'&limit='.$limit.'>;rel=next';
 

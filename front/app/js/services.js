@@ -1,5 +1,5 @@
 angular.module('upont')
-    .factory('StorageService', ['$rootScope', function($rootScope) {
+    .factory('StorageService', function() {
         return {
             get: function(key) {
                 return localStorage.getItem(key);
@@ -18,6 +18,39 @@ angular.module('upont')
 
             clearAll: function() {
                 localStorage.clear();
+            }
+        };
+    })
+    .factory('Paginate', ["$resource", "$q", function($resource, $q) {
+        return {
+            get: function(url){
+                  var defered = $q.defer();
+                  $resource(apiPrefix + url).query(function(data, headers){
+                         defered.resolve({data: data, headers: headers()});
+                  }, function(httpResponse){
+                         defered.reject(httpResponse);
+                  });
+                  return defered.promise;
+            },
+
+            next: function(load) {
+                // On analyse les headers
+                // On cherche un lien de la forme </ressource?page=1&limit=100>;rel=next
+                var match = load.headers.links.match(/last,<\/(.*?)>;rel=next/);
+                var defered = $q.defer();
+
+                // S'il y a une prochaine page, on la charge
+                if (match) {
+                    $resource(apiPrefix + match[1]).query(function(data, headers){
+                        defered.resolve({data: load.data.concat(data), headers: headers()});
+                    }, function(httpResponse){
+                         defered.reject(httpResponse);
+                    });
+
+                } else {
+                    defered.reject();
+                }
+                return defered.promise;
             }
         };
     }])
