@@ -85,11 +85,17 @@ angular.module('upont')
             StorageService.remove('droits');
         }
 
+        $rootScope.publier = false;
+
         $rootScope.logout = function() {
             StorageService.remove('token');
             StorageService.remove('roles');
             $rootScope.isLogged = false;
             $state.go('root.disconnected');
+        };
+
+        $rootScope.isState = function(name){
+            return $state.is(name);
         };
 
         $resource(apiPrefix + 'version').get(function(data){
