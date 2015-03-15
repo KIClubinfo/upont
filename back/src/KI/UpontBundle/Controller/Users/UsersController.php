@@ -140,33 +140,4 @@ class UsersController extends \KI\UpontBundle\Controller\Core\ResourceController
 
         return $this->restResponse($clubs, 200);
     }
-
-    /**
-     * @ApiDoc(
-     *  description="Retourne le calendrier de l'utilisateur au format ICS",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Aucun résultat ne correspond au token transmis",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Utilisateurs"
-     * )
-     */
-    public function getCalendarAction($token)
-    {
-        $user = $this->repo->findOneByToken($token);
-        if ($user === null) {
-            throw new NotFoundHttpException('Aucun utilisateur ne correspond au token saisi');
-        } else {
-            $calStr = $this->get('ki_upont.calendar')->getCalendar($user);
-
-            return new \Symfony\Component\HttpFoundation\Response($calStr, 200, array(
-                    'Content-Type' => 'text/calendar; charset=utf-8',
-                    'Content-Disposition' => 'attachment; filename="calendar.ics"',
-                )
-            );
-        }
-    }
 }

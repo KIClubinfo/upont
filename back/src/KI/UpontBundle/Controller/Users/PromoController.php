@@ -2,6 +2,7 @@
 
 namespace KI\UpontBundle\Controller\Users;
 
+use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -25,8 +26,9 @@ class PromoController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Get("/promo/{promo}/game")
      */
-    public function getPromoGameAction()
+    public function getPromoGameAction($promo)
     {
         $maxId = $this->em->createQuery('SELECT MAX(u.id) FROM KIUpontBundle:Users\User u')->getSingleScalarResult();
         $query = $this->em->createQuery('SELECT u FROM KIUpontBundle:Users\User u WHERE u.id >= :rand ORDER BY u.id ASC');
@@ -67,6 +69,7 @@ class PromoController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Patch("/promo/{promo}/pictures")
      */
     public function patchPromoPicturesAction($promo)
     {
