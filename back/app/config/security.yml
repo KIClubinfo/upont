@@ -50,6 +50,11 @@ security:
             pattern: ^/courses/.+/exercices/.+/download
             security: false
         
+        exceptionsGet5:
+            methods: [GET]
+            pattern: ^/users/.+/calendar
+            security: false
+            
         exceptionsPost:
             methods: [POST]
             pattern: ^/(resetting)

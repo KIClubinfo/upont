@@ -48,6 +48,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setPromo('017');
         $user->setDepartment('1A');
         $user->setEnabled(true);
+        $user->setToken('VpqtuEGC');
         $user->addGroup($this->getReference('group-admin'));
         $user->setImage($this->getReference('image-user-taquet-c'));
         $userManager->updateUser($user);
