@@ -34,7 +34,7 @@ if(window.plugins) {
                                             StorageService.set('registered', true);
                                             $rootScope.registered = true;
                                             StorageService.set('registeredId', result.uri);
-                                            $http.post(url + '/own/device', {device: result.uri, type: 'iOS'});
+                                            $http.post(url + '/own/devices', {device: result.uri, type: 'iOS'});
                                         },
                                         function (error) { onsAlert('Erreur', error); },
                                         {'channelName': channelName, 'ecb': 'onNotificationWP8'}
@@ -45,7 +45,7 @@ if(window.plugins) {
                                             StorageService.set('registered', true);
                                             $rootScope.registered = true;
                                             StorageService.set('registeredId', token);
-                                            $http.post(url + '/own/device', {device: token, type: 'iOS'});
+                                            $http.post(url + '/own/devices', {device: token, type: 'iOS'});
                                         },
                                         function (error) { onsAlert('Erreur', error); },
                                         {'badge': 'true', 'sound': 'true', 'alert': 'true', 'ecb': 'onNotificationAPN'}
@@ -60,7 +60,7 @@ if(window.plugins) {
                 },
                 registerID : function (id) {
                     StorageService.set('registeredId', id);
-                    $http.post(url + '/own/device', {device: id, type: 'Android'});
+                    $http.post(url + '/own/devices', {device: id, type: 'Android'});
                 },
                 unregister : function () {
                     pushNotification = window.plugins.pushNotification;
@@ -70,7 +70,7 @@ if(window.plugins) {
                         $rootScope.registered = false;
 
                         if(StorageService.get('registeredId')) {
-                            $http.delete(url + '/own/device/' + StorageService.get('registeredId')).success(function() { onsAlert('Ok', 'Notifications Push désactivées'); });
+                            $http.delete(url + '/own/devices/' + StorageService.get('registeredId')).success(function() { onsAlert('Ok', 'Notifications Push désactivées'); });
                         }
                     });
                 }
