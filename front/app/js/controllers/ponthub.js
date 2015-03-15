@@ -4,7 +4,9 @@ angular.module('upont')
         $scope.category = $stateParams.category;
 
         $scope.next = function() {
-            Paginate.next($scope.elements);
+            Paginate.next($scope.elements).then(function(data){
+                $scope.elements = data;
+            });
         };
     }])
     .controller("PH_Element_Ctrl", ['$scope', '$http', 'element', 'episodes', function($scope, $http, element, episodes) {

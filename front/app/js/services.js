@@ -35,15 +35,22 @@ angular.module('upont')
 
             next: function(load) {
                 // On analyse les headers
-                // On cherche un lien de la forme </ressource?page=1&limit=100>;rel=self
-                var match = load.headers.links.match(/<(.+)>;rel=next/);
+                // On cherche un lien de la forme </ressource?page=1&limit=100>;rel=next
+                var match = load.headers.links.match(/last,<\/(.*?)>;rel=next/);
+                var defered = $q.defer();
 
                 // S'il y a une prochaine page, on la charge
                 if (match) {
                     $resource(apiPrefix + match[1]).query(function(data, headers){
-                        load = {data: load.data.concat(data), headers: headers()};
+                        defered.resolve({data: load.data.concat(data), headers: headers()});
+                    }, function(httpResponse){
+                         defered.reject(httpResponse);
                     });
+
+                } else {
+                    defered.reject();
                 }
+                return defered.promise;
             }
         };
     }])
