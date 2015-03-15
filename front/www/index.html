@@ -39,13 +39,13 @@
                 </div>
                 <div>
                     <a ng-click="publishModal = !publishModal" ng-show="isAdmin" class="up-navbar-link">Publier</a>
-                    <a ui-sref="root.admin" ui-sref-active="active" class="up-navbar-link" ng-show="isAdmin">Admin</a>
                 </div>
                 <div ng-show="isLogged">
                     <a ui-sref="root.profil" ui-sref-active="active" class="up-navbar-link">
                         <div style="background-image: url('{{ url + me.image_url }}')" class="up-profile-picture"></div>
                         {{ me.nick }}
                     </a>
+                    <a ui-sref="root.admin" ui-sref-active="active" class="up-navbar-link" ng-show="isAdmin">Admin</a>
                 </div>
             </header>
             <div ui-view root-state="root" size="small" autoscroll="false" class="up-main-view" up-fill-window ></div>

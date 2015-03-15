@@ -1,6 +1,5 @@
 angular.module('upont')
     .controller('Profil_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'preferences', 'clubs', 'clubsSuivis', function($scope, $rootScope, $resource, $http, preferences, clubs, clubsSuivis) {
-        console.log(clubsSuivis);
         for (var i = 0; i < clubsSuivis.length; i++)
             clubsSuivis[i] = clubsSuivis[i].slug;
 
