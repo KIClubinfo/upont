@@ -24,12 +24,14 @@ angular.module('upont')
     .factory('Paginate', ['$resource', '$q', '$rootScope', function($resource, $q, $rootScope) {
         return {
             get: function(url, limit) {
+
                 var suffix = '';
                 if (limit > 0) {
-                    suffix = !url.test(/\?/) ? '?' : '&';
+                    suffix = url.match(/\?/) == null ? '?' : '&';
                     suffix += 'limit=' + limit;
                 }
                 var defered = $q.defer();
+
                 $resource(apiPrefix + url + suffix).query(function(data, headers){
                     defered.resolve({data: data, headers: headers()});
                 }, function(httpResponse){
