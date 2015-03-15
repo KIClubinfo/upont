@@ -38,12 +38,18 @@ angular.module('upont')
                 });
         };
     }])
-    .controller('Publis_Ctrl', ['$scope', '$resource', 'newsItems', 'events', function($scope, $resource, newsItems, events) {
+    .controller('Publis_Ctrl', ['$scope', '$resource', 'newsItems', 'events', 'Paginate', function($scope, $resource, newsItems, events, Paginate) {
         // $scope.publications = events.concat(newsItems).sort(function(a, b) {
         //     return b.date - a.date;
         // });
-    $scope.events = events;
-    $scope.newsItems = newsItems;
+        $scope.events = events;
+        $scope.newsItems = newsItems;
+
+        $scope.next = function() {
+            Paginate.next($scope.newsItems).then(function(data){
+                $scope.newsItems = data;
+            });
+        };
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
@@ -56,7 +62,7 @@ angular.module('upont')
                 controller: "Publis_Ctrl",
                 resolve: {
                     newsItems: ['Paginate', function(Paginate) {
-                        return Paginate.get('own/newsitems');
+                        return Paginate.get('own/newsitems?sort=date', 10);
                     }],
                     events: ["$resource", function($resource) {
                         return $resource(apiPrefix + 'own/events').query().$promise;
