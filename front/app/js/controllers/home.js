@@ -16,7 +16,17 @@ angular.module('upont')
                     }).get(function(data) {
                         $rootScope.me = data;
                     });
-                    $state.go("home.connected");
+                    if (data.data.first) {
+                        $state.go("root.profil");
+                        // TODO passer en modal
+                        alert("Bienvenue sur uPont 2.0 !\n\n" +
+"Dans un premier temps, vérifie bien tes infos (notamment ta photo de profil, que nous avons essayé de récupérer par Facebook de façon automatique)." +
+"C'est super important que les infos soient remplies pour pouvoir profiter de uPont au max." +
+"\n\n" +
+"La version 2 est encore en gros développement, nous avons besoin de ton avis pour l'améliorer de façon continue ! (au moins une mise à jour par semaine sera faite)");
+                    } else {
+                        $state.go("root.home.connected");
+                    }
                 })
                 .error(function(data, status, headers, config) {
                     // Supprime tout token en cas de mauvaise identification
@@ -28,50 +38,39 @@ angular.module('upont')
                 });
         };
     }])
-    .controller('Publis_Ctrl', ['$scope', '$resource', 'newsItems', 'events', function($scope, $resource, newsItems, events) {
-        $scope.publications = events.concat(newsItems).sort(function(a, b) {
-            return b.date - a.date;
-        });
+    .controller('Publis_Ctrl', ['$scope', '$resource', 'newsItems', 'events', 'Paginate', function($scope, $resource, newsItems, events, Paginate) {
+        // $scope.publications = events.concat(newsItems).sort(function(a, b) {
+        //     return b.date - a.date;
+        // });
+        $scope.events = events;
+        $scope.newsItems = newsItems;
+
+        $scope.next = function() {
+            Paginate.next($scope.newsItems).then(function(data){
+                $scope.newsItems = data;
+            });
+        };
     }])
-    // .controller('Event_Ctrl', ['$scope', '$resource', "$stateParams", 'evenement', function($scope, $resource, $stateParams, evenement) {
-    //     $scope.evenement = evenement;
-    //     $scope.url = 'events/' + $stateParams.slug;
-    // }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state("home", {
-                url: "/",
-                template: "<div ui-view></div>",
-                data: {
-                    parent: "home",
-                    defaultChild: "connected"
-                },
-            })
-            .state("home.connected", {
-                url: "",
+            .state("root.home", {
+                url: '',
                 templateUrl: "views/home/connected.html",
                 data: {
-                    parent: "home.connected",
-                    defaultChild: "liste",
                     title: 'uPont - Accueil'
                 },
-            })
-            .state("home.disconnected", {
-                url: "",
-                templateUrl: "views/home/disconnected.html",
-                controller: "Disconnected_Ctrl"
-            })
-            .state("home.connected.liste", {
-                url: "publications",
-                templateUrl: "views/home/publiListe.html",
                 controller: "Publis_Ctrl",
                 resolve: {
-                    newsItems: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "own/newsitems").query().$promise;
+                    newsItems: ['Paginate', function(Paginate) {
+                        return Paginate.get('own/newsitems?sort=date', 10);
                     }],
-                    events: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "own/events").query().$promise;
+                    events: ['Paginate', function(Paginate) {
+                        return Paginate.get('own/events');
                     }]
                 }
+            })
+            .state("root.disconnected", {
+                templateUrl: "views/home/disconnected.html",
+                controller: "Disconnected_Ctrl"
             });
     }]);

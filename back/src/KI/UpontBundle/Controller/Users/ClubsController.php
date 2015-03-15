@@ -283,7 +283,7 @@ class ClubsController extends \KI\UpontBundle\Controller\Core\SubresourceControl
 
     /**
      * @ApiDoc(
-     *  description="Retourne toutes les publications réalisées par un club",
+     *  description="Retourne toutes les news publiées par un club",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -293,14 +293,39 @@ class ClubsController extends \KI\UpontBundle\Controller\Core\SubresourceControl
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/clubs/{slug}/publications")
+     * @Route\Get("/clubs/{slug}/newsitems")
      */
-    public function getPublicationsClubAction($slug)
+    public function getNewsitemsClubAction($slug)
     {
-        $club = $this->findBySlug($slug);
-        $repo = $this->em->getRepository('KIUpontBundle:Publications\Post');
-        $posts = $repo->findByAuthorClub($club);
+        $repo = $this->em->getRepository('KIUpontBundle:Publications\Newsitem');
 
-        return $posts;
+        list($findBy, $sortBy, $limit, $offset, $page, $totalPages, $count) = $this->paginate($repo);
+        $findBy['authorClub'] = $this->findBySlug($slug);
+        $results = $repo->findBy($findBy, $sortBy, $limit, $offset);
+        return $this->generatePages($results, $limit, $page, $totalPages, $count);
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Retourne toutes les events publiées par un club",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   404="Ressource non trouvée",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Utilisateurs"
+     * )
+     * @Route\Get("/clubs/{slug}/events")
+     */
+    public function getEventsClubAction($slug)
+    {
+        $repo = $this->em->getRepository('KIUpontBundle:Publications\Event');
+
+        list($findBy, $sortBy, $limit, $offset, $page, $totalPages, $count) = $this->paginate($repo);
+        $findBy['authorClub'] = $this->findBySlug($slug);
+        $results = $repo->findBy($findBy, $sortBy, $limit, $offset);
+        return $this->generatePages($results, $limit, $page, $totalPages, $count);
     }
 }

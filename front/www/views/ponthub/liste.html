@@ -1,7 +1,7 @@
-<div up-row left wrap padded class="up-ticket">
-    <div up-ticket-liste class="up-elemt-ponthub" content="{img: element.image_url, title: element.name }" ng-repeat="element in elements" ponthub="element.slug" category="category">
-    </div>
-    <div ng-if='!elements.length'>
+<div up-row left wrap padded class="up-ticket" infinite-scroll="next()" infinite-scroll-distance="1" infinite-scroll-disabled="$root.infiniteLoading">
+        <div up-ticket-liste class="up-elemt-ponthub" content="{img: element.image_url, title: element.name }" ng-repeat="element in elements.data" ponthub="element.slug" category="category">
+        </div>
+    <div ng-if="!elements.data.length">
         <h2>Il n'y a rien dans cette section...<br>
         Ajoute des demandes aux jardiniers pour corriger cela !</h2>
     </div>

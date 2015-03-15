@@ -2,6 +2,7 @@
 
 namespace KI\UpontBundle\Controller\Users;
 
+use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -30,6 +31,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Get("/own/achievements")
      */
     public function getAchievementsAction()
     {
@@ -108,6 +110,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Post("/own/device")
      */
     public function postDeviceAction()
     {
@@ -149,6 +152,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Delete("/own/device/{id}")
      */
     public function deleteDeviceAction($id)
     {
@@ -180,6 +184,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Get("/own/notifications")
      */
     public function getNotificationsAction()
     {
@@ -222,6 +227,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Get("/own/followed")
      */
     public function getFollowedAction()
     {
@@ -256,9 +262,54 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Get("/own/events")
      */
-    public function getEventsAction()
+    public function getOwnEventsAction()
     {
+        $events = $this->getFollowedEvents();
+        $return = array();
+        $today = time();
+
+        foreach ($events as $event) {
+            // On élimine les anciens événements
+            if ($event->getStartDate() > $today)
+                $return[] = $event;
+        }
+
+        return $this->restResponse($return);
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Retourne le calendrier de l'utilisateur au format ICS",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Utilisateurs"
+     * )
+     */
+    public function getOwnCalendarAction($token)
+    {
+        $user = $this->repo->findOneByToken($token);
+        if ($user === null) {
+            throw new NotFoundHttpException('Aucun utilisateur ne correspond au token saisi');
+        } else {
+            $events = $this->getFollowedEvents();
+            $calStr = $this->get('ki_upont.calendar')->getCalendar($user, $events);
+
+            return new \Symfony\Component\HttpFoundation\Response($calStr, 200, array(
+                    'Content-Type' => 'text/calendar; charset=utf-8',
+                    'Content-Disposition' => 'attachment; filename="calendar.ics"',
+                )
+            );
+        }
+    }
+
+    // Va chercher les événements suivis
+    private function getFollowedEvents() {
         $repo = $this->em->getRepository('KIUpontBundle:Publications\Event');
         $user = $this->get('security.context')->getToken()->getUser();
 
@@ -275,14 +326,13 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
             if ($event->getPookies()->contains($user))
                 continue;
 
-            // On élimine les anciens événements
-            if ($event->getStartDate() > $today) {
-                $return[$key] = $event;
-                $dates[$key] = $event->getStartDate();
-            }
+            // On trie par date
+            $return[$key] = $event;
+            $dates[$key] = $event->getStartDate();
         }
         array_multisort($dates, SORT_DESC, $return);
-        return $this->restResponse($return);
+
+        return $return;
     }
 
     /**
@@ -300,6 +350,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Get("/own/polls")
      */
     public function getPollsAction()
     {
@@ -321,6 +372,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Get("/own/newsitems")
      */
     public function getNewsItemsAction()
     {
@@ -351,8 +403,9 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Get("/own/courses")
      */
-    public function getCoursesAction()
+    public function getOwnCoursesAction()
     {
         $user = $this->get('security.context')->getToken()->getUser();
         return $this->restResponse($user->getCourses());
@@ -370,6 +423,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Get("/own/courseitems")
      */
     public function getCourseitemsAction()
     {
@@ -387,25 +441,6 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         }
         array_multisort($timestamp, SORT_ASC, $result);
         return $this->restResponse($result);
-    }
-
-    /**
-     * @ApiDoc(
-     *  description="Renvoie la liste des cours suivis qui auront lieu bientôt, et leur salle",
-     *  output="KI\UpontBundle\Entity\Publications\Course",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Utilisateurs"
-     * )
-     */
-    public function getCoursesitemsAction()
-    {
-        $user = $this->get('security.context')->getToken()->getUser();
-        return $this->restResponse($user->getCourses());
     }
 
     /**
@@ -432,6 +467,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Patch("/own/preferences")
      */
     public function changePreferenceAction(Request $request)
     {
@@ -470,6 +506,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Delete("/own/preferences")
      */
     public function removePreferenceAction(Request $request)
     {
@@ -502,35 +539,12 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Get("/own/preferences")
      */
     public function getPreferencesAction()
     {
         $user = $this->get('security.context')->getToken()->getUser();
         return $this->restResponse($user->getPreferences());
-    }
-
-    /**
-     * @ApiDoc(
-     *  description="Retourne le calendrier de l'utilisateur au format ICS",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Utilisateurs"
-     * )
-     */
-    public function getOwnCalendarAction()
-    {
-        $user = $this->get('security.context')->getToken()->getUser();
-        $calStr = $this->get('ki_upont.calendar')->getCalendar($user);
-
-        return $this->restResponse($calStr, 200, array(
-                'Content-Type'        => 'text/calendar; charset=utf-8',
-                'Content-Disposition' => 'attachment; filename="calendar.ics"',
-            )
-        );
     }
 
     /**
@@ -544,9 +558,10 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route\Get("/own/token")
      */
     public function getTokenAction()
     {
-        return $this->get('ki_upont.token')->getToken();
+        return array('token' => $this->get('ki_upont.token')->getToken());
     }
 }

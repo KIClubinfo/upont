@@ -1,9 +1,15 @@
 angular.module('upont')
-    .controller("PH_Liste_Ctrl", ['$scope', '$stateParams', 'elements', function($scope, $stateParams, elements) {
+    .controller("PH_Liste_Ctrl", ['$scope', '$stateParams', 'elements', 'Paginate', function($scope, $stateParams, elements, Paginate) {
         $scope.elements = elements;
         $scope.category = $stateParams.category;
+
+        $scope.next = function() {
+            Paginate.next($scope.elements).then(function(data){
+                $scope.elements = data;
+            });
+        };
     }])
-    .controller("PH_Element_Ctrl", ['$scope', 'element', 'episodes', function($scope, element, episodes) {
+    .controller("PH_Element_Ctrl", ['$scope', '$http', 'element', 'episodes', function($scope, $http, element, episodes) {
         $scope.element = element;
         if(episodes){
             $scope.saisons = [];
@@ -14,6 +20,9 @@ angular.module('upont')
                 $scope.saisons[episodes[i].season - 1].push(episodes[i]);
             }
         }
+        $scope.download = function(url) {
+            $http.get(url + '/download');
+        };
     }])
     .factory('PH_categories', function(){
         return function(category){
@@ -34,42 +43,28 @@ angular.module('upont')
         };
     })
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state("ponthub", {
-                url: "/ponthub",
+        $stateProvider.state("root.ponthub", {
+                url: "ponthub/:category",
                 templateUrl: "views/ponthub/index.html",
+                abstract: true,
                 data: {
-                    defaultChild: "category",
-                    parent: "ponthub",
                     title: 'uPont - PontHub'
-                },
-            })
-            .state("ponthub.category", {
-                url: "/:category",
-                template: '<div ui-view></div>',
-                data: {
-                    parent: 'ponthub.category',
-                    defaultChild: 'liste'
                 },
                 params: {
                     category: 'films'
                 }
             })
-            .state("ponthub.category.liste", {
+            .state("root.ponthub.liste", {
                 url: "",
                 templateUrl: "views/ponthub/liste.html",
                 controller: 'PH_Liste_Ctrl',
                 resolve: {
-                    elements: ['$resource', '$stateParams', 'PH_categories', function($resource, $stateParams, PH_categories) {
-                        return $resource(apiPrefix + ":cat").query({
-                            cat: PH_categories($stateParams.category)
-                        }).$promise;
+                    elements: ['Paginate', '$stateParams', 'PH_categories', function(Paginate, $stateParams, PH_categories) {
+                        return Paginate.get(PH_categories($stateParams.category));
                     }]
-                },
-                data:{
-                    toParent: true
                 }
             })
-            .state("ponthub.category.simple", {
+            .state("root.ponthub.simple", {
                 url: "/:slug",
                 templateUrl: "views/ponthub/simple.html",
                 controller: 'PH_Element_Ctrl',
@@ -88,9 +83,6 @@ angular.module('upont')
                             slug: $stateParams.slug
                         }).$promise;
                     }],
-                },
-                data:{
-                    toParent: true
                 }
             });
     }]);
