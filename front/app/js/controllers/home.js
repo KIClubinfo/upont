@@ -25,7 +25,7 @@ angular.module('upont')
 "\n\n" +
 "La version 2 est encore en gros développement, nous avons besoin de ton avis pour l'améliorer de façon continue ! (au moins une mise à jour par semaine sera faite)");
                     } else {
-                        $state.go("root.home.connected");
+                        $state.go("root.home");
                     }
                 })
                 .error(function(data, status, headers, config) {
