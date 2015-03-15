@@ -27,7 +27,7 @@ angular.module('upont')
 
                 var suffix = '';
                 if (limit > 0) {
-                    suffix = url.match(/\?/) == null ? '?' : '&';
+                    suffix = url.match(/\?/) === null ? '?' : '&';
                     suffix += 'limit=' + limit;
                 }
                 var defered = $q.defer();

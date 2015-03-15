@@ -264,7 +264,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      * )
      * @Route\Get("/own/events")
      */
-    public function getEventsAction()
+    public function getOwnEventsAction()
     {
         $events = $this->getFollowedEvents();
         $return = array();
@@ -405,7 +405,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      * )
      * @Route\Get("/own/courses")
      */
-    public function getCoursesAction()
+    public function getOwnCoursesAction()
     {
         $user = $this->get('security.context')->getToken()->getUser();
         return $this->restResponse($user->getCourses());
