@@ -66,9 +66,14 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
                 unset($results[$key]);
         }
 
+        // On prend l'url de la requête
         $baseUrl = '<'.str_replace($this->getRequest()->getBaseUrl(), '', $this->getRequest()->getRequestUri());
-        $baseUrl = preg_replace('#\?.*$#', '', $baseUrl);
-        $baseUrl .= '?page=';
+        // On enlève tous les paramètres GET de type "page" et "limit" précédents s'il y en avait
+        $baseUrl = preg_replace('#[\?&](page|limit)=\d+#', '', $baseUrl);
+        $baseUrl .= !preg_match('#\?#', $baseUrl) ? '?' : '&';
+
+        // On va générer les notres pour les links
+        $baseUrl .= 'page=';
         $links = array();
 
         if ($page > 1)
