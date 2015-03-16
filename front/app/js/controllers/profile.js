@@ -58,7 +58,7 @@ angular.module('upont')
         $stateProvider
             .state("root.profil", {
                 url: 'profil',
-                templateUrl: "views/profil.html",
+                templateUrl: "views/profile.html",
                 controller: "Profil_Ctrl",
                 resolve: {
                     preferences: ["$resource", function($resource) {

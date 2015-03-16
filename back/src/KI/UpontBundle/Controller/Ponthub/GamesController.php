@@ -90,6 +90,6 @@ class GamesController extends \KI\UpontBundle\Controller\Core\ResourceController
 
         $this->em->flush();
 
-        return $this->redirect($item->fileUrl());
+        return $this->jsonResponse(array('redirect' => $item->fileUrl()));
     }
 }

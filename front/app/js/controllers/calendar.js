@@ -14,14 +14,14 @@ angular.module('upont')
         $stateProvider
             .state("root.calendrier", {
                 url: 'calendrier',
-                templateUrl: 'views/calendrier.html',
+                templateUrl: 'views/calendar.html',
                 controller: 'Calendrier_Ctrl',
                 data: {
                     title: "uPont - Calendrier"
                 },
                 resolve: {
                     events: ["$resource", function($resource) {
-                        return $resource(apiPrefix + "events").query().$promise;
+                        return $resource(apiPrefix + 'own/events?all=true').query().$promise;
                     }]
                 },
                 onEnter: ['$rootScope', function($rootScope) {

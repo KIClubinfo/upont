@@ -15,9 +15,9 @@
         <p>{{ element.description }}</p>
         <ul class="up-ph-list-infos">
             <li ng-if="element.year">Année de sortie : {{ element.year }}</li>
-            <li ng-if="element.genres && element.genres.length">Genres : <span ng-repeat="genre in element.genres">{{ genre }}{{$last ? '' : ', '}}</span>
+            <li ng-if="element.genres && element.genres.length > 1">Genres : <span ng-repeat="genre in element.genres">{{ genre }}{{$last ? '' : ', '}}</span>
             </li>
-            <li ng-if="element.actors_list && element.actors_list.length">Acteurs : <span ng-repeat="actor in element.actors_list">{{ actor }}{{$last ? '' : ', '}}</span>
+            <li ng-if="element.actors_list && element.actors_list.length > 1">Acteurs : <span ng-repeat="actor in element.actors_list">{{ actor }}{{$last ? '' : ', '}}</span>
             </li>
             <li ng-if="element.artist">Artiste : {{ element.artist }}</li>
 
@@ -31,10 +31,11 @@
 
             <li ng-if="element.rating">Note Rotten Tomatoes : {{ element.rating+'%' }}</li>
 
-            <h4>
-                <a class="up-ticket-link" ng-click="download(url + 'movies/' + element.slug)">
-                    {{ element.name }}
-                </a>
+            <h4 ng-if="category != 'series'">
+                <button class="btn btn-default" ng-click="download()">
+                    <i class="fa fa-download"></i>
+                    Télécharger !
+                </button>
             </h4>
         </ul>
 
@@ -42,14 +43,10 @@
             <h2>Saison {{ $index+1 }}</h2>
 
             <h4 ng-repeat="episode in saison | orderBy:['name']">
-                <a class="up-ticket-link" ng-click="download(url + 'series/' + element.slug + '/episodes/' + episode.slug)">
+                <a class="up-ticket-link" ng-click="download(url + 'series/' + element.slug + '/episodes/' + episode.slug + '/download')">
                     {{ episode.name }}
                 </a>
             </h4>
-        </div>
-
-        <div ng-if="!saisons">
-            <a href=""></a>
         </div>
     </div>
 </div>
