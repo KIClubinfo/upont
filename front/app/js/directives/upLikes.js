@@ -49,6 +49,52 @@ angular.module('upont').directive('upLikes', function() {
                 }
             };
 
+            $scope.likeComment = function(comment) {
+                var index = $scope.comments.indexOf(comment);
+
+                // Si la personne like déjà on ne fait qu'annuler le like
+                if ($scope.comments[index].like) {
+                    $resource(apiPrefix + 'comments/' + $scope.comments[index].id + '/like').remove(function() {
+                        $scope.comments[index].like = false;
+                        $scope.comments[index].likes--;
+                    });
+                } else {
+                    $resource(apiPrefix + 'comments/' + $scope.comments[index].id + '/like').save(function() {
+                        $scope.comments[index].like = true;
+                        $scope.comments[index].likes++;
+
+                        // Si la personne unlikait avant
+                        if ($scope.comments[index].dislike) {
+                            $scope.comments[index].dislike = false;
+                            $scope.comments[index].dislikes--;
+                        }
+                    });
+                }
+            };
+
+            $scope.dislikeComment = function(comment) {
+                var index = $scope.comments.indexOf(comment);
+
+                // Si la personne dislike déjà on ne fait qu'annuler le dislike
+                if ($scope.comments[index].dislike) {
+                    $resource(apiPrefix + 'comments/' + $scope.comments[index].id + '/dislike').remove(function() {
+                        $scope.comments[index].dislike = false;
+                        $scope.comments[index].dislikes--;
+                    });
+                } else {
+                    $resource(apiPrefix + 'comments/' + $scope.comments[index].id + '/dislike').save(function() {
+                        $scope.comments[index].dislike = true;
+                        $scope.comments[index].dislikes++;
+
+                        // Si la personne unlikait avant
+                        if ($scope.comments[index].like) {
+                            $scope.comments[index].like = false;
+                            $scope.comments[index].likes--;
+                        }
+                    });
+                }
+            };
+
             $scope.openComments = function(){
                 $scope.shownComments = $scope.objet.comments;
             };
