@@ -1,7 +1,8 @@
 <div class="up-ticket" ng-hide="event.entry_method != 'Shotgun'">
     <h1>{{ event.name }} - Shotgun</h1>
 
-    <div ng-hide="shotgunned" class="up-shotgun centering" up-row wrap left>
+    <!-- Si on a pas shotgunné -->
+    <div ng-hide="shotgunned || shotgun.position" class="up-shotgun centering" up-row wrap left>
         <div up-col-xs="100%" up-col-sm="100%" up-col="50%" class="status">
             <p><i class="fa fa-bolt"></i></p>
             <p>Shotgun !<br>
@@ -14,44 +15,42 @@
                 ng-model="motivation" ngMinlength="1" required></textarea>
             </form>
             <br>
-            <button class="btn btn-default">Shotgunner !</button>
+            <button class="btn btn-default" ng-click="shotgunEvent()">Shotgunner !</button>
         </div>
     </div>
 
+    <!-- Si on a shotgunné -->
+    <div ng-show="shotgunned || shotgun.position" class="up-shotgun centering" up-row wrap left>
 
-    <div ng-hide="!shotgunned">
-        <div ng-hide="!shotgun.status">
-            <div class="container-shotgun">
-                <ons-icon icon="fa-smile-o"></ons-icon><br><br>
-                Shotgun réussi !<br>
-                <p>Tu arrives en {{ shotgun.position | formatPosition }} position !</p>
-                <p>Un petit mot de la part de l'organisateur :</p>
-                <p>{{ shotgun.shotgunText }}</p>
-            </div>
-
-            <div class="center">
-                <br><ons-button ng-click="deleteShotgun()">Annuler le shotgun</ons-button>
-            </div>
+        <!-- Si le shotgun a réussi -->
+        <div ng-hide="!shotgun.status" up-col-xs="100%" up-col-sm="100%" up-col="50%" class="status">
+            <p><i class="fa fa-smile-o"></i></p>
+            <p>Shotgun réussi !<br>
+            Tu arrives en {{ shotgun.position | formatPosition }} position !<br>
+            Un petit mot de la part de l'organisateur :<br><br>
+            {{ shotgun.shotgunText }}</p>
         </div>
 
-        <div ng-hide="shotgun.status">
-            <div ng-hide="shotgun.position != 0" class="container-shotgun">
-                <ons-icon icon="fa-frown-o"></ons-icon><br><br>
-                Shotgun raté !<br>
-                <p>En voulant aller trop vite, tu as répondu trop tôt...</p>
-            </div>
+        <div ng-hide="!shotgun.status" up-col-xs="100%" up-col-sm="100%" up-col="50%">
+            <button class="btn btn-default" ng-click="deleteShotgun()">Annuler le shotgun</button>
+        </div>
 
-            <div ng-hide="shotgun.position === 0">
-                <div class="container-shotgun">
-                    <ons-icon icon="fa-meh-o"></ons-icon><br><br>
-                    Shotgun raté !<br>
-                    <p>Tu n'as pas répondu à temps, mais tu es quand même en {{ shotgun.waitingList | formatPosition }} position sur la liste d'attente.</p>
-                    <br>
-                </div>
-                <div class="center">
-                    <br><ons-button ng-click="deleteShotgun()">Annuler le shotgun</ons-button>
-                </div>
-            </div>
+        <!-- Si le shotgun a été fait trop tôt -->
+        <div ng-hide="shotgun.status || shotgun.position != 0" up-col-xs="100%" up-col-sm="100%" up-col="50%" class="status">
+            <p><i class="fa fa-frown-o"></i></p>
+            <p>Shotgun raté !<br>
+            En voulant aller trop vite, tu as répondu trop tôt...</p>
+        </div>
+
+        <!-- Si on arrive sur liste d'attente -->
+        <div ng-hide="shotgun.status || shotgun.position === 0" up-col-xs="100%" up-col-sm="100%" up-col="50%" class="status">
+            <p><i class="fa fa-meh-o"></i></p>
+            <p>Shotgun raté !<br>
+            Tu n'as pas répondu à temps, mais tu es quand même en {{ shotgun.waitingList | formatPosition }} position sur la liste d'attente.</p>
+        </div>
+
+        <div ng-hide="shotgun.status || shotgun.position === 0" up-col-xs="100%" up-col-sm="100%" up-col="50%">
+            <button class="btn btn-default" ng-click="deleteShotgun()">Annuler le shotgun</button>
         </div>
     </div>
 </div>

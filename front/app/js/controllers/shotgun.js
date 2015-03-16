@@ -1,7 +1,7 @@
 angular.module('upont')
-    .controller('Shotgun_Ctrl', ['$scope', '$resource', 'event', function($scope, $resource, event) {
+    .controller('Shotgun_Ctrl', ['$scope', '$resource', '$http', 'event', 'shotgun', function($scope, $resource, $http, event, shotgun) {
         $scope.event = event;
-        $scope.shotgun = [];
+        $scope.shotgun = shotgun;
         $scope.shotgunned = false;
         $scope.motivation = '';
 
@@ -35,6 +35,11 @@ angular.module('upont')
                 resolve: {
                     event: ['$resource', '$stateParams', function($resource, $stateParams) {
                         return $resource(apiPrefix + 'events/:slug').get({
+                            slug: $stateParams.slug
+                        }).$promise;
+                    }],
+                    shotgun: ['$resource', '$stateParams', function($resource, $stateParams) {
+                        return $resource(apiPrefix + 'events/:slug/shotgun').get({
                             slug: $stateParams.slug
                         }).$promise;
                     }]
