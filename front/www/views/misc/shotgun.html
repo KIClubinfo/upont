@@ -1,0 +1,67 @@
+<div class="up-ticket" ng-hide="event.entry_method != 'Shotgun'">
+    <h1>{{ event.name }} - Shotgun</h1>
+
+    <div ng-hide="shotgunned" class="up-shotgun centering" up-row wrap left>
+        <div up-col-xs="100%" up-col-sm="100%" up-col="50%" class="status">
+            <p><i class="fa fa-bolt"></i></p>
+            <p>Shotgun !<br>
+            (attention, uPont ne soigne pas le shotgun précoce)</p>
+        </div>
+
+        <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
+            <form ng-submit="shotgunEvent()" class="center">
+                <textarea placeholder="Ta motivation ici" rows="5"
+                ng-model="motivation" ngMinlength="1" required></textarea>
+            </form>
+            <br>
+            <button class="btn btn-default">Shotgunner !</button>
+        </div>
+    </div>
+
+
+    <div ng-hide="!shotgunned">
+        <div ng-hide="!shotgun.status">
+            <div class="container-shotgun">
+                <ons-icon icon="fa-smile-o"></ons-icon><br><br>
+                Shotgun réussi !<br>
+                <p>Tu arrives en {{ shotgun.position | formatPosition }} position !</p>
+                <p>Un petit mot de la part de l'organisateur :</p>
+                <p>{{ shotgun.shotgunText }}</p>
+            </div>
+
+            <div class="center">
+                <br><ons-button ng-click="deleteShotgun()">Annuler le shotgun</ons-button>
+            </div>
+        </div>
+
+        <div ng-hide="shotgun.status">
+            <div ng-hide="shotgun.position != 0" class="container-shotgun">
+                <ons-icon icon="fa-frown-o"></ons-icon><br><br>
+                Shotgun raté !<br>
+                <p>En voulant aller trop vite, tu as répondu trop tôt...</p>
+            </div>
+
+            <div ng-hide="shotgun.position === 0">
+                <div class="container-shotgun">
+                    <ons-icon icon="fa-meh-o"></ons-icon><br><br>
+                    Shotgun raté !<br>
+                    <p>Tu n'as pas répondu à temps, mais tu es quand même en {{ shotgun.waitingList | formatPosition }} position sur la liste d'attente.</p>
+                    <br>
+                </div>
+                <div class="center">
+                    <br><ons-button ng-click="deleteShotgun()">Annuler le shotgun</ons-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="up-ticket" ng-show="event.entry_method != 'Shotgun'">
+    <h1>Impossible de shotgunner cet event !</h1>
+</div>
+
+<div class="up-ticket">
+    <h1>Classement des meilleurs shotgunners</h1>
+
+    <p>À venir...</p>
+</div>
