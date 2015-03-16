@@ -62,7 +62,7 @@ angular.module('upont')
                 controller: "Publis_Ctrl",
                 resolve: {
                     newsItems: ['Paginate', function(Paginate) {
-                        return Paginate.get('own/newsitems?sort=date', 10);
+                        return Paginate.get('own/newsitems?sort=-date', 10);
                     }],
                     events: ['Paginate', function(Paginate) {
                         return Paginate.get('own/events');

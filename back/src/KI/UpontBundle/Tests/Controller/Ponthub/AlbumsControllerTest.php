@@ -68,11 +68,11 @@ class AlbumsControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/albums/back-in-black/musics/giving-the-dog-a-bone/download');
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 302);
+        $this->assertJsonResponse($response, 200);
 
         $this->client->request('GET', '/albums/back-in-black/musics/giving-the-dog-a-bone/download');
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 302);
+        $this->assertJsonResponse($response, 200);
 
         $this->client->request('GET', '/albums/back-in-black/musics/giving-the-dog-a-bone');
         $response = $this->client->getResponse();
