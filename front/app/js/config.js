@@ -85,8 +85,6 @@ angular.module('upont')
             StorageService.remove('droits');
         }
 
-        $rootScope.publier = false;
-
         $rootScope.logout = function() {
             StorageService.remove('token');
             StorageService.remove('roles');
