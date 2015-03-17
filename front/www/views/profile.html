@@ -1,7 +1,7 @@
 <div class="up-ticket">
     <h2>Informations Générales :</h1>
 
-    <div up-row padded>
+    <div up-row padded center>
         <div up-col-xs="100%" up-col-sm="100%" up-col="50%" class="centering">
             <img ng-src="{{ url + me.image_url }}" class="up-profile-page-picture">
         </div>
@@ -151,7 +151,7 @@
             <h2>Calendrier ICS</h2>
             <p>En cliquant le lien suivant, tu pourras synchroniser ton calendrier uPont avec ton calendrier iPhone/Android, Thunderbird, Outlook... et recevoir des alertes avant les shotguns etc. !</p>
 
-            <div up-row wrap padded>
+            <div up-row wrap padded center>
                 <a ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" up-col-xs="100%" up-col-sm="100%" up-col="50%" class="btn btn-default centering">Synchroniser !</a>
             </div>
         </div>
@@ -178,7 +178,7 @@
             </table>
             <br>
 
-            <div up-row wrap padded>
+            <div up-row wrap padded space-around>
                 <a href="" up-col-xs="100%" up-col-sm="100%" up-col="30%" class="btn btn-default centering">Android</a>
                 <a href="" up-col-xs="100%" up-col-sm="100%" up-col="30%" class="btn btn-default centering">iOS</a>
                 <a href="" up-col-xs="100%" up-col-sm="100%" up-col="30%" class="btn btn-default centering">Windows Phone</a>
