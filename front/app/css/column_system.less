@@ -6,7 +6,6 @@
 .up-row {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
     position: relative;
     &.padded>*{
         padding: 0.5em 1em;
@@ -25,6 +24,9 @@
     }
     &.space-between{
         justify-content:space-between;
+    }
+    &.space-around{
+        justify-content:space-around;
     }
 }
 .up-column {
