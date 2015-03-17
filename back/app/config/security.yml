@@ -57,7 +57,7 @@ security:
             
         exceptionsPost:
             methods: [POST]
-            pattern: ^/(resetting)
+            pattern: ^/(resetting|filelist)
             security: false
         
         #exceptionsPatch:
