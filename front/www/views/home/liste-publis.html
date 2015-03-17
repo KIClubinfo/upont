@@ -37,7 +37,7 @@
                     </div>
                     <div up-col="40%" class="up-ticket-date">
                         {{ publication.date*1000 | date : 'd MMMM yyyy' }}<br>
-                        <a class="shotgun-link" alt="Lien vers la page de shotgun"
+                        <a class="up-shotgun-link" title="Lien vers la page de shotgun"
                         ng-if="publication.entry_method == 'Shotgun'" ng-href="shotgun/{{ publication.slug }}">
                             SHOTGUN {{ publication.shotgun_date | formatDate }}
                         </a>
