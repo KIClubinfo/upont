@@ -347,7 +347,7 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
 
         // Si on est l'auteur du shotgun, on peut récupérer la liste d'attente
         if ($event->getAuthorUser() == $user) {
-            $result['succcess'] = $success;
+            $result['success'] = $success;
             $result['fail'] = $fail;
         }
 

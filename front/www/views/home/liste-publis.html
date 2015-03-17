@@ -10,11 +10,11 @@
             <div class="up-ticket-body">
                 <div class="up-news-icon"><i class="fa fa-envelope"></i></div>
                 <div up-row>
-                    <div  class="up-ticket-title" up-col="70%">
+                    <div  class="up-ticket-title" up-col="60%">
                         <h2>{{ publication.name }}</h2>
                        <div>Par {{ publication.author_club.name }}</div>
                     </div>
-                    <div up-col="30%" class="up-ticket-date">{{ publication.date*1000 | date : 'd MMMM yyyy' }}</div>
+                    <div up-col="40%" class="up-ticket-date">{{ publication.date*1000 | date : 'd MMMM yyyy' }}</div>
                 </div>
                 <p up-publi-text string="publication.text_long"></p>
                 <div up-likes objet="publication" url="'newsitems/'+publication.slug"></div>
@@ -26,23 +26,22 @@
                 <div class="up-img-home-container">
                     <div class="up-img-home" ng-style="{'background-image': 'url({{ publication.image_url | urlFile }})'}" />
                 </div>
-                <!--
-                    <p class="up-date-evenement">
-                        Le {{ publication.start_date*1000 | date : 'dd/MM/yyyy à H:mm' }}
-                        <br>
-                        <span ng-if="publication.entry_method == 'Shotgun'">Shotgun le {{ publication.shotgun_date*1000 | date : 'dd/MM/yyyy'  }}</span>
-                    </p>
-                </div> -->
             </div>
 
             <div class="up-ticket-body">
                 <div class="up-news-icon"><i class="fa fa-calendar"></i></div>
                 <div up-row>
-                    <div  class="up-ticket-title" up-col="70%">
+                    <div class="up-ticket-title" up-col="60%">
                         <h2>{{ publication.name }}</h2>
                        <div>Par {{ publication.author_club.name }}</div>
                     </div>
-                    <div up-col="30%" class="up-ticket-date">{{ publication.date*1000 | date : 'd MMMM yyyy' }}</div>
+                    <div up-col="40%" class="up-ticket-date">
+                        {{ publication.date*1000 | date : 'd MMMM yyyy' }}<br>
+                        <a class="up-shotgun-link" title="Lien vers la page de shotgun"
+                        ng-if="publication.entry_method == 'Shotgun'" ng-href="shotgun/{{ publication.slug }}">
+                            SHOTGUN {{ publication.shotgun_date | formatDate }}
+                        </a>
+                    </div>
                 </div>
                 <p class="up-chapeau" up-publi-text string="publication.text_long"></p>
                 <div up-likes objet="publication" url="'events/'+publication.slug"></div>
