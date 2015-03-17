@@ -38,9 +38,9 @@
         }
     }
 
-    input:focus {
-        border-color: @col1;
-    }
+    // input:focus {
+    //     border-color: @col1;
+    // }
     h1, h2, h3, h4, h5, h6 {
         a:hover {
             color: @col1;
@@ -115,51 +115,37 @@
 }
 body.theme-clear {
     .theme(#5584AD, #777, #FFF, #aaa, #dddfe4, #d0d0d0, #2A303D, "img/footerUp_clear.png", 0);
-    select, textarea, input, .btn-default{
-        border: solid 1px #a3a3a3;
-        background: #e8e8e8;
-        color: #666;
+    .btn-default, select, textarea, input{
+        border: solid 1px #b6b7b9;
+        background: #f6f7f8;
+        box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+        text-shadow: 0px 1px 0px #fff;
+        color:#4e5665;
     }
-    .btn-publier{
-        font-size:12px;
-        border-color: #5584AD !important;
-        box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.05);
+    .btn-default:hover{
+        color:#4e5665;
+        background: #edeeef;
     }
-    .btn-default{
-        color:#333;
+    input:focus, .btn-default:active{
+        border-color:#5584AD;
+        box-shadow: 0px 0px 1px #888 inset;
     }
-    .btn-default:hover {
-        background-color: #e1e1e1;
-        border-color: #999;
-        box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
-    }
-    .btn-default:active{
-        background-color: #e0e0e0;
-        box-shadow: 0px 0px 0px #ddd inset;
+    input:focus{
+        background: #edeeef;
     }
 }
 body.theme-dark {
     .theme(#F08630, #a0a0a0, #222, #555, #2a2c2f, #d0d0d0, #222, "img/footerUp_dark.png", @navbarHgt - 1px);
-    select, textarea, input, .btn-default{
-        border: solid 1px #a3a3a3;
-        background: #404040;
-        color: #c0c0c0;
+    .btn-default, select, textarea, input{
+        border: solid 1px #868789;
+        background: #3a3c3f;
+        box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+        text-shadow: 0px 1px 0px #000;
+        color:#bec6c5;
     }
-    .btn-publier{
-        font-size:12px;
-        border-color: #F08630 !important;
-        // box-shadow: 0px 0px 2px rgba(255, 255, 255, 0.4);
+    input:focus, .btn-default:active{
+        border-color:#F08630;
+        box-shadow: 0px 0px 2px #111 inset;
     }
-    .btn-default{
-        color:#ddd;
-    }
-    .btn-default:hover {
-        background-color: #383838;
-        border-color: #999;
-        // box-shadow: 0px 0px 2px rgba(255, 255, 255, 0.5);
-    }
-    .btn-default:active{
-        background-color: #2f2f2f;
-        box-shadow: 0px 0px 2px #505050 inset;
-    }
+
 }

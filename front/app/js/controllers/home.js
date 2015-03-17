@@ -47,6 +47,12 @@ angular.module('upont')
                 $scope.newsItems = data;
             });
         };
+
+        $scope.publier = false;
+
+        $scope.startPublier = function(){
+            $scope.publier = !$scope.publier;
+        };
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider

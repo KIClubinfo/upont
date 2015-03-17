@@ -1,6 +1,11 @@
 <div up-row>
     <div up-col-md="60%" up-col-lg="60%" up-col="100%">
-        <div ng-if="$root.publier" class="up-slide" ng-include="'views/misc/publier.html'"></div>
+        <div class="up-ticket" ng-if="isAdmin && isState('root.home')" >
+            <div class="centering">
+                <h3 ng-show="!publier"><a class="btn btn-default btn-publier" ng-click="startPublier()">Publier !</a></h3>
+            </div>
+            <div ng-if="publier" class="up-slide" ng-include="'views/misc/publier.html'"></div>
+        </div>
         <div class="transition" ng-include="'views/home/liste-publis.html'"></div>
     </div>
 

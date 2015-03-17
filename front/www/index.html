@@ -40,9 +40,9 @@
                     <a class="up-main-title" ui-sref="root.home"></a>
                 </div>
                 <div></div>
-                <div ng-if="isAdmin && isState('root.home')" >
-                    <button class="btn btn-default btn-publier" ng-click="$root.publier=!$root.publier">Publier !</button>
-                </div>
+                <!-- <div ng-if="isAdmin && isState('root.home')" >
+                    <button class="btn btn-default btn-publier" ng-click="startPublier()">Publier !</button>
+                </div> -->
                 <div ng-show="isLogged">
                     <a ui-sref="root.profil" ui-sref-active="active" class="up-navbar-link">
                         <div style="background-image: url('{{ url + me.image_url }}')" class="up-profile-picture"></div>
