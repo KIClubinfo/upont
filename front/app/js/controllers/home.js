@@ -27,6 +27,7 @@ angular.module('upont')
                     } else {
                         $state.go("root.home");
                     }
+                    alertify.success('Salut ' + data.data.first_name + ' !');
                 })
                 .error(function(data, status, headers, config) {
                     // Supprime tout token en cas de mauvaise identification
@@ -35,6 +36,7 @@ angular.module('upont')
                         StorageService.remove('droits');
                     }
                     $rootScope.isLogged = false;
+                    alertify.error(data.reason);
                 });
         };
     }])
