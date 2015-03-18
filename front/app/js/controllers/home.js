@@ -27,6 +27,12 @@ angular.module('upont')
                     } else {
                         $state.go("root.home");
                     }
+                    $resource(apiPrefix + 'version').get(function(data){
+                        $rootScope.version = data;
+                    });
+                    $resource(apiPrefix + 'foyer/balance').get(function(data){
+                        $rootScope.foyer = data.balance;
+                    });
                 })
                 .error(function(data, status, headers, config) {
                     // Supprime tout token en cas de mauvaise identification
