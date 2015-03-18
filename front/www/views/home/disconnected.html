@@ -1,15 +1,20 @@
 <div up-row wrap>
     <div up-col-xs="100%" up-col-sm="100%" up-col="50%" class="up-ticket">
-        <h1>Bienvenue sur uPont !</h1>
-        <p>uPont est l'intranet étudiant de l'École nationale des ponts et chaussées.</p>
+        <div up-row>
+            <div up-col-xs="100%" up-col="80%">
+                <h1>Bienvenue sur uPont !</h1>
+                <p>uPont est l'intranet étudiant de l'École nationale des ponts et chaussées.</p>
+            </div>
+            <img up-col-xs="0%" up-col="20%" src="img/icon.svg"/>
+        </div>
     </div>
     <div class="up-ticket" up-col-xs="100%" up-col="50%">
         <h2>Élève ?</h2>
 
         <form class="up-login-form" ng-submit="login(pseudo, password)">
             <div up-row left padded space-around>
-                <input up-col="45%" up-col-xs="100%" ng-model="pseudo" type="text" placeholder="Identifiant"/>
-                <input up-col="45%" up-col-xs="100%" ng-model="password" type="password" placeholder="Mot de passe"/>
+                <input up-col="45%" ng-model="pseudo" type="text" placeholder="Identifiant"/>
+                <input up-col="45%" ng-model="password" type="password" placeholder="Mot de passe"/>
             </div>
             <br>
 
