@@ -29,7 +29,7 @@
     <script type="text/javascript" src="upont.min.js"></script>
 </head>
 
-<body ng-class="theme?'theme-dark':'theme-clear'">
+<body ng-class="theme == 'dark' ?'theme-dark':'theme-clear'">
     <div up-row>
         <div ng-if="isLogged" class="up-col-xs-4 up-col-sm-2">
             <div ng-include="'views/misc/aside.html'" class="up-aside up-col-xs-4 up-col-sm-2"></div>
