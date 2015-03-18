@@ -16,14 +16,11 @@ angular.module('upont')
                     }).get(function(data) {
                         $rootScope.me = data;
                     });
-                    if (data.data.first) {
+                    if (!data.data.first) {
                         $state.go("root.profil");
-                        // TODO passer en modal
-                        alert("Bienvenue sur uPont 2.0 !\n\n" +
-"Dans un premier temps, vérifie bien tes infos (notamment ta photo de profil, que nous avons essayé de récupérer par Facebook de façon automatique)." +
-"C'est super important que les infos soient remplies pour pouvoir profiter de uPont au max." +
-"\n\n" +
-"La version 2 est encore en gros développement, nous avons besoin de ton avis pour l'améliorer de façon continue ! (au moins une mise à jour par semaine sera faite)");
+                        alertify.alert('Bienvenue sur uPont 2.0 !<br><br>' +
+'Dans un premier temps, vérifie bien tes infos (notamment ta photo de profil, que nous avons essayé de récupérer par Facebook de façon automatique).<br>' +
+'C\'est super important que les infos soient remplies pour pouvoir profiter de uPont au max.');
                     } else {
                         $state.go("root.home");
                     }
