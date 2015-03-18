@@ -136,6 +136,39 @@
         -webkit-box-shadow: inset 0 -2px @col2;
         box-shadow: inset 0 -2px @col2;
     }
+    
+    .alertify {
+	    background: #FFF;
+    }
+    .alertify-text {
+	    border: 1px solid #CCC;
+    }
+    .alertify-button {
+	    color: #FFF;
+    }
+    .alertify-button:focus {
+	    box-shadow: 0 0 15px #2B72D5;
+    }
+    .alertify-button-cancel,
+    .alertify-button-cancel:hover,
+    .alertify-button-cancel:focus {
+	    background-color: #FE1A00;
+	    border: 1px solid #D83526;
+    }
+    .alertify-button-ok,
+    .alertify-button-ok:hover,
+    .alertify-button-ok:focus {
+	    background-color: #5CB811;
+	    border: 1px solid #3B7808;
+    }
+
+    .alertify-log {
+	    background: @col2;
+	    color: white;
+    }
+    .alertify-log-success {
+	    background: @col1;
+    }
 }
 body.theme-clear {
     .theme(#5584AD, #888, #FFF, #aaa, #d3d6d8, #dddfe4, #d0d0d0, #2A303D, "img/footerUp_clear.png", 0);
@@ -143,11 +176,17 @@ body.theme-clear {
         background-color: #f0f0f0;
         border-color: #57ABC2;
     }
+    .alertify-log-error {
+	    background: #F08630;
+    }
 }
 body.theme-dark {
     .theme(#F08630, #a0a0a0, #222, #555, #595B5C, #2a2c2f, #d0d0d0, #222, "img/footerUp_dark.png", @navbarHgt - 1px);
     .btn-default:hover {
         background-color: #333;
         border-color: #F08630;
+    }
+    .alertify-log-error {
+	    background: red;
     }
 }
