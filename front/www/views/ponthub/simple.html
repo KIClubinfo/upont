@@ -3,7 +3,7 @@
         <a ui-sref="root.ponthub.liste">
             <img class="img-responsive up-img-ponthub" src="{{ element.image_url | urlFile }}" alt="Image du fichier" />
         </a>
-        <div up-row>
+        <div up-row padded center>
             <div ng-if="element.vo"><span class="label label-upont">VO</span></div>
             <div ng-if="element.vf"><span class="label label-upont">VF</span></div>
             <div ng-if="element.vost"><span class="label label-upont">VOST</span></div>
@@ -31,7 +31,7 @@
 
             <li ng-if="element.rating">Note Rotten Tomatoes : {{ element.rating+'%' }}</li>
 
-            <h4 ng-if="category != 'series'">
+            <h4 ng-if="category != 'series' && category != 'musiques'">
                 <button class="btn btn-default" ng-click="download()">
                     <i class="fa fa-download"></i>
                     Télécharger !
@@ -39,14 +39,28 @@
             </h4>
         </ul>
 
-        <div ng-if="saisons" ng-repeat="saison in saisons">
-            <h2>Saison {{ $index+1 }}</h2>
+        <div up-row wrap padded ng-if="saisons">
+            <div up-col-xs="100%" up-col-sm="100%" up-col="50%" ng-repeat="saison in saisons">
+                <h2>Saison {{ $index+1 }}</h2>
 
-            <h4 ng-repeat="episode in saison | orderBy:['name']">
-                <a class="up-ticket-link" ng-click="download(url + 'series/' + element.slug + '/episodes/' + episode.slug + '/download')">
-                    {{ episode.name }}
-                </a>
-            </h4>
+                <ul class="up-list">
+                    <li ng-repeat="episode in saison | orderBy:['name']">
+                        <a class="up-ticket-link" ng-click="download(url + 'series/' + element.slug + '/episodes/' + episode.slug + '/download')">
+                            {{ episode.name }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div ng-if="musics">
+            <ul class="up-list">
+                <li ng-repeat="music in musics | orderBy:['name']">
+                    <a class="up-ticket-link" ng-click="download(url + 'albums/' + element.slug + '/musics/' + music.slug + '/download')">
+                        {{ music.name }}
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
 </div>
