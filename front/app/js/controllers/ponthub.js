@@ -55,7 +55,7 @@ angular.module('upont')
                 templateUrl: "views/ponthub/index.html",
                 abstract: true,
                 data: {
-                    title: 'uPont - PontHub'
+                    title: 'PontHub - uPont'
                 },
                 params: {
                     category: 'films'

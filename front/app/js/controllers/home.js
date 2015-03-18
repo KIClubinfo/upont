@@ -17,7 +17,7 @@ angular.module('upont')
                         $rootScope.me = data;
                     });
                     if (data.data.first) {
-                        $state.go("root.profil");
+                        $state.go("root.profile");
                         // TODO passer en modal
                         alert("Bienvenue sur uPont 2.0 !\n\n" +
 "Dans un premier temps, vérifie bien tes infos (notamment ta photo de profil, que nous avons essayé de récupérer par Facebook de façon automatique)." +
@@ -57,7 +57,7 @@ angular.module('upont')
                 url: '',
                 templateUrl: "views/home/connected.html",
                 data: {
-                    title: 'uPont - Accueil'
+                    title: 'Accueil - uPont'
                 },
                 controller: "Publis_Ctrl",
                 resolve: {
