@@ -15,7 +15,7 @@
                 ng-model="motivation" ngMinlength="1" required></textarea>
             </form>
             <br>
-            <button class="btn btn-default" ng-click="shotgunEvent()">Shotgunner !</button>
+            <button class="up-btn up-btn-default" ng-click="shotgunEvent()">Shotgunner !</button>
         </div>
     </div>
 
@@ -29,7 +29,7 @@
             Tu arrives en {{ shotgun.position | formatPosition }} position !<br>
             Un petit mot de la part de l'organisateur :<br><br>
             {{ shotgun.shotgunText }}</p>
-            <button class="btn btn-default" ng-click="deleteShotgun()">Annuler le shotgun</button>
+            <button class="up-btn up-btn-primary" ng-click="deleteShotgun()">Annuler le shotgun</button>
         </div>
 
         <!-- Si le shotgun a été fait trop tôt -->
@@ -44,7 +44,7 @@
             <p><i class="fa fa-meh-o"></i></p>
             <p>Shotgun raté !<br>
             Tu n'as pas répondu à temps, mais tu es quand même en {{ shotgun.waitingList | formatPosition }} position sur la liste d'attente.</p>
-            <button class="btn btn-default" ng-click="deleteShotgun()">Annuler le shotgun</button>
+            <button class="up-btn up-btn-primary" ng-click="deleteShotgun()">Annuler le shotgun</button>
         </div>
     </div>
 </div>
