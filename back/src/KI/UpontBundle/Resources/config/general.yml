@@ -76,6 +76,12 @@ upont_api_deploy:
     requirements:
         _method: HEAD
 
+search:
+    pattern: /search
+    defaults: { _controller: KIUpontBundle:Search:search }
+    requirements:
+        _method: POST
+
 logs:
     type:     rest
     resource: KI\UpontBundle\Controller\Core\LogsController
