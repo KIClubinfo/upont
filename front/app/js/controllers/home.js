@@ -17,16 +17,20 @@ angular.module('upont')
                         $rootScope.me = data;
                     });
                     if (data.data.first) {
-                        $state.go("root.profil");
-                        // TODO passer en modal
-                        alert("Bienvenue sur uPont 2.0 !\n\n" +
-"Dans un premier temps, vérifie bien tes infos (notamment ta photo de profil, que nous avons essayé de récupérer par Facebook de façon automatique)." +
-"C'est super important que les infos soient remplies pour pouvoir profiter de uPont au max." +
-"\n\n" +
-"La version 2 est encore en gros développement, nous avons besoin de ton avis pour l'améliorer de façon continue ! (au moins une mise à jour par semaine sera faite)");
+                        $state.go("root.profile");
+                        alertify.alert('Bienvenue sur uPont 2.0 !<br><br>' +
+'Dans un premier temps, vérifie bien tes infos (notamment ta photo de profil, que nous avons essayé de récupérer par Facebook de façon automatique).<br>' +
+'C\'est super important que les infos soient remplies pour pouvoir profiter de uPont au max.');
                     } else {
                         $state.go("root.home");
                     }
+                    alertify.success('Salut ' + data.data.first_name + ' !');
+                    $resource(apiPrefix + 'version').get(function(data){
+                        $rootScope.version = data;
+                    });
+                    $resource(apiPrefix + 'foyer/balance').get(function(data){
+                        $rootScope.foyer = data.balance;
+                    });
                 })
                 .error(function(data, status, headers, config) {
                     // Supprime tout token en cas de mauvaise identification
@@ -35,6 +39,7 @@ angular.module('upont')
                         StorageService.remove('droits');
                     }
                     $rootScope.isLogged = false;
+                    alertify.error(data.reason);
                 });
         };
     }])
@@ -60,12 +65,12 @@ angular.module('upont')
                 url: '',
                 templateUrl: "views/home/connected.html",
                 data: {
-                    title: 'uPont - Accueil'
+                    title: 'Accueil - uPont'
                 },
                 controller: "Publis_Ctrl",
                 resolve: {
                     newsItems: ['Paginate', function(Paginate) {
-                        return Paginate.get('own/newsitems?sort=date', 10);
+                        return Paginate.get('own/newsitems?sort=-date', 10);
                     }],
                     events: ['Paginate', function(Paginate) {
                         return Paginate.get('own/events');

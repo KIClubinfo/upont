@@ -1,4 +1,4 @@
-
+// Système flex
 .up-container {
     width: 100%;
     position: relative;
@@ -6,8 +6,8 @@
 .up-row {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
     position: relative;
+
     &.padded>*{
         padding: 0.5em 1em;
     }
@@ -26,16 +26,22 @@
     &.space-between{
         justify-content:space-between;
     }
+    &.space-around{
+        justify-content:space-around;
+    }
 }
 .up-column {
     display: flex;
     flex-direction: column;
     justify-content: flew-start;
     position: relative;
+
     &.padded>* {
         padding: 0.5em 1em;
     }
 }
+
+// Grid classique
 .up-col-xs-1 {
     width: 100%/12;
 }
@@ -217,6 +223,7 @@
     }
 }
 
+// Classes invisibles
 .invisible-xs {
     @media(max-width:@sizeSm) {
         display: none !important;

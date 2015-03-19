@@ -7,7 +7,6 @@ angular.module('upont')
         //     trueName = Math.floor(Math.random() * 3) + 1;
         //     $resource("/v2-api/promo_game").get(function(newEleves) {
         //         $scope.elevePhoto = newEleves.user1;
-        //         console.log(newEleves);
         //         switch (trueName) {
         //             case 1:
         //                 $scope.nom1 = newEleves.user1;

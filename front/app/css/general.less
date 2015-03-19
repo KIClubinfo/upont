@@ -1,14 +1,18 @@
-@radius: 6px;
-@sizeXs: 480px;
-@sizeSm: 768px;
-@sizeMd: 992px;
-@sizeLg: 1200px;
-@navbarHgt: 50px;
+// Resets et overwrite
 *, *:before, *:after {
     box-sizing: border-box;
 }
+.dhx_cal_container { // calendar
+    min-height: 100%;
+}
+.container-fluid { // bootstrap
+    padding: 0px;
+}
+.label-upont { // Labels bootstrap pour uPont
+    background-color: @col1;
+}
 
-//------- Modifs éléments de base
+// Blocks de base
 body {
     font-family:'Open Sans';
     margin: 0px;
@@ -20,18 +24,17 @@ body {
     hyphens: auto;
     background-size: auto auto;
 }
-a, a:hover, a:visited, a:active, a:focus {
-    text-decoration: none;
-    color: inherit;
-    outline: 0px none;
-    cursor: pointer;
+.up-main-content{
+    padding-top: @navbarHgt;
 }
-button::-moz-focus-inner {
-  border: 0;
+.up-main-view {
+    padding-bottom: 30px;
 }
-.title(@size) {
-    font-size: @size;
+.up-calendar {
+    margin: 0px 0px -30px;
 }
+
+// Titres
 h1 {
     .title(2.3em);
 }
@@ -44,171 +47,43 @@ h3 {
 h4 {
     .title(1.2em);
 }
-select, textarea {
-    width: 100%;
-}
-select {
-    border-radius: 0px;
-    padding: 2px;
-}
-textarea {
-    border-radius: 0px;
-    padding: 8px;
-    font-size: 13px;
-}
-label {
-    border-radius: 0px;
-    cursor: pointer;
-    font-weight: normal;
-}
-input {
-    border-radius: 0px;
-    padding: 0.5em;
-    vertical-align: middle;
-}
-input[type="radio"], input[type="checkbox"] {
-    margin: 0 0.5em;
-}
-footer {
-    z-index: 5;
-    position: relative;
-    text-align: center;
-    padding: 0.5em 0px;
-    &:before {
-        z-index: -1;
-        content: "";
-        position: absolute;
-        top: -14px;
-        right: 0px;
-        width: 100%;
-        height: 14px;
+h1, h2, h3, h4, h5, h6 {
+    a:hover {
+        color: @col1;
     }
 }
-.btn {
-    font-family: arial;
-    border-radius: 2px;
-    font-size:0.8em;
-    font-weight: bold;
-    padding:0.4em 0.6em;
+.title(@size) {
+    font-size: @size;
+}
+
+// Liens
+a, a:hover, a:visited, a:active, a:focus {
+    text-decoration: none;
+    color: inherit;
+    outline: none;
     cursor: pointer;
 }
-
-.dhx_cal_container {
-    min-height: 100%;
+:disabled, [disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
-// ------ Classes Perso
-.up-zone-picker {
-    a {
-        padding: 0.5em 1.5em;
-        margin: 0px 0.5em;
-        // display: inline-block;
-        &.active {
-            font-weight: bold;
-        }
-    }
-    .up-zp-image {
-        max-height: 250px;
-        overflow: hidden;
-        position: relative;
-        top: -1px;
-        img {
-            width: 100%;
-        }
-    }
-}
-
-.up-login-form {
-    text-align: center;
-    font-size: 1.2em !important;
-}
-
-.collapse.am-collapse {
-    animation-duration: .5s;
-    animation-timing-function: ease;
-    animation-fill-mode: backwards;
-    overflow: hidden;
-    @media(min-width: @sizeSm) {
-        display: block;
-        visibility: visible;
-    }
-    &.in-remove {
-        animation-name: collapse;
-        display: block;
-    }
-    &.in-add {
-        animation-name: expand;
-    }
-}
-.up-button-navbar {
-    font-size: 1.5em;
-    font-weight: bold;
-    padding: 0.25em 0.75em;
-}
-
-.stacked-row {
-    margin-top: 1em;
-}
+// Classes utiles
 .centering {
     text-align: center;
 }
-
-.up-main-view {
-    padding-bottom: 30px;
-}
-.up-calendrier {
-    margin: 0px 0px -30px;
-}
-.up-deroulant {
+.up-clickable{
     cursor: pointer;
+    &:hover, &.active {
+        color: @col1;
+    }
 }
-// .btn-suivi {
-//     padding: 0 0.7em;
-//     // border-radius: 3px;
-// }
-
-// .btn-publier{
-//     font-size:12px;
-// }
-
-.up-date-evenement {
-    font-weight: bold;
-    font-size: 0.95em;
+.fa-block {
+    width: 20px;
+    text-align: center;
 }
-
-.up-main-content{
-    padding-top: @navbarHgt; //Pour la navbar
-}
-
 .cover {
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
-}
-
-.up-profile-picture {
-    .cover;
-    border-radius: 5px;
-    height: 30px;
-    width: 30px;
-    margin-right: 10px;
-    display: inline-block;
-    vertical-align: middle;
-}
-
-.up-profile-page-picture {
-    border-radius: 10px;
-    max-width: 100%;
-    max-height: 250px;
-}
-
-.up-profile-form {
-    .fa {
-        width: 20px;
-        text-align: center;
-    }
-}
-
-.up-clickable{
-    cursor: pointer;
 }

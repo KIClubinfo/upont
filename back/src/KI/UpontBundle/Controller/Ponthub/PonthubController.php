@@ -49,11 +49,8 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
     public function filelistAction(Request $request)
     {
         // On récupère le fichier envoyé
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
-            throw new AccessDeniedException();
-
         if (!$request->files->has('filelist'))
-            throw new BadRequestHttpException();
+            throw new BadRequestHttpException('Aucun fichier envoyé');
 
         // Quelques variables qui vont servir
         $match = $genres = $series = $albums = $pathsDone = array();
@@ -66,10 +63,10 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
         );
 
         // On récupère le contenu du fichier
-        $request->files->get('filelist')->move($path);
+        $request->files->get('filelist')->move($path, 'files.list');
         $list = fopen($path.'files.list', 'r+');
         if ($list === false)
-            throw new BadRequestHttpException();
+            throw new BadRequestHttpException('Erreur lors de l\'upload du fichier');
 
         // On va modifier les entités en fonction de la liste, on récupère les
         // chemins de toutes les entités Ponthub
@@ -82,11 +79,11 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
         // On stocke les albums et les séries existantes
         $result = $repoSeries->findAll();
         foreach ($result as $serie) {
-                    $series[$serie->getName()] = $serie;
+            $series[$serie->getName()] = $serie;
         }
         $result = $repoAlbums->findAll();
         foreach ($result as $album) {
-                    $albums[$album->getName()] = $album;
+            $albums[$album->getName()] = $album;
         }
 
         // On liste aussi les genres pour les musiques

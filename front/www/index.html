@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <base href="/front/">
     <title ng-bind="title">uPont</title>
+    <link rel="icon" type="image/png" href="img/favicon.png" />
     <link rel="stylesheet" href="style.min.css">
     <link rel="stylesheet" href="libs/fontawesome/css/font-awesome.min.css">
 
@@ -26,10 +27,11 @@
     <script type="text/javascript" src="aloha.min.js"></script>
     <script type="text/javascript" src="libs/js-base64/base64.min.js"></script>
     <script type="text/javascript" src="libs/ngInfiniteScroll/build/ng-infinite-scroll.min.js"></script>
+    <script type="text/javascript" src="libs/alertify.js/lib/alertify.min.js"></script>
     <script type="text/javascript" src="upont.min.js"></script>
 </head>
 
-<body ng-class="theme?'theme-dark':'theme-clear'">
+<body ng-class="theme == 'dark' ? 'theme-dark' : 'theme-clear'">
     <div up-row>
         <div ng-if="isLogged" class="up-col-xs-4 up-col-sm-2">
             <div ng-include="'views/misc/aside.html'" class="up-aside up-col-xs-4 up-col-sm-2"></div>
@@ -44,7 +46,7 @@
                     <button class="btn btn-default btn-publier" ng-click="startPublier()">Publier !</button>
                 </div> -->
                 <div ng-show="isLogged">
-                    <a ui-sref="root.profil" ui-sref-active="active" class="up-navbar-link">
+                    <a ui-sref="root.profile" ui-sref-active="active" class="up-navbar-link">
                         <div style="background-image: url('{{ url + me.image_url }}')" class="up-profile-picture"></div>
                         {{ me.nick }}
                     </a>

@@ -111,25 +111,6 @@ class PonthubControllerTest extends WebTestCase
         $this->assertEquals($infos['director'], 'George Lucas');
     }
 
-    public function testSearch()
-    {
-        $search = array(
-            'name' => 'Star',
-            'genre' => 'Action',
-            'actor' => 'Harrison Ford',
-            'artist' => 'George Lucas',
-            'yearMin' => 1980,
-            'yearMax' => 2000,
-            'durationMin' => 600,
-            'durationMax' => 6000,
-            'sizeMin' => 1000,
-            'sizeMax' => 100000000000
-        );
-        $this->client->request('POST', '/search', $search);
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-    }
-
     public function testStatistics()
     {
         $this->client->request('GET', '/statistics');

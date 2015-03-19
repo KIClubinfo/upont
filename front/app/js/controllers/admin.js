@@ -10,7 +10,7 @@ angular.module('upont')
                 data: {
                     defaultChild: "eleves",
                     parent: "admin",
-                    title: "uPont - Administration"
+                    title: "Administration - uPont"
                 }
             })
             .state("root.admin.eleves", {

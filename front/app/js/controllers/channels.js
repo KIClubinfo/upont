@@ -2,12 +2,18 @@ angular.module('upont')
     .controller('ChannelsListe_Ctrl', ['$scope', 'channels', function($scope, channels) {
         $scope.channels = channels;
     }])
-    .controller('ChannelsSimple_Ctrl', ['$scope', 'channel', 'members', 'events', 'newsItems', 'Paginate', function($scope, channel, members, events, newsItems, Paginate) {
+    .controller('ChannelsSimple_Ctrl', ['$scope', '$http', '$state', 'channel', 'members', 'events', 'newsItems', 'Paginate', function($scope, $http, $state, channel, members, events, newsItems, Paginate) {
         $scope.channel = channel;
         $scope.members = members;
         $scope.events = events;
         $scope.newsItems = newsItems;
         $scope.promo = '017';
+        $scope.showIcons = false;
+        $scope.faIcons = faIcons;
+        $scope.search = '';
+        $scope.searchResults = [];
+
+        var channelSlug = channel.name;
 
         $scope.next = function() {
             Paginate.next($scope.newsItems).then(function(data){
@@ -17,15 +23,77 @@ angular.module('upont')
                 });
             });
         };
+
+        $scope.submitClub = function(name, fullName, icon, image) {
+            var params = {
+                'name' : name,
+                'fullName' : fullName,
+                'icon' : icon,
+            };
+
+            if (image) {
+                params.image = image.base64;
+            }
+
+            $http.patch(apiPrefix + 'clubs/' + $scope.channel.slug, params).success(function(){
+                // On recharge le club pour être sûr d'avoir la nouvelle photo
+                if (channelSlug == name) {
+                    $http.get(apiPrefix + 'clubs/' + $scope.channel.slug).success(function(data){
+                        $scope.channel = data;
+                    });
+                } else {
+                    alertify.alert('Le nom court du club ayant changé, il est nécéssaire de recharger la page du club...');
+                    $state.go('root.channels.liste');
+                }
+            });
+        };
+
+        $scope.setIcon = function(icon) {
+            $scope.channel.icon = icon;
+        };
+
+        $scope.searchUser = function(string) {
+            if (string === '') {
+                $scope.searchResults = [];
+            } else {
+                $http.post(apiPrefix + 'search', {search: 'User/' + string}).success(function(data){
+                    $scope.searchResults = data;
+                });
+            }
+        };
+
+        $scope.addMember = function(slug, name) {
+            alertify.prompt('Rôle :', function(e, role){
+                if (e) {
+                    $http.post(apiPrefix + 'clubs/' + $scope.channel.slug + '/users/' + slug, {role: role}).success(function(data){
+                        alertify.success(name + ' a été ajouté(e) !');
+                        $scope.reloadMembers();
+                    });
+                }
+            });
+        };
+
+        $scope.removeMember = function(slug) {
+            $http.delete(apiPrefix + 'clubs/' + $scope.channel.slug + '/users/' + slug).success(function(data){
+                alertify.success('Membre supprimé !');
+                $scope.reloadMembers();
+            });
+        };
+
+        $scope.reloadMembers = function() {
+            $http.get(apiPrefix + 'clubs/' + $scope.channel.slug + '/users').success(function(data){
+                $scope.members = data;
+            });
+        };
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
             .state("root.channels", {
-                url: 'channels',
+                url: 'assos',
                 abstract: true,
                 template: '<div ui-view></div>',
                 data: {
-                    title: "uPont - Clubs & Assos"
+                    title: "Clubs & Assos - uPont"
                 }
             })
             .state("root.channels.liste", {
@@ -41,6 +109,7 @@ angular.module('upont')
             .state("root.channels.simple", {
                 url: "/:slug",
                 abstract: true,
+                controller : 'ChannelsSimple_Ctrl',
                 templateUrl: "views/channels/simple.html",
                 resolve: {
                     channel: ["$resource", "$stateParams", function($resource, $stateParams) {
@@ -49,10 +118,10 @@ angular.module('upont')
                         }).$promise;
                     }],
                     events: ['$stateParams', 'Paginate', function($stateParams, Paginate) {
-                        return Paginate.get('clubs/' + $stateParams.slug + '/events?sort=date', 10);
+                        return Paginate.get('clubs/' + $stateParams.slug + '/events?sort=-date', 10);
                     }],
                     newsItems: ['$stateParams', 'Paginate', function($stateParams, Paginate) {
-                        return Paginate.get('clubs/' + $stateParams.slug + '/newsitems?sort=date', 10);
+                        return Paginate.get('clubs/' + $stateParams.slug + '/newsitems?sort=-date', 10);
                     }],
                     members: ["$resource", "$stateParams", function($resource, $stateParams) {
                         return $resource(apiPrefix + "clubs/:slug/users").query({
@@ -63,26 +132,23 @@ angular.module('upont')
             })
             .state("root.channels.simple.publications", {
                 url: "",
-                templateUrl: "views/home/liste-publis.html",
-                controller: 'ChannelsSimple_Ctrl',
+                templateUrl: "views/channels/simple.publications.html",
                 data: {
-                    title: 'uPont - Publications'
+                    title: 'Activités - uPont'
                 }
             })
             .state("root.channels.simple.presentation", {
                 url: "/presentation",
                 templateUrl: "views/channels/simple.presentation.html",
-                controller : 'ChannelsSimple_Ctrl',
                 data: {
-                    title: 'uPont - Présentation'
+                    title: 'Présentation - uPont'
                 },
             })
             .state("root.channels.simple.gestion", {
                 url: "/gestion",
-                controller: 'ChannelsSimple_Ctrl',
                 templateUrl: "views/channels/simple.gestion.html",
                 data: {
-                    title: 'uPont - Gestion'
-                }
+                    title: 'Gestion - uPont'
+                },
             });
     }]);
