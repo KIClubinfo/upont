@@ -70,7 +70,10 @@
                     <input type="text" ng-model="search" placeholder="Rechercher quelqu'un..."
                            ng-keyup="searchUser(search)"/>
                     <ul class="suggestions" ng-if="searchResults.length">
-                        <li ng-repeat="result in searchResults" ng-bind-html="result.name | match: search"></li>
+                        <li ng-repeat="result in searchResults"
+                            ng-bind-html="result.name | match: search"
+                            ng-click="addMember(result.slug, result.name)"
+                            class="up-clickable"></li>
                     </ul>
                 </div>
                 <span class="addon"><i class="fa fa-search"></i></span>
@@ -87,7 +90,11 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="member in filtered =  (members | filter:promo | orderBy:['user.nick'])">
-                        <td>{{ member.user.nick }}</td>
+                        <td>
+                            <span class="up-clickable" ng-click="removeMember(member.user.username)">
+                                <i class="fa fa-remove"></i> {{ member.user.nick }}
+                            </span>
+                        </td>
                         <td>{{ member.role }}</td>
                     </tr>
                     <tr ng-hide="filtered.length">
