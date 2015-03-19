@@ -9,9 +9,10 @@ angular.module('upont')
             });
         };
     }])
-    .controller('PH_Element_Ctrl', ['$scope', '$stateParams', 'PH_categories', '$window', '$http', 'element', 'episodes', function($scope, $stateParams, PH_categories, $window, $http, element, episodes) {
+    .controller('PH_Element_Ctrl', ['$scope', '$stateParams', 'PH_categories', '$window', '$http', 'element', 'episodes', 'musics', function($scope, $stateParams, PH_categories, $window, $http, element, episodes, musics) {
         $scope.element = element;
         $scope.category = $stateParams.category;
+        $scope.musics = musics;
 
         if(episodes){
             $scope.saisons = [];
@@ -55,7 +56,7 @@ angular.module('upont')
                 templateUrl: "views/ponthub/index.html",
                 abstract: true,
                 data: {
-                    title: 'uPont - PontHub'
+                    title: 'PontHub - uPont'
                 },
                 params: {
                     category: 'films'
@@ -87,6 +88,14 @@ angular.module('upont')
                             return true;
                         return $resource(apiPrefix + ':cat/:slug/episodes').query({
                             cat: 'series',
+                            slug: $stateParams.slug
+                        }).$promise;
+                    }],
+                    musics: ['$resource', '$stateParams', 'PH_categories', function($resource, $stateParams, PH_categories) {
+                        if(PH_categories($stateParams.category) != 'albums')
+                            return true;
+                        return $resource(apiPrefix + ':cat/:slug/musics').query({
+                            cat: 'albums',
                             slug: $stateParams.slug
                         }).$promise;
                     }],

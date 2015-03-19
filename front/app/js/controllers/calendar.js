@@ -17,7 +17,7 @@ angular.module('upont')
                 templateUrl: 'views/calendar.html',
                 controller: 'Calendrier_Ctrl',
                 data: {
-                    title: "uPont - Calendrier"
+                    title: "Calendrier - uPont"
                 },
                 resolve: {
                     events: ["$resource", function($resource) {
