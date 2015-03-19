@@ -1,16 +1,41 @@
 .up-aside {
     position: fixed;
     left: 0px;
+    top: 0px;
     height: 100%;
+    color: @col7;
+    background-color: @col8;
+    z-index: 500;
+    
+    &:before{
+        content: "";
+        position: absolute;
+        top: 0;
+        top: @begin-border-aside;
+        bottom: 0px;
+        right: 0px;
+        border-right: solid 1px @col4;
+    }
+    a {
+        &:hover {
+            border-bottom: solid 1px @col7;
+        }
+        &.active {
+            border-bottom: solid 1px @col7;
+        }
+        .fa {
+            .fa-block;
+        }
+    }
     hr {
         width: 30%;
     }
-    z-index:500;
 }
 .up-aside-menu {
     padding: 1em 0 0 1%;
     font-size: 1.05em;
     list-style: none;
+    
     a {
         display: block;
         margin: 0.75em 10%;
@@ -25,10 +50,12 @@
 .up-deconnection {
     display: inline !important;
     margin: 0.75 30% !important;
+    margin-bottom: 2em;
+    
     a {
         display: inline !important;
     }
-    margin-bottom:2em;
+    
 }
 .up-aside-footer {
     position: absolute;
