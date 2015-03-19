@@ -281,7 +281,6 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
                 $return[] = $club;
             }
         }
-
         return $return;
     }
 
