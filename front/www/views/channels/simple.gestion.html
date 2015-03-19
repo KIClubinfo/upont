@@ -27,7 +27,7 @@
 
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
                 <i class="fa fa-{{ channel.icon || 'file-image-o' }}"></i>
-                Icone
+                Icone <a ng-click="showIcons = !showIcons">({{ showIcons ? 'masquer' : 'voir' }} les icones)</a>
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
                 <input class="up-col-xs-12" type="text" ng-model="channel.icon" placeholder="Utilisée notamment sur l'appli mobile"/>
@@ -48,11 +48,25 @@
     </div>
 </div>
 
+<div class="up-ticket" ng-show="showIcons">
+    <h1>Icônes <small><a ng-click="showIcons = !showIcons">(masquer)</a></small></h1>
+    <div up-row wrap padded>
+        <div up-col-xs="50%" up-col-sm="33%" up-col="25%" class="up-clickable"
+             ng-repeat="icon in faIcons" ng-click="setIcon(icon)">
+            <i class="fa fa-{{ icon }} fa-block"></i> {{ icon }}
+        </div>
+    </div>
+</div>
+
 <div class="up-ticket">
     <h1>Membres</h1>
     <div up-row>
         <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
-
+            <div class="up-input-group">
+                <span class="addon"><i class="fa fa-beer"></i></span>
+                <input type="text"/>
+                <span class="addon">Manger</span>
+            </div>
         </div>
 
         <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
