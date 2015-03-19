@@ -47,65 +47,37 @@
         </form>
     </div>
 </div>
-<!--
+
 <div class="up-ticket">
-    <h1>Synchronisation</h1>
-    <div up-row left wrap>
+    <h1>Membres</h1>
+    <div up-row>
         <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
-            <h2>Calendrier ICS</h2>
-            <p>En cliquant le lien suivant, tu pourras synchroniser ton calendrier uPont avec ton calendrier iPhone/Android, Thunderbird, Outlook... et recevoir des alertes avant les shotguns etc. !<br><br></p>
 
-            <div up-row wrap padded center>
-                <a ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" up-col-xs="100%" up-col-sm="100%" up-col="50%" class="up-btn up-btn-default centering">Synchroniser !</a>
-            </div>
         </div>
-        <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
-            <h2>Smartphones</h2>
 
-            <table>
+        <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
+            <table class="up-table" up-col="90%">
                 <thead>
                     <tr>
-                        <th>Type</th>
-                        <th>Identifiant</th>
+                        <th>Élève</th>
+                        <th>Rôle</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="device in devices">
-                        <td>{{ device.type }}</td>
-                        <td>{{ device.device }}</td>
+                    <tr ng-repeat="member in filtered =  (members | filter:promo | orderBy:['user.nick'])">
+                        <td>{{ member.user.nick }}</td>
+                        <td>{{ member.role }}</td>
                     </tr>
-                    <tr ng-hide="devices.length">
-                        <td>Aucun téléphone enregistré !</td>
-                        <td>Télécharge l'appli mobile !</td>
+                    <tr ng-hide="filtered.length">
+                        <td>Rien à afficher</td>
+                        <td></td>
                     </tr>
                 </tbody>
             </table>
-            <br>
 
-            <div up-row wrap padded space-around>
-                <a href="" title="Lien vers le Play Store" up-col-xs="100%" up-col-sm="100%" up-col="30%" class="up-btn up-btn-default centering">Android</a>
-                <a href="" title="Lien vers l'Apple Store" up-col-xs="100%" up-col-sm="100%" up-col="30%" class="up-btn up-btn-default centering">iOS</a>
-                <a href="" title="Lien vers le Windows Store" up-col-xs="100%" up-col-sm="100%" up-col="30%" class="up-btn up-btn-default centering">Windows Phone</a>
-            </div>
+            <select ng-model="promo">
+                <option ng-repeat="promoItem in $root.promos" selected="{{ $index == promos.length-1 }}">{{ promoItem }}</option>
+            </select>
         </div>
     </div>
 </div>
-<!--
-<div class="up-ticket">
-    <h1>Cours suivis</h1>
-    <div class="clearfix"></div>
-</div>
-<div class="up-ticket">
-    <h1>Channels suivis</h1>
-    <div up-row padded left wrap>
-        <div up-row padded ng-repeat="club in clubs | orderBy:'name'" up-col="33%" up-col-xs="100%">
-            <div up-col="33%"><img class="img-responsive" src="{{ club.image_url | urlFile}}" />
-            </div>
-            <div up-col="66%">
-                <h2><a class="up-ticket-link" ui-sref="root.channels.simple.publications({ slug: club.slug})">{{ club.name }}</a></h2>
-                <button class="btn-suivi active" ng-show="club.suivi" ng-click="unsubscribe(club.slug);">Suivi</button>
-                <button class="btn-suivi" ng-show="!club.suivi" ng-click="subscribe(club.slug);">Suivre</button>
-            </div>
-        </div>
-    </div>
-</div>-->
