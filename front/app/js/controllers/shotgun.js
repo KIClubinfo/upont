@@ -19,10 +19,14 @@ angular.module('upont')
         };
 
         $scope.deleteShotgun = function(){
-            // TODO modal de confirmation
-            $http.delete(url + '/events/' + $scope.event.slug + '/shotgun').success(function(data){
-                $scope.shotgun = data;
-                $scope.shotgunned = false;
+            alertify.confirm('Attention c\'est définitif !', function(e) {
+                if (e) {
+                    $http.delete(apiPrefix + 'events/' + $scope.event.slug + '/shotgun').success(function(data){
+                        $scope.shotgun = data;
+                        $scope.shotgunned = false;
+                        alertify.success('Nickel ! Ta place sera redistribuée aux prochains sur la liste d\'attente ;)');
+                    });
+                }
             });
         };
     }])

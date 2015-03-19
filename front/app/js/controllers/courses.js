@@ -9,7 +9,7 @@ angular.module('upont')
                 abstract: true,
                 templateUrl: "views/cours/index.html",
                 data: {
-                    title: "uPont - Cours"
+                    title: "Cours - uPont"
                 },
             })
             .state("root.cours.section", {

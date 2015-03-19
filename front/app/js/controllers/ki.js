@@ -7,7 +7,7 @@ angular.module('upont').controller('KI_Ctrl', ['$scope', '$resource', function($
                 abstract: true,
                 templateUrl: "views/ki/index.html",
                 data: {
-                    title: "uPont - KI"
+                    title: "KI - uPont"
                 }
             })
             .state("root.ki.contact", {
@@ -15,7 +15,7 @@ angular.module('upont').controller('KI_Ctrl', ['$scope', '$resource', function($
                 templateUrl: 'views/ki/contact.html',
                 controller: 'KI_Ctrl',
                 data: {
-                    title: "uPont - Dépannage"
+                    title: "Dépannage - uPont"
                 }
             })
             .state("root.ki.tutos", {
@@ -23,7 +23,7 @@ angular.module('upont').controller('KI_Ctrl', ['$scope', '$resource', function($
                 templateUrl: 'views/ki/tutos.html',
                 controller: 'KI_Ctrl',
                 data: {
-                    title: "uPont - Tutoriels"
+                    title: "Tutoriels - uPont"
                 }
             })
             .state("root.ki.avancement", {
@@ -31,7 +31,7 @@ angular.module('upont').controller('KI_Ctrl', ['$scope', '$resource', function($
                 templateUrl: 'views/ki/avancement.html',
                 controller: 'KI_Ctrl',
                 data: {
-                    title: "uPont - Statistiques"
+                    title: "Statistiques - uPont"
                 }
             });
     }]);
