@@ -11,10 +11,10 @@
 <div up-row left>
     <div up-col="60%" up-col-xs="100%" up-col-sm="100%"  autoscroll="false" ui-view root-state="root.channels.simple"></div>
     <div up-col="0%" up-col-md="40%" up-col-lg="40%" padded>
-        <div class="up-ticket">
-            <div class="centering">Membres</div>
+        <div class="up-ticket centering">
+            <h2>Membres</h2>
 
-            <table>
+            <table class="up-table" up-col="90%">
                 <thead>
                     <tr>
                         <th>Élève</th>
@@ -22,7 +22,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="member in filtered =  (members | filter:promo)">
+                    <tr ng-repeat="member in filtered =  (members | filter:promo | orderBy:['user.nick'])">
                         <td>{{ member.user.nick }}</td>
                         <td>{{ member.role }}</td>
                     </tr>
@@ -34,7 +34,7 @@
             </table>
 
             <select ng-model="promo">
-                <option ng-repeat="promo in promos" selected="{{ $index == promos.length-1 }}">{{ promo }}</option>
+                <option ng-repeat="promoItem in $root.promos" selected="{{ $index == promos.length-1 }}">{{ promoItem }}</option>
             </select>
         </div>
     </div>
