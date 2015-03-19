@@ -38,7 +38,7 @@ class SearchControllerTest extends WebTestCase
 
         $this->client->request('POST', '/search', array('search' => ''));
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
+        $this->assertJsonResponse($response, 400);
 
         $this->client->request('POST', '/search', array('search' => 'Users/'));
         $response = $this->client->getResponse();
