@@ -179,9 +179,9 @@
             <br>
 
             <div up-row wrap padded space-around>
-                <a href="" up-col-xs="100%" up-col-sm="100%" up-col="30%" class="up-btn up-btn-default centering">Android</a>
-                <a href="" up-col-xs="100%" up-col-sm="100%" up-col="30%" class="up-btn up-btn-default centering">iOS</a>
-                <a href="" up-col-xs="100%" up-col-sm="100%" up-col="30%" class="up-btn up-btn-default centering">Windows Phone</a>
+                <a href="" title="Lien vers le Play Store" up-col-xs="100%" up-col-sm="100%" up-col="30%" class="up-btn up-btn-default centering">Android</a>
+                <a href="" title="Lien vers l'Apple Store" up-col-xs="100%" up-col-sm="100%" up-col="30%" class="up-btn up-btn-default centering">iOS</a>
+                <a href="" title="Lien vers le Windows Store" up-col-xs="100%" up-col-sm="100%" up-col="30%" class="up-btn up-btn-default centering">Windows Phone</a>
             </div>
         </div>
     </div>
@@ -199,7 +199,7 @@
             <div up-col="33%"><img class="img-responsive" src="{{ club.image_url | urlFile}}" />
             </div>
             <div up-col="66%">
-                <h2>{{ club.name }}</h2>
+                <h2><a class="up-ticket-link" ui-sref="root.channels.simple.publications({ slug: club.slug})">{{ club.name }}</a></h2>
                 <button class="btn-suivi active" ng-show="club.suivi" ng-click="unsubscribe(club.slug);">Suivi</button>
                 <button class="btn-suivi" ng-show="!club.suivi" ng-click="subscribe(club.slug);">Suivre</button>
             </div>
