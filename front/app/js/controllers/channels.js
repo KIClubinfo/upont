@@ -10,6 +10,9 @@ angular.module('upont')
         $scope.promo = '017';
         $scope.showIcons = false;
         $scope.faIcons = faIcons;
+        $scope.search = '';
+        $scope.searchResults = [];
+
         var channelSlug = channel.name;
 
         $scope.next = function() {
@@ -47,7 +50,17 @@ angular.module('upont')
 
         $scope.setIcon = function(icon) {
             $scope.channel.icon = icon;
-        }
+        };
+
+        $scope.searchUser = function(string) {
+            if (string === '') {
+                $scope.searchResults = [];
+            } else {
+                $http.post(apiPrefix + 'search', {search: 'User/' + string}).success(function(data){
+                    $scope.searchResults = data;
+                });
+            }
+        };
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
