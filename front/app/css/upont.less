@@ -1,18 +1,54 @@
-// @import url(http://fonts.googleapis.com/css?family=Open+Sans);
-@import "alertify.less";
-@import "aside.less";
-@import "bootstrap.less";
-@import "column_system.less";
-@import "comments.less";
-@import "fonts.less";
-@import "form.less";
-@import "general.less";
-@import "header.less";
-@import "keyframes.less";
-@import "loading-bar.less";
-@import "modal.less";
-@import "ponthub.less";
-@import "shotgun.less";
-@import "table.less";
-@import "theme.less";
-@import "ticket.less";
+@radius: 6px;
+@sizeXs: 480px;
+@sizeSm: 768px;
+@sizeMd: 992px;
+@sizeLg: 1200px;
+@navbarHgt: 50px;
+@import 'bootstrap.less';
+
+.theme(@col1, @col2, @col3, @col4, @col5, @col6, @col7, @col8, @begin-border-aside) {
+    @import 'alertify.less';
+    @import 'aside.less';
+    
+    @import 'button.less';
+    @import 'column-system.less';
+    @import 'comments.less';
+    @import 'fonts.less';
+    @import 'form.less';
+    @import 'general.less';
+    @import 'header.less';
+    @import 'image.less';
+    @import 'keyframes.less';
+    @import 'list.less';
+    @import 'loading-bar.less';
+    @import 'ponthub.less';
+    @import 'shotgun.less';
+    @import 'table.less';
+    @import 'ticket.less';
+    @import 'zone-picker.less';
+    
+    color: @col2;
+    background: @col6;
+}
+
+body.theme-clear {
+    .theme(#5584AD, #888, #FFF, #aaa, #d3d6d8, #dddfe4, #d0d0d0, #2A303D, 0);
+    .btn-default:hover {
+        background-color: #f0f0f0;
+        border-color: #57ABC2;
+    }
+    .alertify-log-error {
+        background: #F08630;
+    }
+}
+
+body.theme-dark {
+    .theme(#F08630, #a0a0a0, #222, #555, #595B5C, #2a2c2f, #d0d0d0, #222, @navbarHgt - 1px);
+    .btn-default:hover {
+        background-color: #333;
+        border-color: #F08630;
+    }
+    .alertify-log-error {
+        background: red;
+    }
+}

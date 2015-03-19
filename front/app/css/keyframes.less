@@ -1,3 +1,21 @@
+.collapse.am-collapse {
+    animation-duration: .5s;
+    animation-timing-function: ease;
+    animation-fill-mode: backwards;
+    overflow: hidden;
+    @media(min-width: @sizeSm) {
+        display: block;
+        visibility: visible;
+    }
+    &.in-remove {
+        animation-name: collapse;
+        display: block;
+    }
+    &.in-add {
+        animation-name: expand;
+    }
+}
+
 @fade-and-scale-duration: .3s;
 @fade-and-scale-timing-function: ease-in-out;
 .am-fade-and-scale {

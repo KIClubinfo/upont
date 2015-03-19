@@ -1,10 +1,47 @@
+// inputs génériques
+input, textarea, select {
+    background: @col3;
+    border: solid 1px @col5;
+    color: @col2;
+}
+input {
+    border-radius: 0px;
+    padding: 0.5em;
+    vertical-align: middle;
+
+    &:focus {
+        border-color: @col1;
+    }
+    &[type="radio"], &[type="checkbox"] {
+        margin: 0 0.5em;
+        vertical-align: middle;
+    }
+}
+textarea {
+    border-radius: 0px;
+    padding: 8px;
+    font-size: 13px;
+    width: 100%;
+}
+select {
+    border-radius: 0px;
+    padding: 2px;
+    width: 100%;
+}
+label {
+    border-radius: 0px;
+    cursor: pointer;
+    font-weight: normal;
+}
+
+// Permet de rajouter des addons à gauche ou a droite des inputs
 .up-input-group {
     display: flex;
     margin-bottom: 1.5em;
-    
+
     input {
         flex: 1;
-        
+
         &:not(:first-child) {
             border-left: 0;
         }
@@ -15,12 +52,16 @@
     .addon {
         font: inherit;
         font-weight: normal;
+        background-color: @col6;
+        color: @col2;
+        border: 1px solid @col4;
     }
-    
+
     input, .addon {
         padding: 0.5em 0.75em;
+        border: 1px 0px solid @col4;
     }
-    
+
     input:first-child,
     .addon:first-child {
         border-radius: 2px 0 0 2px;
@@ -31,27 +72,45 @@
     }
 }
 
+// Zone d'autocomplétion pour une barre de recherche
 .up-autocomplete {
     width: 100%;
     position: relative;
-    
+
     input {
         width: 100%;
     }
-    
+
     .suggestions {
+        border: 1px solid @col4;
+        background-color: @col3;
         position: absolute;
         padding: 10px 0 10px 0;
         margin: 0px;
         list-style: outside none none;
         width: 100%;
         border-radius: 0 0 5px 5px;
-        
+
         li {
             padding: 0 10px 0 10px;
             &:hover {
-                background-color: ;
+                background-color: @col6;
             }
         }
+
+        strong {
+            color: @col1;
+        }
+    }
+}
+
+// Formulaires spécifiques
+.up-login-form {
+    text-align: center;
+    font-size: 1.2em !important;
+}
+.up-profile-form {
+    .fa {
+        .fa-block
     }
 }

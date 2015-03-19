@@ -84,7 +84,7 @@ angular.module('upont')
             $http.get(apiPrefix + 'clubs/' + $scope.channel.slug + '/users').success(function(data){
                 $scope.members = data;
             });
-        }
+        };
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider

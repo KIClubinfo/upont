@@ -1,15 +1,19 @@
-@radius: 6px;
-@sizeXs: 480px;
-@sizeSm: 768px;
-@sizeMd: 992px;
-@sizeLg: 1200px;
-@navbarHgt: 50px;
+// Resets et overwrite
 *, *:before, *:after {
     box-sizing: border-box;
     outline: 0 !important;
 }
+.dhx_cal_container { // calendar
+    min-height: 100%;
+}
+.container-fluid { // bootstrap
+    padding: 0px;
+}
+.label-upont { // Labels bootstrap pour uPont
+    background-color: @col1;
+}
 
-//------- Modifs éléments de base
+// Blocks de base
 body {
     font-family:'Open Sans';
     margin: 0px;
@@ -21,15 +25,18 @@ body {
     hyphens: auto;
     background-size: auto auto;
 }
-a, a:hover, a:visited, a:active, a:focus {
-    text-decoration: none;
-    color: inherit;
-    outline: none;
-    cursor: pointer;
+.up-main-content{
+    padding-top: @navbarHgt;
+    margin-left: -5px;
 }
-.title(@size) {
-    font-size: @size;
+.up-main-view {
+    padding-bottom: 30px;
 }
+.up-calendar {
+    margin: 0px 0px -30px;
+}
+
+// Titres
 h1 {
     .title(2.3em);
 }
@@ -42,214 +49,43 @@ h3 {
 h4 {
     .title(1.2em);
 }
-select, textarea, label, input {
-    // margin: 0.5em;
+h1, h2, h3, h4, h5, h6 {
+    a:hover {
+        color: @col1;
+    }
 }
-select {
-    border-radius: 0px;
-    padding: 2px;
+.title(@size) {
+    font-size: @size;
 }
-textarea {
-    border-radius: 0px;
-    padding: 8px;
-    font-size: 13px;
-}
-label {
-    border-radius: 0px;
+
+// Liens
+a, a:hover, a:visited, a:active, a:focus {
+    text-decoration: none;
+    color: inherit;
+    outline: none;
     cursor: pointer;
-    font-weight: normal;
-}
-input {
-    border-radius: 0px;
-    padding: 0.5em;
-    vertical-align: middle;
-}
-footer {
-    z-index: 5;
-    position: relative;
-    text-align: center;
-    padding: 0.5em 0px;
-    &:before {
-        z-index: -1;
-        content: "";
-        position: absolute;
-        top: -14px;
-        right: 0px;
-        width: 100%;
-        height: 14px;
-    }
-}
-.up-list {
-    list-style-type: none;
-    margin: 0;
-    padding: 0 0 .4em 0;
-	font-weight: bold;
-	
-	&:hover {
-	    padding: 0;
-	}
-	
-	li:hover {
-	    cursor: pointer;
-	    list-style-image: url(check.gif);
-	    background-color: #f2f2f2;
-	    color: #000;
-	    padding: .2em;
-    }
-}
-.up-btn {
-    position: relative;
-    vertical-align: top;
-    height: 50px;
-    padding: 0px 20px;
-    font-size: 20px !important;
-    color: white !important;
-    text-align: center;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
-    border: 0;
-    cursor: pointer;
-    
-    &:active {
-        top: 1px;
-        outline: none;
-        -webkit-box-shadow: none;
-        box-shadow: none;
-    }
 }
 :disabled, [disabled] {
     opacity: 0.5;
     cursor: not-allowed;
 }
+
+// Classes utiles
+.centering {
+    text-align: center;
+}
+.up-clickable{
+    cursor: pointer;
+    &:hover, &.active {
+        color: @col1;
+    }
+}
 .fa-block {
     width: 20px;
     text-align: center;
 }
-
-//------- Modifs éléments bootstrap
-.container-fluid {
-    padding: 0px;
-}
-
-.btn {
-    border-radius: 0px;
-}
-
-// .navbar-header {
-//     text-align: center !important;
-// }
-.dhx_cal_container {
-    min-height: 100%;
-}
-// .container-fluid > .row {
-//     margin-left: 0;
-//     margin-right: 0;
-// }
-// ------ Classes Perso
-.up-zone-picker {
-    a {
-        padding: 0.5em 1.5em;
-        margin: 0px 0.5em;
-        // display: inline-block;
-        &.active {
-            font-weight: bold;
-        }
-    }
-    .up-zp-image {
-        max-height: 250px;
-        overflow: hidden;
-        position: relative;
-        top: -1px;
-        img {
-            width: 100%;
-        }
-    }
-}
-
-.up-login-form {
-    text-align: center;
-    font-size: 1.2em !important;
-}
-
-.collapse.am-collapse {
-    animation-duration: .5s;
-    animation-timing-function: ease;
-    animation-fill-mode: backwards;
-    overflow: hidden;
-    @media(min-width: @sizeSm) {
-        display: block;
-        visibility: visible;
-    }
-    &.in-remove {
-        animation-name: collapse;
-        display: block;
-    }
-    &.in-add {
-        animation-name: expand;
-    }
-}
-.up-button-navbar {
-    font-size: 1.5em;
-    font-weight: bold;
-    padding: 0.25em 0.75em;
-}
-
-.stacked-row {
-    margin-top: 1em;
-}
-.centering {
-    text-align: center;
-}
-
-.up-main-view {
-    padding-bottom: 30px;
-}
-.up-calendrier {
-    margin: 0px 0px -30px;
-}
-.up-deroulant {
-    cursor: pointer;
-}
-.btn-suivi {
-    padding: 0 0.7em;
-    // border-radius: 3px;
-}
-.up-date-evenement {
-    font-weight: bold;
-    font-size: 0.95em;
-}
-
-.up-main-content{
-    padding-top: @navbarHgt; //Pour la navbar
-}
-
 .cover {
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
-}
-
-.up-profile-picture {
-    .cover;
-    border-radius: 5px;
-    height: 30px;
-    width: 30px;
-    margin-right: 10px;
-    display: inline-block;
-    vertical-align: middle;
-}
-
-.up-profile-page-picture {
-    border-radius: 10px;
-    max-width: 100%;
-    max-height: 250px;
-}
-
-.up-profile-form {
-    .fa {
-        .fa-block
-    }
-}
-
-.up-clickable{
-    cursor: pointer;
 }

@@ -1,0 +1,25 @@
+// Navbar par onglets
+.up-zone-picker {
+    margin-bottom: 0px;
+
+    a {
+        padding: 0.5em 1.5em;
+        margin: 0px 0.5em;
+        &.active {
+            font-weight: bold;
+        }
+    }
+    a:hover, a.active {
+        border-bottom: solid 3px @col1;
+    }
+    .up-zp-image {
+        max-height: 250px;
+        overflow: hidden;
+        position: relative;
+        top: -1px;
+
+        img {
+            width: 100%;
+        }
+    }
+}
