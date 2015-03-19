@@ -47,7 +47,7 @@ angular.module('upont')
             }
 
             $http.patch($rootScope.url + 'users/' + $rootScope.me.username, params).success(function(){
-                // On recharge 'user pour être sûr d'avoir la nouvelle photo
+                // On recharge l'user pour être sûr d'avoir la nouvelle photo
                 $http.get(apiPrefix + 'users/' + $rootScope.me.username).success(function(data){
                     $rootScope.me = data;
                 });
