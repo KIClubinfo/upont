@@ -31,29 +31,29 @@ class SearchControllerTest extends WebTestCase
         );
 
         foreach ($types as $type) {
-            $client = static::createClient();
-            $client->request('POST', '/search', array('search' => $type.'/al'));
-            $this->assertJsonResponse($client->getResponse(), 200);
+            $this->client->request('POST', '/search', array('search' => $type.'/al'));
+            $response = $this->client->getResponse();
+            $this->assertJsonResponse($response, 200);
         }
 
-        $client = static::createClient();
-        $client->request('POST', '/search', array('search' => ''));
-        $this->assertJsonResponse($client->getResponse(), 200);
+        $this->client->request('POST', '/search', array('search' => ''));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 200);
 
-        $client = static::createClient();
-        $client->request('POST', '/search', array('search' => 'Users/'));
-        $this->assertJsonResponse($client->getResponse(), 400);
+        $this->client->request('POST', '/search', array('search' => 'Users/'));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 400);
 
-        $client = static::createClient();
-        $client->request('POST', '/search', array('search' => 'al'));
-        $this->assertJsonResponse($client->getResponse(), 400);
+        $this->client->request('POST', '/search', array('search' => 'al'));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 400);
 
-        $client = static::createClient();
-        $client->request('POST', '/search', array('search' => 'Miam/'));
-        $this->assertJsonResponse($client->getResponse(), 400);
+        $this->client->request('POST', '/search', array('search' => 'Miam/'));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 400);
 
-        $client = static::createClient();
-        $client->request('POST', '/search', array('search' => 'Miam/ps'));
-        $this->assertJsonResponse($client->getResponse(), 400);
+        $this->client->request('POST', '/search', array('search' => 'Miam/ps'));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 400);
     }
 }
