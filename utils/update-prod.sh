@@ -9,15 +9,15 @@ export SYMFONY_ENV=prod
 cd front
 npm install
 bower update --allow-root
-gulp build-js --type=production
-gulp build-css --type=production
+gulp build-js #--type=production
+gulp build-css #--type=production
 
 cd ../mobile
 npm install
 bower update --allow-root
-gulp build-js --type=production
-gulp build-css-light --type=production
-gulp build-css-dark --type=production
+gulp build-js #--type=production
+gulp build-css-light #--type=production
+gulp build-css-dark #--type=production
 
 cd ../back
 composer self-update

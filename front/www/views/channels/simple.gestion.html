@@ -1,0 +1,111 @@
+<div class="up-ticket">
+    <h1>Informations Générales :</h1>
+
+    <div up-row padded center>
+        <div up-col-xs="100%" up-col-sm="100%" up-col="50%" class="centering">
+            <img ng-src="{{ url + channel.image_url }}" class="up-profile-page-picture">
+        </div>
+    </div>
+
+    <div class="up-profile-form">
+        <form up-row padded left wrap ng-submit="submitClub(channel.name, channel.full_name, channel.icon, profilePicture)">
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <i class="fa fa-angle-double-right"></i>
+                Nom long
+            </div>
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <input class="up-col-xs-12" type="text" ng-model="channel.full_name"/>
+            </div>
+
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <i class="fa fa-angle-right"></i>
+                Nom court
+            </div>
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <input class="up-col-xs-12" type="text" ng-model="channel.name"/>
+            </div>
+
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <i class="fa fa-{{ channel.icon || 'file-image-o' }}"></i>
+                Icone
+            </div>
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <input class="up-col-xs-12" type="text" ng-model="channel.icon" placeholder="Utilisée notamment sur l'appli mobile"/>
+            </div>
+
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <i class="fa fa-image"></i>
+                Logo
+            </div>
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <input type="file" class="up-col-xs-12" ng-model="profilePicture" base-sixty-four-input>
+            </div>
+
+            <div up-col="100%" up-row right>
+                <button up-col-xs="100%" up-col-sm="100%" up-col="25%" class="up-btn up-btn-default">Modifier !</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!--
+<div class="up-ticket">
+    <h1>Synchronisation</h1>
+    <div up-row left wrap>
+        <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
+            <h2>Calendrier ICS</h2>
+            <p>En cliquant le lien suivant, tu pourras synchroniser ton calendrier uPont avec ton calendrier iPhone/Android, Thunderbird, Outlook... et recevoir des alertes avant les shotguns etc. !<br><br></p>
+
+            <div up-row wrap padded center>
+                <a ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" up-col-xs="100%" up-col-sm="100%" up-col="50%" class="up-btn up-btn-default centering">Synchroniser !</a>
+            </div>
+        </div>
+        <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
+            <h2>Smartphones</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Identifiant</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="device in devices">
+                        <td>{{ device.type }}</td>
+                        <td>{{ device.device }}</td>
+                    </tr>
+                    <tr ng-hide="devices.length">
+                        <td>Aucun téléphone enregistré !</td>
+                        <td>Télécharge l'appli mobile !</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+
+            <div up-row wrap padded space-around>
+                <a href="" title="Lien vers le Play Store" up-col-xs="100%" up-col-sm="100%" up-col="30%" class="up-btn up-btn-default centering">Android</a>
+                <a href="" title="Lien vers l'Apple Store" up-col-xs="100%" up-col-sm="100%" up-col="30%" class="up-btn up-btn-default centering">iOS</a>
+                <a href="" title="Lien vers le Windows Store" up-col-xs="100%" up-col-sm="100%" up-col="30%" class="up-btn up-btn-default centering">Windows Phone</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--
+<div class="up-ticket">
+    <h1>Cours suivis</h1>
+    <div class="clearfix"></div>
+</div>
+<div class="up-ticket">
+    <h1>Channels suivis</h1>
+    <div up-row padded left wrap>
+        <div up-row padded ng-repeat="club in clubs | orderBy:'name'" up-col="33%" up-col-xs="100%">
+            <div up-col="33%"><img class="img-responsive" src="{{ club.image_url | urlFile}}" />
+            </div>
+            <div up-col="66%">
+                <h2><a class="up-ticket-link" ui-sref="root.channels.simple.publications({ slug: club.slug})">{{ club.name }}</a></h2>
+                <button class="btn-suivi active" ng-show="club.suivi" ng-click="unsubscribe(club.slug);">Suivi</button>
+                <button class="btn-suivi" ng-show="!club.suivi" ng-click="subscribe(club.slug);">Suivre</button>
+            </div>
+        </div>
+    </div>
+</div>-->

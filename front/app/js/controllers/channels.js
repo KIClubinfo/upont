@@ -2,12 +2,13 @@ angular.module('upont')
     .controller('ChannelsListe_Ctrl', ['$scope', 'channels', function($scope, channels) {
         $scope.channels = channels;
     }])
-    .controller('ChannelsSimple_Ctrl', ['$scope', 'channel', 'members', 'events', 'newsItems', 'Paginate', function($scope, channel, members, events, newsItems, Paginate) {
+    .controller('ChannelsSimple_Ctrl', ['$scope', '$http', '$state', 'channel', 'members', 'events', 'newsItems', 'Paginate', function($scope, $http, $state, channel, members, events, newsItems, Paginate) {
         $scope.channel = channel;
         $scope.members = members;
         $scope.events = events;
         $scope.newsItems = newsItems;
         $scope.promo = '017';
+        var channelSlug = channel.name;
 
         $scope.next = function() {
             Paginate.next($scope.newsItems).then(function(data){
@@ -15,6 +16,30 @@ angular.module('upont')
                 Paginate.next($scope.events).then(function(data){
                     $scope.events = data;
                 });
+            });
+        };
+
+        $scope.submitClub = function(name, fullName, icon, image) {
+            var params = {
+                'name' : name,
+                'fullName' : fullName,
+                'icon' : icon,
+            };
+
+            if (image) {
+                params.image = image.base64;
+            }
+
+            $http.patch(apiPrefix + 'clubs/' + $scope.channel.slug, params).success(function(){
+                // On recharge le club pour être sûr d'avoir la nouvelle photo
+                if (channelSlug == name) {
+                    $http.get(apiPrefix + 'clubs/' + $scope.channel.slug).success(function(data){
+                        $scope.channel = data;
+                    });
+                } else {
+                    alertify.alert('Le nom court du club ayant changé, il est nécéssaire de recharger la page du club...');
+                    $state.go('root.channels.liste');
+                }
             });
         };
     }])
@@ -64,7 +89,7 @@ angular.module('upont')
             })
             .state("root.channels.simple.publications", {
                 url: "",
-                templateUrl: "views/home/liste-publis.html",
+                templateUrl: "views/channels/simple.publications.html",
                 data: {
                     title: 'Activités - uPont'
                 }
@@ -81,6 +106,6 @@ angular.module('upont')
                 templateUrl: "views/channels/simple.gestion.html",
                 data: {
                     title: 'Gestion - uPont'
-                }
+                },
             });
     }]);
