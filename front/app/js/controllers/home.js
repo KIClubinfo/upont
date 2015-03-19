@@ -16,8 +16,8 @@ angular.module('upont')
                     }).get(function(data) {
                         $rootScope.me = data;
                     });
-                    if (!data.data.first) {
-                        $state.go("root.profil");
+                    if (data.data.first) {
+                        $state.go("root.profile");
                         alertify.alert('Bienvenue sur uPont 2.0 !<br><br>' +
 'Dans un premier temps, vérifie bien tes infos (notamment ta photo de profil, que nous avons essayé de récupérer par Facebook de façon automatique).<br>' +
 'C\'est super important que les infos soient remplies pour pouvoir profiter de uPont au max.');
