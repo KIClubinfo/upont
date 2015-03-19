@@ -61,6 +61,30 @@ angular.module('upont')
                 });
             }
         };
+
+        $scope.addMember = function(slug, name) {
+            alertify.prompt('Rôle :', function(e, role){
+                if (e) {
+                    $http.post(apiPrefix + 'clubs/' + $scope.channel.slug + '/users/' + slug, {role: role}).success(function(data){
+                        alertify.success(name + ' a été ajouté(e) !');
+                        $scope.reloadMembers();
+                    });
+                }
+            });
+        };
+
+        $scope.removeMember = function(slug) {
+            $http.delete(apiPrefix + 'clubs/' + $scope.channel.slug + '/users/' + slug).success(function(data){
+                alertify.success('Membre supprimé !');
+                $scope.reloadMembers();
+            });
+        };
+
+        $scope.reloadMembers = function() {
+            $http.get(apiPrefix + 'clubs/' + $scope.channel.slug + '/users').success(function(data){
+                $scope.members = data;
+            });
+        }
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
