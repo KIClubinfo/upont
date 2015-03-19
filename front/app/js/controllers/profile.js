@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('Profil_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'preferences', 'clubs', 'clubsSuivis', 'token', 'devices', function($scope, $rootScope, $resource, $http, preferences, clubs, clubsSuivis, token, devices) {
+    .controller('Profile_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'preferences', 'clubs', 'clubsSuivis', 'token', 'devices', function($scope, $rootScope, $resource, $http, preferences, clubs, clubsSuivis, token, devices) {
         console.log(clubsSuivis);
         for (var i = 0; i < clubsSuivis.length; i++)
             clubsSuivis[i] = clubsSuivis[i].slug;
@@ -56,10 +56,10 @@ angular.module('upont')
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state("root.profil", {
+            .state("root.profile", {
                 url: 'profil',
                 templateUrl: "views/profile.html",
-                controller: "Profil_Ctrl",
+                controller: "Profile_Ctrl",
                 resolve: {
                     preferences: ["$resource", function($resource) {
                         return $resource(apiPrefix + "own/preferences").get().$promise;
@@ -78,7 +78,7 @@ angular.module('upont')
                     }]
                 },
                 data: {
-                    title: 'uPont - Profil'
+                    title: 'Profil - uPont'
                 }
             });
     }]);

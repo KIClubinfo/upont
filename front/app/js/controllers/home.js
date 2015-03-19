@@ -25,6 +25,12 @@ angular.module('upont')
                         $state.go("root.home");
                     }
                     alertify.success('Salut ' + data.data.first_name + ' !');
+                    $resource(apiPrefix + 'version').get(function(data){
+                        $rootScope.version = data;
+                    });
+                    $resource(apiPrefix + 'foyer/balance').get(function(data){
+                        $rootScope.foyer = data.balance;
+                    });
                 })
                 .error(function(data, status, headers, config) {
                     // Supprime tout token en cas de mauvaise identification
@@ -56,7 +62,7 @@ angular.module('upont')
                 url: '',
                 templateUrl: "views/home/connected.html",
                 data: {
-                    title: 'uPont - Accueil'
+                    title: 'Accueil - uPont'
                 },
                 controller: "Publis_Ctrl",
                 resolve: {
