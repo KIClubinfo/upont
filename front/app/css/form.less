@@ -1,0 +1,50 @@
+.up-input-group {
+    display: flex;
+    margin-bottom: 1.5em;
+    
+    input {
+        flex: 1;
+        
+        &:not(:first-child) {
+            border-left: 0;
+        }
+        &:not(:last-child) {
+            border-right: 0;
+        }
+    }
+    .addon {
+        font: inherit;
+        font-weight: normal;
+    }
+    
+    input, .addon {
+        padding: 0.5em 0.75em;
+    }
+    
+    input:first-child,
+    .addon:first-child {
+        border-radius: 2px 0 0 2px;
+    }
+    input:last-child,
+    .addon:last-child {
+        border-radius: 0 2px 2px 0;
+    }
+}
+
+.up-autocomplete {
+    width: 100%;
+    position: relative;
+    
+    input {
+        width: 100%;
+    }
+    
+    .suggestions {
+        position: absolute;
+        padding: 10px;
+        margin: 0px;
+        list-style: outside none none;
+        width: 100%;
+        border-radius: 0 0 5px 5px;
+    }
+}

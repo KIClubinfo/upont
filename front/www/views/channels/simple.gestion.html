@@ -62,10 +62,18 @@
     <h1>Membres</h1>
     <div up-row>
         <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
+            <br>
             <div class="up-input-group">
-                <span class="addon"><i class="fa fa-beer"></i></span>
-                <input type="text"/>
-                <span class="addon">Manger</span>
+                <span class="addon">User/</span>
+
+                <div class="up-autocomplete">
+                    <input type="text" ng-model="search" placeholder="Rechercher quelqu'un..."
+                           ng-keyup="searchUser(search)"/>
+                    <ul class="suggestions" ng-if="searchResults.length">
+                        <li ng-repeat="result in searchResults" ng-bind-html="result.name | match: search"></li>
+                    </ul>
+                </div>
+                <span class="addon"><i class="fa fa-search"></i></span>
             </div>
         </div>
 
