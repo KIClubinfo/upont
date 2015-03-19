@@ -19,9 +19,18 @@
         <h3 class="up-likes up-clickable" ng-click="openComments()" ng-class="{active : shownComments > 0 }" >Afficher {{ comments.length+shownComments }} commentaires précédents</h3>
     </div>
     <div class="up-comment" ng-repeat="comment in comments | orderBy: date | limitTo: shownComments" up-row left>
-        <img class="up-profile-picture" ng-src="{{comment.author.image_url | urlFile}}"/>
-        <div><strong>{{ comment.author.nick || comment.author.fist_name+' '+comment.author.last_name  }} : </strong>
+        <img up-col="7%" class="up-profile-picture" ng-src="{{comment.author.image_url | urlFile}}"/>
+        <div up-col="85%"><strong>{{ comment.author.nick }} : </strong>
         {{ comment.text }}</div>
+        <div up-col="2%"></div>
+        <div up-col="6%">
+            <div class="up-likes up-clickable" ng-click="likeComment(comment)"  ng-class="{active : comment.like}">
+                <i class="fa fa-thumbs-o-up"></i> {{ comment.likes }}
+            </div>
+            <div class="up-likes up-clickable" ng-click="dislikeComment(comment)"  ng-class="{active : comment.dislike}">
+                <i class="fa fa-thumbs-o-down"></i> {{ comment.dislikes }}
+            </div>
+        </div>
     </div>
     <form up-row left ng-submit="submitComment(commentText)">
         <img class="up-profile-picture" ng-src="{{ $root.me.image_url | urlFile }}" />

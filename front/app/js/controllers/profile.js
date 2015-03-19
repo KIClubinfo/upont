@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('Profil_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'preferences', 'clubs', 'clubsSuivis', function($scope, $rootScope, $resource, $http, preferences, clubs, clubsSuivis) {
+    .controller('Profile_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'preferences', 'clubs', 'clubsSuivis', 'token', 'devices', function($scope, $rootScope, $resource, $http, preferences, clubs, clubsSuivis, token, devices) {
         for (var i = 0; i < clubsSuivis.length; i++)
             clubsSuivis[i] = clubsSuivis[i].slug;
 
@@ -10,6 +10,8 @@ angular.module('upont')
         $scope.clubs = clubs;
         $scope.user = $rootScope.me;
         $scope.profilePicture = null;
+        $scope.token = token.token;
+        $scope.devices = devices;
 
         $scope.subscribe = function(slug) {
             $resource(apiPrefix + "clubs/:slug/follow", {slug: slug}).save();
@@ -44,7 +46,7 @@ angular.module('upont')
             }
 
             $http.patch($rootScope.url + 'users/' + $rootScope.me.username, params).success(function(){
-                // On recharge 'user pour être sûr d'avoir la nouvelle photo
+                // On recharge l'user pour être sûr d'avoir la nouvelle photo
                 $http.get(apiPrefix + 'users/' + $rootScope.me.username).success(function(data){
                     $rootScope.me = data;
                 });
@@ -53,13 +55,19 @@ angular.module('upont')
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state("root.profil", {
+            .state("root.profile", {
                 url: 'profil',
-                templateUrl: "views/profil.html",
-                controller: "Profil_Ctrl",
+                templateUrl: "views/profile.html",
+                controller: "Profile_Ctrl",
                 resolve: {
                     preferences: ["$resource", function($resource) {
                         return $resource(apiPrefix + "own/preferences").get().$promise;
+                    }],
+                    token: ['$resource', function($resource) {
+                        return $resource(apiPrefix + 'own/token').get().$promise;
+                    }],
+                    devices: ['$resource', function($resource) {
+                        return $resource(apiPrefix + 'own/devices').query().$promise;
                     }],
                     clubs: ["$resource", function($resource) {
                         return $resource(apiPrefix + "clubs?sort=name").query().$promise;
@@ -69,7 +77,7 @@ angular.module('upont')
                     }]
                 },
                 data: {
-                    title: 'uPont - Profil'
+                    title: 'Profil - uPont'
                 }
             });
     }]);

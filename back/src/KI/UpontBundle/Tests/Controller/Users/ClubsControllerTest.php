@@ -40,10 +40,6 @@ class ClubsControllerTest extends WebTestCase
         $this->client->request('GET', '/clubs/cpt/newsitems');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
-
-        $this->client->request('GET', '/clubs/sjoajsiohaysahais-asbsksaba7/publications');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 404);
     }
 
     public function testPatch()

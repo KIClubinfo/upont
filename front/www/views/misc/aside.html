@@ -14,7 +14,7 @@
         </div>-->
         <div><a ui-sref="root.calendrier" up-state-active><i class="fa fa-calendar"></i> Calendrier</a>
         </div>
-        <div><a ui-sref="root.profil" up-state-active><i class="fa fa-star"></i> Profil</a>
+        <div><a ui-sref="root.profile" up-state-active><i class="fa fa-star"></i> Profil</a>
         </div>
         <div><a ui-sref="root.admin" up-state-active><i class="fa fa-wrench"></i> Zone Admin</a>
         </div>
@@ -22,7 +22,7 @@
     <hr>
     <div class="up-aside-middle">
         <div>
-            <div ng-hide="foyer == null"><i class="fa fa-beer"></i> Compte Foyer : {{ foyer }}<i class="fa fa-euro"></i></div>
+            <div ng-hide="foyer == null"><i class="fa fa-beer"></i> Compte Foyer : {{ foyer }} <i class="fa fa-euro"></i></div>
         </div>
 
         <div>
@@ -39,9 +39,9 @@
         <div class="up-deconnection"><a ng-click="logout()"><i class="fa fa-sign-out"></i> Déconnexion</a>
         </div>
         <div>
-            <label class="unbold">
-                <input type="checkbox" ng-model="$root.theme">&nbsp;Thème sombre
-            </label>
+            <span class="unbold" ng-click="$root.switchTheme()" style="cursor: pointer">
+                <input type="checkbox" ng-checked="$root.theme == 'dark'">&nbsp;Thème sombre
+            </span>
         </div>
         <div class="up-version">uPont {{ version.version }}.{{ version.major }}.{{ version.minor }}
             <br> Build {{ version.build }} ({{ version.date | formatDate }})</div>

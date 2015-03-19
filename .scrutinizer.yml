@@ -64,7 +64,7 @@ coding_style:
         braces:
             if:
                 always: false
-tools:
-    external_code_coverage:
-        timeout: 1200
-        runs: 8
+#tools:
+#    external_code_coverage:
+#        timeout: 1200
+#        runs: 8

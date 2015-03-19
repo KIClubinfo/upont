@@ -114,6 +114,25 @@ angular.module('upont')
         $rootScope.url = location.origin + apiPrefix;
         $rootScope.promos = ['014', '015', '016', '017'];
 
+        // Récupération du thème s'il est déjà set
+        if (StorageService.get('theme') == 'dark') {
+            $rootScope.theme = 'dark';
+        } else {
+            StorageService.set('theme', 'clear');
+            $rootScope.theme = 'clear';
+        }
+
+        // Switch de thème
+        $rootScope.switchTheme = function() {
+            if ($rootScope.theme == 'dark') {
+                $rootScope.theme = 'clear';
+                StorageService.set('theme', 'clear');
+            } else {
+                $rootScope.theme = 'dark';
+                StorageService.set('theme', 'dark');
+            }
+        };
+
         // N'est utile que si on se sert des modaux bootstrap
 
         // var scrollbarWidth;

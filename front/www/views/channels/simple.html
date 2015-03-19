@@ -8,34 +8,4 @@
     </div>
 </div>
 
-<div up-row left>
-    <div up-col="60%" up-col-xs="100%" up-col-sm="100%"  autoscroll="false" ui-view root-state="root.channels.simple"></div>
-    <div up-col="0%" up-col-md="40%" up-col-lg="40%" padded>
-        <div class="up-ticket">
-            <div class="centering">Membres</div>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Élève</th>
-                        <th>Rôle</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="member in filtered =  (members | filter:promo)">
-                        <td>{{ member.user.nick }}</td>
-                        <td>{{ member.role }}</td>
-                    </tr>
-                    <tr ng-hide="filtered.length">
-                        <td>Rien à afficher</td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <select ng-model="promo">
-                <option ng-repeat="promo in promos" selected="{{ $index == promos.length-1 }}">{{ promo }}</option>
-            </select>
-        </div>
-    </div>
-</div>
+<div ui-view up-spinner parent-scope="root.channels" autoscroll="false"></div>

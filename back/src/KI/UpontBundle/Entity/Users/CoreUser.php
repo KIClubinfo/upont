@@ -130,6 +130,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
     // On définit des alias pour le slug
     public function getSlug() { return $this->getUsername(); }
     public function setSlug($slug) { return $this->setUsername($slug); }
+    public function getName() { return $this->getFirstName().' '.$this->getLastName(); }
 
 
 
