@@ -8,6 +8,8 @@ angular.module('upont')
         $scope.events = events;
         $scope.newsItems = newsItems;
         $scope.promo = '017';
+        $scope.showIcons = false;
+        $scope.faIcons = faIcons;
         var channelSlug = channel.name;
 
         $scope.next = function() {
@@ -42,6 +44,10 @@ angular.module('upont')
                 }
             });
         };
+
+        $scope.setIcon = function(icon) {
+            $scope.channel.icon = icon;
+        }
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
