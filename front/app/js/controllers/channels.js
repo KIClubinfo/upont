@@ -41,6 +41,7 @@ angular.module('upont')
             .state("root.channels.simple", {
                 url: "/:slug",
                 abstract: true,
+                controller : 'ChannelsSimple_Ctrl',
                 templateUrl: "views/channels/simple.html",
                 resolve: {
                     channel: ["$resource", "$stateParams", function($resource, $stateParams) {
@@ -49,10 +50,10 @@ angular.module('upont')
                         }).$promise;
                     }],
                     events: ['$stateParams', 'Paginate', function($stateParams, Paginate) {
-                        return Paginate.get('clubs/' + $stateParams.slug + '/events?sort=date', 10);
+                        return Paginate.get('clubs/' + $stateParams.slug + '/events?sort=-date', 10);
                     }],
                     newsItems: ['$stateParams', 'Paginate', function($stateParams, Paginate) {
-                        return Paginate.get('clubs/' + $stateParams.slug + '/newsitems?sort=date', 10);
+                        return Paginate.get('clubs/' + $stateParams.slug + '/newsitems?sort=-date', 10);
                     }],
                     members: ["$resource", "$stateParams", function($resource, $stateParams) {
                         return $resource(apiPrefix + "clubs/:slug/users").query({
@@ -64,7 +65,6 @@ angular.module('upont')
             .state("root.channels.simple.publications", {
                 url: "",
                 templateUrl: "views/home/liste-publis.html",
-                controller: 'ChannelsSimple_Ctrl',
                 data: {
                     title: 'Activités - uPont'
                 }
@@ -72,14 +72,12 @@ angular.module('upont')
             .state("root.channels.simple.presentation", {
                 url: "/presentation",
                 templateUrl: "views/channels/simple.presentation.html",
-                controller : 'ChannelsSimple_Ctrl',
                 data: {
                     title: 'Présentation - uPont'
                 },
             })
             .state("root.channels.simple.gestion", {
                 url: "/gestion",
-                controller: 'ChannelsSimple_Ctrl',
                 templateUrl: "views/channels/simple.gestion.html",
                 data: {
                     title: 'Gestion - uPont'
