@@ -6,6 +6,9 @@ header {
     box-shadow: 0px -5px 10px #000;
     height: @navbarHgt;
     align-items: center;
+    background: @col3;
+    border-bottom: solid 1px @col4;
+        
     .up-navbar-link {
         text-transform: uppercase;
         font-size: 0.9em;
@@ -19,16 +22,19 @@ header {
     padding: 0.3em;
     margin: 0px 1em;
     font-family: 'caviarDreams';
+    border: solid 1px @col1;
+        
     &:before {
+        content: "u";
         @media(min-width: @sizeMd) {
             content: "u";
         }
-        content:"u";
     }
     &:after {
+        content: "P";
+        color: @col1;
         @media(min-width: @sizeMd) {
             content: "Pont";
         }
-        content:"P";
     }
 }
