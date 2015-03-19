@@ -3,7 +3,7 @@ angular.module('upont').directive('upFillWindow', ['$window', function($window) 
         link: function($scope, $element, $attrs) {
             //Initialisation
             var newHeight = 0;
-            if ($attrs.upFillWindow == 'calendrier') {
+            if ($attrs.upFillWindow == 'calendar') {
                 newHeight = $window.innerHeight - $('header').outerHeight();
                 $element.height(newHeight.toString() + 'px');
             } else {
@@ -15,7 +15,7 @@ angular.module('upont').directive('upFillWindow', ['$window', function($window) 
             $scope.$watch(function() {
                 return $('footer').outerHeight();
             }, function() {
-                if ($attrs.upFillWindow == 'calendrier') {
+                if ($attrs.upFillWindow == 'calendar') {
                     newHeight = $window.innerHeight - $('header').outerHeight();
                     $element.height(newHeight.toString() + 'px');
                 } else {
@@ -27,7 +27,7 @@ angular.module('upont').directive('upFillWindow', ['$window', function($window) 
             //On observe si le navigateur change de taille
             angular.element($window).on('resize', function() {
                 $scope.$apply(function() {
-                    if ($attrs.upFillWindow == 'calendrier') {
+                    if ($attrs.upFillWindow == 'calendar') {
                         newHeight = $window.innerHeight - $('header').outerHeight();
                         $element.height(newHeight.toString() + 'px');
                     } else {

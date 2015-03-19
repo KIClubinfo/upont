@@ -1,27 +1,22 @@
-// .up-comment-img{
-//     height:35px;
-
-// }
-
 .up-comment{
     margin: 0.6em 0;
     font-size:0.9em;
     text-indent: 0;
-}
+    
+    &.ng-move, &.ng-enter, &.ng-leave {
+        -webkit-transition:all linear 0.5s;
+        transition:all linear 0.5s;
+    }
+    
+    &.ng-leave.ng-leave-active, &.ng-move, &.ng-enter {
+        opacity:0;
+        max-height:0;
+    }
 
-.up-comment.ng-move, .up-comment.ng-enter, .up-comment.ng-leave {
-  -webkit-transition:all linear 0.5s;
-  transition:all linear 0.5s;
-}
-
-.up-comment.ng-leave.ng-leave-active, .up-comment.ng-move, .up-comment.ng-enter {
-  opacity:0;
-  max-height:0;
-}
-
-.up-comment.ng-leave, .up-comment.ng-move.ng-move-active, .up-comment.ng-enter.ng-enter-active {
-  opacity:1;
-  max-height:initial;
+    &.ng-leave, &.ng-move.ng-move-active, &.ng-enter.ng-enter-active {
+        opacity:1;
+        max-height:initial;
+    }
 }
 
 .up-likes {
