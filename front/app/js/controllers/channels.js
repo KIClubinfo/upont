@@ -21,11 +21,11 @@ angular.module('upont')
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
             .state("root.channels", {
-                url: 'channels',
+                url: 'assos',
                 abstract: true,
                 template: '<div ui-view></div>',
                 data: {
-                    title: "uPont - Clubs & Assos"
+                    title: "Clubs & Assos - uPont"
                 }
             })
             .state("root.channels.liste", {
@@ -66,7 +66,7 @@ angular.module('upont')
                 templateUrl: "views/home/liste-publis.html",
                 controller: 'ChannelsSimple_Ctrl',
                 data: {
-                    title: 'uPont - Publications'
+                    title: 'Activités - uPont'
                 }
             })
             .state("root.channels.simple.presentation", {
@@ -74,7 +74,7 @@ angular.module('upont')
                 templateUrl: "views/channels/simple.presentation.html",
                 controller : 'ChannelsSimple_Ctrl',
                 data: {
-                    title: 'uPont - Présentation'
+                    title: 'Présentation - uPont'
                 },
             })
             .state("root.channels.simple.gestion", {
@@ -82,7 +82,7 @@ angular.module('upont')
                 controller: 'ChannelsSimple_Ctrl',
                 templateUrl: "views/channels/simple.gestion.html",
                 data: {
-                    title: 'uPont - Gestion'
+                    title: 'Gestion - uPont'
                 }
             });
     }]);
