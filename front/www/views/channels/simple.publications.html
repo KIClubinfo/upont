@@ -13,7 +13,7 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="member in filtered =  (members | filter:promo | orderBy:['user.nick'])">
-                        <td>{{ member.user.nick }}</td>
+                        <td>{{ member.user.first_name }} {{ member.user.last_name }}</td>
                         <td>{{ member.role }}</td>
                     </tr>
                     <tr ng-hide="filtered.length">
