@@ -97,10 +97,20 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
         $percent = 0;
         foreach ($results as $result) {
             $name = $result->getName();
-            $return[] = array(
+            $class = preg_replace('#.*\\\#', '', get_class($result));
+            $item = array(
                 'name' => $name,
                 'slug' => $result->getSlug(),
+                'type' => $class
             );
+
+            // Pour les épisodes et les musiques on se réfère à l'entité parent
+            if ($class == 'Episode')
+                $item['parent'] = $result->getSerie()->getSlug();
+            if ($class == 'Music')
+                $item['parent'] = $result->getAlbum()->getSlug();
+
+            $return[] = $item;
             // On trie par pertinence
             similar_text($name, $criteria, $percent);
             $score[] = $percent;

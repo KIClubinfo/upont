@@ -113,6 +113,7 @@ angular.module('upont')
 
         $rootScope.url = location.origin + apiPrefix;
         $rootScope.promos = ['014', '015', '016', '017'];
+        $rootScope.searchCategory = 'Clubs';
 
         // Récupération du thème s'il est déjà set
         if (StorageService.get('theme') == 'dark') {
