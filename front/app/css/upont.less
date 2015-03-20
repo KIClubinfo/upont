@@ -51,14 +51,16 @@ body.theme-clear {
 
 body.theme-dark {
     .theme(#F08630, #a0a0a0, #222, #555, #595B5C, #2a2c2f, #d0d0d0, #222, @navbarHgt - 1px);
+    .up-btn-default {
+        border-bottom: 2px solid #CD6812;
+        -webkit-box-shadow: inset 0 -2px #CD6812;
+        box-shadow: inset 0 -2px #CD6812;
+    }
     .btn-default:hover {
         background-color: #333;
         border-color: #F08630;
     }
     .alertify-log-error {
         background: red;
-    }
-    input, textarea, select {
-        background: #2a2c2f;
     }
 }
