@@ -19,8 +19,9 @@
     "moment": "latest",
     "fontawesome": "latest",
     "angular-filter": "latest",
-    "angular-base64-upload": "~0.0.5",
-    "ngInfiniteScroll": "~1.2.0",
-    "alertify.js": "~0.3.11"
+    "angular-base64-upload": "latest",
+    "ngInfiniteScroll": "latest",
+    "alertify.js": "latest",
+    "angular-bootstrap-datetimepicker": "latest"
   }
 }

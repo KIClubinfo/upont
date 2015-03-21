@@ -11,6 +11,18 @@
 .label-upont { // Labels bootstrap pour uPont
     background-color: @col1;
 }
+.img-responsive {
+    margin: 10px 0 10px 0;
+}
+// Pour le datetime picker
+.datetimepicker table tr td {
+    &.active, .active {
+        &, &:hover, &.disabled, &.disabled:hover {
+            background-color: @col1;
+            background-image: none;
+        }
+    }
+}
 
 // Blocks de base
 body {
@@ -111,4 +123,7 @@ a, a:hover, a:visited, a:active, a:focus {
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+.whoosh {
+    display: none;
 }
