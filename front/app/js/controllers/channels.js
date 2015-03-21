@@ -63,6 +63,14 @@ angular.module('upont')
         };
 
         $scope.addMember = function(slug, name) {
+            // On vérifie que la personne n'est pas déjà membre
+            for (var i = 0; i < $scope.members.length; i++) {
+                if ($scope.members[i].user.username == slug) {
+                    alertify.error('Déjà membre du club !');
+                    return;
+                }
+            }
+
             alertify.prompt('Rôle :', function(e, role){
                 if (e) {
                     $http.post(apiPrefix + 'clubs/' + $scope.channel.slug + '/users/' + slug, {role: role}).success(function(data){

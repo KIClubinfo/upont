@@ -73,10 +73,8 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
                 $results = $this->searchRepo('Publications\Newsitem', $criteria);
                 break;
             case 'Club':
-                $results = $this->searchRepo('Users\\'.$category, $criteria);
-                break;
             case 'User':
-                $results = $this->searchUser($criteria);
+                $results = $this->searchRepo('Users\\'.$category, $criteria);
                 break;
             case 'Actor':
             case 'Genre':
@@ -97,10 +95,20 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
         $percent = 0;
         foreach ($results as $result) {
             $name = $result->getName();
-            $return[] = array(
+            $class = preg_replace('#.*\\\#', '', get_class($result));
+            $item = array(
                 'name' => $name,
                 'slug' => $result->getSlug(),
+                'type' => $class
             );
+
+            // Pour les épisodes et les musiques on se réfère à l'entité parent
+            if ($class == 'Episode')
+                $item['parent'] = $result->getSerie()->getSlug();
+            if ($class == 'Music')
+                $item['parent'] = $result->getAlbum()->getSlug();
+
+            $return[] = $item;
             // On trie par pertinence
             similar_text($name, $criteria, $percent);
             $score[] = $percent;
@@ -110,34 +118,23 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
     }
 
     // On fouille un repo à la recherche d'entités correspondantes au nom
-    private function searchRepo($repo, $criteria) {
-        $repo = $this->getDoctrine()->getManager()->getRepository('KIUpontBundle:'.$repo);
+    private function searchRepo($repoName, $criteria, $field = 'e.name') {
+        $repo = $this->getDoctrine()->getManager()->getRepository('KIUpontBundle:'.$repoName);
         $qb = $repo->createQueryBuilder('e');
         $searches = explode(' ', $criteria);
 
-        // On définit les paramètres de recherche
-        $cqb = array();
-        foreach ($searches as $key => $value) {
-            $cqb[] = $qb->expr()->like('e.name', $qb->expr()->literal('%'.$value.'%'));
+        // Si on a affaire au repo user on utilise un critère spécial
+        if ($repoName == 'Users\User') {
+            $field = $qb->expr()->concat('e.firstName',
+                      $qb->expr()->concat($qb->expr()->literal(' '),
+                       $qb->expr()->concat('e.lastName',
+                        $qb->expr()->concat($qb->expr()->literal(' '), 'COALESCE(e.nickname, \'\')'))));
         }
-        $qb->andWhere(call_user_func_array(array($qb->expr(), 'orx'), $cqb));
-        $results = $qb->setMaxResults(10)
-                      ->getQuery()
-                      ->getResult();
-
-        return $this->format($results, $criteria);
-    }
-
-    private function searchUser($criteria) {
-        $repo = $this->getDoctrine()->getManager()->getRepository('KIUpontBundle:Users\User');
-        $qb = $repo->createQueryBuilder('e');
-        $searches = explode(' ', $criteria);
 
         // On définit les paramètres de recherche
-        $concat = $qb->expr()->concat('e.firstName', $qb->expr()->concat($qb->expr()->literal(' '), 'e.lastName'));
         $cqb = array();
         foreach ($searches as $key => $value) {
-            $cqb[] = $qb->expr()->like($concat, $qb->expr()->literal('%'.$value.'%'));
+            $cqb[] = $qb->expr()->like($field, $qb->expr()->literal('%'.$value.'%'));
         }
         $qb->andWhere(call_user_func_array(array($qb->expr(), 'orx'), $cqb));
         $results = $qb->setMaxResults(10)

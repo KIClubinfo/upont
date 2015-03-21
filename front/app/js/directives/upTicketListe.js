@@ -33,18 +33,34 @@ angular.module('upont').directive('upTicketListe', ['$window', function($window)
             element.addClass(classe);
             element.css('position', 'relative');
             element.find('div.up-img-ponthub').addClass(scope.category);
-            element.find('div.img-ph').css({
-                'overflow': 'hidden',
-                'background-image':  'url('+apiPrefix+scope.content.img+')',
-                'background-repeat': 'no-repeat',
-                'background-position': 'center',
-                'background-size': 'cover',
-                'position': 'absolute',
-                'top':'0',
-                'bottom':'0',
-                'right':'0',
-                'left':'0',
-            });
+
+            // Si l'image existe
+            if (scope.content.img) {
+                element.find('div.img-ph').css({
+                    'background-image':  'url(' + apiPrefix + scope.content.img + ')',
+                });
+            } else {
+                var icon = '';
+                switch(scope.category){
+                    case 'jeux':
+                        icon = 'fa-gamepad';
+                        break;
+                    case 'films':
+                    case 'series':
+                        icon = 'fa-film';
+                        break;
+                    case 'musiques':
+                        icon = 'fa-music';
+                        break;
+                    case 'autres':
+                        icon = 'fa-file-o';
+                        break;
+                    case 'logiciels':
+                        icon = 'fa-desktop';
+                        break;
+                }
+                element.find('div.img-ph').addClass('fa ' + icon);
+            }
         }
     };
 }]);

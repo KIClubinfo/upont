@@ -14,6 +14,37 @@ header {
         font-size: 0.9em;
         margin-right: 15px;
     }
+    
+    // Redéfinition de certaines propriétés pour la recherche globale
+    .up-input-group {
+        margin-top: 20px;
+        
+        .addon:first-child {
+            position: relative;
+            min-width: 110px;
+            cursor: pointer;
+        }
+        
+        .select {
+            border: 1px solid @col4;
+            background-color: @col3;
+            position: absolute;
+            padding: 10px 0 10px 0;
+            margin: 0px;
+            list-style: outside none none;
+            width: 100%;
+            border-radius: 0 0 5px 5px;
+            left: 0px;
+            top: 35px;
+            
+            li {
+                padding: 0 10px 0 10px;
+                &:hover {
+                    background-color: @col6;
+                }
+            }
+        }
+    }
 }
 
 .up-main-title {
