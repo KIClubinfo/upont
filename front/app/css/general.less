@@ -33,6 +33,19 @@ body {
 .up-calendar {
     margin: 0px 0px -30px;
 }
+.up-landing {
+    .up-ticket {
+        max-width: 600px;
+    }
+}
+.up-assos {
+    .up-ticket:hover {
+        &:before {
+            border: 1px solid @col1;
+        }
+        h3 { color: @col1 !important; }
+    }
+}
 
 // Titres
 h1 {
@@ -48,6 +61,8 @@ h4 {
     .title(1.2em);
 }
 h1, h2, h3, h4, h5, h6 {
+    margin-top: 10px;
+
     a:hover {
         color: @col1;
     }

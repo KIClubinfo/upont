@@ -1,6 +1,6 @@
 <div up-col="100%" up-row left padded>
     <div up-col="25%">
-        <a ui-sref="root.ponthub.liste">
+        <a class="up-ticket-link" ng-click="(category != 'series' && category != 'musiques') ? download():false">
             <img class="img-responsive up-img-ponthub" src="{{ element.image_url | urlFile }}" alt="Image du fichier" />
         </a>
         <div up-row padded center>
@@ -39,11 +39,13 @@
             </h4>
         </ul>
 
-        <div up-row wrap padded ng-if="saisons">
-            <div up-col-xs="100%" up-col-sm="100%" up-col="50%" ng-repeat="saison in saisons">
-                <h2>Saison {{ $index+1 }}</h2>
+        <div ng-if="saisons">
+            <div ng-repeat="saison in saisons">
+                <h2 ng-click="open($index)" class="up-clickable">
+                    <i class="fa fa-plus-square-o"></i> Saison {{ $index+1 }}
+                </h2>
 
-                <ul class="up-list">
+                <ul class="up-list" ng-show="openSeason == $index">
                     <li ng-repeat="episode in saison | orderBy:['name']">
                         <a class="up-ticket-link" ng-click="download(url + 'series/' + element.slug + '/episodes/' + episode.slug + '/download')">
                             {{ episode.name }}

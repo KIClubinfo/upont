@@ -1,6 +1,8 @@
 .up-img-ponthub {
     position:relative;
+    margin: 0 0 0.5em;
     width:100%;
+    
     &:before{
         content:"";
         display: block;
@@ -11,22 +13,38 @@
     &.logiciels:before{ padding-top: 100%; }
     &.jeux:before{ padding-top: 56%; }
     &.autres:before{ padding-top: 130%; }
+    
+    .img-ph {
+        .cover;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+    }
+    .fa {
+        padding-top: 0px;
+        opacity: 0.5;
+        
+        font-size: 20px;
+        @media(min-width:@sizeSm) { font-size: 40px; padding-top: 0px; }
+        @media(min-width:@sizeMd) { font-size: 80px; padding-top: 0px; }
+        @media(min-width:@sizeLg) { font-size: 120px; padding-top: 30px; }
+    }
 }
 
 .up-elemt-ponthub{
-    a{
-        display:block;
-    }
     padding: 0.75em;
     text-align: center;
     position: relative;
+    
+    a{
+        display:block;
+    }
     h1 {
         font-size: 1.3em;
         margin: 0px;
         padding: 0px;
     }
-}
-
-.up-img-ponthub{
-    margin: 0 0 0.5em;
 }

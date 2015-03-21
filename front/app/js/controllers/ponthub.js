@@ -13,6 +13,7 @@ angular.module('upont')
         $scope.element = element;
         $scope.category = $stateParams.category;
         $scope.musics = musics;
+        $scope.openSeason = -1;
 
         if(episodes){
             $scope.saisons = [];
@@ -30,6 +31,10 @@ angular.module('upont')
             $http.get(url).success(function(data){
                 $window.location.href = data.redirect;
             });
+        };
+
+        $scope.open = function(index) {
+            $scope.openSeason = $scope.openSeason != index ? index : -1;
         };
     }])
     .factory('PH_categories', function(){

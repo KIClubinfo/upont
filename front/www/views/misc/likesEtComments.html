@@ -20,16 +20,16 @@
     </div>
     <div class="up-comment" ng-repeat="comment in comments | orderBy: date | limitTo: shownComments" up-row left>
         <img up-col="7%" class="up-profile-picture" ng-src="{{comment.author.image_url | urlFile}}"/>
-        <div up-col="85%"><strong>{{ comment.author.nick }} : </strong>
-        {{ comment.text }}</div>
-        <div up-col="2%"></div>
-        <div up-col="6%">
-            <div class="up-likes up-clickable" ng-click="likeComment(comment)"  ng-class="{active : comment.like}">
+        <div up-col="93%">
+            <strong>{{ comment.author.nick }} : </strong>
+            {{ comment.text }}<br>
+            <span class="up-likes up-clickable" ng-click="likeComment(comment)"  ng-class="{active : comment.like}">
                 <i class="fa fa-thumbs-o-up"></i> {{ comment.likes }}
-            </div>
-            <div class="up-likes up-clickable" ng-click="dislikeComment(comment)"  ng-class="{active : comment.dislike}">
+            </span>
+            &nbsp;
+            <span class="up-likes up-clickable" ng-click="dislikeComment(comment)"  ng-class="{active : comment.dislike}">
                 <i class="fa fa-thumbs-o-down"></i> {{ comment.dislikes }}
-            </div>
+            </span>
         </div>
     </div>
     <form up-row left ng-submit="submitComment(commentText)">

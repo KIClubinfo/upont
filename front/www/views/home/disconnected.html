@@ -1,4 +1,4 @@
-<div up-row wrap>
+<div up-row wrap center class="up-landing">
     <div up-col-xs="100%" up-col-sm="100%" up-col="50%" class="up-ticket">
         <div up-row>
             <div up-col-xs="100%" up-col="80%">
@@ -15,7 +15,7 @@
 
         <form class="up-login-form" ng-submit="login(pseudo, password)">
             <div up-row left padded space-around>
-                <input up-col="45%" ng-model="pseudo" type="text" placeholder="Identifiant"/>
+                <input up-col="45%" ng-model="pseudo" type="text" placeholder="Identifiant" id="login-input"/>
                 <input up-col="45%" ng-model="password" type="password" placeholder="Mot de passe"/>
             </div>
             <br>
