@@ -9,7 +9,7 @@ class NewsitemsControllerTest extends WebTestCase
     // On crée une ressource sur laquelle seront effectués les tests. Ne pas oublier de supprimer à la fin avec le test DELETE.
     public function testPost()
     {
-        $this->client->request('POST', '/newsitems', array('name' => 'La Porte', 'textLong' => 'C\'est comme perdre', 'authorClub' => 'ki'));
+        $this->client->request('POST', '/newsitems', array('name' => 'La Porte', 'text' => 'C\'est comme perdre', 'authorClub' => 'ki'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
         // On vérifie que le lieu du nouvel objet a été indiqué
@@ -33,11 +33,11 @@ class NewsitemsControllerTest extends WebTestCase
 
     public function testPatch()
     {
-        $this->client->request('PATCH', '/newsitems/la-porte', array('textLong' => 'ddssqdqsd'));
+        $this->client->request('PATCH', '/newsitems/la-porte', array('text' => 'ddssqdqsd'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/newsitems/la-porte', array('textLong' => ''));
+        $this->client->request('PATCH', '/newsitems/la-porte', array('text' => ''));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
