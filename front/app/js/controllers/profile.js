@@ -29,16 +29,16 @@ angular.module('upont')
             });
         };
 
-        $scope.submitUser = function(promo, nationality, phone, location, department, origin, skype, nickname, image) {
+        $scope.submitUser = function(me, image) {
             var params = {
-                'promo' : promo,
-                'nationality' : nationality,
-                'phone' : phone,
-                'location' : location,
-                'department' : department,
-                'origin' : origin,
-                'skype' : skype,
-                'nickname' : nickname
+                'promo' : me.promo,
+                'nationality' : me.nationality,
+                'phone' : me.phone,
+                'location' : me.location,
+                'department' : me.department,
+                'origin' : me.origin,
+                'skype' : me.skype,
+                'nickname' : me.nickname
             };
 
             if (image) {

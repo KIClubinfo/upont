@@ -12,8 +12,7 @@ class NewsitemType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('textShort')
-            ->add('textLong')
+            ->add('text')
             ->add('authorClub', 'club_selector')
             ->add('image', 'imageuploader_selector');
     }

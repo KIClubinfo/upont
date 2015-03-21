@@ -11,6 +11,18 @@
 .label-upont { // Labels bootstrap pour uPont
     background-color: @col1;
 }
+.img-responsive {
+    margin: 10px 0 10px 0;
+}
+// Pour le datetime picker
+.datetimepicker table tr td {
+    &.active, .active {
+        &, &:hover, &.disabled, &.disabled:hover {
+            background-color: @col1;
+            background-image: none;
+        }
+    }
+}
 
 // Blocks de base
 body {
@@ -33,6 +45,14 @@ body {
 .up-calendar {
     margin: 0px 0px -30px;
 }
+.up-messages {
+    padding-top: 15px;
+
+    .up-profile-picture {
+        width: 50px;
+        height: 50px;
+    }
+}
 .up-landing {
     .up-ticket {
         max-width: 600px;
@@ -40,6 +60,8 @@ body {
 }
 .up-assos {
     .up-ticket:hover {
+        cursor: pointer;
+
         &:before {
             border: 1px solid @col1;
         }
@@ -101,4 +123,7 @@ a, a:hover, a:visited, a:active, a:focus {
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+.whoosh {
+    display: none;
 }

@@ -2,15 +2,20 @@
 .up-btn {
     position: relative;
     vertical-align: top;
-    min-height: 50px;
-    padding: 0px 20px;
-    font-size: 20px !important;
+    min-height: 30px;
+    padding: 0px 10px;
+    font-size: 16px !important;
     color: white !important;
     text-align: center;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
     border: 0;
     cursor: pointer;
 
+    &.up-btn-lg {
+        font-size: 20px !important;
+        min-height: 50px;
+        padding: 0px 20px;
+    }
     &:active {
         top: 1px;
         outline: none;
@@ -22,14 +27,10 @@
 // Boutons colorés
 .up-btn-default {
     background: @col1;
-    border-bottom: 2px solid @col2;
-    -webkit-box-shadow: inset 0 -2px @col2;
-    box-shadow: inset 0 -2px @col2;
 }
 .up-btn-primary {
     background: @col4;
     border-bottom: 2px solid @col2;
-    -webkit-box-shadow: inset 0 -2px @col2;
     box-shadow: inset 0 -2px @col2;
 }
 

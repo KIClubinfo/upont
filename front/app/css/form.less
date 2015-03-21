@@ -4,14 +4,17 @@ input, textarea, select {
     border: solid 1px @col2;
     color: @col2;
     border-radius: 1px;
-}
-input {
     padding: 0.5em;
-    vertical-align: middle;
 
     &:focus {
         border-color: @col1;
+        box-shadow: inset 0 0 2px @col1;
+        transition: 0.2s ease-in-out all;
     }
+}
+input {
+    vertical-align: middle;
+
     &[type="radio"], &[type="checkbox"] {
         margin: 0 0.5em;
         vertical-align: middle;
@@ -23,7 +26,6 @@ textarea {
     width: 100%;
 }
 select {
-    padding: 2px;
     width: 100%;
 }
 label {
@@ -34,7 +36,6 @@ label {
 // Permet de rajouter des addons à gauche ou a droite des inputs
 .up-input-group {
     display: flex;
-    margin-bottom: 1.5em;
 
     input {
         flex: 1;
@@ -51,19 +52,16 @@ label {
         font-weight: normal;
         background-color: @col6;
         color: @col2;
-        border: 1px solid @col4;
+        border: 1px solid @col2;
     }
 
     input, .addon {
         padding: 0.5em 0.75em;
-        border: 1px 0px solid @col4;
     }
 
-    input:first-child,
     .addon:first-child {
         border-radius: 2px 0 0 2px;
     }
-    input:last-child,
     .addon:last-child {
         border-radius: 0 2px 2px 0;
     }
@@ -76,6 +74,8 @@ label {
 
     input {
         width: 100%;
+        border-left: 0;
+        border-right: 0;
     }
 
     .suggestions {

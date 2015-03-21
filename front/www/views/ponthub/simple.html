@@ -1,68 +1,71 @@
-<div up-col="100%" up-row left padded>
-    <div up-col="25%">
-        <a class="up-ticket-link" ng-click="(category != 'series' && category != 'musiques') ? download():false">
-            <img class="img-responsive up-img-ponthub" src="{{ element.image_url | urlFile }}" alt="Image du fichier" />
-        </a>
-        <div up-row padded center>
-            <div ng-if="element.vo"><span class="label label-upont">VO</span></div>
-            <div ng-if="element.vf"><span class="label label-upont">VF</span></div>
-            <div ng-if="element.vost"><span class="label label-upont">VOST</span></div>
-            <div ng-if="element.hd"><span class="label label-upont">HD</span></div>
+<div class="up-ticket">
+    <div up-col="100%" up-row left padded>
+        <div up-col="25%" ng-if="element.image_url">
+            <a class="up-ticket-link" ng-click="(category != 'series' && category != 'musiques') ? download():false">
+                <img class="img-responsive up-img-ponthub" src="{{ element.image_url | urlFile }}" alt="Image du fichier" />
+            </a>
+            <div up-row padded center>
+                <div ng-if="element.vo"><span class="label label-upont">VO</span></div>
+                <div ng-if="element.vf"><span class="label label-upont">VF</span></div>
+                <div ng-if="element.vost"><span class="label label-upont">VOST</span></div>
+                <div ng-if="element.hd"><span class="label label-upont">HD</span></div>
+            </div>
         </div>
-    </div>
-    <div up-col="75%">
-        <h1>{{ element.name }}</h1>
-        <p>{{ element.description }}</p>
-        <ul class="up-ph-list-infos">
-            <li ng-if="element.year">Année de sortie : {{ element.year }}</li>
-            <li ng-if="element.genres && element.genres.length > 1">Genres : <span ng-repeat="genre in element.genres">{{ genre }}{{$last ? '' : ', '}}</span>
-            </li>
-            <li ng-if="element.actors_list && element.actors_list.length > 1">Acteurs : <span ng-repeat="actor in element.actors_list">{{ actor }}{{$last ? '' : ', '}}</span>
-            </li>
-            <li ng-if="element.artist">Artiste : {{ element.artist }}</li>
+        <div up-col="75%">
+            <h1>{{ element.name }}</h1>
+            <p>{{ element.description }}</p>
+            <ul class="up-ph-list-infos">
+                <li ng-if="element.year">Année de sortie : {{ element.year }}</li>
+                <li ng-if="element.genres && element.genres.length > 1">Genres : <span ng-repeat="genre in element.genres">{{ genre }}{{$last ? '' : ', '}}</span>
+                </li>
+                <li ng-if="element.actors_list && element.actors_list.length > 1">Acteurs : <span ng-repeat="actor in element.actors_list">{{ actor }}{{$last ? '' : ', '}}</span>
+                </li>
+                <li ng-if="element.artist">Artiste : {{ element.artist }}</li>
 
-            <li ng-if="element.studio">Studio : {{ element.studio }}</li>
-            <li ng-if="element.director">Réalisateur : {{ element.director }}</li>
+                <li ng-if="element.studio">Studio : {{ element.studio }}</li>
+                <li ng-if="element.director">Réalisateur : {{ element.director }}</li>
 
-            <li ng-if="element.duration">Durée : {{ element.duration | formatDuration }}</li>
+                <li ng-if="element.duration">Durée : {{ element.duration | formatDuration }}</li>
 
 
-            <li ng-if="element.size">Taille : {{ element.size | formatSize }}</li>
+                <li ng-if="element.size">Taille : {{ element.size | formatSize }}</li>
 
-            <li ng-if="element.rating">Note Rotten Tomatoes : {{ element.rating+'%' }}</li>
+                <li ng-if="element.rating">Note Rotten Tomatoes : {{ element.rating+'%' }}</li>
 
-            <h4 ng-if="category != 'series' && category != 'musiques'">
-                <button class="up-btn up-btn-default" ng-click="download()">
-                    <i class="fa fa-download"></i>
-                    Télécharger !
-                </button>
-            </h4>
-        </ul>
+                <h4 ng-if="category != 'series' && category != 'musiques'">
+                    <button class="up-btn up-btn-default" ng-click="download()">
+                        <i class="fa fa-download"></i>
+                        Télécharger !
+                    </button>
+                </h4>
+            </ul>
 
-        <div ng-if="saisons">
-            <div ng-repeat="saison in saisons">
-                <h2 ng-click="open($index)" class="up-clickable">
-                    <i class="fa fa-plus-square-o"></i> Saison {{ $index+1 }}
-                </h2>
+            <div ng-if="saisons">
+                <div ng-repeat="saison in saisons">
+                    <h2 ng-click="open($index)" class="up-clickable">
+                        <i class="fa fa-plus-square-o"></i> Saison {{ $index+1 }}
+                    </h2>
 
-                <ul class="up-list" ng-show="openSeason == $index">
-                    <li ng-repeat="episode in saison | orderBy:['name']">
-                        <a class="up-ticket-link" ng-click="download(url + 'series/' + element.slug + '/episodes/' + episode.slug + '/download')">
-                            {{ episode.name }}
+                    <ul class="up-list" ng-show="openSeason == $index">
+                        <li ng-repeat="episode in saison | orderBy:['name']">
+                            <a class="up-ticket-link" ng-click="download(url + 'series/' + element.slug + '/episodes/' + episode.slug + '/download')">
+                                {{ episode.name }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div ng-if="musics">
+                <ul class="up-list">
+                    <li ng-repeat="music in musics | orderBy:['name']">
+                        <a class="up-ticket-link" ng-click="download(url + 'albums/' + element.slug + '/musics/' + music.slug + '/download')">
+                            {{ music.name }}
                         </a>
                     </li>
                 </ul>
             </div>
         </div>
-
-        <div ng-if="musics">
-            <ul class="up-list">
-                <li ng-repeat="music in musics | orderBy:['name']">
-                    <a class="up-ticket-link" ng-click="download(url + 'albums/' + element.slug + '/musics/' + music.slug + '/download')">
-                        {{ music.name }}
-                    </a>
-                </li>
-            </ul>
-        </div>
     </div>
+    <div up-likes objet="element" url="type + '/' + element.slug"></div>
 </div>

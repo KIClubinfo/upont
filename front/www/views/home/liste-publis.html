@@ -2,7 +2,7 @@
     <div class="up-ticket divided rounded-top" ng-class="'color{{ publication.slug.length%5+1 }}'" ng-repeat="publication in events.data | concat: newsItems.data | orderBy: 'date' | reverse">
         <div ng-if="!publication.start_date">
             <div class="up-ticket-header">
-                <div class="background" ng-style="{'background-image': 'url({{publication.author_club.image_url | urlFile}})'}"></div>
+                <div class="background" ng-style="{'background-image': 'url({{ publication.author_club.image_url | urlFile }})'}"></div>
                 <div class="up-img-home-container">
                     <div class="up-img-home" ng-style="{'background-image': 'url({{ publication.image_url | urlFile }})'}" ></div>
                 </div>
@@ -16,13 +16,13 @@
                     </div>
                     <div up-col="40%" class="up-ticket-date">{{ publication.date*1000 | date : 'd MMMM yyyy' }}</div>
                 </div>
-                <p up-publi-text string="publication.text_long"></p>
+                <p up-publi-text string="publication.text"></p>
                 <div up-likes objet="publication" url="'newsitems/'+publication.slug"></div>
             </div>
         </div>
-        <div ng-if="!!publication.start_date">
+        <div ng-if="publication.start_date">
             <div class="up-ticket-header">
-                <div class="background" ng-style="{'background-image': 'url({{publication.author_club.image_url | urlFile}})'}"></div>
+                <div class="background" ng-style="{'background-image': 'url({{ publication.author_club.image_url | urlFile }})'}"></div>
                 <div class="up-img-home-container">
                     <div class="up-img-home" ng-style="{'background-image': 'url({{ publication.image_url | urlFile }})'}" />
                 </div>
@@ -43,7 +43,7 @@
                         </a>
                     </div>
                 </div>
-                <p class="up-chapeau" up-publi-text string="publication.text_long"></p>
+                <p class="up-chapeau" up-publi-text string="publication.text"></p>
                 <div up-likes objet="publication" url="'newsitems/'+publication.slug"></div>
             </div>
         </div>

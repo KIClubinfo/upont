@@ -285,7 +285,7 @@ class Generator extends AbstractFixture
         foreach ($items as $id => $item) {
             $entity = new PU\Newsitem();
             $entity->setName($item['titre']);
-            $entity->setTextLong($item['valeur']);
+            $entity->setText($item['valeur']);
             $entity->setAuthorClub($this->clubs[$item['id_auteur']]);
             $entity->setDate(strtotime($item['date']));
             $this->em->persist($entity);
@@ -317,7 +317,7 @@ class Generator extends AbstractFixture
         foreach ($items as $id => $item) {
             $entity = new PU\Event();
             $entity->setName($item['label']);
-            $entity->setTextLong($item['details']);
+            $entity->setText($item['details']);
             $entity->setDate(strtotime($item['date']));
             $entity->setStartDate(strtotime($item['date_deb']));
             $entity->setEndDate(strtotime($item['date_fin']));

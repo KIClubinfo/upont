@@ -45,6 +45,7 @@ angular.module('upont')
                     alertify.alert('Le nom court du club ayant changé, il est nécéssaire de recharger la page du club...');
                     $state.go('root.channels.liste');
                 }
+                alertify.success('Modifications prises en compte !');
             });
         };
 

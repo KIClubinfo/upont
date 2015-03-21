@@ -130,6 +130,11 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
                        $qb->expr()->concat('e.lastName',
                         $qb->expr()->concat($qb->expr()->literal(' '), 'COALESCE(e.nickname, \'\')'))));
         }
+        // Si on a affaire au repo club on peut chercher sur le nom complet
+        if ($repoName == 'Users\Club') {
+            $field = $qb->expr()->concat('e.name',
+                      $qb->expr()->concat($qb->expr()->literal(' '), 'e.fullName'));
+        }
 
         // On définit les paramètres de recherche
         $cqb = array();
