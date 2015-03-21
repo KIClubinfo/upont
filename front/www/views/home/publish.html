@@ -1,18 +1,91 @@
 <div class="up-publish up-ticket">
-    <form class="publish-container" ng-submit="publish(post, postPicture)">
-        <textarea ng-focus="focus=true" ng-blur="focus=false" ng-model="post.text"
-                  placeholder="{{ placeholder }}" rows="1" auto-grow></textarea>
-        <div class="type-container">
-            <div class="type" ng-click="changeType('message')" ng-class="{active: type == 'message'}">Message</div>
-            <div class="type" ng-click="changeType('news')"    ng-class="{active: type == 'news'}">News</div>
-            <div class="type" ng-click="changeType('event')"   ng-class="{active: type == 'event'}">Événement</div>
+    <form class="publish-container" ng-submit="publish(post, postPicture)" up-row padded wrap>
+        <!-- Inputs liés aux news et events -->
+        <div up-col="100%">
+            <input up-col="100%" ng-hide="type == 'message'" type="text" ng-model="post.name" placeholder="Titre"/>
+        </div>
 
-            <div style="float: right">
-                <div class="type fileupload" ng-class="{active: postPicture.filename}">
-                    <span><i class="fa fa-file-image-o"></i> {{ postPicture.filename }}</span>
-                    <input type="file" ng-model="postPicture" base-sixty-four-input>
+        <!-- startDate -->
+        <div ng-show="type == 'event'" up-col-xs="100%" up-col-sm="100%" up-col="50%">
+            <div class="up-input-group" ng-click="startPicker=!startPicker">
+                <input up-col="100%" type="text" placeholder="Date de début" ng-model="post.start_date | date:'HH:mm dd/MM/yyyy'"/>
+                <span class="addon"><i class="fa fa-calendar"></i></span>
+            </div>
+            <datetimepicker ng-show="startPicker" data-ng-model="post.start_date"></datetimepicker>
+        </div>
+        <!-- endDate -->
+        <div ng-show="type == 'event'" up-col-xs="100%" up-col-sm="100%" up-col="50%">
+            <div class="up-input-group" ng-click="startPicker=!startPicker">
+                <input up-col="100%" type="text" placeholder="Date de fin" ng-model="post.end_date | date:'HH:mm dd/MM/yyyy'"/>
+                <span class="addon"><i class="fa fa-calendar"></i></span>
+            </div>
+            <datetimepicker ng-show="startPicker" data-ng-model="post.end_date"></datetimepicker>
+        </div>
+
+        <!-- place -->
+        <div ng-show="type == 'event'" up-col-xs="100%" up-col-sm="100%" up-col="50%">
+            <input up-col="100%" type="text" ng-model="post.place" placeholder="Lieu"/>
+        </div>
+
+        <!-- entryMethod -->
+        <div ng-show="type == 'event'" up-col-xs="100%" up-col-sm="100%" up-col="50%">
+            <select ng-model="post.entry_method">
+                <option selected>Entrée libre</option>
+                <option>Shotgun</option>
+            </select>
+        </div>
+
+        <!-- shotgunDate -->
+        <div ng-show="type == 'event' && post.entry_method == 'Shotgun'" up-col-xs="100%" up-col-sm="100%" up-col="50%">
+            <div class="up-input-group" ng-click="shotgunPicker=!shotgunPicker">
+                <input up-col="100%" type="text" placeholder="Date du shotgun" ng-model="post.shotgun_date | date:'HH:mm dd/MM/yyyy'"/>
+                <span class="addon"><i class="fa fa-calendar"></i></span>
+            </div>
+            <datetimepicker ng-show="shotgunPicker" data-ng-model="post.shotgun_date"></datetimepicker>
+        </div>
+
+        <!-- shotgunLimit -->
+        <div ng-show="type == 'event' && post.entry_method == 'Shotgun'" up-col-xs="100%" up-col-sm="100%" up-col="50%">
+            <input up-col="100%" type="text" ng-model="post.shotgun_limit" placeholder="Nombre de places"/>
+        </div>
+
+        <!-- shotgunText -->
+        <div ng-show="type == 'event' && post.entry_method == 'Shotgun'" up-col="100%">
+            <textarea up-col="100%" ng-model="post.shotgun_text" placeholder="Texte destiné aux vainqueurs du shotgun"/>
+        </div>
+
+        <div up-col="100%">
+            <!-- Textarea principal -->
+            <textarea ng-focus="focus=true" ng-blur="focus=false" ng-model="post.text"
+                      placeholder="{{ placeholder }}" rows="2" auto-grow></textarea>
+
+            <!-- Toolbar du bas -->
+            <div class="type-container">
+                <!-- Séléction du type de publication -->
+                <div class="type" ng-click="changeType('message')" ng-class="{active: type == 'message'}">Message</div>
+                <div class="type" ng-click="changeType('news')"    ng-class="{active: type == 'news'}"  ng-if="$root.selfClubs.length">News</div>
+                <div class="type" ng-click="changeType('event')"   ng-class="{active: type == 'event'}" ng-if="$root.selfClubs.length">Événement</div>
+
+                <div style="float: right">
+                    <!-- Séléction du club -->
+                    <div ng-show="type != 'message'" class="type addon" ng-class="{active: club.name != 'Assos'}">
+                        <span ng-click="toggleSelect()">
+                            <i class="fa fa-{{ club.icon ? club.icon : 'users' }}"></i> {{ club.name }}
+                        </span>
+                        <ul class="select" ng-if="toggle">
+                            <li ng-repeat="club in $root.selfClubs"
+                                ng-click="changeClub(club.club);"
+                                class="up-clickable">{{ club.club.name }}</li>
+                        </ul>
+                    </div>
+
+                    <!-- Ajout d'une image -->
+                    <div class="type fileupload" ng-class="{active: postPicture.filename}">
+                        <span><i class="fa fa-file-image-o"></i> {{ postPicture.filename }}</span>
+                        <input type="file" ng-model="postPicture" base-sixty-four-input>
+                    </div>
+                    <button class="up-btn up-btn-default">Publier !</button>
                 </div>
-                <button class="up-btn up-btn-default">Publier !</button>
             </div>
         </div>
     </form>

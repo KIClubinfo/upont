@@ -2,7 +2,7 @@
     <div class="up-ticket divided rounded-top" ng-class="'color{{ publication.slug.length%5+1 }}'" ng-repeat="publication in events.data | concat: newsItems.data | orderBy: 'date' | reverse">
         <div ng-if="!publication.start_date">
             <div class="up-ticket-header">
-                <div class="background" ng-style="{'background-image': 'url({{publication.author_club.image_url | urlFile}})'}"></div>
+                <div class="background" ng-style="{'background-image': 'url({{ publication.author_club.image_url | urlFile }})'}"></div>
                 <div class="up-img-home-container">
                     <div class="up-img-home" ng-style="{'background-image': 'url({{ publication.image_url | urlFile }})'}" ></div>
                 </div>
@@ -22,7 +22,7 @@
         </div>
         <div ng-if="publication.start_date">
             <div class="up-ticket-header">
-                <div class="background" ng-style="{'background-image': 'url({{publication.author_club.image_url | urlFile}})'}"></div>
+                <div class="background" ng-style="{'background-image': 'url({{ publication.author_club.image_url | urlFile }})'}"></div>
                 <div class="up-img-home-container">
                     <div class="up-img-home" ng-style="{'background-image': 'url({{ publication.image_url | urlFile }})'}" />
                 </div>
