@@ -14,7 +14,11 @@
 
         <div infinite-scroll="nextMessages()" infinite-scroll-distance="2" infinite-scroll-disabled="$root.infiniteLoading">
             <div class="up-ticket" ng-repeat="message in messages.data">
-                {{ message.text }}
+                <div up-row class="up-messages">
+                    <img up-col="20%" class="up-profile-picture" ng-src="{{ message.author_user.image_url | urlFile }}"/>
+                    <p up-col="80%" up-publi-text string="'<strong>' + message.author_user.nick + ' :</strong> ' + message.text"></p>
+                </div>
+                <div up-likes objet="message" url="'newsitems/'+message.slug"></div>
             </div>
         </div>
     </div>

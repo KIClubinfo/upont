@@ -20,9 +20,22 @@ angular.module('upont')
         $scope.focus = false;
         $scope.post = [];
         $scope.type = 'message';
+        $scope.placeholder = 'Quoi de neuf ?';
 
         $scope.changeType = function(type) {
             $scope.type = type;
+
+            switch (type) {
+                case 'message':
+                    $scope.placeholder = 'Quoi de neuf ?';
+                    break;
+                case 'news':
+                    $scope.placeholder = 'Quoi d\'interessant ?';
+                    break;
+                case 'event':
+                    $scope.placeholder = 'Description de l\'événement';
+                    break;
+            }
         };
 
         $scope.publish = function(post, image) {
