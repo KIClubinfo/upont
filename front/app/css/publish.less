@@ -1,0 +1,31 @@
+.up-publish {
+    .publish-container {
+        textarea {
+            margin-bottom: -1px;
+        }
+        .type-container {
+            button {
+                float: right;
+            }
+            .type {
+                display: inline-block;
+                background-color: @col6;
+                color: @col2;
+                border: 1px solid @col4;
+                border-top: none !important;
+                border-radius: 0px 0px 5px 5px;
+                padding: 5px;
+                cursor: pointer;
+                
+                &:hover, &.active {
+                    color: @col1;
+                    border: 1px solid @col1;
+                }
+                &.active {
+                    font-weight: bold;
+                    background-color: @col3;
+                }
+            }
+        }
+    }
+}

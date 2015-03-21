@@ -8,7 +8,7 @@
     </div>
 
     <div class="up-profile-form">
-        <form up-row padded left wrap ng-submit="submitUser(me.promo, me.nationality, me.phone, me.location, me.department, me.origin, me.skype, me.nick, profilePicture)">
+        <form up-row padded left wrap ng-submit="submitUser(me, profilePicture)">
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
                 <i class="fa fa-graduation-cap"></i>
                 Promo
@@ -138,7 +138,7 @@
             </div>
 
             <div up-col="100%" up-row right>
-                <button up-col-xs="100%" up-col-sm="100%" up-col="25%" class="up-btn up-btn-default">Modifier !</button>
+                <button up-col-xs="100%" up-col-sm="100%" up-col="25%" class="up-btn up-btn-lg up-btn-default">Modifier !</button>
             </div>
         </form>
     </div>
@@ -152,7 +152,7 @@
             <p>En cliquant le lien suivant, tu pourras synchroniser ton calendrier uPont avec ton calendrier iPhone/Android, Thunderbird, Outlook... et recevoir des alertes avant les shotguns etc. !</p>
 
             <div up-row wrap padded center>
-                <a ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" up-col-xs="100%" up-col-sm="100%" up-col="50%" class="up-btn up-btn-default centering">Synchroniser !</a>
+                <a ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" up-col-xs="100%" up-col-sm="100%" up-col="50%" class="up-btn up-btn-lg up-btn-default centering">Synchroniser !</a>
             </div>
         </div>
         <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
@@ -182,11 +182,11 @@
                 <a href="https://play.google.com/store/apps/details?id=youPont.mobile&hl=fr_CA"
                    title="Lien vers le Play Store"
                    up-col-xs="100%" up-col-sm="100%" up-col="30%"
-                   class="up-btn up-btn-default centering">Android</a>
+                   class="up-btn up-btn-lg up-btn-default centering">Android</a>
                 <a href=""
                    title="Lien vers l'Apple Store"
                    up-col-xs="100%" up-col-sm="100%" up-col="30%"
-                   class="up-btn up-btn-default centering">iOS</a>
+                   class="up-btn up-btn-lg up-btn-default centering">iOS</a>
                 <!--<a href="" title="Lien vers le Windows Store" up-col-xs="100%" up-col-sm="100%" up-col="30%" class="up-btn up-btn-default centering">Windows Phone</a>-->
             </div>
         </div>

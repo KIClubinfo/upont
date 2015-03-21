@@ -1,8 +1,6 @@
 <div up-row>
     <div up-col-md="60%" up-col-lg="60%" up-col="100%">
-        <div class="up-ticket" ng-if="isAdmin && isState('root.home')" >
-            <div class="up-slide" ng-include="'views/home/publish.html'"></div>
-        </div>
+        <div ng-if="isState('root.home')" ng-include="'views/home/publish.html'"></div>
         <div class="transition" ng-include="'views/home/liste-publis.html'"></div>
     </div>
 

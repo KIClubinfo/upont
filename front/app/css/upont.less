@@ -41,9 +41,10 @@ body {
 // Couleurs spécifiques à chaque thème
 body.theme-clear {
     .theme(#5584AD, #888, #FFF, #aaa, #d3d6d8, #dddfe4, #d0d0d0, #2A303D, 0);
-    .btn-default:hover {
-        background-color: #f0f0f0;
-        border-color: #57ABC2;
+
+    .up-btn-default {
+        border-bottom: 2px solid #37668F;
+        box-shadow: inset 0 -2px #37668F;
     }
     .alertify-log-error {
         background: #F08630;
@@ -55,14 +56,10 @@ body.theme-clear {
 
 body.theme-dark {
     .theme(#F08630, #a0a0a0, #222, #555, #595B5C, #2a2c2f, #d0d0d0, #222, @navbarHgt - 1px);
+
     .up-btn-default {
         border-bottom: 2px solid #CD6812;
-        -webkit-box-shadow: inset 0 -2px #CD6812;
         box-shadow: inset 0 -2px #CD6812;
-    }
-    .btn-default:hover {
-        background-color: #333;
-        border-color: #F08630;
     }
     .alertify-log-error {
         background: red;
