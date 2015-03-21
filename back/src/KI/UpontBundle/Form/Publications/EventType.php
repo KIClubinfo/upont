@@ -12,8 +12,7 @@ class EventType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('textShort')
-            ->add('textLong')
+            ->add('text')
             ->add('startDate')
             ->add('endDate')
             ->add('entryMethod')

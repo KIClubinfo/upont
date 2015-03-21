@@ -38,21 +38,13 @@ class Post extends Likeable
     protected $date;
 
     /**
-     * Texte d'accroche
-     * @ORM\Column(name="textShort", type="string", length=150, nullable=true)
-     * @JMS\Expose
-     * @Assert\Type("string")
-     */
-    protected $textShort;
-
-    /**
      * Corps du texte
-     * @ORM\Column(name="textLong", type="text")
+     * @ORM\Column(name="text", type="text")
      * @JMS\Expose
      * @Assert\Type("string")
      * @Assert\NotBlank()
      */
-    protected $textLong;
+    protected $text;
 
     /**
      * Image personnalisée
@@ -116,72 +108,26 @@ class Post extends Likeable
     }
 
     /**
-     * Set name
+     * Set text
      *
-     * @param string $name
-     * @return Newsitem
+     * @param string $text
+     * @return Post
      */
-    public function setName($name)
+    public function setText($text)
     {
-        $this->name = $name;
+        $this->text = $text;
 
         return $this;
     }
 
     /**
-     * Get name
+     * Get text
      *
      * @return string
      */
-    public function getName()
+    public function getText()
     {
-        return $this->name;
-    }
-
-    /**
-     * Set textShort
-     *
-     * @param string $textShort
-     * @return Newsitem
-     */
-    public function setTextShort($textShort)
-    {
-        $this->textShort = $textShort;
-
-        return $this;
-    }
-
-    /**
-     * Get textShort
-     *
-     * @return string
-     */
-    public function getTextShort()
-    {
-        return $this->textShort;
-    }
-
-    /**
-     * Set textLong
-     *
-     * @param string $textLong
-     * @return Newsitem
-     */
-    public function setTextLong($textLong)
-    {
-        $this->textLong = $textLong;
-
-        return $this;
-    }
-
-    /**
-     * Get textLong
-     *
-     * @return string
-     */
-    public function getTextLong()
-    {
-        return $this->textLong;
+        return $this->text;
     }
 
     /**
