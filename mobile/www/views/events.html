@@ -161,7 +161,7 @@
             </ons-col>
         </ons-row></ons-list-item></ons-list>
 
-        <p class="content" ng-bind-html="eventItem.text_long | nl2br"></p>
+        <p class="content" ng-bind-html="eventItem.text | nl2br"></p>
 
         <ons-list style="margin-top: 12px;">
             <ons-list-item ng-hide="eventItem.attendees == 0" modifier="chevron" ng-click="loadAttendees()">

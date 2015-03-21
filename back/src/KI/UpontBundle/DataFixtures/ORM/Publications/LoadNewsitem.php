@@ -13,7 +13,7 @@ class LoadNewsitemFixture extends AbstractFixture implements OrderedFixtureInter
     {
         $newsitem = new Newsitem();
         $newsitem->setName('Le Jeu');
-        $newsitem->setTextLong('Vous avez perdu au jeu, c\'est bien dommage.<br>
+        $newsitem->setText('Vous avez perdu au jeu, c\'est bien dommage.<br>
 Il existe trois règles fondamentales :<br>
 - Tout le monde joue au Jeu (parfois restreint en : "tous les gens qui connaissent le Jeu y jouent", ou alors en "Tu joues continuellement au Jeu").<br>
 - Qui pense au jeu y perd immédiatement. Si vous lisez ceci, vous avez donc perdu.<br>
@@ -27,7 +27,7 @@ Il existe trois règles fondamentales :<br>
 
         $newsitem = new Newsitem();
         $newsitem->setName('Slides de la formation Git');
-        $newsitem->setTextLong('Comme promis, voici les slides de la formation !');
+        $newsitem->setText('Comme promis, voici les slides de la formation !');
         $newsitem->setDate(1418325122);
         $newsitem->setAuthorClub($this->getReference('club-ki'));
         $newsitem->setAuthorUser($this->getReference('user-trancara'));
@@ -36,7 +36,7 @@ Il existe trois règles fondamentales :<br>
 
         $newsitem = new Newsitem();
         $newsitem->setName('Disques durs 1 To arrivés !');
-        $newsitem->setTextLong('Les disques durs 1 To viennent d\'arriver, ceux qui en ont commandé peuvent venir les chercher dès ce soir 18h (après les cours) au local.');
+        $newsitem->setText('Les disques durs 1 To viennent d\'arriver, ceux qui en ont commandé peuvent venir les chercher dès ce soir 18h (après les cours) au local.');
         $newsitem->setDate(1417532897);
         $newsitem->setAuthorClub($this->getReference('club-ki'));
         $newsitem->setAuthorUser($this->getReference('user-trancara'));
@@ -44,7 +44,7 @@ Il existe trois règles fondamentales :<br>
 
         $newsitem = new Newsitem();
         $newsitem->setName('Comment créer un club');
-        $newsitem->setTextLong('Pour ceux ou celles qui auraient envie de créer un club, voici une page expliquant ce qu\'il faut faire !');
+        $newsitem->setText('Pour ceux ou celles qui auraient envie de créer un club, voici une page expliquant ce qu\'il faut faire !');
         $newsitem->setDate(1412831521);
         $newsitem->setAuthorClub($this->getReference('club-bde'));
         $newsitem->setAuthorUser($this->getReference('user-dziris'));
@@ -56,7 +56,7 @@ Il existe trois règles fondamentales :<br>
 
         $newsitem = new Newsitem();
         $newsitem->setName('PEP t\'accompagne dans ton projet');
-        $newsitem->setTextLong('Cher futur entrepreneur,<br>
+        $newsitem->setText('Cher futur entrepreneur,<br>
 <br>
 En tant que Junior-Entreprise, Ponts Etudes Projets a la possibilité de booster ton projet de création d\'entreprise grâce à Alten, cabinet de conseil en ingénierie et innovation dont nous sommes partenaires, et ce dans le cadre d\'un concours national.<br>
 <br>
@@ -79,7 +79,7 @@ Pour plus de détails sur le concours, contacte David (david.dessalles@eleves.en
 
         $newsitem = new Newsitem();
         $newsitem->setName('Pulls');
-        $newsitem->setTextLong('Vous désespériez de voir un jour vos pulls des Ponts pointer le bout de leur nez ? Eh bien ne vous inquiétez pas, cette longue attente est terminée ! Le Bde a le grand plaisir de vous annoncer que oui, ils sont enfin la ! Alors si vous avez commandé le votre, venez le récupérer tout à l\'heure, à partir de 12h30, au local. On sera là bas jusqu\'à 14h30 au moins.');
+        $newsitem->setText('Vous désespériez de voir un jour vos pulls des Ponts pointer le bout de leur nez ? Eh bien ne vous inquiétez pas, cette longue attente est terminée ! Le Bde a le grand plaisir de vous annoncer que oui, ils sont enfin la ! Alors si vous avez commandé le votre, venez le récupérer tout à l\'heure, à partir de 12h30, au local. On sera là bas jusqu\'à 14h30 au moins.');
         $newsitem->setDate(1417759985);
         $newsitem->setAuthorClub($this->getReference('club-bde'));
         $newsitem->setAuthorUser($this->getReference('user-dziris'));
