@@ -16,7 +16,7 @@
         </div>
         <div><a ui-sref="root.profile" up-state-active><i class="fa fa-star"></i> Profil</a>
         </div>
-        <div><a ui-sref="root.admin" up-state-active><i class="fa fa-wrench"></i> Zone Admin</a>
+        <div ng-if="$root.isAdmin"><a ui-sref="root.admin" up-state-active><i class="fa fa-wrench"></i> Zone Admin</a>
         </div>
     </div>
     <hr>
@@ -44,6 +44,7 @@
             </span>
         </div>
         <div class="up-version">uPont {{ version.version }}.{{ version.major }}.{{ version.minor }}
-            <br> Build {{ version.build }} ({{ version.date | formatDate }})</div>
+            <br> Build <a ng-href="https://github.com/KIClubinfo/upont/commit/{{ version.build }}" title="Repo GitHub de uPont">{{ version.build }}</a>
+            ({{ version.date | formatDate }})</div>
     </div>
 </aside>
