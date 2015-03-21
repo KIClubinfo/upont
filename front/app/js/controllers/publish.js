@@ -39,9 +39,16 @@ angular.module('upont')
         };
 
         $scope.publish = function(post, image) {
+            var params  = {text: post.text};
+            if (image) {
+                params.image = image.base64;
+            }
+
             switch ($scope.type) {
                 case 'message':
-                    $http.post(apiPrefix + 'newsitems', {name: 'null', text: post.text}).success(function(data){
+                    params.name = 'null';
+
+                    $http.post(apiPrefix + 'newsitems', params).success(function(data){
                         Paginate.get('newsitems?sort=-date&filterBy=name&filterValue=null').then(function(data){
                             $scope.messages = data;
                         });

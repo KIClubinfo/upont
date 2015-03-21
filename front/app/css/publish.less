@@ -5,7 +5,7 @@
         }
         .type-container {
             button {
-                float: right;
+                margin-left: 5px;
             }
             .type {
                 display: inline-block;
@@ -24,6 +24,24 @@
                 &.active {
                     font-weight: bold;
                     background-color: @col3;
+                }
+            }
+            .fileupload {
+                position: relative;
+	            overflow: hidden;
+	            padding-left: 10px;
+	            padding-right: 10px;
+
+	            input {
+	                position: absolute;
+	                top: 0;
+	                right: 0;
+	                margin: 0;
+	                padding: 0;
+	                font-size: 20px;
+	                cursor: pointer;
+	                opacity: 0;
+	                filter: alpha(opacity=0);
                 }
             }
         }
