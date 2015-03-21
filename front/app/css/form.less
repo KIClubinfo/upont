@@ -4,14 +4,17 @@ input, textarea, select {
     border: solid 1px @col2;
     color: @col2;
     border-radius: 1px;
+
+    &:focus {
+        border-color: @col1;
+        box-shadow: inset 0 0 2px @col1;
+        transition: 0.2s ease-in-out all;
+    }
 }
 input {
     padding: 0.5em;
     vertical-align: middle;
 
-    &:focus {
-        border-color: @col1;
-    }
     &[type="radio"], &[type="checkbox"] {
         margin: 0 0.5em;
         vertical-align: middle;

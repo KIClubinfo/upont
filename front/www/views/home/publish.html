@@ -1,3 +1,14 @@
-<div>
-    <textarea placeholder="Balance de la news !"></textarea>
+<div class="up-publish up-ticket" ng-controller="Publish_Ctrl">
+    <form class="publish-container" ng-submit="publish(post, postPicture)">
+        <textarea ng-focus="focus=true" ng-blur="focus=false" ng-model="post.text"
+                  placeholder="Quoi de neuf ?" rows="1" auto-grow></textarea>
+        <div class="type-container">
+            <div class="type" ng-click="type='message'" ng-class="{active: type == 'message'}">Message</div>
+            <div class="type" ng-click="type='news'"    ng-class="{active: type == 'news'}">News</div>
+            <div class="type" ng-click="type='event'"   ng-class="{active: type == 'event'}">Événement</div>
+
+            <button class="up-btn up-btn-default">Publier !</button>
+        </div>
+    </form>
+
 </div>
