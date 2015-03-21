@@ -46,7 +46,7 @@
                         </div>
 
                         <div class="message">
-                            {{ new.text_short || (new.text_long.length > 140) ? new.text_long.substring(0,140) + '...' : new.text_long}}
+                            {{ new.text.length > 140 ? new.text.substring(0,140) + '...' : new.text }}
                         </div>
                     </ons-col>
                 </ons-row>
@@ -103,7 +103,7 @@
             </ons-col>
         </ons-row></ons-list-item></ons-list>
 
-        <p class="content" ng-bind-html="newItem.text_long | nl2br"></p>
+        <p class="content" ng-bind-html="newItem.text | nl2br"></p>
 
         <ons-list style="margin-top: 12px;">
             <ons-list-item modifier="chevron" ng-click="loadComments()">

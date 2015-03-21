@@ -80,7 +80,7 @@ class NewsitemsController extends \KI\UpontBundle\Controller\Core\ResourceContro
                         $users[] = $candidate;
                 }
 
-                $text = $return['item']->getTextShort() !== null ? $return['item']->getTextShort() : '';
+                $text = substr($return['item']->getText(), 0, 140).'...';
                 $this->notify(
                     'notif_followed_event',
                     $return['item']->getName(),

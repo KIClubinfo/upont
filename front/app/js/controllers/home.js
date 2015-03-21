@@ -44,40 +44,8 @@ angular.module('upont')
                 });
         };
     }])
-    .controller('Publis_Ctrl', ['$scope', '$resource', 'newsItems', 'events', 'Paginate', function($scope, $resource, newsItems, events, Paginate) {
-        $scope.events = events;
-        $scope.newsItems = newsItems;
-
-        $scope.next = function() {
-            Paginate.next($scope.newsItems).then(function(data){
-                $scope.newsItems = data;
-            });
-        };
-
-        $scope.publier = false;
-
-        $scope.startPublier = function(){
-            $scope.publier = !$scope.publier;
-        };
-    }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state("root.home", {
-                url: '',
-                templateUrl: "views/home/connected.html",
-                data: {
-                    title: 'Accueil - uPont'
-                },
-                controller: "Publis_Ctrl",
-                resolve: {
-                    newsItems: ['Paginate', function(Paginate) {
-                        return Paginate.get('own/newsitems?sort=-date', 10);
-                    }],
-                    events: ['Paginate', function(Paginate) {
-                        return Paginate.get('own/events');
-                    }]
-                }
-            })
             .state("root.disconnected", {
                 templateUrl: "views/home/disconnected.html",
                 controller: "Disconnected_Ctrl"

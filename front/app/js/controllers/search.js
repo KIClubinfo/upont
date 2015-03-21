@@ -20,7 +20,7 @@ angular.module('upont')
                     $rootScope.searchCategory = 'Ponthub';
                     break;
                 default:
-                    $rootScope.searchCategory = 'Clubs';
+                    $rootScope.searchCategory = 'Assos';
             }
 
             // On réinitialise la barre de recherche
@@ -39,7 +39,7 @@ angular.module('upont')
                 case 'Publications':
                     category = 'Post';
                     break;
-                case 'Clubs':
+                case 'Assos':
                     category = 'Club';
                     break;
             }

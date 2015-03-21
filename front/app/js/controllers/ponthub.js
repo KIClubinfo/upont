@@ -12,6 +12,7 @@ angular.module('upont')
     .controller('PH_Element_Ctrl', ['$scope', '$stateParams', 'PH_categories', '$window', '$http', 'element', 'episodes', 'musics', function($scope, $stateParams, PH_categories, $window, $http, element, episodes, musics) {
         $scope.element = element;
         $scope.category = $stateParams.category;
+        $scope.type = PH_categories($stateParams.category);
         $scope.musics = musics;
         $scope.openSeason = -1;
 

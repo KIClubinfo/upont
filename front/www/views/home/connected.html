@@ -1,11 +1,6 @@
 <div up-row>
     <div up-col-md="60%" up-col-lg="60%" up-col="100%">
-        <div class="up-ticket" ng-if="isAdmin && isState('root.home')" >
-            <div class="centering">
-                <h3 ng-show="!publier"><a class="btn btn-default btn-publier" ng-click="startPublier()">Publier !</a></h3>
-            </div>
-            <div ng-if="publier" class="up-slide" ng-include="'views/misc/publier.html'"></div>
-        </div>
+        <div ng-if="isState('root.home')" ng-include="'views/home/publish.html'"></div>
         <div class="transition" ng-include="'views/home/liste-publis.html'"></div>
     </div>
 
@@ -15,6 +10,17 @@
             On espère qu'elle vous plaira, en attendant vous pouvez aussi télécharger l'application mobile pour <a href="">Android</a>, <a href="">iOS</a> ou <a href="">Windows Phone</a> !<br>
             <br>
             Restez à jour, des nouvelles versions seront publiées au moins une fois par semaine (voir en bas à gauche).
+        </div>
+
+        <div infinite-scroll="nextMessages()" infinite-scroll-distance="2" infinite-scroll-disabled="$root.infiniteLoading">
+            <div class="up-ticket" ng-repeat="message in messages.data">
+                <div up-row class="up-messages">
+                    <img up-col="20%" class="up-profile-picture" ng-src="{{ message.author_user.image_url | urlFile }}"/>
+                    <p up-col="80%" up-publi-text string="'<strong>' + message.author_user.nick + ' :</strong> ' + message.text"></p>
+                </div>
+                <img class="img-responsive" ng-if="message.image_url" ng-src="{{ message.image_url | urlFile }}"/><br>
+                <div up-likes objet="message" url="'newsitems/'+message.slug"></div>
+            </div>
         </div>
     </div>
 </div>

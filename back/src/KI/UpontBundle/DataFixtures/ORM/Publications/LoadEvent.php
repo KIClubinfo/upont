@@ -13,7 +13,7 @@ class LoadEventFixture extends AbstractFixture implements OrderedFixtureInterfac
     {
         $event = new Event();
         $event->setName('Passation');
-        $event->setTextLong('Une fois n\'est pas coutume, c\'est au KI d\'ouvrir le bal des passations durant cette période de campagne !<br>
+        $event->setText('Une fois n\'est pas coutume, c\'est au KI d\'ouvrir le bal des passations durant cette période de campagne !<br>
 <br>
 Plusieurs choses à savoir donc : la réunion de passation aura lieu VENDREDI 16 JANVIER À 12H30 EN P102.<br>
 Si vous ne pouvez vraiment pas venir, il vous suffit d\'envoyer un mail au KI en précisant le ou les poste(s) qui vous intéresse(nt).<br>
@@ -40,7 +40,7 @@ Encore une fois, n\'hésitez pas à venir, et même si vous n\'y connaissez rien
 
         $event = new Event();
         $event->setName('Le Faucon MilLANium');
-        $event->setTextLong('Un nouvel espoir pour vous après cette période de partiels !<br>
+        $event->setText('Un nouvel espoir pour vous après cette période de partiels !<br>
 <br>
 Venez assister les troupes d\'Obi LAN Kenobi dans leur combat contre le vil empereur PLANpatine! Viens dégainer ton sabre LANser comme LANakin au 4ème étage de Prony le mercredi 17 décembre à partir de 21 heures. Nous revisiterons des épisodes comme LANttaque des clones à travers Star Wars Empire at War - Forces of Corruption (RTS - style Age Of Empires) et Star Wars Battlefront 2 (FPS - style counter strike) tout en dégustant les victuailles habituelles des LANs.<br>
 <br>
@@ -60,7 +60,7 @@ Venez nombreux, ce n\'est pas une LAN Solo! Les jeux seront fournis sur place ma
 
         $event = new Event();
         $event->setName('Jeux de Rôles');
-        $event->setTextLong('C\'est l\'heure de se mettre aux jeux de rôle, préparez vos sorts et vos pavois de feu +7 !<br>
+        $event->setText('C\'est l\'heure de se mettre aux jeux de rôle, préparez vos sorts et vos pavois de feu +7 !<br>
 Que tu ne sois pas initié aux lancers de d20 ou que la magie profane n\'ait plus de secrets pour toi, nous serons ravis de t\'accueillir pour partir à l\'assaut des méchants les plus maléfiques.<br>
 <br>
 À quel jeu allons-nous jouer me demandez-vous ?<br>
@@ -88,7 +88,7 @@ PS: un Glyphe de Garde FP6 a été déposé à l\'entrée, merci de ne pas le d�
 
         $event = new Event();
         $event->setName('Formations PEP - Objectif recrutement');
-        $event->setTextLong('Soirée de formations poussées en vue du recrutement de la Toussaint.<br>
+        $event->setText('Soirée de formations poussées en vue du recrutement de la Toussaint.<br>
 <br>
 Dîner/cocktail assuré par PEP.<br>
 <br>
@@ -106,7 +106,7 @@ OUVERT AUX COTISANTS UNIQUEMENT.');
 
         $event = new Event();
         $event->setName('Interne de Noël');
-        $event->setTextLong('Doux 1A, Très cher 2A, étranger,<br>
+        $event->setText('Doux 1A, Très cher 2A, étranger,<br>
 <br>
 Voici venue la période de Noël, le temps des cadeaux, le retour des guirlandes qui illuminent les foyers… En cette fin d\'année, il est d\'usage de faire plaisir à votre entourage.<br>
 Votre BDE adoré, avant de tirer sa révérence, tient lui aussi à vous offrir une surprise de taille.<br>
@@ -134,7 +134,7 @@ Le BDE veut mettre le paquet pour sa dernière interne. On espère que vous sere
 
         $event = new Event();
         $event->setName('Don Giovanni');
-        $event->setTextLong('Bonjour à tous,<br>
+        $event->setText('Bonjour à tous,<br>
 <br>
 Pour cette nouvelle année, on commence avec un opéra que vous connaissez déjà surement tous : Don Giovanni.<br>
 <br>

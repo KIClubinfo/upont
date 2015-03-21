@@ -9,7 +9,7 @@ class EventsControllerTest extends WebTestCase
     // On crée une ressource sur laquelle seront effectués les tests. Ne pas oublier de supprimer à la fin avec le test DELETE.
     public function testPost()
     {
-        $this->client->request('POST', '/events', array('name' => 'Manger des chips', 'textLong' => 'C\'est bon', 'startDate' => 151515, 'endDate' => 31415, 'entryMethod' => 'libre', 'place' => 'DTC'));
+        $this->client->request('POST', '/events', array('name' => 'Manger des chips', 'text' => 'C\'est bon', 'startDate' => 151515, 'endDate' => 31415, 'entryMethod' => 'libre', 'place' => 'DTC'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
         // On vérifie que le lieu du nouvel objet a été indiqué
@@ -45,7 +45,7 @@ class EventsControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/events/manger-des-chips', array('textLong' => ''));
+        $this->client->request('PATCH', '/events/manger-des-chips', array('text' => ''));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
@@ -92,7 +92,7 @@ class EventsControllerTest extends WebTestCase
 
     public function testPostShotgunEvent()
     {
-        $this->client->request('POST', '/events', array('name' => 'Semaine Ski', 'textLong' => 'Il fait froid', 'startDate' => 151515, 'endDate' => 31415, 'entryMethod' => 'shotgun', 'shotgunDate' => 101010, 'shotgunLimit' => 1, 'shotgunText' => 'Il est deux heures du matin, et tout va bien', 'place' => 'Far Far Away'));
+        $this->client->request('POST', '/events', array('name' => 'Semaine Ski', 'text' => 'Il fait froid', 'startDate' => 151515, 'endDate' => 31415, 'entryMethod' => 'shotgun', 'shotgunDate' => 101010, 'shotgunLimit' => 1, 'shotgunText' => 'Il est deux heures du matin, et tout va bien', 'place' => 'Far Far Away'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
     }
