@@ -4,9 +4,19 @@ angular.module('upont').directive('upPubliText', ['$window', function($window) {
             string: '='
         },
         controller: ["$scope", function($scope) {
-            if ($scope.string.length > 250 || $scope.string.split(/\r\n|\r|\n/).length > 1) {
+            // Dans un premier temps, on raccourcit par rapport au nombre de lignes
+            var split = $scope.string.split(/\r\n|\r|\n/);
+            if (split.length > 5) {
                 $scope.opened = false;
-                $scope.content = $scope.string.split(/\r\n|\r|\n/)[0].substring(0, 350) + '... ';
+                $scope.content = '';
+                for (var i = 0; i < 4; i++)
+                    $scope.content += split[i] + '<br>';
+
+                // En cas de ligne vraiment très longue, on raccourcit aussi
+                if ($scope.content.length > 250) {
+                    $scope.content = $scope.content.substring(0, 350) + '... ';
+                    $scope.content = $scope.content.replace(/<br>\.{3}/, '<br>');
+                }
             } else {
                 $scope.opened = true;
                 $scope.content = nl2br($scope.string);
