@@ -11,5 +11,11 @@
             <br>
             Restez à jour, des nouvelles versions seront publiées au moins une fois par semaine (voir en bas à gauche).
         </div>
+
+        <div infinite-scroll="nextMessages()" infinite-scroll-distance="2" infinite-scroll-disabled="$root.infiniteLoading">
+            <div class="up-ticket" ng-repeat="message in messages.data">
+                {{ message.text }}
+            </div>
+        </div>
     </div>
 </div>
