@@ -35,7 +35,7 @@ angular.module('upont')
 
         $scope.open = function(index) {
             $scope.openSeason = $scope.openSeason != index ? index : -1;
-        }
+        };
     }])
     .factory('PH_categories', function(){
         return function(category){

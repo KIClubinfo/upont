@@ -72,11 +72,16 @@ angular.module('upont')
         });
     }])
     .run(['$rootScope', 'StorageService', '$state', '$interval',  'jwtHelper', '$resource', function($rootScope, StorageService, $state, $interval, jwtHelper, $resource) {
+        $rootScope.selfClubs = [];
         if (StorageService.get('token') && !jwtHelper.isTokenExpired(StorageService.get('token'))) {
             $rootScope.isLogged = true;
             $rootScope.isAdmin = (StorageService.get('droits').indexOf("ROLE_ADMIN") != -1) ? true : false;
             $resource(apiPrefix + 'users/:slug', {slug: jwtHelper.decodeToken(StorageService.get('token')).username }).get(function(data){
                 $rootScope.me = data;
+            });
+            // On récupère les clubs de l'utilisateurs pour déterminer ses droits de publication
+            $resource(apiPrefix + 'users/:slug/clubs', {slug: jwtHelper.decodeToken(StorageService.get('token')).username }).query(function(data){
+                $rootScope.selfClubs = data;
             });
         } else {
             $rootScope.isLogged = false;
@@ -85,6 +90,7 @@ angular.module('upont')
             StorageService.remove('droits');
         }
 
+        // Déconnexion
         $rootScope.logout = function() {
             StorageService.remove('token');
             StorageService.remove('roles');
@@ -96,6 +102,16 @@ angular.module('upont')
             return $state.is(name);
         };
 
+        // Vérifie si l'utilisateur a les droits sur un club
+        $rootScope.hasRight = function(slug) {
+            for (var i = 0; i < $rootScope.selfClubs.length; i++) {
+                if ($rootScope.selfClubs[i].club.slug == slug)
+                    return true;
+            }
+            return false;
+        };
+
+        // Data à charger au lancement
         $resource(apiPrefix + 'version').get(function(data){
             $rootScope.version = data;
         });
@@ -111,6 +127,7 @@ angular.module('upont')
         reloadOnline();
         $interval(reloadOnline, 60000);
 
+        // Diverses variables globales
         $rootScope.url = location.origin + apiPrefix;
         $rootScope.promos = ['014', '015', '016', '017'];
         $rootScope.searchCategory = 'Clubs';
@@ -134,65 +151,15 @@ angular.module('upont')
             }
         };
 
-        // N'est utile que si on se sert des modaux bootstrap
-
-        // var scrollbarWidth;
-        // (function() {
-        //     var inner = document.createElement('p');
-        //     inner.style.width = "100%";
-        //     inner.style.height = "200px";
-
-        //     var outer = document.createElement('div');
-        //     outer.style.position = "absolute";
-        //     outer.style.top = "0px";
-        //     outer.style.left = "0px";
-        //     outer.style.visibility = "hidden";
-        //     outer.style.width = "200px";
-        //     outer.style.height = "150px";
-        //     outer.style.overflow = "hidden";
-        //     outer.appendChild(inner);
-
-        //     document.body.appendChild(outer);
-        //     var w1 = inner.offsetWidth;
-        //     outer.style.overflow = 'scroll';
-        //     var w2 = inner.offsetWidth;
-        //     if (w1 == w2)
-        //         w2 = outer.clientWidth;
-        //     document.body.removeChild(outer);
-        //     scrollbarWidth = (w1 - w2);
-        // })();
-
-        // $rootScope.$on('modal.show.before', function() {
-        //     $(document.body).css('padding-right', scrollbarWidth);
-        // });
-        // $rootScope.$on('modal.hide', function() {
-        //     $(document.body).css('padding-right', 0);
-        // });
-
+        // Au changement de page
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
             if (!$rootScope.isLogged && toState.name != "root.disconnected") {
                 event.preventDefault();
                 $state.go("root.disconnected");
             }
-
-            // if (toState.data && toState.data.parent && toState.data.defaultChild) {
-            //     var reg = new RegExp("^root." + toState.data.parent, "g");
-
-            //     if (toState.name == 'root.'+toState.data.parent) {
-            //         // Si le state d'origine n'est pas un enfant du state de destination ou alors possède une valeur true sur data.toParent, on renvoie sur l'enfant par défaut, sinon on recharge juste la page
-            //         if (!fromState.name.match(reg) || (fromState.data && fromState.data.toParent)) {
-            //             event.preventDefault();
-            //             $state.go('root.'+toState.data.parent + '.' + toState.data.defaultChild, toParams);
-            //         } else {
-            //             event.preventDefault();
-            //             $state.reload();
-            //         }
-            //     }
-            // }
         });
 
         $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
-            // if (toState.resolve)
             getName = function(state){
                 if(state.data && state.data.title)
                     return state.data.title;
@@ -204,6 +171,7 @@ angular.module('upont')
                 return;
             };
 
+            // Réglage de la balise <title> du <head>
             if($rootScope.isLogged){
                 var title = getName(toState);
                 if(title)
@@ -215,6 +183,7 @@ angular.module('upont')
                 $rootScope.title = 'Bienvenue sur uPont';
         });
 
+        // Erreur 404
         $rootScope.$on('$stateNotFound', function(event, toState, toParams, fromState, fromParams) {
             $state.go('root.404');
         });
