@@ -1,3 +1,4 @@
+// Définition des variables
 @radius: 6px;
 @sizeXs: 480px;
 @sizeSm: 768px;
@@ -11,6 +12,7 @@ body {
     margin: 0px;
 }
 
+// Importation de tous les fichiers selon le theme
 .theme(@col1, @col2, @col3, @col4, @col5, @col6, @col7, @col8, @begin-border-aside) {
     @import 'alertify.less';
     @import 'aside.less';
@@ -26,15 +28,17 @@ body {
     @import 'list.less';
     @import 'loading-bar.less';
     @import 'ponthub.less';
+    @import 'publish.less';
     @import 'shotgun.less';
     @import 'table.less';
     @import 'ticket.less';
     @import 'zone-picker.less';
-    
+
     color: @col2;
     background: @col6;
 }
 
+// Couleurs spécifiques à chaque thème
 body.theme-clear {
     .theme(#5584AD, #888, #FFF, #aaa, #d3d6d8, #dddfe4, #d0d0d0, #2A303D, 0);
     .btn-default:hover {
