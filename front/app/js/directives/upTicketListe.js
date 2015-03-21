@@ -7,8 +7,16 @@ angular.module('upont').directive('upTicketListe', ['$window', function($window)
         },
         template:
             '<a ui-sref="root.ponthub.simple({slug: ponthub})">' +
-            '<div class="up-img-ponthub"><div class="img-ph"></div></div>' +
-            '<div class="up-title-ponthub">{{ content.title }}</div>' +
+                '<div class="up-img-ponthub">' +
+                    '<div class="img-ph"></div>' +
+                    '<div ng-if="content.element.downloads > 10" class="ribbon-wrapper">' +
+                        '<div class="ribbon ribbon-popular">POPULAIRE</div>' +
+                    '</div>' +
+                    '<div ng-if="content.element.added > ' + moment().subtract(7, 'days').unix() + ' " class="ribbon-wrapper">' +
+                        '<div class="ribbon ribbon-new">NOUVEAU</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="up-title-ponthub">{{ content.element.name }}</div>' +
             '</a>',
         link: function(scope, element, attrs) {
             if(!scope.ponthub){
@@ -18,26 +26,19 @@ angular.module('upont').directive('upTicketListe', ['$window', function($window)
             var classe;
             switch(scope.category){
                 case 'jeux':
-                    classe = "up-col-xs-12 up-col-sm-6 up-col-md-4";
-                    break;
-                case 'films':
-                case 'series':
-                case 'musiques':
-                case 'autres':
-                case 'logiciels':
-                    classe = "up-col-xs-2";
+                    classe = 'up-col-xs-12 up-col-sm-6 up-col-md-4';
                     break;
                 default:
-                    classe = 'up-col-xs-12 up-col-sm-4 up-col-md-2';
+                    classe = 'up-col-xs-6 up-col-sm-4 up-col-md-3 up-col-lg-2';
             }
             element.addClass(classe);
             element.css('position', 'relative');
             element.find('div.up-img-ponthub').addClass(scope.category);
 
             // Si l'image existe
-            if (scope.content.img) {
+            if (scope.content.element.image_url) {
                 element.find('div.img-ph').css({
-                    'background-image':  'url(' + apiPrefix + scope.content.img + ')',
+                    'background-image':  'url(' + apiPrefix + scope.content.element.image_url + ')',
                 });
             } else {
                 var icon = '';

@@ -1,14 +1,14 @@
 // inputs génériques
 input, textarea, select {
-    background: @col6;
-    border: solid 1px @col2;
-    color: @col2;
+    background: @col-input-bckgnd;
+    border: solid 1px @col-font;
+    color: @col-font;
     border-radius: 1px;
     padding: 0.5em;
 
     &:focus {
-        border-color: @col1;
-        box-shadow: inset 0 0 2px @col1;
+        border-color: @col-main;
+        box-shadow: inset 0 0 2px @col-main;
         transition: 0.2s ease-in-out all;
     }
 }
@@ -50,9 +50,9 @@ label {
     .addon {
         font: inherit;
         font-weight: normal;
-        background-color: @col6;
-        color: @col2;
-        border: 1px solid @col2;
+        background-color: @col-input-bckgnd;
+        color: @col-font;
+        border: 1px solid @col-font;
     }
 
     input, .addon {
@@ -79,8 +79,8 @@ label {
     }
 
     .suggestions {
-        border: 1px solid @col4;
-        background-color: @col3;
+        border: 1px solid @col-bckgnd;
+        background-color: @col-ticket;
         position: absolute;
         padding: 10px 0 10px 0;
         margin: 0px;
@@ -91,12 +91,12 @@ label {
         li {
             padding: 0 10px 0 10px;
             &:hover {
-                background-color: @col6;
+                background-color: @col-input-bckgnd;
             }
         }
 
         strong {
-            color: @col1;
+            color: @col-main;
         }
     }
 }

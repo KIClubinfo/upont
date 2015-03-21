@@ -25,7 +25,7 @@ angular.module('upont')
             $scope.placeholder = 'Quoi de neuf ?';
             $scope.club = club;
             $scope.toggle = false;
-        }
+        };
         init();
 
         $scope.changeType = function(type) {

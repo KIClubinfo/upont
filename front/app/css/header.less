@@ -6,8 +6,8 @@ header {
     box-shadow: 0px -5px 10px #000;
     height: @navbarHgt;
     align-items: center;
-    background: @col3;
-    border-bottom: solid 1px @col4;
+    background: @col-ticket;
+    border-bottom: solid 1px @col-bckgnd;
         
     .up-navbar-link {
         text-transform: uppercase;
@@ -24,8 +24,8 @@ header {
         }
         
         .select {
-            border: 1px solid @col4;
-            background-color: @col3;
+            border: 1px solid @col-bckgnd;
+            background-color: @col-ticket;
             position: absolute;
             padding: 10px 0 10px 0;
             margin: 0px;
@@ -38,7 +38,7 @@ header {
             li {
                 padding: 0 10px 0 10px;
                 &:hover {
-                    background-color: @col6;
+                    background-color: @col-input-bckgnd;
                 }
             }
         }
@@ -51,7 +51,7 @@ header {
     padding: 0.3em;
     margin: 0px 1em;
     font-family: 'caviarDreams';
-    border: solid 1px @col1;
+    border: solid 1px @col-main;
         
     &:before {
         content: "u";
@@ -61,7 +61,7 @@ header {
     }
     &:after {
         content: "P";
-        color: @col1;
+        color: @col-main;
         @media(min-width: @sizeMd) {
             content: "Pont";
         }

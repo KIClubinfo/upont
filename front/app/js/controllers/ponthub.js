@@ -74,7 +74,7 @@ angular.module('upont')
                 controller: 'PH_Liste_Ctrl',
                 resolve: {
                     elements: ['Paginate', '$stateParams', 'PH_categories', function(Paginate, $stateParams, PH_categories) {
-                        return Paginate.get(PH_categories($stateParams.category), 50);
+                        return Paginate.get(PH_categories($stateParams.category), 20);
                     }]
                 }
             })

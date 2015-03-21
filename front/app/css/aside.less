@@ -3,10 +3,10 @@
     left: 0px;
     top: 0px;
     height: 100%;
-    min-height: 460px;
+    min-height: 600px;
     min-width: @asideMinWidth;
-    color: @col7;
-    background-color: @col8;
+    color: @col-aside;
+    background-color: @col-aside-bckgnd;
     z-index: 500;
     
     &:before{
@@ -16,14 +16,14 @@
         top: @begin-border-aside;
         bottom: 0px;
         right: 0px;
-        border-right: solid 1px @col4;
+        border-right: solid 1px @col-bckgnd;
     }
     a {
         &:hover {
-            border-bottom: solid 1px @col7;
+            border-bottom: solid 1px @col-aside;
         }
         &.active {
-            border-bottom: solid 1px @col7;
+            border-bottom: solid 1px @col-aside;
         }
         .fa {
             .fa-block;

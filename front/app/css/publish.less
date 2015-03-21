@@ -9,21 +9,21 @@
             }
             .type {
                 display: inline-block;
-                background-color: @col6;
-                color: @col2;
-                border: 1px solid @col4;
+                background-color: @col-input-bckgnd;
+                color: @col-font;
+                border: 1px solid @col-bckgnd;
                 border-top: none !important;
                 border-radius: 0px 0px 5px 5px;
                 padding: 5px;
                 cursor: pointer;
                 
                 &:hover, &.active {
-                    color: @col1;
-                    border: 1px solid @col1;
+                    color: @col-main;
+                    border: 1px solid @col-main;
                 }
                 &.active {
                     font-weight: bold;
-                    background-color: @col3;
+                    background-color: @col-ticket;
                 }
             }
             .fileupload {
@@ -52,8 +52,8 @@
                 z-index: 10;
                 
                 .select {
-                    border: 1px solid @col4;
-                    background-color: @col3;
+                    border: 1px solid @col-bckgnd;
+                    background-color: @col-ticket;
                     position: absolute;
                     padding: 10px 0 10px 0;
                     margin: 0px;
@@ -66,9 +66,9 @@
                     
                     li {
                         padding: 0 10px 0 10px;
-                        color: @col2;
+                        color: @col-font;
                         &:hover {
-                            background-color: @col6;
+                            background-color: @col-input-bckgnd;
                         }
                     }
                 }
