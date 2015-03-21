@@ -7,7 +7,13 @@
             <div class="type" ng-click="changeType('news')"    ng-class="{active: type == 'news'}">News</div>
             <div class="type" ng-click="changeType('event')"   ng-class="{active: type == 'event'}">Événement</div>
 
-            <button class="up-btn up-btn-default">Publier !</button>
+            <div style="float: right">
+                <div class="type fileupload" ng-class="{active: postPicture.filename}">
+                    <span><i class="fa fa-file-image-o"></i> {{ postPicture.filename }}</span>
+                    <input type="file" ng-model="postPicture" base-sixty-four-input>
+                </div>
+                <button class="up-btn up-btn-default">Publier !</button>
+            </div>
         </div>
     </form>
 
