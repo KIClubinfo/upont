@@ -6,7 +6,7 @@ angular.module('upont').directive('upPubliText', ['$window', function($window) {
         controller: ["$scope", function($scope) {
             // Dans un premier temps, on raccourcit par rapport au nombre de lignes
             var split = $scope.string.split(/\r\n|\r|\n/);
-            if (split.length > 5) {
+            if (split.length > 5 || $scope.string.length > 250) {
                 $scope.opened = false;
                 $scope.content = '';
                 for (var i = 0; i < 4; i++)
