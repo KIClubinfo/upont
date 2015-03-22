@@ -7,12 +7,14 @@
             <table class="up-table" up-col="90%">
                 <thead>
                     <tr>
+                        <th>Promo</th>
                         <th>Élève</th>
                         <th>Rôle</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="member in filtered =  (members | filter:promo | orderBy:['user.nick'])">
+                    <tr ng-repeat="member in filtered =  (members | promoFilter: promo | orderBy:['user.nick'])">
+                        <td>{{ member.user.promo }}</td>
                         <td>{{ member.user.first_name }} {{ member.user.last_name }}</td>
                         <td>{{ member.role }}</td>
                     </tr>
@@ -24,7 +26,9 @@
             </table>
 
             <select ng-model="promo">
-                <option ng-repeat="promoItem in $root.promos" selected="{{ $index == promos.length-1 }}">{{ promoItem }}</option>
+                <option ng-repeat="promoItem in $root.promos"
+                        selected="{{ $index == promos.length-1 }}"
+                        value="{{ promoItem }}">Année '{{ promoItem }}</option>
             </select>
         </div>
     </div>

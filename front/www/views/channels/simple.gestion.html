@@ -85,7 +85,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="member in filtered =  (members | filter:promo | orderBy:['user.nick'])">
+                <tr ng-repeat="member in filtered =  (members | promoFilter: promo | orderBy:['user.nick'])">
                     <td>
                         <span class="up-clickable" ng-click="removeMember(member.user.username)">
                             <i class="fa fa-remove"></i> {{ member.user.nick }}
@@ -101,7 +101,9 @@
         </table>
 
         <select ng-model="promo">
-            <option ng-repeat="promoItem in $root.promos" selected="{{ $index == promos.length-1 }}">{{ promoItem }}</option>
+            <option ng-repeat="promoItem in $root.promos"
+                        selected="{{ $index == promos.length-1 }}"
+                        value="{{ promoItem }}">Année '{{ promoItem }}</option>
         </select>
     </div>
 </div>

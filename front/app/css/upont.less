@@ -1,3 +1,24 @@
+// Bibilothèques externes
+// Bootstrap
+@import '../../www/libs/bootstrap/less/variables.less';
+@import '../../www/libs/bootstrap/less/mixins.less';
+@import '../../www/libs/bootstrap/less/glyphicons.less';
+@import '../../www/libs/bootstrap/less/scaffolding.less';
+@import '../../www/libs/bootstrap/less/tables.less';
+@import '../../www/libs/bootstrap/less/component-animations.less';
+@import '../../www/libs/bootstrap/less/labels.less';
+@icon-font-path: 'libs/bootstrap/fonts/';
+
+// Autres
+@import '../../www/libs/fontawesome/less/font-awesome.less';
+@fa-font-path: 'libs/fontawesome/fonts';
+@import (inline) '../../www/libs/alertify.js/themes/alertify.core.css';
+@import (inline) '../../www/libs/angular-bootstrap-datetimepicker/src/css/datetimepicker.css';
+
+body {
+    margin: 0px;
+}
+
 // Définition des variables
 @radius: 6px;
 @sizeXs: 480px;
@@ -6,14 +27,9 @@
 @sizeLg: 1200px;
 @navbarHgt: 50px;
 @asideMinWidth: 200px;
-@import 'bootstrap.less';
-
-body {
-    margin: 0px;
-}
 
 // Importation de tous les fichiers selon le theme
-.theme(@col1, @col2, @col3, @col4, @col5, @col6, @col7, @col8, @begin-border-aside) {
+.theme(@col-main, @col-font, @col-ticket, @col-bckgnd, @col-input-bckgnd, @col-aside, @col-aside-bckgnd, @col-neg, @begin-border-aside) {
     @import 'alertify.less';
     @import 'aside.less';
     @import 'button.less';
@@ -34,20 +50,24 @@ body {
     @import 'ticket.less';
     @import 'zone-picker.less';
 
-    color: @col2;
-    background: @col6;
+    color: @col-font;
+    background: @col-input-bckgnd;
 }
+
+// Palette de couleurs
+@blue: #5584AD;
+@orange: #F08630;
+@lighter-gray: #d0d0d0;
+@light-gray: #aaa;
+@gray: #888;
+@dark-gray: #555;
+@darker-gray: #222;
 
 // Couleurs spécifiques à chaque thème
 body.theme-clear {
-    .theme(#5584AD, #888, #FFF, #aaa, #d3d6d8, #dddfe4, #d0d0d0, #2A303D, 0);
-
-    .up-btn-default {
-        border-bottom: 2px solid #37668F;
-        box-shadow: inset 0 -2px #37668F;
-    }
+    .theme(@blue, @gray, white, @light-gray, #dddfe4, @light-gray, #2A303D, @orange, 0);
     .alertify-log-error {
-        background: #F08630;
+        background: @orange;
     }
     input, textarea, select {
         background: #F8F8F8;
@@ -55,12 +75,7 @@ body.theme-clear {
 }
 
 body.theme-dark {
-    .theme(#F08630, #a0a0a0, #222, #555, #595B5C, #2a2c2f, #d0d0d0, #222, @navbarHgt - 1px);
-
-    .up-btn-default {
-        border-bottom: 2px solid #CD6812;
-        box-shadow: inset 0 -2px #CD6812;
-    }
+    .theme(@orange, @light-gray, @darker-gray, @dark-gray, #2a2c2f, @light-gray, @darker-gray, @blue, @navbarHgt - 1px);
     .alertify-log-error {
         background: red;
     }

@@ -9,21 +9,12 @@
     padding: 0px;
 }
 .label-upont { // Labels bootstrap pour uPont
-    background-color: @col1;
+    background-color: @col-main;
 }
 .img-responsive {
     margin: 10px 0 10px 0;
 }
 // Pour le datetime picker
-.datetimepicker table tr td {
-    &.active, .active {
-        &, &:hover, &.disabled, &.disabled:hover {
-            background-color: @col1;
-            background-image: none;
-        }
-    }
-}
-
 // Blocks de base
 body {
     font-family:'Open Sans';
@@ -63,9 +54,9 @@ body {
         cursor: pointer;
 
         &:before {
-            border: 1px solid @col1;
+            border: 1px solid @col-main;
         }
-        h3 { color: @col1 !important; }
+        h3 { color: @col-main !important; }
     }
 }
 
@@ -86,7 +77,7 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 10px;
 
     a:hover {
-        color: @col1;
+        color: @col-main;
     }
 }
 .title(@size) {
@@ -112,7 +103,7 @@ a, a:hover, a:visited, a:active, a:focus {
 .up-clickable{
     cursor: pointer;
     &:hover, &.active {
-        color: @col1;
+        color: @col-main;
     }
 }
 .fa-block {

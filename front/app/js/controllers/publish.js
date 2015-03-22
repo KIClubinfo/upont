@@ -20,12 +20,12 @@ angular.module('upont')
         var club = {name: 'Assos'};
         var init = function() {
             $scope.focus = false;
-            $scope.post = {entry_method: 'Entrée libre'};
+            $scope.post = {entry_method: 'Entrée libre', text: ''};
             $scope.type = 'message';
             $scope.placeholder = 'Quoi de neuf ?';
             $scope.club = club;
             $scope.toggle = false;
-        }
+        };
         init();
 
         $scope.changeType = function(type) {
@@ -75,7 +75,7 @@ angular.module('upont')
                     $http.post(apiPrefix + 'newsitems', params).success(function(data){
                         Paginate.get('newsitems?sort=-date&limit=10&filterBy=name&filterValue=null').then(function(data){
                             $scope.messages = data;
-                            alertify.success('Message posté !');
+                            alertify.success('Message publié !');
                             init();
                         });
                     }).error(function(){
@@ -89,7 +89,7 @@ angular.module('upont')
                         Paginate.get('own/newsitems?sort=-date', 10).then(function(data){
                             $scope.newsItems = data;
                             $scope.changeType('message');
-                            alertify.success('News postée !');
+                            alertify.success('News publiée !');
                         });
                     }).error(function(){
                         alertify.error('Formulaire vide ou mal rempli !');
@@ -102,6 +102,11 @@ angular.module('upont')
                     params.startDate = moment(post.start_date).unix();
                     params.endDate = moment(post.end_date).unix();
 
+                    if (!post.start_date || !post.end_date) {
+                        alertify.error('Il faut préciser une date de début et de fin !');
+                        return;
+                    }
+
                     if (params.startDate >= params.endDate) {
                         alertify.error('La date de début doit être avant la date de fin !');
                         return;
@@ -112,6 +117,10 @@ angular.module('upont')
                         params.shotgunLimit = post.shotgun_limit;
                         params.shotgunText = post.shotgun_text;
 
+                        if (!post.shotgun_date) {
+                            alertify.error('Il faut préciser une date de shotgun !');
+                            return;
+                        }
                         if (params.shotgunDate >= params.startDate) {
                             alertify.error('La date de shotgun doit être avant la date de début !');
                             return;
@@ -122,7 +131,7 @@ angular.module('upont')
                         Paginate.get('own/events').then(function(data){
                             $scope.events = data;
                             $scope.changeType('message');
-                            alertify.success('Événement posté !');
+                            alertify.success('Événement publié !');
                         });
                     }).error(function(){
                         alertify.error('Formulaire vide ou mal rempli !');
