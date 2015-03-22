@@ -18,6 +18,8 @@ class Event extends Post
      * @ORM\Column(name="startDate", type="integer")
      * @JMS\Expose
      * @Assert\Type("integer")
+     * @Assert\NotBlank()
+     * @Assert\GreaterThan(1)
      */
     protected $startDate;
 
@@ -26,6 +28,7 @@ class Event extends Post
      * @ORM\Column(name="endDate", type="integer")
      * @JMS\Expose
      * @Assert\Type("integer")
+     * @Assert\GreaterThan(1)
      */
     protected $endDate;
 
@@ -34,7 +37,6 @@ class Event extends Post
      * @ORM\Column(name="entryMethod", type="string", length=255)
      * @JMS\Expose
      * @Assert\Type("string")
-     * @Assert\NotBlank()
      */
     protected $entryMethod;
 
@@ -43,6 +45,7 @@ class Event extends Post
      * @ORM\Column(name="shotgunDate", type="integer", nullable=true)
      * @JMS\Expose
      * @Assert\Type("integer")
+     * @Assert\GreaterThan(1)
      */
     protected $shotgunDate;
 
@@ -51,6 +54,7 @@ class Event extends Post
      * @ORM\Column(name="shotgunLimit", type="integer", nullable=true)
      * @JMS\Expose
      * @Assert\Type("integer")
+     * @Assert\GreaterThan(0)
      */
     protected $shotgunLimit;
 
