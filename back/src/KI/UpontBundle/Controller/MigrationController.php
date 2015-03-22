@@ -51,41 +51,18 @@ class Generator extends AbstractFixture
         // Normalement la BDD devra être reset proprement à la main, là on le
         // fait manuellement pour pouvoir tester la migration rapidement
         $this->truncate(array(
-            'Likeable',
-            'fos_user',
-            'Club',
-            'ClubUser',
-            'Image',
             'Post',
             'Newsitem',
             'Event',
             'event_attendee',
             'event_pookie',
-            'Movie',
-            'Serie',
-            'Game',
-            'Episode',
-            'Album',
-            'Music',
-            'Software',
-            'Other',
-            'Actor',
-            'Genre',
-            'PonthubFile',
-            'ponthubfile_user',
-            'ponthubfile_genre',
-            'movie_actor',
-            'serie_actor',
         ));
 
         // Effectue les diverses opérations de migration
-        $this->loadImages();
         $this->loadUsers();
         $this->loadClubs();
         $this->loadNews();
         $this->loadEvents();
-        $this->loadPonthub();
-        $this->loadCourses();
 
         //Depannage
         //Mdtk
@@ -124,553 +101,90 @@ class Generator extends AbstractFixture
         return $items;
     }
 
-    protected function loadImages()
-    {
-        $this->log('===== IMAGES =====');
-        $items = $this->loadTable('image');
-        $i = 0;
-        $this->images = array();
-
-        $path = __DIR__ . '/../../../../web/uploads/tmp/';
-        $fs = new Filesystem();
-
-        foreach ($items as $id => $item) {
-            $ext = $item['nom'] . '.' . $item['extension'];
-
-            if (!file_exists($path . $ext) || empty($item['nom']) || empty($item['extension']))
-                continue;
-
-            $fs->copy($path . $ext, $path . 'tmp_' . $id);
-            $file = new File($path . 'tmp_' . $id);
-
-            $entity = new Image();
-            $entity->setFile($file);
-            $entity->setExt($item['extension']);
-            $this->em->persist($entity);
-            $this->images[$id] = $entity;
-            $i++;
-        }
-
-        $this->em->flush();
-
-        $this->log($i . ' images importées');
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     protected function loadUsers()
     {
-        $this->log('===== UTILISATEURS =====');
-        $items = $this->loadTable('eleve');
-        $i = 0;
-        $this->users = array();
+        $repo = $this->em->getRepository('KIUpontBundle:Users\User');
+        $users = $repo->findAll();
+        $this->users = $this->usersKey = array();
 
-        foreach ($items as $id => $item) {
-            $entity = new US\User();
-            $entity->setFirstName($item['prenom']);
-            $entity->setLastName($item['nom']);
-            $entity->setUsername($item['pseudo']);
-            $entity->setEmail($item['email']);
-            $entity->setPromo($item['promo']);
-            $entity->setDepartment($item['departement']);
-            $entity->setOrigin($item['origine']);
-            $entity->setPlainPassword('migration_pass_impossible_to_reproduce');
-            $entity->setNationality(ucfirst(strtolower($item['nationalite'])));
-            if (isset($this->images[$item['id_image']]))
-                $entity->setImage($this->images[$item['id_image']]);
-            $this->em->persist($entity);
-            $this->users[$id] = $entity;
-            $i++;
+        foreach ($users as $user) {
+            $this->users[] = $user;
+            $this->usersKey[] = $user->getUsername();
         }
-
-        $this->em->flush();
-        $this->log($i . ' utilisateurs importés');
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     protected function loadClubs()
     {
-        $this->log('===== CLUBS =====');
-        $items = $this->loadTable('club');
-        $i = 0;
-        $this->clubs = array();
+        $repo = $this->em->getRepository('KIUpontBundle:Users\Club');
+        $clubs = $repo->findAll();
+        $this->clubs = $this->clubsKey = array();
 
-        foreach ($items as $id => $item) {
-            $entity = new US\Club();
-            $entity->setName($item['nom']);
-            $entity->setFullname($item['nom_long']);
-            $entity->setActive(true);
-            $this->em->persist($entity);
-            $this->clubs[$id] = $entity;
-            $i++;
+        foreach ($clubs as $club) {
+            $this->clubs[] = $club;
+            $this->clubsKey[] = strtolower($club->getName());
         }
-        $this->em->flush();
-        $this->log($i . ' clubs importés');
-
-
-
-        // Membres de clubs
-        $items = $this->loadTable('club_eleve');
-        $i = 0;
-
-        foreach ($items as $id => $item) {
-            if ($this->clubs[$item['id_club']] === null || $this->users[$item['id_eleve']] === null)
-                continue;
-
-            $entity = new US\ClubUser();
-            $entity->setClub($this->clubs[$item['id_club']]);
-            $entity->setUser($this->users[$item['id_eleve']]);
-            $entity->setRole($item['role']);
-            $this->em->persist($entity);
-            $i++;
-        }
-        $this->em->flush();
-        $this->log($i . ' membres de clubs importés');
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     protected function loadNews()
     {
         $this->log('===== NEWS =====');
         $items = array();
-        $requete = $this->bdd->query('SELECT canal_publication.*, news.titre, news.valeur FROM canal_publication JOIN news ON news.id = canal_publication.id WHERE type="news"');
+        $requete = $this->bdd->query('SELECT canal_publication.*, news.titre, news.valeur, club.nom FROM canal_publication JOIN news ON news.id = canal_publication.id LEFT JOIN club ON club.id = canal_publication.id_auteur WHERE canal_publication.type="news" AND canal_publication.type_auteur = "club"');
         while ($donnees = $requete->fetch())
             $items[$donnees['id']] = $donnees;
         $requete->closeCursor();
+        $this->log(count($items));
         $i = 0;
 
         foreach ($items as $id => $item) {
-            $entity = new PU\Newsitem();
-            $entity->setName($item['titre']);
-            $entity->setText($item['valeur']);
-            $entity->setAuthorClub($this->clubs[$item['id_auteur']]);
-            $entity->setDate(strtotime($item['date']));
-            $this->em->persist($entity);
-            $i++;
+            if ($key = array_search(strtolower($item['nom']), $this->clubsKey)) {
+                $entity = new PU\Newsitem();
+                $entity->setName($item['titre']);
+                $entity->setText($item['valeur']);
+
+                $entity->setAuthorClub($this->clubs[$key]);
+                $entity->setDate(strtotime($item['date']));
+                $this->em->persist($entity);
+                $i++;
+            }
         }
 
         $this->em->flush();
         $this->log($i . ' news importées');
     }
 
-
-
-
-
-
-
-
     protected function loadEvents()
     {
         $this->log('===== EVENEMENTS =====');
         $items = array();
-        $requete = $this->bdd->query('SELECT canal_publication.*, evenement.label, evenement.details, evenement.lieu, evenement.date_deb, evenement.date_fin, evenement.date_shotgun, evenement.mode_inscription FROM canal_publication JOIN evenement ON evenement.id = canal_publication.id WHERE type="event"');
+        $requete = $this->bdd->query('SELECT canal_publication.*, club.nom, evenement.label, evenement.details, evenement.lieu, evenement.date_deb, evenement.date_fin, evenement.date_shotgun, evenement.mode_inscription FROM canal_publication JOIN evenement ON evenement.id = canal_publication.id LEFT JOIN club ON club.id = canal_publication.id_auteur WHERE canal_publication.type="event" AND canal_publication.type_auteur = "club"');
         while ($donnees = $requete->fetch())
             $items[$donnees['id']] = $donnees;
         $requete->closeCursor();
         $i = 0;
         $this->events = array();
+        $this->log(count($items));
 
         foreach ($items as $id => $item) {
-            $entity = new PU\Event();
-            $entity->setName($item['label']);
-            $entity->setText($item['details']);
-            $entity->setDate(strtotime($item['date']));
-            $entity->setStartDate(strtotime($item['date_deb']));
-            $entity->setEndDate(strtotime($item['date_fin']));
-            if ($item['date_shotgun'] != '0000-00-00 00:00:00')
-                $entity->setShotgunDate(strtotime($item['date_shotgun']));
-            $entity->setAuthorClub($this->clubs[$item['id_auteur']]);
-            $entity->setEntryMethod(ucfirst($item['mode_inscription']));
-            $entity->setPlace($item['lieu']);
-            $this->em->persist($entity);
-            $this->events[$id] = $entity;
-            $i++;
-        }
-        $this->log($i . ' utilisateurs importés');
-
-        // Attendees/pookies
-        $items = $this->loadTable('evenement_eleve');
-        $i = 0;
-        foreach ($items as $id => $item) {
-            if ($item['type'] == 'rejet' && isset($this->users[$item['id_eleve']]) && isset($this->events[$item['id_evenement']]))
-                $this->events[$item['id_evenement']]->addPookie($this->users[$item['id_eleve']]);
-            if ($item['type'] == 'chaud' && isset($this->users[$item['id_eleve']]) && isset($this->events[$item['id_evenement']]))
-                $this->events[$item['id_evenement']]->addAttendee($this->users[$item['id_eleve']]);
-            $i++;
-        }
-
-        $this->em->flush();
-        $this->log($i . ' utilisateurs liés à des événements');
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    protected function loadPonthub()
-    {
-        $this->log('===== PONTHUB =====');
-        $items = $this->loadTable('dc_fichier');
-        $f = $s = $e = $a = $m = $j = $l = $o = $ac = $ge = 0;
-        $this->film = array();
-        $this->serie = array();
-        $this->musique = array();
-        $this->jeu = array();
-        $this->episode = array();
-        $this->album = array();
-        $this->logiciel = array();
-        $this->autre = array();
-        $this->acteur = array();
-        $this->genre = array();
-
-        foreach ($items as $id => $item) {
-            if ($item['statut'] == 'not_found' || $item['type'] == 'musique' || $item['type'] == 'episode')
-                continue;
-            switch ($item['type']) {
-                case 'film':
-                    $entity = new PH\Movie();
-                    $entity->setDuration($item['duree']);
-                    $entity->setYear($item['annee']);
-                    $entity->setVo($item['vo']);
-                    $entity->setVf($item['vf']);
-                    $entity->setVost($item['st_vo']);
-                    $entity->setVostfr($item['st_vf']);
-                    $entity->setHd($item['qualite'] == 'HD');
-                    $entity->setDirector($item['artiste']);
-
-                    $actors = explode(', ', $item['avec']);
-                    foreach ($actors as $actor) {
-                        if(!isset($this->acteur[$actor])) {
-                            $lowl = new PH\Actor();
-                            $lowl->setName($actor);
-                            $this->em->persist($lowl);
-                            $this->acteur[$actor] = $lowl;
-                        }
-                        $entity->addActor($this->acteur[$actor]);
-                    }
-
-                    $genres = explode(', ', $item['genre']);
-                    foreach ($genres as $genre) {
-                        if(!isset($this->genre[$genre])) {
-                            $lowl = new PH\Genre();
-                            $lowl->setName($genre);
-                            $this->em->persist($lowl);
-                            $this->genre[$genre] = $lowl;
-                        }
-                        $entity->addGenre($this->genre[$genre]);
-                    }
-                    $f++;
-                    break;
-                case 'serie':
-                    $entity = new PH\Serie();
-                    $entity->setDuration($item['duree']);
-                    $entity->setYear($item['annee']);
-                    $entity->setVo($item['vo']);
-                    $entity->setVf($item['vf']);
-                    $entity->setVost($item['st_vo']);
-                    $entity->setVostfr($item['st_vf']);
-                    $entity->setHd($item['qualite'] == 'HD');
-                    $entity->setDirector($item['artiste']);
-
-                    $genres = explode(', ', $item['genre']);
-                    foreach ($genres as $genre) {
-                        if(!isset($this->genre[$genre])) {
-                            $lowl = new PH\Genre();
-                            $lowl->setName($genre);
-                            $this->em->persist($lowl);
-                            $this->genre[$genre] = $lowl;
-                        }
-                        $entity->addGenre($this->genre[$genre]);
-                    }
-                    $actors = explode(', ', $item['avec']);
-                    foreach ($actors as $actor) {
-                        if(!isset($this->acteur[$actor])) {
-                            $lowl = new PH\Actor();
-                            $lowl->setName($actor);
-                            $this->em->persist($lowl);
-                            $this->acteur[$actor] = $lowl;
-                        }
-                        $entity->addActor($this->acteur[$actor]);
-                    }
-                    $s++;
-                    break;
-                case 'jeu':
-                    $entity = new PH\Game();
-                    $entity->setYear($item['annee']);
-                    $entity->setStudio($item['artiste']);
-                    $j++;
-                    break;
-                case 'album':
-                    $entity = new PH\Album();
-                    $entity->setArtist($item['artiste']);
-                    $entity->setYear($item['annee']);
-                    $a++;
-
-                    $genres = explode(', ', $item['genre']);
-                    foreach ($genres as $genre) {
-                        if(!isset($this->genre[$genre])) {
-                            $lowl = new PH\Genre();
-                            $lowl->setName($genre);
-                            $this->em->persist($lowl);
-                            $this->genre[$genre] = $lowl;
-                        }
-                        $entity->addGenre($this->genre[$genre]);
-                    }
-                    break;
-                case 'logiciel':
-                    $entity = new PH\Software();
-                    $entity->setYear($item['annee']);
-                    $entity->setAuthor($item['artiste']);
-                    $l++;
-                    break;
-                case 'autre':
-                    $entity = new PH\Other();
-                    $o++;
-                    break;
-                default: continue;
+            if ($key = array_search(strtolower($item['nom']), $this->clubsKey)) {
+                $entity = new PU\Event();
+                $entity->setName($item['label']);
+                $entity->setText($item['details']);
+                $entity->setDate(strtotime($item['date']));
+                $entity->setStartDate(strtotime($item['date_deb']));
+                $entity->setEndDate(strtotime($item['date_fin']));
+                if ($item['date_shotgun'] != '0000-00-00 00:00:00')
+                    $entity->setShotgunDate(strtotime($item['date_shotgun']));
+                $entity->setAuthorClub($this->clubs[$key]);
+                $entity->setEntryMethod(ucfirst($item['mode_inscription']));
+                $entity->setPlace($item['lieu']);
+                $this->em->persist($entity);
+                $this->events[$id] = $entity;
+                $i++;
             }
-            $entity->setName($item['nom']);
-            $entity->setPath($item['chemin']);
-            $entity->setSize($item['taille']);
-            $entity->setAdded(strtotime($item['date']));
-
-            $status = $item['statut'] == 'ok' ? 'OK' : 'NEEDINFOS';
-            $entity->setStatus($status);
-            $entity->setDescription($item['description']);
-            if (isset($this->images[$item['image']]))
-                $entity->setImage($this->images[$item['image']]);
-            $this->em->persist($entity);
-
-            switch ($item['type']) {
-                case 'film':
-                    $this->film[$id] = $entity;
-                    break;
-                case 'serie':
-                    $this->serie[$id] = $entity;
-                    break;
-                case 'jeu':
-                    $this->jeu[$id] = $entity;
-                    break;
-                case 'album':
-                    $this->album[$id] = $entity;
-                    break;
-                case 'autre':
-                    $this->autre[$id] = $entity;
-                    break;
-                case 'logiciel':
-                    $this->logiciel[$id] = $entity;
-                    break;
-            }
-            if($f%100 == 1)
-                $this->em->flush();
-            if($s%100 == 1)
-                $this->em->flush();
-            if($a%100 == 1)
-                $this->em->flush();
-            if($j%100 == 1)
-                $this->em->flush();
-            if($l%100 == 1)
-                $this->em->flush();
-            if($o%100 == 1)
-                $this->em->flush();
         }
-        $this->log($f . ' films importés');
-        $this->log($s . ' séries importées');
-        $this->log($a . ' albums importés');
-        $this->log($j . ' jeux importés');
-        $this->log($l . ' logiciels importés');
-        $this->log($o . ' autres importés');
-        $this->log(count($this->acteur) . ' acteurs importés');
-        $this->log(count($this->genre) . ' genres importés');
-        $this->em->flush();
+        $this->log($i . ' events importés');
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // Seconde passe pour les musiques et episodes
-        foreach ($items as $id => $item) {
-            if ($item['statut'] == 'not_found' || !($item['type'] == 'musique' || $item['type'] == 'episode'))
-                continue;
-
-            switch ($item['type']) {
-                case 'musique':
-                    $entity = new PH\Music();
-                    $entity->setAlbum($this->album[$item['regroupement']]);
-                    $m++;
-                    break;
-                case 'episode':
-                    $entity = new PH\Episode();
-                    $entity->setSerie($this->serie[$item['regroupement']]);
-                    $entity->setSeason($item['artiste']);
-                    $entity->setNumber($item['avec']);
-                    $e++;
-                    break;
-            }
-            $entity->setName($item['nom']);
-            $entity->setPath($item['chemin']);
-            $entity->setSize($item['taille']);
-            $entity->setAdded(strtotime($item['chemin']));
-
-            $status = $item['statut'] == 'ok' ? 'OK' : 'NEEDINFOS';
-            $entity->setStatus($status);
-            $entity->setDescription($item['description']);
-            if (isset($this->images[$item['image']]))
-                $entity->setImage($this->images[$item['image']]);
-            $this->em->persist($entity);
-
-            switch ($item['type']) {
-                case 'musique':
-                    $this->musique[$id] = $entity;
-                    break;
-                case 'episode':
-                    $this->episode[$id] = $entity;
-                    break;
-            }
-            if($e%100 == 1)
-                $this->em->flush();
-            if($m%100 == 1)
-                $this->em->flush();
-        }
-        $this->log($e . ' épisodes importés');
-        $this->log($m . ' musiques importées');
-        $this->em->flush();
-
-
-        // Stats Ponthub
-        $items = $this->loadTable('dc_log');
-        $i = 0;
-        foreach ($items as $id => $item) {
-            if (isset($this->users[$item['id_eleve']])) {
-                if (isset($this->film[$item['id_fichier']]))
-                    $this->film[$item['id_fichier']]->addUser($this->users[$item['id_eleve']]);
-                if (isset($this->serie[$item['id_fichier']]))
-                    $this->serie[$item['id_fichier']]->addUser($this->users[$item['id_eleve']]);
-                if (isset($this->episode[$item['id_fichier']]))
-                    $this->episode[$item['id_fichier']]->addUser($this->users[$item['id_eleve']]);
-                if (isset($this->album[$item['id_fichier']]))
-                    $this->album[$item['id_fichier']]->addUser($this->users[$item['id_eleve']]);
-                if (isset($this->musique[$item['id_fichier']]))
-                    $this->musique[$item['id_fichier']]->addUser($this->users[$item['id_eleve']]);
-                if (isset($this->jeu[$item['id_fichier']]))
-                    $this->jeu[$item['id_fichier']]->addUser($this->users[$item['id_eleve']]);
-                if (isset($this->logiciel[$item['id_fichier']]))
-                    $this->logiciel[$item['id_fichier']]->addUser($this->users[$item['id_eleve']]);
-                if (isset($this->autre[$item['id_fichier']]))
-                    $this->autre[$item['id_fichier']]->addUser($this->users[$item['id_eleve']]);
-            }
-            $i++;
-
-            if($i%100 == 1)
-                $this->em->flush();
-        }
-        $this->log($i . ' fichiers Ponthub téléchargés');
-
-        $this->em->flush();
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-    protected function loadCourses()
-    {
-        $items = $this->loadTable('cours_liste');
-        $i = 0;
-
-        foreach ($items as $id => $item) {
-            $entity = new PU\Course();
-
-            $out = array();
-            if (preg_match('#.* \(Gr([0-9])\)#', $item['label'], $out)) {
-                $group = (int) $out[1];
-                $name = str_replace(array('(Gr', ')'), array('', ''), $item['label']);
-            } else {
-                $group = 0;
-                $name = $item['label'];
-            }
-
-            $entity->setName($name);
-            $entity->setGroup($group);
-            $entity->setDepartment($item['departement']);
-            $this->em->persist($entity);
-            $i++;
-        }
-        $this->log($i . ' cours importés');
         $this->em->flush();
     }
 }

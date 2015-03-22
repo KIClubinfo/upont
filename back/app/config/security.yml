@@ -42,7 +42,7 @@ security:
         
         exceptionsGet3:
             methods: [GET]
-            pattern: ^/(coffee|ping|clubs|version)
+            pattern: ^/(coffee|ping|clubs|version|migration)
             security: false
         
         exceptionsGet4:

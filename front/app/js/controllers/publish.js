@@ -16,11 +16,74 @@ angular.module('upont')
             });
         };
 
+        $scope.attend = function(publication){
+            var i = $scope.events.indexOf(publication);
+            // Si la personne attend déjà on ne fait qu'annuler le attend
+            if ($scope.events[i].attend) {
+                $http.delete(apiPrefix + 'events/' + $scope.events[i].slug + '/attend').success(function(data){
+                    $scope.events[i].attend = false;
+                    $scope.events[i].attendees--;
+                });
+            } else {
+                $http.post(apiPrefix + 'events/' + $scope.events[i].slug + '/attend').success(function(data){
+                    $scope.events[i].attend = true;
+                    $scope.events[i].attendees++;
+
+                    // Si la personne n'attendait aps avant
+                    if ($scope.events[i].pookie) {
+                        $scope.events[i].pookie = false;
+                        $scope.events[i].pookies--;
+                    }
+                });
+            }
+        };
+
+        $scope.pookie = function(publication){
+            var i = $scope.events.indexOf(publication);
+            // Si la personne pookie déjà on ne fait qu'annuler le pookie
+            if ($scope.events[i].pookie) {
+                $http.delete(apiPrefix + 'events/' + $scope.events[i].slug + '/decline').success(function(data){
+                    $scope.events[i].pookie = false;
+                    $scope.events[i].pookies--;
+                });
+            } else {
+                $http.post(apiPrefix + 'events/' + $scope.events[i].slug + '/decline').success(function(data){
+                    $scope.events[i].pookie = true;
+                    $scope.events[i].pookies++;
+                    alertify.success('Cet événement ne sera plus affiché par la suite. Tu pourras toujours le retrouver sur la page de l\'assos.');
+
+                    // Si la personne était pookie avant
+                    if ($scope.events[i].attend) {
+                        $scope.events[i].attend = false;
+                        $scope.events[i].attendees--;
+                    }
+                });
+            }
+        };
+
+        $scope.showAttendees = function(publication){
+            $http.get(apiPrefix + 'events/' + publication.slug + '/attendees').success(function(data){
+                $scope.attendees = data;
+                var string = '<strong>Personnes participant à l\'événement :</strong><br>';
+                for (var i = 0; i < data.length; i++) {
+                    string += data[i].nick + ', ';
+                }
+                string = string.replace(/, $/, '');
+                alertify.alert(string);
+            });
+        };
+
         // Fonctions relatives à la publication
         var club = {name: 'Assos'};
         var init = function() {
             $scope.focus = false;
-            $scope.post = {entry_method: 'Entrée libre', text: ''};
+            $scope.post = {
+                entry_method: 'Entrée libre',
+                text: '',
+                start_date: '',
+                end_date: '',
+                shotgun_date: ''
+            };
             $scope.type = 'message';
             $scope.placeholder = 'Quoi de neuf ?';
             $scope.club = club;
@@ -90,6 +153,7 @@ angular.module('upont')
                             $scope.newsItems = data;
                             $scope.changeType('message');
                             alertify.success('News publiée !');
+                            init();
                         });
                     }).error(function(){
                         alertify.error('Formulaire vide ou mal rempli !');
@@ -132,6 +196,7 @@ angular.module('upont')
                             $scope.events = data;
                             $scope.changeType('message');
                             alertify.success('Événement publié !');
+                            init();
                         });
                     }).error(function(){
                         alertify.error('Formulaire vide ou mal rempli !');

@@ -10,7 +10,7 @@
     <div up-col="100%" up-row left padded>
         <!-- Image du fichier -->
         <div up-col="25%" ng-if="element.image_url">
-            <a class="up-ticket-link" ng-class="{'no-click': (category == 'series' || category == 'musiques')}" ng-click="(category != 'series' && category != 'musiques') ? download():false">
+            <a ng-class="{'no-click': (category == 'series' || category == 'musiques')}" ng-click="(category != 'series' && category != 'musiques') ? download():false">
                 <img class="img-responsive up-img-ponthub" src="{{ element.image_url | urlFile }}" alt="Image du fichier" />
             </a>
             <div up-row padded center>
@@ -60,7 +60,7 @@
 
                     <ul class="up-list" ng-show="openSeason == $index">
                         <li ng-repeat="episode in saison | orderBy:['name']">
-                            <a class="up-ticket-link" ng-click="download(url + 'series/' + element.slug + '/episodes/' + episode.slug + '/download')">
+                            <a ng-click="download(url + 'series/' + element.slug + '/episodes/' + episode.slug + '/download')">
                                 {{ episode.name }}
                             </a>
                         </li>
@@ -72,7 +72,7 @@
             <div ng-if="musics">
                 <ul class="up-list">
                     <li ng-repeat="music in musics | orderBy:['name']">
-                        <a class="up-ticket-link" ng-click="download(url + 'albums/' + element.slug + '/musics/' + music.slug + '/download')">
+                        <a ng-click="download(url + 'albums/' + element.slug + '/musics/' + music.slug + '/download')">
                             {{ music.name }}
                         </a>
                     </li>

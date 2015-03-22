@@ -8,7 +8,7 @@
         <!-- startDate -->
         <div ng-show="type == 'event'" up-col-xs="100%" up-col-sm="100%" up-col="50%">
             <div class="up-input-group" ng-click="startPicker=!startPicker">
-                <input up-col="100%" type="text" placeholder="Date de début" ng-model="post.start_date | date:'HH:mm dd/MM/yyyy'"/>
+                <input up-col="100%" type="text" placeholder="Date de début" ng-value="post.start_date | date:'HH:mm dd/MM/yyyy'"/>
                 <span class="addon"><i class="fa fa-calendar"></i></span>
             </div>
             <datetimepicker ng-show="startPicker" data-ng-model="post.start_date"></datetimepicker>
@@ -16,7 +16,7 @@
         <!-- endDate -->
         <div ng-show="type == 'event'" up-col-xs="100%" up-col-sm="100%" up-col="50%">
             <div class="up-input-group" ng-click="startPicker=!startPicker">
-                <input up-col="100%" type="text" placeholder="Date de fin" ng-model="post.end_date | date:'HH:mm dd/MM/yyyy'"/>
+                <input up-col="100%" type="text" placeholder="Date de fin" ng-value="post.end_date | date:'HH:mm dd/MM/yyyy'"/>
                 <span class="addon"><i class="fa fa-calendar"></i></span>
             </div>
             <datetimepicker ng-show="startPicker" data-ng-model="post.end_date"></datetimepicker>
@@ -38,7 +38,7 @@
         <!-- shotgunDate -->
         <div ng-show="type == 'event' && post.entry_method == 'Shotgun'" up-col-xs="100%" up-col-sm="100%" up-col="50%">
             <div class="up-input-group" ng-click="shotgunPicker=!shotgunPicker">
-                <input up-col="100%" type="text" placeholder="Date du shotgun" ng-model="post.shotgun_date | date:'HH:mm dd/MM/yyyy'"/>
+                <input up-col="100%" type="text" placeholder="Date du shotgun" ng-value="post.shotgun_date | date:'HH:mm dd/MM/yyyy'"/>
                 <span class="addon"><i class="fa fa-calendar"></i></span>
             </div>
             <datetimepicker ng-show="shotgunPicker" data-ng-model="post.shotgun_date"></datetimepicker>

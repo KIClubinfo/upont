@@ -11,7 +11,7 @@
         <div class="up-ticket ">
             <h1>{{ exercice.name }}</h1>
             <h3>Publié par {{exercice.uploader.first_name+' '+exercice.uploader.last_name}}</h3>
-            <a class="up-ticket-link" href="{{'/api/exercices/'+exercice.slug+'/download'}}">Télécharger</a>
+            <a href="{{'/api/exercices/'+exercice.slug+'/download'}}">Télécharger</a>
         </div>
     </div>
     <div ng-if="!exercices.length" class="up-col-xs-12">
@@ -20,4 +20,3 @@
         </div>
     </div>
 </div>
-
