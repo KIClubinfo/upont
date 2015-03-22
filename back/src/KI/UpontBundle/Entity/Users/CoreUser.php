@@ -124,7 +124,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
      */
     public function nick()
     {
-        return $this->nickname !== null ? $this->nickname : $this->acronyme();
+        return $this->nickname !== null ? $this->nickname : $this->getName();
     }
 
     // On définit des alias pour le slug

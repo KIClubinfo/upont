@@ -6,7 +6,7 @@ angular.module('upont').directive('upTicketListe', ['$window', function($window)
             category: '=',
         },
         template:
-            '<a ui-sref="root.ponthub.simple({slug: ponthub})">' +
+            '<a class="raw-link" ui-sref="root.ponthub.simple({slug: ponthub})">' +
                 '<div class="up-img-ponthub">' +
                     '<div class="img-ph"></div>' +
                     '<div ng-if="$parent.popular(content.element.downloads)" class="ribbon-wrapper">' +
