@@ -1,20 +1,63 @@
 angular.module('upont')
-    .controller("PH_Liste_Ctrl", ['$scope', '$stateParams', 'elements', 'Paginate', function($scope, $stateParams, elements, Paginate) {
+    .controller("PH_Liste_Ctrl", ['$scope', '$stateParams', 'elements', 'Paginate', 'Ponthub', function($scope, $stateParams, elements, Paginate, Ponthub) {
         $scope.elements = elements;
         $scope.category = $stateParams.category;
+        $scope.lastWeek = moment().subtract(7 , 'days').unix();
 
         $scope.next = function() {
             Paginate.next($scope.elements).then(function(data){
                 $scope.elements = data;
             });
         };
+
+        $scope.popular = function(count) {
+            return Ponthub.isPopular(count, $stateParams.category);
+        };
     }])
-    .controller('PH_Element_Ctrl', ['$scope', '$stateParams', 'PH_categories', '$window', '$http', 'element', 'episodes', 'musics', function($scope, $stateParams, PH_categories, $window, $http, element, episodes, musics) {
+    .controller('PH_Element_Ctrl', ['$scope', '$stateParams', '$q', 'Ponthub', '$window', '$http', 'element', 'episodes', 'musics', function($scope, $stateParams, $q, Ponthub, $window, $http, element, episodes, musics) {
         $scope.element = element;
         $scope.category = $stateParams.category;
-        $scope.type = PH_categories($stateParams.category);
+        $scope.lastWeek = moment().subtract(7, 'days').unix();
+        $scope.type = Ponthub.cat($stateParams.category);
         $scope.musics = musics;
         $scope.openSeason = -1;
+        $scope.fleur = null;
+
+        var pingFleur = function() {
+            var defered = $q.defer();
+            var bool = false;
+            ping('fleur.enpc.fr', function(status) { 
+                if (status == 'timeout')
+                    bool  = false;
+                defered.resolve({test: bool});
+            });
+            return defered.promise;
+        };
+
+        $scope.download = function(url) {
+            if ($scope.fleur === null) {
+                pingFleur().then(function(result){
+                    $scope.fleur = result;
+                    downloadFile(url);
+                });
+            } else {
+                downloadFile(url);
+            }
+        };
+
+        var downloadFile = function(url) {
+            if (!$scope.fleur) {
+                alertify.error('Tu n\'es pas sur le réseau des résidences, impossible de télécharger le fichier !');
+                return;
+            }
+
+            if (!url)
+                url = apiPrefix + Ponthub.cat($stateParams.category) + '/' + element.slug + '/download';
+
+            $http.get(url).success(function(data){
+                $window.location.href = data.redirect;
+            });
+        };
 
         if(episodes){
             $scope.saisons = [];
@@ -25,37 +68,35 @@ angular.module('upont')
                 $scope.saisons[episodes[i].season - 1].push(episodes[i]);
             }
         }
-        $scope.download = function(url) {
-            if (!url)
-                url = apiPrefix + PH_categories($stateParams.category) + '/' + element.slug + '/download';
-
-            $http.get(url).success(function(data){
-                $window.location.href = data.redirect;
-            });
-        };
 
         $scope.open = function(index) {
             $scope.openSeason = $scope.openSeason != index ? index : -1;
         };
-    }])
-    .factory('PH_categories', function(){
-        return function(category){
-            switch (category) {
-                case 'films':
-                    return 'movies';
-                case 'jeux':
-                    return'games';
-                case 'logiciels':
-                    return'softwares';
-                case 'musiques':
-                    return 'albums';
-                case 'autres':
-                    return 'others';
+
+        $scope.popular = function(count) {
+            return Ponthub.isPopular(count, $stateParams.category);
+        };
+
+        $scope.countDownloads = function() {
+            var count = 0;
+            switch ($scope.category) {
                 case 'series':
-                    return 'series';
+                    for(var i = 0; i < $scope.saisons.length; i++) {
+                        for(var j = 0; j < $scope.saisons[i].length; j++) {
+                            count += $scope.saisons[i][j].downloads;
+                        }
+                    }
+                    return count;
+                case 'musiques':
+                    for(var k = 0; k < $scope.musics.length; k++) {
+                        count += $scope.musics[k].downloads;
+                    }
+                    return count;
+                default:
+                    return $scope.element.downloads;
             }
         };
-    })
+    }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider.state("root.ponthub", {
                 url: "ponthub/:category",
@@ -73,8 +114,8 @@ angular.module('upont')
                 templateUrl: "views/ponthub/liste.html",
                 controller: 'PH_Liste_Ctrl',
                 resolve: {
-                    elements: ['Paginate', '$stateParams', 'PH_categories', function(Paginate, $stateParams, PH_categories) {
-                        return Paginate.get(PH_categories($stateParams.category), 20);
+                    elements: ['Paginate', '$stateParams', 'Ponthub', function(Paginate, $stateParams, Ponthub) {
+                        return Paginate.get(Ponthub.cat($stateParams.category), 20);
                     }]
                 }
             })
@@ -83,22 +124,22 @@ angular.module('upont')
                 templateUrl: "views/ponthub/simple.html",
                 controller: 'PH_Element_Ctrl',
                 resolve: {
-                    element: ['$resource', '$stateParams', 'PH_categories', function($resource, $stateParams, PH_categories) {
+                    element: ['$resource', '$stateParams', 'Ponthub', function($resource, $stateParams, Ponthub) {
                         return $resource(apiPrefix + ':cat/:slug').get({
-                            cat: PH_categories($stateParams.category),
+                            cat: Ponthub.cat($stateParams.category),
                             slug: $stateParams.slug
                         }).$promise;
                     }],
-                    episodes: ['$resource', '$stateParams', 'PH_categories', function($resource, $stateParams, PH_categories) {
-                        if(PH_categories($stateParams.category) != 'series')
+                    episodes: ['$resource', '$stateParams', 'Ponthub', function($resource, $stateParams, Ponthub) {
+                        if(Ponthub.cat($stateParams.category) != 'series')
                             return true;
                         return $resource(apiPrefix + ':cat/:slug/episodes').query({
                             cat: 'series',
                             slug: $stateParams.slug
                         }).$promise;
                     }],
-                    musics: ['$resource', '$stateParams', 'PH_categories', function($resource, $stateParams, PH_categories) {
-                        if(PH_categories($stateParams.category) != 'albums')
+                    musics: ['$resource', '$stateParams', 'Ponthub', function($resource, $stateParams, Ponthub) {
+                        if(Ponthub.cat($stateParams.category) != 'albums')
                             return true;
                         return $resource(apiPrefix + ':cat/:slug/musics').query({
                             cat: 'albums',

@@ -9,10 +9,10 @@ angular.module('upont').directive('upTicketListe', ['$window', function($window)
             '<a ui-sref="root.ponthub.simple({slug: ponthub})">' +
                 '<div class="up-img-ponthub">' +
                     '<div class="img-ph"></div>' +
-                    '<div ng-if="content.element.downloads > 10" class="ribbon-wrapper">' +
+                    '<div ng-if="$parent.popular(content.element.downloads)" class="ribbon-wrapper">' +
                         '<div class="ribbon ribbon-popular">POPULAIRE</div>' +
                     '</div>' +
-                    '<div ng-if="content.element.added > ' + moment().subtract(7, 'days').unix() + ' " class="ribbon-wrapper">' +
+                    '<div ng-if="content.element.added > $parent.lastWeek" class="ribbon-wrapper">' +
                         '<div class="ribbon ribbon-new">NOUVEAU</div>' +
                     '</div>' +
                 '</div>' +

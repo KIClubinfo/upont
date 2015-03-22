@@ -72,17 +72,43 @@ angular.module('upont')
         });
     }])
     .run(['$rootScope', 'StorageService', '$state', '$interval',  'jwtHelper', '$resource', function($rootScope, StorageService, $state, $interval, jwtHelper, $resource) {
+        // Data à charger au lancement
         $rootScope.selfClubs = [];
+        $rootScope.init = function(username) {
+            // Données perso
+            $resource(apiPrefix + 'users/:slug', {slug: username }).get(function(data){
+                $rootScope.me = data;
+            });
+
+            // Version de uPont
+            $resource(apiPrefix + 'version').get(function(data){
+                $rootScope.version = data;
+            });
+            // Solde foyer
+            $resource(apiPrefix + 'foyer/balance').get(function(data){
+                $rootScope.foyer = data.balance;
+            });
+
+            // Gens en ligne
+            reloadOnline = function() {
+                $resource(apiPrefix + 'online').query(function(data){
+                    $rootScope.online = data;
+                });
+            };
+            reloadOnline();
+            $interval(reloadOnline, 60000);
+
+            // On récupère les clubs de l'utilisateurs pour déterminer ses droits de publication
+            $resource(apiPrefix + 'users/:slug/clubs', {slug: username }).query(function(data){
+                $rootScope.selfClubs = data;
+            });
+        };
+
+        // Chargement du token à partir du localStorage
         if (StorageService.get('token') && !jwtHelper.isTokenExpired(StorageService.get('token'))) {
             $rootScope.isLogged = true;
             $rootScope.isAdmin = (StorageService.get('droits').indexOf("ROLE_ADMIN") != -1) ? true : false;
-            $resource(apiPrefix + 'users/:slug', {slug: jwtHelper.decodeToken(StorageService.get('token')).username }).get(function(data){
-                $rootScope.me = data;
-            });
-            // On récupère les clubs de l'utilisateurs pour déterminer ses droits de publication
-            $resource(apiPrefix + 'users/:slug/clubs', {slug: jwtHelper.decodeToken(StorageService.get('token')).username }).query(function(data){
-                $rootScope.selfClubs = data;
-            });
+            $rootScope.init(jwtHelper.decodeToken(StorageService.get('token')).username);
         } else {
             $rootScope.isLogged = false;
             $rootScope.isAdmin = false;
@@ -102,6 +128,8 @@ angular.module('upont')
             return $state.is(name);
         };
 
+
+
         // Vérifie si l'utilisateur a les droits sur un club
         $rootScope.hasRight = function(slug) {
             for (var i = 0; i < $rootScope.selfClubs.length; i++) {
@@ -110,22 +138,6 @@ angular.module('upont')
             }
             return false;
         };
-
-        // Data à charger au lancement
-        $resource(apiPrefix + 'version').get(function(data){
-            $rootScope.version = data;
-        });
-        $resource(apiPrefix + 'foyer/balance').get(function(data){
-            $rootScope.foyer = data.balance;
-        });
-
-        reloadOnline = function() {
-            $resource(apiPrefix + 'online').query(function(data){
-                $rootScope.online = data;
-            });
-        };
-        reloadOnline();
-        $interval(reloadOnline, 60000);
 
         // Diverses variables globales
         $rootScope.url = location.origin + apiPrefix;

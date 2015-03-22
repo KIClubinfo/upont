@@ -1,0 +1,62 @@
+// Permet de mettre des bandeaux trop stylés
+.ribbon-wrapper {
+    width: 120px;
+    height: 123px;
+    overflow: hidden;
+    position: absolute;
+    top: 17px;
+    right: 7px;
+}
+
+.ribbon {
+    font-weight: bold;
+    font-size: 15px;
+    text-align: center;
+    text-shadow: rgba(255, 255, 255, 0.5) 0px 1px 0px;
+    position: relative;
+    padding: 7px 0;
+    left: -3px;
+    top: 25px;
+    width: 160px;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+    transform: rotate(45deg);
+    color: white;
+
+    &:before, &:after {
+        content: "";
+        border-left: 3px solid transparent;
+        border-right: 3px solid transparent;
+        position: absolute;
+        bottom: -3px;
+    }
+    &:before {
+        left: 0;
+    }
+    &:after {
+        right: 0;
+    }
+
+    &.ribbon-popular {
+        background-color: @col-main;
+        background-image: linear-gradient(to bottom, @col-main, darken(@col-main, 25%));
+
+        &:before, &:after {
+            border-top:   3px solid @col-bckgnd;
+        }
+    }
+    &.ribbon-new {
+        background-color: @col-neg;
+        background-image: linear-gradient(to bottom, @col-neg, darken(@col-neg, 25%));
+
+        &:before, &:after {
+            border-top:   3px solid @col-bckgnd;
+        }
+    }
+}
+
+.up-img-ponthub {
+    .ribbon-wrapper {
+        top: -3px;
+        right: -3px;
+    }
+}

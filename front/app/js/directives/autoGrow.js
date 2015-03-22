@@ -32,7 +32,7 @@ angular.module('upont').directive('autoGrow', function() {
                 .replace(/\s{2,}/g, function(space) { return times('&nbsp;', space.length - 1) + ' '; });
             $shadow.html(val);
 
-            element.css('height', Math.max($shadow[0].offsetHeight + 30 /* the "threshold" */, minHeight) + 'px');
+            element.css('height', Math.max($shadow[0].offsetHeight + 40 /* the "threshold" */, minHeight) + 'px');
         };
 
         element.bind('keyup keydown keypress change', update);

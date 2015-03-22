@@ -1,74 +1,83 @@
 .up-publish {
     .publish-container {
-        textarea {
-            margin-bottom: -1px;
-        }
-        .type-container {
-            button {
-                margin-left: 5px;
+        .bottom-box-container {
+            line-height: 0px;
+            
+            textarea {
+                margin-bottom: 0;
+                line-height: 20px;
+                overflow-y: hidden;
             }
-            .type {
-                display: inline-block;
-                background-color: @col-input-bckgnd;
-                color: @col-font;
-                border: 1px solid @col-bckgnd;
-                border-top: none !important;
-                border-radius: 0px 0px 5px 5px;
-                padding: 5px;
-                cursor: pointer;
+            .type-container {
+                line-height: 20px;
                 
-                &:hover, &.active {
-                    color: @col-main;
-                    border: 1px solid @col-main;
+                button {
+                    margin-left: 5px;
                 }
-                &.active {
-                    font-weight: bold;
-                    background-color: @col-ticket;
-                }
-            }
-            .fileupload {
-                position: relative;
-	            overflow: hidden;
-	            padding-left: 10px;
-	            padding-right: 10px;
-
-	            input {
-	                position: absolute;
-	                top: 0;
-	                right: 0;
-	                margin: 0;
-	                padding: 0;
-	                font-size: 20px;
-	                cursor: pointer;
-	                opacity: 0;
-	                filter: alpha(opacity=0);
-                }
-            }
-            .addon {
-                position: relative;
-                display: block;
-                float: left;
-                margin-right: 10px;
-                z-index: 10;
-                
-                .select {
+                .type {
+                    display: inline-block;
+                    background-color: @col-input-bckgnd;
+                    color: @col-font;
                     border: 1px solid @col-bckgnd;
-                    background-color: @col-ticket;
-                    position: absolute;
-                    padding: 10px 0 10px 0;
-                    margin: 0px;
-                    list-style: outside none none;
-                    width: 100%;
-                    border-radius: 5px;
-                    left: 0px;
-                    top: 35px;
-                    width: auto;
+                    border-top: none !important;
+                    border-radius: 0px 0px 5px 5px;
+                    padding: 5px;
+                    cursor: pointer;
                     
-                    li {
-                        padding: 0 10px 0 10px;
-                        color: @col-font;
-                        &:hover {
-                            background-color: @col-input-bckgnd;
+                    &:hover, &.active {
+                        color: @col-main;
+                        border: 1px solid @col-main;
+                    }
+                    &.active {
+                        font-weight: bold;
+                        background-color: @col-ticket;
+                    }
+                }
+                .fileupload {
+                    position: relative;
+	                overflow: hidden;
+	                padding-left: 10px;
+	                padding-right: 10px;
+
+	                input {
+	                    position: absolute;
+	                    top: 0;
+	                    right: 0;
+	                    margin: 0;
+	                    padding: 0;
+	                    font-size: 20px;
+	                    cursor: pointer;
+	                    opacity: 0;
+	                    filter: alpha(opacity=0);
+                    }
+                }
+                .addon {
+                    position: relative;
+                    display: block;
+                    float: left;
+                    margin-right: 10px;
+                    z-index: 10;
+                    
+                    .select {
+                        border: 1px solid @col-bckgnd;
+                        background-color: @col-ticket;
+                        position: absolute;
+                        padding: 10px 0 10px 0;
+                        margin: 0px;
+                        list-style: outside none none;
+                        width: 100%;
+                        border-radius: 5px;
+                        left: 0px;
+                        top: 35px;
+                        width: auto;
+                        font-weight: normal !important;
+                        
+                        li {
+                            padding: 0 10px 0 10px;
+                            color: @col-font;
+                            &:hover {
+                                background-color: @col-input-bckgnd;
+                            }
                         }
                     }
                 }

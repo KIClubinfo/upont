@@ -29,8 +29,9 @@
             <div>
                 <i class="fa fa-child"></i> En ligne :
                 <span ng-repeat="user in online">
-                    <span>{{ user.nick }}</span><span ng-if="$index != online.length-1">,</span>
+                    <span ng-if="$index < 15">{{ user.nick }}</span><span ng-if="$index != online.length-1 && $index < 14">,</span>
                 </span>
+                <span ng-if="online.length > 15">et {{ online.length - 15 }} autre{{ online.length == 16 ? ' utilisateur' : 's utilisateurs' }}.</span>
             </div>
         </div>
     </div>

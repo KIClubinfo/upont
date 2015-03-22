@@ -12,11 +12,7 @@ angular.module('upont')
                     StorageService.set('token', data.token);
                     StorageService.set('droits', data.data.roles);
                     $rootScope.isLogged = true;
-                    $resource(apiPrefix + 'users/:slug', {
-                        slug: jwtHelper.decodeToken(data.token).username
-                    }).get(function(data) {
-                        $rootScope.me = data;
-                    });
+                    $rootScope.init(jwtHelper.decodeToken(data.token).username);
                     if (data.data.first) {
                         $state.go("root.profile");
                         alertify.alert('Bienvenue sur uPont 2.0 !<br><br>' +
@@ -26,12 +22,7 @@ angular.module('upont')
                         $state.go("root.home");
                     }
                     alertify.success('Salut ' + data.data.first_name + ' !');
-                    $resource(apiPrefix + 'version').get(function(data){
-                        $rootScope.version = data;
-                    });
-                    $resource(apiPrefix + 'foyer/balance').get(function(data){
-                        $rootScope.foyer = data.balance;
-                    });
+
                 })
                 .error(function(data, status, headers, config) {
                     // Supprime tout token en cas de mauvaise identification

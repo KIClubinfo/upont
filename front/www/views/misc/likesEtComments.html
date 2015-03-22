@@ -32,7 +32,7 @@
             </span>
         </div>
     </div>
-    <form up-row left ng-submit="submitComment(commentText)">
+    <form up-row left ng-submit="submitComment(commentText)" autocomplete="off">
         <img class="up-profile-picture" ng-src="{{ $root.me.image_url | urlFile }}" />
         <input class="up-col-xs-12" ng-model="commentText" type="text" placeholder="Ajouter un commentaire" />
     </form>

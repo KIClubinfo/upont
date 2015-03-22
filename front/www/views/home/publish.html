@@ -1,5 +1,5 @@
 <div class="up-publish up-ticket">
-    <form class="publish-container" ng-submit="publish(post, postPicture)" up-row padded wrap>
+    <form class="publish-container" ng-submit="publish(post, postPicture)" up-row padded wrap autocomplete="off">
         <!-- Inputs liés aux news et events -->
         <div up-col="100%">
             <input up-col="100%" ng-hide="type == 'message'" type="text" ng-model="post.name" placeholder="Titre"/>
@@ -54,7 +54,7 @@
             <textarea up-col="100%" ng-model="post.shotgun_text" placeholder="Texte destiné aux vainqueurs du shotgun"/>
         </div>
 
-        <div up-col="100%">
+        <div up-col="100%" class="bottom-box-container">
             <!-- Textarea principal -->
             <textarea ng-focus="focus=true" ng-blur="focus=false" ng-model="post.text"
                       placeholder="{{ placeholder }}" rows="2" auto-grow></textarea>
