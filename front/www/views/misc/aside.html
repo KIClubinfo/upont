@@ -1,4 +1,20 @@
 <aside>
+    <div class="up-aside-top-bar" ng-controller="Search_Ctrl">
+        <div class="centering up-logo"><a class="up-logo-link" ui-sref="root.home"></a></div>
+        <div>
+            <div class="up-search-bar">
+                <i class="fa fa-search"></i>
+                <input class="search" type="text" ng-model="searchValue" placeholder="Rechercher"
+                   ng-keyup="doSearch(searchValue)"/>
+            </div>
+            <ul class="suggestions" ng-if="searchResults.length">
+                <li ng-repeat="result in searchResults"
+                    ng-bind-html="result.name | match: searchValue"
+                    ng-click="redirect(result)"
+                    class="up-clickable"></li>
+            </ul>
+        </div>
+    </div>
     <div class="up-aside-menu">
         <div><a ui-sref="root.home" up-state-active><i class="fa fa-comment"></i> News</a>
         </div>
@@ -35,8 +51,8 @@
             </div>
         </div>
     </div>
+    <hr>
     <div class="up-aside-footer">
-        <hr>
         <div class="up-deconnection"><a ng-click="logout()"><i class="fa fa-sign-out"></i> Déconnexion</a>
         </div>
         <div>

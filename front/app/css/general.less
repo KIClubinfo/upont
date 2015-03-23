@@ -27,9 +27,9 @@ body {
     hyphens: auto;
     background-size: auto auto;
 }
-.up-main-content{
-    padding-top: @navbarHgt;
-}
+// .up-main-content{
+//     padding-top: @navbarHgt;
+// }
 .up-main-view {
     padding-bottom: 30px;
 }
@@ -44,9 +44,26 @@ body {
         height: 50px;
     }
 }
-.up-landing {
-    .up-ticket {
-        max-width: 600px;
+
+.up-landing-container{
+    position:absolute;
+    top:0px;
+    bottom:0px;
+    right:0px;
+    left:0px;
+    background-image: url("img/ponts.jpg");
+    background-size: cover;
+    .up-landing {
+        position:absolute;
+        top:50%;
+        transform: translate(0, -50%);
+        .up-landing-left{
+            background:@col-aside-bckgnd;
+        }
+        .up-landing-right{
+            background:@col-input-bckgnd;
+
+        }
     }
 }
 .up-assos {

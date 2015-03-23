@@ -2,8 +2,6 @@ angular.module('upont')
     .directive('upCol', function() {
         return {
             link: function(scope, element, args){
-                // if( typeof element.parent().attr("up-row") != 'undefined')
-                //     element.wrap('<div></div>');
                 if(args.upCol){
                     var width = args.upCol;
                     var suffix = width.indexOf('%') ? 'pct':'px;';
@@ -15,16 +13,12 @@ angular.module('upont')
                             '}';
                     }
                 }
-                // if( typeof element.parent().attr("padded") != 'undefined' && !element.parent().hasClass('padded'))
-                    // element.parent().addClass('padded');
             }
         };
     })
     .directive('upColXs', function(){
         return {
             link: function(scope, element, args){
-                // if( typeof element.parent().attr("up-row") != 'undefined')
-                //     element.wrap('<div></div>');
                 if(args.upColXs){
                     var width = args.upColXs;
                     var suffix = width.indexOf('%') ? 'pct':'px;';
@@ -37,16 +31,12 @@ angular.module('upont')
                                 '}}';
                     }
                 }
-                // if( typeof element.parent().attr("padded") != 'undefined' && !element.parent().hasClass('padded'))
-                    // element.parent().addClass('padded');
             }
         };
     })
     .directive('upColSm', function(){
         return {
             link: function(scope, element, args){
-                // if( typeof element.parent().attr("up-row") != 'undefined')
-                //     element.wrap('<div></div>');
                 if(args.upColSm){
                     var width = args.upColSm;
                     var suffix = width.indexOf('%') ? 'pct':'px';
@@ -58,16 +48,12 @@ angular.module('upont')
                                     'width:'+ width+' !important'+
                             '}}';
                 }
-                // if( typeof element.parent().attr("padded") != 'undefined' && !element.parent().hasClass('padded'))
-                    // element.parent().addClass('padded');
             }
         };
     })
     .directive('upColMd', function(){
         return {
             link: function(scope, element, args){
-                // if( typeof element.parent().attr("up-row") != 'undefined')
-                //     element.wrap('<div></div>');
                 if(args.upColMd){
                     var width = args.upColMd;
                     var suffix = width.indexOf('%') ? 'pct':'px';
@@ -79,16 +65,12 @@ angular.module('upont')
                                     'width:'+ width+' !important'+
                             '}}';
                 }
-                // if( typeof element.parent().attr("padded") != 'undefined' && !element.parent().hasClass('padded'))
-                    // element.parent().addClass('padded');
             }
         };
     })
     .directive('upColLg', function(){
         return {
             link: function(scope, element, args){
-                // if( typeof element.parent().attr("up-row") != 'undefined')
-                //     element.wrap('<div></div>');
                 if(args.upColLg){
                     var width = args.upColLg;
                     var suffix = width.indexOf('%') ? 'pct':'px';
@@ -100,8 +82,6 @@ angular.module('upont')
                                     'width:'+ width+' !important'+
                             '}}';
                 }
-                // if( typeof element.parent().attr("padded") != 'undefined' && !element.parent().hasClass('padded'))
-                    // element.parent().addClass('padded');
             }
         };
     });
