@@ -199,6 +199,9 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
                 $item->setStatus('OK');
                 $item->setName($name);
                 $item->setSerie($serieItem);
+
+                // On actualise la date de modification de la série
+                $serieItem->setAdded(time());
                 $this->em->persist($item);
                 $pathsDone[] = $line;
             }

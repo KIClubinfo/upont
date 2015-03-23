@@ -23,10 +23,7 @@
         display: block;
         margin: 0.75em 10%;
         height: 2em;
-        &:hover {
-            border-bottom: solid 1px @col-aside;
-        }
-        &.active {
+        &:hover, &.active {
             border-bottom: solid 1px @col-aside;
         }
         .fa {
@@ -57,4 +54,10 @@
     padding: 0.5em;
     width: 100%;
     margin-left: -5px;
+    
+    a {
+        &:hover, &.active {
+            border-bottom: solid 1px @col-aside;
+        }
+    }
 }
