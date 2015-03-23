@@ -57,7 +57,7 @@ security:
         
         exceptionsGet3:
             methods: [GET]
-            pattern: ^/(clubs)$
+            pattern: ^/(clubs)(/[a-zA-Z]+)?$
             security: false
             
         exceptionsPost:
