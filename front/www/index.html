@@ -33,8 +33,8 @@
 <body ng-class="theme == 'dark' ? 'theme-dark' : 'theme-clear'">
     <div up-row>
         <!-- Présence ou non de la barre latérale -->
-        <div ng-if="isLogged" class="up-col-xs-4 up-col-md-3 up-col-lg-2">
-            <div ng-include="'views/misc/aside.html'" class="up-aside up-col-xs-4 up-col-md-3 up-col-lg-2"></div>
+        <div ng-if="isLogged" up-col="270px">
+            <div ng-include="'views/misc/aside.html'" up-col="270px" class="up-aside"></div>
         </div>
         <div class="up-main-content" ng-class="{'up-col-xs-8 up-col-md-9 up-col-lg-10':isLogged, 'up-col-xs-12':!isLogged}">
             <!-- <header up-row left ng-class="{ 'up-col-xs-8 up-col-md-9 up-col-lg-10': isLogged, 'up-col-xs-12': !isLogged }">

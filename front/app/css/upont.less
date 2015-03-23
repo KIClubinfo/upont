@@ -6,7 +6,7 @@
 @import '../../www/libs/bootstrap/less/scaffolding.less';
 // @import '../../www/libs/bootstrap/less/tables.less';
 // @import '../../www/libs/bootstrap/less/component-animations.less';
-// @import '../../www/libs/bootstrap/less/labels.less';
+@import '../../www/libs/bootstrap/less/labels.less';
 @icon-font-path: 'libs/bootstrap/fonts/';
 
 // Autres
@@ -29,7 +29,7 @@ body {
 @asideMinWidth: 200px;
 
 // Importation de tous les fichiers selon le theme
-.theme(@col-main, @col-font, @col-ticket, @col-bckgnd, @col-input-bckgnd, @col-aside, @col-aside-bckgnd, @col-neg, @begin-border-aside) {
+.theme(@col-main, @col-font, @col-ticket, @col-bckgnd, @col-input-bckgnd, @col-aside, @col-aside-bckgnd, @col-neg) {
     @import 'alertify.less';
     @import 'aside.less';
     @import 'button.less';
@@ -65,7 +65,7 @@ body {
 
 // Couleurs spécifiques à chaque thème
 body.theme-clear {
-    .theme(@blue, @gray, white, @light-gray, #dddfe4, @light-gray, #2A303D, @orange, 0);
+    .theme(@blue, @gray, white, @light-gray, #dddfe4, @light-gray, #2A303D, @orange);
     .alertify-log-error {
         background: @orange;
     }
@@ -75,7 +75,7 @@ body.theme-clear {
 }
 
 body.theme-dark {
-    .theme(@orange, @light-gray, @darker-gray, @dark-gray, #2a2c2f, @light-gray, @darker-gray, @blue, @navbarHgt - 1px);
+    .theme(@orange, @light-gray, @darker-gray, @dark-gray, #2a2c2f, @light-gray, @darker-gray, @blue);
     .alertify-log-error {
         background: red;
     }

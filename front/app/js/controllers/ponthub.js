@@ -2,7 +2,31 @@ angular.module('upont')
     .controller("PH_Liste_Ctrl", ['$scope', '$stateParams', 'elements', 'Paginate', 'Ponthub', function($scope, $stateParams, elements, Paginate, Ponthub) {
         $scope.elements = elements;
         $scope.category = $stateParams.category;
+        // $scope.isGames = ($stateParams.category == 'games');
         $scope.lastWeek = moment().subtract(7 , 'days').unix();
+
+        $scope.faIcon = function(element){
+            var icon = '';
+            switch(element.type){
+                case 'game':
+                    icon = 'fa-gamepad';
+                    break;
+                case 'movie':
+                case 'serie':
+                    icon = 'fa-film';
+                    break;
+                case 'album':
+                    icon = 'fa-music';
+                    break;
+                case 'other':
+                    icon = 'fa-file-o';
+                    break;
+                case 'software':
+                    icon = 'fa-desktop';
+                    break;
+            }
+            return icon;
+        }
 
         $scope.next = function() {
             Paginate.next($scope.elements).then(function(data){
