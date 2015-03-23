@@ -16,13 +16,14 @@
 
 <div>
     <div ng-if="shownComments < 0 && comments.length > 3">
-        <h3 class="up-likes up-clickable" ng-click="openComments()" ng-class="{active : shownComments > 0 }" >Afficher {{ comments.length+shownComments }} commentaires précédents</h3>
+        <h3 class="up-likes up-clickable" ng-click="openComments()" ng-class="{active : shownComments > 0 }" >Afficher {{ comments.length+shownComments }} {{ comments.length+shownComments == 1 ? 'commentaire précédent' : 'commentaires précédents' }}</h3>
     </div>
     <div class="up-comment" ng-repeat="comment in comments | orderBy: date | limitTo: shownComments" up-row left>
         <img up-col="7%" class="up-profile-picture" ng-src="{{comment.author.image_url | urlFile}}"/>
         <div up-col="93%">
             <strong>{{ comment.author.nick }} : </strong>
             {{ comment.text }}<br>
+            {{ comment.date | fromNow }}&nbsp;
             <span class="up-likes up-clickable" ng-click="likeComment(comment)"  ng-class="{active : comment.like}">
                 <i class="fa fa-thumbs-o-up"></i> {{ comment.likes }}
             </span>

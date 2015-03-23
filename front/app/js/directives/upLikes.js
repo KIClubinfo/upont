@@ -4,7 +4,7 @@ angular.module('upont').directive('upLikes', function() {
             objet: '=',
             url: '='
         },
-        controller: ["$scope", "$resource", function($scope, $resource) {
+        controller: ['$scope', '$resource', function($scope, $resource) {
             if($scope.objet.comments > 0){
                 $resource(apiPrefix + $scope.url + '/comments').query(function(data){
                     $scope.comments = data;

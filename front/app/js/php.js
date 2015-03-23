@@ -24,6 +24,38 @@ function in_array(needle, haystack, recherche) {
     return false;
 }
 
+function array_search(needle, haystack, argStrict) {
+    var strict = !! argStrict,
+    key = '';
+
+    if (haystack && typeof haystack === 'object' && haystack.change_key_case) {
+        return haystack.search(needle, argStrict);
+    }
+    if (typeof needle === 'object' && needle.exec) {
+        if (!strict) {
+            var flags = 'i' + (needle.global ? 'g' : '') +
+            (needle.multiline ? 'm' : '') +
+            (needle.sticky ? 'y' : '');
+            needle = new RegExp(needle.source, flags);
+        }
+        for (key in haystack) {
+            if (needle.test(haystack[key])) {
+                return key;
+            }
+        }
+        return false;
+    }
+
+    for (key in haystack) {
+        if ((strict && haystack[key] === needle) || (!strict && haystack[key] == needle)) {
+            return key;
+        }
+    }
+
+    return false;
+}
+
+
 function stripslashes(str) {
   return (str + '')
     .replace(/\\(.?)/g, function(s, n1) {

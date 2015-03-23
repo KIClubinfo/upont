@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('Publish_Ctrl', ['$scope', '$resource', '$http', 'newsItems', 'events', 'messages', 'Paginate', function($scope, $resource, $http, newsItems, events, messages, Paginate) {
+    .controller('Publish_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'newsItems', 'events', 'messages', 'Paginate', function($scope, $rootScope, $resource, $http, newsItems, events, messages, Paginate) {
         $scope.events = events;
         $scope.newsItems = newsItems;
         $scope.messages = messages;
@@ -17,45 +17,45 @@ angular.module('upont')
         };
 
         $scope.attend = function(publication){
-            var i = $scope.events.indexOf(publication);
+            var i = $scope.events.data.indexOf(publication);
             // Si la personne attend déjà on ne fait qu'annuler le attend
-            if ($scope.events[i].attend) {
-                $http.delete(apiPrefix + 'events/' + $scope.events[i].slug + '/attend').success(function(data){
-                    $scope.events[i].attend = false;
-                    $scope.events[i].attendees--;
+            if ($scope.events.data[i].attend) {
+                $http.delete(apiPrefix + 'events/' + $scope.events.data[i].slug + '/attend').success(function(data){
+                    $scope.events.data[i].attend = false;
+                    $scope.events.data[i].attendees--;
                 });
             } else {
-                $http.post(apiPrefix + 'events/' + $scope.events[i].slug + '/attend').success(function(data){
-                    $scope.events[i].attend = true;
-                    $scope.events[i].attendees++;
+                $http.post(apiPrefix + 'events/' + $scope.events.data[i].slug + '/attend').success(function(data){
+                    $scope.events.data[i].attend = true;
+                    $scope.events.data[i].attendees++;
 
                     // Si la personne n'attendait aps avant
-                    if ($scope.events[i].pookie) {
-                        $scope.events[i].pookie = false;
-                        $scope.events[i].pookies--;
+                    if ($scope.events.data[i].pookie) {
+                        $scope.events.data[i].pookie = false;
+                        $scope.events.data[i].pookies--;
                     }
                 });
             }
         };
 
         $scope.pookie = function(publication){
-            var i = $scope.events.indexOf(publication);
+            var i = $scope.events.data.indexOf(publication);
             // Si la personne pookie déjà on ne fait qu'annuler le pookie
-            if ($scope.events[i].pookie) {
-                $http.delete(apiPrefix + 'events/' + $scope.events[i].slug + '/decline').success(function(data){
-                    $scope.events[i].pookie = false;
-                    $scope.events[i].pookies--;
+            if ($scope.events.data[i].pookie) {
+                $http.delete(apiPrefix + 'events/' + $scope.events.data[i].slug + '/decline').success(function(data){
+                    $scope.events.data[i].pookie = false;
+                    $scope.events.data[i].pookies--;
                 });
             } else {
-                $http.post(apiPrefix + 'events/' + $scope.events[i].slug + '/decline').success(function(data){
-                    $scope.events[i].pookie = true;
-                    $scope.events[i].pookies++;
+                $http.post(apiPrefix + 'events/' + $scope.events.data[i].slug + '/decline').success(function(data){
+                    $scope.events.data[i].pookie = true;
+                    $scope.events.data[i].pookies++;
                     alertify.success('Cet événement ne sera plus affiché par la suite. Tu pourras toujours le retrouver sur la page de l\'assos.');
 
                     // Si la personne était pookie avant
-                    if ($scope.events[i].attend) {
-                        $scope.events[i].attend = false;
-                        $scope.events[i].attendees--;
+                    if ($scope.events.data[i].attend) {
+                        $scope.events.data[i].attend = false;
+                        $scope.events.data[i].attendees--;
                     }
                 });
             }
@@ -64,11 +64,17 @@ angular.module('upont')
         $scope.showAttendees = function(publication){
             $http.get(apiPrefix + 'events/' + publication.slug + '/attendees').success(function(data){
                 $scope.attendees = data;
+
                 var string = '<strong>Personnes participant à l\'événement :</strong><br>';
                 for (var i = 0; i < data.length; i++) {
-                    string += data[i].nick + ', ';
+                    if (data[i].username != $rootScope.me.username)
+                        string += data[i].nick + ', ';
                 }
                 string = string.replace(/, $/, '');
+
+                if (publication.attend)
+                    string += publication.attendees == 1 ? 'Toi !' : ', toi !';
+
                 alertify.alert(string);
             });
         };
