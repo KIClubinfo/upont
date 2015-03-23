@@ -31,35 +31,10 @@
 </head>
 
 <body ng-class="theme == 'dark' ? 'theme-dark' : 'theme-clear'">
-    <div up-row>
-        <!-- Présence ou non de la barre latérale -->
-        <div ng-if="isLogged" up-col="270px">
-            <div ng-include="'views/misc/aside.html'" up-col="270px" class="up-aside"></div>
-        </div>
-        <div class="up-main-content" ng-class="{'up-col-xs-8 up-col-md-9 up-col-lg-10':isLogged, 'up-col-xs-12':!isLogged}">
-            <!-- <header up-row left ng-class="{ 'up-col-xs-8 up-col-md-9 up-col-lg-10': isLogged, 'up-col-xs-12': !isLogged }">
-                <div up-row left up-col="70%"> -->
-                    <!-- Navbar du haut -->
-                    <!-- <div><a class="up-main-title" ui-sref="root.home"></a></div> -->
-
-                    <!-- Barre de recherche globale -->
-                    <!-- <div class="up-input-group" ng-show="isLogged" ng-include="'views/misc/search.html'" ng-controller="Search_Ctrl"></div> -->
-                <!-- </div> -->
-                <!-- <div up-row right up-col="30%"> -->
-                    <!-- Photo et lien vers le profil -->
-                    <!-- <div ng-show="isLogged"> -->
-                        <!-- <a ui-sref="root.profile" ui-sref-active="active" class="up-navbar-link"> -->
-                            <!-- <div style="background-image: url('{{ url + me.image_url }}')" class="up-profile-picture"></div> -->
-                            <!-- {{ me.nick }} -->
-                        <!-- </a> -->
-                    <!-- </div> -->
-                <!-- </div> -->
-            <!-- </header> -->
-
-            <!-- Vue principale -->
-            <div ui-view root-state="root" size="small" autoscroll="false" class="up-main-view" up-fill-window ></div>
-        </div>
-    </div>
+    <!-- Présence ou non de la barre latérale -->
+    <div class="up-aside" ng-if="isLogged" ng-include="'views/misc/aside.html'"></div>
+    <!-- Vue principale -->
+    <div ui-view up-col="100%" root-state="root" size="small" autoscroll="false" class="up-main-view" up-fill-window ></div>
 
     <!-- Piwik -->
     <script type="text/javascript" type="text/javascript">

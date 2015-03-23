@@ -1,14 +1,15 @@
 .up-aside {
+    @media(max-width:@sizeSm){
+        display:none;
+    }
+    width: @asideWidth;
     position: fixed;
     left: 0px;
     top: 0px;
     height: 100%;
-    min-width: @asideMinWidth;
     color: @col-aside;
     background-color: @col-aside-bckgnd;
     z-index: 500;
-    padding-right: 10px;
-
     hr {
         width: 30%;
     }

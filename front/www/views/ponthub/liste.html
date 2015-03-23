@@ -2,8 +2,8 @@
     <div class="up-elemt-ponthub" ng-repeat="element in elements.data" ng-class="{ 'up-col-xs-12 up-col-sm-6 up-col-md-4': element.type == 'game', 'up-col-xs-6 up-col-sm-4 up-col-md-3 up-col-lg-2': element.type != 'game'}">
         <a class="raw-link" ui-sref="root.ponthub.simple({slug: element.slug})">
             <div class="up-img-ponthub" ng-class="category">
-                <div ng-if="element.image-url.length" class="img-ph" ng-style="{ 'background-image' : 'url({{ element.image_url | urlFile }})' }"></div>
-                <div ng-if="!element.image-url.length" class="img-ph fa" ng-class="faIcon(element)"></div>
+                <div ng-if="!!element.image_url" class="img-ph" ng-style="{ 'background-image' : 'url({{ element.image_url | urlFile }})' }"></div>
+                <div ng-if="!element.image_url" class="img-ph fa" ng-class="faIcon(element)"></div>
                 <div ng-if="$parent.popular(element.downloads)" class="ribbon-wrapper">
                     <div class="ribbon ribbon-popular">POPULAIRE</div>
                 </div>
