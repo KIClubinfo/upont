@@ -368,7 +368,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
                 continue;
 
             // On trie par date
-            $return[$key] = $event;
+            $return[$key] = $this->retrieveLikes($event);
             $dates[$key] = $event->getStartDate();
         }
         array_multisort($dates, SORT_DESC, $return);
@@ -426,6 +426,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         // Tri des données
         $dates = array();
         foreach ($results as $key => $newsitem) {
+            $results[$key] = $this->retrieveLikes($newsitem);
             $dates[$key] = $newsitem->getDate();
         }
         array_multisort($dates, SORT_DESC, $results);

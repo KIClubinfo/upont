@@ -16,7 +16,7 @@
             <div class="up-ticket" ng-repeat="message in messages.data">
                 <div up-row class="up-messages">
                     <img up-col="20%" class="up-profile-picture" ng-src="{{ message.author_user.image_url | urlFile }}"/>
-                    <p up-col="80%" up-publi-text string="'<strong>' + message.author_user.nick + ' :</strong> ' + message.text"></p>
+                    <p up-col="80%" up-publi-text string="'<small>' + (message.date | fromNow) + '</small><br><strong>' + message.author_user.nick + ' :</strong> ' + message.text" style="margin-top: 0"></p>
                 </div>
                 <img class="img-responsive" ng-if="message.image_url" ng-src="{{ message.image_url | urlFile }}"/><br>
                 <div up-likes objet="message" url="'newsitems/'+message.slug"></div>
