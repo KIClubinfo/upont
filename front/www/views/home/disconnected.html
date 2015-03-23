@@ -1,48 +1,27 @@
-<div up-row wrap center class="up-landing">
-    <div up-col-xs="100%" up-col-sm="100%" up-col="50%" class="up-ticket">
-        <div up-row>
-            <div up-col-xs="100%" up-col="80%">
-                <h1>Bienvenue sur uPont !</h1>
-                <p>uPont est l'intranet étudiant de l'École nationale des ponts et chaussées.</p>
+<div class="up-landing-container">
+    <div class="up-landing" up-row left padded wrap>
+        <div up-row up-col="50%" up-col-xs="100%" wrap padded>
+            <div class="up-landing-left" up-col="40%">
+                <div up-col="100%">
+                    <div class="centering"><img up-col="30%" ng-src="img/icon.svg" /></div>
+                    <h1>Bienvenue sur uPont !</h1>
+                    <p>uPont est l'intranet étudiant de l'École nationale des ponts et chaussées.</p>
+                </div>
             </div>
-            <div up-col-xs="0%" up-col="20%">
-            <svg-image  src="img/icon.svg" class="svg"></svg-image>
+            <div class="up-landing-right" up-col="60%">
+                <h1>Connecte-toi</h1>
+                <form up-row padded wrap class="up-login-form" ng-submit="login(pseudo, password)" autocomplete="off">
+                    <div up-col="100%" ><input up-col="100%" ng-model="pseudo" type="text" placeholder="Identifiant" id="login-input" /></div>
+                    <div up-col="100%" ><input up-col="100%" ng-model="password" type="password" placeholder="Mot de passe" /></div>
+                    <div up-col="100%" up-row right>
+                        <button up-col-xs="100%" up-col-sm="100%" up-col="35%" class="up-btn up-btn-lg up-btn-default" style="min-width: 200px;">Connecte-toi !</button>
+                    </div>
+                </form>
             </div>
         </div>
-    </div>
-    <div class="up-ticket" up-col-xs="100%" up-col-sm="100%" up-col="50%">
-        <h2>Élève ?</h2>
-
-        <form class="up-login-form" ng-submit="login(pseudo, password)" autocomplete="off">
-            <div up-row left padded space-around>
-                <input up-col="45%" ng-model="pseudo" type="text" placeholder="Identifiant" id="login-input"/>
-                <input up-col="45%" ng-model="password" type="password" placeholder="Mot de passe"/>
-            </div>
-            <br>
-
-            <div up-row right>
-                <button up-col-xs="100%" up-col-sm="100%" up-col="35%" class="up-btn up-btn-lg up-btn-default" style="min-width: 220px;">Connecte-toi !</button>
-            </div>
-        </form>
-    </div>
-</div>
-<div up-row wrap center class="up-landing">
-    <div up-col-xs="100%" up-col-sm="100%" up-col="50%" class="up-ticket">
-        <h2>Admissible ?</h2>
-        <p>Tu as eu la chance d'être reçu admissible au concours Mines-Ponts...<br>
-        Ça se passe par ici !</p>
-
-        <div up-row right>
-            <button up-col-xs="100%" up-col-sm="100%" up-col="35%" class="up-btn up-btn-lg up-btn-default" disabled style="min-width: 220px;">Espace admissible</button>
-        </div>
-    </div>
-
-    <div up-col-xs="100%" up-col-sm="100%" up-col="50%" class="up-ticket">
-        <h2>Simple visiteur ?</h2>
-        <p>Regarde à quel point la vie associative aux Ponts est bien remplie !<br><br></p>
-
-        <div up-row right>
-            <button up-col-xs="100%" up-col-sm="100%" up-col="35%" class="up-btn up-btn-lg up-btn-default" disabled style="min-width: 220px;">Voir les assos</button>
+        <div up-col="100%">
+            <button up-col-xs="100%" up-col="35%" class="up-btn up-btn-lg up-btn-default" disabled style="min-width: 200px;">Espace admissible</button>
+            <button up-col-xs="100%" up-col="35%" class="up-btn up-btn-lg up-btn-default" disabled style="min-width: 200px;">Portail extérieur</button>
         </div>
     </div>
 </div>
