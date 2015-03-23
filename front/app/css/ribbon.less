@@ -35,24 +35,25 @@
     &:after {
         right: 0;
     }
+}
 
-    &.ribbon-popular {
-        background-color: @col-main;
-        background-image: linear-gradient(to bottom, @col-main, darken(@col-main, 25%));
-
-        &:before, &:after {
-            border-top:   3px solid @col-bckgnd;
-        }
-    }
-    &.ribbon-new {
-        background-color: @col-neg;
-        background-image: linear-gradient(to bottom, @col-neg, darken(@col-neg, 25%));
+.ribbon-color(@col) {
+    .ribbon {
+        background-color: @col;
+        background-image: linear-gradient(to bottom, @col, darken(@col, 25%));
 
         &:before, &:after {
             border-top:   3px solid @col-bckgnd;
         }
     }
 }
+.ribbon-main { .ribbon-color(@col-main); }
+.ribbon-neg { .ribbon-color(@col-neg); }
+.ribbon-aqua { .ribbon-color(@col-aqua); }
+.ribbon-yellow { .ribbon-color(@col-yellow); }
+.ribbon-red { .ribbon-color(@col-red); }
+.ribbon-violet { .ribbon-color(@col-violet); }
+.ribbon-pink { .ribbon-color(@col-pink); }
 
 .up-img-ponthub {
     .ribbon-wrapper {
