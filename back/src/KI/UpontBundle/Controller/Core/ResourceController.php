@@ -128,22 +128,6 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
         return $this->retrieveLikes($item);
     }
 
-    protected function retrieveLikes($item)
-    {
-        // Si l'entité a un système de like/dislike, précise si l'user actuel (un)like
-        if (property_exists($item, 'like')) {
-            $item->setLike($item->getLikes()->contains($this->user));
-            $item->setDislike($item->getDislikes()->contains($this->user));
-        }
-        if (property_exists($item, 'attend')) {
-            $item->setAttend($item->getAttendees()->contains($this->user));
-            $item->setPookie($item->getPookies()->contains($this->user));
-        }
-        return $item;
-    }
-
-
-
     // Création de ressources
     protected function processForm($item, $method = 'PATCH')
     {

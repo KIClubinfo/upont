@@ -45,7 +45,7 @@
                     <i class="fa fa-check"></i> {{ publication.attend ? 'Ne pas participer' : 'Participer' }}
                 </span>
                 &nbsp;&nbsp;&nbsp;
-                <span class="up-likes up-clickable" ng-click="pookie(publication)">
+                <span class="up-likes up-clickable" ng-click="pookie(publication)" ng-class="{active : publication.pookie}">
                     <i class="fa fa-times"></i> Masquer
                 </span>
             </div>
