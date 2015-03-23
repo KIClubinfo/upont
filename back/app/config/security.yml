@@ -55,7 +55,7 @@ security:
             pattern: ^/users/.+/calendar
             security: false
         
-        exceptionsGet3:
+        exceptionsGet6:
             methods: [GET]
             pattern: ^/(clubs)(/[a-zA-Z]+)?$
             security: false
