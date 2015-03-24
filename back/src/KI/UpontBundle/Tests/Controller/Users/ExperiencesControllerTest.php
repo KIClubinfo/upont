@@ -29,6 +29,18 @@ class ExperiencesControllerTest extends WebTestCase
         $this->client->request('GET', '/experiences/sjoajsiohaysahais-asbsksaba7');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
+
+        $this->client->request('GET', '/users/taquet-c/experiences');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 200);
+
+        $this->client->request('GET', '/users/dfhsth/experiences');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 404);
+
+        $this->client->request('POST', '/users/dfhsth/experiences');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 405);
     }
 
     public function testPatch()

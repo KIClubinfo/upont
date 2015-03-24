@@ -4,6 +4,7 @@ namespace KI\UpontBundle\Controller\Users;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ExperiencesController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
@@ -100,4 +101,31 @@ class ExperiencesController extends \KI\UpontBundle\Controller\Core\ResourceCont
      * )
      */
     public function deleteExperienceAction($slug) { return $this->delete($slug); }
+
+    /**
+     * @ApiDoc(
+     *  description="Retourne toutes les expériences postées par un utilisateur",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   404="Ressource non trouvée",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Utilisateurs"
+     * )
+     * @Route\Get("/users/{slug}/experiences")
+     */
+    public function getExperiencesUserAction($slug)
+    {
+        $repo = $this->em->getRepository('KIUpontBundle:Users\User');
+        $user = $repo->findOneByUsername($slug);
+
+        if (!$user instanceof \KI\UpontBundle\Entity\Users\User) {
+            $up = new NotFoundHttpException('Utilisateur non trouvé');
+            throw $up; // ahah
+        }
+
+        return $this->restResponse($this->repo->findByUser($user));
+    }
 }
