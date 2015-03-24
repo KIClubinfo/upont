@@ -2,7 +2,6 @@ angular.module('upont')
     .controller("PH_Liste_Ctrl", ['$scope', '$stateParams', 'elements', 'Paginate', 'Ponthub', function($scope, $stateParams, elements, Paginate, Ponthub) {
         $scope.elements = elements;
         $scope.category = $stateParams.category;
-        // $scope.isGames = ($stateParams.category == 'games');
         $scope.lastWeek = moment().subtract(7 , 'days').unix();
 
         $scope.faIcon = function(element){
@@ -83,8 +82,9 @@ angular.module('upont')
             });
         };
 
-        if(episodes){
+        if (episodes) {
             $scope.saisons = [];
+
             for (var i = 0; i < episodes.length; i++) {
                 if (!$scope.saisons[episodes[i].season - 1]) {
                     $scope.saisons[episodes[i].season - 1] = [];
@@ -105,11 +105,11 @@ angular.module('upont')
             var count = 0;
             switch ($scope.category) {
                 case 'series':
-                    for(var i = 0; i < $scope.saisons.length; i++) {
-                        for(var j = 0; j < $scope.saisons[i].length; j++) {
-                            count += $scope.saisons[i][j].downloads;
+                    $scope.saisons.forEach(function(entry) {
+                        for(var j = 0; j < entry.length; j++) {
+                            count += entry[j].downloads;
                         }
-                    }
+                    });
                     return count;
                 case 'musiques':
                     for(var k = 0; k < $scope.musics.length; k++) {

@@ -42,7 +42,7 @@ security:
         
         exceptionsGet3:
             methods: [GET]
-            pattern: ^/(coffee|ping|clubs|version|migration)
+            pattern: ^/(coffee|ping|version|migration)
             security: false
         
         exceptionsGet4:
@@ -53,6 +53,11 @@ security:
         exceptionsGet5:
             methods: [GET]
             pattern: ^/users/.+/calendar
+            security: false
+        
+        exceptionsGet6:
+            methods: [GET]
+            pattern: ^/(clubs)(/[a-zA-Z]+)?$
             security: false
             
         exceptionsPost:
