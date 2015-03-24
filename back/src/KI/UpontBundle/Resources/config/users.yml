@@ -13,6 +13,10 @@ own:
 promo:
     type:     rest
     resource: KI\UpontBundle\Controller\Users\PromoController
+    
+experiences:
+    type:     rest
+    resource: KI\UpontBundle\Controller\Users\ExperiencesController
 
 upont_api_own_calendar:
     pattern: /users/{token}/calendar
