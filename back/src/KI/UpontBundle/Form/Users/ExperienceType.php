@@ -16,7 +16,10 @@ class ExperienceType extends AbstractType
             ->add('startDate')
             ->add('endDate')
             ->add('description')
-            ->add('location')
+            ->add('country')
+            ->add('city')
+            ->add('latitude')
+            ->add('longitude')
             ->add('category')
             ->add('company');
     }

@@ -33,11 +33,35 @@ class Experience extends Likeable
 
     /**
      * Lieu du stage
-     * @ORM\Column(name="location", type="string", nullable=true)
+     * @ORM\Column(name="city", type="string", nullable=true)
      * @JMS\Expose
      * @Assert\Type("string")
      */
-    protected $location;
+    protected $city;
+
+    /**
+     * Lieu du stage
+     * @ORM\Column(name="country", type="string", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("string")
+     */
+    protected $country;
+
+    /**
+     * Longitude
+     * @ORM\Column(name="longitude", type="float", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("float")
+     */
+    protected $longitude;
+
+    /**
+     * Latitude
+     * @ORM\Column(name="latitude", type="float", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("float")
+     */
+    protected $latitude;
 
     /**
      * Description
@@ -123,29 +147,6 @@ class Experience extends Likeable
     public function getEndDate()
     {
         return $this->endDate;
-    }
-
-    /**
-     * Set location
-     *
-     * @param string $location
-     * @return Experience
-     */
-    public function setLocation($location)
-    {
-        $this->location = $location;
-
-        return $this;
-    }
-
-    /**
-     * Get location
-     *
-     * @return string
-     */
-    public function getLocation()
-    {
-        return $this->location;
     }
 
     /**
@@ -238,5 +239,97 @@ class Experience extends Likeable
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set city
+     *
+     * @param string $city
+     * @return Experience
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * Get city
+     *
+     * @return string
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * Set country
+     *
+     * @param string $country
+     * @return Experience
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * Get country
+     *
+     * @return string
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * Set longitude
+     *
+     * @param float $longitude
+     * @return Experience
+     */
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    /**
+     * Get longitude
+     *
+     * @return float
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
+
+    /**
+     * Set latitude
+     *
+     * @param float $latitude
+     * @return Experience
+     */
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    /**
+     * Get latitude
+     *
+     * @return float
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
     }
 }
