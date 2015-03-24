@@ -108,6 +108,11 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
             if ($class == 'Music')
                 $item['parent'] = $result->getAlbum()->getSlug();
 
+            // Si une image existe on la rajoute
+            if (method_exists($result, 'imageUrl')) {
+                $item['image'] = $result->imageUrl();
+            }
+
             $return[] = $item;
             // On trie par pertinence
             similar_text($name, $criteria, $percent);
