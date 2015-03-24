@@ -1,18 +1,41 @@
 <aside>
     <div class="up-aside-top-bar" ng-controller="Search_Ctrl">
-        <div class="centering up-logo"><a class="up-logo-link" ui-sref="root.home"></a></div>
-        <div>
-            <div class="up-search-bar">
-                <i class="fa fa-search"></i>
-                <input class="search" type="text" ng-model="searchValue" placeholder="Rechercher"
-                   ng-keyup="doSearch(searchValue)"/>
-            </div>
-            <ul class="suggestions" ng-if="searchResults.length">
-                <li ng-repeat="result in searchResults"
+        <div class="centering up-logo">
+            <a class="up-logo-link" ui-sref="root.home"></a>
+        </div>
+        <div class="up-search-bar">
+            <i class="fa fa-search"></i>
+            <input class="search" type="text" ng-model="searchValue" placeholder="Rechercher" ng-change="doSearch(searchValue)" />
+        </div>
+        <div class="up-search-bar-results" ng-show="searchResults.users.length || searchResults.posts.length || searchResults.channels.length">
+            <!--  <li ng-repeat="result in searchResults"
                     ng-bind-html="result.name | match: searchValue"
                     ng-click="redirect(result)"
-                    class="up-clickable"></li>
-            </ul>
+                    class="up-clickable"></li> -->
+            <div up-row ng-show="searchResults.users.length">
+                <div up-col="30%"></div>
+                <div up-col="70%">
+                    <div ng-repeat="user in searchResults.users">
+                        {{user}}
+                    </div>
+                </div>
+            </div>
+            <div up-row ng-show="searchResults.posts.length">
+                <div up-col="30%"></div>
+                <div up-col="70%">
+                    <div ng-repeat="post in searchResults.posts">
+                        {{post}}
+                    </div>
+                </div>
+            </div>
+            <div up-row ng-show="searchResults.channels.length">
+                <div up-col="30%"></div>
+                <div up-col="70%">
+                    <div ng-repeat="channel in searchResults.channels">
+                        {{channel.name}}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="up-aside-menu">
@@ -40,7 +63,6 @@
         <div>
             <div ng-hide="foyer == null"><i class="fa fa-beer"></i> Compte Foyer : {{ foyer }} <i class="fa fa-euro"></i></div>
         </div>
-
         <div>
             <i class="fa fa-child"></i> En ligne :
             <span ng-repeat="user in online">
@@ -58,7 +80,6 @@
             </span>
         </div>
         <div class="up-version">uPont {{ version.version }}.{{ version.major }}.{{ version.minor }}
-            <br> Build <a ng-href="https://github.com/KIClubinfo/upont/commit/{{ version.build }}" title="Repo GitHub de uPont">{{ version.build }}</a>
-            ({{ version.date | formatDate }})</div>
+            <br> Build <a ng-href="https://github.com/KIClubinfo/upont/commit/{{ version.build }}" title="Repo GitHub de uPont">{{ version.build }}</a> ({{ version.date | formatDate }})</div>
     </div>
 </aside>

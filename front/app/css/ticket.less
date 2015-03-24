@@ -16,6 +16,13 @@
     &.divided{
         padding: 20px 10px !important;
     }
+    a{
+        cursor: pointer;
+        color: @col-main;
+        &:hover {
+            color: @col-font;
+        }
+    }
     .up-ticket-header{
         position:relative;
         background: linear-gradient(to bottom , transparent, rgba(0, 0, 0, 0.6));
@@ -105,13 +112,7 @@
             font-size: 1.5em;
         }
     }
-    .up-ticket-link {
-        cursor: pointer;
-        color: @col-main;
-        &:hover {
-            color: @col-font;
-        }
-    }
+
     &.rounded-top {
         &:before{
             border-radius: 5px 5px 0px 0px;

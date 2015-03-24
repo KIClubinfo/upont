@@ -26,7 +26,7 @@ angular.module('upont')
                     break;
             }
             return icon;
-        }
+        };
 
         $scope.next = function() {
             Paginate.next($scope.elements).then(function(data){
