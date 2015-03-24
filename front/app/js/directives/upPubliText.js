@@ -1,26 +1,27 @@
-angular.module('upont').directive('upPubliText', ['$window', function($window) {
+angular.module('upont').directive('upPubliText', ['$filter', '$sce', function($filter, $sce) {
     return {
         scope: {
             string: '='
         },
         link: function(scope, element, attrs){
-
-            // Dans un premier temps, on raccourcit par rapport au nombre de lignes
+            var allowedTags = '<a><br><strong><small><ul><ol><li><pre><i>'
+            //Dans un premier temps, on raccourcit par rapport au nombre de lignes
+            var string;
             var split = scope.string.split(/\r\n|\r|\n/);
+
             if (split.length > 5 || scope.string.length > 550) {
                 scope.opened = false;
-                scope.content = '';
+                string = '';
                 for (var i = 0; i < 4; i++)
-                    scope.content += split[i] + '<br>';
-
-                // En cas de publication vraiment très longue, on raccourcit, et on coupe au max à la 4e ligne
-                if (scope.content.length > 550) {
-                    scope.content = scope.content.substring(0, 350) + '... ';
-                    scope.content = scope.content.replace(/<br>\.{3}/, '<br>');
-                }
+                    string += split[i] + '<br>';
+                // En cas de publication vraiment très longue, on raccourcit
+                if (string.length > 550)
+                    scope.content = $sce.trustAsHtml($filter('stripTags')((string.substring(0, 350) + '... ').replace(/<br>\.{3}$/, '<br>'), allowedTags));
+                else
+                    scope.content = $sce.trustAsHtml($filter('stripTags')(string, allowedTags));
             } else {
                 scope.opened = true;
-                scope.content = scope.string;
+                scope.content = $sce.trustAsHtml($filter('stripTags')(scope.string, allowedTags));
             }
 
         },
@@ -28,9 +29,9 @@ angular.module('upont').directive('upPubliText', ['$window', function($window) {
 
             $scope.open = function() {
                 $scope.opened = true;
-                $scope.content = $scope.string;
+                $scope.content = $sce.trustAsHtml($filter('stripTags')($scope.string, allowedTags));
             };
         }],
-        template: '<div class="up-ticket-texte"><span ng-bind="content"></span><span ng-if="!opened" ng-click="open()">Afficher la suite</span></div>',
+        template: '<div class="up-ticket-texte"><span ng-bind-html="content"></span><span ng-if="!opened" class="up-link" ng-click="open()">Afficher la suite</span></div>',
     };
 }]);
