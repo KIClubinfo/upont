@@ -36,7 +36,7 @@
     <form up-row left ng-submit="submitComment(commentText)" autocomplete="off">
         <img class="up-profile-picture" ng-src="{{ $root.me.image_url | urlFile }}" />
         <textarea class="up-col-xs-12 comment-textarea" ng-model="commentText"
-                  placeholder="Ajouter un commentaire" rows="1" auto-grow treshold="40"
+                  placeholder="Ajouter un commentaire" msd-elastic
                   ng-keyup="$event.keyCode == 13 && !$event.shiftKey ? submitComment(commentText) : null"></textarea>
     </form>
 </div>
