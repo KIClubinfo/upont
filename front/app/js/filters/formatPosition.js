@@ -3,6 +3,6 @@
 angular.module('upont').filter('formatPosition', function () {
     return function(position)
     {
-        return position == 1 ? '1ère' : position + 'ère';
+        return position == 1 ? '1ère' : position + 'ème';
     };
 });
