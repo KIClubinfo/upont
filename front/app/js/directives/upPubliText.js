@@ -1,10 +1,10 @@
+var allowedTags = '<a><br><strong><small><ul><ol><li><pre><i>';
 angular.module('upont').directive('upPubliText', ['$filter', '$sce', function($filter, $sce) {
     return {
         scope: {
             string: '='
         },
         link: function(scope, element, attrs){
-            var allowedTags = '<a><br><strong><small><ul><ol><li><pre><i>';
             //Dans un premier temps, on raccourcit par rapport au nombre de lignes
             var string;
             var split = scope.string.split(/\r\n|\r|\n/);
@@ -23,15 +23,13 @@ angular.module('upont').directive('upPubliText', ['$filter', '$sce', function($f
                 scope.opened = true;
                 scope.content = $sce.trustAsHtml($filter('stripTags')(scope.string, allowedTags));
             }
-
         },
         controller: ["$scope", function($scope) {
-
             $scope.open = function() {
                 $scope.opened = true;
                 $scope.content = $sce.trustAsHtml($filter('stripTags')($scope.string, allowedTags));
             };
         }],
-        template: '<div class="up-ticket-texte"><span ng-bind-html="content"></span><span ng-if="!opened" class="up-link" ng-click="open()">Afficher la suite</span></div>',
+        template: '<span class="up-ticket-texte"><span ng-bind-html="content"></span><span ng-if="!opened" class="up-link" ng-click="open()">Afficher la suite</span></span>',
     };
 }]);

@@ -62,6 +62,10 @@ doctrine:
                 connection:       default
                 mappings:
                     KIUpontBundle: ~
+                dql:
+                    string_functions:
+                        soundex: KI\UpontBundle\DQL\SoundexFunction
+                        matchAgainst: KI\UpontBundle\DQL\MatchAgainstFunction
 
 # Swiftmailer Configuration
 swiftmailer:

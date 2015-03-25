@@ -73,8 +73,10 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
                 $results = $this->searchRepo('Publications\Newsitem', $criteria);
                 break;
             case 'Club':
+                $results = $this->searchRepo('Users\Club', $criteria, 'e.name, e.fullName');
+                break;
             case 'User':
-                $results = $this->searchRepo('Users\\'.$category, $criteria);
+                $results = $this->searchUser($criteria);
                 break;
             case 'Actor':
             case 'Genre':
@@ -115,7 +117,7 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
 
             $return[] = $item;
             // On trie par pertinence
-            similar_text($name, $criteria, $percent);
+            similar_text(strtolower($name), strtolower($criteria), $percent);
             $score[] = $percent;
         }
         array_multisort($score, SORT_DESC, $return);
@@ -123,34 +125,30 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
     }
 
     // On fouille un repo à la recherche d'entités correspondantes au nom
-    private function searchRepo($repoName, $criteria, $field = 'e.name') {
+    private function searchRepo($repoName, $search, $fields = 'e.name') {
         $repo = $this->getDoctrine()->getManager()->getRepository('KIUpontBundle:'.$repoName);
         $qb = $repo->createQueryBuilder('e');
-        $searches = explode(' ', $criteria);
 
-        // Si on a affaire au repo user on utilise un critère spécial
-        if ($repoName == 'Users\User') {
-            $field = $qb->expr()->concat('e.firstName',
-                      $qb->expr()->concat($qb->expr()->literal(' '),
-                       $qb->expr()->concat('e.lastName',
-                        $qb->expr()->concat($qb->expr()->literal(' '), 'COALESCE(e.nickname, \'\')'))));
-        }
         // Si on a affaire au repo club on peut chercher sur le nom complet
         if ($repoName == 'Users\Club') {
-            $field = $qb->expr()->concat('e.name',
-                      $qb->expr()->concat($qb->expr()->literal(' '), 'e.fullName'));
+            $qb
+                ->orWhere('SOUNDEX(e.fullName) = SOUNDEX(:search)')
+                ->orwhere('e.fullName LIKE :searchlike');
         }
 
-        // On définit les paramètres de recherche
-        $cqb = array();
-        foreach ($searches as $key => $value) {
-            $cqb[] = $qb->expr()->like($field, $qb->expr()->literal('%'.$value.'%'));
-        }
-        $qb->andWhere(call_user_func_array(array($qb->expr(), 'orx'), $cqb));
-        $results = $qb->setMaxResults(10)
-                      ->getQuery()
-                      ->getResult();
+        $results = $qb
+            ->orwhere('SOUNDEX(e.name) = SOUNDEX(:search)')
+            ->orwhere('e.name LIKE :searchlike')
+            ->setParameter('search', $search)
+            ->setParameter('searchlike', '%'.$search.'%')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
 
-        return $this->format($results, $criteria);
+        return $this->format($results, $search);
+    }
+
+    // La recherche d'user demande une fonction particulière (champs différents, acronyme...
+    private function searchUser($criteria) {
     }
 }
