@@ -1,11 +1,8 @@
 <div class="up-ticket">
     <!-- Eventuels ribbons -->
-    <div ng-if="popular(element.downloads)" class="ribbon-wrapper">
-        <div class="ribbon ribbon-popular">POPULAIRE</div>
-    </div>
-    <div ng-if="element.added > lastWeek" class="ribbon-wrapper">
-        <div class="ribbon ribbon-new">NOUVEAU</div>
-    </div>
+    <up-ribbon class="ribbon-main" ng-if="popular(element.downloads)">POPULAIRE</up-ribbon>
+    <up-ribbon class="ribbon-neg" ng-if="element.added > lastWeek">NOUVEAU</up-ribbon>
+    <up-ribbon class="ribbon-red">HOT</up-ribbon>
 
     <div up-col="100%" up-row left padded>
         <!-- Image du fichier -->
