@@ -3,7 +3,7 @@ angular.module('upont').factory('Ponthub', function() {
         isPopular: function(count, category) {
             switch (category) {
                 case 'films':
-                    return count > 1;
+                    return count > 15;
                 case 'jeux':
                     return count > 5;
                 case 'logiciels':
