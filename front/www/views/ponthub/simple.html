@@ -1,11 +1,8 @@
 <div class="up-ticket">
     <!-- Eventuels ribbons -->
-    <div ng-if="popular(element.downloads)" class="ribbon-wrapper">
-        <div class="ribbon ribbon-popular">POPULAIRE</div>
-    </div>
-    <div ng-if="element.added > lastWeek" class="ribbon-wrapper">
-        <div class="ribbon ribbon-new">NOUVEAU</div>
-    </div>
+    <up-ribbon class="ribbon-yellow" ng-if="popular(element.downloads) && element.added < lastWeek">POPULAIRE</up-ribbon>
+    <up-ribbon class="ribbon-violet" ng-if="element.added > lastWeek && !popular(element.downloads)">NOUVEAU</up-ribbon>
+    <up-ribbon class="ribbon-red"    ng-if="element.added > lastWeek && popular(element.downloads)">HOT</up-ribbon>
 
     <div up-col="100%" up-row left padded>
         <!-- Image du fichier -->
@@ -42,6 +39,7 @@
                 <li ng-if="element.size"><strong>Taille :</strong> {{ element.size | formatSize }}</li>
                 <li ng-if="element.rating"><strong>Note Rotten Tomatoes :</strong> {{ element.rating+'%' }}</li>
                 <li ng-if="countDownloads() != 0"><strong>Téléchargé :</strong> {{ countDownloads() }} fois</li>
+                <li ng-if="countDownloads() != 0"><strong>Ajout :</strong> {{ element.added | formatDate }} fois</li>
 
                 <h4 ng-if="category != 'series' && category != 'musiques'">
                     <button class="up-btn up-btn-lg up-btn-default" ng-click="download()">
@@ -53,7 +51,7 @@
 
             <!-- Cas des séries -->
             <div ng-if="saisons">
-                <div ng-repeat="saison in saisons">
+                <div ng-repeat="saison in saisons track by $index" ng-if="saison">
                     <h2 ng-click="open($index)" class="up-clickable">
                         <i class="fa fa-plus-square-o"></i> Saison {{ $index+1 }}
                     </h2>

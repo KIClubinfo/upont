@@ -4,6 +4,29 @@ angular.module('upont')
         $scope.category = $stateParams.category;
         $scope.lastWeek = moment().subtract(7 , 'days').unix();
 
+        $scope.faIcon = function(element){
+            var icon = '';
+            switch(element.type){
+                case 'game':
+                    icon = 'fa-gamepad';
+                    break;
+                case 'movie':
+                case 'serie':
+                    icon = 'fa-film';
+                    break;
+                case 'album':
+                    icon = 'fa-music';
+                    break;
+                case 'other':
+                    icon = 'fa-file-o';
+                    break;
+                case 'software':
+                    icon = 'fa-desktop';
+                    break;
+            }
+            return icon;
+        };
+
         $scope.next = function() {
             Paginate.next($scope.elements).then(function(data){
                 $scope.elements = data;
@@ -59,8 +82,9 @@ angular.module('upont')
             });
         };
 
-        if(episodes){
+        if (episodes) {
             $scope.saisons = [];
+
             for (var i = 0; i < episodes.length; i++) {
                 if (!$scope.saisons[episodes[i].season - 1]) {
                     $scope.saisons[episodes[i].season - 1] = [];
@@ -81,11 +105,11 @@ angular.module('upont')
             var count = 0;
             switch ($scope.category) {
                 case 'series':
-                    for(var i = 0; i < $scope.saisons.length; i++) {
-                        for(var j = 0; j < $scope.saisons[i].length; j++) {
-                            count += $scope.saisons[i][j].downloads;
+                    $scope.saisons.forEach(function(entry) {
+                        for(var j = 0; j < entry.length; j++) {
+                            count += entry[j].downloads;
                         }
-                    }
+                    });
                     return count;
                 case 'musiques':
                     for(var k = 0; k < $scope.musics.length; k++) {

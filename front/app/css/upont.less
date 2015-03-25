@@ -2,7 +2,7 @@
 // Bootstrap
 @import '../../www/libs/bootstrap/less/variables.less';
 @import '../../www/libs/bootstrap/less/mixins.less';
-@import '../../www/libs/bootstrap/less/glyphicons.less';
+// @import '../../www/libs/bootstrap/less/glyphicons.less';
 @import '../../www/libs/bootstrap/less/scaffolding.less';
 @import '../../www/libs/bootstrap/less/tables.less';
 @import '../../www/libs/bootstrap/less/component-animations.less';
@@ -26,10 +26,10 @@ body {
 @sizeMd: 992px;
 @sizeLg: 1200px;
 @navbarHgt: 50px;
-@asideMinWidth: 200px;
+@asideWidth: 270px;
 
 // Importation de tous les fichiers selon le theme
-.theme(@col-main, @col-font, @col-ticket, @col-bckgnd, @col-input-bckgnd, @col-aside, @col-aside-bckgnd, @col-neg, @begin-border-aside) {
+.theme(@col-main, @col-font, @col-ticket, @col-bckgnd, @col-input-bckgnd, @col-aside, @col-aside-bckgnd, @col-neg) {
     @import 'alertify.less';
     @import 'aside.less';
     @import 'button.less';
@@ -42,7 +42,6 @@ body {
     @import 'image.less';
     @import 'keyframes.less';
     @import 'list.less';
-    @import 'loading-bar.less';
     @import 'ponthub.less';
     @import 'publish.less';
     @import 'ribbon.less';
@@ -63,10 +62,15 @@ body {
 @gray: #888;
 @dark-gray: #555;
 @darker-gray: #222;
+@col-aqua: #46be9c;
+@col-yellow: #fdbe37;
+@col-red: #ff643b;
+@col-violet: #a78cd5;
+@col-pink: #ec6ab7;
 
 // Couleurs spécifiques à chaque thème
 body.theme-clear {
-    .theme(@blue, @gray, white, @light-gray, #dddfe4, @light-gray, #2A303D, @orange, 0);
+    .theme(@blue, @gray, white, @light-gray, #dddfe4, @light-gray, #2A303D, @orange);
     .alertify-log-error {
         background: @orange;
     }
@@ -76,7 +80,7 @@ body.theme-clear {
 }
 
 body.theme-dark {
-    .theme(@orange, @light-gray, @darker-gray, @dark-gray, #2a2c2f, @light-gray, @darker-gray, @blue, @navbarHgt - 1px);
+    .theme(@orange, @light-gray, @darker-gray, @dark-gray, #2a2c2f, @light-gray, @darker-gray, @blue);
     .alertify-log-error {
         background: red;
     }

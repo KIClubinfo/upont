@@ -2,15 +2,16 @@
     .publish-container {
         .bottom-box-container {
             line-height: 0px;
-            
+
             textarea {
                 margin-bottom: 0;
                 line-height: 20px;
                 overflow-y: hidden;
+                resize: none;
             }
             .type-container {
                 line-height: 20px;
-                
+
                 button {
                     margin-left: 5px;
                 }
@@ -23,7 +24,7 @@
                     border-radius: 0px 0px 5px 5px;
                     padding: 5px;
                     cursor: pointer;
-                    
+
                     &:hover, &.active {
                         color: @col-main;
                         border: 1px solid @col-main;
@@ -57,7 +58,7 @@
                     float: left;
                     margin-right: 10px;
                     z-index: 10;
-                    
+
                     .select {
                         border: 1px solid @col-bckgnd;
                         background-color: @col-ticket;
@@ -71,7 +72,7 @@
                         top: 35px;
                         width: auto;
                         font-weight: normal !important;
-                        
+
                         li {
                             padding: 0 10px 0 10px;
                             color: @col-font;

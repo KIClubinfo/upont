@@ -1,55 +1,69 @@
 angular.module('upont')
     .controller('Search_Ctrl', ['$scope', '$rootScope', '$state', '$http', function($scope, $rootScope, $state, $http) {
-        $scope.showCategories = false;
-        $scope.searchResults = [];
-
-        $scope.toggleCategories = function() {
-            $scope.showCategories = !$scope.showCategories;
+        // $scope.showCategories = false;
+        $scope.searchResults = {
+            users: [],
+            post: [],
+            channel: []
         };
 
-        $scope.changeCategory = function(category, searchValue) {
-            $rootScope.searchCategory = category;
-            $scope.doSearch(searchValue);
-        };
+        // $scope.toggleCategories = function() {
+        //     $scope.showCategories = !$scope.showCategories;
+        // };
 
-        $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
-            // Changement de la catégorie de recherche
-            switch (toState.name) {
-                case 'root.ponthub.liste':
-                case 'root.ponthub.simple':
-                    $rootScope.searchCategory = 'Ponthub';
-                    break;
-                default:
-                    $rootScope.searchCategory = 'Assos';
-            }
+        // $scope.changeCategory = function(category, searchValue) {
+        //     $rootScope.searchCategory = category;
+        //     $scope.doSearch(searchValue);
+        // };
 
-            // On réinitialise la barre de recherche
-            $scope.showCategories = false;
-            $scope.searchResults = [];
-            $('.search').val('');
-        });
+        // $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+        //     // Changement de la catégorie de recherche
+        //     switch (toState.name) {
+        //         case 'root.ponthub.liste':
+        //         case 'root.ponthub.simple':
+        //             $rootScope.searchCategory = 'Ponthub';
+        //             break;
+        //         default:
+        //             $rootScope.searchCategory = 'Assos';
+        //     }
+
+        //     // On réinitialise la barre de recherche
+        //     // $scope.showCategories = false;
+        //     $scope.searchResults = [];
+        //     $('.search').val('');
+        // });
 
         $scope.doSearch = function(string) {
-            var category = 'User';
+            // var category = 'User';
 
-            switch ($rootScope.searchCategory) {
-                case 'Ponthub':
-                    category = 'Ponthub';
-                    break;
-                case 'Publications':
-                    category = 'Post';
-                    break;
-                case 'Assos':
-                    category = 'Club';
-                    break;
-            }
+            // switch ($rootScope.searchCategory) {
+            //     case 'Ponthub':
+            //         category = 'Ponthub';
+            //         break;
+            //     case 'Publications':
+            //         category = 'Post';
+            //         break;
+            //     case 'Assos':
+            //         category = 'Club';
+            //         break;
+            // }
 
-            if (string === '') {
-                $scope.searchResults = [];
-            } else {
-                $http.post(apiPrefix + 'search', {search: category + '/' + string}).success(function(data){
-                    $scope.searchResults = data;
+            if (string.length > 2) {
+                $http.post(apiPrefix + 'search', {search: 'User/' + string}).success(function(data){
+                    $scope.searchResults.users = data;
                 });
+                $http.post(apiPrefix + 'search', {search: 'Post/' + string}).success(function(data){
+                    $scope.searchResults.posts = data;
+                });
+                $http.post(apiPrefix + 'search', {search: 'Club/' + string}).success(function(data){
+                    $scope.searchResults.channels = data;
+                });
+            } else {
+                $scope.searchResults = {
+                    users: [],
+                    posts: [],
+                    channels: []
+                };
             }
         };
 

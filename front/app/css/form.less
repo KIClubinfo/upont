@@ -8,7 +8,6 @@ input, textarea, select {
 
     &:focus {
         border-color: @col-main;
-        box-shadow: inset 0 0 2px @col-main;
         transition: 0.2s ease-in-out all;
     }
 }
@@ -68,37 +67,42 @@ label {
 }
 
 // Zone d'autocomplétion pour une barre de recherche
-.up-autocomplete {
-    width: 100%;
+// .up-autocomplete {
+
+//     .suggestions {
+//         border: 1px solid @col-bckgnd;
+//         background-color: @col-ticket;
+//         position: absolute;
+//         padding: 10px 0 10px 0;
+//         margin: 0px;
+//         list-style: outside none none;
+//         width: 100%;
+//         border-radius: 0 0 5px 5px;
+
+//         li {
+//             padding: 0 10px 0 10px;
+//             &:hover {
+//                 background-color: @col-input-bckgnd;
+//             }
+//         }
+
+//         strong {
+//             color: @col-main;
+//         }
+//     }
+// }
+
+.up-search-bar{
+    padding:0.5em;
+    margin: 0px 0.5em;
     position: relative;
-
-    input {
-        width: 100%;
-        border-left: 0;
-        border-right: 0;
+    input{
+        border:none;
+        background-color: @col-input-bckgnd;
+        padding: 0;
     }
-
-    .suggestions {
-        border: 1px solid @col-bckgnd;
-        background-color: @col-ticket;
-        position: absolute;
-        padding: 10px 0 10px 0;
-        margin: 0px;
-        list-style: outside none none;
-        width: 100%;
-        border-radius: 0 0 5px 5px;
-
-        li {
-            padding: 0 10px 0 10px;
-            &:hover {
-                background-color: @col-input-bckgnd;
-            }
-        }
-
-        strong {
-            color: @col-main;
-        }
-    }
+    border-radius: 5em;
+    background-color: @col-input-bckgnd;
 }
 
 // Formulaires spécifiques
@@ -110,4 +114,16 @@ label {
     .fa {
         .fa-block
     }
+}
+
+.up-search-bar-results{
+    width:332px;
+    padding:1em;
+    position:fixed;
+    top:7em;
+    left:2em;
+    background:white;
+    border-radius: 2px;
+    z-index:600;
+    border: solid 1px @col-bckgnd;
 }

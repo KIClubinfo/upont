@@ -31,40 +31,10 @@
 </head>
 
 <body ng-class="theme == 'dark' ? 'theme-dark' : 'theme-clear'">
-    <div up-row>
-        <!-- Présence ou non de la barre latérale -->
-        <div ng-if="isLogged" class="up-col-xs-4 up-col-md-3 up-col-lg-2">
-            <div ng-include="'views/misc/aside.html'" class="up-aside up-col-xs-4 up-col-md-3 up-col-lg-2"></div>
-        </div>
-        <div class="up-main-content" ng-class="{'up-col-xs-8 up-col-md-9 up-col-lg-10':isLogged, 'up-col-xs-12':!isLogged}">
-            <header up-row space-between ng-class="{ 'up-col-xs-8 up-col-md-9 up-col-lg-10': isLogged, 'up-col-xs-12': !isLogged }">
-
-                <!-- Navbar du haut -->
-                <div><a class="up-main-title" ui-sref="root.home"></a></div>
-
-                <!-- Barre de recherche globale -->
-                <div class="up-input-group" up-col-xs="60%" up-col-sm="70%" up-col-md="70%" up-col="30%"
-                     ng-show="isLogged" ng-include="'views/misc/search.html'" ng-controller="Search_Ctrl"></div>
-                <div up-col-xs="0%" up-col-sm="0%" up-col-md="0%" up-col="50%"></div>
-
-
-                <!-- <div ng-if="isAdmin && isState('root.home')" >
-                    <button class="btn btn-default btn-publier" ng-click="startPublier()">Publier !</button>
-                </div> -->
-
-                <!-- Photo et lien vers le profil -->
-                <div ng-show="isLogged">
-                    <a ui-sref="root.profile" ui-sref-active="active" class="up-navbar-link">
-                        <div style="background-image: url('{{ url + me.image_url }}')" class="up-profile-picture"></div>
-                        {{ me.nick }}
-                    </a>
-                </div>
-            </header>
-
-            <!-- Vue principale -->
-            <div ui-view root-state="root" size="small" autoscroll="false" class="up-main-view" up-fill-window ></div>
-        </div>
-    </div>
+    <!-- Présence ou non de la barre latérale -->
+    <div class="up-aside" ng-if="isLogged" ng-include="'views/misc/aside.html'"></div>
+    <!-- Vue principale -->
+    <div ui-view up-col="100%" root-state="root" size="small" autoscroll="false" class="up-main-view" up-fill-window ></div>
 
     <!-- Piwik -->
     <script type="text/javascript" type="text/javascript">
