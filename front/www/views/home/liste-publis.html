@@ -6,7 +6,7 @@
                 <div class="up-img-home" ng-style="{'background-image': 'url({{ publication.image_url | urlFile }})'}" ></div>
             </div>
         </div>
-        <div class="up-ticket-body">
+        <div class="up-ticket-body" ng-mouseover="showModify=true" ng-mouseleave="showModify=false">
             <div class="up-news-icon">
                 <i class="fa fa-{{ publication.author_club.icon ? publication.author_club.icon : 'envelope'}}"></i>
             </div>
@@ -21,6 +21,7 @@
                     </div>
                 </div>
                 <div up-col="25%" class="up-ticket-date">
+                    <i ng-show="$root.hasRight(publication.author_club.slug) && showModify" class="fa fa-times up-clickable"  ng-click="deletePost(publication)"></i>
                     {{ publication.date*1000 | date : 'd MMMM yyyy' }}<br>
                     <a class="up-shotgun-link" title="Lien vers la page de shotgun"
                     ng-if="publication.start_date && publication.entry_method == 'Shotgun'"

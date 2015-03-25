@@ -2,7 +2,7 @@ angular.module('upont')
     .controller('ChannelsListe_Ctrl', ['$scope', 'channels', function($scope, channels) {
         $scope.channels = channels;
     }])
-    .controller('ChannelsSimple_Ctrl', ['$scope', '$http', '$state', 'channel', 'members', 'events', 'newsItems', 'Paginate', function($scope, $http, $state, channel, members, events, newsItems, Paginate) {
+    .controller('ChannelsSimple_Ctrl', ['$scope', '$rootScope', '$http', '$resource', '$state', 'channel', 'members', 'events', 'newsItems', 'Paginate', function($scope, $rootScope, $http, $resource, $state, channel, members, events, newsItems, Paginate) {
         $scope.channel = channel;
         $scope.members = members;
         $scope.events = events;
@@ -85,6 +85,33 @@ angular.module('upont')
 
                 alertify.alert(string);
             });
+        };
+
+        $scope.deletePost = function(post){
+            var index = null;
+            if (post.start_date) {
+                index = $scope.events.data.indexOf(post);
+
+                // On demande confirmation
+                alertify.confirm('Est-ce vraiment ce que tu veux ?', function(e){
+                    if (e) {
+                        $resource(apiPrefix + 'events/' + $scope.events.data[index].slug).delete(function() {
+                            $scope.events.data.splice(index, 1);
+                        });
+                    }
+                });
+            } else {
+                index = $scope.newsItems.data.indexOf(post);
+
+                // On demande confirmation
+                alertify.confirm('Est-ce vraiment ce que tu veux ?', function(e){
+                    if (e) {
+                        $resource(apiPrefix + 'newsitems/' + $scope.newsItems.data[index].slug).delete(function() {
+                            $scope.newsItems.data.splice(index, 1);
+                        });
+                    }
+                });
+            }
         };
 
         $scope.submitClub = function(name, fullName, icon, image) {

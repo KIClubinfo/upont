@@ -56,11 +56,11 @@
 
         <div up-col="100%" class="bottom-box-container">
             <!-- Textarea principal -->
-            <textarea ng-focus="focus=true" ng-blur="focus=false" ng-model="post.text"
+            <textarea ng-focus="focus=true" ng-init="focus=false" ng-model="post.text"
                       placeholder="{{ placeholder }}" msd-elastic></textarea>
 
             <!-- Toolbar du bas -->
-            <div class="type-container">
+            <div class="type-container" ng-show="focus">
                 <!-- Séléction du type de publication -->
                 <div class="type" ng-click="changeType('message')" ng-class="{active: type == 'message'}">Message</div>
                 <div class="type" ng-click="changeType('news')"    ng-class="{active: type == 'news'}"  ng-if="$root.selfClubs.length">News</div>
@@ -81,7 +81,7 @@
 
                     <!-- Ajout d'une image -->
                     <div class="type fileupload" ng-class="{active: postPicture.filename}">
-                        <span><i class="fa fa-file-image-o"></i> {{ postPicture.filename }}</span>
+                        <span><i class="fa fa-file-image-o"></i> {{ postPicture.filename ? postPicture.filename : 'Image' }}</span>
                         <input type="file" ng-model="postPicture" base-sixty-four-input>
                     </div>
                     <button class="up-btn up-btn-default">Publier !</button>

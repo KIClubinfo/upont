@@ -58,25 +58,25 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
             case 'Game':
             case 'Software':
             case 'Other':
-                $results = $this->searchRepo('Ponthub\\'.$category, $criteria);
+                $results = array('files' => $this->searchRepo('Ponthub\\'.$category, $criteria));
                 break;
             case 'Ponthub':
-                $results = $this->searchRepo('Ponthub\PonthubFile', $criteria);
+                $results = array('files' => $this->searchRepo('Ponthub\PonthubFile', $criteria));
                 break;
             case 'Post':
             case 'Event':
             case 'Exercice':
             case 'Course':
-                $results = $this->searchRepo('Publications\\'.$category, $criteria);
+                $results = array('posts' => $this->searchRepo('Publications\\'.$category, $criteria));
                 break;
             case 'News':
-                $results = $this->searchRepo('Publications\Newsitem', $criteria);
+                $results = array('posts' => $this->searchRepo('Publications\Newsitem', $criteria));
                 break;
             case 'Club':
-                $results = $this->searchRepo('Users\Club', $criteria, 'e.name, e.fullName');
+                $results = array('clubs' => $this->searchRepo('Users\Club', $criteria, 'e.name, e.fullName'));
                 break;
             case 'User':
-                $results = $this->searchUser($criteria);
+                $results = array('users' => $this->searchUser($criteria));
                 break;
             case 'Actor':
             case 'Genre':
@@ -84,6 +84,14 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
                 $results = array();
                 break;
 
+            case '':
+                $results = array(
+                    'files' => $this->searchRepo('Ponthub\PonthubFile', $criteria),
+                    'posts' => $this->searchRepo('Publications\Post', $criteria),
+                    'clubs' => $this->searchRepo('Users\Club', $criteria, 'e.name, e.fullName'),
+                    'users' => $this->searchUser($criteria)
+                );
+                break;
             default:
                 throw new BadRequestHttpException('Syntaxe de la recherche erronée');
         }
@@ -111,9 +119,8 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
                 $item['parent'] = $result->getAlbum()->getSlug();
 
             // Si une image existe on la rajoute
-            if (method_exists($result, 'imageUrl')) {
-                $item['image'] = $result->imageUrl();
-            }
+            if (method_exists($result, 'imageUrl') && $result->imageUrl() != null)
+                $item['image_url'] = $result->imageUrl();
 
             $return[] = $item;
             // On trie par pertinence
@@ -150,5 +157,6 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
 
     // La recherche d'user demande une fonction particulière (champs différents, acronyme...
     private function searchUser($criteria) {
+        return array();
     }
 }

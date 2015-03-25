@@ -7,7 +7,7 @@
             <i class="fa fa-search"></i>
             <input class="search" type="text" ng-model="searchValue" placeholder="Rechercher" ng-change="doSearch(searchValue)" />
         </div>
-        <div class="up-sb-results" ng-show="searchResults.posts.length || searchResults.channels.length || searchResults.downloads.length">
+        <div class="up-sb-results" ng-show="searchResults.posts.length || searchResults.clubs.length || searchResults.files.length">
             <!-- <div class="up-sb-section" up-row ng-if="searchResults.users.length">
                 <div class="up-sb-cell up-sb-title" up-col="25%">ÉLÈVES</div>
                 <div class="up-sb-cell" up-col="75%">
@@ -24,19 +24,25 @@
                     </div>
                 </div>
             </div> -->
-            <div class="up-sb-section" up-row ng-if="searchResults.channels.length">
+            <div class="up-sb-section" up-row ng-if="searchResults.clubs.length">
                 <div class="up-sb-cell up-sb-title" up-col="25%">CLUBS</div>
                 <div class="up-sb-cell" up-col="75%">
-                    <div class="up-sb-item" ng-repeat="channel in searchResults.channels| limitTo:4">
-                        <a ng-click="resetSearch()" ui-sref="redirect(channel)"><img class="up-profil-picture" ng-src="{{channel.image  | urlFile}}" alt=""/> {{channel.name}}</a>
+                    <div class="up-sb-item" ng-repeat="club in searchResults.clubs| limitTo:4">
+                        <a ng-click="resetSearch()" ui-sref="{{ redirect(club) }}">
+                            <img class="up-profil-picture" ng-src="{{ club.image_url | urlFile}}" alt="Logo de l'assos"/> {{ club.name }}
+                        </a>
                     </div>
                 </div>
             </div>
-            <div class="up-sb-section" up-row ng-if="searchResults.downloads.length">
+            <div class="up-sb-section" up-row ng-if="searchResults.files.length">
                 <div class="up-sb-cell up-sb-title" up-col="25%">PONTHUB</div>
                 <div class="up-sb-cell" up-col="75%">
-                    <div class="up-sb-item" ng-repeat="download in searchResults.downloads | limitTo:4">
-                        <img class="up-profil-picture" ng-src="{{download.image | urlFile}}" alt=""/> {{ download.name }}
+                    <div class="up-sb-item" ng-repeat="file in searchResults.files | limitTo:4">
+                        <a ng-click="resetSearch()" ui-sref="{{ redirect(file) }}">
+                            <img ng-if="file.image_url" class="up-profil-picture" ng-src="{{ file.image_url | urlFile}}" alt="Image du fichier"/>
+                            <i ng-if="!file.image_url" class="fa fa-{{ icon(file) }}"></i>
+                            {{ file.name }}
+                        </a>
                     </div>
                 </div>
             </div>

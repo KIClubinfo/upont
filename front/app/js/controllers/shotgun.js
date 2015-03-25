@@ -36,6 +36,9 @@ angular.module('upont')
                 url: 'shotgun/:slug',
                 templateUrl: 'views/misc/shotgun.html',
                 controller: 'Shotgun_Ctrl',
+                data: {
+                    top: true
+                },
                 resolve: {
                     event: ['$resource', '$stateParams', function($resource, $stateParams) {
                         return $resource(apiPrefix + 'events/:slug').get({

@@ -5,26 +5,21 @@ angular.module('upont')
         $scope.lastWeek = moment().subtract(7 , 'days').unix();
 
         $scope.faIcon = function(element){
-            var icon = '';
             switch(element.type){
                 case 'game':
-                    icon = 'fa-gamepad';
-                    break;
+                    return 'fa-gamepad';
                 case 'movie':
                 case 'serie':
-                    icon = 'fa-film';
-                    break;
+                    return 'fa-film';
                 case 'album':
-                    icon = 'fa-music';
-                    break;
+                    return 'fa-music';
                 case 'other':
-                    icon = 'fa-file-o';
-                    break;
+                    return 'fa-file-o';
                 case 'software':
-                    icon = 'fa-desktop';
-                    break;
+                    return 'fa-desktop';
+                default:
+                    return '';
             }
-            return icon;
         };
 
         $scope.next = function() {
@@ -127,7 +122,8 @@ angular.module('upont')
                 templateUrl: "views/ponthub/index.html",
                 abstract: true,
                 data: {
-                    title: 'PontHub - uPont'
+                    title: 'PontHub - uPont',
+                    top: true
                 },
                 params: {
                     category: 'films'
@@ -147,6 +143,9 @@ angular.module('upont')
                 url: "/:slug",
                 templateUrl: "views/ponthub/simple.html",
                 controller: 'PH_Element_Ctrl',
+                data: {
+                    top: true
+                },
                 resolve: {
                     element: ['$resource', '$stateParams', 'Ponthub', function($resource, $stateParams, Ponthub) {
                         return $resource(apiPrefix + ':cat/:slug').get({
