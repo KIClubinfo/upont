@@ -4,7 +4,7 @@ angular.module('upont').directive('upPubliText', ['$filter', '$sce', function($f
             string: '='
         },
         link: function(scope, element, attrs){
-            var allowedTags = '<a><br><strong><small><ul><ol><li><pre><i>'
+            var allowedTags = '<a><br><strong><small><ul><ol><li><pre><i>';
             //Dans un premier temps, on raccourcit par rapport au nombre de lignes
             var string;
             var split = scope.string.split(/\r\n|\r|\n/);

@@ -46,7 +46,7 @@ angular.module('upont')
         $scope.openSeason = -1;
         $scope.fleur = null;
 
-        var pingFleur = function() {
+        function pingFleur() {
             var defered = $q.defer();
             var bool = false;
             ping('fleur.enpc.fr', function(status) { 
@@ -55,7 +55,7 @@ angular.module('upont')
                 defered.resolve({test: bool});
             });
             return defered.promise;
-        };
+        }
 
         $scope.download = function(url) {
             if ($scope.fleur === null) {
@@ -68,7 +68,7 @@ angular.module('upont')
             }
         };
 
-        var downloadFile = function(url) {
+        function downloadFile(url) {
             if (!$scope.fleur) {
                 alertify.error('Tu n\'es pas sur le réseau des résidences, impossible de télécharger le fichier !');
                 return;
@@ -80,7 +80,7 @@ angular.module('upont')
             $http.get(url).success(function(data){
                 $window.location.href = data.redirect;
             });
-        };
+        }
 
         if (episodes) {
             $scope.saisons = [];

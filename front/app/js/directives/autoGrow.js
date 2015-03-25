@@ -16,7 +16,7 @@ angular.module('upont').directive('autoGrow', function() {
         });
         angular.element(document.body).append($shadow);
 
-        var update = function() {
+        function update() {
             var times = function(string, number) {
                 for (var i = 0, r = ''; i < number; i++) {
                     r += string;
@@ -33,7 +33,7 @@ angular.module('upont').directive('autoGrow', function() {
             $shadow.html(val);
 
             element.css('height', Math.max($shadow[0].offsetHeight + parseInt(attr.treshold) /* the "threshold" */, minHeight) + 'px');
-        };
+        }
 
         element.bind('keyup keydown keypress change', update);
         update();

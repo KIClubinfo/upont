@@ -3,36 +3,32 @@
         <div class="centering up-logo">
             <a class="up-logo-link" ui-sref="root.home"></a>
         </div>
-        <div class="up-search-bar">
+        <div class="up-sb">
             <i class="fa fa-search"></i>
             <input class="search" type="text" ng-model="searchValue" placeholder="Rechercher" ng-change="doSearch(searchValue)" />
         </div>
-        <div class="up-search-bar-results" ng-show="searchResults.users.length || searchResults.posts.length || searchResults.channels.length">
-            <!--  <li ng-repeat="result in searchResults"
-                    ng-bind-html="result.name | match: searchValue"
-                    ng-click="redirect(result)"
-                    class="up-clickable"></li> -->
-            <div up-row ng-show="searchResults.users.length">
-                <div up-col="30%"></div>
-                <div up-col="70%">
-                    <div ng-repeat="user in searchResults.users">
-                        {{user}}
+        <div class="up-sb-results" ng-show="searchResults.users.length || searchResults.posts.length || searchResults.channels.length">
+            <div class="up-sb-section" up-row ng-if="searchResults.users.length">
+                <div class="up-sb-cell up-sb-title" up-col="25%">ÉLÈVES</div>
+                <div class="up-sb-cell" up-col="75%">
+                    <div class="up-sb-item" ng-repeat="user in searchResults.users | limitTo:4">
+                        <img class="up-profil-picture" ng-src="{{$root.me.image_url | urlFile}}" alt=""/> {{user.name}}
                     </div>
                 </div>
             </div>
-            <div up-row ng-show="searchResults.posts.length">
-                <div up-col="30%"></div>
-                <div up-col="70%">
-                    <div ng-repeat="post in searchResults.posts">
-                        {{post}}
+            <div class="up-sb-section" up-row ng-if="searchResults.posts.length">
+                <div class="up-sb-cell up-sb-title" up-col="25%">POSTS</div>
+                <div class="up-sb-cell" up-col="75%">
+                    <div class="up-sb-item" ng-repeat="post in searchResults.posts| limitTo:4">
+                        <img class="up-profil-picture" ng-src="{{$root.me.image_url | urlFile}}" alt=""/> {{post.name}}
                     </div>
                 </div>
             </div>
-            <div up-row ng-show="searchResults.channels.length">
-                <div up-col="30%"></div>
-                <div up-col="70%">
-                    <div ng-repeat="channel in searchResults.channels">
-                        {{channel.name}}
+            <div class="up-sb-section" up-row ng-if="searchResults.channels.length">
+                <div class="up-sb-cell up-sb-title" up-col="25%">CLUBS</div>
+                <div class="up-sb-cell" up-col="75%">
+                    <div class="up-sb-item" ng-repeat="channel in searchResults.channels| limitTo:4">
+                        <img class="up-profil-picture" ng-src="{{$root.me.image_url | urlFile}}" alt=""/> {{channel.name}}
                     </div>
                 </div>
             </div>

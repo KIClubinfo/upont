@@ -1,7 +1,7 @@
 // inputs génériques
 input, textarea, select {
     background: @col-input-bckgnd;
-    border: solid 1px @col-font;
+    border: solid 1px @col-bckgnd;
     color: @col-font;
     border-radius: 1px;
     padding: 0.5em;
@@ -23,6 +23,7 @@ textarea {
     padding: 8px;
     font-size: 13px;
     width: 100%;
+    resize:none;
 }
 select {
     width: 100%;
@@ -92,19 +93,6 @@ label {
 //     }
 // }
 
-.up-search-bar{
-    padding:0.5em;
-    margin: 0px 0.5em;
-    position: relative;
-    input{
-        border:none;
-        background-color: @col-input-bckgnd;
-        padding: 0;
-    }
-    border-radius: 5em;
-    background-color: @col-input-bckgnd;
-}
-
 // Formulaires spécifiques
 .up-login-form {
     text-align: center;
@@ -114,16 +102,4 @@ label {
     .fa {
         .fa-block
     }
-}
-
-.up-search-bar-results{
-    width:332px;
-    padding:1em;
-    position:fixed;
-    top:7em;
-    left:2em;
-    background:white;
-    border-radius: 2px;
-    z-index:600;
-    border: solid 1px @col-bckgnd;
 }
