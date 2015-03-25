@@ -24,6 +24,69 @@ angular.module('upont')
             });
         };
 
+        $scope.attend = function(publication){
+            var i = $scope.events.data.indexOf(publication);
+            // Si la personne attend déjà on ne fait qu'annuler le attend
+            if ($scope.events.data[i].attend) {
+                $http.delete(apiPrefix + 'events/' + $scope.events.data[i].slug + '/attend').success(function(data){
+                    $scope.events.data[i].attend = false;
+                    $scope.events.data[i].attendees--;
+                });
+            } else {
+                $http.post(apiPrefix + 'events/' + $scope.events.data[i].slug + '/attend').success(function(data){
+                    $scope.events.data[i].attend = true;
+                    $scope.events.data[i].attendees++;
+
+                    // Si la personne n'attendait aps avant
+                    if ($scope.events.data[i].pookie) {
+                        $scope.events.data[i].pookie = false;
+                        $scope.events.data[i].pookies--;
+                    }
+                });
+            }
+        };
+
+        $scope.pookie = function(publication){
+            var i = $scope.events.data.indexOf(publication);
+            // Si la personne pookie déjà on ne fait qu'annuler le pookie
+            if ($scope.events.data[i].pookie) {
+                $http.delete(apiPrefix + 'events/' + $scope.events.data[i].slug + '/decline').success(function(data){
+                    $scope.events.data[i].pookie = false;
+                    $scope.events.data[i].pookies--;
+                });
+            } else {
+                $http.post(apiPrefix + 'events/' + $scope.events.data[i].slug + '/decline').success(function(data){
+                    $scope.events.data[i].pookie = true;
+                    $scope.events.data[i].pookies++;
+                    alertify.success('Cet événement ne sera plus affiché par la suite. Tu pourras toujours le retrouver sur la page de l\'assos.');
+
+                    // Si la personne était pookie avant
+                    if ($scope.events.data[i].attend) {
+                        $scope.events.data[i].attend = false;
+                        $scope.events.data[i].attendees--;
+                    }
+                });
+            }
+        };
+
+        $scope.showAttendees = function(publication){
+            $http.get(apiPrefix + 'events/' + publication.slug + '/attendees').success(function(data){
+                $scope.attendees = data;
+
+                var string = '<strong>Personnes participant à l\'événement :</strong><br>';
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].username != $rootScope.me.username)
+                        string += data[i].nick + ', ';
+                }
+                string = string.replace(/, $/, '');
+
+                if (publication.attend)
+                    string += publication.attendees == 1 ? 'Toi !' : ', toi !';
+
+                alertify.alert(string);
+            });
+        };
+
         $scope.submitClub = function(name, fullName, icon, image) {
             var params = {
                 'name' : name,

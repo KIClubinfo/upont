@@ -16,6 +16,13 @@
     &.divided{
         padding: 20px 10px !important;
     }
+    a, .up-link{
+        cursor: pointer;
+        color: @col-main;
+        &:hover {
+            color: @col-font;
+        }
+    }
     .up-ticket-header{
         position:relative;
         background: linear-gradient(to bottom , transparent, rgba(0, 0, 0, 0.6));
@@ -88,8 +95,7 @@
     }
     .up-ticket-texte {
         text-align: justify;
-        font-family: verdana;
-        
+
         img {
             .img-responsive;
         }
@@ -100,19 +106,13 @@
         text-align: right;
         font-size: 0.75em;
         color: #999;
-        
+
         .up-shotgun-link {
             font-weight: 900;
             font-size: 1.5em;
         }
     }
-    a, .up-ticket-link {
-        cursor: pointer;
-        color: @col-main;
-        &:hover {
-            color: @col-font;
-        }
-    }
+
     &.rounded-top {
         &:before{
             border-radius: 5px 5px 0px 0px;
