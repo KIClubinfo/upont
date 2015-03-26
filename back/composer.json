@@ -19,7 +19,7 @@
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/rest-bundle": "1.5.*",
-        "friendsofsymfony/user-bundle": "2.0.*",
+        "friendsofsymfony/user-bundle": "2.0.x-dev",
         "jms/serializer-bundle": "~0.13",
         "stof/doctrine-extensions-bundle": "~1.1",
         "lexik/jwt-authentication-bundle": "1.0.*",
@@ -29,7 +29,7 @@
         "nelmio/api-doc-bundle": "~2.8"
     },
     "require-dev": {
-        "liip/functional-test-bundle": "1.2.*"
+        "liip/functional-test-bundle": "1.2.x-dev"
     },
     "scripts": {
         "post-root-package-install": [
