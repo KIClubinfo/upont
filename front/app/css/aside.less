@@ -36,6 +36,7 @@
     &:extend(.up-aside-menu);
     font-size: 0.9em;
     margin: 0.5em 0 0 10%;
+    padding-right: 10px;
 }
 .up-deconnection {
     display: inline !important;
@@ -55,10 +56,62 @@
     padding: 0.5em;
     width: 100%;
     margin-left: -5px;
-    
+
     a {
         &:hover, &.active {
             border-bottom: solid 1px @col-aside;
+        }
+    }
+}
+
+.up-sb{
+    padding:0.5em;
+    margin: 0px 0.5em;
+    position: relative;
+    color:@col-font;
+    input{
+        border:none;
+        background-color: @col-input-bckgnd;
+        padding: 0;
+    }
+    border-radius: 5em;
+    background-color: @col-input-bckgnd;
+}
+
+.up-sb-results{
+    color:@col-font;
+    width:332px;
+    padding:10px;
+    position:fixed;
+    top:7em;
+    left:2em;
+    background:white;
+    border-radius: 3px;
+    z-index:600;
+    border: solid 1px @col-bckgnd;
+    .up-sb-section:not(:last-of-type){
+        border-bottom: solid 2px rgba(red(@col-bckgnd), green(@col-bckgnd), blue(@col-bckgnd), 0.2);
+    }
+    .up-sb-section .up-sb-cell{
+        padding:5px;
+        &:not(:last-of-type){
+            border-right:solid 2px rgba(red(@col-bckgnd), green(@col-bckgnd), blue(@col-bckgnd), 0.2);
+        }
+        &.up-sb-title{
+            font-size:0.8em;
+            font-weight:bold;
+        }
+    }
+    .up-profil-picture, .fa {
+        width: 2em;
+        text-align: center;
+    }
+    .up-sb-item{
+        padding:5px;
+        border-radius: 5px;
+        cursor:pointer;
+        &:hover{
+            background: rgba(red(@col-main), green(@col-main), blue(@col-main), 0.5);
         }
     }
 }

@@ -212,6 +212,61 @@ angular.module('upont')
                     alertify.error('Type de publication non encore pris en charge');
             }
         };
+
+        // Modification/suppression des messages
+        $scope.modifyMessage = function(message) {
+            var index = $scope.messages.data.indexOf(message);
+
+            // On demande confirmation
+            alertify.prompt('Tu peux modifier ton message :', function(e, str){
+                if (e) {
+                    $http.patch(apiPrefix + 'newsitems/' + $scope.messages.data[index].slug, {text: str}).success(function() {
+                        $scope.messages.data[index].text = str;
+                        alertify.success('Message correctement édité !');
+                    });
+                }
+            }, $scope.messages.data[index].text);
+        };
+
+        $scope.deleteMessage = function(message) {
+            var index = $scope.messages.data.indexOf(message);
+
+            // On demande confirmation
+            alertify.confirm('Est-ce vraiment ce que tu veux ?', function(e){
+                if (e) {
+                    $resource(apiPrefix + 'newsitems/' + $scope.messages.data[index].slug).delete(function() {
+                        $scope.messages.data.splice(index, 1);
+                    });
+                }
+            });
+        };
+
+        $scope.deletePost = function(post){
+            var index = null;
+            if (post.start_date) {
+                index = $scope.events.data.indexOf(post);
+
+                // On demande confirmation
+                alertify.confirm('Est-ce vraiment ce que tu veux ?', function(e){
+                    if (e) {
+                        $resource(apiPrefix + 'events/' + $scope.events.data[index].slug).delete(function() {
+                            $scope.events.data.splice(index, 1);
+                        });
+                    }
+                });
+            } else {
+                index = $scope.newsItems.data.indexOf(post);
+
+                // On demande confirmation
+                alertify.confirm('Est-ce vraiment ce que tu veux ?', function(e){
+                    if (e) {
+                        $resource(apiPrefix + 'newsitems/' + $scope.newsItems.data[index].slug).delete(function() {
+                            $scope.newsItems.data.splice(index, 1);
+                        });
+                    }
+                });
+            }
+        };
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
@@ -219,7 +274,8 @@ angular.module('upont')
                 url: '',
                 templateUrl: "views/home/connected.html",
                 data: {
-                    title: 'Accueil - uPont'
+                    title: 'Accueil - uPont',
+                    top: true
                 },
                 controller: "Publish_Ctrl",
                 resolve: {

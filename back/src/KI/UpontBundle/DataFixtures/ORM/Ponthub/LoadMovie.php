@@ -27,6 +27,7 @@ class LoadMovieFixture extends AbstractFixture implements OrderedFixtureInterfac
         $movie->setLikes(array($this->getReference('user-de-boisc'), $this->getReference('user-muzardt')));
         $movie->setDislikes(array($this->getReference('user-taquet-c')));
         $movie->setStatus('OK');
+        $movie->setAdded(time());
         $movie->setImage($this->getReference('image-movie-pumping-iron'));
         $manager->persist($movie);
 

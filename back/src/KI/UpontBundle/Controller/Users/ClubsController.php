@@ -307,7 +307,7 @@ class ClubsController extends \KI\UpontBundle\Controller\Core\SubresourceControl
 
     /**
      * @ApiDoc(
-     *  description="Retourne toutes les events publiées par un club",
+     *  description="Retourne tous les events publiés par un club",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",

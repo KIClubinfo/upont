@@ -4,7 +4,7 @@ angular.module('upont').directive('upLikes', function() {
             objet: '=',
             url: '='
         },
-        controller: ['$scope', '$resource', function($scope, $resource) {
+        controller: ['$scope', '$resource', '$http', function($scope, $resource, $http) {
             if($scope.objet.comments > 0){
                 $resource(apiPrefix + $scope.url + '/comments').query(function(data){
                     $scope.comments = data;
@@ -114,6 +114,37 @@ angular.module('upont').directive('upLikes', function() {
                         $scope.objet.comments++;
                     });
                 }
+            };
+
+            $scope.modifyComment = function(comment) {
+                var index = $scope.comments.indexOf(comment);
+
+                // On demande confirmation
+                alertify.prompt('Tu peux modifier ton message :', function(e, str){
+                    if (e) {
+                        $http.patch(apiPrefix + 'comments/' + $scope.comments[index].id, {text: str}).success(function() {
+                            $scope.comments[index].text = str;
+                        });
+                    }
+                }, $scope.comments[index].text);
+            };
+
+            $scope.deleteComment = function(comment) {
+                var index = $scope.comments.indexOf(comment);
+
+                // On demande confirmation
+                alertify.confirm('Est-ce vraiment ce que tu veux ?', function(e){
+                    if (e) {
+                        $resource(apiPrefix + 'comments/' + $scope.comments[index].id).delete(function() {
+                            $scope.comments.splice(index, 1);
+                            if($scope.shownComments < 0)
+                                $scope.shownComments++;
+                            else
+                                $scope.shownComments--;
+                            $scope.objet.comments--;
+                        });
+                    }
+                });
             };
         }],
         templateUrl : 'views/misc/likesEtComments.html'

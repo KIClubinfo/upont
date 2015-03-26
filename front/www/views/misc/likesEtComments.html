@@ -18,9 +18,10 @@
     <div ng-if="shownComments < 0 && comments.length > 3">
         <h3 class="up-likes up-clickable" ng-click="openComments()" ng-class="{active : shownComments > 0 }" >Afficher {{ comments.length+shownComments }} {{ comments.length+shownComments == 1 ? 'commentaire précédent' : 'commentaires précédents' }}</h3>
     </div>
-    <div class="up-comment" ng-repeat="comment in comments | orderBy: date | limitTo: shownComments" up-row left>
+    <div class="up-comment" ng-repeat="comment in comments | orderBy: date | limitTo: shownComments" up-row left
+         ng-mouseover="showModify=true" ng-mouseleave="showModify=false">
         <img up-col="7%" class="up-profile-picture" ng-src="{{comment.author.image_url | urlFile}}"/>
-        <div up-col="93%">
+        <div up-col="87%">
             <strong>{{ comment.author.nick }} : </strong>
             <span ng-bind-html="comment.text | nl2br"></span><br>
             {{ comment.date | fromNow }}&nbsp;
@@ -32,11 +33,15 @@
                 <i class="fa fa-thumbs-o-down"></i> {{ comment.dislikes >= 0 ? comment.dislikes : 0 }}
             </span>
         </div>
+        <div up-col="6%" class="centering">
+            <i ng-show="comment.author.username == $root.me.username && showModify" class="fa fa-pencil up-clickable" ng-click="modifyComment(comment)"></i><br>
+            <i ng-show="comment.author.username == $root.me.username && showModify" class="fa fa-times up-clickable"  ng-click="deleteComment(comment)"></i>
+        </div>
     </div>
     <form up-row left ng-submit="submitComment(commentText)" autocomplete="off">
         <img class="up-profile-picture" ng-src="{{ $root.me.image_url | urlFile }}" />
         <textarea class="up-col-xs-12 comment-textarea" ng-model="commentText"
-                  placeholder="Ajouter un commentaire" rows="1" auto-grow treshold="40"
+                  placeholder="Ajouter un commentaire" msd-elastic
                   ng-keyup="$event.keyCode == 13 && !$event.shiftKey ? submitComment(commentText) : null"></textarea>
     </form>
 </div>

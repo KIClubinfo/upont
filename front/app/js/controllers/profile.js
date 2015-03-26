@@ -76,7 +76,8 @@ angular.module('upont')
                     }]
                 },
                 data: {
-                    title: 'Profil - uPont'
+                    title: 'Profil - uPont',
+                    top: true
                 }
             });
     }]);
