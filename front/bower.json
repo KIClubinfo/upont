@@ -22,6 +22,7 @@
     "angular-base64-upload": "latest",
     "ngInfiniteScroll": "latest",
     "alertify.js": "latest",
-    "angular-bootstrap-datetimepicker": "latest"
+    "angular-bootstrap-datetimepicker": "latest",
+    "angular-elastic": "latest"
   }
 }

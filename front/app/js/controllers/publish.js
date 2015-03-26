@@ -240,6 +240,33 @@ angular.module('upont')
                 }
             });
         };
+
+        $scope.deletePost = function(post){
+            var index = null;
+            if (post.start_date) {
+                index = $scope.events.data.indexOf(post);
+
+                // On demande confirmation
+                alertify.confirm('Est-ce vraiment ce que tu veux ?', function(e){
+                    if (e) {
+                        $resource(apiPrefix + 'events/' + $scope.events.data[index].slug).delete(function() {
+                            $scope.events.data.splice(index, 1);
+                        });
+                    }
+                });
+            } else {
+                index = $scope.newsItems.data.indexOf(post);
+
+                // On demande confirmation
+                alertify.confirm('Est-ce vraiment ce que tu veux ?', function(e){
+                    if (e) {
+                        $resource(apiPrefix + 'newsitems/' + $scope.newsItems.data[index].slug).delete(function() {
+                            $scope.newsItems.data.splice(index, 1);
+                        });
+                    }
+                });
+            }
+        };
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
@@ -247,7 +274,8 @@ angular.module('upont')
                 url: '',
                 templateUrl: "views/home/connected.html",
                 data: {
-                    title: 'Accueil - uPont'
+                    title: 'Accueil - uPont',
+                    top: true
                 },
                 controller: "Publish_Ctrl",
                 resolve: {

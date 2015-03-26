@@ -5,26 +5,21 @@ angular.module('upont')
         $scope.lastWeek = moment().subtract(7 , 'days').unix();
 
         $scope.faIcon = function(element){
-            var icon = '';
             switch(element.type){
                 case 'game':
-                    icon = 'fa-gamepad';
-                    break;
+                    return 'fa-gamepad';
                 case 'movie':
                 case 'serie':
-                    icon = 'fa-film';
-                    break;
+                    return 'fa-film';
                 case 'album':
-                    icon = 'fa-music';
-                    break;
+                    return 'fa-music';
                 case 'other':
-                    icon = 'fa-file-o';
-                    break;
+                    return 'fa-file-o';
                 case 'software':
-                    icon = 'fa-desktop';
-                    break;
+                    return 'fa-desktop';
+                default:
+                    return '';
             }
-            return icon;
         };
 
         $scope.next = function() {
@@ -46,7 +41,7 @@ angular.module('upont')
         $scope.openSeason = -1;
         $scope.fleur = null;
 
-        var pingFleur = function() {
+        function pingFleur() {
             var defered = $q.defer();
             var bool = false;
             ping('fleur.enpc.fr', function(status) { 
@@ -55,7 +50,7 @@ angular.module('upont')
                 defered.resolve({test: bool});
             });
             return defered.promise;
-        };
+        }
 
         $scope.download = function(url) {
             if ($scope.fleur === null) {
@@ -68,7 +63,7 @@ angular.module('upont')
             }
         };
 
-        var downloadFile = function(url) {
+        function downloadFile(url) {
             if (!$scope.fleur) {
                 alertify.error('Tu n\'es pas sur le réseau des résidences, impossible de télécharger le fichier !');
                 return;
@@ -80,7 +75,7 @@ angular.module('upont')
             $http.get(url).success(function(data){
                 $window.location.href = data.redirect;
             });
-        };
+        }
 
         if (episodes) {
             $scope.saisons = [];
@@ -127,7 +122,8 @@ angular.module('upont')
                 templateUrl: "views/ponthub/index.html",
                 abstract: true,
                 data: {
-                    title: 'PontHub - uPont'
+                    title: 'PontHub - uPont',
+                    top: true
                 },
                 params: {
                     category: 'films'
@@ -147,6 +143,9 @@ angular.module('upont')
                 url: "/:slug",
                 templateUrl: "views/ponthub/simple.html",
                 controller: 'PH_Element_Ctrl',
+                data: {
+                    top: true
+                },
                 resolve: {
                     element: ['$resource', '$stateParams', 'Ponthub', function($resource, $stateParams, Ponthub) {
                         return $resource(apiPrefix + ':cat/:slug').get({

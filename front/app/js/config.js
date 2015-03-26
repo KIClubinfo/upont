@@ -132,6 +132,9 @@ angular.module('upont')
 
         // Vérifie si l'utilisateur a les droits sur un club
         $rootScope.hasRight = function(slug) {
+            if ($rootScope.isAdmin)
+                return true;
+
             for (var i = 0; i < $rootScope.selfClubs.length; i++) {
                 if ($rootScope.selfClubs[i].club.slug == slug)
                     return true;
@@ -193,6 +196,9 @@ angular.module('upont')
             }
             else
                 $rootScope.title = 'Bienvenue sur uPont';
+
+            if (toState.data && toState.data.top)
+                window.scrollTo(0, 0);
         });
 
         // Erreur 404

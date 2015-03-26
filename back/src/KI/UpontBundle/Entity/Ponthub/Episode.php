@@ -38,6 +38,14 @@ class Episode extends PonthubFile
      */
     protected $serie;
 
+    /**
+     * @JMS\VirtualProperty()
+     */
+    public function imageUrl()
+    {
+        return $this->serie->image !== null ? $this->serie->image->getWebPath() : null;
+    }
+
 
 
 

@@ -1,104 +1,64 @@
 angular.module('upont')
     .controller('Search_Ctrl', ['$scope', '$rootScope', '$state', '$http', function($scope, $rootScope, $state, $http) {
         // $scope.showCategories = false;
-        $scope.searchResults = {
-            users: [],
-            post: [],
-            channel: []
-        };
-
-        // $scope.toggleCategories = function() {
-        //     $scope.showCategories = !$scope.showCategories;
-        // };
-
-        // $scope.changeCategory = function(category, searchValue) {
-        //     $rootScope.searchCategory = category;
-        //     $scope.doSearch(searchValue);
-        // };
-
-        // $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
-        //     // Changement de la catégorie de recherche
-        //     switch (toState.name) {
-        //         case 'root.ponthub.liste':
-        //         case 'root.ponthub.simple':
-        //             $rootScope.searchCategory = 'Ponthub';
-        //             break;
-        //         default:
-        //             $rootScope.searchCategory = 'Assos';
-        //     }
-
-        //     // On réinitialise la barre de recherche
-        //     // $scope.showCategories = false;
-        //     $scope.searchResults = [];
-        //     $('.search').val('');
-        // });
+        $scope.searchResults = [];
 
         $scope.doSearch = function(string) {
-            // var category = 'User';
-
-            // switch ($rootScope.searchCategory) {
-            //     case 'Ponthub':
-            //         category = 'Ponthub';
-            //         break;
-            //     case 'Publications':
-            //         category = 'Post';
-            //         break;
-            //     case 'Assos':
-            //         category = 'Club';
-            //         break;
-            // }
 
             if (string.length > 2) {
-                $http.post(apiPrefix + 'search', {search: 'User/' + string}).success(function(data){
-                    $scope.searchResults.users = data;
-                });
-                $http.post(apiPrefix + 'search', {search: 'Post/' + string}).success(function(data){
-                    $scope.searchResults.posts = data;
-                });
-                $http.post(apiPrefix + 'search', {search: 'Club/' + string}).success(function(data){
-                    $scope.searchResults.channels = data;
+                $http.post(apiPrefix + 'search', {search: '/' + string}).success(function(data){
+                    $scope.searchResults = data;
                 });
             } else {
-                $scope.searchResults = {
-                    users: [],
-                    posts: [],
-                    channels: []
-                };
+                $scope.searchResults = [];
             }
         };
 
         $scope.redirect = function(result) {
-            var slug = result.parent ? result.parent : result.slug;
-
             switch (result.type) {
                 case 'Movie':
-                    $state.go('root.ponthub.simple', {category: 'films', slug: slug});
-                    break;
+                    return 'root.ponthub.simple({category: "films", slug: file.slug})';
                 case 'Serie':
-                    $state.go('root.ponthub.simple', {category: 'series', slug: slug});
-                    break;
+                    return 'root.ponthub.simple({category: "series", slug: file.slug})';
                 case 'Episode':
-                    $state.go('root.ponthub.simple', {category: 'series', slug: slug});
-                    break;
+                    return 'root.ponthub.simple({category: "series", slug: file.parent})';
                 case 'Album':
-                    $state.go('root.ponthub.simple', {category: 'musiques', slug: slug});
-                    break;
+                    return 'root.ponthub.simple({category: "musiques", slug: file.slug})';
                 case 'Music':
-                    $state.go('root.ponthub.simple', {category: 'musiques', slug: slug});
-                    break;
+                    return 'root.ponthub.simple({category: "musiques", slug: file.parent})';
                 case 'Game':
-                    $state.go('root.ponthub.simple', {category: 'jeux', slug: slug});
-                    break;
+                    return 'root.ponthub.simple({category: "jeux", slug: file.slug})';
                 case 'Software':
-                    $state.go('root.ponthub.simple', {category: 'logiciels', slug: slug});
-                    break;
+                    return 'root.ponthub.simple({category: "logiciels", slug: file.slug})';
                 case 'Other':
-                    $state.go('root.ponthub.simple', {category: 'autres', slug: slug});
-                    break;
+                    return 'root.ponthub.simple({category: "autres", slug: file.slug})';
                 case 'Club':
-                    $state.go('root.channels.simple.publications', {slug: slug});
-                    break;
+                    return 'root.channels.simple.publications({slug: club.slug})';
             }
+        };
+
+        $scope.icon = function(result) {
+            switch (result.type) {
+                case 'Movie':
+                case 'Serie':
+                case 'Episode':
+                    return 'film';
+                case 'Album':
+                case 'Music':
+                    return 'music';
+                case 'Game':
+                    return 'gamepad';
+                case 'Software':
+                    return 'desktop';
+                case 'Other':
+                    return 'file-o';
+                case 'Club':
+                    return 'users';
+            }
+        };
+
+        $scope.resetSearch = function(){
+            $scope.searchValue = '';
             $scope.searchResults = [];
         };
     }]);
