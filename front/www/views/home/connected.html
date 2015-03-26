@@ -22,8 +22,7 @@
                             <i ng-show="message.author_user.username == $root.me.username && showModify" class="fa fa-pencil up-clickable" ng-click="modifyMessage(message)"></i>
                             <i ng-show="message.author_user.username == $root.me.username && showModify" class="fa fa-times up-clickable"  ng-click="deleteMessage(message)"></i>
                         </small><br>
-                        <strong>{{ message.author_user.nick }} :</strong>
-                        <span up-publi-text string="message.text" style="margin-top: 0"></span>
+                        <span up-publi-text string="'<strong>' + message.author_user.nick + ' :</strong> ' + message.text" style="margin-top: 0"></span>
                     </div>
                 </div>
                 <img class="img-responsive" ng-if="message.image_url" ng-src="{{ message.image_url | urlFile }}"/><br>

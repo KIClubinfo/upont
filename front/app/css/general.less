@@ -68,11 +68,11 @@ body {
         }
 
         .up-landing-left{
-            background: @col-aside-bckgnd;
+            background: rgba(red(@col-aside-bckgnd), green(@col-aside-bckgnd), blue(@col-aside-bckgnd), 0.9);
             color: white;
         }
         .up-landing-right{
-            background: @col-input-bckgnd;
+            background: rgba(red(@col-input-bckgnd), green(@col-input-bckgnd), blue(@col-input-bckgnd), 0.9);
         }
     }
     .up-landing-links {
@@ -159,4 +159,8 @@ a, a:hover, a:visited, a:active, a:focus {
 }
 .raw-link {
     color: @col-font !important;
+}
+.up-overflow {
+    height: 7em;
+    overflow: hidden;
 }
