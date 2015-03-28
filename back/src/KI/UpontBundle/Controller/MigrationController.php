@@ -173,10 +173,19 @@ class Generator extends AbstractFixture
                 $entity->setDate(strtotime($item['date']));
                 $entity->setStartDate(strtotime($item['date_deb']));
                 $entity->setEndDate(strtotime($item['date_fin']));
+
                 if ($item['date_shotgun'] != '0000-00-00 00:00:00')
                     $entity->setShotgunDate(strtotime($item['date_shotgun']));
+
                 $entity->setAuthorClub($this->clubs[$key]);
                 $entity->setEntryMethod(ucfirst($item['mode_inscription']));
+
+                if (ucfirst($item['mode_inscription']) == 'Shotgun') {
+                    $entity->setShotgunLimit(0);
+                    $entity->setShotgunText('Event importé depuis la v1 !');
+                }
+
+
                 $entity->setPlace($item['lieu']);
                 $this->em->persist($entity);
                 $this->events[$id] = $entity;

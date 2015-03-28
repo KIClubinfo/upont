@@ -1,25 +1,47 @@
 module
-    .controller('NewsController', ['$scope', 'StorageService', '$http', function($scope, StorageService, $http) {
-        $scope.news = [];
+    .controller('NewsController', ['$scope', 'StorageService', '$http', 'Paginate', function($scope, StorageService, $http, Paginate) {
         $scope.newItem = [];
         $scope.comments = [];
         $scope.url = url;
 
         $scope.init = function($done){
-            $http.get(url + '/own/newsitems?limit=20').success(function(data){
+            Paginate.get('own/newsitems?sort=-date', 10).then(function(data){
                 $scope.news = data;
-            })
-            .finally(function() {
-                if ($done) {
-                    $done();
-                }
+
+                Paginate.get('newsitems?sort=-date&limit=10&filterBy=name&filterValue=null').then(function(data){
+                    $scope.messages = data;
+
+                    if ($done) {
+                        $done();
+                    }
+                });
             });
         };
+
+        $scope.next = function() {
+            Paginate.next($scope.news).then(function(data){
+                $scope.news = data;
+            });
+
+            Paginate.next($scope.messages).then(function(data){
+                $scope.messages = data;
+            });
+        };
+
+        // Retourne un texte de news raccourci pour faire un abstract dans la liste de news
+        $scope.cut = function(string) {
+            return string.replace(/(<([^>]+)>)/ig,"").substring(0,140) + (string.replace(/(<([^>]+)>)/ig,"").length > 140 ? '...' : '');
+        }
 
         $scope.load = function(slug){
             $http.get(url + '/newsitems/' + slug).success(function(data){
                 $scope.newItem = data;
-                nav.pushPage('new.html');
+
+                if ($scope.newItem.name != 'null') {
+                    nav.pushPage('new.html');
+                } else {
+                    nav.pushPage('message.html');
+                }
             });
         };
 

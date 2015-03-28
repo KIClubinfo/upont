@@ -80,7 +80,11 @@ class ClubsController extends \KI\UpontBundle\Controller\Core\SubresourceControl
      *  section="Utilisateurs"
      * )
      */
-    public function patchClubAction($slug) { return $this->patch($slug); }
+    public function patchClubAction($slug)
+    {
+        $club = $this->findBySlug($slug);
+        return $this->patch($this->checkClubMembership($club));
+    }
 
     /**
      * @ApiDoc(

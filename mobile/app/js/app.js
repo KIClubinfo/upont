@@ -7,7 +7,7 @@ var onsAlert = function(title, message) {
 };
 
 // Controlleur principal de l'app
-var module = angular.module('upont', ['onsen','ngResource'])
+var module = angular.module('upont', ['onsen','ngResource','infinite-scroll'])
     .factory('LoginInterceptor', ['StorageService', '$location', '$q', function (StorageService, $location, $q){
         return {
             request: function (config){
@@ -56,12 +56,3 @@ var module = angular.module('upont', ['onsen','ngResource'])
         $httpProvider.interceptors.push('LoginInterceptor');
         $resourceProvider.defaults.stripTrailingSlashes = false;
     }]);
-
-// Fonction utile pour le debug
-function triggerEvent(selector, eventName) {
-    var event;
-    var element = document.querySelector(selector);
-    event = document.createEvent('Event');
-    event.initEvent(eventName, true, true);
-    element.dispatchEvent(event);
-}
