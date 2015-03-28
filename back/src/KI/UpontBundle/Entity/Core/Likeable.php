@@ -91,7 +91,7 @@ class Likeable
 
     /**
      * Les commentaires
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Core\Comment", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Core\Comment", cascade={"persist", "remove"})
      */
     protected $listComments;
 
