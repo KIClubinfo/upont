@@ -51,6 +51,12 @@ angular.module('upont')
                 alertify.success('Profil mis à jour !');
             });
         };
+
+        // Gère l'accordéon du tuto ICS
+        $scope.openICS = -1;
+        $scope.open = function(index) {
+            $scope.openICS = $scope.openICS != index ? index : -1;
+        };
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
