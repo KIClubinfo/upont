@@ -22,7 +22,7 @@ module.factory('Paginate', ['$resource', '$q', '$rootScope', function($resource,
         next: function(load) {
             // On indique qu'on est en train de charger de nouvelles données
             $rootScope.infiniteLoading = true;
-alert('ok');
+
             // On analyse les headers
             // On cherche un lien de la forme </ressource?page=1&limit=100>;rel=next
             var match = load.headers.links.match(/last,<(\/.*?)>;rel=next/);

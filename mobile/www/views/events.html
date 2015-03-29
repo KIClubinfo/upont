@@ -103,7 +103,7 @@
             </ons-list-item>
 
             <!-- Si la liste d'events est vide -->
-            <ons-list-item class="event" ng-if="eventToday == 'true'">
+            <ons-list-item class="event" ng-if="!events.length && eventToday == 'true'">
                 <ons-row>
                     <ons-col width="80px" class="left"></ons-col>
 
