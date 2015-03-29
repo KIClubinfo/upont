@@ -154,6 +154,11 @@
             <div up-row wrap padded center>
                 <a ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" up-col-xs="100%" up-col-sm="100%" up-col="50%" class="up-btn up-btn-lg up-btn-default centering">Synchroniser !</a>
             </div>
+
+            <p>
+                <em>Cetains services comme Google Calendar ou Thunderbird ne se lancent pas au clic de ce bouton, ils préfèrent demander un lien que voici :</em> <a ng-href="$root.url + 'users/' + token + '/calendar'" title="Calendrier ICS">{{ $root.url + 'users/' + token + '/calendar' }}</a><br>
+                <strong>Attention ! Ne le partage pas, c'est un lien personnalisé...</strong>
+            </p>
         </div>
         <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
             <h2>Smartphones</h2>
