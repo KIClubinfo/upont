@@ -50,6 +50,8 @@
             <ons-list-item modifier="{{ event.course == null ? 'chevron' : '' }}" class="event"
                            ng-repeat="event in events | orderBy:['start_date']"
                            ng-if="eventToday == 'true' ? event.start_date <= endDay : event.start_date > endDay">
+
+                <!-- Pour un event normal -->
                 <ons-row ng-if="event.name" ng-click="load(event.slug)">
                     <ons-col width="80px" class="left">
                         <div class="date">{{ event.start_date*1000 | date: "HH'h'mm" }}</div>
@@ -75,6 +77,7 @@
                     </ons-col>
                 </ons-row>
 
+                <!-- Pour un cours -->
                 <ons-row ng-if="event.course != null">
                     <ons-col width="80px" class="left">
                         <div class="date">{{ event.start_date*1000 | date: "HH'h'mm" }}</div>
@@ -95,6 +98,28 @@
                                 <ons-icon icon="fa-user"></ons-icon> Groupe {{ event.course.group }}
                             </div>
                         </div>
+                    </ons-col>
+                </ons-row>
+            </ons-list-item>
+
+            <!-- Si la liste d'events est vide -->
+            <ons-list-item class="event" ng-if="eventToday == 'true'">
+                <ons-row>
+                    <ons-col width="80px" class="left"></ons-col>
+
+                    <ons-col width="6px" class="center course-item"></ons-col>
+
+                    <ons-col class="right" ng-if="eventToday == 'true'">
+                        <div class="name">Rien à afficher aujourd'hui !</div>
+                        <div class="info">
+                            <div>
+                                <ons-icon icon="fa-question"></ons-icon> Peut être se passe-t-il quelque chose plus tard...
+                            </div>
+                        </div>
+                    </ons-col>
+
+                    <ons-col class="right" ng-if="!eventToday">
+                        <div class="name">Rien à afficher !</div>
                     </ons-col>
                 </ons-row>
             </ons-list-item>

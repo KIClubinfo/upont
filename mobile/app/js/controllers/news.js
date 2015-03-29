@@ -30,8 +30,11 @@ module
 
         // Retourne un texte de news raccourci pour faire un abstract dans la liste de news
         $scope.cut = function(string) {
-            return string.replace(/(<([^>]+)>)/ig,"").substring(0,140) + (string.replace(/(<([^>]+)>)/ig,"").length > 140 ? '...' : '');
-        }
+            if (string) {
+                return string.replace(/(<([^>]+)>)/ig,"").substring(0,140) +
+                       (string.replace(/(<([^>]+)>)/ig,"").length > 140 ? '...' : '');
+            }
+        };
 
         $scope.load = function(slug){
             $http.get(url + '/newsitems/' + slug).success(function(data){

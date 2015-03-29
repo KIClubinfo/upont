@@ -26,16 +26,28 @@ module
 
                 // On charge aussi les cours et on les fait passer pour des events
                 $http.get(url + '/own/courseitems').success(function(data) {
+                    var count = 0;
+
                     for (var key in data) {
                         if (data.hasOwnProperty(key)) {
                             // On ejecte les cours du matin déjà passés et ceux du lendemain
                             if (data[key].start_date > $scope.endDay || data[key].end_date < now) {
                                 continue;
                             }
+                            // On en prodite pour compter les events qui restent aujourd'hui
+                            if (data[key].start_date <= endDay) {
+                                count++;
+                            }
+
                             events.push(data[key]);
                         }
                     }
                     $scope.events = events;
+
+                    // S'il n'y a rien à afficher aujourd'hui, on affiche demain
+                    if (count === 0) {
+                        $scope.eventToday = 'false';
+                    }
                 })
                 .finally(function() {
                     if ($done) {
