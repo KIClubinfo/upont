@@ -82,8 +82,7 @@ class ClubsController extends \KI\UpontBundle\Controller\Core\SubresourceControl
      */
     public function patchClubAction($slug)
     {
-        $club = $this->findBySlug($slug);
-        return $this->patch($this->checkClubMembership($club));
+        return $this->patch($slug, $this->checkClubMembership($slug));
     }
 
     /**
