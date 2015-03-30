@@ -26,6 +26,7 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $club->setFullName('Bureau Des Élèves');
         $club->setActive(true);
         $club->setImage($this->getReference('image-club-bde'));
+        $club->setBanner($this->getReference('image-supaero'));
         $manager->persist($club);
         $this->addReference('club-bde', $club);
 
