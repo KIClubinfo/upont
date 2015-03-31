@@ -30,6 +30,13 @@ class Club extends Likeable
     protected $image;
 
     /**
+     * Bannière
+     * @ORM\OneToOne(targetEntity="KI\UpontBundle\Entity\Image", cascade={"persist"})
+     * @Assert\Valid()
+     */
+    protected $banner;
+
+    /**
      * Icône (utilisée par l'application mobile)
      * @ORM\Column(name="icon", type="string", nullable=true)
      * @JMS\Expose
@@ -51,6 +58,14 @@ class Club extends Likeable
     public function imageUrl()
     {
         return $this->image !== null ? $this->image->getWebPath() : 'uploads/others/default-user.png';
+    }
+
+    /**
+     * @JMS\VirtualProperty()
+     */
+    public function bannerUrl()
+    {
+        return $this->banner !== null ? $this->banner->getWebPath() : null;
     }
 
 
@@ -151,5 +166,28 @@ class Club extends Likeable
     public function getImage()
     {
         return $this->image;
+    }
+
+    /**
+     * Set banner
+     *
+     * @param \KI\UpontBundle\Entity\Image $banner
+     * @return Club
+     */
+    public function setBanner(\KI\UpontBundle\Entity\Image $banner = null)
+    {
+        $this->banner = $banner;
+
+        return $this;
+    }
+
+    /**
+     * Get banner
+     *
+     * @return \KI\UpontBundle\Entity\Image
+     */
+    public function getBanner()
+    {
+        return $this->banner;
     }
 }
