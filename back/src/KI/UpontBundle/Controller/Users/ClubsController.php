@@ -80,7 +80,10 @@ class ClubsController extends \KI\UpontBundle\Controller\Core\SubresourceControl
      *  section="Utilisateurs"
      * )
      */
-    public function patchClubAction($slug) { return $this->patch($slug); }
+    public function patchClubAction($slug)
+    {
+        return $this->patch($slug, $this->checkClubMembership($slug));
+    }
 
     /**
      * @ApiDoc(
@@ -104,6 +107,8 @@ class ClubsController extends \KI\UpontBundle\Controller\Core\SubresourceControl
         foreach ($link as $clubUser) {
             $this->em->remove($clubUser);
         }
+        // TODO
+        // S'arranger pour supprimer la bannière de façon automatique
 
         return $this->delete($slug);
     }

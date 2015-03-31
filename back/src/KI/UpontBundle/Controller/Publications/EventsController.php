@@ -137,6 +137,16 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
     {
         $club = $this->findBySlug($slug)->getAuthorClub();
         $club = $club ? $club->getSlug() : $club;
+        $event = $this->findBySlug($slug);
+
+        // On n'oublie pas de supprimer tous les shotguns éventuellement associés
+        $repo = $this->em->getRepository('KIUpontBundle:Publications\EventUser');
+        $userEvent = $repo->findByEvent($event);
+
+        foreach ($userEvent as $item) {
+            $this->em->remove($item);
+        }
+
         return $this->delete($slug, $this->checkClubMembership($club));
     }
 

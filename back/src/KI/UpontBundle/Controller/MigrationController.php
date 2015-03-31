@@ -129,7 +129,7 @@ class Generator extends AbstractFixture
     {
         $this->log('===== NEWS =====');
         $items = array();
-        $requete = $this->bdd->query('SELECT canal_publication.*, news.titre, news.valeur, club.nom FROM canal_publication JOIN news ON news.id = canal_publication.id LEFT JOIN club ON club.id = canal_publication.id_auteur WHERE canal_publication.type="news" AND canal_publication.type_auteur = "club"');
+        $requete = $this->bdd->query('SELECT canal_publication.*, news.titre, news.valeur, club.nom FROM canal_publication JOIN news ON news.id = canal_publication.id LEFT JOIN club ON club.id = canal_publication.id_auteur WHERE canal_publication.type="news" AND canal_publication.type_auteur = "club" AND canal_publication.id_canal <> 56');
         while ($donnees = $requete->fetch())
             $items[$donnees['id']] = $donnees;
         $requete->closeCursor();
@@ -157,7 +157,7 @@ class Generator extends AbstractFixture
     {
         $this->log('===== EVENEMENTS =====');
         $items = array();
-        $requete = $this->bdd->query('SELECT canal_publication.*, club.nom, evenement.label, evenement.details, evenement.lieu, evenement.date_deb, evenement.date_fin, evenement.date_shotgun, evenement.mode_inscription FROM canal_publication JOIN evenement ON evenement.id = canal_publication.id LEFT JOIN club ON club.id = canal_publication.id_auteur WHERE canal_publication.type="event" AND canal_publication.type_auteur = "club"');
+        $requete = $this->bdd->query('SELECT canal_publication.*, club.nom, evenement.label, evenement.details, evenement.lieu, evenement.date_deb, evenement.date_fin, evenement.date_shotgun, evenement.mode_inscription FROM canal_publication JOIN evenement ON evenement.id = canal_publication.id LEFT JOIN club ON club.id = canal_publication.id_auteur WHERE canal_publication.type="event" AND canal_publication.type_auteur = "club" AND canal_publication.id_canal <> 56');
         while ($donnees = $requete->fetch())
             $items[$donnees['id']] = $donnees;
         $requete->closeCursor();
@@ -173,10 +173,12 @@ class Generator extends AbstractFixture
                 $entity->setDate(strtotime($item['date']));
                 $entity->setStartDate(strtotime($item['date_deb']));
                 $entity->setEndDate(strtotime($item['date_fin']));
+
                 if ($item['date_shotgun'] != '0000-00-00 00:00:00')
                     $entity->setShotgunDate(strtotime($item['date_shotgun']));
+
                 $entity->setAuthorClub($this->clubs[$key]);
-                $entity->setEntryMethod(ucfirst($item['mode_inscription']));
+                $entity->setEntryMethod('Libre');
                 $entity->setPlace($item['lieu']);
                 $this->em->persist($entity);
                 $this->events[$id] = $entity;

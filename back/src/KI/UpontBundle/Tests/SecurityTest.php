@@ -68,6 +68,10 @@ class SecurityTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
+        $this->client->request('PATCH', '/clubs/bda', array('icon' => 'test'));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 204);
+
         // On teste que l'utilisateur puisse modifier son propre profil
         $this->client->request('PATCH', '/users/donat-bb', array('firstName' => 'Benoît'));
         $response = $this->client->getResponse();

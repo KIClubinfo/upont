@@ -123,8 +123,12 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
 
             // On détermine le dossier dans lequel est rangé le fichier et on range selon le type.
             if (preg_match('#^/root/web/films/#', $line)) {
+                if ($size == 0)
+                    continue;
+
                 $item = new Movie();
                 $item->setSize($size);
+                $item->setAdded(time());
                 $item->setPath($line);
                 $item->setStatus('NeedInfos');
                 $item->setName($name);
@@ -134,8 +138,12 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
                 $this->em->persist($item);
             }
             if (preg_match('#^/root/web/films_light/#', $line)) {
+                if ($size == 0)
+                    continue;
+
                 $item = new Movie();
                 $item->setSize($size);
+                $item->setAdded(time());
                 $item->setPath($line);
                 $item->setStatus('NeedInfos');
                 $item->setName($name);
@@ -143,24 +151,36 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
                 $this->em->persist($item);
             }
             if (preg_match('#^/root/web/jeux/#', $line)) {
+                if ($size == 0)
+                    continue;
+
                 $item = new Game();
                 $item->setSize($size);
+                $item->setAdded(time());
                 $item->setPath($line);
                 $item->setStatus('NeedInfos');
                 $item->setName($name);
                 $this->em->persist($item);
             }
             if (preg_match('#^/root/web/logiciels/#', $line)) {
+                if ($size == 0)
+                    continue;
+
                 $item = new Software();
                 $item->setSize($size);
+                $item->setAdded(time());
                 $item->setPath($line);
                 $item->setStatus('NeedInfos');
                 $item->setName($name);
                 $this->em->persist($item);
             }
             if (preg_match('#^/root/web/autres/#', $line)) {
+                if ($size == 0)
+                    continue;
+
                 $item = new Other();
                 $item->setSize($size);
+                $item->setAdded(time());
                 $item->setPath($line);
                 $item->setStatus('NeedInfos');
                 $item->setName($name);
@@ -193,6 +213,7 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
                 list(, $numberS, $numberE) = $matches;
                 $item = new Episode();
                 $item->setSize($size);
+                $item->setAdded(time());
                 $item->setPath($line);
                 $item->setSeason($numberS);
                 $item->setNumber($numberE);
@@ -239,6 +260,7 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
                 // Maintenant on range la musique
                 $item = new Music();
                 $item->setSize($size);
+                $item->setAdded(time());
                 $item->setPath($line);
                 $item->setStatus('OK');
                 $item->setName($name);
