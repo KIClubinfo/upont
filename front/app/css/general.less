@@ -6,7 +6,7 @@
     min-height: 100%;
 }
 .container-fluid { // bootstrap
-    padding: 0px;
+    padding: 0;
 }
 .label-upont { // Labels bootstrap pour uPont
     background-color: @col-main;
@@ -18,7 +18,7 @@
 // Blocks de base
 body {
     font-family:'Open Sans';
-    margin: 0px;
+    margin: 0;
     position: relative;
     overflow-y: scroll;
     word-break: break-word; // Non standard for webkit
@@ -34,7 +34,7 @@ body {
     }
 }
 .up-calendar {
-    margin: 0px 0px -30px;
+    margin: 0 0 -30px;
 }
 .up-messages {
     padding-top: 15px;
@@ -47,17 +47,16 @@ body {
 
 .up-landing-container{
     position: absolute;
-    top: 0px;
-    bottom: 0px;
-    right: 0px;
-    left: 0px;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
     background-image: url('img/ponts.jpg');
     background-size: cover;
 
     .up-landing {
         @media(max-width: @sizeMd) {
             margin-top: 15px;
-            padding-left: 10px;
         }
 
         @media(min-width: @sizeMd) {
@@ -98,16 +97,19 @@ body {
 
 // Titres
 h1 {
-    .title(2.3em);
+    .title(2em);
 }
 h2 {
-    .title(1.8em);
-}
-h3 {
     .title(1.5em);
 }
-h4 {
-    .title(1.2em);
+h3 {
+    .title(1.17em);
+}
+h5 {
+    .title(.83em);
+}
+h5 {
+    .title(.75em);
 }
 h1, h2, h3, h4, h5, h6 {
     margin-top: 10px;
@@ -142,6 +144,16 @@ a, a:hover, a:visited, a:active, a:focus {
         color: @col-main;
     }
 }
+.up-delete-button:hover{
+    color: #E53B3B;
+}
+.up-link{
+    cursor: pointer;
+    color: @col-main;
+    &:hover {
+        color: @col-font;
+    }
+}
 .no-click {
     cursor: default !important;
 }
@@ -163,4 +175,19 @@ a, a:hover, a:visited, a:active, a:focus {
 .up-overflow {
     height: 7em;
     overflow: hidden;
+}
+
+
+font-size: 12px;
+@media (min-width: @sizeXs){
+    font-size: 12px;
+}
+@media (min-width: @sizeSm){
+    font-size: 14px;
+}
+@media (min-width: @sizeMd){
+    font-size: 15px;
+}
+@media (min-width: @sizeLg){
+    font-size: 15px;
 }
