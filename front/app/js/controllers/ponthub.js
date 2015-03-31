@@ -116,6 +116,36 @@ angular.module('upont')
             }
         };
     }])
+    .controller('PH_Modify_Ctrl', ['$scope', '$stateParams', 'Ponthub', '$http', 'element', function($scope, $stateParams, Ponthub, $http, element) {
+        $scope.element = element;
+        $scope.category = $stateParams.category;
+        $scope.type = Ponthub.cat($stateParams.category);
+
+        $scope.submitFile = function(element, imageUrl, imageBase64) {
+            var params = {
+                'name' : element.name,
+                'fullName' : fullName,
+                'icon' : icon,
+            };
+
+            if (image) {
+                params.image = image.base64;
+            }
+
+            $http.patch(apiPrefix + 'clubs/' + $scope.channel.slug, params).success(function(){
+                // On recharge le club pour être sûr d'avoir la nouvelle photo
+                if (channelSlug == name) {
+                    $http.get(apiPrefix + 'clubs/' + $scope.channel.slug).success(function(data){
+                        $scope.channel = data;
+                    });
+                } else {
+                    alertify.alert('Le nom court du club ayant changé, il est nécéssaire de recharger la page du club...');
+                    $state.go('root.channels.liste');
+                }
+                alertify.success('Modifications prises en compte !');
+            });
+        };
+    }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider.state("root.ponthub", {
                 url: "ponthub/:category",
@@ -169,6 +199,22 @@ angular.module('upont')
                             slug: $stateParams.slug
                         }).$promise;
                     }],
+                }
+            })
+            .state("root.ponthub.modify", {
+                url: "/:slug/rangement",
+                templateUrl: "views/ponthub/modify.html",
+                controller: 'PH_Modify_Ctrl',
+                data: {
+                    top: true
+                },
+                resolve: {
+                    element: ['$resource', '$stateParams', 'Ponthub', function($resource, $stateParams, Ponthub) {
+                        return $resource(apiPrefix + ':cat/:slug').get({
+                            cat: Ponthub.cat($stateParams.category),
+                            slug: $stateParams.slug
+                        }).$promise;
+                    }]
                 }
             });
     }]);
