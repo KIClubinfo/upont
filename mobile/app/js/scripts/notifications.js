@@ -39,7 +39,7 @@ if(window.plugins) {
                                         function (error) { onsAlert('Erreur', error); },
                                         {'channelName': channelName, 'ecb': 'onNotificationWP8'}
                                     );
-                                } else {
+                                /*} else {
                                     pushNotification.register(
                                         function(token) {
                                             StorageService.set('registered', true);
@@ -49,7 +49,7 @@ if(window.plugins) {
                                         },
                                         function (error) { onsAlert('Erreur', error); },
                                         {'badge': 'true', 'sound': 'true', 'alert': 'true', 'ecb': 'onNotificationAPN'}
-                                    );
+                                    );*/
                                 }
                             } else {
                                 StorageService.set('registered', false);
@@ -99,7 +99,7 @@ document.addEventListener('deviceready', function() {
 
 // Fonctions gérant la récéption d'une notification
 // iOS
-function onNotificationAPN (event) {
+/*function onNotificationAPN (event) {
     if (event.alert) {
         navigator.notification.alert(event.alert);
     }
@@ -112,7 +112,7 @@ function onNotificationAPN (event) {
     if (event.badge) {
         pushNotification.setApplicationIconBadgeNumber(successHandler, errorHandler, event.badge);
     }
-}
+}*/
 
 // Android et Amazon Fire OS
 function onNotificationGCM(e) {
