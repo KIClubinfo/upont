@@ -2,7 +2,7 @@
 var pushNotification;
 var gcmExpeditor = '124672424252';
 
-if(window.plugins) {
+//if(window.plugins) {
     module
         .factory('PushNotifications', ['$http', '$rootScope', 'StorageService', function ($http, $rootScope, StorageService) {
             return {
@@ -76,7 +76,7 @@ if(window.plugins) {
                 }
             };
         }]);
-} else {
+/*} else {
     module
         .factory('PushNotifications', ['$http', '$rootScope', 'StorageService', function ($http, $rootScope, StorageService) {
             return {
@@ -84,16 +84,14 @@ if(window.plugins) {
                 },
             };
         }]);
-}
+}*/
 
-/*
 document.addEventListener('deviceready', function() {
     var elem = angular.element(document.querySelector('[ng-app]'));
     var injector = elem.injector();
     var service = injector.get('PushNotifications');
     service.initialize();
 }, false);
-*/
 
 
 
