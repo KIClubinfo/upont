@@ -1,6 +1,6 @@
 <?php
 
-namespace OC\PlatformBundle\DataFixtures\ORM\Ponthub;
+namespace KI\UpontBundle\DataFixtures\ORM\Ponthub;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -26,7 +26,7 @@ class LoadSerieFixture extends AbstractFixture implements OrderedFixtureInterfac
         $manager->flush();
         $this->addReference('serie-himym', $serie);
     }
-    
+
     public function getOrder()
     {
         return 35;

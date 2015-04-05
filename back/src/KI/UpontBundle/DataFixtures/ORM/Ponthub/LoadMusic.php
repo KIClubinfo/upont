@@ -1,6 +1,6 @@
 <?php
 
-namespace OC\PlatformBundle\DataFixtures\ORM\Ponthub;
+namespace KI\UpontBundle\DataFixtures\ORM\Ponthub;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -18,7 +18,7 @@ class LoadMusicFixture extends AbstractFixture implements OrderedFixtureInterfac
         $music->setAlbum($this->getReference('album-back-in-black'));
         $music->setStatus('OK');
         $manager->persist($music);
-        
+
         $music = new Music();
         $music->setSize(8000000);
         $music->setName('Shoot To Thrill');
@@ -26,7 +26,7 @@ class LoadMusicFixture extends AbstractFixture implements OrderedFixtureInterfac
         $music->setAlbum($this->getReference('album-back-in-black'));
         $music->setStatus('OK');
         $manager->persist($music);
-        
+
         $music = new Music();
         $music->setSize(8000000);
         $music->setName('What Do You Do For Money Honey');
@@ -34,7 +34,7 @@ class LoadMusicFixture extends AbstractFixture implements OrderedFixtureInterfac
         $music->setAlbum($this->getReference('album-back-in-black'));
         $music->setStatus('OK');
         $manager->persist($music);
-        
+
         $music = new Music();
         $music->setSize(8000000);
         $music->setName('Giving The Dog A Bone');
@@ -42,7 +42,7 @@ class LoadMusicFixture extends AbstractFixture implements OrderedFixtureInterfac
         $music->setAlbum($this->getReference('album-back-in-black'));
         $music->setStatus('OK');
         $manager->persist($music);
-        
+
         $music = new Music();
         $music->setSize(8000000);
         $music->setName('Let Me Put My Love Into You');
@@ -50,7 +50,7 @@ class LoadMusicFixture extends AbstractFixture implements OrderedFixtureInterfac
         $music->setAlbum($this->getReference('album-back-in-black'));
         $music->setStatus('OK');
         $manager->persist($music);
-        
+
         $music = new Music();
         $music->setSize(8000000);
         $music->setName('Back In Black');
@@ -58,7 +58,7 @@ class LoadMusicFixture extends AbstractFixture implements OrderedFixtureInterfac
         $music->setAlbum($this->getReference('album-back-in-black'));
         $music->setStatus('OK');
         $manager->persist($music);
-        
+
         $music = new Music();
         $music->setSize(8000000);
         $music->setName('You Shook Me All Night Long');
@@ -66,7 +66,7 @@ class LoadMusicFixture extends AbstractFixture implements OrderedFixtureInterfac
         $music->setAlbum($this->getReference('album-back-in-black'));
         $music->setStatus('OK');
         $manager->persist($music);
-        
+
         $music = new Music();
         $music->setSize(8000000);
         $music->setName('Have A Drink On Me');
@@ -74,7 +74,7 @@ class LoadMusicFixture extends AbstractFixture implements OrderedFixtureInterfac
         $music->setAlbum($this->getReference('album-back-in-black'));
         $music->setStatus('OK');
         $manager->persist($music);
-        
+
         $music = new Music();
         $music->setSize(8000000);
         $music->setName('Shake A Leg');
@@ -82,7 +82,7 @@ class LoadMusicFixture extends AbstractFixture implements OrderedFixtureInterfac
         $music->setAlbum($this->getReference('album-back-in-black'));
         $music->setStatus('OK');
         $manager->persist($music);
-        
+
         $music = new Music();
         $music->setSize(8000000);
         $music->setName('Rock n Roll Aint Noise Pollution');
@@ -90,7 +90,7 @@ class LoadMusicFixture extends AbstractFixture implements OrderedFixtureInterfac
         $music->setAlbum($this->getReference('album-back-in-black'));
         $music->setStatus('OK');
         $manager->persist($music);
-        
+
         $music = new Music();
         $music->setSize(8000000);
         $music->setName('Rock Or Bust');
@@ -98,7 +98,7 @@ class LoadMusicFixture extends AbstractFixture implements OrderedFixtureInterfac
         $music->setAlbum($this->getReference('album-rock-or-bust'));
         $music->setStatus('OK');
         $manager->persist($music);
-        
+
         $music = new Music();
         $music->setSize(8000000);
         $music->setName('Play Ball');
@@ -106,7 +106,7 @@ class LoadMusicFixture extends AbstractFixture implements OrderedFixtureInterfac
         $music->setAlbum($this->getReference('album-rock-or-bust'));
         $music->setStatus('OK');
         $manager->persist($music);
-        
+
         $music = new Music();
         $music->setSize(8000000);
         $music->setName('Enter Sandman');
@@ -114,7 +114,7 @@ class LoadMusicFixture extends AbstractFixture implements OrderedFixtureInterfac
         $music->setAlbum($this->getReference('album-black-album'));
         $music->setStatus('OK');
         $manager->persist($music);
-        
+
         $music = new Music();
         $music->setSize(8000000);
         $music->setName('Sad But True');
@@ -122,10 +122,10 @@ class LoadMusicFixture extends AbstractFixture implements OrderedFixtureInterfac
         $music->setAlbum($this->getReference('album-black-album'));
         $music->setStatus('OK');
         $manager->persist($music);
-        
+
         $manager->flush();
     }
-    
+
     public function getOrder()
     {
         return 38;

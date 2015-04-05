@@ -115,7 +115,7 @@ class PonthubFile extends Likeable
 
     /**
      * Utilisateurs ayant téléchargé le fichier
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Ponthub\PonthubFileUser", mappedBy="file")
      * @Assert\Valid()
      */
     protected $users;

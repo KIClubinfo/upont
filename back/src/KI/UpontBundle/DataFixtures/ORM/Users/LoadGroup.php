@@ -1,6 +1,6 @@
 <?php
 
-namespace OC\PlatformBundle\DataFixtures\ORM\Users;
+namespace KI\UpontBundle\DataFixtures\ORM\Users;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -16,20 +16,20 @@ class LoadGroupFixture extends AbstractFixture implements OrderedFixtureInterfac
         $group->addRole('ROLE_ADMIN');
         $manager->persist($group);
         $this->addReference('group-admin', $group);
-        
+
         $group = new Group('modo');
         $group->addRole('ROLE_MODO');
         $manager->persist($group);
         $this->addReference('group-modo', $group);
-        
+
         $group = new Group('user');
         $group->addRole('ROLE_USER');
         $manager->persist($group);
         $this->addReference('group-user', $group);
-        
+
         $manager->flush();
     }
-    
+
     public function getOrder()
     {
         return 2;

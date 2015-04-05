@@ -1,6 +1,6 @@
 <?php
 
-namespace OC\PlatformBundle\DataFixtures\ORM\Ponthub;
+namespace KI\UpontBundle\DataFixtures\ORM\Ponthub;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -23,13 +23,13 @@ class LoadMovieFixture extends AbstractFixture implements OrderedFixtureInterfac
         $movie->setTags(array($this->getReference('tag-bodybuilding'), $this->getReference('tag-lift')));
         $movie->setDuration(85*60);
         $movie->setRating(62);
-        $movie->setUsers(array($this->getReference('user-taquet-c'), $this->getReference('user-de-boisc')));
         $movie->setLikes(array($this->getReference('user-de-boisc'), $this->getReference('user-muzardt')));
         $movie->setDislikes(array($this->getReference('user-taquet-c')));
         $movie->setStatus('OK');
         $movie->setAdded(time());
         $movie->setImage($this->getReference('image-movie-pumping-iron'));
         $manager->persist($movie);
+        $this->addReference('movie-pumping-iron', $movie);
 
         $manager->flush();
     }
