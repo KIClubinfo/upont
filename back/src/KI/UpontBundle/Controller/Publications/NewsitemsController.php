@@ -76,8 +76,9 @@ class NewsitemsController extends \KI\UpontBundle\Controller\Core\ResourceContro
                 $users = array();
 
                 foreach ($allUsers as $candidate) {
-                    if ($candidate->getClubsNotFollowed()->contains($club))
+                    if ($candidate->getClubsNotFollowed()->contains($club)) {
                         $users[] = $candidate;
+                    }
                 }
 
                 $text = substr($return['item']->getText(), 0, 140).'...';
@@ -85,7 +86,7 @@ class NewsitemsController extends \KI\UpontBundle\Controller\Core\ResourceContro
                     'notif_followed_event',
                     $return['item']->getName(),
                     $text,
-                    'to',
+                    'exclude',
                     $users
                 );
             }
