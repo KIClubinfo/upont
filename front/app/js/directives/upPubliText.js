@@ -17,6 +17,6 @@ angular.module('upont').directive('upPubliText', ['$filter', '$sce', function($f
             };
         }],
         template: '<div class="up-ticket-texte" ng-class="{\'up-overflow\': overflow}" ng-bind-html="content"></div>' +
-        '<span ng-if="overflow" class="up-link" ng-click="open()">Afficher la suite</span>',
+        '<br><div ng-if="overflow">... <span class="up-link" ng-click="open()">Afficher la suite</span></div>',
     };
 }]);

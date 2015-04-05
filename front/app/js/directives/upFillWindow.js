@@ -2,40 +2,27 @@ angular.module('upont').directive('upFillWindow', ['$window', function($window) 
     return {
         link: function($scope, $element, $attrs) {
             //Initialisation
-            var newHeight = 0;
-            if ($attrs.upFillWindow == 'calendar') {
-                newHeight = $window.innerHeight - $('header').outerHeight();
-                $element.height(newHeight.toString() + 'px');
-            } else {
-                newHeight = $window.innerHeight - $('header').outerHeight() - $('footer').outerHeight();
-                $element.css('min-height', newHeight.toString() + 'px');
-            }
+            updateSize();
 
             //On vérifie si le footer changent de taille
             $scope.$watch(function() {
                 return $('footer').outerHeight();
-            }, function() {
-                if ($attrs.upFillWindow == 'calendar') {
-                    newHeight = $window.innerHeight - $('header').outerHeight();
-                    $element.height(newHeight.toString() + 'px');
-                } else {
-                    newHeight = $window.innerHeight - $('header').outerHeight() - $('footer').outerHeight();
-                    $element.css('min-height', newHeight.toString() + 'px');
-                }
-            });
+            }, updateSize);
 
             //On observe si le navigateur change de taille
             angular.element($window).on('resize', function() {
-                $scope.$apply(function() {
-                    if ($attrs.upFillWindow == 'calendar') {
-                        newHeight = $window.innerHeight - $('header').outerHeight();
-                        $element.height(newHeight.toString() + 'px');
-                    } else {
-                        newHeight = $window.innerHeight - $('header').outerHeight() - $('footer').outerHeight();
-                        $element.css('min-height', newHeight.toString() + 'px');
-                    }
-                });
+                $scope.$apply(updateSize);
             });
+
+            function updateSize(){
+                if ($attrs.upFillWindow == 'calendar') {
+                    newHeight = $window.innerHeight;
+                    $element.height(newHeight.toString() + 'px');
+                } else {
+                    newHeight = $window.innerHeight;
+                    $element.css('min-height', newHeight.toString() + 'px');
+                }
+            }
 
         }
     };
