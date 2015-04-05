@@ -3,6 +3,7 @@ module
         $scope.newItem = [];
         $scope.comments = [];
         $scope.url = url;
+        $scope.isLoading = false;
 
         $scope.init = function($done){
             Paginate.get('own/newsitems?sort=-date', 10).then(function(data){
@@ -49,16 +50,23 @@ module
         };
 
         $scope.likeClick = function(){
+            if ($scope.isLoading) {
+                return;
+            }
+            $scope.isLoading = true;
+
             // Si la personne like déjà on ne fait qu'annuler le like
             if ($scope.newItem.like) {
                 $http.delete(url + '/newsitems/' + $scope.newItem.slug + '/like').success(function(data){
                     $scope.newItem.like = false;
                     $scope.newItem.likes--;
+                    $scope.isLoading = false;
                 });
             } else {
                 $http.post(url + '/newsitems/' + $scope.newItem.slug + '/like').success(function(data){
                     $scope.newItem.like = true;
                     $scope.newItem.likes++;
+                    $scope.isLoading = false;
 
                     // Si la personne unlikait avant
                     if ($scope.newItem.dislike) {
@@ -70,16 +78,23 @@ module
         };
 
         $scope.dislikeClick = function(){
+            if ($scope.isLoading) {
+                return;
+            }
+            $scope.isLoading = true;
+
             // Si la personne like déjà on ne fait qu'annuler le like
             if ($scope.newItem.dislike) {
                 $http.delete(url + '/newsitems/' + $scope.newItem.slug + '/dislike').success(function(data){
                     $scope.newItem.dislike = false;
                     $scope.newItem.dislikes--;
+                    $scope.isLoading = false;
                 });
             } else {
                 $http.post(url + '/newsitems/' + $scope.newItem.slug + '/dislike').success(function(data){
                     $scope.newItem.dislike = true;
                     $scope.newItem.dislikes++;
+                    $scope.isLoading = false;
 
                     // Si la personne unlikait avant
                     if ($scope.newItem.like) {

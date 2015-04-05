@@ -28,13 +28,13 @@
                          ng-click="likeComment($index)"
                          up-active="comment.like">
                         <ons-icon icon="fa-thumbs-up"></ons-icon>
-                        <div class="notification like-badge comment-badge">{{ comment.likes }}</div>
+                        <div class="notification like-badge comment-badge">{{ comment.likes >= 0 ? comment.likes : 0 }}</div>
                     </div>
                     <div class="icon"
                          ng-click="dislikeComment($index)"
                          up-active="comment.dislike">
                         <ons-icon icon="fa-thumbs-down"></ons-icon>
-                        <div class="notification like-badge comment-badge">{{ comment.dislikes }}</div>
+                        <div class="notification like-badge comment-badge">{{ comment.dislikes >= 0 ? comment.dislikes : 0 }}</div>
                     </div>
                 </ons-col>
             </ons-row>

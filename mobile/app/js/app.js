@@ -16,6 +16,7 @@ var module = angular.module('upont', ['onsen','ngResource','infinite-scroll'])
                 if(token) {
                     config.headers.Authorization = 'Bearer ' + token;
                 }
+                menu.setSwipeable(true);
                 return config;
             },
             responseError: function (response) {

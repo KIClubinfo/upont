@@ -5,6 +5,8 @@ angular.module('upont').directive('upLikes', function() {
             url: '='
         },
         controller: ['$scope', '$resource', '$http', function($scope, $resource, $http) {
+            $scope.isLoading = false;
+
             if($scope.objet.comments > 0){
                 $resource(apiPrefix + $scope.url + '/comments').query(function(data){
                     $scope.comments = data;
@@ -17,10 +19,17 @@ angular.module('upont').directive('upLikes', function() {
             }
 
             $scope.upvote = function() {
+                if ($scope.isLoading) {
+                    return;
+                }
+                $scope.isLoading = true;
+
                 if (!$scope.objet.like) {
                     $resource(apiPrefix + $scope.url + '/like').save(function() {
                         $scope.objet.likes++;
                         $scope.objet.like = true;
+                        $scope.isLoading = false;
+
                         if ($scope.objet.dislike) {
                             $scope.objet.dislike = false;
                             $scope.objet.dislikes--;
@@ -30,15 +39,23 @@ angular.module('upont').directive('upLikes', function() {
                     $resource(apiPrefix + $scope.url + '/like').remove(function() {
                         $scope.objet.likes--;
                         $scope.objet.like = false;
+                        $scope.isLoading = false;
                     });
                 }
             };
 
             $scope.downvote = function() {
+                if ($scope.isLoading) {
+                    return;
+                }
+                $scope.isLoading = true;
+
                 if (!$scope.objet.dislike) {
                     $resource(apiPrefix + $scope.url + '/dislike').save(function() {
                         $scope.objet.dislikes++;
                         $scope.objet.dislike = true;
+                        $scope.isLoading = false;
+
                         if ($scope.objet.like) {
                             $scope.objet.like = false;
                             $scope.objet.likes--;
@@ -48,11 +65,16 @@ angular.module('upont').directive('upLikes', function() {
                     $resource(apiPrefix + $scope.url + '/dislike').remove(function() {
                         $scope.objet.dislikes--;
                         $scope.objet.dislike = false;
+                        $scope.isLoading = false;
                     });
                 }
             };
 
             $scope.likeComment = function(comment) {
+                if ($scope.isLoading) {
+                    return;
+                }
+                $scope.isLoading = true;
                 var index = $scope.comments.indexOf(comment);
 
                 // Si la personne like déjà on ne fait qu'annuler le like
@@ -60,11 +82,13 @@ angular.module('upont').directive('upLikes', function() {
                     $resource(apiPrefix + 'comments/' + $scope.comments[index].id + '/like').remove(function() {
                         $scope.comments[index].like = false;
                         $scope.comments[index].likes--;
+                        $scope.isLoading = false;
                     });
                 } else {
                     $resource(apiPrefix + 'comments/' + $scope.comments[index].id + '/like').save(function() {
                         $scope.comments[index].like = true;
                         $scope.comments[index].likes++;
+                        $scope.isLoading = false;
 
                         // Si la personne unlikait avant
                         if ($scope.comments[index].dislike) {
@@ -76,6 +100,10 @@ angular.module('upont').directive('upLikes', function() {
             };
 
             $scope.dislikeComment = function(comment) {
+                if ($scope.isLoading) {
+                    return;
+                }
+                $scope.isLoading = true;
                 var index = $scope.comments.indexOf(comment);
 
                 // Si la personne dislike déjà on ne fait qu'annuler le dislike
@@ -83,11 +111,13 @@ angular.module('upont').directive('upLikes', function() {
                     $resource(apiPrefix + 'comments/' + $scope.comments[index].id + '/dislike').remove(function() {
                         $scope.comments[index].dislike = false;
                         $scope.comments[index].dislikes--;
+                        $scope.isLoading = false;
                     });
                 } else {
                     $resource(apiPrefix + 'comments/' + $scope.comments[index].id + '/dislike').save(function() {
                         $scope.comments[index].dislike = true;
                         $scope.comments[index].dislikes++;
+                        $scope.isLoading = false;
 
                         // Si la personne unlikait avant
                         if ($scope.comments[index].like) {

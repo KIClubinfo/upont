@@ -1,11 +1,22 @@
 module
     .controller('SettingsController', ['$scope', '$rootScope', 'StorageService', '$http', 'PushNotifications', function($scope, $rootScope, StorageService, $http, PushNotifications) {
         $scope.logout = function(){
-            StorageService.remove('token');
-            StorageService.remove('token_exp');
-            onsAlert('Déconnexion', 'Tu as été correctement déconnecté');
-            menu.setSwipeable(false);
-            menu.setMainPage('views/login.html', {closeMenu: true});
+            ons.notification.confirm({
+                title: 'Déconnexion',
+                message: 'Es-tu sûr(e) ?',
+                buttonLabels: ['Oui', 'Je veux rester !'],
+                animation: 'default',
+                primaryButtonIndex: 1,
+                callback: function(index) {
+                    if(index === 0) {
+                        StorageService.remove('token');
+                        StorageService.remove('token_exp');
+                        onsAlert('Déconnexion', 'Tu as été correctement déconnecté');
+                        menu.setSwipeable(false);
+                        menu.setMainPage('views/login.html', {closeMenu: true});
+                    }
+                }
+            });
         };
 
         $scope.clubs = [];
@@ -14,6 +25,8 @@ module
         $scope.balance = null;
         $scope.token = null;
         $scope.pushable = false;
+        $scope.isLoading = false;
+        $scope.url = url;
         $scope.notifs = [];
         $scope.notifTexts = {
             'notif_followed_event' : 'Nouvel événement',
@@ -60,13 +73,20 @@ module
         };
 
         $scope.changeFollowed = function(slug) {
+            if ($scope.isLoading) {
+                return;
+            }
+            $scope.isLoading = true;
+
             if ($scope.clubsFollowed.indexOf(slug) > -1) {
                 $http.post(url + '/clubs/' + slug + '/unfollow').success(function(){
                     $scope.clubsFollowed.splice($scope.clubsFollowed.indexOf(slug), 1);
+                    $scope.isLoading = false;
                 });
             } else {
                 $http.post(url + '/clubs/' + slug + '/follow').success(function(){
                     $scope.clubsFollowed.push(slug);
+                    $scope.isLoading = false;
                 });
             }
         };

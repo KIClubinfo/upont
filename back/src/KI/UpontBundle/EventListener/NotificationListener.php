@@ -77,7 +77,7 @@ class NotificationListener
         // destinataires en une fois. On est donc obligé de faire autant de
         // requêtes vers l'extérieur que de destinataires.
         // À corriger quand ils feront preuve d'intelligence chez Microsoft.
-        foreach ($sendToWP as $devie) {
+        foreach ($sendToWP as $device) {
             //pushWP
         }
     }
