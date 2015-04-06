@@ -1,6 +1,6 @@
 <?php
 
-namespace OC\PlatformBundle\DataFixtures\ORM\Ponthub;
+namespace KI\UpontBundle\DataFixtures\ORM\Ponthub;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -21,7 +21,7 @@ class LoadAlbumFixture extends AbstractFixture implements OrderedFixtureInterfac
         $album->setImage($this->getReference('image-album-back-in-black'));
         $manager->persist($album);
         $this->addReference('album-back-in-black', $album);
-        
+
         $album = new Album();
         $album->setPath('/root/web/musique/Hard rock/AC_DC/Rock Or Bust');
         $album->setName('Rock Or Bust');
@@ -32,7 +32,7 @@ class LoadAlbumFixture extends AbstractFixture implements OrderedFixtureInterfac
         $album->setImage($this->getReference('image-album-rock-or-bust'));
         $manager->persist($album);
         $this->addReference('album-rock-or-bust', $album);
-        
+
         $album = new Album();
         $album->setPath('/root/web/musique/Hard rock/Metallica/Black Album');
         $album->setName('Black Album');
@@ -43,10 +43,10 @@ class LoadAlbumFixture extends AbstractFixture implements OrderedFixtureInterfac
         $album->setStatus('OK');
         $manager->persist($album);
         $this->addReference('album-black-album', $album);
-        
+
         $manager->flush();
     }
-    
+
     public function getOrder()
     {
         return 37;

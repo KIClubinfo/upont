@@ -1,6 +1,6 @@
 <?php
 
-namespace OC\PlatformBundle\DataFixtures\ORM\Ponthub;
+namespace KI\UpontBundle\DataFixtures\ORM\Ponthub;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -19,10 +19,10 @@ class LoadOtherFixture extends AbstractFixture implements OrderedFixtureInterfac
         $other->setTags(array($this->getReference('tag-windaube'), $this->getReference('tag-merde'), $this->getReference('tag-daube')));
         $other->setStatus('OK');
         $manager->persist($other);
-        
+
         $manager->flush();
     }
-    
+
     public function getOrder()
     {
         return 33;

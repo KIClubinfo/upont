@@ -1,6 +1,6 @@
 <?php
 
-namespace OC\PlatformBundle\DataFixtures\ORM\Ponthub;
+namespace KI\UpontBundle\DataFixtures\ORM\Ponthub;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -17,17 +17,17 @@ class LoadRequestFixture extends AbstractFixture implements OrderedFixtureInterf
         $request->setUser($this->getReference('user-trancara'));
         $request->setDate(time() - 9000);
         $manager->persist($request);
-        
+
         $request = new Request();
         $request->setName('Windows vista cracké');
         $request->setVotes(-3);
         $request->setUser($this->getReference('user-muzardt'));
         $request->setDate(time());
         $manager->persist($request);
-        
+
         $manager->flush();
     }
-    
+
     public function getOrder()
     {
         return 39;
