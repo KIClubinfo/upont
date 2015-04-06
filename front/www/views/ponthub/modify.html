@@ -8,9 +8,38 @@
     </div>
 
     <div class="up-profile-form">
+        <!-- Suggestions Imdb/Gracenote -->
+        <form ng-if="type == 'albums' || type == 'series' || type == 'movies'" up-row padded left wrap autocomplete="off">
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <i class="fa fa-search"></i>
+                Recherche
+            </div>
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <input class="up-col-xs-12" type="text" ng-model="criteria" ng-init="criteria=element.name" placeholder="Critère"/>
+            </div>
+
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <i class="fa fa-question"></i>
+                Propositions
+            </div>
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <select ng-model="proposition">
+                    <option ng-repeat="item in propositions" value="{{ item.id }}" ng-selected="$index === 0">{{ item.name }} - {{ item.year }} ({{ item.type }})</option>
+                </select>
+            </div>
+
+            <div up-col="100%" up-row right>
+                <button ng-click="search(criteria)" up-col-xs="100%" up-col-sm="100%" up-col="25%" class="up-btn up-btn-lg up-btn-primary" style="margin-right: 10px;">Rechercher</button>
+                <button ng-click="fill(proposition)" up-col-xs="100%" up-col-sm="100%" up-col="25%" class="up-btn up-btn-lg up-btn-default">Remplir</button>
+            </div>
+        </form>
+        <hr>
+
+
+
         <form up-row padded left wrap ng-submit="submitFile(element, imageUrl, filePicture)" autocomplete="off">
             <div up-col="25%">
-                <i class="fa fa-phone"></i>
+                <i class="fa fa-arrow-right"></i>
                 Chemin
             </div>
             <div up-col="75%">

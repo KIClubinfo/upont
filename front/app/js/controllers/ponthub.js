@@ -120,6 +120,43 @@ angular.module('upont')
         $scope.element = element;
         $scope.category = $stateParams.category;
         $scope.type = Ponthub.cat($stateParams.category);
+        $scope.propositions = [];
+
+        $scope.search = function(criteria) {
+            if ($scope.type == 'movies' || $scope.type == 'series') {
+                $http.post(apiPrefix + 'imdb/search', {name: criteria}).success(function(data){
+                    $scope.propositions = data;
+
+                    if (data.length > 0) {
+                        $scope.proposition = data[0].id;
+                    } else {
+                        alertify.error('Aucun résultat trouvé !');
+                    }
+                });
+            }
+        };
+
+        $scope.fill = function(proposition) {
+            if ($scope.type == 'movies' || $scope.type == 'series') {
+                if (!proposition.length) {
+                    alertify.error('Aucun film recherché !');
+                } else {
+                    $http.post(apiPrefix + 'imdb/infos', {id: proposition}).success(function(data){
+                        $scope.element.name = data.title;
+                        $scope.element.year = data.year;
+                        $scope.element.duration = data.duration;
+                        $scope.element.genres = data.genres.join();
+                        $scope.element.actors_list = data.actors.join();
+                        $scope.element.director = data.director;
+                        $scope.element.description = data.description;
+                        $scope.element.rating = data.rating;
+                        $scope.imageUrl = data.image;
+                    });
+                }
+            }
+        };
+
+        $scope.search(element.name);
 
         $scope.submitFile = function(element, imageUrl, imageBase64) {
             var params = {
