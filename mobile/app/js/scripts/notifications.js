@@ -86,15 +86,6 @@ if (window.plugins != 'undefined') {
         }]);
 }
 
-document.addEventListener('deviceready', function() {
-    var elem = angular.element(document.querySelector('[ng-app]'));
-    var injector = elem.injector();
-    var service = injector.get('PushNotifications');
-    service.initialize();
-}, false);
-
-
-
 // Fonctions gérant la récéption d'une notification
 // iOS
 /*function onNotificationAPN (event) {
@@ -127,14 +118,17 @@ function onNotificationGCM(e) {
     case 'message':
         // Appli en cours d'utilisation
         if (e.foreground) {
-            alert('');
+            //alert(e.payload.message);
+            console.log('frontstart');
         } else {
             if (e.coldstart) {
                 // Appli lancée depuis le pannel des notifs
-                alert('');
+                //alert(e.payload.message);
+                console.log('coldstart');
             } else {
                 // Appli en background
-                alert('');
+                //alert(e.payload.message);
+                console.log('backstart');
             }
         }
         break;
