@@ -153,6 +153,8 @@ module
                 $http.post(url + '/events/' + $scope.eventItem.slug + '/decline').success(function(data){
                     $scope.eventItem.pookie = true;
                     $scope.eventItem.pookies++;
+                    $scope.init();
+                    nav.popPage();
 
                     // Si la personne unlikait avant
                     if ($scope.eventItem.attend) {
