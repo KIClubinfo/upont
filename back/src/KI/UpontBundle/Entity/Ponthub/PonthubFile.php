@@ -19,6 +19,7 @@ class PonthubFile extends Likeable
     /**
      * Chemin complet sur Fleur
      * @ORM\Column(name="path", type="string")
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $path;

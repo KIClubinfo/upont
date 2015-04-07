@@ -21,9 +21,10 @@ class OtherType extends AbstractType
             ->add('tags', 'collection', array(
                 'type' => new TagType(),
                 'allow_add' => true
-            ));
+            ))
+            ->add('image', 'imageuploader_selector');
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
@@ -31,7 +32,7 @@ class OtherType extends AbstractType
             'data_class' => 'KI\UpontBundle\Entity\Ponthub\Other'
         ));
     }
-        
+
     public function getName()
     {
         return '';

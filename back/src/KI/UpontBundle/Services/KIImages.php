@@ -16,7 +16,7 @@ class KIImages extends ContainerAware
         $image = new Image();
 
         // Check if the input is an URL or not and return an array with the image and the extension
-        $regex = '#^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$#';
+        $regex = '#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#iS';
         if ($url || preg_match($regex, $src))
             $data = $this->uploadUrl($src, true);
         else
@@ -55,7 +55,7 @@ class KIImages extends ContainerAware
     // Upload d'une image à partir d'une URL et renvoie l'image sous forme de string et son extension
     public function uploadUrl($url, $byPassCheck = false)
     {
-        if (!($byPassCheck || preg_match('#^(https?://)?([\da-z\.-]+)\.([a-z\.]{2,6})([/\w \.-]*)*/?$#', $url)))
+        if (!($byPassCheck || preg_match('#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#iS', $url)))
             throw new BadRequestHttpException('Ceci n\'est pas une url : '.$url);
 
         $curl = $this->container->get('ki_upont.curl');
