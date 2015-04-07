@@ -23,9 +23,10 @@ class GameType extends AbstractType
                 'allow_add' => true
             ))
             ->add('year')
-            ->add('studio');
+            ->add('studio')
+            ->add('image', 'imageuploader_selector');
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
@@ -33,7 +34,7 @@ class GameType extends AbstractType
             'data_class' => 'KI\UpontBundle\Entity\Ponthub\Game'
         ));
     }
-        
+
     public function getName()
     {
         return '';

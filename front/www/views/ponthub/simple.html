@@ -42,12 +42,17 @@
                 <li ng-if="countDownloads() != 0"><strong>Téléchargé :</strong> {{ countDownloads() }} fois</li>
                 <li ng-if="element.added"><strong>Ajout :</strong> {{ element.added | formatDate }}</li>
 
-                <h4 ng-if="category != 'series' && category != 'musiques'">
-                    <button class="up-btn up-btn-lg up-btn-default" ng-click="download()">
-                        <i class="fa fa-download"></i>
-                        Télécharger !
-                    </button>
-                </h4>
+                <br>
+
+                <button class="up-btn up-btn-lg up-btn-default" ng-click="download()">
+                    <i class="fa fa-download"></i>
+                    Télécharger !
+                </button>
+
+                <button ng-if="$root.is('ROLE_JARDINIER')" class="up-btn up-btn-lg up-btn-primary" ui-sref="root.ponthub.modify({slug: element.slug})" title="Ranger le fichier">
+                    <i class="fa fa-cogs"></i>
+                    Ranger
+                </button>
             </ul>
 
             <!-- Cas des séries -->

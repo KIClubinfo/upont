@@ -34,9 +34,10 @@ class SerieType extends AbstractType
             ->add('actors', 'collection', array(
                 'type' => new ActorType(),
                 'allow_add' => true
-            ));
+            ))
+            ->add('image', 'imageuploader_selector');
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
@@ -44,7 +45,7 @@ class SerieType extends AbstractType
             'data_class' => 'KI\UpontBundle\Entity\Ponthub\Serie'
         ));
     }
-        
+
     public function getName()
     {
         return '';

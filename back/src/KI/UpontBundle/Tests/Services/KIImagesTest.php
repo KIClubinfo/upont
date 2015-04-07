@@ -38,6 +38,16 @@ class KIImagesTest extends WebTestCase
         $result = $this->service->uploadUrl($url);
         $this->assertTrue($result['image'] !== null);
         $this->assertEquals($result['extension'], 'png');
+
+        $url = 'http://ia.media-imdb.com/images/M/MV5BMTg2OTIwNTQ2OF5BMl5BanBnXkFtZTcwNTA4NDAwMQ@@._V1_SX300.jpg';
+        $result = $this->service->uploadUrl($url);
+        $this->assertTrue($result['image'] !== null);
+        $this->assertEquals($result['extension'], 'jpeg');
+
+        $url = 'http://akamai-b.cdn.cddbp.net/cds/2.0/cover/FCBA/FCB8/A360/ACE4_medium_front.jpg';
+        $result = $this->service->uploadUrl($url);
+        $this->assertTrue($result['image'] !== null);
+        $this->assertEquals($result['extension'], 'jpeg');
     }
 
     public function testFailUploadUrl()

@@ -34,9 +34,10 @@ class MovieType extends AbstractType
             ->add('vf')
             ->add('vost')
             ->add('vostfr')
-            ->add('hd');
+            ->add('hd')
+            ->add('image', 'imageuploader_selector');
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
@@ -44,7 +45,7 @@ class MovieType extends AbstractType
             'data_class' => 'KI\UpontBundle\Entity\Ponthub\Movie'
         ));
     }
-        
+
     public function getName()
     {
         return '';

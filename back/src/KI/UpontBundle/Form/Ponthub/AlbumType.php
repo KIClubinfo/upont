@@ -23,9 +23,10 @@ class AlbumType extends AbstractType
                 'allow_add' => true
             ))
             ->add('year')
-            ->add('artist');
+            ->add('artist')
+            ->add('image', 'imageuploader_selector');
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
@@ -33,7 +34,7 @@ class AlbumType extends AbstractType
             'data_class' => 'KI\UpontBundle\Entity\Ponthub\Album'
         ));
     }
-        
+
     public function getName()
     {
         return '';

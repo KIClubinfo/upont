@@ -23,7 +23,7 @@ class SoftwaresControllerTest extends WebTestCase
 
     public function testPatch()
     {
-        $this->client->request('PATCH', '/softwares/windows-vista-1', array('year' => 1999, 'author' => 'Microsoft', 'version' => '0.0.1'));
+        $this->client->request('PATCH', '/softwares/windows-vista-1', array('image' => 'http://upload.wikimedia.org/wikipedia/commons/5/5a/Wikipedia-logo-v2-fr.png', 'year' => 1999, 'author' => 'Microsoft', 'version' => '0.0.1'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 

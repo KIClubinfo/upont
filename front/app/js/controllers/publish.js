@@ -123,7 +123,7 @@ angular.module('upont')
         };
 
         $scope.publish = function(post, image) {
-            var params  = {text: post.text};
+            var params  = {text: nl2br(post.text)};
             if (image) {
                 params.image = image.base64;
             }

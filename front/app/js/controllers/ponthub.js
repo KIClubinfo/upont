@@ -117,10 +117,20 @@ angular.module('upont')
         };
     }])
     .controller('PH_Modify_Ctrl', ['$scope', '$stateParams', 'Ponthub', '$http', 'element', function($scope, $stateParams, Ponthub, $http, element) {
-        $scope.element = element;
+        $scope.init = function(element) {
+            $scope.element = element;
+            $scope.element.tags = $scope.element.tags.join();
+            $scope.element.genres = $scope.element.genres.join();
+            if ($scope.element.actors_list)
+                $scope.element.actors_list = $scope.element.actors_list.join();
+        };
+        $scope.init(element);
+
         $scope.category = $stateParams.category;
         $scope.type = Ponthub.cat($stateParams.category);
         $scope.propositions = [];
+
+        var elementSlug = element.name;
 
         $scope.search = function(criteria) {
             if ($scope.type == 'movies' || $scope.type == 'series') {
@@ -156,27 +166,98 @@ angular.module('upont')
             }
         };
 
-        $scope.search(element.name);
+        $scope.gracenote = function(album) {
+            if ($scope.type == 'albums') {
+                $http.post(apiPrefix + 'gracenote', {album: album.name, artist: album.artist}).success(function(data){
+                    $scope.element.year = data.year;
+                    $scope.imageUrl = data.image;
+                });
+            }
+        };
 
         $scope.submitFile = function(element, imageUrl, imageBase64) {
             var params = {
                 'name' : element.name,
-                'fullName' : fullName,
-                'icon' : icon,
+                'description' : element.description,
             };
 
-            if (image) {
-                params.image = image.base64;
+            var genres = [];
+            var actors = [];
+            var tags = [];
+            var list = [];
+            var i = 0;
+
+            if (element.tags.length > 0) {
+                list = element.tags.split(',');
+                for (i = 0; i < list.length; i++) {
+                    tags.push({name: list[i]});
+                }
+                params.tags = tags;
             }
 
-            $http.patch(apiPrefix + 'clubs/' + $scope.channel.slug, params).success(function(){
-                // On recharge le club pour être sûr d'avoir la nouvelle photo
-                if (channelSlug == name) {
-                    $http.get(apiPrefix + 'clubs/' + $scope.channel.slug).success(function(data){
-                        $scope.channel = data;
+            if (element.genres.length > 0) {
+                list = element.genres.split(',');
+                for (i = 0; i < list.length; i++) {
+                    genres.push({name: list[i]});
+                }
+                params.genres = genres;
+            }
+
+            if (imageUrl !== '') {
+                params.image = imageUrl;
+            }
+            // On donne la priorité à l'image par upload de fichier si elle est remplie
+            if (imageBase64) {
+                params.image = imageBase64.base64;
+            }
+
+            switch ($scope.type) {
+                case 'movies':
+                case 'series':
+                    if (element.actors_list.length > 0) {
+                        list = element.actors_list.split(',');
+                        for (i = 0; i < list.length; i++) {
+                            actors.push({name: list[i]});
+                        }
+                        params.actors = actors;
+                    }
+
+                    params.year = element.year;
+                    params.duration = element.duration;
+                    params.director = element.director;
+                    params.vo = element.vo;
+                    params.vf = element.vf;
+                    params.vost = element.vost;
+                    params.vostfr = element.vostfr;
+                    params.hd = element.hd;
+                    if (element.rating !== '' && element.rating != 'N/A')
+                        params.rating = element.rating;
+                    break;
+                case 'albums':
+                    params.year = element.year;
+                    params.artist = element.artist;
+                    break;
+                case 'games':
+                    params.year = element.year;
+                    params.studio = element.studio;
+                    break;
+                case 'softwares':
+                    params.year = element.year;
+                    params.author = element.author;
+                    params.version = element.version;
+                    break;
+                case 'others':
+                    break;
+            }
+
+            $http.patch(apiPrefix + $scope.type + '/' + element.slug, params).success(function(){
+                // On recharge le fichier pour être sûr d'avoir la nouvelle image
+                if (elementSlug == element.name) {
+                    $http.get(apiPrefix + $scope.type + '/' + element.slug).success(function(data){
+                        $scope.init(data);
                     });
                 } else {
-                    alertify.alert('Le nom court du club ayant changé, il est nécéssaire de recharger la page du club...');
+                    alertify.alert('Le nom apparent du fichier ayant changé, il est nécéssaire de recharger la page...');
                     $state.go('root.channels.liste');
                 }
                 alertify.success('Modifications prises en compte !');

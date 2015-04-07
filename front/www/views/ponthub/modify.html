@@ -9,7 +9,7 @@
 
     <div class="up-profile-form">
         <!-- Suggestions Imdb/Gracenote -->
-        <form ng-if="type == 'albums' || type == 'series' || type == 'movies'" up-row padded left wrap autocomplete="off">
+        <form ng-if="type == 'series' || type == 'movies'" up-row padded left wrap autocomplete="off" ng-init="search(element.name)">
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
                 <i class="fa fa-search"></i>
                 Recherche
@@ -33,6 +33,10 @@
                 <button ng-click="fill(proposition)" up-col-xs="100%" up-col-sm="100%" up-col="25%" class="up-btn up-btn-lg up-btn-default">Remplir</button>
             </div>
         </form>
+
+        <div ng-if="type == 'albums'" up-row right>
+            <button ng-init="gracenote(element)" ng-click="gracenote(element)" up-col-xs="100%" up-col-sm="100%" up-col="25%" class="up-btn up-btn-lg up-btn-default">Remplir</button>
+        </div>
         <hr>
 
 
@@ -126,7 +130,7 @@
                 Genres
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input type="text" class="up-col-xs-12" ng-model="element.genres" placeholder="Documentaire,Sport" />
+                <input type="text" class="up-col-xs-12" ng-model="element.genres" placeholder="Documentaire,Sport" ng-disabled="type == 'albums'"/>
             </div>
 
             <div ng-if="type == 'movies' || type == 'series'" up-col-xs="50%" up-col-sm="50%" up-col="25%">
