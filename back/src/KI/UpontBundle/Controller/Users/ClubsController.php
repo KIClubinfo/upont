@@ -4,6 +4,7 @@ namespace KI\UpontBundle\Controller\Users;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use KI\UpontBundle\Form\Users\ClubUserType;
@@ -107,6 +108,8 @@ class ClubsController extends \KI\UpontBundle\Controller\Core\SubresourceControl
         foreach ($link as $clubUser) {
             $this->em->remove($clubUser);
         }
+        // TODO
+        // S'arranger pour supprimer la bannière de façon automatique
 
         return $this->delete($slug);
     }
@@ -151,7 +154,7 @@ class ClubsController extends \KI\UpontBundle\Controller\Core\SubresourceControl
      */
     public function postClubUserAction($slug, $id)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
+        if (!($this->get('security.context')->isGranted('ROLE_ADMIN') || $this->checkClubMembership($slug)))
             throw new AccessDeniedException('Accès refusé');
 
         // On récupère les deux entités concernées
@@ -203,7 +206,7 @@ class ClubsController extends \KI\UpontBundle\Controller\Core\SubresourceControl
      */
     public function deleteClubUserAction($slug, $id)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
+        if (!($this->get('security.context')->isGranted('ROLE_ADMIN') || $this->checkClubMembership($slug)))
             throw new AccessDeniedException('Accès refusé');
 
         // On récupère les deux entités concernées

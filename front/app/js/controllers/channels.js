@@ -114,7 +114,7 @@ angular.module('upont')
             }
         };
 
-        $scope.submitClub = function(name, fullName, icon, image) {
+        $scope.submitClub = function(name, fullName, icon, image, banner) {
             var params = {
                 'name' : name,
                 'fullName' : fullName,
@@ -123,6 +123,10 @@ angular.module('upont')
 
             if (image) {
                 params.image = image.base64;
+            }
+
+            if (banner) {
+                params.banner = banner.base64;
             }
 
             $http.patch(apiPrefix + 'clubs/' + $scope.channel.slug, params).success(function(){
@@ -203,6 +207,9 @@ angular.module('upont')
                     channels: ["$resource", function($resource) {
                         return $resource(apiPrefix + "clubs?sort=name").query().$promise;
                     }]
+                },
+                data: {
+                    top: true
                 }
             })
             .state("root.channels.simple", {
@@ -233,21 +240,24 @@ angular.module('upont')
                 url: "",
                 templateUrl: "views/channels/simple.publications.html",
                 data: {
-                    title: 'Activités - uPont'
+                    title: 'Activités - uPont',
+                    top: true
                 }
             })
             .state("root.channels.simple.presentation", {
                 url: "/presentation",
                 templateUrl: "views/channels/simple.presentation.html",
                 data: {
-                    title: 'Présentation - uPont'
+                    title: 'Présentation - uPont',
+                    top: true
                 },
             })
             .state("root.channels.simple.gestion", {
                 url: "/gestion",
                 templateUrl: "views/channels/simple.gestion.html",
                 data: {
-                    title: 'Gestion - uPont'
+                    title: 'Gestion - uPont',
+                    top: true
                 },
             });
     }]).filter('promoFilter', function() {

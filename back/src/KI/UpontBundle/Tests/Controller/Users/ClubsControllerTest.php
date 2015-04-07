@@ -44,7 +44,7 @@ class ClubsControllerTest extends WebTestCase
 
     public function testPatch()
     {
-        $this->client->request('PATCH', '/clubs/cpt', array('image' => 'http://upload.wikimedia.org/wikipedia/commons/5/5a/Wikipedia-logo-v2-fr.png'));
+        $this->client->request('PATCH', '/clubs/cpt', array('image' => 'http://upload.wikimedia.org/wikipedia/commons/5/5a/Wikipedia-logo-v2-fr.png', 'banner' => 'http://upload.wikimedia.org/wikipedia/commons/5/5a/Wikipedia-logo-v2-fr.png'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 

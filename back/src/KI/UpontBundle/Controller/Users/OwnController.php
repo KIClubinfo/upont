@@ -162,7 +162,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         $repo = $this->em->getRepository('KIUpontBundle:Users\Device');
         $devices = $repo->findByDevice($request->get('device'));
         if (!empty($devices))
-            throw new BadRequestHttpException('Téléphone déjà enregistré');
+            return $this->jsonResponse(null, 204);
 
         $device = new Device();
         $device->setOwner($this->get('security.context')->getToken()->getUser());
@@ -245,6 +245,12 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
             else
                 throw new \Exception('Notification : mode d\'envoi inconnu ('.$mode.')');
         }
+
+        // On marque chaque notification récupérée comme lue
+        foreach ($return as $notification) {
+            $notification->addRead($user);
+        }
+        $this->em->flush();
 
         return $this->restResponse($return);
     }

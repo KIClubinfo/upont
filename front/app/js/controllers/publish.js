@@ -132,7 +132,7 @@ angular.module('upont')
                 if ($scope.club != club) {
                     params.authorClub = $scope.club.slug;
                 } else {
-                    alertify.error('Tu n\'as pas choisi avec quelle assos publier !');
+                    alertify.error('Tu n\'as pas choisi avec quelle assos publier');
                     return;
                 }
             }
@@ -144,11 +144,11 @@ angular.module('upont')
                     $http.post(apiPrefix + 'newsitems', params).success(function(data){
                         Paginate.get('newsitems?sort=-date&limit=10&filterBy=name&filterValue=null').then(function(data){
                             $scope.messages = data;
-                            alertify.success('Message publié !');
+                            alertify.success('Message publié');
                             init();
                         });
                     }).error(function(){
-                        alertify.error('Formulaire vide ou mal rempli !');
+                        alertify.error('Formulaire vide ou mal rempli');
                     });
                     break;
                 case 'news':
@@ -158,11 +158,11 @@ angular.module('upont')
                         Paginate.get('own/newsitems?sort=-date', 10).then(function(data){
                             $scope.newsItems = data;
                             $scope.changeType('message');
-                            alertify.success('News publiée !');
+                            alertify.success('News publiée');
                             init();
                         });
                     }).error(function(){
-                        alertify.error('Formulaire vide ou mal rempli !');
+                        alertify.error('Formulaire vide ou mal rempli');
                     });
                     break;
                 case 'event':
@@ -173,12 +173,12 @@ angular.module('upont')
                     params.endDate = moment(post.end_date).unix();
 
                     if (!post.start_date || !post.end_date) {
-                        alertify.error('Il faut préciser une date de début et de fin !');
+                        alertify.error('Il faut préciser une date de début et de fin');
                         return;
                     }
 
                     if (params.startDate >= params.endDate) {
-                        alertify.error('La date de début doit être avant la date de fin !');
+                        alertify.error('La date de début doit être avant la date de fin');
                         return;
                     }
 
@@ -188,11 +188,11 @@ angular.module('upont')
                         params.shotgunText = post.shotgun_text;
 
                         if (!post.shotgun_date) {
-                            alertify.error('Il faut préciser une date de shotgun !');
+                            alertify.error('Il faut préciser une date de shotgun');
                             return;
                         }
                         if (params.shotgunDate >= params.startDate) {
-                            alertify.error('La date de shotgun doit être avant la date de début !');
+                            alertify.error('La date de shotgun doit être avant la date de début');
                             return;
                         }
                     }
@@ -201,11 +201,11 @@ angular.module('upont')
                         Paginate.get('own/events').then(function(data){
                             $scope.events = data;
                             $scope.changeType('message');
-                            alertify.success('Événement publié !');
+                            alertify.success('Événement publié');
                             init();
                         });
                     }).error(function(){
-                        alertify.error('Formulaire vide ou mal rempli !');
+                        alertify.error('Formulaire vide ou mal rempli');
                     });
                     break;
                 default:
@@ -222,7 +222,7 @@ angular.module('upont')
                 if (e) {
                     $http.patch(apiPrefix + 'newsitems/' + $scope.messages.data[index].slug, {text: str}).success(function() {
                         $scope.messages.data[index].text = str;
-                        alertify.success('Message correctement édité !');
+                        alertify.success('Message correctement édité');
                     });
                 }
             }, $scope.messages.data[index].text);
@@ -247,7 +247,7 @@ angular.module('upont')
                 index = $scope.events.data.indexOf(post);
 
                 // On demande confirmation
-                alertify.confirm('Est-ce vraiment ce que tu veux ?', function(e){
+                alertify.confirm('Veux-tu vraiment supprimer cet évènement ?', function(e){
                     if (e) {
                         $resource(apiPrefix + 'events/' + $scope.events.data[index].slug).delete(function() {
                             $scope.events.data.splice(index, 1);
@@ -258,7 +258,7 @@ angular.module('upont')
                 index = $scope.newsItems.data.indexOf(post);
 
                 // On demande confirmation
-                alertify.confirm('Est-ce vraiment ce que tu veux ?', function(e){
+                alertify.confirm('Veux-tu vraiment supprimer cette news ?', function(e){
                     if (e) {
                         $resource(apiPrefix + 'newsitems/' + $scope.newsItems.data[index].slug).delete(function() {
                             $scope.newsItems.data.splice(index, 1);

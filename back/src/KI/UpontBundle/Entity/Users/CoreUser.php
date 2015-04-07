@@ -104,7 +104,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
     protected $preferencesArray = array(
         'notif_followed_event' => true,
         'notif_followed_news'  => true,
-        'notif_ponthub'        => true,
+        'notif_ponthub'        => false,
         'notif_followed_annal' => true,
         'notif_shotgun_freed'  => true,
         'notif_achievement'    => true,

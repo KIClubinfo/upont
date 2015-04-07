@@ -35,7 +35,7 @@ class NotificationListener
         if ($notification->getMode() == 'to') {
             foreach ($notification->getRecipient() as $user) {
                 // Si l'utilisateur a indiqué ne pas vouloir recevoir la notification
-                if ($user->getPreferences()[$notification->getReason()])
+                if (!$user->getPreferences()[$notification->getReason()])
                     continue;
 
                 foreach ($user->getDevices() as $device) {
@@ -56,7 +56,7 @@ class NotificationListener
             foreach ($devices as $device) {
                 if (!$list->contains($device->getOwner())) {
                     // Si l'utilisateur a indiqué ne pas vouloir recevoir la notification
-                    if ($device->getOwner()->getPreferences()[$notification->getReason()])
+                    if (!$device->getOwner()->getPreferences()[$notification->getReason()])
                         continue;
 
                     if ($device->getType() == 'Android')
@@ -77,7 +77,7 @@ class NotificationListener
         // destinataires en une fois. On est donc obligé de faire autant de
         // requêtes vers l'extérieur que de destinataires.
         // À corriger quand ils feront preuve d'intelligence chez Microsoft.
-        foreach ($sendToWP as $devie) {
+        foreach ($sendToWP as $device) {
             //pushWP
         }
     }

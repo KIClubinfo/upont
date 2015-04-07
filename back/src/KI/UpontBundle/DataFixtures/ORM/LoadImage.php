@@ -1,6 +1,6 @@
 <?php
 
-namespace OC\PlatformBundle\DataFixtures\ORM;
+namespace KI\UpontBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -33,6 +33,7 @@ class LoadImageFixture extends AbstractFixture implements OrderedFixtureInterfac
             'album-rock-or-bust' => 'rock-or-bust.jpg',
             'game-age-of-empires-2' => 'age-of-empires-2.jpg',
             'software-vista' => 'vista.png',
+            'supaero' => 'supaero.jpg'
         );
 
         $path = __DIR__ . '/../../../../../web/uploads/tests/';

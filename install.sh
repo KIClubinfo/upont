@@ -60,6 +60,7 @@ cd ../mobile
 sudo npm install
 bower install
 grunt build
+cordova plugin add org.apache.cordova.device org.apache.cordova.splashscreen https://github.com/phonegap-build/PushPlugin.git
 
 echo "Installation du back..."
 cd ../back

@@ -218,4 +218,25 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
         $this->em->remove($item);
         $this->em->flush();
     }
+
+    // Pour les fichiers Ponthub
+    protected function download($item)
+    {
+        $user = $this->container->get('security.context')->getToken()->getUser();
+
+        // Si l'utilisateur n'a pas déjà téléchargé ce fichier on le rajoute
+        $repo = $this->em->getRepository('KIUpontBundle:Ponthub\PonthubFileUser');
+        $downloads = $repo->findBy(array('file' => $item, 'user' => $user));
+
+        if (count($downloads) == 0) {
+            $download = new \KI\UpontBundle\Entity\Ponthub\PonthubFileUser();
+            $download->setFile($item);
+            $download->setUser($user);
+            $download->setDate(time());
+            $this->em->persist($download);
+            $this->em->flush();
+        }
+
+        return $this->jsonResponse(array('redirect' => $item->fileUrl()));
+    }
 }

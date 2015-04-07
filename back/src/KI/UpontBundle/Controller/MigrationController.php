@@ -140,7 +140,7 @@ class Generator extends AbstractFixture
             if ($key = array_search(strtolower($item['nom']), $this->clubsKey)) {
                 $entity = new PU\Newsitem();
                 $entity->setName($item['titre']);
-                $entity->setText($item['valeur']);
+                $entity->setText(nl2br($item['valeur']));
 
                 $entity->setAuthorClub($this->clubs[$key]);
                 $entity->setDate(strtotime($item['date']));
@@ -169,7 +169,7 @@ class Generator extends AbstractFixture
             if ($key = array_search(strtolower($item['nom']), $this->clubsKey)) {
                 $entity = new PU\Event();
                 $entity->setName($item['label']);
-                $entity->setText($item['details']);
+                $entity->setText(nl2br($item['details']));
                 $entity->setDate(strtotime($item['date']));
                 $entity->setStartDate(strtotime($item['date_deb']));
                 $entity->setEndDate(strtotime($item['date_fin']));
@@ -178,14 +178,7 @@ class Generator extends AbstractFixture
                     $entity->setShotgunDate(strtotime($item['date_shotgun']));
 
                 $entity->setAuthorClub($this->clubs[$key]);
-                $entity->setEntryMethod(ucfirst($item['mode_inscription']));
-
-                if (ucfirst($item['mode_inscription']) == 'Shotgun') {
-                    $entity->setShotgunLimit(0);
-                    $entity->setShotgunText('Event importé depuis la v1 !');
-                }
-
-
+                $entity->setEntryMethod('Libre');
                 $entity->setPlace($item['lieu']);
                 $this->em->persist($entity);
                 $this->events[$id] = $entity;
