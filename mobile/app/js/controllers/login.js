@@ -19,10 +19,10 @@ module
 
                     // On regarde si l'utilisateur a déjà répondu pour les notifications push
                     // Sinon on lui souhaite la bienvenue
-                    if (StorageService.get('registered')) {
-                        onsAlert('Connexion', 'Connecté avec succès !');
-                    } else {
+                    if (StorageService.get('registered') === null) {
                         PushNotifications.initialize();
+                    } else {
+                        onsAlert('Connexion', 'Connecté avec succès !');
                     }
 
                     menu.setMainPage('views/events.html', {closeMenu: true});

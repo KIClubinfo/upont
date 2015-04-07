@@ -53,6 +53,7 @@ if (window.plugins != 'undefined') {
                                 }
                             } else {
                                 StorageService.set('registered', false);
+                                StorageService.remove('registeredId');
                                 $rootScope.registered = false;
                             }
                         }
@@ -67,6 +68,7 @@ if (window.plugins != 'undefined') {
 
                     pushNotification.unregister(function () {
                         StorageService.set('registered', false);
+                        StorageService.remove('registeredId');
                         $rootScope.registered = false;
 
                         if(StorageService.get('registeredId')) {

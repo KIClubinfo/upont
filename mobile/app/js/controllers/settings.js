@@ -32,7 +32,7 @@ module
             'notif_followed_event' : 'Nouvel événement',
             'notif_followed_news'  : 'Nouvelle news',
             'notif_news_perso'     : 'Nouveau message',
-            'notif_comments'       : 'Commentaire sur publication suivie',
+            'notif_comments'       : 'Commentaires',
             'notif_ponthub'        : 'Nouveaux fichiers Ponthub',
             'notif_shotgun_freed'  : 'Place de shotgun libérée',
             //'notif_followed_poll'  : 'Nouveau sondage',
