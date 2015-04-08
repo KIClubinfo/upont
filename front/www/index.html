@@ -34,9 +34,11 @@
 
 <body ng-class="theme == 'dark' ? 'theme-dark' : 'theme-clear'">
     <!-- Présence ou non de la barre latérale -->
-    <div class="up-aside" ng-if="isLogged" ng-include="'views/misc/aside.html'"></div>
+    <div class="up-invisible-xs" ng-if="isLogged" ng-include="'views/misc/aside.html'"></div>
+    <!-- Présence ou non de la barre supérieure -->
+    <div class="up-invisible-sm up-invisible-md up-invisible-lg" ng-if="isLogged" ng-include="'views/misc/topBar.html'"></div>
     <!-- Vue principale -->
-    <div ui-view up-col="100%" root-state="root" size="small" autoscroll="false" class="up-main-view" up-fill-window ></div>
+    <div ui-view up-col="100%" root-state="root" size="small" ng-hide="$root.showTopMenu" autoscroll="false" class="up-main-view" up-fill-window ></div>
 
     <!-- Piwik -->
     <script type="text/javascript" type="text/javascript">

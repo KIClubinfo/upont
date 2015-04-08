@@ -1,20 +1,18 @@
 .up-ticket {
     position: relative;
-    padding: 25px 30px;
+    padding: 1.5em 2em;
+    z-index:10;
 
     &:before{
         content:'';
-        z-index:-10;
         position:absolute;
-        top:20px;
-        right:10px;
-        left:10px;
-        bottom:10px;
+        top:0.5em;
+        right:1em;
+        left:1em;
+        bottom:0.5em;
         background: @col-ticket;
         border: solid 1px @col-ticket-border;
-    }
-    &.divided{
-        padding: 20px 10px !important;
+        z-index:-2;
     }
     a{
         cursor: pointer;
@@ -23,29 +21,30 @@
             color: @col-font;
         }
     }
+    &.divided{
+        padding:0.5em 1em !important;
+    }
     .up-ticket-header{
         position:relative;
         background: linear-gradient(to bottom , transparent, rgba(0, 0, 0, 0.6));
         overflow:hidden;
+        height:7.5em;
         .background{
             filter: blur(4px);
             overflow: hidden;
             position:absolute;
-            top:0px; bottom:0px; right:0px; left:0px;
+            top:0; bottom:0; right:0; left:0;
             background-size: cover;
             background-position: center center;
-            z-index:-6;
+            z-index:-2;
         }
-        .up-img-home-container{
-            padding:1em;
-            .up-img-home{
-                width:5.5em;
-                height:5.5em;
-                border:solid 2px #808080;
-                margin:0 auto;
-                background-size: cover;
-                background-position: center center;
-            }
+        .up-img-home{
+            width:5.5em;
+            height:5.5em;
+            border:solid 2px #808080;
+            margin:1em auto;
+            background-size: cover;
+            background-position: center center;
         }
     }
     .up-ticket-title{
@@ -62,34 +61,34 @@
         line-height: 1.9em;
         color:#fff;
         border-radius: 100%;
-        z-index:50;
+        z-index:11;
     }
     .up-ticket-body{
         position:relative;
-        padding:1em 2.25em;
+        padding:1em 2em;
     }
     .up-ticket-footer{
         position:relative;
-        padding:1em 2.25em;
+        padding:1em 2em;
     }
     &.color1{
-        .up-ticket-header .up-img-home-container{ border-bottom:solid 4px @col-aqua; }
+        .up-ticket-header{ border-bottom:solid 4px @col-aqua; }
         .up-ticket-body .up-news-icon{ background-color:@col-aqua; }
     }
     &.color2{
-        .up-ticket-header .up-img-home-container{border-bottom:solid 4px @col-yellow; }
+        .up-ticket-header{border-bottom:solid 4px @col-yellow; }
         .up-ticket-body .up-news-icon{ background-color: @col-yellow; }
     }
     &.color3{
-        .up-ticket-header .up-img-home-container{border-bottom:solid 4px @col-red; }
+        .up-ticket-header{border-bottom:solid 4px @col-red; }
         .up-ticket-body .up-news-icon{ background-color: @col-red; }
     }
     &.color4{
-        .up-ticket-header .up-img-home-container{border-bottom:solid 4px @col-violet; }
+        .up-ticket-header{border-bottom:solid 4px @col-violet; }
         .up-ticket-body .up-news-icon{ background-color: @col-violet; }
     }
     &.color5{
-        .up-ticket-header .up-img-home-container{border-bottom:solid 4px @col-pink; }
+        .up-ticket-header{border-bottom:solid 4px @col-pink; }
         .up-ticket-body .up-news-icon{ background-color: @col-pink; }
     }
     .up-ticket-texte {

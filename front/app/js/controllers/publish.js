@@ -80,7 +80,7 @@ angular.module('upont')
         };
 
         // Fonctions relatives à la publication
-        var club = {name: 'Assos'};
+        var club = {name: 'Au nom de...'};
         var init = function() {
             $scope.focus = false;
             $scope.post = {
@@ -90,8 +90,11 @@ angular.module('upont')
                 end_date: '',
                 shotgun_date: ''
             };
-            $scope.type = 'message';
-            $scope.placeholder = 'Quoi de neuf ?';
+            $scope.msg = {
+                text: ''
+            };
+            $scope.type = 'news';
+            $scope.placeholder = 'Que se passe-t-il d\'intéressant dans ton asso ?';
             $scope.club = club;
             $scope.toggle = false;
         };
@@ -101,11 +104,8 @@ angular.module('upont')
             $scope.type = type;
 
             switch (type) {
-                case 'message':
-                    $scope.placeholder = 'Quoi de neuf ?';
-                    break;
                 case 'news':
-                    $scope.placeholder = 'Que se passe-t-il d\'interessant ?';
+                    $scope.placeholder = 'Que se passe-t-il d\'intéressant dans ton asso ?';
                     break;
                 case 'event':
                     $scope.placeholder = 'Description de l\'événement';
@@ -124,40 +124,26 @@ angular.module('upont')
 
         $scope.publish = function(post, image) {
             var params  = {text: post.text};
+
+            if ($scope.club != club) {
+                params.authorClub = $scope.club.slug;
+            } else {
+                alertify.error('Tu n\'as pas choisi avec quelle assos publier');
+                return;
+            }
+
             if (image) {
                 params.image = image.base64;
             }
 
-            if ($scope.type != 'message') {
-                if ($scope.club != club) {
-                    params.authorClub = $scope.club.slug;
-                } else {
-                    alertify.error('Tu n\'as pas choisi avec quelle assos publier');
-                    return;
-                }
-            }
+
 
             switch ($scope.type) {
-                case 'message':
-                    params.name = 'null';
-
-                    $http.post(apiPrefix + 'newsitems', params).success(function(data){
-                        Paginate.get('newsitems?sort=-date&limit=10&filterBy=name&filterValue=null').then(function(data){
-                            $scope.messages = data;
-                            alertify.success('Message publié');
-                            init();
-                        });
-                    }).error(function(){
-                        alertify.error('Formulaire vide ou mal rempli');
-                    });
-                    break;
                 case 'news':
                     params.name = post.name;
-
                     $http.post(apiPrefix + 'newsitems', params).success(function(data){
                         Paginate.get('own/newsitems?sort=-date', 10).then(function(data){
                             $scope.newsItems = data;
-                            $scope.changeType('message');
                             alertify.success('News publiée');
                             init();
                         });
@@ -200,7 +186,7 @@ angular.module('upont')
                     $http.post(apiPrefix + 'events', params).success(function(data){
                         Paginate.get('own/events').then(function(data){
                             $scope.events = data;
-                            $scope.changeType('message');
+                            $scope.changeType('news');
                             alertify.success('Événement publié');
                             init();
                         });
@@ -211,6 +197,23 @@ angular.module('upont')
                 default:
                     alertify.error('Type de publication non encore pris en charge');
             }
+        };
+
+        $scope.publishMessage = function(msg){
+            var params  = {
+                text: msg.text,
+                name: 'null'
+            };
+
+            $http.post(apiPrefix + 'newsitems', params).success(function(data){
+                Paginate.get('newsitems?sort=-date&limit=10&filterBy=name&filterValue=null').then(function(data){
+                    $scope.messages = data;
+                    alertify.success('Message publié');
+                    init();
+                });
+            }).error(function(){
+                alertify.error('Formulaire vide ou mal rempli');
+            });
         };
 
         // Modification/suppression des messages
@@ -284,6 +287,26 @@ angular.module('upont')
                     }],
                     events: ['Paginate', function(Paginate) {
                         return Paginate.get('own/events');
+                    }],
+                    messages: ['Paginate', function(Paginate) {
+                        return Paginate.get('newsitems?sort=-date&limit=10&filterBy=name&filterValue=null');
+                    }]
+                }
+            })
+            .state("root.messages", {
+                url: 'messages',
+                templateUrl: "views/home/messages.html",
+                data: {
+                    title: 'Messages - uPont',
+                    top: true
+                },
+                controller: "Publish_Ctrl",
+                resolve: {
+                    newsItems: ['Paginate', function(Paginate) {
+                        return [];
+                    }],
+                    events: ['Paginate', function(Paginate) {
+                        return [];
                     }],
                     messages: ['Paginate', function(Paginate) {
                         return Paginate.get('newsitems?sort=-date&limit=10&filterBy=name&filterValue=null');
