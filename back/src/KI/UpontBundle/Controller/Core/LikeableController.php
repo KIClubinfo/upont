@@ -272,7 +272,7 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
         $this->em->persist($comment);
 
         // On va chercher dans les 5 derniers messages des gens à notifier qu'un nouveau commentaire est arrivé
-        $comments = $item->getComments();
+        $comments = $item->getComments()->getValues();
         $users = $item->getAuthorUser() == $this->user ? array() : array($item->getAuthorUser());
 
         // On trie par date
