@@ -24,7 +24,8 @@ class SoftwareType extends AbstractType
             ))
             ->add('year')
             ->add('version')
-            ->add('author');
+            ->add('author')
+            ->add('image', 'imageuploader_selector');
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

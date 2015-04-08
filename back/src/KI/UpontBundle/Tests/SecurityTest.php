@@ -76,5 +76,22 @@ class SecurityTest extends WebTestCase
         $this->client->request('PATCH', '/users/donat-bb', array('firstName' => 'Benoît'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
+
+        // On teste le rajout/la suppression de membre
+        $this->client->request('POST', '/clubs/bda/users/dziris', array('role' => 'Test'));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 204);
+
+        $this->client->request('DELETE', '/clubs/bda/users/dziris', array('role' => 'Test'));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 204);
+
+        $this->client->request('POST', '/clubs/ki/users/dziris', array('role' => 'Test'));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 403);
+
+        $this->client->request('DELETE', '/clubs/ki/users/dziris', array('role' => 'Test'));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 403);
     }
 }

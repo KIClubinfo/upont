@@ -31,15 +31,18 @@ module
         $scope.notifTexts = {
             'notif_followed_event' : 'Nouvel événement',
             'notif_followed_news'  : 'Nouvelle news',
-            'notif_followed_poll'  : 'Nouveau sondage',
+            'notif_news_perso'     : 'Nouveau message',
+            'notif_comments'       : 'Commentaires',
             'notif_ponthub'        : 'Nouveaux fichiers Ponthub',
-            'notif_ki_answer'      : 'Réponse à une requête de dépannage',
-            'notif_shotgun_h-1'    : 'Avertissement Shotgun H-1',
-            'notif_shotgun_m-5'    : 'Avertissement Shotgun M-5',
-            'notif_followed_annal' : 'Ajout d\'une annale',
-            'notif_next_class'     : 'Un cours va bientôt commencer',
-            'notif_achievement'    : 'Obtention d\'un achievement',
-            'notif_next_level'     : 'Passage au niveau suivant'
+            'notif_shotgun_freed'  : 'Place de shotgun libérée',
+            //'notif_followed_poll'  : 'Nouveau sondage',
+            //'notif_ki_answer'      : 'Réponse à une requête de dépannage',
+            //'notif_shotgun_h-1'    : 'Avertissement Shotgun H-1',
+            //'notif_shotgun_m-5'    : 'Avertissement Shotgun M-5',
+            //'notif_followed_annal' : 'Ajout d\'une annale',
+            //'notif_next_class'     : 'Un cours va bientôt commencer',
+            //'notif_achievement'    : 'Obtention d\'un achievement',
+            //'notif_next_level'     : 'Passage au niveau suivant'
         };
 
         $scope.init = function() {

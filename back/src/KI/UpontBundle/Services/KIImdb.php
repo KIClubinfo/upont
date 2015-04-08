@@ -10,13 +10,13 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 class KIImdb extends ContainerAware
 {
     protected $baseUrl = 'http://www.omdbapi.com/';
-    
+
     public function search($name)
     {
         $url = $this->baseUrl.'?s='.urlencode($name);
         $curl = $this->container->get('ki_upont.curl');
         $response = json_decode($curl->curl($url), true);
-        
+
         $return = array();
         foreach ($response['Search'] as $result) {
             $return[] = array(
@@ -29,19 +29,22 @@ class KIImdb extends ContainerAware
 
         return $return;
     }
-    
+
     public function infos($id)
     {
         $url = $this->baseUrl.'?i='.urlencode($id);
         $curl = $this->container->get('ki_upont.curl');
         $response = json_decode($curl->curl($url), true);
-        
+
         if (!isset($response['Title']))
             return null;
 
+        if (preg_match('#\d–\d#', $response['Year']))
+            $response['Year'] = explode('–', $response['Year'])[0];
+
         return array(
             'title'       => $response['Title'],
-            'year'        => $response['Year'],
+            'year'        => (int) $response['Year'],
             'duration'    => 60*str_replace(' min', '', $response['Runtime']),
             'genres'      => explode(', ', $response['Genre']),
             'director'    => $response['Director'],

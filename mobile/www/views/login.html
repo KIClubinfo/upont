@@ -4,6 +4,8 @@
             <div class="center">Connexion</div>
         </ons-toolbar>
 
+        <div class="up-logo-container"><svg-image src="images/icon.svg" class="svg up-logo"></svg-image></div>
+
         <form class="login-form" ng-submit="signIn(username, password)">
             <input ng-model="username" type="text" class="text-input--underbar" placeholder="Identifiant" ngMinlength="1" required>
             <input ng-model="password" type="password" class="text-input--underbar" placeholder="Mot de passe" ngMinlength="1" required>

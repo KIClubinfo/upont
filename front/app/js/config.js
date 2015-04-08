@@ -142,6 +142,17 @@ angular.module('upont')
             return false;
         };
 
+        $rootScope.is = function(role) {
+            if (StorageService.get('droits').indexOf('ROLE_ADMIN') != -1)
+                return true;
+
+            // Le modo a tous les droits sauf ceux de l'admin
+            if (StorageService.get('droits').indexOf('ROLE_MODO') != -1 && role != 'ROLE_ADMIN')
+                return true;
+
+            return StorageService.get('droits').indexOf(role) != -1;
+        };
+
         // Diverses variables globales
         $rootScope.url = location.origin + apiPrefix;
         $rootScope.promos = ['014', '015', '016', '017'];

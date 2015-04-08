@@ -53,6 +53,9 @@ var module = angular.module('upont', ['onsen','ngResource','infinite-scroll'])
             }
         };
     }])
+    .run(['$rootScope', 'StorageService', function($rootScope, StorageService){
+        $rootScope.registered = StorageService.get('registered');
+    }])
     .config(['$httpProvider', '$resourceProvider', function($httpProvider, $resourceProvider) {
         $httpProvider.interceptors.push('LoginInterceptor');
         $resourceProvider.defaults.stripTrailingSlashes = false;

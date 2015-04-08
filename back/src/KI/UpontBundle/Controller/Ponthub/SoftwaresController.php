@@ -82,14 +82,6 @@ class SoftwaresController extends \KI\UpontBundle\Controller\Core\ResourceContro
     public function downloadSoftwareAction($slug)
     {
         $item = $this->getOne($slug);
-        $user = $this->container->get('security.context')->getToken()->getUser();
-
-        // Si l'utilisateur n'a pas déjà téléchargé ce fichier on le rajoute
-        if (!$item->getUsers()->contains($user))
-            $item->addUser($user);
-
-        $this->em->flush();
-
-        return $this->jsonResponse(array('redirect' => $item->fileUrl()));
+        return $this->download($item);
     }
 }

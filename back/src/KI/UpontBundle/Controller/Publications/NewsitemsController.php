@@ -69,6 +69,7 @@ class NewsitemsController extends \KI\UpontBundle\Controller\Core\ResourceContro
             $return['item']->setAuthorUser($this->container->get('security.context')->getToken()->getUser());
 
             $club = $return['item']->getAuthorClub();
+            $text = substr($return['item']->getText(), 0, 140).'...';
 
             // Si ce n'est pas un event perso, on notifie les utilisateurs suivant le club
             if ($club) {
@@ -83,11 +84,20 @@ class NewsitemsController extends \KI\UpontBundle\Controller\Core\ResourceContro
 
                 $text = substr($return['item']->getText(), 0, 140).'...';
                 $this->notify(
-                    'notif_followed_event',
+                    'notif_followed_news',
                     $return['item']->getName(),
                     $text,
                     'exclude',
                     $users
+                );
+            } else {
+                // Si c'est une news perso on notifie tous ceux qui ont envie
+                $this->notify(
+                    'notif_news_perso',
+                    $return['item']->getName(),
+                    $text,
+                    'exclude',
+                    array()
                 );
             }
         }

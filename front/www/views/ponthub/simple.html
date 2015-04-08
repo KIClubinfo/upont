@@ -36,17 +36,23 @@
                 <li ng-if="element.studio"><strong>Studio :</strong> {{ element.studio }}</li>
                 <li ng-if="element.director"><strong>Réalisateur :</strong> {{ element.director }}</li>
                 <li ng-if="element.duration"><strong>Durée :</strong> {{ element.duration | formatDuration }}</li>
+                <li ng-if="element.version"><strong>Version :</strong> {{ element.version }}</li>
                 <li ng-if="element.size"><strong>Taille :</strong> {{ element.size | formatSize }}</li>
                 <li ng-if="element.rating"><strong>Note Rotten Tomatoes :</strong> {{ element.rating+'%' }}</li>
                 <li ng-if="countDownloads() != 0"><strong>Téléchargé :</strong> {{ countDownloads() }} fois</li>
                 <li ng-if="element.added"><strong>Ajout :</strong> {{ element.added | formatDate }}</li>
 
-                <h4 ng-if="category != 'series' && category != 'musiques'">
-                    <button class="up-btn up-btn-lg up-btn-default" ng-click="download()">
-                        <i class="fa fa-download"></i>
-                        Télécharger !
-                    </button>
-                </h4>
+                <br>
+
+                <button class="up-btn up-btn-lg up-btn-default" ng-click="download()">
+                    <i class="fa fa-download"></i>
+                    Télécharger !
+                </button>
+
+                <button ng-if="$root.is('ROLE_JARDINIER')" class="up-btn up-btn-lg up-btn-primary" ui-sref="root.ponthub.modify({slug: element.slug})" title="Ranger le fichier">
+                    <i class="fa fa-cogs"></i>
+                    Ranger
+                </button>
             </ul>
 
             <!-- Cas des séries -->

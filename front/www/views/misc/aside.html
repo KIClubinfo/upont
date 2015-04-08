@@ -1,4 +1,4 @@
-<aside>
+<aside class="up-aside">
     <div class="up-aside-top-bar" ng-controller="Search_Ctrl">
         <div class="centering up-logo">
             <a class="up-logo-link" ui-sref="root.home"></a>
@@ -51,7 +51,9 @@
     <div class="up-aside-menu">
         <div><a ui-sref="root.home" up-state-active><i class="fa fa-comment"></i> News</a>
         </div>
-        <div><a ui-sref="root.ponthub.liste" up-state-active="root.ponthub"><i class="fa fa-film"></i> PontHub</a>
+        <div class="up-invisible-md up-invisible-lg"><a ui-sref="root.messages" up-state-active><i class="fa fa-comments"></i> Messages</a>
+        </div>
+        <div><a ui-sref="root.calendrier" up-state-active><i class="fa fa-calendar"></i> Calendrier</a>
         </div>
         <div><a ui-sref="root.channels.liste" up-state-active="root.channels"><i class="fa fa-thumbs-o-up"></i> Assos</a>
         </div>
@@ -61,7 +63,7 @@
         </div>
         <div><a ui-sref="root.cours" up-state-active><i class="fa fa-briefcase"></i> Cours</a>
         </div>-->
-        <div><a ui-sref="root.calendrier" up-state-active><i class="fa fa-calendar"></i> Calendrier</a>
+        <div><a ui-sref="root.ponthub.liste" up-state-active="root.ponthub"><i class="fa fa-film"></i> PontHub</a>
         </div>
         <div><a ui-sref="root.profile" up-state-active><i class="fa fa-star"></i> Profil</a>
         </div>

@@ -19,6 +19,7 @@ class PonthubFile extends Likeable
     /**
      * Chemin complet sur Fleur
      * @ORM\Column(name="path", type="string")
+     * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $path;
@@ -115,7 +116,7 @@ class PonthubFile extends Likeable
 
     /**
      * Utilisateurs ayant téléchargé le fichier
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Ponthub\PonthubFileUser", mappedBy="file")
      * @Assert\Valid()
      */
     protected $users;

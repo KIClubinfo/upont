@@ -1,6 +1,6 @@
 <?php
 
-namespace OC\PlatformBundle\DataFixtures\ORM\Users;
+namespace KI\UpontBundle\DataFixtures\ORM\Users;
 
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;

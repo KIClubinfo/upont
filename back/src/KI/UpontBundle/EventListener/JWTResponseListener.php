@@ -83,7 +83,7 @@ class JWTResponseListener
         // Si le mot de passe de la BDD est vide, l'utilisateur se connecte pour
         // la première, on teste contre la v1
         $curl = $this->container->get('ki_upont.curl');
-        $data = $curl->curl('https://upont.enpc.fr/api.php?action=login_v1&username='.$username.'&password='.$password, array(
+        $data = $curl->curl('https://upont.enpc.fr/v1/api.php?action=login_v1&username='.$username.'&password='.$password, array(
             CURLOPT_PROXY => ''
         ));
         if (!preg_match('#true#', $data))

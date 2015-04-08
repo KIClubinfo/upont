@@ -53,9 +53,13 @@
 
                 <!-- Pour un event normal -->
                 <ons-row ng-if="event.name" ng-click="load(event.slug)">
-                    <ons-col width="80px" class="left">
+                    <ons-col ng-if="eventToday == 'true'" width="80px" class="left">
                         <div class="date">{{ event.start_date*1000 | date: "HH'h'mm" }}</div>
                         <div class="duration">{{ event.end_date*1000 | date: "HH'h'mm" }}</div>
+                    </ons-col>
+                    <ons-col ng-if="eventToday != 'true'" width="80px" class="left">
+                        <div class="date">{{ event.start_date | eventDate }}</div>
+                        <div class="duration">{{ event.start_date*1000 | date: "HH'h'mm" }}</div>
                     </ons-col>
 
                     <ons-col width="6px" class="center event-item"></ons-col>
@@ -78,7 +82,7 @@
                 </ons-row>
 
                 <!-- Pour un cours -->
-                <ons-row ng-if="event.course != null">
+                <ons-row ng-if="event.course != null && eventToday == 'true'">
                     <ons-col width="80px" class="left">
                         <div class="date">{{ event.start_date*1000 | date: "HH'h'mm" }}</div>
                         <div class="duration">{{ event.end_date*1000 | date: "HH'h'mm" }}</div>

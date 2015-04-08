@@ -1,6 +1,6 @@
 <?php
 
-namespace OC\PlatformBundle\DataFixtures\ORM\Publications;
+namespace KI\UpontBundle\DataFixtures\ORM\Publications;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;

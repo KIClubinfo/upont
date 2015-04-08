@@ -1,7 +1,7 @@
 angular.module('upont')
     .controller('Disconnected_Ctrl', ['$scope', '$rootScope', '$state', 'StorageService', '$http', 'jwtHelper', '$resource', function($scope, $rootScope, $state, StorageService, $http, jwtHelper, $resource) {
         $('#login-input').focus();
-        $scope.login = function(pseudo, mdp) {
+        $scope.login = function(pseudo, mdp, firstTime) {
             if (pseudo.length && mdp.length)
                 $http
                 .post(apiPrefix + "login", {
@@ -9,19 +9,24 @@ angular.module('upont')
                     password: mdp
                 })
                 .success(function(data, status, headers, config) {
-                    StorageService.set('token', data.token);
-                    StorageService.set('droits', data.data.roles);
-                    $rootScope.isLogged = true;
-                    $rootScope.init(jwtHelper.decodeToken(data.token).username);
                     if (data.data.first) {
-                        $state.go("root.profile");
+                        $scope.login(pseudo, mdp, true);
                         alertify.alert('Bienvenue sur uPont 2.0 !<br><br>' +
 'Dans un premier temps, vérifie bien tes infos (notamment ta photo de profil, que nous avons essayé de récupérer par Facebook de façon automatique).<br>' +
 'C\'est super important que les infos soient remplies pour pouvoir profiter de uPont au max.');
                     } else {
-                        $state.go("root.home");
+                        StorageService.set('token', data.token);
+                        StorageService.set('droits', data.data.roles);
+                        $rootScope.isLogged = true;
+                        $rootScope.init(jwtHelper.decodeToken(data.token).username);
+                        alertify.success('Salut ' + data.data.first_name + ' !');
+
+                        if (firstTime) {
+                            $state.go("root.profile");
+                        } else {
+                            $state.go("root.home");
+                        }
                     }
-                    alertify.success('Salut ' + data.data.first_name + ' !');
 
                 })
                 .error(function(data, status, headers, config) {
