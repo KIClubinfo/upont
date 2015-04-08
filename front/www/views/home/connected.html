@@ -1,6 +1,6 @@
 <div up-row>
     <div up-col-md="60%" up-col-lg="60%" up-col="100%">
-        <div ng-if="isState('root.home')" ng-include="'views/home/publish.html'"></div>
+        <div ng-include="'views/home/publish-posts.html'"></div>
         <div class="transition" ng-include="'views/home/liste-publis.html'"></div>
     </div>
 
@@ -12,6 +12,8 @@
             <br><br>
             Restez à jour, des nouvelles versions seront publiées au moins une fois par semaine (voir en bas à gauche). Aussi n'hésitez pas à balancer des coms/remarques/suggestions !
         </div>
+
+        <div ng-include="'views/home/publish-messages.html'"></div>
 
         <div infinite-scroll="nextMessages()" infinite-scroll-distance="2" infinite-scroll-disabled="$root.infiniteLoading">
             <div class="up-ticket" ng-repeat="message in messages.data">

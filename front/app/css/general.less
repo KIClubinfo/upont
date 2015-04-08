@@ -1,3 +1,15 @@
+//Règles générales sur le body
+font-family:'Open Sans';
+margin: 0;
+position: relative;
+overflow-y: scroll;
+word-break: break-word; // Non standard for webkit
+-webkit-hyphens: auto;
+-moz-hyphens: auto;
+hyphens: auto;
+background-size: auto auto;
+
+
 // Resets et overwrite
 *, *:before, *:after {
     box-sizing: border-box;
@@ -14,21 +26,10 @@
 .img-responsive {
     margin: 10px 0 10px 0;
 }
-// Pour le datetime picker
-// Blocks de base
-body {
-    font-family:'Open Sans';
-    margin: 0;
-    position: relative;
-    overflow-y: scroll;
-    word-break: break-word; // Non standard for webkit
-    -webkit-hyphens: auto;
-    -moz-hyphens: auto;
-    hyphens: auto;
-    background-size: auto auto;
-}
+
 .up-main-view {
     padding-bottom: 30px;
+    background: @col-input-bckgnd;
     @media(min-width:@sizeSm){
         padding-left: @asideWidth;
     }
