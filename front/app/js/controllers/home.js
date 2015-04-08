@@ -9,19 +9,20 @@ angular.module('upont')
                     password: mdp
                 })
                 .success(function(data, status, headers, config) {
-                    StorageService.set('token', data.token);
-                    StorageService.set('droits', data.data.roles);
-                    $rootScope.isLogged = true;
-                    $rootScope.init(jwtHelper.decodeToken(data.token).username);
                     if (data.data.first) {
+                        $scope.login(pseudo, mdp);
                         $state.go("root.profile");
                         alertify.alert('Bienvenue sur uPont 2.0 !<br><br>' +
 'Dans un premier temps, vérifie bien tes infos (notamment ta photo de profil, que nous avons essayé de récupérer par Facebook de façon automatique).<br>' +
 'C\'est super important que les infos soient remplies pour pouvoir profiter de uPont au max.');
                     } else {
+                        StorageService.set('token', data.token);
+                        StorageService.set('droits', data.data.roles);
+                        $rootScope.isLogged = true;
+                        $rootScope.init(jwtHelper.decodeToken(data.token).username);
+                        alertify.success('Salut ' + data.data.first_name + ' !');
                         $state.go("root.home");
                     }
-                    alertify.success('Salut ' + data.data.first_name + ' !');
 
                 })
                 .error(function(data, status, headers, config) {
