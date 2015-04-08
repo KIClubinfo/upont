@@ -1,6 +1,6 @@
 <?php
 
-namespace OC\PlatformBundle\DataFixtures\ORM\Ponthub;
+namespace KI\UpontBundle\DataFixtures\ORM\Ponthub;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;

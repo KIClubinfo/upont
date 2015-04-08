@@ -16,6 +16,7 @@ var module = angular.module('upont', ['onsen','ngResource','infinite-scroll'])
                 if(token) {
                     config.headers.Authorization = 'Bearer ' + token;
                 }
+                menu.setSwipeable(true);
                 return config;
             },
             responseError: function (response) {
@@ -51,6 +52,9 @@ var module = angular.module('upont', ['onsen','ngResource','infinite-scroll'])
                 return $q.reject(response);
             }
         };
+    }])
+    .run(['$rootScope', 'StorageService', function($rootScope, StorageService){
+        $rootScope.registered = StorageService.get('registered');
     }])
     .config(['$httpProvider', '$resourceProvider', function($httpProvider, $resourceProvider) {
         $httpProvider.interceptors.push('LoginInterceptor');

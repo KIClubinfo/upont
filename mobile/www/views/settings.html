@@ -42,10 +42,10 @@
         <div class="settings-header">Autre</div>
 
         <ons-list modifier="inset" class="settings-list">
-            <ons-list-item modifier="tappable chevron" ng-click="nav.pushPage('calendar.html')">
+            <!-- <ons-list-item modifier="tappable chevron" ng-click="nav.pushPage('calendar.html')">
                 <ons-icon icon="fa-calendar"></ons-icon>
                 Synchronisation du calendrier
-            </ons-list-item>
+            </ons-list-item> -->
 
             <ons-list-item ng-click="switchTheme()">
                 <ons-icon icon="fa-eye"></ons-icon>
@@ -123,7 +123,7 @@
                 {{ notifTexts[notif] }}
                 <ons-switch modifier="list-item" ng-checked="value"></ons-switch>
             </ons-list-item>
-            <ons-list-item>
+            <ons-list-item style="opacity: 0.7;">
                 Et plein d'autres choses à venir...
             </ons-list-item>
         </ons-list>
@@ -145,7 +145,7 @@
         </ons-toolbar>
 
         <div ng-hide="shotgunned" modifier="tappable">
-            <a ng-href="{{ url + '/api/users/' + token + '/calendar' }}" alt="Lien vers le calendrier ICS">
+            <a ng-href="{{ url + '/users/' + token + '/calendar' }}" alt="Lien vers le calendrier ICS">
                 <div class="container-shotgun">
                     <ons-icon icon="fa-calendar"></ons-icon><br><br>
                     Synchronise le calendrier uPont avec ton mobile !<br>

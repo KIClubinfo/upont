@@ -9,6 +9,7 @@ module
         $scope.shotgun = [];
         $scope.motivation = '';
         $scope.shotgunned = false;
+        $scope.isLoading = false;
 
         var startDay = new Date();
         startDay.setHours(0, 0, 0, 0);
@@ -65,16 +66,23 @@ module
         };
 
         $scope.likeClick = function(){
+            if ($scope.isLoading) {
+                return;
+            }
+            $scope.isLoading = true;
+
             // Si la personne like déjà on ne fait qu'annuler le like
             if ($scope.eventItem.like) {
                 $http.delete(url + '/events/' + $scope.eventItem.slug + '/like').success(function(data){
                     $scope.eventItem.like = false;
                     $scope.eventItem.likes--;
+                    $scope.isLoading = false;
                 });
             } else {
                 $http.post(url + '/events/' + $scope.eventItem.slug + '/like').success(function(data){
                     $scope.eventItem.like = true;
                     $scope.eventItem.likes++;
+                    $scope.isLoading = false;
 
                     // Si la personne unlikait avant
                     if ($scope.eventItem.dislike) {
@@ -86,16 +94,23 @@ module
         };
 
         $scope.dislikeClick = function(){
+            if ($scope.isLoading) {
+                return;
+            }
+            $scope.isLoading = true;
+
             // Si la personne like déjà on ne fait qu'annuler le like
             if ($scope.eventItem.dislike) {
                 $http.delete(url + '/events/' + $scope.eventItem.slug + '/dislike').success(function(data){
                     $scope.eventItem.dislike = false;
                     $scope.eventItem.dislikes--;
+                    $scope.isLoading = false;
                 });
             } else {
                 $http.post(url + '/events/' + $scope.eventItem.slug + '/dislike').success(function(data){
                     $scope.eventItem.dislike = true;
                     $scope.eventItem.dislikes++;
+                    $scope.isLoading = false;
 
                     // Si la personne unlikait avant
                     if ($scope.eventItem.like) {
@@ -138,6 +153,8 @@ module
                 $http.post(url + '/events/' + $scope.eventItem.slug + '/decline').success(function(data){
                     $scope.eventItem.pookie = true;
                     $scope.eventItem.pookies++;
+                    $scope.init();
+                    nav.popPage();
 
                     // Si la personne unlikait avant
                     if ($scope.eventItem.attend) {

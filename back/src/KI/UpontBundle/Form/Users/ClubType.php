@@ -16,7 +16,8 @@ class ClubType extends AbstractType
             ->add('name')
             ->add('icon')
             ->add('active')
-            ->add('image', 'imageuploader_selector');
+            ->add('image', 'imageuploader_selector')
+            ->add('banner', 'imageuploader_selector');
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

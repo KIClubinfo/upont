@@ -271,6 +271,30 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
         $comment->setAuthor($this->user);
         $this->em->persist($comment);
 
+        // On va chercher dans les 5 derniers messages des gens à notifier qu'un nouveau commentaire est arrivé
+        $comments = $item->getComments()->getValues();
+        $users = $item->getAuthorUser() == $this->user ? array() : array($item->getAuthorUser());
+
+        // On trie par date
+        $sort = array();
+        foreach ($comments as $key => $comment)
+            $sort[$key] = $comment->getDate();
+        array_multisort($sort, SORT_DESC, $comments);
+
+        for ($i = 0; $i < min(5, count($comments)); $i++) {
+            $user = $comments[$i]->getAuthor();
+            if (!in_array($user, $users) && $user != $this->user) {
+                $users[] = $user;
+            }
+        }
+        $this->notify(
+            'notif_comments',
+            $this->user->nick(),
+            $request->get('text'),
+            'to',
+            $users
+        );
+
         $item->addComment($comment);
         $this->em->flush();
 

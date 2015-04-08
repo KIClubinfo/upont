@@ -1,6 +1,6 @@
 <?php
 
-namespace OC\PlatformBundle\DataFixtures\ORM\Users;
+namespace KI\UpontBundle\DataFixtures\ORM\Users;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -26,6 +26,7 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $club->setFullName('Bureau Des Élèves');
         $club->setActive(true);
         $club->setImage($this->getReference('image-club-bde'));
+        $club->setBanner($this->getReference('image-supaero'));
         $manager->persist($club);
         $this->addReference('club-bde', $club);
 

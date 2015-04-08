@@ -53,9 +53,13 @@
 
                 <!-- Pour un event normal -->
                 <ons-row ng-if="event.name" ng-click="load(event.slug)">
-                    <ons-col width="80px" class="left">
+                    <ons-col ng-if="eventToday == 'true'" width="80px" class="left">
                         <div class="date">{{ event.start_date*1000 | date: "HH'h'mm" }}</div>
                         <div class="duration">{{ event.end_date*1000 | date: "HH'h'mm" }}</div>
+                    </ons-col>
+                    <ons-col ng-if="eventToday != 'true'" width="80px" class="left">
+                        <div class="date">{{ event.start_date | eventDate }}</div>
+                        <div class="duration">{{ event.start_date*1000 | date: "HH'h'mm" }}</div>
                     </ons-col>
 
                     <ons-col width="6px" class="center event-item"></ons-col>
@@ -78,7 +82,7 @@
                 </ons-row>
 
                 <!-- Pour un cours -->
-                <ons-row ng-if="event.course != null">
+                <ons-row ng-if="event.course != null && eventToday == 'true'">
                     <ons-col width="80px" class="left">
                         <div class="date">{{ event.start_date*1000 | date: "HH'h'mm" }}</div>
                         <div class="duration">{{ event.end_date*1000 | date: "HH'h'mm" }}</div>
@@ -177,16 +181,16 @@
 
             <ons-col class="action" up-active="eventItem.like" ng-click="likeClick()">
                 <div class="icon"><ons-icon icon="fa-thumbs-up"></ons-icon></div>
-                <div class="label">Like</div> <div class="notification like-badge tab-badge">{{ eventItem.likes }}</div>
+                <div class="label">Like</div> <div class="notification like-badge tab-badge">{{ eventItem.likes >= 0 ? eventItem.likes : 0 }}</div>
             </ons-col>
 
             <ons-col class="action" up-active="eventItem.dislike" ng-click="dislikeClick()">
                 <div class="icon"><ons-icon icon="fa-thumbs-down"></ons-icon></div>
-                <div class="label">Dislike</div> <div class="notification like-badge tab-badge">{{ eventItem.dislikes }}</div>
+                <div class="label">Dislike</div> <div class="notification like-badge tab-badge">{{ eventItem.dislikes >= 0 ? eventItem.dislikes : 0 }}</div>
             </ons-col>
         </ons-row></ons-list-item></ons-list>
 
-        <p class="content" ng-bind-html="eventItem.text | nl2br"></p>
+        <p class="content" ng-bind-html="eventItem.text | text"></p>
 
         <ons-list style="margin-top: 12px;">
             <ons-list-item ng-hide="eventItem.attendees == 0" modifier="chevron" ng-click="loadAttendees()">

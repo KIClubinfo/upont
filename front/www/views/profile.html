@@ -162,13 +162,6 @@
             <p ng-show="openICS == 'iOS'">
             </p>
 
-            <h3 ng-click="open('android')" class="up-clickable">
-                <i class="fa" ng-class="{'fa-plus-square-o': openICS != 'android', 'fa-minus-square-o': openICS == 'android'}"></i> Android
-            </h3>
-
-            <p ng-show="openICS == 'android'">
-            </p>
-
             <h3 ng-click="open('mac')" class="up-clickable">
                 <i class="fa" ng-class="{'fa-plus-square-o': openICS != 'mac', 'fa-minus-square-o': openICS == 'mac'}"></i> Mac (Calendar)
             </h3>
@@ -177,15 +170,16 @@
             </p>
 
             <h3 ng-click="open('google')" class="up-clickable">
-                <i class="fa" ng-class="{'fa-plus-square-o': openICS != 'google', 'fa-minus-square-o': openICS == 'google'}"></i> Google Calendar
+                <i class="fa" ng-class="{'fa-plus-square-o': openICS != 'google', 'fa-minus-square-o': openICS == 'google'}"></i> Android/Google Calendar
             </h3>
 
             <p ng-show="openICS == 'google'">
+                <strong>ATTENTION ! CETTE FONCTION DE GOOGLE CALENDAR EST ASSEZ BUGGÉE, IL EST POSSIBLE QUE LES ÉVÉNEMENTS S'ACTUALISENT DE FAÇON IRRÉGULIÈRE. GOOGLE BOSSE DESSUS MAIS ON NE PEUX PAS FAIRE ACCÉLERER LES CHOSES. DONC NE PAS TROP FAIRE CONFIANCE À CETTE FONCTIONNALITÉ POUR L'INSTANT.</strong><br>
                 <strong>1.</strong> Clique sur "Ajouter par URL" dans la catégorie "Autres agendas" de Calendar.<br>
                 <img class="img-responsive" src="img/tuto-ics-google-calendar-1.png" alt="Cliquer sur ajouter par URL"/>
                 <strong>2.</strong> Copie-colle le lien suivant : <a ng-href="$root.url + 'users/' + token + '/calendar'" title="Calendrier ICS">{{ $root.url + 'users/' + token + '/calendar' }}</a>.<br>
                 <img class="img-responsive" src="img/tuto-ics-google-calendar-2.png" alt="Copier coller le lien"/>
-                <strong>3.</strong> Valide et c'est terminé !<br>
+                <strong>3.</strong> Valide et c'est terminé ! (réessaye une seconde fois s'il t'affiche une erreur la première fois, Google a fait un truc buggé...)<br>
                 <strong>Attention ! Ne partage pas le lien, c'est un lien personnalisé...</strong>
             </p>
 
@@ -241,10 +235,13 @@
                    up-col-xs="100%" up-col-sm="100%" up-col="30%"
                    class="up-btn up-btn-lg up-btn-default centering">Android</a>
                 <a href=""
-                   title="Lien vers l'Apple Store"
+                   title="Lien vers l'Apple Store (coming soon)"
                    up-col-xs="100%" up-col-sm="100%" up-col="30%"
-                   class="up-btn up-btn-lg up-btn-default centering">iOS</a>
-                <!--<a href="" title="Lien vers le Windows Store" up-col-xs="100%" up-col-sm="100%" up-col="30%" class="up-btn up-btn-default centering">Windows Phone</a>-->
+                   class="up-btn up-btn-lg up-btn-default centering" disabled>iOS</a>
+                <a href=""
+                   title="Lien vers le Windows Store (coming soon)"
+                   up-col-xs="100%" up-col-sm="100%" up-col="30%"
+                   class="up-btn up-btn-lg up-btn-default centering" disabled>Windows Phone</a>
             </div>
         </div>
     </div>

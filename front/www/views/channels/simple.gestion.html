@@ -8,7 +8,7 @@
     </div>
 
     <div class="up-profile-form">
-        <form up-row padded left wrap ng-submit="submitClub(channel.name, channel.full_name, channel.icon, profilePicture)" autocomplete="off">
+        <form up-row padded left wrap ng-submit="submitClub(channel.name, channel.full_name, channel.icon, profilePicture, bannerPicture)" autocomplete="off">
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
                 <i class="fa fa-angle-double-right"></i>
                 Nom long
@@ -39,6 +39,14 @@
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
                 <input type="file" class="up-col-xs-12" ng-model="profilePicture" base-sixty-four-input>
+            </div>
+
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <i class="fa fa-image"></i>
+                Bannière
+            </div>
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <input type="file" class="up-col-xs-12" ng-model="bannerPicture" base-sixty-four-input>
             </div>
 
             <div up-col="100%" up-row right>

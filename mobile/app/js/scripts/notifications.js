@@ -2,7 +2,7 @@
 var pushNotification;
 var gcmExpeditor = '124672424252';
 
-if(window.plugins) {
+if (window.plugins != 'undefined') {
     module
         .factory('PushNotifications', ['$http', '$rootScope', 'StorageService', function ($http, $rootScope, StorageService) {
             return {
@@ -39,7 +39,7 @@ if(window.plugins) {
                                         function (error) { onsAlert('Erreur', error); },
                                         {'channelName': channelName, 'ecb': 'onNotificationWP8'}
                                     );
-                                } else {
+                                /*} else {
                                     pushNotification.register(
                                         function(token) {
                                             StorageService.set('registered', true);
@@ -49,10 +49,11 @@ if(window.plugins) {
                                         },
                                         function (error) { onsAlert('Erreur', error); },
                                         {'badge': 'true', 'sound': 'true', 'alert': 'true', 'ecb': 'onNotificationAPN'}
-                                    );
+                                    );*/
                                 }
                             } else {
                                 StorageService.set('registered', false);
+                                StorageService.remove('registeredId');
                                 $rootScope.registered = false;
                             }
                         }
@@ -67,6 +68,7 @@ if(window.plugins) {
 
                     pushNotification.unregister(function () {
                         StorageService.set('registered', false);
+                        StorageService.remove('registeredId');
                         $rootScope.registered = false;
 
                         if(StorageService.get('registeredId')) {
@@ -86,20 +88,9 @@ if(window.plugins) {
         }]);
 }
 
-/*
-document.addEventListener('deviceready', function() {
-    var elem = angular.element(document.querySelector('[ng-app]'));
-    var injector = elem.injector();
-    var service = injector.get('PushNotifications');
-    service.initialize();
-}, false);
-*/
-
-
-
 // Fonctions gérant la récéption d'une notification
 // iOS
-function onNotificationAPN (event) {
+/*function onNotificationAPN (event) {
     if (event.alert) {
         navigator.notification.alert(event.alert);
     }
@@ -112,7 +103,7 @@ function onNotificationAPN (event) {
     if (event.badge) {
         pushNotification.setApplicationIconBadgeNumber(successHandler, errorHandler, event.badge);
     }
-}
+}*/
 
 // Android et Amazon Fire OS
 function onNotificationGCM(e) {
@@ -129,14 +120,17 @@ function onNotificationGCM(e) {
     case 'message':
         // Appli en cours d'utilisation
         if (e.foreground) {
-            alert('');
+            //alert(e.payload.message);
+            console.log('frontstart');
         } else {
             if (e.coldstart) {
                 // Appli lancée depuis le pannel des notifs
-                alert('');
+                //alert(e.payload.message);
+                console.log('coldstart');
             } else {
                 // Appli en background
-                alert('');
+                //alert(e.payload.message);
+                console.log('backstart');
             }
         }
         break;

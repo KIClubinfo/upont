@@ -80,7 +80,7 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
                 $users = array();
 
                 foreach ($allUsers as $candidate) {
-                    if (!$candidate->getClubsNotFollowed()->contains($club))
+                    if ($candidate->getClubsNotFollowed()->contains($club))
                         $users[] = $candidate;
                 }
 
@@ -89,7 +89,7 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
                     'notif_followed_event',
                     $return['item']->getName(),
                     $text,
-                    'to',
+                    'exclude',
                     $users
                 );
             }

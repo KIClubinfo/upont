@@ -159,9 +159,7 @@ class BaseController extends \FOS\RestBundle\Controller\FOSRestController
         } else if ($mode == 'exclude') {
             $users = $this->em->getRepository('KIUpontBundle:Users\User')->findAll();
 
-            foreach ($users as $user) {
-                if (in_array($user, $recipient))
-                    continue;
+            foreach ($recipient as $user) {
                 $notification->addRecipient($user);
             }
         }

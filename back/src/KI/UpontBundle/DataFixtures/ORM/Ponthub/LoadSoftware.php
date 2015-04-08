@@ -1,6 +1,6 @@
 <?php
 
-namespace OC\PlatformBundle\DataFixtures\ORM\Ponthub;
+namespace KI\UpontBundle\DataFixtures\ORM\Ponthub;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -20,10 +20,10 @@ class LoadSoftwareFixture extends AbstractFixture implements OrderedFixtureInter
         $software->setStatus('OK');
         $software->setImage($this->getReference('image-software-vista'));
         $manager->persist($software);
-        
+
         $manager->flush();
     }
-    
+
     public function getOrder()
     {
         return 40;
