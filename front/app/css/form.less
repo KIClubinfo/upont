@@ -32,6 +32,35 @@ label {
     font-weight: normal;
 }
 
+// Zone d'autocomplétion pour une barre de recherche
+.up-autocomplete {
+    position: relative;
+    input {
+        width: 100%;
+        border-left: 0;
+        border-right: 0;
+    }
+    .suggestions {
+        border: 1px solid @col-bckgnd;
+        background-color: @col-ticket;
+        position: absolute;
+        padding: 10px 0 10px 0;
+        margin: 0px;
+        list-style: outside none none;
+        width: 100%;
+        border-radius: 0 0 5px 5px;
+        li {
+            padding: 0 10px 0 10px;
+            &:hover {
+                background-color: @col-input-bckgnd;
+            }
+        }
+        strong {
+            color: @col-main;
+        }
+    }
+}
+
 // Permet de rajouter des addons à gauche ou a droite des inputs
 .up-input-group {
     display: flex;
