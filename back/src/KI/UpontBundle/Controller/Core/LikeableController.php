@@ -276,6 +276,7 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
         $users = $item->getAuthorUser() == $this->user ? array() : array($item->getAuthorUser());
 
         // On trie par date
+        /*
         $sort = array();
         foreach ($comments as $key => $comment)
             $sort[$key] = $comment->getDate();
@@ -307,7 +308,7 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
                     true
                 )
             )
-        );
+        );*/
     }
 
     /**

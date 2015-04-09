@@ -152,7 +152,7 @@ angular.module('upont')
                 $scope.searchResults = [];
             } else {
                 $http.post(apiPrefix + 'search', {search: 'User/' + string}).success(function(data){
-                    $scope.searchResults = data;
+                    $scope.searchResults = data.users;
                 });
             }
         };
