@@ -84,6 +84,22 @@ class User extends \KI\UpontBundle\Entity\Users\CoreUser
      */
     protected $skype;
 
+    /**
+     * Cotisant BDE
+     * @ORM\Column(name="allowedBde", type="boolean", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("boolean")
+     */
+    protected $allowedBde;
+
+    /**
+     * Cotisant BDS
+     * @ORM\Column(name="allowedBds", type="boolean", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("boolean")
+     */
+    protected $allowedBds;
+
     protected function acronyme()
     {
         $r = '';
@@ -279,5 +295,51 @@ class User extends \KI\UpontBundle\Entity\Users\CoreUser
     public function getSkype()
     {
         return $this->skype;
+    }
+
+    /**
+     * Set allowedBde
+     *
+     * @param string $allowedBde
+     * @return User
+     */
+    public function setAllowedBde($allowedBde)
+    {
+        $this->allowedBde = $allowedBde;
+
+        return $this;
+    }
+
+    /**
+     * Get allowedBde
+     *
+     * @return string
+     */
+    public function getAllowedBde()
+    {
+        return $this->allowedBde;
+    }
+
+    /**
+     * Set allowedBds
+     *
+     * @param string $allowedBds
+     * @return User
+     */
+    public function setAllowedBds($allowedBds)
+    {
+        $this->allowedBds = $allowedBds;
+
+        return $this;
+    }
+
+    /**
+     * Get allowedBds
+     *
+     * @return string
+     */
+    public function getAllowedBds()
+    {
+        return $this->allowedBds;
     }
 }
