@@ -277,7 +277,7 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
         $users = $item->getAuthorUser() == $this->user ? array() : array($item->getAuthorUser());
 
         // On trie par date
-        $sort = array();
+        /*$sort = array();
         foreach ($comments as $key => $comment)
             $sort[$key] = $comment->getDate();
         array_multisort($sort, SORT_DESC, $comments);
