@@ -16,6 +16,7 @@ gulp build-css --type=production
 cd ../mobile
 npm install
 bower update --allow-root
+gulp build-html --type=production
 gulp build-js --type=production
 gulp build-css-light --type=production
 gulp build-css-dark --type=production
