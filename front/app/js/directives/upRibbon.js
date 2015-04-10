@@ -1,6 +1,5 @@
 angular.module('upont').directive('upRibbon', function() {
     return {
-        restrict: 'E',
         transclude: true,
         template:
             '<div class="ribbon-wrapper">' +

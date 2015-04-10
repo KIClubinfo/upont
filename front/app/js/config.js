@@ -51,7 +51,18 @@ angular.module('upont')
             .state('root', {
                 abstract: true,
                 url: '/',
-                template: '<div ui-view></div>'
+                views:{
+                    main:{
+                        template: '<div ui-view></div>'
+                    },
+                    topbar:{
+                        templateUrl: 'views/misc/topBar.html'
+                    },
+                    aside:{
+                        templateUrl: 'views/misc/aside.html',
+                        controller: 'Aside_Ctrl'
+                    }
+                }
             })
             .state("root.erreur", {
                 url: 'erreur',

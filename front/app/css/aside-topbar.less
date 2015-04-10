@@ -1,13 +1,9 @@
 .up-aside {
-    // @media(max-width:@sizeSm){
-    //     display:none;
-    // }
     width: @asideWidth;
     position: fixed;
     left: 0px;
     top: 0px;
     height: 100%;
-    min-height: 550px;
     color: @col-aside;
     background-color: @col-aside-bckgnd;
     z-index: 500;
@@ -15,12 +11,17 @@
         width: 30%;
     }
 }
-.up-aside-menu {
-    padding: 1em 0 0 1%;
-    font-size: 1.05em;
-    list-style: none;
 
+.up-aside-header{
+    height:7em;
+}
+
+.up-aside-middle {
+    padding-top: 1em;
+    overflow-y: auto;
+    height: calc(~"100% - 12.95em");
     a {
+        font-size: 1.05em;
         display: block;
         margin: 0.75em 10%;
         height: 2em;
@@ -32,10 +33,10 @@
         }
     }
 }
-.up-aside-middle {
+.up-aside-infos {
     &:extend(.up-aside-menu);
     font-size: 0.9em;
-    margin: 0.5em 0 0 10%;
+    margin: 0.5em 0 1em 10%;
     padding-right: 10px;
 }
 .up-deconnection {
@@ -49,14 +50,11 @@
 
 }
 .up-aside-footer {
-    position: absolute;
-    bottom: 0px;
     text-align: center;
-    font-size: 0.85em;
     padding: 0.5em;
-    width: 100%;
-    margin-left: -5px;
-
+    height:7em;
+    font-size: 0.85em;
+    // border-top:solid 1px @col-aside;
     a {
         &:hover, &.active {
             border-bottom: solid 1px @col-aside;
@@ -64,7 +62,7 @@
     }
 }
 
-.up-sb{
+.up-searchbar{
     padding:0.5em;
     margin: 0px 0.5em;
     position: relative;
@@ -78,7 +76,7 @@
     background-color: @col-input-bckgnd;
 }
 
-.up-sb-results{
+.up-searchbar-results{
     color:@col-font;
     width:332px;
     padding:10px;
@@ -89,10 +87,10 @@
     border-radius: 3px;
     z-index:600;
     border: solid 1px @col-bckgnd;
-    .up-sb-section:not(:last-of-type){
+    .up-searchbar-section:not(:last-of-type){
         border-bottom: solid 2px rgba(red(@col-bckgnd), green(@col-bckgnd), blue(@col-bckgnd), 0.2);
     }
-    .up-sb-section .up-sb-cell{
+    .up-searchbar-section .up-searchbar-cell{
         padding:5px;
         &:not(:last-of-type){
             border-right:solid 2px rgba(red(@col-bckgnd), green(@col-bckgnd), blue(@col-bckgnd), 0.2);
@@ -106,7 +104,7 @@
         width: 2em;
         text-align: center;
     }
-    .up-sb-item{
+    .up-searchbar-item{
         padding:5px;
         border-radius: 5px;
         cursor:pointer;
