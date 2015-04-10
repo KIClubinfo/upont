@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <base href="/">
+    <!-- build:base -->
+        <base href="/front/">
+    <!-- endbuild -->
     <title ng-bind="title">uPont</title>
     <link rel="icon" type="image/png" href="img/favicon.png" />
     <link rel="stylesheet" href="style.min.css">
@@ -34,11 +36,11 @@
 
 <body ng-class="theme == 'dark' ? 'theme-dark' : 'theme-clear'">
     <!-- Présence ou non de la barre latérale -->
-    <div class="up-invisible-xs" ng-if="isLogged" ng-include="'views/misc/aside.html'"></div>
+    <div ui-view="aside" class="up-invisible-xs" ng-if="isLogged"></div>
     <!-- Présence ou non de la barre supérieure -->
-    <div class="up-invisible-sm up-invisible-md up-invisible-lg" ng-if="isLogged" ng-include="'views/misc/topBar.html'"></div>
+    <div ui-view="topbar" class="up-invisible-sm up-invisible-md up-invisible-lg" ng-if="isLogged"></div>
     <!-- Vue principale -->
-    <div ui-view up-col="100%" root-state="root" size="small" ng-hide="$root.showTopMenu" autoscroll="false" class="up-main-view" up-fill-window ></div>
+    <div ui-view="main" up-col="100%" root-state="root" size="small" ng-hide="$root.showTopMenu" autoscroll="false" class="up-main-view" up-fill-window ></div>
 
     <!-- Piwik -->
     <script type="text/javascript" type="text/javascript">
