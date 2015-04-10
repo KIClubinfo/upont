@@ -9,6 +9,8 @@ var autoprefixer = require('gulp-autoprefixer');
 var jshint = require('gulp-jshint');
 var uglify = require('gulp-uglify');
 
+var htmlReplace = require('gulp-html-replace');
+
 var karma = require('gulp-karma');
 
 gulp.task('jshint', function() {
@@ -34,7 +36,13 @@ gulp.task('build-js', function() {
         .pipe(jshint.reporter('jshint-stylish'))
         .pipe(concat('upont.min.js'))
         .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop())
-        .pipe(gulp.dest('www'));
+        .pipe(gulp.dest('www/'));
+});
+
+gulp.task('build-html', function(){
+    return gulp.src('app/index.html')
+        .pipe(gutil.env.type == "production" ? htmlReplace({base: '<base href="/">'}) : gutil.noop())
+        .pipe(gulp.dest('www/'));
 });
 
 gulp.task('unit-tests', function() {
@@ -45,13 +53,13 @@ gulp.task('unit-tests', function() {
         }));
 });
 
-gulp.task('e2e-tests', function() {
+// gulp.task('e2e-tests', function() {
 
-});
+// });
 
 gulp.task('watch', function() {
     gulp.watch(['app/js/**/*.js', 'app/js/*.js'], ['build-js']);
     gulp.watch('app/css/*.less', ['build-css']);
+    gulp.watch('app/index.html', ['build-html']);
 });
-
-gulp.task('default', ['build-js', 'build-css', 'watch']);
+gulp.task('default', ['build-js', 'build-css', 'build-html', 'watch']);

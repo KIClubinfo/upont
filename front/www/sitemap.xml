@@ -4,9 +4,18 @@
         <loc>https://upont.enpc.fr/</loc>
     </url>
     <url>
-        <loc>https://upont.enpc.fr/assos</loc>
+        <loc>https://upont.enpc.fr/public/assos</loc>
     </url>
     <url>
-        <loc>https://upont.enpc.fr/admissibles</loc>
+        <loc>https://upont.enpc.fr/public/admissibles</loc>
     </url>
+    <!-- <url>
+        <loc>https://upont.enpc.fr/public/portail</loc>
+    </url>
+    <url>
+        <loc>https://upont.enpc.fr/public/paniers-dvp</loc>
+    </url>
+    <url>
+        <loc>https://upont.enpc.fr/public/plaquette-alpha</loc>
+    </url>-->
 </urlset>
