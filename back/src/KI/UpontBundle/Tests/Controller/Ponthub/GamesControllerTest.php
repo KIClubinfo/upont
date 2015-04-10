@@ -40,11 +40,11 @@ class GamesControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/games/age-of-empires-2/download');
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
+        $this->assertJsonResponse($response, 302);
 
         $this->client->request('GET', '/games/age-of-empires-2/download');
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
+        $this->assertJsonResponse($response, 302);
 
         $this->client->request('GET', '/games/age-of-empires-2');
         $response = $this->client->getResponse();

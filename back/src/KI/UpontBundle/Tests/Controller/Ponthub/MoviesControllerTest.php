@@ -40,11 +40,11 @@ class MoviesControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/movies/pumping-iron/download');
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
+        $this->assertJsonResponse($response, 302);
 
         $this->client->request('GET', '/movies/pumping-iron/download');
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
+        $this->assertJsonResponse($response, 302);
 
         $this->client->request('GET', '/movies/pumping-iron');
         $response = $this->client->getResponse();

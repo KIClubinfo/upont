@@ -40,11 +40,11 @@ class SoftwaresControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/softwares/windows-vista-1/download');
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
+        $this->assertJsonResponse($response, 302);
 
         $this->client->request('GET', '/softwares/windows-vista-1/download');
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
+        $this->assertJsonResponse($response, 302);
 
         $this->client->request('GET', '/softwares/windows-vista-1');
         $response = $this->client->getResponse();

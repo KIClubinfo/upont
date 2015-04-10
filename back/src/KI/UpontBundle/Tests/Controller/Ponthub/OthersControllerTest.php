@@ -40,11 +40,11 @@ class OthersControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/others/windows-vista/download');
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
+        $this->assertJsonResponse($response, 302);
 
         $this->client->request('GET', '/others/windows-vista/download');
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
+        $this->assertJsonResponse($response, 302);
 
         $this->client->request('GET', '/others/windows-vista');
         $response = $this->client->getResponse();

@@ -32,7 +32,7 @@ angular.module('upont')
             return Ponthub.isPopular(count, $stateParams.category);
         };
     }])
-    .controller('PH_Element_Ctrl', ['$scope', '$stateParams', '$q', 'Ponthub', '$window', '$http', 'element', 'episodes', 'musics', function($scope, $stateParams, $q, Ponthub, $window, $http, element, episodes, musics) {
+    .controller('PH_Element_Ctrl', ['$scope', '$stateParams', '$q', 'Ponthub', 'StorageService', '$window', '$http', 'element', 'episodes', 'musics', function($scope, $stateParams, $q, Ponthub, StorageService, $window, $http, element, episodes, musics) {
         $scope.element = element;
         $scope.category = $stateParams.category;
         $scope.lastWeek = moment().subtract(7, 'days').unix();
@@ -40,6 +40,7 @@ angular.module('upont')
         $scope.musics = musics;
         $scope.openSeason = -1;
         $scope.fleur = null;
+        $scope.token = StorageService.get('token');
 
         function pingFleur() {
             var defered = $q.defer();
@@ -50,31 +51,6 @@ angular.module('upont')
                 defered.resolve({test: bool});
             });
             return defered.promise;
-        }
-
-        $scope.download = function(url) {
-            if ($scope.fleur === null) {
-                pingFleur().then(function(result){
-                    $scope.fleur = result;
-                    downloadFile(url);
-                });
-            } else {
-                downloadFile(url);
-            }
-        };
-
-        function downloadFile(url) {
-            if (!$scope.fleur) {
-                alertify.error('Tu n\'es pas sur le réseau des résidences, impossible de télécharger le fichier !');
-                return;
-            }
-
-            if (!url)
-                url = apiPrefix + Ponthub.cat($stateParams.category) + '/' + element.slug + '/download';
-
-            $http.get(url).success(function(data){
-                $window.location.href = data.redirect;
-            });
         }
 
         if (episodes) {
