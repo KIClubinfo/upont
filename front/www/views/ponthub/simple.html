@@ -64,7 +64,7 @@
 
                     <ul class="up-list" ng-show="openSeason == $index">
                         <li ng-repeat="episode in saison | orderBy:['name']">
-                            <a ng-click="download(url + 'series/' + element.slug + '/episodes/' + episode.slug + '/download')">
+                            <a title="Télécharger le fichier" ng-href="{{ type + '/' + element.slug + '/episodes/' + episode.slug + '/download?bearer=' + token | urlFile }}">
                                 {{ episode.name }}
                             </a>
                         </li>
@@ -76,7 +76,7 @@
             <div ng-if="musics">
                 <ul class="up-list">
                     <li ng-repeat="music in musics | orderBy:['name']">
-                        <a ng-click="download(url + 'albums/' + element.slug + '/musics/' + music.slug + '/download')">
+                        <a ntitle="Télécharger le fichier" ng-href="{{ type + '/' + element.slug + '/musics/' + music.slug + '/download?bearer=' + token | urlFile }}">
                             {{ music.name }}
                         </a>
                     </li>
