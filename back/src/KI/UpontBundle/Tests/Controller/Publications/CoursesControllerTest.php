@@ -95,7 +95,7 @@ class CoursesControllerTest extends WebTestCase
         $fs->copy($basePath.'file.pdf', $basePath.'file_tmp.pdf');
         $file = new UploadedFile($basePath.'file_tmp.pdf', 'file.pdf');
 
-        $this->client->request('POST', '/courses/mecanique-des-familles/exercices', array('name' => 'Examen'), array('file' => $file));
+        $this->client->request('POST', '/courses/mecanique-des-familles/exercices', array('name' => 'Super Examen'), array('file' => $file));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
         $this->assertTrue($response->headers->has('Location'), $response->headers);
@@ -111,14 +111,14 @@ class CoursesControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
 
-        $this->client->request('GET', '/courses/mecanique-des-familles/exercices/examen');
+        $this->client->request('GET', '/courses/mecanique-des-familles/exercices/super-examen');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
     }
 
     public function testDownloadExercice()
     {
-        $this->client->request('GET', '/courses/mecanique-des-familles/exercices/examen/download');
+        $this->client->request('GET', '/courses/mecanique-des-familles/exercices/super-examen/download');
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($response->headers->contains('Content-Type', 'application/pdf'));
@@ -126,7 +126,7 @@ class CoursesControllerTest extends WebTestCase
 
     public function testPatchExercice()
     {
-        $this->client->request('PATCH', '/courses/mecanique-des-familles/exercices/examen', array('name' => 'Annale Test'));
+        $this->client->request('PATCH', '/courses/mecanique-des-familles/exercices/super-examen', array('name' => 'Annale Test'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
