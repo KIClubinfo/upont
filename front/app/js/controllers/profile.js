@@ -29,7 +29,7 @@ angular.module('upont')
             });
         };
 
-        $scope.submitUser = function(me, image) {
+        $scope.submitUser = function(me, image, password, confirm) {
             var params = {
                 'promo' : me.promo,
                 'nationality' : me.nationality,
@@ -43,6 +43,15 @@ angular.module('upont')
 
             if (image) {
                 params.image = image.base64;
+            }
+
+            if (password !== null && password !== '') {
+                if (password != confirm) {
+                    alertify.error('Les deux mots de passe ne sont pas identiques');
+                    return;
+                } else {
+                    params.plainPassword = {first: password, second: confirm};
+                }
             }
 
             $http.patch($rootScope.url + 'users/' + $rootScope.me.username, params).success(function(){

@@ -87,6 +87,15 @@ fos_user:
     from_email:
         address:        noreply@upont.enpc.fr
         sender_name:    KI
+    change_password:
+        form:
+            type: user
+    registration:
+        form:
+            type: user
+    profile:
+        form:
+            type: user
 
 # Fos RestBundle
 fos_rest:
