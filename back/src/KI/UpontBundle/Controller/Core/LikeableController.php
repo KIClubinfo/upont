@@ -271,6 +271,7 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
         $comment->setAuthor($this->user);
         $this->em->persist($comment);
 
+        /*
         // On va chercher dans les 5 derniers messages des gens à notifier qu'un nouveau commentaire est arrivé
         $comments = $item->getComments()->getValues();
         $users = $item->getAuthorUser() == $this->user ? array() : array($item->getAuthorUser());
@@ -294,6 +295,7 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
             'to',
             $users
         );
+        */
 
         $item->addComment($comment);
         $this->em->flush();
