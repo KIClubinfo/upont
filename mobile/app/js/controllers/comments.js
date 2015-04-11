@@ -61,7 +61,7 @@ module
         };
 
         $scope.comment = function(text) {
-            $http.post(url + nav.getCurrentPage().options.route + '/comments', {'text' : text }).success(function(data){
+            $http.post(url + nav.getCurrentPage().options.route + '/comments', {'text' : nl2br(text) }).success(function(data){
                 $scope.comments.push(data);
                 $scope.text = '';
             });

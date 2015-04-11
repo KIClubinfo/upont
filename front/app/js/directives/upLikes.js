@@ -135,7 +135,7 @@ angular.module('upont').directive('upLikes', function() {
             $scope.submitComment = function(text){
                 $scope.commentText = "";
                 if(text.length > 0){
-                    $resource(apiPrefix + $scope.url + '/comments').save({ text: text }, function(data){
+                    $resource(apiPrefix + $scope.url + '/comments').save({ text: nl2br(text) }, function(data){
                         $scope.comments.push(data);
                         if($scope.shownComments < 0)
                             $scope.shownComments--;

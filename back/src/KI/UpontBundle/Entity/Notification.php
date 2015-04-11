@@ -105,8 +105,8 @@ class Notification
         $this->read = new \Doctrine\Common\Collections\ArrayCollection();
 
         $this->setReason($reason);
-        $this->setTitle($title);
-        $this->setMessage($message);
+        $this->setTitle(strip_tags($title));
+        $this->setMessage(strip_tags($message));
         $this->setDate(time());
         $this->setMode($mode);
         $this->setResource($resource);
