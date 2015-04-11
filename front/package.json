@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "L'application essentielle de la vie aux Ponts !",
   "private": true,
+  "scripts": {
+    "postinstall": "bower install && gulp build",
+    "start": "gulp watch"
+  },
   "devDependencies": {
     "gulp": "~3.8.11",
     "gulp-jshint": "~1.9.2",
@@ -19,6 +23,10 @@
     "karma-phantomjs-launcher": "~0.1.4",
     "karma-ng-html2js-preprocessor": "~0.1.2",
     "karma-coverage": "~0.2.7",
-    "gulp-html-replace": "~1.4.4"
+    "gulp-html-replace": "~1.4.4",
+    "gulp-webserver": "^0.9.0"
+  },
+  "dependencies": {
+    "bower": "^1.4.1"
   }
 }
