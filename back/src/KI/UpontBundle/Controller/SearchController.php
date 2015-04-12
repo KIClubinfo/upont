@@ -161,10 +161,8 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
         $qb = $repo->createQueryBuilder('e');
 
         $results = $qb
-            ->orwhere('SOUNDEX(e.firstName) = SOUNDEX(:search)')
-            ->orwhere('e.firstName LIKE :searchlike')
-            ->orWhere('SOUNDEX(e.lastName) = SOUNDEX(:search)')
-            ->orwhere('e.lastName LIKE :searchlike')
+            ->orwhere('SOUNDEX(CONCAT(e.firstName, CONCAT(\' \', CONCAT(e.lastName, CONCAT(\' \', COALESCE(e.nickname, \'\')))))) = SOUNDEX(:search)')
+            ->orwhere('CONCAT(e.firstName, CONCAT(\' \', CONCAT(e.lastName, CONCAT(\' \', COALESCE(e.nickname, \'\'))))) LIKE :searchlike')
             ->setParameter('search', $search)
             ->setParameter('searchlike', '%'.$search.'%')
             ->setMaxResults(10)

@@ -194,6 +194,7 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
                 // Si la série existe, on la récupère, sinon on la rajoute
                 if (!isset($series[$serie])) {
                     $serieItem = new Serie();
+                    $serieItem->setAdded(time());
                     $serieItem->setPath('/root/web/series/'.$serie.'/');
                     $serieItem->setStatus('NeedInfos');
                     $serieItem->setName($serie);
@@ -244,6 +245,7 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
                 // Si l'album existe, on le récupère, sinon on le rajoute
                 if (!isset($albums[$album])) {
                     $albumItem = new Album();
+                    $albumItem->setAdded(time());
                     $albumItem->setName($album);
                     $albumItem->setArtist($artist);
                     $albumItem->setStatus('NeedInfos');

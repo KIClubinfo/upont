@@ -143,7 +143,7 @@ nelmio_api_doc:
         request_format:
             formats:
                 json: application/json
-            method: format_param
+            method: accept_header
             default_format: json
 
 # Permet de créer des slugs
