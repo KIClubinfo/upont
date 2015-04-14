@@ -7,6 +7,7 @@ angular.module('upont')
                     StorageService.remove('token');
                     StorageService.remove('droits');
                     $rootScope.isLogged = false;
+                    $rootScope.urlRef = $location.path();
                     $location.path('/');
                 }
                 if (response.status == 500) $location.path('/erreur');
@@ -82,9 +83,10 @@ angular.module('upont')
             html: true
         });
     }])
-    .run(['$rootScope', 'StorageService', '$state', '$interval',  'jwtHelper', '$resource', function($rootScope, StorageService, $state, $interval, jwtHelper, $resource) {
+    .run(['$rootScope', 'StorageService', '$state', '$interval',  'jwtHelper', '$resource', '$location', function($rootScope, StorageService, $state, $interval, jwtHelper, $resource, $location) {
         // Data à charger au lancement
         $rootScope.selfClubs = [];
+
         $rootScope.init = function(username) {
             // Données perso
             $resource(apiPrefix + 'users/:slug', {slug: username }).get(function(data){
@@ -192,6 +194,7 @@ angular.module('upont')
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
             if (!$rootScope.isLogged && toState.name != "root.disconnected") {
                 event.preventDefault();
+                $rootScope.urlRef = $location.path();
                 $state.go("root.disconnected");
             }
         });
