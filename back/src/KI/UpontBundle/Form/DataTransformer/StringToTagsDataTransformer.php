@@ -3,7 +3,7 @@ namespace KI\UpontBundle\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use KI\UpontBundle\Entity\Ponthub\Tag;
+use KI\UpontBundle\Entity\Tag;
 
 class StringToTagsDataTransformer implements DataTransformerInterface
 {
@@ -32,7 +32,7 @@ class StringToTagsDataTransformer implements DataTransformerInterface
             return null;
 
         $array = new \Doctrine\Common\Collections\ArrayCollection();
-        $repo = $this->om->getRepository('KIUpontBundle:Ponthub\Tag');
+        $repo = $this->om->getRepository('KIUpontBundle:Tag');
         foreach (explode(',', $string) as $tag) {
             $item = $repo->findOneByName($tag);
 

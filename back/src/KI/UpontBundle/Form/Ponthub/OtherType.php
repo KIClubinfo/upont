@@ -14,14 +14,8 @@ class OtherType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('genres', 'collection', array(
-                'type' => new GenreType(),
-                'allow_add' => true
-            ))
-            ->add('tags', 'collection', array(
-                'type' => new TagType(),
-                'allow_add' => true
-            ))
+            ->add('genres', 'genres_selector')
+            ->add('tags', 'tags_selector')
             ->add('image', 'imageuploader_selector');
     }
 

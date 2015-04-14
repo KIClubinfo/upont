@@ -23,7 +23,7 @@ class GamesControllerTest extends WebTestCase
 
     public function testPatch()
     {
-        $this->client->request('PATCH', '/games/age-of-empires-2', array('genres' => array(array('name' => 'Geekage'), array('name' => 'Lanage')), 'year' => 1999));
+        $this->client->request('PATCH', '/games/age-of-empires-2', array('genres' => 'Geekage,Lanage', 'year' => 1999));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
