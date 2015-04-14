@@ -259,7 +259,7 @@ angular.module('upont')
                 controller: 'PH_Liste_Ctrl',
                 resolve: {
                     elements: ['Paginate', '$stateParams', 'Ponthub', function(Paginate, $stateParams, Ponthub) {
-                        return Paginate.get(Ponthub.cat($stateParams.category), 20);
+                        return Paginate.get(Ponthub.cat($stateParams.category) + '?sort=-added', 20);
                     }]
                 }
             })
