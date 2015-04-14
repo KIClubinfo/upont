@@ -31,8 +31,8 @@ class SeriesControllerTest extends WebTestCase
             'vost' => true,
             'vostfr' => false,
             'director' => 'Mickael Bay',
-            'actors' => array(array('name' => 'Josh Radnor')),
-            'genres' => array(array('name' => 'SitCom')),
+            'actors' => 'Josh Radnor',
+            'genres' => 'SitCom',
             'rating' => 42
         ));
         $response = $this->client->getResponse();

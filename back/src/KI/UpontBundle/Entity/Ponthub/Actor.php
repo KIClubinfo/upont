@@ -5,10 +5,12 @@ namespace KI\UpontBundle\Entity\Ponthub;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
  * @JMS\ExclusionPolicy("all")
+ * @UniqueEntity("name")
  */
 class Actor
 {

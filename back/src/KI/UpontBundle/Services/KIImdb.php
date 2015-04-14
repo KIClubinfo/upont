@@ -18,13 +18,15 @@ class KIImdb extends ContainerAware
         $response = json_decode($curl->curl($url), true);
 
         $return = array();
-        foreach ($response['Search'] as $result) {
-            $return[] = array(
-                'name' => $result['Title'],
-                'year' => $result['Year'],
-                'type' => $result['Type'],
-                'id'   => $result['imdbID']
-            );
+        if (isset($response['Search'])) {
+            foreach ($response['Search'] as $result) {
+                $return[] = array(
+                    'name' => $result['Title'],
+                    'year' => $result['Year'],
+                    'type' => $result['Type'],
+                    'id'   => $result['imdbID']
+                );
+            }
         }
 
         return $return;

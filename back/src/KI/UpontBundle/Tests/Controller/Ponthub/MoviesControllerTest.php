@@ -23,7 +23,11 @@ class MoviesControllerTest extends WebTestCase
 
     public function testPatch()
     {
-        $this->client->request('PATCH', '/movies/pumping-iron', array('image' => 'http://ia.media-imdb.com/images/M/MV5BMTg2OTIwNTQ2OF5BMl5BanBnXkFtZTcwNTA4NDAwMQ@@._V1_SX300.jpg', 'actors' => array(array('name' => 'Arnold Schwarzenegger')), 'genres' => array(array('name' => 'Bodybuilding'), array('name' => 'Documentaire')), 'year' => 1977, 'tags' => array(array('name' => 'hjihjk'))));
+        $this->client->request('PATCH', '/movies/pumping-iron', array('image' => 'http://ia.media-imdb.com/images/M/MV5BMTg2OTIwNTQ2OF5BMl5BanBnXkFtZTcwNTA4NDAwMQ@@._V1_SX300.jpg', 'actors' => 'Arnold Schwarzenegger', 'genres' => 'Bodybuilding,Documentaire', 'year' => 1977, 'tags' => 'hjihjk'));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 204);
+
+        $this->client->request('PATCH', '/series/how-i-met-your-mother', array('image' => 'http://ia.media-imdb.com/images/M/MV5BMTg2OTIwNTQ2OF5BMl5BanBnXkFtZTcwNTA4NDAwMQ@@._V1_SX300.jpg', 'actors' => 'Arnold Schwarzenegger', 'genres' => 'Bodybuilding,Documentaire', 'year' => 1977, 'tags' => 'hjihjk'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 

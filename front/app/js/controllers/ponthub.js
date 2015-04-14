@@ -163,21 +163,8 @@ angular.module('upont')
             var list = [];
             var i = 0;
 
-            if (element.tags.length > 0) {
-                list = element.tags.split(',');
-                for (i = 0; i < list.length; i++) {
-                    tags.push({name: list[i]});
-                }
-                params.tags = tags;
-            }
-
-            if (element.genres.length > 0) {
-                list = element.genres.split(',');
-                for (i = 0; i < list.length; i++) {
-                    genres.push({name: list[i]});
-                }
-                params.genres = genres;
-            }
+            params.tags = element.tags;
+            params.genres = element.genres;
 
             if (imageUrl !== '') {
                 params.image = imageUrl;
@@ -190,14 +177,7 @@ angular.module('upont')
             switch ($scope.type) {
                 case 'movies':
                 case 'series':
-                    if (element.actors_list.length > 0) {
-                        list = element.actors_list.split(',');
-                        for (i = 0; i < list.length; i++) {
-                            actors.push({name: list[i]});
-                        }
-                        params.actors = actors;
-                    }
-
+                    params.actors = element.actors_list;
                     params.year = element.year;
                     params.duration = element.duration;
                     params.director = element.director;
