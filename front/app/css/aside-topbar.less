@@ -32,6 +32,10 @@
             .fa-block;
         }
     }
+    hr {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
 }
 .up-aside-infos {
     &:extend(.up-aside-menu);
@@ -95,9 +99,9 @@
         &:not(:last-of-type){
             border-right:solid 2px rgba(red(@col-bckgnd), green(@col-bckgnd), blue(@col-bckgnd), 0.2);
         }
-        &.up-sb-title{
-            font-size:0.8em;
-            font-weight:bold;
+        &.up-searchbar-title{
+            font-size: 0.8em;
+            font-weight: bold;
         }
     }
     .up-profil-picture, .fa {
@@ -187,7 +191,7 @@
         display:block;
         position:relative;
         font-size:1.5em;
-        padding:0.5em 0 0.5em 7% ;
+        padding:0.5em 0 0.5em 7%;
         &:not(.no-underline):after{
             content:"";
             position:absolute;
@@ -200,15 +204,4 @@
             margin:0 1em 0 0;
         }
     }
-    // &:before{
-    //     content:"";
-    //     position:absolute;
-    //     top:-10px;
-    //     left:1.75em;
-    //     width: 0;
-    //     height: 0;
-    //     border-left: 6px solid transparent;
-    //     border-right: 6px solid transparent;
-    //     border-bottom: 10px solid #fff;
-    // }
 }
