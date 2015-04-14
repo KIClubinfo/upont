@@ -74,20 +74,20 @@
             <div ng-hide="foyer == null"><i class="fa fa-beer"></i> Compte Foyer : {{ foyer }} <i class="fa fa-euro"></i></div>
             <i class="fa fa-child"></i> En ligne :
             <span ng-repeat="user in online">
-                <span ng-if="$index < 15">{{ user.nick }}</span><span ng-if="$index != online.length-1 && $index < 14">,</span>
+                <span ng-if="$index < 10">{{ user.nick }}</span><span ng-if="$index != online.length-1 && $index < 9">,</span>
             </span>
-            <span ng-if="online.length > 15">et {{ online.length - 15 }} autre{{ online.length == 16 ? ' utilisateur' : 's utilisateurs' }}.</span>
+            <span ng-if="online.length > 10">et {{ online.length - 10 }} autre{{ online.length == 11 ? ' utilisateur' : 's utilisateurs' }}.</span>
         </div>
     </div>
     <div class="up-aside-footer">
-        <div class="up-deconnection"><a ng-click="logout()"><i class="fa fa-sign-out"></i> Déconnexion</a>
-        </div>
         <div>
             <span class="unbold" ng-click="$root.switchTheme()" style="cursor: pointer">
                 <input type="checkbox" ng-checked="$root.theme == 'dark'">&nbsp;Thème sombre
             </span>
         </div>
-        <div class="up-version">uPont {{ version.version }}.{{ version.major }}.{{ version.minor }}
-            <br> Build <a ng-href="https://github.com/KIClubinfo/upont/commit/{{ version.build }}" title="Repo GitHub de uPont">{{ version.build }}</a> ({{ version.date | formatDate }})</div>
+        <div class="up-version">
+            uPont {{ version.version }}.{{ version.major }}.{{ version.minor }} &nbsp;&nbsp;-&nbsp;&nbsp; <a ng-click="logout()"><i class="fa fa-sign-out"></i> Déconnexion</a><br>
+            Build <a ng-href="https://github.com/KIClubinfo/upont/commit/{{ version.build }}" title="Repo GitHub de uPont">{{ version.build }}</a> ({{ version.date | formatDate }})
+        </div>
     </div>
 </aside>
