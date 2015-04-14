@@ -7,6 +7,7 @@ sudo npm install
 bower update
 gulp build-js
 gulp build-css
+gulp build-html
 
 cd ../mobile
 sudo npm install
