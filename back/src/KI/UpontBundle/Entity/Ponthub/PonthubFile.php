@@ -31,9 +31,9 @@ class PonthubFile extends Likeable
 
     /**
      * Taille en octets
-     * @ORM\Column(name="size", type="integer", nullable=true)
+     * @ORM\Column(name="size", type="bigint", nullable=true)
      * @JMS\Expose
-     * @Assert\Type("integer")
+     * @Assert\Type("string")
      */
     protected $size;
 
