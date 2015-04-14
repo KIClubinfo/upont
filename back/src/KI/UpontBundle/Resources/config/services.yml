@@ -55,20 +55,32 @@ services:
             
             
             
-    # Le champ personnalisé d'upload d'image, défini comme un service
+    # Les champs de formulaire personnalisés, définis comme des services
     ki_upont.type.imageuploader_selector:
        class: KI\UpontBundle\Form\Type\ImageUploaderSelectorType
        arguments: ["@doctrine.orm.entity_manager","@ki_upont.images"]
        tags:
            - { name: form.type, alias: imageuploader_selector }
-   
-    # Le champ personnalisé de club défini comme un service
     ki_upont.type.club_selector:
        class: KI\UpontBundle\Form\Type\ClubSelectorType
        arguments: ["@doctrine.orm.entity_manager"]
        tags:
            - { name: form.type, alias: club_selector }     
-           
+    ki_upont.type.actors_selector:
+       class: KI\UpontBundle\Form\Type\ActorsSelectorType
+       arguments: ["@doctrine.orm.entity_manager"]
+       tags:
+           - { name: form.type, alias: actors_selector }  
+    ki_upont.type.genres_selector:
+       class: KI\UpontBundle\Form\Type\GenresSelectorType
+       arguments: ["@doctrine.orm.entity_manager"]
+       tags:
+           - { name: form.type, alias: genres_selector }   
+    ki_upont.type.tags_selector:
+       class: KI\UpontBundle\Form\Type\TagsSelectorType
+       arguments: ["@doctrine.orm.entity_manager"]
+       tags:
+           - { name: form.type, alias: tags_selector }           
            
            
            
