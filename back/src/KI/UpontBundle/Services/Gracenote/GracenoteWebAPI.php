@@ -223,12 +223,12 @@ class GracenoteWebAPI
         }
 
         // Get response status code.
-        $status = (string) $xml->RESPONSE->attributes()->STATUS;
+        $status = (string)$xml->RESPONSE->attributes()->STATUS;
 
         // Check for any error codes and handle accordingly.
         switch ($status)
         {
-        case 'ERROR':    throw new GNException(GNError::API_RESPONSE_ERROR, (string) $xml->MESSAGE);
+        case 'ERROR':    throw new GNException(GNError::API_RESPONSE_ERROR, (string)$xml->MESSAGE);
         case 'NO_MATCH': throw new GNException(GNError::API_NO_MATCH);
         default:
             if ($status != 'OK') { throw new GNException(GNError::API_NON_OK_RESPONSE, $status); }
@@ -292,9 +292,9 @@ class GracenoteWebAPI
                 $track['tempo']             = $this->getOETElem($t->TEMPO);
 
                 // If track level GOET data exists, overwrite metadata from album.
-                if (isset($t->GENRE)) { $obj['genre']         = $this->getOETElem($t->GENRE); }
-                if (isset($t->ARTIST_ERA)) { $obj['artist_era']    = $this->getOETElem($t->ARTIST_ERA); }
-                if (isset($t->ARTIST_TYPE)) { $obj['artist_type']   = $this->getOETElem($t->ARTIST_TYPE); }
+                if (isset($t->GENRE)) { $obj['genre'] = $this->getOETElem($t->GENRE); }
+                if (isset($t->ARTIST_ERA)) { $obj['artist_era'] = $this->getOETElem($t->ARTIST_ERA); }
+                if (isset($t->ARTIST_TYPE)) { $obj['artist_type'] = $this->getOETElem($t->ARTIST_TYPE); }
                 if (isset($t->ARTIST_ORIGIN)) { $obj['artist_origin'] = $this->getOETElem($t->ARTIST_ORIGIN); }
 
                 $obj['tracks'][] = $track;

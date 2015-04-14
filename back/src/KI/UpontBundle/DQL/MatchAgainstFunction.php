@@ -44,7 +44,7 @@ class MatchAgainstFunction extends FunctionNode {
 
         $query = 'MATCH('.$haystack.') AGAINST ('.$this->needle->dispatch($sqlWalker);
 
-        if($this->mode) {
+        if ($this->mode) {
             $query .= ' '.$this->mode->dispatch($sqlWalker).' )';
         } else {
             $query .= ' )';

@@ -46,7 +46,7 @@ class KIImdb extends ContainerAware
 
         return array(
             'title'       => $response['Title'],
-            'year'        => (int) $response['Year'],
+            'year'        => (int)$response['Year'],
             'duration'    => 60*str_replace(' min', '', $response['Runtime']),
             'genres'      => explode(', ', $response['Genre']),
             'director'    => $response['Director'],
