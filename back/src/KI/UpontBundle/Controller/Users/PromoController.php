@@ -94,12 +94,12 @@ class PromoController extends \KI\UpontBundle\Controller\Core\ResourceController
         case '015': $id = 359646667495742; break; // Wei't spirit
         case '016': $id = 1451446761806184; break; // Wei't the phoque
         case '017': $id = 1451446761806184; break; // Wei't the phoque
-        default: throw new \Exception('Promo ' . $promo . ' non prise en charge');
+        default: throw new \Exception('Promo '.$promo.' non prise en charge');
         }
 
         // On récupère la liste des membres
         $baseUrl = 'https://graph.facebook.com/v2.2';
-        $data = json_decode($curl->curl($baseUrl . '/' . $id . '/members' . $token), true);
+        $data = json_decode($curl->curl($baseUrl.'/'.$id.'/members'.$token), true);
 
         // Pour chaque utilisateur on essaye de trouver son profil fb, et si oui
         // on récupère la photo de profil

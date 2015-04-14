@@ -255,8 +255,7 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
                     $this->em->persist($albumItem);
                     $albums[$album] = $albumItem;
                     $pathsDone[] = '/root/web/musiques/'.$genre.'/'.$artist.'/'.$album.'/';
-                }
-                else
+                } else
                     $albumItem = $albums[$album];
                 if (!in_array('/root/web/musiques/'.$genre.'/'.$artist.'/'.$album.'/', $pathsDone))
                     $pathsDone[] = '/root/web/musiques/'.$genre.'/'.$artist.'/'.$album.'/';
