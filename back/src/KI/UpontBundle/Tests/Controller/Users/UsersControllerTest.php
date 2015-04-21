@@ -19,7 +19,7 @@ class UsersControllerTest extends WebTestCase
                 'firstName' => 'KI',
                 'lastName' => 'OP',
                 'nickname' => 'Testeur en chef',
-                'statsFoyer' => true
+                'statsFoyer' => true,
                 'allowedBde' => true,
                 'allowedBds' => false
             )
