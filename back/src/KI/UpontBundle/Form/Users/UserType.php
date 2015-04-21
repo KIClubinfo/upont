@@ -22,6 +22,8 @@ class UserType extends AbstractType
             ->add('location')
             ->add('phone')
             ->add('skype')
+            ->add('statsFoyer')
+            ->add('statsPonthub')
             ->add('image', 'imageuploader_selector');
     }
 

@@ -18,7 +18,8 @@ class UsersControllerTest extends WebTestCase
                 'plainPassword' => array('first' => 'test1234', 'second' => 'test1234'),
                 'firstName' => 'KI',
                 'lastName' => 'OP',
-                'nickname' => 'Testeur en chef'
+                'nickname' => 'Testeur en chef',
+                'statsFoyer' => true
             )
         );
         return $this->client->getResponse();
@@ -61,7 +62,22 @@ class UsersControllerTest extends WebTestCase
 
     public function testPatch()
     {
-        $this->client->request('PATCH', '/users/testificate', array('firstName' => 'KIMiam', 'gender' => 'M', 'phone' => '06.45.03.69.58', 'promo' => '016', 'department' => 'GCC', 'skype' => 'megaPseudo', 'origin' => 'Concours Commun', 'nationality' => 'France', 'location' => 'A51', 'image' => 'http://i.imgur.com/QKKfs.png'));
+        $this->client->request(
+            'PATCH',
+            '/users/testificate',
+            array(
+                'firstName' => 'KIMiam',
+                'gender' => 'M',
+                'phone' => '06.45.03.69.58',
+                'promo' => '016',
+                'department' => 'GCC',
+                'skype' => 'megaPseudo',
+                'origin' => 'Concours Commun',
+                'nationality' => 'France',
+                'location' => 'A51',
+                'statsFoyer' => true,
+                'image' => 'http://i.imgur.com/QKKfs.png'
+                ));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
