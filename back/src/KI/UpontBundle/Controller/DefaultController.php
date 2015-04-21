@@ -440,22 +440,18 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
             $major = 0;
             $minor = 0;
 
-            for ($j = 0 ; $j < $count ; $j++) {
-                if ($out[1][$j] > $version) $version = $out[1][$j];
-            }
-
             if (preg_match_all('#v'.$version.'\.([0-9]+)\.([0-9]+)#', $tags, $out)) {
                 $count = count($out[0]);
 
-                for ($i = 0 ; i < $count ; i++) {
+                for ($i = 0 ; i < $count ; $i++) {
                     // On ne s'intéresse qu'à la dernière version
-                    if ($out[1][i] < $vers) continue;
+                    if ($out[1][i] < $version) continue;
 
                     // Si on passe à une version supérieure
                     // on réinitialise les 3 composantes
                     // aux valeurs du tag qui nous fait changer de version
-                    if ($out[1][i] > $vers) {
-                        $vers = $out[1][i];
+                    if ($out[1][i] > $version) {
+                        $version = $out[1][i];
                         $major = $out[2][i];
                         $minor = $out[3][i];
                     }
