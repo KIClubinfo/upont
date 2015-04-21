@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('Disconnected_Ctrl', ['$scope', '$rootScope', '$state', 'StorageService', '$http', 'jwtHelper', '$resource', function($scope, $rootScope, $state, StorageService, $http, jwtHelper, $resource) {
+    .controller('Disconnected_Ctrl', ['$scope', '$rootScope', '$state', 'StorageService', '$http', 'jwtHelper', '$resource', '$location', function($scope, $rootScope, $state, StorageService, $http, jwtHelper, $resource, $location) {
         $('#login-input').focus();
         $scope.login = function(pseudo, mdp, firstTime) {
             if (pseudo.length && mdp.length)
@@ -24,7 +24,12 @@ angular.module('upont')
                         if (firstTime) {
                             $state.go("root.profile");
                         } else {
-                            $state.go("root.home");
+                            if (typeof $rootScope.urlRef !== 'undefined' && $rootScope.urlRef !== null) {
+                                $location.path($rootScope.urlRef);
+                                $rootScope.urlRef = null;
+                            } else {
+                                $state.go("root.home");
+                            }
                         }
                     }
 

@@ -237,6 +237,6 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
             $this->em->flush();
         }
 
-        return $this->jsonResponse(array('redirect' => $item->fileUrl()));
+        return $this->redirect($item->fileUrl());
     }
 }

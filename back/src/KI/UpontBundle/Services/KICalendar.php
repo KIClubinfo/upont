@@ -34,8 +34,8 @@ class KICalendar extends ContainerAware
 
         //Titre et description
         $cal = $provider->createCalendar($tz);
-        $cal->setName('Calendrier Youpont')
-            ->setDescription('Calendrier ICS des évènements YouPont');
+        $cal->setName('Calendrier uPont')
+            ->setDescription('Calendrier ICS des évènements uPont');
 
         foreach ($events as $eventDb) {
             $event = $cal->newEvent();

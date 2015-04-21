@@ -31,8 +31,8 @@ class SeriesControllerTest extends WebTestCase
             'vost' => true,
             'vostfr' => false,
             'director' => 'Mickael Bay',
-            'actors' => array(array('name' => 'Josh Radnor')),
-            'genres' => array(array('name' => 'SitCom')),
+            'actors' => 'Josh Radnor',
+            'genres' => 'SitCom',
             'rating' => 42
         ));
         $response = $this->client->getResponse();
@@ -83,11 +83,11 @@ class SeriesControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/series/how-i-met-your-mother/episodes/pilot/download');
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
+        $this->assertJsonResponse($response, 302);
 
         $this->client->request('GET', '/series/how-i-met-your-mother/episodes/pilot/download');
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
+        $this->assertJsonResponse($response, 302);
 
         $this->client->request('GET', '/series/how-i-met-your-mother/episodes/pilot');
         $response = $this->client->getResponse();

@@ -58,8 +58,10 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
         $validExt = array(
             'mp3', 'wav', 'ogg', 'flac', 'mp2', 'aac',
             'avi', 'mpeg', 'mp4', 'mkv',
-            'rar', 'iso', 'exe', 'msi',
-            'jpg', 'jpeg', 'png', 'bmp', 'gif'
+            'rar', 'zip', 'iso', 'exe', 'msi',
+            'jpg', 'jpeg', 'png', 'bmp', 'gif',
+            'srt',
+            'pdf', 'epub', 'mobi'
         );
 
         // On récupère le contenu du fichier
@@ -73,8 +75,8 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
         $this->em = $this->getDoctrine()->getManager();
         $repoSeries = $this->em->getRepository('KIUpontBundle:Ponthub\Serie');
         $repoAlbums = $this->em->getRepository('KIUpontBundle:Ponthub\Album');
-        $paths = $this->repo->createQueryBuilder('r')->select('r.path')->getQuery()->getScalarResult(); ;
-        $paths = array_map('current', $paths); ;
+        $paths = $this->repo->createQueryBuilder('r')->select('r.path')->getQuery()->getScalarResult();
+        $paths = array_map('current', $paths);
 
         // On stocke les albums et les séries existantes
         $result = $repoSeries->findAll();
@@ -90,7 +92,7 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
         $repoGenres = $this->em->getRepository('KIUpontBundle:Ponthub\Genre');
         $result = $repoGenres->findAll();
         foreach ($result as $genre) {
-                    $genres[$genre->getName()] = $genre;
+            $genres[$genre->getName()] = $genre;
         }
 
         // On parcourt la liste ligne par ligne
@@ -253,8 +255,7 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
                     $this->em->persist($albumItem);
                     $albums[$album] = $albumItem;
                     $pathsDone[] = '/root/web/musiques/'.$genre.'/'.$artist.'/'.$album.'/';
-                }
-                else
+                } else
                     $albumItem = $albums[$album];
                 if (!in_array('/root/web/musiques/'.$genre.'/'.$artist.'/'.$album.'/', $pathsDone))
                     $pathsDone[] = '/root/web/musiques/'.$genre.'/'.$artist.'/'.$album.'/';

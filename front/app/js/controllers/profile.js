@@ -32,6 +32,7 @@ angular.module('upont')
         $scope.submitUser = function(me, image) {
             var params = {
                 'promo' : me.promo,
+                'gender' : me.gender,
                 'nationality' : me.nationality,
                 'phone' : me.phone,
                 'location' : me.location,

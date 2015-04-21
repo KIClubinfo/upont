@@ -23,7 +23,7 @@ class GamesControllerTest extends WebTestCase
 
     public function testPatch()
     {
-        $this->client->request('PATCH', '/games/age-of-empires-2', array('genres' => array(array('name' => 'Geekage'), array('name' => 'Lanage')), 'year' => 1999));
+        $this->client->request('PATCH', '/games/age-of-empires-2', array('genres' => 'Geekage,Lanage', 'year' => 1999));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
@@ -40,11 +40,11 @@ class GamesControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/games/age-of-empires-2/download');
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
+        $this->assertJsonResponse($response, 302);
 
         $this->client->request('GET', '/games/age-of-empires-2/download');
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
+        $this->assertJsonResponse($response, 302);
 
         $this->client->request('GET', '/games/age-of-empires-2');
         $response = $this->client->getResponse();
