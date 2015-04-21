@@ -433,19 +433,56 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
         $tags = shell_exec('git tag');
         $out = array();
 
-        if (preg_match_all('#v([0-9]+)\.([0-9]+)\.([0-9]+)#', $tags, $out)) {
-            // On ne garde que le dernier numéro de version
-            $i = count($out[0]) - 1;
+        if (preg_match_all('#v([0-9]+)\.([0-9]+)\.([0-9]+)#', $tags, $out))
+        {
+            $count = count($out[0]);
+            $version = 2;
+            $major = 0;
+            $minor = 0;
 
-            return $this->jsonResponse(array(
-                'version'     => $out[1][$i],
-                'major'       => $out[2][$i],
-                'minor'       => $out[3][$i],
-                'build'       => shell_exec('git log --pretty=format:"%h" -n 1'),
-                'date'        => (int)shell_exec('git log -1 --pretty=format:%ct'),
-                'environment' => $env
-            ));
+            for ($j = 0 ; $j < $count ; $j++) {
+                if ($out[1][$j] > $version) $version = $out[1][$j];
+            }
+
+            if (preg_match_all('#v'.$version.'\.([0-9]+)\.([0-9]+)#', $tags, $out)) {
+                $count = count($out[0]);
+
+                for ($i = 0 ; i < $count ; i++) {
+                    // On ne s'intéresse qu'à la dernière version
+                    if ($out[1][i] < $vers) continue;
+
+                    // Si on passe à une version supérieure
+                    // on réinitialise les 3 composantes
+                    // aux valeurs du tag qui nous fait changer de version
+                    if ($out[1][i] > $vers) {
+                        $vers = $out[1][i];
+                        $major = $out[2][i];
+                        $minor = $out[3][i];
+                    }
+
+                    // Si on a la même version, on cherche la major maximale
+                    else {
+                        if ($out[2][i] < $maj) continue;
+
+                        // Même raisonnement qu'avec la version
+                        if ($out[2][i] > $maj) {
+                            $major = $out[2][i];
+                            $minor = $out[3][i];
+                        } else if ($out[3][i] > $min) $minor = $out[3][i];
+                    }
+                }
+
+                return $this->jsonResponse(array(
+                    'version'     => $version,
+                    'major'       => $major,
+                    'minor'       => $minor,
+                    'build'       => shell_exec('git log --pretty=format:"%h" -n 1'),
+                    'date'        => (int)shell_exec('git log -1 --pretty=format:%ct'),
+                    'environment' => $env
+                ));
+            }
         }
+
         return $this->jsonResponse(array(
             'version'     => 2,
             'major'       => 0,
