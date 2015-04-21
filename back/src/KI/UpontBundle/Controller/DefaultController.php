@@ -455,13 +455,13 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
 
                 // Si on a la même version, on cherche la major maximale
                 else {
-                    if ($out[2][$i] < $maj) continue;
+                    if ($out[2][$i] < $major) continue;
 
                     // Même raisonnement qu'avec la version
-                    if ($out[2][$i] > $maj) {
+                    if ($out[2][$i] > $major) {
                         $major = $out[2][$i];
                         $minor = $out[3][$i];
-                    } else if ($out[3][$i] > $min) $minor = $out[3][$i];
+                    } else if ($out[3][$i] > $minor) $minor = $out[3][$i];
                 }
             }
 
