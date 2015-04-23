@@ -60,9 +60,14 @@ security:
             pattern: ^/(clubs)(/[a-zA-Z]+)?$
             security: false
             
-        exceptionsPost:
+        exceptionsPost1:
             methods: [POST]
             pattern: ^/(resetting|filelist)
+            security: false
+            
+        exceptionsPost2:
+            methods: [POST]
+            pattern: ^/admissibles/[a-zA-Z]+$
             security: false
         
         #exceptionsPatch:
