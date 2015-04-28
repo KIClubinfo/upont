@@ -30,7 +30,20 @@ class AdmissiblesController extends \KI\UpontBundle\Controller\Core\ResourceCont
      *  section="Utilisateurs"
      * )
      */
-    public function getAdmissiblesAction() { return $this->getAll(); }
+    public function getAdmissiblesAction()
+    {
+        // On charge tous les admissibles
+        $admissibles = $this->repo->findAll();
+        $result = array();
+
+        // On ne garde que les admissibles de cette année
+        foreach ($admissibles as $admissible) {
+            if ($admissible->getDate() == date('Y')) {
+                $result[] = $admissible;
+            }
+        }
+        return $result;
+    }
 
     /**
      * @ApiDoc(

@@ -6,7 +6,8 @@ use KI\UpontBundle\Tests\WebTestCase;
 
 class AdmissiblesControllerTest extends WebTestCase
 {
-    // On crée une ressource sur laquelle seront effectués les tests. Ne pas oublier de supprimer à la fin avec le test DELETE.
+    // On crée une ressource sur laquelle seront effectués les tests.
+    // Ne pas oublier de supprimer à la fin avec le test DELETE.
     protected function postAdmissible()
     {
         $this->client->request(
@@ -15,9 +16,9 @@ class AdmissiblesControllerTest extends WebTestCase
             array(
                 'firstName' => 'KI',
                 'lastName' => 'OP',
-                'date' => '12/07/2014',
+                'date' => '2015',
                 'contact' => 'testificate@phpunit.zorg, 066666666',
-                'scei' => 12345,
+                'scei' => '12345',
                 'room' => 'simple',
                 'serie' => 4,
                 'details' => 'Admissible test'
@@ -28,7 +29,7 @@ class AdmissiblesControllerTest extends WebTestCase
 
     public function testPost()
     {
-        $response = $this->postUser();
+        $response = $this->postAdmissible();
         $this->assertJsonResponse($response, 201);
 
         // On vérifie que le lieu du nouvel objet a été indiqué
@@ -37,8 +38,30 @@ class AdmissiblesControllerTest extends WebTestCase
             $response->headers
         );
 
-        // On n'accepte pas les duplicatas selon l'username
-        $response = $this->postUser();
+        // On n'accepte pas les duplicatas selon le numéro SCEI
+        $response = $this->postAdmissible();
+        $this->assertJsonResponse($response, 400);
+
+        // Par contre si c'est pas la même année ça passe
+        $this->client->request(
+            'POST',
+            '/admissibles',
+            array(
+                'firstName' => 'Tata',
+                'lastName' => 'OP',
+                'date' => '2013',
+                'contact' => 'testificate@phpunit.zorg, 066466666',
+                'scei' => '12345',
+                'room' => 'simple',
+                'serie' => 2,
+                'details' => 'Admissible test'
+            )
+        );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 201);
+
+        $this->client->request('POST', '/admissibles', array('username' => '', 'email' => '123'));
+        $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
     }
 
@@ -48,17 +71,13 @@ class AdmissiblesControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
-        $this->client->request('GET', '/admissibles/12345');
+        // $this->client->request('GET', '/admissibles/12345');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
         $this->client->request('GET', '/admissibles/sjoajsiohaysahais-asbsksaba7');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
-
-        $this->client->request('POST', '/users', array('username' => '', 'email' => '123'));
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 400);
     }
 
     public function testPatch()
@@ -100,5 +119,9 @@ class AdmissiblesControllerTest extends WebTestCase
         $this->client->request('DELETE', '/admissibles/12345');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
+
+        $this->client->request('DELETE', '/admissibles/12345-1');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 204);
     }
 }

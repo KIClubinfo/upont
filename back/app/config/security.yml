@@ -65,10 +65,10 @@ security:
             pattern: ^/(resetting|filelist)
             security: false
             
-        exceptionsPost2:
-            methods: [POST]
-            pattern: ^/admissibles/[a-zA-Z]+$
-            security: false
+        #exceptionsPost2:
+        #    methods: [POST]
+        #    pattern: ^/admissibles$
+        #    security: false
         
         #exceptionsPatch:
         #    methods: [PATCH]

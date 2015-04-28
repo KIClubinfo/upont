@@ -3,6 +3,7 @@
 namespace KI\UpontBundle\Entity\Users;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -10,6 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity
  * @JMS\ExclusionPolicy("all")
+ * @UniqueEntity(fields={"scei", "date"})
  */
 class Admissible
 {
@@ -19,6 +21,15 @@ class Admissible
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /**
+     * Slug
+     * @Gedmo\Slug(fields={"scei"})
+     * @ORM\Column(name="slug", type="string", unique=true)
+     * @JMS\Expose
+     * @Assert\Type("string")
+     */
+    protected $slug;
 
     /**
      * Prénom
@@ -42,16 +53,16 @@ class Admissible
      * Année
      * @ORM\Column(name="date", type="string")
      * @JMS\Expose
-     * @Assert\Type("integer")
+     * @Assert\Type("string")
      * @Assert\NotBlank()
      */
     protected $date;
 
     /**
      * Numéro SCEI
-     * @ORM\Column(name="scei", type="integer")
+     * @ORM\Column(name="scei", type="string")
      * @JMS\Expose
-     * @Assert\Type("integer")
+     * @Assert\Type("string")
      * @Assert\NotBlank()
      */
     protected $scei;
@@ -77,7 +88,7 @@ class Admissible
      * Numéro de la série
      * @ORM\Column(name="serie", type="integer")
      * @JMS\Expose
-     * @Assert\Type("string")
+     * @Assert\Type("integer")
      * @Assert\NotBlank()
      */
     protected $serie;
@@ -90,7 +101,6 @@ class Admissible
      */
     protected $details;
 
-    public function getSlug() { return $this->getScei(); }
     public function getName() { return $this->getFirstName().' '.$this->getLastName(); }
 
 
@@ -156,6 +166,29 @@ class Admissible
     public function getLastName()
     {
         return $this->lastName;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return Admissible
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 
     /**
