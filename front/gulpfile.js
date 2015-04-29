@@ -13,6 +13,8 @@ var htmlReplace = require('gulp-html-replace');
 
 var karma = require('gulp-karma');
 
+var webserver = require('gulp-webserver');
+
 gulp.task('jshint', function() {
     return gulp.src(['app/js/**/*.js', 'app/js/*.js'])
         .pipe(jshint())
@@ -40,8 +42,8 @@ gulp.task('build-js', function() {
 });
 
 gulp.task('build-html', function(){
-    return gulp.src('app/index.html')
-        .pipe(gutil.env.type == "production" ? htmlReplace({base: '<base href="/">'}) : gutil.noop())
+        return gulp.src('app/index.html')
+            .pipe(gutil.env.type == "production" ? htmlReplace({base: '<base href="/">'}) : gutil.noop())
         .pipe(gulp.dest('www/'));
 });
 
@@ -61,5 +63,14 @@ gulp.task('watch', function() {
     gulp.watch(['app/js/**/*.js', 'app/js/*.js'], ['build-js']);
     gulp.watch('app/css/*.less', ['build-css']);
     gulp.watch('app/index.html', ['build-html']);
+    gulp.src('www').pipe(webserver({
+        port: 8001,
+        host: 'localhost',
+        livereload: true,
+        fallback: 'index.html',
+        open: false // Ouvrir automatiquement le navigateur au lancement ?
+    }));
 });
-gulp.task('default', ['build-js', 'build-css', 'build-html', 'watch']);
+
+gulp.task('build', ['build-js', 'build-css', 'build-html']);
+gulp.task('default', ['build', 'watch']);
