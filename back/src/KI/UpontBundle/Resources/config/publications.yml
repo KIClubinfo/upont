@@ -5,11 +5,15 @@ events:
 newsitems:
     type:     rest
     resource: KI\UpontBundle\Controller\Publications\NewsitemsController
-    
+
 courses:
     type:     rest
     resource: KI\UpontBundle\Controller\Publications\CoursesController
-    
+
 exercices:
     type:     rest
     resource: KI\UpontBundle\Controller\Publications\ExercicesController
+
+fixes:
+    type:     rest
+    resource: KI\UpontBundle\Controller\Publications\FixesController
