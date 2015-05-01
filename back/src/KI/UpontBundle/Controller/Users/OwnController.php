@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use KI\UpontBundle\Entity\Users\Device;
-use KI\UpontBundle\Entity\User\Achievement;
+use KI\UpontBundle\Entity\Users\Achievement;
 
 
 class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
