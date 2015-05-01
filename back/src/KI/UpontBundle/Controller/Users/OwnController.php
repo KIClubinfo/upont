@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use KI\UpontBundle\Entity\Users\Device;
-use KI\UpontBundle\Entity\Achievement;
+use KI\UpontBundle\Entity\User\Achievement;
 
 
 class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
@@ -35,8 +35,8 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      */
     public function getAchievementsAction()
     {
-        $repoA = $this->em->getRepository('KIUpontBundle:Achievement');
-        $repoAU = $this->em->getRepository('KIUpontBundle:AchievementUser');
+        $repoA = $this->em->getRepository('KIUpontBundle:Users\Achievement');
+        $repoAU = $this->em->getRepository('KIUpontBundle:Users\AchievementUser');
         $user = $this->get('security.context')->getToken()->getUser();
 
         $unlocked = array();
