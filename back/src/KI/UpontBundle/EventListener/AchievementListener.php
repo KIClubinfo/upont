@@ -3,8 +3,8 @@
 namespace KI\UpontBundle\EventListener;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use KI\UpontBundle\Entity\Achievement;
-use KI\UpontBundle\Entity\AchievementUser;
+use KI\UpontBundle\Entity\Users\Achievement;
+use KI\UpontBundle\Entity\Users\AchievementUser;
 use KI\UpontBundle\Entity\Notification;
 use KI\UpontBundle\Event\AchievementCheckEvent;
 
@@ -21,7 +21,7 @@ class AchievementListener
         $this->container = $container;
         $this->manager = $this->container->get('doctrine')->getManager();
 
-        $repoAU = $this->manager->getRepository('KIUpontBundle:AchievementUser');
+        $repoAU = $this->manager->getRepository('KIUpontBundle:Users\AchievementUser');
         $token = $this->container->get('security.context')->getToken();
         $this->user = $token === null ? null : $token->getUser();
         if ($this->user !== null) {
@@ -55,7 +55,7 @@ class AchievementListener
         // On ajoute l'achievement
         $pointsBefore = $this->points();
         $achievementUser = new AchievementUser();
-        $repoA = $this->manager->getRepository('KIUpontBundle:Achievement');
+        $repoA = $this->manager->getRepository('KIUpontBundle:Users\Achievement');
         $achievementUser->setAchievement($repoA->findOneByAchievement($achievement->getIdA()));
         $achievementUser->setUser($this->user);
         $achievementUser->setDate(time());
