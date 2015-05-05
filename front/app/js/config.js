@@ -83,6 +83,16 @@ angular.module('upont')
                 url: "",
                 abstract: true,
                 template: '<div ui-view></div>'
+            })
+            .state("root.zone_admissibles", {
+                url: "",
+                abstract: true,
+                template: '<div ui-view></div>'
+            })
+            .state("root.zone_publique", {
+                url: "",
+                abstract: true,
+                template: '<div ui-view></div>'
             });
     }])
     // .config(['$modalProvider', function($modalProvider) {
