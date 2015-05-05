@@ -54,18 +54,9 @@ angular.module('upont')
             .state('root', {
                 abstract: true,
                 url: '/',
-                views:{
-                    main:{
-                        template: '<div ui-view></div>'
-                    },
-                    topbar:{
-                        templateUrl: 'views/zone_eleves/topBar.html'
-                    },
-                    aside:{
-                        templateUrl: 'views/zone_eleves/aside.html',
-                        controller: 'Aside_Ctrl'
-                    }
-                }
+                template: "<div ui-view='aside' class='up-invisible-xs'></div>"+
+                    "<div ui-view='topbar' class='up-invisible-sm up-invisible-md up-invisible-lg'></div>"+
+                    "<div ui-view></div>'",
             })
             .state("root.erreur", {
                 url: 'erreur',
@@ -73,24 +64,38 @@ angular.module('upont')
             })
             .state("root.maintenance", {
                 url: 'maintenance',
-                templateUrl: 'views/elements_publics/503.html',
+                        templateUrl: 'views/elements_publics/503.html',
             })
             .state("root.404", {
                 url: '404',
-                templateUrl: 'views/elements_publics/404.html',
+                        templateUrl: 'views/elements_publics/404.html',
             })
             .state("root.zone_eleves", {
                 url: "",
                 abstract: true,
-                template: '<div ui-view></div>'
+                data: {
+                    needLogin: true
+                },
+                views:{
+                    "":{
+                        template: '<div ui-view></div>'
+                    },
+                    topbar:{
+                        templateUrl: 'views/zone_eleves/topBar.html'
+                    },
+                    aside:{
+                        templateUrl: 'views/zone_eleves/aside.html',
+                        controller: 'Search_Ctrl'
+                    }
+                }
             })
             .state("root.zone_admissibles", {
-                url: "",
+                url: "admissibles",
                 abstract: true,
                 template: '<div ui-view></div>'
             })
             .state("root.zone_publique", {
-                url: "",
+                url: "public",
                 abstract: true,
                 template: '<div ui-view></div>'
             });
@@ -209,7 +214,12 @@ angular.module('upont')
 
         // Au changement de page
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-            if (!$rootScope.isLogged && toState.name != "root.disconnected") {
+            function needLogin(state){
+                if(state.data && state.data.needLogin)
+                    return state.data.needLogin;
+            }
+
+            if (!$rootScope.isLogged && needLogin(toState)) {
                 event.preventDefault();
                 $rootScope.urlRef = $location.path();
                 $state.go("root.disconnected");
@@ -217,7 +227,7 @@ angular.module('upont')
         });
 
         $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
-            getName = function(state){
+            function getName(state){
                 if(state.data && state.data.title)
                     return state.data.title;
                 if(state.parent){
@@ -225,19 +235,13 @@ angular.module('upont')
                         return state.parent.data.title;
                     return getName(state.parent);
                 }
-                return;
-            };
-
-            // Réglage de la balise <title> du <head>
-            if($rootScope.isLogged){
-                var title = getName(toState);
-                if(title)
-                    $rootScope.title = title;
-                else
-                    $rootScope.title = 'uPont';
             }
+            // Réglage de la balise <title> du <head>
+            var title = getName(toState);
+            if(title)
+                $rootScope.title = title;
             else
-                $rootScope.title = 'Bienvenue sur uPont';
+                $rootScope.title = 'uPont';
 
             if (toState.data && toState.data.top)
                 window.scrollTo(0, 0);
