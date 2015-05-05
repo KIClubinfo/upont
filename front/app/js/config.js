@@ -56,7 +56,7 @@ angular.module('upont')
                 url: '/',
                 template: "<div ui-view='aside' class='up-invisible-xs'></div>"+
                     "<div ui-view='topbar' class='up-invisible-sm up-invisible-md up-invisible-lg'></div>"+
-                    "<div ui-view></div>'",
+                    "<div ui-view></div>",
             })
             .state("root.erreur", {
                 url: 'erreur',
