@@ -26,6 +26,8 @@ class UserType extends AbstractType
             ->add('location')
             ->add('phone')
             ->add('skype')
+            ->add('allowedBde')
+            ->add('allowedBds')
             ->add('image', 'imageuploader_selector');
     }
 

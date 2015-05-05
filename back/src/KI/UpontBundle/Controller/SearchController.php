@@ -50,50 +50,50 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
             throw new BadRequestHttpException('Syntaxe de la recherche erronée');
 
         switch ($category) {
-            case 'Movie':
-            case 'Serie':
-            case 'Episode':
-            case 'Album':
-            case 'Music':
-            case 'Game':
-            case 'Software':
-            case 'Other':
-                $results = array('files' => $this->searchRepo('Ponthub\\'.$category, $criteria));
-                break;
-            case 'Ponthub':
-                $results = array('files' => $this->searchRepo('Ponthub\PonthubFile', $criteria));
-                break;
-            case 'Post':
-            case 'Event':
-            case 'Exercice':
-            case 'Course':
-                $results = array('posts' => $this->searchRepo('Publications\\'.$category, $criteria));
-                break;
-            case 'News':
-                $results = array('posts' => $this->searchRepo('Publications\Newsitem', $criteria));
-                break;
-            case 'Club':
-                $results = array('clubs' => $this->searchRepo('Users\Club', $criteria, 'e.name, e.fullName'));
-                break;
-            case 'User':
-                $results = array('users' => $this->searchUser($criteria));
-                break;
-            case 'Actor':
-            case 'Genre':
-            case 'Tag':
-                $results = array();
-                break;
+        case 'Movie':
+        case 'Serie':
+        case 'Episode':
+        case 'Album':
+        case 'Music':
+        case 'Game':
+        case 'Software':
+        case 'Other':
+            $results = array('files' => $this->searchRepo('Ponthub\\'.$category, $criteria));
+            break;
+        case 'Ponthub':
+            $results = array('files' => $this->searchRepo('Ponthub\PonthubFile', $criteria));
+            break;
+        case 'Post':
+        case 'Event':
+        case 'Exercice':
+        case 'Course':
+            $results = array('posts' => $this->searchRepo('Publications\\'.$category, $criteria));
+            break;
+        case 'News':
+            $results = array('posts' => $this->searchRepo('Publications\Newsitem', $criteria));
+            break;
+        case 'Club':
+            $results = array('clubs' => $this->searchRepo('Users\Club', $criteria, 'e.name, e.fullName'));
+            break;
+        case 'User':
+            $results = array('users' => $this->searchUser($criteria));
+            break;
+        case 'Actor':
+        case 'Genre':
+        case 'Tag':
+            $results = array();
+            break;
 
-            case '':
-                $results = array(
-                    'files' => $this->searchRepo('Ponthub\PonthubFile', $criteria),
-                    'posts' => $this->searchRepo('Publications\Post', $criteria),
-                    'clubs' => $this->searchRepo('Users\Club', $criteria, 'e.name, e.fullName'),
-                    'users' => $this->searchUser($criteria)
-                );
-                break;
-            default:
-                throw new BadRequestHttpException('Syntaxe de la recherche erronée');
+        case '':
+            $results = array(
+                'files' => $this->searchRepo('Ponthub\PonthubFile', $criteria),
+                'posts' => $this->searchRepo('Publications\Post', $criteria),
+                'clubs' => $this->searchRepo('Users\Club', $criteria, 'e.name, e.fullName'),
+                'users' => $this->searchUser($criteria)
+            );
+            break;
+        default:
+            throw new BadRequestHttpException('Syntaxe de la recherche erronée');
         }
 
         return $this->jsonResponse($results);
@@ -156,7 +156,19 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
     }
 
     // La recherche d'user demande une fonction particulière (champs différents, acronyme...
-    private function searchUser($criteria) {
-        return array();
+    private function searchUser($search) {
+        $repo = $this->getDoctrine()->getManager()->getRepository('KIUpontBundle:Users\User');
+        $qb = $repo->createQueryBuilder('e');
+
+        $results = $qb
+            ->orwhere('SOUNDEX(CONCAT(e.firstName, CONCAT(\' \', CONCAT(e.lastName, CONCAT(\' \', COALESCE(e.nickname, \'\')))))) = SOUNDEX(:search)')
+            ->orwhere('CONCAT(e.firstName, CONCAT(\' \', CONCAT(e.lastName, CONCAT(\' \', COALESCE(e.nickname, \'\'))))) LIKE :searchlike')
+            ->setParameter('search', $search)
+            ->setParameter('searchlike', '%'.$search.'%')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+
+        return $this->format($results, $search);
     }
 }

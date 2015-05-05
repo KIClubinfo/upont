@@ -1,4 +1,4 @@
-var allowedTags = '<a><br><strong><small><ul><ol><li><pre><i>';
+var allowedTags = '<a><br><strong><small><ul><ol><li><i>';
 angular.module('upont').directive('upPubliText', ['$filter', '$sce', function($filter, $sce) {
     return {
         scope: {

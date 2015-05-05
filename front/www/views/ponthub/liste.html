@@ -6,9 +6,9 @@
                 <div ng-if="!element.image_url" class="img-ph fa" ng-class="faIcon(element)"></div>
 
                 <!-- Eventuels ribbons -->
-                <div up-ribbon class="ribbon-yellow" ng-if="popular(element.downloads) && element.added < lastWeek">POPULAIRE</div>
-                <div up-ribbon class="ribbon-violet" ng-if="element.added > lastWeek && !popular(element.downloads)">NOUVEAU</div>
-                <div up-ribbon class="ribbon-red"    ng-if="element.added > lastWeek && popular(element.downloads)">HOT</div>
+                <up-ribbon class="ribbon-yellow" ng-if="popular(element.downloads) && element.added < lastWeek">POPULAIRE</up-ribbon>
+                <up-ribbon class="ribbon-violet" ng-if="element.added > lastWeek && !popular(element.downloads)">NOUVEAU</up-ribbon>
+                <up-ribbon class="ribbon-red"    ng-if="element.added > lastWeek && popular(element.downloads)">HOT</up-ribbon>
             </div>
             <div class="up-title-ponthub">{{ element.name }}</div>
         </a>

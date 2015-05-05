@@ -20,10 +20,10 @@
     </div>
     <div class="up-comment" ng-repeat="comment in comments | orderBy: date | limitTo: shownComments" up-row left
          ng-mouseover="showModify=true" ng-mouseleave="showModify=false">
-        <img up-col="7%" class="up-profile-picture" ng-src="{{comment.author.image_url | urlFile}}"/>
+        <img up-col="7%" class="up-profile-picture" ng-src="{{ comment.author.image_url | urlFile}}"/>
         <div up-col="87%">
             <strong>{{ comment.author.nick }} : </strong>
-            <span ng-bind-html="comment.text | nl2br"></span><br>
+            <span ng-bind-html="comment.text"></span><br>
             {{ comment.date | fromNow }}&nbsp;
             <span class="up-likes up-clickable" ng-click="likeComment(comment)"  ng-class="{active : comment.like}">
                 <i class="fa fa-thumbs-o-up"></i> {{ comment.likes >= 0 ? comment.likes : 0 }}

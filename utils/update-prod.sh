@@ -10,6 +10,7 @@ export SYMFONY_ENV=prod
 cd front
 npm install
 bower update --allow-root
+gulp build-html --type=production
 gulp build-js --type=production
 gulp build-css --type=production
 

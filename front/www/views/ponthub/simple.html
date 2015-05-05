@@ -44,15 +44,15 @@
 
                 <br>
 
-                <button class="up-btn up-btn-lg up-btn-default" ng-click="download()">
+                <a ng-hide="category == 'series' || category == 'musiques'" class="up-btn up-btn-lg up-btn-default" title="Télécharger le fichier" target="_blank" ng-href="{{ type + '/' + element.slug + '/download?bearer=' + token | urlFile }}">
                     <i class="fa fa-download"></i>
                     Télécharger !
-                </button>
+                </a>
 
-                <button ng-if="$root.is('ROLE_JARDINIER')" class="up-btn up-btn-lg up-btn-primary" ui-sref="root.ponthub.modify({slug: element.slug})" title="Ranger le fichier">
+                <a ng-if="$root.is('ROLE_JARDINIER')" class="up-btn up-btn-lg up-btn-primary" ui-sref="root.ponthub.modify({slug: element.slug})" title="Ranger le fichier" style="margin-left: 10px;">
                     <i class="fa fa-cogs"></i>
                     Ranger
-                </button>
+                </a>
             </ul>
 
             <!-- Cas des séries -->
@@ -64,7 +64,7 @@
 
                     <ul class="up-list" ng-show="openSeason == $index">
                         <li ng-repeat="episode in saison | orderBy:['name']">
-                            <a ng-click="download(url + 'series/' + element.slug + '/episodes/' + episode.slug + '/download')">
+                            <a title="Télécharger le fichier" target="_blank" ng-href="{{ type + '/' + element.slug + '/episodes/' + episode.slug + '/download?bearer=' + token | urlFile }}">
                                 {{ episode.name }}
                             </a>
                         </li>
@@ -76,7 +76,7 @@
             <div ng-if="musics">
                 <ul class="up-list">
                     <li ng-repeat="music in musics | orderBy:['name']">
-                        <a ng-click="download(url + 'albums/' + element.slug + '/musics/' + music.slug + '/download')">
+                        <a title="Télécharger le fichier" target="_blank" ng-href="{{ type + '/' + element.slug + '/musics/' + music.slug + '/download?bearer=' + token | urlFile }}">
                             {{ music.name }}
                         </a>
                     </li>

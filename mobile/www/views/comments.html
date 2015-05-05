@@ -20,7 +20,7 @@
 
                 <ons-col>
                     <span class="name">{{ comment.author.nick }}</span>
-                    <span class="desc" ng-bind-html="comment.text | nl2br"></span>
+                    <span class="desc" ng-bind-html="comment.text | text"></span>
                 </ons-col>
 
                 <ons-col width="50px" style="padding-left: 5px;">
@@ -42,7 +42,7 @@
 
         <ons-list-item class="new-comment">
                 <form ng-submit="comment(text)" class="center">
-                    <textarea class="textarea input-comment" ng-model="text" placeholder="Écrire un commentaire" rows="2"></textarea>
+                    <textarea class="textarea input-comment" ng-model="text" placeholder="Nouveau commentaire" rows="2"></textarea>
                     <button modifier="large" class="button-comment ng-isolate-scope button effeckt-button button--large slide-left" type="submit">Envoyer</button>
                 </form>
         </ons-list-item>
