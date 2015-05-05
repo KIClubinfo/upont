@@ -47,7 +47,7 @@ angular.module('upont')
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
             .state("root.disconnected", {
-                templateUrl: "views/zone_eleves/home/disconnected.html",
+                templateUrl: "views/elements_publics/disconnected.html",
                 controller: "Disconnected_Ctrl"
             });
     }]);
