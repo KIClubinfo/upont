@@ -10,7 +10,9 @@ angular.module('upont')
                     $rootScope.urlRef = $location.path();
                     $location.path('/');
                 }
-                if (response.status == 500) $location.path('/erreur');
+                if (response.status == 500){
+                    $location.path('/erreur');
+                }
                 if (response.status == 503) {
                     if (response.data.until)
                         StorageService.set('maintenance', response.data.until);
@@ -57,32 +59,37 @@ angular.module('upont')
                         template: '<div ui-view></div>'
                     },
                     topbar:{
-                        templateUrl: 'views/misc/topBar.html'
+                        templateUrl: 'views/zone_eleves/topBar.html'
                     },
                     aside:{
-                        templateUrl: 'views/misc/aside.html',
+                        templateUrl: 'views/zone_eleves/aside.html',
                         controller: 'Aside_Ctrl'
                     }
                 }
             })
             .state("root.erreur", {
                 url: 'erreur',
-                templateUrl: 'views/500.html',
+                templateUrl: 'views/elements_publics/500.html',
             })
             .state("root.maintenance", {
                 url: 'maintenance',
-                templateUrl: 'views/503.html',
+                templateUrl: 'views/elements_publics/503.html',
             })
             .state("root.404", {
                 url: '404',
-                templateUrl: 'views/404.html',
+                templateUrl: 'views/elements_publics/404.html',
+            })
+            .state("root.zone_eleves", {
+                url: "",
+                abstract: true,
+                template: '<div ui-view></div>'
             });
     }])
-    .config(['$modalProvider', function($modalProvider) {
-        angular.extend($modalProvider.defaults, {
-            html: true
-        });
-    }])
+    // .config(['$modalProvider', function($modalProvider) {
+    //     angular.extend($modalProvider.defaults, {
+    //         html: true
+    //     });
+    // }])
     .run(['$rootScope', 'StorageService', '$state', '$interval',  'jwtHelper', '$resource', '$location', function($rootScope, StorageService, $state, $interval, jwtHelper, $resource, $location) {
         // Data à charger au lancement
         $rootScope.selfClubs = [];

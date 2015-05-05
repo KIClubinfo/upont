@@ -1,0 +1,10 @@
+<div up-row left wrap class="up-assos">
+    <div up-col="33%" up-col-sm="50%" up-col-xs="100%" class="up-ticket" up-row padded ng-repeat="channel in channels" ui-sref="root.zone_eleves.channels.simple.publications({slug: channel.slug})">
+        <div up-col="40%">
+            <img class="img-responsive" ng-src="{{ channel.image_url | urlFile }}" alt="" />
+        </div>
+        <div up-col="60%">
+            <h3>{{ channel.name }}</h3>
+        </div>
+    </div>
+</div>
