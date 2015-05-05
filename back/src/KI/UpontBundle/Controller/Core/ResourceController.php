@@ -34,8 +34,10 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
 
         // Définition des filtres
         $findBy = array();
-        if ($request->has('filterBy') && $request->has('filterValue'))
-            $findBy = array($request->get('filterBy') => $request->get('filterValue'));
+        foreach ($request->all() as $key => $value) {
+            if ($key != 'page' && $key != 'limit' && $key != 'sort')
+                $findBy[$key] = $value;
+        }
 
         return array($findBy, $sortBy, $limit, ($page - 1)*$limit, $page, $totalPages, $count);
     }
@@ -48,9 +50,13 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
         if ($sort === null) {
             $sortBy = array('id' => 'DESC');
         } else {
-            $order = preg_match('#^\-.*#isU', $sort) ? 'DESC' : 'ASC';
-            $field = preg_replace('#^\-#isU', '', $sort);
-            $sortBy = array($field => $order);
+            $sortBy = array();
+
+            foreach (explode(',', $sort) as $value) {
+                $order = preg_match('#^\-.*#isU', $value) ? 'DESC' : 'ASC';
+                $field = preg_replace('#^\-#isU', '', $value);
+                $sortBy[$field] = $order;
+            }
         }
         return array($page, $limit, $sort, $sortBy);
     }
