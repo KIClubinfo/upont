@@ -67,10 +67,12 @@ class FoyerController extends \KI\UpontBundle\Controller\Core\BaseController
      *  section="Foyer"
      * )
      */
-    public function statisticsAction()
+    public function statisticsAction($slug)
     {
+        $repo = $this->getDoctrine()->getManager()->getRepository('KIUpontBundle:Users\User');
+        $user = $repo->findOneByUsername($slug);
         $service = $this->get('ki_upont.foyer');
-        $service->initialize();
+        $service->initialize($user);
 
         if ($service->hasFailed())
             return $this->jsonResponse(null, 409);

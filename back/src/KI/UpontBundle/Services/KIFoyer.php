@@ -12,13 +12,15 @@ class KIFoyer extends ContainerAware
     protected $token;
     protected $balance;
 
-    public function initialize()
+    public function initialize($user = null)
     {
         if ($this->error !== null)
             return;
 
+        if ($user === null)
+            $user = $this->container->get('security.context')->getToken()->getUser();
+
         $this->curl = $this->container->get('ki_upont.curl');
-        $user = $this->container->get('security.context')->getToken()->getUser();
 
         // Recupere l'id foyer correspondant
         $response = $this->curl->curl('http://dev-foyer.enpc.org/uPonts/qui.php?prenom='.urlencode($user->getFirstName()).'&nom='.urlencode($user->getLastName()));

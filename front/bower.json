@@ -23,6 +23,7 @@
     "ngInfiniteScroll": "latest",
     "alertify.js": "latest",
     "angular-bootstrap-datetimepicker": "latest",
-    "angular-elastic": "latest"
+    "angular-elastic": "latest",
+    "highmaps": "latest"
   }
 }
