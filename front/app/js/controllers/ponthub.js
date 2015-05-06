@@ -235,7 +235,7 @@ angular.module('upont')
             })
             .state("root.ponthub.liste", {
                 url: "",
-                templateUrl: "views/ponthub/liste.html",
+                templateUrl: "views/ponthub/list.html",
                 controller: 'PH_Liste_Ctrl',
                 resolve: {
                     elements: ['Paginate', '$stateParams', 'Ponthub', function(Paginate, $stateParams, Ponthub) {
