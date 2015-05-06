@@ -78,7 +78,7 @@ angular.module('upont')
                 },
                 views:{
                     "":{
-                        template: '<div ui-view></div>'
+                        template: '<div class="up-main-view" ui-view up-fill-window></div>'
                     },
                     topbar:{
                         templateUrl: 'views/zone_eleves/topBar.html'

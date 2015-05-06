@@ -1,6 +1,8 @@
-<div class="up-ticket up-ticket-centering">
-    <h1>Maintenance</h1>
+<div up-row center wrap padded>
+    <div up-col="50%">
+        <h1>Maintenance</h1>
 
-    Serveur actuellement en cours de maintenance. Une mise à jour est probablement en train d'être effectuée. Veuillez réessayer plus tard.
-    <div ng-hide="until == null">La maintenance est prévue de durer jusqu'à {{ until*1000 | date:'H:mm' }}.</div>
+        Serveur actuellement en cours de maintenance. Une mise à jour est probablement en train d'être effectuée. Veuillez réessayer plus tard.
+        <div ng-hide="until == null">La maintenance est prévue de durer jusqu'à {{ until*1000 | date:'H:mm' }}.</div>
+    </div>
 </div>
