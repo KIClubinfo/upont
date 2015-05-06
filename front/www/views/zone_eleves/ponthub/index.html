@@ -1,0 +1,14 @@
+<div class="up-column up-zone-picker up-ticket">
+    <div class="up-zp-image"><img src="img/ponthub.png" alt="" />
+    </div>
+    <div up-row left wrap>
+        <a ui-sref="root.zone_eleves.ponthub.liste({ category: 'films' })" up-state-active="root.zone_eleves.ponthub" up-state-active-params='{"category":"films"}'>Films</a>
+        <a ui-sref="root.zone_eleves.ponthub.liste({ category: 'series' })" up-state-active="root.zone_eleves.ponthub" up-state-active-params='{"category":"series"}'>Séries</a>
+        <a ui-sref="root.zone_eleves.ponthub.liste({ category: 'musiques' })" up-state-active="root.zone_eleves.ponthub" up-state-active-params='{"category":"musiques"}'>Musiques</a>
+        <a ui-sref="root.zone_eleves.ponthub.liste({ category: 'jeux' })" up-state-active="root.zone_eleves.ponthub" up-state-active-params='{"category":"jeux"}'>Jeux</a>
+        <a ui-sref="root.zone_eleves.ponthub.liste({ category: 'logiciels' })" up-state-active="root.zone_eleves.ponthub" up-state-active-params='{"category":"logiciels"}'>Logiciels</a>
+        <a ui-sref="root.zone_eleves.ponthub.liste({ category: 'autres' })" up-state-active="root.zone_eleves.ponthub" up-state-active-params='{"category":"autres"}'>Autres</a>
+    </div>
+</div>
+
+<div ui-view up-spinner parent-scope="root.zone_eleves.ponthub" autoscroll="false"></div>

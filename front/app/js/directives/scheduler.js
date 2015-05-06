@@ -2,7 +2,6 @@ angular.module('upont').directive('dhxScheduler', function() {
     return {
         restrict: 'A',
         scope: {
-
         },
         transclude: true,
         template: '<div class="dhx_cal_navline" ng-transclude></div><div class="dhx_cal_header"></div><div class="dhx_cal_data"></div>',

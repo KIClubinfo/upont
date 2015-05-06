@@ -1,7 +1,6 @@
 // Navbar par onglets
 .up-zone-picker {
     margin-bottom: 0px;
-
     a {
         .raw-link;
         padding: 0.5em 2%;
@@ -16,23 +15,21 @@
     .up-zp-image {
         max-height: 250px;
         overflow: hidden;
-        position: relative;
-        top: -1px;
-
         img {
             width: 100%;
         }
     }
 }
 
-.up-ticket {
-    &.up-zone-picker:before{
+.up-ticket.up-zone-picker{
+    padding:0px 0px!important;
+    &:before{
         top:0px;
         bottom:0px;
-        right:-1px;
-        left:-1px;
-    }
-    &.up-zone-picker{
-        padding:0px 0px!important;
+        right:0px;
+        left:0px;
+        border-top:none;
+        border-left:none;
+        border-right:none;
     }
 }
