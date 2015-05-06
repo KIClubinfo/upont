@@ -26,7 +26,7 @@ class LoadTutoFixture extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($tuto);
 
         $tuto = new Tuto();
-        $tuto->setName('Comment créer un club');
+        $tuto->setName('Création de club');
         $tuto->setText('Pour ceux ou celles qui auraient envie de créer un club, voici une page expliquant ce qu\'il faut faire !');
         $tuto->setDate(1412831521);
         $tuto->setCategory('uPont');
