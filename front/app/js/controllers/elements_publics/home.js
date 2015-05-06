@@ -24,7 +24,7 @@ angular.module('upont')
                         if (firstTime) {
                             $state.go("root.zone_eleves.profile");
                         } else {
-                            if (typeof $rootScope.urlRef !== 'undefined' && $rootScope.urlRef !== null) {
+                            if (typeof $rootScope.urlRef !== 'undefined' && $rootScope.urlRef !== null && $rootScope.urlRef != '/') {
                                 $location.path($rootScope.urlRef);
                                 $rootScope.urlRef = null;
                             } else {
