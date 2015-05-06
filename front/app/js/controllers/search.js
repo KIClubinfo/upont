@@ -34,6 +34,8 @@ angular.module('upont')
                     return 'root.ponthub.simple({category: "autres", slug: file.slug})';
                 case 'Club':
                     return 'root.channels.simple.publications({slug: club.slug})';
+                case 'User':
+                    return 'root.promo.simple({slug: user.slug})';
             }
         };
 

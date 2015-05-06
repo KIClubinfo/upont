@@ -10,32 +10,6 @@
             border: 1px solid @col-main;
         }
         
-        .up-user-image-container {
-            position: relative;
-            margin: 0 0 0.5em;
-            width: 100%;
-            
-            &:before{
-                content: "";
-                display: block;
-                padding-top: 100%;
-            }
-            
-            .up-user-image {
-                .cover;
-                overflow: hidden;
-                position: absolute;
-                top: 0;
-                bottom: 0;
-                right: 0;
-                left: 0;
-                border: 1px solid white;
-                border-radius: 50%;
-                -webkit-border-radius: 50%;
-                box-shadow:rgba(0, 0, 0, 0.2) 0px 2px 0px 0px;
-                -webkit-box-shadow:rgba(0, 0, 0, 0.2) 0px 2px 0px 0px;
-            }
-        }
         .up-user-details {
             padding-left: 10px;
             
@@ -43,5 +17,68 @@
                 margin-bottom: 5px;
             }
         }
+    }
+}
+
+.up-user-banner {
+    margin-bottom: 75px;
+    padding: 30px 0 0 350px;
+    color: white;
+    height: 130px;
+    box-shadow: inset @col-bckgnd 0px 20px 2px -20px,
+                inset @col-bckgnd 0px -20px 2px -20px;
+    background-color: @col-main;
+    margin-top: 100px;
+    
+    @media(max-width: @sizeSm) {
+        padding-left: 300px;
+    }
+    
+    .up-user-image-container {
+        position: absolute;
+        margin: 0 0 0.5em;
+        width: 200px;
+        top: 100px;
+        
+        left: @asideWidth + 100px;
+        @media(max-width: @sizeSm) {
+            left: 50px;
+            top: 140px;
+        }
+        
+        .up-user-image {
+            box-shadow: @col-main 0px 0px 1px 20px;
+        }
+    }
+}
+
+.up-user-infos {
+    .fa {
+        .fa-block
+    }
+}
+
+.up-user-image-container {
+    position: relative;
+    margin: 0 0 0.5em;
+    width: 100%;
+    
+    &:before{
+        content: "";
+        display: block;
+        padding-top: 100%;
+    }
+    
+    .up-user-image {
+        .cover;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        border: 1px solid white;
+        border-radius: 50%;
+        box-shadow:rgba(0, 0, 0, 0.2) 0px 2px 0px 0px;
     }
 }

@@ -1,3 +1,44 @@
-<div class="up-ticket">
-    <h1>{{user.nick}}</h1>
+<div class="up-user-banner" up-col="100%">
+    <div class="up-user-image-container">
+        <div class="up-user-image" ng-style="{ 'background-image' : 'url({{ user.image_url | urlFile }})' }"></div>
+    </div>
+    <h1>{{ user.nick }}</h1>
+</div>
+
+<div up-row wrap>
+    <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="25%">
+        <div class="up-ticket">
+            <h2>Informations</h2>
+                <div class="up-user-infos" up-row wrap padded>
+                    <div up-col="100%"><i class="fa fa-graduation-cap"></i> Promo '{{ user.promo }}</div>
+                    <div up-col="100%" ng-if="user.department"><i class="fa fa-institution"></i> {{ user.department }}</div>
+                    <div up-col="100%" ng-if="user.nationality"><i class="fa fa-globe"></i> {{ user.nationality }}</div>
+                    <div up-col="100%" ng-if="user.phone"><i class="fa fa-phone"></i> <a ng-href="tel:{{ user.phone }}">{{ user.phone }}</a></div>
+                    <div up-col="100%" ng-if="user.email"><i class="fa fa-envelope"></i> <a ng-hreh="mailto:{{ user.email }}">{{ user.email }}</a></div>
+                    <div up-col="100%" ng-if="user.skype"><i class="fa fa-skype"></i> <a href="skype:{{ user.skype }}">{{ user.skype }}</a></div>
+                    <div up-col="100%" ng-if="user.location"><i class="fa fa-map-marker"></i> {{ user.location }}</div>
+                    <div up-col="100%" ng-if="user.origin"><i class="fa fa-street-view"></i> {{ user.origin }}</div>
+                </div>
+        </div>
+        <div class="up-ticket">
+            <h2>Clubs et assos</h2>
+            À venir...
+        </div>
+        <!-- <div class="up-ticket">
+            <h2>Achievements</h2>
+        </div> -->
+    </div>
+    <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="75%">
+        <div class="up-ticket">
+            <h2>Stats Foyer</h2>
+            À venir...
+        </div>
+        <div class="up-ticket">
+            <h2>Stats PontHub</h2>
+            À venir...
+        </div>
+        <!-- <div class="up-ticket">
+            <h2>Expériences</h2>
+        </div> -->
+    </div>
 </div>

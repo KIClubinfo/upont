@@ -7,15 +7,19 @@
             <i class="fa fa-search"></i>
             <input class="search" type="text" ng-model="searchValue" placeholder="Rechercher" ng-change="doSearch(searchValue)" />
         </div>
-        <div class="up-searchbar-results" ng-show="searchResults.posts.length || searchResults.clubs.length || searchResults.files.length">
-            <!-- <div class="up-searchbar-section" up-row ng-if="searchResults.users.length">
+        <div class="up-searchbar-results" ng-show="searchResults.posts.length || searchResults.clubs.length || searchResults.files.length || searchResults.users.length">
+            <div class="up-searchbar-section" up-row ng-if="searchResults.users.length">
                 <div class="up-searchbar-cell up-searchbar-title" up-col="25%">ÉLÈVES</div>
                 <div class="up-searchbar-cell" up-col="75%">
                     <div class="up-searchbar-item" ng-repeat="user in searchResults.users | limitTo:4">
-                        <img class="up-profil-picture" ng-src="{{$root.me.image_url | urlFile}}" alt=""/> {{user.name}}
+                        <a ng-click="resetSearch()" ui-sref="{{ redirect(user) }}">
+                            <img ng-if="user.image_url" class="up-profil-picture" ng-src="{{ user.image_url | urlFile}}" alt="Image de profil"/>
+                            <i ng-if="!user.image_url" class="fa fa-user"></i>
+                            {{user.name}}
+                        </a>
                     </div>
                 </div>
-            </div> -->
+            </div>
             <!-- <div class="up-searchbar-section" up-row ng-if="searchResults.posts.length">
                 <div class="up-searchbar-cell up-searchbar-title" up-col="25%">POSTS</div>
                 <div class="up-searchbar-cell" up-col="75%">
