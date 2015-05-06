@@ -41,6 +41,10 @@ class UsersControllerTest extends WebTestCase
         // On n'accepte pas les duplicatas selon l'username
         $response = $this->postUser();
         $this->assertJsonResponse($response, 400);
+
+        $this->client->request('POST', '/users', array('username' => '', 'email' => '123'));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 400);
     }
 
     public function testGet()
@@ -56,10 +60,6 @@ class UsersControllerTest extends WebTestCase
         $this->client->request('GET', '/users/sjoajsiohaysahais-asbsksaba7');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
-
-        $this->client->request('POST', '/users', array('username' => '', 'email' => '123'));
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 400);
     }
 
     public function testPatch()
