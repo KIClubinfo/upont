@@ -9,7 +9,13 @@ class ClubsControllerTest extends WebTestCase
     // On crée une ressource sur laquelle seront effectués les tests. Ne pas oublier de supprimer à la fin avec le test DELETE.
     public function testPost()
     {
-        $this->client->request('POST', '/clubs', array('fullName' => 'Chasse Ponts Tradition', 'name' => 'CPT'));
+        $this->client->request(
+			'POST', '/clubs', array(
+				'fullName' => 'Chasse Ponts Tradition',
+				'name' => 'CPT',
+				'presentation' => 'La liste pipeau'
+			)
+		);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
         // On vérifie que le lieu du nouvel objet a été indiqué
@@ -44,7 +50,12 @@ class ClubsControllerTest extends WebTestCase
 
     public function testPatch()
     {
-        $this->client->request('PATCH', '/clubs/cpt', array('image' => 'http://upload.wikimedia.org/wikipedia/commons/5/5a/Wikipedia-logo-v2-fr.png', 'banner' => 'http://upload.wikimedia.org/wikipedia/commons/5/5a/Wikipedia-logo-v2-fr.png'));
+        $this->client->request(
+			'PATCH', '/clubs/cpt', array(
+				'image' => 'http://upload.wikimedia.org/wikipedia/commons/5/5a/Wikipedia-logo-v2-fr.png',
+				'banner' => 'http://upload.wikimedia.org/wikipedia/commons/5/5a/Wikipedia-logo-v2-fr.png'
+			)
+		);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 

@@ -18,7 +18,7 @@ class BaseControllerTest extends WebTestCase
 
     public function testFilter()
     {
-        $this->client->request('GET', '/courses/mecanique-des-structures/exercices?filterBy=department&filterValue=1A');
+        $this->client->request('GET', '/courses/mecanique-des-structures/exercices?department=1A&sort=semester,-startDate');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
     }
