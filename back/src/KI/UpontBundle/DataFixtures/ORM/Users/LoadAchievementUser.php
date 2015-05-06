@@ -1,11 +1,11 @@
 <?php
 
-namespace KI\UpontBundle\DataFixtures\ORM;
+namespace KI\UpontBundle\DataFixtures\ORM\Users;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use KI\UpontBundle\Entity\AchievementUser;
+use KI\UpontBundle\Entity\Users\AchievementUser;
 
 
 class LoadAchievementUserFixture extends AbstractFixture implements OrderedFixtureInterface

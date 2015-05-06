@@ -34,6 +34,8 @@ angular.module('upont')
                     return 'root.zone_eleves.ponthub.simple({category: "autres", slug: file.slug})';
                 case 'Club':
                     return 'root.zone_eleves.channels.simple.publications({slug: club.slug})';
+                case 'User':
+                    return 'root.zone_eleves.promo.simple({slug: user.slug})';
             }
         };
 

@@ -206,7 +206,7 @@ angular.module('upont')
             };
 
             $http.post(apiPrefix + 'newsitems', params).success(function(data){
-                Paginate.get('newsitems?sort=-date&limit=10&filterBy=name&filterValue=null').then(function(data){
+                Paginate.get('newsitems?sort=-date&limit=10&name=null').then(function(data){
                     $scope.messages = data;
                     alertify.success('Message publié');
                     init();
@@ -289,7 +289,7 @@ angular.module('upont')
                         return Paginate.get('own/events');
                     }],
                     messages: ['Paginate', function(Paginate) {
-                        return Paginate.get('newsitems?sort=-date&limit=10&filterBy=name&filterValue=null');
+                        return Paginate.get('newsitems?sort=-date&limit=10&name=null');
                     }]
                 }
             })
@@ -309,7 +309,7 @@ angular.module('upont')
                         return [];
                     }],
                     messages: ['Paginate', function(Paginate) {
-                        return Paginate.get('newsitems?sort=-date&limit=10&filterBy=name&filterValue=null');
+                        return Paginate.get('newsitems?sort=-date&limit=10&name=null');
                     }]
                 }
             });

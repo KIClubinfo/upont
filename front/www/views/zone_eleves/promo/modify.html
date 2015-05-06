@@ -8,7 +8,7 @@
     </div>
 
     <div class="up-profile-form">
-        <form up-row padded left wrap ng-submit="submitUser(me, profilePicture)" autocomplete="off">
+        <form up-row padded left wrap ng-submit="submitUser(me, profilePicture, password, confirm)" autocomplete="off">
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
                 <i class="fa fa-graduation-cap"></i>
                 Promo
@@ -148,6 +148,22 @@
                 <input type="file" class="up-col-xs-12" ng-model="profilePicture" base-sixty-four-input>
             </div>
 
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <i class="fa fa-lock"></i>
+                Mot de passe
+            </div>
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <input class="up-col-xs-12" type="text" ng-model="password" placeholder="Nouveau mot de passe"/>
+            </div>
+
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <i class="fa fa-lock"></i>
+                Confirmation
+            </div>
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <input type="text" class="up-col-xs-12" ng-model="confirm" placeholder="Nouveau mot de passe" />
+            </div>
+
             <div up-col="100%" up-row right>
                 <button up-col-xs="100%" up-col-sm="100%" up-col="25%" class="up-btn up-btn-lg up-btn-default">Modifier !</button>
             </div>
@@ -284,7 +300,7 @@
             <div up-col="33%"><img class="img-responsive" src="{{ club.image_url | urlFile}}" />
             </div>
             <div up-col="66%">
-                <h2><a ui-sref="root.zone_eleves.channels.simple.publications({ slug: club.slug})">{{ club.name }}</a></h2>
+                <h2><a ui-sref="root.channels.simple.publications({ slug: club.slug})">{{ club.name }}</a></h2>
                 <button class="up-btn up-btn-default" ng-show="club.suivi" ng-click="unsubscribe(club.slug);">Suivi</button>
                 <button class="up-btn up-btn-primary" ng-show="!club.suivi" ng-click="subscribe(club.slug);">Suivre</button>
             </div>

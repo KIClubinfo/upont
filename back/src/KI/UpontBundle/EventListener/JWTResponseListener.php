@@ -6,7 +6,7 @@ use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationFailureEvent;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use KI\UpontBundle\Entity\Achievement;
+use KI\UpontBundle\Entity\Users\Achievement;
 use KI\UpontBundle\Event\AchievementCheckEvent;
 
 class JWTResponseListener

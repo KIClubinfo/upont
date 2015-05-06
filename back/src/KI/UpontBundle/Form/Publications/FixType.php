@@ -1,31 +1,30 @@
 <?php
 
-namespace KI\UpontBundle\Form\Users;
+namespace KI\UpontBundle\Form\Publications;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-
-class ClubType extends AbstractType
+class FixType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('fullName')
             ->add('name')
-            ->add('icon')
-            ->add('presentation')
-            ->add('active')
-            ->add('image', 'imageuploader_selector')
-            ->add('banner', 'imageuploader_selector');
+            ->add('problem')
+            ->add('answer')
+            ->add('date')
+            ->add('solved')
+            ->add('status')
+            ->add('category');
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'data_class' => 'KI\UpontBundle\Entity\Users\Club'
+            'data_class' => 'KI\UpontBundle\Entity\Publications\Fix'
         ));
     }
 

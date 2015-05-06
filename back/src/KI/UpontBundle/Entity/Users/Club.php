@@ -45,6 +45,14 @@ class Club extends Likeable
     protected $icon;
 
     /**
+     * Corps du texte
+     * @ORM\Column(name="presentation", type="text", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("string")
+     */
+    protected $presentation;
+
+    /**
      * Club actif ou non ?
      * @ORM\Column(name="active", type="boolean", nullable=true)
      * @JMS\Expose
@@ -120,6 +128,29 @@ class Club extends Likeable
     public function getIcon()
     {
         return $this->icon;
+    }
+
+    /**
+     * Set presentation
+     *
+     * @param text $presentation
+     * @return Club
+     */
+    public function setPresentation($presentation)
+    {
+        $this->presentation = $presentation;
+
+        return $this;
+    }
+
+    /**
+     * Get presentation
+     *
+     * @return text
+     */
+    public function getPresentation()
+    {
+        return $this->presentation;
     }
 
     /**

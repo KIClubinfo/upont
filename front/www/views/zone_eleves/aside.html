@@ -7,15 +7,19 @@
             <i class="fa fa-search"></i>
             <input class="search" type="text" ng-model="searchValue" placeholder="Rechercher" ng-change="doSearch(searchValue)" />
         </div>
-        <div class="up-searchbar-results" ng-show="searchResults.posts.length || searchResults.clubs.length || searchResults.files.length">
-            <!-- <div class="up-searchbar-section" up-row ng-if="searchResults.users.length">
+        <div class="up-searchbar-results" ng-show="searchResults.posts.length || searchResults.clubs.length || searchResults.files.length || searchResults.users.length">
+            <div class="up-searchbar-section" up-row ng-if="searchResults.users.length">
                 <div class="up-searchbar-cell up-searchbar-title" up-col="25%">ÉLÈVES</div>
                 <div class="up-searchbar-cell" up-col="75%">
                     <div class="up-searchbar-item" ng-repeat="user in searchResults.users | limitTo:4">
-                        <img class="up-profil-picture" ng-src="{{$root.me.image_url | urlFile}}" alt=""/> {{user.name}}
+                        <a ng-click="resetSearch()" ui-sref="{{ redirect(user) }}">
+                            <img ng-if="user.image_url" class="up-profil-picture" ng-src="{{ user.image_url | urlFile}}" alt="Image de profil"/>
+                            <i ng-if="!user.image_url" class="fa fa-user"></i>
+                            {{user.name}}
+                        </a>
                     </div>
                 </div>
-            </div> -->
+            </div>
             <!-- <div class="up-searchbar-section" up-row ng-if="searchResults.posts.length">
                 <div class="up-searchbar-cell up-searchbar-title" up-col="25%">POSTS</div>
                 <div class="up-searchbar-cell" up-col="75%">
@@ -57,15 +61,9 @@
         </div>
         <div><a ui-sref="root.zone_eleves.channels.liste" up-state-active="root.zone_eleves.channels"><i class="fa fa-thumbs-o-up"></i> Assos</a>
         </div>
-        <!--<div><a ui-sref="root.zone_eleves.promo.trombi" up-state-active="root.zone_eleves.promo"><i class="fa fa-graduation-cap"></i> Promo</a>
+        <div><a ui-sref="root.zone_eleves.promo.list" up-state-active="root.zone_eleves.promo"><i class="fa fa-graduation-cap"></i> Élèves</a>
         </div>
-        <div><a ui-sref="root.zone_eleves.ki.contact" up-state-active="root.zone_eleves.ki"><i class="fa fa-flash"></i> KI</a>
-        </div>
-        <div><a ui-sref="root.zone_eleves.cours" up-state-active><i class="fa fa-briefcase"></i> Cours</a>
-        </div>-->
         <div><a ui-sref="root.zone_eleves.ponthub.liste" up-state-active="root.zone_eleves.ponthub"><i class="fa fa-film"></i> PontHub</a>
-        </div>
-        <div><a ui-sref="root.zone_eleves.profile" up-state-active><i class="fa fa-star"></i> Profil</a>
         </div>
         <div ng-if="$root.isAdmin"><a ui-sref="root.zone_eleves.admin" up-state-active><i class="fa fa-wrench"></i> Zone Admin</a>
         </div>
