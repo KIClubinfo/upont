@@ -18,7 +18,7 @@ class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceCon
      * @ApiDoc(
      *  resource=true,
      *  description="Liste les annales",
-     *  output="KI\UpontBundle\Entity\Publications\Exercices",
+     *  output="KI\UpontBundle\Entity\Publications\Exercice",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
