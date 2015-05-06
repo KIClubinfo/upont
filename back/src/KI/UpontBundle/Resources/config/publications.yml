@@ -17,3 +17,7 @@ exercices:
 fixes:
     type:     rest
     resource: KI\UpontBundle\Controller\Publications\FixesController
+
+tutos:
+    type:     rest
+    resource: KI\UpontBundle\Controller\Publications\TutosController
