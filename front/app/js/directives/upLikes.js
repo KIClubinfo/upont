@@ -177,6 +177,6 @@ angular.module('upont').directive('upLikes', function() {
                 });
             };
         }],
-        templateUrl : 'views/misc/likesEtComments.html'
+        templateUrl : 'views/elements_publics/likesEtComments.html'
     };
 });

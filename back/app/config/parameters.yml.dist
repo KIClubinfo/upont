@@ -9,7 +9,7 @@ parameters:
     locale: fr
     proxy_url: null     # http://etuproxy.enpc.fr:3128
     proxy_user: null    # utilisateur:motdepasse
-        
+
     # Paramètres pas pertinents
     database_driver: pdo_mysql
     database_port: null

@@ -21,7 +21,11 @@ abstract class WebTestCase extends LiipWebTestCase
         $path = __DIR__.'/../../../../app/cache/token';
         if (!file_exists($path)) {
             $client = static::createClient();
-            $client->request('POST', $this->getUrl('login'), array('username' => 'trancara', 'password' => 'password'));
+            $client->request(
+                'POST',
+                $this->getUrl('login'),
+                array('username' => 'trancara', 'password' => 'password')
+                );
             $response = $client->getResponse();
             $data = json_decode($response->getContent(), true);
             $this->assertArrayHasKey('token', $data);

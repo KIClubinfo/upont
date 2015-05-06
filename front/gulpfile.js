@@ -31,7 +31,7 @@ gulp.task('build-css', function() {
 });
 
 gulp.task('build-js', function() {
-    return gulp.src(['app/js/app.js', 'app/js/**/*.js', 'app/js/*.js'])
+    return gulp.src(['app/js/app.js', 'app/js/*.js', 'app/js/**/*.js', 'app/js/controllers/**/*.js'])
         .pipe(jshint())
         .pipe(jshint.reporter('jshint-stylish'))
         .pipe(concat('upont.min.js'))
