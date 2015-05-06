@@ -70,8 +70,8 @@ angular.module('upont')
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state('root.zone_eleves.profile', {
-                url: 'profil',
+            .state('root.zone_eleves.promo.modify', {
+                url: '/profil',
                 templateUrl: 'views/zone_eleves/promo/modify.html',
                 controller: 'Profile_Modify_Ctrl',
                 resolve: {

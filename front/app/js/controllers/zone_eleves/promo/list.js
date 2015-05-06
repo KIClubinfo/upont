@@ -10,7 +10,7 @@ angular.module('upont')
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider.state('root.zone_eleves.promo', {
-                url: 'promo',
+                url: 'eleves',
                 templateUrl: 'views/zone_eleves/promo/index.html',
                 abstract: true,
                 data: {
