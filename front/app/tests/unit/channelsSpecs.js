@@ -14,13 +14,13 @@ describe("ChannelListe_Ctrl and ChannelSimple_Ctrl", function() {
         });
     }));
 
-    it('should load the list to the scope', function(){
+    it('should load the channel list to the scope', function(){
         var controller = $controller('ChannelsListe_Ctrl', { $scope: $scope, channels: [{}, {}, {}] });
         expect($scope.channels.length).toBe(3);
     });
 
-    it('should load the channel alone to the scope', function(){
-        var controller = $controller('ChannelsSimple_Ctrl', { $scope: $scope, channel: {}, publications : [{},{},{}], membres: [{},{},{}]});
+    it('should load a single channel to the scope', function(){
+        var controller = $controller('ChannelsSimple_Ctrl', { $scope: $scope, channel: {}, publications : [{},{}], members: [{},{}], events: [{},{}], newsItems:[{},{}]});
         expect($scope.channel).not.toBe(undefined);
         expect($scope.publications.length).toBe(3);
         expect($scope.membres.length).toBe(3);

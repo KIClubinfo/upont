@@ -35,9 +35,12 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
         // Définition des filtres
         $findBy = array();
         foreach ($request->all() as $key => $value) {
-            if ($key != 'page' && $key != 'limit' && $key != 'sort')
+            if ($key != 'page' && $key != 'limit' && $key != 'sort' && $key != 'filterBy' && $key != 'filterValue')
                 $findBy[$key] = $value;
         }
+        // Maintenu pour la compatibilité
+        if ($request->has('filterBy') && $request->has('filterValue'))
+            $findBy[$request->get('filterBy')] = $request->get('filterValue');
 
         return array($findBy, $sortBy, $limit, ($page - 1)*$limit, $page, $totalPages, $count);
     }

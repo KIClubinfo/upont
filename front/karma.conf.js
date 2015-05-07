@@ -16,30 +16,38 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
     // //All algular files
-    'www/libs/jquery/dist/jquery.min.js',
-    'www/libs/angular/angular.min.js',
-    'www/libs/angular-i18n/angular-locale_fr-fr.js',
-    'www/libs/angular-animate/angular-animate.js',
-    'www/libs/angular-sanitize/angular-sanitize.js',
-    'www/libs/angular-strap/dist/angular-strap.min.js',
-    'www/libs/angular-strap/dist/angular-strap.tpl.min.js',
-    'www/libs/angular-ui-router/release/angular-ui-router.min.js',
-    'www/libs/angular-resource/angular-resource.min.js',
-    'www/libs/angular-loading-bar/build/loading-bar.min.js',
-    'www/libs/angular-jwt/dist/angular-jwt.js',
-    'www/libs/scheduler/codebase/dhtmlxscheduler.js',
-    'www/libs/scheduler/codebase/locale/locale_fr.js',
-    'www/libs/js-base64/base64.min.js',
+    "www/libs/jquery/dist/jquery.min.js",
+    "www/libs/angular/angular.min.js",
+    "www/libs/angular-i18n/angular-locale_fr-fr.js",
+    "www/libs/angular-animate/angular-animate.js",
+    "www/libs/angular-sanitize/angular-sanitize.js",
+    "www/libs/angular-strap/dist/angular-strap.min.js",
+    "www/libs/angular-strap/dist/angular-strap.tpl.min.js",
+    "www/libs/angular-ui-router/release/angular-ui-router.min.js",
+    "www/libs/angular-resource/angular-resource.min.js",
+    "www/libs/angular-jwt/dist/angular-jwt.min.js",
+    "www/libs/angular-base64-upload/dist/angular-base64-upload.min.js",
+    "www/libs/angular-filter/dist/angular-filter.min.js",
+    "www/libs/angular-elastic/elastic.js",
+    "www/libs/moment/min/moment-with-locales.min.js",
+    "www/libs/scheduler/codebase/dhtmlxscheduler.js",
+    "www/libs/scheduler/codebase/locale/locale_fr.js",
+    "www/libs/js-base64/base64.min.js",
+    "www/libs/ngInfiniteScroll/build/ng-infinite-scroll.min.js",
+    "www/libs/alertify.js/lib/alertify.min.js",
+    "www/libs/angular-bootstrap-datetimepicker/src/js/datetimepicker.js",
     'www/libs/angular-mocks/angular-mocks.js',
-
     //Template files
+    // 'www/views/*.html',
     'www/views/**/*.html',
-    'www/views/*.html',
+    'www/views/**/**/*.html',
 
     //Upont files
     // 'www/upont.min.js',
+    'app/js/app.js',
     'app/js/*.js',
     'app/js/**/*.js',
+    'app/js/**/**/*.js',
 
     // //Test files
     'app/tests/unit/*.js'
@@ -55,9 +63,9 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
         'app/js/app.js': 'coverage',
-        'app/js/services.js': 'coverage',
+        'app/js/services/*.js': 'coverage',
         'app/js/directives/*.js': 'coverage',
-        'app/js/controllers/*.js': 'coverage',
+        'app/js/controllers/**/*.js': 'coverage',
         "www/views/**/*.html": ["ng-html2js"],
         "www/views/*.html": ["ng-html2js"]
     },
