@@ -16,9 +16,9 @@ class AdmissibleType extends AbstractType
             ->add('lastName')
             ->add('date')
             ->add('scei')
+            ->add('serie')
             ->add('contact')
             ->add('room')
-            ->add('serie')
             ->add('details');
     }
 
