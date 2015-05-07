@@ -1,7 +1,21 @@
-var apiPrefix = "/api/";
+var apiPrefix = '/api/';
 if (!location.origin)
-     location.origin = location.protocol + "//" + location.host;
+     location.origin = location.protocol + '//' + location.host;
+
+// Configuration de la langue
 moment.locale('fr');
+Highcharts.setOptions({
+    lang: {
+        months: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
+        weekdays: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+        shortMonths: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Aout', 'Sept', 'Oct', 'Nov', 'Déc'],
+        loading: 'Chargement en cours...',
+        resetZoom: 'Réinitialiser le zoom',
+        resetZoomTitle: 'Réinitialiser le zoom au niveau 1:1',
+        thousandsSep: ' ',
+        decimalPoint: ','
+    }
+});
 
 alertify.set({ labels: {
     ok     : 'Ok !',

@@ -171,7 +171,7 @@ function empty(mixed_var) {
     }
 
     if (typeof mixed_var === 'object') {
-        for (key in mixed_var) {
+        for (var key in mixed_var) {
             return false;
         }
         return true;

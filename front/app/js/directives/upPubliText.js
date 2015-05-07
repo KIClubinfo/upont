@@ -10,7 +10,7 @@ angular.module('upont').directive('upPubliText', ['$filter', '$sce', function($f
             scope.overflow = (split.length > 5 || scope.string.length > 550);
             scope.content = $sce.trustAsHtml($filter('stripTags')(scope.string, allowedTags));
         },
-        controller: ["$scope", function($scope) {
+        controller: ['$scope', function($scope) {
             $scope.open = function() {
                 $scope.overflow = false;
                 $scope.content = $sce.trustAsHtml($filter('stripTags')($scope.string, allowedTags));

@@ -1,7 +1,35 @@
 angular.module('upont').factory('Paginate', ['$resource', '$q', '$rootScope', function($resource, $q, $rootScope) {
+    loadData = function(load, url, append) {
+        // On indique qu'on est en train de charger de nouvelles données
+        $rootScope.infiniteLoading = true;
+        var defered = $q.defer();
+
+        // S'il y a une page, on la charge
+        if (url) {
+            $resource(apiPrefix + url[1]).query(function(data, headers){
+                var result;
+                if (!append) {
+                    result = data;
+                } else {
+                    result = load.data.concat(data);
+                }
+
+                defered.resolve({data: result, headers: headers()});
+                $rootScope.infiniteLoading = false;
+            }, function(httpResponse){
+                 defered.reject(httpResponse);
+                 $rootScope.infiniteLoading = false;
+            });
+
+        } else {
+            defered.reject();
+            $rootScope.infiniteLoading = false;
+        }
+        return defered.promise;
+    };
+
     return {
         get: function(url, limit) {
-
             var suffix = '';
             if (limit > 0) {
                 suffix = url.match(/\?/) === null ? '?' : '&';
@@ -18,29 +46,11 @@ angular.module('upont').factory('Paginate', ['$resource', '$q', '$rootScope', fu
         },
 
         next: function(load) {
-            // On indique qu'on est en train de charger de nouvelles données
-            $rootScope.infiniteLoading = true;
+            return loadData(load, load.headers.links.match(/self,<\/(.*?)>;rel=next/), true);
+        },
 
-            // On analyse les headers
-            // On cherche un lien de la forme </ressource?page=1&limit=100>;rel=next
-            var match = load.headers.links.match(/last,<\/(.*?)>;rel=next/);
-            var defered = $q.defer();
-
-            // S'il y a une prochaine page, on la charge
-            if (match) {
-                $resource(apiPrefix + match[1]).query(function(data, headers){
-                    defered.resolve({data: load.data.concat(data), headers: headers()});
-                    $rootScope.infiniteLoading = false;
-                }, function(httpResponse){
-                     defered.reject(httpResponse);
-                     $rootScope.infiniteLoading = false;
-                });
-
-            } else {
-                defered.reject();
-                $rootScope.infiniteLoading = false;
-            }
-            return defered.promise;
+        first: function(load) {
+            return loadData(load, load.headers.links.match(/<\/(.*?)>;rel=first/));
         }
     };
 }]);
