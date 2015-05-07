@@ -17,6 +17,12 @@ background-size: auto auto;
 .dhx_cal_container { // calendar
     min-height: 100%;
 }
+.dhx_cal_prev_button {
+    background: url('img/calendar/arrow-left.png') no-repeat scroll center center transparent;
+}
+.dhx_cal_next_button {
+    background: url('img/calendar/arrow-right.png') no-repeat scroll center center transparent;
+}
 .container-fluid { // bootstrap
     padding: 0;
 }
@@ -32,6 +38,17 @@ background-size: auto auto;
     background: @col-bckgnd;
     @media(min-width:@sizeSm){
         padding-left: @asideWidth;
+    }
+}
+.up-error-page {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    @media(min-width:@sizeSm){
+        padding-left: 100px;
+    }
+    a {
+        color: @col-main !important;
     }
 }
 .up-calendar {
