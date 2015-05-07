@@ -7,6 +7,7 @@ angular.module('upont')
             .state('root.users.resources', {
                 url: 'ressources',
                 templateUrl: 'views/users/resources/index.html',
+                abstract: true,
                 data: {
                     title: 'Ressources - uPont',
                     top: true
