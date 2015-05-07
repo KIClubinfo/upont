@@ -19,7 +19,7 @@ class LoadAdmissibleFixture extends AbstractFixture implements OrderedFixtureInt
         $admissible->setScei('4242');
         $admissible->setSerie(2);
         $admissible->setContact('kevin.toucourt@yahoo.fr ; 0612345678');
-        $admissible->setRoom(Simple);
+        $admissible->setRoom('Simple');
         $manager->persist($admissible);
 
         $admissible = new Admissible();
@@ -29,7 +29,7 @@ class LoadAdmissibleFixture extends AbstractFixture implements OrderedFixtureInt
         $admissible->setScei('21132');
         $admissible->setSerie(4);
         $admissible->setContact('cecile.taquet-gasperini@eleves.enpc.fr ; 0637008206');
-        $admissible->setRoom(Hôtel);
+        $admissible->setRoom('Hôtel');
         $admissible->setDetails('Ceci est un placeholder.');
         $manager->persist($admissible);
 
