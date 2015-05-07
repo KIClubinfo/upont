@@ -58,6 +58,14 @@ angular.module('upont')
                     '<div ui-view="topbar" class="up-invisible-sm up-invisible-md up-invisible-lg"></div>'+
                     '<div ui-view></div>',
             })
+            .state('root.403', {
+                url: '403',
+                templateUrl: 'views/public/403.html',
+            })
+            .state('root.418', {
+                url: '418',
+                templateUrl: 'views/public/418.html',
+            })
             .state('root.erreur', {
                 url: 'erreur',
                 templateUrl: 'views/public/500.html',
