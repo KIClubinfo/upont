@@ -29,16 +29,20 @@
         </div> -->
     </div>
     <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="75%">
-        <div class="up-ticket">
+        <div class="up-ticket" ng-show="displayFoyer">
             <h2>Stats Foyer</h2>
-            À venir...
+
+            {{ user.first_name }} a ingéré un total de <strong>{{ foyer.litersDrunk }} litres</strong> de bière pour plus de <strong>{{ foyer.numberBeers }} consos</strong>...<br><br><br>
+            <div id="beers" class="up-col-xs-12 up-col-lg-9"></div>
+            <div id="liters" class="up-col-xs-12 up-col-lg-9"></div>
         </div>
-        <div class="up-ticket">
+        <div class="up-ticket" ng-if="user.stats_ponthub">
             <h2>Stats PontHub</h2>
             À venir...
         </div>
-        <!-- <div class="up-ticket">
+        <div class="up-ticket">
             <h2>Expériences</h2>
-        </div> -->
+            À venir...
+        </div>
     </div>
 </div>

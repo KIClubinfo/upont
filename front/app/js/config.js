@@ -105,7 +105,7 @@ angular.module('upont')
     //         html: true
     //     });
     // }])
-    .run(['$rootScope', 'StorageService', '$state', '$interval',  'jwtHelper', '$resource', '$location', function($rootScope, StorageService, $state, $interval, jwtHelper, $resource, $location) {
+    .run(['$rootScope', 'StorageService', '$state', '$interval',  'jwtHelper', '$resource', '$location', 'Migration', function($rootScope, StorageService, $state, $interval, jwtHelper, $resource, $location, Migration) {
         // Data à charger au lancement
         $rootScope.selfClubs = [];
 
@@ -113,6 +113,7 @@ angular.module('upont')
             // Données perso
             $resource(apiPrefix + 'users/:slug', {slug: username }).get(function(data){
                 $rootScope.me = data;
+                Migration.v211(data);
             });
 
             // Version de uPont

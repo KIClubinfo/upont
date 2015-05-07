@@ -12,15 +12,23 @@ class KIFoyer extends ContainerAware
     protected $token;
     protected $balance;
 
-    public function initialize()
+    public function initialize($user = null)
     {
         if ($this->error !== null)
             return;
 
-        $this->curl = $this->container->get('ki_upont.curl');
-        $user = $this->container->get('security.context')->getToken()->getUser();
+        if ($user === null)
+            $user = $this->container->get('security.context')->getToken()->getUser();
+        // On vérifie que la personne a le droit de consulter les stats
+        if ($user !== $this->container->get('security.context')->getToken()->getUser()
+            && ($user->getStatsFoyer() === false || $user->getStatsFoyer() === null)
+            && !$this->container->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $this->error = true;
+            return;
+        }
 
         // Recupere l'id foyer correspondant
+        $this->curl = $this->container->get('ki_upont.curl');
         $response = $this->curl->curl('http://dev-foyer.enpc.org/uPonts/qui.php?prenom='.urlencode($user->getFirstName()).'&nom='.urlencode($user->getLastName()));
         $data = json_decode($response, true);
 
