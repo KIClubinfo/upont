@@ -49,7 +49,7 @@ class FoyerController extends \KI\UpontBundle\Controller\Core\BaseController
         $service->initialize();
 
         if ($service->hasFailed())
-            return $this->jsonResponse(null, 409);
+            return $this->jsonResponse(array('error' => 'Impossible d\'afficher les statistiques Foyer'));
 
         return $this->jsonResponse($service->rankings());
     }
@@ -75,7 +75,7 @@ class FoyerController extends \KI\UpontBundle\Controller\Core\BaseController
         $service->initialize($user);
 
         if ($service->hasFailed())
-            return $this->jsonResponse(null, 409);
+            return $this->jsonResponse(array('error' => 'Impossible d\'afficher les statistiques Foyer'));
 
         return $this->jsonResponse($service->statistics());
     }

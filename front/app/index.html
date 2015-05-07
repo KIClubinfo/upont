@@ -34,6 +34,23 @@
     <script type="text/javascript" src="libs/ngInfiniteScroll/build/ng-infinite-scroll.min.js"></script>
     <script type="text/javascript" src="libs/alertify.js/lib/alertify.min.js"></script>
     <script type="text/javascript" src="libs/angular-bootstrap-datetimepicker/src/js/datetimepicker.js"></script>
+    <script type="text/javascript" src="libs/highmaps/highcharts.js"></script>
+    <script type="text/javascript" src="libs/highmaps/modules/map.js"></script>
+    <script type="text/javascript">
+        // Configuration highcharts
+        Highcharts.setOptions({
+            lang: {
+                months: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
+                weekdays: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+                shortMonths: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Aout', 'Sept', 'Oct', 'Nov', 'Déc'],
+                loading: 'Chargement en cours...',
+                resetZoom: 'Réinitialiser le zoom',
+                resetZoomTitle: 'Réinitialiser le zoom au niveau 1:1',
+                thousandsSep: ' ',
+                decimalPoint: ','
+            }
+        });
+    </script>
     <script type="text/javascript" src="upont.min.js"></script>
 </head>
 

@@ -31,15 +31,17 @@ angular.module('upont')
 
         $scope.submitUser = function(me, image, password, confirm) {
             var params = {
-                'promo' : me.promo,
-                'gender' : me.gender,
-                'nationality' : me.nationality,
-                'phone' : me.phone,
-                'location' : me.location,
-                'department' : me.department,
-                'origin' : me.origin,
-                'skype' : me.skype,
-                'nickname' : me.nick
+                promo: me.promo,
+                gender: me.gender,
+                nationality: me.nationality,
+                phone: me.phone,
+                location: me.location,
+                department: me.department,
+                origin: me.origin,
+                skype: me.skype,
+                nickname: me.nick,
+                statsFoyer: me.stats_foyer,
+                statsPonthub: me.stats_ponthub
             };
 
             if (image) {

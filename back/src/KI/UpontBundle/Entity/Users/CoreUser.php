@@ -87,18 +87,6 @@ class CoreUser extends \FOS\UserBundle\Model\User
     protected $courses;
 
     /**
-     * Autorisation de rendre publiques les stats Foyer
-     * @ORM\Column(name="statsFoyer", type="boolean", nullable=true)
-     */
-    protected $statsFoyer;
-
-    /**
-     * Autorisation de rendre publiques les stats PontHub
-     * @ORM\Column(name="statsPonthub", type="boolean", nullable=true)
-     */
-    protected $statsPonthub;
-
-    /**
      * Tableau contenant les préférences utilisateurs. Les valeurs possibles des clés de ce tableau ainsi que
      * leur valeurs par défaut sont définies dans $preferencesArray
      * @ORM\Column(name="preferences", type="array", nullable=true)
@@ -351,52 +339,6 @@ class CoreUser extends \FOS\UserBundle\Model\User
     public function getCourses()
     {
         return $this->courses;
-    }
-
-    /**
-     * Set statsFoyer
-     *
-     * @param string $statsFoyer
-     * @return User
-     */
-    public function setStatsFoyer($statsFoyer)
-    {
-        $this->statsFoyer = $statsFoyer;
-
-        return $this;
-    }
-
-    /**
-     * Get statsFoyer
-     *
-     * @return string
-     */
-    public function getStatsFoyer()
-    {
-        return $this->statsFoyer;
-    }
-
-    /**
-     * Set statsPonthub
-     *
-     * @param string $statsPonthub
-     * @return User
-     */
-    public function setStatsPonthub($statsPonthub)
-    {
-        $this->statsPonthub = $statsPonthub;
-
-        return $this;
-    }
-
-    /**
-     * Get statsPonthub
-     *
-     * @return string
-     */
-    public function getStatsPonthub()
-    {
-        return $this->statsPonthub;
     }
 
     /**
