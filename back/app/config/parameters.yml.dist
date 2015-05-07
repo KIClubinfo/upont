@@ -24,3 +24,4 @@ parameters:
     debug_toolbar: true
     debug_redirects: false
     use_assetic_controller: true
+    fleur_token: 1234
