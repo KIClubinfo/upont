@@ -90,11 +90,6 @@ angular.module('upont')
                     }
                 }
             })
-            .state('root.admissibles', {
-                url: 'admissibles',
-                abstract: true,
-                template: '<div ui-view></div>'
-            })
             .state('root.public', {
                 url: 'public',
                 abstract: true,
