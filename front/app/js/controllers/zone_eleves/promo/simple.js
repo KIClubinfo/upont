@@ -18,7 +18,7 @@ angular.module('upont')
                 liters.push(eval(foyer.stackedLiters[key]));
             }
 
-            $scope.chartBeers = new Highcharts.Chart({
+            $scope.chartBeers = {
                 chart: {
                     renderTo: 'beers',
                     plotBackgroundColor: null,
@@ -56,9 +56,9 @@ angular.module('upont')
                     name: 'Nombre de bières',
                     data: beers
                 }]
-            });
+            };
 
-            $scope.chartLiters = new Highcharts.Chart({
+            $scope.chartLiters = {
                 chart: {
                     renderTo: 'liters',
                     type: 'area',
@@ -100,7 +100,7 @@ angular.module('upont')
                     }
                 },
                 series: [{ name: 'Volume ingéré', data: liters}]
-            });
+            };
         }
     }])
     .config(['$stateProvider', function($stateProvider) {
