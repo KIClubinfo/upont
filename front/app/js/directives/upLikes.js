@@ -133,7 +133,7 @@ angular.module('upont').directive('upLikes', function() {
             };
 
             $scope.submitComment = function(text){
-                $scope.commentText = "";
+                $scope.commentText = '';
                 if(text.length > 0){
                     $resource(apiPrefix + $scope.url + '/comments').save({ text: nl2br(text) }, function(data){
                         $scope.comments.push(data);
@@ -177,6 +177,6 @@ angular.module('upont').directive('upLikes', function() {
                 });
             };
         }],
-        templateUrl : 'views/elements_publics/likesEtComments.html'
+        templateUrl : 'views/public/likes.html'
     };
 });

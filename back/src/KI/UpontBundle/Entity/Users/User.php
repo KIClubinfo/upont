@@ -100,6 +100,22 @@ class User extends \KI\UpontBundle\Entity\Users\CoreUser
      */
     protected $allowedBds;
 
+    /**
+     * Autorisation de rendre publiques les stats Foyer
+     * @ORM\Column(name="statsFoyer", type="boolean", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("boolean")
+     */
+    protected $statsFoyer;
+
+    /**
+     * Autorisation de rendre publiques les stats PontHub
+     * @ORM\Column(name="statsPonthub", type="boolean", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("boolean")
+     */
+    protected $statsPonthub;
+
     protected function acronyme()
     {
         $r = '';
@@ -341,5 +357,51 @@ class User extends \KI\UpontBundle\Entity\Users\CoreUser
     public function getAllowedBds()
     {
         return $this->allowedBds;
+    }
+
+    /**
+     * Set statsFoyer
+     *
+     * @param string $statsFoyer
+     * @return User
+     */
+    public function setStatsFoyer($statsFoyer)
+    {
+        $this->statsFoyer = $statsFoyer;
+
+        return $this;
+    }
+
+    /**
+     * Get statsFoyer
+     *
+     * @return string
+     */
+    public function getStatsFoyer()
+    {
+        return $this->statsFoyer;
+    }
+
+    /**
+     * Set statsPonthub
+     *
+     * @param string $statsPonthub
+     * @return User
+     */
+    public function setStatsPonthub($statsPonthub)
+    {
+        $this->statsPonthub = $statsPonthub;
+
+        return $this;
+    }
+
+    /**
+     * Get statsPonthub
+     *
+     * @return string
+     */
+    public function getStatsPonthub()
+    {
+        return $this->statsPonthub;
     }
 }

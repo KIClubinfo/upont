@@ -85,13 +85,13 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
         $baseUrl .= 'page=';
         $links = array();
 
+        $links[] = $baseUrl.'1'.'&limit='.$limit.'>;rel=first';
         if ($page > 1)
             $links[] = $baseUrl.($page - 1).'&limit='.$limit.'>;rel=previous';
-        $links[] = $baseUrl.'1'.'&limit='.$limit.'>;rel=first';
         $links[] = $baseUrl.$page.'&limit='.$limit.'>;rel=self';
-        $links[] = $baseUrl.$totalPages.'&limit='.$limit.'>;rel=last';
         if ($page < $totalPages)
             $links[] = $baseUrl.($page + 1).'&limit='.$limit.'>;rel=next';
+        $links[] = $baseUrl.$totalPages.'&limit='.$limit.'>;rel=last';
 
         // À refacto quand la PR sur le JMSSerializerBundle sera effectuée
         // (voir BaseController::restResponseContext pour plus de détails)

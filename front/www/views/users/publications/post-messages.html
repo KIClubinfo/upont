@@ -1,0 +1,7 @@
+<div ng-controller="Publications_Post_Messages_Ctrl" class="up-publish up-ticket">
+    <form class="publish-container" ng-submit="post(msg)" up-row padded wrap autocomplete="off">
+        <textarea ng-focus="focus=true" ng-init="focus=false" ng-model="msg.text"
+                  placeholder="Quoi de neuf ?" msd-elastic></textarea>
+        <div><button class="up-btn up-btn-default">Publier !</button></div>
+    </form>
+</div>

@@ -47,65 +47,61 @@ angular.module('upont')
     }])
     .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$urlMatcherFactoryProvider', function($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) {
         $urlMatcherFactoryProvider.strictMode(false);
-        $urlRouterProvider.otherwise("/404");
+        $urlRouterProvider.otherwise('/404');
         $locationProvider.html5Mode(true);
 
         $stateProvider
             .state('root', {
                 abstract: true,
                 url: '/',
-                template: "<div ui-view='aside' class='up-invisible-xs'></div>"+
-                    "<div ui-view='topbar' class='up-invisible-sm up-invisible-md up-invisible-lg'></div>"+
-                    "<div ui-view></div>",
+                template: '<div ui-view="aside" class="up-invisible-xs"></div>'+
+                    '<div ui-view="topbar" class="up-invisible-sm up-invisible-md up-invisible-lg"></div>'+
+                    '<div ui-view></div>',
             })
-            .state("root.erreur", {
+            .state('root.403', {
+                url: '403',
+                templateUrl: 'views/public/403.html',
+            })
+            .state('root.418', {
+                url: '418',
+                templateUrl: 'views/public/418.html',
+            })
+            .state('root.erreur', {
                 url: 'erreur',
-                templateUrl: 'views/elements_publics/500.html',
+                templateUrl: 'views/public/500.html',
             })
-            .state("root.maintenance", {
+            .state('root.maintenance', {
                 url: 'maintenance',
-                        templateUrl: 'views/elements_publics/503.html',
+                templateUrl: 'views/public/503.html',
             })
-            .state("root.404", {
-                url: '404',
-                        templateUrl: 'views/elements_publics/404.html',
-            })
-            .state("root.zone_eleves", {
-                url: "",
+            .state('root.users', {
+                url: '',
                 abstract: true,
                 data: {
                     needLogin: true
                 },
                 views:{
-                    "":{
+                    '':{
                         template: '<div class="up-main-view" ui-view up-fill-window></div>'
                     },
-                    topbar:{
-                        templateUrl: 'views/zone_eleves/topBar.html'
-                    },
                     aside:{
-                        templateUrl: 'views/zone_eleves/aside.html',
+                        templateUrl: 'views/users/aside.html',
                         controller: 'Search_Ctrl'
                     }
                 }
             })
-            .state("root.zone_admissibles", {
-                url: "admissibles",
+            .state('root.admissibles', {
+                url: 'admissibles',
                 abstract: true,
                 template: '<div ui-view></div>'
             })
-            .state("root.zone_publique", {
-                url: "public",
+            .state('root.public', {
+                url: 'public',
                 abstract: true,
                 template: '<div ui-view></div>'
             });
     }])
-    // .config(['$modalProvider', function($modalProvider) {
-    //     angular.extend($modalProvider.defaults, {
-    //         html: true
-    //     });
-    // }])
-    .run(['$rootScope', 'StorageService', '$state', '$interval',  'jwtHelper', '$resource', '$location', function($rootScope, StorageService, $state, $interval, jwtHelper, $resource, $location) {
+    .run(['$rootScope', 'StorageService', '$state', '$interval',  'jwtHelper', '$resource', '$location', 'Migration', function($rootScope, StorageService, $state, $interval, jwtHelper, $resource, $location, Migration) {
         // Data à charger au lancement
         $rootScope.selfClubs = [];
 
@@ -113,6 +109,13 @@ angular.module('upont')
             // Données perso
             $resource(apiPrefix + 'users/:slug', {slug: username }).get(function(data){
                 $rootScope.me = data;
+                Migration.v211(data);
+            });
+
+            // Données perso
+            $resource(apiPrefix + 'users/:slug', {slug: username }).get(function(data){
+                $rootScope.me = data;
+                Migration.v211(data);
             });
 
             // Version de uPont
@@ -137,12 +140,17 @@ angular.module('upont')
             $resource(apiPrefix + 'users/:slug/clubs', {slug: username }).query(function(data){
                 $rootScope.selfClubs = data;
             });
+
+            // On récupère les clubs de l'utilisateurs pour déterminer ses droits de publication
+            $resource(apiPrefix + 'users/:slug/clubs', {slug: username }).query(function(data){
+                $rootScope.selfClubs = data;
+            });
         };
 
         // Chargement du token à partir du localStorage
         if (StorageService.get('token') && !jwtHelper.isTokenExpired(StorageService.get('token'))) {
             $rootScope.isLogged = true;
-            $rootScope.isAdmin = (StorageService.get('droits').indexOf("ROLE_ADMIN") != -1) ? true : false;
+            $rootScope.isAdmin = (StorageService.get('droits').indexOf('ROLE_ADMIN') != -1) ? true : false;
             $rootScope.init(jwtHelper.decodeToken(StorageService.get('token')).username);
         } else {
             $rootScope.isLogged = false;
@@ -156,7 +164,7 @@ angular.module('upont')
             StorageService.remove('token');
             StorageService.remove('roles');
             $rootScope.isLogged = false;
-            $state.go('root.disconnected');
+            $state.go('root.login');
         };
 
         $rootScope.isState = function(name){
@@ -222,7 +230,7 @@ angular.module('upont')
             if (!$rootScope.isLogged && needLogin(toState)) {
                 event.preventDefault();
                 $rootScope.urlRef = $location.path();
-                $state.go("root.disconnected");
+                $state.go('root.login');
             }
         });
 

@@ -1,0 +1,19 @@
+<div ng-controller="Publications_List_Messages_Ctrl" ng-inject="{messages: messages}">
+    <div infinite-scroll="next()" infinite-scroll-distance="2" infinite-scroll-disabled="$root.infiniteLoading">
+        <div class="up-ticket" ng-repeat="message in messages.data">
+            <div up-row class="up-messages" ng-mouseover="showModify=true" ng-mouseleave="showModify=false">
+                <img up-col="20%" class="up-profile-picture" ng-src="{{ message.author_user.image_url | urlFile }}"/>
+                <div up-col="80%">
+                    <small>
+                        {{ message.date | fromNow }}
+                        <i ng-show="($root.isAdmin || message.author_user.username == $root.me.username) && showModify" class="fa fa-pencil up-clickable" ng-click="modify(message)"></i>
+                        <i ng-show="($root.isAdmin || message.author_user.username == $root.me.username) && showModify" class="fa fa-times up-clickable"  ng-click="delete(message)"></i>
+                    </small><br>
+                    <span up-publi-text string="'<strong>' + message.author_user.nick + ' :</strong> ' + message.text" style="margin-top: 0"></span>
+                </div>
+            </div>
+            <img class="img-responsive" ng-if="message.image_url" ng-src="{{ message.image_url | urlFile }}"/><br>
+            <div up-likes objet="message" url="'newsitems/'+message.slug"></div>
+        </div>
+    </div>
+</div>

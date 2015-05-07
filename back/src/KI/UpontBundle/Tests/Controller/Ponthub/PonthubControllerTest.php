@@ -15,7 +15,11 @@ class PonthubControllerTest extends WebTestCase
         $fs->copy($basePath.'files_tmp.list', $basePath.'files.list');
         $list = new UploadedFile($basePath.'files.list', 'files.list');
 
-        $this->client->request('POST', '/filelist', array(), array('filelist' => $list));
+        $this->client->request('POST', '/filelist/12345', array(), array('filelist' => $list));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 403);
+
+        $this->client->request('POST', '/filelist/1234', array(), array('filelist' => $list));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 202);
 

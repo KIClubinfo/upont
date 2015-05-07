@@ -160,3 +160,22 @@ function ping(ip, callback) {
         }, 1000);
     }
 }
+
+function empty(mixed_var) {
+    var emptyValues = [null, false, 0, '', '0', undefined, {}, []];
+
+    for (var i = 0; i < emptyValues.length; i++) {
+        if (mixed_var === emptyValues[i]) {
+            return true;
+        }
+    }
+
+    if (typeof mixed_var === 'object') {
+        for (var key in mixed_var) {
+            return false;
+        }
+        return true;
+    }
+
+    return false;
+}

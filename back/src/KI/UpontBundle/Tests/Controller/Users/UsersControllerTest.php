@@ -77,7 +77,7 @@ class UsersControllerTest extends WebTestCase
                 'origin' => 'Concours Commun',
                 'nationality' => 'France',
                 'location' => 'A51',
-                'statsFoyer' => true,
+                'statsPonthub' => false,
                 'image' => 'http://i.imgur.com/QKKfs.png'
                 ));
         $response = $this->client->getResponse();

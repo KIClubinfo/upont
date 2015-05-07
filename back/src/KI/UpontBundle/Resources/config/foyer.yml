@@ -11,7 +11,7 @@ upont_api_foyer_rankings:
         _method: GET
         
 upont_api_foyer_statistics:
-    pattern: /statistics
+    pattern: /statistics/{slug}
     defaults: { _controller: KI\UpontBundle\Controller\Foyer\FoyerController::statisticsAction }
     requirements:
         _method: GET

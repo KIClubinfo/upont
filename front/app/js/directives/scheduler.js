@@ -10,14 +10,14 @@ angular.module('upont').directive('dhxScheduler', function() {
             //default state of the scheduler
             if (!$scope.scheduler)
                 $scope.scheduler = {};
-            $scope.scheduler.mode = $scope.scheduler.mode || "month";
+            $scope.scheduler.mode = $scope.scheduler.mode || 'month';
             $scope.scheduler.date = $scope.scheduler.date || new Date();
             scheduler.config.readonly = true;
 
             //watch data collection, reload on changes
             $scope.$watchCollection($attrs.data, function(collection) {
                 scheduler.clearAll();
-                scheduler.parse(collection, "json");
+                scheduler.parse(collection, 'json');
             });
 
             //watch mode and date
@@ -38,7 +38,7 @@ angular.module('upont').directive('dhxScheduler', function() {
             });
 
             //styling for dhtmlx scheduler
-            $element.addClass("dhx_cal_container");
+            $element.addClass('dhx_cal_container');
 
             //init scheduler
             scheduler.init($element[0], $scope.scheduler.date, $scope.scheduler.mode);

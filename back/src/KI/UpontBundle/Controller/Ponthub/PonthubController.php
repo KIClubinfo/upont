@@ -1,7 +1,6 @@
 <?php
 
 namespace KI\UpontBundle\Controller\Ponthub;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -46,8 +45,11 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
      *  section="Ponthub"
      * )
      */
-    public function filelistAction(Request $request)
+    public function filelistAction($token, Request $request)
     {
+        if ($token != $this->container->getParameter('fleur_token'))
+            return $this->jsonResponse('Vous n\'avez pas le droit de faire ça', 403);
+
         // On récupère le fichier envoyé
         if (!$request->files->has('filelist'))
             throw new BadRequestHttpException('Aucun fichier envoyé');

@@ -1,0 +1,91 @@
+<aside class="up-aside">
+    <div class="up-aside-header">
+        <div class="centering up-logo">
+            <a class="up-logo-link" ui-sref="root.users.publications.index"></a>
+        </div>
+        <div class="up-searchbar">
+            <i class="fa fa-search"></i>
+            <input class="search" type="text" ng-model="searchValue" placeholder="Rechercher" ng-change="doSearch(searchValue)" />
+        </div>
+        <div class="up-searchbar-results" ng-show="searchResults.posts.length || searchResults.clubs.length || searchResults.files.length || searchResults.users.length">
+            <div class="up-searchbar-section" up-row ng-if="searchResults.users.length">
+                <div class="up-searchbar-cell up-searchbar-title" up-col="25%">ÉLÈVES</div>
+                <div class="up-searchbar-cell" up-col="75%">
+                    <div class="up-searchbar-item" ng-repeat="user in searchResults.users | limitTo:4">
+                        <a ng-click="resetSearch()" ui-sref="{{ redirect(user) }}">
+                            <img ng-if="user.image_url" class="up-profil-picture" ng-src="{{ user.image_url | urlFile}}" alt="Image de profil"/>
+                            <i ng-if="!user.image_url" class="fa fa-user"></i>
+                            {{user.name}}
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="up-searchbar-section" up-row ng-if="searchResults.posts.length">
+                <div class="up-searchbar-cell up-searchbar-title" up-col="25%">POSTS</div>
+                <div class="up-searchbar-cell" up-col="75%">
+                    <div class="up-searchbar-item" ng-repeat="post in searchResults.posts| limitTo:4">
+                        <img class="up-profil-picture" ng-src="{{post.image  | urlFile}}" alt=""/> {{post.name}}
+                    </div>
+                </div>
+            </div> -->
+            <div class="up-searchbar-section" up-row ng-if="searchResults.clubs.length">
+                <div class="up-searchbar-cell up-searchbar-title" up-col="25%">CLUBS</div>
+                <div class="up-searchbar-cell" up-col="75%">
+                    <div class="up-searchbar-item" ng-repeat="club in searchResults.clubs| limitTo:4">
+                        <a ng-click="resetSearch()" ui-sref="{{ redirect(club) }}">
+                            <img class="up-profil-picture" ng-src="{{ club.image_url | urlFile}}" alt="Logo de l'assos"/> {{ club.name }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="up-searchbar-section" up-row ng-if="searchResults.files.length">
+                <div class="up-searchbar-cell up-searchbar-title" up-col="25%">PONTHUB</div>
+                <div class="up-searchbar-cell" up-col="75%">
+                    <div class="up-searchbar-item" ng-repeat="file in searchResults.files | limitTo:4">
+                        <a ng-click="resetSearch()" ui-sref="{{ redirect(file) }}">
+                            <img ng-if="file.image_url" class="up-profil-picture" ng-src="{{ file.image_url | urlFile}}" alt="Image du fichier"/>
+                            <i ng-if="!file.image_url" class="fa fa-{{ icon(file) }}"></i>
+                            {{ file.name }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="up-aside-middle">
+        <div><a ui-sref="root.users.publications" up-state-active><i class="fa fa-comment"></i> News</a></div>
+        <div class="up-invisible-md up-invisible-lg">
+            <a ui-sref="root.users.messages" up-state-active><i class="fa fa-comments"></i> Messages</a>
+        </div>
+        <div><a ui-sref="root.users.calendar" up-state-active><i class="fa fa-calendar"></i> Calendrier</a></div>
+        <div><a ui-sref="root.users.assos.list" up-state-active="root.users.assos"><i class="fa fa-thumbs-o-up"></i> Assos</a></div>
+        <div><a ui-sref="root.users.students.list" up-state-active="root.users.students"><i class="fa fa-graduation-cap"></i> Élèves</a></div>
+        <div><a ui-sref="root.users.resources.upont" up-state-active="root.users.resources"><i class="fa fa-suitcase"></i> Ressources</a></div>
+        <div><a ui-sref="root.users.ponthub.list" up-state-active="root.users.ponthub"><i class="fa fa-film"></i> PontHub</a></div>
+        <div><a ui-sref="root.users.students.modify"><i class="fa fa-star"></i> Profil</a></div>
+        <div ng-if="$root.isAdmin">
+            <a ui-sref="root.users.admin.students" up-state-active="root.users.admin"><i class="fa fa-wrench"></i> Zone Admin</a>
+        </div>
+
+        <hr>
+        <div class="up-aside-infos">
+            <div ng-hide="foyer == null"><i class="fa fa-beer"></i> Compte Foyer : {{ foyer }} <i class="fa fa-euro"></i></div>
+            <i class="fa fa-child"></i> En ligne :
+            <span ng-repeat="user in online">
+                <span ng-if="$index < 10">{{ user.nick }}</span><span ng-if="$index != online.length-1 && $index < 9">,</span>
+            </span>
+            <span ng-if="online.length > 10">et {{ online.length - 10 }} autre{{ online.length == 11 ? ' utilisateur' : 's utilisateurs' }}.</span>
+        </div>
+    </div>
+    <div class="up-aside-footer">
+        <div>
+            <span class="unbold" ng-click="$root.switchTheme()" style="cursor: pointer">
+                <input type="checkbox" ng-checked="$root.theme == 'dark'">&nbsp;Thème sombre
+            </span>
+        </div>
+        <div class="up-version">
+            uPont {{ version.version }}.{{ version.major }}.{{ version.minor }} &nbsp;&nbsp;-&nbsp;&nbsp; <a ng-click="logout()"><i class="fa fa-sign-out"></i> Déconnexion</a><br>
+            Build <a ng-href="https://github.com/KIClubinfo/upont/commit/{{ version.build }}" title="Repo GitHub de uPont">{{ version.build }}</a> ({{ version.date | formatDate }})
+        </div>
+    </div>
+</aside>

@@ -15,7 +15,7 @@ class FoyerControllerTest extends WebTestCase
 
     public function testStatistics()
     {
-        $this->client->request('GET', '/foyer/statistics');
+        $this->client->request('GET', '/foyer/statistics/trancara');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
     }
