@@ -22,7 +22,13 @@
         </div>
         <div class="up-ticket">
             <h2>Clubs et assos</h2>
-            À venir...
+
+            <div up-row wrap padded>
+                <div ng-repeat="membership in clubs" class="up-club-image-container" up-col="33%"
+                     ui-sref="root.users.assos.simple.publications({slug: membership.club.slug})" title="{{ membership.role }}">
+                    <div class="up-club-image" ng-style="{'background-image': 'url({{ membership.club.image_url | urlFile }})' }"></div>
+                </div>
+            </div>
         </div>
         <!-- <div class="up-ticket">
             <h2>Achievements</h2>

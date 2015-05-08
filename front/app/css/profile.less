@@ -82,3 +82,31 @@
         box-shadow:rgba(0, 0, 0, 0.2) 0px 2px 0px 0px;
     }
 }
+
+.up-club-image-container {
+    position: relative;
+    width: 30%;
+    display: inline-block;
+    
+    &:before{
+        content: "";
+        display: block;
+        padding-top: 100%;
+    }
+    
+    .up-club-image {
+        .cover;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        filter: grayscale(1);
+        transition: all 0.4s ease-in-out 0s;
+        
+        &:hover {
+            filter: grayscale(0);
+        }
+    }
+}
