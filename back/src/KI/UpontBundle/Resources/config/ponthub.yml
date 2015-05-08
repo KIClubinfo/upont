@@ -30,7 +30,7 @@ upont_api_ponthub_search:
         _method: POST
 
 upont_api_ponthub_statistics:
-    pattern: /statistics
+    pattern: /statistics/{slug}
     defaults: { _controller: KI\UpontBundle\Controller\Ponthub\PonthubController::statisticsAction }
     requirements:
         _method: GET

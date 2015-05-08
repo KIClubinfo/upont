@@ -19,6 +19,7 @@ class LoadOtherFixture extends AbstractFixture implements OrderedFixtureInterfac
         $other->setTags(array($this->getReference('tag-windaube'), $this->getReference('tag-merde'), $this->getReference('tag-daube')));
         $other->setStatus('OK');
         $manager->persist($other);
+        $this->addReference('other-windows-vista', $other);
 
         $manager->flush();
     }

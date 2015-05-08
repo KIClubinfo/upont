@@ -435,121 +435,6 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
 
     /**
      * @ApiDoc(
-     *  description="Recherche dans toute la base de données Ponthub",
-     *  parameters={
-     *   {
-     *    "name"="name",
-     *    "dataType"="string",
-     *    "required"=false,
-     *    "description"="Le critère de recherche de base"
-     *   },
-     *   {
-     *    "name"="type",
-     *    "dataType"="string",
-     *    "required"=false,
-     *    "description"="Le type de données à aller chercher"
-     *   },
-     *   {
-     *    "name"="genre",
-     *    "dataType"="string",
-     *    "required"=false,
-     *    "description"="Recherche par genre"
-     *   },
-     *   {
-     *    "name"="actor",
-     *    "dataType"="string",
-     *    "required"=false,
-     *    "description"="Recherche par acteur"
-     *   },
-     *   {
-     *    "name"="artist",
-     *    "dataType"="string",
-     *    "required"=false,
-     *    "description"="Recherche par groupe/réalisateur"
-     *   },
-     *   {
-     *    "name"="yearMin",
-     *    "dataType"="string",
-     *    "required"=false,
-     *    "description"="Recherche par année"
-     *   },
-     *   {
-     *    "name"="yearMax",
-     *    "dataType"="string",
-     *    "required"=false,
-     *    "description"="Recherche par année"
-     *   },
-     *   {
-     *    "name"="sizeMin",
-     *    "dataType"="string",
-     *    "required"=false,
-     *    "description"="Recherche par taille de fichier"
-     *   },
-     *   {
-     *    "name"="sizeMax",
-     *    "dataType"="string",
-     *    "required"=false,
-     *    "description"="Recherche par taille de fichier"
-     *   },
-     *   {
-     *    "name"="durationMin",
-     *    "dataType"="string",
-     *    "required"=false,
-     *    "description"="Recherche par durée de la vidéo"
-     *   },
-     *   {
-     *    "name"="durationMax",
-     *    "dataType"="string",
-     *    "required"=false,
-     *    "description"="Recherche par durée de la vidéo"
-     *   },
-     *  },
-     *  tags={
-     *    "TODO"
-     *  },
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  output="KI\UpontBundle\Entity\Ponthub\PonthubFile",
-     *  section="Ponthub"
-     * )
-     */
-    public function searchAction(Request $request)
-    {
-        /*if (!$this->get('security.context')->isGranted('ROLE_USER'))
-            throw new AccessDeniedException();
-        $params = $request->request;
-        $this->em = $this->get('doctrine')->getManager();
-        $connection = $this->em->getConnection();
-        $results = array();
-        $type = $params->has('type') ? $params->get('type') : '';
-
-        // On va chercher dans tous les repos les objets qui correspondent à la requête
-        $repoA = $this->em->getRepository('KIUpontBundle:Ponthub\Album');
-        $repoE = $this->em->getRepository('KIUpontBundle:Ponthub\Episode');
-        $repoG = $this->em->getRepository('KIUpontBundle:Ponthub\Game');
-        $repoMo = $this->em->getRepository('KIUpontBundle:Ponthub\Movie');
-        $repoMu = $this->em->getRepository('KIUpontBundle:Ponthub\Music');
-        $repoO = $this->em->getRepository('KIUpontBundle:Ponthub\Other');
-        $repoS = $this->em->getRepository('KIUpontBundle:Ponthub\Serie');
-
-        if ($type == '' || $type == 'movie') {
-            $qb = $this->em->createQueryBuilder();
-            $qb->select('m')
-               ->from('Movie', 'm')
-               ->where('u.id = ?1')
-               ->orderBy('u.name', 'ASC');
-        }*/
-        return new Response();
-    }
-
-    /**
-     * @ApiDoc(
      *  description="Retourne les statistiques d'utilisation de Ponthub",
      *  statusCodes={
      *   200="Requête traitée avec succès",
@@ -557,14 +442,97 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
      *   403="Pas les droits suffisants pour effectuer cette action",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  tags={
-     *    "TODO"
-     *  },
      *  section="Ponthub"
      * )
      */
-    public function statisticsAction()
+    public function statisticsAction($slug)
     {
-        return new Response();
+        $repo = $this->getDoctrine()->getManager()->getRepository('KIUpontBundle:Users\User');
+        $user = $repo->findOneByUsername($slug);
+
+        // On vérifie que la personne a le droit de consulter les stats
+        if ($user !== $this->container->get('security.context')->getToken()->getUser()
+            && ($user->getStatsPonthub() === false || $user->getStatsPonthub() === null)
+            && !$this->container->get('security.context')->isGranted('ROLE_ADMIN')) {
+            return $this->jsonResponse(array('error' => 'Impossible d\'afficher les statistiques PontHub'));
+        }
+
+        $repo = $this->getDoctrine()->getManager()->getRepository('KIUpontBundle:Ponthub\PonthubFileUser');
+        $downloads = $repo->findByUser($user);
+
+        $repartition = array();
+        $timeline = array();
+        $totalSize = 0;
+        $totalFiles = count($downloads);
+
+        //Préférences de DL
+        /*
+        $nbpersonnes = 1;
+        $requete = $this->_bdd->query('SELECT COUNT(*) AS total FROM dc_log GROUP BY id_eleve');
+        while($donnees = $requete->fetch())
+            $nbpersonnes = (int) $donnees['total'];
+        $requete->closeCursor();
+
+        $NbSpider = $valsok = array();
+        $vals = array('autre' => 0, 'episode' => 0, 'film' => 0, 'jeu' => 0, 'musique' => 0);
+        $avg = array(100, 100, 100, 100, 100);
+
+        $NbSpider[] = array('pointPlacement' => 'on', 'name' => 'Moyenne', 'data' => $avg);
+
+        $requete = $this->_bdd->prepare('SELECT type, COUNT(*) AS total FROM dc_log
+                                      LEFT JOIN dc_fichier ON dc_log.id_fichier = dc_fichier.id
+                                      WHERE nom <> "files.xml.bz2" AND id_eleve = :id_eleve
+                                      GROUP BY type ORDER BY type');
+        $requete->bindValue(':id_eleve', $eleve->id);
+        $requete->execute();
+        while($donnees = $requete->fetch())
+            $vals[$donnees['type']] = (int) $donnees['total']/($NbTypeAlt[$donnees['type']]/$nbpersonnes)*100;
+        $requete->closeCursor();
+
+        foreach($vals as $k => $v)
+            $valsok[] = $v;
+
+        $NbSpider[] = array('pointPlacement' => 'on', 'name' => 'Moi', 'data' => $valsok);
+
+
+
+
+
+
+
+        //Stack personnel en volume
+        $VolStack = array();
+        $vals = array('autre' => array('count' => 0, 'vals' => array()),
+                      'episode' => array('count' => 0, 'vals' => array()),
+                      'film' => array('count' => 0, 'vals' => array()),
+                      'jeu' => array('count' => 0, 'vals' => array()),
+                      'musique' => array('count' => 0, 'vals' => array()),);
+        $requete = $this->_bdd->prepare('SELECT type, taille, dc_log.date FROM dc_log
+                                        LEFT JOIN dc_fichier ON dc_log.id_fichier = dc_fichier.id
+                                        WHERE id_eleve = :id_eleve ORDER BY dc_log.date');
+        $requete->bindValue(':id_eleve', $eleve->id);
+        $requete->execute();
+        while($donnees = $requete->fetch()){
+            foreach($vals as $type => $value){
+                if($type == $donnees['type'])
+                    $vals[$donnees['type']]['count'] += $donnees['taille'];
+                $vals[$type]['vals'][strtotime($donnees['date'])] = $vals[$type]['count'];
+            }
+        }
+        $requete->closeCursor();
+
+        foreach($vals as $type => $v){
+            $vals[$type]['valsok'] = array();
+            foreach($v['vals'] as $time => $count){
+                $vals[$type]['valsok'][] = array($time, $count);
+            }
+            $VolStack[] = array('name' => $type, 'data' => $vals[$type]['valsok']);
+        }*/
+        return $this->jsonResponse(array(
+            'repartition' => $repartition,
+            'timeline' => $timeline,
+            'totalSize' => $totalSize,
+            'totalFiles' => $totalFiles
+        ));
     }
 }

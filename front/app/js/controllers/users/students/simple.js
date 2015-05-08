@@ -1,8 +1,10 @@
 angular.module('upont')
-    .controller('Students_Simple_Ctrl', ['$rootScope', '$scope', 'user', 'foyer', 'clubs', function($rootScope, $scope, user, foyer, clubs) {
+    .controller('Students_Simple_Ctrl', ['$rootScope', '$scope', 'user', 'foyer', 'ponthub', 'clubs', function($rootScope, $scope, user, foyer, ponthub, clubs) {
         $scope.user = user;
         $scope.foyer = foyer;
         $scope.displayFoyer = empty(foyer.error);
+        $scope.ponthub = ponthub;
+        $scope.displayPonthub = empty(ponthub.error);
         $scope.clubs = clubs;
 
         if (empty(foyer.error)) {
@@ -102,6 +104,42 @@ angular.module('upont')
                 series: [{ name: 'Volume ingéré', data: liters}]
             };
         }
+
+        if (empty(ponthub.error)) {
+            // Définition des graphes Highcharts
+            $scope.chartRepartition = {
+                chart: {
+                    renderTo: 'repartition',
+                    type: 'pyramid',
+                },
+                credits: {
+                    enabled: false,
+                },
+                exporting: {
+                    enabled: false,
+                },
+                title: {
+                    text: 'Répartition des téléchargements',
+                },
+                subtitle: {
+                    text: 'Adepte de séries ou gamer ?',
+                },
+                plotOptions: {
+                    series: {
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b> ({point.y:,.0f})',
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black',
+                            softConnector: true,
+                        }
+                    }
+                },
+                legend: {
+                    enabled: false,
+                },
+                series: [],
+            };
+        }
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
@@ -117,6 +155,11 @@ angular.module('upont')
                     }],
                     foyer: ['$resource', '$stateParams', function($resource, $stateParams) {
                         return $resource(apiPrefix + 'foyer/statistics/:slug').get({
+                            slug: $stateParams.slug
+                        }).$promise;
+                    }],
+                    ponthub: ['$resource', '$stateParams', function($resource, $stateParams) {
+                        return $resource(apiPrefix + 'statistics/:slug').get({
                             slug: $stateParams.slug
                         }).$promise;
                     }],
