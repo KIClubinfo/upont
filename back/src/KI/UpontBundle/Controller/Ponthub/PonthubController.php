@@ -451,7 +451,7 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
         $user = $repo->findOneByUsername($slug);
 
         // On vérifie que la personne a le droit de consulter les stats
-        if ($user !== $this->container->get('security.context')->getToken()->getUser()
+        if ($user !== $this->get('security.context')->getToken()->getUser()
             && ($user->getStatsPonthub() === false || $user->getStatsPonthub() === null)
             && !$this->container->get('security.context')->isGranted('ROLE_ADMIN')) {
             return $this->jsonResponse(array('error' => 'Impossible d\'afficher les statistiques PontHub'));
