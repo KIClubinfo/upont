@@ -14,13 +14,17 @@ angular.module('upont').directive('upUser', function() {
             $scope.clubs = [];
 
             $scope.hoverIn = function(){
-                $resource(apiPrefix + 'users/' + $scope.user.username + '/clubs').query(function(data) {
-                    $scope.clubs = data;
+                if (!$rootScope.hovering) {
+                    $rootScope.hovering = true;
+                    $resource(apiPrefix + 'users/' + $scope.user.username + '/clubs').query(function(data) {
+                        $scope.clubs = data;
 
-                    // On ferme tous les autres
-                    $rootScope.$broadcast('closeHover');
-                    $scope.hover = true;
-                });
+                        // On ferme tous les autres
+                        $rootScope.$broadcast('closeHover');
+                        $rootScope.hovering = false;
+                        $scope.hover = true;
+                    });
+                }
             };
 
             $scope.hoverOut = function(){
