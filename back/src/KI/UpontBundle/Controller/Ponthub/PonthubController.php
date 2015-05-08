@@ -435,117 +435,115 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
 
     /**
      * @ApiDoc(
-     *  description="Recherche dans toute la base de données Ponthub",
-     *  parameters={
-     *   {
-     *    "name"="name",
-     *    "dataType"="string",
-     *    "required"=false,
-     *    "description"="Le critère de recherche de base"
-     *   },
-     *   {
-     *    "name"="type",
-     *    "dataType"="string",
-     *    "required"=false,
-     *    "description"="Le type de données à aller chercher"
-     *   },
-     *   {
-     *    "name"="genre",
-     *    "dataType"="string",
-     *    "required"=false,
-     *    "description"="Recherche par genre"
-     *   },
-     *   {
-     *    "name"="actor",
-     *    "dataType"="string",
-     *    "required"=false,
-     *    "description"="Recherche par acteur"
-     *   },
-     *   {
-     *    "name"="artist",
-     *    "dataType"="string",
-     *    "required"=false,
-     *    "description"="Recherche par groupe/réalisateur"
-     *   },
-     *   {
-     *    "name"="yearMin",
-     *    "dataType"="string",
-     *    "required"=false,
-     *    "description"="Recherche par année"
-     *   },
-     *   {
-     *    "name"="yearMax",
-     *    "dataType"="string",
-     *    "required"=false,
-     *    "description"="Recherche par année"
-     *   },
-     *   {
-     *    "name"="sizeMin",
-     *    "dataType"="string",
-     *    "required"=false,
-     *    "description"="Recherche par taille de fichier"
-     *   },
-     *   {
-     *    "name"="sizeMax",
-     *    "dataType"="string",
-     *    "required"=false,
-     *    "description"="Recherche par taille de fichier"
-     *   },
-     *   {
-     *    "name"="durationMin",
-     *    "dataType"="string",
-     *    "required"=false,
-     *    "description"="Recherche par durée de la vidéo"
-     *   },
-     *   {
-     *    "name"="durationMax",
-     *    "dataType"="string",
-     *    "required"=false,
-     *    "description"="Recherche par durée de la vidéo"
-     *   },
-     *  },
-     *  tags={
-     *    "TODO"
-     *  },
+     *  description="Retourne les statistiques d'utilisation de Ponthub pour un utilisateur particulier",
      *  statusCodes={
      *   200="Requête traitée avec succès",
-     *   400="La syntaxe de la requête est erronée",
      *   401="Une authentification est nécessaire pour effectuer cette action",
      *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  output="KI\UpontBundle\Entity\Ponthub\PonthubFile",
      *  section="Ponthub"
      * )
      */
-    public function searchAction(Request $request)
+    public function statisticsAction($slug)
     {
-        /*if (!$this->get('security.context')->isGranted('ROLE_USER'))
-            throw new AccessDeniedException();
-        $params = $request->request;
-        $this->em = $this->get('doctrine')->getManager();
-        $connection = $this->em->getConnection();
-        $results = array();
-        $type = $params->has('type') ? $params->get('type') : '';
+        $repo = $this->getDoctrine()->getManager()->getRepository('KIUpontBundle:Users\User');
+        $user = $repo->findOneByUsername($slug);
 
-        // On va chercher dans tous les repos les objets qui correspondent à la requête
-        $repoA = $this->em->getRepository('KIUpontBundle:Ponthub\Album');
-        $repoE = $this->em->getRepository('KIUpontBundle:Ponthub\Episode');
-        $repoG = $this->em->getRepository('KIUpontBundle:Ponthub\Game');
-        $repoMo = $this->em->getRepository('KIUpontBundle:Ponthub\Movie');
-        $repoMu = $this->em->getRepository('KIUpontBundle:Ponthub\Music');
-        $repoO = $this->em->getRepository('KIUpontBundle:Ponthub\Other');
-        $repoS = $this->em->getRepository('KIUpontBundle:Ponthub\Serie');
+        // On vérifie que la personne a le droit de consulter les stats
+        if ($user !== $this->container->get('security.context')->getToken()->getUser()
+            && ($user->getStatsPonthub() === false || $user->getStatsPonthub() === null)
+            && !$this->container->get('security.context')->isGranted('ROLE_ADMIN')) {
+            return $this->jsonResponse(array('error' => 'Impossible d\'afficher les statistiques PontHub'));
+        }
 
-        if ($type == '' || $type == 'movie') {
-            $qb = $this->em->createQueryBuilder();
-            $qb->select('m')
-               ->from('Movie', 'm')
-               ->where('u.id = ?1')
-               ->orderBy('u.name', 'ASC');
-        }*/
-        return new Response();
+        $repo = $this->getDoctrine()->getManager()->getRepository('KIUpontBundle:Ponthub\PonthubFileUser');
+        $downloads = $repo->findBy(array('user' => $user), array('date' => 'ASC'));
+        $totalFiles = count($downloads);
+
+        if ($totalFiles == 0)
+            return $this->jsonResponse(array('repartition' => array(), 'timeline' => array(), 'totalSize' => 0, 'totalFiles' => 0, 'hipster' => 0));
+
+        // Initialisation des séries
+        $repartition = array(array('Films', 0), array('Épisodes', 0), array('Musiques', 0), array('Jeux', 0), array('Logiciels', 0), array('Autres', 0));
+        $date = 1000*($downloads[0]->getDate() - 10*3600);
+        $timeline = array(
+            array('name' => 'Films', 'data' => array(array($date, 0))),
+            array('name' => 'Épisodes', 'data' => array(array($date, 0))),
+            array('name' => 'Musiques', 'data' => array(array($date, 0))),
+            array('name' => 'Jeux', 'data' => array(array($date, 0))),
+            array('name' => 'Logiciels', 'data' => array(array($date, 0))),
+            array('name' => 'Autres', 'data' => array(array($date, 0)))
+        );
+        $totalSize = 0;
+        $hipster = 0;
+
+        // On complète les tableux au fur et à mesure
+        foreach ($downloads as $download) {
+            $file = $download->getFile();
+            // Conversion en millisecondes, unité javascript de base
+            $date = $download->getDate()*1000;
+
+            if ($file instanceof Movie) {
+                $repartition[0][1]++;
+                $this->updateSeries($timeline, $date, 0);
+            }
+            if ($file instanceof Episode) {
+                $repartition[1][1]++;
+                $this->updateSeries($timeline, $date, 1);
+            }
+            if ($file instanceof Music) {
+                $repartition[2][1]++;
+                $this->updateSeries($timeline, $date, 2);
+            }
+            if ($file instanceof Game) {
+                $repartition[3][1]++;
+                $this->updateSeries($timeline, $date, 3);
+            }
+            if ($file instanceof Software) {
+                $repartition[4][1]++;
+                $this->updateSeries($timeline, $date, 4);
+            }
+            if ($file instanceof Other) {
+                $repartition[5][1]++;
+                $this->updateSeries($timeline, $date, 5);
+            }
+            $totalSize += $file->getSize();
+
+            // Gain de points hipsteritude en fonction du nombre d'autres
+            // personnes qui ont téléchargé le fichier
+            $c = $file->downloads() - 1;
+            if ($c == 0)
+                $hipster += 20;
+            else if ($c < 2)
+                $hipster += 15;
+            else if ($c < 4)
+                $hipster += 10;
+            else if ($c < 9)
+                $hipster += 5;
+            else if ($c < 19)
+                $hipster += 3;
+            else
+                $hipster += 1;
+        }
+
+        return $this->jsonResponse(array(
+            'repartition' => $repartition,
+            'timeline' => $timeline,
+            'totalSize' => $totalSize,
+            'totalFiles' => $totalFiles,
+            'hipster' => (int) (10 * $hipster / $totalFiles)
+        ));
+    }
+
+    // Met à jour une série de données pour le graphe de téléchargements cumulés
+    private function updateSeries(&$series, $date, $id) {
+        foreach ($series as $key => &$value) {
+            if ($key != $id)
+                $value['data'][] = array($date, $value['data'][count($value['data'])-1][1]);
+            else
+                $value['data'][] = array($date, $value['data'][count($value['data'])-1][1] + 1);
+        }
     }
 
     /**
@@ -557,14 +555,12 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
      *   403="Pas les droits suffisants pour effectuer cette action",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  tags={
-     *    "TODO"
-     *  },
      *  section="Ponthub"
      * )
      */
-    public function statisticsAction()
+    public function statisticsMainAction()
     {
-        return new Response();
+        return $this->jsonResponse(array(
+        ));
     }
 }

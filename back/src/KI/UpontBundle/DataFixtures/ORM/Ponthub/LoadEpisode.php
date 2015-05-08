@@ -19,6 +19,7 @@ class LoadEpisodeFixture extends AbstractFixture implements OrderedFixtureInterf
         $episode->setSerie($this->getReference('serie-himym'));
         $episode->setStatus('OK');
         $manager->persist($episode);
+        $this->addReference('episode-pilot', $episode);
 
         $manager->flush();
     }

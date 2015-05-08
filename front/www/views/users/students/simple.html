@@ -32,15 +32,35 @@
         <div class="up-ticket" ng-show="displayFoyer">
             <h2>Stats Foyer</h2>
 
-            {{ user.first_name }} a ingéré un total de <strong>{{ foyer.litersDrunk }} litres</strong> de bière pour plus de <strong>{{ foyer.numberBeers }} consos</strong>...<br><br><br>
-            <div up-row wrap padded>
-                <up-chart up-col="100%" config="chartBeers"></up-chart>
-                <up-chart up-col="100%" config="chartLiters"></up-chart>
+            <div ng-show="foyer.numberBeers === 0">
+                Pas de consos à afficher. <strong>Vite, direction le Foyer !</strong>
+            </div>
+            <div ng-hide="foyer.numberBeers === 0">
+                {{ user.first_name }} a ingéré un total de <strong>{{ foyer.litersDrunk }} litres</strong> de bière pour plus de <strong>{{ foyer.numberBeers }} consos</strong>...<br>
+                <br>
+                <br>
+                <div up-row wrap padded>
+                    <up-chart up-col="100%" config="chartBeers"></up-chart>
+                    <up-chart up-col="100%" config="chartLiters"></up-chart>
+                </div>
             </div>
         </div>
         <div class="up-ticket" ng-if="user.stats_ponthub">
             <h2>Stats PontHub</h2>
-            À venir...
+
+            <div ng-show="ponthub.totalFiles === 0">
+                Pas de fichiers téléchargés pour l'instant. <a ui-sref="root.users.ponthub.list" title="PontHub"><strong>Vite, direction PontHub !</strong></a>
+            </div>
+            <div ng-hide="ponthub.totalFiles === 0">
+                {{ user.first_name }} a téléchargé <strong>{{ ponthub.totalFiles }} fichiers</strong> pour plus de <strong>{{ ponthub.totalSize | formatSize }}</strong> !<br>
+                <br>
+                <br>
+                <div up-row wrap padded>
+                    <up-chart up-col="50%" config="chartRepartition"></up-chart>
+                    <up-chart up-col="50%" config="chartHipster"></up-chart>
+                    <up-chart up-col="100%" config="chartTimeline"></up-chart>
+                </div>
+            </div>
         </div>
         <div class="up-ticket">
             <h2>Expériences</h2>

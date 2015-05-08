@@ -1,5 +1,5 @@
 // Permet d'injecter des dépendances à un controleur fourni par ng-controller
-angular.module('upont').directive('ngInject', function($parse, $interpolate, $controller, $compile) {
+angular.module('upont').directive('ngInject', ['$parse', '$interpolate', '$controller', '$compile', function($parse, $interpolate, $controller, $compile) {
     return {
         terminal: true,
         transclude: true,
@@ -27,4 +27,4 @@ angular.module('upont').directive('ngInject', function($parse, $interpolate, $co
         element.attr('ng-controller', controllerName);
         }
     };
-});
+}]);

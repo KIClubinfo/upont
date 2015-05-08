@@ -117,4 +117,29 @@ class SecurityTest extends WebTestCase
         $infos = json_decode($response->getContent(), true);
         $this->assertFalse(empty($infos['error']));
     }
+
+    public function testPonthubStats()
+    {
+        // On se présente comme un trouffion de base
+        $client = static::createClient();
+        $client->request('POST', $this->getUrl('login'), array('username' => 'muzardt', 'password' => 'password'));
+        $response = $client->getResponse();
+        $data = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('token', $data);
+        $client->setServerParameter('HTTP_Authorization', sprintf('%s %s', $this->authorizationHeaderPrefix, $data['token']));
+        $this->client = $client;
+
+        // On teste que n'importe qui ne puisse pas récupérer les statistiques perso
+        $this->client->request('GET', '/ponthub/statistics/muzardt');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 200);
+        $infos = json_decode($response->getContent(), true);
+        $this->assertTrue(empty($infos['error']));
+
+        $this->client->request('GET', '/ponthub/statistics/dziris');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 200);
+        $infos = json_decode($response->getContent(), true);
+        $this->assertFalse(empty($infos['error']));
+    }
 }

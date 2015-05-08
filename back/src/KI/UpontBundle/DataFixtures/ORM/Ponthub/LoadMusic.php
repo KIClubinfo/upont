@@ -26,6 +26,7 @@ class LoadMusicFixture extends AbstractFixture implements OrderedFixtureInterfac
         $music->setAlbum($this->getReference('album-back-in-black'));
         $music->setStatus('OK');
         $manager->persist($music);
+        $this->addReference('music-shoot-to-thrill', $music);
 
         $music = new Music();
         $music->setSize(8000000);
@@ -42,6 +43,7 @@ class LoadMusicFixture extends AbstractFixture implements OrderedFixtureInterfac
         $music->setAlbum($this->getReference('album-back-in-black'));
         $music->setStatus('OK');
         $manager->persist($music);
+        $this->addReference('music-giving-the-dog-a-bone', $music);
 
         $music = new Music();
         $music->setSize(8000000);
@@ -106,6 +108,7 @@ class LoadMusicFixture extends AbstractFixture implements OrderedFixtureInterfac
         $music->setAlbum($this->getReference('album-rock-or-bust'));
         $music->setStatus('OK');
         $manager->persist($music);
+        $this->addReference('music-play-ball', $music);
 
         $music = new Music();
         $music->setSize(8000000);
@@ -114,6 +117,7 @@ class LoadMusicFixture extends AbstractFixture implements OrderedFixtureInterfac
         $music->setAlbum($this->getReference('album-black-album'));
         $music->setStatus('OK');
         $manager->persist($music);
+        $this->addReference('music-enter-sandman', $music);
 
         $music = new Music();
         $music->setSize(8000000);

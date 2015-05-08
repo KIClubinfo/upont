@@ -20,6 +20,7 @@ class LoadGameFixture extends AbstractFixture implements OrderedFixtureInterface
         $game->setStatus('OK');
         $game->setImage($this->getReference('image-game-age-of-empires-2'));
         $manager->persist($game);
+        $this->addReference('game-age-of-empires-2', $game);
 
         $manager->flush();
     }
