@@ -462,7 +462,7 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
         $totalFiles = count($downloads);
 
         if ($totalFiles == 0)
-            return $this->jsonResponse(array('repartition' => array(), 'timeline' => array(), 'totalSize' => 0, 'totalFiles' => 0));
+            return $this->jsonResponse(array('repartition' => array(), 'timeline' => array(), 'totalSize' => 0, 'totalFiles' => 0, 'hipster' => 0));
 
         // Initialisation des séries
         $repartition = array(array('Films', 0), array('Épisodes', 0), array('Musiques', 0), array('Jeux', 0), array('Logiciels', 0), array('Autres', 0));
@@ -476,6 +476,7 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
             array('name' => 'Autres', 'data' => array(array($date, 0)))
         );
         $totalSize = 0;
+        $hipster = 0;
 
         // On complète les tableux au fur et à mesure
         foreach ($downloads as $download) {
@@ -508,13 +509,30 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
                 $this->updateSeries($timeline, $date, 5);
             }
             $totalSize += $file->getSize();
+
+            // Gain de points hipsteritude en fonction du nombre d'autres
+            // personnes qui ont téléchargé le fichier
+            $c = $file->downloads() - 1;
+            if ($c == 0)
+                $hipster += 20;
+            else if ($c < 2)
+                $hipster += 15;
+            else if ($c < 4)
+                $hipster += 10;
+            else if ($c < 9)
+                $hipster += 5;
+            else if ($c < 19)
+                $hipster += 3;
+            else
+                $hipster += 1;
         }
 
         return $this->jsonResponse(array(
             'repartition' => $repartition,
             'timeline' => $timeline,
             'totalSize' => $totalSize,
-            'totalFiles' => $totalFiles
+            'totalFiles' => $totalFiles,
+            'hipster' => (int) (10 * $hipster / $totalFiles)
         ));
     }
 
