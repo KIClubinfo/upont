@@ -58,27 +58,64 @@
     }
 }
 
-.up-user-image-container {
+// Pour faire des images aux ratios que l'on veut
+.up-image-container {
     position: relative;
-    margin: 0 0 0.5em;
-    width: 100%;
     
     &:before{
         content: "";
         display: block;
         padding-top: 100%;
     }
+}
+
+.up-image {
+    .cover;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+// Page de profil simple
+.up-user-image-container {
+    .up-image-container;
+    margin: 0 0 0.5em;
+    width: 100%;
     
     .up-user-image {
-        .cover;
-        overflow: hidden;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
+        .up-image;
         border: 1px solid white;
         border-radius: 50%;
         box-shadow:rgba(0, 0, 0, 0.2) 0px 2px 0px 0px;
+    }
+}
+
+// utilisateur au hover
+.up-user-hover-container {
+    display: inline-block;
+    .up-user-hover {
+        .up-ticket;
+        position: absolute;
+        width: 400px;
+        display: inline;    
+        .up-image-container {
+            .up-image-container;
+            width: 30%;
+            
+            .up-image {
+                .up-image;
+                border-radius: 5px;
+            }
+        }
+        .up-details {
+            padding-left: 10px;
+            
+            .fa {
+                .fa-block;
+            }
+        }
     }
 }
