@@ -137,7 +137,7 @@ angular.module('upont')
                 legend: {
                     enabled: false,
                 },
-                series: [],
+                series: ponthub.repartition,
             };
         }
     }])

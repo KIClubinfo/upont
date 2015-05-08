@@ -20,6 +20,7 @@ class LoadSoftwareFixture extends AbstractFixture implements OrderedFixtureInter
         $software->setStatus('OK');
         $software->setImage($this->getReference('image-software-vista'));
         $manager->persist($software);
+        $this->addReference('software-windows', $software);
 
         $manager->flush();
     }

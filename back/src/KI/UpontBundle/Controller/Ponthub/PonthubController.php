@@ -435,7 +435,7 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
 
     /**
      * @ApiDoc(
-     *  description="Retourne les statistiques d'utilisation de Ponthub",
+     *  description="Retourne les statistiques d'utilisation de Ponthub pour un utilisateur particulier",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -460,46 +460,19 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
         $repo = $this->getDoctrine()->getManager()->getRepository('KIUpontBundle:Ponthub\PonthubFileUser');
         $downloads = $repo->findByUser($user);
 
-        $repartition = array();
+        $repartition = array('Films' => 0, 'Épisodes de séries' => 0, 'Musiques' => 0, 'Jeux' => 0, 'Logiciels' => 0, 'Autres' => 0);
         $timeline = array();
         $totalSize = 0;
         $totalFiles = count($downloads);
 
-        //Préférences de DL
-        /*
-        $nbpersonnes = 1;
-        $requete = $this->_bdd->query('SELECT COUNT(*) AS total FROM dc_log GROUP BY id_eleve');
-        while($donnees = $requete->fetch())
-            $nbpersonnes = (int) $donnees['total'];
-        $requete->closeCursor();
+        foreach ($downloads as $download) {
+            $file = $download->getFile();
 
-        $NbSpider = $valsok = array();
-        $vals = array('autre' => 0, 'episode' => 0, 'film' => 0, 'jeu' => 0, 'musique' => 0);
-        $avg = array(100, 100, 100, 100, 100);
-
-        $NbSpider[] = array('pointPlacement' => 'on', 'name' => 'Moyenne', 'data' => $avg);
-
-        $requete = $this->_bdd->prepare('SELECT type, COUNT(*) AS total FROM dc_log
-                                      LEFT JOIN dc_fichier ON dc_log.id_fichier = dc_fichier.id
-                                      WHERE nom <> "files.xml.bz2" AND id_eleve = :id_eleve
-                                      GROUP BY type ORDER BY type');
-        $requete->bindValue(':id_eleve', $eleve->id);
-        $requete->execute();
-        while($donnees = $requete->fetch())
-            $vals[$donnees['type']] = (int) $donnees['total']/($NbTypeAlt[$donnees['type']]/$nbpersonnes)*100;
-        $requete->closeCursor();
-
-        foreach($vals as $k => $v)
-            $valsok[] = $v;
-
-        $NbSpider[] = array('pointPlacement' => 'on', 'name' => 'Moi', 'data' => $valsok);
-
-
-
-
-
-
-
+            if ($file instanceof Movie)
+                $repartition['Films']++;
+            $totalSize += $file->getSize();
+        }
+/*
         //Stack personnel en volume
         $VolStack = array();
         $vals = array('autre' => array('count' => 0, 'vals' => array()),
@@ -533,6 +506,24 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
             'timeline' => $timeline,
             'totalSize' => $totalSize,
             'totalFiles' => $totalFiles
+        ));
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Retourne les statistiques d'utilisation de Ponthub",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Ponthub"
+     * )
+     */
+    public function statisticsMainAction()
+    {
+        return $this->jsonResponse(array(
         ));
     }
 }

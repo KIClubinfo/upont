@@ -130,13 +130,13 @@ class SecurityTest extends WebTestCase
         $this->client = $client;
 
         // On teste que n'importe qui ne puisse pas récupérer les statistiques perso
-        $this->client->request('GET', '/statistics/muzardt');
+        $this->client->request('GET', '/ponthub/statistics/muzardt');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
         $infos = json_decode($response->getContent(), true);
         $this->assertTrue(empty($infos['error']));
 
-        $this->client->request('GET', '/statistics/dziris');
+        $this->client->request('GET', '/ponthub/statistics/dziris');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
         $infos = json_decode($response->getContent(), true);
