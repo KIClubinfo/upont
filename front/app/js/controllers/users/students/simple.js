@@ -137,7 +137,58 @@ angular.module('upont')
                 legend: {
                     enabled: false,
                 },
-                series: ponthub.repartition,
+                series: [{name: 'Téléchargements', data: ponthub.repartition}],
+            };
+
+            $scope.chartTimeline = {
+                chart: {
+                    renderTo: 'timeline',
+                    type: 'area',
+                    zoomType: 'xy',
+                },
+                credits: {
+                    enabled: false,
+                },
+                exporting: {
+                    enabled: false,
+                },
+                title: {
+                    text: 'Téléchargements cumulés'
+                },
+                subtitle: {
+                    text: '= niveau d\'oisiveté',
+                },
+                xAxis: {
+                    type: 'datetime',
+                    dateTimeLabelFormats: {
+                        month: '%b %e',
+                        year: '%b'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Téléchargements'
+                    },
+                },
+                tooltip: {
+                    enabled: false,
+                },
+                plotOptions: {
+                    area: {
+                        stacking: 'normal',
+                        lineColor: '#666666',
+                        lineWidth: 1,
+                        marker: {
+                            lineWidth: 1,
+                            lineColor: '#666666'
+                        }
+                    }
+                },
+                tooltip: {
+                    shared: true,
+                    valueSuffix: ' téléchargements'
+                },
+                series: ponthub.timeline,
             };
         }
     }])
@@ -159,7 +210,7 @@ angular.module('upont')
                         }).$promise;
                     }],
                     ponthub: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(apiPrefix + 'statistics/:slug').get({
+                        return $resource(apiPrefix + 'ponthub/statistics/:slug').get({
                             slug: $stateParams.slug
                         }).$promise;
                     }],

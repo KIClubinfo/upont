@@ -44,7 +44,7 @@ class LoadPonthubFileUserFixture extends AbstractFixture implements OrderedFixtu
         $ponthubFileUser = new PonthubFileUser();
         $ponthubFileUser->setFile($this->getReference('other-windows-vista'));
         $ponthubFileUser->setUser($this->getReference('user-trancara'));
-        $ponthubFileUser->setDate(time() - 456*3600);
+        $ponthubFileUser->setDate(time() - 455*3600);
         $manager->persist($ponthubFileUser);
 
         $ponthubFileUser = new PonthubFileUser();
@@ -62,7 +62,7 @@ class LoadPonthubFileUserFixture extends AbstractFixture implements OrderedFixtu
         $ponthubFileUser = new PonthubFileUser();
         $ponthubFileUser->setFile($this->getReference('music-play-ball'));
         $ponthubFileUser->setUser($this->getReference('user-trancara'));
-        $ponthubFileUser->setDate(time() - 457*3600);
+        $ponthubFileUser->setDate(time() - 458*3600);
         $manager->persist($ponthubFileUser);
 
         $ponthubFileUser = new PonthubFileUser();

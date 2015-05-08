@@ -458,55 +458,74 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
         }
 
         $repo = $this->getDoctrine()->getManager()->getRepository('KIUpontBundle:Ponthub\PonthubFileUser');
-        $downloads = $repo->findByUser($user);
-
-        $repartition = array('Films' => 0, 'Épisodes de séries' => 0, 'Musiques' => 0, 'Jeux' => 0, 'Logiciels' => 0, 'Autres' => 0);
-        $timeline = array();
-        $totalSize = 0;
+        $downloads = $repo->findBy(array('user' => $user), array('date' => 'ASC'));
         $totalFiles = count($downloads);
 
+        if ($totalFiles == 0)
+            return $this->jsonResponse(array('repartition' => array(), 'timeline' => array(), 'totalSize' => 0, 'totalFiles' => 0));
+
+        // Initialisation des séries
+        $repartition = array(array('Films', 0), array('Épisodes', 0), array('Musiques', 0), array('Jeux', 0), array('Logiciels', 0), array('Autres', 0));
+        $date = 1000*($downloads[0]->getDate() - 10*3600);
+        $timeline = array(
+            array('name' => 'Films', 'data' => array(array($date, 0))),
+            array('name' => 'Épisodes', 'data' => array(array($date, 0))),
+            array('name' => 'Musiques', 'data' => array(array($date, 0))),
+            array('name' => 'Jeux', 'data' => array(array($date, 0))),
+            array('name' => 'Logiciels', 'data' => array(array($date, 0))),
+            array('name' => 'Autres', 'data' => array(array($date, 0)))
+        );
+        $totalSize = 0;
+
+        // On complète les tableux au fur et à mesure
         foreach ($downloads as $download) {
             $file = $download->getFile();
+            // Conversion en millisecondes, unité javascript de base
+            $date = $download->getDate()*1000;
 
-            if ($file instanceof Movie)
-                $repartition['Films']++;
+            if ($file instanceof Movie) {
+                $repartition[0][1]++;
+                $this->updateSeries($timeline, $date, 0);
+            }
+            if ($file instanceof Episode) {
+                $repartition[1][1]++;
+                $this->updateSeries($timeline, $date, 1);
+            }
+            if ($file instanceof Music) {
+                $repartition[2][1]++;
+                $this->updateSeries($timeline, $date, 2);
+            }
+            if ($file instanceof Game) {
+                $repartition[3][1]++;
+                $this->updateSeries($timeline, $date, 3);
+            }
+            if ($file instanceof Software) {
+                $repartition[4][1]++;
+                $this->updateSeries($timeline, $date, 4);
+            }
+            if ($file instanceof Other) {
+                $repartition[5][1]++;
+                $this->updateSeries($timeline, $date, 5);
+            }
             $totalSize += $file->getSize();
         }
-/*
-        //Stack personnel en volume
-        $VolStack = array();
-        $vals = array('autre' => array('count' => 0, 'vals' => array()),
-                      'episode' => array('count' => 0, 'vals' => array()),
-                      'film' => array('count' => 0, 'vals' => array()),
-                      'jeu' => array('count' => 0, 'vals' => array()),
-                      'musique' => array('count' => 0, 'vals' => array()),);
-        $requete = $this->_bdd->prepare('SELECT type, taille, dc_log.date FROM dc_log
-                                        LEFT JOIN dc_fichier ON dc_log.id_fichier = dc_fichier.id
-                                        WHERE id_eleve = :id_eleve ORDER BY dc_log.date');
-        $requete->bindValue(':id_eleve', $eleve->id);
-        $requete->execute();
-        while($donnees = $requete->fetch()){
-            foreach($vals as $type => $value){
-                if($type == $donnees['type'])
-                    $vals[$donnees['type']]['count'] += $donnees['taille'];
-                $vals[$type]['vals'][strtotime($donnees['date'])] = $vals[$type]['count'];
-            }
-        }
-        $requete->closeCursor();
 
-        foreach($vals as $type => $v){
-            $vals[$type]['valsok'] = array();
-            foreach($v['vals'] as $time => $count){
-                $vals[$type]['valsok'][] = array($time, $count);
-            }
-            $VolStack[] = array('name' => $type, 'data' => $vals[$type]['valsok']);
-        }*/
         return $this->jsonResponse(array(
             'repartition' => $repartition,
             'timeline' => $timeline,
             'totalSize' => $totalSize,
             'totalFiles' => $totalFiles
         ));
+    }
+
+    // Met à jour une série de données pour le graphe de téléchargements cumulés
+    private function updateSeries(&$series, $date, $id) {
+        foreach ($series as $key => &$value) {
+            if ($key != $id)
+                $value['data'][] = array($date, $value['data'][count($value['data'])-1][1]);
+            else
+                $value['data'][] = array($date, $value['data'][count($value['data'])-1][1] + 1);
+        }
     }
 
     /**
