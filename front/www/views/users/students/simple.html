@@ -24,7 +24,7 @@
             <div up-col-xs="100%" up-col-sm="50%" up-col-md="50%" up-col="100%" class="up-ticket">
                 <h2>Clubs et assos</h2>
 
-                <div up-row wrap center space-around>
+                <div up-row wrap center>
                     <div ng-repeat="membership in clubs" class="up-club-image-container" up-col="33%"
                          ui-sref="root.users.assos.simple.publications({slug: membership.club.slug})" title="{{ membership.club.name }} - {{ membership.role }}">
                         <div class="up-club-image" ng-style="{'background-image': 'url({{ membership.club.image_url | urlFile }})' }"></div>

@@ -56,9 +56,9 @@ class OwnControllerTest extends WebTestCase
         $this->assertJsonResponse($response, 200);
     }
 
-    public function testGetPolls()
+    public function testGetFixes()
     {
-        $this->client->request('GET', '/own/polls');
+        $this->client->request('GET', '/own/fixes');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
     }
