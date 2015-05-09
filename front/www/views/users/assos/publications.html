@@ -7,13 +7,13 @@
             <table class="up-table" up-col="90%">
                 <thead>
                     <tr>
-                        <th>Promo</th>
-                        <th>Élève</th>
-                        <th>Rôle</th>
+                        <th><a ng-click="predicate = 'user.promo'; reverse=!reverse">Promo</a></th>
+                        <th><a ng-click="predicate = 'user.first_name+user.last_name'; reverse=!reverse">Élève</a></th>
+                        <th><a ng-click="predicate = 'role'; reverse=!reverse">Rôle</a></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="member in filtered =  (members | promoFilter: promo | orderBy:['user.nick'])">
+                    <tr ng-repeat="member in filtered =  (members | promoFilter: promo | orderBy:predicate:reverse)">
                         <td>{{ member.user.promo }}</td>
                         <td>{{ member.user.first_name }} {{ member.user.last_name }}</td>
                         <td>{{ member.role }}</td>

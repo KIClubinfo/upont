@@ -254,4 +254,7 @@ angular.module('upont')
         $rootScope.$on('$stateNotFound', function(event, toState, toParams, fromState, fromParams) {
             $state.go('root.404');
         });
+
+        // Easter egg
+        $rootScope.surprise = (Math.random()*1000 == 314);
     }]);

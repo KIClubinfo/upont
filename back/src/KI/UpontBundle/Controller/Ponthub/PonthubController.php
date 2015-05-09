@@ -527,6 +527,9 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
                 $hipster += 1;
         }
 
+        // Dans le chart stacké, on met la date actuelle comme point de fin
+        $this->updateSeries($timeline, time()*1000, -1);
+
         return $this->jsonResponse(array(
             'repartition' => $repartition,
             'timeline' => $timeline,
