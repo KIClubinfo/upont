@@ -15,14 +15,7 @@
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
                 <select ng-model="me.promo">
-                    <option>011</option>
-                    <option>012</option>
-                    <option>013</option>
-                    <option>014</option>
-                    <option>015</option>
-                    <option>016</option>
-                    <option>017</option>
-                    <option>018</option>
+                    <option ng-repeat="item in $root.promos">{{ item }}</option>
                 </select>
             </div>
 
@@ -43,34 +36,7 @@
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
                 <select ng-model="me.nationality">
-                    <option>France</option>
-                    <option>Algérie</option>
-                    <option>Allemagne</option>
-                    <option>Argentine</option>
-                    <option>Australie</option>
-                    <option>Brésil</option>
-                    <option>Bulgarie</option>
-                    <option>Cambodge</option>
-                    <option>Canada</option>
-                    <option>Chine</option>
-                    <option>Espagne</option>
-                    <option>États-Unis</option>
-                    <option>Grèce</option>
-                    <option>Italie</option>
-                    <option>Japon</option>
-                    <option>Liban</option>
-                    <option>Luxembourg</option>
-                    <option>Malaisie</option>
-                    <option>Maroc</option>
-                    <option>Pologne</option>
-                    <option>République Tchèque</option>
-                    <option>Roumanie</option>
-                    <option>Russe</option>
-                    <option>Slovaque</option>
-                    <option>Suède</option>
-                    <option>Tunisie</option>
-                    <option>Viêt Nam</option>
-                    <option>Autre</option>
+                    <option ng-repeat="item in $root.countries">{{ item }}</option>
                 </select>
             </div>
 
@@ -95,14 +61,7 @@
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
                 <select ng-model="me.department">
-                    <option>1A</option>
-                    <option>GCC</option>
-                    <option>GCC-Archi</option>
-                    <option>GMM</option>
-                    <option>GI</option>
-                    <option>IMI</option>
-                    <option>SEGF</option>
-                    <option>VET</option>
+                    <option ng-repeat="item in $root.departments">{{ item }}</option>
                 </select>
             </div>
 
@@ -112,16 +71,7 @@
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
                 <select ng-model="me.origin">
-                    <option>Concours Commun</option>
-                    <option>AST</option>
-                    <option>Double Diplôme</option>
-                    <option>FCI Civil</option>
-                    <option>Ingénieur Élève</option>
-                    <option>ENSAVT</option>
-                    <option>Master</option>
-                    <option>Stagiaire</option>
-                    <option>AUE</option>
-                    <option>Autre</option>
+                    <option ng-repeat="item in $root.origins">{{ item }}</option>
                 </select>
             </div>
 

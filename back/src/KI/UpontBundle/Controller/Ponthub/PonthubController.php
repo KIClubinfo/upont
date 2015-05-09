@@ -319,7 +319,6 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
      *    "description"="Le nom de l'artiste peut être spécifié pour maximiser la pertinence"
      *   }
      *  },
-     *  output="KI\UpontBundle\Entity\Dummy\GracenoteResponse",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   400="La syntaxe de la requête est erronée",
@@ -360,7 +359,6 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
      *    "description"="Le critère de recherche"
      *   }
      *  },
-     *  output="KI\UpontBundle\Entity\Dummy\ImdbSearchResponse",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   400="La syntaxe de la requête est erronée",
@@ -399,7 +397,6 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
      *    "description"="L'identifiant de la ressource Imdb"
      *   }
      *  },
-     *  output="KI\UpontBundle\Entity\Dummy\ImdbInfosResponse",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   400="La syntaxe de la requête est erronée",

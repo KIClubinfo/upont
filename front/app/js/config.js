@@ -84,9 +84,9 @@ angular.module('upont')
                     '':{
                         template: '<div class="up-main-view" ui-view up-fill-window></div>'
                     },
-                    topbar: {
-                        templateUrl: 'views/public/top-bar.html'
-                    },
+                    //topbar: {
+                    //    templateUrl: 'views/public/top-bar.html'
+                    //},
                     aside: {
                         templateUrl: 'views/users/aside.html',
                         controller: 'Search_Ctrl'
@@ -99,7 +99,7 @@ angular.module('upont')
                 template: '<div ui-view></div>'
             });
     }])
-    .run(['$rootScope', 'StorageService', '$state', '$interval',  'jwtHelper', '$resource', '$location', 'Migration', function($rootScope, StorageService, $state, $interval, jwtHelper, $resource, $location, Migration) {
+    .run(['$rootScope', 'StorageService', '$state', '$interval',  'jwtHelper', '$resource', '$location', 'Migration', '$window', function($rootScope, StorageService, $state, $interval, jwtHelper, $resource, $location, Migration, $window) {
         // Data à charger au lancement
         $rootScope.selfClubs = [];
 
@@ -196,7 +196,11 @@ angular.module('upont')
 
         // Diverses variables globales
         $rootScope.url = location.origin + apiPrefix;
-        $rootScope.promos = ['014', '015', '016', '017'];
+        $rootScope.promos = $window.promos;
+        $rootScope.departments = $window.departments;
+        $rootScope.origins = $window.origins;
+        $rootScope.countries = $window.countries;
+
         $rootScope.searchCategory = 'Assos';
 
         // Récupération du thème s'il est déjà set
