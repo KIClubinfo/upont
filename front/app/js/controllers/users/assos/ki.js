@@ -1,7 +1,23 @@
 angular.module('upont')
-    .controller('KI_Ctrl', ['$scope', '$resource', '$http', 'fixes', 'ownFixes', 'Paginate', function($scope, $resource, $http, fixes, ownFixes, Paginate) {
+    .controller('KI_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'fixes', 'ownFixes', 'members', 'Paginate', function($scope, $rootScope, $resource, $http, fixes, ownFixes, members, Paginate) {
         $scope.fixes = fixes;
         $scope.ownFixes = ownFixes;
+        $scope.isFromKI = false;
+
+        for (var key in members) {
+            if (members[key].user !== undefined && members[key].user.username == $rootScope.me.username) {
+                $scope.isFromKI = true;
+            }
+        }
+
+        $scope.reload = function() {
+            Paginate.first($scope.ownFixes).then(function(data){
+                $scope.ownFixes = data;
+            });
+            Paginate.first($scope.fixes).then(function(data){
+                $scope.fixes = data;
+            });
+        }
 
         $scope.post = function(msg, isFix) {
             var params  = {
@@ -14,34 +30,31 @@ angular.module('upont')
                 $scope.fix = '';
                 $scope.msg = '';
                 alertify.success('Demande correctement envoyée !');
-
-                Paginate.first($scope.ownFixes).then(function(data){
-                    $scope.ownFixes = data;
-                });
-                Paginate.first($scope.fixes).then(function(data){
-                    $scope.fixes = data;
-                });
+                $scope.reload();
             });
         };
 
-        $scope.changeStatus = function(slug, status) {
+        $scope.changeStatus = function(fix) {
             var params = {
-                status: status
+                status: fix.status
             };
 
-            if (status == 'Résolu') {
+            if (fix.status == 'Résolu') {
                 params.solved = moment().unix();
             }
 
-            $http.patch(apiPrefix + 'fixes/' + slug, params).success(function(data){
-                alertify.success('Merci de nous aider à améliorer uPont :-)');
+            $http.patch(apiPrefix + 'fixes/' + fix.slug, params).success(function(data){
+                $scope.reload();
+            });
+        };
 
-                Paginate.first($scope.ownFixes).then(function(data){
-                    $scope.ownFixes = data;
-                });
-                Paginate.first($scope.fixes).then(function(data){
-                    $scope.fixes = data;
-                });
+        $scope.delete = function(fix) {
+            alertify.confirm('Veux-tu vraiment faire ça ?', function(e) {
+                if (e) {
+                    $http.delete(apiPrefix + 'fixes/' + fix.slug).success(function(data){
+                        $scope.reload();
+                    });
+                }
             });
         };
     }])
@@ -61,6 +74,9 @@ angular.module('upont')
                     }],
                     ownFixes: ['Paginate', function(Paginate) {
                         return Paginate.get('own/fixes', 20);
+                    }],
+                    members: ['$resource', function($resource) {
+                        return $resource(apiPrefix + 'clubs/ki/users').query().$promise;
                     }]
                 }
             });
