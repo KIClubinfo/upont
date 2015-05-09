@@ -1,6 +1,7 @@
 angular.module('upont')
-    .controller('Assos_List_Ctrl', ['$scope', 'clubs', function($scope, clubs) {
+    .controller('Assos_List_Ctrl', ['$rootScope', '$scope', 'clubs', function($rootScope, $scope, clubs) {
         $scope.clubs = clubs;
+        $rootScope.displayTabs = true;
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider

@@ -200,6 +200,7 @@ angular.module('upont')
         $rootScope.departments = $window.departments;
         $rootScope.origins = $window.origins;
         $rootScope.countries = $window.countries;
+        $rootScope.displayTabs = true;
 
         $rootScope.searchCategory = 'Assos';
 

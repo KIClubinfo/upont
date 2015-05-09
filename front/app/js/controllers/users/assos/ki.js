@@ -4,6 +4,7 @@ angular.module('upont')
         $scope.fixes = fixes;
         $scope.ownFixes = ownFixes;
         $scope.isFromKI = false;
+        $rootScope.displayTabs = true;
 
         for (var key in members) {
             if (members[key].user !== undefined && members[key].user.username == $rootScope.me.username) {

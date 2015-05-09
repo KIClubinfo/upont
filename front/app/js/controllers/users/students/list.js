@@ -16,7 +16,7 @@ angular.module('upont')
         };
 
         $scope.reload = function(criterias) {
-            var url = 'users?sort=-promo,department,firstName,lastName';
+            var url = 'users?sort=-promo,firstName,lastName';
 
             if (criterias.promo != 'all')
                 url += '&promo=' + criterias.promo;
@@ -50,7 +50,7 @@ angular.module('upont')
                 controller: 'Students_List_Ctrl',
                 resolve: {
                     users: ['Paginate', function(Paginate) {
-                        return Paginate.get('users?sort=-promo,department,firstName,lastName', 20);
+                        return Paginate.get('users?sort=-promo,firstName,lastName', 20);
                     }]
                 },
                 data: {
