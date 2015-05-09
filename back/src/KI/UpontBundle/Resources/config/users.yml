@@ -14,6 +14,10 @@ promo:
     type:     rest
     resource: KI\UpontBundle\Controller\Users\PromoController
 
+groups:
+    type:     rest
+    resource: KI\UpontBundle\Controller\Users\GroupsController
+
 experiences:
     type:     rest
     resource: KI\UpontBundle\Controller\Users\ExperiencesController

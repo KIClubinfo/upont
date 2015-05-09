@@ -52,7 +52,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
 
     /**
      * Groupes de permissions FOSUserBundle
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\Group")
+     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\Group", inversedBy="users")
      * @ORM\JoinTable(name="fos_user_user_group",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
@@ -217,6 +217,31 @@ class CoreUser extends \FOS\UserBundle\Model\User
         $this->nickname = $nickname;
 
         return $this;
+    }
+
+    /**
+     * Add group
+     *
+     * @param \KI\UpontBundle\Entity\Users\User $group
+     * @return Comment
+     */
+    public function addGroupUser(\KI\UpontBundle\Entity\Users\Group $group)
+    {
+        $this->addGroup($group);
+        $group->addUser($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove group
+     *
+     * @param \KI\UpontBundle\Entity\Users\User $group
+     */
+    public function removeGroupUser(\KI\UpontBundle\Entity\Users\Group $group)
+    {
+        $this->removeGroup($group);
+        $group->removeUser($this);
     }
 
     /**
