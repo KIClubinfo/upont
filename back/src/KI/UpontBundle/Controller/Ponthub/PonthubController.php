@@ -451,7 +451,7 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
         $user = $repo->findOneByUsername($slug);
 
         // On vérifie que la personne a le droit de consulter les stats
-        if ($user !== $this->container->get('security.context')->getToken()->getUser()
+        if ($user !== $this->get('security.context')->getToken()->getUser()
             && ($user->getStatsPonthub() === false || $user->getStatsPonthub() === null)
             && !$this->container->get('security.context')->isGranted('ROLE_ADMIN')) {
             return $this->jsonResponse(array('error' => 'Impossible d\'afficher les statistiques PontHub'));
@@ -526,6 +526,9 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
             else
                 $hipster += 1;
         }
+
+        // Dans le chart stacké, on met la date actuelle comme point de fin
+        $this->updateSeries($timeline, time()*1000, -1);
 
         return $this->jsonResponse(array(
             'repartition' => $repartition,
