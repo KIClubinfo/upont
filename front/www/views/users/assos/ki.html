@@ -1,0 +1,38 @@
+<div up-row wrap padded>
+    <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%">
+        <div class="up-ticket">
+            <h2>Contacte le KI !</h1>
+
+            Un problème ? Ton ordi plante ? Tu n'as plus Internet chez toi ? Une horde de zombies t'attaque ? Le KI essayera de résoudre au mieux tes problèmes.<br>
+            <br>
+            <form class="publish-container" ng-submit="post(fix, true)" up-row wrap right autocomplete="off">
+                <textarea ng-model="fix" placeholder="Une explication la plus détaillée possible du problème." msd-elastic></textarea>
+                <div up-col-xs="100%" up-col-sm="100%" up-col-md="33%" up-col="33%"><button up-col="100%" class="up-btn up-btn-default">Envoyer !</button></div>
+            </form>
+        </div>
+
+        <div ng-include="'views/users/assos/fix.html'" ng-repeat="fix in ownFixes.data | filter:{fix:true}"></div>
+
+        <div ng-if="$root.isAdmin" class="up-ticket">
+            <h2>Problèmes en attente</h2>
+
+            Tu vois ces demandes par ce que tu es membre du KI... à toi de les résoudre au mieux !
+        </div>
+
+        <div ng-include="'views/users/assos/fix.html'" ng-repeat="fix in fixes.data | filter:{fix:true}"></div>
+    </div>
+    <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%">
+        <div class="up-ticket">
+            <h2>Feedback uPont</h2>
+
+            Si tu as des fonctionnalités à suggérer ou des bugs à rapporter, c'est ici !<br>
+            <br><br>
+            <form class="publish-container" ng-submit="post(msg, false)" up-row wrap right autocomplete="off">
+                <textarea ng-model="msg" placeholder="Ce qui te passe par la tête... ce que tu aimes, ce que tu n'aimes pas, un bug..." msd-elastic></textarea>
+                <div up-col-xs="100%" up-col-sm="100%" up-col-md="33%" up-col="33%"><button up-col="100%" class="up-btn up-btn-default">Envoyer !</button></div>
+            </form>
+        </div>
+
+        <div ng-include="'views/users/assos/fix.html'" ng-repeat="fix in fixes.data | filter:{fix:false}"></div>
+    </div>
+</div>

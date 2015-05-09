@@ -70,6 +70,8 @@ class FixesController extends \KI\UpontBundle\Controller\Core\ResourceController
             // On modifie légèrement la ressource qui vient d'être créée
             $user = $this->get('security.context')->getToken()->getUser();
             $return['item']->setUser($user);
+            $return['item']->setDate(time());
+            $return['item']->setStatus('Non vu');
         }
 
         return $this->postView($return);

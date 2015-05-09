@@ -23,19 +23,10 @@ class Fix extends Likeable
     protected $problem;
 
     /**
-     * Réponse du respo
-     * @ORM\Column(name="answer", type="string", nullable=true)
-     * @JMS\Expose
-     * @Assert\Type("string")
-     */
-    protected $answer;
-
-    /**
      * Date de publication
-     * @ORM\Column(name="date", type="integer")
+     * @ORM\Column(name="date", type="integer", nullable=true)
      * @JMS\Expose
      * @Assert\Type("integer")
-     * @Assert\NotBlank()
      * @Assert\GreaterThan(1)
      */
     protected $date;
@@ -49,22 +40,20 @@ class Fix extends Likeable
     protected $solved;
 
     /**
-     * Statut
+     * Statut (Non vu|En attente|En cours|Résolu|Fermé)
      * @ORM\Column(name="status", type="string")
      * @JMS\Expose
      * @Assert\Type("string")
-     * @Assert\NotBlank()
      */
     protected $status;
 
     /**
-     * Catégorie (Bug report | Problème Internet | Problème matériel...)
-     * @ORM\Column(name="category", type="string")
+     * S'il s'agit d'un dépannage (true) ou d'un message concernant uPont (false)
+     * @ORM\Column(name="fix", type="boolean")
      * @JMS\Expose
-     * @Assert\Type("string")
-     * @Assert\NotBlank()
+     * @Assert\Type("boolean")
      */
-    protected $category;
+    protected $fix;
 
     /**
      * Auteur de la réclamation
@@ -112,30 +101,6 @@ class Fix extends Likeable
     public function getProblem()
     {
         return $this->problem;
-    }
-
-    /**
-     * Set answer
-     *
-     * @param string $answer
-     *
-     * @return Fix
-     */
-    public function setAnswer($answer)
-    {
-        $this->answer = $answer;
-
-        return $this;
-    }
-
-    /**
-     * Get answer
-     *
-     * @return string
-     */
-    public function getAnswer()
-    {
-        return $this->answer;
     }
 
     /**
@@ -211,27 +176,27 @@ class Fix extends Likeable
     }
 
     /**
-     * Set category
+     * Set fix
      *
-     * @param string $category
+     * @param bool $fix
      *
      * @return Fix
      */
-    public function setCategory($category)
+    public function setFix($fix)
     {
-        $this->category = $category;
+        $this->fix = $fix;
 
         return $this;
     }
 
     /**
-     * Get category
+     * Get fix
      *
-     * @return string
+     * @return bool
      */
-    public function getCategory()
+    public function getFix()
     {
-        return $this->category;
+        return $this->fix;
     }
 
     /**

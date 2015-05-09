@@ -7,7 +7,7 @@ angular.module('upont')
             .state('root.users.assos', {
                 url: 'assos',
                 abstract: true,
-                template: '<div ui-view></div>',
+                templateUrl: 'views/users/assos/index.html',
                 data: {
                     title: 'Clubs & Assos - uPont'
                 }
