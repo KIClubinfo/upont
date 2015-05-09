@@ -404,11 +404,18 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
         $user = $repo->findOneByToken($token);
 
         if ($user) {
+            $username = $user->getUsername();
+
+            // Pour changer le mot de passe on doit passer par le UserManager
+            $userManager = $this->get('fos_user.user_manager');
+            $user = $userManager->findUserByUsername($username);
+
+
             if ($request->get('password') != $request->get('check'))
                 throw new BadRequestHttpException('Mots de passe non identiques');
 
             $user->setPlainPassword($request->get('password'));
-            $manager->flush();
+            $userManager->updateUser($user, true);
 
             return $this->restResponse(null, 204);
         } else

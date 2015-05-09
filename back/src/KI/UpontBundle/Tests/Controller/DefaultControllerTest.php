@@ -145,7 +145,17 @@ class DefaultControllerTest extends WebTestCase
         $this->client->request('POST', '/resetting/token/'.$token, array('password' => 'password', 'check' => '12sdqsdsqdqds34'));
         $this->assertJsonResponse($this->client->getResponse(), 400);
 
-        $this->client->request('POST', '/resetting/token/'.$token, array('password' => 'password', 'check' => 'password'));
+        $this->client->request('POST', '/resetting/token/'.$token, array('password' => 'azerty', 'check' => 'azerty'));
+        $this->assertJsonResponse($this->client->getResponse(), 204);
+
+        // On vérifie que le mot de passe a bien été changé
+        $client = static::createClient();
+        $client->request('POST', '/login', array('username' => 'trancara', 'password' => 'azerty'));
+        $this->assertJsonResponse($client->getResponse(), 200, true);
+
+        // On remet l'ancien mot de passe
+        $client = static::createClient();
+        $client->request('POST', '/resetting/token/'.$token, array('password' => 'password', 'check' => 'password'));
         $this->assertJsonResponse($this->client->getResponse(), 204);
     }
 
