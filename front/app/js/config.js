@@ -84,7 +84,10 @@ angular.module('upont')
                     '':{
                         template: '<div class="up-main-view" ui-view up-fill-window></div>'
                     },
-                    aside:{
+                    topbar: {
+                        templateUrl: 'views/public/top-bar.html'
+                    },
+                    aside: {
                         templateUrl: 'views/users/aside.html',
                         controller: 'Search_Ctrl'
                     }

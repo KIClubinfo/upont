@@ -31,6 +31,7 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
         case 'events'   : $this->initialize('Event', 'Publications'); break;
         case 'courses'  : $this->initialize('Course', 'Publications'); break;
         case 'exercices': $this->initialize('Exercice', 'Publications'); break;
+        case 'fixes'    : $this->initialize('Fix', 'Publications'); break;
         case 'movies'   : $this->initialize('Movie', 'Ponthub'); break;
         case 'series'   : $this->initialize('Serie', 'Ponthub'); break;
         case 'episodes' : $this->initialize('Episode', 'Ponthub'); break;
