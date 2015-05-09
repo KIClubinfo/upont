@@ -1,5 +1,6 @@
 angular.module('upont')
     .controller('KI_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'fixes', 'ownFixes', 'members', 'Paginate', function($scope, $rootScope, $resource, $http, fixes, ownFixes, members, Paginate) {
+        $('#focus-input').focus();
         $scope.fixes = fixes;
         $scope.ownFixes = ownFixes;
         $scope.isFromKI = false;
@@ -61,7 +62,7 @@ angular.module('upont')
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
             .state('root.users.assos.ki', {
-                url: '/ki',
+                url: '/depannage',
                 templateUrl: 'views/users/assos/ki.html',
                 controller: 'KI_Ctrl',
                 data: {

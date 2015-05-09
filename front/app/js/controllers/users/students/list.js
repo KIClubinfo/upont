@@ -24,7 +24,7 @@ angular.module('upont')
                 controller: 'Students_List_Ctrl',
                 resolve: {
                     users: ['Paginate', function(Paginate) {
-                        return Paginate.get('users', 20);
+                        return Paginate.get('users?sort=-promo,department,firstName,lastName', 20);
                     }]
                 },
                 data: {

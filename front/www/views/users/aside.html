@@ -70,6 +70,7 @@
 
         <hr>
         <div class="up-aside-infos">
+            <i class="fa fa-bullhorn"></i> <a ui-sref="root.users.assos.ki" title="Faire une remarque sur uPont">Aide nous et donne ton avis !</a>
             <div ng-hide="foyer == null"><i class="fa fa-beer"></i> Compte Foyer : {{ foyer }} <i class="fa fa-euro"></i></div>
             <i class="fa fa-child"></i> En ligne :
             <span ng-repeat="user in online">
@@ -82,7 +83,7 @@
         <div>
             <span class="unbold" ng-click="$root.switchTheme()" style="cursor: pointer">
                 <input type="checkbox" ng-checked="$root.theme == 'dark'">&nbsp;Thème sombre
-            </span>
+            </span> - <a ui-sref="root.users.assos.ki" title="Contacter le KI">Help !</a>
         </div>
         <div class="up-version">
             uPont {{ version.version }}.{{ version.major }}.{{ version.minor }} &nbsp;&nbsp;-&nbsp;&nbsp; <a ng-click="logout()"><i class="fa fa-sign-out"></i> Déconnexion</a><br>
