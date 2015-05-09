@@ -35,6 +35,7 @@ module
             'notif_comments'       : 'Commentaires',
             'notif_ponthub'        : 'Nouveaux fichiers Ponthub',
             'notif_shotgun_freed'  : 'Place de shotgun libérée',
+            'notif_fixes'          : 'Demandes de dépannage',
             //'notif_followed_poll'  : 'Nouveau sondage',
             //'notif_ki_answer'      : 'Réponse à une requête de dépannage',
             //'notif_shotgun_h-1'    : 'Avertissement Shotgun H-1',

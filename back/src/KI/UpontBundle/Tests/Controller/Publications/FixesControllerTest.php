@@ -16,10 +16,8 @@ class FixesControllerTest extends WebTestCase
             array(
                 'name' => 'Panne d\'Internet',
                 'problem' => 'J\'arrive pas à avoir Internet, duuh',
-                'answer' => 'T\'as bien réglé ton proxy ?',
-                'date' => 424283,
                 'status' => 'En attente',
-                'category' => 'Accès à Internet'
+                'fix' => true
             )
         );
         $response = $this->client->getResponse();
