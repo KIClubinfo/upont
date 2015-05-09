@@ -24,6 +24,74 @@ alertify.set({ labels: {
 
 angular.module('upont', ['ui.router', 'ngResource', 'ngAnimate', 'mgcrea.ngStrap', 'ngSanitize', 'angular-jwt', 'angular.filter', 'naif.base64', 'infinite-scroll', 'ui.bootstrap.datetimepicker', 'monospaced.elastic']);
 
+// Définition des constantes
+var promos = [
+    '011',
+    '012',
+    '013',
+    '014',
+    '015',
+    '016',
+    '017',
+    '018'
+];
+
+var departments = [
+    '1A',
+    'GCC',
+    'GCC-Archi',
+    'GMM',
+    'GI',
+    'IMI',
+    'SEGF',
+    'VET'
+];
+
+var origins = [
+    'Concours Commun',
+    'AST',
+    'Double Diplôme',
+    'FCI Civil',
+    'Ingénieur Élève',
+    'ENSAVT',
+    'Master',
+    'Stagiaire',
+    'AUE',
+    'Autre'
+];
+
+var countries = [
+    'France',
+    'Algérie',
+    'Allemagne',
+    'Argentine',
+    'Australie',
+    'Brésil',
+    'Bulgarie',
+    'Cambodge',
+    'Canada',
+    'Chine',
+    'Espagne',
+    'États-Unis',
+    'Grèce',
+    'Italie',
+    'Japon',
+    'Liban',
+    'Luxembourg',
+    'Malaisie',
+    'Mali',
+    'Maroc',
+    'Pologne',
+    'République Tchèque',
+    'Roumanie',
+    'Russe',
+    'Slovaquie',
+    'Suède',
+    'Tunisie',
+    'Viêt Nam',
+    'Autre'
+];
+
 // Web Application Fontawesome icons as of 4.3
 var faIcons = ['adjust','anchor','archive','area-chart','arrows','arrows-h','arrows-v',
 'asterisk','at','ban','bar-chart','barcode','bars','bed','beer','bell','bell-o','bell-slash',

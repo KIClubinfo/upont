@@ -18,7 +18,7 @@ angular.module('upont')
             Paginate.first($scope.fixes).then(function(data){
                 $scope.fixes = data;
             });
-        }
+        };
 
         $scope.post = function(msg, isFix) {
             var params  = {

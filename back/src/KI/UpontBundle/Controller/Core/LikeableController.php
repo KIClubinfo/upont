@@ -26,20 +26,23 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
     protected function autoInitialize($object)
     {
         switch ($object) {
-        case 'clubs'    : $this->initialize('Club', 'Users'); break;
-        case 'newsitems': $this->initialize('Newsitem', 'Publications'); break;
-        case 'events'   : $this->initialize('Event', 'Publications'); break;
-        case 'courses'  : $this->initialize('Course', 'Publications'); break;
-        case 'exercices': $this->initialize('Exercice', 'Publications'); break;
-        case 'movies'   : $this->initialize('Movie', 'Ponthub'); break;
-        case 'series'   : $this->initialize('Serie', 'Ponthub'); break;
-        case 'episodes' : $this->initialize('Episode', 'Ponthub'); break;
-        case 'albums'   : $this->initialize('Album', 'Ponthub'); break;
-        case 'musics'   : $this->initialize('Music', 'Ponthub'); break;
-        case 'games'    : $this->initialize('Game', 'Ponthub'); break;
-        case 'softwares': $this->initialize('Software', 'Ponthub'); break;
-        case 'others'   : $this->initialize('Other', 'Ponthub'); break;
-        case 'comments' : $this->initialize('Comment', 'Core'); break;
+        case 'clubs'      : $this->initialize('Club', 'Users'); break;
+        case 'experiences': $this->initialize('Experience', 'Users'); break;
+        case 'newsitems'  : $this->initialize('Newsitem', 'Publications'); break;
+        case 'events'     : $this->initialize('Event', 'Publications'); break;
+        case 'courses'    : $this->initialize('Course', 'Publications'); break;
+        case 'exercices'  : $this->initialize('Exercice', 'Publications'); break;
+        case 'fixes'      : $this->initialize('Fix', 'Publications'); break;
+        case 'tutos'      : $this->initialize('Tuto', 'Publications'); break;
+        case 'movies'     : $this->initialize('Movie', 'Ponthub'); break;
+        case 'series'     : $this->initialize('Serie', 'Ponthub'); break;
+        case 'episodes'   : $this->initialize('Episode', 'Ponthub'); break;
+        case 'albums'     : $this->initialize('Album', 'Ponthub'); break;
+        case 'musics'     : $this->initialize('Music', 'Ponthub'); break;
+        case 'games'      : $this->initialize('Game', 'Ponthub'); break;
+        case 'softwares'  : $this->initialize('Software', 'Ponthub'); break;
+        case 'others'     : $this->initialize('Other', 'Ponthub'); break;
+        case 'comments'   : $this->initialize('Comment', 'Core'); break;
 
         default: return;
         }
