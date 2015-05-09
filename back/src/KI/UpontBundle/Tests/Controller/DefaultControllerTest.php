@@ -134,7 +134,7 @@ class DefaultControllerTest extends WebTestCase
         $this->assertEquals('alberic.trancart@eleves.enpc.fr', key($message->getTo()));
 
         // On récupère le token
-        $this->assertTrue(preg_match('#/reset/(.*)">.*Si#is', $message->getBody(), $token) == 1);
+        $this->assertTrue(preg_match('#/reset/(.*)\n\n.*Si#is', $message->getBody(), $token) == 1);
         $token = $token[1];
         $this->assertTrue(!empty($token));
 

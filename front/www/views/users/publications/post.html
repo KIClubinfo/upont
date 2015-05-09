@@ -1,91 +1,93 @@
-<div ng-controller="Publications_Post_Ctrl" class="up-publish up-ticket" style="z-index:15" ng-if="$root.selfClubs.length">
-    <form class="publish-container" ng-submit="publish(post, postPicture)" up-row padded wrap autocomplete="off">
-        <!-- Inputs liés aux news et events -->
-        <div up-col="100%">
-            <input up-col="100%" ng-show="focus" type="text" ng-model="post.name" placeholder="Titre"/>
-        </div>
-
-        <!-- startDate -->
-        <div ng-show="type == 'event'" up-col-xs="100%" up-col-sm="100%" up-col="50%">
-            <div class="up-input-group" ng-click="startPicker=!startPicker">
-                <input up-col="100%" type="text" placeholder="Date de début" ng-value="post.start_date | date:'HH:mm dd/MM/yyyy'"/>
-                <span class="addon"><i class="fa fa-calendar"></i></span>
+<div ng-controller="Publications_Post_Ctrl">
+    <div class="up-publish up-ticket" style="z-index:15" ng-if="$root.selfClubs.length && display">
+        <form class="publish-container" ng-submit="publish(post, postPicture)" up-row padded wrap autocomplete="off">
+            <!-- Inputs liés aux news et events -->
+            <div up-col="100%">
+                <input up-col="100%" ng-show="focus" type="text" ng-model="post.name" placeholder="Titre"/>
             </div>
-            <datetimepicker ng-show="startPicker" data-ng-model="post.start_date"></datetimepicker>
-        </div>
-        <!-- endDate -->
-        <div ng-show="type == 'event'" up-col-xs="100%" up-col-sm="100%" up-col="50%">
-            <div class="up-input-group" ng-click="startPicker=!startPicker">
-                <input up-col="100%" type="text" placeholder="Date de fin" ng-value="post.end_date | date:'HH:mm dd/MM/yyyy'"/>
-                <span class="addon"><i class="fa fa-calendar"></i></span>
+
+            <!-- startDate -->
+            <div ng-show="type == 'event'" up-col-xs="100%" up-col-sm="100%" up-col="50%">
+                <div class="up-input-group" ng-click="startPicker=!startPicker">
+                    <input up-col="100%" type="text" placeholder="Date de début" ng-value="post.start_date | date:'HH:mm dd/MM/yyyy'"/>
+                    <span class="addon"><i class="fa fa-calendar"></i></span>
+                </div>
+                <datetimepicker ng-show="startPicker" data-ng-model="post.start_date"></datetimepicker>
             </div>
-            <datetimepicker ng-show="startPicker" data-ng-model="post.end_date"></datetimepicker>
-        </div>
-
-        <!-- place -->
-        <div ng-show="type == 'event'" up-col-xs="100%" up-col-sm="100%" up-col="50%">
-            <input up-col="100%" type="text" ng-model="post.place" placeholder="Lieu"/>
-        </div>
-
-        <!-- entryMethod -->
-        <div ng-show="type == 'event'" up-col-xs="100%" up-col-sm="100%" up-col="50%">
-            <select ng-model="post.entry_method">
-                <option selected>Entrée libre</option>
-                <option>Shotgun</option>
-            </select>
-        </div>
-
-        <!-- shotgunDate -->
-        <div ng-show="type == 'event' && post.entry_method == 'Shotgun'" up-col-xs="100%" up-col-sm="100%" up-col="50%">
-            <div class="up-input-group" ng-click="shotgunPicker=!shotgunPicker">
-                <input up-col="100%" type="text" placeholder="Date du shotgun" ng-value="post.shotgun_date | date:'HH:mm dd/MM/yyyy'"/>
-                <span class="addon"><i class="fa fa-calendar"></i></span>
+            <!-- endDate -->
+            <div ng-show="type == 'event'" up-col-xs="100%" up-col-sm="100%" up-col="50%">
+                <div class="up-input-group" ng-click="startPicker=!startPicker">
+                    <input up-col="100%" type="text" placeholder="Date de fin" ng-value="post.end_date | date:'HH:mm dd/MM/yyyy'"/>
+                    <span class="addon"><i class="fa fa-calendar"></i></span>
+                </div>
+                <datetimepicker ng-show="startPicker" data-ng-model="post.end_date"></datetimepicker>
             </div>
-            <datetimepicker ng-show="shotgunPicker" data-ng-model="post.shotgun_date"></datetimepicker>
-        </div>
 
-        <!-- shotgunLimit -->
-        <div ng-show="type == 'event' && post.entry_method == 'Shotgun'" up-col-xs="100%" up-col-sm="100%" up-col="50%">
-            <input up-col="100%" type="text" ng-model="post.shotgun_limit" placeholder="Nombre de places"/>
-        </div>
+            <!-- place -->
+            <div ng-show="type == 'event'" up-col-xs="100%" up-col-sm="100%" up-col="50%">
+                <input up-col="100%" type="text" ng-model="post.place" placeholder="Lieu"/>
+            </div>
 
-        <!-- shotgunText -->
-        <div ng-show="type == 'event' && post.entry_method == 'Shotgun'" up-col="100%">
-            <textarea up-col="100%" ng-model="post.shotgun_text" placeholder="Texte destiné aux vainqueurs du shotgun"/>
-        </div>
+            <!-- entryMethod -->
+            <div ng-show="type == 'event'" up-col-xs="100%" up-col-sm="100%" up-col="50%">
+                <select ng-model="post.entry_method">
+                    <option selected>Entrée libre</option>
+                    <option>Shotgun</option>
+                </select>
+            </div>
 
-        <div up-col="100%" class="bottom-box-container">
-            <!-- Textarea principal -->
-            <textarea ng-focus="focus=true" ng-init="focus=false" ng-model="post.text"
-                      placeholder="{{ placeholder }}" msd-elastic></textarea>
+            <!-- shotgunDate -->
+            <div ng-show="type == 'event' && post.entry_method == 'Shotgun'" up-col-xs="100%" up-col-sm="100%" up-col="50%">
+                <div class="up-input-group" ng-click="shotgunPicker=!shotgunPicker">
+                    <input up-col="100%" type="text" placeholder="Date du shotgun" ng-value="post.shotgun_date | date:'HH:mm dd/MM/yyyy'"/>
+                    <span class="addon"><i class="fa fa-calendar"></i></span>
+                </div>
+                <datetimepicker ng-show="shotgunPicker" data-ng-model="post.shotgun_date"></datetimepicker>
+            </div>
 
-            <!-- Toolbar du bas -->
-            <div class="type-container" ng-show="focus">
-                <!-- Séléction du type de publication -->
-                <div class="type" ng-click="changeType('news')"    ng-class="{active: type == 'news'}">News</div>
-                <div class="type" ng-click="changeType('event')"   ng-class="{active: type == 'event'}">Événement</div>
+            <!-- shotgunLimit -->
+            <div ng-show="type == 'event' && post.entry_method == 'Shotgun'" up-col-xs="100%" up-col-sm="100%" up-col="50%">
+                <input up-col="100%" type="text" ng-model="post.shotgun_limit" placeholder="Nombre de places"/>
+            </div>
 
-                <div style="float: right">
-                    <!-- Séléction du club -->
-                    <div ng-show="type != 'message'" class="type addon" ng-class="{active: club.name != 'Assos'}">
-                        <span ng-click="toggleSelect()">
-                            <i class="fa fa-{{ club.icon ? club.icon : 'users' }}"></i> {{ club.name }}
-                        </span>
-                        <ul class="select" ng-show="toggle">
-                            <li ng-repeat="club in $root.selfClubs"
-                                ng-click="changeClub(club.club);"
-                                class="up-clickable">{{ club.club.name }}</li>
-                        </ul>
+            <!-- shotgunText -->
+            <div ng-show="type == 'event' && post.entry_method == 'Shotgun'" up-col="100%">
+                <textarea up-col="100%" ng-model="post.shotgun_text" placeholder="Texte destiné aux vainqueurs du shotgun"/>
+            </div>
+
+            <div up-col="100%" class="bottom-box-container">
+                <!-- Textarea principal -->
+                <textarea ng-focus="focus=true" ng-init="focus=false" ng-model="post.text"
+                          placeholder="{{ placeholder }}" msd-elastic></textarea>
+
+                <!-- Toolbar du bas -->
+                <div class="type-container" ng-show="focus">
+                    <!-- Séléction du type de publication -->
+                    <div class="type" ng-click="changeType('news')"    ng-class="{active: type == 'news'}">News</div>
+                    <div class="type" ng-click="changeType('event')"   ng-class="{active: type == 'event'}">Événement</div>
+
+                    <div style="float: right">
+                        <!-- Séléction du club -->
+                        <div ng-show="type != 'message'" class="type addon" ng-class="{active: club.name != 'Assos'}">
+                            <span ng-click="toggleSelect()">
+                                <i class="fa fa-{{ club.icon ? club.icon : 'users' }}"></i> {{ club.name }}
+                            </span>
+                            <ul class="select" ng-show="toggle">
+                                <li ng-repeat="club in $root.selfClubs"
+                                    ng-click="changeClub(club.club);"
+                                    class="up-clickable">{{ club.club.name }}</li>
+                            </ul>
+                        </div>
+
+                        <!-- Ajout d'une image -->
+                        <div class="type fileupload" ng-class="{active: postPicture.filename}">
+                            <span><i class="fa fa-file-image-o"></i> {{ postPicture.filename ? postPicture.filename : 'Image' }}</span>
+                            <input type="file" ng-model="postPicture" base-sixty-four-input>
+                        </div>
+                        <button class="up-btn up-btn-default">Publier !</button>
                     </div>
-
-                    <!-- Ajout d'une image -->
-                    <div class="type fileupload" ng-class="{active: postPicture.filename}">
-                        <span><i class="fa fa-file-image-o"></i> {{ postPicture.filename ? postPicture.filename : 'Image' }}</span>
-                        <input type="file" ng-model="postPicture" base-sixty-four-input>
-                    </div>
-                    <button class="up-btn up-btn-default">Publier !</button>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
