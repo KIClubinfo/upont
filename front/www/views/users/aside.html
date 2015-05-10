@@ -1,7 +1,7 @@
 <aside class="up-aside">
     <div class="up-aside-header">
         <div class="centering up-logo">
-            <a ng-hide="$root.surprise" class="up-logo-link" ui-sref="root.users.publications.index"></a>
+            <a ng-hide="$root.surprise" class="up-logo-link" ui-sref="root.users.publications"></a>
             <a ng-show="$root.surprise" class="up-logo-link pr0n" target="_blank" href="http://www.youporn.com"></a>
         </div>
         <div class="up-searchbar">
@@ -70,7 +70,7 @@
 
         <hr>
         <div class="up-aside-infos">
-            <i class="fa fa-bullhorn"></i> <a ui-sref="root.users.assos.ki" title="Faire une remarque sur uPont">Aide nous et donne ton avis !</a>
+            <i class="fa fa-bullhorn"></i> <a ui-sref="root.users.assos.ki" title="Faire une remarque sur uPont">Aide nous et donne ton avis</a>
             <div ng-hide="foyer == null"><i class="fa fa-beer"></i> Compte Foyer : {{ foyer }} <i class="fa fa-euro"></i></div>
             <i class="fa fa-child"></i> En ligne :
             <span ng-repeat="user in online">
