@@ -15,7 +15,7 @@
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
                 <select ng-model="me.promo">
-                    <option ng-repeat="item in $root.promos">{{ item }}</option>
+                    <option ng-repeat="item in $root.promos | reverse">{{ item }}</option>
                 </select>
             </div>
 
