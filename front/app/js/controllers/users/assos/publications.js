@@ -4,6 +4,7 @@ angular.module('upont')
         $scope.newsItems = newsItems;
         $scope.predicate = 'user.first_name';
         $scope.reverse = false;
+        $scope.promo = '017';
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider

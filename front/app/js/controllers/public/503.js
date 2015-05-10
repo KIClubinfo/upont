@@ -3,8 +3,9 @@ angular.module('upont').controller('503_Ctrl', ['$scope', 'StorageService', func
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state('root.404', {
-                url: '404',
-                    templateUrl: 'views/public/404.html',
+            .state('root.maintenance', {
+                url: 'maintenance',
+                controller: '503_Ctrl',
+                templateUrl: 'views/public/503.html',
             });
     }]);
