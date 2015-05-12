@@ -13,8 +13,11 @@ angular.module('upont').directive('upUser', function() {
             $scope.hover = false;
             $scope.clubs = [];
             $scope.timer = null;
+            $scope.timerOut = null;
 
             $scope.hoverIn = function(){
+                $timeout.cancel($scope.timerOut);
+
                 if (!$rootScope.hovering && !$scope.hover) {
                     $scope.timer = $timeout(function () {
                         $rootScope.hovering = true;
@@ -31,9 +34,11 @@ angular.module('upont').directive('upUser', function() {
             };
 
             $scope.hoverOut = function(){
-                $timeout.cancel($scope.timer);
-                $scope.hover = false;
-                $rootScope.$broadcast('closeHover');
+                $scope.timerOut = $timeout(function () {
+                    $timeout.cancel($scope.timer);
+                    $scope.hover = false;
+                    $rootScope.$broadcast('closeHover');
+                }, 200);
             };
 
             $scope.$on('closeHover', function() {
