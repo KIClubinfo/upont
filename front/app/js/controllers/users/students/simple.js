@@ -201,7 +201,7 @@ angular.module('upont')
                     text: 'Hipsteromètre'
                 },
                 subtitle: {
-                    text: 'Plus tu télécharges des fichiers que personne va chercher, plus t\'es bon',
+                    text: 'Plus tu télécharges des fichiers que personne ne va chercher, plus t\'es bon',
                 },
                 credits: {
                     enabled: false,

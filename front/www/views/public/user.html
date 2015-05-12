@@ -1,0 +1,23 @@
+<span ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()">
+    <a ui-sref="root.users.students.simple({slug: user.username})" title="Profil de {{ user.nick }}"
+        ng-transclude></a>
+
+    <!-- Hover -->
+    <div class="up-user-hover" ng-show="hover">
+        <div up-row wrap>
+            <div up-col="30%" class="up-image-container">
+                <div class="up-image" ng-style="{ 'background-image' : 'url({{ user.image_url | urlFile }})' }"></div>
+            </div>
+            <div up-col="70%" class="up-details">
+                <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+                {{ user.department !== undefined ? user.department : '' }}
+                {{ user.department !== undefined && user.promo !== undefined ? ' - ' : '' }}
+                {{ user.promo !== undefined ? "Promo '" + user.promo : '' }}<br>
+                <a ng-repeat="membership in clubs" ui-sref="root.users.assos.simple.publications({slug: membership.club.slug})"
+                   title="{{ membership.club.name }}{{ membership.role !== '' ? ' - ' + membership.role : '' }}">
+                    <i class="fa fa-{{ membership.club.icon ? membership.club.icon : 'users'}}"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</span>

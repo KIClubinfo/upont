@@ -61,7 +61,9 @@
             </div>
             <div class="up-user-details" up-col="70%">
                 <h3>{{ user.first_name }} {{ user.last_name }}</h3>
-                {{ user.department }} - Promo '{{ user.promo }}
+                {{ user.department !== undefined ? user.department : '' }}
+                {{ user.department !== undefined && user.promo !== undefined ? ' - ' : '' }}
+                {{ user.promo !== undefined ? "Promo '" + user.promo : '' }}
             </div>
         </div>
     </div>
