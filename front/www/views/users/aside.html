@@ -74,7 +74,7 @@
             <div ng-hide="foyer == null"><i class="fa fa-beer"></i> Compte Foyer : {{ foyer }} <i class="fa fa-euro"></i></div>
             <i class="fa fa-child"></i> En ligne :
             <span ng-repeat="user in online">
-                <span ng-if="$index < 10">{{ user.nick }}</span><span ng-if="$index != online.length-1 && $index < 9">,</span>
+                <span ng-if="$index < 10" up-user user="user">{{ user.nick }}</span><span ng-if="$index != online.length-1 && $index < 9">,</span>
             </span>
             <span ng-if="online.length > 10">et {{ online.length - 10 }} autre{{ online.length == 11 ? ' utilisateur' : 's utilisateurs' }}.</span>
         </div>
