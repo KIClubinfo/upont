@@ -117,7 +117,7 @@ class PonthubControllerTest extends WebTestCase
 
     public function testStatistics()
     {
-        $this->client->request('GET', '/statistics');
+        $this->client->request('GET', '/ponthub/statistics');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
     }

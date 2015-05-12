@@ -1,6 +1,7 @@
 #!/bin/bash
 # [AT'016] Script d'update pour Clubinfo
 
+sudo ls > /dev/null
 cd /srv/upont
 touch back/app/cache/maintenance.lock
 git pull

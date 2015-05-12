@@ -13,11 +13,10 @@ class FixType extends AbstractType
         $builder
             ->add('name')
             ->add('problem')
-            ->add('answer')
             ->add('date')
             ->add('solved')
             ->add('status')
-            ->add('category');
+            ->add('fix');
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

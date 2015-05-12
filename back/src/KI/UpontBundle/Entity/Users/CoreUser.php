@@ -108,6 +108,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
         'notif_comments'       => true,
         'notif_shotgun_freed'  => true,
         'notif_ponthub'        => false,
+        'notif_fixes'          => true,
         //'notif_followed_annal' => true,
         //'notif_achievement'    => true,
         //'notif_next_level'     => true

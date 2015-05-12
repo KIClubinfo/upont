@@ -29,8 +29,14 @@ upont_api_ponthub_search:
     requirements:
         _method: POST
 
+upont_api_ponthub_statistics_general:
+    pattern: /ponthub/statistics
+    defaults: { _controller: KI\UpontBundle\Controller\Ponthub\PonthubController::statisticsMainAction }
+    requirements:
+        _method: GET
+        
 upont_api_ponthub_statistics:
-    pattern: /statistics
+    pattern: /ponthub/statistics/{slug}
     defaults: { _controller: KI\UpontBundle\Controller\Ponthub\PonthubController::statisticsAction }
     requirements:
         _method: GET

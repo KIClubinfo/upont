@@ -1,50 +1,4 @@
-// header {
-//     z-index: 200;
-//     position: fixed !important;
-//     top: 0px;
-//     margin: 0px;
-//     box-shadow: 0px -5px 10px #000;
-//     height: @navbarHgt;
-//     align-items: center;
-//     background: @col-ticket;
-//     border-bottom: solid 1px @col-bckgnd;
-
-//     .up-navbar-link {
-//         text-transform: uppercase;
-//         font-size: 0.9em;
-//         margin-right: 15px;
-//     }
-
-//     // Redéfinition de certaines propriétés pour la recherche globale
-//     .up-input-group {
-//         .addon:first-child {
-//             position: relative;
-//             min-width: 110px;
-//             cursor: pointer;
-//         }
-
-//         .select {
-//             border: 1px solid @col-bckgnd;
-//             background-color: @col-ticket;
-//             position: absolute;
-//             padding: 10px 0 10px 0;
-//             margin: 0px;
-//             list-style: outside none none;
-//             width: 100%;
-//             border-radius: 0 0 5px 5px;
-//             left: 0px;
-//             top: 35px;
-
-//             li {
-//                 padding: 0 10px 0 10px;
-//                 &:hover {
-//                     background-color: @col-input-bckgnd;
-//                 }
-//             }
-//         }
-//     }
-// }
-
+// Logo du site
 .up-logo-link {
     border-radius: 6px;
     font-size: 1.5em;
@@ -64,6 +18,15 @@
         color: @col-main;
         @media(min-width: @sizeMd) {
             content: "Pont";
+        }
+    }
+
+    // Easter egg
+    &.pr0n {
+        &:after {
+            @media(min-width: @sizeMd) {
+                content: "Porn";
+            }
         }
     }
 }

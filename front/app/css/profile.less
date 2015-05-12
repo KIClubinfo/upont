@@ -43,7 +43,6 @@
         left: @asideWidth + 100px;
         @media(max-width: @sizeSm) {
             left: 50px;
-            top: 140px;
         }
         
         .up-user-image {
@@ -93,7 +92,7 @@
     }
 }
 
-// utilisateur au hover
+// Utilisateur au hover
 .up-user-hover-container {
     display: inline-block;
     .up-user-hover {
@@ -116,6 +115,34 @@
             .fa {
                 .fa-block;
             }
+        }
+    }
+}
+
+.up-club-image-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    
+    &:before{
+        content: "";
+        display: block;
+        padding-top: 100%;
+    }
+    
+    .up-club-image {
+        .cover;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        filter: grayscale(1);
+        transition: all 0.4s ease-in-out 0s;
+        
+        &:hover {
+            filter: grayscale(0);
         }
     }
 }

@@ -24,6 +24,7 @@
     "alertify.js": "latest",
     "angular-bootstrap-datetimepicker": "latest",
     "angular-elastic": "latest",
-    "highmaps": "latest"
+    "highmaps": "latest",
+    "highcharts-release": "latest"
   }
 }

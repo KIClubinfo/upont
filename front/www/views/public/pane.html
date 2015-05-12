@@ -1,0 +1,11 @@
+<div class="up-pane-container"  ng-class="{'up-pane-shown': isShown}">
+    <div class="up-pane-toggle" ng-click="toggle()">
+        <i class="fa fa-bars"></i>
+    </div>
+    <div class="up-pane">
+        <div class="up-pane-title">
+            <h3>{{ title }}</h3>
+        </div>
+        <div class="up-pane-content" ng-transclude></div>
+    </div>
+</div>

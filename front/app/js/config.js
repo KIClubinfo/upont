@@ -3,24 +3,32 @@ angular.module('upont')
         //On est obligé d'utiliser $location pour les changements d'url parcque le router n'est initialisé qu'après $http
         return {
             responseError: function(response) {
-                if (response.status == 401) {
+                switch (response.status) {
+                case 401:
                     StorageService.remove('token');
                     StorageService.remove('droits');
                     $rootScope.isLogged = false;
                     $rootScope.urlRef = $location.path();
                     $location.path('/');
-                }
-                if (response.status == 500){
+                    break;
+                case 403:
+                    $location.path('/403');
+                    break;
+                case 404:
+                    $location.path('/404');
+                    break;
+                case 500:
                     $location.path('/erreur');
-                }
-                if (response.status == 503) {
+                    break;
+                case 503:
                     if (response.data.until)
                         StorageService.set('maintenance', response.data.until);
-                    else StorageService.remove('maintenance');
+                    else
+                        StorageService.remove('maintenance');
                     $location.path('/maintenance');
+                    $rootScope.maintenance = true;
+                    break;
                 }
-                if (response.status == 404)
-                    $location.path('/404');
                 return $q.reject(response);
             }
         };
@@ -62,6 +70,10 @@ angular.module('upont')
                 url: '403',
                 templateUrl: 'views/public/403.html',
             })
+            .state('root.404', {
+                url: '404',
+                templateUrl: 'views/public/404.html',
+            })
             .state('root.418', {
                 url: '418',
                 templateUrl: 'views/public/418.html',
@@ -69,10 +81,6 @@ angular.module('upont')
             .state('root.erreur', {
                 url: 'erreur',
                 templateUrl: 'views/public/500.html',
-            })
-            .state('root.maintenance', {
-                url: 'maintenance',
-                templateUrl: 'views/public/503.html',
             })
             .state('root.users', {
                 url: '',
@@ -84,7 +92,10 @@ angular.module('upont')
                     '':{
                         template: '<div class="up-main-view" ui-view up-fill-window></div>'
                     },
-                    aside:{
+                    //topbar: {
+                    //    templateUrl: 'views/public/top-bar.html'
+                    //},
+                    aside: {
                         templateUrl: 'views/users/aside.html',
                         controller: 'Search_Ctrl'
                     }
@@ -96,7 +107,7 @@ angular.module('upont')
                 template: '<div ui-view></div>'
             });
     }])
-    .run(['$rootScope', 'StorageService', '$state', '$interval',  'jwtHelper', '$resource', '$location', 'Migration', function($rootScope, StorageService, $state, $interval, jwtHelper, $resource, $location, Migration) {
+    .run(['$rootScope', 'StorageService', '$state', '$interval',  'jwtHelper', '$resource', '$location', 'Migration', '$window', function($rootScope, StorageService, $state, $interval, jwtHelper, $resource, $location, Migration, $window) {
         // Data à charger au lancement
         $rootScope.selfClubs = [];
 
@@ -127,6 +138,12 @@ angular.module('upont')
                 $resource(apiPrefix + 'online').query(function(data){
                     $rootScope.online = data;
                 });
+
+                // On se sert de cette fonction pour se sortir de la maintenance éventuelle
+                if ($rootScope.maintenance) {
+                    $rootScope.maintenance = false;
+                    $location.path('/');
+                }
             };
             reloadOnline();
             $interval(reloadOnline, 60000);
@@ -193,7 +210,12 @@ angular.module('upont')
 
         // Diverses variables globales
         $rootScope.url = location.origin + apiPrefix;
-        $rootScope.promos = ['014', '015', '016', '017'];
+        $rootScope.promos = $window.promos;
+        $rootScope.departments = $window.departments;
+        $rootScope.origins = $window.origins;
+        $rootScope.countries = $window.countries;
+        $rootScope.displayTabs = true;
+
         $rootScope.searchCategory = 'Assos';
 
         // Récupération du thème s'il est déjà set
@@ -254,4 +276,7 @@ angular.module('upont')
         $rootScope.$on('$stateNotFound', function(event, toState, toParams, fromState, fromParams) {
             $state.go('root.404');
         });
+
+        // Easter egg
+        $rootScope.surprise = (Math.random()*1000 == 314);
     }]);

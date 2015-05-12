@@ -71,7 +71,7 @@ class AdmissiblesControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
-        // $this->client->request('GET', '/admissibles/12345');
+        $this->client->request('GET', '/admissibles/12345');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 

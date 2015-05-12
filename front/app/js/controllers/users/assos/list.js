@@ -1,13 +1,14 @@
 angular.module('upont')
-    .controller('Assos_List_Ctrl', ['$scope', 'clubs', function($scope, clubs) {
+    .controller('Assos_List_Ctrl', ['$rootScope', '$scope', 'clubs', function($rootScope, $scope, clubs) {
         $scope.clubs = clubs;
+        $rootScope.displayTabs = true;
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
             .state('root.users.assos', {
                 url: 'assos',
                 abstract: true,
-                template: '<div ui-view></div>',
+                templateUrl: 'views/users/assos/index.html',
                 data: {
                     title: 'Clubs & Assos - uPont'
                 }

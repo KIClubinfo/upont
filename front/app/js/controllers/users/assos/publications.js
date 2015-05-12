@@ -2,6 +2,9 @@ angular.module('upont')
     .controller('Assos_Publications_Ctrl', ['$scope', 'events', 'newsItems', function($scope, events, newsItems) {
         $scope.events = events;
         $scope.newsItems = newsItems;
+        $scope.predicate = 'user.first_name';
+        $scope.reverse = false;
+        $scope.promo = '017';
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider

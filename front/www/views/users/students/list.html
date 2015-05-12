@@ -1,3 +1,56 @@
+<nav up-pane title="Recherche">
+    <div up-row wrap padded>
+        <div up-col="100%"><i class="fa fa-block fa-graduation-cap"></i> Promo</div>
+        <div up-col="100%">
+            <select ng-model="search.promo" ng-change="reload(search)">
+                <option value="all">Toutes</option>
+                <option ng-repeat="item in $root.promos | reverse">{{ item }}</option>
+            </select>
+        </div>
+    </div>
+
+    <div up-row wrap padded>
+        <div up-col="100%"><i class="fa fa-block fa-institution"></i> Département</div>
+        <div up-col="100%">
+            <select ng-model="search.department" ng-change="reload(search)">
+                <option value="all">Tous</option>
+                <option ng-repeat="item in $root.departments">{{ item }}</option>
+            </select>
+        </div>
+    </div>
+
+    <div up-row wrap padded>
+        <div up-col="100%"><i class="fa fa-block fa-globe"></i> Pays</div>
+        <div up-col="100%">
+            <select ng-model="search.nationality" ng-change="reload(search)">
+                <option value="all">Tous</option>
+                <option ng-repeat="item in $root.countries">{{ item }}</option>
+            </select>
+        </div>
+    </div>
+
+    <div up-row wrap padded>
+        <div up-col="100%"><i class="fa fa-block fa-street-view"></i> Origine</div>
+        <div up-col="100%">
+            <select ng-model="search.origin" ng-change="reload(search)">
+                <option value="all">Toutes</option>
+                <option ng-repeat="item in $root.origins">{{ item }}</option>
+            </select>
+        </div>
+    </div>
+
+    <div up-row wrap padded>
+        <div up-col="100%"><i class="fa fa-block fa-transgender"></i> Sexe</div>
+        <div up-col="100%">
+            <select ng-model="search.gender" ng-change="reload(search)">
+                <option value="all">Tout</option>
+                <option>M</option>
+                <option>F</option>
+            </select>
+        </div>
+    </div>
+</nav>
+
 <div up-row left wrap padded class="up-ticket up-profile-list" infinite-scroll="next()" infinite-scroll-distance="3" infinite-scroll-disabled="$root.infiniteLoading">
     <div ng-repeat="user in users.data" class="up-user-item" up-col-xs="50%" up-col-sm="50%" up-col-md="50%" up-col="33%">
         <div class="up-user-container" ui-sref="root.users.students.simple({slug: user.username})" up-col="100%" up-row>

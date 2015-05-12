@@ -1,5 +1,8 @@
 <div up-row left>
-    <div up-col="60%" up-col-xs="100%" up-col-sm="100%" ng-include="'views/users/publications/list.html'"></div>
+    <div up-col="60%" up-col-xs="100%" up-col-sm="100%">
+        <div ng-include="'views/users/publications/post.html'"></div>
+        <div ng-include="'views/users/publications/list.html'"></div>
+    </div>
     <div up-col="0%" up-col-md="40%" up-col-lg="40%" padded>
         <div class="up-ticket centering">
             <h2>Membres - {{ club.full_name }} </h2>
@@ -7,13 +10,13 @@
             <table class="up-table" up-col="90%">
                 <thead>
                     <tr>
-                        <th>Promo</th>
-                        <th>Élève</th>
-                        <th>Rôle</th>
+                        <th><a ng-click="predicate = 'user.promo'; reverse=!reverse">Promo</a></th>
+                        <th><a ng-click="predicate = 'user.first_name+user.last_name'; reverse=!reverse">Élève</a></th>
+                        <th><a ng-click="predicate = 'role'; reverse=!reverse">Rôle</a></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="member in filtered =  (members | promoFilter: promo | orderBy:['user.nick'])">
+                    <tr ng-repeat="member in filtered =  (members | promoFilter: promo | orderBy:predicate:reverse)">
                         <td>{{ member.user.promo }}</td>
                         <td>{{ member.user.first_name }} {{ member.user.last_name }}</td>
                         <td>{{ member.role }}</td>
@@ -26,8 +29,7 @@
             </table>
 
             <select ng-model="promo">
-                <option ng-repeat="promoItem in $root.promos"
-                        selected="{{ $index == promos.length-1 }}"
+                <option ng-selected="promoItem == promo" ng-repeat="promoItem in $root.promos | reverse"
                         value="{{ promoItem }}">Année '{{ promoItem }}</option>
             </select>
         </div>

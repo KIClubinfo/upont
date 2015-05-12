@@ -70,6 +70,8 @@ class FixesController extends \KI\UpontBundle\Controller\Core\ResourceController
             // On modifie légèrement la ressource qui vient d'être créée
             $user = $this->get('security.context')->getToken()->getUser();
             $return['item']->setUser($user);
+            $return['item']->setDate(time());
+            $return['item']->setStatus('Non vu');
         }
 
         return $this->postView($return);
@@ -90,7 +92,21 @@ class FixesController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  section="Publications"
      * )
      */
-    public function patchFixAction($slug) { return $this->patch($slug); }
+    public function patchFixAction($slug)
+    {
+        $fix = $this->findBySlug($slug);
+
+        if ($fix->getFix()) {
+            $this->notify(
+                'notif_fixes',
+                'Demande de dépannage',
+                'Ta demande de dépannage a été actualisée par le KI !',
+                'to',
+                array($fix->getUser())
+            );
+        }
+        return $this->patch($slug);
+    }
 
     /**
      * @ApiDoc(
