@@ -24,4 +24,23 @@
     }
 }
 
-// Logo svg des achievements
+// Pour faire des images aux ratios que l'on veut
+.up-image-container {
+    position: relative;
+
+    &:before{
+        content: "";
+        display: block;
+        padding-top: 100%;
+    }
+}
+
+.up-image {
+    .cover;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}

@@ -57,27 +57,6 @@
     }
 }
 
-// Pour faire des images aux ratios que l'on veut
-.up-image-container {
-    position: relative;
-    
-    &:before{
-        content: "";
-        display: block;
-        padding-top: 100%;
-    }
-}
-
-.up-image {
-    .cover;
-    overflow: hidden;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-}
-
 // Page de profil simple
 .up-user-image-container {
     .up-image-container;
@@ -92,14 +71,34 @@
     }
 }
 
+.up-club-image-container {
+    .up-image-container;
+    display: inline-block;
+    cursor: pointer;
+    
+    
+    .up-club-image {
+        .up-image;
+        filter: grayscale(1);
+        transition: all 0.4s ease-in-out 0s;
+        
+        &:hover {
+            filter: grayscale(0);
+        }
+    }
+}
+
 // Utilisateur au hover
 .up-user-hover-container {
     display: inline-block;
+    
     .up-user-hover {
         .up-ticket;
         position: absolute;
         width: 400px;
         display: inline;    
+        z-index: 3;
+    
         .up-image-container {
             .up-image-container;
             width: 30%;
@@ -119,30 +118,17 @@
     }
 }
 
-.up-club-image-container {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-    
-    &:before{
-        content: "";
-        display: block;
-        padding-top: 100%;
-    }
-    
-    .up-club-image {
-        .cover;
-        overflow: hidden;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        filter: grayscale(1);
-        transition: all 0.4s ease-in-out 0s;
+// Correction pour overwrite l'aside
+.up-aside-middle {
+    .up-user-hover {
+        color: @col-font;
         
-        &:hover {
-            filter: grayscale(0);
+        a {
+            color: @col-main;
+            &:hover {
+                color: @col-font;
+                border: none;
+            }
         }
     }
 }
