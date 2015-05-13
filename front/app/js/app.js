@@ -22,7 +22,7 @@ alertify.set({ labels: {
     cancel : 'Annuler'
 }});
 
-angular.module('upont', ['ui.router', 'ngResource', 'ngAnimate', 'mgcrea.ngStrap', 'ngSanitize', 'angular-jwt', 'angular.filter', 'naif.base64', 'infinite-scroll', 'ui.bootstrap.datetimepicker', 'monospaced.elastic']);
+angular.module('upont', ['ui.router', 'ngResource', 'ngAnimate', 'mgcrea.ngStrap', 'ngSanitize', 'angular-jwt', 'angular.filter', 'naif.base64', 'infinite-scroll', 'ui.bootstrap.datetimepicker', 'monospaced.elastic', 'youtube-embed']);
 
 // Définition des constantes
 var promos = [

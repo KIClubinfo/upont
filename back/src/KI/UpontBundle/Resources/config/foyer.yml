@@ -8,12 +8,6 @@ upont_api_foyer_balance:
     requirements:
         _method: GET
 
-upont_api_foyer_rankings:
-    pattern: /foyer/rankings
-    defaults: { _controller: KI\UpontBundle\Controller\Foyer\FoyerController::rankingsAction }
-    requirements:
-        _method: GET
-
 upont_api_foyer_statistics_general:
     pattern: /foyer/statistics
     defaults: { _controller: KI\UpontBundle\Controller\Foyer\FoyerController::statisticsMainAction }

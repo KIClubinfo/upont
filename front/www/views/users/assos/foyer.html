@@ -5,35 +5,48 @@
 
             Tu peux dès maintenant voter pour la playlist du Foyer ! Publie un lien YouTube de ce que t'as envie d'écouter.<br>
             <br>
-            <form class="publish-container" ng-submit="post(link)" up-row wrap right autocomplete="off">
-                <input ng-model="link" placeholder="Du bon gros son" id="focus-input" />
-                <div up-col-xs="100%" up-col-sm="100%" up-col-md="33%" up-col="33%"><button up-col="100%" class="up-btn up-btn-default">Envoyer !</button></div>
+            <form class="publish-container" ng-submit="post(link)" up-row wrap padded autocomplete="off">
+                <input up-col-xs="100%" up-col="50%" ng-model="link" placeholder="Du bon gros son" id="focus-input" />
+                <button up-col-xs="100%" up-col="50%" class="up-btn up-btn-default">Envoyer !</button>
             </form>
         </div>
 
-        <div ng-include="'views/users/assos/fix.html'" ng-repeat="fix in fixes.data | filter:{fix:false}"></div>
+        <div class="up-ticket" ng-repeat="item in youtube.data">
+            <div up-row center>
+                <youtube-video video-url="item.url"></youtube-video>
+            </div>
+            <br>
+            <div up-likes objet="item" url="'youtubes/' + item.slug"></div>
+        </div>
     </div>
 
     <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%">
         <div class="up-ticket">
-            <h2>Contacte le KI !</h1>
+            <h2>Hall Of Fame</h1>
 
-            Un problème ? Ton ordi plante ? Tu n'as plus Internet chez toi ? <a style="color: inherit !important" href="https://www.youtube.com/watch?v=vh3tuL_DVsE" target="_blank">Une horde de martiens t'attaque ?</a> Le KI essayera de résoudre au mieux tes problèmes.<br>
-            <br>
-            <form class="publish-container" ng-submit="post(fix, true)" up-row wrap right autocomplete="off">
-                <textarea ng-model="fix" placeholder="Une explication la plus détaillée possible du problème." msd-elastic></textarea>
-                <div up-col-xs="100%" up-col-sm="100%" up-col-md="33%" up-col="33%"><button up-col="100%" class="up-btn up-btn-default">Envoyer !</button></div>
-            </form>
+            Ici sont recensés les plus gros buveurs... attention, seuls les méritants <em>(c'est à dire ceux avec un compte Foyer en positif...)</em> pourront rentrer dans ce classement prestigieux !<br>
+
+            <table class="up-table" up-col="90%">
+                <thead>
+                    <tr>
+                        <th><a ng-click="predicate = 'litres_bus'; reverse=!reverse">Litres bus</a></th>
+                        <th><a ng-click="predicate = 'nom'; reverse=!reverse">Élève</a></th>
+                        <th><a ng-click="predicate = 'promo'; reverse=!reverse">Promo</a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="user in stats | orderBy:predicate:reverse">
+                        <td>{{ user.litres_bus }} L</td>
+                        <td>{{ user.nom }}</span></td>
+                        <td>{{ user.promo }}</td>
+                    </tr>
+                    <tr ng-hide="stats.length">
+                        <td>Rien à afficher</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-
-        <div ng-include="'views/users/assos/fix.html'" ng-repeat="fix in ownFixes.data | filter:{fix:true}"></div>
-
-        <div ng-if="isFromKI" class="up-ticket">
-            <h2>Problèmes en attente</h2>
-
-            Tu vois ces demandes parce que tu es membre du KI... à toi de les résoudre au mieux !
-        </div>
-
-        <div ng-if="isFromKI" ng-include="'views/users/assos/fix.html'" ng-repeat="fix in fixes.data | filter:{fix:true}"></div>
     </div>
 </div>
