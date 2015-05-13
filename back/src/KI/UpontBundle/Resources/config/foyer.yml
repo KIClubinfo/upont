@@ -1,6 +1,6 @@
 youtubes:
     type:     rest
-    resource: KI\UpontBundle\Controller\Foyer\YoutubeController
+    resource: KI\UpontBundle\Controller\Foyer\YoutubesController
 
 upont_api_foyer_balance:
     pattern: /foyer/balance
