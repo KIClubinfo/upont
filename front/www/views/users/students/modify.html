@@ -261,7 +261,7 @@
             <div up-col="33%"><img class="img-responsive" src="{{ club.image_url | urlFile}}" />
             </div>
             <div up-col="66%">
-                <h2><a ui-sref="root.channels.simple.publications({ slug: club.slug})">{{ club.name }}</a></h2>
+                <h2><a ui-sref="root.users.assos.simple.publications({slug: club.slug})">{{ club.name }}</a></h2>
                 <button class="up-btn up-btn-default" ng-show="club.suivi" ng-click="unsubscribe(club.slug);">Suivi</button>
                 <button class="up-btn up-btn-primary" ng-show="!club.suivi" ng-click="subscribe(club.slug);">Suivre</button>
             </div>
