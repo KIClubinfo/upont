@@ -79,4 +79,21 @@ class FoyerController extends \KI\UpontBundle\Controller\Core\BaseController
 
         return $this->jsonResponse($service->statistics());
     }
+
+    /**
+     * @ApiDoc(
+     *  description="Retourne des statistiques générales sur le Foyer",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Foyer"
+     * )
+     */
+    public function statisticsMainAction()
+    {
+        return $this->jsonResponse(array());
+    }
 }

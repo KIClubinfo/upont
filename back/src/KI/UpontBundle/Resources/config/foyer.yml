@@ -1,17 +1,27 @@
+youtubes:
+    type:     rest
+    resource: KI\UpontBundle\Controller\Foyer\YoutubeController
+
 upont_api_foyer_balance:
-    pattern: /balance
+    pattern: /foyer/balance
     defaults: { _controller: KI\UpontBundle\Controller\Foyer\FoyerController::balanceAction }
     requirements:
         _method: GET
 
 upont_api_foyer_rankings:
-    pattern: /rankings
+    pattern: /foyer/rankings
     defaults: { _controller: KI\UpontBundle\Controller\Foyer\FoyerController::rankingsAction }
     requirements:
         _method: GET
-        
+
+upont_api_foyer_statistics_general:
+    pattern: /foyer/statistics
+    defaults: { _controller: KI\UpontBundle\Controller\Foyer\FoyerController::statisticsMainAction }
+    requirements:
+        _method: GET
+                
 upont_api_foyer_statistics:
-    pattern: /statistics/{slug}
+    pattern: /foyer/statistics/{slug}
     defaults: { _controller: KI\UpontBundle\Controller\Foyer\FoyerController::statisticsAction }
     requirements:
         _method: GET

@@ -73,16 +73,6 @@ class Post extends Likeable
 
 
     /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
      * Set date
      *
      * @param integer $date
@@ -126,29 +116,6 @@ class Post extends Likeable
     public function getText()
     {
         return $this->text;
-    }
-
-    /**
-     * Set slug
-     *
-     * @param string $slug
-     * @return Newsitem
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * Get slug
-     *
-     * @return string
-     */
-    public function getSlug()
-    {
-        return $this->slug;
     }
 
     /**
