@@ -89,8 +89,20 @@
             </span> - <a ui-sref="root.users.assos.ki" title="Contacter le KI">Help !</a>
         </div>
         <div class="up-version">
-            uPont {{ version.version }}.{{ version.major }}.{{ version.minor }} &nbsp;&nbsp;-&nbsp;&nbsp; <a ng-click="logout()" title="Se déconnecter"><i class="fa fa-sign-out"></i> Déconnexion</a><br>
-            Build <a ng-href="https://github.com/KIClubinfo/upont/commit/{{ version.build }}" title="Repo GitHub de uPont">{{ version.build }}</a> ({{ version.date | formatDate }})
+            <a target="_blank" href="https://trello.com/b/a7pIk6zk/upont" title="Board Trello de uPont">
+                <i class="fa fa-trello"></i>
+                uPont {{ version.version }}.{{ version.major }}.{{ version.minor }}
+            </a>
+            &nbsp;&nbsp;-&nbsp;&nbsp;
+            <a ng-click="logout()" title="Se déconnecter">
+                <i class="fa fa-sign-out"></i> Déconnexion
+            </a><br>
+
+            <a target="_blank" title="Repo GitHub de uPont"
+            ng-href="https://github.com/KIClubinfo/upont/commit/{{ version.build }}">
+                <i class="fa fa-github"></i> Build {{ version.build }}
+            </a>
+            ({{ version.date | formatDate }})
         </div>
     </div>
 </aside>

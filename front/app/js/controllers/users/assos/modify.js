@@ -38,6 +38,7 @@ angular.module('upont')
 
         $scope.setIcon = function(icon) {
             $scope.club.icon = icon;
+            window.scrollTo(0, 0);
         };
 
         $scope.searchUser = function(string) {
