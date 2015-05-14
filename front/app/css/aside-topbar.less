@@ -10,6 +10,9 @@
     hr {
         width: 30%;
     }
+    a {
+        .up-clickable;
+    }
 }
 
 .up-aside-header{
@@ -26,9 +29,6 @@
         display: block;
         margin: 0.75em 10%;
         height: 2em;
-        &:hover, &.active {
-            border-bottom: solid 1px @col-aside;
-        }
     }
     hr {
         margin-top: 10px;
@@ -85,13 +85,6 @@
     padding: 0.5em;
     height:7em;
     font-size: 0.85em;
-    // background-color: lighten(@col-aside-bckgnd, 15%);
-    // border-top:solid 1px @col-aside;
-    a {
-        &:hover, &.active {
-            border-bottom: solid 1px @col-aside;
-        }
-    }
 }
 
 .up-searchbar{

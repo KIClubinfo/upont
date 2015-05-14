@@ -61,10 +61,10 @@
             </div>
             <div><a ui-sref="root.users.calendar" up-state-active><i class="fa fa-calendar"></i> Calendrier</a></div>
             <div><a ui-sref="root.users.assos.list" up-state-active="root.users.assos"><i class="fa fa-thumbs-o-up"></i> Assos</a></div>
-            <div><a ui-sref="root.users.students.list" up-state-active="root.users.students"><i class="fa fa-graduation-cap"></i> Élèves</a></div>
+            <div><a ui-sref="root.users.students.list" up-state-active="root.users.students" id="link-students"><i class="fa fa-graduation-cap"></i> Élèves</a></div>
             <div><a ui-sref="root.users.resources.upont" up-state-active="root.users.resources"><i class="fa fa-suitcase"></i> Ressources</a></div>
             <div><a ui-sref="root.users.ponthub.list" up-state-active="root.users.ponthub"><i class="fa fa-film"></i> PontHub</a></div>
-            <div><a ui-sref="root.users.students.modify"><i class="fa fa-star"></i> Profil</a></div>
+            <div><a ui-sref="root.users.students.modify" up-state-active><i class="fa fa-star"></i> Profil</a></div>
             <div ng-if="$root.isAdmin">
                 <a ui-sref="root.users.admin.students" up-state-active="root.users.admin"><i class="fa fa-wrench"></i> Zone Admin</a>
             </div>
@@ -73,7 +73,7 @@
         <hr>
 
         <div class="up-aside-infos">
-            <i class="fa fa-bullhorn"></i> <a ui-sref="root.users.assos.ki" title="Faire une remarque sur uPont">Aide-nous et donne ton avis</a>
+            <a ui-sref="root.users.assos.ki" title="Faire une remarque sur uPont"><i class="fa fa-bullhorn"></i> Aide-nous et donne ton avis</a>
             <div ng-hide="foyer == null"><i class="fa fa-beer"></i> Compte Foyer : {{ foyer }} <i class="fa fa-euro"></i></div>
             <i class="fa fa-child"></i> En ligne :
             <span ng-repeat="user in online">
@@ -89,7 +89,7 @@
             </span> - <a ui-sref="root.users.assos.ki" title="Contacter le KI">Help !</a>
         </div>
         <div class="up-version">
-            uPont {{ version.version }}.{{ version.major }}.{{ version.minor }} &nbsp;&nbsp;-&nbsp;&nbsp; <a ng-click="logout()"><i class="fa fa-sign-out"></i> Déconnexion</a><br>
+            uPont {{ version.version }}.{{ version.major }}.{{ version.minor }} &nbsp;&nbsp;-&nbsp;&nbsp; <a ng-click="logout()" title="Se déconnecter"><i class="fa fa-sign-out"></i> Déconnexion</a><br>
             Build <a ng-href="https://github.com/KIClubinfo/upont/commit/{{ version.build }}" title="Repo GitHub de uPont">{{ version.build }}</a> ({{ version.date | formatDate }})
         </div>
     </div>
