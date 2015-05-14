@@ -92,9 +92,9 @@ angular.module('upont')
                     '':{
                         template: '<div class="up-main-view" ui-view up-fill-window></div>'
                     },
-                    //topbar: {
-                    //    templateUrl: 'views/public/top-bar.html'
-                    //},
+                    topbar: {
+                        templateUrl: 'views/public/top-bar.html'
+                    },
                     aside: {
                         templateUrl: 'views/users/aside.html',
                         controller: 'Search_Ctrl'
@@ -215,6 +215,7 @@ angular.module('upont')
         $rootScope.origins = $window.origins;
         $rootScope.countries = $window.countries;
         $rootScope.displayTabs = true;
+        $rootScope.showTopMenu = false;
 
         $rootScope.searchCategory = 'Assos';
 

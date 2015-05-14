@@ -10,6 +10,9 @@
     hr {
         width: 30%;
     }
+    a {
+        .up-clickable;
+    }
 }
 
 .up-aside-header{
@@ -26,9 +29,6 @@
         display: block;
         margin: 0.75em 10%;
         height: 2em;
-        &:hover, &.active {
-            border-bottom: solid 1px @col-aside;
-        }
     }
     hr {
         margin-top: 10px;
@@ -36,6 +36,27 @@
     }
     .fa {
         .fa-block;
+    }
+    
+    .up-aside-menu {
+        a {
+            margin: 0.4em 5%;
+            margin-left: 0;
+            padding-top: 0.5em;
+            padding-bottom: 2em;
+            padding-left: 10%;
+            &:hover, &.active {
+                border-radius: 0 5px 5px 0;
+                border: none;
+                color: white;
+            }
+            &:hover {
+                background-color: lighten(@col-aside-bckgnd, 10%);
+            }
+            &.active {
+                background-color: @col-main;
+            }
+        }
     }
 }
 .up-aside-infos {
@@ -64,13 +85,6 @@
     padding: 0.5em;
     height:7em;
     font-size: 0.85em;
-    // background-color: lighten(@col-aside-bckgnd, 15%);
-    // border-top:solid 1px @col-aside;
-    a {
-        &:hover, &.active {
-            border-bottom: solid 1px @col-aside;
-        }
-    }
 }
 
 .up-searchbar{
@@ -178,7 +192,8 @@
 }
 .up-topbar-menu{
     position:relative;
-    // padding:1em 0 0;
+    background-color: @col-ticket;
+    
     .caret{
         color:@col-ticket;
         position:absolute;
@@ -194,6 +209,7 @@
         list-style: none;
         margin:0;
         padding:0;
+        border-bottom: solid 1px @col-ticket-border;
     }
     .up-topbar-link{
         display:block;
@@ -206,7 +222,7 @@
             bottom:0px;
             right:10%;
             left:5%;
-            border-bottom:solid 1px #e0e0e0;
+            border-bottom: solid 1px #e0e0e0;
         }
         .fa{
             margin:0 1em 0 0;
