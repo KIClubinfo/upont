@@ -37,6 +37,27 @@
     .fa {
         .fa-block;
     }
+    
+    .up-aside-menu {
+        a {
+            margin: 0.4em 5%;
+            margin-left: 0;
+            padding-top: 0.5em;
+            padding-bottom: 2em;
+            padding-left: 10%;
+            &:hover, &.active {
+                border-radius: 0 5px 5px 0;
+                border: none;
+                color: white;
+            }
+            &:hover {
+                background-color: lighten(@col-aside-bckgnd, 10%);
+            }
+            &.active {
+                background-color: @col-main;
+            }
+        }
+    }
 }
 .up-aside-infos {
     &:extend(.up-aside-menu);
