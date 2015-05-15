@@ -26,7 +26,10 @@ class NewsitemsController extends \KI\UpontBundle\Controller\Core\ResourceContro
      *  section="Publications"
      * )
      */
-    public function getNewsitemsAction() { return $this->getAll(); }
+    public function getNewsitemsAction()
+    {
+        return $this->getAll($this->get('security.context')->isGranted('ROLE_EXTERIEUR'));
+    }
 
     /**
      * @ApiDoc(
@@ -42,7 +45,10 @@ class NewsitemsController extends \KI\UpontBundle\Controller\Core\ResourceContro
      *  section="Publications"
      * )
      */
-    public function getNewsitemAction($slug) { return $this->getOne($slug); }
+    public function getNewsitemAction($slug)
+    {
+        return $this->getOne($slug, $this->get('security.context')->isGranted('ROLE_EXTERIEUR'));
+    }
 
     /**
      * @ApiDoc(

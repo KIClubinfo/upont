@@ -73,8 +73,8 @@ class PromoController extends \KI\UpontBundle\Controller\Core\ResourceController
      */
     public function patchPromoPicturesAction($promo)
     {
-        //if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
-        //    throw new AccessDeniedException();
+        if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
+            throw new AccessDeniedException();
 
         $users = $this->repo->findByPromo($promo);
         $curl = $this->get('ki_upont.curl');
@@ -88,10 +88,10 @@ class PromoController extends \KI\UpontBundle\Controller\Core\ResourceController
 
         // Ids des différents groupes facebook
         switch ($promo) {
-            // Attention, toujours préciser l'id facebook de la promo d'après
-            // pour avoir les étrangers
-        case '014': $id = 0; break; // Kohlant'wei
-        case '015': $id = 359646667495742; break; // Wei't spirit
+        // Attention, toujours préciser l'id facebook de la promo d'après
+        // pour avoir les étrangers
+        case '014': $id = 0; break;                // Kohlant'wei
+        case '015': $id = 359646667495742; break;  // Wei't spirit
         case '016': $id = 1451446761806184; break; // Wei't the phoque
         case '017': $id = 1451446761806184; break; // Wei't the phoque
         default: throw new \Exception('Promo '.$promo.' non prise en charge');

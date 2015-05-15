@@ -1,38 +1,37 @@
 <?php
 
-namespace KI\UpontBundle\Controller\Ponthub;
+namespace KI\UpontBundle\Controller\Foyer;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
-class GamesController extends \KI\UpontBundle\Controller\Core\ResourceController
+class YoutubesController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
         parent::setContainer($container);
-        $this->initialize('Game', 'Ponthub');
+        $this->initialize('Youtube', 'Foyer');
     }
 
     /**
      * @ApiDoc(
      *  resource=true,
-     *  description="Liste les jeux",
-     *  output="KI\UpontBundle\Entity\Ponthub\Game",
+     *  description="Liste les liens Youtube",
+     *  output="KI\UpontBundle\Entity\Foyer\Youtube",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
      *   403="Pas les droits suffisants pour effectuer cette action",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Ponthub"
+     *  section="Foyer"
      * )
      */
-    public function getGamesAction() { return $this->getAll(); }
+    public function getYoutubesAction() { return $this->getAll(); }
 
     /**
      * @ApiDoc(
-     *  description="Retourne un jeu",
-     *  output="KI\UpontBundle\Entity\Ponthub\Game",
+     *  description="Retourne un lien Youtube",
+     *  output="KI\UpontBundle\Entity\Foyer\Youtube",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -40,48 +39,55 @@ class GamesController extends \KI\UpontBundle\Controller\Core\ResourceController
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Ponthub"
+     *  section="Foyer"
      * )
      */
-    public function getGameAction($slug) { return $this->getOne($slug); }
+    public function getYoutubeAction($slug) { return $this->getOne($slug); }
 
     /**
      * @ApiDoc(
-     *  description="Modifie un jeu",
-     *  input="KI\UpontBundle\Form\Ponthub\GameType",
+     *  description="Crée un lien Youtube",
+     *  input="KI\UpontBundle\Form\Foyer\YoutubeType",
+     *  output="KI\UpontBundle\Entity\Foyer\Youtube",
      *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
+     *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",
      *   401="Une authentification est nécessaire pour effectuer cette action",
      *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Ponthub"
+     *  section="Foyer"
      * )
      */
-    public function patchGameAction($slug)
+    public function postYoutubeAction()
     {
-        return $this->patch($slug, $this->get('security.context')->isGranted('ROLE_JARDINIER'));
+        $return = $this->partialPost($this->get('security.context')->isGranted('ROLE_USER'));
+
+        if ($return['code'] == 201) {
+            // On modifie légèrement la ressource qui vient d'être créée
+            $return['item']->setDate(time());
+            $return['item']->setUser($this->user);
+        }
+
+        return $this->postView($return);
     }
 
     /**
      * @ApiDoc(
-     *  description="Télécharge un fichier sur Ponthub, et log le téléchargement",
+     *  description="Supprime un lien Youtube",
      *  statusCodes={
-     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
+     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   401="Une authentification est nécessaire pour effectuer cette action",
      *   403="Pas les droits suffisants pour effectuer cette action",
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Ponthub"
+     *  section="Foyer"
      * )
-     * @Route\Get("/games/{slug}/download")
      */
-    public function downloadGameAction($slug)
+    public function deleteYoutubeAction($slug)
     {
-        $item = $this->getOne($slug);
-        return $this->download($item);
+        $author = $this->findBySlug($slug)->getUser();
+        return $this->delete($slug, $this->user == $author);
     }
 }

@@ -9,37 +9,27 @@ class SecurityTest extends WebTestCase
     // Vérifie que les routes non firewallées sont utilisables
     public function testFirewall()
     {
-        $client = static::createClient();
+        $this->client = static::createClient();
 
         $routes = array(
-            array('GET', 200, '/clubs'),
-            array('GET', 401, '/newsitems'),
-            array('GET', 200, '/clubs/ki'),
-            array('GET', 404, '/clubs/sddsdqs'),
-            array('GET', 404, '/courses/mecanique-des-structures/exercices/test/download'),
-            array('GET', 401, '/series/how-i-met-your-mother/episodes/pilot/download'),
-            array('GET', 200, '/users/VpqtuEGC/calendar'),
-            array('POST', 401, '/clubs'),
-            array('POST', 400, '/resetting/request'),
-            array('PATCH', 401, '/promo/016/pictures'),
+            array(200, 'GET', '/clubs'),
+            array(401, 'GET', '/newsitems'),
+            array(200, 'GET', '/clubs/ki'),
+            array(404, 'GET', '/clubs/sddsdqs'),
+            array(404, 'GET', '/courses/mecanique-des-structures/exercices/test/download'),
+            array(401, 'GET', '/series/how-i-met-your-mother/episodes/pilot/download'),
+            array(200, 'GET', '/users/VpqtuEGC/calendar'),
+            array(401, 'POST', '/clubs'),
+            array(400, 'POST', '/resetting/request'),
+            array(401, 'PATCH', '/promo/016/pictures'),
         );
-
-        foreach ($routes as $route) {
-            $client->request($route[0], $route[2]);
-            $this->assertJsonResponse($client->getResponse(), $route[1]);
-        }
+        $this->checkRoutes($routes);
     }
 
     public function testClubMembership()
     {
         // On se présente comme un trouffion de base
-        $client = static::createClient();
-        $client->request('POST', $this->getUrl('login'), array('username' => 'donat-bb', 'password' => 'password'));
-        $response = $client->getResponse();
-        $data = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('token', $data);
-        $client->setServerParameter('HTTP_Authorization', sprintf('%s %s', $this->authorizationHeaderPrefix, $data['token']));
-        $this->client = $client;
+        $this->connect('donat-bb', 'password');
 
         // Maintenant on teste quelques trucs
         $this->client->request('POST', '/newsitems', array('name' => 'La Porte', 'text' => 'C\'est comme perdre'));
@@ -96,13 +86,7 @@ class SecurityTest extends WebTestCase
     public function testFoyerStats()
     {
         // On se présente comme un trouffion de base
-        $client = static::createClient();
-        $client->request('POST', $this->getUrl('login'), array('username' => 'muzardt', 'password' => 'password'));
-        $response = $client->getResponse();
-        $data = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('token', $data);
-        $client->setServerParameter('HTTP_Authorization', sprintf('%s %s', $this->authorizationHeaderPrefix, $data['token']));
-        $this->client = $client;
+        $this->connect('muzardt', 'password');
 
         // On teste que n'importe qui ne puisse pas récupérer les statistiques perso
         $this->client->request('GET', '/foyer/statistics/muzardt');
@@ -121,13 +105,7 @@ class SecurityTest extends WebTestCase
     public function testPonthubStats()
     {
         // On se présente comme un trouffion de base
-        $client = static::createClient();
-        $client->request('POST', $this->getUrl('login'), array('username' => 'muzardt', 'password' => 'password'));
-        $response = $client->getResponse();
-        $data = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('token', $data);
-        $client->setServerParameter('HTTP_Authorization', sprintf('%s %s', $this->authorizationHeaderPrefix, $data['token']));
-        $this->client = $client;
+        $this->connect('muzardt', 'password');
 
         // On teste que n'importe qui ne puisse pas récupérer les statistiques perso
         $this->client->request('GET', '/ponthub/statistics/muzardt');
@@ -141,5 +119,74 @@ class SecurityTest extends WebTestCase
         $this->assertJsonResponse($response, 200);
         $infos = json_decode($response->getContent(), true);
         $this->assertFalse(empty($infos['error']));
+    }
+
+    public function testRoleJardinier()
+    {
+        // On se présente comme un jardinier
+        $this->connect('vessairc', 'password');
+        $routes = array(
+            array(204, 'PATCH', '/series/how-i-met-your-mother', array('duration' => 10)),
+            array(204, 'PATCH', '/movies/pumping-iron', array('duration' => 10))
+        );
+        $this->checkRoutes($routes);
+    }
+
+    public function testRoleAdmissible()
+    {
+        // On se présente comme un admissible
+        $this->connect('admissibles', 'password');
+        $routes = array(
+            array(200, 'GET', '/clubs'),
+            array(200, 'GET', '/newsitems'),
+            array(200, 'GET', '/clubs/ki'),
+            array(404, 'GET', '/clubs/sddsdqs'),
+            array(200, 'GET', '/courses'),
+            array(200, 'GET', '/series/how-i-met-your-mother/episodes/pilot'),
+            array(200, 'GET', '/series/how-i-met-your-mother/episodes/pilot/comments'),
+            array(200, 'GET', '/movies/pumping-iron'),
+            array(200, 'GET', '/games'),
+            array(200, 'GET', '/users'),
+            array(403, 'POST', '/clubs'),
+            array(403, 'POST', '/newsitems'),
+            array(403, 'POST', '/events'),
+            array(403, 'PATCH', '/events/don-giovanni'),
+            array(403, 'PATCH', '/newsitems/pulls'),
+            array(403, 'PATCH', '/users/admissibles'),
+            array(200, 'GET', '/foyer/statistics'),
+            array(403, 'PATCH', '/promo/016/pictures'),
+            array(403, 'POST', '/resetting/request', array('username' => 'admissibles')),
+            array(403, 'POST', '/movies/pumping-iron/like'),
+            array(403, 'DELETE', '/movies/pumping-iron/like'),
+            array(403, 'POST', '/movies/pumping-iron/comments')
+        );
+        $this->checkRoutes($routes);
+    }
+
+    public function testRoleExterieur()
+    {
+        // On se présente comme un extérieur de l'administration
+        $this->connect('gcc', 'password');
+        $routes = array(
+            array(200, 'GET', '/clubs'),
+            array(200, 'GET', '/newsitems'),
+            array(200, 'GET', '/clubs/ki'),
+            array(404, 'GET', '/clubs/sddsdqs'),
+            array(403, 'GET', '/courses'),
+            array(403, 'GET', '/series/how-i-met-your-mother/episodes/pilot'),
+            array(403, 'GET', '/series/how-i-met-your-mother/episodes/pilot/comments'),
+            array(403, 'GET', '/movies/pumping-iron'),
+            array(403, 'GET', '/games'),
+            array(403, 'GET', '/users'),
+            array(403, 'POST', '/clubs'),
+            array(403, 'GET', '/foyer/statistics'),
+            array(403, 'PATCH', '/promo/016/pictures'),
+            array(403, 'PATCH', '/users/gcc'),
+            array(403, 'PATCH', '/clubs/gcc'),
+            array(403, 'POST', '/movies/pumping-iron/like'),
+            array(403, 'DELETE', '/movies/pumping-iron/like'),
+            array(403, 'POST', '/movies/pumping-iron/comments')
+        );
+        $this->checkRoutes($routes);
     }
 }

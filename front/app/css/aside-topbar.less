@@ -10,9 +10,6 @@
     hr {
         width: 30%;
     }
-    a {
-        .up-clickable;
-    }
 }
 
 .up-aside-header{
@@ -36,6 +33,10 @@
     }
     .fa {
         .fa-block;
+    }
+    
+    a {
+        .up-clickable;
     }
     
     .up-aside-menu {
@@ -85,21 +86,32 @@
     padding: 0.5em;
     height:7em;
     font-size: 0.85em;
+    
+    a {
+        .up-clickable;
+    }
 }
 
 .up-searchbar{
     font-size: 0.9em;
-    padding:0.5em;
+    padding: 0.5em;
     margin: 0px 0.5em;
     position: relative;
-    color:@col-font;
-    input{
-        border:none;
+    color: @col-font;
+    border-radius: 5em;
+    background-color: @col-input-bckgnd;
+    transition: all 0.30s ease-in-out;
+    
+    input {
+        border: none;
         background-color: @col-input-bckgnd;
         padding: 0;
     }
-    border-radius: 5em;
-    background-color: @col-input-bckgnd;
+    
+        
+    &.focused {
+        box-shadow: 0 0 5px @col-main;
+    }
 }
 
 .up-searchbar-results{

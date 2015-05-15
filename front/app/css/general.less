@@ -147,20 +147,34 @@ a, a:hover, a:visited, a:active, a:focus {
     color: inherit;
     outline: none;
     cursor: pointer;
+    &.admissibles {
+        .disabled;
+        color: inherit !important;
+    }
+}
+.disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
 }
 :disabled, [disabled] {
-    opacity: 0.5;
-    cursor: not-allowed;
+    .disabled;
 }
 
 // Classes utiles
 .centering {
     text-align: center;
 }
+.justify {
+    text-align: justify;
+}
 .up-clickable{
     cursor: pointer;
     &:hover, &.active {
         color: @col-main;
+    }
+    &.admissibles {
+        .disabled;
+        color: inherit !important;
     }
 }
 .up-delete-button:hover{
