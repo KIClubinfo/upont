@@ -18,8 +18,11 @@ class SubresourceController extends \KI\UpontBundle\Controller\Core\ResourceCont
      * Sinon, renvoie les éléments d'une relation avec attribut en se basant sur la classe conjointe $name
      * @Route\View()
      */
-    protected function getAllSub($slug, $name, $manyToMany = true)
+    protected function getAllSub($slug, $name, $manyToMany = true, $auth = false)
     {
+        if (isset($this->user) && $this->get('security.context')->isGranted('ROLE_EXTERIEUR') && !$auth)
+            throw new AccessDeniedException();
+
         $item = $this->findBySlug($slug);
 
         if ($manyToMany) {
@@ -34,8 +37,11 @@ class SubresourceController extends \KI\UpontBundle\Controller\Core\ResourceCont
     /**
      * @Route\View()
      */
-    protected function getOneSub($slug, $name, $id)
+    protected function getOneSub($slug, $name, $id, $auth = false)
     {
+        if (isset($this->user) && $this->get('security.context')->isGranted('ROLE_EXTERIEUR') && !$auth)
+            throw new AccessDeniedException();
+
         $item = $this->findBySlug($slug);
 
         if (preg_match('#^\d+$#', $id))
@@ -58,7 +64,11 @@ class SubresourceController extends \KI\UpontBundle\Controller\Core\ResourceCont
      */
     protected function patchSub($slug, $name, $id, $auth = false)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_MODO') && !$auth)
+        if (isset($this->user) &&
+            (!$this->get('security.context')->isGranted('ROLE_MODO')
+                || $this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
+                || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+            && !$auth)
             throw new AccessDeniedException('Accès refusé');
 
         // On n'en a pas besoin ici mais on vérifie que l'item parent existe bien
@@ -76,7 +86,11 @@ class SubresourceController extends \KI\UpontBundle\Controller\Core\ResourceCont
      */
     protected function deleteSub($slug, $name, $id, $auth = false)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_MODO') && !$auth)
+        if (isset($this->user) &&
+            (!$this->get('security.context')->isGranted('ROLE_MODO')
+                || $this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
+                || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+            && !$auth)
             throw new AccessDeniedException('Accès refusé');
 
         // On n'en a pas besoin ici mais on vérifie que l'item parent existe bien

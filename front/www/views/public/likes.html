@@ -1,18 +1,18 @@
 <div up-row padded right>
-    <div class="up-likes up-clickable" ng-click="upvote(url);" ng-class="{active : objet.like}">
+    <div class="up-likes up-clickable" ng-click="upvote(url);" ng-class="{active : objet.like, admissibles : $root.isAdmissible}">
         <i class="fa fa-thumbs-o-up"></i> {{ objet.likes >= 0 ? objet.likes : 0 }}
     </div>
 
-    <div class="up-likes up-clickable" ng-click="downvote(url);" ng-class="{active : objet.dislike}">
+    <div class="up-likes up-clickable" ng-click="downvote(url);" ng-class="{active : objet.dislike, admissibles : $root.isAdmissible}">
         <i class="fa fa-thumbs-o-down"></i> {{ objet.dislikes >= 0 ? objet.dislikes : 0 }}
     </div>
 
-    <div class="up-likes">
+    <div class="up-likes" ng-class="{admissibles : $root.isAdmissible}">
         <i class="fa fa-comment"></i> {{ objet.comments }}
     </div>
 </div>
 
-<hr>
+<hr ng-if="!$root.isAdmissible || comments.length > 0">
 
 <div>
     <div ng-if="shownComments < 0 && comments.length > 3">
@@ -25,11 +25,11 @@
             <strong><span up-user user="comment.author">{{ comment.author.nick }}</span> : </strong>
             <span ng-bind-html="comment.text"></span><br>
             {{ comment.date | fromNow }}&nbsp;
-            <span class="up-likes up-clickable" ng-click="likeComment(comment)"  ng-class="{active : comment.like}">
+            <span class="up-likes up-clickable" ng-click="likeComment(comment)"  ng-class="{active : comment.like, admissibles : $root.isAdmissible}">
                 <i class="fa fa-thumbs-o-up"></i> {{ comment.likes >= 0 ? comment.likes : 0 }}
             </span>
             &nbsp;
-            <span class="up-likes up-clickable" ng-click="dislikeComment(comment)"  ng-class="{active : comment.dislike}">
+            <span class="up-likes up-clickable" ng-click="dislikeComment(comment)" ng-class="{active : comment.dislike, admissibles : $root.isAdmissible}">
                 <i class="fa fa-thumbs-o-down"></i> {{ comment.dislikes >= 0 ? comment.dislikes : 0 }}
             </span>
         </div>
@@ -38,7 +38,7 @@
             <i ng-show="comment.author.username == $root.me.username && showModify" class="fa fa-times up-clickable"  ng-click="deleteComment(comment)"></i>
         </div>
     </div>
-    <form up-row left ng-submit="submitComment(commentText)" autocomplete="off">
+    <form up-row left ng-submit="submitComment(commentText)" autocomplete="off" ng-if="!$root.isAdmissible">
         <img class="up-profile-picture" ng-src="{{ $root.me.image_url | urlFile }}" />
         <textarea class="up-col-xs-12 comment-textarea" ng-model="commentText"
                   placeholder="Ajouter un commentaire" msd-elastic
