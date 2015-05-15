@@ -108,7 +108,7 @@ angular.module('upont')
                 template: '<div ui-view></div>'
             });
     }])
-    .run(['$rootScope', 'StorageService', '$state', '$interval',  'jwtHelper', '$resource', '$location', 'Migration', '$window', function($rootScope, StorageService, $state, $interval, jwtHelper, $resource, $location, Migration, $window) {
+    .run(['$rootScope', 'StorageService', '$state', '$interval',  'jwtHelper', '$resource', '$location', 'Migration', '$window', '$sce', function($rootScope, StorageService, $state, $interval, jwtHelper, $resource, $location, Migration, $window, $sce) {
         // Data à charger au lancement
         $rootScope.selfClubs = [];
 
@@ -282,4 +282,18 @@ angular.module('upont')
 
         // Easter egg
         $rootScope.surprise = (Math.random()*1000 == 314);
+
+        // Zoom sur les images
+        $rootScope.zoom = false;
+        $rootScope.zoomUrl = null;
+        $rootScope.zoomOut = function(event) {
+            if (event.which == 1) {
+                $rootScope.zoom = false;
+                $rootScope.zoomUrl = null;
+            }
+        };
+        $rootScope.zoomIn = function(url) {
+            $rootScope.zoom = true;
+            $rootScope.zoomUrl = $sce.trustAsUrl(url);
+        };
     }]);

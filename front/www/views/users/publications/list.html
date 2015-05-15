@@ -2,7 +2,10 @@
     <div infinite-scroll="next()" infinite-scroll-distance="2" infinite-scroll-disabled="$root.infiniteLoading">
         <div class="up-ticket divided rounded-top" ng-class="'color{{ publication.slug.length%5+1 }}'" ng-repeat="publication in events.data | concat: newsItems.data | orderBy: 'date' | reverse">
             <div class="up-ticket-header">
-                <div class="up-img-home" ng-style="{'background-image': 'url({{ publication.image_url | urlFile }})'}" ></div>
+                <div class="up-img-home up-clickable"
+                     ng-click="$root.zoomIn('/api/' + publication.image_url)"
+                     ng-style="{'background-image': 'url({{ publication.image_url | urlFile }})'}">
+                </div>
                 <div class="background" ng-style="{'background': 'linear-gradient(to bottom , transparent, rgba(0, 0, 0, 0.6)), url({{ publication.author_club.image_url | urlFile }}) no-repeat center center'}"></div>
             </div>
             <div class="up-ticket-body">
