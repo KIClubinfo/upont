@@ -13,6 +13,10 @@ angular.module('upont')
         };
 
         $scope.post = function(link) {
+            if (!link.match(/^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/)) {
+                alertify.error('Ce n\'est pas une vidéo YouTube !');
+                return;
+            }
 
             $http.post(apiPrefix + 'youtubes', {name: 'Lien Youtube Foyer', link: link}).success(function(data){
                 $scope.link = '';

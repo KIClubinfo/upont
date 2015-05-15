@@ -180,6 +180,8 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setLastName('Mines-Ponts');
         $user->setPromo('018');
         $user->setEnabled(true);
+        $user->setStatsFoyer(true);
+        $user->setStatsPonthub(true);
         $user->addGroup($this->getReference('group-admissible'));
         $user->setImage($this->getReference('image-user-admissibles'));
         $userManager->updateUser($user);
@@ -193,6 +195,8 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setLastName('GCC');
         $user->setDepartment('GCC');
         $user->setEnabled(true);
+        $user->setStatsFoyer(false);
+        $user->setStatsPonthub(false);
         $user->addGroup($this->getReference('group-exterieur'));
         $user->setImage($this->getReference('image-user-gcc'));
         $userManager->updateUser($user);

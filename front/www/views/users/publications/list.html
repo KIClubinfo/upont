@@ -15,7 +15,7 @@
                     </div>
                     <div class="up-ticket-date">
                         <h2 style="margin:0">
-                            &nbsp;<i ng-show="$root.hasRight(publication.author_club.slug)" class="fa fa-trash up-clickable up-delete-button"  ng-click="delete(publication)"></i>
+                            &nbsp;<i ng-show="$root.hasRight(publication.author_club.slug)" class="fa fa-trash up-clickable up-delete-button"ng-click="delete(publication)"></i>
                         </h2>
                         <span class="up-invisible-xs">{{ publication.date*1000 | date : 'd MMMM yyyy' }}</span>
                         <span class="up-invisible-sm up-invisible-md up-invisible-lg">{{ publication.date*1000 | date : 'd/mm/yyyy' }}</span><br>
@@ -29,6 +29,7 @@
 
                     <a class="up-shotgun-link" title="Lien vers la page de shotgun"
                     ng-if="publication.start_date && publication.entry_method == 'Shotgun'"
+                    ng-class="{admissibles : $root.isAdmissible}"
                     ng-href="shotgun/{{ publication.slug }}">
                         Shotgun : {{ publication.shotgun_date | formatDate }}
                     </a>
@@ -45,11 +46,11 @@
                 </p>
                 <p up-publi-text string="publication.text"></p>
                 <div ng-if="publication.start_date && !publication.shotgun_date" up-row right>
-                    <span class="up-likes up-clickable" ng-click="attend(publication)" ng-class="{active : publication.attend}">
+                    <span class="up-likes up-clickable" ng-click="attend(publication)" ng-class="{active : publication.attend, admissibles : $root.isAdmissible}">
                         <i class="fa fa-check"></i> {{ publication.attend ? 'Ne pas participer' : 'Participer' }}
                     </span>
                     &nbsp;&nbsp;&nbsp;
-                    <span class="up-likes up-clickable" ng-click="pookie(publication)" ng-class="{active : publication.pookie}">
+                    <span class="up-likes up-clickable" ng-click="pookie(publication)" ng-class="{active : publication.pookie, admissibles : $root.isAdmissible}">
                         <i class="fa fa-times"></i> Masquer
                     </span>
                 </div>

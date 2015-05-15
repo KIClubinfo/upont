@@ -224,7 +224,6 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
     public function getCommentsView($object, $slug)
     {
         if (!$this->get('security.context')->isGranted('ROLE_USER')
-            || $this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
             || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
             throw new AccessDeniedException('Accès refusé');
 
@@ -526,6 +525,10 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
      */
     public function getCommentsSubView($object, $slug, $subobject, $subslug)
     {
+        if (!$this->get('security.context')->isGranted('ROLE_USER')
+            || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+            throw new AccessDeniedException('Accès refusé');
+
         $this->autoInitialize($object);
         $this->findBySlug($slug);
         $this->autoInitialize($subobject);

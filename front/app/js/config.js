@@ -42,6 +42,7 @@ angular.module('upont')
             if (StorageService.get('token') && jwtHelper.isTokenExpired(StorageService.get('token'))) {
                 $rootScope.isLogged = false;
                 $rootScope.isAdmin = false;
+                $rootScope.isAdmissible = false;
                 StorageService.remove('token');
                 StorageService.remove('droits');
                 return $q.reject(config);
@@ -163,14 +164,15 @@ angular.module('upont')
         if (StorageService.get('token') && !jwtHelper.isTokenExpired(StorageService.get('token'))) {
             $rootScope.isLogged = true;
             $rootScope.isAdmin = (StorageService.get('droits').indexOf('ROLE_ADMIN') != -1) ? true : false;
+            $rootScope.isAdmissible = (StorageService.get('droits').indexOf('ROLE_ADMISSIBLE') != -1) ? true : false;
             $rootScope.init(jwtHelper.decodeToken(StorageService.get('token')).username);
         } else {
             $rootScope.isLogged = false;
             $rootScope.isAdmin = false;
+            $rootScope.isAdmissible = false;
             StorageService.remove('token');
             StorageService.remove('droits');
         }
-
         // Déconnexion
         $rootScope.logout = function() {
             StorageService.remove('token');

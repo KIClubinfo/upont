@@ -4,7 +4,7 @@ angular.module('upont').directive('upLikes', function() {
             objet: '=',
             url: '='
         },
-        controller: ['$scope', '$resource', '$http', function($scope, $resource, $http) {
+        controller: ['$scope', '$resource', '$http', '$rootScope', function($scope, $resource, $http, $rootScope) {
             $scope.isLoading = false;
 
             if($scope.objet.comments > 0){
@@ -19,6 +19,9 @@ angular.module('upont').directive('upLikes', function() {
             }
 
             $scope.upvote = function() {
+                if ($rootScope.isAdmissible)
+                    return;
+
                 if ($scope.isLoading) {
                     return;
                 }
@@ -45,6 +48,9 @@ angular.module('upont').directive('upLikes', function() {
             };
 
             $scope.downvote = function() {
+                if ($rootScope.isAdmissible)
+                    return;
+
                 if ($scope.isLoading) {
                     return;
                 }
@@ -71,6 +77,9 @@ angular.module('upont').directive('upLikes', function() {
             };
 
             $scope.likeComment = function(comment) {
+                if ($rootScope.isAdmissible)
+                    return;
+
                 if ($scope.isLoading) {
                     return;
                 }
@@ -100,6 +109,9 @@ angular.module('upont').directive('upLikes', function() {
             };
 
             $scope.dislikeComment = function(comment) {
+                if ($rootScope.isAdmissible)
+                    return;
+
                 if ($scope.isLoading) {
                     return;
                 }

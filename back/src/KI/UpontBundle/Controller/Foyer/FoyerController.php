@@ -83,9 +83,6 @@ class FoyerController extends \KI\UpontBundle\Controller\Core\BaseController
         $service = $this->get('ki_upont.foyer');
         $service->initialize();
 
-        if ($service->hasFailed())
-            return $this->jsonResponse(array('error' => 'Impossible d\'afficher les statistiques Foyer'));
-
         return $this->jsonResponse($service->rankings());
     }
 }
