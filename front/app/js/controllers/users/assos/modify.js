@@ -60,7 +60,7 @@ angular.module('upont')
                 }
             }
 
-            alertify.prompt('Rôle :', function(e, role){
+            alertify.prompt('Rôle de ' + name + ' :', function(e, role){
                 if (e) {
                     $http.post(apiPrefix + 'clubs/' + $scope.club.slug + '/users/' + slug, {role: role}).success(function(data){
                         alertify.success(name + ' a été ajouté(e) !');

@@ -119,7 +119,11 @@ class CoreUser extends \FOS\UserBundle\Model\User
      */
     public function imageUrl()
     {
-        return $this->image !== null ? $this->image->getWebPath() : 'uploads/others/default-user.png';
+        if ($this->image !== null) {
+            if (file_exists($this->image->getAbsolutePath()))
+                return $this->image->getWebPath();
+        }
+        return 'uploads/others/default-user.png';
     }
 
     /**
