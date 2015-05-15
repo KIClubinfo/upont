@@ -120,8 +120,10 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
     /**
      * @Route\View()
      */
-    public function getAll()
+    public function getAll($auth = false)
     {
+        if ($this->get('security.context')->isGranted('ROLE_EXTERIEUR') && !$auth)
+            throw new AccessDeniedException();
         list($findBy, $sortBy, $limit, $offset, $page, $totalPages, $count) = $this->paginate($this->repo);
         $results = $this->repo->findBy($findBy, $sortBy, $limit, $offset);
         return $this->generatePages($results, $limit, $page, $totalPages, $count);
@@ -130,10 +132,11 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
     /**
      * @Route\View()
      */
-    protected function getOne($slug)
+    protected function getOne($slug, $auth = false)
     {
+        if ($this->get('security.context')->isGranted('ROLE_EXTERIEUR') && !$auth)
+            throw new AccessDeniedException();
         $item = $this->findBySlug($slug);
-
         return $this->retrieveLikes($item);
     }
 
@@ -159,7 +162,10 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
 
     protected function partialPost($auth = false)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_MODO') && !$auth)
+        if ((!$this->get('security.context')->isGranted('ROLE_MODO')
+                || $this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
+                || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+            && !$auth)
             throw new AccessDeniedException();
         return $this->processForm(new $this->class(), 'POST');
     }
@@ -199,7 +205,10 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
      */
     protected function put($slug, $auth = false)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_MODO') && !$auth)
+        if (((!$this->get('security.context')->isGranted('ROLE_MODO')
+                || $this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
+                || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+            && !$auth))
             throw new AccessDeniedException('Accès refusé');
         $item = $this->findBySlug($slug);
         return $this->postView($this->processForm($item, 'PUT'));
@@ -210,7 +219,10 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
      */
     protected function patch($slug, $auth = false)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_MODO') && !$auth)
+        if (((!$this->get('security.context')->isGranted('ROLE_MODO')
+                || $this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
+                || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+            && !$auth))
             throw new AccessDeniedException('Accès refusé');
         $item = $this->findBySlug($slug);
         return $this->postView($this->processForm($item, 'PATCH'));
@@ -221,7 +233,10 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
      */
     protected function delete($slug, $auth = false)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_MODO') && !$auth)
+        if (((!$this->get('security.context')->isGranted('ROLE_MODO')
+                || $this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
+                || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+            && !$auth))
             throw new AccessDeniedException('Accès refusé');
         $item = $this->findBySlug($slug);
         $this->em->remove($item);
@@ -231,6 +246,8 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
     // Pour les fichiers Ponthub
     protected function download($item)
     {
+        if ($this->get('security.context')->isGranted('ROLE_EXTERIEUR') && !$auth)
+            throw new AccessDeniedException();
         $user = $this->container->get('security.context')->getToken()->getUser();
 
         // Si l'utilisateur n'a pas déjà téléchargé ce fichier on le rajoute
