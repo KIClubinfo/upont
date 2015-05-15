@@ -5,12 +5,23 @@
     </div>
 
     <div class="up-invisible-sm up-invisible-xs" up-col-md="40%" up-col-lg="40%">
-        <div class="up-ticket centering">
+        <div ng-if="!$root.isAdmissible" class="up-ticket centering">
             <h3>Ceci est la nouvelle version de uPont !</h3>
             On espère qu'elle vous plaît ; vous pouvez aussi télécharger l'application mobile pour <a href="https://play.google.com/store/apps/details?id=youPont.mobile&hl=fr_CA">Android</a> !
             (les applications pour iOS et Windows Phone vont venir, elles sont en cours de validation et c'est un processus trèèèèès très très chiant)
             <br><br>
             Restez à jour, de nouvelles versions seront publiées au moins une fois par semaine (voir en bas à gauche). Et n'hésitez pas à <a ui-sref="root.users.assos.ki" title="Faire une remarque sur uPont">balancer des coms/remarques/suggestions !</a>
+        </div>
+
+        <div ng-if="$root.isAdmissible" class="up-ticket centering">
+            <h3>Ceci est uPont, l'intranet des Ponts !</h3>
+            <p class="justify">
+                Cher admissible, tu as le privilège de pouvoir accéder à ce site !<br>
+                Ainsi, tu pourras parcourir la plupart des pages et explorer les nombreuses fonctionnalités de uPont (en lecture seule, tout de même).<br>
+                Regarde notamment les news et le calendrier pour te tenir au courant des événements durant ta série d'oraux !<br>
+                <br>
+                Sache aussi qu'il y a aussi une application Android (réservée aux élèves), bientôt disponible sur iOS et Windows Phone...
+            </p>
         </div>
 
         <div ng-include="'views/users/publications/post-messages.html'"></div>
