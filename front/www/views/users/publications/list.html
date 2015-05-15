@@ -15,7 +15,9 @@
                     </div>
                     <div class="up-ticket-date">
                         <h2 style="margin:0">
-                            &nbsp;<i ng-show="$root.hasRight(publication.author_club.slug)" class="fa fa-trash up-clickable up-delete-button"  ng-click="delete(publication)"></i>
+                            &nbsp;<i ng-show="$root.hasRight(publication.author_club.slug)"
+                                     class="fa fa-trash up-clickable up-delete-button"
+                                     ng-click="delete(publication)"></i>
                         </h2>
                         <span class="up-invisible-xs">{{ publication.date*1000 | date : 'd MMMM yyyy' }}</span>
                         <span class="up-invisible-sm up-invisible-md up-invisible-lg">{{ publication.date*1000 | date : 'd/mm/yyyy' }}</span><br>
@@ -29,7 +31,7 @@
 
                     <a class="up-shotgun-link" title="Lien vers la page de shotgun"
                     ng-if="publication.start_date && publication.entry_method == 'Shotgun'"
-                    ng-href="shotgun/{{ publication.slug }}">
+                    ui-sref="root.users.shotgun({slug: publication.slug})">
                         Shotgun : {{ publication.shotgun_date | formatDate }}
                     </a>
                 </div>
