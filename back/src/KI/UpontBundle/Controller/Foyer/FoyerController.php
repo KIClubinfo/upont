@@ -3,6 +3,7 @@
 namespace KI\UpontBundle\Controller\Foyer;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class FoyerController extends \KI\UpontBundle\Controller\Core\BaseController
 {
@@ -21,6 +22,10 @@ class FoyerController extends \KI\UpontBundle\Controller\Core\BaseController
      */
     public function balanceAction()
     {
+        if ($this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
+            || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+            throw new AccessDeniedException();
+
         $service = $this->get('ki_upont.foyer');
         $service->initialize();
 
@@ -45,6 +50,10 @@ class FoyerController extends \KI\UpontBundle\Controller\Core\BaseController
      */
     public function statisticsAction($slug)
     {
+        if ($this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
+            || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+            throw new AccessDeniedException();
+
         $repo = $this->getDoctrine()->getManager()->getRepository('KIUpontBundle:Users\User');
         $user = $repo->findOneByUsername($slug);
         $service = $this->get('ki_upont.foyer');
@@ -70,6 +79,10 @@ class FoyerController extends \KI\UpontBundle\Controller\Core\BaseController
      */
     public function statisticsMainAction()
     {
+        if ($this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
+            || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+            throw new AccessDeniedException();
+
         $service = $this->get('ki_upont.foyer');
         $service->initialize();
 

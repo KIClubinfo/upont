@@ -81,6 +81,11 @@ class UsersController extends \KI\UpontBundle\Controller\Core\ResourceController
      */
     public function patchUserAction($slug)
     {
+        // Les admissibles et extérieurs ne peuvent pas modifier leur profil
+        if ($this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
+            || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+            throw new AccessDeniedException();
+
         // Un utilisateur peut se modifier lui même
         $user = $this->get('security.context')->getToken()->getUser();
         return $this->patch($slug, $user->getUsername() == $slug);

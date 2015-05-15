@@ -77,6 +77,7 @@ abstract class WebTestCase extends LiipWebTestCase
     public function checkRoutes($routes)
     {
         foreach ($routes as $route) {
+            echo "\n".$route[1].' '.$route[2];
             if (isset($route[3]))
                 $this->client->request($route[1], $route[2], $route[3]);
             else

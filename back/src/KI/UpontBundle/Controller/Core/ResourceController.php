@@ -122,7 +122,7 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
      */
     public function getAll($auth = false)
     {
-        if ($this->get('security.context')->isGranted('ROLE_EXTERIEUR') && !$auth)
+        if (isset($this->user) && $this->get('security.context')->isGranted('ROLE_EXTERIEUR') && !$auth)
             throw new AccessDeniedException();
         list($findBy, $sortBy, $limit, $offset, $page, $totalPages, $count) = $this->paginate($this->repo);
         $results = $this->repo->findBy($findBy, $sortBy, $limit, $offset);
@@ -134,7 +134,7 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
      */
     protected function getOne($slug, $auth = false)
     {
-        if ($this->get('security.context')->isGranted('ROLE_EXTERIEUR') && !$auth)
+        if (isset($this->user) && $this->get('security.context')->isGranted('ROLE_EXTERIEUR') && !$auth)
             throw new AccessDeniedException();
         $item = $this->findBySlug($slug);
         return $this->retrieveLikes($item);
@@ -162,7 +162,8 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
 
     protected function partialPost($auth = false)
     {
-        if ((!$this->get('security.context')->isGranted('ROLE_MODO')
+        if (isset($this->user) &&
+            (!$this->get('security.context')->isGranted('ROLE_MODO')
                 || $this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
                 || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
             && !$auth)
@@ -205,7 +206,8 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
      */
     protected function put($slug, $auth = false)
     {
-        if (((!$this->get('security.context')->isGranted('ROLE_MODO')
+        if (isset($this->user) &&
+            ((!$this->get('security.context')->isGranted('ROLE_MODO')
                 || $this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
                 || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
             && !$auth))
@@ -219,7 +221,8 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
      */
     protected function patch($slug, $auth = false)
     {
-        if (((!$this->get('security.context')->isGranted('ROLE_MODO')
+        if (isset($this->user) &&
+            ((!$this->get('security.context')->isGranted('ROLE_MODO')
                 || $this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
                 || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
             && !$auth))
@@ -233,7 +236,8 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
      */
     protected function delete($slug, $auth = false)
     {
-        if (((!$this->get('security.context')->isGranted('ROLE_MODO')
+        if (isset($this->user) &&
+            ((!$this->get('security.context')->isGranted('ROLE_MODO')
                 || $this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
                 || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
             && !$auth))
@@ -246,7 +250,7 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
     // Pour les fichiers Ponthub
     protected function download($item)
     {
-        if ($this->get('security.context')->isGranted('ROLE_EXTERIEUR') && !$auth)
+        if (isset($this->user) && $this->get('security.context')->isGranted('ROLE_EXTERIEUR') && !$auth)
             throw new AccessDeniedException();
         $user = $this->container->get('security.context')->getToken()->getUser();
 
