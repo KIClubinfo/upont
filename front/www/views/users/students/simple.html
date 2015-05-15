@@ -1,5 +1,5 @@
 <div class="up-user-banner" up-col="100%">
-    <div class="up-user-image-container">
+    <div class="up-user-image-container up-clickable" ng-click="$root.zoomIn('/api/' + user.image_url)">
         <div class="up-user-image" ng-style="{ 'background-image' : 'url({{ user.image_url | urlFile }})' }"></div>
     </div>
     <h1>{{ user.nick }}</h1>

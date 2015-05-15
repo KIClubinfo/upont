@@ -48,6 +48,12 @@
 <body ng-class="theme == 'dark' ? 'theme-dark' : 'theme-clear'">
     <div ui-view up-col="100%" autoscroll="false" up-fill-window ></div>
 
+    <!-- Endroit réservé aux images zoomées -->
+    <div ng-if="$root.zoom" class="up-zoom-container" ng-click="$root.zoomOut($event)">
+        <img ng-src="{{ $root.zoomUrl }}" alt="Image zoomée" class="img-responsive"/>
+        <strong>Clic gauche pour fermer</strong>
+    </div>
+
     <!-- Piwik -->
     <script type="text/javascript" type="text/javascript">
         var _paq = _paq || [];
