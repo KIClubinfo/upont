@@ -22,8 +22,7 @@ class FoyerController extends \KI\UpontBundle\Controller\Core\BaseController
      */
     public function balanceAction()
     {
-        if ($this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
-            || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+        if ($this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
             throw new AccessDeniedException();
 
         $service = $this->get('ki_upont.foyer');
@@ -50,8 +49,7 @@ class FoyerController extends \KI\UpontBundle\Controller\Core\BaseController
      */
     public function statisticsAction($slug)
     {
-        if ($this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
-            || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+        if ($this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
             throw new AccessDeniedException();
 
         $repo = $this->getDoctrine()->getManager()->getRepository('KIUpontBundle:Users\User');
@@ -79,8 +77,7 @@ class FoyerController extends \KI\UpontBundle\Controller\Core\BaseController
      */
     public function statisticsMainAction()
     {
-        if ($this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
-            || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+        if ($this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
             throw new AccessDeniedException();
 
         $service = $this->get('ki_upont.foyer');
