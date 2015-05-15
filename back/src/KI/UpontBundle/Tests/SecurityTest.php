@@ -137,7 +137,7 @@ class SecurityTest extends WebTestCase
         // On se présente comme un admissible
         $this->connect('admissibles', 'password');
         $routes = array(
-            /*array(200, 'GET', '/clubs'),
+            array(200, 'GET', '/clubs'),
             array(200, 'GET', '/newsitems'),
             array(200, 'GET', '/clubs/ki'),
             array(404, 'GET', '/clubs/sddsdqs'),
@@ -152,7 +152,7 @@ class SecurityTest extends WebTestCase
             array(403, 'PATCH', '/events/don-giovanni'),
             array(403, 'PATCH', '/newsitems/pulls'),
             array(403, 'PATCH', '/users/admissibles'),
-            array(200, 'GET', '/foyer/statistics'),*/
+            array(200, 'GET', '/foyer/statistics'),
             array(403, 'PATCH', '/promo/016/pictures'),
             array(403, 'POST', '/resetting/request', array('username' => 'admissibles')),
             array(403, 'POST', '/movies/pumping-iron/like'),
@@ -167,7 +167,7 @@ class SecurityTest extends WebTestCase
         // On se présente comme un extérieur de l'administration
         $this->connect('gcc', 'password');
         $routes = array(
-            /*array(200, 'GET', '/clubs'),
+            array(200, 'GET', '/clubs'),
             array(200, 'GET', '/newsitems'),
             array(200, 'GET', '/clubs/ki'),
             array(404, 'GET', '/clubs/sddsdqs'),
@@ -176,7 +176,7 @@ class SecurityTest extends WebTestCase
             array(403, 'GET', '/movies/pumping-iron'),
             array(403, 'GET', '/games'),
             array(403, 'GET', '/users'),
-            array(403, 'POST', '/clubs'),*/
+            array(403, 'POST', '/clubs'),
             array(403, 'GET', '/foyer/statistics'),
             array(403, 'PATCH', '/promo/016/pictures'),
             array(403, 'PATCH', '/users/gcc'),

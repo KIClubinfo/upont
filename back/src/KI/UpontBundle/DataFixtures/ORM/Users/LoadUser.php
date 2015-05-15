@@ -181,6 +181,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setPromo('018');
         $user->setEnabled(true);
         $user->addGroup($this->getReference('group-admissible'));
+        $user->setImage($this->getReference('image-user-admissibles'));
         $userManager->updateUser($user);
         $this->addReference('user-admissibles', $user);
 
@@ -193,6 +194,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setDepartment('GCC');
         $user->setEnabled(true);
         $user->addGroup($this->getReference('group-exterieur'));
+        $user->setImage($this->getReference('image-user-gcc'));
         $userManager->updateUser($user);
         $this->addReference('user-gcc', $user);
     }

@@ -336,10 +336,10 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
         $repo = $manager->getRepository('KIUpontBundle:Users\User');
         $user = $repo->findOneByUsername($request->request->get('username'));
 
-        if ($user->hasRole('ROLE_ADMISSIBLE'))
-            return $this->jsonResponse(null, 403);
-
         if ($user) {
+            if ($user->hasRole('ROLE_ADMISSIBLE'))
+                return $this->jsonResponse(null, 403);
+
             $token = $this->get('ki_upont.token')->getToken($user);
             $message = \Swift_Message::newInstance()
                 ->setSubject('Réinitialisation du mot de passe')
@@ -387,10 +387,10 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
         $repo = $manager->getRepository('KIUpontBundle:Users\User');
         $user = $repo->findOneByToken($token);
 
-        if ($user->hasRole('ROLE_ADMISSIBLE'))
-            return $this->jsonResponse(null, 403);
-
         if ($user) {
+            if ($user->hasRole('ROLE_ADMISSIBLE'))
+                return $this->jsonResponse(null, 403);
+
             $username = $user->getUsername();
 
             // Pour changer le mot de passe on doit passer par le UserManager
