@@ -163,25 +163,6 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
 
     /**
      * @ApiDoc(
-     *  description="Déclenche le déploiement de master. DANGEREUX ! Ne doit pas être testé pour des raisons évidentes.",
-     *  statusCodes={
-     *   202="Requête traitée mais sans garantie de résultat",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  tags={
-     *    "WARNING"
-     *  },
-     *  section="Général"
-     * )
-     */
-    public function deployAction()
-    {
-        shell_exec("ssh root@localhost '/bin/bash /server/upont/utils/update-prod.sh'");
-        return $this->jsonResponse(null, 202);
-    }
-
-    /**
-     * @ApiDoc(
      *  description="Let's get dirty !",
      *  statusCodes={
      *   202="Requête traitée mais sans garantie de résultat",
@@ -247,7 +228,7 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
     public function maintenanceLockAction(Request $request)
     {
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
-            throw new AccessDeniedException();
+            return $this->jsonResponse(null, 403);
 
         $path = $this->get('kernel')->getRootDir().$this->container->getParameter('upont_maintenance_lock');
         $until = $request->request->has('until') ? (string)$request->request->get('until') : '';
@@ -269,7 +250,7 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
     public function maintenanceUnlockAction(Request $request)
     {
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
-            throw new AccessDeniedException();
+            return $this->jsonResponse(null, 403);
 
         $path = $this->get('kernel')->getRootDir().$this->container->getParameter('upont_maintenance_lock');
 
@@ -356,6 +337,9 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
         $user = $repo->findOneByUsername($request->request->get('username'));
 
         if ($user) {
+            if ($user->hasRole('ROLE_ADMISSIBLE'))
+                return $this->jsonResponse(null, 403);
+
             $token = $this->get('ki_upont.token')->getToken($user);
             $message = \Swift_Message::newInstance()
                 ->setSubject('Réinitialisation du mot de passe')
@@ -364,7 +348,7 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
                 ->setBody($this->renderView('KIUpontBundle::resetting.txt.twig', array('token' => $token, 'name' => $user->getFirstName())));
             $this->get('mailer')->send($message);
 
-            return $this->restResponse(null, 204);
+            return $this->jsonResponse(null, 204);
         } else
             throw new NotFoundHttpException('Utilisateur non trouvé');
     }
@@ -404,6 +388,9 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
         $user = $repo->findOneByToken($token);
 
         if ($user) {
+            if ($user->hasRole('ROLE_ADMISSIBLE'))
+                return $this->jsonResponse(null, 403);
+
             $username = $user->getUsername();
 
             // Pour changer le mot de passe on doit passer par le UserManager

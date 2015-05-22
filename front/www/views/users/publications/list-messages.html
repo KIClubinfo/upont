@@ -12,7 +12,9 @@
                     <span up-publi-text string="'<strong>' + message.author_user.nick + ' :</strong> ' + message.text" style="margin-top: 0"></span>
                 </div>
             </div>
-            <img class="img-responsive" ng-if="message.image_url" ng-src="{{ message.image_url | urlFile }}"/><br>
+            <img class="img-responsive up-clickable" ng-if="message.image_url"
+                 ng-click="$root.zoomIn('/api/' + message.image_url)"
+                 ng-src="{{ message.image_url | urlFile }}"/><br>
             <div up-likes objet="message" url="'newsitems/'+message.slug"></div>
         </div>
     </div>

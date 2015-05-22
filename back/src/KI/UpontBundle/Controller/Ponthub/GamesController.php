@@ -62,7 +62,7 @@ class GamesController extends \KI\UpontBundle\Controller\Core\ResourceController
      */
     public function patchGameAction($slug)
     {
-        return $this->patch($slug, $this->get('security.context')->isGranted('ROLE_PONTHUB'));
+        return $this->patch($slug, $this->get('security.context')->isGranted('ROLE_JARDINIER'));
     }
 
     /**

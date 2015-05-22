@@ -49,9 +49,6 @@ class KIFoyer extends ContainerAware
 
     public function rankings()
     {
-        if ($this->token === null)
-            return;
-
         $response = $this->curl->curl('http://dev-foyer.enpc.org/uPonts/rankings.php');
         $data = json_decode($response, true);
 

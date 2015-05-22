@@ -62,7 +62,7 @@ class SoftwaresController extends \KI\UpontBundle\Controller\Core\ResourceContro
      */
     public function patchSoftwareAction($slug)
     {
-        return $this->patch($slug, $this->get('security.context')->isGranted('ROLE_PONTHUB'));
+        return $this->patch($slug, $this->get('security.context')->isGranted('ROLE_JARDINIER'));
     }
 
     /**

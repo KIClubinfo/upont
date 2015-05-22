@@ -62,7 +62,7 @@ class OthersController extends \KI\UpontBundle\Controller\Core\ResourceControlle
      */
     public function patchOtherAction($slug)
     {
-        return $this->patch($slug, $this->get('security.context')->isGranted('ROLE_PONTHUB'));
+        return $this->patch($slug, $this->get('security.context')->isGranted('ROLE_JARDINIER'));
     }
 
     /**

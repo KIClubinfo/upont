@@ -26,6 +26,6 @@
     "angular-elastic": "latest",
     "highmaps": "latest",
     "highcharts-release": "latest",
-    "angular-youtube-mb": "~1.0.2"
+    "angular-youtube-mb": "latest"
   }
 }

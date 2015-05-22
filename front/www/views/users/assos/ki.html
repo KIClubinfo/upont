@@ -6,8 +6,15 @@
             Si tu as des fonctionnalités à suggérer ou des bugs à rapporter, c'est ici ! N'oublie pas de regarder d'abord si la remarque est déjà mentionnée :)<br>
             <br>
             <form class="publish-container" ng-submit="post(msg, false)" up-row wrap right autocomplete="off">
-                <textarea ng-model="msg" placeholder="Ce qui te passe par la tête... ce que tu aimes, ce que tu n'aimes pas, un bug..." msd-elastic id="focus-input"></textarea>
-                <div up-col-xs="100%" up-col-sm="100%" up-col-md="33%" up-col="33%"><button up-col="100%" class="up-btn up-btn-default">Envoyer !</button></div>
+                <textarea ng-model="msg" ng-class="{disabled : $root.isAdmissible}"
+                          placeholder="Ce qui te passe par la tête... ce que tu aimes, ce que tu n'aimes pas, un bug..."
+                          msd-elastic id="focus-input">
+                </textarea>
+                <div up-col-xs="100%" up-col-sm="100%" up-col-md="33%" up-col="33%">
+                    <button up-col="100%" class="up-btn up-btn-default"
+                            ng-class="{disabled : $root.isAdmissible}">Envoyer !
+                    </button>
+                </div>
             </form>
         </div>
 
@@ -21,8 +28,15 @@
             Un problème ? Ton ordi plante ? Tu n'as plus Internet chez toi ? <a style="color: inherit !important" href="https://www.youtube.com/watch?v=vh3tuL_DVsE" target="_blank">Une horde de martiens t'attaque ?</a> Le KI essayera de résoudre au mieux tes problèmes.<br>
             <br>
             <form class="publish-container" ng-submit="post(fix, true)" up-row wrap right autocomplete="off">
-                <textarea ng-model="fix" placeholder="Une explication la plus détaillée possible du problème." msd-elastic></textarea>
-                <div up-col-xs="100%" up-col-sm="100%" up-col-md="33%" up-col="33%"><button up-col="100%" class="up-btn up-btn-default">Envoyer !</button></div>
+                <textarea ng-model="fix" ng-class="{disabled : $root.isAdmissible}"
+                          placeholder="Une explication la plus détaillée possible du problème."
+                          msd-elastic>
+                </textarea>
+                <div up-col-xs="100%" up-col-sm="100%" up-col-md="33%" up-col="33%">
+                    <button up-col="100%" class="up-btn up-btn-default"
+                            ng-class="{disabled : $root.isAdmissible}">Envoyer !
+                    </button>
+                </div>
             </form>
         </div>
 

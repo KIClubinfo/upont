@@ -32,7 +32,7 @@ angular.module('upont')
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state('root.users.publications.shotgun', {
+            .state('root.users.shotgun', {
                 url: 'shotgun/:slug',
                 templateUrl: 'views/users/publications/shotgun.html',
                 controller: 'Shotgun_Ctrl',

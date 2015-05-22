@@ -62,7 +62,7 @@ class AlbumsController extends \KI\UpontBundle\Controller\Core\SubresourceContro
      */
     public function patchAlbumAction($slug)
     {
-        return $this->patch($slug, $this->get('security.context')->isGranted('ROLE_PONTHUB'));
+        return $this->patch($slug, $this->get('security.context')->isGranted('ROLE_JARDINIER'));
     }
 
     /**
@@ -114,7 +114,7 @@ class AlbumsController extends \KI\UpontBundle\Controller\Core\SubresourceContro
      */
     public function patchAlbumMusicAction($slug, $id)
     {
-        return $this->patchSub($slug, 'Music', $id, $this->get('security.context')->isGranted('ROLE_PONTHUB'));
+        return $this->patchSub($slug, 'Music', $id, $this->get('security.context')->isGranted('ROLE_JARDINIER'));
     }
 
     /**

@@ -2,7 +2,8 @@
     <h1>Informations Générales :</h1>
 
     <div up-row padded center>
-        <div up-col-xs="100%" up-col-sm="100%" up-col="50%" class="centering">
+        <div up-col-xs="100%" up-col-sm="100%" up-col="50%" class="centering up-clickable"
+             ng-click="$root.zoomIn('/api/' + me.image_url)">
             <img ng-src="{{ url + me.image_url }}" class="up-profile-page-picture">
         </div>
     </div>

@@ -42,6 +42,7 @@ angular.module('upont')
             if (StorageService.get('token') && jwtHelper.isTokenExpired(StorageService.get('token'))) {
                 $rootScope.isLogged = false;
                 $rootScope.isAdmin = false;
+                $rootScope.isAdmissible = false;
                 StorageService.remove('token');
                 StorageService.remove('droits');
                 return $q.reject(config);
@@ -92,9 +93,9 @@ angular.module('upont')
                     '':{
                         template: '<div class="up-main-view" ui-view up-fill-window></div>'
                     },
-                    //topbar: {
-                    //    templateUrl: 'views/public/top-bar.html'
-                    //},
+                    topbar: {
+                        templateUrl: 'views/public/top-bar.html'
+                    },
                     aside: {
                         templateUrl: 'views/users/aside.html',
                         controller: 'Search_Ctrl'
@@ -107,7 +108,7 @@ angular.module('upont')
                 template: '<div ui-view></div>'
             });
     }])
-    .run(['$rootScope', 'StorageService', '$state', '$interval',  'jwtHelper', '$resource', '$location', 'Migration', '$window', function($rootScope, StorageService, $state, $interval, jwtHelper, $resource, $location, Migration, $window) {
+    .run(['$rootScope', 'StorageService', '$state', '$interval',  'jwtHelper', '$resource', '$location', 'Migration', '$window', '$sce', function($rootScope, StorageService, $state, $interval, jwtHelper, $resource, $location, Migration, $window, $sce) {
         // Data à charger au lancement
         $rootScope.selfClubs = [];
 
@@ -163,14 +164,15 @@ angular.module('upont')
         if (StorageService.get('token') && !jwtHelper.isTokenExpired(StorageService.get('token'))) {
             $rootScope.isLogged = true;
             $rootScope.isAdmin = (StorageService.get('droits').indexOf('ROLE_ADMIN') != -1) ? true : false;
+            $rootScope.isAdmissible = (StorageService.get('droits').indexOf('ROLE_ADMISSIBLE') != -1) ? true : false;
             $rootScope.init(jwtHelper.decodeToken(StorageService.get('token')).username);
         } else {
             $rootScope.isLogged = false;
             $rootScope.isAdmin = false;
+            $rootScope.isAdmissible = false;
             StorageService.remove('token');
             StorageService.remove('droits');
         }
-
         // Déconnexion
         $rootScope.logout = function() {
             StorageService.remove('token');
@@ -215,6 +217,7 @@ angular.module('upont')
         $rootScope.origins = $window.origins;
         $rootScope.countries = $window.countries;
         $rootScope.displayTabs = true;
+        $rootScope.showTopMenu = false;
 
         $rootScope.searchCategory = 'Assos';
 
@@ -279,4 +282,18 @@ angular.module('upont')
 
         // Easter egg
         $rootScope.surprise = (Math.random()*1000 == 314);
+
+        // Zoom sur les images
+        $rootScope.zoom = false;
+        $rootScope.zoomUrl = null;
+        $rootScope.zoomOut = function(event) {
+            if (event.which == 1) {
+                $rootScope.zoom = false;
+                $rootScope.zoomUrl = null;
+            }
+        };
+        $rootScope.zoomIn = function(url) {
+            $rootScope.zoom = true;
+            $rootScope.zoomUrl = $sce.trustAsUrl(url);
+        };
     }]);

@@ -4,10 +4,10 @@ angular.module('upont')
         $scope.searchResults = [];
 
         $scope.doSearch = function(string) {
-
             if (string.length > 2) {
                 $http.post(apiPrefix + 'search', {search: '/' + string}).success(function(data){
                     $scope.searchResults = data;
+
                 });
             } else {
                 $scope.searchResults = [];

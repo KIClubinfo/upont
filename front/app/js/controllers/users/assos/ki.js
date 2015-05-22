@@ -22,6 +22,9 @@ angular.module('upont')
         };
 
         $scope.post = function(msg, isFix) {
+            if($rootScope.isAdmissible)
+                return;
+
             var params  = {
                 problem: msg,
                 name: msg.substring(0, 20),
