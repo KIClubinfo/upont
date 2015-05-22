@@ -1,7 +1,7 @@
 <aside class="up-aside">
     <div class="up-aside-header">
         <div class="centering up-logo">
-            <a ng-hide="$root.surprise" class="up-logo-link" ui-sref="root.users.publications"></a>
+            <a ng-hide="$root.surprise" class="up-logo-link" ui-sref="root.users.publications.index"></a>
             <a ng-show="$root.surprise" class="up-logo-link pr0n" target="_blank" href="http://www.youporn.com"></a>
         </div>
         <label for="global-search" style="cursor: text">
@@ -27,18 +27,20 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="up-searchbar-section" up-row ng-if="searchResults.posts.length">
+            <div class="up-searchbar-section" up-row ng-if="searchResults.posts.length">
                 <div class="up-searchbar-cell up-searchbar-title" up-col="25%">POSTS</div>
                 <div class="up-searchbar-cell" up-col="75%">
-                    <div class="up-searchbar-item" ng-repeat="post in searchResults.posts| limitTo:4">
-                        <img class="up-profil-picture" ng-src="{{post.image  | urlFile}}" alt=""/> {{post.name}}
+                    <div class="up-searchbar-item" ng-repeat="post in searchResults.posts | limitTo:4">
+                        <a ng-click="resetSearch()" ui-sref="{{ redirect(post) }}">
+                            <img class="up-profil-picture" ng-src="{{ post.image_url | urlFile}}" alt="Publication"/> {{ post.name }}
+                        </a>
                     </div>
                 </div>
-            </div> -->
+            </div>
             <div class="up-searchbar-section" up-row ng-if="searchResults.clubs.length">
                 <div class="up-searchbar-cell up-searchbar-title" up-col="25%">CLUBS</div>
                 <div class="up-searchbar-cell" up-col="75%">
-                    <div class="up-searchbar-item" ng-repeat="club in searchResults.clubs| limitTo:4">
+                    <div class="up-searchbar-item" ng-repeat="club in searchResults.clubs | limitTo:4">
                         <a ng-click="resetSearch()" ui-sref="{{ redirect(club) }}">
                             <img class="up-profil-picture" ng-src="{{ club.image_url | urlFile}}" alt="Logo de l'assos"/> {{ club.name }}
                         </a>
@@ -61,7 +63,7 @@
     </div>
     <div class="up-aside-middle">
         <div class="up-aside-menu">
-            <div><a ui-sref="root.users.publications" up-state-active><i class="fa fa-comment"></i> News</a></div>
+            <div><a ui-sref="root.users.publication.index" up-state-active><i class="fa fa-comment"></i> News</a></div>
             <div class="up-invisible-md up-invisible-lg">
                 <a ui-sref="root.users.messages" up-state-active><i class="fa fa-comments"></i> Messages</a>
             </div>
