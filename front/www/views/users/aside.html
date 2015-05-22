@@ -10,11 +10,12 @@
                 <input class="search" type="text" placeholder="Rechercher"
                        ng-change="doSearch(searchValue)" ng-model="searchValue"
                        ng-focus="displaySearch=true" ng-blur="displaySearch=false"
-                       ng-init="displaySearch=false" id="global-search"/>
+                       ng-init="displaySearch=false;hoverSearch=false" id="global-search"/>
             </div>
         </label>
         <div id="global-search-results" class="up-searchbar-results"
-             ng-show="displaySearch && (searchResults.posts.length || searchResults.clubs.length || searchResults.files.length || searchResults.users.length)">
+             ng-mouseenter="hoverSearch=true" ng-mouseleave="hoverSearch=false"
+             ng-show="(displaySearch || hoverSearch) && (searchResults.posts.length || searchResults.clubs.length || searchResults.files.length || searchResults.users.length)">
             <div class="up-searchbar-section" up-row ng-if="searchResults.users.length">
                 <div class="up-searchbar-cell up-searchbar-title" up-col="25%">ÉLÈVES</div>
                 <div class="up-searchbar-cell" up-col="75%">
@@ -63,7 +64,7 @@
     </div>
     <div class="up-aside-middle">
         <div class="up-aside-menu">
-            <div><a ui-sref="root.users.publication.index" up-state-active><i class="fa fa-comment"></i> News</a></div>
+            <div><a ui-sref="root.users.publications.index" up-state-active><i class="fa fa-comment"></i> News</a></div>
             <div class="up-invisible-md up-invisible-lg">
                 <a ui-sref="root.users.messages" up-state-active><i class="fa fa-comments"></i> Messages</a>
             </div>

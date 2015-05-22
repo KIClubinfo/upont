@@ -133,8 +133,7 @@ class BaseController extends \FOS\RestBundle\Controller\FOSRestController
     // Recherche une entité selon son slug
     protected function findBySlug($slug)
     {
-        if ($this->className != 'Admissible'
-            && $this->namespace != 'Ponthub'
+        if ($this->className == 'Comment'
             && preg_match('#^[0-9]+$#', $slug)) {
             $item = $this->repo->findOneById($slug);
         } else {
