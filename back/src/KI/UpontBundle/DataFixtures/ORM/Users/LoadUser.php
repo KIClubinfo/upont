@@ -32,6 +32,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setFirstName('Chaïmaa');
         $user->setLastName('Kadaoui');
         $user->setPromo('016');
+        $user->setAcronyme();
         $user->setDepartment('IMI');
         $user->setEnabled(true);
         $user->addGroup($this->getReference('group-user'));
@@ -45,7 +46,9 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setPlainPassword('tata');
         $user->setFirstName('Cécile');
         $user->setLastName('Taquet Gaspérini');
+        $user->setNickname('CTG\'017');
         $user->setPromo('017');
+        $user->setAcronyme();
         $user->setDepartment('1A');
         $user->setEnabled(true);
         $user->setToken('VpqtuEGC');
@@ -61,6 +64,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setFirstName('Albéric');
         $user->setLastName('Trancart');
         $user->setPromo('016');
+        $user->setAcronyme();
         $user->setDepartment('GCC');
         $user->setLocation('Perronet A53');
         $user->setNationality('France');
@@ -81,6 +85,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setFirstName('Corentin');
         $user->setLastName('De Boisset');
         $user->setPromo('016');
+        $user->setAcronyme();
         $user->setDepartment('GMM');
         $user->setEnabled(true);
         $user->addGroup($this->getReference('group-admin'));
@@ -95,6 +100,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setFirstName('Henri');
         $user->setLastName('Guérin');
         $user->setPromo('016');
+        $user->setAcronyme();
         $user->setDepartment('GCC-Archi');
         $user->setEnabled(true);
         $user->addGroup($this->getReference('group-user'));
@@ -109,6 +115,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setFirstName('Safia');
         $user->setLastName('Dziri');
         $user->setPromo('016');
+        $user->setAcronyme();
         $user->setDepartment('GCC-Archi');
         $user->setEnabled(true);
         $user->addGroup($this->getReference('group-user'));
@@ -123,6 +130,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setFirstName('Théo');
         $user->setLastName('Muzard');
         $user->setPromo('016');
+        $user->setAcronyme();
         $user->setDepartment('VET');
         $user->setEnabled(true);
         $user->addGroup($this->getReference('group-modo'));
@@ -137,6 +145,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setFirstName('Benoît');
         $user->setLastName('Donat Bouillud');
         $user->setPromo('016');
+        $user->setAcronyme();
         $user->setDepartment('GCC');
         $user->setEnabled(true);
         $user->addGroup($this->getReference('group-user'));
@@ -150,6 +159,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setFirstName('Charles');
         $user->setLastName('Bochet');
         $user->setPromo('015');
+        $user->setAcronyme();
         $user->setDepartment('GCC-Archi');
         $user->setToken('4wtyfMWp');
         $user->setEnabled(true);
@@ -165,6 +175,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setFirstName('Cyrille');
         $user->setLastName('Vessaire');
         $user->setPromo('017');
+        $user->setAcronyme();
         $user->setDepartment('1A');
         $user->setEnabled(true);
         $user->addGroup($this->getReference('group-user'));
@@ -179,6 +190,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setFirstName('Admissible');
         $user->setLastName('Mines-Ponts');
         $user->setPromo('018');
+        $user->setAcronyme();
         $user->setEnabled(true);
         $user->setStatsFoyer(true);
         $user->setStatsPonthub(true);

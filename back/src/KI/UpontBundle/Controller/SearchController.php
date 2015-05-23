@@ -155,25 +155,25 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
         return $this->format($results, $search);
     }
 
-    // La recherche d'user demande une fonction particulière (champs différents, acronyme...
+    // La recherche d'user demande une fonction particulière (champs différents, acronyme...)
     private function searchUser($search) {
         $repo = $this->getDoctrine()->getManager()->getRepository('KIUpontBundle:Users\User');
         $qb = $repo->createQueryBuilder('e');
 
         $results = $qb
             ->orwhere('SOUNDEX(
-                CONCAT(e.firstName, CONCAT( \' \',
+                CONCAT(e.firstName, CONCAT(\' \',
                     CONCAT(e.lastName, CONCAT(\' \',
-                        CONCAT(e.acronyme(), CONCAT(\' \', COALESCE(e.nickname, \'\')))
-                        ))
+                        CONCAT(e.acronyme, CONCAT(\' \', COALESCE(e.nickname, \'\')))
                     ))
+                ))
                 )
                 = SOUNDEX(:search)')
-            ->orwhere('CONCAT(e.firstName, CONCAT( \' \',
+            ->orwhere('CONCAT(e.firstName, CONCAT(\' \',
                 CONCAT(e.lastName, CONCAT(\' \',
-                    CONCAT(e.acronyme(), CONCAT(\' \', COALESCE(e.nickname, \'\')))
-                        ))
+                    CONCAT(e.acronyme, CONCAT(\' \', COALESCE(e.nickname, \'\')))
                     ))
+                ))
                 LIKE :searchlike')
             ->setParameter('search', $search)
             ->setParameter('searchlike', '%'.$search.'%')

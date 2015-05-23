@@ -116,6 +116,14 @@ class User extends \KI\UpontBundle\Entity\Users\CoreUser
      */
     protected $statsPonthub;
 
+    /**
+     * Acronyme
+     * @ORM\Column(name="acronyme", type="string", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("string")
+     */
+    protected $acronyme;
+
     protected function acronyme()
     {
         $r = '';
@@ -124,6 +132,13 @@ class User extends \KI\UpontBundle\Entity\Users\CoreUser
         return $r.'\''.$this->promo;
     }
 
+    public function setAcronyme($acronyme = '')
+    {
+        $this->acronyme = ($acronyme == '') ? $this->acronyme() : $acronyme;
+        return $this;
+    }
+
+    public function getAcronyme() { return ($this->acronyme == '') ? $this->acronyme() : $this->acronyme; }
 
 
 
