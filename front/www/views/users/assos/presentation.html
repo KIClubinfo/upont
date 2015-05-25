@@ -1,4 +1,4 @@
-<div class="up-ticket" ng-bind-html="presentation">
+<div class="up-ticket" ng-bind-html="presentation" ng-hide="presentation === null || presentation === undefined">
 </div>
 
 <div up-row padded wrap class="up-ticket" ng-if="isAdmin || $root.hasRight(club.slug)">
