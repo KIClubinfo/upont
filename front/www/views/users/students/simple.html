@@ -3,6 +3,7 @@
         <div class="up-user-image" ng-style="{ 'background-image' : 'url({{ user.image_url | urlFile }})' }"></div>
     </div>
     <h1>{{ user.nick }}</h1>
+    <h3 ng-if="user.nick != user.acronyme">({{ user.acronyme }})</h3>
 </div>
 
 <div up-row wrap>

@@ -62,7 +62,17 @@ class UsersController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  section="Utilisateurs"
      * )
      */
-    public function postUsersAction() { return $this->post(); }
+    public function postUserAction()
+    {
+        if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
+            throw new AccessDeniedException();
+        $return = $this->partialPost(true);
+
+        if ($return['code'] == 201)
+            $return['item']->setAcronyme();
+
+        return $this->postView($return);
+    }
 
     /**
      * @ApiDoc(
@@ -106,9 +116,9 @@ class UsersController extends \KI\UpontBundle\Controller\Core\ResourceController
      */
     public function deleteUserAction($slug)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+        if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
             throw new AccessDeniedException();
-        }
+
         $userManager = $this->get('fos_user.user_manager');
         $user = $this->findBySlug($slug);
         $userManager->deleteUser($user);
