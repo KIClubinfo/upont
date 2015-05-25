@@ -146,6 +146,7 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
         $results = $qb
             ->orwhere('SOUNDEX(e.name) = SOUNDEX(:search)')
             ->orwhere('e.name LIKE :searchlike')
+            ->andwhere('e.name <> \'message\'')
             ->setParameter('search', $search)
             ->setParameter('searchlike', '%'.$search.'%')
             ->setMaxResults(10)
@@ -155,7 +156,7 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
         return $this->format($results, $search);
     }
 
-    // La recherche d'user demande une fonction particulière (champs différents, acronyme...
+    // La recherche d'user demande une fonction particulière (champs différents, acronyme...)
     private function searchUser($search) {
         $repo = $this->getDoctrine()->getManager()->getRepository('KIUpontBundle:Users\User');
         $qb = $repo->createQueryBuilder('e');

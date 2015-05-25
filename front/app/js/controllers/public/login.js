@@ -28,7 +28,7 @@ angular.module('upont')
                                 $location.path($rootScope.urlRef);
                                 $rootScope.urlRef = null;
                             } else {
-                                $state.go('root.users.publications');
+                                $state.go('root.users.publications.index');
                             }
                         }
                     }

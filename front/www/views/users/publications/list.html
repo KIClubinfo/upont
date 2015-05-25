@@ -14,7 +14,7 @@
                 </div>
                 <div up-row space-between>
                     <div class="up-ticket-title">
-                        <h1>{{ publication.name }}</h1>
+                        <h1 class="up-clickable" ui-sref="root.users.publications.simple({slug: publication.slug})" title="Afficher la publication">{{ publication.name }}</h1>
                     </div>
                     <div class="up-ticket-date">
                         <h2 style="margin:0">
@@ -29,7 +29,7 @@
                 <div up-row space-between class="up-ticket-title">
                     <a ui-sref="root.users.assos.simple.publications({slug: publication.author_club.slug})"
                     title="Lien vers la page du club">
-                        Par {{ publication.author_club.name }}
+                        Par {{ publication.author_club.full_name }}
                     </a>
 
                     <a class="up-shotgun-link" title="Lien vers la page de shotgun"

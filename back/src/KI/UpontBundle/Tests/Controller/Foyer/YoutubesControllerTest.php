@@ -1,12 +1,13 @@
 <?php
 
-namespace KI\UpontBundle\Tests\Controller\Users;
+namespace KI\UpontBundle\Tests\Controller\Foyer;
 
 use KI\UpontBundle\Tests\WebTestCase;
 
-class ClubsControllerTest extends WebTestCase
+class YoutubesControllerTest extends WebTestCase
 {
-    // On crée une ressource sur laquelle seront effectués les tests. Ne pas oublier de supprimer à la fin avec le test DELETE.
+    // On crée une ressource sur laquelle seront effectués les tests.
+    // Ne pas oublier de supprimer à la fin avec le test DELETE.
     public function testPost()
     {
         $this->client->request(

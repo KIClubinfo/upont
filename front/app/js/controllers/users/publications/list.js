@@ -120,6 +120,15 @@ angular.module('upont')
         $stateProvider
             .state('root.users.publications', {
                 url: '',
+                template: '<div ui-view></div>',
+                abstract: true,
+                data: {
+                    title: 'Accueil - uPont',
+                    top: true
+                }
+            })
+            .state('root.users.publications.index', {
+                url: '',
                 templateUrl: 'views/users/publications/index.html',
                 data: {
                     title: 'Accueil - uPont',
@@ -134,7 +143,27 @@ angular.module('upont')
                         return Paginate.get('own/events');
                     }],
                     messages: ['Paginate', function(Paginate) {
-                        return Paginate.get('newsitems?sort=-date&limit=10&name=null');
+                        return Paginate.get('newsitems?sort=-date&limit=10&name=message');
+                    }]
+                }
+            })
+            .state('root.users.publications.simple', {
+                url: 'publications/:slug',
+                templateUrl: 'views/users/publications/list.html',
+                data: {
+                    title: 'Publication - uPont',
+                    top: true
+                },
+                controller: 'Publications_Ctrl',
+                resolve: {
+                    newsItems: ['Paginate', '$stateParams', function(Paginate, $stateParams) {
+                        return Paginate.get('newsitems?slug=' + $stateParams.slug);
+                    }],
+                    events: ['Paginate', '$stateParams', function(Paginate, $stateParams) {
+                        return Paginate.get('events?slug=' + $stateParams.slug);
+                    }],
+                    messages: ['Paginate', '$stateParams', function(Paginate, $stateParams) {
+                        return Paginate.get('newsitems?slug=' + $stateParams.slug);
                     }]
                 }
             });

@@ -69,8 +69,8 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
         foreach ($results as $key => $result) {
             $results[$key] = $this->retrieveLikes($result);
 
-            // Cas spécial pour les événements : on ne veut pas afficher les événements
-            // perso de tout le monde
+            // Cas spécial pour les événements :
+            // on ne veut pas afficher les événements perso de tout le monde
             if ($this->className == 'Event' && $results[$key]->getAuthorClub() === null)
                 unset($results[$key]);
         }
@@ -94,7 +94,7 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
         $links[] = $baseUrl.$totalPages.'&limit='.$limit.'>;rel=last';
 
         // À refacto quand la PR sur le JMSSerializerBundle sera effectuée
-        // (voir BaseController::restResponseContext pour plus de détails)
+        // (voir BaseController::restContextResponse pour plus de détails)
         if ($context) {
             return $this->restContextResponse(
                 $results,

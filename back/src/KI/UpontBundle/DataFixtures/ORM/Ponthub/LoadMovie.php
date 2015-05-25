@@ -31,6 +31,23 @@ class LoadMovieFixture extends AbstractFixture implements OrderedFixtureInterfac
         $manager->persist($movie);
         $this->addReference('movie-pumping-iron', $movie);
 
+        $movie = new Movie();
+        $movie->setSize(1024*1024*1024);
+        $movie->setPath('/root/web/films/300.mkv');
+        $movie->setName('300');
+        $movie->setDescription('This is Sparta!');
+        $movie->setVf(false);
+        $movie->setVost(true);
+        $movie->setGenres(array($this->getReference('genre-action'), $this->getReference('genre-documentary')));
+        $movie->setDuration(85*60);
+        $movie->setRating(62);
+        $movie->setLikes(array($this->getReference('user-trancara'), $this->getReference('user-muzardt')));
+        $movie->setDislikes(array($this->getReference('user-dziris')));
+        $movie->setStatus('OK');
+        $movie->setAdded(time());
+        $manager->persist($movie);
+        $this->addReference('movie-300', $movie);
+
         $manager->flush();
     }
 

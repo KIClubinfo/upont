@@ -20,7 +20,7 @@ angular.module('upont').factory('Migration', ['$http', '$rootScope', function($h
                         $http.patch($rootScope.url + 'users/' + user.username, {statsFoyer: false, statsPonthub: false}).success(function(){
                             $rootScope.me.statsFoyer = false;
                             $rootScope.me.statsPonthub = false;
-                            alertify.success('Dommange :(');
+                            alertify.success('Dommage :(');
                             $rootScope.migration = false;
                         });
                     }
