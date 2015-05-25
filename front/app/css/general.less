@@ -33,6 +33,33 @@ background-size: auto auto;
     margin: 10px 0 10px 0;
 }
 
+// Resets imperavi redactor
+.redactor-editor, .redactor-box {
+    background: inherit;
+}
+
+.redactor-toolbar {
+    li {
+        a:hover {
+          background-color: @col-main;
+          color: #fff;
+        }
+    }
+}
+
+.redactor-dropdown {
+    color: rgba(0, 0, 0, 0.7);
+
+    a:hover {
+      background-color: @col-main;
+      color: #fff;
+    }
+}
+
+
+
+// Vues principales
+
 .up-main-view {
     padding-bottom: 30px;
     background: @col-bckgnd;

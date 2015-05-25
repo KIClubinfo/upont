@@ -1,14 +1,11 @@
-<div up-row padded wrap class="up-ticket">
-    <div up-col="100%" up-col-sm="25%" up-col-md="25%" up-col-lg="25%">
-        <img class="img-responsive" src="{{ club.image_url | urlFile }}" alt="" />
+<div class="up-ticket" ng-bind-html="presentation">
+</div>
+
+<div up-row padded wrap class="up-ticket" ng-if="isAdmin || $root.hasRight(club.slug)">
+    <div up-col="100%">
+        <textarea ng-model="presentation" redactor></textarea>
     </div>
-    <div up-col="100%" up-col-sm="75%" up-col-md="75%" up-col-lg="75%">
-        <h1>{{ club.full_name }}</h1>
-        <h2>Description :</h2>
-        <p> {{ club.description }}</p>
-        <h2>Membres :</h2>
-        <ul>
-            <li ng-repeat="member in members">{{ member.role }} : {{member.user.first_name}} {{member.user.last_name}}</li>
-        </ul>
+    <div up-col="100%" up-row center>
+        <button ng-click="modify(presentation)" class="up-btn up-btn-default up-btn-lg">Envoyer</button>
     </div>
 </div>
