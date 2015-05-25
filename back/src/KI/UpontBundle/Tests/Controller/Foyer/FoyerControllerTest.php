@@ -23,11 +23,4 @@ class FoyerControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
     }
-
-    public function testRankings()
-    {
-        $this->client->request('GET', '/foyer/rankings');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-    }
 }

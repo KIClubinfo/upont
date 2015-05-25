@@ -25,7 +25,7 @@ abstract class WebTestCase extends LiipWebTestCase
                 'POST',
                 $this->getUrl('login'),
                 array('username' => 'trancara', 'password' => 'password')
-                );
+            );
             $response = $client->getResponse();
             $data = json_decode($response->getContent(), true);
             $this->assertArrayHasKey('token', $data);
@@ -61,6 +61,28 @@ abstract class WebTestCase extends LiipWebTestCase
                 ($decode !== null && $decode !== false),
                 'is response valid json: ['.$response->getContent().']'
             );
+        }
+    }
+
+    public function connect($username, $password)
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->getUrl('login'), array('username' => $username, 'password' => $password));
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $client->setServerParameter('HTTP_Authorization', sprintf('%s %s', $this->authorizationHeaderPrefix, $data['token']));
+        $this->client = $client;
+    }
+
+    // Checke tout un tableau de routes pour aller plus vite
+    public function checkRoutes($routes)
+    {
+        foreach ($routes as $route) {
+            echo "\n".$route[1].' '.$route[2];
+            if (isset($route[3]))
+                $this->client->request($route[1], $route[2], $route[3]);
+            else
+                $this->client->request($route[1], $route[2]);
+            $this->assertJsonResponse($this->client->getResponse(), $route[0]);
         }
     }
 }

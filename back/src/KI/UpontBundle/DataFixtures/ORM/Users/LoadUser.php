@@ -157,6 +157,50 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setImage($this->getReference('image-user-bochetc'));
         $userManager->updateUser($user);
         $this->addReference('user-bochetc', $user);
+
+        $user = $userManager->createUser();
+        $user->setUsername('vessairc');
+        $user->setEmail('vessairc@eleves.enpc.fr');
+        $user->setPlainPassword('password');
+        $user->setFirstName('Cyrille');
+        $user->setLastName('Vessaire');
+        $user->setPromo('017');
+        $user->setDepartment('1A');
+        $user->setEnabled(true);
+        $user->addGroup($this->getReference('group-user'));
+        $user->addGroup($this->getReference('group-jardinier'));
+        $userManager->updateUser($user);
+        $this->addReference('user-vessairc', $user);
+
+        $user = $userManager->createUser();
+        $user->setUsername('admissibles');
+        $user->setEmail('admissible@clubinfo.enpc.fr');
+        $user->setPlainPassword('password');
+        $user->setFirstName('Admissible');
+        $user->setLastName('Mines-Ponts');
+        $user->setPromo('018');
+        $user->setEnabled(true);
+        $user->setStatsFoyer(true);
+        $user->setStatsPonthub(true);
+        $user->addGroup($this->getReference('group-admissible'));
+        $user->setImage($this->getReference('image-user-admissibles'));
+        $userManager->updateUser($user);
+        $this->addReference('user-admissibles', $user);
+
+        $user = $userManager->createUser();
+        $user->setUsername('gcc');
+        $user->setEmail('root@clubinfo.enpc.fr');
+        $user->setPlainPassword('password');
+        $user->setFirstName('Département');
+        $user->setLastName('GCC');
+        $user->setDepartment('GCC');
+        $user->setEnabled(true);
+        $user->setStatsFoyer(false);
+        $user->setStatsPonthub(false);
+        $user->addGroup($this->getReference('group-exterieur'));
+        $user->setImage($this->getReference('image-user-gcc'));
+        $userManager->updateUser($user);
+        $this->addReference('user-gcc', $user);
     }
 
     public function getOrder()

@@ -30,7 +30,10 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
      *  section="Publications"
      * )
      */
-    public function getEventsAction() { return $this->getAll(); }
+    public function getEventsAction()
+    {
+        return $this->getAll($this->get('security.context')->isGranted('ROLE_EXTERIEUR'));
+    }
 
     /**
      * @ApiDoc(
@@ -46,7 +49,10 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
      *  section="Publications"
      * )
      */
-    public function getEventAction($slug) { return $this->getOne($slug); }
+    public function getEventAction($slug)
+    {
+        return $this->getOne($slug, $this->get('security.context')->isGranted('ROLE_EXTERIEUR'));
+    }
 
     /**
      * @ApiDoc(

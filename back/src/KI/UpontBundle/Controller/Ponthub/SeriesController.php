@@ -62,7 +62,7 @@ class SeriesController extends \KI\UpontBundle\Controller\Core\SubresourceContro
      */
     public function patchSerieAction($slug)
     {
-        return $this->patch($slug, $this->get('security.context')->isGranted('ROLE_PONTHUB'));
+        return $this->patch($slug, $this->get('security.context')->isGranted('ROLE_JARDINIER'));
     }
 
     /**
@@ -114,7 +114,7 @@ class SeriesController extends \KI\UpontBundle\Controller\Core\SubresourceContro
      */
     public function patchSerieEpisodeAction($slug, $id)
     {
-        return $this->patchSub($slug, 'Episode', $id, $this->get('security.context')->isGranted('ROLE_PONTHUB'));
+        return $this->patchSub($slug, 'Episode', $id, $this->get('security.context')->isGranted('ROLE_JARDINIER'));
     }
 
     /**

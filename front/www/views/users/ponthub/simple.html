@@ -7,9 +7,9 @@
     <div up-col="100%" up-row left padded>
         <!-- Image du fichier -->
         <div up-col="25%" ng-if="element.image_url">
-            <a ng-class="{'no-click': (category == 'series' || category == 'musiques')}" ng-click="(category != 'series' && category != 'musiques') ? download():false">
-                <img class="img-responsive up-img-ponthub" src="{{ element.image_url | urlFile }}" alt="Image du fichier" />
-            </a>
+            <img class="img-responsive up-img-ponthub up-clickable"
+                 ng-click="$root.zoomIn('/api/' + element.image_url)"
+                 src="{{ element.image_url | urlFile }}" alt="Image du fichier" />
             <div up-row padded center>
                 <div ng-if="element.vo"><span class="label label-upont">VO</span></div>
                 <div ng-if="element.vf"><span class="label label-upont">VF</span></div>

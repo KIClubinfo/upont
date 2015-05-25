@@ -155,7 +155,7 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
         return $this->format($results, $search);
     }
 
-    // La recherche d'user demande une fonction particulière (champs différents, acronyme...
+    // La recherche d'user demande une fonction particulière (champs différents, acronyme...)
     private function searchUser($search) {
         $repo = $this->getDoctrine()->getManager()->getRepository('KIUpontBundle:Users\User');
         $qb = $repo->createQueryBuilder('e');

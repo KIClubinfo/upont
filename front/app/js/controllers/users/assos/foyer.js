@@ -2,7 +2,9 @@ angular.module('upont')
     .controller('Foyer_Ctrl', ['$scope', '$http', 'youtube', 'stats', 'Paginate', function($scope, $http, youtube, stats, Paginate) {
         $('#focus-input').focus();
         $scope.youtube = youtube;
-        $scope.stats = stats;
+        $scope.stats = stats.rankings;
+        $scope.predicate = 'litres_bus';
+        $scope.reverse = true;
 
         $scope.reload = function() {
             Paginate.first($scope.youtube).then(function(data){
@@ -11,6 +13,10 @@ angular.module('upont')
         };
 
         $scope.post = function(link) {
+            if (!link.match(/^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/)) {
+                alertify.error('Ce n\'est pas une vidéo YouTube !');
+                return;
+            }
 
             $http.post(apiPrefix + 'youtubes', {name: 'Lien Youtube Foyer', link: link}).success(function(data){
                 $scope.link = '';
@@ -41,10 +47,10 @@ angular.module('upont')
                 },
                 resolve: {
                     youtube: ['Paginate', function(Paginate) {
-                        return Paginate.get('youtubes', 20);
+                        return Paginate.get('youtubes?sort=-date', 20);
                     }],
                     stats: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'foyer/statistics').query().$promise;
+                        return $resource(apiPrefix + 'foyer/statistics').get().$promise;
                     }]
                 }
             });

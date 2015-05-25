@@ -39,6 +39,20 @@ class Youtube extends Likeable
      */
     protected $user;
 
+    /**
+     * On n'oublie pas d'ajouter le HTTPS s'il n'est pas présent
+     * @JMS\VirtualProperty()
+     */
+    public function url()
+    {
+        $link = $this->link;
+
+        if (preg_match('#^www#', $link))
+            $link = 'https://'.$link;
+
+        return $link;
+    }
+
 
 
 

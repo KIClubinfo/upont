@@ -39,11 +39,20 @@
     <script type="text/javascript" src="libs/highcharts-release/modules/funnel.js"></script>
     <script type="text/javascript" src="libs/highcharts-release/modules/solid-gauge.js"></script>
     <script type="text/javascript" src="libs/highmaps/modules/map.js"></script>
+    <script type="text/javascript" src="https://www.youtube.com/iframe_api"></script>
+    <script type="text/javascript" src="libs/angular-youtube-mb/dist/angular-youtube-embed.min.js"></script>
+    <script type="text/javascript" src="libs/nanoscroller/bin/javascripts/jquery.nanoscroller.min.js"></script>
     <script type="text/javascript" src="upont.min.js"></script>
 </head>
 
 <body ng-class="theme == 'dark' ? 'theme-dark' : 'theme-clear'">
-    <div ui-view up-col="100%" ng-hide="$root.showTopMenu" autoscroll="false" up-fill-window ></div>
+    <div ui-view up-col="100%" autoscroll="false" up-fill-window ></div>
+
+    <!-- Endroit réservé aux images zoomées -->
+    <div ng-if="$root.zoom" class="up-zoom-container" ng-click="$root.zoomOut($event)">
+        <img ng-src="{{ $root.zoomUrl }}" alt="Image zoomée" class="img-responsive"/>
+        <strong>Clic gauche pour fermer</strong>
+    </div>
 
     <!-- Piwik -->
     <script type="text/javascript" type="text/javascript">

@@ -4,10 +4,10 @@ angular.module('upont')
         $scope.searchResults = [];
 
         $scope.doSearch = function(string) {
-
             if (string.length > 2) {
                 $http.post(apiPrefix + 'search', {search: '/' + string}).success(function(data){
                     $scope.searchResults = data;
+
                 });
             } else {
                 $scope.searchResults = [];
@@ -33,9 +33,13 @@ angular.module('upont')
                 case 'Other':
                     return 'root.users.ponthub.simple({category: "autres", slug: file.slug})';
                 case 'Club':
-                    return 'root.users.clubs.simple.publications({slug: club.slug})';
+                    return 'root.users.assos.simple.publications({slug: club.slug})';
                 case 'User':
                     return 'root.users.students.simple({slug: user.slug})';
+                case 'Event':
+                    return 'root.users.publications.simple({slug: post.slug})';
+                case 'Newsitem':
+                    return 'root.users.publications.simple({slug: post.slug})';
             }
         };
 
