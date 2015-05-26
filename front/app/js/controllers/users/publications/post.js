@@ -17,6 +17,10 @@ angular.module('upont')
             }
         }
 
+        // Si l'utilisateur est un exterieur de l'administration
+        if ($rootScope.hasRight('ROLE_EXTERIEUR'))
+            club = $rootScope.selfClubs[0].club;
+
         var init = function() {
             $scope.focus = false;
             $scope.post = {
@@ -27,9 +31,13 @@ angular.module('upont')
                 shotgun_date: ''
             };
             $scope.type = 'news';
-            $scope.placeholder = 'Que se passe-t-il d\'intéressant dans ton asso ?';
             $scope.club = club;
             $scope.toggle = false;
+
+            if ($rootScope.hasRight('ROLE_EXTERIEUR'))
+                $scope.placeholder = 'Texte de la news';
+            else
+                $scope.placeholder = 'Que se passe-t-il d\'intéressant dans ton asso ?';
         };
         init();
 
@@ -61,8 +69,12 @@ angular.module('upont')
             if ($scope.club != club) {
                 params.authorClub = $scope.club.slug;
             } else {
-                alertify.error('Tu n\'as pas choisi avec quelle assos publier');
-                return;
+                if ($rootScope.hasRight('ROLE_EXTERIEUR')) {
+                    params.authorClub = $rootScope.selfClubs[0].club.slug;
+                } else {
+                    alertify.error('Tu n\'as pas choisi avec quelle assos publier');
+                    return;
+                }
             }
 
             if (image) {

@@ -21,7 +21,7 @@ class SecurityTest extends WebTestCase
             array(200, 'GET', '/users/VpqtuEGC/calendar'),
             array(401, 'POST', '/clubs'),
             array(400, 'POST', '/resetting/request'),
-            array(401, 'PATCH', '/promo/016/pictures'),
+            array(401, 'PATCH', '/promo/016/pictures')
         );
         $this->checkRoutes($routes);
     }
@@ -172,7 +172,6 @@ class SecurityTest extends WebTestCase
             array(200, 'GET', '/newsitems'),
             array(200, 'GET', '/clubs/ki'),
             array(200, 'GET', '/users/trancara'),
-            array(200, 'GET', '/series/how-i-met-your-mother/episodes/pilot/comments'),
             array(404, 'GET', '/clubs/sddsdqs'),
             array(403, 'GET', '/courses'),
             array(403, 'GET', '/series/how-i-met-your-mother/episodes/pilot'),
@@ -186,7 +185,10 @@ class SecurityTest extends WebTestCase
             array(403, 'PATCH', '/clubs/gcc'),
             array(403, 'POST', '/movies/pumping-iron/like'),
             array(403, 'DELETE', '/movies/pumping-iron/like'),
-            array(403, 'POST', '/movies/pumping-iron/comments')
+            array(403, 'POST', '/movies/pumping-iron/comments'),
+            array(403, 'GET', '/series/how-i-met-your-mother/episodes/pilot/comments'),
+            array(400, 'POST', '/newsitems/le-beton-c-est-bon/comments'),
+            array(200, 'GET', '/newsitems/le-beton-c-est-bon/comments')
         );
         $this->checkRoutes($routes);
     }

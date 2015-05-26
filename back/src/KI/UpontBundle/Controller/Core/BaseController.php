@@ -104,8 +104,7 @@ class BaseController extends \FOS\RestBundle\Controller\FOSRestController
     // Sert à checker si l'utilisateur actuel est membre du club au nom duquel il poste
     protected function checkClubMembership($slug = null)
     {
-        if ($this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
-            || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+        if ($this->get('security.context')->isGranted('ROLE_ADMISSIBLE'))
             return false;
 
         $request = $this->getRequest()->request;

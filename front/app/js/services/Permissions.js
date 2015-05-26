@@ -72,6 +72,10 @@ angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', 
 
         remove: function() {
             remove();
+        },
+
+        username: function() {
+            return jwtHelper.decodeToken(StorageService.get('token')).username;
         }
     };
 }]);

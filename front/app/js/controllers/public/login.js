@@ -9,7 +9,12 @@ angular.module('upont')
                 })
                 .success(function(data, status, headers, config) {
                     Permissions.set(data.token, data.data.roles);
-                    alertify.success('Salut ' + data.data.first_name + ' !');
+
+                    // Soyons polis
+                    if (Permissions.hasRight('ROLE_EXTERIEUR'))
+                        alertify.success('Connecté avec succès !');
+                    else
+                        alertify.success('Salut ' + data.data.first_name + ' !');
 
                     if (typeof $rootScope.urlRef !== 'undefined' && $rootScope.urlRef !== null && $rootScope.urlRef != '/') {
                         $location.path($rootScope.urlRef);

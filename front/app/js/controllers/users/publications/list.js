@@ -137,16 +137,16 @@ angular.module('upont')
                 controller: 'Publications_Ctrl',
                 resolve: {
                     newsItems: ['Paginate', 'Permissions', '$rootScope', function(Paginate, Permissions, $rootScope) {
+
                         // Si c'est l'administration on ne charge que le seul club de l'user actuel
                         if (Permissions.hasRight('ROLE_EXTERIEUR'))
-                            alert(JSON.stringify($rootScope.me));
-                        //    return Paginate.get('clubs/' + $rootScope.selfClubs[0].club.slug + '/newsitems?sort=-date', 10);
+                            return Paginate.get('clubs/' + Permissions.username() + '/newsitems?sort=-date', 10);
                         return Paginate.get('own/newsitems?sort=-date', 10);
                     }],
                     events: ['Paginate', 'Permissions', '$rootScope', function(Paginate, Permissions, $rootScope) {
                         // Si c'est l'administration on ne charge que le seul club de l'user actuel
-                        //if (Permissions.hasRight('ROLE_EXTERIEUR'))
-                        //    return Paginate.get('clubs/' + $rootScope.selfClubs[0].club.slug + '/events?sort=-date', 10);
+                        if (Permissions.hasRight('ROLE_EXTERIEUR'))
+                            return Paginate.get('clubs/' + Permissions.username() + '/events?sort=-date', 10);
                         return Paginate.get('own/events');
                     }],
                     messages: ['Paginate', function(Paginate) {
