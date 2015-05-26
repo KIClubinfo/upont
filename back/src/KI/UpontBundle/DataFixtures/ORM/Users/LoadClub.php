@@ -59,6 +59,7 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $club->setName('GCC');
         $club->setFullName('Génie Civil et Construction');
         $club->setActive(false);
+        $club->setAdministration(true);
         $club->setImage($this->getReference('image-user-gcc'));
         $manager->persist($club);
         $this->addReference('club-gcc', $club);
