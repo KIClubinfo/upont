@@ -83,6 +83,14 @@ class LoadNewsitemFixture extends AbstractFixture implements OrderedFixtureInter
         $newsitem->setAuthorUser($this->getReference('user-dziris'));
         $manager->persist($newsitem);
 
+        $newsitem = new Newsitem();
+        $newsitem->setName('Le béton c\'est bon.');
+        $newsitem->setText('L\'acier aussi, c\'est complètement METAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL.');
+        $newsitem->setDate(time() - 21*3600);
+        $newsitem->setAuthorUser($this->getReference('user-gcc'));
+        $newsitem->setAuthorClub($this->getReference('club-gcc'));
+        $manager->persist($newsitem);
+
         $manager->flush();
     }
 
