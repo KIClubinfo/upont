@@ -1,4 +1,4 @@
-<div up-row left>
+<div up-row left ng-if="!club.administration">
     <div up-col="60%" up-col-xs="100%" up-col-sm="100%">
         <div ng-include="'views/users/publications/post.html'"></div>
         <div ng-include="'views/users/publications/list.html'"></div>
@@ -34,5 +34,12 @@
                         value="{{ promoItem }}">Année '{{ promoItem }}</option>
             </select>
         </div>
+    </div>
+</div>
+
+<div up-row left ng-if="club.administration">
+    <div up-col="100%" up-col-xs="100%" up-col-sm="100%">
+        <div ng-include="'views/users/publications/post.html'"></div>
+        <div ng-include="'views/users/publications/list.html'"></div>
     </div>
 </div>
