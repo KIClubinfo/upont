@@ -22,7 +22,10 @@
          ng-mouseover="showModify=true" ng-mouseleave="showModify=false">
         <img up-col="7%" class="up-profile-picture" ng-src="{{ comment.author.image_url | urlFile}}" alt="Image de profil"/>
         <div up-col="87%">
-            <strong><span up-user user="comment.author">{{ comment.author.nick }}</span> : </strong>
+
+            <strong ng-if="!$root.isExterieur"><span up-user user="comment.author">{{ comment.author.nick }}</span> : </strong>
+            <strong ng-if="$root.isExterieur">{{ comment.author.first_name }} {{ comment.author.last_name }} : </strong>
+
             <span ng-bind-html="comment.text"></span><br>
             {{ comment.date | fromNow }}&nbsp;
             <span class="up-likes up-clickable" ng-click="likeComment(comment)"  ng-class="{active : comment.like, admissibles : $root.isAdmissible || $root.isExterieur}">

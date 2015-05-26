@@ -27,10 +27,14 @@
                     </div>
                 </div>
                 <div up-row space-between class="up-ticket-title">
-                    <a ui-sref="root.users.assos.simple.publications({slug: publication.author_club.slug})"
+                    <a ng-if="!$root.isExterieur" ui-sref="root.users.assos.simple.publications({slug: publication.author_club.slug})"
                     title="Lien vers la page du club">
                         Par {{ publication.author_club.full_name }}
                     </a>
+
+                    <span ng-if="$root.isExterieur">
+                        Par {{ publication.author_club.full_name }}
+                    </span>
 
                     <a class="up-shotgun-link" title="Lien vers la page de shotgun"
                     ng-if="publication.start_date && publication.entry_method == 'Shotgun'"
