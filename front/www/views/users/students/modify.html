@@ -3,19 +3,19 @@
 
     <div up-row padded center>
         <div up-col-xs="100%" up-col-sm="100%" up-col="50%" class="centering up-clickable"
-             ng-click="$root.zoomIn('/api/' + me.image_url)">
-            <img ng-src="{{ url + me.image_url }}" class="up-profile-page-picture">
+             ng-click="$root.zoomIn('/api/' + user.image_url)">
+            <img ng-src="{{ url + user.image_url }}" class="up-profile-page-picture">
         </div>
     </div>
 
     <div class="up-profile-form">
-        <form up-row padded left wrap ng-submit="submitUser(me, profilePicture, password, confirm)" autocomplete="off">
+        <form up-row padded left wrap ng-submit="submitUser(user, profilePicture, password, confirm)" autocomplete="off">
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
                 <i class="fa fa-graduation-cap"></i>
                 Promo
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <select ng-model="me.promo">
+                <select ng-model="user.promo">
                     <option ng-repeat="item in $root.promos | reverse">{{ item }}</option>
                 </select>
             </div>
@@ -25,7 +25,7 @@
                 Sexe
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <select ng-model="me.gender">
+                <select ng-model="user.gender">
                     <option>M</option>
                     <option>F</option>
                 </select>
@@ -36,7 +36,7 @@
                 Nationalité
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <select ng-model="me.nationality">
+                <select ng-model="user.nationality">
                     <option ng-repeat="item in $root.countries">{{ item }}</option>
                 </select>
             </div>
@@ -46,7 +46,7 @@
                 Téléphone
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="text" ng-model="me.phone" placeholder="06.xx.xx.xx.xx, +336.xx.xx.xx.xx"/>
+                <input class="up-col-xs-12" type="text" ng-model="user.phone" placeholder="06.xx.xx.xx.xx, +336.xx.xx.xx.xx"/>
             </div>
 
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
@@ -54,14 +54,14 @@
                 Résidence
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="text" ng-model="me.location" placeholder="Stockholm, M201, 3ème gauche, A53..."/>
+                <input class="up-col-xs-12" type="text" ng-model="user.location" placeholder="Stockholm, M201, 3ème gauche, A53..."/>
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
                 <i class="fa fa-institution"></i>
                 Département
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <select ng-model="me.department">
+                <select ng-model="user.department">
                     <option ng-repeat="item in $root.departments">{{ item }}</option>
                 </select>
             </div>
@@ -71,7 +71,7 @@
                 Origine
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <select ng-model="me.origin">
+                <select ng-model="user.origin">
                     <option ng-repeat="item in $root.origins">{{ item }}</option>
                 </select>
             </div>
@@ -81,7 +81,7 @@
                 Skype
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="text" ng-model="me.skype" placeholder="Pseudo Skype"/>
+                <input class="up-col-xs-12" type="text" ng-model="user.skype" placeholder="Pseudo Skype"/>
             </div>
 
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
@@ -89,7 +89,7 @@
                 Pseudo
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input type="text" class="up-col-xs-12" ng-model="me.nick" placeholder="Ce que tu souhaites..." />
+                <input type="text" class="up-col-xs-12" ng-model="user.nick" placeholder="Ce que tu souhaites..." />
             </div>
 
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
@@ -118,12 +118,12 @@
 
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
                 <i class="fa fa-beer"></i>
-                Partager mes statistiques Foyer <input type="checkbox" ng-model="me.stats_foyer">
+                Partager mes statistiques Foyer <input type="checkbox" ng-model="user.stats_foyer">
             </div>
 
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
                 <i class="fa fa-download"></i>
-                Partager mes statistiques PontHub <input type="checkbox" ng-model="me.stats_ponthub">
+                Partager mes statistiques PontHub <input type="checkbox" ng-model="user.stats_ponthub">
             </div>
 
             <div up-col="100%" up-row right>
