@@ -93,9 +93,9 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="member in filtered =  (members | promoFilter: promo | orderBy:['user.nick'])">
+                <tr ng-repeat="member in filtered =  (members | promoFilter: promo | orderBy:['user.first_name'])">
                     <td>
-                        <i class="fa fa-remove up-clickable" ng-click="removeMember(member.user.username)"></i> {{ member.user.nick }}
+                        <i class="fa fa-remove up-clickable" ng-click="removeMember(member.user.username)"></i> {{ member.user.first_name }} {{ member.user.last_name }}
                     </td>
                     <td>{{ member.role }}</td>
                 </tr>
