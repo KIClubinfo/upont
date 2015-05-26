@@ -1,4 +1,4 @@
-<div up-row>
+<div up-row ng-if="!isExterieur">
     <div up-col-md="60%" up-col-lg="60%" up-col="100%">
         <div ng-include="'views/users/publications/post.html'"></div>
         <div ng-include="'views/users/publications/list.html'" class="transition"></div>
@@ -28,3 +28,6 @@
         <div ng-include="'views/users/publications/list-messages.html'"></div>
     </div>
 </div>
+
+<div ng-if="$root.isExterieur" ng-include="'views/users/administration.html'"></div>
+sddssdsdsd

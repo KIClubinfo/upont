@@ -223,8 +223,7 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
      */
     public function getCommentsView($object, $slug)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_USER')
-            || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+        if (!$this->get('security.context')->isGranted('ROLE_USER'))
             throw new AccessDeniedException('Accès refusé');
 
         $this->autoInitialize($object);

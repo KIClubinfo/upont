@@ -63,8 +63,8 @@ angular.module('upont')
             .state('root', {
                 abstract: true,
                 url: '/',
-                template: '<div ui-view="aside" class="up-invisible-xs"></div>'+
-                    '<div ui-view="topbar" class="up-invisible-sm up-invisible-md up-invisible-lg"></div>'+
+                template: '<div ui-view="aside" ng-if="!isExterieur" class="up-invisible-xs"></div>'+
+                    '<div ui-view="topbar" ng-if="!isExterieur" class="up-invisible-sm up-invisible-md up-invisible-lg"></div>'+
                     '<div ui-view></div>',
             })
             .state('root.403', {
@@ -108,7 +108,7 @@ angular.module('upont')
                 template: '<div ui-view></div>'
             });
     }])
-    .run(['$rootScope', 'StorageService', 'Permissions', '$state', '$interval', '$resource', '$location', 'Migration', '$window', '$sce', function($rootScope, StorageService, Permissions, $state, $interval, $resource, $location, Migration, $window, $sce) {
+    .run(['$rootScope', 'StorageService', 'Permissions', '$state', '$interval', '$resource', '$location', '$window', '$sce', function($rootScope, StorageService, Permissions, $state, $interval, $resource, $location, $window, $sce) {
         Permissions.load();
 
         // Déconnexion
@@ -118,8 +118,8 @@ angular.module('upont')
         };
 
         // Vérifie si l'utilisateur a les droits sur un club/role
-        $rootScope.hasClub = function(slug) { Permissions.hasClub(slug); };
-        $rootScope.hasRight = function(role) { Permissions.hasRight(role); };
+        $rootScope.hasClub = function(slug) { return Permissions.hasClub(slug); };
+        $rootScope.hasRight = function(role) { return Permissions.hasRight(role); };
 
         // Diverses variables globales
         $rootScope.url = location.origin + apiPrefix;
@@ -178,6 +178,7 @@ angular.module('upont')
             if (!$rootScope.isLogged && needLogin(toState)) {
                 event.preventDefault();
                 $rootScope.urlRef = $location.path();
+                alert('login');
                 $state.go('root.login');
             }
         });
