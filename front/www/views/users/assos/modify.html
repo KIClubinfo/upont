@@ -108,7 +108,7 @@
 
         <select ng-model="promo">
             <option ng-repeat="promoItem in $root.promos"
-                        selected="{{ $index == promos.length-1 }}"
+                    ng-selected="promoItem == promo"
                         value="{{ promoItem }}">Année '{{ promoItem }}</option>
         </select>
     </div>
