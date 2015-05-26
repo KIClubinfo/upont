@@ -2,7 +2,7 @@
     <div ng-if="club.banner_url" class="up-zp-image"><img ng-src="{{ club.banner_url | urlFile }}" alt="Bannière de l'assos" />
     </div>
     <div class="up-row left">
-        <a ui-sref="root.users.assos.simple.publications" up-state-active>{{ club.full_name }} ({{ club.name }})</a>
+        <a ui-sref="root.users.assos.simple.publications" up-state-active>{{ club.full_name }} <span ng-if="club.full_name !== club.name">({{ club.name }})</span></a>
         <a ng-if="(isAdmin || $root.hasClub(club.slug) || club.presentation !== undefined) && !club.administration" ui-sref="root.users.assos.simple.presentation" up-state-active>Présentation</a>
         <a ng-if="club.slug == 'ki'" ui-sref="root.users.assos.ki" ui-sref-active="active">Dépannage</a>
         <a ng-if="club.slug == 'foyer'" ui-sref="root.users.assos.foyer" ui-sref-active="active">C'est TON Foyer</a>
