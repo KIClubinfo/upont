@@ -46,7 +46,10 @@ angular.module('upont')
 
             switch (type) {
                 case 'news':
-                    $scope.placeholder = 'Que se passe-t-il d\'intéressant dans ton asso ?';
+                    if ($rootScope.hasRight('ROLE_EXTERIEUR'))
+                        $scope.placeholder = 'Texte de la news';
+                    else
+                        $scope.placeholder = 'Que se passe-t-il d\'intéressant dans ton asso ?';
                     break;
                 case 'event':
                     $scope.placeholder = 'Description de l\'événement';
