@@ -18,6 +18,7 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $club->setActive(true);
         $club->setIcon('download');
         $club->setImage($this->getReference('image-club-ki'));
+        $club->setPresentation('Ce club est OMG fucking trop bien.');
         $manager->persist($club);
         $this->addReference('club-ki', $club);
 

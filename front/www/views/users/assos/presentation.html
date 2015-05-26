@@ -1,7 +1,7 @@
 <div class="up-ticket" ng-bind-html="presentation" ng-hide="presentation === null || presentation === undefined">
 </div>
 
-<div up-row padded wrap class="up-ticket" ng-if="isAdmin || $root.hasRight(club.slug)">
+<div up-row padded wrap class="up-ticket" ng-if="isAdmin || $root.hasClub(club.slug)">
     <div up-col="100%">
         <textarea ng-model="presentation" redactor></textarea>
     </div>

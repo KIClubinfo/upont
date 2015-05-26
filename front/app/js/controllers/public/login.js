@@ -1,10 +1,9 @@
 angular.module('upont')
-    .controller('Login_Ctrl', ['$scope', '$rootScope', '$state', 'StorageService', '$http', 'jwtHelper', '$resource', '$location', function($scope, $rootScope, $state, StorageService, $http, jwtHelper, $resource, $location) {
+    .controller('Login_Ctrl', ['$scope', '$rootScope', '$state', '$location', '$http', 'Permissions', function($scope, $rootScope, $state, $location, $http, Permissions) {
         $('#login-input').focus();
         $scope.login = function(pseudo, mdp, firstTime) {
             if (pseudo.length && mdp.length)
-                $http
-                .post(apiPrefix + 'login', {
+                $http.post(apiPrefix + 'login', {
                     username: pseudo,
                     password: mdp
                 })
@@ -15,10 +14,7 @@ angular.module('upont')
 'Dans un premier temps, vérifie bien tes infos (notamment ta photo de profil, que nous avons essayé de récupérer par Facebook de façon automatique).<br>' +
 'C\'est super important que les infos soient remplies pour pouvoir profiter de uPont au max.');
                     } else {
-                        StorageService.set('token', data.token);
-                        StorageService.set('droits', data.data.roles);
-                        $rootScope.isLogged = true;
-                        $rootScope.init(jwtHelper.decodeToken(data.token).username);
+                        Permissions.set(data.token, data.data.roles);
                         alertify.success('Salut ' + data.data.first_name + ' !');
 
                         if (firstTime) {
@@ -35,11 +31,7 @@ angular.module('upont')
                 })
                 .error(function(data, status, headers, config) {
                     // Supprime tout token en cas de mauvaise identification
-                    if (StorageService.get('token')) {
-                        StorageService.remove('token');
-                        StorageService.remove('droits');
-                    }
-                    $rootScope.isLogged = false;
+                    Permissions.remove();
                     alertify.error(data.reason);
                 });
         };
