@@ -18,6 +18,7 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $club->setActive(true);
         $club->setIcon('download');
         $club->setImage($this->getReference('image-club-ki'));
+        $club->setPresentation('Ce club est OMG fucking trop bien.');
         $manager->persist($club);
         $this->addReference('club-ki', $club);
 
@@ -54,6 +55,15 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $club->setActive(true);
         $manager->persist($club);
         $this->addReference('club-mediatek', $club);
+
+        $club = new Club();
+        $club->setName('GCC');
+        $club->setFullName('Génie Civil et Construction');
+        $club->setActive(false);
+        $club->setAdministration(true);
+        $club->setImage($this->getReference('image-user-gcc'));
+        $manager->persist($club);
+        $this->addReference('club-gcc', $club);
 
         $manager->flush();
     }

@@ -13,6 +13,7 @@ class ClubsControllerTest extends WebTestCase
             'POST', '/clubs', array(
                 'fullName' => 'Chasse Ponts Tradition',
                 'name' => 'CPT',
+                'administration' => true,
                 'presentation' => 'La liste pipeau'
             )
         );

@@ -58,8 +58,9 @@ angular.module('upont')
             }
 
             $http.patch($rootScope.url + 'users/' + $rootScope.me.username, params).success(function(){
-                // On recharge l'user pour être sûr d'avoir la nouvelle photo
-                $rootScope.init($rootScope.me.username);
+                $resource(apiPrefix + 'users/:slug', {slug: $rootScope.me.username}).get(function(data){
+                    $rootScope.me = data;
+                });
                 alertify.success('Profil mis à jour !');
             });
         };

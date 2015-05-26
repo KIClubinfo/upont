@@ -5,6 +5,8 @@ namespace KI\UpontBundle\Controller\Core;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use KI\UpontBundle\Entity\Core\Comment;
+use KI\UpontBundle\Entity\Core\Likeable;
+use KI\UpontBundle\Entity\Publications\Post;
 
 // Fonctions de like/dislike/commentaire
 class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
@@ -17,7 +19,7 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
             || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
             throw new AccessDeniedException('Accès refusé');
 
-        if (!is_a($item, 'Likeable'))
+        if (!$item instanceof Likeable)
             return;
     }
 
@@ -223,8 +225,7 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
      */
     public function getCommentsView($object, $slug)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_USER')
-            || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+        if (!$this->get('security.context')->isGranted('ROLE_USER'))
             throw new AccessDeniedException('Accès refusé');
 
         $this->autoInitialize($object);
@@ -269,9 +270,16 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
     protected function postComment($item)
     {
         if (!$this->get('security.context')->isGranted('ROLE_USER')
-            || $this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
-            || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+            || $this->get('security.context')->isGranted('ROLE_ADMISSIBLE'))
             throw new AccessDeniedException('Accès refusé');
+
+        // Un extérieur ne peut commenter que ses propres posts
+        if ($this->get('security.context')->isGranted('ROLE_EXTERIEUR')) {
+            if (!$item instanceof Post)
+                throw new AccessDeniedException('Accès refusé');
+            if ($item->getAuthorUser() != $this->user)
+                throw new AccessDeniedException('Accès refusé');
+        }
 
         $request = $this->getRequest()->request;
 
@@ -343,9 +351,7 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
      */
     public function patchCommentView($id)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_USER')
-            || $this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
-            || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+        if (!$this->get('security.context')->isGranted('ROLE_USER'))
             throw new AccessDeniedException('Accès refusé');
 
         // L'id doit être entier
@@ -386,9 +392,7 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
      */
     public function deleteCommentView($id)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_USER')
-            || $this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
-            || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+        if (!$this->get('security.context')->isGranted('ROLE_USER'))
             throw new AccessDeniedException('Accès refusé');
 
         // L'id doit être entier

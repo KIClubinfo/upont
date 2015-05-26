@@ -29,7 +29,7 @@
             </div>
 
             <!-- entryMethod -->
-            <div ng-show="type == 'event'" up-col-xs="100%" up-col-sm="100%" up-col="50%">
+            <div ng-if="!$root.isExterieur" ng-show="type == 'event'" up-col-xs="100%" up-col-sm="100%" up-col="50%">
                 <select ng-model="post.entry_method">
                     <option selected>Entrée libre</option>
                     <option>Shotgun</option>
@@ -68,7 +68,7 @@
 
                     <div style="float: right">
                         <!-- Séléction du club -->
-                        <div ng-show="type != 'message'" class="type addon" ng-class="{active: club.name != 'Assos'}">
+                        <div ng-if="!$root.isExterieur" ng-show="type != 'message'" class="type addon" ng-class="{active: club.name != 'Assos'}">
                             <span ng-click="toggleSelect()">
                                 <i class="fa fa-{{ club.icon ? club.icon : 'users' }}"></i> {{ club.name }}
                             </span>
