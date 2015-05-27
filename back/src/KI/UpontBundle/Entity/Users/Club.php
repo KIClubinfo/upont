@@ -64,7 +64,7 @@ class Club extends Likeable
      * Assos ou non ?
      * @ORM\Column(name="assos", type="boolean", nullable=true)
      * @JMS\Expose
-     * @Assert\Type("assos")
+     * @Assert\Type("boolean")
      */
     protected $assos;
 
