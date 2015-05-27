@@ -1,0 +1,16 @@
+<div ng-if="club.active" up-col="100%" class="row-margin">
+    <div class="up-ticket">
+        <div up-row center>
+            <div up-col="25%" class="up-image-container">
+                <div class="up-image" ng-style="{ 'background-image' : 'url({{ club.image_url | urlFile }})' }"></div>
+            </div>
+        </div>
+        <div up-row center>
+            <h2 up-col="75%" class="up-assos-name"><span>{{ club.full_name }}</span></h2>
+        </div>
+        <div up-row center>
+            <span ng-if="club.presentation !== undefined" ng-bind-html="club.presentation"></span>
+            <span ng-if="club.presentation === undefined"><em>Cette assos n'a pas encore fourni de présentation</em></span>
+        </div>
+    </div>
+</div>
