@@ -1,16 +1,45 @@
-<div up-row left wrap padded>
-    <div up-col="50%" class="up-ticket" ng-repeat="club in clubs" ng-if="club.active">
-        <div up-row center>
-            <div up-col="25%" class="up-image-container">
-                <div class="up-image" ng-style="{ 'background-image' : 'url({{ club.image_url | urlFile }})' }"></div>
-            </div>
+<div class="up-ticket">
+    <h1>La vie associative aux Ponts et chaussées</h1>
+
+    Être étudiant aux Ponts et chaussées, c'est être entouré et participer à des myriades de clubs et activités. Il n'y a pas de place pour l'ennui ! Tout le monde y trouve son compte : il y a des clubs pour tout.<br>
+    <br>
+    À leur tête, les assos, justement. C'est le summum pour s'impliquer au quotidien dans la vie étudiante des Ponts. Ci-dessous, une présentation de chaque asso et de chaque club de l'école...
+</div>
+
+<div up-row center>
+    <h2 up-col="75%" class="up-assos-name"><span class="bckgnd">Associations</span></h2>
+</div>
+
+<div up-row wrap>
+    <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
+        <div up-row wrap>
+            <div ng-repeat="club in assos" ng-include="'views/public/assos-simple.html'" up-col="100%"
+                 ng-if="$index%2 === 0"></div>
         </div>
-        <div up-row center>
-            <h2 up-col="75%" class="up-assos-name"><span>{{ club.full_name }}</span></h2>
+    </div>
+    <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
+        <div up-row wrap>
+            <div ng-repeat="club in assos" ng-include="'views/public/assos-simple.html'" up-col="100%"
+                 ng-if="$index%2 === 1"></div>
         </div>
-        <div up-row center>
-            <span ng-if="club.presentation !== undefined" ng-bind-html="club.presentation"></span>
-            <span ng-if="club.presentation === undefined"><em>Cette assos n'a pas encore fourni de présentation</em></span>
+    </div>
+</div>
+
+<div up-row center>
+    <h2 up-col="75%" class="up-assos-name"><span class="bckgnd">Clubs</span></h2>
+</div>
+
+<div up-row wrap>
+    <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
+        <div up-row wrap>
+            <div ng-repeat="club in clubs" ng-include="'views/public/assos-simple.html'" up-col="100%"
+                 ng-if="$index%2 === 0"></div>
+        </div>
+    </div>
+    <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
+        <div up-row wrap>
+            <div ng-repeat="club in clubs" ng-include="'views/public/assos-simple.html'" up-col="100%"
+                 ng-if="$index%2 === 1"></div>
         </div>
     </div>
 </div>

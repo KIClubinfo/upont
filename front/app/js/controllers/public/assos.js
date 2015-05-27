@@ -1,6 +1,14 @@
 angular.module('upont')
     .controller('Assos_Public_Ctrl', ['$scope', 'clubs', function($scope, clubs) {
-        $scope.clubs = clubs;
+        $scope.clubs = [];
+        $scope.assos = [];
+
+        angular.forEach(clubs, function(value, key) {
+            if (value.hasOwnProperty('assos') && value.assos === true)
+                $scope.assos.push(value);
+            else
+                $scope.clubs.push(value);
+        });
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
