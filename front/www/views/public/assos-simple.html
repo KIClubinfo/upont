@@ -10,7 +10,7 @@
         </div>
         <div up-row center>
             <span ng-if="club.presentation !== undefined" ng-bind-html="club.presentation"></span>
-            <span ng-if="club.presentation === undefined"><em>Cette assos n'a pas encore fourni de présentation</em></span>
+            <span ng-if="club.presentation === undefined"><em>{{ club.assos ? 'Cette asso' : 'Ce club' }} n'a pas encore fourni de présentation</em></span>
         </div>
     </div>
 </div>
