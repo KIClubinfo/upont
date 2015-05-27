@@ -14,6 +14,7 @@ class ClubsControllerTest extends WebTestCase
                 'fullName' => 'Chasse Ponts Tradition',
                 'name' => 'CPT',
                 'administration' => true,
+                'assos' => false,
                 'presentation' => 'La liste pipeau'
             )
         );

@@ -61,6 +61,14 @@ class Club extends Likeable
     protected $active;
 
     /**
+     * Assos ou non ?
+     * @ORM\Column(name="assos", type="boolean", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("boolean")
+     */
+    protected $assos;
+
+    /**
      * Channel géré par l'administration ?
      * @ORM\Column(name="administration", type="boolean", nullable=true)
      * @JMS\Expose
@@ -182,6 +190,30 @@ class Club extends Likeable
     public function getActive()
     {
         return $this->active;
+    }
+
+    /**
+     * Set assos
+     *
+     * @param boolean $assos
+     * @return Club
+     */
+    public function setAssos($assos)
+    {
+        $this->assos = $assos;
+
+        return $this;
+    }
+
+    /**
+     * Get assos
+     *
+     * @return boolean
+
+     */
+    public function getAssos()
+    {
+        return $this->assos;
     }
 
     /**
