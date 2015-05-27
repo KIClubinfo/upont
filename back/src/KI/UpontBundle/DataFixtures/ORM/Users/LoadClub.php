@@ -26,6 +26,7 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $club->setName('BDE');
         $club->setFullName('Bureau Des Élèves');
         $club->setActive(true);
+        $club->setAssos(true);
         $club->setImage($this->getReference('image-club-bde'));
         $club->setBanner($this->getReference('image-supaero'));
         $manager->persist($club);
@@ -44,6 +45,7 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $club->setName('PEP');
         $club->setFullName('Ponts Études Projets');
         $club->setActive(true);
+        $club->setAssos(true);
         $club->setIcon('eur');
         $club->setImage($this->getReference('image-club-pep'));
         $manager->persist($club);
