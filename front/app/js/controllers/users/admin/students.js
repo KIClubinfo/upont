@@ -8,7 +8,7 @@ angular.module('upont')
         };
 
         $scope.post = function(user, password, confirm) {
-            var params ={
+            var params = {
                 firstName: user.first_name,
                 lastName: user.last_name,
                 username: user.username,
@@ -16,22 +16,22 @@ angular.module('upont')
             };
 
             if (!user.first_name) {
-                alertify.error('Le prénom n\'a pas été renseigé');
+                alertify.error('Le prénom n\'a pas été renseigné');
                 return;
             }
 
             if (!user.last_name) {
-                alertify.error('Le nom n\'a pas été renseigé');
+                alertify.error('Le nom n\'a pas été renseigné');
                 return;
             }
 
             if (!user.username) {
-                alertify.error('L\'identifiant DSI n\'a pas été renseigé');
+                alertify.error('L\'identifiant DSI n\'a pas été renseigné');
                 return;
             }
 
             if (!user.email) {
-                alertify.error('L\'email n\'a pas été renseigé');
+                alertify.error('L\'email n\'a pas été renseigné');
                 return;
             }
 
