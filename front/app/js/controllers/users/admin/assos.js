@@ -29,6 +29,13 @@ angular.module('upont')
             $http.post($rootScope.url + 'clubs', params).success(function(){
                 alertify.success('Assos créée');
             });
+
+            $scope.club = {
+                fullname: '',
+                name: '',
+                administration: false,
+                isClub: true
+            };
         };
 
     }])
