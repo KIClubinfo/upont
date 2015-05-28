@@ -3,15 +3,17 @@ angular.module('upont')
         $scope.club = {
             fullname: '',
             name: '',
-            administration: 'Non',
-            assos: 'Club'
+            administration: false,
+            isClub: true
         };
 
         $scope.post = function(club) {
             var params ={
                 fullName: club.fullname,
                 name: club.name,
-                active: 1
+                administration: club.administration,
+                assos: !club.isClub,
+                active: true
             };
 
             if (!club.fullname) {
@@ -22,18 +24,6 @@ angular.module('upont')
             if (!club.name) {
                 alertify.error('Le nom court n\'a pas été renseigé');
                 return;
-            }
-
-            if (club.administration == 'Oui') {
-                params.administration = true;
-            } else {
-                params.administration = false;
-            }
-
-            if (club.assos == 'Assos') {
-                params.assos = true;
-            } else {
-                params.assos = false;
             }
 
             $http.post($rootScope.url + 'clubs', params).success(function(){

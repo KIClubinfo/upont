@@ -12,23 +12,11 @@
             </div>
 
                 <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                    Ce channel est-il géré par l'administration ?
-                </div>
-                <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                    <select ng-model="club.administration" up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                        <option>Oui</option>
-                        <option>Non</option>
-                    </select>
+                    Ceci est un channel géré par l'administration <input type="checkbox" ng-model="club.administration" />
                 </div>
 
                 <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                    Est-ce un club ou une assos ?
-                </div>
-                <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                    <select ng-model="club.assos">
-                        <option>Assos</option>
-                        <option>Club</option>
-                    </select>
+                    Ceci est un club <input type="checkbox" ng-model="club.isClub" />
                 </div>
                 
             <div up-col="100%" up-row right>
