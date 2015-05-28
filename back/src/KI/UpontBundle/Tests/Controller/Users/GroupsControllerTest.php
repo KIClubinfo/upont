@@ -36,20 +36,20 @@ class GroupsControllerTest extends WebTestCase
         $this->assertJsonResponse($response, 404);
     }
 
-    // public function testPatch()
-    // {
-    //     $this->client->request('PATCH', '/groups/jardinier', array('roles' => array('ROLE_USER')));
-    //     $response = $this->client->getResponse();
-    //     $this->assertJsonResponse($response, 204);
+    public function testPatch()
+    {
+        $this->client->request('PATCH', '/groups/jardinier', array('roles' => array('ROLE_USER')));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 204);
 
-    //     $this->client->request('PATCH', '/groups/jardinier', array('firstName' => ''));
-    //     $response = $this->client->getResponse();
-    //     $this->assertJsonResponse($response, 400);
+        $this->client->request('PATCH', '/groups/jardinier', array('firstName' => ''));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 400);
 
-    //     $this->client->request('PATCH', '/groups/sjoajsiohaysahais-asbsksaba7', array('username' => 'miam', 'email' => '123@mail.fr'));
-    //     $response = $this->client->getResponse();
-    //     $this->assertJsonResponse($response, 404);
-    // }
+        $this->client->request('PATCH', '/groups/sjoajsiohaysahais-asbsksaba7', array('username' => 'miam', 'email' => '123@mail.fr'));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 404);
+    }
 
 
     // Tests relatifs aux membres

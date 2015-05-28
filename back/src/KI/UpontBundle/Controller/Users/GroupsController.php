@@ -48,6 +48,23 @@ class GroupsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
 
     /**
      * @ApiDoc(
+     *  description="Modifie un groupe",
+     *  input="KI\UpontBundle\Form\Users\GroupType",
+     *  statusCodes={
+     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
+     *   400="La syntaxe de la requête est erronée",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   404="Ressource non trouvée",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Utilisateurs"
+     * )
+     */
+    public function patchGroupAction($slug) { return $this->patch($slug); }
+
+    /**
+     * @ApiDoc(
      *  description="Ajoute un utilisateur à un groupe",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
