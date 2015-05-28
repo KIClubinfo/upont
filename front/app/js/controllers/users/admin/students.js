@@ -35,18 +35,34 @@ angular.module('upont')
                 return;
             }
 
-            if (password !== null && password !== '') {
+            if (password !== undefined && password !== '') {
                 if (password != confirm) {
                     alertify.error('Les deux mots de passe ne sont pas identiques');
                     return;
                 } else {
                     params.plainPassword = {first: password, second: confirm};
                 }
+            } else {
+                alertify.error('Le mot de passe n\'a pas été renseigné');
+                return;
             }
 
             $http.post($rootScope.url + 'users', params).success(function(){
                 alertify.success('Utilisateur créé');
+            }).error(function(){
+                alertify.error('Cet utilisateur existe déjà');
+                return;
             });
+
+            $scope.user = {
+                first_name: '',
+                last_name: '',
+                username: '',
+                email: ''
+            };
+
+            $scope.password = '';
+            $scope.confirm = '';
         };
 
     }])
