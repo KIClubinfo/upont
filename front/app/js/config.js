@@ -178,7 +178,6 @@ angular.module('upont')
             if (!$rootScope.isLogged && needLogin(toState)) {
                 event.preventDefault();
                 $rootScope.urlRef = $location.path();
-                alert('login');
                 $state.go('root.login');
             }
         });
