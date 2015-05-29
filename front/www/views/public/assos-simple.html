@@ -9,8 +9,8 @@
             <h2 up-col="75%" class="up-assos-name"><span>{{ club.full_name }}</span></h2>
         </div>
         <div up-row center>
-            <span ng-if="club.presentation !== undefined" ng-bind-html="club.presentation"></span>
-            <span ng-if="club.presentation === undefined"><em>{{ club.assos ? 'Cette asso' : 'Ce club' }} n'a pas encore fourni de présentation</em></span>
+            <div ng-if="club.presentation !== undefined" ng-bind-html="club.presentation"></div>
+            <div ng-if="club.presentation === undefined"><em>{{ club.assos ? 'Cette asso' : 'Ce club' }} n'a pas encore fourni de présentation</em></div>
         </div>
     </div>
 </div>
