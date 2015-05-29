@@ -17,12 +17,12 @@ angular.module('upont')
             };
 
             if (!club.fullname) {
-                alertify.error('Le nom complet n\'a pas été renseigé');
+                alertify.error('Le nom complet n\'a pas été renseigné');
                 return;
             }
 
             if (!club.name) {
-                alertify.error('Le nom court n\'a pas été renseigé');
+                alertify.error('Le nom court n\'a pas été renseigné');
                 return;
             }
 
