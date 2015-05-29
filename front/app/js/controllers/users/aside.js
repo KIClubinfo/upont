@@ -1,13 +1,32 @@
 angular.module('upont')
-    .controller('Search_Ctrl', ['$scope', '$rootScope', '$state', '$http', function($scope, $rootScope, $state, $http) {
-        // $scope.showCategories = false;
+    .controller('Aside_Ctrl', ['$scope', '$resource', '$interval', function($scope, $resource, $interval) {
+        // CHARGEMENT DES DONNÉES DE BASE
+        // Version de uPont
+        $resource(apiPrefix + 'version').get(function(data){
+            $scope.version = data;
+        });
+
+        // Solde foyer
+        $resource(apiPrefix + 'foyer/balance').get(function(data){
+            $scope.foyer = data.balance;
+        });
+
+        // Gens en ligne
+        reloadOnline = function() {
+            $resource(apiPrefix + 'online').query(function(data){
+                $scope.online = data;
+            });
+        };
+        reloadOnline();
+        $interval(reloadOnline, 60000);
+
+        // RECHERCHE
         $scope.searchResults = [];
 
         $scope.doSearch = function(string) {
             if (string.length > 2) {
-                $http.post(apiPrefix + 'search', {search: '/' + string}).success(function(data){
+                $resource(apiPrefix + 'search').save({search: '/' + string}, function(data){
                     $scope.searchResults = data;
-
                 });
             } else {
                 $scope.searchResults = [];

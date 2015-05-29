@@ -63,8 +63,8 @@ angular.module('upont')
             .state('root', {
                 abstract: true,
                 url: '/',
-                template: '<div ui-view="aside" class="up-invisible-xs"></div>'+
-                    '<div ui-view="topbar" class="up-invisible-sm up-invisible-md up-invisible-lg"></div>'+
+                template: '<div ui-view="aside" ng-if="!isExterieur" class="up-invisible-xs"></div>'+
+                    '<div ui-view="topbar" ng-if="!isExterieur" class="up-invisible-sm up-invisible-md up-invisible-lg"></div>'+
                     '<div ui-view></div>',
             })
             .state('root.403', {
@@ -98,7 +98,7 @@ angular.module('upont')
                     },
                     aside: {
                         templateUrl: 'views/users/aside.html',
-                        controller: 'Search_Ctrl'
+                        controller: 'Aside_Ctrl'
                     }
                 }
             })
@@ -108,107 +108,18 @@ angular.module('upont')
                 template: '<div ui-view></div>'
             });
     }])
-    .run(['$rootScope', 'StorageService', '$state', '$interval',  'jwtHelper', '$resource', '$location', 'Migration', '$window', '$sce', function($rootScope, StorageService, $state, $interval, jwtHelper, $resource, $location, Migration, $window, $sce) {
-        // Data à charger au lancement
-        $rootScope.selfClubs = [];
+    .run(['$rootScope', 'StorageService', 'Permissions', '$state', '$interval', '$resource', '$location', '$window', '$sce', function($rootScope, StorageService, Permissions, $state, $interval, $resource, $location, $window, $sce) {
+        Permissions.load();
 
-        $rootScope.init = function(username) {
-            // Données perso
-            $resource(apiPrefix + 'users/:slug', {slug: username }).get(function(data){
-                $rootScope.me = data;
-                Migration.v211(data);
-            });
-
-            // Données perso
-            $resource(apiPrefix + 'users/:slug', {slug: username }).get(function(data){
-                $rootScope.me = data;
-                Migration.v211(data);
-            });
-
-            // Version de uPont
-            $resource(apiPrefix + 'version').get(function(data){
-                $rootScope.version = data;
-            });
-            // Solde foyer
-            $resource(apiPrefix + 'foyer/balance').get(function(data){
-                $rootScope.foyer = data.balance;
-            });
-
-            // Gens en ligne
-            reloadOnline = function() {
-                $resource(apiPrefix + 'online').query(function(data){
-                    $rootScope.online = data;
-                });
-
-                // On se sert de cette fonction pour se sortir de la maintenance éventuelle
-                if ($rootScope.maintenance) {
-                    $rootScope.maintenance = false;
-                    $location.path('/');
-                }
-            };
-            reloadOnline();
-            $interval(reloadOnline, 60000);
-
-            // On récupère les clubs de l'utilisateurs pour déterminer ses droits de publication
-            $resource(apiPrefix + 'users/:slug/clubs', {slug: username }).query(function(data){
-                $rootScope.selfClubs = data;
-            });
-
-            // On récupère les clubs de l'utilisateurs pour déterminer ses droits de publication
-            $resource(apiPrefix + 'users/:slug/clubs', {slug: username }).query(function(data){
-                $rootScope.selfClubs = data;
-            });
-        };
-
-        // Chargement du token à partir du localStorage
-        if (StorageService.get('token') && !jwtHelper.isTokenExpired(StorageService.get('token'))) {
-            $rootScope.isLogged = true;
-            $rootScope.isAdmin = (StorageService.get('droits').indexOf('ROLE_ADMIN') != -1) ? true : false;
-            $rootScope.isAdmissible = (StorageService.get('droits').indexOf('ROLE_ADMISSIBLE') != -1) ? true : false;
-            $rootScope.init(jwtHelper.decodeToken(StorageService.get('token')).username);
-        } else {
-            $rootScope.isLogged = false;
-            $rootScope.isAdmin = false;
-            $rootScope.isAdmissible = false;
-            StorageService.remove('token');
-            StorageService.remove('droits');
-        }
         // Déconnexion
         $rootScope.logout = function() {
-            StorageService.remove('token');
-            StorageService.remove('roles');
-            $rootScope.isLogged = false;
+            Permissions.remove();
             $state.go('root.login');
         };
 
-        $rootScope.isState = function(name){
-            return $state.is(name);
-        };
-
-
-
-        // Vérifie si l'utilisateur a les droits sur un club
-        $rootScope.hasRight = function(slug) {
-            if ($rootScope.isAdmin)
-                return true;
-
-            for (var i = 0; i < $rootScope.selfClubs.length; i++) {
-                if ($rootScope.selfClubs[i].club.slug == slug)
-                    return true;
-            }
-            return false;
-        };
-
-        $rootScope.is = function(role) {
-            if (StorageService.get('droits').indexOf('ROLE_ADMIN') != -1)
-                return true;
-
-            // Le modo a tous les droits sauf ceux de l'admin
-            if (StorageService.get('droits').indexOf('ROLE_MODO') != -1 && role != 'ROLE_ADMIN')
-                return true;
-
-            return StorageService.get('droits').indexOf(role) != -1;
-        };
+        // Vérifie si l'utilisateur a les droits sur un club/role
+        $rootScope.hasClub = function(slug) { return Permissions.hasClub(slug); };
+        $rootScope.hasRight = function(role) { return Permissions.hasRight(role); };
 
         // Diverses variables globales
         $rootScope.url = location.origin + apiPrefix;
@@ -238,6 +149,23 @@ angular.module('upont')
                 $rootScope.theme = 'dark';
                 StorageService.set('theme', 'dark');
             }
+        };
+
+        // Easter egg
+        $rootScope.surprise = (Math.random()*1000 == 314);
+
+        // Zoom sur les images
+        $rootScope.zoom = false;
+        $rootScope.zoomUrl = null;
+        $rootScope.zoomOut = function(event) {
+            if (event.which == 1) {
+                $rootScope.zoom = false;
+                $rootScope.zoomUrl = null;
+            }
+        };
+        $rootScope.zoomIn = function(url) {
+            $rootScope.zoom = true;
+            $rootScope.zoomUrl = $sce.trustAsUrl(url);
         };
 
         // Au changement de page
@@ -279,21 +207,4 @@ angular.module('upont')
         $rootScope.$on('$stateNotFound', function(event, toState, toParams, fromState, fromParams) {
             $state.go('root.404');
         });
-
-        // Easter egg
-        $rootScope.surprise = (Math.random()*1000 == 314);
-
-        // Zoom sur les images
-        $rootScope.zoom = false;
-        $rootScope.zoomUrl = null;
-        $rootScope.zoomOut = function(event) {
-            if (event.which == 1) {
-                $rootScope.zoom = false;
-                $rootScope.zoomUrl = null;
-            }
-        };
-        $rootScope.zoomIn = function(url) {
-            $rootScope.zoom = true;
-            $rootScope.zoomUrl = $sce.trustAsUrl(url);
-        };
     }]);

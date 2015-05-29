@@ -1,10 +1,17 @@
 angular.module('upont')
-    .controller('Foyer_Ctrl', ['$scope', '$http', 'youtube', 'stats', 'Paginate', function($scope, $http, youtube, stats, Paginate) {
+    .controller('Foyer_Ctrl', ['$scope', '$rootScope', '$http', 'youtube', 'stats', 'members', 'Paginate', function($scope, $rootScope, $http, youtube, stats, members, Paginate) {
         $('#focus-input').focus();
         $scope.youtube = youtube;
         $scope.stats = stats.rankings;
         $scope.predicate = 'litres_bus';
         $scope.reverse = true;
+        $scope.isFromFoyer = false;
+
+        for (var key in members) {
+            if (members[key].user !== undefined && members[key].user.username == $rootScope.me.username) {
+                $scope.isFromFoyer = true;
+            }
+        }
 
         $scope.reload = function() {
             Paginate.first($scope.youtube).then(function(data){
@@ -51,6 +58,9 @@ angular.module('upont')
                     }],
                     stats: ['$resource', function($resource) {
                         return $resource(apiPrefix + 'foyer/statistics').get().$promise;
+                    }],
+                    members: ['$resource', function($resource) {
+                        return $resource(apiPrefix + 'clubs/foyer/users').query().$promise;
                     }]
                 }
             });

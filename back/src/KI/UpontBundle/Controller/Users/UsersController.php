@@ -45,7 +45,7 @@ class UsersController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  section="Utilisateurs"
      * )
      */
-    public function getUserAction($slug) { return $this->getOne($slug); }
+    public function getUserAction($slug) { return $this->getOne($slug, true); }
 
     /**
      * @ApiDoc(

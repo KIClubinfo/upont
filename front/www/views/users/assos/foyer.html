@@ -15,10 +15,9 @@
             <div up-row center>
                 <youtube-video video-url="item.url"></youtube-video>
             </div>
-            <div ng-if="$root.me.username == item.user.username" up-row right padded>
-                 <a title="Supprimer la video" ng-click="delete(item)">Supprimer</a>
+            <div ng-if="$root.me.username == item.user.username || $root.hasClub('foyer')" up-row right padded>
+                 <a title="Supprimer la video" ng-click="delete(item)">Supprimer</a><br>
             </div>
-            <br ng-if="$root.me.username != item.user.username">
             <div up-likes objet="item" url="'youtubes/' + item.slug"></div>
         </div>
     </div>

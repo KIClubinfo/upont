@@ -82,11 +82,6 @@ search:
     requirements:
         _method: POST
 
-logs:
-    type:     rest
-    resource: KI\UpontBundle\Controller\Core\LogsController
-    
-
 upont_images_post:
     path: /images
     defaults: { _controller: KIUpontBundle:Images:uploadImage }

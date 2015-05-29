@@ -39,6 +39,7 @@ background-size: auto auto;
 }
 
 .redactor-toolbar {
+    z-index: 1;
     li {
         a:hover {
           background-color: @col-main;
@@ -134,10 +135,14 @@ background-size: auto auto;
     }
 }
 .up-assos {
-    .up-ticket:hover {
-        cursor: pointer;
-        border: 1px solid @col-main;
-        h3 { color: @col-main !important; }
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    .up-ticket {
+        &:hover {
+            cursor: pointer;
+            border: 1px solid @col-main;
+            h3 { color: @col-main !important; }
+        }
     }
 }
 
