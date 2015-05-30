@@ -602,9 +602,35 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
             }
         }
 
+        // Recherche des fichiers les plus téléchargés
+        $downloadSerie = array(
+            array('name' => 'Films', 'drilldown' => 1, 'y' => $this->getTotalDownloads('movie')),
+            array('name' => 'Séries', 'drilldown' => 2, 'y' => $this->getTotalDownloads('episode')),
+            array('name' => 'Musiques', 'drilldown' => 3, 'y' => $this->getTotalDownloads('music')),
+            array('name' => 'Jeux', 'drilldown' => 4, 'y' => $this->getTotalDownloads('game')),
+            array('name' => 'Logiciels', 'drilldown' => 5, 'y' => $this->getTotalDownloads('software')),
+            array('name' => 'Autres', 'drilldown' => 6, 'y' => $this->getTotalDownloads('other'))
+        );
+
+        // Tri par ordre des downloads totaux
+        $total = array();
+        foreach ($downloadSerie as $key => $row) {
+            $total[$key]  = $row['y'];
+        }
+        array_multisort($total, SORT_DESC, $downloadSerie);
+
+        $downloadDrilldown = array(
+            array('name' => 'Films', 'id' => 1, 'data' => $this->getDownloads('movie')),
+            array('name' => 'Séries', 'id' => 2, 'data' => $this->getDownloads('episode')),
+            array('name' => 'Musiques', 'id' => 3, 'data' => $this->getDownloads('music')),
+            array('name' => 'Jeux', 'id' => 4, 'data' => $this->getDownloads('game')),
+            array('name' => 'Logiciels', 'id' => 5, 'data' => $this->getDownloads('software')),
+            array('name' => 'Autres', 'id' => 6, 'data' => $this->getDownloads('other'))
+        );
+
         // Construction de la tree map résumant les fichiers dispos sur Ponthub
         $ponthub = array(
-            'Nombre de fichiers' => array(
+            'Nombre de fichiers dispos' => array(
                 'Films' => $this->getTotal('Movie'),
                 'Séries' => $this->getTotal('Episode'),
                 'Musiques' => $this->getTotal('Music'),
@@ -676,7 +702,10 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
                 'categories' => $downloaderCategories,
                 'series' => $downloaderSeries
             ),
-            'downloads' => null,
+            'downloads' => array(
+                'serie' => $downloadSerie,
+                'drilldown' => $downloadDrilldown
+            ),
             'ponthub' => $ponthub,
             'years' => array(
                 'categories' => $yearCategories,
@@ -697,5 +726,29 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
             $dql = 'SELECT COUNT(e.id) FROM KI\UpontBundle\Entity\Ponthub\\'.$category.' e';
             return $this->em->createQuery($dql)->getSingleScalarResult();
         }
+    }
+
+    private function getDownloads($category) {
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare('SELECT Likeable.name, COUNT(*) AS compte FROM PonthubFileUser LEFT JOIN Likeable ON Likeable.id = PonthubFileUser.file_id WHERE Likeable.type = :category GROUP BY PonthubFileUser.file_id ORDER BY compte DESC LIMIT 10');
+        $statement->bindValue('category', $category);
+        $statement->execute();
+        $results = $statement->fetchAll();
+
+        $return = array();
+        foreach ($results as $result) {
+            $return[] = array($result['name'], (int) $result['compte']);
+        }
+        return $return;
+    }
+
+    private function getTotalDownloads($category) {
+        $connection = $this->em->getConnection();
+        $statement = $connection->prepare('SELECT COUNT(*) AS compte FROM PonthubFileUser LEFT JOIN Likeable ON Likeable.id = PonthubFileUser.file_id WHERE Likeable.type = :category');
+        $statement->bindValue('category', $category);
+        $statement->execute();
+        $results = $statement->fetchAll();
+
+        return (int) $results[0]['compte'];
     }
 }

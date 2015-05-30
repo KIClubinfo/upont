@@ -63,6 +63,57 @@ angular.module('upont')
             series: ponthub.downloaders.series
         };
 
+        $scope.chartDownloads = {
+            chart: {
+                renderTo: 'downloads',
+                type: 'column'
+            },
+            credits: {
+                enabled: false,
+            },
+            exporting: {
+                enabled: false,
+            },
+            title: {
+                text: 'Best Of'
+            },
+            subtitle: {
+                text: 'Les fichiers plus populaires que ta mère',
+            },
+            xAxis: {
+                type: 'category'
+            },
+            yAxis: {
+                title: {
+                    text: 'Nombre de téléchargements'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                series: {
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.y}'
+                    }
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:11px">Téléchargements</span><br>',
+                pointFormat: '<b>{point.y}</b>  <span style="color:{point.color}">{point.name}</span> téléchargés au total<br/>'
+            },
+            series: [{
+                name: 'Téléchargements',
+                colorByPoint: true,
+                data: ponthub.downloads.serie
+            }],
+            drilldown: {
+                series: ponthub.downloads.drilldown
+            }
+        };
+
         var points = [],
         region_p,
         region_val,
