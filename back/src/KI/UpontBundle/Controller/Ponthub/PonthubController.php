@@ -560,7 +560,43 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
      */
     public function statisticsMainAction()
     {
+        // Construction de la tree map résumant les fichiers dispos sur Ponthub
+        $ponthub = array(
+            'Nombre de fichiers' => array(
+                'Films' => $this->getTotal('Movie'),
+                'Séries' => $this->getTotal('Episode'),
+                'Musiques' => $this->getTotal('Music'),
+                'Jeux' => $this->getTotal('Game'),
+                'Logiciels' => $this->getTotal('Software'),
+                'Autres' => $this->getTotal('Other')
+            ),
+            'Volume de fichiers (Go)' => array(
+                'Films' => $this->getTotal('Movie', true),
+                'Séries' => $this->getTotal('Episode', true),
+                'Musiques' => $this->getTotal('Music', true),
+                'Jeux' => $this->getTotal('Game', true),
+                'Logiciels' => $this->getTotal('Software', true),
+                'Autres' => $this->getTotal('Other', true)
+            )
+        );
+
         return $this->jsonResponse(array(
+            'downloaders' => null,
+            'downloads' => null,
+            'ponthub' => $ponthub,
+            'years' => null,
+            'timeline' => null
         ));
+    }
+
+    // Retourne les données selon une catégorie de fichiers
+    private function getTotal($category, $size = false) {
+        if ($size) {
+            $dql = 'SELECT SUM(e.size) FROM KI\UpontBundle\Entity\Ponthub\\'.$category.' e';
+            return $this->em->createQuery($dql)->getSingleScalarResult() / (1000*1000*1000);
+        } else {
+            $dql = 'SELECT COUNT(e.id) FROM KI\UpontBundle\Entity\Ponthub\\'.$category.' e';
+            return $this->em->createQuery($dql)->getSingleScalarResult();
+        }
     }
 }

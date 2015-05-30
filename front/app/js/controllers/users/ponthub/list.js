@@ -53,7 +53,7 @@ angular.module('upont')
                 },
                 resolve: {
                     ponthub: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'ponthub/statistics').query().$promise;
+                        return $resource(apiPrefix + 'ponthub/statistics').get().$promise;
                     }]
                 }
             })
