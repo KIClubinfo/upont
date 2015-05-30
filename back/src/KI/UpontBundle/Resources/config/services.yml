@@ -113,6 +113,13 @@ services:
         tags:
             - { name: form.type, alias: user }
 
+    # Ajoute les gens online
+    ki_upont.online:
+        class: KI\UpontBundle\EventListener\OnlineListener
+        calls:
+            - [ setContainer,[ @service_container ] ]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
 
 
