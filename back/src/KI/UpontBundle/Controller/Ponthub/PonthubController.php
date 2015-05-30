@@ -560,6 +560,48 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
      */
     public function statisticsMainAction()
     {
+        // Recherche des plus gros downloaders
+        $dql = 'SELECT IDENTITY(e.user), SUM(f.size) AS compte FROM KI\UpontBundle\Entity\Ponthub\PonthubFileUser e LEFT JOIN e.file f GROUP BY e.user ORDER BY compte DESC';
+        $downloaderIds = $this->em->createQuery($dql)
+                                ->setMaxResults(10)
+                                ->getResult();
+
+        // On regarde les détails sur chaque utilisateur
+        $downloaderCategories = array();
+        $downloaderSeries = array(
+            array('name' => 'Films', 'data' => array()),
+            array('name' => 'Séries', 'data' => array()),
+            array('name' => 'Musiques', 'data' => array()),
+            array('name' => 'Jeux', 'data' => array()),
+            array('name' => 'Logiciels', 'data' => array()),
+            array('name' => 'Autres', 'data' => array())
+        );
+        foreach ($downloaderIds as $key => $value) {
+            $repo = $this->getDoctrine()->getManager()->getRepository('KIUpontBundle:Ponthub\PonthubFileUser');
+            $downloads = $repo->findBy(array('user' => $value[1]));
+
+            $user = $downloads[0]->getUser();
+            $downloaderCategories[] = $user->getFirstName().' '.$user->getLastName();
+            for ($i = 0; $i < 6; $i++)
+                $downloaderSeries[$i]['data'][] = 0;
+
+            foreach ($downloads as $download) {
+                $file = $download->getFile();
+                if ($file instanceof Movie)
+                    $downloaderSeries[0]['data'][$key] += round($file->getSize()/(1000*1000*1000), 1);
+                if ($file instanceof Episode)
+                    $downloaderSeries[1]['data'][$key] += round($file->getSize()/(1000*1000*1000), 1);
+                if ($file instanceof Music)
+                    $downloaderSeries[2]['data'][$key] += round($file->getSize()/(1000*1000*1000), 1);
+                if ($file instanceof Game)
+                    $downloaderSeries[3]['data'][$key] += round($file->getSize()/(1000*1000*1000), 1);
+                if ($file instanceof Software)
+                    $downloaderSeries[4]['data'][$key] += round($file->getSize()/(1000*1000*1000), 1);
+                if ($file instanceof Other)
+                    $downloaderSeries[5]['data'][$key] += round($file->getSize()/(1000*1000*1000), 1);
+            }
+        }
+
         // Construction de la tree map résumant les fichiers dispos sur Ponthub
         $ponthub = array(
             'Nombre de fichiers' => array(
@@ -630,7 +672,10 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
         }
 
         return $this->jsonResponse(array(
-            'downloaders' => null,
+            'downloaders' => array(
+                'categories' => $downloaderCategories,
+                'series' => $downloaderSeries
+            ),
             'downloads' => null,
             'ponthub' => $ponthub,
             'years' => array(

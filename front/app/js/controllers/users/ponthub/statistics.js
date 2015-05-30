@@ -1,5 +1,68 @@
 angular.module('upont')
     .controller('Ponthub_Statistics_Ctrl', ['$scope', 'ponthub', function($scope, ponthub) {
+        $scope.chartDownloaders = {
+            chart: {
+                renderTo: 'downloaders',
+                type: 'column'
+            },
+            credits: {
+                enabled: false,
+            },
+            exporting: {
+                enabled: false,
+            },
+            title: {
+                text: 'Hall Of Fame'
+            },
+            subtitle: {
+                text: 'Et les ponts pompèrent, pompèrent...',
+            },
+            xAxis: {
+                categories: ponthub.downloaders.categories
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Volume téléchargé (Go)'
+                },
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                    }
+                }
+            },
+            legend: {
+                align: 'right',
+                x: 0,
+                verticalAlign: 'top',
+                y: 49,
+                floating: true,
+                borderWidth: 1,
+                shadow: false
+            },
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + this.x + '</b><br/>' +
+                        this.series.name + ': ' + this.y + ' Go<br/>';
+                }
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: true,
+                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                        style: {
+                            textShadow: '0 0 3px black'
+                        }
+                    }
+                }
+            },
+            series: ponthub.downloaders.series
+        };
+
         var points = [],
         region_p,
         region_val,
