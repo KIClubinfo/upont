@@ -580,11 +580,65 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
             )
         );
 
+        // Construction de l'arbre des années des films/jeux dispos
+        $dql = 'SELECT e.year, COUNT(e.id) FROM KI\UpontBundle\Entity\Ponthub\Movie e GROUP BY e.year';
+        $movieYears = $this->em->createQuery($dql)->getResult();
+        $dql = 'SELECT e.year, COUNT(e.id) FROM KI\UpontBundle\Entity\Ponthub\Game e GROUP BY e.year';
+        $gameYears = $this->em->createQuery($dql)->getResult();
+
+        $yearCategories = array();
+        $yearSeries = array(
+            array('name' => 'Films', 'data' => array()),
+            array('name' => 'Jeux', 'data' => array())
+        );
+
+        // On rajoute l'année dans les catégories si elle n'y est pas déjà
+        foreach ($movieYears as $key => $value) {
+            if (!in_array((int) $value['year'], $yearCategories)) {
+                $yearCategories[] = $value['year'];
+                $yearSeries[0]['data'][] = 0;
+                $yearSeries[1]['data'][] = 0;
+            }
+        }
+        foreach ($gameYears as $key => $value) {
+            if (!in_array((int) $value['year'], $yearCategories)) {
+                $yearCategories[] = $value['year'];
+                $yearSeries[0]['data'][] = 0;
+                $yearSeries[1]['data'][] = 0;
+            }
+        }
+
+        // On ordonne les années
+        sort($yearCategories);
+
+        // On répartit les entrées
+        $maxPopMovie = 0;
+        $maxPopGame = 0;
+        foreach ($movieYears as $key => $value) {
+            $id = array_search((int) $value['year'], $yearCategories);
+            $yearSeries[0]['data'][$id] = -$value[1];
+
+            if ($value[1] > $maxPopMovie)
+                $maxPopMovie = (int) $value[1];
+        }
+        foreach ($gameYears as $key => $value) {
+            $id = array_search((int) $value['year'], $yearCategories);
+            $yearSeries[1]['data'][$id] = (int) $value[1];
+
+            if ($value[1] > $maxPopGame)
+                $maxPopGame = (int) $value[1];
+        }
+
         return $this->jsonResponse(array(
             'downloaders' => null,
             'downloads' => null,
             'ponthub' => $ponthub,
-            'years' => null,
+            'years' => array(
+                'categories' => $yearCategories,
+                'series' => $yearSeries,
+                'min' => -$maxPopMovie,
+                'max' => $maxPopGame
+            ),
             'timeline' => null
         ));
     }

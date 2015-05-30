@@ -69,4 +69,66 @@ angular.module('upont')
                 data: points
             }]
         };
+
+        var categories = ponthub.years.categories;
+        $scope.chartYears = {
+            chart: {
+                renderTo: 'years',
+                type: 'bar'
+            },
+            credits: {
+                enabled: false,
+            },
+            exporting: {
+                enabled: false,
+            },
+            title: {
+                text: 'Répartition par années'
+            },
+            subtitle: {
+                text: 'Oldies but goldies',
+            },
+            xAxis: [{
+                categories: categories,
+                reversed: false,
+                labels: {
+                    step: 1
+                }
+            }, { // mirror axis on right side
+                opposite: true,
+                reversed: false,
+                categories: categories,
+                linkedTo: 0,
+                labels: {
+                    step: 1
+                }
+            }],
+            yAxis: {
+                title: {
+                    text: 'Nombre de fichiers'
+                },
+                labels: {
+                    formatter: function () {
+                        return Math.abs(this.value);
+                    }
+                },
+                min: ponthub.years.min,
+                max: ponthub.years.max
+            },
+
+            plotOptions: {
+                series: {
+                    stacking: 'normal'
+                }
+            },
+
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + this.series.name + ' de ' + this.point.category + '</b><br/>' +
+                    Highcharts.numberFormat(Math.abs(this.point.y), 0) + ' fichier' +
+                    (this.point.y > 1 ? 's' : '');
+                }
+            },
+            series: ponthub.years.series
+        };
     }]);
