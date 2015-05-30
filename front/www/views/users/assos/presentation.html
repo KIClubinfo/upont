@@ -1,7 +1,12 @@
-<div class="up-ticket" ng-bind-html="presentation" ng-hide="presentation === null || presentation === undefined">
+<div class="up-ticket up-assos-container" ng-hide="edit || presentation === null || presentation === undefined">
+    <div up-col="100%" ng-bind-html="presentation">
+    </div>
+    <div up-col="100%" up-row center ng-if="isAdmin || $root.hasClub(club.slug)">
+        <button ng-click="editPresentation()" class="up-btn up-btn-default up-btn-lg">Modifier</button>
+    </div>
 </div>
 
-<div up-row padded wrap class="up-ticket" ng-if="isAdmin || $root.hasClub(club.slug)">
+<div up-row padded wrap class="up-ticket" ng-if="edit">
     <div up-col="100%">
         <textarea ng-model="presentation" redactor></textarea>
     </div>

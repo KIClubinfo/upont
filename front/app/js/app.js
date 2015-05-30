@@ -27,7 +27,6 @@ angular.module('upont', ['ui.router', 'ngResource', 'ngAnimate', 'mgcrea.ngStrap
     .config(function(redactorOptions) {
         redactorOptions.buttons = ['html', 'formatting', 'bold', 'italic', 'underline', 'deleted', 'unorderedlist', 'image', 'file', 'link', 'alignment', 'horizontalrule'];
         redactorOptions.lang = 'fr';
-        redactorOptions.focus = true;
         redactorOptions.plugins = ['video', 'table', 'imagemanager'];
     });
 

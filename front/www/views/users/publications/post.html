@@ -55,10 +55,10 @@
                 <textarea up-col="100%" ng-model="post.shotgun_text" placeholder="Texte destiné aux vainqueurs du shotgun"/>
             </div>
 
-            <div up-col="100%" class="bottom-box-container">
+            <div ng-click="focus=true" up-col="100%" class="bottom-box-container">
                 <!-- Textarea principal -->
-                <textarea ng-focus="focus=true" ng-init="focus=false" ng-model="post.text"
-                          placeholder="{{ placeholder }}" msd-elastic></textarea>
+                <textarea ng-init="focus=false" redactor
+                          ng-model="post.text" placeholder="{{ placeholder }}"></textarea>
 
                 <!-- Toolbar du bas -->
                 <div class="type-container" ng-show="focus">

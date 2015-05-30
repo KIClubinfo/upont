@@ -43,6 +43,7 @@ class KICalendar extends ContainerAware
                 ->setStartDate($this->toDateTime($eventDb->getStartDate()))
                 ->setEndDate($this->toDateTime($eventDb->getEndDate()))
                 ->setName($eventDb->getName())
+                ->setDescription($eventDb->getText())
                 ->setLocation($eventDb->getPlace());
         }
 

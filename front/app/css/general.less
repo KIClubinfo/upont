@@ -34,8 +34,13 @@ background-size: auto auto;
 }
 
 // Resets imperavi redactor
-.redactor-editor, .redactor-box {
-    background: inherit;
+.redactor-editor {
+    background: @col-input-bckgnd;
+    border: solid 1px @col-bckgnd;
+
+    &:focus {
+        border-color: @col-main;
+    }
 }
 
 .redactor-toolbar {
