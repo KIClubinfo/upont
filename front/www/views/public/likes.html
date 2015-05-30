@@ -37,14 +37,16 @@
             </span>
         </div>
         <div up-col="6%" class="centering">
-            <i ng-show="comment.author.username == $root.me.username && showModify" class="fa fa-pencil up-clickable" ng-click="modifyComment(comment)"></i><br>
-            <i ng-show="comment.author.username == $root.me.username && showModify" class="fa fa-trash up-clickable"  ng-click="deleteComment(comment)"></i>
+            <i ng-show="comment.author.username == $root.me.username && showModify"
+               class="fa fa-pencil up-clickable" ng-click="modifyComment(comment)"></i><br>
+            <i ng-show="comment.author.username == $root.me.username && showModify"
+               class="fa fa-trash up-clickable up-delete-button"  ng-click="deleteComment(comment)"></i>
         </div>
     </div>
-    <form up-row left ng-submit="submitComment(commentText)" autocomplete="off" ng-if="!$root.isAdmissible">
+    <form up-row left autocomplete="off" ng-if="!$root.isAdmissible">
         <img class="up-profile-picture" ng-src="{{ $root.me.image_url | urlFile }}" />
         <textarea class="up-col-xs-12 comment-textarea" ng-model="commentText"
                   placeholder="Ajouter un commentaire" msd-elastic
-                  ng-keyup="$event.keyCode == 13 && !$event.shiftKey ? submitComment(commentText) : null"></textarea>
+                  ng-keyup="submitComment($event, commentText) ? commentText = '' : null"></textarea>
     </form>
 </div>
