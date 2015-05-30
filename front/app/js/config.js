@@ -207,4 +207,7 @@ angular.module('upont')
         $rootScope.$on('$stateNotFound', function(event, toState, toParams, fromState, fromParams) {
             $state.go('root.404');
         });
-    }]);
+    }])
+    .run(function(redactorOptions) {
+        redactorOptions.imageUpload = apiPrefix + 'images?bearer=' + localStorage.getItem('token');
+    });

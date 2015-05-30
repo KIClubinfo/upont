@@ -26,7 +26,4 @@ angular.module('upont')
                     top: true
                 }
             });
-    }])
-    .config(function(redactorOptions) {
-        redactorOptions.imageUpload = apiPrefix + 'images?bearer=' + localStorage.getItem('token');
-    });
+    }]);
