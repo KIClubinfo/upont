@@ -38,9 +38,11 @@
         </div>
         <div up-col="6%" class="centering">
             <i ng-show="comment.author.username == $root.me.username && showModify"
-               class="fa fa-pencil up-clickable" ng-click="modifyComment(comment)"></i><br>
+               class="fa fa-pencil up-clickable" ng-click="modifyComment(comment)"
+               title="Modifier le commentaire"></i><br>
             <i ng-show="comment.author.username == $root.me.username && showModify"
-               class="fa fa-trash up-clickable up-delete-button"  ng-click="deleteComment(comment)"></i>
+               class="fa fa-trash up-clickable up-delete-button"  ng-click="deleteComment(comment)"
+               title="Supprimer le commentaire"></i>
         </div>
     </div>
     <form up-row left autocomplete="off" ng-if="!$root.isAdmissible">

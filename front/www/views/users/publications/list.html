@@ -14,16 +14,18 @@
                 </div>
                 <div up-row space-between>
                     <div class="up-ticket-title">
-                        <h1 class="up-clickable" ui-sref="root.users.publications.simple({slug: publication.slug})" title="Afficher la publication">{{ publication.name }}</h1>
+                        <h2 class="up-clickable" ui-sref="root.users.publications.simple({slug: publication.slug})" title="Afficher la publication">{{ publication.name }}</h2>
                     </div>
                     <div class="up-ticket-date">
                         <h2 style="margin:0">
                             <i ng-show="$root.hasClub(publication.author_club.slug)"
                                class="fa fa-pencil up-clickable"
-                               ng-click="enableModify(publication)"></i>
+                               ng-click="enableModify(publication)"
+                               title="Modifier la publication"></i>
                             <i ng-show="$root.hasClub(publication.author_club.slug)"
                                class="fa fa-trash up-clickable up-delete-button"
-                               ng-click="delete(publication)"></i>
+                               ng-click="delete(publication)"
+                               title="Supprimer la publication"></i>
                         </h2>
                         <span class="up-invisible-xs">{{ publication.date*1000 | date : 'd MMMM yyyy' }}</span>
                         <span class="up-invisible-sm up-invisible-md up-invisible-lg">{{ publication.date*1000 | date : 'd/mm/yyyy' }}</span><br>

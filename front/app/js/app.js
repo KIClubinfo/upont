@@ -13,7 +13,8 @@ Highcharts.setOptions({
         resetZoom: 'Réinitialiser le zoom',
         resetZoomTitle: 'Réinitialiser le zoom au niveau 1:1',
         thousandsSep: ' ',
-        decimalPoint: ','
+        decimalPoint: ',',
+        drillUpText: 'Retour à {series.name}'
     }
 });
 

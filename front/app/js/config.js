@@ -114,6 +114,8 @@ angular.module('upont')
         // Déconnexion
         $rootScope.logout = function() {
             Permissions.remove();
+            // On arrête de regarder en permanence qui est en ligne
+            $interval.cancel($rootScope.reloadOnline);
             $state.go('root.login');
         };
 

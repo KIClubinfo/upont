@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('Aside_Ctrl', ['$scope', '$resource', '$interval', function($scope, $resource, $interval) {
+    .controller('Aside_Ctrl', ['$scope', '$rootScope', '$resource', '$interval', function($scope, $rootScope, $resource, $interval) {
         // CHARGEMENT DES DONNÉES DE BASE
         // Version de uPont
         $resource(apiPrefix + 'version').get(function(data){
@@ -18,7 +18,7 @@ angular.module('upont')
             });
         };
         reloadOnline();
-        $interval(reloadOnline, 60000);
+        $rootScope.reloadOnline = $interval(reloadOnline, 60000);
 
         // RECHERCHE
         $scope.searchResults = [];

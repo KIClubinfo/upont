@@ -35,25 +35,39 @@ angular.module('upont')
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
             .state('root.users.ponthub', {
-                url: 'ponthub/:category',
+                url: 'ponthub',
                 templateUrl: 'views/users/ponthub/index.html',
                 abstract: true,
                 data: {
                     title: 'PontHub - uPont',
                     top: true
+                }
+            })
+            // Ce state a besoin d'être enregistré avant le suivant afin que venant de l'exterieur, l'URL "statistiques" ne soit pas interpreté comme une catégorie.
+            .state('root.users.ponthub.statistics', {
+                url: '/statistiques',
+                templateUrl: 'views/users/ponthub/statistics.html',
+                controller: 'Ponthub_Statistics_Ctrl',
+                data: {
+                    top: true
                 },
-                params: {
-                    category: 'films'
+                resolve: {
+                    ponthub: ['$resource', function($resource) {
+                        return $resource(apiPrefix + 'ponthub/statistics').get().$promise;
+                    }]
                 }
             })
             .state('root.users.ponthub.list', {
-                url: '',
+                url: '/:category',
                 templateUrl: 'views/users/ponthub/list.html',
                 controller: 'Ponthub_List_Ctrl',
                 resolve: {
                     elements: ['Paginate', '$stateParams', 'Ponthub', function(Paginate, $stateParams, Ponthub) {
                         return Paginate.get(Ponthub.cat($stateParams.category) + '?sort=-added,id', 20);
                     }]
+                },
+                params: {
+                    category: 'films'
                 }
             });
     }]);

@@ -45,7 +45,7 @@
             <h2>Stats Foyer</h2>
 
             <div ng-show="foyer.numberBeers === 0">
-                Pas de consos à afficher. <strong>Vite, direction le Foyer !</strong>
+                Pas de consos à afficher. <strong ng-if="user.username == $root.me.username">Vite, direction le Foyer !</strong>
             </div>
             <div ng-hide="foyer.numberBeers === 0">
                 {{ user.first_name }} a ingéré un total de <strong>{{ foyer.litersDrunk }} litres</strong> de bière pour plus de <strong>{{ foyer.numberBeers }} consos</strong>...<br>
@@ -61,7 +61,7 @@
             <h2>Stats PontHub</h2>
 
             <div ng-show="ponthub.totalFiles === 0">
-                Pas de fichiers téléchargés pour l'instant. <a ui-sref="root.users.ponthub.list" title="PontHub"><strong>Vite, direction PontHub !</strong></a>
+                Pas de fichiers téléchargés pour l'instant. <a ng-if="user.username == $root.me.username" ui-sref="root.users.ponthub.list" title="PontHub"><strong>Vite, direction PontHub !</strong></a>
             </div>
             <div ng-hide="ponthub.totalFiles === 0">
                 {{ user.first_name }} a téléchargé <strong>{{ ponthub.totalFiles }} fichiers</strong> pour plus de <strong>{{ ponthub.totalSize | formatSize }}</strong> !<br>
