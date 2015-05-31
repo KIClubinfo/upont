@@ -22,6 +22,10 @@ admissibles:
     type:     rest
     resource: KI\UpontBundle\Controller\Users\AdmissiblesController
 
+facegames:
+    type:     rest
+    resource: KI\UpontBundle\Controller\Users\FacegamesController
+
 upont_api_own_calendar:
     pattern: /users/{token}/calendar
     defaults: { _controller: KI\UpontBundle\Controller\Users\OwnController::getOwnCalendarAction }
