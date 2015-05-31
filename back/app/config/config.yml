@@ -66,6 +66,7 @@ doctrine:
                     string_functions:
                         soundex: KI\UpontBundle\DQL\SoundexFunction
                         matchAgainst: KI\UpontBundle\DQL\MatchAgainstFunction
+                        month: KI\UpontBundle\DQL\MonthFunction
 
 # Swiftmailer Configuration
 swiftmailer:

@@ -628,6 +628,36 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
             array('name' => 'Autres', 'id' => 6, 'data' => $this->getDownloads('other'))
         );
 
+        // Timeline répartition par promos par mois
+        $dql = 'SELECT u.promo, MONTH(e.date) AS mois, SUM(f.size) AS taille
+                FROM KI\UpontBundle\Entity\Ponthub\PonthubFileUser e
+                LEFT JOIN e.file f LEFT JOIN e.user u
+                WHERE u.promo = \'016\' OR u.promo = \'017\' OR u.promo = \'018\'
+                GROUP BY mois, u.promo';
+        $results = $this->em->createQuery($dql)->getResult();
+
+        $timeline = array(
+            'promo016' => array(0,0,0,0,0,0,0,0,0,0,0,0),
+            'promo017' => array(0,0,0,0,0,0,0,0,0,0,0,0),
+            'promo018' => array(0,0,0,0,0,0,0,0,0,0,0,0),
+            'average' => array(0,0,0,0,0,0,0,0,0,0,0,0),
+            'pie' => array(
+                'promo016' => 0,
+                'promo017' => 0,
+                'promo018' => 0,
+            )
+        );
+        // On répartit les données dans les tableaux suivants
+        foreach ($results as $result) {
+            $size = round($result['taille'] / (1000*1000*1000), 1);
+            $timeline['promo'.$result['promo']][$result['mois']-1] += $size;
+            $timeline['pie']['promo'.$result['promo']] += $size;
+        }
+        // On calcule les moyennes
+        for ($i = 0; $i < 12; $i++) {
+            $timeline['average'][$i] = round(($timeline['promo016'][$i] + $timeline['promo017'][$i] + $timeline['promo018'][$i]) / 3, 1);
+        }
+
         // Construction de la tree map résumant les fichiers dispos sur Ponthub
         $ponthub = array(
             'Nombre de fichiers dispos' => array(
@@ -713,7 +743,7 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
                 'min' => -$maxPopMovie,
                 'max' => $maxPopGame
             ),
-            'timeline' => null
+            'timeline' => $timeline
         ));
     }
 

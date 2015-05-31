@@ -114,6 +114,83 @@ angular.module('upont')
             }
         };
 
+        $scope.chartTimeline = {
+            chart: {
+                renderTo: 'timeline',
+                type: 'column'
+            },
+            credits: {
+                enabled: false,
+            },
+            exporting: {
+                enabled: false,
+            },
+            title: {
+                text: '0xx\' daubés'
+            },
+            subtitle: {
+                text: 'C\'était mieux avant ?',
+            },
+            xAxis: {
+                categories: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
+            },
+            yAxis: {
+                title: {
+                    text: 'Volume téléchargé (Go)'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:11px">{point.x}</span><br>',
+                pointFormat: ' <span style="color:{series.color}">{series.name}</span> : <b>{point.y} Go</b> téléchargés au total<br/>'
+            },
+            labels: {
+                items: [{
+                    html: 'Répartition totale',
+                    style: {
+                        left: '75px',
+                        top: '-20px',
+                    }
+                }]
+            },
+            series: [{
+                type: 'column',
+                name: '016',
+                data: ponthub.timeline.promo016
+            }, {
+                type: 'column',
+                name: '017',
+                data: ponthub.timeline.promo017
+            }, {
+                type: 'column',
+                name: '018',
+                data: ponthub.timeline.promo018
+            }, {
+                type: 'spline',
+                name: 'Moyenne',
+                data: ponthub.timeline.average,
+                marker: {
+                    lineWidth: 2,
+                    lineColor: Highcharts.getOptions().colors[3],
+                    fillColor: 'white'
+                }
+            }, {
+                type: 'pie',
+                name: 'Répartition totale',
+                data: [{
+                    name: '016',
+                    y: ponthub.timeline.pie.promo016
+                }, {
+                    name: '017',
+                    y: ponthub.timeline.pie.promo017
+                }, {
+                    name: '018',
+                    y: ponthub.timeline.pie.promo018
+                }],
+                center: [100, 60],
+                size: 100
+            }]
+        };
+
         var points = [],
         region_p,
         region_val,
