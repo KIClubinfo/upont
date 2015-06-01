@@ -1,21 +1,80 @@
-<div class="col-xs-12">
-    <div class="up-ticket">
-        <div class="col-xs-4 col-xs-offset-4 stacked-row centering"><img src="" alt="" />{{ elevePhoto }}</div>
-        <div class="col-xs-12 stacked-row">
-            <div class="col-sm-2 col-sm-offset-3 col-xs-4 centering">
-                <button type="button" ng-click="actionJeu(1)" class="btn btn-default">{{ nom1 }}</button>
-            </div>
-            <div class="col-sm-2 col-xs-4 centering">
-                <button type="button" ng-click="actionJeu(2)" class="btn btn-default">{{ nom2 }}</button>
-            </div>
-            <div class="col-sm-2 col-xs-4 centering">
-                <button type="button" ng-click="actionJeu(3)" class="btn btn-default">{{ nom3 }}</button>
+<div up-row wrap>
+    <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%" ng-if="!playing && !end">
+        <div class="up-ticket">
+            <h2>Le jeu</h2>
+
+            Présentation, règles trucs très intéressants<br>
+
+            <div up-row center>
+                <button ng-click="post()">Jouer !</button>
             </div>
         </div>
-        <div class="col-xs-12 centering">
-            <div>Temps restant : 0</div>
-            <div>Pounetausses : {{ score }}</div>
+    </div>
+
+    <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%" ng-if="!playing && !end">
+        <div class="up-ticket">
+            <h2>Highscore</h2>
+
+            <em>A venir...</em>
         </div>
-        <div class="clearfix"></div>
+    </div>
+
+    <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="100%" ng-if="playing && !end">
+        <div class="up-ticket">
+            <div up-col-xs="100%" up-col-sm="100%" up-col="50%" up-row padded center>
+                Chronomètre : 
+            </div>
+
+            <br>
+
+            <div up-row padded center>
+                <div up-col-xs="100%" up-col-sm="100%" up-col="50%" class="centering">
+                    <img ng-src="{{ picture }}">
+                </div>
+            </div>
+
+            <div class="centering">
+            <br>
+            <button up-col-xs="100%" up-col-sm="100%" up-col="33%" ng-click="next(name1)">{{ name1 }}</button>
+            <button up-col-xs="100%" up-col-sm="100%" up-col="33%" ng-click="next(name2)">{{ name2 }}</button>
+            <button up-col-xs="100%" up-col-sm="100%" up-col="33%" ng-click="next(name3)">{{ name3 }}</button>
+            </div>             
+        </div>
+    </div>
+
+    <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%" ng-if="end">
+        <div class="up-ticket">
+            <div ng-repeat="face in gameData" up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="100%" up-row wrap padded>
+                <div up-col="30%">
+                    <div class="up-image-container">
+                        <div class="up-image" ng-style="{ 'background-image' : 'url({{ face.image_url | urlFile }})' }"></div>
+                    </div>
+                </div>
+
+                <div up-col="70%">
+                    <h3>Réponse <span ng-if="face.result">juste !</span><span ng-if="!face.result">fausse !</span></h3>
+
+                    <div up-col="100%">
+                        <div ng-if="face.result">
+                            <b>{{ face.answer }}</b> était bien la bonne réponse.
+                        </div>
+
+                        <div ng-if="!face.result">
+                            Tu as répondu <b>{{ face.answered }}</b> alors que la réponse correcte était <b>{{ face.answer }}</b>.
+
+                            <h4>Pénalité de temps : 5 secondes</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%" ng-if="end">
+        <div class="up-ticket">
+            <h3>Temps</h3>
+
+            Ton score total est de tructruc. 
+        </div>
     </div>
 </div>
