@@ -70,16 +70,17 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
             $tempList = [];
             // La réponse est décidée aléatoirement
             $tempList['answer'] = rand(0, $nbProps - 1);
+            $id = [];
+
             for ($i = 0 ; $i < $nbProps ; $i ++) {
-                $id = [];
                 do {
                     // On vérifie qu'on ne propose pas deux fois le même nom
                     do {
                         $tempId = rand(1, $max);
-                    } while (in_array($tempId, $id, true));
+                    } while (in_array($tempId, $id));
 
-                    $id[$i] = $tempId;
-                    $user = $repo->findOneById($id[$i]);
+                    $id[] = $tempId;
+                    $user = $repo->findOneById($tempId);
                 }
                 // On vérifie que l'user existe,
                 // qu'il a une image de profil,
