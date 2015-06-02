@@ -40,7 +40,7 @@
                 <button up-col-xs="100%" up-col-sm="100%" up-col="33%" ng-click="next(0)">{{ name1 }}</button>
                 <button up-col-xs="100%" up-col-sm="100%" up-col="33%" ng-click="next(1)">{{ name2 }}</button>
                 <button up-col-xs="100%" up-col-sm="100%" up-col="33%" ng-click="next(2)">{{ name3 }}</button>
-            </div>             
+            </div>
         </div>
     </div>
 
@@ -58,7 +58,7 @@
 
                     <div up-col="100%">
                         <div ng-if="face.result">
-                            <b>{{ face[face.answer] }}</b> était bien la bonne réponse.
+                            Il s'agissait bien de <b>{{ face[face.answer] }}</b>.
                         </div>
 
                         <div ng-if="!face.result">

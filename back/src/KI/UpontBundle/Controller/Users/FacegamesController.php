@@ -68,18 +68,19 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
 
         while(count($list) < $nbUsers) {
             $tempList = [];
+            $answers = [];
             // La réponse est décidée aléatoirement
             $tempList['answer'] = rand(0, $nbProps - 1);
-            $id = [];
+            $ids = [];
 
             for ($i = 0 ; $i < $nbProps ; $i ++) {
                 do {
                     // On vérifie qu'on ne propose pas deux fois le même nom
                     do {
                         $tempId = rand(1, $max);
-                    } while (in_array($tempId, $id));
+                    } while (in_array($tempId, $ids) || in_array($tempId, $answers));
 
-                    $id[] = $tempId;
+                    $ids[] = $tempId;
                     $user = $repo->findOneById($tempId);
                 }
                 // On vérifie que l'user existe,
@@ -93,6 +94,7 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
             $tempList[$i] = $user->getFirstName() . ' ' . $user->getLastName();
             if ($i == $tempList['answer'])
                 $tempList['image'] = $user->getImage()->getWebPath();
+                $answers[] = $user->getId();
             }
             $list[] = $tempList;
         }
@@ -161,8 +163,7 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
     public function deleteFacegameAction($id, $auth = false)
     {
         if (isset($this->user) &&
-            ((!$this->get('security.context')->isGranted('ROLE_MODO')
-                || $this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
+            (($this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
                 || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
             && !$auth))
             throw new AccessDeniedException('Accès refusé');
