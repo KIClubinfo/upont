@@ -65,18 +65,19 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
 
         // Options
         $nbProps = 3;
-        $promo = ($facegame->getPromo() != null) ? $facegame->getPromo() : $userGame->getPromo();
-        // $arrayUsers = $repo->findAll();
-        $arrayUsers = $repo->findByPromo($promo);
+        if ($facegame->getPromo() != null)
+            $arrayUsers = $repo->findByPromo($facegame->getPromo());
+        else
+            $arrayUsers = $repo->findAll();
         $max = count($arrayUsers);
-        $nbQuestions = 3;
+        $nbQuestions = min(10, $max/2 - 1);
 
+        $answers = [];
         while(count($list) < $nbQuestions) {
             $tempList = [];
-            $answers = [];
+            $ids = [];
             // La réponse est décidée aléatoirement
             $tempList['answer'] = rand(0, $nbProps - 1);
-            $ids = [];
 
             for ($i = 0 ; $i < $nbProps ; $i ++) {
                 do {
@@ -95,10 +96,12 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
                 || $user->getImage() == null
                 || $user->getUsername() == $userGame->getUsername());
 
-            $tempList[$i] = $user->getFirstName() . ' ' . $user->getLastName();
-            if ($i == $tempList['answer'])
-                $tempList['image'] = $user->getImage()->getWebPath();
-                $answers[] = $user->getId();
+                $tempList[$i] = $user->getFirstName() . ' ' . $user->getLastName();
+
+                if ($i == $tempList['answer']) {
+                    $tempList['image'] = $user->getImage()->getWebPath();
+                    $answers[] = $tempId;
+                }
             }
             $list[] = $tempList;
         }
