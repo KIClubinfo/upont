@@ -41,6 +41,9 @@ angular.module('upont')
                 data: {
                     title: 'PontHub - uPont',
                     top: true
+                },
+                params: {
+                    category: 'films'
                 }
             })
             // Ce state a besoin d'être enregistré avant le suivant afin que venant de l'exterieur, l'URL "statistiques" ne soit pas interpreté comme une catégorie.
@@ -57,8 +60,16 @@ angular.module('upont')
                     }]
                 }
             })
-            .state('root.users.ponthub.list', {
+            .state('root.users.ponthub.category', {
                 url: '/:category',
+                template: '<div ui-view></div>',
+                abstract: true,
+                params: {
+                    category: 'films'
+                }
+            })
+            .state('root.users.ponthub.category.list', {
+                url: '',
                 templateUrl: 'views/users/ponthub/list.html',
                 controller: 'Ponthub_List_Ctrl',
                 resolve: {
@@ -66,8 +77,6 @@ angular.module('upont')
                         return Paginate.get(Ponthub.cat($stateParams.category) + '?sort=-added,id', 20);
                     }]
                 },
-                params: {
-                    category: 'films'
-                }
+
             });
     }]);

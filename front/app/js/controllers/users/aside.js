@@ -21,7 +21,8 @@ angular.module('upont')
         $rootScope.reloadOnline = $interval(reloadOnline, 60000);
 
         // RECHERCHE
-        $scope.searchResults = [];
+        var empty = {posts: [], clubs: [], files: [], users: []};
+        $scope.searchResults = empty;
 
         $scope.doSearch = function(string) {
             if (string.length > 2) {
@@ -29,28 +30,28 @@ angular.module('upont')
                     $scope.searchResults = data;
                 });
             } else {
-                $scope.searchResults = [];
+                $scope.searchResults = empty;
             }
         };
 
         $scope.redirect = function(result) {
             switch (result.type) {
                 case 'Movie':
-                    return 'root.users.ponthub.simple({category: "films", slug: file.slug})';
+                    return 'root.users.ponthub.category.simple({category: "films", slug: file.slug})';
                 case 'Serie':
-                    return 'root.users.ponthub.simple({category: "series", slug: file.slug})';
+                    return 'root.users.ponthub.category.simple({category: "series", slug: file.slug})';
                 case 'Episode':
-                    return 'root.users.ponthub.simple({category: "series", slug: file.parent})';
+                    return 'root.users.ponthub.category.simple({category: "series", slug: file.parent})';
                 case 'Album':
-                    return 'root.users.ponthub.simple({category: "musiques", slug: file.slug})';
+                    return 'root.users.ponthub.category.simple({category: "musiques", slug: file.slug})';
                 case 'Music':
-                    return 'root.users.ponthub.simple({category: "musiques", slug: file.parent})';
+                    return 'root.users.ponthub.category.simple({category: "musiques", slug: file.parent})';
                 case 'Game':
-                    return 'root.users.ponthub.simple({category: "jeux", slug: file.slug})';
+                    return 'root.users.ponthub.category.simple({category: "jeux", slug: file.slug})';
                 case 'Software':
-                    return 'root.users.ponthub.simple({category: "logiciels", slug: file.slug})';
+                    return 'root.users.ponthub.category.simple({category: "logiciels", slug: file.slug})';
                 case 'Other':
-                    return 'root.users.ponthub.simple({category: "autres", slug: file.slug})';
+                    return 'root.users.ponthub.category.simple({category: "autres", slug: file.slug})';
                 case 'Club':
                     return 'root.users.assos.simple.publications({slug: club.slug})';
                 case 'User':
@@ -84,6 +85,6 @@ angular.module('upont')
 
         $scope.resetSearch = function(){
             $scope.searchValue = '';
-            $scope.searchResults = [];
+            $scope.searchResults = empty;
         };
     }]);
