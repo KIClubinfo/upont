@@ -1,14 +1,25 @@
 angular.module('upont')
-	.controller('Students_Game_Ctrl', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
+	.controller('Students_Game_Ctrl', ['$scope', '$rootScope', '$http', '$timeout', function($scope, $rootScope, $http, $timeout) {
 		$scope.playing = false;
 		$scope.end = false;
 		$scope.position = 0;
-		$scope.gameData = [];
+		$scope.start = 0;
+		$scope.clock = 0;
+	    $scope.tickInterval = 1000;
+
+	     var tick = function() {
+	        $scope.clock = Date.now();
+	        $timeout(tick, $scope.tickInterval);
+	    };
 
 		$scope.post = function() {
 			$scope.playing = true;
 			$scope.end = false;
 			$scope.position = 0;
+			$scope.start = Date.now();
+			$scope.clock = Date.now();
+			$timeout(tick, $scope.tickInterval);
+
 
 			var params = {
 				mode: 'Normal'

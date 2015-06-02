@@ -22,7 +22,7 @@
     <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="100%" ng-if="playing && !end">
         <div class="up-ticket">
             <div up-col-xs="100%" up-col-sm="100%" up-col="50%" up-row padded center>
-                Chronomètre :
+                Chronomètre : {{ (clock - start)/1000 | formatDuration }}
             </div>
 
             <br>
