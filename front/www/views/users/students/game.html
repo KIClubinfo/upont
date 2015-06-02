@@ -28,16 +28,18 @@
             <br>
 
             <div up-row padded center>
-                <div up-col-xs="100%" up-col-sm="100%" up-col="50%" class="centering">
-                    <img ng-src="{{ picture }}">
+                <div up-col-xs="50%" up-col-sm="50%" up-col-md="30%" up-col="25%">
+                    <div class="up-image-container">
+                        <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture + ')' }"></div>
+                    </div>
                 </div>
             </div>
 
             <div class="centering">
-            <br>
-            <button up-col-xs="100%" up-col-sm="100%" up-col="33%" ng-click="next(name1)">{{ name1 }}</button>
-            <button up-col-xs="100%" up-col-sm="100%" up-col="33%" ng-click="next(name2)">{{ name2 }}</button>
-            <button up-col-xs="100%" up-col-sm="100%" up-col="33%" ng-click="next(name3)">{{ name3 }}</button>
+                <br>
+                <button up-col-xs="100%" up-col-sm="100%" up-col="33%" ng-click="next(name1)">{{ name1 }}</button>
+                <button up-col-xs="100%" up-col-sm="100%" up-col="33%" ng-click="next(name2)">{{ name2 }}</button>
+                <button up-col-xs="100%" up-col-sm="100%" up-col="33%" ng-click="next(name3)">{{ name3 }}</button>
             </div>             
         </div>
     </div>
@@ -74,7 +76,13 @@
         <div class="up-ticket">
             <h3>Temps</h3>
 
-            Ton score total est de tructruc. 
+            Ton score total est de tructruc.
+
+            <div up-col="100%">
+                <div class up-row center>
+                    <button ng-click="post()">Rejouer !</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
