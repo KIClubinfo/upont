@@ -76,7 +76,7 @@
         <div class="up-ticket">
             <h3>Temps</h3>
 
-            Ton score total est de tructruc.
+            Ton temps total est {{ (clock-start)/1000 + 5 * numWrong | formatDuration }}.
 
             <div up-col="100%">
                 <div class up-row center>

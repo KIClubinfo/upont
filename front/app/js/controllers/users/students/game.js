@@ -6,19 +6,23 @@ angular.module('upont')
 		$scope.start = 0;
 		$scope.clock = 0;
 	    $scope.tickInterval = 1000;
+	    $scope.promos = $rootScope.promos + 'Toutes';
 
-	     var tick = function() {
+	    var timer;
+
+	    var tick = function() {
 	        $scope.clock = Date.now();
-	        $timeout(tick, $scope.tickInterval);
+	        timer = $timeout(tick, $scope.tickInterval);
 	    };
 
-		$scope.post = function() {
+		$scope.post = function(promo, mode) {
 			$scope.playing = true;
 			$scope.end = false;
+			$scope.numWrong = 0;
 			$scope.position = 0;
 			$scope.start = Date.now();
 			$scope.clock = Date.now();
-			$timeout(tick, $scope.tickInterval);
+			timer = $timeout(tick, $scope.tickInterval);
 
 
 			var params = {
@@ -42,11 +46,13 @@ angular.module('upont')
 			} else {
 				$scope.gameData.list_users[$scope.position].result = false;
 				$scope.gameData.list_users[$scope.position].answered = num;
+				$scope.numWrong++;
 			}
 
 			$scope.position++;
 
 			if ($scope.position == $scope.gameData.list_users.length) {
+				$timeout.cancel(timer);
 				$scope.end = true;
 				$scope.playing = false;
 
