@@ -6,7 +6,11 @@ angular.module('upont')
 		$scope.start = 0;
 		$scope.clock = 0;
 	    $scope.tickInterval = 1000;
-	    $scope.promos = $rootScope.promos + 'Toutes';
+	    $scope.promos = $rootScope.promos;
+	    $scope.promos.push('Toutes');
+	    $scope.promo = 'Toutes';
+	    $scope.mode = 'Normal';
+	    $scope.modes = ['Normal'];
 
 	    var timer;
 
@@ -24,10 +28,14 @@ angular.module('upont')
 			$scope.clock = Date.now();
 			timer = $timeout(tick, $scope.tickInterval);
 
-
 			var params = {
-				mode: 'Normal'
+				promo: promo,
+				mode: mode
 			};
+
+			if (promo == 'Toutes') {
+				params.promo = undefined;
+			}
 
 			$http.post($rootScope.url + 'facegames', params).success(function(data) {
 				$scope.gameData = data;

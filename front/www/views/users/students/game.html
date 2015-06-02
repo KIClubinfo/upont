@@ -5,8 +5,30 @@
 
             Présentation, règles trucs très intéressants<br>
 
-            <div up-row center>
-                <button ng-click="post()">Jouer !</button>
+            <div up-row center up-col="100%">
+                <form up-row padded center wrap ng-submit="post(promo,mode)" autocomplete="off" up-col="100%">
+                    <div up-col-xs="30%" up-col-sm="30%" up-col="15%">
+                        Promo
+                    </div>
+                    <div up-col-xs="70%" up-col-sm="70%" up-col="35%">
+                        <select ng-model="promo">
+                            <option ng-repeat="item in promos | reverse">{{ item }}</option>
+                        </select>
+                    </div>
+
+                    <div up-col-xs="30%" up-col-sm="30%" up-col="15%">
+                        Mode
+                    </div>
+                    <div up-col-xs="70%" up-col-sm="70%" up-col="35%">
+                        <select ng-model="mode">
+                            <option ng-repeat="item in modes">{{ item }}</option>
+                        </select>
+                    </div>
+
+                    <div class up-row>
+                        <button>Jouer !</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -25,7 +47,7 @@
                 Chronomètre : {{ (clock - start)/1000 | formatDuration }}
             </div>
 
-            <br>
+            <br> {{ gameData.list_users }}
 
             <div up-row padded center>
                 <div up-col-xs="50%" up-col-sm="50%" up-col-md="30%" up-col="25%">
@@ -78,10 +100,30 @@
 
             Ton temps total est {{ (clock-start)/1000 + 5 * numWrong | formatDuration }}.
 
-            <div up-col="100%">
-                <div class up-row center>
-                    <button ng-click="post()">Rejouer !</button>
-                </div>
+            <div up-row center up-col="100%">
+                <form up-row padded center wrap ng-submit="post(promo,mode)" autocomplete="off" up-col="100%">
+                    <div up-col-xs="30%" up-col-sm="30%" up-col="15%">
+                        Promo
+                    </div>
+                    <div up-col-xs="70%" up-col-sm="70%" up-col="35%">
+                        <select ng-model="promo">
+                            <option ng-repeat="item in promos | reverse">{{ item }}</option>
+                        </select>
+                    </div>
+
+                    <div up-col-xs="30%" up-col-sm="30%" up-col="15%">
+                        Mode
+                    </div>
+                    <div up-col-xs="70%" up-col-sm="70%" up-col="35%">
+                        <select ng-model="mode">
+                            <option ng-repeat="item in modes">{{ item }}</option>
+                        </select>
+                    </div>
+
+                    <div class up-row>
+                        <button>Rejouer !</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
