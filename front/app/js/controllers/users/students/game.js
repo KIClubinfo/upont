@@ -3,61 +3,51 @@ angular.module('upont')
 		$scope.playing = false;
 		$scope.end = false;
 		$scope.position = 0;
-		$scope.picture = '';
-		$scope.name1 = '';
-		$scope.name2 = '';
-		$scope.name3 = '';
-		$scope.answer = '';
+		$scope.gameData = [];
 
 		$scope.post = function() {
 			$scope.playing = true;
 			$scope.end = false;
 			$scope.position = 0;
 
-			$scope.gameData = [
-				{
-					answer: 'Albé',
-					image_url: 'uploads/images/3.jpg',
-					name1: 'Albé',
-					name2: 'Deboisque',
-					name3: 'Obi-Wan Kenobi'
-				},
-				{
-					answer: 'Deboisque',
-					image_url: 'uploads/images/2.jpg',
-					name1: 'Albé',
-					name2: 'Deboisque',
-					name3: 'Obi-Wan Kenobi'
-				}
-			];
+			var params = {
+				promo: '017',
+				mode: 'Normal'
+			};
 
-			$scope.answer = $scope.gameData[$scope.position].answer;
-			$scope.name1 = $scope.gameData[$scope.position].name1;
-			$scope.name2 = $scope.gameData[$scope.position].name2;
-			$scope.name3 = $scope.gameData[$scope.position].name3;
-			$scope.picture = '/api/' + $scope.gameData[$scope.position].image_url;
+			$http.post($rootScope.url + 'facegames', params).success(function(data) {
+				$scope.gameData = data;
 
+				$scope.answer = $scope.gameData.list_users[$scope.position].answer;
+				$scope.name1 = $scope.gameData.list_users[$scope.position][0];
+				$scope.name2 = $scope.gameData.list_users[$scope.position][1];
+				$scope.name3 = $scope.gameData.list_users[$scope.position][2];
+				$scope.picture = '/api/' + $scope.gameData.list_users[$scope.position].image;
+				
+			});
 		};
 
-		$scope.next = function(name) {
-			if (name == $scope.answer) {
-				$scope.gameData[$scope.position].result = true;
+		$scope.next = function(num) {
+			if (num == $scope.answer) {
+				$scope.gameData.list_users[$scope.position].result = true;
 			} else {
-				$scope.gameData[$scope.position].result = false;
-				$scope.gameData[$scope.position].answered = name;
+				$scope.gameData.list_users[$scope.position].result = false;
+				$scope.gameData.list_users[$scope.position].answered = num;
 			}
 
 			$scope.position++;
 
-			if ($scope.position == $scope.gameData.length) {
+			if ($scope.position == $scope.gameData.list_users.length) {
 				$scope.end = true;
 				$scope.playing = false;
+
+				$http.delete($rootScope.url + 'facegames/' + $scope.gameData.id);
 			} else {
-				$scope.answer = $scope.gameData[$scope.position].answer;
-				$scope.name1 = $scope.gameData[$scope.position].name1;
-				$scope.name2 = $scope.gameData[$scope.position].name2;
-				$scope.name3 = $scope.gameData[$scope.position].name3;
-				$scope.picture = '/api/' + $scope.gameData[$scope.position].image_url;
+				$scope.answer = $scope.gameData.list_users[$scope.position].answer;
+				$scope.name1 = $scope.gameData.list_users[$scope.position][0];
+				$scope.name2 = $scope.gameData.list_users[$scope.position][1];
+				$scope.name3 = $scope.gameData.list_users[$scope.position][2];
+				$scope.picture = '/api/' + $scope.gameData.list_users[$scope.position].image;
 			}
 		};
 
