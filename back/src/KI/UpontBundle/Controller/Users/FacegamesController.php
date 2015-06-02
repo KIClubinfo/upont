@@ -55,18 +55,23 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
     }
 
     // On remplit la listUsers selon les paramètres rentrés
+    // Chaque array contient les noms proposés, une image
+    // et la position de la proposition correcte
     protected function postListUsersAction($facegame)
     {
         $repo = $this->em->getRepository('KIUpontBundle:Users\User');
         $list = $facegame->getListUsers();
+        $userGame = $facegame->getUser();
 
         // Options
-        $nbUsers = 5;
         $nbProps = 3;
-        $max = 20; // Nombre d'users dans la bdd
-        // $promo = ($facegame->getPromo() != null) ? $facegame->getPromo() : $facegame->getUser()->getPromo();
+        $promo = ($facegame->getPromo() != null) ? $facegame->getPromo() : $userGame->getPromo();
+        // $arrayUsers = $repo->findAll();
+        $arrayUsers = $repo->findByPromo($promo);
+        $max = count($arrayUsers);
+        $nbQuestions = 3;
 
-        while(count($list) < $nbUsers) {
+        while(count($list) < $nbQuestions) {
             $tempList = [];
             $answers = [];
             // La réponse est décidée aléatoirement
@@ -77,19 +82,18 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
                 do {
                     // On vérifie qu'on ne propose pas deux fois le même nom
                     do {
-                        $tempId = rand(1, $max);
+                        $tempId = rand(0, $max - 1);
                     } while (in_array($tempId, $ids) || in_array($tempId, $answers));
 
                     $ids[] = $tempId;
-                    $user = $repo->findOneById($tempId);
+                    $user = $arrayUsers[$tempId];
                 }
                 // On vérifie que l'user existe,
                 // qu'il a une image de profil,
                 // qu'on ne propose pas le nom de la personne ayant lancé le test
                 while (!isset($user)
                 || $user->getImage() == null
-                || $user->getUsername() == $facegame->getUser()->getUsername()
-                );
+                || $user->getUsername() == $userGame->getUsername());
 
             $tempList[$i] = $user->getFirstName() . ' ' . $user->getLastName();
             if ($i == $tempList['answer'])

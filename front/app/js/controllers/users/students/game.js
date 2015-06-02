@@ -11,7 +11,6 @@ angular.module('upont')
 			$scope.position = 0;
 
 			var params = {
-				promo: '017',
 				mode: 'Normal'
 			};
 
@@ -23,7 +22,6 @@ angular.module('upont')
 				$scope.name2 = $scope.gameData.list_users[$scope.position][1];
 				$scope.name3 = $scope.gameData.list_users[$scope.position][2];
 				$scope.picture = '/api/' + $scope.gameData.list_users[$scope.position].image;
-				
 			});
 		};
 
