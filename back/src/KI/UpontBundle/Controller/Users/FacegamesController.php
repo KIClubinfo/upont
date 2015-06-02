@@ -67,10 +67,10 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
         // $promo = ($facegame->getPromo() != null) ? $facegame->getPromo() : $facegame->getUser()->getPromo();
 
         while(count($list) < $nbUsers) {
-            // L'image proposée est décidée aléatoirement
-            $answer = rand(1, $nbProps);
             $tempList = [];
-            for ($i = 1 ; $i < $nbProps + 1 ; $i ++) {
+            // La réponse est décidée aléatoirement
+            $tempList['answer'] = rand(0, $nbProps - 1);
+            for ($i = 0 ; $i < $nbProps ; $i ++) {
                 $id = [];
                 do {
                     // On vérifie qu'on ne propose pas deux fois le même nom
@@ -90,8 +90,8 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
                 );
 
             $tempList[$i] = $user->getFirstName() . ' ' . $user->getLastName();
-            if ($i == $answer)
-                $tempList[0] = $user->getImage()->getWebPath();
+            if ($i == $tempList['answer'])
+                $tempList['image'] = $user->getImage()->getWebPath();
             }
             $list[] = $tempList;
         }
