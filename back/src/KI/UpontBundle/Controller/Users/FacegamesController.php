@@ -55,22 +55,48 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
     }
 
     // On remplit la listUsers selon les paramètres rentrés
-    protected function postListUsersAction($return)
+    protected function postListUsersAction($facegame)
     {
         $repo = $this->em->getRepository('KIUpontBundle:Users\User');
-        $list = $return['item']->getListUsers();
-        $max = 20;
+        $list = $facegame->getListUsers();
+
+        // Options
         $nbUsers = 5;
+        $nbProps = 3;
+        $max = 20; // Nombre d'users dans la bdd
+        // $promo = ($facegame->getPromo() != null) ? $facegame->getPromo() : $facegame->getUser()->getPromo();
+
         while(count($list) < $nbUsers) {
-            $id = rand(1, $max);
-            $user = $repo->findOneById($id);
-            if(isset($user)
-                && $user->getUsername() != $return['item']->getUser()->getUsername()
-                && $user->getImage() != null)
-                $list[] = $repo->findOneById($id)->getUsername();
+            // L'image proposée est décidée aléatoirement
+            $answer = rand(1, $nbProps);
+            $tempList = [];
+            for ($i = 1 ; $i < $nbProps + 1 ; $i ++) {
+                $id = [];
+                do {
+                    // On vérifie qu'on ne propose pas deux fois le même nom
+                    do {
+                        $tempId = rand(1, $max);
+                    } while (in_array($tempId, $id, true));
+
+                    $id[$i] = $tempId;
+                    $user = $repo->findOneById($id[$i]);
+                }
+                // On vérifie que l'user existe,
+                // qu'il a une image de profil,
+                // qu'on ne propose pas le nom de la personne ayant lancé le test
+                while (!isset($user)
+                || $user->getImage() == null
+                || $user->getUsername() == $facegame->getUser()->getUsername()
+                );
+
+            $tempList[$i] = $user->getFirstName() . ' ' . $user->getLastName();
+            if ($i == $answer)
+                $tempList[0] = $user->getImage()->getWebPath();
+            }
+            $list[] = $tempList;
         }
 
-        $return['item']->setListUsers($list);
+        $facegame->setListUsers($list);
     }
 
     /**
@@ -97,7 +123,7 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
             $return['item']->setDate(time());
             $return['item']->setUser($this->container->get('security.context')->getToken()->getUser());
 
-            $this->postListUsersAction($return);
+            $this->postListUsersAction($return['item']);
 
             $this->em->flush();
             return RestView::create($return['item'],
