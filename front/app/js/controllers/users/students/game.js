@@ -32,14 +32,6 @@ angular.module('upont')
 			}
 
 			$http.post($rootScope.url + 'facegames', params).success(function(data) {
-				$scope.gameData = data;
-
-				$scope.answer = $scope.gameData.list_users[$scope.position].answer;
-				$scope.name1 = $scope.gameData.list_users[$scope.position][0];
-				$scope.name2 = $scope.gameData.list_users[$scope.position][1];
-				$scope.name3 = $scope.gameData.list_users[$scope.position][2];
-				$scope.picture = '/api/' + $scope.gameData.list_users[$scope.position].image;
-
 				$scope.playing = true;
 				$scope.end = false;
 				$scope.numWrong = 0;
@@ -47,6 +39,14 @@ angular.module('upont')
 				$scope.start = Date.now();
 				$scope.clock = Date.now();
 				timer = $timeout(tick, $scope.tickInterval);
+
+				$scope.gameData = data;
+
+				$scope.answer = $scope.gameData.list_users[$scope.position].answer;
+				$scope.name1 = $scope.gameData.list_users[$scope.position][0];
+				$scope.name2 = $scope.gameData.list_users[$scope.position][1];
+				$scope.name3 = $scope.gameData.list_users[$scope.position][2];
+				$scope.picture = '/api/' + $scope.gameData.list_users[$scope.position].image;
 			}).error(function() {
 				alertify.error('La promo sélectionnée ne contient pas assez d\'élèves.');
 				return;
