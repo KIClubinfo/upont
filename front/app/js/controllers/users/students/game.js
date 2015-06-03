@@ -7,6 +7,7 @@ angular.module('upont')
 		$scope.clock = 0;
 	    $scope.tickInterval = 1000;
 	    $scope.promos = $rootScope.promos;
+	    $scope.promos.pop();
 	    $scope.promos.push('Toutes');
 	    $scope.promo = 'Toutes';
 	    $scope.mode = 'Normal';
@@ -20,13 +21,6 @@ angular.module('upont')
 	    };
 
 		$scope.post = function(promo, mode) {
-			$scope.playing = true;
-			$scope.end = false;
-			$scope.numWrong = 0;
-			$scope.position = 0;
-			$scope.start = Date.now();
-			$scope.clock = Date.now();
-			timer = $timeout(tick, $scope.tickInterval);
 
 			var params = {
 				promo: promo,
@@ -45,6 +39,17 @@ angular.module('upont')
 				$scope.name2 = $scope.gameData.list_users[$scope.position][1];
 				$scope.name3 = $scope.gameData.list_users[$scope.position][2];
 				$scope.picture = '/api/' + $scope.gameData.list_users[$scope.position].image;
+
+				$scope.playing = true;
+				$scope.end = false;
+				$scope.numWrong = 0;
+				$scope.position = 0;
+				$scope.start = Date.now();
+				$scope.clock = Date.now();
+				timer = $timeout(tick, $scope.tickInterval);
+			}).error(function() {
+				alertify.error('La promo sélectionnée ne contient pas assez d\'élèves.');
+				return;
 			});
 		};
 
