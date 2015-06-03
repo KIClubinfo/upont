@@ -1,18 +1,41 @@
 angular.module('upont')
-	.controller('Students_Game_Ctrl', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
+	.controller('Students_Game_Ctrl', ['$scope', '$rootScope', '$http', '$timeout', function($scope, $rootScope, $http, $timeout) {
 		$scope.playing = false;
 		$scope.end = false;
 		$scope.position = 0;
-		$scope.gameData = [];
+		$scope.start = 0;
+		$scope.clock = 0;
+	    $scope.tickInterval = 1000;
+	    $scope.promos = $rootScope.promos;
+	    $scope.promos.push('Toutes');
+	    $scope.promo = 'Toutes';
+	    $scope.mode = 'Normal';
+	    $scope.modes = ['Normal'];
 
-		$scope.post = function() {
+	    var timer;
+
+	    var tick = function() {
+	        $scope.clock = Date.now();
+	        timer = $timeout(tick, $scope.tickInterval);
+	    };
+
+		$scope.post = function(promo, mode) {
 			$scope.playing = true;
 			$scope.end = false;
+			$scope.numWrong = 0;
 			$scope.position = 0;
+			$scope.start = Date.now();
+			$scope.clock = Date.now();
+			timer = $timeout(tick, $scope.tickInterval);
 
 			var params = {
-				mode: 'Normal'
+				promo: promo,
+				mode: mode
 			};
+
+			if (promo == 'Toutes') {
+				params.promo = undefined;
+			}
 
 			$http.post($rootScope.url + 'facegames', params).success(function(data) {
 				$scope.gameData = data;
@@ -31,11 +54,13 @@ angular.module('upont')
 			} else {
 				$scope.gameData.list_users[$scope.position].result = false;
 				$scope.gameData.list_users[$scope.position].answered = num;
+				$scope.numWrong++;
 			}
 
 			$scope.position++;
 
 			if ($scope.position == $scope.gameData.list_users.length) {
+				$timeout.cancel(timer);
 				$scope.end = true;
 				$scope.playing = false;
 
