@@ -5,6 +5,7 @@ namespace KI\UpontBundle\Controller\Users;
 use FOS\RestBundle\Controller\Annotations as Route;
 use FOS\RestBundle\View\View as RestView;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -65,10 +66,13 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
 
         // Options
         $nbProps = 3;
-        if ($facegame->getPromo() != null)
+        if ($facegame->getPromo() != null) {
+            if (count($repo->findByPromo($facegame->getPromo())) < 5)
+                throw new BadRequestHttpException('Promo trop petite !');
             $arrayUsers = $repo->findByPromo($facegame->getPromo());
-        else
+        } else
             $arrayUsers = $repo->findAll();
+
         $max = count($arrayUsers);
         $nbQuestions = min(10, $max/2 - 1);
 
