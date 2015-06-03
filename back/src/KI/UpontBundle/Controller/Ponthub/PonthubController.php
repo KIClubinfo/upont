@@ -475,7 +475,7 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
         $totalSize = 0;
         $hipster = 0;
 
-        // On complète les tableux au fur et à mesure
+        // On complète les tableaux au fur et à mesure
         foreach ($downloads as $download) {
             $file = $download->getFile();
             // Conversion en millisecondes, unité javascript de base
