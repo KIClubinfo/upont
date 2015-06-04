@@ -83,7 +83,7 @@ class ClubsController extends \KI\UpontBundle\Controller\Core\SubresourceControl
      */
     public function patchClubAction($slug)
     {
-        return $this->patch($slug, $this->checkClubMembership($slug));
+        return $this->patch($slug, $this->checkClubMembership($slug) && !$this->get('security.context')->isGranted('ROLE_EXTERIEUR'));
     }
 
     /**

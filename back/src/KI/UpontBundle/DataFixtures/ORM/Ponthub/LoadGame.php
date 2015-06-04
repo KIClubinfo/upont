@@ -15,6 +15,7 @@ class LoadGameFixture extends AbstractFixture implements OrderedFixtureInterface
         $game->setSize(487864000);
         $game->setPath('/root/web/jeux/Age of Empires 2 - Conquerors - Forgotten Empires.rar');
         $game->setName('Age of Empires 2');
+        $game->setYear(1999);
         $game->setDescription('Un jeu à apporter absolument aux LANs ! Contient l\'extension Forgotten Empires, version HD !');
         $game->setTags(array($this->getReference('tag-poseeey')));
         $game->setStatus('OK');

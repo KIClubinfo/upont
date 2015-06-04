@@ -1,9 +1,9 @@
 <div up-row padded right>
-    <div class="up-likes up-clickable" ng-click="upvote(url);" ng-class="{active : objet.like, admissibles : $root.isAdmissible}">
+    <div class="up-likes up-clickable" ng-click="upvote(url);" ng-class="{active : objet.like, admissibles : $root.isAdmissible || $root.isExterieur}">
         <i class="fa fa-thumbs-o-up"></i> {{ objet.likes >= 0 ? objet.likes : 0 }}
     </div>
 
-    <div class="up-likes up-clickable" ng-click="downvote(url);" ng-class="{active : objet.dislike, admissibles : $root.isAdmissible}">
+    <div ng-if="!$root.isExterieur" class="up-likes up-clickable" ng-click="downvote(url);" ng-class="{active : objet.dislike, admissibles : $root.isAdmissible || $root.isExterieur}">
         <i class="fa fa-thumbs-o-down"></i> {{ objet.dislikes >= 0 ? objet.dislikes : 0 }}
     </div>
 
@@ -22,26 +22,33 @@
          ng-mouseover="showModify=true" ng-mouseleave="showModify=false">
         <img up-col="7%" class="up-profile-picture" ng-src="{{ comment.author.image_url | urlFile}}" alt="Image de profil"/>
         <div up-col="87%">
-            <strong><span up-user user="comment.author">{{ comment.author.nick }}</span> : </strong>
+
+            <strong ng-if="!$root.isExterieur"><span up-user user="comment.author">{{ comment.author.nick }}</span> : </strong>
+            <strong ng-if="$root.isExterieur">{{ comment.author.first_name }} {{ comment.author.last_name }} : </strong>
+
             <span ng-bind-html="comment.text"></span><br>
             {{ comment.date | fromNow }}&nbsp;
-            <span class="up-likes up-clickable" ng-click="likeComment(comment)"  ng-class="{active : comment.like, admissibles : $root.isAdmissible}">
+            <span class="up-likes up-clickable" ng-click="likeComment(comment)"  ng-class="{active : comment.like, admissibles : $root.isAdmissible || $root.isExterieur}">
                 <i class="fa fa-thumbs-o-up"></i> {{ comment.likes >= 0 ? comment.likes : 0 }}
             </span>
             &nbsp;
-            <span class="up-likes up-clickable" ng-click="dislikeComment(comment)" ng-class="{active : comment.dislike, admissibles : $root.isAdmissible}">
+            <span ng-if="!$root.isExterieur" class="up-likes up-clickable" ng-click="dislikeComment(comment)" ng-class="{active : comment.dislike, admissibles : $root.isAdmissible || $root.isExterieur}">
                 <i class="fa fa-thumbs-o-down"></i> {{ comment.dislikes >= 0 ? comment.dislikes : 0 }}
             </span>
         </div>
         <div up-col="6%" class="centering">
-            <i ng-show="comment.author.username == $root.me.username && showModify" class="fa fa-pencil up-clickable" ng-click="modifyComment(comment)"></i><br>
-            <i ng-show="comment.author.username == $root.me.username && showModify" class="fa fa-times up-clickable"  ng-click="deleteComment(comment)"></i>
+            <i ng-show="comment.author.username == $root.me.username && showModify"
+               class="fa fa-pencil up-clickable" ng-click="modifyComment(comment)"
+               title="Modifier le commentaire"></i><br>
+            <i ng-show="comment.author.username == $root.me.username && showModify"
+               class="fa fa-trash up-clickable up-delete-button"  ng-click="deleteComment(comment)"
+               title="Supprimer le commentaire"></i>
         </div>
     </div>
-    <form up-row left ng-submit="submitComment(commentText)" autocomplete="off" ng-if="!$root.isAdmissible">
+    <form up-row left autocomplete="off" ng-if="!$root.isAdmissible">
         <img class="up-profile-picture" ng-src="{{ $root.me.image_url | urlFile }}" />
         <textarea class="up-col-xs-12 comment-textarea" ng-model="commentText"
                   placeholder="Ajouter un commentaire" msd-elastic
-                  ng-keyup="$event.keyCode == 13 && !$event.shiftKey ? submitComment(commentText) : null"></textarea>
+                  ng-keyup="submitComment($event, commentText) ? commentText = '' : null"></textarea>
     </form>
 </div>

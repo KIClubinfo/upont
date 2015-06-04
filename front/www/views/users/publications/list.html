@@ -14,23 +14,32 @@
                 </div>
                 <div up-row space-between>
                     <div class="up-ticket-title">
-                        <h1 class="up-clickable" ui-sref="root.users.publications.simple({slug: publication.slug})" title="Afficher la publication">{{ publication.name }}</h1>
+                        <h2 class="up-clickable" ui-sref="root.users.publications.simple({slug: publication.slug})" title="Afficher la publication">{{ publication.name }}</h2>
                     </div>
                     <div class="up-ticket-date">
                         <h2 style="margin:0">
-                            &nbsp;<i ng-show="$root.hasRight(publication.author_club.slug)"
-                                     class="fa fa-trash up-clickable up-delete-button"
-                                     ng-click="delete(publication)"></i>
+                            <i ng-show="$root.hasClub(publication.author_club.slug)"
+                               class="fa fa-pencil up-clickable"
+                               ng-click="enableModify(publication)"
+                               title="Modifier la publication"></i>
+                            <i ng-show="$root.hasClub(publication.author_club.slug)"
+                               class="fa fa-trash up-clickable up-delete-button"
+                               ng-click="delete(publication)"
+                               title="Supprimer la publication"></i>
                         </h2>
                         <span class="up-invisible-xs">{{ publication.date*1000 | date : 'd MMMM yyyy' }}</span>
                         <span class="up-invisible-sm up-invisible-md up-invisible-lg">{{ publication.date*1000 | date : 'd/mm/yyyy' }}</span><br>
                     </div>
                 </div>
                 <div up-row space-between class="up-ticket-title">
-                    <a ui-sref="root.users.assos.simple.publications({slug: publication.author_club.slug})"
+                    <a ng-if="!$root.isExterieur" ui-sref="root.users.assos.simple.publications({slug: publication.author_club.slug})"
                     title="Lien vers la page du club">
                         Par {{ publication.author_club.full_name }}
                     </a>
+
+                    <span ng-if="$root.isExterieur">
+                        Par {{ publication.author_club.full_name }}
+                    </span>
 
                     <a class="up-shotgun-link" title="Lien vers la page de shotgun"
                     ng-if="publication.start_date && publication.entry_method == 'Shotgun'"
@@ -49,7 +58,17 @@
                         {{ publication.attendees == 1 ? 'personne y participe' : 'personnes y participent' }}
                     </a>
                 </p>
-                <p up-publi-text string="publication.text"></p>
+
+                <div class="up-assos-container" up-publi-text string="publication.text"
+                     ng-hide="edit !== null && publication.slug == edit.slug"></div>
+
+                <div ng-if="edit !== null && publication.slug == edit.slug" up-col="100%">
+                    <textarea ng-model="publication.text" redactor></textarea>
+                </div>
+                <div ng-if="edit !== null && publication.slug == edit.slug" up-col="100%" up-row center>
+                    <button ng-click="modify(publication)" class="up-btn up-btn-default up-btn-lg">Envoyer</button>
+                </div>
+
                 <div ng-if="publication.start_date && !publication.shotgun_date" up-row right>
                     <span class="up-likes up-clickable" ng-click="attend(publication)" ng-class="{active : publication.attend, admissibles : $root.isAdmissible}">
                         <i class="fa fa-check"></i> {{ publication.attend ? 'Ne pas participer' : 'Participer' }}

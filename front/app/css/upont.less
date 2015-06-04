@@ -13,6 +13,7 @@
 @fa-font-path: 'libs/fontawesome/fonts';
 @import (inline) '../../www/libs/alertify.js/themes/alertify.core.css';
 @import (inline) '../../www/libs/angular-bootstrap-datetimepicker/src/css/datetimepicker.css';
+@import (inline) '../../www/libs/redactor/redactor.css';
 
 body {
     margin: 0px;
@@ -33,6 +34,7 @@ body {
     @import 'admissibles.less';
     @import 'alertify.less';
     @import 'aside-topbar.less';
+    @import 'assos.less';
     @import 'button.less';
     @import 'column-system.less';
     @import 'comments.less';
@@ -75,12 +77,9 @@ body {
 
 // Couleurs spécifiques à chaque thème
 body.theme-clear {
-    .theme(@blue, @gray, white, #E0E2E8, #E0E2E8, @light-gray, #2A303D, @orange);
+    .theme(@blue, @gray, white, #E0E2E8, #F8F8F8, @light-gray, #2A303D, @orange);
     .alertify-log-error {
         background: @orange;
-    }
-    input, textarea, select {
-        background: #F8F8F8;
     }
 }
 

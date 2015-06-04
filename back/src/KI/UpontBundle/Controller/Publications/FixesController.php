@@ -74,6 +74,21 @@ class FixesController extends \KI\UpontBundle\Controller\Core\ResourceController
             $return['item']->setStatus('Non vu');
         }
 
+        if ($return['item']->getProblem() != '[Test] J\'arrive pas à avoir Internet') {
+            $fields = array(
+                'channel' => $return['item']->getFix() ? '#depannage' : '#upont-feedback',
+                'text' => '"'.$return['item']->getProblem().'" par '.$user->getFirstname().' '.$user->getLastname()
+            );
+
+            $this->get('ki_upont.curl')->curl(
+                'https://hooks.slack.com/services/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',
+                array(
+                    CURLOPT_POST => true,
+                    CURLOPT_POSTFIELDS => json_encode($fields)
+                )
+            );
+        }
+
         return $this->postView($return);
     }
 

@@ -16,6 +16,16 @@
         <div id="global-search-results" class="up-searchbar-results"
              ng-mouseenter="hoverSearch=true" ng-mouseleave="hoverSearch=false"
              ng-show="(displaySearch || hoverSearch) && (searchResults.posts.length || searchResults.clubs.length || searchResults.files.length || searchResults.users.length)">
+            <div class="up-searchbar-section" up-row ng-if="searchResults.clubs.length">
+                <div class="up-searchbar-cell up-searchbar-title" up-col="25%">CLUBS</div>
+                <div class="up-searchbar-cell" up-col="75%">
+                    <div class="up-searchbar-item" ng-repeat="club in searchResults.clubs | limitTo:4">
+                        <a ng-click="resetSearch()" ui-sref="{{ redirect(club) }}">
+                            <img class="up-profil-picture" ng-src="{{ club.image_url | urlFile}}" alt="Logo de l'assos"/> {{ club.name }}
+                        </a>
+                    </div>
+                </div>
+            </div>
             <div class="up-searchbar-section" up-row ng-if="searchResults.users.length">
                 <div class="up-searchbar-cell up-searchbar-title" up-col="25%">ÉLÈVES</div>
                 <div class="up-searchbar-cell" up-col="75%">
@@ -24,26 +34,6 @@
                             <img ng-if="user.image_url" class="up-profil-picture" ng-src="{{ user.image_url | urlFile}}" alt="Image de profil"/>
                             <i ng-if="!user.image_url" class="fa fa-user"></i>
                             {{user.name}}
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="up-searchbar-section" up-row ng-if="searchResults.posts.length">
-                <div class="up-searchbar-cell up-searchbar-title" up-col="25%">POSTS</div>
-                <div class="up-searchbar-cell" up-col="75%">
-                    <div class="up-searchbar-item" ng-repeat="post in searchResults.posts | limitTo:4">
-                        <a ng-click="resetSearch()" ui-sref="{{ redirect(post) }}">
-                            <img class="up-profil-picture" ng-src="{{ post.image_url | urlFile}}" alt="Publication"/> {{ post.name }}
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="up-searchbar-section" up-row ng-if="searchResults.clubs.length">
-                <div class="up-searchbar-cell up-searchbar-title" up-col="25%">CLUBS</div>
-                <div class="up-searchbar-cell" up-col="75%">
-                    <div class="up-searchbar-item" ng-repeat="club in searchResults.clubs | limitTo:4">
-                        <a ng-click="resetSearch()" ui-sref="{{ redirect(club) }}">
-                            <img class="up-profil-picture" ng-src="{{ club.image_url | urlFile}}" alt="Logo de l'assos"/> {{ club.name }}
                         </a>
                     </div>
                 </div>
@@ -60,6 +50,16 @@
                     </div>
                 </div>
             </div>
+            <div class="up-searchbar-section" up-row ng-if="searchResults.posts.length">
+                <div class="up-searchbar-cell up-searchbar-title" up-col="25%">POSTS</div>
+                <div class="up-searchbar-cell" up-col="75%">
+                    <div class="up-searchbar-item" ng-repeat="post in searchResults.posts | limitTo:4">
+                        <a ng-click="resetSearch()" ui-sref="{{ redirect(post) }}">
+                            <img class="up-profil-picture" ng-src="{{ post.image_url | urlFile}}" alt="Publication"/> {{ post.name }}
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="up-aside-middle">
@@ -72,7 +72,7 @@
             <div><a ui-sref="root.users.assos.list" up-state-active="root.users.assos"><i class="fa fa-thumbs-o-up"></i> Assos</a></div>
             <div><a ui-sref="root.users.students.list" up-state-active="root.users.students" id="link-students"><i class="fa fa-graduation-cap"></i> Élèves</a></div>
             <div><a ui-sref="root.users.resources.upont" up-state-active="root.users.resources"><i class="fa fa-suitcase"></i> Ressources</a></div>
-            <div><a ui-sref="root.users.ponthub.list" up-state-active="root.users.ponthub"><i class="fa fa-film"></i> PontHub</a></div>
+            <div><a ui-sref="root.users.ponthub.category.list" up-state-active="root.users.ponthub"><i class="fa fa-film"></i> PontHub</a></div>
             <div ng-if="!$root.isAdmissible">
                 <a ui-sref="root.users.students.modify" up-state-active><i class="fa fa-star"></i> Profil</a>
             </div>
@@ -88,10 +88,10 @@
                title="Faire une remarque sur uPont">
                 <i class="fa fa-bullhorn"></i> Aide-nous et donne ton avis
             </a>
-            <div ng-hide="foyer == null"><i class="fa fa-beer"></i> Compte Foyer : {{ foyer }} <i class="fa fa-euro"></i></div>
+            <div ng-hide="foyer == null"><i class="fa fa-beer"></i> Compte Foyer : {{ foyer }}<i class="fa fa-euro"></i></div>
             <i class="fa fa-child"></i> En ligne :
             <span ng-repeat="user in online">
-                <span ng-if="$index < 10" up-user user="user">{{ user.nick }}</span><span ng-if="$index != online.length-1 && $index < 9">,</span>
+                <span ng-if="$index < 10" up-user user="user">{{ user.nick }}<span ng-if="$index != online.length-1 && $index < 9">,</span></span>
             </span>
             <span ng-if="online.length > 10">et {{ online.length - 10 }} autre{{ online.length == 11 ? ' utilisateur' : 's utilisateurs' }}.</span>
         </div>

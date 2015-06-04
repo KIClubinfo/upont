@@ -12,7 +12,7 @@ class LoadMovieFixture extends AbstractFixture implements OrderedFixtureInterfac
     public function load(ObjectManager $manager)
     {
         $movie = new Movie();
-        $movie->setSize(1024*1024*1024);
+        $movie->setSize(2.1*1000*1000*1000);
         $movie->setPath('/root/web/films/Pumping Iron 1.mkv');
         $movie->setName('Pumping Iron');
         $movie->setDescription('Do you even lift?');
@@ -22,6 +22,7 @@ class LoadMovieFixture extends AbstractFixture implements OrderedFixtureInterfac
         $movie->setActors(array($this->getReference('actor-arnold')));
         $movie->setTags(array($this->getReference('tag-bodybuilding'), $this->getReference('tag-lift')));
         $movie->setDuration(85*60);
+        $movie->setYear(1977);
         $movie->setRating(62);
         $movie->setLikes(array($this->getReference('user-de-boisc'), $this->getReference('user-muzardt')));
         $movie->setDislikes(array($this->getReference('user-taquet-c')));
@@ -32,7 +33,7 @@ class LoadMovieFixture extends AbstractFixture implements OrderedFixtureInterfac
         $this->addReference('movie-pumping-iron', $movie);
 
         $movie = new Movie();
-        $movie->setSize(1024*1024*1024);
+        $movie->setSize(8.2*1000*1000*1000);
         $movie->setPath('/root/web/films/300.mkv');
         $movie->setName('300');
         $movie->setDescription('This is Sparta!');
@@ -40,6 +41,7 @@ class LoadMovieFixture extends AbstractFixture implements OrderedFixtureInterfac
         $movie->setVost(true);
         $movie->setGenres(array($this->getReference('genre-action'), $this->getReference('genre-documentary')));
         $movie->setDuration(85*60);
+        $movie->setYear(2007);
         $movie->setRating(62);
         $movie->setLikes(array($this->getReference('user-trancara'), $this->getReference('user-muzardt')));
         $movie->setDislikes(array($this->getReference('user-dziris')));

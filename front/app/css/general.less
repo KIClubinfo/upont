@@ -33,6 +33,39 @@ background-size: auto auto;
     margin: 10px 0 10px 0;
 }
 
+// Resets imperavi redactor
+.redactor-editor {
+    background: @col-input-bckgnd;
+    border: solid 1px @col-bckgnd;
+
+    &:focus {
+        border-color: @col-main;
+    }
+}
+
+.redactor-toolbar {
+    z-index: 1;
+    li {
+        a:hover {
+          background-color: @col-main;
+          color: #fff;
+        }
+    }
+}
+
+.redactor-dropdown {
+    color: rgba(0, 0, 0, 0.7);
+
+    a:hover {
+      background-color: @col-main;
+      color: #fff;
+    }
+}
+
+
+
+// Vues principales
+
 .up-main-view {
     padding-bottom: 30px;
     background: @col-bckgnd;
@@ -107,10 +140,14 @@ background-size: auto auto;
     }
 }
 .up-assos {
-    .up-ticket:hover {
-        cursor: pointer;
-        border: 1px solid @col-main;
-        h3 { color: @col-main !important; }
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    .up-ticket {
+        &:hover {
+            cursor: pointer;
+            border: 1px solid @col-main;
+            h3 { color: @col-main !important; }
+        }
     }
 }
 
@@ -206,7 +243,7 @@ a, a:hover, a:visited, a:active, a:focus {
     color: @col-font !important;
 }
 .up-overflow {
-    height: 7em;
+    height: 7.4em;
     overflow: hidden;
 }
 
