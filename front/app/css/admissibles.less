@@ -17,17 +17,22 @@
 
 .up-admissibles-banner-logo{
     display: inline-block;
-    color:@col-main;
+    color: @col-main;
     font-size: 3em;
-    padding:1em;
+    padding: 1em;
     background: @col-ticket;
-    border:solid 5px @col-main;
+    border: solid 5px @col-main;
     border-radius: 0.6em;
     font-weight: bold;
     transition: all 0.2s ease-in-out 0s;
     
     &:hover {
         box-shadow: 0 0 10px @col-main;
+    }
+    
+    .fa {
+        display: block;
+        width: 1em;
     }
 }
 
@@ -109,13 +114,13 @@
 }
 .up-admissibles-block-text{
     display: inline-block;
-    padding:1em;
+    padding: 3em;
     background: @col-ticket;
     border:solid 0.1em @col-main;
-    font-weight: bold;
     max-width:60%;
     position: absolute;
     top:15em;
+    font-size:1.3em;
 }
 
 .up-admissibles-block:nth-child(odd){

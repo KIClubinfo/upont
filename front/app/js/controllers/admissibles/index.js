@@ -3,6 +3,7 @@ angular.module('upont').controller('Admissibles_Ctrl', ['$scope', '$location', '
             $location.hash(id);
             Scroll.scrollTo(id);
         };
+        $scope.campuschannel  ='https://www.youtube.com/watch?v=hNOfq6rmT2I';
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
