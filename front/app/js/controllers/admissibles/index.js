@@ -16,7 +16,7 @@ angular.module('upont').controller('Admissibles_Ctrl', ['$scope', '$location', '
                 controller: 'Admissibles_Ctrl',
                 templateUrl: 'views/admissibles/index.html',
                 data: {
-                    title: 'Zone admissibles - uPont',
+                    title: 'Espace Admissibles - uPont',
                     top: true
                 }
             });
