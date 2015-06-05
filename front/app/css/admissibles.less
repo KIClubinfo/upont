@@ -15,18 +15,37 @@
     &.up-block-9{ background-image: url('img/admissibles/14.jpg'); }
 }
 
+.up-admissibles-banner-logo{
+    display: inline-block;
+    color:@col-main;
+    font-size: 3em;
+    padding:1em;
+    background: @col-ticket;
+    border:solid 5px @col-main;
+    border-radius: 0.6em;
+    font-weight: bold;
+    transition: all 0.2s ease-in-out 0s;
+    
+    &:hover {
+        box-shadow: 0 0 10px @col-main;
+    }
+}
+
 .up-admissibles-intro{
     text-align: center;
-    padding:3em 5% 0;
+    padding: 1em 5% 0;
+    
     .up-admissibles-banner{
         position: relative;
-        img{
-            width:100%;
+        
+        img {
+            width: 90%;
         }
         .up-admissibles-banner-overlay:before{
             content:"";
+            width: 90%;
             position:absolute;
-            top:0; bottom: 0; right: 0; left: 0;
+            top:0; bottom: 0; right: 0; left: 5%;
             background:url('img/admissibles/pattern_black_square.png');
         }
         .up-admissibles-banner-text{
@@ -39,22 +58,12 @@
                 text-transform: uppercase;
                 text-shadow:0.2em 0.2em 0.2em #000;
             }
-            .up-admissibles-banner-logo{
-                display: inline-block;
-                color:@col-main;
-                font-size: 2em;
-                padding:1em;
-                background: @col-ticket;
-                border:solid 0.3em @col-main;
-                border-radius: 0.6em;
-                font-weight: bold;
-            }
         }
     }
     .up-admissibles-intro-title{
         font-size: 1.75em;
         font-weight: bold;
-        padding:2em 10%;
+        padding: 2em 10%;
     }
     .up-admissibles-intro-text{
         font-size:1.3em;
@@ -87,15 +96,16 @@
 
 .up-admissibles-block-title{
     display: inline-block;
-    color:@col-main;
+    color: @col-main;
     font-size: 2em;
-    padding:1em;
+    padding: 1em;
     background: @col-ticket;
-    border:solid 0.1em @col-main;
+    border: solid 0.1em @col-main;
     font-weight: bold;
     // width:30%;
     position: absolute;
-    top:3em;
+    top: 3em;
+    border-radius: 0.6em;
 }
 .up-admissibles-block-text{
     display: inline-block;
