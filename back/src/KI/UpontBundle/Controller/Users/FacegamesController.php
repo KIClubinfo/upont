@@ -66,6 +66,7 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
 
         // Options
         $nbProps = 3;
+
         if ($facegame->getPromo() != null) {
             if (count($repo->findByPromo($facegame->getPromo())) < 5)
                 throw new BadRequestHttpException('Promo trop petite !');
@@ -76,36 +77,34 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
         $max = count($arrayUsers);
         $nbQuestions = min(10, $max/2 - 1);
 
-        $answers = [];
+        $answers = []; // Array d'ids
         while(count($list) < $nbQuestions) {
             $tempList = [];
             $ids = [];
             // La réponse est décidée aléatoirement
-            $tempList['answer'] = rand(0, $nbProps - 1);
+            $tempList['answer'] = 2 * rand(0, $nbProps - 1);
 
-            for ($i = 0 ; $i < $nbProps ; $i ++) {
+            for ($i = 0 ; $i < 2 * $nbProps ; $i += 2) {
                 do {
-                    // On vérifie qu'on ne propose pas deux fois le même nom
                     do {
                         $tempId = rand(0, $max - 1);
+                    // On vérifie qu'on ne propose pas deux fois le même nom
                     } while (in_array($tempId, $ids) || in_array($tempId, $answers));
 
                     $ids[] = $tempId;
                     $user = $arrayUsers[$tempId];
                 }
-                // On vérifie que l'user existe,
-                // qu'il a une image de profil,
+                // On vérifie que l'user existe, qu'il a une image de profil,
                 // qu'on ne propose pas le nom de la personne ayant lancé le test
                 while (!isset($user)
                 || $user->getImage() == null
                 || $user->getUsername() == $userGame->getUsername());
 
                 $tempList[$i] = $user->getFirstName() . ' ' . $user->getLastName();
+                $tempList[$i + 1] = $user->getImage()->getWebPath();
 
-                if ($i == $tempList['answer']) {
-                    $tempList['image'] = $user->getImage()->getWebPath();
+                if ($i == $tempList['answer'])
                     $answers[] = $tempId;
-                }
             }
             $list[] = $tempList;
         }
