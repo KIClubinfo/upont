@@ -120,7 +120,7 @@ angular.module('upont')
                         $scope.init(data);
                     });
                 } else {
-                    alertify.alert('Le nom apparent du fichier ayant changé, il est nécéssaire de recharger la page...');
+                    alertify.alert('Le nom apparent du fichier ayant changé, il est nécessaire de recharger la page...');
                     $state.go('root.users.ponthub.list');
                 }
                 alertify.success('Modifications prises en compte !');
