@@ -16,7 +16,6 @@ class AdmissiblesControllerTest extends WebTestCase
             array(
                 'firstName' => 'KI',
                 'lastName' => 'OP',
-                'date' => '2015',
                 'contact' => 'testificate@phpunit.zorg, 066666666',
                 'scei' => '12345',
                 'room' => 'simple',
