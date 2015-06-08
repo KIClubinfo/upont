@@ -48,7 +48,6 @@ class AdmissiblesControllerTest extends WebTestCase
             array(
                 'firstName' => 'Tata',
                 'lastName' => 'OP',
-                'date' => '2013',
                 'contact' => 'testificate@phpunit.zorg, 066466666',
                 'scei' => '12345',
                 'room' => 'simple',
@@ -87,7 +86,6 @@ class AdmissiblesControllerTest extends WebTestCase
             array(
                 'firstName' => 'KImiam',
                 'lastName' => 'OP',
-                'date' => '12/07/2014',
                 'room' => 'simple',
                 'serie' => 4,
                 'details' => 'Admissible test'
