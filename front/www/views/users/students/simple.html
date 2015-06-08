@@ -48,7 +48,7 @@
                 Pas de consos à afficher. <strong ng-if="user.username == $root.me.username">Vite, direction le Foyer !</strong>
             </div>
             <div ng-hide="foyer.numberBeers === 0">
-                {{ user.first_name }} a ingéré un total de <strong>{{ foyer.litersDrunk }} litres</strong> de bière pour plus de <strong>{{ foyer.numberBeers }} consos</strong>...<br>
+                {{ user.first_name }} a ingéré un total de <strong>{{ foyer.litersDrunk }} litres</strong> de bière pour <strong>{{ foyer.numberBeers }} {{ foyer.numberBeers == 1 ? 'conso' : 'consos' }}</strong>...<br>
                 <br>
                 <br>
                 <div up-row wrap padded>
