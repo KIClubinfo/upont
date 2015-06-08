@@ -81,6 +81,7 @@ class AdmissiblesController extends \KI\UpontBundle\Controller\Core\ResourceCont
         if ($return['code'] == 201) {
             // On modifie légèrement la ressource qui vient d'être créée
             $return['item']->setDate(time());
+            $return['item']->setYear(date("Y"));
         }
 
         return $this->postView($return);
