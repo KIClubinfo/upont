@@ -129,7 +129,7 @@ angular.module('upont')
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state('root.users.ponthub.modify', {
+            .state('root.users.ponthub.category.modify', {
                 url: '/:slug/rangement',
                 templateUrl: 'views/users/ponthub/modify.html',
                 controller: 'Ponthub_Modify_Ctrl',

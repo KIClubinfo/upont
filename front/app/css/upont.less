@@ -31,6 +31,7 @@ body {
 
 // Importation de tous les fichiers selon le theme
 .theme(@col-main, @col-font, @col-ticket, @col-bckgnd, @col-input-bckgnd, @col-aside, @col-aside-bckgnd, @col-neg) {
+    @import 'admissibles.less';
     @import 'alertify.less';
     @import 'aside-topbar.less';
     @import 'assos.less';
@@ -76,12 +77,9 @@ body {
 
 // Couleurs spécifiques à chaque thème
 body.theme-clear {
-    .theme(@blue, @gray, white, #E0E2E8, #E0E2E8, @light-gray, #2A303D, @orange);
+    .theme(@blue, @gray, white, #E0E2E8, #F8F8F8, @light-gray, #2A303D, @orange);
     .alertify-log-error {
         background: @orange;
-    }
-    input, textarea, select {
-        background: #F8F8F8;
     }
 }
 

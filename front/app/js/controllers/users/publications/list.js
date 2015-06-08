@@ -7,6 +7,7 @@ angular.module('upont')
     .controller('Publications_List_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'newsItems', 'events', 'Paginate', function($scope, $rootScope, $resource, $http, newsItems, events, Paginate) {
         $scope.events = events;
         $scope.newsItems = newsItems;
+        $scope.edit = null;
 
         $scope.next = function() {
             Paginate.next($scope.newsItems).then(function(data){
@@ -114,6 +115,18 @@ angular.module('upont')
                     }
                 });
             }
+        };
+
+        $scope.enableModify = function(post) {
+            $scope.edit = post;
+        };
+
+        $scope.modify = function(post) {
+            var item = post.start_date !== undefined ? 'events' : 'newsitems' ;
+            $http.patch(apiPrefix + item + '/' + post.slug, {text: post.text}).success(function(data){
+                alertify.success('Publication modifiée !');
+                $scope.edit = null;
+            });
         };
     }])
     .config(['$stateProvider', function($stateProvider) {

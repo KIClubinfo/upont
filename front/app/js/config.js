@@ -114,6 +114,8 @@ angular.module('upont')
         // Déconnexion
         $rootScope.logout = function() {
             Permissions.remove();
+            // On arrête de regarder en permanence qui est en ligne
+            $interval.cancel($rootScope.reloadOnline);
             $state.go('root.login');
         };
 
@@ -207,4 +209,7 @@ angular.module('upont')
         $rootScope.$on('$stateNotFound', function(event, toState, toParams, fromState, fromParams) {
             $state.go('root.404');
         });
-    }]);
+    }])
+    .run(function(redactorOptions) {
+        redactorOptions.imageUpload = apiPrefix + 'images?bearer=' + localStorage.getItem('token');
+    });

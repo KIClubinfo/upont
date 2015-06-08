@@ -13,7 +13,8 @@ Highcharts.setOptions({
         resetZoom: 'Réinitialiser le zoom',
         resetZoomTitle: 'Réinitialiser le zoom au niveau 1:1',
         thousandsSep: ' ',
-        decimalPoint: ','
+        decimalPoint: ',',
+        drillUpText: 'Retour à {series.name}'
     }
 });
 
@@ -27,7 +28,6 @@ angular.module('upont', ['ui.router', 'ngResource', 'ngAnimate', 'mgcrea.ngStrap
     .config(function(redactorOptions) {
         redactorOptions.buttons = ['html', 'formatting', 'bold', 'italic', 'underline', 'deleted', 'unorderedlist', 'image', 'file', 'link', 'alignment', 'horizontalrule'];
         redactorOptions.lang = 'fr';
-        redactorOptions.focus = true;
         redactorOptions.plugins = ['video', 'table', 'imagemanager'];
     });
 
