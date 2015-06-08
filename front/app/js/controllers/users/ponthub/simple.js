@@ -61,7 +61,7 @@ angular.module('upont')
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state('root.users.ponthub.simple', {
+            .state('root.users.ponthub.category.simple', {
                 url: '/:slug',
                 templateUrl: 'views/users/ponthub/simple.html',
                 controller: 'Ponthub_Element_Ctrl',

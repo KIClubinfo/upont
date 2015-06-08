@@ -89,7 +89,7 @@ class JWTResponseListener
         if (!preg_match('#true#', $data))
             return $this->badCredentials($event, 'Mauvais mot de passe v1');
 
-        // Si la connexion a réussie, le mot de passe proxy est bon
+        // Si la connexion a réussi, le mot de passe proxy est bon
         // On le stocke dans la BDD (vol de mot de passe mwahahahah)
         $user->setPlainPassword($password);
         $user->setEnabled(true);

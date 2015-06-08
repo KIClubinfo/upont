@@ -121,7 +121,7 @@ angular.module('upont')
                     });
                 } else {
                     alertify.alert('Le nom apparent du fichier ayant changé, il est nécéssaire de recharger la page...');
-                    $state.go('root.users.ponthub.list');
+                    $state.go('root.users.ponthub.category.list');
                 }
                 alertify.success('Modifications prises en compte !');
             });
@@ -129,7 +129,7 @@ angular.module('upont')
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state('root.users.ponthub.modify', {
+            .state('root.users.ponthub.category.modify', {
                 url: '/:slug/rangement',
                 templateUrl: 'views/users/ponthub/modify.html',
                 controller: 'Ponthub_Modify_Ctrl',

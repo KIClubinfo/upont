@@ -14,7 +14,6 @@ class AdmissibleType extends AbstractType
         $builder
             ->add('firstName')
             ->add('lastName')
-            ->add('date')
             ->add('scei')
             ->add('serie')
             ->add('contact')

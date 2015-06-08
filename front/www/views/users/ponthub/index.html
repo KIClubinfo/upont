@@ -1,14 +1,14 @@
 <div class="up-column up-zone-picker up-ticket">
     <div class="up-zp-image"><img src="img/ponthub.png" alt="Bannière"/></div>
     <div up-row left wrap>
-        <a ui-sref="root.users.ponthub.list({ category: 'films' })" up-state-active="root.users.ponthub.list" up-state-active-params='{"category":"films"}'>Films</a>
-        <a ui-sref="root.users.ponthub.list({ category: 'series' })" up-state-active="root.users.ponthub.list" up-state-active-params='{"category":"series"}'>Séries</a>
-        <a ui-sref="root.users.ponthub.list({ category: 'musiques' })" up-state-active="root.users.ponthub.list" up-state-active-params='{"category":"musiques"}'>Musiques</a>
-        <a ui-sref="root.users.ponthub.list({ category: 'jeux' })" up-state-active="root.users.ponthub.list" up-state-active-params='{"category":"jeux"}'>Jeux</a>
-        <a ui-sref="root.users.ponthub.list({ category: 'logiciels' })" up-state-active="root.users.ponthub.list" up-state-active-params='{"category":"logiciels"}'>Logiciels</a>
-        <a ui-sref="root.users.ponthub.list({ category: 'autres' })" up-state-active="root.users.ponthub.list" up-state-active-params='{"category":"autres"}'>Autres</a>
+        <a ui-sref="root.users.ponthub.category.list({ category: 'films' })" up-state-active="root.users.ponthub.category" up-state-active-params='{"category":"films"}'>Films</a>
+        <a ui-sref="root.users.ponthub.category.list({ category: 'series' })" up-state-active="root.users.ponthub.category" up-state-active-params='{"category":"series"}'>Séries</a>
+        <a ui-sref="root.users.ponthub.category.list({ category: 'musiques' })" up-state-active="root.users.ponthub.category" up-state-active-params='{"category":"musiques"}'>Musiques</a>
+        <a ui-sref="root.users.ponthub.category.list({ category: 'jeux' })" up-state-active="root.users.ponthub.category" up-state-active-params='{"category":"jeux"}'>Jeux</a>
+        <a ui-sref="root.users.ponthub.category.list({ category: 'logiciels' })" up-state-active="root.users.ponthub.category" up-state-active-params='{"category":"logiciels"}'>Logiciels</a>
+        <a ui-sref="root.users.ponthub.category.list({ category: 'autres' })" up-state-active="root.users.ponthub.category" up-state-active-params='{"category":"autres"}'>Autres</a>
         <a ui-sref="root.users.ponthub.statistics" ui-sref-active="active">Statistiques</a>
     </div>
 </div>
 
-<div ui-view up-spinner parent-scope="root.users.ponthub" autoscroll="false"></div>
+<div ui-view></div>

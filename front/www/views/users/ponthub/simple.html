@@ -42,18 +42,20 @@
                 <li ng-if="countDownloads() != 0"><strong>Téléchargé :</strong> {{ countDownloads() }} fois</li>
                 <li ng-if="element.added"><strong>Ajout :</strong> {{ element.added | formatDate }}</li>
 
-                <br>
+                <br><br>
 
                 <a ng-hide="category == 'series' || category == 'musiques'" class="up-btn up-btn-lg up-btn-default" title="Télécharger le fichier" target="_blank" ng-href="{{ type + '/' + element.slug + '/download?bearer=' + token | urlFile }}">
                     <i class="fa fa-download"></i>
                     Télécharger !
                 </a>
 
-                <a ng-if="$root.hasRight('ROLE_JARDINIER')" class="up-btn up-btn-lg up-btn-primary" ui-sref="root.users.ponthub.modify({slug: element.slug})" title="Ranger le fichier" style="margin-left: 10px;">
+                <a ng-if="$root.hasRight('ROLE_JARDINIER')" class="up-btn up-btn-lg up-btn-primary" ui-sref="root.users.ponthub.category.modify({slug: element.slug})" title="Ranger le fichier" style="margin-left: 10px;">
                     <i class="fa fa-cogs"></i>
                     Ranger
                 </a>
             </ul>
+
+            <br><br>
 
             <!-- Cas des séries -->
             <div ng-if="saisons">
