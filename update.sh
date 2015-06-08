@@ -4,7 +4,7 @@
 sudo ls > /dev/null
 cd front
 sudo npm install
-npm update -g bower
+sudo npm update -g bower
 bower update
 gulp build-js
 gulp build-css
@@ -12,7 +12,7 @@ gulp build-html
 
 cd ../mobile
 sudo npm install
-npm update -g bower
+sudo npm update -g bower
 bower update
 gulp build-js
 gulp build-css-light

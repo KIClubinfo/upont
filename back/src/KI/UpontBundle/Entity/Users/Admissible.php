@@ -11,7 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity
  * @JMS\ExclusionPolicy("all")
- * @UniqueEntity(fields={"scei", "date"})
+ * @UniqueEntity(fields={"scei"})
  */
 class Admissible
 {
@@ -51,10 +51,17 @@ class Admissible
 
     /**
      * Année
+     * @ORM\Column(name="year", type="string")
+     * @JMS\Expose
+     * @Assert\Type("string")
+     */
+    protected $year;
+
+    /**
+     * Date de création de l'admissible
      * @ORM\Column(name="date", type="string")
      * @JMS\Expose
      * @Assert\Type("string")
-     * @Assert\NotBlank()
      */
     protected $date;
 
@@ -189,6 +196,29 @@ class Admissible
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Set year
+     *
+     * @param string $year
+     * @return Admissible
+     */
+    public function setYear($year)
+    {
+        $this->year = $year;
+
+        return $this;
+    }
+
+    /**
+     * Get year
+     *
+     * @return string
+     */
+    public function getYear()
+    {
+        return $this->year;
     }
 
     /**
