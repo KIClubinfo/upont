@@ -8,10 +8,10 @@ angular.module('upont').controller('Admissibles_Ctrl', ['$scope', '$location', '
         var downloads = [
             'http://clubinfo.enpc.org/plaquette.pdf',
             'https://upont.enpc.fr/plaquette.pdf'
-            //'http://autonomie-universites.toile-libre.org/plaquette.pdf'
         ];
+        //'http://autonomie-universites.toile-libre.org/plaquette.pdf'
         var rand = Math.floor((Math.random() * downloads.length) + 1);
-        $scope.download = downloads[rand];
+        $scope.download = downloads[rand-1];
 
         $scope.submit = function(data) {
             if (data.lastName === undefined || data.firstName === undefined || data.scei === undefined || data.contact === undefined || data.serie === undefined || data.room === undefined || data.lastName === '' || data.firstName === '' || data.scei === '' || data.contact === '' || data.serie === '' || data.room === '') {
