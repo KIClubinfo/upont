@@ -13,7 +13,8 @@
         <h1 class="up-admissibles-intro-title" id="bienvenue">Bienvenue !</h1>
         <p>Admissible, cette page est pour toi ! Tout d’abord, félicitations. Si tu es en MP, tu vas avoir la joie, entre mi-juin et mi-juillet, de passer une semaine d’oraux dans notre splendide École. À cette occasion, le <a href="https://www.facebook.com/bdedesponts" title="Page Facebook du BDE" class="up-link">BDE DesPontsRados</a> tout de rouge vêtu, te recevra, t’aidera à trouver les salles d’examen, à éviter l’hypoglycémie via un stand bien approvisionné et à te mettre à l’aise entre deux oraux !<br>
 La page des admissibles vient d'ouvrir, plus d'infos seront disponibles très prochainement.<br>
-<strong>Toutefois, les réservations pour les logements ne commencent que Mardi 9 Juin à 20h précises.</strong>
+<strong>Toutefois, les réservations pour les logements ne commencent que Mardi 15 Juin à 20h précises (date d'attribution des séries d'oraux).<br>
+Cela ce fera au moyen d'un formulaire au bas de cette page.</strong>
 <br><br><br><br><br><br></p>
     </div>
 
@@ -32,6 +33,10 @@ La page des admissibles vient d'ouvrir, plus d'infos seront disponibles très pr
             Le BDE sera là pour toi afin que tes oraux aux Ponts se déroulent dans les meilleures conditions possibles. Découvre sur ce site tout ce que l’on peut faire pour toi, et si nous n’avons pas été assez minutieux, n’hésite pas à nous contacter via <a href="https://www.facebook.com/bdedesponts" title="Page Facebook du BDE" class="up-link">Facebook</a> ou envoie un mail à <a href="mailto:bde@enpc.org" class="up-link">bde@enpc.org</a>.<br><br>
             <youtube-video video-url="campuschannel"></youtube-video>
             <br><br><br>
+
+            <!--<h1><a ng-href="download" target="_blank" class="up-link" title="La plaquette alpha au format PDF">Télécharge la plaquette alpha !</a></h1>
+
+            <br><br><br>-->
 
             <div up-row center padded >
                 <div class="up-admissibles-banner-text" up-col="30%">
@@ -57,30 +62,6 @@ La page des admissibles vient d'ouvrir, plus d'infos seront disponibles très pr
             <br><br><br>
         </p>
     </div>
-    <!--
-    <div class="up-admissibles-intro-selector" ng-init="admissibleIntroSelector=0">
-        <div class="up-admissibles-intro-selector-imgs">
-            <div class="up-admissibles-intro-selector-img" ng-if="admissibleIntroSelector==0" style="background-image:url('img/castor-403.jpg')" />
-            <div class="up-admissibles-intro-selector-img" ng-if="admissibleIntroSelector==1" style="background-image:url('img/castor-500.jpg')" />
-            <div class="up-admissibles-intro-selector-img" ng-if="admissibleIntroSelector==2" style="background-image:url('img/castor-503.jpg')" />
-        </div>
-        <div up-row>
-            <div up-col="33%" class="up-admissibles-intro-selector-switch" ng-click="admissibleIntroSelector=0">
-                Zone 1
-            </div>
-            <div up-col="33%" class="up-admissibles-intro-selector-switch" ng-click="admissibleIntroSelector=1">
-                Zone 2
-            </div>
-            <div up-col="33%" class="up-admissibles-intro-selector-switch" ng-click="admissibleIntroSelector=2">
-                Zone 3
-            </div>
-        </div>
-        <div class="up-admissibles-intro-selector-text">
-            <div ng-if="admissibleIntroSelector==0">Texte 1</div>
-            <div ng-if="admissibleIntroSelector==1">Texte 2</div>
-            <div ng-if="admissibleIntroSelector==2">Texte 3</div>
-        </div>
-    </div>-->
 </div>
 
 <div class="up-admissibles-block up-block-3" id="guide">
@@ -179,9 +160,9 @@ La page des admissibles vient d'ouvrir, plus d'infos seront disponibles très pr
 
          Il y a trois possibilités de logements dans cette résidence :
         <ul>
-            <li><strong>Chambre simple :</strong> entre 18,5 m2 et 20m2</li>
-            <li><strong>Chambre double (32-34m2) :</strong> une grande chambre séparée en deux compartiments grâce au mobilier (armoires et rangements), partagée avec un autre admissible.</li>
-            <li><strong>Chambre binômée (21-23m2) :</strong> comme une chambre double d’une taille moindre. La séparation entre les deux lits est moins nette.</li>
+            <li><strong>Chambre simple :</strong> entre 18,5m² et 20m²</li>
+            <li><strong>Chambre double (32-34m²) :</strong> une grande chambre séparée en deux compartiments grâce au mobilier (armoires et rangements), partagée avec un autre admissible.</li>
+            <li><strong>Chambre binômée (21-23m²) :</strong> comme une chambre double d’une taille moindre. La séparation entre les deux lits est moins nette.</li>
         </ul>
     </div>
 </div>
@@ -203,3 +184,83 @@ La page des admissibles vient d'ouvrir, plus d'infos seront disponibles très pr
         </ul>
     </div>
 </div>
+
+<!--
+<div up-row center>
+    <div up-col="90%" style="text-align:center; font-size:1.3em">
+        <br><br><br><br>
+        <h2 id="reservation">Réservation</h2>
+        <p>
+            Pour réserver ta chambre à Meunier, c’est ici !<br>
+            Il te suffit, pour cela, de remplir le formulaire ci-joint avec : tes nom et prénom, ton numéro SCEI, et ta préférence sur le type de logement (simple – 190€, double – 160€, ou binômé – 140€).<br>
+            Nous te conseillons de faire vite car le nombre de chambres est limité !
+        </p>
+
+        <form up-row padded left wrap ng-submit="submit(admissible)" autocomplete="off" style="text-align:right;">
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                Nom
+            </div>
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <input class="up-col-xs-12" type="text" ng-model="admissible.lastName" placeholder="Nom"/>
+            </div>
+
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                Prénom
+            </div>
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <input class="up-col-xs-12" type="text" ng-model="admissible.firstName" placeholder="Prénom"/>
+            </div>
+
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                Numéro SCEI
+            </div>
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <input class="up-col-xs-12" type="text" ng-model="admissible.scei" placeholder="Numéro SCEI"/>
+            </div>
+
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                Adresse mail
+            </div>
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <input type="text" class="up-col-xs-12" ng-model="admissible.contact" placeholder="Adresse mail" />
+            </div>
+
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                Série
+            </div>
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <select ng-model="admissible.serie">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
+            </div>
+
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                Chambre
+            </div>
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <select ng-model="admissible.room">
+                    <option>Simple</option>
+                    <option>Double</option>
+                    <option>Binômée</option>
+                </select>
+            </div>
+
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                Détails
+            </div>
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <input type="text" class="up-col-xs-12" ng-model="admissible.details" placeholder="Toute autre information utile..."/>
+            </div>
+
+            <div up-row center up-col="100%">
+                <button up-col-xs="100%" up-col-sm="100%" up-col="25%" class="up-btn up-btn-lg up-btn-default">Envoyer !</button>
+            </div>
+        </form>
+        <p><small><em><i class="fa fa-warning"></i> En répondant à ce formulaire tu certifies venir de MP et être admissible au concours Mines-Ponts 2015</em></small></p>
+        <br><br><br><br>
+    </div>
+</div>
+-->

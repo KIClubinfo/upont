@@ -54,7 +54,6 @@ class Admissible
      * @ORM\Column(name="date", type="string")
      * @JMS\Expose
      * @Assert\Type("string")
-     * @Assert\NotBlank()
      */
     protected $date;
 
