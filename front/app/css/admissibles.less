@@ -1,6 +1,14 @@
 .up-admissibles-block{
-    height:100vh;
     position:relative;
+    text-align: center;
+    // @media(max-width:@sizeSm){
+    padding:3em 0px 5em;
+    min-height:100vh;
+    // }
+    // @media(min-width:@sizeSm){
+    //     height:100vh;
+    // }
+
     background-attachment: fixed;
     background-size: cover;
     background-position: center;
@@ -25,11 +33,11 @@
     border-radius: 0.6em;
     font-weight: bold;
     transition: all 0.2s ease-in-out 0s;
-    
+
     &:hover {
         box-shadow: 0 0 10px @col-main;
     }
-    
+
     .fa {
         display: block;
         width: 1em;
@@ -39,10 +47,10 @@
 .up-admissibles-intro{
     text-align: center;
     padding: 1em 5% 0;
-    
+
     .up-admissibles-banner{
         position: relative;
-        
+
         img {
             width: 90%;
         }
@@ -101,41 +109,64 @@
 
 .up-admissibles-block-title{
     display: inline-block;
-    color: @col-main;
-    font-size: 2em;
-    padding: 1em;
-    background: @col-ticket;
-    border: solid 0.1em @col-main;
+    color: @col-ticket;
+    font-size: 1.4em;
+    padding: 1em 2em;
+    background: @col-main;
     font-weight: bold;
-    // width:30%;
-    position: absolute;
-    top: 3em;
-    border-radius: 0.6em;
+    font-weight: normal;
+    text-align: justify;
 }
 .up-admissibles-block-text{
+    margin-top:2em;
     display: inline-block;
-    padding: 3em;
+    padding: 2em 3em;
     background: @col-ticket;
-    border:solid 0.1em @col-main;
-    max-width:60%;
-    position: absolute;
-    top:15em;
-    font-size:1.3em;
+    border:none;
+    @media(max-width:@sizeSm){
+        max-width:80%;
+    }
+    @media(min-width:@sizeSm){
+        max-width:60%;
+    }
+}
+.up-admissibles-block-title-container{
+    display: inline-block;
+    width:50%;
+}
+.up-admissibles-block-text-container{
+    display: inline-block;
+    width:80%;
 }
 
-.up-admissibles-block:nth-child(odd){
-    .up-admissibles-block-text{
-        left:10%;
+
+
+
+// @media(min-width:@sizeSm){
+//     .up-admissibles-block-text{
+//         max-width:60%;
+//         position: absolute;
+//         top:15em;
+//     }
+//     .up-admissibles-block-title{
+//         position: absolute;
+//         top: 3em;
+//     }
+
+    .up-admissibles-block:nth-child(odd){
+        .up-admissibles-block-title-container{
+            text-align:left;
+        }
+        .up-admissibles-block-text-container{
+            text-align:left;
+        }
     }
-    .up-admissibles-block-title{
-        left:20%;
+    .up-admissibles-block:nth-child(even){
+        .up-admissibles-block-title-container{
+            text-align:right;
+        }
+        .up-admissibles-block-text-container{
+            text-align:right;
+        }
     }
-}
-.up-admissibles-block:nth-child(even){
-    .up-admissibles-block-text{
-        right:10%;
-    }
-    .up-admissibles-block-title{
-        right:20%;
-    }
-}
+// }
