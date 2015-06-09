@@ -48,7 +48,7 @@
             </div>
 
             <br>
-
+            
             <div up-row padded center>
                 <div up-col-xs="50%" up-col-sm="50%" up-col-md="30%" up-col="25%">
                     <div class="up-image-container">
@@ -60,8 +60,8 @@
             <div class="centering">
                 <br>
                 <button up-col-xs="100%" up-col-sm="100%" up-col="33%" ng-click="next(0)">{{ name1 }}</button>
-                <button up-col-xs="100%" up-col-sm="100%" up-col="33%" ng-click="next(1)">{{ name2 }}</button>
-                <button up-col-xs="100%" up-col-sm="100%" up-col="33%" ng-click="next(2)">{{ name3 }}</button>
+                <button up-col-xs="100%" up-col-sm="100%" up-col="33%" ng-click="next(2)">{{ name2 }}</button>
+                <button up-col-xs="100%" up-col-sm="100%" up-col="33%" ng-click="next(4)">{{ name3 }}</button>
             </div>
         </div>
     </div>
@@ -71,7 +71,7 @@
             <div ng-repeat="face in gameData.list_users" up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="100%" up-row wrap padded>
                 <div up-col="30%">
                     <div class="up-image-container">
-                        <div class="up-image" ng-style="{ 'background-image' : 'url({{ face.image | urlFile }})' }"></div>
+                        <div class="up-image" ng-style="{ 'background-image' : 'url({{ face[face.answer + 1] | urlFile }})' }"></div>
                     </div>
                 </div>
 

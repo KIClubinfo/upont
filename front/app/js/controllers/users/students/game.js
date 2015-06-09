@@ -44,9 +44,9 @@ angular.module('upont')
 
 				$scope.answer = $scope.gameData.list_users[$scope.position].answer;
 				$scope.name1 = $scope.gameData.list_users[$scope.position][0];
-				$scope.name2 = $scope.gameData.list_users[$scope.position][1];
-				$scope.name3 = $scope.gameData.list_users[$scope.position][2];
-				$scope.picture = '/api/' + $scope.gameData.list_users[$scope.position].image;
+				$scope.name2 = $scope.gameData.list_users[$scope.position][2];
+				$scope.name3 = $scope.gameData.list_users[$scope.position][4];
+				$scope.picture = '/api/' + $scope.gameData.list_users[$scope.position][$scope.answer + 1];
 			}).error(function() {
 				alertify.error('La promo sélectionnée ne contient pas assez d\'élèves.');
 				return;
@@ -73,9 +73,9 @@ angular.module('upont')
 			} else {
 				$scope.answer = $scope.gameData.list_users[$scope.position].answer;
 				$scope.name1 = $scope.gameData.list_users[$scope.position][0];
-				$scope.name2 = $scope.gameData.list_users[$scope.position][1];
-				$scope.name3 = $scope.gameData.list_users[$scope.position][2];
-				$scope.picture = '/api/' + $scope.gameData.list_users[$scope.position].image;
+				$scope.name2 = $scope.gameData.list_users[$scope.position][2];
+				$scope.name3 = $scope.gameData.list_users[$scope.position][4];
+				$scope.picture = '/api/' + $scope.gameData.list_users[$scope.position][$scope.answer + 1];
 			}
 		};
 
