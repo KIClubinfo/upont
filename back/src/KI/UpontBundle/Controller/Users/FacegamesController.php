@@ -82,9 +82,9 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
             $tempList = [];
             $ids = [];
             // La réponse est décidée aléatoirement
-            $tempList['answer'] = 2 * rand(0, $nbProps - 1);
+            $tempList['answer'] = rand(0, $nbProps - 1);
 
-            for ($i = 0 ; $i < 2 * $nbProps ; $i += 2) {
+            for ($i = 0 ; $i < $nbProps ; $i ++) {
                 do {
                     do {
                         $tempId = rand(0, $max - 1);
@@ -100,8 +100,8 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
                 || $user->getImage() == null
                 || $user->getUsername() == $userGame->getUsername());
 
-                $tempList[$i] = $user->getFirstName() . ' ' . $user->getLastName();
-                $tempList[$i + 1] = $user->getImage()->getWebPath();
+                $tempList[$i][0] = $user->getFirstName() . ' ' . $user->getLastName();
+                $tempList[$i][1] = $user->getImage()->getWebPath();
 
                 if ($i == $tempList['answer'])
                     $answers[] = $tempId;
