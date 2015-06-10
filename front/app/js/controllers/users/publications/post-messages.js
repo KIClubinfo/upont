@@ -13,7 +13,7 @@ angular.module('upont')
         $scope.post = function(msg, image){
             var params  = {
                 text: msg.text,
-                name: 'null'
+                name: 'message'
             };
 
             if (image) {
