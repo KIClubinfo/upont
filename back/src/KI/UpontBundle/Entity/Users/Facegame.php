@@ -30,6 +30,14 @@ class Facegame
     protected $date;
 
     /**
+     * Durée du jeu
+     * @ORM\Column(name="duration", type="integer", nullable = true)
+     * @JMS\Expose
+     * @Assert\Type("integer")
+     */
+    protected $duration;
+
+    /**
      * Joueur
      * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
      * @JMS\Expose
@@ -87,6 +95,30 @@ class Facegame
     public function setDate($date)
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get duration
+     *
+     * @return integer
+     */
+    public function getDuration()
+    {
+        return $this->duration;
+    }
+
+    /**
+     * Set duration
+     *
+     * @param integer $duration
+     *
+     * @return Facegame
+     */
+    public function setDuration($duration)
+    {
+        $this->duration = $duration;
 
         return $this;
     }

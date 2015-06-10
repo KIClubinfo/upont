@@ -13,6 +13,7 @@ class FacegameType extends AbstractType
     {
         $builder
             ->add('promo')
+            ->add('duration')
             ->add('mode');
     }
 

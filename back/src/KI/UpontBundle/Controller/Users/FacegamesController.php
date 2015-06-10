@@ -159,6 +159,26 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
 
     /**
      * @ApiDoc(
+     *  description="Modifie un jeu",
+     *  input="KI\UpontBundle\Form\Users\FacegameType",
+     *  statusCodes={
+     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
+     *   400="La syntaxe de la requête est erronée",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   404="Ressource non trouvée",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Utilisateurs"
+     * )
+     */
+    public function patchFacegameAction($slug)
+    {
+        return $this->patch($slug);
+    }
+
+    /**
+     * @ApiDoc(
      *  description="Supprime un jeu",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",

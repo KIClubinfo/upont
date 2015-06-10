@@ -37,6 +37,22 @@ class FacegamesControllerTest extends WebTestCase
         $this->assertJsonResponse($response, 404);
     }
 
+    public function testPatch()
+    {
+        $this->client->request(
+            'PATCH', '/facegames/1', array('duration' => 42));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 204);
+
+        $this->client->request('PATCH', '/facegames/1', array('id' => ''));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 400);
+
+        $this->client->request('PATCH', '/facegames/0', array('username' => 'miam', 'email' => '123@mail.fr'));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 404);
+    }
+
     public function testDelete()
     {
         $this->client->request('DELETE', '/facegames/1');
