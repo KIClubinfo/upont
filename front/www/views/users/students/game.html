@@ -43,12 +43,17 @@
 
     <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="100%" ng-if="playing && !end">
         <div class="up-ticket">
-            <div up-col-xs="100%" up-col-sm="100%" up-col="50%" up-row padded center>
-                Chronomètre : {{ (clock - start)/1000 | formatDuration }}
+            <div up-row wrap>
+                <div up-col-xs="100%" up-col-sm="100%" up-col="50%" up-row padded center>
+                    Chronomètre : {{ (clock - start)/1000 | formatDuration }}
+                </div>
+
+                <div up-col-xs="100%" up-col-sm="100%" up-col="50%" up-row padded center>
+                    {{ position }}/{{ gameData.list_users.length }}
+                </div>
             </div>
 
             <br>
-            {{ gameData.list_users }}
             
             <div up-row padded center>
                 <div up-col-xs="50%" up-col-sm="50%" up-col-md="30%" up-col="25%">
