@@ -12,6 +12,7 @@ angular.module('upont')
 	    $scope.promo = 'Toutes';
 	    $scope.mode = 'Normal';
 	    $scope.modes = ['Normal'];
+	    $scope.photos = false;
 
 	    var timer;
 
@@ -34,6 +35,7 @@ angular.module('upont')
 			$http.post($rootScope.url + 'facegames', params).success(function(data) {
 				$scope.playing = true;
 				$scope.end = false;
+				$scope.photos = true;
 				$scope.numWrong = 0;
 				$scope.position = 0;
 				$scope.start = Date.now();
@@ -43,10 +45,14 @@ angular.module('upont')
 				$scope.gameData = data;
 
 				$scope.answer = $scope.gameData.list_users[$scope.position].answer;
-				$scope.name1 = $scope.gameData.list_users[$scope.position][0];
-				$scope.name2 = $scope.gameData.list_users[$scope.position][2];
-				$scope.name3 = $scope.gameData.list_users[$scope.position][4];
-				$scope.picture = '/api/' + $scope.gameData.list_users[$scope.position][$scope.answer + 1];
+				$scope.name = $scope.gameData.list_users[$scope.position][$scope.answer][0];
+				$scope.picture = '/api/' + $scope.gameData.list_users[$scope.position][$scope.answer][1];
+				$scope.name1 = $scope.gameData.list_users[$scope.position][0][0];
+				$scope.name2 = $scope.gameData.list_users[$scope.position][1][0];
+				$scope.name3 = $scope.gameData.list_users[$scope.position][2][0];
+				$scope.picture1 = '/api/' + $scope.gameData.list_users[$scope.position][0][1];
+				$scope.picture2 = '/api/' + $scope.gameData.list_users[$scope.position][1][1];
+				$scope.picture3 = '/api/' + $scope.gameData.list_users[$scope.position][2][1];
 			}).error(function() {
 				alertify.error('La promo sélectionnée ne contient pas assez d\'élèves.');
 				return;
@@ -71,11 +77,16 @@ angular.module('upont')
 
 				$http.delete($rootScope.url + 'facegames/' + $scope.gameData.id);
 			} else {
+				$scope.photos = $scope.position < ($scope.gameData.list_users.length)/2;
 				$scope.answer = $scope.gameData.list_users[$scope.position].answer;
-				$scope.name1 = $scope.gameData.list_users[$scope.position][0];
-				$scope.name2 = $scope.gameData.list_users[$scope.position][2];
-				$scope.name3 = $scope.gameData.list_users[$scope.position][4];
-				$scope.picture = '/api/' + $scope.gameData.list_users[$scope.position][$scope.answer + 1];
+				$scope.name = $scope.gameData.list_users[$scope.position][$scope.answer][0];
+				$scope.picture = '/api/' + $scope.gameData.list_users[$scope.position][$scope.answer][1];
+				$scope.name1 = $scope.gameData.list_users[$scope.position][0][0];
+				$scope.name2 = $scope.gameData.list_users[$scope.position][1][0];
+				$scope.name3 = $scope.gameData.list_users[$scope.position][2][0];
+				$scope.picture1 = '/api/' + $scope.gameData.list_users[$scope.position][0][1];
+				$scope.picture2 = '/api/' + $scope.gameData.list_users[$scope.position][1][1];
+				$scope.picture3 = '/api/' + $scope.gameData.list_users[$scope.position][2][1];
 			}
 		};
 
