@@ -94,4 +94,62 @@ class KIImages extends ContainerAware
             return unlink($path);
         return false;
     }
+
+    protected function createThumbnail($filename)
+    {
+        $wmax = 150;
+        $hmax = 150;
+        list($oldW, $oldH) = getimagesize($filename);
+
+        $w = $oldW;
+        $h = $oldH;
+
+        if ($h > $hmax) {
+            $w = floor($w * $hmax / $h);
+            $h = $hmax;
+        }
+
+        if ($w > $wmax) {
+            $h = floor($h * $wmax / $w);
+            $w = $wmax;
+        }
+
+        $extension = pathinfo($filename, PATHINFO_EXTENSION);
+
+        if (preg_match('/jpg|jpeg/',$extension)) {
+            $image = imagecreatefromjpeg('web/uploads/images/'.$filename);
+        } else if (preg_match('/png/',$extension)) {
+            $image = imagecreatefrompng('web/uploads/images/'.$filename);
+        } else {
+            throw new BadRequestException('Extension non reconnue !');
+        }
+
+        $thumbnail = imagecreatetruecolor($w, $h);
+
+        imagecopyresampled($thumbnail, $image, 0, 0, 0, 0, $w, $h, $oldW, $oldH);
+
+        if (preg_match('/jpg|jpeg/',$extension))
+            imagejpeg($thumbnail, 'web/uploads/images/thumbnails/'.$filename);
+        else
+            imagepng($thumbnail, 'web/uploads/images/thumbnails/'.$filename);
+
+        imagedestroy($image);
+        imagedestroy($thumbnail);
+    }
+
+    public function createThumbnails()
+    {
+        $images = array();
+        $images = scandir('web/uploads/images/');
+
+        foreach ($images as $image) {
+        //     if (file_exists('web/uploads/images/thumbnails/'.$image)
+        //         || pathinfo($image, PATHINFO_EXTENSION) != 'jpg'
+        //         || pathinfo($image, PATHINFO_EXTENSION) != 'jpeg'
+        //         || pathinfo($image, PATHINFO_EXTENSION) != 'png')
+        //         continue;
+
+            $this->createThumbnail($image);
+        }
+    }
 }
