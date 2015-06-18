@@ -95,61 +95,64 @@ class KIImages extends ContainerAware
         return false;
     }
 
-    protected function createThumbnail($filename)
+    // Crée une miniature pour l'image $imageName du dossier $path
+    protected function createThumbnail($imageName, $path)
     {
-        $wmax = 150;
-        $hmax = 150;
-        list($oldW, $oldH) = getimagesize($filename);
+        $maxWidth = 150;
+        $mawHeight = 150;
+        list($imageWidth, $imageHeight) = getimagesize($path . $imageName);
 
-        $w = $oldW;
-        $h = $oldH;
+        $thumbWidth = $imageWidth;
+        $thumbHeight = $imageHeight;
 
-        if ($h > $hmax) {
-            $w = floor($w * $hmax / $h);
-            $h = $hmax;
+        if ($thumbHeight > $mawHeight) {
+            $thumbWidth = floor($thumbWidth * $mawHeight / $thumbHeight);
+            $thumbHeight = $mawHeight;
         }
 
-        if ($w > $wmax) {
-            $h = floor($h * $wmax / $w);
-            $w = $wmax;
+        if ($thumbWidth > $maxWidth) {
+            $thumbHeight = floor($thumbHeight * $maxWidth / $thumbWidth);
+            $thumbWidth = $maxWidth;
         }
 
-        $extension = pathinfo($filename, PATHINFO_EXTENSION);
-
-        if (preg_match('/jpg|jpeg/',$extension)) {
-            $image = imagecreatefromjpeg('web/uploads/images/'.$filename);
-        } else if (preg_match('/png/',$extension)) {
-            $image = imagecreatefrompng('web/uploads/images/'.$filename);
-        } else {
-            throw new BadRequestException('Extension non reconnue !');
-        }
-
-        $thumbnail = imagecreatetruecolor($w, $h);
-
-        imagecopyresampled($thumbnail, $image, 0, 0, 0, 0, $w, $h, $oldW, $oldH);
+        $extension = pathinfo(strtolower($imageName), PATHINFO_EXTENSION);
 
         if (preg_match('/jpg|jpeg/',$extension))
-            imagejpeg($thumbnail, 'web/uploads/images/thumbnails/'.$filename);
+            $image = imagecreatefromjpeg($path . $imageName);
+        else if (preg_match('/png/',$extension))
+            $image = imagecreatefrompng($path . $imageName);
         else
-            imagepng($thumbnail, 'web/uploads/images/thumbnails/'.$filename);
+            throw new BadRequestException('Extension non reconnue !');
+
+        $thumbnail = imagecreatetruecolor($thumbWidth, $thumbHeight);
+
+        imagecopyresampled($thumbnail, $image, 0, 0, 0, 0, $thumbWidth, $thumbHeight, $imageWidth, $imageHeight);
+
+        if (preg_match('/jpg|jpeg/',$extension))
+            imagejpeg($thumbnail, $path . 'thumbnails/' . $imageName);
+        else
+            imagepng($thumbnail, $path . 'thumbnails/' . $imageName);
 
         imagedestroy($image);
         imagedestroy($thumbnail);
     }
 
-    public function createThumbnails()
+    // Crée des miniatures pour toutes les images du dossier $path
+    // dans le dossier $path/thumbnails
+    public function createThumbnails($path)
     {
         $images = array();
-        $images = scandir('web/uploads/images/');
+        $images = scandir($path);
+
+        if(!is_dir($path.'thumbnails/')) mkdir($path.'thumbnails/');
 
         foreach ($images as $image) {
-        //     if (file_exists('web/uploads/images/thumbnails/'.$image)
-        //         || pathinfo($image, PATHINFO_EXTENSION) != 'jpg'
-        //         || pathinfo($image, PATHINFO_EXTENSION) != 'jpeg'
-        //         || pathinfo($image, PATHINFO_EXTENSION) != 'png')
-        //         continue;
+            $extension = pathinfo(strtolower($image), PATHINFO_EXTENSION);
+            if (is_file($path . 'thumbnails/' . $image)
+                || ($extension != 'jpg' && $extension != 'jpeg' && $extension != 'png')
+                ) continue;
 
-            $this->createThumbnail($image);
+            $this->createThumbnail($image, $path);
         }
     }
 }

@@ -60,7 +60,8 @@ class KIImagesTest extends WebTestCase
 
     public function testCreateThumbnails()
     {
-        $this->service->createThumbnails();
+        $this->service->createThumbnails('web/uploads/images/');
+        $this->assertTrue('web/uploads/images/thumbnails/1.jpg' !== null);
     }
 
     protected $base64 = 'iVBORw0KGgoAAAANSUhEUgAAABwAAAASAQMAAAByySynAAAABlBMVEUAAAD///+l2Z/dAAAAP0lEQVQImWNgPm9gwAAmbM4bH4AQzAdAYiDC/rzxByTi/+f/cIL5AwPnZGYGIGHMwGA5mdkASNgbMNgJ80AIAMCSHqNvm2VtAAAAAElFTkSuQmCC';
