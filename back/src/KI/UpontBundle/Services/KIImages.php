@@ -14,7 +14,6 @@ class KIImages extends ContainerAware
     {
         $fs = new Filesystem();
         $image = new Image();
-
         // Checks if the input is an URL or not
         // Returns an array with the image and the extension
         $regex = '#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#iS';
@@ -25,11 +24,12 @@ class KIImages extends ContainerAware
 
         $image->setExt($data['extension']);
 
-        // Saves the image locally thanks to md5 hash and puts it in the $img
+        // Saves the image locally thanks to md5 hash and puts it in the $image
         $path = $image->getTemporaryDir().md5($data['image']);
         $fs->dumpFile($path, $data['image']);
         $file = new File($path);
         $image->setFile($file);
+
         return $image;
     }
 
@@ -98,12 +98,23 @@ class KIImages extends ContainerAware
         return false;
     }
 
-    // Crée une miniature pour l'image $imageName du dossier $path
-    protected function createThumbnail($imageName, $path)
+    // Crée une miniature pour l'image de chemin $path
+    // Dans un dossier thumbnails
+    protected function createThumbnail($path)
     {
+        $extension = pathinfo(strtolower($path), PATHINFO_EXTENSION);
+
+        if (preg_match('/jpg|jpeg/',$extension))
+            $image = imagecreatefromjpeg($path);
+        else if (preg_match('/png/',$extension))
+            $image = imagecreatefrompng($path);
+        else
+            throw new BadRequestHttpException('Extension non reconnue !');
+
+        // Redimensionnement de l'image
         $maxWidth = 150;
         $mawHeight = 150;
-        list($imageWidth, $imageHeight) = getimagesize($path . $imageName);
+        list($imageWidth, $imageHeight) = getimagesize($path);
 
         $thumbWidth = $imageWidth;
         $thumbHeight = $imageHeight;
@@ -118,44 +129,39 @@ class KIImages extends ContainerAware
             $thumbWidth = $maxWidth;
         }
 
-        $extension = pathinfo(strtolower($imageName), PATHINFO_EXTENSION);
-
-        if (preg_match('/jpg|jpeg/',$extension))
-            $image = imagecreatefromjpeg($path . $imageName);
-        else if (preg_match('/png/',$extension))
-            $image = imagecreatefrompng($path . $imageName);
-        else
-            throw new BadRequestException('Extension non reconnue !');
-
         $thumbnail = imagecreatetruecolor($thumbWidth, $thumbHeight);
 
         imagecopyresampled($thumbnail, $image, 0, 0, 0, 0, $thumbWidth, $thumbHeight, $imageWidth, $imageHeight);
 
-        if (preg_match('/jpg|jpeg/',$extension))
-            imagejpeg($thumbnail, $path . 'thumbnails/' . $imageName);
+        // Enregistrement de la miniature
+        $thumbPath = dirname($path) . '/thumbnails/';
+        // Création du dossier thumbnails au besoin
+        if(!is_dir($thumbPath)) mkdir($thumbPath);
+
+        if (preg_match('/jpg|jpeg/', $extension))
+            imagejpeg($thumbnail, $thumbPath . substr($path, strlen(dirname($path)) + 1));
         else
-            imagepng($thumbnail, $path . 'thumbnails/' . $imageName);
+            imagepng($thumbnail, $thumbPath . substr($path, strlen(dirname($path)) + 1));
 
         imagedestroy($image);
         imagedestroy($thumbnail);
     }
 
     // Crée des miniatures pour toutes les images du dossier $path
-    // dans le dossier $path/thumbnails
+    // dans le dossier {path}/thumbnails
     public function createThumbnails($path)
     {
         $images = array();
         $images = scandir($path);
 
-        if(!is_dir($path.'thumbnails/')) mkdir($path.'thumbnails/');
-
         foreach ($images as $image) {
             $extension = pathinfo(strtolower($image), PATHINFO_EXTENSION);
+
             if (is_file($path . 'thumbnails/' . $image)
                 || ($extension != 'jpg' && $extension != 'jpeg' && $extension != 'png')
                 ) continue;
 
-            $this->createThumbnail($image, $path);
+            $this->createThumbnail($path . $image);
         }
     }
 }
