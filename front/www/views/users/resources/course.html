@@ -1,0 +1,35 @@
+<div class="up-ticket">
+    <h1>{{ course.name }}</h1>
+
+    <strong>Département :</strong> {{ course.department }}<br>
+    <span ng-if="course.semester"><strong>Semestre :</strong> S{{ course.semester }}</span><br>
+    <strong>Horaires* :</strong> {{ course.start_date | courseHour }} - {{ course.end_date | courseHour }}<br>
+    <br>
+
+    <h2>Annales</h2>
+
+    <table class="up-table" up-col="90%">
+        <thead>
+            <tr>
+                <th><a ng-click="predicate = 'exercice.name'; reverse=!reverse">Nom</a></th>
+                <th><a ng-click="predicate = 'exercice.uploader.nick'; reverse=!reverse">Uploader</a></th>
+                <th><a ng-click="predicate = 'exercice.date'; reverse=!reverse">Date</a></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="exercice in filtered =  (exercices | orderBy:predicate:reverse)">
+                <td><a ng-href="{{ exercice.exercice_url | urlFile }}" target="_blank">{{ exercice.name }}</a></td>
+                <td><span up-user user="exercice.uploader">{{ exercice.uploader.nick }}</span></td>
+                <td>{{ exercice.date | formatDate }}</td>
+            </tr>
+            <tr ng-hide="filtered.length">
+                <td>Rien à afficher</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p style="text-align: center"><small>* Ces horaires sont déterminés automatiquement, pour avoir les horaires exacts se référer à l'emploi du temps</small></p>
+    <div up-likes objet="course" url="'courses/' + course.slug"></div>
+</div>

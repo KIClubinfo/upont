@@ -1,0 +1,68 @@
+<div class="up-ticket">
+    <h2 ng-click="openSuivi = !openSuivi" class="up-clickable">
+        <i class="fa" ng-class="{'fa-plus-square-o': !openSuivi, 'fa-minus-square-o': !!openSuivi}"></i>
+        Cours suivis
+    </h2>
+
+    <div ng-show="openSuivi" up-row wrap padded left>
+        <div ng-repeat="course in courses" class="up-course-item up-courses-active" up-col-xs="50%" up-col-sm="50%" up-col-md="50%" up-col="33%">
+            <div ng-include="'views/users/resources/course-template.html'"></div>
+        </div>
+    </div>
+
+    <h2 ng-click="openGCC = !openGCC" class="up-clickable">
+        <i class="fa" ng-class="{'fa-plus-square-o': !openGCC, 'fa-minus-square-o': !!openGCC}"></i>
+        Génie Civil et Construction
+    </h2>
+
+    <div ng-show="openGCC" up-row wrap padded left>
+        <div ng-repeat="course in courses" class="up-course-item" up-col-xs="50%" up-col-sm="50%" up-col-md="50%" up-col="33%">
+            <div ng-include="'views/users/resources/course-template.html'"></div>
+        </div>
+    </div>
+
+    <h2 ng-click="openSHS = !openSHS" class="up-clickable">
+        <i class="fa" ng-class="{'fa-plus-square-o': !openSHS, 'fa-minus-square-o': !!openSHS}"></i>
+        Sciences Humaines et Sociales
+    </h2>
+
+    <div ng-show="openSHS" up-row wrap padded left>
+        <div ng-repeat="course in courses" class="up-course-item" up-col-xs="50%" up-col-sm="50%" up-col-md="50%" up-col="33%">
+            <div ng-include="'views/users/resources/course-template.html'"></div>
+        </div>
+    </div>
+
+    <h2 ng-click="openDFL = !openDFL" class="up-clickable">
+        <i class="fa" ng-class="{'fa-plus-square-o': !openDFL, 'fa-minus-square-o': !!openDFL}"></i>
+        Langues
+    </h2>
+
+    <div ng-show="openDFL" up-row wrap padded left>
+        <div ng-repeat="course in courses" class="up-course-item" up-col-xs="50%" up-col-sm="50%" up-col-md="50%" up-col="33%">
+            <div ng-include="'views/users/resources/course-template.html'"></div>
+        </div>
+    </div>
+
+    <h2 ng-click="openGI = !openGI" class="up-clickable">
+        <i class="fa" ng-class="{'fa-plus-square-o': !openGI, 'fa-minus-square-o': !!openGI}"></i>
+        Génie Industriel
+    </h2>
+
+    <div ng-show="openGI" up-row wrap padded left>
+        <div ng-repeat="course in courses" class="up-course-item" up-col-xs="50%" up-col-sm="50%" up-col-md="50%" up-col="33%">
+            <div ng-include="'views/users/resources/course-template.html'"></div>
+        </div>
+    </div>
+
+    <h2 ng-click="openVET = !openVET" class="up-clickable">
+        <i class="fa" ng-class="{'fa-plus-square-o': !openVET, 'fa-minus-square-o': !!openVET}"></i>
+        Ville Environnement Transport
+    </h2>
+
+    <div ng-show="openVET" up-row wrap padded left>
+        <div ng-repeat="course in courses" class="up-course-item" up-col-xs="50%" up-col-sm="50%" up-col-md="50%" up-col="33%">
+            <div ng-include="'views/users/resources/course-template.html'"></div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,22 @@
+<div class="up-course-container" up-col="100%" up-row>
+    <div class="up-course-details" up-col="75%">
+        <h3 class="up-clickable" ui-sref="root.users.resources.courses.simple({slug: course.slug})">{{ course.name }}</h3>
+    </div>
+    <div up-col="25%" up-row wrap center>
+        <div class="up-likes up-clickable" ng-click="upvote(course);" ng-class="{active : course.like, admissibles : $root.isAdmissible || $root.isExterieur}" up-col="50%">
+            <i class="fa fa-thumbs-o-up"></i> {{ course.likes >= 0 ? course.likes : 0 }}
+        </div>
+
+        <div ng-if="!$root.isExterieur" class="up-likes up-clickable" ng-click="downvote(course);" ng-class="{active : course.dislike, admissibles : $root.isAdmissible || $root.isExterieur}" up-col="50%">
+            <i class="fa fa-thumbs-o-down"></i> {{ course.dislikes >= 0 ? course.dislikes : 0 }}
+        </div>
+
+        <div class="up-likes" ng-class="{admissibles : $root.isAdmissible}" up-col="50%">
+            <i class="fa fa-comment"></i> {{ course.comments }}
+        </div>
+
+        <div class="up-likes up-clickable" ng-class="{admissibles : $root.isAdmissible}" up-col="50%">
+            <i class="fa fa-check"></i>
+        </div>
+    </div>
+</div>
