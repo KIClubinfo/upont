@@ -89,7 +89,8 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
                 'files' => $this->searchRepo('Ponthub\PonthubFile', $criteria),
                 'posts' => $this->searchRepo('Publications\Post', $criteria),
                 'clubs' => $this->searchRepo('Users\Club', $criteria, 'e.name, e.fullName'),
-                'users' => $this->searchUser($criteria)
+                'users' => $this->searchUser($criteria),
+                'courses' => $this->searchRepo('Publications\Course', $criteria),
             );
             break;
         default:
