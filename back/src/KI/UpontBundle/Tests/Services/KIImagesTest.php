@@ -58,17 +58,9 @@ class KIImagesTest extends WebTestCase
         $this->assertEquals($result, null);
     }
 
-    public function testUpload()
+    public function testCreateThumbnail()
     {
-        $url = 'http://www.youtube.com/yt/brand/media/image/YouTube-logo-full_color.png';
-        $result = $this->service->upload($url);
-        $this->assertTrue($result !== null);
-    }
-
-    public function testCreateThumbnails()
-    {
-        $this->service->createThumbnails('web/uploads/images/');
-        $this->assertTrue('web/uploads/images/thumbnails/1.jpg' !== null);
+        $this->service->createThumbnail('web/uploads/tests/ki.png');
     }
 
     protected $base64 = 'iVBORw0KGgoAAAANSUhEUgAAABwAAAASAQMAAAByySynAAAABlBMVEUAAAD///+l2Z/dAAAAP0lEQVQImWNgPm9gwAAmbM4bH4AQzAdAYiDC/rzxByTi/+f/cIL5AwPnZGYGIGHMwGA5mdkASNgbMNgJ80AIAMCSHqNvm2VtAAAAAElFTkSuQmCC';
