@@ -50,14 +50,6 @@ class Admissible
     protected $lastName;
 
     /**
-     * Année
-     * @ORM\Column(name="year", type="string")
-     * @JMS\Expose
-     * @Assert\Type("string")
-     */
-    protected $year;
-
-    /**
      * Date de création de l'admissible
      * @ORM\Column(name="date", type="string")
      * @JMS\Expose
@@ -196,29 +188,6 @@ class Admissible
     public function getSlug()
     {
         return $this->slug;
-    }
-
-    /**
-     * Set year
-     *
-     * @param string $year
-     * @return Admissible
-     */
-    public function setYear($year)
-    {
-        $this->year = $year;
-
-        return $this;
-    }
-
-    /**
-     * Get year
-     *
-     * @return string
-     */
-    public function getYear()
-    {
-        return $this->year;
     }
 
     /**

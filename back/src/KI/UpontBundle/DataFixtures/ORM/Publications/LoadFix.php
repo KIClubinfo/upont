@@ -13,7 +13,7 @@ class LoadFixFixture extends AbstractFixture implements OrderedFixtureInterface
     {
         $fix = new Fix();
         $fix->setName('Mon Internet ne marche pas :(');
-        $fix->setProblem('Coucou le KI, j\'ai un gros problème : quand je suis dans ma chambre à Meunier, je n\'ai pas accès à Internet, alors qu\' à l\'école ça marche ! :((');
+        $fix->setProblem('Coucou le KI, j\'ai un gros problème : quand je suis dans ma chambre à Meunier, je n\'ai pas accès à Internet, alors qu\' à l\'école ça marche ! :(( Est-ce que vous pouvez m\'aider ? J\'ai bien branché internet pourtant, je suis pas débile hein, mais ça veut pas marcher…');
         $fix->setDate(1414242424);
         $fix->setUser($this->getReference('user-trancara'));
         $fix->setSolved(1414242425);

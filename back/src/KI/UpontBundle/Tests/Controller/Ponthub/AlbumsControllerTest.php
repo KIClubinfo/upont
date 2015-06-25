@@ -23,7 +23,7 @@ class AlbumsControllerTest extends WebTestCase
 
     public function testPatch()
     {
-        $this->client->request('PATCH', '/albums/black-album', array('image' => 'http://upload.wikimedia.org/wikipedia/commons/5/5a/Wikipedia-logo-v2-fr.png', 'year' => 1003));
+        $this->client->request('PATCH', '/albums/black-album', array('image' => 'https://upload.wikimedia.org/wikipedia/commons/5/5a/Wikipedia-logo-v2-fr.png', 'year' => 1003));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
