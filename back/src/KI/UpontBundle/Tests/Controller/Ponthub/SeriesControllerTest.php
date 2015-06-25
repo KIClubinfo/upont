@@ -24,7 +24,7 @@ class SeriesControllerTest extends WebTestCase
     public function testPatch()
     {
         $this->client->request('PATCH', '/series/how-i-met-your-mother', array(
-            'image' => 'http://upload.wikimedia.org/wikipedia/commons/5/5a/Wikipedia-logo-v2-fr.png',
+            'image' => 'https://upload.wikimedia.org/wikipedia/commons/5/5a/Wikipedia-logo-v2-fr.png',
             'year' => '2004',
             'duration' => 7800,
             'vf' => true,
