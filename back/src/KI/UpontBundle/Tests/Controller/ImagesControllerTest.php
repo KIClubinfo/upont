@@ -21,4 +21,13 @@ class ImagesControllerTest extends WebTestCase
         $response = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('filelink', $response);
     }
+
+    // public function testCreateThumbnails()
+    // {
+    //     $this->client->request('POST', '/thumbnails', array('path' => '/web/uploads/images'));
+    //     $response = $this->client->getResponse();
+    //     $this->assertJsonResponse($response, 201);
+    // }
+
+
 }
