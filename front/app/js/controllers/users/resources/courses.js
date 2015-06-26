@@ -1,6 +1,14 @@
 angular.module('upont')
-    .controller('Courses_List_Ctrl', ['$scope', 'courses', function($scope, courses) {
-        $scope.courses = courses;
+    .controller('Courses_List_Ctrl', ['$scope', 'dfl', 'shs', 'a1', 'gcc', 'gi', 'gmm', 'imi', 'segf', 'vet', function($scope, dfl, shs, a1, gcc, gi, gmm, imi, segf, vet) {
+        $scope.dfl = dfl;
+        $scope.shs = shs;
+        $scope.a1 = a1;
+        $scope.gcc = gcc;
+        $scope.gi = gi;
+        $scope.gmm = gmm;
+        $scope.imi = imi;
+        $scope.segf = segf;
+        $scope.vet = vet;
     }])
     .controller('Courses_Simple_Ctrl', ['$scope', 'course', 'exercices', function($scope, course, exercices) {
         $scope.course = course;
@@ -37,9 +45,33 @@ angular.module('upont')
                 },
                 controller: 'Courses_List_Ctrl',
                 resolve: {
-                    courses: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'courses').query().$promise;
-                    }]
+                    dfl: ['$resource', function($resource) {
+                        return $resource(apiPrefix + 'courses?department=DFL').query().$promise;
+                    }],
+                    shs: ['$resource', function($resource) {
+                        return $resource(apiPrefix + 'courses?department=SHS').query().$promise;
+                    }],
+                    a1: ['$resource', function($resource) {
+                        return $resource(apiPrefix + 'courses?department=1A').query().$promise;
+                    }],
+                    gcc: ['$resource', function($resource) {
+                        return $resource(apiPrefix + 'courses?department=GCC').query().$promise;
+                    }],
+                    gi: ['$resource', function($resource) {
+                        return $resource(apiPrefix + 'courses?department=GI').query().$promise;
+                    }],
+                    gmm: ['$resource', function($resource) {
+                        return $resource(apiPrefix + 'courses?department=GMM').query().$promise;
+                    }],
+                    imi: ['$resource', function($resource) {
+                        return $resource(apiPrefix + 'courses?department=IMI').query().$promise;
+                    }],
+                    segf: ['$resource', function($resource) {
+                        return $resource(apiPrefix + 'courses?department=SEGF').query().$promise;
+                    }],
+                    vet: ['$resource', function($resource) {
+                        return $resource(apiPrefix + 'courses?department=VET').query().$promise;
+                    }],
                 },
             })
             .state('root.users.resources.courses.simple', {
