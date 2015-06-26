@@ -14,7 +14,7 @@ class LoadCourseFixture extends AbstractFixture implements OrderedFixtureInterfa
     {
         $course = new Course();
         $course->setName('Devenir Shark en 5 étapes');
-        $course->setGroup(0);
+        $course->addGroup('0');
         $course->setStartDate(3600*8.5);
         $course->setEndDate(3600*12);
         $course->setSemester(0);
@@ -25,7 +25,7 @@ class LoadCourseFixture extends AbstractFixture implements OrderedFixtureInterfa
 
         $course = new Course();
         $course->setName('Pipeaulogie');
-        $course->setGroup(3);
+        $course->addGroup('3');
         $course->setStartDate(3600*8.5);
         $course->setEndDate(3600*9);
         $course->setSemester(1);
@@ -36,7 +36,7 @@ class LoadCourseFixture extends AbstractFixture implements OrderedFixtureInterfa
 
         $course = new Course();
         $course->setName('Mécanique des Structures');
-        $course->setGroup(5);
+        $course->addGroup('5');
         $course->setStartDate(3600*8.5);
         $course->setEndDate(3600*18);
         $course->setSemester(1);
@@ -50,7 +50,7 @@ class LoadCourseFixture extends AbstractFixture implements OrderedFixtureInterfa
 
         $course = new Course();
         $course->setName('Rabotage de quais de RER');
-        $course->setGroup(0);
+        $course->addGroup('0');
         $course->setStartDate(3600*8.5);
         $course->setEndDate(3600*12);
         $course->setSemester(2);

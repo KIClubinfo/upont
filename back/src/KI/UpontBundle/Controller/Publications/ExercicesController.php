@@ -127,8 +127,6 @@ class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceCon
                 'to',
                 $users
             );
-
-            $request->files->get('file')->move($return['item']->getBasePath(), $return['item']->getId().'.pdf');
         }
         $this->switchClass();
 

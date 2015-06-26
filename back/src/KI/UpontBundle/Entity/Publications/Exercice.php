@@ -18,6 +18,7 @@ class Exercice extends Likeable
      * Utilisateur qui a uploadé l'annale
      * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User")
      * @ORM\JoinColumn(nullable=false)
+     * @JMS\Expose
      */
     private $uploader;
 
@@ -47,6 +48,15 @@ class Exercice extends Likeable
      */
     protected $valid;
 
+    /**
+     * Retourne un lien pour télécharger le fichier
+     * @JMS\VirtualProperty()
+     */
+    public function exerciceUrl()
+    {
+        return $this->getWebPath();
+    }
+
     public function getBasePath()
     {
         return __DIR__.'/../../../../../web/uploads/exercices/';
@@ -60,6 +70,33 @@ class Exercice extends Likeable
     public function getWebPath()
     {
         return 'uploads/exercices/'.$this->id.'.pdf';
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preUpload()
+    {
+        if ($this->file === null)
+            return;
+    }
+
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function upload()
+    {
+        if ($this->file === null)
+            return;
+
+        // Exception lancée si le fichier ne peut pas être bougé et donc
+        // arrête le Persist
+        if (file_exists($this->file->getRealPath())) {
+            $this->file->move($this->getBasePath(), $this->id.'.pdf');
+            unset($this->file);
+        }
     }
 
     // Variable temporaire pour la suppression du fichier

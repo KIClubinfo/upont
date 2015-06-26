@@ -60,6 +60,8 @@ angular.module('upont')
                     return 'root.users.publications.simple({slug: post.slug})';
                 case 'Newsitem':
                     return 'root.users.publications.simple({slug: post.slug})';
+                case 'Course':
+                    return 'root.users.resources.courses.simple({slug: course.slug})';
             }
         };
 

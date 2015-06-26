@@ -15,7 +15,7 @@ class Fix extends Likeable
 {
     /**
      * Texte décrivant le problème
-     * @ORM\Column(name="problem", type="string")
+     * @ORM\Column(name="problem", type="text")
      * @JMS\Expose
      * @Assert\Type("string")
      * @Assert\NotBlank()

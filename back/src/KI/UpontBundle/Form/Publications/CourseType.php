@@ -12,11 +12,9 @@ class CourseType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('group')
+            ->add('groups', 'collection', array('type' => 'text', 'allow_add' => true, 'allow_delete' => true))
             ->add('department')
-            ->add('semester')
-            ->add('startDate')
-            ->add('endDate');
+            ->add('semester');
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
