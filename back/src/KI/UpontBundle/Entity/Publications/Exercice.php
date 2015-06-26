@@ -79,7 +79,7 @@ class Exercice extends Likeable
     public function preUpload()
     {
         if ($this->file === null)
-            throw new \Exception('Il n\'y a aucun fichier');
+            return;
     }
 
     /**
