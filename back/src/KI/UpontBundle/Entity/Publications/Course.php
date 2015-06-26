@@ -14,30 +14,6 @@ use KI\UpontBundle\Entity\Core\Likeable;
 class Course extends Likeable
 {
     /**
-     * Groupe du cours (0 si pas de groupe)
-     * @ORM\Column(name="course_group", type="integer")
-     * @JMS\Expose
-     * @Assert\Type("integer")
-     */
-    protected $group;
-
-    /**
-     * Heure de début du cours (secondes depuis 00:00:00)
-     * @ORM\Column(name="startDate", type="integer", nullable=true)
-     * @JMS\Expose
-     * @Assert\Type("integer")
-     */
-    protected $startDate;
-
-    /**
-     * Heure de fin du cours (secondes depuis 00:00:00)
-     * @ORM\Column(name="endDate", type="integer", nullable=true)
-     * @JMS\Expose
-     * @Assert\Type("integer")
-     */
-    protected $endDate;
-
-    /**
      * Semestre (0: toute l'année, 1: premier, 2: second)
      * @ORM\Column(name="semester", type="integer", nullable=true)
      * @JMS\Expose
@@ -55,11 +31,12 @@ class Course extends Likeable
     protected $department;
 
     /**
-     * Personnes suivant ce cours
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\User", mappedBy="courses", cascade={"persist"})
-     * @Assert\Valid()
+     * Groupes de ce cours
+     * @ORM\Column(name="course_groups", type="array", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("array")
      */
-    protected $attendees;
+    protected $groups = array();
 
     /**
      * Liste des annales de ce cours
@@ -70,11 +47,14 @@ class Course extends Likeable
     protected $exercices;
 
     /**
-     * Liste des annales de ce cours
+     * Liste des occurrences de ce cours
      * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Publications\CourseItem", mappedBy="course")
      * @Assert\Valid()
      */
     protected $courseitems;
+
+
+
 
     //===== GENERATED AUTOMATICALLY =====//
 
@@ -83,32 +63,8 @@ class Course extends Likeable
      */
     public function __construct()
     {
-        $this->attendees = new \Doctrine\Common\Collections\ArrayCollection();
         $this->exercices = new \Doctrine\Common\Collections\ArrayCollection();
         $this->courseitems = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Set group
-     *
-     * @param string $group
-     * @return Course
-     */
-    public function setGroup($group)
-    {
-        $this->group = $group;
-
-        return $this;
-    }
-
-    /**
-     * Get group
-     *
-     * @return string
-     */
-    public function getGroup()
-    {
-        return $this->group;
     }
 
     /**
@@ -204,36 +160,36 @@ class Course extends Likeable
     }
 
     /**
-     * Add attendees
+     * Add groups
      *
-     * @param \KI\UpontBundle\Entity\Users\User $attendees
+     * @param string $groups
      * @return Course
      */
-    public function addAttendee(\KI\UpontBundle\Entity\Users\User $attendees)
+    public function addGroup($group)
     {
-        $this->attendees[] = $attendees;
+        $this->groups[] = $group;
 
         return $this;
     }
 
     /**
-     * Remove attendees
+     * Remove groups
      *
-     * @param \KI\UpontBundle\Entity\Users\User $attendees
+     * @param string $groups
      */
-    public function removeAttendee(\KI\UpontBundle\Entity\Users\User $attendees)
+    public function removeGroup($group)
     {
-        $this->attendees->removeElement($attendees);
+        $this->groups->removeElement($group);
     }
 
     /**
-     * Get attendees
+     * Get groups
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getAttendees()
+    public function getGroups()
     {
-        return $this->attendees;
+        return $this->groups;
     }
 
     /**
