@@ -10,12 +10,6 @@ angular.module('upont')
         $scope.segf = segf;
         $scope.vet = vet;
     }])
-    .controller('Courses_Simple_Ctrl', ['$scope', 'course', 'exercices', function($scope, course, exercices) {
-        $scope.course = course;
-        $scope.exercices = exercices;
-        $scope.predicate = 'exercice.date';
-        $scope.reverse = false;
-    }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
             .state('root.users.resources', {
@@ -73,26 +67,5 @@ angular.module('upont')
                         return $resource(apiPrefix + 'courses?department=VET').query().$promise;
                     }],
                 },
-            })
-            .state('root.users.resources.courses.simple', {
-                url: '/:slug',
-                templateUrl: 'views/users/resources/course.html',
-                data: {
-                    title: 'Cours - uPont',
-                    top: true
-                },
-                controller: 'Courses_Simple_Ctrl',
-                resolve: {
-                    course: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(apiPrefix + 'courses/:slug').get({
-                            slug: $stateParams.slug
-                        }).$promise;
-                    }],
-                    exercices: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(apiPrefix + 'courses/:slug/exercices').query({
-                            slug: $stateParams.slug
-                        }).$promise;
-                    }]
-                }
             });
     }]);
