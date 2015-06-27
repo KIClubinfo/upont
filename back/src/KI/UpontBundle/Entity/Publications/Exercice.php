@@ -48,15 +48,6 @@ class Exercice extends Likeable
      */
     protected $valid;
 
-    /**
-     * Retourne un lien pour télécharger le fichier
-     * @JMS\VirtualProperty()
-     */
-    public function exerciceUrl()
-    {
-        return $this->getWebPath();
-    }
-
     public function getBasePath()
     {
         return __DIR__.'/../../../../../web/uploads/exercices/';

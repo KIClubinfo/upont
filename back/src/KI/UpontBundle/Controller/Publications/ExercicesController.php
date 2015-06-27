@@ -69,10 +69,21 @@ class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceCon
             throw new NotFoundHttpException('Fichier PDF non trouvé');
 
         // On lit le fichier PDF
-        return new \Symfony\Component\HttpFoundation\Response(file_get_contents($exercice->getAbsolutePath()), 200, array(
+        $response = new \Symfony\Component\HttpFoundation\Response();
+        $filename = $exercice->getAbsolutePath();
+        $course = $exercice->getCourse();
+
+        $response->headers->set('Cache-Control', 'private');
+        $response->headers->set('Content-type', mime_content_type($filename));
+        $response->headers->set('Content-Disposition', 'attachment; filename="('.$course->getDepartment().') '.$course->getName().' - '.$exercice->getName().'";');
+        $response->headers->set('Content-length', filesize($filename));
+
+        $response->sendHeaders();
+        $response->setContent(readfile($filename));
+        /*return new \Symfony\Component\HttpFoundation\Response(file_get_contents(), 200, array(
             'Content-Type' => 'application/pdf',
             'Content-Disposition: attachment; filename="'.$exercice->getCourse()->getDepartment().''.$exercice->getName().'"'
-        ));
+        ));*/
     }
 
     /**
