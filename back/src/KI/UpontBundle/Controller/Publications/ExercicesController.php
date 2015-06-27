@@ -79,7 +79,7 @@ class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceCon
         $response->headers->set('Content-length', filesize($filename));
 
         $response->sendHeaders();
-        $response->setContent(readfile($filename));
+        return $response->setContent(readfile($filename));
         /*return new \Symfony\Component\HttpFoundation\Response(file_get_contents(), 200, array(
             'Content-Type' => 'application/pdf',
             'Content-Disposition: attachment; filename="'.$exercice->getCourse()->getDepartment().''.$exercice->getName().'"'
