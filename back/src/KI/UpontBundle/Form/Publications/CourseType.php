@@ -14,7 +14,9 @@ class CourseType extends AbstractType
             ->add('name')
             ->add('groups', 'collection', array('type' => 'text', 'allow_add' => true, 'allow_delete' => true))
             ->add('department')
-            ->add('semester');
+            ->add('semester')
+            ->add('ects')
+            ->add('active');
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
