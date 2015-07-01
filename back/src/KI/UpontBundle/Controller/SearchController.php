@@ -105,6 +105,7 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
         $return = $score = array();
         $percent = 0;
         foreach ($results as $result) {
+
             $name = $result->getName();
             $class = preg_replace('#.*\\\#', '', get_class($result));
             $item = array(
@@ -112,6 +113,8 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
                 'slug' => $result->getSlug(),
                 'type' => $class
             );
+            if ($class == 'Course' && ($result->getActive()== null || !$result->getActive()))
+                continue;
 
             // Pour les épisodes et les musiques on se réfère à l'entité parent
             if ($class == 'Episode')
