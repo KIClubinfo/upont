@@ -5,7 +5,6 @@ namespace KI\UpontBundle\Form\Ponthub;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use KI\UpontBundle\Form\TagType;
 
 class SerieType extends AbstractType
 {

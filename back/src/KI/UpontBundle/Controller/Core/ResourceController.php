@@ -14,7 +14,7 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
     protected function paginate($repo)
     {
         $request = $this->getRequest()->query;
-        list($page, $limit, $sort, $sortBy) = $this->getPaginateData($request);
+        list($page, $limit, $sortBy) = $this->getPaginateData($request);
 
         // On compte le nombre total d'entrées dans la BDD
         $qb = $repo->createQueryBuilder('o');
@@ -61,7 +61,7 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
                 $sortBy[$field] = $order;
             }
         }
-        return array($page, $limit, $sort, $sortBy);
+        return array($page, $limit, $sortBy);
     }
 
     public function generatePages($results, $limit, $page, $totalPages, $count, $context = null)

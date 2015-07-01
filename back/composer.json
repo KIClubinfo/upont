@@ -29,7 +29,8 @@
         "nelmio/api-doc-bundle": "~2.8"
     },
     "require-dev": {
-        "liip/functional-test-bundle": "1.2.x-dev"
+        "liip/functional-test-bundle": "1.2.x-dev",
+        "whatthejeff/nyancat-phpunit-resultprinter": "~1.2"
     },
     "scripts": {
         "post-root-package-install": [
