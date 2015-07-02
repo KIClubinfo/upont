@@ -4,7 +4,7 @@ namespace KI\UpontBundle\Form\Users;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ClubUserType extends AbstractType
 {
@@ -14,7 +14,7 @@ class ClubUserType extends AbstractType
             ->add('role');
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,

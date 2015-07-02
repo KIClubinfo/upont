@@ -4,7 +4,7 @@ namespace KI\UpontBundle\Form\Publications;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EventUserType extends AbstractType
 {
@@ -15,7 +15,7 @@ class EventUserType extends AbstractType
             ->add('motivation');
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,

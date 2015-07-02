@@ -4,7 +4,7 @@ namespace KI\UpontBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use KI\UpontBundle\Form\DataTransformer\StringToClubDataTransformer;
 
 class ClubSelectorType extends AbstractType
@@ -22,7 +22,7 @@ class ClubSelectorType extends AbstractType
         $builder->addModelTransformer($transformer);
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'invalid_message' => 'Le club séléctionné n\'existe pas',
