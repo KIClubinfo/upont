@@ -13,7 +13,9 @@ angular.module('upont')
             var params = {
                 semester: parseInt(course.semester),
                 department: course.department,
-                groups: groups
+                groups: groups,
+                ects: parseFloat(course.ects),
+                active: course.active
             };
 
             $http.patch(apiPrefix + 'courses/' + course.slug, params).success(function() {

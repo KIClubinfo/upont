@@ -36,8 +36,8 @@ class Course extends Likeable
      * @JMS\Expose
      * @Assert\Type("float")
      */
-
     protected $ects;
+
     /**
      * Permet une sorte de modération
      * @ORM\Column(name="active", type="boolean", nullable=true)

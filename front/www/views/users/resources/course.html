@@ -80,11 +80,24 @@
         </div>
 
         <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+            <i class="fa fa-usd"></i>
+            ECTS
+        </div>
+        <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+            <input class="up-col-xs-12" type="text" ng-model="course.ects" placeholder="1,5"/>
+        </div>
+
+        <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
             <i class="fa fa-users"></i>
             Groupes
         </div>
         <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
             <input class="up-col-xs-12" type="text" ng-model="groups" placeholder="Groupes 1,2,3..."/>
+        </div>
+
+        <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+            <i class="fa fa-check"></i>
+            Afficher le cours <input type="checkbox" ng-model="course.active">
         </div>
 
         <div up-col="100%" up-row right>
