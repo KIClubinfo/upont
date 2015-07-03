@@ -5,7 +5,6 @@ namespace KI\UpontBundle\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 
 class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
@@ -123,7 +122,7 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
                 $item['parent'] = $result->getAlbum()->getSlug();
 
             // Si une image existe on la rajoute
-            if (method_exists($result, 'imageUrl') && $result->imageUrl() != null)
+            if (method_exists($result, 'imageUrl') && $result->imageUrl() !== null)
                 $item['image_url'] = $result->imageUrl();
 
             $return[] = $item;

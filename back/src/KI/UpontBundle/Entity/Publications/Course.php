@@ -195,7 +195,10 @@ class Course extends Likeable
      */
     public function removeGroup($group)
     {
-        $this->groups->removeElement($group);
+        if(($key = array_search($group, $this->groups)) !== false) {
+            unset($this->groups[$key]);
+        }
+        $this->groups = array_values($this->groups);
     }
 
     /**
