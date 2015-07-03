@@ -56,7 +56,7 @@ class Course extends Likeable
 
     /**
      * Liste des annales de ce cours
-     * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Publications\Exercice", mappedBy="course")
+     * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Publications\Exercice", mappedBy="course", cascade={"persist","remove"})
      * @JMS\Expose
      * @Assert\Valid()
      */
@@ -64,7 +64,7 @@ class Course extends Likeable
 
     /**
      * Liste des occurrences de ce cours
-     * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Publications\CourseItem", mappedBy="course")
+     * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Publications\CourseItem", mappedBy="course", cascade={"persist","remove"})
      * @Assert\Valid()
      */
     protected $courseitems;

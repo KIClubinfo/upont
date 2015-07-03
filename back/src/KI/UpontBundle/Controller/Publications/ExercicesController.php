@@ -80,10 +80,6 @@ class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceCon
 
         $response->sendHeaders();
         return $response->setContent(readfile($filename));
-        /*return new \Symfony\Component\HttpFoundation\Response(file_get_contents(), 200, array(
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition: attachment; filename="'.$exercice->getCourse()->getDepartment().''.$exercice->getName().'"'
-        ));*/
     }
 
     /**
@@ -179,6 +175,7 @@ class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceCon
      */
     public function deleteCourseExerciceAction($slug, $id)
     {
-        return $this->deleteSub($slug, 'Exercice', $id, $this->get('security.context')->isGranted('ROLE_MODO'));
+        $exercice = $this->getOneSub($slug, 'Exercice', $id);
+        return $this->deleteSub($slug, 'Exercice', $id, $this->user == $exercice->getUploader() || $this->get('security.context')->isGranted('ROLE_MODO'));
     }
 }

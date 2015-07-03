@@ -101,7 +101,17 @@ class CoursesController extends \KI\UpontBundle\Controller\Core\ResourceControll
      *  section="Publications"
      * )
      */
-    public function deleteCourseAction($slug) { return $this->delete($slug); }
+    public function deleteCourseAction($slug)
+    {
+        // Les cours possèdent plein de sous propriétés, il faut faire gaffe à toutes les supprimer
+        $course = $this->getOne($slug);
+        $repo = $this->em->getRepository('KIUpontBundle:Users\CourseUser');
+
+        foreach ($repo->findByCourse($course) as $courseUser)
+            $this->em->remove($courseUser);
+
+        return $this->delete($slug);
+    }
 
     /**
      * @ApiDoc(

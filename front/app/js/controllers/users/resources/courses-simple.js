@@ -54,6 +54,12 @@ angular.module('upont')
                 });
             });
         };
+
+        $scope.removeExercice = function(course, exercice) {
+            $resource(apiPrefix + 'courses/' + course.slug + '/exercices/' + exercice.slug).delete(function() {
+                alertify.success('Annale supprimée.');
+            });
+        };
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider

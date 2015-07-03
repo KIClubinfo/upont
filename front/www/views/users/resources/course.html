@@ -18,7 +18,10 @@
         </thead>
         <tbody>
             <tr ng-repeat="exercice in filtered =  (exercices | orderBy:predicate:reverse)">
-                <td><a title="Télécharger le fichier" target="_blank" ng-href="{{ 'courses/' + course.slug + '/exercices/' + exercice.slug + '/download' | urlFile }}">{{ exercice.name }}</a></td>
+                <td>
+                    <a title="Télécharger le fichier" target="_blank" ng-href="{{ 'courses/' + course.slug + '/exercices/' + exercice.slug + '/download' | urlFile }}">{{ exercice.name }}</a>
+                    <i class="fa fa-remove up-clickable" ng-if="exercice.uploader.username == $root.me.username || $root.isAdmin" ng-click="removeExercice(course, exercice)"></i>
+                </td>
                 <td><span up-user user="exercice.uploader">{{ exercice.uploader.nick }}</span></td>
                 <td>{{ exercice.date | formatDate }}</td>
             </tr>
@@ -30,15 +33,17 @@
         </tbody>
     </table>
 
-    <h3>Uploader une annale</h3>
-    Le fichier doit être au format PDF.<br><br>
-    <form up-row padded space-between wrap ng-submit="submitExercice(name)" autocomplete="off">
-        <input up-col-xs="100%" up-col-sm="100%" up-col="30%" type="text" ng-model="name" placeholder="Final 016, Partiel 017, Exercice..."/>
+    <div ng-if="!$root.isAdmissible">
+        <h3>Uploader une annale</h3>
+        Le fichier doit être au format PDF.<br><br>
+        <form up-row padded space-between wrap ng-submit="submitExercice(name)" autocomplete="off">
+            <input up-col-xs="100%" up-col-sm="100%" up-col="30%" type="text" ng-model="name" placeholder="Final 016, Partiel 017, Exercice..."/>
 
-        <input up-col-xs="100%" up-col-sm="100%" up-col="30%" type="file" name="file" id="fileUpload" onchange="angular.element(this).scope().uploadFile(this.files)"/>
+            <input up-col-xs="100%" up-col-sm="100%" up-col="30%" type="file" name="file" id="fileUpload" onchange="angular.element(this).scope().uploadFile(this.files)"/>
 
-        <button up-col-xs="100%" up-col-sm="100%" up-col="30%" class="up-btn up-btn-lg up-btn-default">Envoyer</button>
-    </form>
+            <button up-col-xs="100%" up-col-sm="100%" up-col="30%" class="up-btn up-btn-lg up-btn-default">Envoyer</button>
+        </form>
+    </div>
 
     <p style="text-align: center"><small>* Ces horaires sont déterminés automatiquement, pour avoir les horaires exacts se référer à l'emploi du temps</small></p>
     <div up-likes objet="course" url="'courses/' + course.slug"></div>

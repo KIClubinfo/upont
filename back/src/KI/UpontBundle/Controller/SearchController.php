@@ -112,7 +112,7 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
                 'slug' => $result->getSlug(),
                 'type' => $class
             );
-            if ($class == 'Course' && ($result->getActive()== null || !$result->getActive()))
+            if ($class == 'Course' && ($result->getActive() === null || !$result->getActive()))
                 continue;
 
             // Pour les épisodes et les musiques on se réfère à l'entité parent

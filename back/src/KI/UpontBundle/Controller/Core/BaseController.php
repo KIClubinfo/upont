@@ -38,9 +38,10 @@ class BaseController extends \FOS\RestBundle\Controller\FOSRestController
     protected function switchClass($class = null)
     {
         // On garde en mémoire la classe précédente
-        $this->save = $this->className;
         if ($class === null)
             $class = $this->save;
+        else
+            $this->save = $this->className;
 
         // À priori, une sous ressource garde le même namespace
         $this->initialize($class, str_replace('\\', '', $this->namespace));
