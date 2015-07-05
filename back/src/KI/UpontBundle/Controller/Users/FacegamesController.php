@@ -65,22 +65,34 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
         $userGame = $facegame->getUser();
 
         // Options
-        $nbProps = 3;
+        $mode = $facegame->getMode();
+        if ($mode == 'Caractéristique') {
+            $defaultTraits = array('department', 'promo', 'origin', 'location');
+            $trait = $defaultTraits[rand(0, count($defaultTraits) - 1)];
+        }
 
-        if ($facegame->getPromo() != null) {
-            if (count($repo->findByPromo($facegame->getPromo())) < 5)
+        // Promo
+        $promo = $facegame->getPromo();
+        if ($promo !== null) {
+            $arrayUsers = $repo->findByPromo($promo);
+            if (count($arrayUsers) < 5)
                 throw new BadRequestHttpException('Promo trop petite !');
-            $arrayUsers = $repo->findByPromo($facegame->getPromo());
         } else
             $arrayUsers = $repo->findAll();
 
+        // Gestion du nombre de questions possibles
         $max = count($arrayUsers);
         $nbQuestions = min(10, $max/2 - 1);
+        $nbProps = 3;
 
         $answers = []; // Array d'ids
         while(count($list) < $nbQuestions) {
             $tempList = [];
             $ids = [];
+            if ($mode == 'Caractéristique')
+                $userTraits = [];
+            $tempList['trait'] = $trait;
+
             // La réponse est décidée aléatoirement
             $tempList['answer'] = rand(0, $nbProps - 1);
 
@@ -93,6 +105,14 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
 
                     $ids[] = $tempId;
                     $user = $arrayUsers[$tempId];
+
+                    if ($mode == 'Caractéristique') {
+                        $tempTrait = $this->postTraitsAction($user, $trait);
+                        if (in_array($tempTrait, $userTraits))
+                            continue;
+
+                        $userTraits[] = $tempTrait;
+                    }
                 }
                 // On vérifie que l'user existe, qu'il a une image de profil,
                 // qu'on ne propose pas le nom de la personne ayant lancé le test
@@ -102,6 +122,8 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
 
                 $tempList[$i][0] = $user->getFirstName() . ' ' . $user->getLastName();
                 $tempList[$i][1] = $user->getImage()->getWebPath();
+                if ($mode == 'Caractéristique')
+                    $tempList[$i][2] = $tempTrait;
 
                 if ($i == $tempList['answer'])
                     $answers[] = $tempId;
@@ -110,6 +132,41 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
         }
 
         $facegame->setListUsers($list);
+    }
+
+    protected function postTraitsAction($user, $trait)
+    {
+        do {
+            switch ($trait) {
+                case 'department':
+                    $return = $user->getDepartment();
+                    break;
+
+                case 'promo':
+                    $promo = $user->getPromo();
+                    if ($promo === null)
+                        throw new BadRequestHttpException(
+                            'L\'utilisateur n\'a pas de promo');
+
+                    $return = $promo;
+                    break;
+
+                case 'origin':
+                    $return = $user->getOrigin();
+                    break;
+
+                case 'location':
+                    $return = $user->getLocation();
+                    break;
+
+                default:
+                    throw new BadRequestHttpException(
+                        'Caractéristique inexistante '.$trait);
+                    break;
+            }
+        } while ($return === null);
+
+        return $return;
     }
 
     /**

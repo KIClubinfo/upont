@@ -116,6 +116,14 @@ class User extends \KI\UpontBundle\Entity\Users\CoreUser
      */
     protected $statsPonthub;
 
+    /**
+     * Détails d'un user
+     * @ORM\Column(name="details", type="text", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("string")
+     */
+    protected $details;
+
     protected function acronyme()
     {
         $r = '';
@@ -403,5 +411,27 @@ class User extends \KI\UpontBundle\Entity\Users\CoreUser
     public function getStatsPonthub()
     {
         return $this->statsPonthub;
+    }
+
+    /**
+     * Set details
+     *
+     * @param string $details
+     * @return Course
+     */
+    public function setDetails($details)
+    {
+        $this->details = $details;
+        return $this;
+    }
+
+    /**
+     * Get details
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDetails()
+    {
+        return $this->details;
     }
 }
