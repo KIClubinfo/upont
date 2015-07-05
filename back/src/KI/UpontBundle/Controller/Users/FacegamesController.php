@@ -68,7 +68,6 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
         $mode = $facegame->getMode();
         if ($mode == 'Caractéristique') {
             $defaultTraits = array('department', 'promo', 'origin', 'location');
-            $trait = $defaultTraits[rand(0, count($defaultTraits) - 1)];
         }
 
         // Promo
@@ -89,9 +88,11 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
         while(count($list) < $nbQuestions) {
             $tempList = [];
             $ids = [];
-            if ($mode == 'Caractéristique')
+            if ($mode == 'Caractéristique') {
+                $trait = $defaultTraits[rand(0, count($defaultTraits) - 1)];
                 $userTraits = [];
-            $tempList['trait'] = $trait;
+                $tempList['trait'] = $trait;
+            }
 
             // La réponse est décidée aléatoirement
             $tempList['answer'] = rand(0, $nbProps - 1);
@@ -108,7 +109,7 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
 
                     if ($mode == 'Caractéristique') {
                         $tempTrait = $this->postTraitsAction($user, $trait);
-                        if (in_array($tempTrait, $userTraits))
+                        if (in_array($tempTrait, $userTraits) || $tempTrait == null)
                             continue;
 
                         $userTraits[] = $tempTrait;
@@ -136,7 +137,7 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
 
     protected function postTraitsAction($user, $trait)
     {
-        do {
+        // do {
             switch ($trait) {
                 case 'department':
                     $return = $user->getDepartment();
@@ -164,7 +165,7 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
                         'Caractéristique inexistante '.$trait);
                     break;
             }
-        } while ($return === null);
+        // } while ($return === null);
 
         return $return;
     }
