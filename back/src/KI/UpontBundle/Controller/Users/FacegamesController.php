@@ -75,7 +75,7 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
         if ($promo !== null) {
             $arrayUsers = $repo->findByPromo($promo);
             if (count($arrayUsers) < 5)
-                throw new BadRequestHttpException('Promo trop petite !');
+                return false;
         } else
             $arrayUsers = $repo->findAll();
 
@@ -133,6 +133,7 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
         }
 
         $facegame->setListUsers($list);
+        return true;
     }
 
     protected function postTraitsAction($user, $trait)
@@ -194,7 +195,10 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
             $return['item']->setDate(time());
             $return['item']->setUser($this->container->get('security.context')->getToken()->getUser());
 
-            $this->postListUsersAction($return['item']);
+            if (!$this->postListUsersAction($return['item'])) {
+                $this->em->detach($return['item']);
+                return RestView::create($return['item'], 400);
+            }
 
             $this->em->flush();
             return RestView::create($return['item'],
