@@ -67,17 +67,14 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
         // Options
         $mode = $facegame->getMode();
         if ($mode == 'Caractéristique') {
-            $defaultTraits = array('department', 'promo', 'origin', 'location');
+            $defaultTraits = array('department', 'promo', 'location');
         }
 
         // Promo
         $promo = $facegame->getPromo();
-        if ($promo !== null) {
-            $arrayUsers = $repo->findByPromo($promo);
-            if (count($arrayUsers) < 5)
-                return false;
-        } else
-            $arrayUsers = $repo->findAll();
+        $arrayUsers = ($promo !== null) ? $repo->findByPromo($promo) : $arrayUsers = $repo->findAll();
+        if (count($arrayUsers) < 5)
+            return false;
 
         // Gestion du nombre de questions possibles
         $max = count($arrayUsers);
@@ -88,8 +85,12 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
         while(count($list) < $nbQuestions) {
             $tempList = [];
             $ids = [];
+
             if ($mode == 'Caractéristique') {
-                $trait = $defaultTraits[rand(0, count($defaultTraits) - 1)];
+                do {
+                    $trait = $defaultTraits[rand(0, count($defaultTraits) - 1)];
+                // Si la promo est déjà établie on ne va pas la demander comme carac
+                } while ($promo !== null && $trait == 'promo');
                 $userTraits = [];
                 $tempList['trait'] = $trait;
             }
@@ -109,7 +110,7 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
 
                     if ($mode == 'Caractéristique') {
                         $tempTrait = $this->postTraitsAction($user, $trait);
-                        if (in_array($tempTrait, $userTraits) || $tempTrait == null)
+                        if ($tempTrait === null || in_array($tempTrait, $userTraits))
                             continue;
 
                         $userTraits[] = $tempTrait;
@@ -121,7 +122,7 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
                 || $user->getImage() == null
                 || $user->getUsername() == $userGame->getUsername());
 
-                $tempList[$i][0] = $user->getFirstName() . ' ' . $user->getLastName();
+                $tempList[$i][0] = $user->getFirstName().' '.$user->getLastName();
                 $tempList[$i][1] = $user->getImage()->getWebPath();
                 if ($mode == 'Caractéristique')
                     $tempList[$i][2] = $tempTrait;
@@ -138,23 +139,17 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
 
     protected function postTraitsAction($user, $trait)
     {
-        // do {
             switch ($trait) {
                 case 'department':
                     $return = $user->getDepartment();
                     break;
 
                 case 'promo':
-                    $promo = $user->getPromo();
-                    if ($promo === null)
-                        throw new BadRequestHttpException(
-                            'L\'utilisateur n\'a pas de promo');
+                    $userPromo = $user->getPromo();
+                    if ($userPromo === null)
+                        throw new BadRequestHttpException('L\'utilisateur n\'a pas de promo');
 
-                    $return = $promo;
-                    break;
-
-                case 'origin':
-                    $return = $user->getOrigin();
+                    $return = $userPromo;
                     break;
 
                 case 'location':
@@ -162,11 +157,9 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
                     break;
 
                 default:
-                    throw new BadRequestHttpException(
-                        'Caractéristique inexistante '.$trait);
+                    throw new BadRequestHttpException('Caractéristique inexistante '.$trait);
                     break;
             }
-        // } while ($return === null);
 
         return $return;
     }
