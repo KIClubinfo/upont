@@ -57,35 +57,68 @@
             
             <div up-row padded center>
                 <div up-col-xs="50%" up-col-sm="50%" up-col-md="30%" up-col="25%">
-                    <div class="up-image-container" ng-if="!photos">
+                    <div class="up-image-container" ng-if="!change && mode=='Normal'">
                         <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture + ')' }"></div>
                     </div>
 
-                    <div ng-if="photos" up-row center>{{ name }}</div>
+                    <div ng-if="change && mode=='Normal'" up-row center>{{ name }}</div>
+
+                    <div ng-if="!change && mode=='Caractéristique'" up-row center>
+                        {{ trait }} : {{ traitValue }}
+                    </div>
+
+                    <div ng-if="change && mode=='Caractéristique'">
+                        <div class="up-image-container">
+                            <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture + ')' }"></div>
+                        </div>
+                        <br>
+                        <span up-row center>{{ name }}</span>
+                    </div>
                 </div>
             </div>
 
             <div class="centering">
                 <br>
                 <button up-col-xs="100%" up-col-sm="100%" up-col="32%" ng-click="next(0)">
-                    <span ng-if = "!photos">{{ name1 }}</span>
-                    <div class="up-image-container" ng-if="photos">
+                    <span ng-if = "!change && mode=='Normal'">{{ name1 }}</span>
+                    <div class="up-image-container" ng-if="change && mode=='Normal'">
                         <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture1 + ')' }"></div>
                     </div>
+                    <div ng-if="!change && mode=='Caractéristique'">
+                        <div class="up-image-container">
+                            <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture1 + ')' }"></div>
+                        </div>
+                        <span up-row center>{{ name1 }}</span>
+                    </div>
+                    <span ng-if="change && mode=='Caractéristique'">{{ traitValue1 }}</span>
                 </button>
                 
                 <button up-col-xs="100%" up-col-sm="100%" up-col="32%" ng-click="next(1)">
-                    <span ng-if = "!photos">{{ name2 }}</span>
-                    <div class="up-image-container" ng-if="photos">
+                    <span ng-if = "!change && mode=='Normal'">{{ name2 }}</span>
+                    <div class="up-image-container" ng-if="change && mode=='Normal'">
                         <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture2 + ')' }"></div>
                     </div>
+                    <div ng-if="!change && mode=='Caractéristique'">
+                        <div class="up-image-container">
+                            <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture2 + ')' }"></div>
+                        </div>
+                        <span up-row center>{{ name2 }}</span>
+                    </div>
+                    <span ng-if="change && mode=='Caractéristique'">{{ traitValue2 }}</span>
                 </button>
 
                 <button up-col-xs="100%" up-col-sm="100%" up-col="32%" ng-click="next(2)">
-                    <span ng-if = "!photos">{{ name3 }}</span>
-                    <div class="up-image-container" ng-if="photos">
+                    <span ng-if = "!change && mode=='Normal'">{{ name3 }}</span>
+                    <div class="up-image-container" ng-if="change && mode=='Normal'">
                         <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture3 + ')' }"></div>
                     </div>
+                    <div ng-if="!change && mode=='Caractéristique'">
+                        <div class="up-image-container">
+                            <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture3 + ')' }"></div>
+                        </div>
+                        <span up-row center>{{ name3 }}</span>
+                    </div>
+                    <span ng-if="change && mode=='Caractéristique'">{{ traitValue3 }}</span>
                 </button>
             </div>
         </div>

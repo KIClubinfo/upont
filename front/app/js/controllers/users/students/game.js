@@ -11,8 +11,9 @@ angular.module('upont')
 	    $scope.promos.push('Toutes');
 	    $scope.promo = 'Toutes';
 	    $scope.mode = 'Normal';
-	    $scope.modes = ['Normal'];
-	    $scope.photos = false;
+	    $scope.modes = ['Normal','Caractéristique'];
+	    $scope.change = false;
+	    $scope.trait = '';
 
 	    var timer;
 
@@ -35,7 +36,7 @@ angular.module('upont')
 			$http.post($rootScope.url + 'facegames', params).success(function(data) {
 				$scope.playing = true;
 				$scope.end = false;
-				$scope.photos = true;
+				$scope.change = true;
 				$scope.numWrong = 0;
 				$scope.position = 0;
 				$scope.start = Date.now();
@@ -53,6 +54,16 @@ angular.module('upont')
 				$scope.picture1 = '/api/' + $scope.gameData.list_users[$scope.position][0][1];
 				$scope.picture2 = '/api/' + $scope.gameData.list_users[$scope.position][1][1];
 				$scope.picture3 = '/api/' + $scope.gameData.list_users[$scope.position][2][1];
+
+				if (mode == 'Caractéristique') {
+					$scope.trait = $scope.gameData.list_users[$scope.position].trait;
+					$scope.mode = mode;
+
+					$scope.traitValue = $scope.gameData.list_users[$scope.position][$scope.answer][2];
+					$scope.traitValue1 = $scope.gameData.list_users[$scope.position][0][2];
+					$scope.traitValue2 = $scope.gameData.list_users[$scope.position][1][2];
+					$scope.traitValue3 = $scope.gameData.list_users[$scope.position][2][2];
+				}
 			}).error(function() {
 				alertify.error('La promo sélectionnée ne contient pas assez d\'élèves.');
 				return;
@@ -77,7 +88,7 @@ angular.module('upont')
 
 				$http.delete($rootScope.url + 'facegames/' + $scope.gameData.id);
 			} else {
-				$scope.photos = $scope.position < ($scope.gameData.list_users.length)/2;
+				$scope.change = $scope.position < ($scope.gameData.list_users.length)/2;
 				$scope.answer = $scope.gameData.list_users[$scope.position].answer;
 				$scope.name = $scope.gameData.list_users[$scope.position][$scope.answer][0];
 				$scope.picture = '/api/' + $scope.gameData.list_users[$scope.position][$scope.answer][1];
@@ -87,6 +98,14 @@ angular.module('upont')
 				$scope.picture1 = '/api/' + $scope.gameData.list_users[$scope.position][0][1];
 				$scope.picture2 = '/api/' + $scope.gameData.list_users[$scope.position][1][1];
 				$scope.picture3 = '/api/' + $scope.gameData.list_users[$scope.position][2][1];
+
+				if ($scope.mode == 'Caractéristique') {
+					$scope.trait = $scope.gameData.list_users[$scope.position].trait;
+					$scope.traitValue = $scope.gameData.list_users[$scope.position][$scope.answer][2];
+					$scope.traitValue1 = $scope.gameData.list_users[$scope.position][0][2];
+					$scope.traitValue2 = $scope.gameData.list_users[$scope.position][1][2];
+					$scope.traitValue3 = $scope.gameData.list_users[$scope.position][2][2];
+				}
 			}
 		};
 
