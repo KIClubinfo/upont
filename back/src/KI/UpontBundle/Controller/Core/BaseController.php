@@ -38,9 +38,10 @@ class BaseController extends \FOS\RestBundle\Controller\FOSRestController
     protected function switchClass($class = null)
     {
         // On garde en mémoire la classe précédente
-        $this->save = $this->className;
         if ($class === null)
             $class = $this->save;
+        else
+            $this->save = $this->className;
 
         // À priori, une sous ressource garde le même namespace
         $this->initialize($class, str_replace('\\', '', $this->namespace));
@@ -162,8 +163,9 @@ class BaseController extends \FOS\RestBundle\Controller\FOSRestController
         } else if ($mode == 'exclude') {
             $users = $this->em->getRepository('KIUpontBundle:Users\User')->findAll();
 
-            foreach ($recipient as $user) {
-                $notification->addRecipient($user);
+            foreach ($users as $user) {
+                if (!in_array($user, $recipient))
+                    $notification->addRecipient($user);
             }
         }
         $this->em->persist($notification);

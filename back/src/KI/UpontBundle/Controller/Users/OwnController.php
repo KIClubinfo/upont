@@ -367,7 +367,6 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         // Tri et élimination des données
         $dates = array();
         $return = array();
-        $today = mktime(0, 0, 0);
         foreach ($events as $key => $event) {
             // On enlève l'événement si l'élève l'a masqué
             if ($event->getPookies()->contains($user))

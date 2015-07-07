@@ -31,6 +31,22 @@ class Course extends Likeable
     protected $department;
 
     /**
+     * Nombre d'ECTS
+     * @ORM\Column(name="ects", type="float", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("float")
+     */
+    protected $ects;
+
+    /**
+     * Permet une sorte de modération
+     * @ORM\Column(name="active", type="boolean", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("boolean")
+     */
+    protected $active;
+
+    /**
      * Groupes de ce cours
      * @ORM\Column(name="course_groups", type="array", nullable=true)
      * @JMS\Expose
@@ -40,7 +56,7 @@ class Course extends Likeable
 
     /**
      * Liste des annales de ce cours
-     * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Publications\Exercice", mappedBy="course")
+     * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Publications\Exercice", mappedBy="course", cascade={"persist","remove"})
      * @JMS\Expose
      * @Assert\Valid()
      */
@@ -48,7 +64,7 @@ class Course extends Likeable
 
     /**
      * Liste des occurrences de ce cours
-     * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Publications\CourseItem", mappedBy="course")
+     * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Publications\CourseItem", mappedBy="course", cascade={"persist","remove"})
      * @Assert\Valid()
      */
     protected $courseitems;
@@ -68,49 +84,49 @@ class Course extends Likeable
     }
 
     /**
-     * Set startDate
+     * Set ects
      *
-     * @param integer $startDate
+     * @param float $ects
      * @return Course
      */
-    public function setStartDate($startDate)
+    public function setEcts($ects)
     {
-        $this->startDate = $startDate;
+        $this->ects = $ects;
 
         return $this;
     }
 
     /**
-     * Get startDate
+     * Get ects
      *
-     * @return integer
+     * @return float
      */
-    public function getStartDate()
+    public function getEcts()
     {
-        return $this->startDate;
+        return $this->ects;
     }
 
     /**
-     * Set endDate
+     * Set active
      *
-     * @param integer $endDate
+     * @param boolean $active
      * @return Course
      */
-    public function setEndDate($endDate)
+    public function setActive($active)
     {
-        $this->endDate = $endDate;
+        $this->active = $active;
 
         return $this;
     }
 
     /**
-     * Get endDate
+     * Get active
      *
-     * @return integer
+     * @return boolean
      */
-    public function getEndDate()
+    public function getActive()
     {
-        return $this->endDate;
+        return $this->active;
     }
 
     /**
@@ -179,7 +195,10 @@ class Course extends Likeable
      */
     public function removeGroup($group)
     {
-        $this->groups->removeElement($group);
+        if(($key = array_search($group, $this->groups)) !== false) {
+            unset($this->groups[$key]);
+        }
+        $this->groups = array_values($this->groups);
     }
 
     /**

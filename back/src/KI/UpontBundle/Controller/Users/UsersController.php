@@ -5,7 +5,6 @@ namespace KI\UpontBundle\Controller\Users;
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UsersController extends \KI\UpontBundle\Controller\Core\ResourceController
 {

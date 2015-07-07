@@ -2,16 +2,10 @@
 
 namespace KI\UpontBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use KI\UpontBundle\Entity\Image;
-
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use KI\UpontBundle\Entity\Publications\CourseItem;
 
 class ImagesController extends \KI\UpontBundle\Controller\Core\BaseController
 {
@@ -33,7 +27,6 @@ class ImagesController extends \KI\UpontBundle\Controller\Core\BaseController
         if (!$request->files->has('file'))
             throw new BadRequestHttpException('Aucun fichier fourni');
 
-        $fs = new Filesystem();
         $image = new Image();
         $file = $this->getRequest()->files->get('file');
         $image->setExt($file->guessExtension());

@@ -24,6 +24,8 @@ class CoursesControllerTest extends WebTestCase
             array('name' => 'Mécanique des familles',
                 'groups' => array(0, 1, 2, 3),
                 'semester' => 3,
+                'active' => true,
+                'ects' => 3.5,
                 'department' => 'GCC')
             );
         $response = $this->client->getResponse();
