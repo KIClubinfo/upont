@@ -11,7 +11,7 @@ angular.module('upont').filter('formatDuration', function() {
                     return Math.floor(duration / 60) + 'min';
                 else
                     return Math.floor(duration / 60) + 'min ' + Math.floor(duration % 60) + 's';
-            return duration + ' s';
+            return Math.floor(duration) + ' s';
         } else
             return null;
     };
