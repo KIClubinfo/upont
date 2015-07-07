@@ -46,11 +46,6 @@
 <div class="up-ticket">
     <h1>Liste des cours</h1>
 
-    <h2 ng-click="open = !open" class="up-clickable">
-        <i class="fa" ng-class="{'fa-plus-square-o': !open, 'fa-minus-square-o': !!open}"></i>
-        <span ng-transclude></span>
-    </h2>
-
     <div up-row left wrap padded infinite-scroll="next()" infinite-scroll-distance="3" infinite-scroll-disabled="$root.infiniteLoading">
         <div ng-repeat="course in courses.data" class="up-course-item" up-col-xs="50%" up-col-sm="50%" up-col-md="50%" up-col="33%">
             <div class="up-course-container" up-col="100%" up-row>
