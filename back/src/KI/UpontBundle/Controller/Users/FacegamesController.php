@@ -72,12 +72,13 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
 
         // Promo
         $promo = $facegame->getPromo();
-        $arrayUsers = ($promo !== null) ? $repo->findByPromo($promo) : $arrayUsers = $repo->findAll();
-        if (count($arrayUsers) < 5)
+        $arrayUsers = ($promo != null) ? $repo->findByPromo($promo) : $arrayUsers = $repo->findAll();
+
+        $max = count($arrayUsers);
+        if ($max < 5)
             return false;
 
         // Gestion du nombre de questions possibles
-        $max = count($arrayUsers);
         $nbQuestions = min(10, $max/2 - 1);
         $nbProps = 3;
 
@@ -90,9 +91,10 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
                 do {
                     $trait = $defaultTraits[rand(0, count($defaultTraits) - 1)];
                 // Si la promo est déjà établie on ne va pas la demander comme carac
-                } while ($promo !== null && $trait == 'promo');
-                $userTraits = [];
+                } while ($promo != null && $trait == 'promo');
+
                 $tempList['trait'] = $trait;
+                $userTraits = [];
             }
 
             // La réponse est décidée aléatoirement
@@ -110,22 +112,25 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
 
                     if ($mode == 'Caractéristique') {
                         $tempTrait = $this->postTraitsAction($user, $trait);
-                        if ($tempTrait === null || in_array($tempTrait, $userTraits))
-                            continue;
-
-                        $userTraits[] = $tempTrait;
                     }
                 }
                 // On vérifie que l'user existe, qu'il a une image de profil,
                 // qu'on ne propose pas le nom de la personne ayant lancé le test
+                // et qu'on ne propose pas 2 fois la même caractéristique
                 while (!isset($user)
                 || $user->getImage() == null
-                || $user->getUsername() == $userGame->getUsername());
+                || $user->getUsername() == $userGame->getUsername()
+                || ($mode == 'Caractéristique'
+                    && ($tempTrait === null || in_array($tempTrait, $userTraits))
+                    ));
 
                 $tempList[$i][0] = $user->getFirstName().' '.$user->getLastName();
                 $tempList[$i][1] = $user->getImage()->getWebPath();
-                if ($mode == 'Caractéristique')
+
+                if ($mode == 'Caractéristique') {
+                    $userTraits[] = $tempTrait;
                     $tempList[$i][2] = $tempTrait;
+                }
 
                 if ($i == $tempList['answer'])
                     $answers[] = $tempId;
