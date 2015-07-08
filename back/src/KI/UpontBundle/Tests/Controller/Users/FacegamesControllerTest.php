@@ -20,6 +20,15 @@ class FacegamesControllerTest extends WebTestCase
         $this->assertJsonResponse($response, 201);
         // On vérifie que le lieu du nouvel objet a été indiqué
         $this->assertTrue($response->headers->has('Location'), $response->headers);
+
+        $this->client->request(
+            'POST', '/facegames', array(
+                'promo' => '',
+                'mode' => ''
+            )
+        );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 201);
     }
 
     public function testGet()
@@ -62,5 +71,9 @@ class FacegamesControllerTest extends WebTestCase
         $this->client->request('DELETE', '/facegames/1');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
+
+        $this->client->request('DELETE', '/facegames/2');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 204);
     }
 }

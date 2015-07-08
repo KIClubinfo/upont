@@ -72,16 +72,17 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
 
         // Promo
         $promo = $facegame->getPromo();
-        $arrayUsers = ($promo !== null) ? $repo->findByPromo($promo) : $arrayUsers = $repo->findAll();
-        if (count($arrayUsers) < 5)
+        $arrayUsers = ($promo != null) ? $repo->findByPromo($promo) : $arrayUsers = $repo->findAll();
+
+        $max = count($arrayUsers);
+        if ($max < 5)
             return false;
 
         // Gestion du nombre de questions possibles
-        $max = count($arrayUsers);
         $nbQuestions = min(10, $max/2 - 1);
         $nbProps = 3;
 
-        $answers = []; // Array d'ids
+        // $answers = []; // Array d'ids
         while(count($list) < $nbQuestions) {
             $tempList = [];
             $ids = [];
@@ -91,8 +92,8 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
                     $trait = $defaultTraits[rand(0, count($defaultTraits) - 1)];
                 // Si la promo est déjà établie on ne va pas la demander comme carac
                 } while ($promo !== null && $trait == 'promo');
-                $userTraits = [];
                 $tempList['trait'] = $trait;
+                $userTraits = [];
             }
 
             // La réponse est décidée aléatoirement
@@ -103,32 +104,36 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
                     do {
                         $tempId = rand(0, $max - 1);
                     // On vérifie qu'on ne propose pas deux fois le même nom
-                    } while (in_array($tempId, $ids) || in_array($tempId, $answers));
+                    } while (in_array($tempId, $ids)
+                        // || in_array($tempId, $answers)
+                        );
 
                     $ids[] = $tempId;
                     $user = $arrayUsers[$tempId];
 
                     if ($mode == 'Caractéristique') {
                         $tempTrait = $this->postTraitsAction($user, $trait);
-                        if ($tempTrait === null || in_array($tempTrait, $userTraits))
-                            continue;
-
-                        $userTraits[] = $tempTrait;
                     }
                 }
                 // On vérifie que l'user existe, qu'il a une image de profil,
                 // qu'on ne propose pas le nom de la personne ayant lancé le test
+                // et qu'on ne propose pas 2 fois la même caractéristique
                 while (!isset($user)
-                || $user->getImage() == null
-                || $user->getUsername() == $userGame->getUsername());
-
+                || $user->getImage() === null
+                || $user->getPromo() === null
+                || $user->getUsername() == $userGame->getUsername()
+                || $mode == 'Caractéristique' && (($tempTrait === null || in_array($tempTrait, $userTraits, true)))
+                );
                 $tempList[$i][0] = $user->getFirstName().' '.$user->getLastName();
                 $tempList[$i][1] = $user->getImage()->getWebPath();
-                if ($mode == 'Caractéristique')
-                    $tempList[$i][2] = $tempTrait;
 
-                if ($i == $tempList['answer'])
-                    $answers[] = $tempId;
+                if ($mode == 'Caractéristique') {
+                    $userTraits[] = $tempTrait;
+                    $tempList[$i][2] = $tempTrait;
+                }
+
+                // if ($i == $tempList['answer'])
+                    // $answers[] = $tempId;
             }
             $list[] = $tempList;
         }
@@ -145,11 +150,7 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
                     break;
 
                 case 'promo':
-                    $userPromo = $user->getPromo();
-                    if ($userPromo === null)
-                        throw new BadRequestHttpException('L\'utilisateur n\'a pas de promo');
-
-                    $return = $userPromo;
+                    $return = $user->getPromo();
                     break;
 
                 case 'location':
