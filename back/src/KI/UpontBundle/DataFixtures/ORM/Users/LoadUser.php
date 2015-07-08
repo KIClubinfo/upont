@@ -32,6 +32,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setFirstName('Chaïmaa');
         $user->setLastName('Kadaoui');
         $user->setPromo('016');
+        $user->setLocation('Campu');
         $user->setDepartment('IMI');
         $user->setEnabled(true);
         $user->addGroup($this->getReference('group-user'));
@@ -47,6 +48,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setLastName('Taquet Gaspérini');
         $user->setPromo('017');
         $user->setDepartment('1A');
+        $user->setLocation('Coloc');
         $user->setEnabled(true);
         $user->setToken('VpqtuEGC');
         $user->addGroup($this->getReference('group-admin'));
@@ -81,6 +83,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setFirstName('Corentin');
         $user->setLastName('De Boisset');
         $user->setPromo('016');
+        $user->setLocation('Campu');
         $user->setDepartment('GMM');
         $user->setEnabled(true);
         $user->addGroup($this->getReference('group-admin'));
@@ -95,6 +98,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setFirstName('Henri');
         $user->setLastName('Guérin');
         $user->setPromo('016');
+        $user->setLocation('Perronet A44');
         $user->setDepartment('GCC-Archi');
         $user->setEnabled(true);
         $user->addGroup($this->getReference('group-user'));
@@ -123,6 +127,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setFirstName('Théo');
         $user->setLastName('Muzard');
         $user->setPromo('016');
+        $user->setLocation('Perronet A54');
         $user->setDepartment('VET');
         $user->setEnabled(true);
         $user->addGroup($this->getReference('group-modo'));
@@ -165,6 +170,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setFirstName('Cyrille');
         $user->setLastName('Vessaire');
         $user->setPromo('017');
+        $user->setLocation('M333');
         $user->setDepartment('1A');
         $user->setEnabled(true);
         $user->addGroup($this->getReference('group-user'));

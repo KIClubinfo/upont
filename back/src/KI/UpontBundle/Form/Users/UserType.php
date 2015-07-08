@@ -30,6 +30,7 @@ class UserType extends AbstractType
             ->add('statsPonthub')
             ->add('allowedBde')
             ->add('allowedBds')
+            ->add('details')
             ->add('image', 'imageuploader_selector');
     }
 

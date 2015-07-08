@@ -21,7 +21,8 @@ class UsersControllerTest extends WebTestCase
                 'nickname' => 'Testeur en chef',
                 'statsFoyer' => true,
                 'allowedBde' => true,
-                'allowedBds' => false
+                'allowedBds' => false,
+                'details' => 'pookie'
             )
         );
         return $this->client->getResponse();

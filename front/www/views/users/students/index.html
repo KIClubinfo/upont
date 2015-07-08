@@ -2,7 +2,8 @@
     <div up-row left>
         <a ui-sref="root.users.students.list" up-state-active>Ponts'binoscope</a>
         <a ui-sref="root.users.students.simple({slug: $root.me.username})" up-state-active="root.users.students.simple">Voir le profil</a>
-        <a ui-sref="root.users.students.modify" ui-sref-active="active" ng-if="!$root.isAdmissible">Modifier le profil</a>
+        <a ui-sref="root.users.students.modify" up-state-active ng-if="!$root.isAdmissible">Modifier le profil</a>
+        <a ui-sref="root.users.students.game" up-state-active ng-if="!$root.isAdmissible && isAdmin">Le jeu</a>
     </div>
 </div>
 
