@@ -1,14 +1,19 @@
 angular.module('upont')
     .controller('Courses_Simple_Ctrl', ['$scope', 'course', 'exercices', '$http', '$resource', function($scope, course, exercices, $http, $resource) {
         $scope.course = course;
-        $scope.course.groups.sort();
         $scope.exercices = exercices;
         $scope.predicate = 'exercice.date';
         $scope.reverse = false;
 
-        $scope.groups = $scope.course.groups.join();
-        $scope.submitCourse = function(course, groups) {
+        if ($scope.course.groups !== undefined) {
+            $scope.course.groups.sort();
+            $scope.groups = $scope.course.groups.join();
+        } else {
+            $scope.course.groups = [];
+            $scope.groups = '';
+        }
 
+        $scope.submitCourse = function(course, groups) {
             groups = groups.split(',');
             var params = {
                 semester: parseInt(course.semester),
