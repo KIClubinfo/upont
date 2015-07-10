@@ -50,7 +50,7 @@ class Group extends BaseGroup
      * Set slug
      *
      * @param string $slug
-     * @return Album
+     * @return Group
      */
     public function setSlug($slug)
     {

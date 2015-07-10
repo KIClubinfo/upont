@@ -8,18 +8,18 @@ class GroupsControllerTest extends WebTestCase
 {
     // On crée une ressource sur laquelle seront effectués les tests.
     // Ne pas oublier de supprimer à la fin avec le test DELETE.
-    // public function testPost()
-    // {
-    //     $this->client->request(
-    //         'POST',
-    //         '/groups',
-    //         array('name' => 'Tests','roles' => array('ROLE_MODO'))
-    //     );
-    //     $response = $this->client->getResponse();
-    //     $this->assertJsonResponse($response, 201);
-    //     // On vérifie que le lieu du nouvel objet a été indiqué
-    //     $this->assertTrue($response->headers->has('Location'), $response->headers);
-    // }
+    public function testPost()
+    {
+        $this->client->request(
+            'POST',
+            '/groups',
+            array('name' => 'Groupe test', 'role' => 'ROLE_USER')
+        );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 201);
+        // On vérifie que le lieu du nouvel objet a été indiqué
+        $this->assertTrue($response->headers->has('Location'), $response->headers);
+    }
 
     public function testGet()
     {
@@ -27,7 +27,7 @@ class GroupsControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
-        $this->client->request('GET', '/groups/jardinier');
+        $this->client->request('GET', '/groups/groupe-test');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
@@ -38,15 +38,18 @@ class GroupsControllerTest extends WebTestCase
 
     public function testPatch()
     {
-        $this->client->request('PATCH', '/groups/jardinier', array('roles' => array('ROLE_USER')));
+        $this->client->request('PATCH', '/groups/groupe-test',
+            array('role' => 'ROLE_ADMIN'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/groups/jardinier', array('firstName' => ''));
+        $this->client->request('PATCH', '/groups/groupe-test',
+            array('firstName' => ''));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('PATCH', '/groups/sjoajsiohaysahais-asbsksaba7', array('username' => 'miam', 'email' => '123@mail.fr'));
+        $this->client->request('PATCH', '/groups/sjoajsiohaysahais-asbsksaba7',
+            array('username' => 'miam', 'email' => '123@mail.fr'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }
@@ -56,18 +59,18 @@ class GroupsControllerTest extends WebTestCase
 
     public function testGetUser()
     {
-        $this->client->request('GET', '/groups/jardinier/users');
+        $this->client->request('GET', '/groups/groupe-test/users');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
     }
 
     public function testLink()
     {
-        $this->client->request('POST', '/groups/jardinier/users/taquet-c');
+        $this->client->request('POST', '/groups/groupe-test/users/taquet-c');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('POST', '/groups/jardinier/users/taquet-c');
+        $this->client->request('POST', '/groups/groupe-test/users/taquet-c');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
@@ -78,7 +81,7 @@ class GroupsControllerTest extends WebTestCase
 
     public function testUnlink()
     {
-        $this->client->request('DELETE', '/groups/jardinier/users/dziriqsqsqsss');
+        $this->client->request('DELETE', '/groups/groupe-test/users/dziriqsqsqsss');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
 
@@ -86,23 +89,23 @@ class GroupsControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
 
-        $this->client->request('DELETE', '/groups/jardinier/users/taquet-c');
+        $this->client->request('DELETE', '/groups/groupe-test/users/taquet-c');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
     }
 
-    // public function testDelete()
-    // {
-    //     $this->client->request('DELETE', '/groups/sjoajsiohaysahais-asbsksaba7');
-    //     $response = $this->client->getResponse();
-    //     $this->assertJsonResponse($response, 404);
+    public function testDelete()
+    {
+        $this->client->request('DELETE', '/groups/sjoajsiohaysahais-asbsksaba7');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 404);
 
-    //     $this->client->request('DELETE', '/groups/jardinier');
-    //     $response = $this->client->getResponse();
-    //     $this->assertJsonResponse($response, 204);
+        $this->client->request('DELETE', '/groups/groupe-test');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 204);
 
-    //     $this->client->request('DELETE', '/groups/jardinier');
-    //     $response = $this->client->getResponse();
-    //     $this->assertJsonResponse($response, 404);
-    // }
+        $this->client->request('DELETE', '/groups/groupe-test');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 404);
+    }
 }
