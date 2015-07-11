@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('Courses_List_Ctrl', ['$scope', 'courses', 'Paginate', '$http', function($scope, courses, Paginate, $http) {
+    .controller('Courses_List_Ctrl', ['$scope', 'courses', 'followed', 'Paginate', '$http', '$resource', function($scope, courses, followed, Paginate, $http, $resource) {
         $scope.courses = courses;
         $scope.modo = false;
         $scope.search = {
@@ -7,6 +7,23 @@ angular.module('upont')
             semester: 'all',
             ects: 'all',
         };
+
+        $scope.load = function(followedCourses) {
+            if (followedCourses.length === 0) {
+                $scope.followed = null;
+                $scope.followedIds = null;
+                return;
+            }
+            $scope.followed = {};
+            $scope.followedIds = {};
+            for (var key in followedCourses){
+                if (followedCourses[key].course !== undefined) {
+                    $scope.followedIds[followedCourses[key].course.slug] = (followedCourses[key].group !== undefined) ? followedCourses[key].group : true;
+                    $scope.followed[followedCourses[key].course.slug] = followedCourses[key].course;
+                }
+            }
+        };
+        $scope.load(followed);
 
         $scope.toggleModo = function() {
             $scope.modo = !$scope.modo;
@@ -108,6 +125,52 @@ angular.module('upont')
                 $scope.isLoading = false;
             });
         };
+
+        $scope.attend = function(course) {
+            if ($scope.isLoading) {
+                return;
+            }
+            $scope.isLoading = true;
+
+            // S'il y a plusieurs groupes pour ce cours on demande lequel sera suivi
+            if (!empty(course.groups) && course.groups[0] != '0') {
+                alertify.prompt('Dans quel groupe est-tu ? Groupes valides : ' + course.groups.join(','), function(e, str){
+                    if (e) {
+                        $http.post(apiPrefix + 'courses/' + course.slug + '/attend', {group: str}).success(function() {
+                            $resource(apiPrefix + 'own/courses').query(function(data) {
+                                $scope.load(data);
+                                $scope.isLoading = false;
+                            });
+                        }).error(function(){
+                            alertify.error('Groupe invalide !');
+                            $scope.isLoading = false;
+                        });
+                    } else {
+                        $scope.isLoading = false;
+                    }
+                });
+            } else {
+                $resource(apiPrefix + 'courses/' + course.slug + '/attend').save(function() {
+                    $resource(apiPrefix + 'own/courses').query(function(data) {
+                        $scope.load(data);
+                        $scope.isLoading = false;
+                    });
+                });
+            }
+        };
+
+        $scope.leave = function(course) {
+            if ($scope.isLoading) {
+                return;
+            }
+            $scope.isLoading = true;
+            $resource(apiPrefix + 'courses/' + course.slug + '/attend').delete(function() {
+                $resource(apiPrefix + 'own/courses').query(function(data) {
+                    $scope.load(data);
+                    $scope.isLoading = false;
+                });
+            });
+        };
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
@@ -140,6 +203,9 @@ angular.module('upont')
                 resolve: {
                     courses: ['Paginate', function(Paginate) {
                         return Paginate.get('courses?sort=name', 20);
+                    }],
+                    followed: ['$resource', function($resource) {
+                        return $resource(apiPrefix + 'own/courses').query().$promise;
                     }]
                 },
             });

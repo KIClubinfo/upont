@@ -23,7 +23,7 @@ class CoursesControllerTest extends WebTestCase
             '/courses',
             array('name' => 'Mécanique des familles',
                 'groups' => array(0, 1, 2, 3),
-                'semester' => 3,
+                'semester' => 'Année complète',
                 'active' => true,
                 'ects' => 3.5,
                 'department' => 'GCC')

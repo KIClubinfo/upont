@@ -119,12 +119,11 @@ class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceCon
             $this->em->flush();
 
             // On crée une notification
-            $allUsers = $this->em->getRepository('KIUpontBundle:Users\User')->findAll();
+            $courseUsers = $this->em->getRepository('KIUpontBundle:Users\CourseUser')->findBy(array('course' => $course));
             $users = array();
 
-            foreach ($allUsers as $candidate) {
-                if ($candidate->getCourses()->contains($return['item']))
-                    $users[] = $candidate;
+            foreach ($courseUsers as $courseUser) {
+                $users[] = $couserUser->getUser();
             }
 
             $this->notify(

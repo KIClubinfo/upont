@@ -6,7 +6,7 @@
     <div class="up-user-hover" ng-show="hover">
         <div up-row wrap>
             <div up-col="30%" class="up-image-container">
-                <div class="up-image" ng-style="{ 'background-image' : 'url({{ user.image_url | urlFile }})' }"></div>
+                <div class="up-image" ng-style="{ 'background-image' : 'url({{ user.image_url | thumb | urlFile }})' }"></div>
             </div>
             <div up-col="70%" class="up-details">
                 <h3>{{ user.first_name }} {{ user.last_name }}</h3>

@@ -15,9 +15,9 @@ class Course extends Likeable
 {
     /**
      * Semestre (0: toute l'année, 1: premier, 2: second)
-     * @ORM\Column(name="semester", type="integer", nullable=true)
+     * @ORM\Column(name="semester", type="string", nullable=true)
      * @JMS\Expose
-     * @Assert\Type("integer")
+     * @Assert\Type("string")
      */
     protected $semester;
 
@@ -132,7 +132,7 @@ class Course extends Likeable
     /**
      * Set semester
      *
-     * @param integer $semester
+     * @param string $semester
      * @return Course
      */
     public function setSemester($semester)
@@ -145,7 +145,7 @@ class Course extends Likeable
     /**
      * Get semester
      *
-     * @return integer
+     * @return string
      */
     public function getSemester()
     {

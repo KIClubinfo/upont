@@ -128,12 +128,11 @@ class CoursesController extends \KI\UpontBundle\Controller\Core\ResourceControll
      * @Route\Post("/courses/{slug}/attend")
      */
     public function postCourseUserAction($slug) {
-        $user = $this->get('security.context')->getToken()->getUser();
         $course = $this->findBySlug($slug);
 
         // Vérifie que la relation n'existe pas déjà
         $repoLink = $this->em->getRepository('KIUpontBundle:Users\CourseUser');
-        $link = $repoLink->findBy(array('course' => $course, 'user' => $user));
+        $link = $repoLink->findBy(array('course' => $course, 'user' => $this->user));
 
         // On crée la relation si elle n'existe pas déjà
         if (count($link) != 0)
@@ -142,24 +141,19 @@ class CoursesController extends \KI\UpontBundle\Controller\Core\ResourceControll
         // Création de l'entité relation
         $link = new CourseUser();
         $link->setCourse($course);
-        $link->setUser($user);
+        $link->setUser($this->user);
 
-        // Validation des données annexes
-        $form = $this->createForm(new CourseUserType(), $link, array('method' => 'POST'));
-        $form->handleRequest($this->getRequest());
-
-        if ($form->isValid()) {
-            $this->em->persist($link);
-            $this->em->flush();
+        if ($this->getRequest()->request->has('group')) {
+            $link->setGroup($this->getRequest()->request->get('group'));
 
             if (!in_array($link->getGroup(), $link->getCourse()->getGroups()))
-            throw new BadRequestHttpException('Ce groupe n\'existe pas.');
-
-            return $this->jsonResponse(null, 204);
-        } else {
-            $this->em->detach($link);
-            return $this->jsonResponse($form, 400);
+                throw new BadRequestHttpException('Ce groupe n\'existe pas.');
         }
+
+        $this->em->persist($link);
+        $this->em->flush();
+
+        return $this->jsonResponse(null, 204);
     }
 
     /**
