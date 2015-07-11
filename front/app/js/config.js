@@ -3,24 +3,32 @@ angular.module('upont')
         //On est obligé d'utiliser $location pour les changements d'url parcque le router n'est initialisé qu'après $http
         return {
             responseError: function(response) {
-                if (response.status == 401) {
+                switch (response.status) {
+                case 401:
                     StorageService.remove('token');
                     StorageService.remove('droits');
                     $rootScope.isLogged = false;
                     $rootScope.urlRef = $location.path();
                     $location.path('/');
-                }
-                if (response.status == 500){
+                    break;
+                case 403:
+                    $location.path('/403');
+                    break;
+                case 404:
+                    $location.path('/404');
+                    break;
+                case 500:
                     $location.path('/erreur');
-                }
-                if (response.status == 503) {
+                    break;
+                case 503:
                     if (response.data.until)
                         StorageService.set('maintenance', response.data.until);
-                    else StorageService.remove('maintenance');
+                    else
+                        StorageService.remove('maintenance');
                     $location.path('/maintenance');
+                    $rootScope.maintenance = true;
+                    break;
                 }
-                if (response.status == 404)
-                    $location.path('/404');
                 return $q.reject(response);
             }
         };
@@ -34,6 +42,7 @@ angular.module('upont')
             if (StorageService.get('token') && jwtHelper.isTokenExpired(StorageService.get('token'))) {
                 $rootScope.isLogged = false;
                 $rootScope.isAdmin = false;
+                $rootScope.isAdmissible = false;
                 StorageService.remove('token');
                 StorageService.remove('droits');
                 return $q.reject(config);
@@ -54,13 +63,17 @@ angular.module('upont')
             .state('root', {
                 abstract: true,
                 url: '/',
-                template: '<div ui-view="aside" class="up-invisible-xs"></div>'+
-                    '<div ui-view="topbar" class="up-invisible-sm up-invisible-md up-invisible-lg"></div>'+
+                template: '<div ui-view="aside" ng-if="!isExterieur" class="up-invisible-xs"></div>'+
+                    '<div ui-view="topbar" ng-if="!isExterieur" class="up-invisible-sm up-invisible-md up-invisible-lg"></div>'+
                     '<div ui-view></div>',
             })
             .state('root.403', {
                 url: '403',
                 templateUrl: 'views/public/403.html',
+            })
+            .state('root.404', {
+                url: '404',
+                templateUrl: 'views/public/404.html',
             })
             .state('root.418', {
                 url: '418',
@@ -69,10 +82,6 @@ angular.module('upont')
             .state('root.erreur', {
                 url: 'erreur',
                 templateUrl: 'views/public/500.html',
-            })
-            .state('root.maintenance', {
-                url: 'maintenance',
-                templateUrl: 'views/public/503.html',
             })
             .state('root.users', {
                 url: '',
@@ -84,9 +93,12 @@ angular.module('upont')
                     '':{
                         template: '<div class="up-main-view" ui-view up-fill-window></div>'
                     },
-                    aside:{
+                    topbar: {
+                        templateUrl: 'views/public/top-bar.html'
+                    },
+                    aside: {
                         templateUrl: 'views/users/aside.html',
-                        controller: 'Search_Ctrl'
+                        controller: 'Aside_Ctrl'
                     }
                 }
             })
@@ -96,104 +108,30 @@ angular.module('upont')
                 template: '<div ui-view></div>'
             });
     }])
-    .run(['$rootScope', 'StorageService', '$state', '$interval',  'jwtHelper', '$resource', '$location', 'Migration', function($rootScope, StorageService, $state, $interval, jwtHelper, $resource, $location, Migration) {
-        // Data à charger au lancement
-        $rootScope.selfClubs = [];
-
-        $rootScope.init = function(username) {
-            // Données perso
-            $resource(apiPrefix + 'users/:slug', {slug: username }).get(function(data){
-                $rootScope.me = data;
-                Migration.v211(data);
-            });
-
-            // Données perso
-            $resource(apiPrefix + 'users/:slug', {slug: username }).get(function(data){
-                $rootScope.me = data;
-                Migration.v211(data);
-            });
-
-            // Version de uPont
-            $resource(apiPrefix + 'version').get(function(data){
-                $rootScope.version = data;
-            });
-            // Solde foyer
-            $resource(apiPrefix + 'foyer/balance').get(function(data){
-                $rootScope.foyer = data.balance;
-            });
-
-            // Gens en ligne
-            reloadOnline = function() {
-                $resource(apiPrefix + 'online').query(function(data){
-                    $rootScope.online = data;
-                });
-            };
-            reloadOnline();
-            $interval(reloadOnline, 60000);
-
-            // On récupère les clubs de l'utilisateurs pour déterminer ses droits de publication
-            $resource(apiPrefix + 'users/:slug/clubs', {slug: username }).query(function(data){
-                $rootScope.selfClubs = data;
-            });
-
-            // On récupère les clubs de l'utilisateurs pour déterminer ses droits de publication
-            $resource(apiPrefix + 'users/:slug/clubs', {slug: username }).query(function(data){
-                $rootScope.selfClubs = data;
-            });
-        };
-
-        // Chargement du token à partir du localStorage
-        if (StorageService.get('token') && !jwtHelper.isTokenExpired(StorageService.get('token'))) {
-            $rootScope.isLogged = true;
-            $rootScope.isAdmin = (StorageService.get('droits').indexOf('ROLE_ADMIN') != -1) ? true : false;
-            $rootScope.init(jwtHelper.decodeToken(StorageService.get('token')).username);
-        } else {
-            $rootScope.isLogged = false;
-            $rootScope.isAdmin = false;
-            StorageService.remove('token');
-            StorageService.remove('droits');
-        }
+    .run(['$rootScope', 'StorageService', 'Permissions', '$state', '$interval', '$resource', '$location', '$window', '$sce', function($rootScope, StorageService, Permissions, $state, $interval, $resource, $location, $window, $sce) {
+        Permissions.load();
 
         // Déconnexion
         $rootScope.logout = function() {
-            StorageService.remove('token');
-            StorageService.remove('roles');
-            $rootScope.isLogged = false;
+            Permissions.remove();
+            // On arrête de regarder en permanence qui est en ligne
+            $interval.cancel($rootScope.reloadOnline);
             $state.go('root.login');
         };
 
-        $rootScope.isState = function(name){
-            return $state.is(name);
-        };
-
-
-
-        // Vérifie si l'utilisateur a les droits sur un club
-        $rootScope.hasRight = function(slug) {
-            if ($rootScope.isAdmin)
-                return true;
-
-            for (var i = 0; i < $rootScope.selfClubs.length; i++) {
-                if ($rootScope.selfClubs[i].club.slug == slug)
-                    return true;
-            }
-            return false;
-        };
-
-        $rootScope.is = function(role) {
-            if (StorageService.get('droits').indexOf('ROLE_ADMIN') != -1)
-                return true;
-
-            // Le modo a tous les droits sauf ceux de l'admin
-            if (StorageService.get('droits').indexOf('ROLE_MODO') != -1 && role != 'ROLE_ADMIN')
-                return true;
-
-            return StorageService.get('droits').indexOf(role) != -1;
-        };
+        // Vérifie si l'utilisateur a les droits sur un club/role
+        $rootScope.hasClub = function(slug) { return Permissions.hasClub(slug); };
+        $rootScope.hasRight = function(role) { return Permissions.hasRight(role); };
 
         // Diverses variables globales
         $rootScope.url = location.origin + apiPrefix;
-        $rootScope.promos = ['014', '015', '016', '017'];
+        $rootScope.promos = $window.promos;
+        $rootScope.departments = $window.departments;
+        $rootScope.origins = $window.origins;
+        $rootScope.countries = $window.countries;
+        $rootScope.displayTabs = true;
+        $rootScope.showTopMenu = false;
+
         $rootScope.searchCategory = 'Assos';
 
         // Récupération du thème s'il est déjà set
@@ -213,6 +151,23 @@ angular.module('upont')
                 $rootScope.theme = 'dark';
                 StorageService.set('theme', 'dark');
             }
+        };
+
+        // Easter egg
+        $rootScope.surprise = (Math.random()*1000 == 314);
+
+        // Zoom sur les images
+        $rootScope.zoom = false;
+        $rootScope.zoomUrl = null;
+        $rootScope.zoomOut = function(event) {
+            if (event.which == 1) {
+                $rootScope.zoom = false;
+                $rootScope.zoomUrl = null;
+            }
+        };
+        $rootScope.zoomIn = function(url) {
+            $rootScope.zoom = true;
+            $rootScope.zoomUrl = $sce.trustAsUrl(url);
         };
 
         // Au changement de page
@@ -254,4 +209,7 @@ angular.module('upont')
         $rootScope.$on('$stateNotFound', function(event, toState, toParams, fromState, fromParams) {
             $state.go('root.404');
         });
-    }]);
+    }])
+    .run(function(redactorOptions) {
+        redactorOptions.imageUpload = apiPrefix + 'images?bearer=' + localStorage.getItem('token');
+    });

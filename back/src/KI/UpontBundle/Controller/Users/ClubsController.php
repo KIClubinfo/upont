@@ -83,7 +83,11 @@ class ClubsController extends \KI\UpontBundle\Controller\Core\SubresourceControl
      */
     public function patchClubAction($slug)
     {
-        return $this->patch($slug, $this->checkClubMembership($slug));
+        return $this->patch(
+            $slug,
+            $this->checkClubMembership($slug)
+            && !$this->get('security.context')->isGranted('ROLE_EXTERIEUR')
+            );
     }
 
     /**
@@ -154,7 +158,8 @@ class ClubsController extends \KI\UpontBundle\Controller\Core\SubresourceControl
      */
     public function postClubUserAction($slug, $id)
     {
-        if (!($this->get('security.context')->isGranted('ROLE_ADMIN') || $this->checkClubMembership($slug)))
+        if (!($this->get('security.context')->isGranted('ROLE_ADMIN')
+            || $this->checkClubMembership($slug)))
             throw new AccessDeniedException('Accès refusé');
 
         // On récupère les deux entités concernées

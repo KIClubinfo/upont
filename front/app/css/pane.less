@@ -1,0 +1,52 @@
+// Panneau latéral rétractable
+.up-pane-container {
+    z-index: 1;
+    position: fixed;
+    right: -@paneWidth;
+    top: 0;
+    height: 100%;
+    width: @paneWidth;
+    background: rgba(red(@col-aside-bckgnd), green(@col-aside-bckgnd), blue(@col-aside-bckgnd), 0.9);
+    color: @col-aside;
+    transition: all 300ms ease;
+
+    &.up-pane-shown {
+        right: 0;
+
+        .up-pane-content {
+            box-shadow: -5px 0px 5px -5px black;
+        }
+    }
+
+    .up-pane-toggle {
+        z-index: 2;
+        position: absolute;
+        left: -1.5em;
+        font-size: 2em;
+        background: rgba(red(@col-aside-bckgnd), green(@col-aside-bckgnd), blue(@col-aside-bckgnd), 0.9);
+        width: 1.5em;
+        text-align: center;
+        border-radius: 0 0 0 5px;
+        cursor: pointer;
+
+        &:hover {
+            color: white;
+        }
+    }
+
+    .up-pane {
+        height: 100%;
+
+        .up-pane-title {
+            width: 100%;
+            height: 2em;
+            padding-left: 10px;
+            text-align: center;
+        }
+
+        .up-pane-content {
+            padding: 10px;
+            height: 100%;
+        }
+    }
+}

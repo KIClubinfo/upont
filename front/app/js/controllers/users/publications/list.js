@@ -7,6 +7,7 @@ angular.module('upont')
     .controller('Publications_List_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'newsItems', 'events', 'Paginate', function($scope, $rootScope, $resource, $http, newsItems, events, Paginate) {
         $scope.events = events;
         $scope.newsItems = newsItems;
+        $scope.edit = null;
 
         $scope.next = function() {
             Paginate.next($scope.newsItems).then(function(data){
@@ -115,10 +116,31 @@ angular.module('upont')
                 });
             }
         };
+
+        $scope.enableModify = function(post) {
+            $scope.edit = post;
+        };
+
+        $scope.modify = function(post) {
+            var item = post.start_date !== undefined ? 'events' : 'newsitems' ;
+            $http.patch(apiPrefix + item + '/' + post.slug, {text: post.text}).success(function(data){
+                alertify.success('Publication modifiée !');
+                $scope.edit = null;
+            });
+        };
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
             .state('root.users.publications', {
+                url: '',
+                template: '<div ui-view></div>',
+                abstract: true,
+                data: {
+                    title: 'Accueil - uPont',
+                    top: true
+                }
+            })
+            .state('root.users.publications.index', {
                 url: '',
                 templateUrl: 'views/users/publications/index.html',
                 data: {
@@ -127,14 +149,41 @@ angular.module('upont')
                 },
                 controller: 'Publications_Ctrl',
                 resolve: {
-                    newsItems: ['Paginate', function(Paginate) {
+                    newsItems: ['Paginate', 'Permissions', '$rootScope', function(Paginate, Permissions, $rootScope) {
+
+                        // Si c'est l'administration on ne charge que le seul club de l'user actuel
+                        if (Permissions.hasRight('ROLE_EXTERIEUR'))
+                            return Paginate.get('clubs/' + Permissions.username() + '/newsitems?sort=-date', 10);
                         return Paginate.get('own/newsitems?sort=-date', 10);
                     }],
-                    events: ['Paginate', function(Paginate) {
+                    events: ['Paginate', 'Permissions', '$rootScope', function(Paginate, Permissions, $rootScope) {
+                        // Si c'est l'administration on ne charge que le seul club de l'user actuel
+                        if (Permissions.hasRight('ROLE_EXTERIEUR'))
+                            return Paginate.get('clubs/' + Permissions.username() + '/events?sort=-date', 10);
                         return Paginate.get('own/events');
                     }],
                     messages: ['Paginate', function(Paginate) {
-                        return Paginate.get('newsitems?sort=-date&limit=10&name=null');
+                        return Paginate.get('newsitems?sort=-date&limit=10&name=message');
+                    }]
+                }
+            })
+            .state('root.users.publications.simple', {
+                url: 'publications/:slug',
+                templateUrl: 'views/users/publications/list.html',
+                data: {
+                    title: 'Publication - uPont',
+                    top: true
+                },
+                controller: 'Publications_Ctrl',
+                resolve: {
+                    newsItems: ['Paginate', '$stateParams', function(Paginate, $stateParams) {
+                        return Paginate.get('newsitems?slug=' + $stateParams.slug);
+                    }],
+                    events: ['Paginate', '$stateParams', function(Paginate, $stateParams) {
+                        return Paginate.get('events?slug=' + $stateParams.slug);
+                    }],
+                    messages: ['Paginate', '$stateParams', function(Paginate, $stateParams) {
+                        return Paginate.get('newsitems?slug=' + $stateParams.slug);
                     }]
                 }
             });

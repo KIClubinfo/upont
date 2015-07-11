@@ -1,10 +1,16 @@
-<div up-row left wrap class="up-assos">
-    <div up-col="33%" up-col-sm="50%" up-col-xs="100%" class="up-ticket" up-row padded ng-repeat="club in clubs" ui-sref="root.users.assos.simple.publications({slug: club.slug})">
-        <div up-col="40%">
-            <img class="img-responsive" ng-src="{{ club.image_url | urlFile }}" alt="" />
-        </div>
-        <div up-col="60%">
-            <h3>{{ club.name }}</h3>
+<div up-row left wrap padded>
+    <div class="up-assos" up-col="25%" up-col-md="33%" up-col-sm="50%" up-col-xs="100%"
+         ui-sref="root.users.assos.simple.publications({slug: club.slug})"
+         ng-repeat="club in clubs" ng-if="club.active">
+        <div class="up-ticket" style="height: 100%">
+            <div up-row padded>
+                <div up-col="40%" class="up-image-container">
+                    <div class="up-image" ng-style="{ 'background-image' : 'url({{ club.image_url | urlFile }})' }"></div>
+                </div>
+                <div up-col="60%">
+                    <h3>{{ club.full_name }}</h3>
+                </div>
+            </div>
         </div>
     </div>
 </div>

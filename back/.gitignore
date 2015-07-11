@@ -12,7 +12,6 @@
 /coverage/
 /composer.phar
 cache
-composer.lock
 app/SymfonyRequirements.php
 app/var/jwt/private.pem
 app/var/jwt/public.pem

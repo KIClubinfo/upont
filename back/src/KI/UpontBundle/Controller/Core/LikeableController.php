@@ -5,6 +5,8 @@ namespace KI\UpontBundle\Controller\Core;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use KI\UpontBundle\Entity\Core\Comment;
+use KI\UpontBundle\Entity\Core\Likeable;
+use KI\UpontBundle\Entity\Publications\Post;
 
 // Fonctions de like/dislike/commentaire
 class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
@@ -12,10 +14,12 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
     // Précise si une classe est likeable ou non
     protected function isLikeable($item)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_USER'))
+        if (!$this->get('security.context')->isGranted('ROLE_USER')
+            || $this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
+            || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
             throw new AccessDeniedException('Accès refusé');
 
-        if (!is_a($item, 'Likeable'))
+        if (!$item instanceof Likeable)
             return;
     }
 
@@ -26,20 +30,24 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
     protected function autoInitialize($object)
     {
         switch ($object) {
-        case 'clubs'    : $this->initialize('Club', 'Users'); break;
-        case 'newsitems': $this->initialize('Newsitem', 'Publications'); break;
-        case 'events'   : $this->initialize('Event', 'Publications'); break;
-        case 'courses'  : $this->initialize('Course', 'Publications'); break;
-        case 'exercices': $this->initialize('Exercice', 'Publications'); break;
-        case 'movies'   : $this->initialize('Movie', 'Ponthub'); break;
-        case 'series'   : $this->initialize('Serie', 'Ponthub'); break;
-        case 'episodes' : $this->initialize('Episode', 'Ponthub'); break;
-        case 'albums'   : $this->initialize('Album', 'Ponthub'); break;
-        case 'musics'   : $this->initialize('Music', 'Ponthub'); break;
-        case 'games'    : $this->initialize('Game', 'Ponthub'); break;
-        case 'softwares': $this->initialize('Software', 'Ponthub'); break;
-        case 'others'   : $this->initialize('Other', 'Ponthub'); break;
-        case 'comments' : $this->initialize('Comment', 'Core'); break;
+        case 'clubs'      : $this->initialize('Club', 'Users'); break;
+        case 'experiences': $this->initialize('Experience', 'Users'); break;
+        case 'newsitems'  : $this->initialize('Newsitem', 'Publications'); break;
+        case 'events'     : $this->initialize('Event', 'Publications'); break;
+        case 'courses'    : $this->initialize('Course', 'Publications'); break;
+        case 'exercices'  : $this->initialize('Exercice', 'Publications'); break;
+        case 'fixes'      : $this->initialize('Fix', 'Publications'); break;
+        case 'tutos'      : $this->initialize('Tuto', 'Publications'); break;
+        case 'movies'     : $this->initialize('Movie', 'Ponthub'); break;
+        case 'series'     : $this->initialize('Serie', 'Ponthub'); break;
+        case 'episodes'   : $this->initialize('Episode', 'Ponthub'); break;
+        case 'albums'     : $this->initialize('Album', 'Ponthub'); break;
+        case 'musics'     : $this->initialize('Music', 'Ponthub'); break;
+        case 'games'      : $this->initialize('Game', 'Ponthub'); break;
+        case 'softwares'  : $this->initialize('Software', 'Ponthub'); break;
+        case 'others'     : $this->initialize('Other', 'Ponthub'); break;
+        case 'youtubes'   : $this->initialize('Youtube', 'Foyer'); break;
+        case 'comments'   : $this->initialize('Comment', 'Core'); break;
 
         default: return;
         }
@@ -217,6 +225,9 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
      */
     public function getCommentsView($object, $slug)
     {
+        if (!$this->get('security.context')->isGranted('ROLE_USER'))
+            throw new AccessDeniedException('Accès refusé');
+
         $this->autoInitialize($object);
         $item = $this->findBySlug($slug);
         $comments = $item->getComments();
@@ -258,6 +269,18 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
 
     protected function postComment($item)
     {
+        if (!$this->get('security.context')->isGranted('ROLE_USER')
+            || $this->get('security.context')->isGranted('ROLE_ADMISSIBLE'))
+            throw new AccessDeniedException('Accès refusé');
+
+        // Un extérieur ne peut commenter que ses propres posts
+        if ($this->get('security.context')->isGranted('ROLE_EXTERIEUR')) {
+            if (!$item instanceof Post)
+                throw new AccessDeniedException('Accès refusé');
+            if ($item->getAuthorUser() != $this->user)
+                throw new AccessDeniedException('Accès refusé');
+        }
+
         $request = $this->getRequest()->request;
 
         if (!$request->has('text'))
@@ -328,6 +351,9 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
      */
     public function patchCommentView($id)
     {
+        if (!$this->get('security.context')->isGranted('ROLE_USER'))
+            throw new AccessDeniedException('Accès refusé');
+
         // L'id doit être entier
         if (!($id > 0))
             return $this->jsonResponse(null, 404);
@@ -340,6 +366,11 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
 
         $this->initialize('Comment', 'Core');
         $comment = $this->findBySlug($id);
+
+        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')
+            && $this->user != $comment->getAuthor())
+            throw new AccessDeniedException('Accès refusé');
+
         $comment->setText($request->get('text'));
         $this->em->flush();
         return $this->jsonResponse(null, 204);
@@ -361,12 +392,20 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
      */
     public function deleteCommentView($id)
     {
+        if (!$this->get('security.context')->isGranted('ROLE_USER'))
+            throw new AccessDeniedException('Accès refusé');
+
         // L'id doit être entier
         if (!($id > 0))
             return $this->jsonResponse(null, 404);
 
         $this->initialize('Comment', 'Core');
         $comment = $this->findBySlug($id);
+
+        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')
+            && $this->user != $comment->getAuthor())
+            throw new AccessDeniedException('Accès refusé');
+
         $this->em->remove($comment);
         $this->em->flush();
         return $this->jsonResponse(null, 204);
@@ -490,6 +529,10 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
      */
     public function getCommentsSubView($object, $slug, $subobject, $subslug)
     {
+        if (!$this->get('security.context')->isGranted('ROLE_USER')
+            || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+            throw new AccessDeniedException('Accès refusé');
+
         $this->autoInitialize($object);
         $this->findBySlug($slug);
         $this->autoInitialize($subobject);

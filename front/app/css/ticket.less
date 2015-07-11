@@ -1,50 +1,48 @@
 .up-ticket {
     position: relative;
-    padding: 1.5em 2em;
-    z-index:10;
-
-    &:before{
-        content:'';
-        position:absolute;
-        top:0.5em;
-        right:1em;
-        left:1em;
-        bottom:0.5em;
-        background: @col-ticket;
-        border: solid 1px @col-ticket-border;
-        z-index:-2;
+    margin: 1em;
+    padding: 1em;
+    background: @col-ticket;
+    border: solid 1px @col-ticket-border;
+    line-height: 1.2em;
+    
+    h1, h2, h3, h4, h5, h6 {
+        line-height: 1em;
     }
-    a{
+
+    &.divided {
+        padding: 0;
+        
+    }
+    
+    a {
         cursor: pointer;
         color: @col-main;
         &:hover {
             color: @col-font;
         }
     }
-    &.divided{
-        padding:0.5em 1em !important;
-    }
     .up-ticket-header{
-        position:relative;
-        background: linear-gradient(to bottom , transparent, rgba(0, 0, 0, 0.6));
-        overflow:hidden;
-        height:7.5em;
+        position: relative;
+        overflow: hidden;
+        height: 7.5em;
+        
         .background{
             filter: blur(4px);
             overflow: hidden;
-            position:absolute;
-            top:0; bottom:0; right:0; left:0;
-            background-size: cover;
-            background-position: center center;
-            z-index:-2;
+            position: absolute;
+            top: 0; bottom: 0; right: 0; left: 0;
+            background-size: cover !important;
         }
         .up-img-home{
-            width:5.5em;
-            height:5.5em;
-            border:solid 2px #808080;
-            margin:1em auto;
+            width: 5.5em;
+            height: 5.5em;
+            border: solid 2px #808080;
+            margin: 1em auto;
             background-size: cover;
             background-position: center center;
+            position: relative;
+            z-index: 1;
         }
     }
     .up-ticket-title{
@@ -61,7 +59,7 @@
         line-height: 1.9em;
         color:#fff;
         border-radius: 100%;
-        z-index:11;
+        z-index: 1;
     }
     .up-ticket-body{
         position:relative;
@@ -112,9 +110,7 @@
     }
 
     &.rounded-top {
-        &:before{
-            border-radius: 5px 5px 0px 0px;
-        }
+        border-radius: 5px 5px 0px 0px;
         .up-ticket-header {
             border-radius: 5px 5px 0px 0px;
         }

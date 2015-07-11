@@ -1,48 +1,54 @@
 <div class="up-user-banner" up-col="100%">
-    <div class="up-user-image-container">
+    <div class="up-user-image-container up-clickable" ng-click="$root.zoomIn('/api/' + user.image_url)">
         <div class="up-user-image" ng-style="{ 'background-image' : 'url({{ user.image_url | urlFile }})' }"></div>
     </div>
     <h1>{{ user.nick }}</h1>
 </div>
 
 <div up-row wrap>
-    <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="25%">
-        <div class="up-ticket">
-            <h2>Informations</h2>
+    <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="33%">
+        <div up-row wrap>
+            <div up-col-xs="100%" up-col-sm="50%" up-col-md="50%" up-col="100%" class="up-ticket">
+                <h2>Informations</h2>
                 <div class="up-user-infos" up-row wrap padded>
-                    <div up-col="100%"><i class="fa fa-graduation-cap"></i> Promo '{{ user.promo }}</div>
+                    <div up-col="100%" ng-if="user.promo"><i class="fa fa-graduation-cap"></i> Promo '{{ user.promo }}</div>
                     <div up-col="100%" ng-if="user.department"><i class="fa fa-institution"></i> {{ user.department }}</div>
                     <div up-col="100%" ng-if="user.nationality"><i class="fa fa-globe"></i> {{ user.nationality }}</div>
                     <div up-col="100%" ng-if="user.phone"><i class="fa fa-phone"></i> <a ng-href="tel:{{ user.phone }}">{{ user.phone }}</a></div>
-                    <div up-col="100%" ng-if="user.email"><i class="fa fa-envelope"></i> <a ng-hreh="mailto:{{ user.email }}">{{ user.email }}</a></div>
-                    <div up-col="100%" ng-if="user.skype"><i class="fa fa-skype"></i> <a href="skype:{{ user.skype }}">{{ user.skype }}</a></div>
+                    <div up-col="100%" ng-if="user.email"><i class="fa fa-envelope"></i> <a ng-href="mailto:{{ user.email }}">{{ user.email }}</a></div>
+                    <div up-col="100%" ng-if="user.skype"><i class="fa fa-skype"></i> <a ng-href="skype:{{ user.skype }}">{{ user.skype }}</a></div>
                     <div up-col="100%" ng-if="user.location"><i class="fa fa-map-marker"></i> {{ user.location }}</div>
                     <div up-col="100%" ng-if="user.origin"><i class="fa fa-street-view"></i> {{ user.origin }}</div>
                 </div>
-        </div>
-        <div class="up-ticket">
-            <h2>Clubs et assos</h2>
+            </div>
+            <div up-col-xs="100%" up-col-sm="50%" up-col-md="50%" up-col="100%" class="up-ticket" ng-if="clubs.length !== 0">
+                <h2>Clubs et assos</h2>
 
-            <div up-row wrap padded>
-                <div ng-repeat="membership in clubs" class="up-club-image-container" up-col="33%"
-                     ui-sref="root.users.assos.simple.publications({slug: membership.club.slug})" title="{{ membership.role }}">
-                    <div class="up-club-image" ng-style="{'background-image': 'url({{ membership.club.image_url | urlFile }})' }"></div>
+                <div up-row wrap center padded>
+                    <div ng-repeat="membership in clubs" up-col="33%">
+                        <div class="up-club-image-container" ui-sref="root.users.assos.simple.publications({slug: membership.club.slug})"
+                             up-col="100%" title="{{ membership.club.name }}{{ membership.role !== '' ? ' - ' + membership.role : '' }}">
+                            <div class="up-club-image" ng-style="{'background-image': 'url({{ membership.club.image_url | urlFile }})' }"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div up-col-xs="100%" up-col-sm="50%" up-col-md="50%" up-col="100%" class="up-ticket">
+                <h2>Achievements</h2>
+
+                À venir...
+            </div>
         </div>
-        <!-- <div class="up-ticket">
-            <h2>Achievements</h2>
-        </div> -->
     </div>
-    <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="75%">
+    <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="67%">
         <div class="up-ticket" ng-show="displayFoyer">
             <h2>Stats Foyer</h2>
 
             <div ng-show="foyer.numberBeers === 0">
-                Pas de consos à afficher. <strong>Vite, direction le Foyer !</strong>
+                Pas de consos à afficher. <strong ng-if="user.username == $root.me.username">Vite, direction le Foyer !</strong>
             </div>
             <div ng-hide="foyer.numberBeers === 0">
-                {{ user.first_name }} a ingéré un total de <strong>{{ foyer.litersDrunk }} litres</strong> de bière pour plus de <strong>{{ foyer.numberBeers }} consos</strong>...<br>
+                {{ user.first_name }} a ingéré un total de <strong>{{ foyer.litersDrunk }} litres</strong> de bière pour <strong>{{ foyer.numberBeers }} {{ foyer.numberBeers == 1 ? 'conso' : 'consos' }}</strong>...<br>
                 <br>
                 <br>
                 <div up-row wrap padded>
@@ -51,19 +57,19 @@
                 </div>
             </div>
         </div>
-        <div class="up-ticket" ng-if="user.displayPonthub">
+        <div class="up-ticket" ng-if="displayPonthub">
             <h2>Stats PontHub</h2>
 
             <div ng-show="ponthub.totalFiles === 0">
-                Pas de fichiers téléchargés pour l'instant. <a ui-sref="root.users.ponthub.list" title="PontHub"><strong>Vite, direction PontHub !</strong></a>
+                Pas de fichiers téléchargés pour l'instant. <a ng-if="user.username == $root.me.username" ui-sref="root.users.ponthub.category.list" title="PontHub"><strong>Vite, direction PontHub !</strong></a>
             </div>
             <div ng-hide="ponthub.totalFiles === 0">
                 {{ user.first_name }} a téléchargé <strong>{{ ponthub.totalFiles }} fichiers</strong> pour plus de <strong>{{ ponthub.totalSize | formatSize }}</strong> !<br>
                 <br>
                 <br>
                 <div up-row wrap padded>
-                    <up-chart up-col="50%" config="chartRepartition"></up-chart>
-                    <up-chart up-col="50%" config="chartHipster"></up-chart>
+                    <up-chart up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%" config="chartRepartition"></up-chart>
+                    <up-chart up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%" config="chartHipster"></up-chart>
                     <up-chart up-col="100%" config="chartTimeline"></up-chart>
                 </div>
             </div>

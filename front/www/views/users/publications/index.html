@@ -1,19 +1,30 @@
-<div up-row>
+<div up-row ng-if="!isExterieur">
     <div up-col-md="60%" up-col-lg="60%" up-col="100%">
         <div ng-include="'views/users/publications/post.html'"></div>
         <div ng-include="'views/users/publications/list.html'" class="transition"></div>
     </div>
 
     <div class="up-invisible-sm up-invisible-xs" up-col-md="40%" up-col-lg="40%">
-        <div class="up-ticket centering">
-            <h3>Ceci est la nouvelle version de uPont !</h3>
-            On espère qu'elle vous plaira, en attendant vous pouvez aussi télécharger l'application mobile pour <a href="https://play.google.com/store/apps/details?id=youPont.mobile&hl=fr_CA">Android</a> !
-            (les applications pour iOS et Windows Phone vont venir, elles sont en cours de validation et c'est un processus trèèèèès très très chiant)
-            <br><br>
-            Restez à jour, des nouvelles versions seront publiées au moins une fois par semaine (voir en bas à gauche). Aussi n'hésitez pas à balancer des coms/remarques/suggestions !
+        <div ng-if="!$root.isAdmissible" class="up-ticket centering">
+            <h3>Informations sur le développement</h3>
+            Si vous voulez suivre au jour le jour le développement/ce que nous avons prévu, vous pouvez visionner notre <a target="_blank" href="https://trello.com/b/a7pIk6zk/upont" title="Board Trello de uPont"><i class="fa fa-trello"></i> board Trello.</a><br>
+            Et n'hésitez pas à <a ui-sref="root.users.assos.ki" title="Faire une remarque sur uPont">balancer des coms/remarques/suggestions !</a> On essaiera de les prendre en compte le plus rapidement possible.
+        </div>
+
+        <div ng-if="$root.isAdmissible" class="up-ticket centering">
+            <h3>Ceci est uPont, l'intranet des Ponts !</h3>
+            <p class="justify">
+                Cher admissible, tu as le privilège de pouvoir accéder à ce site !<br>
+                Ainsi, tu pourras parcourir la plupart des pages et explorer les nombreuses fonctionnalités de uPont (en lecture seule, tout de même).<br>
+                Regarde notamment les news et le calendrier pour te tenir au courant des événements durant ta série d'oraux !<br>
+                <br>
+                Sache aussi qu'il y a aussi une application Android (réservée aux élèves), bientôt disponible sur iOS et Windows Phone...
+            </p>
         </div>
 
         <div ng-include="'views/users/publications/post-messages.html'"></div>
         <div ng-include="'views/users/publications/list-messages.html'"></div>
     </div>
 </div>
+
+<div ng-if="$root.isExterieur" ng-include="'views/users/administration.html'"></div>

@@ -1,0 +1,22 @@
+<div class="up-topbar">
+    <a ng-click="$root.showTopMenu=!$root.showTopMenu" class="up-topbar-open">
+        <span class="bars"></span>
+    </a>
+    <a ui-sref="root.users.publications.index" class="up-topbar-title">
+        <span class="up-logo-link"></span>
+    </a>
+</div>
+<div class="up-topbar-menu" ng-show="$root.showTopMenu">
+    <div class="caret"><i class="fa fa-caret-up fa-2x"></i></div>
+    <ul ng-click="$root.showTopMenu=!$root.showTopMenu">
+        <li><a class="up-topbar-link" ui-sref="root.users.publications.index"><i class="fa fa-comment"></i>News</a></li>
+        <li><a class="up-topbar-link" ui-sref="root.users.messages"><i class="fa fa-comments"></i>Messages</a></li>
+        <li><a class="up-topbar-link" ui-sref="root.users.calendar"><i class="fa fa-calendar"></i>Calendrier</a></li>
+        <li><a class="up-topbar-link" ui-sref="root.users.assos.list"><i class="fa fa-thumbs-o-up"></i>Assos</a></li>
+        <li><a class="up-topbar-link" ui-sref="root.users.students.list"><i class="fa fa-graduation-cap"></i>Élèves</a></li>
+        <li><a class="up-topbar-link" ui-sref="root.users.resources.courses.list"><i class="fa fa-suitcase"></i>Ressources</a></li>
+        <li><a class="up-topbar-link" ui-sref="root.users.ponthub.category.list"><i class="fa fa-film"></i>PontHub</a></li>
+        <li><a class="up-topbar-link" ui-sref="root.users.students.modify"><i class="fa fa-star"></i>Profil</a></li>
+        <li ng-if="$root.isAdmin"><a class="up-topbar-link no-underline" ui-sref="root.users.admin.students"><i class="fa fa-wrench"></i>Zone Admin</a></li>
+    </ul>
+</div>

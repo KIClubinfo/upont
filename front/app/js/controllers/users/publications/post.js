@@ -1,7 +1,26 @@
 angular.module('upont')
-    .controller('Publications_Post_Ctrl', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
+    .controller('Publications_Post_Ctrl', ['$scope', '$rootScope', '$http', '$stateParams', function($scope, $rootScope, $http, $stateParams) {
         // Fonctions relatives à la publication
         var club = {name: 'Au nom de...'};
+        $scope.display = true;
+
+        // Si on est sur une page d'assos
+        if ($stateParams.slug !== null && $stateParams.slug !== undefined) {
+            // Par défaut on n'affiche pas le module
+            $scope.display = false;
+            for (var key in $rootScope.selfClubs) {
+                // Si on appartien au club, on affiche avec le club préséléctionné
+                if ($rootScope.selfClubs[key].club !== undefined && $rootScope.selfClubs[key].club.slug == $stateParams.slug) {
+                    club = $rootScope.selfClubs[key].club;
+                    $scope.display = true;
+                }
+            }
+        }
+
+        // Si l'utilisateur est un exterieur de l'administration
+        if ($rootScope.hasRight('ROLE_EXTERIEUR'))
+            club = $rootScope.selfClubs[0].club;
+
         var init = function() {
             $scope.focus = false;
             $scope.post = {
@@ -12,9 +31,13 @@ angular.module('upont')
                 shotgun_date: ''
             };
             $scope.type = 'news';
-            $scope.placeholder = 'Que se passe-t-il d\'intéressant dans ton asso ?';
             $scope.club = club;
             $scope.toggle = false;
+
+            if ($rootScope.hasRight('ROLE_EXTERIEUR'))
+                $scope.placeholder = 'Texte de la news';
+            else
+                $scope.placeholder = 'Que se passe-t-il d\'intéressant dans ton asso ?';
         };
         init();
 
@@ -23,7 +46,10 @@ angular.module('upont')
 
             switch (type) {
                 case 'news':
-                    $scope.placeholder = 'Que se passe-t-il d\'intéressant dans ton asso ?';
+                    if ($rootScope.hasRight('ROLE_EXTERIEUR'))
+                        $scope.placeholder = 'Texte de la news';
+                    else
+                        $scope.placeholder = 'Que se passe-t-il d\'intéressant dans ton asso ?';
                     break;
                 case 'event':
                     $scope.placeholder = 'Description de l\'événement';
@@ -46,8 +72,12 @@ angular.module('upont')
             if ($scope.club != club) {
                 params.authorClub = $scope.club.slug;
             } else {
-                alertify.error('Tu n\'as pas choisi avec quelle assos publier');
-                return;
+                if ($rootScope.hasRight('ROLE_EXTERIEUR')) {
+                    params.authorClub = $rootScope.selfClubs[0].club.slug;
+                } else {
+                    alertify.error('Tu n\'as pas choisi avec quelle assos publier');
+                    return;
+                }
             }
 
             if (image) {

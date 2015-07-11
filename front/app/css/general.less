@@ -33,6 +33,39 @@ background-size: auto auto;
     margin: 10px 0 10px 0;
 }
 
+// Resets imperavi redactor
+.redactor-editor {
+    background: @col-input-bckgnd;
+    border: solid 1px @col-bckgnd;
+
+    &:focus {
+        border-color: @col-main;
+    }
+}
+
+.redactor-toolbar {
+    z-index: 1;
+    li {
+        a:hover {
+          background-color: @col-main;
+          color: #fff;
+        }
+    }
+}
+
+.redactor-dropdown {
+    color: rgba(0, 0, 0, 0.7);
+
+    a:hover {
+      background-color: @col-main;
+      color: #fff;
+    }
+}
+
+
+
+// Vues principales
+
 .up-main-view {
     padding-bottom: 30px;
     background: @col-bckgnd;
@@ -101,15 +134,20 @@ background-size: auto auto;
             margin-left: 10px;
         }
     }
+    .up-forgotten-password {
+        font-size: 0.8em;
+        margin-top: -0.5em;
+    }
 }
 .up-assos {
-    .up-ticket:hover {
-        cursor: pointer;
-
-        &:before {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    .up-ticket {
+        &:hover {
+            cursor: pointer;
             border: 1px solid @col-main;
+            h3 { color: @col-main !important; }
         }
-        h3 { color: @col-main !important; }
     }
 }
 
@@ -146,20 +184,34 @@ a, a:hover, a:visited, a:active, a:focus {
     color: inherit;
     outline: none;
     cursor: pointer;
+    &.admissibles {
+        .disabled;
+        color: inherit !important;
+    }
+}
+.disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
 }
 :disabled, [disabled] {
-    opacity: 0.5;
-    cursor: not-allowed;
+    .disabled;
 }
 
 // Classes utiles
 .centering {
     text-align: center;
 }
+.justify {
+    text-align: justify;
+}
 .up-clickable{
     cursor: pointer;
     &:hover, &.active {
         color: @col-main;
+    }
+    &.admissibles {
+        .disabled;
+        color: inherit !important;
     }
 }
 .up-delete-button:hover{
@@ -191,7 +243,7 @@ a, a:hover, a:visited, a:active, a:focus {
     color: @col-font !important;
 }
 .up-overflow {
-    height: 7em;
+    height: 7.4em;
     overflow: hidden;
 }
 

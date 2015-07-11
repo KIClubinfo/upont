@@ -2,10 +2,7 @@
 
 namespace KI\UpontBundle\Controller\Users;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AdmissiblesController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
@@ -74,7 +71,17 @@ class AdmissiblesController extends \KI\UpontBundle\Controller\Core\ResourceCont
      *  section="Utilisateurs"
      * )
      */
-    public function postAdmissibleAction() { return $this->post(); }
+    public function postAdmissibleAction()
+    {
+        $return = $this->partialPost(true);
+
+        if ($return['code'] == 201) {
+            // On modifie légèrement la ressource qui vient d'être créée
+            $return['item']->setDate(time());
+        }
+
+        return $this->postView($return);
+    }
 
     /**
      * @ApiDoc(

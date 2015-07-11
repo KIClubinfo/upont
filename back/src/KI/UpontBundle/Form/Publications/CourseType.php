@@ -4,7 +4,7 @@ namespace KI\UpontBundle\Form\Publications;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CourseType extends AbstractType
 {
@@ -12,14 +12,14 @@ class CourseType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('group')
+            ->add('groups', 'collection', array('type' => 'text', 'allow_add' => true, 'allow_delete' => true))
             ->add('department')
             ->add('semester')
-            ->add('startDate')
-            ->add('endDate');
+            ->add('ects')
+            ->add('active');
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,

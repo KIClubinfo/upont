@@ -9,7 +9,7 @@ module
             Paginate.get('own/newsitems?sort=-date', 10).then(function(data){
                 $scope.news = data;
 
-                Paginate.get('newsitems?sort=-date&limit=10&filterBy=name&filterValue=null').then(function(data){
+                Paginate.get('newsitems?sort=-date&limit=10&name=message').then(function(data){
                     $scope.messages = data;
 
                     if ($done) {

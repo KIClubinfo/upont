@@ -2,26 +2,21 @@
     <h1>Informations Générales :</h1>
 
     <div up-row padded center>
-        <div up-col-xs="100%" up-col-sm="100%" up-col="50%" class="centering">
-            <img ng-src="{{ url + me.image_url }}" class="up-profile-page-picture">
+        <div up-col-xs="100%" up-col-sm="100%" up-col="50%" class="centering up-clickable"
+             ng-click="$root.zoomIn('/api/' + user.image_url)">
+            <img ng-src="{{ url + user.image_url }}" class="up-profile-page-picture">
         </div>
     </div>
 
     <div class="up-profile-form">
-        <form up-row padded left wrap ng-submit="submitUser(me, profilePicture, password, confirm)" autocomplete="off">
+        <form up-row padded left wrap ng-submit="submitUser(user, profilePicture, password, confirm)" autocomplete="off">
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
                 <i class="fa fa-graduation-cap"></i>
                 Promo
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <select ng-model="me.promo">
-                    <option>011</option>
-                    <option>012</option>
-                    <option>013</option>
-                    <option>014</option>
-                    <option>015</option>
-                    <option>016</option>
-                    <option>017</option>
+                <select ng-model="user.promo">
+                    <option ng-repeat="item in $root.promos | reverse">{{ item }}</option>
                 </select>
             </div>
 
@@ -30,7 +25,7 @@
                 Sexe
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <select ng-model="me.gender">
+                <select ng-model="user.gender">
                     <option>M</option>
                     <option>F</option>
                 </select>
@@ -41,35 +36,8 @@
                 Nationalité
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <select ng-model="me.nationality">
-                    <option>France</option>
-                    <option>Algérie</option>
-                    <option>Allemagne</option>
-                    <option>Argentine</option>
-                    <option>Australie</option>
-                    <option>Brésil</option>
-                    <option>Bulgarie</option>
-                    <option>Cambodge</option>
-                    <option>Canada</option>
-                    <option>Chine</option>
-                    <option>Espagne</option>
-                    <option>États-Unis</option>
-                    <option>Grèce</option>
-                    <option>Italie</option>
-                    <option>Japon</option>
-                    <option>Liban</option>
-                    <option>Luxembourg</option>
-                    <option>Malaisie</option>
-                    <option>Maroc</option>
-                    <option>Pologne</option>
-                    <option>République Tchèque</option>
-                    <option>Roumanie</option>
-                    <option>Russe</option>
-                    <option>Slovaque</option>
-                    <option>Suède</option>
-                    <option>Tunisie</option>
-                    <option>Viêt Nam</option>
-                    <option>Autre</option>
+                <select ng-model="user.nationality">
+                    <option ng-repeat="item in $root.countries">{{ item }}</option>
                 </select>
             </div>
 
@@ -78,7 +46,7 @@
                 Téléphone
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="text" ng-model="me.phone" placeholder="06.xx.xx.xx.xx, +336.xx.xx.xx.xx"/>
+                <input class="up-col-xs-12" type="text" ng-model="user.phone" placeholder="06.xx.xx.xx.xx, +336.xx.xx.xx.xx"/>
             </div>
 
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
@@ -86,22 +54,15 @@
                 Résidence
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="text" ng-model="me.location" placeholder="Stockholm, M201, 3ème gauche, A53..."/>
+                <input class="up-col-xs-12" type="text" ng-model="user.location" placeholder="Stockholm, M201, 3ème gauche, A53..."/>
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
                 <i class="fa fa-institution"></i>
                 Département
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <select ng-model="me.department">
-                    <option>1A</option>
-                    <option>GCC</option>
-                    <option>GCC-Archi</option>
-                    <option>GMM</option>
-                    <option>GI</option>
-                    <option>IMI</option>
-                    <option>SEGF</option>
-                    <option>VET</option>
+                <select ng-model="user.department">
+                    <option ng-repeat="item in $root.departments">{{ item }}</option>
                 </select>
             </div>
 
@@ -110,17 +71,8 @@
                 Origine
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <select ng-model="me.origin">
-                    <option>Concours Commun</option>
-                    <option>AST</option>
-                    <option>Double Diplôme</option>
-                    <option>FCI Civil</option>
-                    <option>Ingénieur Élève</option>
-                    <option>ENSAVT</option>
-                    <option>Master</option>
-                    <option>Stagiaire</option>
-                    <option>AUE</option>
-                    <option>Autre</option>
+                <select ng-model="user.origin">
+                    <option ng-repeat="item in $root.origins">{{ item }}</option>
                 </select>
             </div>
 
@@ -129,7 +81,7 @@
                 Skype
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="text" ng-model="me.skype" placeholder="Pseudo Skype"/>
+                <input class="up-col-xs-12" type="text" ng-model="user.skype" placeholder="Pseudo Skype"/>
             </div>
 
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
@@ -137,7 +89,7 @@
                 Pseudo
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input type="text" class="up-col-xs-12" ng-model="me.nick" placeholder="Ce que tu souhaites..." />
+                <input type="text" class="up-col-xs-12" ng-model="user.nick" placeholder="Ce que tu souhaites..." />
             </div>
 
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
@@ -166,12 +118,12 @@
 
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
                 <i class="fa fa-beer"></i>
-                Partager mes statistiques Foyer <input type="checkbox" ng-model="me.stats_foyer">
+                Partager mes statistiques Foyer <input type="checkbox" ng-model="user.stats_foyer">
             </div>
 
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
                 <i class="fa fa-download"></i>
-                Partager mes statistiques PontHub <input type="checkbox" ng-model="me.stats_ponthub">
+                Partager mes statistiques PontHub <input type="checkbox" ng-model="user.stats_ponthub">
             </div>
 
             <div up-col="100%" up-row right>
@@ -197,12 +149,12 @@
             </h3>
 
             <p ng-show="openICS == 'iOS'">
-                <strong>1.</strong> Va dans "Réglages" puis dans "Mail, Contacts, Calendrier".<br>
+                <strong>1.</strong> Va dans "Réglages" puis dans "Mail, Contacts, Calendrier" :<br>
                 <img class="img-responsive" src="img/tuto-ics-ios-1.png" alt="Cliquer sur Abonnement à un calendrier..."/>
-                <strong>2.</strong> Clique sur "Ajouter un compte" puis sur "Autre".<br>
-                <strong>3.</strong> Clique sur "Ajouter un calendrier avec abonnement"<br>
+                <strong>2.</strong> Clique sur "Ajouter un compte" puis sur "Autre" ;<br>
+                <strong>3.</strong> Clique sur "Ajouter un calendrier avec abonnement" :<br>
                 <img class="img-responsive" src="img/tuto-ics-ios-2.png" alt="Cliquer sur Ajouter un calendrier avec abonnement"/>
-                <strong>4.</strong> Copie le lien suivant : <a ng-href="$root.url + 'users/' + token + '/calendar'" title="Calendrier ICS" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a>.<br>
+                <strong>4.</strong> Copie le lien suivant : <a ng-href="$root.url + 'users/' + token + '/calendar'" title="Calendrier ICS" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a> ;<br>
                 <img class="img-responsive" src="img/tuto-ics-ios-3.png" alt="Copier le lien"/>
                 <strong>5.</strong> Clique sur "Suivant" puis sur "Enregistrer" et c'est terminé !<br>
             </p>
@@ -214,7 +166,7 @@
             <p ng-show="openICS == 'mac'">
                 <strong>1.</strong> Clique sur "Fichier", puis sur "Abonnement à un calendrier..."<br>
                 <img class="img-responsive" src="img/tuto-ics-mac-1.png" alt="Cliquer sur Abonnement à un calendrier..."/>
-                <strong>2.</strong> Copie-colle le lien suivant : <a ng-href="$root.url + 'users/' + token + '/calendar'" title="Calendrier ICS" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a>.<br>
+                <strong>2.</strong> Copie-colle le lien suivant : <a ng-href="$root.url + 'users/' + token + '/calendar'" title="Calendrier ICS" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a> ;<br>
                 <img class="img-responsive" src="img/tuto-ics-mac-2.png" alt="Copier coller le lien"/>
                 <strong>3.</strong> Valide et c'est terminé !<br>
                 <strong>Attention ! Ne partage pas le lien, c'est un lien personnalisé...</strong>
@@ -225,12 +177,12 @@
             </h3>
 
             <p ng-show="openICS == 'google'">
-                <strong>ATTENTION ! CETTE FONCTION DE GOOGLE CALENDAR EST ASSEZ BUGGÉE, IL EST POSSIBLE QUE LES ÉVÉNEMENTS S'ACTUALISENT DE FAÇON IRRÉGULIÈRE. GOOGLE BOSSE DESSUS MAIS ON NE PEUX PAS FAIRE ACCÉLERER LES CHOSES. DONC NE PAS TROP FAIRE CONFIANCE À CETTE FONCTIONNALITÉ POUR L'INSTANT.</strong><br>
-                <strong>1.</strong> Clique sur "Ajouter par URL" dans la catégorie "Autres agendas" de Calendar.<br>
+                <strong>ATTENTION ! CETTE FONCTION DE GOOGLE CALENDAR EST ASSEZ BUGGÉE, IL EST POSSIBLE QUE LES ÉVÉNEMENTS S'ACTUALISENT DE FAÇON IRRÉGULIÈRE. GOOGLE BOSSE DESSUS MAIS ON NE PEUX PAS FAIRE ACCÉLERER LES CHOSES. NE FAIS DONC PAS TROP CONFIANCE À CETTE FONCTIONNALITÉ POUR L'INSTANT.</strong><br>
+                <strong>1.</strong> Clique sur "Ajouter par URL" dans la catégorie "Autres agendas" de Calendar :<br>
                 <img class="img-responsive" src="img/tuto-ics-google-calendar-1.png" alt="Cliquer sur ajouter par URL"/>
-                <strong>2.</strong> Copie-colle le lien suivant : <a ng-href="$root.url + 'users/' + token + '/calendar'" title="Calendrier ICS" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a>.<br>
+                <strong>2.</strong> Copie-colle le lien suivant : <a ng-href="$root.url + 'users/' + token + '/calendar'" title="Calendrier ICS" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a> ;<br>
                 <img class="img-responsive" src="img/tuto-ics-google-calendar-2.png" alt="Copier coller le lien"/>
-                <strong>3.</strong> Valide et c'est terminé ! (réessaye une seconde fois s'il t'affiche une erreur la première fois, Google a fait un truc buggé...)<br>
+                <strong>3.</strong> Valide et c'est terminé ! (réessaie une seconde fois s'il t'affiche une erreur la première fois, Google a fait un truc buggé...)<br>
                 <strong>Attention ! Ne partage pas le lien, c'est un lien personnalisé...</strong>
             </p>
 
@@ -240,11 +192,11 @@
 
 
             <p ng-show="openICS == 'thunderbird'">
-                <strong>1.</strong> Clique droit dans le menu de gauche dans la partie "Agendas" et fait "Nouvel Agenda".<br>
+                <strong>1.</strong> Cliques droit dans le menu de gauche dans la partie "Agendas" et fais "Nouvel Agenda" :<br>
                 <img class="img-responsive" src="img/tuto-ics-thunderbird-1.png" alt="Cliquer sur ajouter par URL"/>
-                <strong>2.</strong> Choisir "Sur le réseau".<br>
+                <strong>2.</strong> Choisis "Sur le réseau" :<br>
                 <img class="img-responsive" src="img/tuto-ics-thunderbird-2.png" alt="Choisir sur le réseau"/>
-                <strong>3.</strong> Copie-colle le lien suivant : <a ng-href="$root.url + 'users/' + token + '/calendar'" title="Calendrier ICS" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a>.<br>
+                <strong>3.</strong> Copie-colle le lien suivant : <a ng-href="$root.url + 'users/' + token + '/calendar'" title="Calendrier ICS" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a> ;<br>
                 <img class="img-responsive" src="img/tuto-ics-thunderbird-3.png" alt="Copier coller le lien"/>
                 <strong>4.</strong> Valide et c'est terminé !<br>
                 <strong>Attention ! Ne partage pas le lien, c'est un lien personnalisé...</strong>
@@ -304,13 +256,13 @@
 </div>
 -->
 <div class="up-ticket">
-    <h1>Channels suivis</h1>
+    <h1>Clubs & Assos suivis</h1>
     <div up-row padded left wrap>
         <div up-row padded ng-repeat="club in clubs | orderBy:'name'" up-col="33%" up-col-xs="100%">
             <div up-col="33%"><img class="img-responsive" src="{{ club.image_url | urlFile}}" />
             </div>
             <div up-col="66%">
-                <h2><a ui-sref="root.channels.simple.publications({ slug: club.slug})">{{ club.name }}</a></h2>
+                <h2><a ui-sref="root.users.assos.simple.publications({slug: club.slug})">{{ club.name }}</a></h2>
                 <button class="up-btn up-btn-default" ng-show="club.suivi" ng-click="unsubscribe(club.slug);">Suivi</button>
                 <button class="up-btn up-btn-primary" ng-show="!club.suivi" ng-click="subscribe(club.slug);">Suivre</button>
             </div>

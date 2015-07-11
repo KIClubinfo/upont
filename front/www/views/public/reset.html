@@ -1,0 +1,15 @@
+<div up-row center wrap padded class="up-error-page">
+    <div up-col="30%" up-col-xs="100%" up-row wrap padded>
+        <h1 up-col="100%" style="padding: 0 0 0 0.5em; margin: 0;">Réinitialisation</h1>
+        <div up-col="100%">Tu peux maintenant choisir un nouveau mot de passe. Essaye de ne pas l'oublier cette fois ;-)</div>
+    </div>
+    <div up-col="30%" up-col-xs="100%">
+        <form up-row padded wrap class="up-login-form" ng-submit="reset(password, check)" autocomplete="off">
+            <div up-col="100%" ><input up-col="100%" ng-model="password" type="password" placeholder="Mot de passe" id="login-input"/></div>
+            <div up-col="100%" ><input up-col="100%" ng-model="check" type="password" placeholder="Confirmation"/></div>
+            <div up-col="100%">
+                <button up-col="100%" title="Réinitialiser le mot de passe" class="up-btn up-btn-default">Modifier le mot de passe</button>
+            </div>
+        </form>
+    </div>
+</div>

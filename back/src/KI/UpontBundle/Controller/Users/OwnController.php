@@ -367,7 +367,6 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         // Tri et élimination des données
         $dates = array();
         $return = array();
-        $today = mktime(0, 0, 0);
         foreach ($events as $key => $event) {
             // On enlève l'événement si l'élève l'a masqué
             if ($event->getPookies()->contains($user))
@@ -380,31 +379,6 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         array_multisort($dates, SORT_DESC, $return);
 
         return $return;
-    }
-
-    /**
-     * @ApiDoc(
-     *  description="Renvoie la liste des sondages relatifs aux clubs suivis",
-     *  output="KI\UpontBundle\Entity\Publications\Poll",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  tags={
-     *    "TODO"
-     *  },
-     *  section="Utilisateurs"
-     * )
-     * @Route\Get("/own/polls")
-     */
-    public function getPollsAction()
-    {
-        $polls = array();
-
-        // Traitement TODO CBo15
-        return $this->restResponse($polls);
     }
 
     /**
@@ -611,5 +585,33 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
     public function getTokenAction()
     {
         return array('token' => $this->get('ki_upont.token')->getToken());
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Renvoie la liste des dépannages demandés par l'utilisateur",
+     *  output="KI\UpontBundle\Entity\Publications\Fix",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Utilisateurs"
+     * )
+     * @Route\Get("/own/fixes")
+     */
+    public function getOwnFixesAction()
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        if (!$this->get('security.context')->isGranted('ROLE_USER'))
+            throw new AccessDeniedException('Accès refusé');
+
+        $repo = $this->em->getRepository('KIUpontBundle:Publications\Fix');
+        list($findBy, $sortBy, $limit, $offset, $page, $totalPages, $count) = $this->paginate($repo);
+        $findBy['user'] = $user;
+        $results = $repo->findBy($findBy, $sortBy, $limit, $offset);
+
+        return $this->generatePages($results, $limit, $page, $totalPages, $count);
     }
 }

@@ -8,6 +8,7 @@ class FixesControllerTest extends WebTestCase
 {
     // On crée une ressource sur laquelle seront effectués les tests.
     // Ne pas oublier de supprimer à la fin avec le test DELETE.
+    // Le problem de ce fix est utilisé dans une condition du hook slack (cf le FixesController)
     public function testPost()
     {
         $this->client->request(
@@ -15,11 +16,9 @@ class FixesControllerTest extends WebTestCase
             '/fixes',
             array(
                 'name' => 'Panne d\'Internet',
-                'problem' => 'J\'arrive pas à avoir Internet, duuh',
-                'answer' => 'T\'as bien réglé ton proxy ?',
-                'date' => 424283,
+                'problem' => '[Test] J\'arrive pas à avoir Internet',
                 'status' => 'En attente',
-                'category' => 'Accès à Internet'
+                'fix' => true
             )
         );
         $response = $this->client->getResponse();

@@ -5,9 +5,9 @@ fos_user_resetting:
     resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
     prefix: /resetting
 
-NelmioApiDocBundle:
-    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
-    prefix:   /
+#NelmioApiDocBundle:
+#    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+#    prefix:   /
 
 ki_upont_api_general:
     type:   rest
@@ -15,7 +15,8 @@ ki_upont_api_general:
     resource: "@KIUpontBundle/Resources/config/general.yml"
 
 ki_upont_api_foyer:
-    prefix:   /foyer
+    type:   rest
+    prefix:   /
     resource: "@KIUpontBundle/Resources/config/foyer.yml"
 
 ki_upont_api_likes:

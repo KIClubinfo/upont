@@ -70,6 +70,23 @@ class FixesController extends \KI\UpontBundle\Controller\Core\ResourceController
             // On modifie légèrement la ressource qui vient d'être créée
             $user = $this->get('security.context')->getToken()->getUser();
             $return['item']->setUser($user);
+            $return['item']->setDate(time());
+            $return['item']->setStatus('Non vu');
+        }
+
+        if ($return['item']->getProblem() != '[Test] J\'arrive pas à avoir Internet') {
+            $fields = array(
+                'channel' => $return['item']->getFix() ? '#depannage' : '#upont-feedback',
+                'text' => '"'.$return['item']->getProblem().'" par '.$user->getFirstname().' '.$user->getLastname()
+            );
+
+            $this->get('ki_upont.curl')->curl(
+                'https://hooks.slack.com/services/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',
+                array(
+                    CURLOPT_POST => true,
+                    CURLOPT_POSTFIELDS => json_encode($fields)
+                )
+            );
         }
 
         return $this->postView($return);
@@ -90,7 +107,21 @@ class FixesController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  section="Publications"
      * )
      */
-    public function patchFixAction($slug) { return $this->patch($slug); }
+    public function patchFixAction($slug)
+    {
+        $fix = $this->findBySlug($slug);
+
+        if ($fix->getFix()) {
+            $this->notify(
+                'notif_fixes',
+                'Demande de dépannage',
+                'Ta demande de dépannage a été actualisée par le KI !',
+                'to',
+                array($fix->getUser())
+            );
+        }
+        return $this->patch($slug);
+    }
 
     /**
      * @ApiDoc(

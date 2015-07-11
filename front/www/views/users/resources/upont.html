@@ -1,9 +1,28 @@
 <div class="up-ticket">
     <h1>Informations sur uPont</h1>
     <h2>Statistiques</h2>
-    À venir...<br>
 
-    <h2>Politique du KI vis à vis du stockage de données</h2>
+    <div up-row wrap padded>
+        <!-- Visite par jour -->
+        <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%" id="widgetIframe"><iframe width="100%" height="350" src="https://upont.enpc.fr/piwik/index.php?module=Widgetize&action=iframe&columns[]=nb_visits&widget=1&moduleToWidgetize=VisitsSummary&actionToWidgetize=getEvolutionGraph&idSite=1&period=day&date=yesterday&disableLink=1&widget=1" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe></div>
+
+        <!-- Visite par heure locale-->
+        <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%" id="widgetIframe"><iframe width="100%" height="350" src="https://upont.enpc.fr/piwik/index.php?module=Widgetize&action=iframe&widget=1&moduleToWidgetize=VisitTime&actionToWidgetize=getVisitInformationPerLocalTime&idSite=1&period=year&date=2015-05-09&disableLink=1&widget=1" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe></div>
+
+        <!-- Navigateur -->
+        <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%" id="widgetIframe"><iframe width="100%" height="350" src="https://upont.enpc.fr/piwik/index.php?module=Widgetize&action=iframe&widget=1&moduleToWidgetize=DevicesDetection&actionToWidgetize=getBrowsers&idSite=1&period=month&date=2015-05-09&disableLink=1&widget=1" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe></div>
+
+        <!-- Système -->
+        <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%" id="widgetIframe"><iframe width="100%" height="350" src="https://upont.enpc.fr/piwik/index.php?module=Widgetize&action=iframe&widget=1&moduleToWidgetize=DevicesDetection&actionToWidgetize=getOsVersions&idSite=1&period=month&date=2015-05-09&disableLink=1&widget=1" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe></div>
+
+        <!-- Résolutions -->
+        <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%" id="widgetIframe"><iframe width="100%" height="350" src="https://upont.enpc.fr/piwik/index.php?module=Widgetize&action=iframe&widget=1&moduleToWidgetize=Resolution&actionToWidgetize=getResolution&idSite=1&period=month&date=2015-05-09&disableLink=1&widget=1" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe></div>
+
+        <!-- Visite par pays -->
+        <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%" id="widgetIframe"><iframe width="100%" height="350" src="https://upont.enpc.fr/piwik/index.php?module=Widgetize&action=iframe&widget=1&moduleToWidgetize=UserCountryMap&actionToWidgetize=visitorMap&idSite=1&period=year&date=2015-05-09&disableLink=1&widget=1" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe></div>
+    </div>
+
+    <h2>Politique du KI vis-à-vis du stockage de données</h2>
     Pour assurer le fonctionnement de uPont, le KI collecte <strong>de façon anonyme</strong> (c'est à dire dissociée de tout nom de compte) des données à long terme :
 
     <ul>
@@ -15,8 +34,8 @@
         <li>Durée des visites</li>
     </ul>
 
-    De plus, à des fins de debug (pouvoir reproduire la situation exacte du bug), l'intégralité des requêtes sont loggées <strong>pour une période de 7 jours</strong>.<br>
-    Bien sûr, des statistiques sont aussi faites notamment par PontHub et le Foyer (il est possible de garder ces statistiques privées en se rendant sur la <a ui-sref="root.users.students.modify" title="Modifier son profil">page du profil</a>).<br>
+    De plus, à des fins de debug (pouvoir reproduire la situation exacte du bug), toutes les requêtes sont loggées <strong>pour une période de 7 jours</strong>.<br>
+    Bien sûr, des statistiques sont aussi faites, notamment par PontHub et le Foyer (il est possible de garder ces statistiques privées en se rendant sur la <a ui-sref="root.users.students.modify" title="Modifier son profil">page du profil</a>).<br>
     En ce qui concerne la sécurité, les mots de passe sont hashés à l'aide de l'algorithme <strong>SHA-512</strong>.<br>
     <br>
     Ce site n'utilise pas de cookies (parce qu'on est des BGs maggle), <a target="_blank" href="http://orteil.dashnet.org/cookieclicker/" title="Viens du coté obscur, on a des cookies !">mais vous pourrez toujours en trouver du coté obscur</a>.<br>

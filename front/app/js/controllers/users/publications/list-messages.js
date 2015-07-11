@@ -56,7 +56,21 @@ angular.module('upont')
                 controller: 'Messages_Ctrl',
                 resolve: {
                     messages: ['Paginate', function(Paginate) {
-                        return Paginate.get('newsitems?sort=-date&limit=10&name=null');
+                        return Paginate.get('newsitems?sort=-date&limit=10&name=message');
+                    }]
+                }
+            })
+            .state('root.users.publications.message', {
+                url: 'publications-messages/:slug',
+                templateUrl: 'views/users/publications/list-messages.html',
+                data: {
+                    title: 'Publication - uPont',
+                    top: true
+                },
+                controller: 'Messages_Ctrl',
+                resolve: {
+                    messages: ['Paginate', '$stateParams', function(Paginate, $stateParams) {
+                        return Paginate.get('newsitems?slug=' + $stateParams.slug);
                     }]
                 }
             });

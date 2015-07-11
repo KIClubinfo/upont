@@ -3,7 +3,7 @@ security:
         FOS\UserBundle\Model\UserInterface: sha512
 
     role_hierarchy:
-        ROLE_MODO:       ROLE_USER
+        ROLE_MODO:       [ROLE_USER, ROLE_JARDINIER]
         ROLE_ADMIN:      [ROLE_MODO, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
@@ -49,12 +49,12 @@ security:
             methods: [GET]
             pattern: ^/courses/.+/exercices/.+/download
             security: false
-        
+
         exceptionsGet5:
             methods: [GET]
             pattern: ^/users/.+/calendar
             security: false
-        
+
         exceptionsGet6:
             methods: [GET]
             pattern: ^/(clubs)(/[a-zA-Z]+)?$
@@ -62,7 +62,7 @@ security:
             
         exceptionsPost1:
             methods: [POST]
-            pattern: ^/(resetting|filelist)
+            pattern: ^/(resetting|filelist|admissibles)
             security: false
             
         #exceptionsPost2:

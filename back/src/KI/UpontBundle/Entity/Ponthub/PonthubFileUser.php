@@ -34,7 +34,7 @@ class PonthubFileUser
     protected $user;
 
     /**
-     * Date du shotgun (timestamp)
+     * Date du téléchargement (timestamp)
      * @ORM\Column(name="date", type="integer")
      * @JMS\Expose
      * @Assert\Type("integer")

@@ -10,11 +10,15 @@ angular.module('upont')
         };
         init();
 
-        $scope.post = function(msg){
+        $scope.post = function(msg, image){
             var params  = {
                 text: msg.text,
-                name: 'null'
+                name: 'message'
             };
+
+            if (image) {
+                params.image = image.base64;
+            }
 
             $http.post(apiPrefix + 'newsitems', params).success(function(data){
                 $rootScope.$broadcast('newMessage');

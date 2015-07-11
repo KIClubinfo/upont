@@ -13,6 +13,7 @@
 @fa-font-path: 'libs/fontawesome/fonts';
 @import (inline) '../../www/libs/alertify.js/themes/alertify.core.css';
 @import (inline) '../../www/libs/angular-bootstrap-datetimepicker/src/css/datetimepicker.css';
+@import (inline) '../../www/libs/redactor/redactor.css';
 
 body {
     margin: 0px;
@@ -26,14 +27,18 @@ body {
 @sizeLg: 1200px;
 @navbarHgt: 50px;
 @asideWidth: 270px;
+@paneWidth: 250px;
 
 // Importation de tous les fichiers selon le theme
 .theme(@col-main, @col-font, @col-ticket, @col-bckgnd, @col-input-bckgnd, @col-aside, @col-aside-bckgnd, @col-neg) {
+    @import 'admissibles.less';
     @import 'alertify.less';
     @import 'aside-topbar.less';
+    @import 'assos.less';
     @import 'button.less';
     @import 'column-system.less';
     @import 'comments.less';
+    @import 'courses.less';
     @import 'fonts.less';
     @import 'form.less';
     @import 'general.less';
@@ -41,6 +46,7 @@ body {
     @import 'image.less';
     @import 'keyframes.less';
     @import 'list.less';
+    @import 'pane.less';
     @import 'ponthub.less';
     @import 'profile.less';
     @import 'publish.less';
@@ -52,7 +58,7 @@ body {
     @import 'zone-picker.less';
 
     color: @col-font;
-    background: @col-ticket;
+    background: @col-bckgnd;
 }
 
 // Palette de couleurs
@@ -72,12 +78,9 @@ body {
 
 // Couleurs spécifiques à chaque thème
 body.theme-clear {
-    .theme(@blue, @gray, white, #E0E2E8, #E0E2E8, @light-gray, #2A303D, @orange);
+    .theme(@blue, @gray, white, #E0E2E8, #F8F8F8, @light-gray, #2A303D, @orange);
     .alertify-log-error {
         background: @orange;
-    }
-    input, textarea, select {
-        background: #F8F8F8;
     }
 }
 

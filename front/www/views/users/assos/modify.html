@@ -27,7 +27,7 @@
 
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
                 <i class="fa fa-{{ club.icon || 'file-image-o' }}"></i>
-                Icone <a ng-click="showIcons = !showIcons">({{ showIcons ? 'masquer' : 'voir' }} les icones)</a>
+                Icône <a ng-click="showIcons = !showIcons">({{ showIcons ? 'masquer' : 'voir' }} les icônes)</a>
             </div>
             <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
                 <input class="up-col-xs-12" type="text" ng-model="club.icon" placeholder="Utilisée notamment sur l'appli mobile"/>
@@ -93,9 +93,9 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="member in filtered =  (members | promoFilter: promo | orderBy:['user.nick'])">
+                <tr ng-repeat="member in filtered =  (members | promoFilter: promo | orderBy:['user.first_name'])">
                     <td>
-                        <i class="fa fa-remove up-clickable" ng-click="removeMember(member.user.username)"></i> {{ member.user.nick }}
+                        <i class="fa fa-remove up-clickable" ng-click="removeMember(member.user.username)"></i> {{ member.user.first_name }} {{ member.user.last_name }}
                     </td>
                     <td>{{ member.role }}</td>
                 </tr>
@@ -108,7 +108,7 @@
 
         <select ng-model="promo">
             <option ng-repeat="promoItem in $root.promos"
-                        selected="{{ $index == promos.length-1 }}"
+                    ng-selected="promoItem == promo"
                         value="{{ promoItem }}">Année '{{ promoItem }}</option>
         </select>
     </div>

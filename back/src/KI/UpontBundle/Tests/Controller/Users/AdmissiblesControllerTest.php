@@ -14,9 +14,8 @@ class AdmissiblesControllerTest extends WebTestCase
             'POST',
             '/admissibles',
             array(
-                'firstName' => 'KI',
-                'lastName' => 'OP',
-                'date' => '2015',
+                'firstName' => 'Testy',
+                'lastName' => 'Test',
                 'contact' => 'testificate@phpunit.zorg, 066666666',
                 'scei' => '12345',
                 'room' => 'simple',
@@ -41,24 +40,6 @@ class AdmissiblesControllerTest extends WebTestCase
         // On n'accepte pas les duplicatas selon le numéro SCEI
         $response = $this->postAdmissible();
         $this->assertJsonResponse($response, 400);
-
-        // Par contre si c'est pas la même année ça passe
-        $this->client->request(
-            'POST',
-            '/admissibles',
-            array(
-                'firstName' => 'Tata',
-                'lastName' => 'OP',
-                'date' => '2013',
-                'contact' => 'testificate@phpunit.zorg, 066466666',
-                'scei' => '12345',
-                'room' => 'simple',
-                'serie' => 2,
-                'details' => 'Admissible test'
-            )
-        );
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 201);
 
         $this->client->request('POST', '/admissibles', array('username' => '', 'email' => '123'));
         $response = $this->client->getResponse();
@@ -88,7 +69,6 @@ class AdmissiblesControllerTest extends WebTestCase
             array(
                 'firstName' => 'KImiam',
                 'lastName' => 'OP',
-                'date' => '12/07/2014',
                 'room' => 'simple',
                 'serie' => 4,
                 'details' => 'Admissible test'
@@ -119,9 +99,5 @@ class AdmissiblesControllerTest extends WebTestCase
         $this->client->request('DELETE', '/admissibles/12345');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
-
-        $this->client->request('DELETE', '/admissibles/12345-1');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
     }
 }

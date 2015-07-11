@@ -11,7 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity
  * @JMS\ExclusionPolicy("all")
- * @UniqueEntity(fields={"scei", "date"})
+ * @UniqueEntity(fields={"scei"})
  */
 class Admissible
 {
@@ -50,11 +50,10 @@ class Admissible
     protected $lastName;
 
     /**
-     * Année
+     * Date de création de l'admissible
      * @ORM\Column(name="date", type="string")
      * @JMS\Expose
      * @Assert\Type("string")
-     * @Assert\NotBlank()
      */
     protected $date;
 

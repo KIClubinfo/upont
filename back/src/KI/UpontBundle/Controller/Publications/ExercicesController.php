@@ -69,10 +69,17 @@ class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceCon
             throw new NotFoundHttpException('Fichier PDF non trouvé');
 
         // On lit le fichier PDF
-        return new \Symfony\Component\HttpFoundation\Response(file_get_contents($exercice->getAbsolutePath()), 200, array(
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition: attachment; filename="'.$exercice->getCourse()->getDepartment().''.$exercice->getName().'"'
-        ));
+        $response = new \Symfony\Component\HttpFoundation\Response();
+        $filename = $exercice->getAbsolutePath();
+        $course = $exercice->getCourse();
+
+        $response->headers->set('Cache-Control', 'private');
+        $response->headers->set('Content-type', mime_content_type($filename));
+        $response->headers->set('Content-Disposition', 'attachment; filename="('.$course->getDepartment().') '.$course->getName().' - '.$exercice->getName().'";');
+        $response->headers->set('Content-length', filesize($filename));
+
+        $response->sendHeaders();
+        return $response->setContent(readfile($filename));
     }
 
     /**
@@ -127,8 +134,6 @@ class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceCon
                 'to',
                 $users
             );
-
-            $request->files->get('file')->move($return['item']->getBasePath(), $return['item']->getId().'.pdf');
         }
         $this->switchClass();
 
@@ -170,6 +175,7 @@ class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceCon
      */
     public function deleteCourseExerciceAction($slug, $id)
     {
-        return $this->deleteSub($slug, 'Exercice', $id, $this->get('security.context')->isGranted('ROLE_MODO'));
+        $exercice = $this->getOneSub($slug, 'Exercice', $id);
+        return $this->deleteSub($slug, 'Exercice', $id, $this->user == $exercice->getUploader() || $this->get('security.context')->isGranted('ROLE_MODO'));
     }
 }

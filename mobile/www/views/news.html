@@ -35,17 +35,17 @@
             <ons-list-item modifier="tappable" ng-repeat="new in news.data.concat(messages.data) | orderBy:'date':true" ng-click="load(new.slug)">
                 <ons-row>
                     <ons-col width="50px">
-                        <img ng-if="new.name != 'null'" style="background-image: url('{{ url + '/' + new.image_url }}')" class="image">
-                        <img ng-if="new.name == 'null'" style="background-image: url('{{ url + '/' + new.author_user.image_url }}')" class="image">
+                        <img ng-if="new.name != 'message'" style="background-image: url('{{ url + '/' + new.image_url }}')" class="image">
+                        <img ng-if="new.name == 'message'" style="background-image: url('{{ url + '/' + new.author_user.image_url }}')" class="image">
                     </ons-col>
 
                     <ons-col>
                         <div class="date">{{ new.date | readableDate }}</div>
-                        <div class="from" ng-if="new.name != 'null'">
+                        <div class="from" ng-if="new.name != 'message'">
                             <span class="name">{{ new.name }}</span>
                             <span class="id">{{ new.author_club.name }}</span>
                         </div>
-                        <div class="from" ng-if="new.name == 'null'">
+                        <div class="from" ng-if="new.name == 'message'">
                             <span class="id">{{ new.author_user.nick }}</span>
                         </div>
 

@@ -4,8 +4,7 @@ namespace KI\UpontBundle\Form\Ponthub;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use KI\UpontBundle\Form\TagType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MovieType extends AbstractType
 {
@@ -29,7 +28,7 @@ class MovieType extends AbstractType
             ->add('image', 'imageuploader_selector');
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,

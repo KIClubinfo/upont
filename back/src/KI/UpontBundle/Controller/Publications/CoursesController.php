@@ -5,6 +5,9 @@ namespace KI\UpontBundle\Controller\Publications;
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use KI\UpontBundle\Entity\Users\CourseUser;
+use KI\UpontBundle\Form\Users\CourseUserType;
 
 class CoursesController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
@@ -98,7 +101,17 @@ class CoursesController extends \KI\UpontBundle\Controller\Core\ResourceControll
      *  section="Publications"
      * )
      */
-    public function deleteCourseAction($slug) { return $this->delete($slug); }
+    public function deleteCourseAction($slug)
+    {
+        // Les cours possèdent plein de sous propriétés, il faut faire gaffe à toutes les supprimer
+        $course = $this->getOne($slug);
+        $repo = $this->em->getRepository('KIUpontBundle:Users\CourseUser');
+
+        foreach ($repo->findByCourse($course) as $courseUser)
+            $this->em->remove($courseUser);
+
+        return $this->delete($slug);
+    }
 
     /**
      * @ApiDoc(
@@ -114,17 +127,38 @@ class CoursesController extends \KI\UpontBundle\Controller\Core\ResourceControll
      * )
      * @Route\Post("/courses/{slug}/attend")
      */
-    public function addAttendeeAction($slug) {
+    public function postCourseUserAction($slug) {
         $user = $this->get('security.context')->getToken()->getUser();
         $course = $this->findBySlug($slug);
 
-        if ($user->getCourses()->contains($course)) {
-            throw new BadRequestHttpException('Vous participez déjà à ce cours');
-        } else {
-            $user->addCourse($course);
+        // Vérifie que la relation n'existe pas déjà
+        $repoLink = $this->em->getRepository('KIUpontBundle:Users\CourseUser');
+        $link = $repoLink->findBy(array('course' => $course, 'user' => $user));
+
+        // On crée la relation si elle n'existe pas déjà
+        if (count($link) != 0)
+            throw new BadRequestHttpException('La relation entre Course et User existe déjà');
+
+        // Création de l'entité relation
+        $link = new CourseUser();
+        $link->setCourse($course);
+        $link->setUser($user);
+
+        // Validation des données annexes
+        $form = $this->createForm(new CourseUserType(), $link, array('method' => 'POST'));
+        $form->handleRequest($this->getRequest());
+
+        if ($form->isValid()) {
+            $this->em->persist($link);
             $this->em->flush();
 
-            return $this->restResponse(null, 204);
+            if (!in_array($link->getGroup(), $link->getCourse()->getGroups()))
+            throw new BadRequestHttpException('Ce groupe n\'existe pas.');
+
+            return $this->jsonResponse(null, 204);
+        } else {
+            $this->em->detach($link);
+            return $this->jsonResponse($form, 400);
         }
     }
 
@@ -142,17 +176,19 @@ class CoursesController extends \KI\UpontBundle\Controller\Core\ResourceControll
      * )
      * @Route\Delete("/courses/{slug}/attend")
      */
-    public function removeAttendeeAction($slug) {
+    public function deleteCourseUserAction($slug) {
         $user = $this->get('security.context')->getToken()->getUser();
         $course = $this->findBySlug($slug);
 
-        if (!$user->getCourses()->contains($course)) {
-            throw new BadRequestHttpException('Vous ne participez pas à ce cours');
-        } else {
-            $user->removeCourse($course);
-            $this->em->flush();
+        $repoLink = $this->em->getRepository('KIUpontBundle:Users\CourseUser');
+        $link = $repoLink->findBy(array('course' => $course, 'user' => $user));
 
-            return $this->restResponse(null, 204);
-        }
+        if (count($link) != 1)
+            throw new NotFoundHttpException('Relation entre Course et User non trouvée');
+
+        $this->em->remove($link[0]);
+        $this->em->flush();
+
+        return $this->jsonResponse(null, 204);
     }
 }

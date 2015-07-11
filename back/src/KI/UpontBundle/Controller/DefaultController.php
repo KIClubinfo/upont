@@ -4,7 +4,6 @@ namespace KI\UpontBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
@@ -75,7 +74,7 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
     {
         $curl = $this->get('ki_upont.curl');
 
-        // On va reset le cours actuels au cas où ils seraient updatés
+        // On va reset les cours actuels au cas où ils seraient updatés
         $manager = $this->getDoctrine()->getManager();
         $query = $manager->createQuery('DELETE FROM KIUpontBundle:Publications\CourseItem c WHERE c.startDate > :time');
         $query->setParameter('time', mktime(0, 0, 0));
@@ -85,10 +84,11 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
         $repo = $manager->getRepository('KIUpontBundle:Publications\Course');
         $results = $repo->findAll();
         $courses = array();
-        $coursesNames = array();
         foreach ($results as $course) {
-            $courses[$course->getId()] = $course;
-            $coursesNames[$course->getId()] = $course->getName().$course->getGroup();
+            $courses[$course->getName()] = array(
+                'course' => $course,
+                'groups' => $course->getGroups()
+                );
         }
 
         // On récupère les cours de la prochaine semaine
@@ -126,57 +126,39 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
 
                 // Si le cours existe déjà, on le récupère
                 // Sinon on crée un nouveau cours
-                if ($key = array_search($name.$gr, $coursesNames)) {
-                    $course = $courses[$key];
-
-                    // On règle quand même l'heure de début et de fin si ce n'était pas fait
-                    if ($course->getStartDate() == null)
-                        $course->setStartDate($startDate);
-                    if ($course->getEndDate() == null)
-                        $course->setEndDate($endDate);
+                if (array_key_exists($name, $courses)) {
+                    $course = $courses[$name]['course'];
                 } else {
                     $course = new Course();
                     $course->setName($name);
-                    $course->setGroup($gr);
-                    $course->setStartDate($startDate);
-                    $course->setEndDate($endDate);
                     $course->setDepartment($department[$id]);
                     $course->setSemester(0);
+                    $course->addGroup($gr);
                     $manager->persist($course);
-                    $courses[] = $course;
-                    $coursesNames[] = $name.$gr;
+                    $courses[$name] = array(
+                        'course' => $course,
+                        'groups' => array($gr)
+                        );
+                }
+
+                // Si le groupe n'est pas connu on le rajoute
+                if (!in_array($gr, $courses[$name]['groups'])) {
+                    $course->addGroup($gr);
                 }
 
                 // On ajoute l'objet à ce cours
                 $courseItem = new CourseItem();
-                $courseItem->setCourse($course);
                 $courseItem->setStartDate(mktime(0, 0, 0) + $startDate);
                 $courseItem->setEndDate(mktime(0, 0, 0) + $endDate);
                 $courseItem->setLocation($location[$id]);
+                $courseItem->setGroup($gr);
+                $courseItem->setCourse($course);
                 $manager->persist($courseItem);
             }
         }
+
         $manager->flush();
 
-        return $this->jsonResponse(null, 202);
-    }
-
-    /**
-     * @ApiDoc(
-     *  description="Déclenche le déploiement de master. DANGEREUX ! Ne doit pas être testé pour des raisons évidentes.",
-     *  statusCodes={
-     *   202="Requête traitée mais sans garantie de résultat",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  tags={
-     *    "WARNING"
-     *  },
-     *  section="Général"
-     * )
-     */
-    public function deployAction()
-    {
-        shell_exec("ssh root@localhost '/bin/bash /server/upont/utils/update-prod.sh'");
         return $this->jsonResponse(null, 202);
     }
 
@@ -247,7 +229,7 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
     public function maintenanceLockAction(Request $request)
     {
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
-            throw new AccessDeniedException();
+            return $this->jsonResponse(null, 403);
 
         $path = $this->get('kernel')->getRootDir().$this->container->getParameter('upont_maintenance_lock');
         $until = $request->request->has('until') ? (string)$request->request->get('until') : '';
@@ -269,7 +251,7 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
     public function maintenanceUnlockAction(Request $request)
     {
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
-            throw new AccessDeniedException();
+            return $this->jsonResponse(null, 403);
 
         $path = $this->get('kernel')->getRootDir().$this->container->getParameter('upont_maintenance_lock');
 
@@ -356,6 +338,9 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
         $user = $repo->findOneByUsername($request->request->get('username'));
 
         if ($user) {
+            if ($user->hasRole('ROLE_ADMISSIBLE'))
+                return $this->jsonResponse(null, 403);
+
             $token = $this->get('ki_upont.token')->getToken($user);
             $message = \Swift_Message::newInstance()
                 ->setSubject('Réinitialisation du mot de passe')
@@ -364,7 +349,7 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
                 ->setBody($this->renderView('KIUpontBundle::resetting.txt.twig', array('token' => $token, 'name' => $user->getFirstName())));
             $this->get('mailer')->send($message);
 
-            return $this->restResponse(null, 204);
+            return $this->jsonResponse(null, 204);
         } else
             throw new NotFoundHttpException('Utilisateur non trouvé');
     }
@@ -404,11 +389,21 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
         $user = $repo->findOneByToken($token);
 
         if ($user) {
+            if ($user->hasRole('ROLE_ADMISSIBLE'))
+                return $this->jsonResponse(null, 403);
+
+            $username = $user->getUsername();
+
+            // Pour changer le mot de passe on doit passer par le UserManager
+            $userManager = $this->get('fos_user.user_manager');
+            $user = $userManager->findUserByUsername($username);
+
+
             if ($request->get('password') != $request->get('check'))
                 throw new BadRequestHttpException('Mots de passe non identiques');
 
             $user->setPlainPassword($request->get('password'));
-            $manager->flush();
+            $userManager->updateUser($user, true);
 
             return $this->restResponse(null, 204);
         } else

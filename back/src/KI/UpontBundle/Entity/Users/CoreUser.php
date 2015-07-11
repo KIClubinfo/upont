@@ -5,7 +5,6 @@ namespace KI\UpontBundle\Entity\Users;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * La classe User est divisée en deux (autre partie dans User)
@@ -108,6 +107,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
         'notif_comments'       => true,
         'notif_shotgun_freed'  => true,
         'notif_ponthub'        => false,
+        'notif_fixes'          => true,
         //'notif_followed_annal' => true,
         //'notif_achievement'    => true,
         //'notif_next_level'     => true
@@ -118,7 +118,11 @@ class CoreUser extends \FOS\UserBundle\Model\User
      */
     public function imageUrl()
     {
-        return $this->image !== null ? $this->image->getWebPath() : 'uploads/others/default-user.png';
+        if ($this->image !== null) {
+            if (file_exists($this->image->getAbsolutePath()))
+                return $this->image->getWebPath();
+        }
+        return 'uploads/others/default-user.png';
     }
 
     /**

@@ -4,7 +4,7 @@ namespace KI\UpontBundle\Form\Users;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
 class AdmissibleType extends AbstractType
@@ -14,7 +14,6 @@ class AdmissibleType extends AbstractType
         $builder
             ->add('firstName')
             ->add('lastName')
-            ->add('date')
             ->add('scei')
             ->add('serie')
             ->add('contact')
@@ -22,7 +21,7 @@ class AdmissibleType extends AbstractType
             ->add('details');
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,

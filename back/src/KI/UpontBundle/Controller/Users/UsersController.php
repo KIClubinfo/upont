@@ -5,7 +5,6 @@ namespace KI\UpontBundle\Controller\Users;
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UsersController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
@@ -45,7 +44,7 @@ class UsersController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  section="Utilisateurs"
      * )
      */
-    public function getUserAction($slug) { return $this->getOne($slug); }
+    public function getUserAction($slug) { return $this->getOne($slug, true); }
 
     /**
      * @ApiDoc(
@@ -81,6 +80,11 @@ class UsersController extends \KI\UpontBundle\Controller\Core\ResourceController
      */
     public function patchUserAction($slug)
     {
+        // Les admissibles et extérieurs ne peuvent pas modifier leur profil
+        if ($this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
+            || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+            throw new AccessDeniedException();
+
         // Un utilisateur peut se modifier lui même
         $user = $this->get('security.context')->getToken()->getUser();
         return $this->patch($slug, $user->getUsername() == $slug);

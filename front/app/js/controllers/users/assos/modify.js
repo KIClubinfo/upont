@@ -29,7 +29,7 @@ angular.module('upont')
                         $scope.club = data;
                     });
                 } else {
-                    alertify.alert('Le nom court du club ayant changé, il est nécéssaire de recharger la page du club...');
+                    alertify.alert('Le nom court du club ayant changé, il est nécessaire de recharger la page du club...');
                     $state.go('root.users.clubs.liste');
                 }
                 alertify.success('Modifications prises en compte !');
@@ -38,6 +38,7 @@ angular.module('upont')
 
         $scope.setIcon = function(icon) {
             $scope.club.icon = icon;
+            window.scrollTo(0, 0);
         };
 
         $scope.searchUser = function(string) {
@@ -59,7 +60,7 @@ angular.module('upont')
                 }
             }
 
-            alertify.prompt('Rôle :', function(e, role){
+            alertify.prompt('Rôle de ' + name + ' :', function(e, role){
                 if (e) {
                     $http.post(apiPrefix + 'clubs/' + $scope.club.slug + '/users/' + slug, {role: role}).success(function(data){
                         alertify.success(name + ' a été ajouté(e) !');
