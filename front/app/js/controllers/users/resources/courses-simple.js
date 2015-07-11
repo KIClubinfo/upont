@@ -64,6 +64,9 @@ angular.module('upont')
 
         $scope.removeExercice = function(course, exercice) {
             $resource(apiPrefix + 'courses/' + course.slug + '/exercices/' + exercice.slug).delete(function() {
+                $resource(apiPrefix + 'courses/' + course.slug + '/exercices').query(function(data){
+                    $scope.exercices = data;
+                });
                 alertify.success('Annale supprimée.');
             });
         };
