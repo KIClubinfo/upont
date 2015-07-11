@@ -1,10 +1,15 @@
 angular.module('upont')
-    .controller('Courses_List_Ctrl', ['$scope', 'courses', 'Paginate', function($scope, courses, Paginate) {
+    .controller('Courses_List_Ctrl', ['$scope', 'courses', 'Paginate', '$http', function($scope, courses, Paginate, $http) {
         $scope.courses = courses;
+        $scope.modo = false;
         $scope.search = {
             department: 'all',
             semester: 'all',
             ects: 'all',
+        };
+
+        $scope.toggleModo = function() {
+            $scope.modo = !$scope.modo;
         };
 
         $scope.next = function() {
@@ -90,6 +95,18 @@ angular.module('upont')
                     $scope.isLoading = false;
                 });
             }
+        };
+
+        $scope.toggleCourse = function(course) {
+            if ($scope.isLoading) {
+                return;
+            }
+            $scope.isLoading = true;
+
+            course.active = !course.active;
+            $http.patch(apiPrefix + 'courses/' + course.slug, {active: course.active}).success(function(){
+                $scope.isLoading = false;
+            });
         };
     }])
     .config(['$stateProvider', function($stateProvider) {

@@ -1607,17 +1607,17 @@
         },
         {
             "name": "lexik/jwt-authentication-bundle",
-            "version": "v1.0.10",
+            "version": "v1.1.0",
             "target-dir": "Lexik/Bundle/JWTAuthenticationBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lexik/LexikJWTAuthenticationBundle.git",
-                "reference": "27dbf11e889a8fdb6d415a69e88b3e6d8c3a76eb"
+                "reference": "fb8c731e564bd5e1070fa9b0510aceea665b6da6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lexik/LexikJWTAuthenticationBundle/zipball/27dbf11e889a8fdb6d415a69e88b3e6d8c3a76eb",
-                "reference": "27dbf11e889a8fdb6d415a69e88b3e6d8c3a76eb",
+                "url": "https://api.github.com/repos/lexik/LexikJWTAuthenticationBundle/zipball/fb8c731e564bd5e1070fa9b0510aceea665b6da6",
+                "reference": "fb8c731e564bd5e1070fa9b0510aceea665b6da6",
                 "shasum": ""
             },
             "require": {
@@ -1673,7 +1673,7 @@
                 "jwt",
                 "rest"
             ],
-            "time": "2015-06-05 14:31:59"
+            "time": "2015-07-08 11:18:29"
         },
         {
             "name": "michelf/php-markdown",

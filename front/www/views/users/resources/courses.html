@@ -5,6 +5,8 @@
             <select ng-model="search.department" ng-change="reload(search)">
                 <option value="all">Tous</option>
                 <option ng-repeat="item in $root.departments">{{ item }}</option>
+                <option>SHS</option>
+                <option>DFL</option>
             </select>
         </div>
     </div>
@@ -44,15 +46,16 @@
 </nav>
 
 <div class="up-ticket">
+    <button class="up-btn up-btn-default" ng-if="$root.isAdmin" ng-class="{'disabled': !modo}" ng-click="toggleModo()" style="float:right">Mode modo</button>
     <h1>Liste des cours</h1>
 
     <div up-row left wrap padded infinite-scroll="next()" infinite-scroll-distance="3" infinite-scroll-disabled="$root.infiniteLoading">
-        <div ng-repeat="course in courses.data" class="up-course-item" up-col-xs="50%" up-col-sm="50%" up-col-md="50%" up-col="33%">
+        <div ng-repeat="course in courses.data" class="up-course-item" up-col-xs="50%" up-col-sm="50%" up-col-md="50%" up-col="33%" ng-show="modo || course.active">
             <div class="up-course-container" up-col="100%" up-row>
                 <div class="up-course-details" up-col="80%">
                     <h3 class="up-clickable" ui-sref="root.users.resources.courses.simple({slug: course.slug})">{{ course.name }}</h3>
                 </div>
-                <div up-col="20%" up-row wrap left>
+                <div up-col="20%" up-row wrap left ng-show="!modo">
                     <div class="up-likes up-clickable" ng-click="upvote(course);" ng-class="{active : course.like, admissibles : $root.isAdmissible || $root.isExterieur}" up-col="50%">
                         <i class="fa fa-thumbs-o-up"></i> {{ course.likes >= 0 ? course.likes : 0 }}
                     </div>
@@ -63,6 +66,11 @@
 
                     <div class="up-likes" ng-class="{admissibles : $root.isAdmissible}" up-col="50%">
                         <i class="fa fa-comment"></i> {{ course.comments }}
+                    </div>
+                </div>
+                <div up-col="20%" up-row wrap left ng-show="modo">
+                    <div class="up-likes up-clickable" ng-click="toggleCourse(course);" ng-class="{active : course.active}" style="font-size:2em" up-col="100%">
+                        <i class="fa" ng-class="{'fa-toggle-on': course.active, 'fa-toggle-off': !course.active}"></i>
                     </div>
                 </div>
             </div>
