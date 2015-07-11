@@ -2,7 +2,7 @@
     <h1>{{ course.name }}</h1>
 
     <strong>Département :</strong> {{ course.department }}<br>
-    <span ng-if="course.semester"><strong>Semestre :</strong> S{{ course.semester }}</span><br>
+    <span ng-if="course.semester"><strong>Période :</strong> {{ course.semester }}</span><br>
     <br>
 
     <h2>Annales</h2>
@@ -54,17 +54,14 @@
     <form up-row padded left wrap ng-submit="submitCourse(course, groups)" autocomplete="off">
         <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
             <i class="fa fa-graduation-cap"></i>
-            Semestre
+            Période
         </div>
         <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
             <select ng-model="course.semester">
-                <!-- Attention le select retourne un string alors que le champs est un integer -->
-                <option value="1" ng-selected="course.semester == 1">S1</option>
-                <option value="2" ng-selected="course.semester == 2">S2</option>
-                <option value="3" ng-selected="course.semester == 3">S3</option>
-                <option value="4" ng-selected="course.semester == 4">S4</option>
-                <option value="5" ng-selected="course.semester == 5">S5</option>
-                <option value="6" ng-selected="course.semester == 6">S6</option>
+                <option>Ouverture</option>
+                <option>1er Semestre</option>
+                <option>2nd Semestre</option>
+                <option>Année complète</option>
             </select>
         </div>
 

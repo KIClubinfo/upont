@@ -429,8 +429,13 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      */
     public function getOwnCoursesAction()
     {
-        $user = $this->get('security.context')->getToken()->getUser();
-        return $this->restResponse($user->getCourses());
+        $repo = $this->getDoctrine()->getManager()->getRepository('KIUpontBundle:Users\CourseUser');
+
+        $return = array();
+        foreach ($repo->findBy(array('user' => $this->user)) as $courseUser)
+            $return[] = array('course' => $courseUser->getCourse(), 'group' => $courseUser->getGroup());
+
+        return $this->restResponse($return);
     }
 
     /**
@@ -449,16 +454,19 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      */
     public function getCourseitemsAction()
     {
-        $user = $this->get('security.context')->getToken()->getUser();
-        $courses = $user->getCourses();
+        $repo = $this->getDoctrine()->getManager()->getRepository('KIUpontBundle:Users\CourseUser');
 
         // On extraie les Courseitem et on les trie par date de début
         $result = array();
         $timestamp = array();
-        foreach ($courses as $course) {
+        foreach ($repo->findBy(array('user' => $this->user)) as $courseUser) {
+            $course = $courseUser->getCourse();
             foreach ($course->getCourseitems() as $courseitem) {
-                $result[] = $courseitem;
-                $timestamp[] = $courseitem->getStartDate();
+                //echo $coursitem->getCourse()->getName().'#'.$coursitem->getGroup();
+                if ($courseUser->getGroup() == $courseitem->getGroup() || $course->getGroups() == array('0') || empty($course->getGroups()) || empty($courseitem->getGroup())) {
+                    $result[] = $courseitem;
+                    $timestamp[] = $courseitem->getStartDate();
+                }
             }
         }
         array_multisort($timestamp, SORT_ASC, $result);

@@ -79,13 +79,6 @@ class CoreUser extends \FOS\UserBundle\Model\User
     protected $clubsNotFollowed;
 
     /**
-     * Cours que l'utilisateur suit
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Publications\Course",
-     * inversedBy="attendees", cascade={"persist"})
-     */
-    protected $courses;
-
-    /**
      * Tableau contenant les préférences utilisateurs. Les valeurs possibles des clés de ce tableau ainsi que
      * leur valeurs par défaut sont définies dans $preferencesArray
      * @ORM\Column(name="preferences", type="array", nullable=true)
@@ -149,7 +142,6 @@ class CoreUser extends \FOS\UserBundle\Model\User
     public function __construct()
     {
         $this->devices = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
         $this->clubsNotFollowed = new \Doctrine\Common\Collections\ArrayCollection();
         parent::__construct();
     }
@@ -335,39 +327,6 @@ class CoreUser extends \FOS\UserBundle\Model\User
     public function getDevices()
     {
         return $this->devices;
-    }
-
-    /**
-     * Add courses
-     *
-     * @param \KI\UpontBundle\Entity\Publications\Course $course
-     * @return User
-     */
-    public function addCourse(\KI\UpontBundle\Entity\Publications\Course $course)
-    {
-        $this->courses[] = $course;
-
-        return $this;
-    }
-
-    /**
-     * Remove courses
-     *
-     * @param \KI\UpontBundle\Entity\Publications\Course $course
-     */
-    public function removeCourse(\KI\UpontBundle\Entity\Publications\Course $course)
-    {
-        $this->courses->removeElement($course);
-    }
-
-    /**
-     * Get courses
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCourses()
-    {
-        return $this->courses;
     }
 
     /**
