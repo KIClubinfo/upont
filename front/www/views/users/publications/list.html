@@ -4,7 +4,7 @@
             <div class="up-ticket-header">
                 <div class="up-img-home up-clickable"
                      ng-click="$root.zoomIn('/api/' + publication.image_url)"
-                     ng-style="{'background-image': 'url({{ publication.image_url | urlFile }})'}">
+                     ng-style="{'background-image': 'url({{ publication.image_url | thumb | urlFile }})'}">
                 </div>
                 <div class="background" ng-style="{'background': 'linear-gradient(to bottom , transparent, rgba(0, 0, 0, 0.6)), url({{ publication.author_club.image_url | urlFile }}) no-repeat center center'}"></div>
             </div>

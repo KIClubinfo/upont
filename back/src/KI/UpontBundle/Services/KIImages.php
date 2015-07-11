@@ -98,55 +98,6 @@ class KIImages extends ContainerAware
         return false;
     }
 
-    // Crée une miniature pour l'image de chemin $path
-    // Dans un dossier thumbnails
-    protected function createThumbnail($path)
-    {
-        $extension = pathinfo(strtolower($path), PATHINFO_EXTENSION);
-
-        if (preg_match('/jpg|jpeg/',$extension))
-            $image = imagecreatefromjpeg($path);
-        else if (preg_match('/png/',$extension))
-            $image = imagecreatefrompng($path);
-        else
-            throw new BadRequestHttpException('Extension non reconnue !');
-
-        // Redimensionnement de l'image
-        $maxWidth = 150;
-        $mawHeight = 150;
-        list($imageWidth, $imageHeight) = getimagesize($path);
-
-        $thumbWidth = $imageWidth;
-        $thumbHeight = $imageHeight;
-
-        if ($thumbHeight > $mawHeight) {
-            $thumbWidth = floor($thumbWidth * $mawHeight / $thumbHeight);
-            $thumbHeight = $mawHeight;
-        }
-
-        if ($thumbWidth > $maxWidth) {
-            $thumbHeight = floor($thumbHeight * $maxWidth / $thumbWidth);
-            $thumbWidth = $maxWidth;
-        }
-
-        $thumbnail = imagecreatetruecolor($thumbWidth, $thumbHeight);
-
-        imagecopyresampled($thumbnail, $image, 0, 0, 0, 0, $thumbWidth, $thumbHeight, $imageWidth, $imageHeight);
-
-        // Enregistrement de la miniature
-        $thumbPath = dirname($path) . '/thumbnails/';
-        // Création du dossier thumbnails au besoin
-        if(!is_dir($thumbPath)) mkdir($thumbPath);
-
-        if (preg_match('/jpg|jpeg/', $extension))
-            imagejpeg($thumbnail, $thumbPath . substr($path, strlen(dirname($path)) + 1));
-        else
-            imagepng($thumbnail, $thumbPath . substr($path, strlen(dirname($path)) + 1));
-
-        imagedestroy($image);
-        imagedestroy($thumbnail);
-    }
-
     // Crée des miniatures pour toutes les images du dossier $path
     // dans le dossier {path}/thumbnails
     public function createThumbnails($path)
@@ -157,11 +108,11 @@ class KIImages extends ContainerAware
         foreach ($images as $image) {
             $extension = pathinfo(strtolower($image), PATHINFO_EXTENSION);
 
-            if (is_file($path . 'thumbnails/' . $image)
+            if (is_file(str_replace('images', 'thumbnails', $path).'/'.$image)
                 || ($extension != 'jpg' && $extension != 'jpeg' && $extension != 'png')
                 ) continue;
 
-            $this->createThumbnail($path . $image);
+            Image::createThumbnail($path.'/'.$image);
         }
     }
 }
