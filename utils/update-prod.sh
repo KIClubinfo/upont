@@ -9,16 +9,16 @@ git pull
 export SYMFONY_ENV=prod
 
 cd front
-npm install
+sudo npm install
 bower update --allow-root
 gulp build-html --type=production
 gulp build-js --type=production
 gulp build-css --type=production
 
 cd ../mobile
-npm install
+sudo npm install
 bower update --allow-root
-gulp build-js --type=production
+gulp build-js # Bug minification --type=production
 gulp build-css-light --type=production
 gulp build-css-dark --type=production
 

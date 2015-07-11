@@ -26,7 +26,7 @@ else
     npm config set https-proxy $proxy
 fi
 sudo ln -s /usr/bin/nodejs /usr/bin/node
-sudo npm install -g grunt-cli gulp karma-cli bower phonegap cordova
+sudo npm install -g gulp bower phonegap cordova
 
 echo "Configuration de git..."
 sudo chown -R $user:www-data /var/www

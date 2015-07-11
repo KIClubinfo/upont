@@ -68,6 +68,39 @@ angular.module('upont')
                     category: 'films'
                 }
             })
+            // Idem, le state simple doit être enregistré avant le state de list
+            .state('root.users.ponthub.category.simple', {
+                url: '/:slug',
+                templateUrl: 'views/users/ponthub/simple.html',
+                controller: 'Ponthub_Element_Ctrl',
+                data: {
+                    top: true
+                },
+                resolve: {
+                    element: ['$resource', '$stateParams', 'Ponthub', function($resource, $stateParams, Ponthub) {
+                        return $resource(apiPrefix + ':cat/:slug').get({
+                            cat: Ponthub.cat($stateParams.category),
+                            slug: $stateParams.slug
+                        }).$promise;
+                    }],
+                    episodes: ['$resource', '$stateParams', 'Ponthub', function($resource, $stateParams, Ponthub) {
+                        if(Ponthub.cat($stateParams.category) != 'series')
+                            return true;
+                        return $resource(apiPrefix + ':cat/:slug/episodes').query({
+                            cat: 'series',
+                            slug: $stateParams.slug
+                        }).$promise;
+                    }],
+                    musics: ['$resource', '$stateParams', 'Ponthub', function($resource, $stateParams, Ponthub) {
+                        if(Ponthub.cat($stateParams.category) != 'albums')
+                            return true;
+                        return $resource(apiPrefix + ':cat/:slug/musics').query({
+                            cat: 'albums',
+                            slug: $stateParams.slug
+                        }).$promise;
+                    }],
+                }
+            })
             .state('root.users.ponthub.category.list', {
                 url: '',
                 templateUrl: 'views/users/ponthub/list.html',
@@ -77,6 +110,5 @@ angular.module('upont')
                         return Paginate.get(Ponthub.cat($stateParams.category) + '?sort=-added,id', 20);
                     }]
                 },
-
             });
     }]);

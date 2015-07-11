@@ -5,7 +5,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use KI\UpontBundle\Form\DataTransformer\StringToActorsDataTransformer;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ActorsSelectorType extends AbstractType
 {
@@ -13,9 +12,6 @@ class ActorsSelectorType extends AbstractType
      * @var ObjectManager
      */
     private $om;
-
-    private $uploaderService;
-
 
     /**
      * @param ObjectManager $om

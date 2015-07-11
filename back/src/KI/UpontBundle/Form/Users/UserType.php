@@ -4,7 +4,7 @@ namespace KI\UpontBundle\Form\Users;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
 {
@@ -30,10 +30,11 @@ class UserType extends AbstractType
             ->add('statsPonthub')
             ->add('allowedBde')
             ->add('allowedBds')
+            ->add('details')
             ->add('image', 'imageuploader_selector');
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,

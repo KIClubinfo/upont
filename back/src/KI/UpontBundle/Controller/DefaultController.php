@@ -4,7 +4,6 @@ namespace KI\UpontBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
@@ -75,7 +74,7 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
     {
         $curl = $this->get('ki_upont.curl');
 
-        // On va reset le cours actuels au cas où ils seraient updatés
+        // On va reset les cours actuels au cas où ils seraient updatés
         $manager = $this->getDoctrine()->getManager();
         $query = $manager->createQuery('DELETE FROM KIUpontBundle:Publications\CourseItem c WHERE c.startDate > :time');
         $query->setParameter('time', mktime(0, 0, 0));
@@ -85,10 +84,11 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
         $repo = $manager->getRepository('KIUpontBundle:Publications\Course');
         $results = $repo->findAll();
         $courses = array();
-        $coursesNames = array();
         foreach ($results as $course) {
-            $courses[$course->getId()] = $course;
-            $coursesNames[$course->getId()] = $course->getName().$course->getGroup();
+            $courses[$course->getName()] = array(
+                'course' => $course,
+                'groups' => $course->getGroups()
+                );
         }
 
         // On récupère les cours de la prochaine semaine
@@ -126,36 +126,37 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
 
                 // Si le cours existe déjà, on le récupère
                 // Sinon on crée un nouveau cours
-                if ($key = array_search($name.$gr, $coursesNames)) {
-                    $course = $courses[$key];
-
-                    // On règle quand même l'heure de début et de fin si ce n'était pas fait
-                    if ($course->getStartDate() == null)
-                        $course->setStartDate($startDate);
-                    if ($course->getEndDate() == null)
-                        $course->setEndDate($endDate);
+                if (array_key_exists($name, $courses)) {
+                    $course = $courses[$name]['course'];
                 } else {
                     $course = new Course();
                     $course->setName($name);
-                    $course->setGroup($gr);
-                    $course->setStartDate($startDate);
-                    $course->setEndDate($endDate);
                     $course->setDepartment($department[$id]);
                     $course->setSemester(0);
+                    $course->addGroup($gr);
                     $manager->persist($course);
-                    $courses[] = $course;
-                    $coursesNames[] = $name.$gr;
+                    $courses[$name] = array(
+                        'course' => $course,
+                        'groups' => array($gr)
+                        );
+                }
+
+                // Si le groupe n'est pas connu on le rajoute
+                if (!in_array($gr, $courses[$name]['groups'])) {
+                    $course->addGroup($gr);
                 }
 
                 // On ajoute l'objet à ce cours
                 $courseItem = new CourseItem();
-                $courseItem->setCourse($course);
                 $courseItem->setStartDate(mktime(0, 0, 0) + $startDate);
                 $courseItem->setEndDate(mktime(0, 0, 0) + $endDate);
                 $courseItem->setLocation($location[$id]);
+                $courseItem->setGroup($gr);
+                $courseItem->setCourse($course);
                 $manager->persist($courseItem);
             }
         }
+
         $manager->flush();
 
         return $this->jsonResponse(null, 202);
