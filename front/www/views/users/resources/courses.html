@@ -51,7 +51,7 @@
 
     <div up-row left wrap padded infinite-scroll="next()" infinite-scroll-distance="3" infinite-scroll-disabled="$root.infiniteLoading">
         <div ng-repeat="course in courses.data" class="up-course-item" up-col-xs="50%" up-col-sm="50%" up-col-md="50%" up-col="33%" ng-show="modo || course.active">
-            <div class="up-course-container" up-col="100%" up-row>
+            <div class="up-course-container" ng-class="{'up-course-active': modo && course.active}" up-col="100%" up-row>
                 <div class="up-course-details" up-col="80%">
                     <h3 class="up-clickable" ui-sref="root.users.resources.courses.simple({slug: course.slug})">{{ course.name }}</h3>
                 </div>
