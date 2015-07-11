@@ -2,7 +2,7 @@
     <div infinite-scroll="next()" infinite-scroll-distance="2" infinite-scroll-disabled="$root.infiniteLoading">
         <div class="up-ticket" ng-repeat="message in messages.data">
             <div up-row class="up-messages" ng-mouseover="showModify=true" ng-mouseleave="showModify=false">
-                <img up-col="20%" class="up-profile-picture" ng-src="{{ message.author_user.image_url | urlFile }}"/>
+                <img up-col="20%" class="up-profile-picture" ng-src="{{ message.author_user.image_url | thumb | urlFile }}"/>
                 <div up-col="80%">
                     <small>
                         <span class="up-clickable" ui-sref="root.users.publications.message({slug: message.slug})" title="Afficher la publication">{{ message.date | fromNow }}</span>
@@ -19,7 +19,7 @@
             </div>
             <img class="img-responsive up-clickable" ng-if="message.image_url"
                  ng-click="$root.zoomIn('/api/' + message.image_url)"
-                 ng-src="{{ message.image_url | urlFile }}"/>
+                 ng-src="{{ message.image_url | thumb | urlFile }}"/>
             <div up-likes objet="message" url="'newsitems/'+message.slug"></div>
         </div>
     </div>

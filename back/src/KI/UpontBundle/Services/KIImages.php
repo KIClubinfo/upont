@@ -14,8 +14,8 @@ class KIImages extends ContainerAware
     {
         $fs = new Filesystem();
         $image = new Image();
-
-        // Check if the input is an URL or not and return an array with the image and the extension
+        // Checks if the input is an URL or not
+        // Returns an array with the image and the extension
         $regex = '#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#iS';
         if ($url || preg_match($regex, $src))
             $data = $this->uploadUrl($src, true);
@@ -24,15 +24,17 @@ class KIImages extends ContainerAware
 
         $image->setExt($data['extension']);
 
-        // Save the image locally thanks to md5 hash and put it in the $img
+        // Saves the image locally thanks to md5 hash and puts it in the $image
         $path = $image->getTemporaryDir().md5($data['image']);
         $fs->dumpFile($path, $data['image']);
         $file = new File($path);
         $image->setFile($file);
+
         return $image;
     }
 
-    // Upload d'une image à partir de données en base 64 et renvoie l'extension de l'image
+    // Upload d'une image à partir de données en base 64
+    // Renvoie l'extension de l'image
     public function uploadBase64($data)
     {
         // On n'enregistre des données que si elles sont non nulles
@@ -52,7 +54,8 @@ class KIImages extends ContainerAware
         return null;
     }
 
-    // Upload d'une image à partir d'une URL et renvoie l'image sous forme de string et son extension
+    // Upload d'une image à partir d'une URL
+    // Renvoie l'image sous forme de string et son extension
     public function uploadUrl($url, $byPassCheck = false)
     {
         if (!($byPassCheck || preg_match('#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#iS', $url)))
@@ -93,5 +96,23 @@ class KIImages extends ContainerAware
         if (file_exists($path))
             return unlink($path);
         return false;
+    }
+
+    // Crée des miniatures pour toutes les images du dossier $path
+    // dans le dossier {path}/thumbnails
+    public function createThumbnails($path)
+    {
+        $images = array();
+        $images = scandir($path);
+
+        foreach ($images as $image) {
+            $extension = pathinfo(strtolower($image), PATHINFO_EXTENSION);
+
+            if (is_file(str_replace('images', 'thumbnails', $path).'/'.$image)
+                || ($extension != 'jpg' && $extension != 'jpeg' && $extension != 'png')
+                ) continue;
+
+            Image::createThumbnail($path.'/'.$image);
+        }
     }
 }

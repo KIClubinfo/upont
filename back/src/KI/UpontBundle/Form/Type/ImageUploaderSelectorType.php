@@ -14,7 +14,7 @@ class ImageUploaderSelectorType extends AbstractType
      * @var ObjectManager
      */
     private $om;
-    
+
     private $uploaderService;
 
 
