@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('Aside_Ctrl', ['$scope', '$rootScope', '$resource', '$interval', function($scope, $rootScope, $resource, $interval) {
+    .controller('Aside_Ctrl', ['$scope', '$rootScope', '$resource', '$interval', 'Achievements', function($scope, $rootScope, $resource, $interval, Achievements) {
         // CHARGEMENT DES DONNÉES DE BASE
         // Version de uPont
         $resource(apiPrefix + 'version').get(function(data){
@@ -9,6 +9,7 @@ angular.module('upont')
         // Solde foyer
         $resource(apiPrefix + 'foyer/balance').get(function(data){
             $scope.foyer = data.balance;
+            Achievements.check();
         });
 
         // Gens en ligne

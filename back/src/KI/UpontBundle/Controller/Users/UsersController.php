@@ -5,6 +5,8 @@ namespace KI\UpontBundle\Controller\Users;
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use KI\UpontBundle\Entity\Users\Achievement;
+use KI\UpontBundle\Event\AchievementCheckEvent;
 
 class UsersController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
@@ -85,9 +87,22 @@ class UsersController extends \KI\UpontBundle\Controller\Core\ResourceController
             || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
             throw new AccessDeniedException();
 
+        $request = $this->getRequest()->request;
+        if ($request->has('image')) {
+            $dispatcher = $this->container->get('event_dispatcher');
+            $achievementCheck = new AchievementCheckEvent(Achievement::PHOTO);
+            $dispatcher->dispatch('upont.achievement', $achievementCheck);
+        }
+
         // Un utilisateur peut se modifier lui même
         $user = $this->get('security.context')->getToken()->getUser();
-        return $this->patch($slug, $user->getUsername() == $slug);
+        $response = $this->patch($slug, $user->getUsername() == $slug);
+
+        $dispatcher = $this->container->get('event_dispatcher');
+        $achievementCheck = new AchievementCheckEvent(Achievement::PROFILE);
+        $dispatcher->dispatch('upont.achievement', $achievementCheck);
+
+        return $response;
     }
 
     /**

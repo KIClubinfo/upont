@@ -4,7 +4,8 @@ namespace KI\UpontBundle\Services;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 use KI\UpontBundle\Entity\Users\User;
-
+use KI\UpontBundle\Entity\Users\Achievement;
+use KI\UpontBundle\Event\AchievementCheckEvent;
 
 //Service permettant de gérer les calendrier
 class KICalendar extends ContainerAware
@@ -23,7 +24,7 @@ class KICalendar extends ContainerAware
         return $date;
     }
 
-    //Retourne un calendrier au format ICS
+    // Retourne un calendrier au format ICS
     public function getCalendar(User $user, array $events)
     {
         $provider = $this->container->get('bomo_ical.ics_provider');
@@ -46,6 +47,10 @@ class KICalendar extends ContainerAware
                 ->setDescription($eventDb->getText())
                 ->setLocation($eventDb->getPlace());
         }
+
+        $dispatcher = $this->container->get('event_dispatcher');
+        $achievementCheck = new AchievementCheckEvent(Achievement::ICS_CALENDAR, $user);
+        $dispatcher->dispatch('upont.achievement', $achievementCheck);
 
         return $cal->returnCalendar();
     }

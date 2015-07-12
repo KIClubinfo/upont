@@ -108,7 +108,7 @@ angular.module('upont')
                 template: '<div ui-view></div>'
             });
     }])
-    .run(['$rootScope', 'StorageService', 'Permissions', '$state', '$interval', '$resource', '$location', '$window', '$sce', function($rootScope, StorageService, Permissions, $state, $interval, $resource, $location, $window, $sce) {
+    .run(['$rootScope', 'StorageService', 'Permissions', '$state', '$interval', '$resource', '$location', '$window', '$sce', 'Achievements', function($rootScope, StorageService, Permissions, $state, $interval, $resource, $location, $window, $sce, Achievements) {
         Permissions.load();
 
         // Déconnexion

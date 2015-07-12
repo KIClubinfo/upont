@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 use KI\UpontBundle\Entity\Users\Device;
 use KI\UpontBundle\Entity\Users\Achievement;
 
-
 class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
@@ -73,6 +72,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
 
             if ($all || !$achievementUser->getSeen()) {
                 $unlocked[] = array(
+                    'id'          => $achievement->getIdA(),
                     'name'        => $achievement->name(),
                     'description' => $achievement->description(),
                     'points'      => $achievement->points(),
@@ -96,6 +96,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         foreach ($all as $achievement) {
             if (!in_array($achievement, $oUnlocked)) {
                 $locked[] = array(
+                    'id'          => $achievement->getIdA(),
                     'name'        => $achievement->name(),
                     'description' => $achievement->description(),
                     'points'      => $achievement->points(),
@@ -114,6 +115,17 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
                 }
             }
         }
+
+        // On trie les achievements par leur ID
+        $ids = array();
+        foreach ($unlocked as $key => $achievement) {
+            $ids[$key] = $achievement['id'];
+        }
+        array_multisort($ids, SORT_ASC, $unlocked);
+        $ids = array();
+        foreach ($locked as $key => $achievement)
+            $ids[$key] = $achievement['id'];
+        array_multisort($ids, SORT_ASC, $locked);
 
         // On renvoie pas mal de données utiles
         $response = Achievement::getLevel($factor*$points);
@@ -376,6 +388,8 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         } else {
             $events = $this->getFollowedEvents($user);
             $calStr = $this->get('ki_upont.calendar')->getCalendar($user, $events);
+
+
 
             return new \Symfony\Component\HttpFoundation\Response($calStr, 200, array(
                     'Content-Type' => 'text/calendar; charset=utf-8',

@@ -7,6 +7,8 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use KI\UpontBundle\Entity\Publications\EventUser;
+use KI\UpontBundle\Entity\Users\Achievement;
+use KI\UpontBundle\Event\AchievementCheckEvent;
 
 class EventsController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
@@ -82,6 +84,10 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
 
             // Si ce n'est pas un event perso, on notifie les utilisateurs suivant le club
             if ($club) {
+                $dispatcher = $this->container->get('event_dispatcher');
+                $achievementCheck = new AchievementCheckEvent(Achievement::EVENT_CREATE);
+                $dispatcher->dispatch('upont.achievement', $achievementCheck);
+
                 $allUsers = $this->em->getRepository('KIUpontBundle:Users\User')->findAll();
                 $users = array();
 
@@ -407,6 +413,10 @@ class EventsController extends \KI\UpontBundle\Controller\Core\ResourceControlle
 
             $event->addAttendee($user);
             $this->em->flush();
+
+            $dispatcher = $this->container->get('event_dispatcher');
+            $achievementCheck = new AchievementCheckEvent(Achievement::EVENT_ATTEND);
+            $dispatcher->dispatch('upont.achievement', $achievementCheck);
 
             return $this->restResponse(null, 204);
         }

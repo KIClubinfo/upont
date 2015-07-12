@@ -3,6 +3,8 @@
 namespace KI\UpontBundle\Services;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
+use KI\UpontBundle\Entity\Users\Achievement;
+use KI\UpontBundle\Event\AchievementCheckEvent;
 
 // Échange des informations avec l'API du Foyer
 class KIFoyer extends ContainerAware
@@ -41,6 +43,12 @@ class KIFoyer extends ContainerAware
         $response = $this->curl->curl('http://dev-foyer.enpc.org/uPonts/stats.php?id='.$this->token);
         $data = json_decode($response, true);
         $this->balance = $data['solde'];
+
+        if ($this->balance < 0) {
+            $dispatcher = $this->container->get('event_dispatcher');
+            $achievementCheck = new AchievementCheckEvent(Achievement::FOYER);
+            $dispatcher->dispatch('upont.achievement', $achievementCheck);
+        }
     }
 
     public function hasFailed() { return $this->error; }

@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('Publications_Post_Ctrl', ['$scope', '$rootScope', '$http', '$stateParams', function($scope, $rootScope, $http, $stateParams) {
+    .controller('Publications_Post_Ctrl', ['$scope', '$rootScope', '$http', '$stateParams', 'Achievements', function($scope, $rootScope, $http, $stateParams, Achievements) {
         // Fonctions relatives à la publication
         var club = {name: 'Au nom de...'};
         $scope.display = true;
@@ -89,6 +89,7 @@ angular.module('upont')
                     params.name = post.name;
                     $http.post(apiPrefix + 'newsitems', params).success(function(data){
                         $rootScope.$broadcast('newNewsitem');
+                        Achievements.check();
                         alertify.success('News publiée');
                         init();
                     }).error(function(){
@@ -129,6 +130,7 @@ angular.module('upont')
 
                     $http.post(apiPrefix + 'events', params).success(function(data){
                         $rootScope.$broadcast('newEvent');
+                        Achievements.check();
                         $scope.changeType('news');
                         alertify.success('Événement publié');
                     }).error(function(){

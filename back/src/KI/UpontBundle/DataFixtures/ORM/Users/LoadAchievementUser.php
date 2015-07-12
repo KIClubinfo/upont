@@ -18,18 +18,6 @@ class LoadAchievementUserFixture extends AbstractFixture implements OrderedFixtu
         $achievementUser->setDate(time());
         $manager->persist($achievementUser);
 
-        $achievementUser = new AchievementUser();
-        $achievementUser->setAchievement($this->getReference('achievement-38'));
-        $achievementUser->setUser($this->getReference('user-trancara'));
-        $achievementUser->setDate(time());
-        $manager->persist($achievementUser);
-
-        $achievementUser = new AchievementUser();
-        $achievementUser->setAchievement($this->getReference('achievement-50'));
-        $achievementUser->setUser($this->getReference('user-trancara'));
-        $achievementUser->setDate(time());
-        $manager->persist($achievementUser);
-
         $manager->flush();
     }
 
