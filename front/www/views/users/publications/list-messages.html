@@ -19,7 +19,7 @@
             </div>
             <img class="img-responsive up-clickable" ng-if="message.image_url"
                  ng-click="$root.zoomIn('/api/' + message.image_url)"
-                 ng-src="{{ message.image_url | thumb | urlFile }}"/>
+                 ng-src="{{ message.image_url | urlFile }}"/>
             <div up-likes objet="message" url="'newsitems/'+message.slug"></div>
         </div>
     </div>
