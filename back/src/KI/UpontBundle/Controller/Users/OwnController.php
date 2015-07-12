@@ -41,18 +41,26 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
 
         $unlocked = array();
         $oUnlocked = array();
+        $all = $this->getRequest()->query->has('all');
+
         $response = $repoAU->findByUser($user);
         foreach ($response as $achievementUser) {
             $achievement = $achievementUser->getAchievement();
-            $unlocked[] = array(
-                'name'        => $achievement->name(),
-                'description' => $achievement->description(),
-                'points'      => $achievement->points(),
-                'image'       => $achievement->image(),
-                'date'        => $achievementUser->getDate(),
-                'ownedBy'     => count($repoAU->findByAchievement($achievement)),
-            );
             $oUnlocked[] = $achievement;
+
+            if ($all || !$achievementUser->getSeen()) {
+                $unlocked[] = array(
+                    'name'        => $achievement->name(),
+                    'description' => $achievement->description(),
+                    'points'      => $achievement->points(),
+                    'image'       => $achievement->image(),
+                    'date'        => $achievementUser->getDate(),
+                    'seen'        => $achievementUser->getSeen(),
+                    'ownedBy'     => count($repoAU->findByAchievement($achievement)),
+                );
+                if (!$achievementUser->getSeen())
+                    $achievementUser->setSeen(true);
+            }
         }
         $all = $repoA->findAll();
         $locked = array();
@@ -95,6 +103,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
             'locked'        => $locked,
         );
 
+        $this->em->flush();
         return $this->jsonResponse($return);
     }
 

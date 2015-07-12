@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('Login_Ctrl', ['$scope', '$rootScope', '$state', '$location', '$http', 'Permissions', function($scope, $rootScope, $state, $location, $http, Permissions) {
+    .controller('Login_Ctrl', ['$scope', '$rootScope', '$state', '$location', '$http', 'Permissions', 'Achievements', function($scope, $rootScope, $state, $location, $http, Permissions, Achievements) {
         $('#login-input').focus();
         $scope.login = function(pseudo, password, firstTime) {
             if (pseudo.length && password.length)
@@ -15,6 +15,7 @@ angular.module('upont')
                         alertify.success('Connecté avec succès !');
                     else
                         alertify.success('Salut ' + data.data.first_name + ' !');
+                    Achievements.check();
 
                     if (typeof $rootScope.urlRef !== 'undefined' && $rootScope.urlRef !== null && $rootScope.urlRef != '/') {
                         $location.path($rootScope.urlRef);

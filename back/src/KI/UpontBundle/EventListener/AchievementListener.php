@@ -59,22 +59,23 @@ class AchievementListener
         $achievementUser->setAchievement($repoA->findOneByAchievement($achievement->getIdA()));
         $achievementUser->setUser($this->user);
         $achievementUser->setDate(time());
+        $achievementUser->setSeen(false);
         $this->manager->persist($achievementUser);
         $this->achievements[] = $achievement->getIdA();
 
         // On crée des notifications
-        $notification = new Notification('notif_achievement', $achievement->name(), $achievement->description(), 'to');
+        /*$notification = new Notification('notif_achievement', $achievement->name(), $achievement->description(), 'to');
         $notification->addRecipient($this->user);
-        $this->manager->persist($notification);
+        $this->manager->persist($notification);*/
 
         // Si l'utilisateur passe de niveau
-        if (Achievement::getLevel($this->points()) > Achievement::getLevel($pointsBefore)) {
+        /*if (Achievement::getLevel($this->points()) > Achievement::getLevel($pointsBefore)) {
             $level = Achievement::getLevel($this->points())['current'];
             $title = 'Passage au statut de '.$level['name'];
             $notification = new Notification('notif_next_level', $title, $level['description'], 'to');
             $notification->addRecipient($this->user);
             $this->manager->persist($notification);
-        }
+        }*/
 
         $this->manager->flush();
         return true;

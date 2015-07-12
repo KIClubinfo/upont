@@ -41,7 +41,13 @@ class AchievementUser
      */
     private $user;
 
-
+    /**
+     * L'Achievement a-t-il été vu ?
+     * @ORM\Column(name="seen", type="boolean", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("boolean")
+     */
+    protected $seen;
 
     //===== GENERATED AUTOMATICALLY =====//
 
@@ -123,5 +129,28 @@ class AchievementUser
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set seen
+     *
+     * @param boolean $seen
+     * @return AchievementUser
+     */
+    public function setSeen($seen)
+    {
+        $this->seen = $seen;
+
+        return $this;
+    }
+
+    /**
+     * Get seen
+     *
+     * @return boolean
+     */
+    public function getSeen()
+    {
+        return $this->seen;
     }
 }

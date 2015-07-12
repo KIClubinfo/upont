@@ -143,9 +143,9 @@ class Achievement
     protected static $achievements = array(
     self::LOGIN => array(
         'name'        => 'Ponts inside',
-        'description' => 'Se logger sur le site',
+        'description' => 'Se connecter sur le site',
         'points'      => 10,
-        'image'       => '',
+        'image'       => 'sign-in',
     ),
     self::PHOTO => array(
         'name'        => 'Photogénique',
@@ -373,7 +373,7 @@ class Achievement
         'name'        => 'Appelez-moi Dieu',
         'description' => 'Être admin',
         'points'      => 50,
-        'image'       => '',
+        'image'       => 'diamond',
     ),
     self::BUG_SOLVE => array(
         'name'        => 'Technophile',
@@ -433,19 +433,19 @@ class Achievement
         'name'        => 'Unlocker',
         'description' => 'Compléter 10 achievements',
         'points'      => '+10%',
-        'image'       => '',
+        'image'       => 'star-o',
     ),
     self::CRAZY_UNLOCKER => array(
         'name'        => 'Crazy Unlocker',
         'description' => 'Compléter 50% des achievements',
         'points'      => '+15%',
-        'image'       => '',
+        'image'       => 'star-half-o',
     ),
     self::TOTAL_UNLOCKER => array(
         'name'        => 'Total Unlocker',
         'description' => 'Compléter 90% des achievements',
         'points'      => '+75%',
-        'image'       => '',
+        'image'       => 'star',
     ),
 );
 
