@@ -5,11 +5,7 @@ angular.module('upont')
         $resource(apiPrefix + 'version').get(function(data){
             $scope.version = data;
         });
-        achievements: ['$resource', '$stateParams', function($resource, $stateParams) {
-            return $resource(apiPrefix + 'users/:slug/achievements?all').get({
-                slug: $stateParams.slug
-            }).$promise;
-        }]
+        
         // Solde foyer
         $resource(apiPrefix + 'foyer/balance').get(function(data){
             $scope.foyer = data.balance;
