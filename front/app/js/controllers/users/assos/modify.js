@@ -30,7 +30,7 @@ angular.module('upont')
                     });
                 } else {
                     alertify.alert('Le nom court du club ayant changé, il est nécessaire de recharger la page du club...');
-                    $state.go('root.users.clubs.liste');
+                    $state.go('root.users.assos.list');
                 }
                 alertify.success('Modifications prises en compte !');
             });

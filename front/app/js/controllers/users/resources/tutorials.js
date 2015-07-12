@@ -1,32 +1,30 @@
 angular.module('upont')
-    .controller('Tutorials_Ctrl', ['$scope', function($scope) {
-
+    .controller('Tutorials_Ctrl', ['$scope', 'tutos', '$resource', function($scope, tutos, $resource) {
+        $scope.tutos = tutos;
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
             .state('root.users.resources.tutorials', {
                 url: '/tutoriels',
+                template: '<div ui-view></div>',
                 abstract: true,
-                templateUrl: 'views/users/resources/tutorials.html',
                 data: {
                     title: 'Tutoriels - uPont',
                     top: true
                 },
             })
-            .state('root.users.resources.administration', {
-                url: '/administration',
-                templateUrl: 'views/users/resources/administration.html',
+            .state('root.users.resources.tutorials.list', {
+                url: '',
+                templateUrl: 'views/users/resources/tutorials.html',
+                controller: 'Tutorials_Ctrl',
                 data: {
-                    title: 'Infos Administration - uPont',
+                    title: 'Tutoriels - uPont',
                     top: true
                 },
-            })
-            .state('root.users.resources.moderation', {
-                url: '/moderation',
-                templateUrl: 'views/users/resources/moderation.html',
-                data: {
-                    title: 'Règles de modération - uPont',
-                    top: true
+                resolve: {
+                    tutos: ['$resource', function($resource) {
+                        return $resource(apiPrefix + 'tutos').query().$promise;
+                    }]
                 },
             })
         ;
