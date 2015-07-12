@@ -13,8 +13,7 @@ class TutoType extends AbstractType
         $builder
             ->add('name')
             ->add('text')
-            ->add('date')
-            ->add('category');
+            ->add('icon');
     }
 
     public function configureOptions(OptionsResolver $resolver)

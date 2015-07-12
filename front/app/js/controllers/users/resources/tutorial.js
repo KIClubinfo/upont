@@ -4,14 +4,26 @@ angular.module('upont')
         $scope.presentation = $sce.trustAsHtml($scope.tuto.text);
         $scope.edit = false;
         var tutoSlug = tuto.name;
+        $scope.showIcons = false;
+        $scope.faIcons = faIcons;
 
         $scope.editTuto = function() {
             $scope.edit = true;
         };
 
+        $scope.switchIcons = function() {
+            $scope.showIcons = !$scope.showIcons;
+        };
+
+        $scope.setIcon = function(icon) {
+            $scope.tuto.icon = icon;
+            window.scrollTo(0, 0);
+        };
+
         $scope.modify = function(tuto, presentation) {
             var params = {
                 name: tuto.name,
+                icon: tuto.icon
             };
 
             if (typeof presentation == 'string')

@@ -16,8 +16,7 @@ class TutosControllerTest extends WebTestCase
             array(
                 'name' => 'Proxy',
                 'text' => 'Pour régler le proxy faut aller dans "Réglages Proxy"',
-                'date' => 12345,
-                'category' => 'Réseau',
+                'icon' => 'Réseau',
                 )
             );
         $response = $this->client->getResponse();
@@ -43,7 +42,7 @@ class TutosControllerTest extends WebTestCase
 
     public function testPatch()
     {
-        $this->client->request('PATCH', '/tutos/proxy', array('date' => 23456));
+        $this->client->request('PATCH', '/tutos/proxy', array('icon' => 'lowl'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 

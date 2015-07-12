@@ -1,6 +1,18 @@
 angular.module('upont')
-    .controller('Tutorials_Ctrl', ['$scope', 'tutos', '$resource', function($scope, tutos, $resource) {
+    .controller('Tutorials_Ctrl', ['$scope', 'tutos', '$http', '$state', function($scope, tutos, $http, $state) {
         $scope.tutos = tutos;
+
+        $scope.post = function(name) {
+            if (name === undefined || name === '') {
+                alertify.error('Nom vide');
+                return;
+            }
+
+            $http.post(apiPrefix + 'tutos', {name: name, text: 'Tutoriel en cours d\'écriture...'}).success(function(data){
+                alertify.alert('Tuto créé ! Redirection...');
+                $state.go('root.users.resources.tutorials.simple', {slug: data.slug});
+            });
+        };
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider

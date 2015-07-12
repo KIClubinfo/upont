@@ -59,7 +59,16 @@ class TutosController extends \KI\UpontBundle\Controller\Core\ResourceController
      *  section="Publications"
      * )
      */
-    public function postTutoAction() { return $this->post(); }
+    public function postTutoAction() {
+        $return = $this->partialPost();
+
+        if ($return['code'] == 201) {
+            // On modifie légèrement la ressource qui vient d'être créée
+            $return['item']->setDate(time());
+        }
+
+        return $this->postView($return);
+    }
 
     /**
      * @ApiDoc(

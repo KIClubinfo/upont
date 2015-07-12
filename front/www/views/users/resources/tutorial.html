@@ -23,10 +23,28 @@
         <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
             <input class="up-col-xs-12" type="text" ng-model="tuto.name" placeholder="Les Noobs pour les Nuls"/>
         </div>
+
+        <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+            <i class="fa fa-{{ tuto.icon || 'book' }}"></i>
+            Icône <a ng-click="switchIcons()">({{ showIcons ? 'masquer' : 'voir' }} les icônes)</a>
+        </div>
+        <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+            <input class="up-col-xs-12" type="text" ng-model="tuto.icon"/>
+        </div>
     </form>
 
     <div up-col="100%" up-row center>
         <button ng-click="modify(tuto, presentation)" class="up-btn up-btn-default up-btn-lg">Envoyer</button>
         <button ng-click="delete()" class="up-btn up-btn-primary up-btn-lg">Supprimer</button>
+    </div>
+</div>
+
+<div class="up-ticket" ng-show="showIcons">
+    <h1>Icônes <small><a ng-click="switchIcons()">(masquer)</a></small></h1>
+    <div up-row wrap padded>
+        <div up-col-xs="50%" up-col-sm="33%" up-col="25%" class="up-clickable"
+             ng-repeat="icon in faIcons" ng-click="setIcon(icon)">
+            <i class="fa fa-{{ icon }} fa-block"></i> {{ icon }}
+        </div>
     </div>
 </div>
