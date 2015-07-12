@@ -54,7 +54,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
     {
         $repo = $this->em->getRepository('KIUpontBundle:Users\User');
         $user = $this->findBySlug($slug);
-        return $this->retrieveAchievements($this->user);
+        return $this->retrieveAchievements($user);
     }
 
     private function retrieveAchievements($user)

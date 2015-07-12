@@ -9,6 +9,8 @@ angular.module('upont').factory('Achievements', ['$resource', '$rootScope', 'Per
                 for (var key in unlocked) {
                     alertify.success('<i class="fa fa-' + unlocked[key].image + ' up-achievement"></i><strong>' + unlocked[key].name + '</strong><br>' + unlocked[key].description + '<br><strong>' + unlocked[key].points + '</strong> points');
                 }
+                if (unlocked.length > 0)
+                    $rootScope.$broadcast('newAchievement');
             });
         },
     };

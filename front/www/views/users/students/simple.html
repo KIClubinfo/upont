@@ -59,7 +59,7 @@
                     </div>
                 </div>
 
-                <span class="up-clickable" ng-if="achievements.locked.length > 0" ng-click="showLocked=!showLocked" ng-init="showLocked=false">Montrer les achievements non débloqués<br><br></span>
+                <span class="up-clickable" ng-show="achievements.locked.length > 0" ng-click="showLocked=!showLocked" ng-init="showLocked=false">Montrer les achievements non débloqués<br><br></span>
 
                 <div ng-show="showLocked" class="up-achievement-container" ng-repeat="achievement in achievements.locked" up-col="100%" up-row wrap left>
                     <div up-col="30%">
