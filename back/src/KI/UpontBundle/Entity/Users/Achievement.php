@@ -464,9 +464,9 @@ class Achievement
         ),
         array(
             'name'        => 'Disciple',
-            'description' => '',
+            'description' => 'Sur la voie de l\'Illumination',
             'points'      => 100,
-            'image'       => '',
+            'image'       => 'spoon',
         ),
         array(
             'name'        => 'Favori',

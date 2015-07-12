@@ -35,10 +35,33 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      */
     public function getAchievementsAction()
     {
+        return $this->retrieveAchievements($this->user);
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Renvoie des détails sur les achievements et le niveau de l'utilisateur",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Utilisateurs"
+     * )
+     * @Route\Get("/users/{slug}/achievements")
+     */
+    public function getUserAchievementsAction($slug)
+    {
+        $repo = $this->em->getRepository('KIUpontBundle:Users\User');
+        $user = $this->findBySlug($slug);
+        return $this->retrieveAchievements($this->user);
+    }
+
+    private function retrieveAchievements($user)
+    {
         $repoA = $this->em->getRepository('KIUpontBundle:Users\Achievement');
         $repoAU = $this->em->getRepository('KIUpontBundle:Users\AchievementUser');
-        $user = $this->get('security.context')->getToken()->getUser();
-
         $unlocked = array();
         $oUnlocked = array();
         $all = $this->getRequest()->query->has('all');
@@ -93,7 +116,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         }
 
         // On renvoie pas mal de données utiles
-        $response = Achievement::getLevel($points);
+        $response = Achievement::getLevel($factor*$points);
         $return = array(
             'number'        => $response['number'],
             'points'        => ceil($factor*$points),
