@@ -91,424 +91,385 @@ class Achievement
     const PHOTO = 1;
     const COURSES = 2;
     const PROFILE = 3;
-    const FULL_PROFILE = 4;
-    const ICS_CALENDAR = 5;
-    const MOBILE_APP = 6;
-    const NEWS_READ = 7;
-    const DOWNLOADER = 8;
-    const SUPER_DOWNLOADER = 9;
-    const ULTIMATE_DOWNLOADER = 10;
-    const LEECH = 11;
-    const POLL_ANSWER = 12;
-    const EVENT_ATTEND = 13;
-    const EVENT_SHOTGUN = 14;
-    const EVENT_PERSO = 15;
-    const POOKIE = 16;
-    const SPIRIT = 17;
-    const POLL_CREATE = 18;
-    const NEWS_CREATE = 19;
-    const EVENT_CREATE = 20;
-    const OBJECT_LOST = 21;
-    const OBJECT_FOUND = 22;
-    const COURSES_OFFER = 23;
-    const COURSES_SHOTGUN = 24;
-    const CONFIG_NOTIFICATIONS = 25;
-    const GITLAB = 26;
-    const DVP = 27;
-    const FOYER = 28;
-    const MEDIATEK = 29;
-    const PASSWORD = 30;
-    const EVENT_OLD = 31;
-    const BUG_REPORT = 32;
-    const TUTO_MAIL = 33;
-    const TUTO_LINUX = 34;
-    const BUG_CONTACT = 35;
-    const KIEN = 36;
-    const MODO = 37;
-    const ADMIN = 38;
-    const BUG_SOLVE = 39;
-    const PONTLYVALENT = 40;
-    const PONTBINOSCOPE = 41;
-    const FULL_PONTBINOSCOPE = 42;
-    const GAME_PLAY = 43;
-    const GAME_BEFORE = 44;
-    const GAME_SELF = 45;
-    const GAME_NEXT = 46;
-    const GAME_OLD = 47;
-    const UNLOCKER = 48;
-    const CRAZY_UNLOCKER = 49;
-    const TOTAL_UNLOCKER = 50;
+    //const FULL_PROFILE = 4;
+    const ICS_CALENDAR = 4;
+    //const MOBILE_APP = 6;
+    const DOWNLOADER = 5;
+    const SUPER_DOWNLOADER = 6;
+    const ULTIMATE_DOWNLOADER = 7;
+    //const LEECH = 8;
+    const EVENT_ATTEND = 8;
+    //const EVENT_SHOTGUN = 14;
+    //const EVENT_PERSO = 15;
+    const POOKIE = 9;
+    const SPIRIT = 10;
+    const NEWS_CREATE = 11;
+    const EVENT_CREATE = 12;
+    //const OBJECT_LOST = 21;
+    //const OBJECT_FOUND = 22;
+    //const COURSES_OFFER = 23;
+    //const COURSES_SHOTGUN = 24;
+    //const CONFIG_NOTIFICATIONS = 25;
+    //const DVP = 27;
+    const FOYER = 13;
+    //const MEDIATEK = 29;
+    //const EVENT_OLD = 31;
+    const PASSWORD = 14;
+    //const TUTO_MAIL = 33;
+    //const TUTO_LINUX = 34;
+    //const PONTLYVALENT = 40;
+    //const PONTBINOSCOPE = 41;
+    //const FULL_PONTBINOSCOPE = 42;
+    /*const GAME_PLAY = 19;
+    const GAME_BEFORE = 20;
+    const GAME_SELF = 21;
+    const GAME_NEXT = 22;
+    const GAME_OLD = 23;*/
+    const BUG_REPORT = 15;
+    const BUG_CONTACT = 16;
+    const KIEN = 17;
+    const ADMIN = 18;
+    const UNLOCKER = 19;
+    const CRAZY_UNLOCKER = 20;
+    const TOTAL_UNLOCKER = 21;
+
+    // Nombre total d'achievements, à actualiser
+    const TOTAL = 22;
 
     // EN CAS DE RAJOUT D'ACHIEVEMENT, MODIFIER LE FICHIER DE DATAFIXTURES !!!
     protected static $achievements = array(
     self::LOGIN => array(
         'name'        => 'Ponts inside',
-        'description' => 'Se logger sur le site',
+        'description' => 'Se connecter sur le site',
         'points'      => 10,
-        'image'       => '',
+        'image'       => 'sign-in',
     ),
     self::PHOTO => array(
         'name'        => 'Photogénique',
-        'description' => 'Changer la photo de son profil',
+        'description' => 'Changer sa photo de profil',
         'points'      => 10,
-        'image'       => '',
+        'image'       => 'camera',
     ),
     self::COURSES => array(
         'name'        => 'Travailleur',
         'description' => 'Choisir ses cours',
         'points'      => 20,
-        'image'       => '',
+        'image'       => 'suitcase',
     ),
     self::PROFILE => array(
         'name'        => 'Autobiographie',
         'description' => 'Remplir ses infos (chambre, téléphone, département, origine, nationalité...)',
         'points'      => 20,
-        'image'       => '',
+        'image'       => 'book',
     ),
-    self::FULL_PROFILE => array(
+    /*self::FULL_PROFILE => array(
         'name'        => 'Data Provider',
         'description' => 'Remplir ses infos étendues (stages, projets...)',
         'points'      => 10,
-        'image'       => '',
-    ),
+        'image'       => 'street-view',
+    ),*/
     self::ICS_CALENDAR => array(
         'name'        => 'Smart',
         'description' => 'Synchroniser le calendrier avec son téléphone',
         'points'      => 30,
-        'image'       => '',
+        'image'       => 'calendar',
     ),
-    self::MOBILE_APP => array(
+    /*self::MOBILE_APP => array(
         'name'        => 'Connecté',
         'description' => 'Installer l\'application mobile',
         'points'      => 50,
-        'image'       => '',
-    ),
-    self::NEWS_READ => array(
-        'name'        => 'Au courant',
-        'description' => 'Lire une news complète',
-        'points'      => 5,
-        'image'       => '',
-    ),
+        'image'       => 'mobile',
+    ),*/
     self::DOWNLOADER => array(
         'name'        => 'Downloader',
         'description' => 'Télécharger un fichier sur Ponthub',
         'points'      => 5,
-        'image'       => '',
+        'image'       => 'arrow-down',
     ),
     self::SUPER_DOWNLOADER => array(
         'name'        => 'Super Downloader',
         'description' => 'Télécharger plus de 100Go sur Ponthub',
         'points'      => 20,
-        'image'       => '',
+        'image'       => 'arrow-circle-down',
     ),
     self::ULTIMATE_DOWNLOADER => array(
         'name'        => 'Ultimate Downloader',
         'description' => 'Télécharger plus de 500Go sur Ponthub',
         'points'      => 100,
-        'image'       => '',
+        'image'       => 'arrow-circle-o-down',
     ),
-    self::LEECH => array(
+    /*self::LEECH => array(
         'name'        => 'Ça va pomper sévère !',
         'description' => 'Suggérer un fichier sur Ponthub',
         'points'      => 20,
-        'image'       => '',
-    ),
-    self::POLL_ANSWER => array(
-        'name'        => 'Sondé',
-        'description' => 'Répondre à un sondage',
-        'points'      => 30,
-        'image'       => '',
-    ),
+        'image'       => 'hand-o-right',
+    ),*/
     self::EVENT_ATTEND => array(
         'name'        => 'Will be there !',
-        'description' => 'Participer à un event',
+        'description' => 'Participer à un événement',
         'points'      => 10,
-        'image'       => '',
+        'image'       => 'user-plus',
     ),
-    self::EVENT_SHOTGUN => array(
+    /*self::EVENT_SHOTGUN => array(
         'name'        => 'Shotgun !',
         'description' => 'Réussir un shotgun',
         'points'      => 30,
         'image'       => '',
-    ),
-    self::EVENT_PERSO => array(
+    ),*/
+    /*self::EVENT_PERSO => array(
         'name'        => 'Égoïste',
         'description' => 'Créer un event perso',
         'points'      => 20,
-        'image'       => '',
-    ),
+        'image'       => 'user-secret',
+    ),*/
     self::POOKIE => array(
         'name'        => 'Pookie',
-        'description' => 'Télécharger un fichier d\'annale',
+        'description' => 'Uploader une annale',
         'points'      => 10,
-        'image'       => '',
+        'image'       => 'book',
     ),
     self::SPIRIT => array(
         'name'        => 'Spirit',
-        'description' => 'Devenir membre d\'un club',
+        'description' => 'Être membre d\'un club',
         'points'      => 10,
-        'image'       => '',
-    ),
-    self::POLL_CREATE => array(
-        'name'        => 'Référendum',
-        'description' => 'Créer un sondage pour un club',
-        'points'      => 50,
-        'image'       => '',
+        'image'       => 'users',
     ),
     self::NEWS_CREATE => array(
         'name'        => 'Nouvelliste',
         'description' => 'Écrire une news pour un club',
         'points'      => 30,
-        'image'       => '',
+        'image'       => 'pencil',
     ),
     self::EVENT_CREATE => array(
         'name'        => 'Organisateur',
-        'description' => 'Créer un event pour un club',
+        'description' => 'Créer un événement pour un club',
         'points'      => 20,
-        'image'       => '',
+        'image'       => 'pencil-square-o',
     ),
-    self::OBJECT_LOST => array(
+    /*self::OBJECT_LOST => array(
         'name'        => 'Distrait',
         'description' => 'Perdre un objet',
         'points'      => 20,
         'image'       => '',
-    ),
-    self::OBJECT_FOUND => array(
+    ),*/
+    /*self::OBJECT_FOUND => array(
         'name'        => 'Altruiste',
         'description' => 'Retrouver un objet',
         'points'      => 20,
         'image'       => '',
-    ),
-    self::COURSES_OFFER => array(
+    ),*/
+    /*self::COURSES_OFFER => array(
         'name'        => 'C\'est 15€ de l\'heure non négociables',
         'description' => 'Offrir un petit cours',
         'points'      => 20,
         'image'       => '',
-    ),
-    self::COURSES_SHOTGUN => array(
+    ),*/
+    /*self::COURSES_SHOTGUN => array(
         'name'        => 'Shark',
         'description' => 'Shotgun un petit cours',
         'points'      => 20,
         'image'       => '',
-    ),
-    self::CONFIG_NOTIFICATIONS => array(
+    ),*/
+    /*self::CONFIG_NOTIFICATIONS => array(
         'name'        => 'Configurateur',
         'description' => 'Configurer ses notifications',
         'points'      => 20,
         'image'       => '',
-    ),
-    self::GITLAB => array(
-        'name'        => 'Développeur',
-        'description' => 'Créer un compte Gitlab',
-        'points'      => 30,
-        'image'       => '',
-    ),
-    self::DVP => array(
+    ),*/
+    /*self::DVP => array(
         'name'        => 'Végétarien',
         'description' => 'Commander un panier DVP',
         'points'      => 30,
-        'image'       => '',
-    ),
+        'image'       => 'recycle',
+    ),*/
     self::FOYER => array(
         'name'        => 'Ruiné',
         'description' => 'Avoir un solde foyer négatif',
         'points'      => -100,
-        'image'       => '',
+        'image'       => 'warning',
     ),
-    self::MEDIATEK => array(
+    /*self::MEDIATEK => array(
         'name'        => 'Aime les BDs',
         'description' => 'Faire un emprunt sur la Mediatek',
         'points'      => 20,
         'image'       => '',
-    ),
+    ),*/
     self::PASSWORD => array(
         'name'        => 'Non, ce n\'était pas "password1234"',
         'description' => 'Oublier son mot de passe',
         'points'      => 10,
-        'image'       => '',
+        'image'       => 'lock',
     ),
-    self::EVENT_OLD => array(
+    /*self::EVENT_OLD => array(
         'name'        => 'C\'était mieux avant',
         'description' => 'Aller voir s\'il n\'y a pas des events avant l\'an 2000',
         'points'      => 50,
         'image'       => '',
-    ),
+    ),*/
     self::BUG_REPORT => array(
         'name'        => 'H3LLLP UPON SA BEUG!!!!',
         'description' => 'Reporter un bug',
         'points'      => 20,
-        'image'       => '',
+        'image'       => 'bullhorn',
     ),
-    self::TUTO_MAIL => array(
+    /*self::TUTO_MAIL => array(
         'name'        => 'Enfin quelqu\'un de bien',
         'description' => 'Suivre le tuto mails',
         'points'      => 30,
-        'image'       => '',
+        'image'       => 'envelope',
     ),
     self::TUTO_LINUX => array(
         'name'        => 'Viens, Linux c\'est bien, viens, voit ce qu\'on peut faire...',
         'description' => 'Suivre le tutoriel linux',
         'points'      => 50,
-        'image'       => '',
-    ),
+        'image'       => 'linux',
+    ),*/
     self::BUG_CONTACT => array(
         'name'        => 'Technophobe',
         'description' => 'Contacter le KI pour un dépannage matériel/logiciel',
         'points'      => 10,
-        'image'       => '',
+        'image'       => 'exclamation',
     ),
     self::KIEN => array(
         'name'        => 'KIen',
         'description' => 'Faire partie du KI',
         'points'      => 20,
-        'image'       => '',
-    ),
-    self::MODO => array(
-        'name'        => 'Complexe de supériorité',
-        'description' => 'Être modo',
-        'points'      => 10,
-        'image'       => '',
+        'image'       => 'signal',
     ),
     self::ADMIN => array(
         'name'        => 'Appelez-moi Dieu',
         'description' => 'Être admin',
         'points'      => 50,
-        'image'       => '',
+        'image'       => 'diamond',
     ),
-    self::BUG_SOLVE => array(
-        'name'        => 'Technophile',
-        'description' => 'Résoudre un problème de dépannage',
-        'points'      => 20,
-        'image'       => '',
-    ),
-    self::PONTLYVALENT => array(
+    /*self::PONTLYVALENT => array(
         'name'        => 'Commère',
         'description' => 'Écrire 5 commentaires sur le Pontlyvalent',
         'points'      => 30,
         'image'       => '',
-    ),
-    self::PONTBINOSCOPE => array(
+    ),*/
+    /*self::PONTBINOSCOPE => array(
         'name'        => 'Toi, j\'te connais !',
         'description' => 'Connaitre 10 personnes sur le Pontbinoscope',
         'points'      => 10,
         'image'       => '',
-    ),
-    self::FULL_PONTBINOSCOPE => array(
+    ),*/
+    /*self::FULL_PONTBINOSCOPE => array(
         'name'        => 'Sociable',
         'description' => 'Connaitre 100 personnes sur le Pontbinoscope',
         'points'      => 40,
         'image'       => '',
-    ),
-    self::GAME_PLAY => array(
+    ),*/
+    /*self::GAME_PLAY => array(
         'name'        => 'The Game',
-        'description' => 'Jouer au jeu du Pontbinoscope',
+        'description' => 'Jouer à La Réponse D',
         'points'      => 20,
-        'image'       => '',
+        'image'       => 'gamepad',
     ),
     self::GAME_BEFORE => array(
         'name'        => 'Puceau, pas puceau',
-        'description' => 'Réussir 100% sur la promo d\'en dessous dans le jeu du Pontbinoscope',
+        'description' => 'Réussir 100% sur la promo d\'en dessous dans La Réponse D',
         'points'      => 30,
-        'image'       => '',
+        'image'       => 'check',
     ),
     self::GAME_SELF => array(
         'name'        => 'Connaisseur',
-        'description' => 'Réussir un 100% sur sa promo dans le jeu du Pontbinoscope',
+        'description' => 'Réussir un 100% sur sa promo dans La Réponse D',
         'points'      => 10,
-        'image'       => '',
+        'image'       => 'check-square',
     ),
     self::GAME_NEXT => array(
         'name'        => 'Bientôt vieux cons',
-        'description' => 'Réussir un 100% sur la promo d\'au dessus dans le jeu du Pontbinoscope',
+        'description' => 'Réussir un 100% sur la promo d\'au dessus dans La Réponse D',
         'points'      => 20,
-        'image'       => '',
+        'image'       => 'check-square-o',
     ),
     self::GAME_OLD => array(
         'name'        => 'JRP\'1747',
-        'description' => 'Réussir un 100% en mode hardcore sur une promo de vieux dans le jeu du Pontbinoscope',
+        'description' => 'Réussir un 100% en mode hardcore sur une promo de vieux dans La Réponse D',
         'points'      => 100,
-        'image'       => '',
-    ),
+        'image'       => 'eye',
+    ),*/
     self::UNLOCKER => array(
         'name'        => 'Unlocker',
         'description' => 'Compléter 10 achievements',
         'points'      => '+10%',
-        'image'       => '',
+        'image'       => 'star-o',
     ),
     self::CRAZY_UNLOCKER => array(
         'name'        => 'Crazy Unlocker',
         'description' => 'Compléter 50% des achievements',
         'points'      => '+15%',
-        'image'       => '',
+        'image'       => 'star-half-o',
     ),
     self::TOTAL_UNLOCKER => array(
         'name'        => 'Total Unlocker',
         'description' => 'Compléter 90% des achievements',
         'points'      => '+75%',
-        'image'       => '',
+        'image'       => 'star',
     ),
 );
 
     protected static $levels = array(
         array(
             'name'        => 'Newbie',
-            'description' => '',
+            'description' => 'Sait compter jusqu\'à trois et lacer ses chaussures',
             'points'      => 0,
-            'image'       => '',
-        ),
-        array(
-            'name'        => 'Apprenti',
-            'description' => '',
-            'points'      => 50,
-            'image'       => '',
+            'image'       => 'bomb',
         ),
         array(
             'name'        => 'Disciple',
-            'description' => '',
-            'points'      => 100,
-            'image'       => '',
+            'description' => 'Ne fait plus planter uPont',
+            'points'      => 50,
+            'image'       => 'fire-extinguisher',
         ),
         array(
-            'name'        => 'Favori',
-            'description' => '',
+            'name'        => 'Apprenti',
+            'description' => 'S\'initie aux arts obscurs',
+            'points'      => 100,
+            'image'       => 'search',
+        ),
+        array(
+            'name'        => 'Alchimiste',
+            'description' => 'Tente d\'acquérir le pouvoir suprême',
             'points'      => 200,
-            'image'       => '',
+            'image'       => 'flask',
         ),
         array(
             'name'        => 'Maître',
-            'description' => '',
+            'description' => 'Sur la voie de l\'Illumination',
             'points'      => 350,
-            'image'       => '',
-        ),
-        array(
-            'name'        => 'Grand Maître',
-            'description' => '',
-            'points'      => 500,
-            'image'       => '',
+            'image'       => 'key',
         ),
         array(
             'name'        => 'Gourou',
-            'description' => '',
-            'points'      => 750,
-            'image'       => '',
+            'description' => 'Manipulateur de foules',
+            'points'      => 500,
+            'image'       => 'dollar',
         ),
         array(
             'name'        => 'Grand Manitou',
-            'description' => '',
+            'description' => 'Maîtrise les éléments',
+            'points'      => 750,
+            'image'       => 'moon-o',
+        ),
+        array(
+            'name'        => 'Élu',
+            'description' => 'Modifie le monde à son image',
             'points'      => 1000,
-            'image'       => '',
+            'image'       => 'spoon',
         ),
         array(
             'name'        => 'Génie',
-            'description' => '',
+            'description' => 'UNLIMITED POWAAAH!',
             'points'      => 1500,
-            'image'       => '',
+            'image'       => 'flash',
         ),
         array(
             'name'        => 'Dieu',
-            'description' => '',
+            'description' => 'Tout simplement.',
             'points'      => 2000,
-            'image'       => '',
+            'image'       => 'globe',
         ),
     );
 

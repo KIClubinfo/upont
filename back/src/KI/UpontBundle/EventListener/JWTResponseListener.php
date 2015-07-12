@@ -21,13 +21,25 @@ class JWTResponseListener
     // Renvoi du token avec des informations supplémentaires
     public function onAuthenticationSuccessResponse(AuthenticationSuccessEvent $event)
     {
+        $data = $event->getData();
+        $user = $event->getUser();
+
         // On commence par checker éventuellement l'achievement de login
         $dispatcher = $this->container->get('event_dispatcher');
         $achievementCheck = new AchievementCheckEvent(Achievement::LOGIN);
         $dispatcher->dispatch('upont.achievement', $achievementCheck);
 
-        $data = $event->getData();
-        $user = $event->getUser();
+        $dispatcher = $this->container->get('event_dispatcher');
+        $achievementCheck = new AchievementCheckEvent(Achievement::SPIRIT);
+        $dispatcher->dispatch('upont.achievement', $achievementCheck);
+
+        $dispatcher = $this->container->get('event_dispatcher');
+        $achievementCheck = new AchievementCheckEvent(Achievement::KIEN);
+        $dispatcher->dispatch('upont.achievement', $achievementCheck);
+
+        $dispatcher = $this->container->get('event_dispatcher');
+        $achievementCheck = new AchievementCheckEvent(Achievement::ADMIN);
+        $dispatcher->dispatch('upont.achievement', $achievementCheck);
 
         if (!$user instanceof \KI\UpontBundle\Entity\Users\User) {
             return;
@@ -35,11 +47,11 @@ class JWTResponseListener
 
         $data['code'] = 200;
         $data['data'] = array(
-            'username' => $user->getUsername(),
+            'username'   => $user->getUsername(),
             'first_name' => $user->getFirstName(),
-            'last_name' => $user->getLastName(),
-            'roles'    => $user->getRoles(),
-            'first'    => $event->getRequest()->request->has('first')
+            'last_name'  => $user->getLastName(),
+            'roles'      => $user->getRoles(),
+            'first'      => $event->getRequest()->request->has('first')
         );
 
         $event->setData($data);
@@ -75,34 +87,6 @@ class JWTResponseListener
 
         if (!$user instanceof \KI\UpontBundle\Entity\Users\User)
             return $this->badCredentials($event, 'Utilisateur non trouvé');
-
-        // On regarde si l'utilisateur est activé ou non, si oui on balance une 401
-        if ($user->isEnabled())
-            return $this->badCredentials($event, 'Mauvais mot de passe');
-
-        // Si le mot de passe de la BDD est vide, l'utilisateur se connecte pour
-        // la première, on teste contre la v1
-        $curl = $this->container->get('ki_upont.curl');
-        $data = $curl->curl('https://upont.enpc.fr/v1/api.php?action=login_v1&username='.$username.'&password='.$password, array(
-            CURLOPT_PROXY => ''
-        ));
-        if (!preg_match('#true#', $data))
-            return $this->badCredentials($event, 'Mauvais mot de passe v1');
-
-        // Si la connexion a réussi, le mot de passe proxy est bon
-        // On le stocke dans la BDD (vol de mot de passe mwahahahah)
-        $user->setPlainPassword($password);
-        $user->setEnabled(true);
-        $userManager->updateUser($user);
-
-        // On reteste le login maintenant que le mot de passe est bon
-        $data = $curl->curl($event->getRequest()->getUri(), array(
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => array('username' => $username, 'password' => $password, 'first' => 1),
-            CURLOPT_PROXY => ''
-        ));
-        $data = json_decode($data, true);
-        ob_end_clean();
-        return $event->setResponse(new JsonResponse($data, $data['code']));
+        return $this->badCredentials($event, 'Mauvais mot de passe');
     }
 }

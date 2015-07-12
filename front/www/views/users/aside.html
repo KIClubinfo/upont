@@ -100,7 +100,12 @@
             <span ng-repeat="user in online">
                 <span ng-if="$index < 10" up-user user="user">{{ user.nick }}<span ng-if="$index != online.length-1 && $index < 9">,</span></span>
             </span>
-            <span ng-if="online.length > 10">et {{ online.length - 10 }} autre{{ online.length == 11 ? ' utilisateur' : 's utilisateurs' }}.</span>
+            <span ng-if="online.length > 10">et {{ online.length - 10 }} autre{{ online.length == 11 ? ' utilisateur' : 's utilisateurs' }}.</span><br>
+            <br>
+            <div class="centering up-clickable" style="font-size:1.2em" ui-sref="root.users.students.simple({slug:$root.me.username})">
+                <i style="font-size:1.5em" class="fa fa-{{ level.image }}"></i><br>
+                {{ level.name }}
+            </div>
         </div>
     </div>
     <div class="up-aside-footer">

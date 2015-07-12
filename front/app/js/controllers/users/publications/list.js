@@ -4,7 +4,7 @@ angular.module('upont')
         $scope.newsItems = newsItems;
         $scope.messages = messages;
     }])
-    .controller('Publications_List_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'newsItems', 'events', 'Paginate', function($scope, $rootScope, $resource, $http, newsItems, events, Paginate) {
+    .controller('Publications_List_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'newsItems', 'events', 'Paginate', 'Achievements', function($scope, $rootScope, $resource, $http, newsItems, events, Paginate, Achievements) {
         $scope.events = events;
         $scope.newsItems = newsItems;
         $scope.edit = null;
@@ -40,11 +40,12 @@ angular.module('upont')
                     $scope.events.data[i].attend = true;
                     $scope.events.data[i].attendees++;
 
-                    // Si la personne n'attendait aps avant
+                    // Si la personne n'attendait pas avant
                     if ($scope.events.data[i].pookie) {
                         $scope.events.data[i].pookie = false;
                         $scope.events.data[i].pookies--;
                     }
+                    Achievements.check();
                 });
             }
         };

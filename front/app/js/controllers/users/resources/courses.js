@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('Courses_List_Ctrl', ['$scope', 'courses', 'followed', 'Paginate', '$http', '$resource', function($scope, courses, followed, Paginate, $http, $resource) {
+    .controller('Courses_List_Ctrl', ['$scope', 'courses', 'followed', 'Paginate', '$http', '$resource', 'Achievements', function($scope, courses, followed, Paginate, $http, $resource, Achievements) {
         $scope.courses = courses;
         $scope.modo = false;
         $scope.search = {
@@ -140,6 +140,7 @@ angular.module('upont')
                             $resource(apiPrefix + 'own/courses').query(function(data) {
                                 $scope.load(data);
                                 $scope.isLoading = false;
+                                Achievements.check();
                             });
                         }).error(function(){
                             alertify.error('Groupe invalide !');
@@ -154,6 +155,7 @@ angular.module('upont')
                     $resource(apiPrefix + 'own/courses').query(function(data) {
                         $scope.load(data);
                         $scope.isLoading = false;
+                        Achievements.check();
                     });
                 });
             }

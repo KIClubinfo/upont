@@ -5,6 +5,8 @@ namespace KI\UpontBundle\Controller\Publications;
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use KI\UpontBundle\Entity\Users\Achievement;
+use KI\UpontBundle\Event\AchievementCheckEvent;
 
 class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceController
 {
@@ -100,7 +102,6 @@ class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceCon
      public function postCourseExerciceAction($slug) {
         $request = $this->getRequest();
         $course = $this->findBySlug($slug);
-        $uploader = $this->container->get('security.context')->getToken()->getUser();
 
         $this->switchClass('Exercice');
         $return = $this->partialPost($this->get('security.context')->isGranted('ROLE_USER'));
@@ -108,7 +109,7 @@ class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceCon
         if ($return['code'] != 400) {
             // On règle tout comme on veut
             $return['item']->setDate(time());
-            $return['item']->setUploader($uploader);
+            $return['item']->setUploader($this->user);
             $return['item']->setCourse($course);
             $return['item']->setValid($this->get('security.context')->isGranted('ROLE_MODO'));
 
@@ -118,12 +119,16 @@ class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceCon
 
             $this->em->flush();
 
+            $dispatcher = $this->container->get('event_dispatcher');
+            $achievementCheck = new AchievementCheckEvent(Achievement::POOKIE);
+            $dispatcher->dispatch('upont.achievement', $achievementCheck);
+
             // On crée une notification
             $courseUsers = $this->em->getRepository('KIUpontBundle:Users\CourseUser')->findBy(array('course' => $course));
             $users = array();
 
             foreach ($courseUsers as $courseUser) {
-                $users[] = $couserUser->getUser();
+                $users[] = $courseUser->getUser();
             }
 
             $this->notify(

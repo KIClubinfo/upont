@@ -9,6 +9,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use KI\UpontBundle\Entity\Publications\Course;
 use KI\UpontBundle\Entity\Publications\CourseItem;
+use KI\UpontBundle\Entity\Users\Achievement;
+use KI\UpontBundle\Event\AchievementCheckEvent;
 
 class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
 {
@@ -348,6 +350,10 @@ class DefaultController extends \KI\UpontBundle\Controller\Core\BaseController
                 ->setTo($user->getEmail())
                 ->setBody($this->renderView('KIUpontBundle::resetting.txt.twig', array('token' => $token, 'name' => $user->getFirstName())));
             $this->get('mailer')->send($message);
+
+            $dispatcher = $this->container->get('event_dispatcher');
+            $achievementCheck = new AchievementCheckEvent(Achievement::PASSWORD, $user);
+            $dispatcher->dispatch('upont.achievement', $achievementCheck);
 
             return $this->jsonResponse(null, 204);
         } else

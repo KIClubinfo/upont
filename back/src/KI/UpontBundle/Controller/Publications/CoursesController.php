@@ -8,6 +8,8 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use KI\UpontBundle\Entity\Users\CourseUser;
 use KI\UpontBundle\Form\Users\CourseUserType;
+use KI\UpontBundle\Entity\Users\Achievement;
+use KI\UpontBundle\Event\AchievementCheckEvent;
 
 class CoursesController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
@@ -149,6 +151,10 @@ class CoursesController extends \KI\UpontBundle\Controller\Core\ResourceControll
             if (!in_array($link->getGroup(), $link->getCourse()->getGroups()))
                 throw new BadRequestHttpException('Ce groupe n\'existe pas.');
         }
+
+        $dispatcher = $this->container->get('event_dispatcher');
+        $achievementCheck = new AchievementCheckEvent(Achievement::COURSES);
+        $dispatcher->dispatch('upont.achievement', $achievementCheck);
 
         $this->em->persist($link);
         $this->em->flush();

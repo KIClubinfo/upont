@@ -1,11 +1,12 @@
 angular.module('upont')
-    .controller('Students_Simple_Ctrl', ['$rootScope', '$scope', 'user', 'foyer', 'ponthub', 'clubs', function($rootScope, $scope, user, foyer, ponthub, clubs) {
+    .controller('Students_Simple_Ctrl', ['$rootScope', '$scope', 'user', 'foyer', 'ponthub', 'clubs', 'achievements', function($rootScope, $scope, user, foyer, ponthub, clubs, achievements) {
         $scope.user = user;
         $scope.foyer = foyer;
         $scope.displayFoyer = empty(foyer.error);
         $scope.ponthub = ponthub;
         $scope.displayPonthub = empty(ponthub.error);
         $scope.clubs = clubs;
+        $scope.achievements = achievements;
 
         if (empty(foyer.error)) {
             // Définition des graphes Highcharts
@@ -312,6 +313,11 @@ angular.module('upont')
                     }],
                     clubs: ['$resource', '$stateParams', function($resource, $stateParams) {
                         return $resource(apiPrefix + 'users/:slug/clubs').query({
+                            slug: $stateParams.slug
+                        }).$promise;
+                    }],
+                    achievements: ['$resource', '$stateParams', function($resource, $stateParams) {
+                        return $resource(apiPrefix + 'users/:slug/achievements?all').get({
                             slug: $stateParams.slug
                         }).$promise;
                     }]
