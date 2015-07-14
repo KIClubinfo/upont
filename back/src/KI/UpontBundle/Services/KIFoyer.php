@@ -48,6 +48,10 @@ class KIFoyer extends ContainerAware
             $dispatcher = $this->container->get('event_dispatcher');
             $achievementCheck = new AchievementCheckEvent(Achievement::FOYER);
             $dispatcher->dispatch('upont.achievement', $achievementCheck);
+        } else {
+            $dispatcher = $this->container->get('event_dispatcher');
+            $achievementCheck = new AchievementCheckEvent(Achievement::FOYER_BIS);
+            $dispatcher->dispatch('upont.achievement', $achievementCheck);
         }
     }
 

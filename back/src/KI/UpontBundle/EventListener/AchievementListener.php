@@ -74,11 +74,13 @@ class AchievementListener
             $achievementCheck = new AchievementCheckEvent(Achievement::UNLOCKER);
             $this->check($achievementCheck);
         }
-        if (count($this->achievements) >= Achievement::TOTAL*0.5) {
+
+        $total = count(Achievement::getConstants());
+        if (count($this->achievements) >= $total*0.5) {
             $achievementCheck = new AchievementCheckEvent(Achievement::CRAZY_UNLOCKER);
             $this->check($achievementCheck);
         }
-        if (count($this->achievements) >= Achievement::TOTAL*0.9) {
+        if (count($this->achievements) >= $total*0.9) {
             $achievementCheck = new AchievementCheckEvent(Achievement::TOTAL_UNLOCKER);
             $this->check($achievementCheck);
         }
@@ -136,15 +138,15 @@ class AchievementListener
 
     // Photogénique
     // Changer la photo de son profil
-    public function check1() { return true; }
+    public function check10() { return true; }
 
     // Travailleur
     // Choisir ses cours
-    public function check2() { return true; }
+    public function check20() { return true; }
 
     // Autobiographie
     // Remplir ses infos (chambre, téléphone, département, origine, nationalité...)
-    public function check3()
+    public function check30()
     {
         return !empty($this->user->getDepartment()) && !empty($this->user->getPromo()) && !empty($this->user->getLocation()) && !empty($this->user->getNationality()) && !empty($this->user->getPhone()) && !empty($this->user->getOrigin());
     }
@@ -154,7 +156,7 @@ class AchievementListener
 
     // Smart
     // Synchroniser le calendrier avec son téléphone
-    public function check4() { return true; }
+    public function check40() { return true; }
 
     // Connecté
     // Installer l'application mobile
@@ -162,18 +164,18 @@ class AchievementListener
 
     // Downloader
     // Télécharger un fichier sur Ponthub
-    public function check5() { return true; }
+    public function check50() { return true; }
 
     // Super Downloader
     // Télécharger plus de 100Go sur Ponthub
-    public function check6()
+    public function check60()
     {
         return $this->totalPontHubSize() > (100*1024*1024*1024);
     }
 
     // Ultimate Downloader
     // Télécharger plus de 500Go sur Ponthub
-    public function check7()
+    public function check70()
     {
         return $this->totalPontHubSize() > (500*1024*1024*1024);
     }
@@ -192,15 +194,15 @@ class AchievementListener
 
     // Will be there !
     // Participer à un event
-    public function check8() { return true; }
+    public function check80() { return true; }
 
     // Pookie
     // Uploader un fichier d'annale
-    public function check9() { return true; }
+    public function check90() { return true; }
 
     // Spirit
     // Être membre d'un club
-    public function check10()
+    public function check100()
     {
         $em = $this->container->get('doctrine')->getManager();
         $repo = $em->getRepository('KIUpontBundle:Users\ClubUser');
@@ -210,31 +212,63 @@ class AchievementListener
 
     // Nouvelliste
     // Écrire une news pour un club
-    public function check11() { return true; }
+    public function check110() { return true; }
 
     // Organisateur
     // Créer un event pour un club
-    public function check12() { return true; }
+    public function check120() { return true; }
 
     // Ruiné
     // Avoir un solde foyer négatif
-    public function check13() { return true; }
+    public function check130()
+    {
+        // On enlève l'achievement opposé (solde positif)
+        $repoA = $this->manager->getRepository('KIUpontBundle:Users\Achievement');
+        $oAchievement = $repoA->findOneByAchievement(Achievement::FOYER_BIS);
+
+        $repoAU = $this->manager->getRepository('KIUpontBundle:Users\AchievementUser');
+        $achievementUsers = $repoAU->findBy(array('achievement' => $oAchievement, 'user' => $this->user));
+
+        if (count($achievementUsers) == 1) {
+            $this->manager->remove($achievementUsers[0]);
+            $this->manager->flush();
+        }
+        return true;
+    }
+
+    // Ruiné
+    // Avoir un solde foyer positif
+    public function check140()
+    {
+        // On enlève l'achievement opposé (solde positif)
+        $repoA = $this->manager->getRepository('KIUpontBundle:Users\Achievement');
+        $oAchievement = $repoA->findOneByAchievement(Achievement::FOYER);
+
+        $repoAU = $this->manager->getRepository('KIUpontBundle:Users\AchievementUser');
+        $achievementUsers = $repoAU->findBy(array('achievement' => $oAchievement, 'user' => $this->user));
+
+        if (count($achievementUsers) == 1) {
+            $this->manager->remove($achievementUsers[0]);
+            $this->manager->flush();
+        }
+        return true;
+    }
 
     // Non, ce n'était pas "password1234"
     // Oublier son mot de passe
-    public function check14() { return true; }
+    public function check150() { return true; }
 
     // H3LLLP UPON SA BEUG!!!!
     // Reporter un bug
-    public function check15() { return true; }
+    public function check160() { return true; }
 
     // Technophobe
     // Contacter le KI pour un dépannage matériel/logiciel
-    public function check16() { return true; }
+    public function check170() { return true; }
 
     // KIen
     // Faire partie du KI
-    public function check17()
+    public function check180()
     {
         $em = $this->container->get('doctrine')->getManager();
         $repo = $em->getRepository('KIUpontBundle:Users\Club');
@@ -246,17 +280,17 @@ class AchievementListener
 
     // Appelez-moi Dieu
     // Être admin
-    public function check18() { return $this->container->get('security.context')->isGranted('ROLE_ADMIN'); }
+    public function check190() { return $this->container->get('security.context')->isGranted('ROLE_ADMIN'); }
 
     // Unlocker
     // Compléter 10 achievements
-    public function check19() { return true; }
+    public function check200() { return true; }
 
     // Crazy Unlocker
     // Compléter 50% des achievements
-    public function check20() { return true; }
+    public function check210() { return true; }
 
     // Total Unlocker
     // Compléter 90% des achievements
-    public function check21() { return true; }
+    public function check220() { return true; }
 }

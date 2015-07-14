@@ -13,10 +13,10 @@ class LoadAchievementFixture extends AbstractFixture implements OrderedFixtureIn
     public function load(ObjectManager $manager)
     {
         // Nombre total d'achievements à actualiser à chaque fois
-        for ($i = 0; $i < Achievement::TOTAL; $i++) {
-            $achievement = new Achievement($i);
+        foreach (Achievement::getConstants() as $constant) {
+            $achievement = new Achievement($constant);
             $manager->persist($achievement);
-            $this->addReference('achievement-' . $i, $achievement);
+            $this->addReference('achievement-' . $constant, $achievement);
         }
 
         $manager->flush();

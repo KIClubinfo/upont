@@ -83,38 +83,38 @@ class Achievement
         $this->achievement = $achievement;
     }
 
-    // EN CAS DE RAJOUT D'ACHIEVEMENT, MODIFIER LE FICHIER DE DATAFIXTURES !!!
     // Attention, ne pas changer les IDs des achievements à la légère !!!
     // En effet les fonctions de check dépendent des IDs, voir le fichier
     // EventListener > AchievementCheck
     const LOGIN = 0;
-    const PHOTO = 1;
-    const COURSES = 2;
-    const PROFILE = 3;
+    const PHOTO = 10;
+    const COURSES = 20;
+    const PROFILE = 30;
     //const FULL_PROFILE = 4;
-    const ICS_CALENDAR = 4;
+    const ICS_CALENDAR = 40;
     //const MOBILE_APP = 6;
-    const DOWNLOADER = 5;
-    const SUPER_DOWNLOADER = 6;
-    const ULTIMATE_DOWNLOADER = 7;
+    const DOWNLOADER = 50;
+    const SUPER_DOWNLOADER = 60;
+    const ULTIMATE_DOWNLOADER = 70;
     //const LEECH = 8;
-    const EVENT_ATTEND = 8;
+    const EVENT_ATTEND = 80;
     //const EVENT_SHOTGUN = 14;
     //const EVENT_PERSO = 15;
-    const POOKIE = 9;
-    const SPIRIT = 10;
-    const NEWS_CREATE = 11;
-    const EVENT_CREATE = 12;
+    const POOKIE = 90;
+    const SPIRIT = 100;
+    const NEWS_CREATE = 110;
+    const EVENT_CREATE = 120;
     //const OBJECT_LOST = 21;
     //const OBJECT_FOUND = 22;
     //const COURSES_OFFER = 23;
     //const COURSES_SHOTGUN = 24;
     //const CONFIG_NOTIFICATIONS = 25;
     //const DVP = 27;
-    const FOYER = 13;
+    const FOYER = 130;
+    const FOYER_BIS = 140;
     //const MEDIATEK = 29;
     //const EVENT_OLD = 31;
-    const PASSWORD = 14;
+    const PASSWORD = 150;
     //const TUTO_MAIL = 33;
     //const TUTO_LINUX = 34;
     //const PONTLYVALENT = 40;
@@ -125,16 +125,18 @@ class Achievement
     const GAME_SELF = 21;
     const GAME_NEXT = 22;
     const GAME_OLD = 23;*/
-    const BUG_REPORT = 15;
-    const BUG_CONTACT = 16;
-    const KIEN = 17;
-    const ADMIN = 18;
-    const UNLOCKER = 19;
-    const CRAZY_UNLOCKER = 20;
-    const TOTAL_UNLOCKER = 21;
+    const BUG_REPORT = 160;
+    const BUG_CONTACT = 170;
+    const KIEN = 180;
+    const ADMIN = 190;
+    const UNLOCKER = 200;
+    const CRAZY_UNLOCKER = 210;
+    const TOTAL_UNLOCKER = 220;
 
-    // Nombre total d'achievements, à actualiser
-    const TOTAL = 22;
+    static public function getConstants() {
+        $oClass = new \ReflectionClass(__CLASS__);
+        return $oClass->getConstants();
+    }
 
     // EN CAS DE RAJOUT D'ACHIEVEMENT, MODIFIER LE FICHIER DE DATAFIXTURES !!!
     protected static $achievements = array(
@@ -287,6 +289,12 @@ class Achievement
         'description' => 'Avoir un solde foyer négatif',
         'points'      => -100,
         'image'       => 'warning',
+    ),
+    self::FOYER_BIS => array(
+        'name'        => 'Honorable',
+        'description' => 'Avoir un solde foyer positif',
+        'points'      => 50,
+        'image'       => 'beer',
     ),
     /*self::MEDIATEK => array(
         'name'        => 'Aime les BDs',
