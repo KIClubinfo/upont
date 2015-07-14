@@ -1,189 +1,174 @@
 <div up-row wrap>
-    <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%" ng-if="!playing && !end">
-        <div class="up-ticket">
-            <h2>Le jeu</h2>
+    <div class="up-game-container" up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="100%">
+        <h1>La Réponse D</h1>
+        <div ng-if="!playing && !end">
+            <h2>Mode de jeu</h2>
 
-            Présentation, règles trucs très intéressants<br>
+            <div up-row space-around>
+                <button class="up-btn-game" up-col="15%" ng-class="{'focus':!hardcore}" ng-click="hardcore=false">Normal</button>
+                <button class="up-btn-game" up-col="15%" ng-class="{'focus':hardcore}" ng-click="hardcore=true">Hardcore</button>
+            </div>
 
-            <div up-row center up-col="100%">
-                <form up-row padded center wrap ng-submit="post(promo,mode)" autocomplete="off" up-col="100%">
-                    <div up-col-xs="30%" up-col-sm="30%" up-col="15%">
-                        Promo
-                    </div>
-                    <div up-col-xs="70%" up-col-sm="70%" up-col="35%">
-                        <select ng-model="promo">
-                            <option ng-repeat="item in promos | reverse">{{ item }}</option>
-                        </select>
+            <h2>Promo</h2>
+
+            <div up-row space-around>
+                <button ng-repeat="item in promos" ng-if="$index > promos.length-6" class="up-btn-game" up-col="15%" ng-class="{'focus':promo==item}" ng-click="switchPromo(item)">{{ item }}</button>
+            </div>
+            <br><br>
+            <div up-row space-around>
+                <button class="up-btn-game" up-col="20%" ng-click="post(promo, hardcore)">Jouer !</button>
+            </div>
+        </div>
+
+        <div ng-if="playing && !end">
+            <div up-row wrap>
+                <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
+                    <b>Chrono :</b> {{ (clock - start)/1000 | formatDuration }}
+                </div>
+
+                <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
+                    {{ position }}/{{ gameData.list_users.length }}
+                </div>
+            </div>
+            <br>
+            <div up-row padded center>
+                <div up-col-xs="50%" up-col-sm="50%" up-col-md="30%" up-col="25%">
+                    <h3 ng-if="change && !hardcore" up-row center>{{ name }}</h3>
+
+                    <h3 ng-if="!change && hardcore" up-row center>{{ trait }} : {{ traitValue }}</h3>
+
+                    <div ng-if="!change && !hardcore">
+                        <br><br>
+                        <div class="up-image-container">
+                            <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture + ')' }"></div>
+                        </div>
+                        <br>
                     </div>
 
-                    <div up-col-xs="30%" up-col-sm="30%" up-col="15%">
-                        Mode
+                    <div ng-if="change && hardcore">
+                        <div class="up-image-container">
+                            <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture + ')' }"></div>
+                        </div>
+                        <h3 up-row center>{{ name }}</h3>
                     </div>
-                    <div up-col-xs="70%" up-col-sm="70%" up-col="35%">
-                        <select ng-model="mode">
-                            <option ng-repeat="item in modes">{{ item }}</option>
-                        </select>
+                </div>
+            </div>
+
+            <div up-row wrap space-around>
+                <br>
+                <div up-col-xs="100%" up-col-sm="100%" up-col="25%" ng-click="next(0)">
+                    <button up-col="100%" class="up-btn-game" ng-if = "!change && !hardcore">{{ name1 }}</button>
+                    <div class="up-image-container up-clickable" ng-if="change && !hardcore">
+                        <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture1 + ')' }"></div>
                     </div>
 
-                    <div class up-row>
-                        <button>Jouer !</button>
+                    <div ng-if="!change && hardcore">
+                        <div class="up-image-container up-clickable">
+                            <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture1 + ')' }"></div>
+                        </div><br>
+                        <button up-col="100%" class="up-btn-game" up-row center>{{ name1 }}</button>
                     </div>
-                </form>
+                    <button up-col="100%" class="up-btn-game" ng-if="change && hardcore">{{ traitValue1 }}</button>
+                </div>
+
+                <div up-col-xs="100%" up-col-sm="100%" up-col="25%" ng-click="next(1)">
+                    <button up-col="100%" class="up-btn-game" ng-if = "!change && !hardcore">{{ name2 }}</button>
+                    <div class="up-image-container up-clickable" ng-if="change && !hardcore">
+                        <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture2 + ')' }"></div>
+                    </div>
+                    <div ng-if="!change && hardcore">
+                        <div class="up-image-container up-clickable">
+                            <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture2 + ')' }"></div>
+                        </div><br>
+                        <button up-col="100%" class="up-btn-game" up-row center>{{ name2 }}</button>
+                    </div>
+                    <button up-col="100%" class="up-btn-game" ng-if="change && hardcore">{{ traitValue2 }}</button>
+                </div>
+
+                <div up-col-xs="100%" up-col-sm="100%" up-col="25%" ng-click="next(2)">
+                    <button up-col="100%" class="up-btn-game" ng-if = "!change && !hardcore">{{ name3 }}</button>
+                    <div class="up-image-container up-clickable" ng-if="change && !hardcore">
+                        <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture3 + ')' }"></div>
+                    </div>
+                    <div ng-if="!change && hardcore">
+                        <div class="up-image-container up-clickable">
+                            <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture3 + ')' }"></div>
+                        </div><br>
+                        <button up-col="100%" class="up-btn-game" up-row center>{{ name3 }}</button>
+                    </div>
+                    <button up-col="100%" class="up-btn-game" ng-if="change && hardcore">{{ traitValue3 }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div up-col="100%" ng-if="end">
+            <div up-row space-around>
+                <button class="up-btn-game" up-col="20%" ng-click="post(promo, hardcore)">Rejouer !</button>
+            </div>
+
+            <h3>Promo</h3>
+
+            <div up-row space-around>
+                <button ng-repeat="item in promos" ng-if="$index > promos.length-6" class="up-btn-game" up-col="15%" ng-class="{'focus':promo==item}" ng-click="switchPromo(item)">{{ item }}</button>
+            </div>
+
+            <h3>Mode de jeu</h3>
+
+            <div up-row space-around>
+                <button class="up-btn-game" up-col="15%" ng-class="{'focus':!hardcore}" ng-click="hardcore=false">Normal</button>
+                <button class="up-btn-game" up-col="15%" ng-class="{'focus':hardcore}" ng-click="hardcore=true">Hardcore</button>
+            </div>
+
+            <br><br>
+
+            <h2>Temps</h2>
+
+            Tu as fini en <b>{{ (clock-start)/1000 | formatDuration }}</b>.<br>
+            <span ng-if="numWrong>0">Tu as commis <b>{{ numWrong }}</b> faute<span ng-if="numWrong>1">s</span>.<br>
+            Temps total : <b>{{ (clock-start)/1000 + 5 * numWrong | formatDuration }}.</b></span>
+            <br><br>
+
+            <div up-row wrap space-around>
+                <div ng-repeat="face in gameData.list_users" up-col="50%" up-row wrap padded center style="text-align:left">
+                    <div up-col="30%">
+                        <div class="up-image-container">
+                            <div class="up-image" ng-style="{ 'background-image' : 'url({{ face[face.answer][1] | urlFile }})' }"></div>
+                        </div>
+                    </div>
+
+                    <div up-col="70%">
+                        <h3><span ng-if="face.result">OK !</span><span ng-if="!face.result">FAUX !</span></h3>
+
+                        <div up-col="100%">
+                            <div ng-if="face.result">
+                                C'était bien <b>{{ face[face.answer][0] }}</b>.
+                            </div>
+
+                            <div ng-if="!face.result">
+                                Ce n'était pas <b>{{ face[face.answered][0] }}</b>, mais <b>{{ face[face.answer][0] }}</b>.
+
+                                <h4>Pénalité : 5 secondes</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%" ng-if="!playing && !end">
-        <div class="up-ticket">
-            <h2>Highscore</h2>
+    <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%">
+        <div class="up-game-container">
+            <h2>Highscore persos</h2>
 
             <em>À venir...</em>
         </div>
     </div>
 
-    <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="100%" ng-if="playing && !end">
-        <div class="up-ticket">
-            <div up-row wrap>
-                <div up-col-xs="100%" up-col-sm="100%" up-col="50%" up-row padded center>
-                    Chronomètre : {{ (clock - start)/1000 | formatDuration }}
-                </div>
+    <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%">
+        <div class="up-game-container">
+            <h2>Highscore</h2>
 
-                <div up-col-xs="100%" up-col-sm="100%" up-col="50%" up-row padded center>
-                    {{ position }}/{{ gameData.list_users.length }}
-                </div>
-            </div>
-
-            <br>
-            
-            <div up-row padded center>
-                <div up-col-xs="50%" up-col-sm="50%" up-col-md="30%" up-col="25%">
-                    <div class="up-image-container" ng-if="!change && mode=='Normal'">
-                        <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture + ')' }"></div>
-                    </div>
-
-                    <div ng-if="change && mode=='Normal'" up-row center>{{ name }}</div>
-
-                    <div ng-if="!change && mode=='Caractéristique'" up-row center>
-                        {{ trait }} : {{ traitValue }}
-                    </div>
-
-                    <div ng-if="change && mode=='Caractéristique'">
-                        <div class="up-image-container">
-                            <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture + ')' }"></div>
-                        </div>
-                        <br>
-                        <span up-row center>{{ name }}</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="centering">
-                <br>
-                <button up-col-xs="100%" up-col-sm="100%" up-col="25%" ng-click="next(0)">
-                    <span ng-if = "!change && mode=='Normal'">{{ name1 }}</span>
-                    <div class="up-image-container" ng-if="change && mode=='Normal'">
-                        <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture1 + ')' }"></div>
-                    </div>
-                    <div ng-if="!change && mode=='Caractéristique'">
-                        <div class="up-image-container">
-                            <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture1 + ')' }"></div>
-                        </div><br>
-                        <span up-row center>{{ name1 }}</span>
-                    </div>
-                    <span ng-if="change && mode=='Caractéristique'">{{ traitValue1 }}</span>
-                </button>
-                
-                <button up-col-xs="100%" up-col-sm="100%" up-col="25%" ng-click="next(1)">
-                    <span ng-if = "!change && mode=='Normal'">{{ name2 }}</span>
-                    <div class="up-image-container" ng-if="change && mode=='Normal'">
-                        <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture2 + ')' }"></div>
-                    </div>
-                    <div ng-if="!change && mode=='Caractéristique'">
-                        <div class="up-image-container">
-                            <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture2 + ')' }"></div>
-                        </div><br>
-                        <span up-row center>{{ name2 }}</span>
-                    </div>
-                    <span ng-if="change && mode=='Caractéristique'">{{ traitValue2 }}</span>
-                </button>
-
-                <button up-col-xs="100%" up-col-sm="100%" up-col="25%" ng-click="next(2)">
-                    <span ng-if = "!change && mode=='Normal'">{{ name3 }}</span>
-                    <div class="up-image-container" ng-if="change && mode=='Normal'">
-                        <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture3 + ')' }"></div>
-                    </div>
-                    <div ng-if="!change && mode=='Caractéristique'">
-                        <div class="up-image-container">
-                            <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture3 + ')' }"></div>
-                        </div><br>
-                        <span up-row center>{{ name3 }}</span>
-                    </div>
-                    <span ng-if="change && mode=='Caractéristique'">{{ traitValue3 }}</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%" ng-if="end">
-        <div class="up-ticket">
-            <div ng-repeat="face in gameData.list_users" up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="100%" up-row wrap padded>
-                <div up-col="30%">
-                    <div class="up-image-container">
-                        <div class="up-image" ng-style="{ 'background-image' : 'url({{ face[face.answer][1] | urlFile }})' }"></div>
-                    </div>
-                </div>
-
-                <div up-col="70%">
-                    <h3>Réponse <span ng-if="face.result">juste !</span><span ng-if="!face.result">fausse !</span></h3>
-
-                    <div up-col="100%">
-                        <div ng-if="face.result">
-                            Il s'agissait bien de <b>{{ face[face.answer][0] }}</b>.
-                        </div>
-
-                        <div ng-if="!face.result">
-                            Ce n'était pas <b>{{ face[face.answered][0] }}</b>, mais <b>{{ face[face.answer][0] }}</b>.
-
-                            <h4>Pénalité de temps : 5 secondes</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%" ng-if="end">
-        <div class="up-ticket">
-            <h3>Temps</h3>
-
-            Tu as fini le jeu en <b>{{ (clock-start)/1000 | formatDuration }}</b>.<br>
-            <span ng-if="numWrong>0">Tu as commis <b>{{ numWrong }}</b> faute<span ng-if="numWrong>1">s</span>.<br>Ton temps total est donc de <b>{{ (clock-start)/1000 + 5 * numWrong | formatDuration }}.</b></span>
-
-            <div up-row center up-col="100%">
-                <form up-row padded center wrap ng-submit="post(promo,mode)" autocomplete="off" up-col="100%">
-                    <div up-col-xs="30%" up-col-sm="30%" up-col="15%">
-                        Promo
-                    </div>
-                    <div up-col-xs="70%" up-col-sm="70%" up-col="35%">
-                        <select ng-model="promo">
-                            <option ng-repeat="item in promos | reverse">{{ item }}</option>
-                        </select>
-                    </div>
-
-                    <div up-col-xs="30%" up-col-sm="30%" up-col="15%">
-                        Mode
-                    </div>
-                    <div up-col-xs="70%" up-col-sm="70%" up-col="35%">
-                        <select ng-model="mode">
-                            <option ng-repeat="item in modes">{{ item }}</option>
-                        </select>
-                    </div>
-
-                    <div class up-row>
-                        <button>Rejouer !</button>
-                    </div>
-                </form>
-            </div>
+            <em>À venir...</em>
         </div>
     </div>
 </div>
