@@ -24,7 +24,7 @@ class FacegamesControllerTest extends WebTestCase
         $this->client->request(
             'POST', '/facegames', array(
                 'promo' => '',
-                'harcore' => false
+                'hardcore' => false
             )
         );
         $response = $this->client->getResponse();
