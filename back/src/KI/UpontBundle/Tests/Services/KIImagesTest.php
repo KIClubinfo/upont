@@ -31,7 +31,6 @@ class KIImagesTest extends WebTestCase
          $this->assertEquals($result['extension'], 'png');
     }
 
-
     public function testUploadUrl()
     {
         $url = 'http://www.youtube.com/yt/brand/media/image/YouTube-logo-full_color.png';
@@ -57,7 +56,6 @@ class KIImagesTest extends WebTestCase
         $result = $this->service->uploadUrl($url);
         $this->assertEquals($result, null);
     }
-
 
     protected $base64 = 'iVBORw0KGgoAAAANSUhEUgAAABwAAAASAQMAAAByySynAAAABlBMVEUAAAD///+l2Z/dAAAAP0lEQVQImWNgPm9gwAAmbM4bH4AQzAdAYiDC/rzxByTi/+f/cIL5AwPnZGYGIGHMwGA5mdkASNgbMNgJ80AIAMCSHqNvm2VtAAAAAElFTkSuQmCC';
 

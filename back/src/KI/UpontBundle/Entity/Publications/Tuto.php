@@ -31,13 +31,12 @@ class Tuto extends Likeable
     protected $date;
 
     /**
-     * Catégorie
-     * @ORM\Column(name="category", type="string")
+     * Icône (utilisée par l'application mobile)
+     * @ORM\Column(name="icon", type="string", nullable=true)
      * @JMS\Expose
      * @Assert\Type("string")
-     * @Assert\NotBlank()
      */
-    protected $category;
+    protected $icon;
 
 
 
@@ -92,25 +91,25 @@ class Tuto extends Likeable
     }
 
     /**
-     * Set category
+     * Set icon
      *
-     * @param string $category
+     * @param string $icon
      * @return Tuto
      */
-    public function setCategory($category)
+    public function setIcon($icon)
     {
-        $this->category = $category;
+        $this->icon = $icon;
 
         return $this;
     }
 
     /**
-     * Get category
+     * Get icon
      *
      * @return string
      */
-    public function getCategory()
+    public function getIcon()
     {
-        return $this->category;
+        return $this->icon;
     }
 }

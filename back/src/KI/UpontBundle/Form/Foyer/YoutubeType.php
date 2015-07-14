@@ -4,7 +4,7 @@ namespace KI\UpontBundle\Form\Foyer;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
 class YoutubeType extends AbstractType
@@ -16,7 +16,7 @@ class YoutubeType extends AbstractType
             ->add('link');
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,

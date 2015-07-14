@@ -4,7 +4,7 @@ namespace KI\UpontBundle\Form\Users;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
 class ClubType extends AbstractType
@@ -23,7 +23,7 @@ class ClubType extends AbstractType
             ->add('banner', 'imageuploader_selector');
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,

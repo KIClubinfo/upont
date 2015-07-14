@@ -4,7 +4,7 @@ namespace KI\UpontBundle\Form\Publications;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TutoType extends AbstractType
 {
@@ -13,11 +13,10 @@ class TutoType extends AbstractType
         $builder
             ->add('name')
             ->add('text')
-            ->add('date')
-            ->add('category');
+            ->add('icon');
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,

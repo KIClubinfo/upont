@@ -45,6 +45,14 @@ class CourseItem
     protected $endDate;
 
     /**
+     * Groupe
+     * @ORM\Column(name="course_group", type="string", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("string")
+     */
+    protected $group;
+
+    /**
      * Le cours parent
      * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Publications\Course", inversedBy="courseitems")
      * @JMS\Expose
@@ -132,6 +140,29 @@ class CourseItem
     public function getEndDate()
     {
         return $this->endDate;
+    }
+
+    /**
+     * Set group
+     *
+     * @param string $group
+     * @return CourseItem
+     */
+    public function setGroup($group)
+    {
+        $this->group = $group;
+
+        return $this;
+    }
+
+    /**
+     * Get group
+     *
+     * @return string
+     */
+    public function getGroup()
+    {
+        return $this->group;
     }
 
     /**

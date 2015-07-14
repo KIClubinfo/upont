@@ -1,16 +1,43 @@
 angular.module('upont')
-    .controller('Tutorials_Ctrl', ['$scope', function($scope) {
+    .controller('Tutorials_Ctrl', ['$scope', 'tutos', '$http', '$state', function($scope, tutos, $http, $state) {
+        $scope.tutos = tutos;
 
+        $scope.post = function(name) {
+            if (name === undefined || name === '') {
+                alertify.error('Nom vide');
+                return;
+            }
+
+            $http.post(apiPrefix + 'tutos', {name: name, text: 'Tutoriel en cours d\'écriture...'}).success(function(data){
+                alertify.alert('Tuto créé ! Redirection...');
+                $state.go('root.users.resources.tutorials.simple', {slug: data.slug});
+            });
+        };
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
             .state('root.users.resources.tutorials', {
                 url: '/tutoriels',
+                template: '<div ui-view></div>',
                 abstract: true,
-                templateUrl: 'views/users/resources/tutorials.html',
                 data: {
                     title: 'Tutoriels - uPont',
                     top: true
                 },
-            });
+            })
+            .state('root.users.resources.tutorials.list', {
+                url: '',
+                templateUrl: 'views/users/resources/tutorials.html',
+                controller: 'Tutorials_Ctrl',
+                data: {
+                    title: 'Tutoriels - uPont',
+                    top: true
+                },
+                resolve: {
+                    tutos: ['$resource', function($resource) {
+                        return $resource(apiPrefix + 'tutos').query().$promise;
+                    }]
+                },
+            })
+        ;
     }]);

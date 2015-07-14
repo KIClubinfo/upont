@@ -6,6 +6,8 @@ use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use KI\UpontBundle\Entity\Users\Achievement;
+use KI\UpontBundle\Event\AchievementCheckEvent;
 
 class FixesController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
@@ -72,6 +74,16 @@ class FixesController extends \KI\UpontBundle\Controller\Core\ResourceController
             $return['item']->setUser($user);
             $return['item']->setDate(time());
             $return['item']->setStatus('Non vu');
+
+            if ($return['item']->getFix()) {
+                $dispatcher = $this->container->get('event_dispatcher');
+                $achievementCheck = new AchievementCheckEvent(Achievement::BUG_CONTACT);
+                $dispatcher->dispatch('upont.achievement', $achievementCheck);
+            } else {
+                $dispatcher = $this->container->get('event_dispatcher');
+                $achievementCheck = new AchievementCheckEvent(Achievement::BUG_REPORT);
+                $dispatcher->dispatch('upont.achievement', $achievementCheck);
+            }
         }
 
         if ($return['item']->getProblem() != '[Test] J\'arrive pas à avoir Internet') {

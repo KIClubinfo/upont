@@ -14,34 +14,10 @@ use KI\UpontBundle\Entity\Core\Likeable;
 class Course extends Likeable
 {
     /**
-     * Groupe du cours (0 si pas de groupe)
-     * @ORM\Column(name="course_group", type="integer")
-     * @JMS\Expose
-     * @Assert\Type("integer")
-     */
-    protected $group;
-
-    /**
-     * Heure de début du cours (secondes depuis 00:00:00)
-     * @ORM\Column(name="startDate", type="integer", nullable=true)
-     * @JMS\Expose
-     * @Assert\Type("integer")
-     */
-    protected $startDate;
-
-    /**
-     * Heure de fin du cours (secondes depuis 00:00:00)
-     * @ORM\Column(name="endDate", type="integer", nullable=true)
-     * @JMS\Expose
-     * @Assert\Type("integer")
-     */
-    protected $endDate;
-
-    /**
      * Semestre (0: toute l'année, 1: premier, 2: second)
-     * @ORM\Column(name="semester", type="integer", nullable=true)
+     * @ORM\Column(name="semester", type="string", nullable=true)
      * @JMS\Expose
-     * @Assert\Type("integer")
+     * @Assert\Type("string")
      */
     protected $semester;
 
@@ -55,26 +31,46 @@ class Course extends Likeable
     protected $department;
 
     /**
-     * Personnes suivant ce cours
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\User", mappedBy="courses", cascade={"persist"})
-     * @Assert\Valid()
+     * Nombre d'ECTS
+     * @ORM\Column(name="ects", type="float", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("float")
      */
-    protected $attendees;
+    protected $ects;
+
+    /**
+     * Permet une sorte de modération
+     * @ORM\Column(name="active", type="boolean", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("boolean")
+     */
+    protected $active;
+
+    /**
+     * Groupes de ce cours
+     * @ORM\Column(name="course_groups", type="array", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("array")
+     */
+    protected $groups = array();
 
     /**
      * Liste des annales de ce cours
-     * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Publications\Exercice", mappedBy="course")
+     * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Publications\Exercice", mappedBy="course", cascade={"persist","remove"})
      * @JMS\Expose
      * @Assert\Valid()
      */
     protected $exercices;
 
     /**
-     * Liste des annales de ce cours
-     * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Publications\CourseItem", mappedBy="course")
+     * Liste des occurrences de ce cours
+     * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Publications\CourseItem", mappedBy="course", cascade={"persist","remove"})
      * @Assert\Valid()
      */
     protected $courseitems;
+
+
+
 
     //===== GENERATED AUTOMATICALLY =====//
 
@@ -83,84 +79,60 @@ class Course extends Likeable
      */
     public function __construct()
     {
-        $this->attendees = new \Doctrine\Common\Collections\ArrayCollection();
         $this->exercices = new \Doctrine\Common\Collections\ArrayCollection();
         $this->courseitems = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
-     * Set group
+     * Set ects
      *
-     * @param string $group
+     * @param float $ects
      * @return Course
      */
-    public function setGroup($group)
+    public function setEcts($ects)
     {
-        $this->group = $group;
+        $this->ects = $ects;
 
         return $this;
     }
 
     /**
-     * Get group
+     * Get ects
      *
-     * @return string
+     * @return float
      */
-    public function getGroup()
+    public function getEcts()
     {
-        return $this->group;
+        return $this->ects;
     }
 
     /**
-     * Set startDate
+     * Set active
      *
-     * @param integer $startDate
+     * @param boolean $active
      * @return Course
      */
-    public function setStartDate($startDate)
+    public function setActive($active)
     {
-        $this->startDate = $startDate;
+        $this->active = $active;
 
         return $this;
     }
 
     /**
-     * Get startDate
+     * Get active
      *
-     * @return integer
+     * @return boolean
      */
-    public function getStartDate()
+    public function getActive()
     {
-        return $this->startDate;
-    }
-
-    /**
-     * Set endDate
-     *
-     * @param integer $endDate
-     * @return Course
-     */
-    public function setEndDate($endDate)
-    {
-        $this->endDate = $endDate;
-
-        return $this;
-    }
-
-    /**
-     * Get endDate
-     *
-     * @return integer
-     */
-    public function getEndDate()
-    {
-        return $this->endDate;
+        return $this->active;
     }
 
     /**
      * Set semester
      *
-     * @param integer $semester
+     * @param string $semester
      * @return Course
      */
     public function setSemester($semester)
@@ -173,7 +145,7 @@ class Course extends Likeable
     /**
      * Get semester
      *
-     * @return integer
+     * @return string
      */
     public function getSemester()
     {
@@ -204,36 +176,39 @@ class Course extends Likeable
     }
 
     /**
-     * Add attendees
+     * Add groups
      *
-     * @param \KI\UpontBundle\Entity\Users\User $attendees
+     * @param string $groups
      * @return Course
      */
-    public function addAttendee(\KI\UpontBundle\Entity\Users\User $attendees)
+    public function addGroup($group)
     {
-        $this->attendees[] = $attendees;
+        $this->groups[] = $group;
 
         return $this;
     }
 
     /**
-     * Remove attendees
+     * Remove groups
      *
-     * @param \KI\UpontBundle\Entity\Users\User $attendees
+     * @param string $groups
      */
-    public function removeAttendee(\KI\UpontBundle\Entity\Users\User $attendees)
+    public function removeGroup($group)
     {
-        $this->attendees->removeElement($attendees);
+        if(($key = array_search($group, $this->groups)) !== false) {
+            unset($this->groups[$key]);
+        }
+        $this->groups = array_values($this->groups);
     }
 
     /**
-     * Get attendees
+     * Get groups
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getAttendees()
+    public function getGroups()
     {
-        return $this->attendees;
+        return $this->groups;
     }
 
     /**

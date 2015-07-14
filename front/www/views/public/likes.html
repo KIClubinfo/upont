@@ -20,7 +20,7 @@
     </div>
     <div class="up-comment" ng-repeat="comment in comments | orderBy: date | limitTo: shownComments" up-row left
          ng-mouseover="showModify=true" ng-mouseleave="showModify=false">
-        <img up-col="7%" class="up-profile-picture" ng-src="{{ comment.author.image_url | urlFile}}" alt="Image de profil"/>
+        <img up-col="7%" class="up-profile-picture" ng-src="{{ comment.author.image_url | thumb | urlFile}}" alt="Image de profil"/>
         <div up-col="87%">
 
             <strong ng-if="!$root.isExterieur"><span up-user user="comment.author">{{ comment.author.nick }}</span> : </strong>
@@ -46,7 +46,7 @@
         </div>
     </div>
     <form up-row left autocomplete="off" ng-if="!$root.isAdmissible">
-        <img class="up-profile-picture" ng-src="{{ $root.me.image_url | urlFile }}" />
+        <img class="up-profile-picture" ng-src="{{ $root.me.image_url | thumb | urlFile }}" />
         <textarea class="up-col-xs-12 comment-textarea" ng-model="commentText"
                   placeholder="Ajouter un commentaire" msd-elastic
                   ng-keyup="submitComment($event, commentText) ? commentText = '' : null"></textarea>

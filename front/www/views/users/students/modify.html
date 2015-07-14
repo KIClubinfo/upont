@@ -141,7 +141,7 @@
             <p>Synchronise le calendrier uPont avec ton smartphone/ton ordinateur pour être certain(e) de ne rien rater ! Regarde vite comment faire ci-dessous pour accéder à cette fonctionnalité géniale :</p>
 
             <div up-row wrap padded center>
-                <a ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" up-col-xs="100%" up-col-sm="100%" up-col="50%" class="up-btn up-btn-lg up-btn-default centering" target="_blank">Synchroniser !</a>
+                <a ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" up-col-xs="100%" up-col-sm="100%" up-col="50%" class="up-btn up-btn-lg up-btn-default centering" target="_blank" ng-click="achievementCheck()">Synchroniser !</a>
             </div>
 
             <h3 ng-click="open('iOS')" class="up-clickable">
@@ -154,7 +154,7 @@
                 <strong>2.</strong> Clique sur "Ajouter un compte" puis sur "Autre" ;<br>
                 <strong>3.</strong> Clique sur "Ajouter un calendrier avec abonnement" :<br>
                 <img class="img-responsive" src="img/tuto-ics-ios-2.png" alt="Cliquer sur Ajouter un calendrier avec abonnement"/>
-                <strong>4.</strong> Copie le lien suivant : <a ng-href="$root.url + 'users/' + token + '/calendar'" title="Calendrier ICS" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a> ;<br>
+                <strong>4.</strong> Copie le lien suivant : <a  ng-click="achievementCheck()" ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" title="Calendrier ICS" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a> ;<br>
                 <img class="img-responsive" src="img/tuto-ics-ios-3.png" alt="Copier le lien"/>
                 <strong>5.</strong> Clique sur "Suivant" puis sur "Enregistrer" et c'est terminé !<br>
             </p>
@@ -166,7 +166,7 @@
             <p ng-show="openICS == 'mac'">
                 <strong>1.</strong> Clique sur "Fichier", puis sur "Abonnement à un calendrier..."<br>
                 <img class="img-responsive" src="img/tuto-ics-mac-1.png" alt="Cliquer sur Abonnement à un calendrier..."/>
-                <strong>2.</strong> Copie-colle le lien suivant : <a ng-href="$root.url + 'users/' + token + '/calendar'" title="Calendrier ICS" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a> ;<br>
+                <strong>2.</strong> Copie-colle le lien suivant : <a  ng-click="achievementCheck()" ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" title="Calendrier ICS" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a> ;<br>
                 <img class="img-responsive" src="img/tuto-ics-mac-2.png" alt="Copier coller le lien"/>
                 <strong>3.</strong> Valide et c'est terminé !<br>
                 <strong>Attention ! Ne partage pas le lien, c'est un lien personnalisé...</strong>
@@ -180,7 +180,7 @@
                 <strong>ATTENTION ! CETTE FONCTION DE GOOGLE CALENDAR EST ASSEZ BUGGÉE, IL EST POSSIBLE QUE LES ÉVÉNEMENTS S'ACTUALISENT DE FAÇON IRRÉGULIÈRE. GOOGLE BOSSE DESSUS MAIS ON NE PEUX PAS FAIRE ACCÉLERER LES CHOSES. NE FAIS DONC PAS TROP CONFIANCE À CETTE FONCTIONNALITÉ POUR L'INSTANT.</strong><br>
                 <strong>1.</strong> Clique sur "Ajouter par URL" dans la catégorie "Autres agendas" de Calendar :<br>
                 <img class="img-responsive" src="img/tuto-ics-google-calendar-1.png" alt="Cliquer sur ajouter par URL"/>
-                <strong>2.</strong> Copie-colle le lien suivant : <a ng-href="$root.url + 'users/' + token + '/calendar'" title="Calendrier ICS" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a> ;<br>
+                <strong>2.</strong> Copie-colle le lien suivant : <a  ng-click="achievementCheck()" ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" title="Calendrier ICS" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a> ;<br>
                 <img class="img-responsive" src="img/tuto-ics-google-calendar-2.png" alt="Copier coller le lien"/>
                 <strong>3.</strong> Valide et c'est terminé ! (réessaie une seconde fois s'il t'affiche une erreur la première fois, Google a fait un truc buggé...)<br>
                 <strong>Attention ! Ne partage pas le lien, c'est un lien personnalisé...</strong>
@@ -196,7 +196,7 @@
                 <img class="img-responsive" src="img/tuto-ics-thunderbird-1.png" alt="Cliquer sur ajouter par URL"/>
                 <strong>2.</strong> Choisis "Sur le réseau" :<br>
                 <img class="img-responsive" src="img/tuto-ics-thunderbird-2.png" alt="Choisir sur le réseau"/>
-                <strong>3.</strong> Copie-colle le lien suivant : <a ng-href="$root.url + 'users/' + token + '/calendar'" title="Calendrier ICS" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a> ;<br>
+                <strong>3.</strong> Copie-colle le lien suivant : <a  ng-click="achievementCheck()" ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" title="Calendrier ICS" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a> ;<br>
                 <img class="img-responsive" src="img/tuto-ics-thunderbird-3.png" alt="Copier coller le lien"/>
                 <strong>4.</strong> Valide et c'est terminé !<br>
                 <strong>Attention ! Ne partage pas le lien, c'est un lien personnalisé...</strong>
@@ -259,7 +259,7 @@
     <h1>Clubs & Assos suivis</h1>
     <div up-row padded left wrap>
         <div up-row padded ng-repeat="club in clubs | orderBy:'name'" up-col="33%" up-col-xs="100%">
-            <div up-col="33%"><img class="img-responsive" src="{{ club.image_url | urlFile}}" />
+            <div up-col="33%"><img class="img-responsive" src="{{ club.image_url | thumb | urlFile}}" />
             </div>
             <div up-col="66%">
                 <h2><a ui-sref="root.users.assos.simple.publications({slug: club.slug})">{{ club.name }}</a></h2>

@@ -1,6 +1,6 @@
 filter:
     paths: [back/*]
-    excluded_paths: [back/vendor/*, back/app/*, back/src/KI/UpontBundle/DataFixtures/*, back/src/KI/UpontBundle/Controller/MigrationController.php]
+    excluded_paths: [back/vendor/*, back/app/*, back/src/KI/UpontBundle/DataFixtures/*]
 checks:
     php:
         fix_php_opening_tag: false

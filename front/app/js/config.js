@@ -8,7 +8,6 @@ angular.module('upont')
                     StorageService.remove('token');
                     StorageService.remove('droits');
                     $rootScope.isLogged = false;
-                    $rootScope.urlRef = $location.path();
                     $location.path('/');
                     break;
                 case 403:
@@ -108,7 +107,7 @@ angular.module('upont')
                 template: '<div ui-view></div>'
             });
     }])
-    .run(['$rootScope', 'StorageService', 'Permissions', '$state', '$interval', '$resource', '$location', '$window', '$sce', function($rootScope, StorageService, Permissions, $state, $interval, $resource, $location, $window, $sce) {
+    .run(['$rootScope', 'StorageService', 'Permissions', '$state', '$interval', '$resource', '$location', '$window', '$sce', 'Achievements', function($rootScope, StorageService, Permissions, $state, $interval, $resource, $location, $window, $sce, Achievements) {
         Permissions.load();
 
         // Déconnexion
@@ -179,7 +178,10 @@ angular.module('upont')
 
             if (!$rootScope.isLogged && needLogin(toState)) {
                 event.preventDefault();
-                $rootScope.urlRef = $location.path();
+
+                if ($location.path() != '/')
+                    $rootScope.urlRef = $location.path();
+
                 $state.go('root.login');
             }
         });

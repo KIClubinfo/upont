@@ -18,7 +18,16 @@ class CoursesControllerTest extends WebTestCase
     // On crée une ressource sur laquelle seront effectués les tests. Ne pas oublier de supprimer à la fin avec le test DELETE.
     public function testPost()
     {
-        $this->client->request('POST', '/courses', array('name' => 'Mécanique des familles', 'group' => 3, 'semester' => 0, 'startDate' => 151515, 'endDate' => 31415, 'department' => 'GCC'));
+        $this->client->request(
+            'POST',
+            '/courses',
+            array('name' => 'Mécanique des familles',
+                'groups' => array(0, 1, 2, 3),
+                'semester' => 'Année complète',
+                'active' => true,
+                'ects' => 3.5,
+                'department' => 'GCC')
+            );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
         // On vérifie que le lieu du nouvel objet a été indiqué
@@ -46,11 +55,11 @@ class CoursesControllerTest extends WebTestCase
 
     public function testAttend()
     {
-        $this->client->request('POST', '/courses/mecanique-des-familles/attend');
+        $this->client->request('POST', '/courses/mecanique-des-familles/attend', array('group' => 1));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('POST', '/courses/mecanique-des-familles/attend');
+        $this->client->request('POST', '/courses/mecanique-des-familles/attend', array('group' => 1));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
@@ -60,7 +69,7 @@ class CoursesControllerTest extends WebTestCase
 
         $this->client->request('DELETE', '/courses/mecanique-des-familles/attend');
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 400);
+        $this->assertJsonResponse($response, 404);
     }
 
     public function testPatch()
@@ -69,7 +78,9 @@ class CoursesControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('PATCH', '/courses/mecanique-des-familles', array('semester' => 1));
+        $this->client->request(
+            'PATCH', '/courses/mecanique-des-familles', array('semester' => 1)
+            );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
@@ -95,7 +106,12 @@ class CoursesControllerTest extends WebTestCase
         $fs->copy($basePath.'file.pdf', $basePath.'file_tmp.pdf');
         $file = new UploadedFile($basePath.'file_tmp.pdf', 'file.pdf');
 
-        $this->client->request('POST', '/courses/mecanique-des-familles/exercices', array('name' => 'Super Examen'), array('file' => $file));
+        $this->client->request(
+            'POST',
+            '/courses/mecanique-des-familles/exercices',
+            array('name' => 'Super Examen'),
+            array('file' => $file)
+            );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
         $this->assertTrue($response->headers->has('Location'), $response->headers);

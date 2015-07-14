@@ -3,6 +3,8 @@
 namespace KI\UpontBundle\Controller\Publications;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use KI\UpontBundle\Entity\Users\Achievement;
+use KI\UpontBundle\Event\AchievementCheckEvent;
 
 class NewsitemsController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
@@ -79,6 +81,10 @@ class NewsitemsController extends \KI\UpontBundle\Controller\Core\ResourceContro
 
             // Si ce n'est pas un event perso, on notifie les utilisateurs suivant le club
             if ($club) {
+                $dispatcher = $this->container->get('event_dispatcher');
+                $achievementCheck = new AchievementCheckEvent(Achievement::NEWS_CREATE);
+                $dispatcher->dispatch('upont.achievement', $achievementCheck);
+
                 $allUsers = $this->em->getRepository('KIUpontBundle:Users\User')->findAll();
                 $users = array();
 

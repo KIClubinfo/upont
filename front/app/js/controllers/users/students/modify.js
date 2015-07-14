@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('Students_Modify_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'preferences', 'clubs', 'clubsSuivis', 'token', 'devices', function($scope, $rootScope, $resource, $http, preferences, clubs, clubsSuivis, token, devices) {
+    .controller('Students_Modify_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'preferences', 'clubs', 'clubsSuivis', 'token', 'devices', 'Achievements', function($scope, $rootScope, $resource, $http, preferences, clubs, clubsSuivis, token, devices, Achievements) {
         for (var i = 0; i < clubsSuivis.length; i++)
             clubsSuivis[i] = clubsSuivis[i].slug;
 
@@ -60,6 +60,7 @@ angular.module('upont')
             $http.patch($rootScope.url + 'users/' + $rootScope.me.username, params).success(function(){
                 $resource(apiPrefix + 'users/:slug', {slug: $rootScope.me.username}).get(function(data){
                     $rootScope.me = data;
+                    Achievements.check();
                 });
                 alertify.success('Profil mis à jour !');
             });
@@ -69,6 +70,10 @@ angular.module('upont')
         $scope.openICS = -1;
         $scope.open = function(index) {
             $scope.openICS = $scope.openICS != index ? index : -1;
+        };
+
+        $scope.achievementCheck = function() {
+            Achievements.check();
         };
     }])
     .config(['$stateProvider', function($stateProvider) {

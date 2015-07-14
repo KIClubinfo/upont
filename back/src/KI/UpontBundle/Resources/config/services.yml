@@ -18,12 +18,12 @@ services:
             - { name: doctrine.event_listener, event: postPersist }
 
     # Écoute les checks d'achievements demandés un peu partout dans le code
-    #ki_upont.listener.achievement:
-    #    class: KI\UpontBundle\EventListener\AchievementListener
-    #    arguments:
-    #        container: "@service_container"
-    #    tags:
-    #        - { name: kernel.event_listener, event: upont.achievement, method: check }
+    ki_upont.listener.achievement:
+        class: KI\UpontBundle\EventListener\AchievementListener
+        arguments:
+            container: "@service_container"
+        tags:
+            - { name: kernel.event_listener, event: upont.achievement, method: check }
 
 
 
@@ -34,18 +34,18 @@ services:
         class: KI\UpontBundle\Services\KIImages
         calls:
             - [ setContainer,[ @service_container ] ]
-    
+
     # Communique avec l'API du Foyer
     ki_upont.foyer:
         class: KI\UpontBundle\Services\KIFoyer
         calls:
             - [ setContainer,[ @service_container ] ]
-            
-            
-            
-            
-            
-            
+
+
+
+
+
+
     # Les champs de formulaire personnalisés, définis comme des services
     ki_upont.type.imageuploader_selector:
        class: KI\UpontBundle\Form\Type\ImageUploaderSelectorType
@@ -56,25 +56,25 @@ services:
        class: KI\UpontBundle\Form\Type\ClubSelectorType
        arguments: ["@doctrine.orm.entity_manager"]
        tags:
-           - { name: form.type, alias: club_selector }     
+           - { name: form.type, alias: club_selector }
     ki_upont.type.actors_selector:
        class: KI\UpontBundle\Form\Type\ActorsSelectorType
        arguments: ["@doctrine.orm.entity_manager"]
        tags:
-           - { name: form.type, alias: actors_selector }  
+           - { name: form.type, alias: actors_selector }
     ki_upont.type.genres_selector:
        class: KI\UpontBundle\Form\Type\GenresSelectorType
        arguments: ["@doctrine.orm.entity_manager"]
        tags:
-           - { name: form.type, alias: genres_selector }   
+           - { name: form.type, alias: genres_selector }
     ki_upont.type.tags_selector:
        class: KI\UpontBundle\Form\Type\TagsSelectorType
        arguments: ["@doctrine.orm.entity_manager"]
        tags:
-           - { name: form.type, alias: tags_selector }           
-           
-           
-           
+           - { name: form.type, alias: tags_selector }
+
+
+
 
     # Communique avec l'API Gracenote
     ki_upont.gracenote:
@@ -93,14 +93,14 @@ services:
         class: KI\UpontBundle\Services\KICurl
         calls:
             - [ setContainer,[ @service_container ] ]
-    
+
     # Interface cURL
     ki_upont.token:
         class: KI\UpontBundle\Services\KIToken
         calls:
             - [ setContainer,[ @service_container ] ]
-            
-    #Permet de générer un calendrier ICS pour un utilisateur donné
+
+    # Permet de générer un calendrier ICS pour un utilisateur donné
     ki_upont.calendar:
         class: KI\UpontBundle\Services\KICalendar
         calls:
@@ -134,12 +134,12 @@ services:
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_failure, method: onAuthenticationFailureResponse }
-           
+
     upont_api.event.jwt_created_listener:
         class: %upont_api.event.jwt_created_listener.class%
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
-            
+
     upont_api.event.jwt_decoded_listener:
         class: %upont_api.event.jwt_decoded_listener.class%
         tags:

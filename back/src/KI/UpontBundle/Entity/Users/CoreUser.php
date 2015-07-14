@@ -5,7 +5,6 @@ namespace KI\UpontBundle\Entity\Users;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * La classe User est divisée en deux (autre partie dans User)
@@ -52,7 +51,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
 
     /**
      * Groupes de permissions FOSUserBundle
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\Group")
+     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\Group", inversedBy="users")
      * @ORM\JoinTable(name="fos_user_user_group",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
@@ -80,13 +79,6 @@ class CoreUser extends \FOS\UserBundle\Model\User
     protected $clubsNotFollowed;
 
     /**
-     * Cours que l'utilisateur suit
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Publications\Course",
-     * inversedBy="attendees", cascade={"persist"})
-     */
-    protected $courses;
-
-    /**
      * Tableau contenant les préférences utilisateurs. Les valeurs possibles des clés de ce tableau ainsi que
      * leur valeurs par défaut sont définies dans $preferencesArray
      * @ORM\Column(name="preferences", type="array", nullable=true)
@@ -109,7 +101,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
         'notif_shotgun_freed'  => true,
         'notif_ponthub'        => false,
         'notif_fixes'          => true,
-        //'notif_followed_annal' => true,
+        'notif_followed_annal' => true,
         //'notif_achievement'    => true,
         //'notif_next_level'     => true
     );
@@ -150,7 +142,6 @@ class CoreUser extends \FOS\UserBundle\Model\User
     public function __construct()
     {
         $this->devices = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
         $this->clubsNotFollowed = new \Doctrine\Common\Collections\ArrayCollection();
         parent::__construct();
     }
@@ -222,6 +213,31 @@ class CoreUser extends \FOS\UserBundle\Model\User
         $this->nickname = $nickname;
 
         return $this;
+    }
+
+    /**
+     * Add group
+     *
+     * @param \KI\UpontBundle\Entity\Users\User $group
+     * @return Comment
+     */
+    public function addGroupUser(\KI\UpontBundle\Entity\Users\Group $group)
+    {
+        $this->addGroup($group);
+        $group->addUser($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove group
+     *
+     * @param \KI\UpontBundle\Entity\Users\User $group
+     */
+    public function removeGroupUser(\KI\UpontBundle\Entity\Users\Group $group)
+    {
+        $this->removeGroup($group);
+        $group->removeUser($this);
     }
 
     /**
@@ -311,39 +327,6 @@ class CoreUser extends \FOS\UserBundle\Model\User
     public function getDevices()
     {
         return $this->devices;
-    }
-
-    /**
-     * Add courses
-     *
-     * @param \KI\UpontBundle\Entity\Publications\Course $course
-     * @return User
-     */
-    public function addCourse(\KI\UpontBundle\Entity\Publications\Course $course)
-    {
-        $this->courses[] = $course;
-
-        return $this;
-    }
-
-    /**
-     * Remove courses
-     *
-     * @param \KI\UpontBundle\Entity\Publications\Course $course
-     */
-    public function removeCourse(\KI\UpontBundle\Entity\Publications\Course $course)
-    {
-        $this->courses->removeElement($course);
-    }
-
-    /**
-     * Get courses
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCourses()
-    {
-        return $this->courses;
     }
 
     /**

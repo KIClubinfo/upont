@@ -56,7 +56,7 @@
         <div class="up-user-container" ui-sref="root.users.students.simple({slug: user.username})" up-col="100%" up-row>
             <div up-col="30%">
                 <div class="up-user-image-container">
-                    <div class="up-user-image" ng-style="{ 'background-image' : 'url({{ user.image_url | urlFile }})' }"></div>
+                    <div class="up-user-image" ng-style="{ 'background-image' : 'url({{ user.image_url | thumb | urlFile }})' }"></div>
                 </div>
             </div>
             <div class="up-user-details" up-col="70%">

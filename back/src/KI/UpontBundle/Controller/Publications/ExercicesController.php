@@ -5,6 +5,8 @@ namespace KI\UpontBundle\Controller\Publications;
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use KI\UpontBundle\Entity\Users\Achievement;
+use KI\UpontBundle\Event\AchievementCheckEvent;
 
 class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceController
 {
@@ -69,10 +71,17 @@ class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceCon
             throw new NotFoundHttpException('Fichier PDF non trouvé');
 
         // On lit le fichier PDF
-        return new \Symfony\Component\HttpFoundation\Response(file_get_contents($exercice->getAbsolutePath()), 200, array(
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition: attachment; filename="'.$exercice->getCourse()->getDepartment().''.$exercice->getName().'"'
-        ));
+        $response = new \Symfony\Component\HttpFoundation\Response();
+        $filename = $exercice->getAbsolutePath();
+        $course = $exercice->getCourse();
+
+        $response->headers->set('Cache-Control', 'private');
+        $response->headers->set('Content-type', mime_content_type($filename));
+        $response->headers->set('Content-Disposition', 'attachment; filename="('.$course->getDepartment().') '.$course->getName().' - '.$exercice->getName().'";');
+        $response->headers->set('Content-length', filesize($filename));
+
+        $response->sendHeaders();
+        return $response->setContent(readfile($filename));
     }
 
     /**
@@ -93,7 +102,6 @@ class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceCon
      public function postCourseExerciceAction($slug) {
         $request = $this->getRequest();
         $course = $this->findBySlug($slug);
-        $uploader = $this->container->get('security.context')->getToken()->getUser();
 
         $this->switchClass('Exercice');
         $return = $this->partialPost($this->get('security.context')->isGranted('ROLE_USER'));
@@ -101,7 +109,7 @@ class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceCon
         if ($return['code'] != 400) {
             // On règle tout comme on veut
             $return['item']->setDate(time());
-            $return['item']->setUploader($uploader);
+            $return['item']->setUploader($this->user);
             $return['item']->setCourse($course);
             $return['item']->setValid($this->get('security.context')->isGranted('ROLE_MODO'));
 
@@ -111,13 +119,16 @@ class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceCon
 
             $this->em->flush();
 
+            $dispatcher = $this->container->get('event_dispatcher');
+            $achievementCheck = new AchievementCheckEvent(Achievement::POOKIE);
+            $dispatcher->dispatch('upont.achievement', $achievementCheck);
+
             // On crée une notification
-            $allUsers = $this->em->getRepository('KIUpontBundle:Users\User')->findAll();
+            $courseUsers = $this->em->getRepository('KIUpontBundle:Users\CourseUser')->findBy(array('course' => $course));
             $users = array();
 
-            foreach ($allUsers as $candidate) {
-                if ($candidate->getCourses()->contains($return['item']))
-                    $users[] = $candidate;
+            foreach ($courseUsers as $courseUser) {
+                $users[] = $courseUser->getUser();
             }
 
             $this->notify(
@@ -127,8 +138,6 @@ class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceCon
                 'to',
                 $users
             );
-
-            $request->files->get('file')->move($return['item']->getBasePath(), $return['item']->getId().'.pdf');
         }
         $this->switchClass();
 
@@ -170,6 +179,7 @@ class ExercicesController extends \KI\UpontBundle\Controller\Core\SubresourceCon
      */
     public function deleteCourseExerciceAction($slug, $id)
     {
-        return $this->deleteSub($slug, 'Exercice', $id, $this->get('security.context')->isGranted('ROLE_MODO'));
+        $exercice = $this->getOneSub($slug, 'Exercice', $id);
+        return $this->deleteSub($slug, 'Exercice', $id, $this->user == $exercice->getUploader() || $this->get('security.context')->isGranted('ROLE_MODO'));
     }
 }

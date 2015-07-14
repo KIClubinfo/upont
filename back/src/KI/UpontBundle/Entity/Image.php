@@ -70,7 +70,7 @@ class Image
     public function preUpload()
     {
         if ($this->file === null)
-            throw new \Exception($this->ext.'Il n\'y a aucun fichier');
+            throw new \Exception('Il n\'y a aucun fichier');
     }
 
     /**
@@ -87,6 +87,7 @@ class Image
         if (file_exists($this->file->getRealPath())) {
             $this->file->move($this->getUploadRootDir(), $this->id.'.'.$this->ext);
             unset($this->file);
+            $this->createThumbnail($this->getAbsolutePath());
         }
     }
 
@@ -125,6 +126,55 @@ class Image
     {
         $this->file = $newFile;
         return $this;
+    }
+
+    // Crée une miniature pour l'image de chemin $path
+    // Dans un dossier thumbnails
+    static public function createThumbnail($path)
+    {
+        $extension = pathinfo(strtolower($path), PATHINFO_EXTENSION);
+
+        if (preg_match('/jpg|jpeg/',$extension))
+            $image = imagecreatefromjpeg($path);
+        else if (preg_match('/png/',$extension))
+            $image = imagecreatefrompng($path);
+        else
+            throw new BadRequestHttpException('Extension non reconnue !');
+
+        // Redimensionnement de l'image
+        $maxWidth = 200;
+        $mawHeight = 200;
+        list($imageWidth, $imageHeight) = getimagesize($path);
+
+        $thumbWidth = $imageWidth;
+        $thumbHeight = $imageHeight;
+
+        if ($thumbHeight > $mawHeight) {
+            $thumbWidth = floor($thumbWidth * $mawHeight / $thumbHeight);
+            $thumbHeight = $mawHeight;
+        }
+
+        if ($thumbWidth > $maxWidth) {
+            $thumbHeight = floor($thumbHeight * $maxWidth / $thumbWidth);
+            $thumbWidth = $maxWidth;
+        }
+
+        $thumbnail = imagecreatetruecolor($thumbWidth, $thumbHeight);
+
+        imagecopyresampled($thumbnail, $image, 0, 0, 0, 0, $thumbWidth, $thumbHeight, $imageWidth, $imageHeight);
+
+        // Enregistrement de la miniature
+        $thumbPath = dirname(str_replace('images', 'thumbnails', $path)).'/';
+        // Création du dossier thumbnails au besoin
+        if(!is_dir($thumbPath)) mkdir($thumbPath);
+
+        if (preg_match('/jpg|jpeg/', $extension))
+            imagejpeg($thumbnail, $thumbPath . substr($path, strlen(dirname($path)) + 1));
+        else
+            imagepng($thumbnail, $thumbPath . substr($path, strlen(dirname($path)) + 1));
+
+        imagedestroy($image);
+        imagedestroy($thumbnail);
     }
 
 

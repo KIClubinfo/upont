@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('KI_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'fixes', 'ownFixes', 'members', 'Paginate', function($scope, $rootScope, $resource, $http, fixes, ownFixes, members, Paginate) {
+    .controller('KI_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'fixes', 'ownFixes', 'members', 'Paginate', 'Achievements', function($scope, $rootScope, $resource, $http, fixes, ownFixes, members, Paginate, Achievements) {
         $('#focus-input').focus();
         $scope.fixes = fixes;
         $scope.ownFixes = ownFixes;
@@ -35,6 +35,7 @@ angular.module('upont')
                 $scope.fix = '';
                 $scope.msg = '';
                 alertify.success('Demande correctement envoyée !');
+                Achievements.check();
                 $scope.reload();
             });
         };

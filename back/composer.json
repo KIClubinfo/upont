@@ -8,8 +8,8 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "symfony/symfony": "2.6.*",
-        "doctrine/orm": "~2.2,>=2.2.3",
+        "symfony/symfony": "2.7.*",
+        "doctrine/orm": "~2.2",
         "doctrine/doctrine-bundle": "~1.2",
         "twig/extensions": "~1.0",
         "symfony/assetic-bundle": "~2.3",
@@ -18,18 +18,21 @@
         "sensio/distribution-bundle": "~3.0",
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
-        "friendsofsymfony/rest-bundle": "1.5.*",
+        "friendsofsymfony/rest-bundle": "~1.7",
         "friendsofsymfony/user-bundle": "2.0.x-dev",
         "jms/serializer-bundle": "~0.13",
         "stof/doctrine-extensions-bundle": "~1.1",
-        "lexik/jwt-authentication-bundle": "1.0.*",
-        "doctrine/doctrine-fixtures-bundle": "2.2.*",
-        "bomo/ical-bundle": "1.0.*",
+        "lexik/jwt-authentication-bundle": "~1.0",
+        "doctrine/doctrine-fixtures-bundle": "~2.2",
+        "bomo/ical-bundle": "~1.0",
         "sensio/generator-bundle": "~2.3",
-        "nelmio/api-doc-bundle": "~2.8"
+        "nelmio/api-doc-bundle": "~2.8",
+        "doctrine/migrations": "~1.0@dev",
+        "doctrine/doctrine-migrations-bundle": "~1.0"
     },
     "require-dev": {
-        "liip/functional-test-bundle": "1.2.x-dev"
+        "liip/functional-test-bundle": "1.2.x-dev",
+        "whatthejeff/nyancat-phpunit-resultprinter": "~1.2"
     },
     "scripts": {
         "post-root-package-install": [

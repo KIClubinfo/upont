@@ -11,8 +11,6 @@ var uglify = require('gulp-uglify');
 
 var htmlReplace = require('gulp-html-replace');
 
-var karma = require('gulp-karma');
-
 gulp.task('jshint', function() {
     return gulp.src(['app/js/**/*.js', 'app/js/*.js'])
         .pipe(jshint())
@@ -44,18 +42,6 @@ gulp.task('build-html', function(){
         .pipe(gutil.env.type == "production" ? htmlReplace({base: '<base href="/">'}) : gutil.noop())
         .pipe(gulp.dest('www/'));
 });
-
-gulp.task('unit-tests', function() {
-    return gulp.src('foobar') //On met une source nulle pour que karma charge son propre fichier de config
-        .pipe(karma({
-            configFile: 'karma.conf.js',
-            action: 'watch'
-        }));
-});
-
-// gulp.task('e2e-tests', function() {
-
-// });
 
 gulp.task('watch', function() {
     gulp.watch(['app/js/**/*.js', 'app/js/*.js'], ['build-js']);

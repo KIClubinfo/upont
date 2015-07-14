@@ -14,48 +14,41 @@ class LoadCourseFixture extends AbstractFixture implements OrderedFixtureInterfa
     {
         $course = new Course();
         $course->setName('Devenir Shark en 5 étapes');
-        $course->setGroup(0);
-        $course->setStartDate(3600*8.5);
-        $course->setEndDate(3600*12);
-        $course->setSemester(0);
+        $course->addGroup('0');
+        $course->setSemester('Ouverture');
+        $course->setActive(true);
+        $course->setEcts(1.5);
         $course->setDepartment('SEGF');
-        $this->getReference('user-kadaouic')->addCourse($course);
         $manager->persist($course);
         $this->addReference('course-shark', $course);
 
         $course = new Course();
         $course->setName('Pipeaulogie');
-        $course->setGroup(3);
-        $course->setStartDate(3600*8.5);
-        $course->setEndDate(3600*9);
-        $course->setSemester(1);
+        $course->addGroup('1');
+        $course->addGroup('2');
+        $course->addGroup('3');
+        $course->setSemester('1er Semestre');
+        $course->setActive(true);
+        $course->setEcts(1);
         $course->setDepartment('1A');
-        $this->getReference('user-taquet-c')->addCourse($course);
         $manager->persist($course);
         $this->addReference('course-pipo', $course);
 
         $course = new Course();
         $course->setName('Mécanique des Structures');
-        $course->setGroup(5);
-        $course->setStartDate(3600*8.5);
-        $course->setEndDate(3600*18);
-        $course->setSemester(1);
+        $course->addGroup('5');
+        $course->setActive(false);
+        $course->setEcts(3);
+        $course->setSemester('2nd Semestre');
         $course->setDepartment('GCC');
-        $this->getReference('user-trancara')->addCourse($course);
-        $this->getReference('user-de-boisc')->addCourse($course);
-        $this->getReference('user-guerinh')->addCourse($course);
-        $this->getReference('user-dziris')->addCourse($course);
         $manager->persist($course);
         $this->addReference('course-mecastru', $course);
 
         $course = new Course();
         $course->setName('Rabotage de quais de RER');
-        $course->setGroup(0);
-        $course->setStartDate(3600*8.5);
-        $course->setEndDate(3600*12);
-        $course->setSemester(2);
+        $course->addGroup('0');
+        $course->setEcts(4.5);
         $course->setDepartment('VET');
-        $this->getReference('user-muzardt')->addCourse($course);
         $manager->persist($course);
         $this->addReference('course-rer', $course);
 

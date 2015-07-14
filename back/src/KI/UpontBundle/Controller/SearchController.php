@@ -5,7 +5,6 @@ namespace KI\UpontBundle\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 
 class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
@@ -89,7 +88,8 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
                 'files' => $this->searchRepo('Ponthub\PonthubFile', $criteria),
                 'posts' => $this->searchRepo('Publications\Post', $criteria),
                 'clubs' => $this->searchRepo('Users\Club', $criteria, 'e.name, e.fullName'),
-                'users' => $this->searchUser($criteria)
+                'users' => $this->searchUser($criteria),
+                'courses' => $this->searchRepo('Publications\Course', $criteria),
             );
             break;
         default:
@@ -104,6 +104,7 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
         $return = $score = array();
         $percent = 0;
         foreach ($results as $result) {
+
             $name = $result->getName();
             $class = preg_replace('#.*\\\#', '', get_class($result));
             $item = array(
@@ -111,6 +112,8 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
                 'slug' => $result->getSlug(),
                 'type' => $class
             );
+            if ($class == 'Course' && ($result->getActive() === null || !$result->getActive()))
+                continue;
 
             // Pour les épisodes et les musiques on se réfère à l'entité parent
             if ($class == 'Episode')
@@ -119,7 +122,7 @@ class SearchController extends \KI\UpontBundle\Controller\Core\BaseController
                 $item['parent'] = $result->getAlbum()->getSlug();
 
             // Si une image existe on la rajoute
-            if (method_exists($result, 'imageUrl') && $result->imageUrl() != null)
+            if (method_exists($result, 'imageUrl') && $result->imageUrl() !== null)
                 $item['image_url'] = $result->imageUrl();
 
             $return[] = $item;
