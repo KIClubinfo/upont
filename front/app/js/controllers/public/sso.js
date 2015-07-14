@@ -6,7 +6,10 @@ angular.module('upont')
         '$location',
         '$http',
         '$window',
-    function($scope, $rootScope, $stateParams, $location, $http, $window) {
+        'StorageService',
+    function($scope, $rootScope, $stateParams, $location, $http, $window, StorageService) {
+        if (!StorageService.get('token'))
+            $location.path('/');
 
         // Identify the external application
         switch($stateParams.appId) {
@@ -37,14 +40,8 @@ angular.module('upont')
 
             var payload = {
                 token: $stateParams.to,
-                promo: $rootScope.me.promo,
-                department: $rootScope.me.department,
-                origin: $rootScope.me.origin,
+                auth: StorageService.get('token'),
                 username: $rootScope.me.username,
-                first_name: $rootScope.me.first_name,
-                last_name: $rootScope.me.last_name,
-                email: $rootScope.me.email,
-                avatar: $rootScope.me.image_url,
                 success: true
             };
 
