@@ -1,14 +1,26 @@
 angular.module('upont')
-    .controller('Aside_Ctrl', ['$scope', '$rootScope', '$resource', '$interval', function($scope, $rootScope, $resource, $interval) {
+    .controller('Aside_Ctrl', ['$scope', '$rootScope', '$resource', '$interval', 'Achievements', function($scope, $rootScope, $resource, $interval, Achievements) {
         // CHARGEMENT DES DONNÉES DE BASE
         // Version de uPont
         $resource(apiPrefix + 'version').get(function(data){
             $scope.version = data;
         });
-
+        
         // Solde foyer
         $resource(apiPrefix + 'foyer/balance').get(function(data){
             $scope.foyer = data.balance;
+            Achievements.check();
+        });
+
+        var loadAchievements = function() {
+            $resource(apiPrefix + 'own/achievements?all').get(function(data) {
+                $scope.level = data.current_level;
+            });
+        };
+        loadAchievements();
+
+        $rootScope.$on('newAchievement', function() {
+            loadAchievements();
         });
 
         // Gens en ligne

@@ -1,0 +1,25 @@
+<div class="up-ticket">
+    <div up-row wrap padded space-between>
+        <div up-col-xs="100%" up-col-sm="48%" up-col="30%" class="up-tutorial up-clickable" ng-repeat="tuto in tutos" ui-sref="root.users.resources.tutorials.simple({slug: tuto.slug})">
+            <br><i class="fa fa-{{ tuto.icon ? tuto.icon : 'book' }}"></i><br>
+            <h3>{{ tuto.name }}</h3>
+        </div>
+    </div>
+</div>
+
+<div up-row padded wrap class="up-ticket" ng-if="isAdmin">
+    <h2>Nouveau tutoriel</h2>
+
+    <form up-col="100%" up-row padded left wrap autocomplete="off">
+        <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+            <i class="fa fa-star"></i>
+            Nom
+        </div>
+        <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+            <input class="up-col-xs-12" type="text" ng-model="name" placeholder="Les Noobs pour les Nuls"/>
+        </div>
+        <div up-col-xs="100%" up-col-sm="100%" up-col="50%" up-row center>
+            <button up-col="100%" ng-click="post(name)" class="up-btn up-btn-default">Envoyer</button>
+        </div>
+    </form>
+</div>

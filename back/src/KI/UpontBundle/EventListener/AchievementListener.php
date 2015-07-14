@@ -22,12 +22,13 @@ class AchievementListener
         $this->manager = $this->container->get('doctrine')->getManager();
 
         $repoAU = $this->manager->getRepository('KIUpontBundle:Users\AchievementUser');
+
         $token = $this->container->get('security.context')->getToken();
         $this->user = $token === null ? null : $token->getUser();
         if ($this->user !== null) {
             $response = $repoAU->findByUser($this->user);
             foreach ($response as $achievementUser) {
-                            $this->achievements[] = $achievementUser->getAchievement()->getIdA();
+                $this->achievements[] = $achievementUser->getAchievement()->getIdA();
             }
         }
     }
@@ -38,9 +39,14 @@ class AchievementListener
         // On vérifie tout d'abord si l'achievement concerné n'est pas déjà reçu
         $achievement = $event->getAchievement();
 
-        if (!$this->user instanceof \KI\UpontBundle\Entity\Users\User
-            || in_array($achievement->getIdA(), $this->achievements))
-            return false;
+        // On peut préciser l'user pour les routes sans authentification
+        if ($event->getuser() !== null) {
+            $this->user = $event->getUser();
+        } else {
+            if (!$this->user instanceof \KI\UpontBundle\Entity\Users\User
+                || in_array($achievement->getIdA(), $this->achievements))
+                return false;
+        }
 
         // Sinon, on lance le check associé
         $check = false;
@@ -59,22 +65,39 @@ class AchievementListener
         $achievementUser->setAchievement($repoA->findOneByAchievement($achievement->getIdA()));
         $achievementUser->setUser($this->user);
         $achievementUser->setDate(time());
+        $achievementUser->setSeen(false);
         $this->manager->persist($achievementUser);
         $this->achievements[] = $achievement->getIdA();
 
+        // Achievements basés sur le nombre d'achievements
+        if (count($this->achievements) >= 10) {
+            $achievementCheck = new AchievementCheckEvent(Achievement::UNLOCKER);
+            $this->check($achievementCheck);
+        }
+
+        $total = count(Achievement::getConstants());
+        if (count($this->achievements) >= $total*0.5) {
+            $achievementCheck = new AchievementCheckEvent(Achievement::CRAZY_UNLOCKER);
+            $this->check($achievementCheck);
+        }
+        if (count($this->achievements) >= $total*0.9) {
+            $achievementCheck = new AchievementCheckEvent(Achievement::TOTAL_UNLOCKER);
+            $this->check($achievementCheck);
+        }
+
         // On crée des notifications
-        $notification = new Notification('notif_achievement', $achievement->name(), $achievement->description(), 'to');
+        /*$notification = new Notification('notif_achievement', $achievement->name(), $achievement->description(), 'to');
         $notification->addRecipient($this->user);
-        $this->manager->persist($notification);
+        $this->manager->persist($notification);*/
 
         // Si l'utilisateur passe de niveau
-        if (Achievement::getLevel($this->points()) > Achievement::getLevel($pointsBefore)) {
+        /*if (Achievement::getLevel($this->points()) > Achievement::getLevel($pointsBefore)) {
             $level = Achievement::getLevel($this->points())['current'];
             $title = 'Passage au statut de '.$level['name'];
             $notification = new Notification('notif_next_level', $title, $level['description'], 'to');
             $notification->addRecipient($this->user);
             $this->manager->persist($notification);
-        }
+        }*/
 
         $this->manager->flush();
         return true;
@@ -108,479 +131,166 @@ class AchievementListener
     // Attention, ne pas changer les IDs des achievements à la légère !!!
     // Les checks qui retournent true sont en fait assez simples :
     // L'achievement associé est donc du type "faire ça action au moins une fois"
-    // Les check marqués d'un TODO ne sont pas encore faits
-    // Ceux marqués par un FIXME ne sont pas encore déclenché par un event dispatch
 
-    // FIXME
-    // ID : 0
     // Ponts inside
     // Se logger sur le site
-    public function check0()
-    {
-        return true;
-    }
+    public function check0() { return true; }
 
-    // FIXME
-    // ID : 1
     // Photogénique
     // Changer la photo de son profil
-    public function check1()
-    {
-        return true;
-    }
+    public function check10() { return true; }
 
-    // FIXME
-    // ID : 2
     // Travailleur
     // Choisir ses cours
-    public function check2()
-    {
-        return true;
-    }
+    public function check20() { return true; }
 
-    // FIXME
-    // ID : 3
     // Autobiographie
     // Remplir ses infos (chambre, téléphone, département, origine, nationalité...)
-    public function check3()
-    {
-        return true;
-    }
-
-    // FIXME
-    // ID : 4
-    // Data Provider
-    // Remplir ses infos étendues (stages, projets...)
-    public function check4()
-    {
-        return true;
-    }
-
-    // FIXME
-    // ID : 5
-    // Smart
-    // Synchroniser le calendrier avec son téléphone
-    public function check5()
-    {
-        return true;
-    }
-
-    // FIXME
-    // ID : 6
-    // Connecté
-    // Installer l'application mobile
-    public function check6()
-    {
-        return true;
-    }
-
-    // FIXME
-    // ID : 7
-    // Au courant
-    // Lire une news complète
-    public function check7()
-    {
-        return true;
-    }
-
-    // FIXME
-    // ID : 8
-    // Downloader
-    // Télécharger un fichier sur Ponthub
-    public function check8()
-    {
-        return true;
-    }
-
-    // TODO
-    // FIXME
-    // ID : 9
-    // Super Downloader
-    // Télécharger plus de 100Go sur Ponthub
-    public function check9()
-    {
-        return false;
-    }
-
-    // TODO
-    // FIXME
-    // ID : 10
-    // Ultimate Downloader
-    // Télécharger plus de 500Go sur Ponthub
-    public function check10()
-    {
-        return false;
-    }
-
-    // FIXME
-    // ID : 11
-    // Ça va pomper sévère !
-    // Suggérer un fichier sur Ponthub
-    public function check11()
-    {
-        return true;
-    }
-
-    // FIXME
-    // ID : 12
-    // Sondé
-    // Répondre à un sondage
-    public function check12()
-    {
-        return true;
-    }
-
-    // FIXME
-    // ID : 13
-    // Will be there !
-    // Participer à un event
-    public function check13()
-    {
-        return true;
-    }
-
-    // FIXME
-    // ID : 14
-    // Shotgun !
-    // Réussir un shotgun
-    public function check14()
-    {
-        return true;
-    }
-
-    // FIXME
-    // ID : 15
-    // Égoïste
-    // Créer un event perso
-    public function check15()
-    {
-        return true;
-    }
-
-    // FIXME
-    // ID : 16
-    // Pookie
-    // Télécharger un fichier d'annale
-    public function check16()
-    {
-        return true;
-    }
-
-    // TODO
-    // FIXME
-    // ID : 17
-    // Spirit
-    // Devenir membre d'un club
-    public function check17()
-    {
-        return false;
-    }
-
-    // FIXME
-    // ID : 18
-    // Référendum
-    // Créer un sondage pour un club
-    public function check18()
-    {
-        return true;
-    }
-
-    // FIXME
-    // ID : 19
-    // Nouvelliste
-    // Écrire une news pour un club
-    public function check19()
-    {
-        return true;
-    }
-
-    // FIXME
-    // ID : 20
-    // Organisateur
-    // Créer un event pour un club
-    public function check20()
-    {
-        return true;
-    }
-
-    // FIXME
-    // ID : 21
-    // Distrait
-    // Perdre un objet
-    public function check21()
-    {
-        return true;
-    }
-
-    // FIXME
-    // ID : 22
-    // Altruiste
-    // Retrouver un objet
-    public function check22()
-    {
-        return true;
-    }
-
-    // FIXME
-    // ID : 23
-    // C'est 15€ de l'heure non négociables
-    // Offrir un petit cours
-    public function check23()
-    {
-        return true;
-    }
-
-    // FIXME
-    // ID : 24
-    // Shark
-    // Shotgun un petit cours
-    public function check24()
-    {
-        return true;
-    }
-
-    // FIXME
-    // ID : 25
-    //
-    //
-    public function check25()
-    {
-        return false;
-    }
-
-    // FIXME
-    // ID : 26
-    //
-    //
-    public function check26()
-    {
-        return false;
-    }
-
-    // FIXME
-    // ID : 27
-    //
-    //
-    public function check27()
-    {
-        return false;
-    }
-
-    // FIXME
-    // ID : 28
-    //
-    //
-    public function check28()
-    {
-        return false;
-    }
-
-    // FIXME
-    // ID : 29
-    //
-    //
-    public function check29()
-    {
-        return false;
-    }
-
-    // FIXME
-    // ID : 30
-    //
-    //
     public function check30()
     {
-        return false;
+        return !empty($this->user->getDepartment()) && !empty($this->user->getPromo()) && !empty($this->user->getLocation()) && !empty($this->user->getNationality()) && !empty($this->user->getPhone()) && !empty($this->user->getOrigin());
     }
 
-    // FIXME
-    // ID : 31
-    //
-    //
-    public function check31()
+    // Remplir ses infos étendues (stages, projets...)
+    //public function check4() { return true; }
+
+    // Smart
+    // Synchroniser le calendrier avec son téléphone
+    public function check40() { return true; }
+
+    // Connecté
+    // Installer l'application mobile
+    //public function check6() { return true; }
+
+    // Downloader
+    // Télécharger un fichier sur Ponthub
+    public function check50() { return true; }
+
+    // Super Downloader
+    // Télécharger plus de 100Go sur Ponthub
+    public function check60()
     {
-        return false;
+        return $this->totalPontHubSize() > (100*1024*1024*1024);
     }
 
-    // FIXME
-    // ID : 32
-    //
-    //
-    public function check32()
+    // Ultimate Downloader
+    // Télécharger plus de 500Go sur Ponthub
+    public function check70()
     {
-        return false;
+        return $this->totalPontHubSize() > (500*1024*1024*1024);
     }
 
-    // FIXME
-    // ID : 33
-    //
-    //
-    public function check33()
+    private function totalPontHubSize()
     {
-        return false;
+        $repo = $this->container->get('doctrine')->getManager()->getRepository('KIUpontBundle:Ponthub\PonthubFileUser');
+        $downloads = $repo->findBy(array('user' => $this->user));
+        $total = 0;
+
+        foreach ($downloads as $download) {
+            $total += $download->getFile()->getSize();
+        }
+        return $total;
     }
 
-    // FIXME
-    // ID : 34
-    //
-    //
-    public function check34()
+    // Will be there !
+    // Participer à un event
+    public function check80() { return true; }
+
+    // Pookie
+    // Uploader un fichier d'annale
+    public function check90() { return true; }
+
+    // Spirit
+    // Être membre d'un club
+    public function check100()
     {
-        return false;
+        $em = $this->container->get('doctrine')->getManager();
+        $repo = $em->getRepository('KIUpontBundle:Users\ClubUser');
+        $return = $repo->findBy(array('user' => $this->user));
+        return count($return) > 0;
     }
 
-    // FIXME
-    // ID : 35
-    //
-    //
-    public function check35()
+    // Nouvelliste
+    // Écrire une news pour un club
+    public function check110() { return true; }
+
+    // Organisateur
+    // Créer un event pour un club
+    public function check120() { return true; }
+
+    // Ruiné
+    // Avoir un solde foyer négatif
+    public function check130()
     {
-        return false;
+        // On enlève l'achievement opposé (solde positif)
+        $repoA = $this->manager->getRepository('KIUpontBundle:Users\Achievement');
+        $oAchievement = $repoA->findOneByAchievement(Achievement::FOYER_BIS);
+
+        $repoAU = $this->manager->getRepository('KIUpontBundle:Users\AchievementUser');
+        $achievementUsers = $repoAU->findBy(array('achievement' => $oAchievement, 'user' => $this->user));
+
+        if (count($achievementUsers) == 1) {
+            $this->manager->remove($achievementUsers[0]);
+            $this->manager->flush();
+        }
+        return true;
     }
 
-    // FIXME
-    // ID : 36
-    //
-    //
-    public function check36()
+    // Ruiné
+    // Avoir un solde foyer positif
+    public function check140()
     {
-        return false;
+        // On enlève l'achievement opposé (solde positif)
+        $repoA = $this->manager->getRepository('KIUpontBundle:Users\Achievement');
+        $oAchievement = $repoA->findOneByAchievement(Achievement::FOYER);
+
+        $repoAU = $this->manager->getRepository('KIUpontBundle:Users\AchievementUser');
+        $achievementUsers = $repoAU->findBy(array('achievement' => $oAchievement, 'user' => $this->user));
+
+        if (count($achievementUsers) == 1) {
+            $this->manager->remove($achievementUsers[0]);
+            $this->manager->flush();
+        }
+        return true;
     }
 
-    // FIXME
-    // ID : 37
-    //
-    //
-    public function check37()
+    // Non, ce n'était pas "password1234"
+    // Oublier son mot de passe
+    public function check150() { return true; }
+
+    // H3LLLP UPON SA BEUG!!!!
+    // Reporter un bug
+    public function check160() { return true; }
+
+    // Technophobe
+    // Contacter le KI pour un dépannage matériel/logiciel
+    public function check170() { return true; }
+
+    // KIen
+    // Faire partie du KI
+    public function check180()
     {
-        return false;
+        $em = $this->container->get('doctrine')->getManager();
+        $repo = $em->getRepository('KIUpontBundle:Users\Club');
+        $club = $repo->findOneBySlug('ki');
+        $repo = $em->getRepository('KIUpontBundle:Users\ClubUser');
+        $return = $repo->findBy(array('user' => $this->user, 'club' => $club));
+        return count($return) == 1;
     }
 
-    // FIXME
-    // ID : 38
-    //
-    //
-    public function check38()
-    {
-        return false;
-    }
+    // Appelez-moi Dieu
+    // Être admin
+    public function check190() { return $this->container->get('security.context')->isGranted('ROLE_ADMIN'); }
 
-    // FIXME
-    // ID : 39
-    //
-    //
-    public function check39()
-    {
-        return false;
-    }
+    // Unlocker
+    // Compléter 10 achievements
+    public function check200() { return true; }
 
-    // FIXME
-    // ID : 40
-    //
-    //
-    public function check40()
-    {
-        return false;
-    }
+    // Crazy Unlocker
+    // Compléter 50% des achievements
+    public function check210() { return true; }
 
-    // TODO
-    // FIXME
-    // ID : 41
-    // Toi, j'te connais !
-    // Connaitre 10 personnes sur le Pontbinoscope
-    public function check41()
-    {
-        return false;
-    }
-
-    // TODO
-    // FIXME
-    // ID : 42
-    // Sociable
-    // Connaitre 100 personnes sur le Pontbinoscope
-    public function check42()
-    {
-        return false;
-    }
-
-    // FIXME
-    // ID : 43
-    //
-    //
-    public function check43()
-    {
-        return false;
-    }
-
-    // FIXME
-    // ID : 44
-    //
-    //
-    public function check44()
-    {
-        return false;
-    }
-
-    // FIXME
-    // ID : 45
-    //
-    //
-    public function check45()
-    {
-        return false;
-    }
-
-    // FIXME
-    // ID : 46
-    //
-    //
-    public function check46()
-    {
-        return false;
-    }
-
-    // FIXME
-    // ID : 47
-    //
-    //
-    public function check47()
-    {
-        return false;
-    }
-
-    // FIXME
-    // ID : 48
-    //
-    //
-    public function check48()
-    {
-        return false;
-    }
-
-    // FIXME
-    // ID : 49
-    //
-    //
-    public function check49()
-    {
-        return false;
-    }
-
-    // FIXME
-    // ID : 50
-    //
-    //
-    public function check50()
-    {
-        return false;
-    }
-
-    // FIXME
-    // ID : 51
-    //
-    //
-    public function check51()
-    {
-        return false;
-    }
+    // Total Unlocker
+    // Compléter 90% des achievements
+    public function check220() { return true; }
 }

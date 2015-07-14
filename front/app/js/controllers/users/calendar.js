@@ -10,7 +10,7 @@ angular.module('upont')
             });
         }
 
-        for (var i = 0; i < courseitems.length; i++) {
+        for (i = 0; i < courseitems.length; i++) {
             var group = courseitems[i].group;
             $scope.events.push({
                 'id': courseitems[i].slug,

@@ -26,7 +26,9 @@
         "doctrine/doctrine-fixtures-bundle": "~2.2",
         "bomo/ical-bundle": "~1.0",
         "sensio/generator-bundle": "~2.3",
-        "nelmio/api-doc-bundle": "~2.8"
+        "nelmio/api-doc-bundle": "~2.8",
+        "doctrine/migrations": "~1.0@dev",
+        "doctrine/doctrine-migrations-bundle": "~1.0"
     },
     "require-dev": {
         "liip/functional-test-bundle": "1.2.x-dev",

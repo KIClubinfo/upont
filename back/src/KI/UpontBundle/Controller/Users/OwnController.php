@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 use KI\UpontBundle\Entity\Users\Device;
 use KI\UpontBundle\Entity\Users\Achievement;
 
-
 class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
@@ -35,24 +34,56 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      */
     public function getAchievementsAction()
     {
+        return $this->retrieveAchievements($this->user);
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Renvoie des détails sur les achievements et le niveau de l'utilisateur",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Utilisateurs"
+     * )
+     * @Route\Get("/users/{slug}/achievements")
+     */
+    public function getUserAchievementsAction($slug)
+    {
+        $repo = $this->em->getRepository('KIUpontBundle:Users\User');
+        $user = $this->findBySlug($slug);
+        return $this->retrieveAchievements($user);
+    }
+
+    private function retrieveAchievements($user)
+    {
         $repoA = $this->em->getRepository('KIUpontBundle:Users\Achievement');
         $repoAU = $this->em->getRepository('KIUpontBundle:Users\AchievementUser');
-        $user = $this->get('security.context')->getToken()->getUser();
-
         $unlocked = array();
         $oUnlocked = array();
+        $all = $this->getRequest()->query->has('all');
+
         $response = $repoAU->findByUser($user);
         foreach ($response as $achievementUser) {
             $achievement = $achievementUser->getAchievement();
-            $unlocked[] = array(
-                'name'        => $achievement->name(),
-                'description' => $achievement->description(),
-                'points'      => $achievement->points(),
-                'image'       => $achievement->image(),
-                'date'        => $achievementUser->getDate(),
-                'ownedBy'     => count($repoAU->findByAchievement($achievement)),
-            );
             $oUnlocked[] = $achievement;
+
+            if ($all || !$achievementUser->getSeen()) {
+                $unlocked[] = array(
+                    'id'          => $achievement->getIdA(),
+                    'name'        => $achievement->name(),
+                    'description' => $achievement->description(),
+                    'points'      => $achievement->points(),
+                    'image'       => $achievement->image(),
+                    'date'        => $achievementUser->getDate(),
+                    'seen'        => $achievementUser->getSeen(),
+                    'ownedBy'     => count($repoAU->findByAchievement($achievement)),
+                );
+                if (!$achievementUser->getSeen())
+                    $achievementUser->setSeen(true);
+            }
         }
         $all = $repoA->findAll();
         $locked = array();
@@ -65,6 +96,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         foreach ($all as $achievement) {
             if (!in_array($achievement, $oUnlocked)) {
                 $locked[] = array(
+                    'id'          => $achievement->getIdA(),
                     'name'        => $achievement->name(),
                     'description' => $achievement->description(),
                     'points'      => $achievement->points(),
@@ -84,8 +116,19 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
             }
         }
 
+        // On trie les achievements par leur ID
+        $ids = array();
+        foreach ($unlocked as $key => $achievement) {
+            $ids[$key] = $achievement['id'];
+        }
+        array_multisort($ids, SORT_ASC, $unlocked);
+        $ids = array();
+        foreach ($locked as $key => $achievement)
+            $ids[$key] = $achievement['id'];
+        array_multisort($ids, SORT_ASC, $locked);
+
         // On renvoie pas mal de données utiles
-        $response = Achievement::getLevel($points);
+        $response = Achievement::getLevel($factor*$points);
         $return = array(
             'number'        => $response['number'],
             'points'        => ceil($factor*$points),
@@ -95,6 +138,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
             'locked'        => $locked,
         );
 
+        $this->em->flush();
         return $this->jsonResponse($return);
     }
 
@@ -344,6 +388,8 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         } else {
             $events = $this->getFollowedEvents($user);
             $calStr = $this->get('ki_upont.calendar')->getCalendar($user, $events);
+
+
 
             return new \Symfony\Component\HttpFoundation\Response($calStr, 200, array(
                     'Content-Type' => 'text/calendar; charset=utf-8',

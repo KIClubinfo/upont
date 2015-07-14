@@ -5,6 +5,8 @@ namespace KI\UpontBundle\Controller\Core;
 use FOS\RestBundle\Controller\Annotations as Route;
 use FOS\RestBundle\View\View as RestView;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use KI\UpontBundle\Entity\Users\Achievement;
+use KI\UpontBundle\Event\AchievementCheckEvent;
 
 // Fonctions générales pour servir une ressource de type REST
 class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableController
@@ -252,20 +254,31 @@ class ResourceController extends \KI\UpontBundle\Controller\Core\LikeableControl
     {
         if (isset($this->user) && $this->get('security.context')->isGranted('ROLE_EXTERIEUR') && !$auth)
             throw new AccessDeniedException();
-        $user = $this->container->get('security.context')->getToken()->getUser();
 
         // Si l'utilisateur n'a pas déjà téléchargé ce fichier on le rajoute
         $repo = $this->em->getRepository('KIUpontBundle:Ponthub\PonthubFileUser');
-        $downloads = $repo->findBy(array('file' => $item, 'user' => $user));
+        $downloads = $repo->findBy(array('file' => $item, 'user' => $this->user));
 
         if (count($downloads) == 0) {
             $download = new \KI\UpontBundle\Entity\Ponthub\PonthubFileUser();
             $download->setFile($item);
-            $download->setUser($user);
+            $download->setUser($this->user);
             $download->setDate(time());
             $this->em->persist($download);
             $this->em->flush();
         }
+
+        $dispatcher = $this->container->get('event_dispatcher');
+        $achievementCheck = new AchievementCheckEvent(Achievement::DOWNLOADER);
+        $dispatcher->dispatch('upont.achievement', $achievementCheck);
+
+        $dispatcher = $this->container->get('event_dispatcher');
+        $achievementCheck = new AchievementCheckEvent(Achievement::SUPER_DOWNLOADER);
+        $dispatcher->dispatch('upont.achievement', $achievementCheck);
+
+        $dispatcher = $this->container->get('event_dispatcher');
+        $achievementCheck = new AchievementCheckEvent(Achievement::ULTIMATE_DOWNLOADER);
+        $dispatcher->dispatch('upont.achievement', $achievementCheck);
 
         return $this->redirect($item->fileUrl());
     }

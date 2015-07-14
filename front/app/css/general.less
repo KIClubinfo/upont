@@ -95,6 +95,17 @@ background-size: auto auto;
         height: 50px;
     }
 }
+.up-tutorial {
+    background-color: @col-main;
+    color: white;
+    margin-bottom: 1em;
+    text-align: center;
+    .fa { font-size: 5em; }
+    &:hover {
+        background-color: @col-neg !important;
+        color: white !important
+    }
+}
 
 .up-landing-container{
     position: absolute;
@@ -174,6 +185,14 @@ h1, h2, h3, h4, h5, h6 {
         color: @col-main;
     }
 }
+
+kbd {
+    background-color: @col-main;
+    color: white;
+    border-radius: 2px;
+    padding: 2px 5px 2px 5px;
+}
+
 .title(@size) {
     font-size: @size;
 }

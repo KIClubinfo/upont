@@ -5,9 +5,9 @@ fos_user_resetting:
     resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
     prefix: /resetting
 
-#NelmioApiDocBundle:
-#    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
-#    prefix:   /
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /doc
 
 ki_upont_api_general:
     type:   rest
@@ -37,9 +37,3 @@ ki_upont_api_users:
     type:   rest
     prefix: /
     resource: "@KIUpontBundle/Resources/config/users.yml"
-
-upont_api_migration:
-    pattern: /migration
-    defaults: { _controller: KIUpontBundle:Migration:migration }
-    requirements:
-        _method: GET

@@ -65,8 +65,8 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
         $userGame = $facegame->getUser();
 
         // Options
-        $mode = $facegame->getMode();
-        if ($mode == 'Caractéristique') {
+        $hardcore = $facegame->getHardcore();
+        if ($hardcore) {
             $defaultTraits = array('department', 'promo', 'location');
         }
 
@@ -87,7 +87,7 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
             $tempList = [];
             $ids = [];
 
-            if ($mode == 'Caractéristique') {
+            if ($hardcore) {
                 do {
                     $trait = $defaultTraits[rand(0, count($defaultTraits) - 1)];
                 // Si la promo est déjà établie on ne va pas la demander comme carac
@@ -111,7 +111,7 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
                     $ids[] = $tempId;
                     $user = $arrayUsers[$tempId];
 
-                    if ($mode == 'Caractéristique') {
+                    if ($hardcore) {
                         $tempTrait = $this->postTraitsAction($user, $trait);
                     }
                 }
@@ -122,12 +122,12 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
                 || $user->getImage() === null
                 || $user->getPromo() === null
                 || $user->getUsername() == $userGame->getUsername()
-                || $mode == 'Caractéristique' && (($tempTrait === null || in_array($tempTrait, $userTraits, true)))
+                || $hardcore && (($tempTrait === null || in_array($tempTrait, $userTraits, true)))
                 );
                 $tempList[$i][0] = $user->getFirstName().' '.$user->getLastName();
                 $tempList[$i][1] = $user->getImage()->getWebPath();
 
-                if ($mode == 'Caractéristique') {
+                if ($hardcore) {
                     $userTraits[] = $tempTrait;
                     $tempList[$i][2] = $tempTrait;
                 }
@@ -144,23 +144,23 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
 
     protected function postTraitsAction($user, $trait)
     {
-            switch ($trait) {
-                case 'department':
-                    $return = $user->getDepartment();
-                    break;
+        switch ($trait) {
+            case 'department':
+                $return = $user->getDepartment();
+                break;
 
-                case 'promo':
-                    $return = $user->getPromo();
-                    break;
+            case 'promo':
+                $return = $user->getPromo();
+                break;
 
-                case 'location':
-                    $return = $user->getLocation();
-                    break;
+            case 'location':
+                $return = $user->getLocation();
+                break;
 
-                default:
-                    throw new BadRequestHttpException('Caractéristique inexistante '.$trait);
-                    break;
-            }
+            default:
+                throw new BadRequestHttpException('Caractéristique inexistante '.$trait);
+                break;
+        }
 
         return $return;
     }

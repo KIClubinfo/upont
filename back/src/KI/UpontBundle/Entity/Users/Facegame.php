@@ -62,11 +62,11 @@ class Facegame
 
     /**
      * Promo
-     * @ORM\Column(name="mode", type="string", nullable = true)
+     * @ORM\Column(name="hardcore", type="boolean", nullable = true)
      * @JMS\Expose
-     * @Assert\Type("string")
+     * @Assert\Type("boolean")
      */
-    protected $mode;
+    protected $hardcore;
 
 
 
@@ -184,13 +184,13 @@ class Facegame
     /**
      * Set mode
      *
-     * @param string $mode
+     * @param boolean $hardcore
      *
      * @return Facegame
      */
-    public function setMode($mode)
+    public function setHardcore($hardcore)
     {
-        $this->mode = $mode;
+        $this->hardcore = $hardcore;
 
         return $this;
     }
@@ -198,11 +198,11 @@ class Facegame
     /**
      * Get mode
      *
-     * @return string
+     * @return boolean
      */
-    public function getMode()
+    public function getHardcore()
     {
-        return $this->mode;
+        return $this->hardcore;
     }
 
     /**

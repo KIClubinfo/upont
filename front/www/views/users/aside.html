@@ -33,7 +33,7 @@
                          ui-sref="{{ redirect(user) }}" ng-click="resetSearch()">
                         <img ng-if="user.image_url" class="up-profil-picture" ng-src="{{ user.image_url | thumb | urlFile}}" alt="Image de profil"/>
                         <i ng-if="!user.image_url" class="fa fa-user"></i>
-                        {{user.name}}
+                        {{ user.name }}
                     </div>
                 </div>
             </div>
@@ -100,14 +100,15 @@
             <span ng-repeat="user in online">
                 <span ng-if="$index < 10" up-user user="user">{{ user.nick }}<span ng-if="$index != online.length-1 && $index < 9">,</span></span>
             </span>
-            <span ng-if="online.length > 10">et {{ online.length - 10 }} autre{{ online.length == 11 ? ' utilisateur' : 's utilisateurs' }}.</span>
+            <span ng-if="online.length > 10">et {{ online.length - 10 }} autre{{ online.length == 11 ? ' utilisateur' : 's utilisateurs' }}.</span><br>
+            <span class="up-clickable"ui-sref="root.users.students.simple({slug:$root.me.username})"><i class="fa fa-{{ level.image }}"></i> {{ level.name }}</span>
         </div>
     </div>
     <div class="up-aside-footer">
         <div>
             <span class="unbold" ng-click="$root.switchTheme()" style="cursor: pointer">
                 <input type="checkbox" ng-checked="$root.theme == 'dark'">&nbsp;Thème sombre
-            </span> - <a ui-sref="root.users.assos.ki" title="Contacter le KI">Help !</a>
+            </span>
         </div>
         <div class="up-version">
             <a target="_blank" href="https://trello.com/b/a7pIk6zk/upont" title="Board Trello de uPont">

@@ -10,8 +10,7 @@ angular.module('upont')
 	    $scope.promos.pop();
 	    $scope.promos.push('Toutes');
 	    $scope.promo = 'Toutes';
-	    $scope.mode = 'Normal';
-	    $scope.modes = ['Normal','Caractéristique'];
+	    $scope.hardcore = false;
 	    $scope.change = false;
 	    $scope.trait = '';
 
@@ -22,11 +21,15 @@ angular.module('upont')
 	        timer = $timeout(tick, $scope.tickInterval);
 	    };
 
-		$scope.post = function(promo, mode) {
+		$scope.switchPromo = function(promo) {
+			$scope.promo = promo;
+		};
+
+		$scope.post = function(promo, hardcore) {
 
 			var params = {
 				promo: promo,
-				mode: mode
+				hardcore: hardcore
 			};
 
 			if (promo == 'Toutes') {
@@ -55,9 +58,9 @@ angular.module('upont')
 				$scope.picture2 = '/api/' + $scope.gameData.list_users[$scope.position][1][1];
 				$scope.picture3 = '/api/' + $scope.gameData.list_users[$scope.position][2][1];
 
-				if (mode == 'Caractéristique') {
+				if (hardcore) {
 					$scope.trait = $scope.gameData.list_users[$scope.position].trait;
-					$scope.mode = mode;
+					$scope.hardcore = hardcore;
 
 					$scope.traitValue = $scope.gameData.list_users[$scope.position][$scope.answer][2];
 					$scope.traitValue1 = $scope.gameData.list_users[$scope.position][0][2];
@@ -99,7 +102,7 @@ angular.module('upont')
 				$scope.picture2 = '/api/' + $scope.gameData.list_users[$scope.position][1][1];
 				$scope.picture3 = '/api/' + $scope.gameData.list_users[$scope.position][2][1];
 
-				if ($scope.mode == 'Caractéristique') {
+				if ($scope.hardcore) {
 					$scope.trait = $scope.gameData.list_users[$scope.position].trait;
 					$scope.traitValue = $scope.gameData.list_users[$scope.position][$scope.answer][2];
 					$scope.traitValue1 = $scope.gameData.list_users[$scope.position][0][2];

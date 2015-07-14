@@ -13,7 +13,7 @@ class FacegamesControllerTest extends WebTestCase
         $this->client->request(
 			'POST', '/facegames', array(
                 'promo' => '016',
-                'mode' => 'Caractéristique'
+                'hardcore' => true
 			)
 		);
         $response = $this->client->getResponse();
@@ -24,7 +24,7 @@ class FacegamesControllerTest extends WebTestCase
         $this->client->request(
             'POST', '/facegames', array(
                 'promo' => '',
-                'mode' => ''
+                'hardcore' => false
             )
         );
         $response = $this->client->getResponse();
