@@ -12,7 +12,7 @@ angular.module('upont')
         switch($stateParams.appId) {
             case '3ce745a47e998d2461ed9132dc18979c':
                 // GéoPonts by Mickaël Bergem
-                var baseUrl = 'http://geoponts.enpc.org';
+                var baseUrl = 'https://geoponts.enpc.fr';
                 $scope.app = {
                     name: 'GéoPonts',
                     logo: 'geoponts.png',

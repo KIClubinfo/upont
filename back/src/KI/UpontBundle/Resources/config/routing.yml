@@ -37,9 +37,3 @@ ki_upont_api_users:
     type:   rest
     prefix: /
     resource: "@KIUpontBundle/Resources/config/users.yml"
-
-upont_api_migration:
-    pattern: /migration
-    defaults: { _controller: KIUpontBundle:Migration:migration }
-    requirements:
-        _method: GET

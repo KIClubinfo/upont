@@ -23,28 +23,28 @@ security:
                 require_previous_session: false
                 username_parameter: username
                 password_parameter: password
-                
+
         # Pas de firewall pour ces exceptions
         exceptionsHead:
             methods: [HEAD]
             pattern:  ^/(ping|deploy)
             security: false
-        
+
         exceptionsGet1:
             methods: [GET]
             pattern: ^/$
             security: false
-            
+
         exceptionsGet2:
             methods: [GET]
             pattern: ^/(_(profiler|wdt|doc))/
             security: false
-        
+
         exceptionsGet3:
             methods: [GET]
-            pattern: ^/(coffee|ping|version|migration)
+            pattern: ^/(coffee|ping|version)
             security: false
-        
+
         exceptionsGet4:
             methods: [GET]
             pattern: ^/courses/.+/exercices/.+/download
@@ -59,21 +59,21 @@ security:
             methods: [GET]
             pattern: ^/(clubs)(/[a-zA-Z]+)?$
             security: false
-            
+
         exceptionsPost1:
             methods: [POST]
             pattern: ^/(resetting|filelist|admissibles)
             security: false
-            
+
         #exceptionsPost2:
         #    methods: [POST]
         #    pattern: ^/admissibles$
         #    security: false
-        
+
         #exceptionsPatch:
         #    methods: [PATCH]
         #    security: false
-        
+
         #exceptionsDelete:
         #    methods: [DELETE]
         #    security: false
@@ -89,7 +89,7 @@ security:
                     prefix: Bearer
                 query_parameter:
                     enabled: true
-                    name: bearer    
+                    name: bearer
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
