@@ -13,7 +13,6 @@ angular.module('upont')
 	    $scope.hardcore = false;
 	    $scope.change = false;
 	    $scope.trait = '';
-	    $scope.blabla = '';
 
 	    var timer;
 
@@ -26,12 +25,26 @@ angular.module('upont')
 			$scope.promo = promo;
 		};
 
+		$scope.text = function(trait) {
+			var text = '';
+
+			if (trait === 'department') {
+				return 'Département';
+			} else if (trait === 'promo') {
+				return 'Promo';
+			} else if (trait === 'location') {
+				return 'Résidence';
+			}
+		};
+
 		$scope.post = function(promo, hardcore) {
 
 			var params = {
 				promo: promo,
 				hardcore: hardcore
 			};
+
+			$scope.hardcore = hardcore;
 
 			if (promo == 'Toutes') {
 				params.promo = undefined;
@@ -61,7 +74,6 @@ angular.module('upont')
 
 				if (hardcore) {
 					$scope.trait = $scope.gameData.list_users[$scope.position].trait;
-					$scope.hardcore = hardcore;
 
 					$scope.traitValue = $scope.gameData.list_users[$scope.position][$scope.answer][2];
 					$scope.traitValue1 = $scope.gameData.list_users[$scope.position][0][2];

@@ -35,7 +35,7 @@
                 <div up-col-xs="50%" up-col-sm="50%" up-col-md="30%" up-col="25%">
                     <h3 ng-if="change && !hardcore" up-row center>{{ name }}</h3>
 
-                    <h3 ng-if="!change && hardcore" up-row center>{{ trait }} : {{ traitValue }}</h3>
+                    <h3 ng-if="!change && hardcore" up-row center>{{ text(trait) }} : {{ traitValue }}</h3>
 
                     <div ng-if="!change && !hardcore">
                         <br><br>
