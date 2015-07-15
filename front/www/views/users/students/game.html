@@ -132,7 +132,7 @@
                 <div ng-repeat="face in gameData.list_users" up-col="50%" up-row wrap padded center style="text-align:left">
                     <div up-col="30%">
                         <div class="up-image-container">
-                            <div class="up-image" ng-style="{ 'background-image' : 'url({{ face[face.answer][1] | urlFile }})' }"></div>
+                            <div class="up-image" ng-style="{ 'background-image' : 'url({{ face[face.answer][1] | thumb | urlFile }})' }"></div>
                         </div>
                     </div>
 
