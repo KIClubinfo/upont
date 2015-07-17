@@ -5,6 +5,7 @@ namespace KI\UpontBundle\EventListener;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use KI\UpontBundle\Entity\Users\Achievement;
 use KI\UpontBundle\Entity\Users\AchievementUser;
+use KI\UpontBundle\Entity\Users\User;
 use KI\UpontBundle\Entity\Notification;
 use KI\UpontBundle\Event\AchievementCheckEvent;
 
@@ -21,15 +22,20 @@ class AchievementListener
         $this->container = $container;
         $this->manager = $this->container->get('doctrine')->getManager();
 
-        $repoAU = $this->manager->getRepository('KIUpontBundle:Users\AchievementUser');
-
         $token = $this->container->get('security.context')->getToken();
         $this->user = $token === null ? null : $token->getUser();
+
         if ($this->user !== null) {
-            $response = $repoAU->findByUser($this->user);
-            foreach ($response as $achievementUser) {
-                $this->achievements[] = $achievementUser->getAchievement()->getIdA();
-            }
+            $this->loadUser($this->user);
+        }
+    }
+
+    private function loadUser(User $user) {
+        $repoAU = $this->manager->getRepository('KIUpontBundle:Users\AchievementUser');
+        $response = $repoAU->findByUser($this->user);
+
+        foreach ($response as $achievementUser) {
+            $this->achievements[] = $achievementUser->getAchievement()->getIdA();
         }
     }
 
@@ -41,7 +47,7 @@ class AchievementListener
 
         // On peut préciser l'user pour les routes sans authentification
         if ($event->getuser() !== null) {
-            $this->user = $event->getUser();
+            $this->loadUser($event->getUser());
         } else {
             if (!$this->user instanceof \KI\UpontBundle\Entity\Users\User
                 || in_array($achievement->getIdA(), $this->achievements))
