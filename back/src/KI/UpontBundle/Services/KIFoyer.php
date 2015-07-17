@@ -44,14 +44,16 @@ class KIFoyer extends ContainerAware
         $data = json_decode($response, true);
         $this->balance = $data['solde'];
 
-        if ($this->balance < 0) {
-            $dispatcher = $this->container->get('event_dispatcher');
-            $achievementCheck = new AchievementCheckEvent(Achievement::FOYER);
-            $dispatcher->dispatch('upont.achievement', $achievementCheck);
-        } else {
-            $dispatcher = $this->container->get('event_dispatcher');
-            $achievementCheck = new AchievementCheckEvent(Achievement::FOYER_BIS);
-            $dispatcher->dispatch('upont.achievement', $achievementCheck);
+        if ($this->balance !== null) {
+            if ($this->balance < 0) {
+                $dispatcher = $this->container->get('event_dispatcher');
+                $achievementCheck = new AchievementCheckEvent(Achievement::FOYER);
+                $dispatcher->dispatch('upont.achievement', $achievementCheck);
+            } else {
+                $dispatcher = $this->container->get('event_dispatcher');
+                $achievementCheck = new AchievementCheckEvent(Achievement::FOYER_BIS);
+                $dispatcher->dispatch('upont.achievement', $achievementCheck);
+            }
         }
     }
 

@@ -27,7 +27,7 @@ security:
         # Pas de firewall pour ces exceptions
         exceptionsHead:
             methods: [HEAD]
-            pattern:  ^/(ping|deploy)
+            pattern:  ^/(ping|courses)
             security: false
 
         exceptionsGet1:
