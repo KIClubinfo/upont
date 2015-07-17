@@ -31,6 +31,7 @@ class AchievementListener
     }
 
     private function loadUser(User $user) {
+        $this->user = $user;
         $repoAU = $this->manager->getRepository('KIUpontBundle:Users\AchievementUser');
         $response = $repoAU->findByUser($this->user);
 
