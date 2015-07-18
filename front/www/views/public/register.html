@@ -1,0 +1,38 @@
+<div up-row center wrap padded class="up-error-page">
+    <div up-col="30%" up-col-xs="100%" up-row wrap padded>
+        <h1 up-col="100%" style="padding: 0 0 0 0.5em; margin: 0;">Inscription</h1>
+        <div up-col="100%">
+            Fournis ici tes informations. Tu recevras un mail qui permettra de te connecter !<br>
+            Attention, uPont est réservé aux élèves des Ponts !
+        </div>
+    </div>
+    <div up-col="50%" up-col-xs="100%">
+        <form up-row padded wrap class="up-login-form" ng-submit="submit(firstName, lastName, email)" autocomplete="off" style="text-align:left">
+            <div up-col="50%">
+                <i class="fa fa-user fa-block"></i>
+                Prénom
+            </div>
+            <div up-col="50%">
+                <input id="first-name-input" class="up-col-xs-12" type="text" ng-model="firstName" placeholder="Prénom"/>
+            </div>
+            <div up-col="50%">
+                <i class="fa fa-user fa-block"></i>
+                Nom
+            </div>
+            <div up-col="50%">
+                <input class="up-col-xs-12" type="text" ng-model="lastName" placeholder="Nom"/>
+            </div>
+            <div up-col="50%">
+                <i class="fa fa-envelope fa-block"></i>
+                Email
+            </div>
+            <div up-col="50%">
+                <input class="up-col-xs-12" type="text" ng-model="email" placeholder="prenom.nom@eleves.enpc.fr"/>
+            </div>
+
+            <div up-col="100%">
+                <button up-col="100%" title="S'inscrire !" class="up-btn up-btn-default">Envoyer le mail</button>
+            </div>
+        </form>
+    </div>
+</div>

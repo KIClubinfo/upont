@@ -180,7 +180,7 @@ angular.module('upont')
                 event.preventDefault();
 
                 if ($location.path() != '/')
-                    $rootScope.urlRef = $location.path();
+                    $rootScope.urlRef = window.location.href;
 
                 $state.go('root.login');
             }

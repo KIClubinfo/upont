@@ -1,0 +1,21 @@
+Ce mail automatique a été envoyé pour faire le bilan de l'import d'utilisateurs sur uPont.
+Cette vague d'inscription a réussi pour {{ success|length }} utilisateurs.
+L'import comporte {{ fails|length }} erreurs.
+
+{% if fails|length > 0 %}
+Les erreurs suivantes ont été trouvées :
+
+{% for fail in fails %}
+{{ fail }}
+{% endfor %}
+{% endif %}
+
+
+
+{% if success|length > 0 %}
+Les utilisateurs suivants ont été correctement importés :
+
+{% for user in success %}
+{{ user }}
+{% endfor %}
+{% endif %}

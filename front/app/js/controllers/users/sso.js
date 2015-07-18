@@ -70,9 +70,9 @@ angular.module('upont')
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state('root.sso', {
+            .state('root.users.sso', {
                 url: 'sso?appId&to',
-                templateUrl: 'views/public/sso.html',
+                templateUrl: 'views/users/sso.html',
                 controller: 'SingleSignOn_Ctrl',
                 data: {
                     title: 'Authentification centralisée - uPont',
