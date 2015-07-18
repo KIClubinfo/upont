@@ -28,6 +28,27 @@ angular.module('upont')
             ;
         };
 
+        $scope.fd = null;
+        $scope.uploadFile = function(files) {
+            $scope.fd = new FormData();
+            $scope.fd.append('users', files[0]);
+        };
+
+        $scope.import = function(name) {
+            if ($scope.fd === null) {
+                alertify.error('Le fichier n\'a pas été choisi !');
+            }
+
+            $http.post(apiPrefix + 'import/users', $scope.fd, {
+                withCredentials: true,
+                headers: {'Content-Type': undefined },
+                transformRequest: angular.identity
+            }).success(function() {
+                var input = $('#fileUpload');
+                input.replaceWith(input.val('').clone(true));
+                alertify.success('Import effectué, un rapport a été envoyé à root@clubinfo.enpc.fr');
+            });
+        };
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider

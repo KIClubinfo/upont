@@ -191,11 +191,8 @@ class UsersController extends \KI\UpontBundle\Controller\Core\ResourceController
         if (count($users) > 0)
             throw new BadRequestHttpException('Cet utilisateur existe déjà.');
 
-        // Generation du mot de passe
-        $password = substr(str_shuffle(strtolower(sha1(rand().time().'salt'))), 0, 8);
-        $login = strtolower(str_replace(' ', '-', substr($this->stripAccents($lastName), 0, 7).$this->stripAccents($firstName)[0]));
-
         // Si le login existe déjà, on ajoute une lettre du prénom
+        $login = strtolower(str_replace(' ', '-', substr($this->stripAccents($lastName), 0, 7).$this->stripAccents($firstName)[0]));
         $i = 1;
         while (count($repo->findByUsername($login)) > 0) {
             if (isset($firstName[$i]))
@@ -205,25 +202,7 @@ class UsersController extends \KI\UpontBundle\Controller\Core\ResourceController
             $i++;
         }
 
-        // Création de l'utilisateur
-        $userManager = $this->get('fos_user.user_manager');
-        $user = $userManager->createUser();
-        $user->setUsername($login);
-        $user->setEmail($email);
-        $user->setEnabled(true);
-        $user->setPlainPassword($password);
-        $user->setFirstName($firstName);
-        $user->setLastName($lastName);
-        $userManager->updateUser($user);
-
-        // Envoi du mail
-        $message = \Swift_Message::newInstance()
-            ->setSubject('Inscription uPont')
-            ->setFrom('noreply@upont.enpc.fr')
-            ->setTo($email)
-            ->setBody($this->renderView('KIUpontBundle::registration.txt.twig', array('firstName' => $firstName, 'login' => $login, 'password' => $password)));
-        $this->get('mailer')->send($message);
-
+        $this->createUser($login, $email, $firstName, $lastName);
         $message = \Swift_Message::newInstance()
             ->setSubject('[uPont] Nouvelle inscription ('.$login.')')
             ->setFrom('noreply@upont.enpc.fr')
@@ -234,10 +213,124 @@ class UsersController extends \KI\UpontBundle\Controller\Core\ResourceController
         return $this->restResponse(null, 201);
     }
 
+    /**
+     * @ApiDoc(
+     *  description="Crée un compte et envoie un mail avec le mot de passe",
+     *  requirements={
+     *   {
+     *    "name"="users",
+     *    "dataType"="file",
+     *    "description"="Prénom"
+     *   },
+     *  },
+     *  statusCodes={
+     *   201="Requête traitée avec succès avec création d’un document",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Utilisateurs"
+     * )
+     * @Route\Post("/import/users")
+     */
+    public function importUsersAction()
+    {
+        if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
+            return $this->jsonResponse(null, 403);
+
+        if (!$this->getRequest()->files->has('users'))
+            throw new BadRequestHttpException('Aucun fichier envoyé');
+        $file = $this->getRequest()->files->get('users');
+
+        // Check CSV
+        if ($file->getMimeType() !== 'text/plain' && $file->getMimeType() !== 'text/csv') {
+            throw new Exception('L\import doit se faire au moyen d\'un fichier CSV');
+        }
+
+        // On récupère le contenu du fichier
+        $path = __DIR__.'/../../../../../web/uploads/tmp/';
+        $file->move($path, 'users.list');
+        $list = fopen($path.'users.list', 'r+');
+        if ($list === false)
+            throw new BadRequestHttpException('Erreur lors de l\'upload du fichier');
+
+        // Dans un premier temps on va effectuer une première passe pour vérifier qu'il n'y a pas de duplicatas
+        $emails = $logins = $fails = $success = array();
+        $repo = $this->em->getRepository('KIUpontBundle:Users\User');
+        foreach ($repo->findAll() as $user) {
+            $emails[] = $user->getEmail();
+            $logins[] = $user->getUsername();
+        }
+
+        while (!feof($list)) {
+            // On enlève le caractère de fin de ligne
+            $line = str_replace(array("\r", "\n"), array('', ''), fgets($list));
+            $login = $firstName = $lastName = $email = $promo = $department = $origin = null;
+            $explode = explode(',', $line);
+            if (count($explode) != 7)
+                continue;
+            list($login, $email, $firstName, $lastName, $promo, $department, $origin) = $explode;
+
+            $e = array();
+            if (!preg_match('/@(eleves\.)?enpc\.fr$/', $email))
+                $e[] = 'Adresse mail non utilisable';
+            if (in_array($email, $emails))
+                $e[] = 'Adresse mail déja utilisée';
+            if (in_array($login, $logins))
+                $e[] = 'Login déja utilisé';
+
+            if (count($e) > 0) {
+                $fails[] = $line.' : '.implode(', ', $e);
+            } else {
+                $this->createUser($login, $email, $firstName, $lastName, $promo, $department, $origin);
+                $success[] = $firstName.' '.$lastName;
+            }
+        }
+
+        $message = \Swift_Message::newInstance()
+            ->setSubject('[uPont] Import utilisateurs')
+            ->setFrom('noreply@upont.enpc.fr')
+            ->setTo('root@clubinfo.enpc.fr')
+            ->setBody($this->renderView('KIUpontBundle::import.txt.twig', array('fails' => $fails, 'success' => $success)));
+        $this->get('mailer')->send($message);
+
+        return $this->restResponse(null, 201);
+    }
+
     private function stripAccents($string){
         return str_replace(
             array('à', 'á', 'â', 'ã', 'ä', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ', 'À', 'Á', 'Â', 'Ã', 'Ä', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ù', 'Ú', 'Û', 'Ü', 'Ý'),
             array('a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y', 'A', 'A', 'A', 'A', 'A', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'N', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y'),
             $string);
+    }
+
+    private function createUser($login, $email, $firstName, $lastName, $promo = null, $department = null, $origin = null) {
+        // Generation du mot de passe
+        $password = substr(str_shuffle(strtolower(sha1(rand().time().'salt'))), 0, 8);
+
+        // Création de l'utilisateur
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $userManager->createUser();
+        $user->setUsername($login);
+        $user->setEmail($email);
+        $user->setEnabled(true);
+        $user->setPlainPassword($password);
+        $user->setFirstName($firstName);
+        $user->setLastName($lastName);
+
+        if ($promo !== null)
+            $user->setPromo($promo);
+        if ($department !== null)
+            $user->setDepartment($department);
+        if ($origin !== null)
+            $user->setOrigin($origin);
+
+        $userManager->updateUser($user);
+
+        // Envoi du mail
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Inscription uPont')
+            ->setFrom('noreply@upont.enpc.fr')
+            ->setTo($email)
+            ->setBody($this->renderView('KIUpontBundle::registration.txt.twig', array('firstName' => $firstName, 'login' => $login, 'password' => $password)));
+        $this->get('mailer')->send($message);
     }
 }
