@@ -1,68 +1,31 @@
 angular.module('upont')
     .controller('Admin_Students_Ctrl', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
-        $scope.user = {
-            first_name: '',
-            last_name: '',
-            username: '',
-            email: ''
-        };
+        $scope.firstName = '';
+        $scope.lastName = '';
+        $scope.email = '';
 
-        $scope.post = function(user, password, confirm) {
-            var params = {
-                firstName: user.first_name,
-                lastName: user.last_name,
-                username: user.username,
-                email: user.email
-            };
-
-            if (!user.first_name) {
-                alertify.error('Le prénom n\'a pas été renseigné');
+        $scope.post = function(firstName, lastName, email) {
+            if (firstName === undefined || lastName === undefined || email === undefined) {
+                alertify.error('Au moins un des champs n\'est pas rempli');
                 return;
             }
 
-            if (!user.last_name) {
-                alertify.error('Le nom n\'a pas été renseigné');
-                return;
+            var regex = /@(eleves\.)?enpc\.fr$/;
+            if (!regex.test(email)) {
+                alertify.error('Désolé, seules les adresses des Ponts sont acceptées !');
             }
 
-            if (!user.username) {
-                alertify.error('L\'identifiant DSI n\'a pas été renseigné');
-                return;
-            }
-
-            if (!user.email) {
-                alertify.error('L\'email n\'a pas été renseigné');
-                return;
-            }
-
-            if (password !== undefined && password !== '') {
-                if (password != confirm) {
-                    alertify.error('Les deux mots de passe ne sont pas identiques');
-                    return;
-                } else {
-                    params.plainPassword = {first: password, second: confirm};
-                }
-            } else {
-                alertify.error('Le mot de passe n\'a pas été renseigné');
-                return;
-            }
-
-            $http.post($rootScope.url + 'users', params).success(function(){
-                alertify.success('Utilisateur créé');
-            }).error(function(){
-                alertify.error('Cet utilisateur existe déjà');
-                return;
-            });
-
-            $scope.user = {
-                first_name: '',
-                last_name: '',
-                username: '',
-                email: ''
-            };
-
-            $scope.password = '';
-            $scope.confirm = '';
+            $http.post(apiPrefix + 'users', {email: email, lastName: lastName, firstName: firstName})
+                .success(function(){
+                    alertify.success('Mail envoyé !');
+                    $scope.firstName = '';
+                    $scope.lastName = '';
+                    $scope.email = '';
+                })
+                .error(function(){
+                    alertify.error('Un utilisateur avec cette adresse existe déjà');
+                })
+            ;
         };
 
     }])

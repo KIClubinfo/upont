@@ -2,25 +2,16 @@
     <h2>Créer un utilisateur :</h2>
 
     <div class="up-profile-form">
-        <form up-row padded left wrap ng-submit="post(user, password, confirm)" autocomplete="off">
+        <form up-row padded left wrap ng-submit="post(firstName, lastName, email)" autocomplete="off">
 
             <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
-                <input class="up-col-xs-12" type="text" ng-model="user.first_name" placeholder="Prénom"/>
+                <input class="up-col-xs-12" type="text" ng-model="firstName" placeholder="Prénom"/>
             </div>
             <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
-                <input class="up-col-xs-12" type="text" ng-model="user.last_name" placeholder="Nom"/>
+                <input class="up-col-xs-12" type="text" ng-model="lastName" placeholder="Nom"/>
             </div>
             <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
-                <input class="up-col-xs-12" type="text" ng-model="user.username" placeholder="Identifiant DSI"/>
-            </div>
-            <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
-                <input class="up-col-xs-12" type="email" ng-model="user.email" placeholder="Email"/>
-            </div>
-            <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
-                <input class="up-col-xs-12" type="password" ng-model="password" placeholder="Mot de passe"/>
-            </div>
-            <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
-                <input class="up-col-xs-12" type="password" ng-model="confirm" placeholder="Confirmer le mot de passe"/>
+                <input class="up-col-xs-12" type="email" ng-model="email" placeholder="Email"/>
             </div>
 
             <div up-col="100%" up-row right>
@@ -29,4 +20,3 @@
         </form>
     </div>
 </div>
-

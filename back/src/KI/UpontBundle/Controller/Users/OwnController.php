@@ -709,7 +709,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      *   }
      *  },
      *  statusCodes={
-     *   200="Requête traitée avec succès",
+     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   401="Une authentification est nécessaire pour effectuer cette action",
      *   403="Pas les droits suffisants pour effectuer cette action",
      *   404="Ressource non trouvée",
