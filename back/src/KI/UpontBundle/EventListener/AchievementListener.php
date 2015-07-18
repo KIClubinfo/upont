@@ -143,6 +143,10 @@ class AchievementListener
     // Se logger sur le site
     public function check0() { return true; }
 
+    // Fouilleur
+    // Faire le tour du site
+    public function check5() { return true; }
+
     // Photogénique
     // Changer la photo de son profil
     public function check10() { return true; }

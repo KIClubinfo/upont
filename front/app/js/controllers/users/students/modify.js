@@ -105,6 +105,7 @@ angular.module('upont')
                 return;
             $http.patch($rootScope.url + 'users/' + $rootScope.me.username, {tour: false}).success(function(){
                 $rootScope.me.tour = false;
+                $rootScope.$broadcast('tourEnabled');
                 alertify.success('Tutoriel réactivé !');
             });
         };

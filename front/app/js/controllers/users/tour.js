@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('Tour_Ctrl', ['$scope', '$rootScope', '$http', '$state', function($scope, $rootScope, $http, $state) {
+    .controller('Tour_Ctrl', ['$scope', '$rootScope', '$http', '$state', 'Achievements', function($scope, $rootScope, $http, $state, Achievements) {
         var steps= [
             {
                 state: 'root.users.publications.index',
@@ -25,7 +25,7 @@ angular.module('upont')
             // On demande confirmation
             alertify.confirm('Veux-tu quitter le tutoriel ? Tu pourras toujours le réactiver depuis la page de profil.', function(e){
                 if (e) {
-                    $http.patch($rootScope.url + 'users/' + $rootScope.me.username + '?achievement=unlocked', {tour: true}).success(function(){
+                    $http.patch($rootScope.url + 'users/' + $rootScope.me.username, {tour: true}).success(function(){
                         $rootScope.me.tour = true;
                         alertify.success('Tutoriel masqué !');
                     });
@@ -42,8 +42,9 @@ angular.module('upont')
             if ($scope.step + 1 < steps.length) {
                 $scope.loadStep($scope.step + 1);
             } else if ($scope.step + 1 == steps.length) {
-                $http.patch($rootScope.url + 'users/' + $rootScope.me.username, {tour: true}).success(function(){
+                $http.patch($rootScope.url + 'users/' + $rootScope.me.username + '?achievement=unlocked', {tour: true}).success(function(){
                     $rootScope.me.tour = true;
+                    Achievements.check();
                 });
             }
         };
