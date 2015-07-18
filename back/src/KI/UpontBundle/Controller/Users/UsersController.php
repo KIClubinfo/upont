@@ -4,6 +4,7 @@ namespace KI\UpontBundle\Controller\Users;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use KI\UpontBundle\Entity\Users\Achievement;
 use KI\UpontBundle\Event\AchievementCheckEvent;
