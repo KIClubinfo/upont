@@ -158,7 +158,8 @@
                 <input class="up-col-xs-12" type="text" ng-model="user.email" placeholder="prenom.nom@eleves.enpc.fr" disabled="disabled"/>
             </div>
 
-            <div up-col="100%" up-row right>
+            <div up-col="100%" up-row space-between>
+                <button up-col-xs="100%" up-col-sm="100%" up-col="35%" class="up-btn up-btn-lg up-btn-primary" ng-disabled="!$root.me.tour" ng-click="enableTour($event)">Réactiver le tutoriel</button>
                 <button up-col-xs="100%" up-col-sm="100%" up-col="25%" class="up-btn up-btn-lg up-btn-default">Modifier !</button>
             </div>
         </form>
