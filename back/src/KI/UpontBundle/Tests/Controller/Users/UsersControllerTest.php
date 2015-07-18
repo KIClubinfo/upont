@@ -13,16 +13,9 @@ class UsersControllerTest extends WebTestCase
             'POST',
             '/users',
             array(
-                'username' => 'testificate',
-                'email' => 'testificate@phpunit.zorg',
-                'plainPassword' => array('first' => 'test1234', 'second' => 'test1234'),
+                'email' => 'testificate@eleves.enpc.fr',
                 'firstName' => 'KI',
                 'lastName' => 'OP',
-                'nickname' => 'Testeur en chef',
-                'statsFoyer' => true,
-                'allowedBde' => true,
-                'allowedBds' => false,
-                'details' => 'pookie'
             )
         );
         return $this->client->getResponse();
