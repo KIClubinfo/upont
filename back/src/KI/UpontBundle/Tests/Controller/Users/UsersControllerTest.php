@@ -26,16 +26,6 @@ class UsersControllerTest extends WebTestCase
         $response = $this->postUser();
         $this->assertJsonResponse($response, 201);
 
-        // On vérifie que le lieu du nouvel objet a été indiqué
-        $this->assertTrue(
-            $response->headers->has('Location'),
-            $response->headers
-        );
-
-        // On n'accepte pas les duplicatas selon l'username
-        $response = $this->postUser();
-        $this->assertJsonResponse($response, 400);
-
         $this->client->request('POST', '/users', array('username' => '', 'email' => '123'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
