@@ -37,7 +37,7 @@ class UsersControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
-        $this->client->request('GET', '/users/testificate');
+        $this->client->request('GET', '/users/op-k');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
@@ -50,7 +50,7 @@ class UsersControllerTest extends WebTestCase
     {
         $this->client->request(
             'PATCH',
-            '/users/testificate',
+            '/users/op-k',
             array(
                 'firstName' => 'KIMiam',
                 'gender' => 'M',
@@ -67,7 +67,7 @@ class UsersControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/users/testificate', array('firstName' => ''));
+        $this->client->request('PATCH', '/users/op-k', array('firstName' => ''));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
@@ -82,7 +82,7 @@ class UsersControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
 
-        $this->client->request('DELETE', '/users/testificate');
+        $this->client->request('DELETE', '/users/op-k');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
     }
