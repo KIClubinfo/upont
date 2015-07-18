@@ -619,7 +619,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      */
     public function getPreferencesAction()
     {
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->user();
         return $this->restResponse($user->getPreferences());
     }
 
@@ -667,5 +667,24 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         $results = $repo->findBy($findBy, $sortBy, $limit, $offset);
 
         return $this->generatePages($results, $limit, $page, $totalPages, $count);
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Renvoie l'utilisateur actuel",
+     *  output="KI\UpontBundle\Entity\Users\User",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Utilisateurs"
+     * )
+     * @Route\Get("/own/user")
+     */
+    public function getOwnUserAction()
+    {
+        return $this->restResponse($this->user);
     }
 }
