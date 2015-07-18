@@ -18,7 +18,7 @@ angular.module('upont')
                     Achievements.check();
 
                     if (typeof $rootScope.urlRef !== 'undefined' && $rootScope.urlRef !== null && $rootScope.urlRef != '/') {
-                        $location.path($rootScope.urlRef);
+                        window.location.href = $rootScope.urlRef ;
                         $rootScope.urlRef = null;
                     } else {
                         $state.go('root.users.publications.index');
