@@ -14,6 +14,7 @@ bower update --allow-root
 gulp build-html --type=production
 gulp build-js # Bug minification --type=production
 gulp build-css --type=production
+gulp copy-fonts
 
 # cd ../mobile
 # sudo npm install
