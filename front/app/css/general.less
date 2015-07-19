@@ -87,24 +87,12 @@ background-size: auto auto;
 .up-calendar {
     margin: 0 0 -30px;
 }
-.up-messages {
-    padding-top: 15px;
-
-    .up-profile-picture {
-        width: 50px;
-        height: 50px;
-    }
-}
 .up-tutorial {
-    background-color: @col-main;
-    color: white;
+    .up-col-main;
     margin-bottom: 1em;
     text-align: center;
+    cursor: pointer;
     .fa { font-size: 5em; }
-    &:hover {
-        background-color: @col-neg !important;
-        color: white !important
-    }
 }
 
 .up-landing-container{
@@ -161,6 +149,13 @@ background-size: auto auto;
         }
     }
 }
+.up-tutos {
+    img {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+}
 
 // Titres
 h1 {
@@ -184,6 +179,9 @@ h1, h2, h3, h4, h5, h6 {
     a:hover {
         color: @col-main;
     }
+}
+hr {
+    border-color: @col-ticket-border;
 }
 
 kbd {
@@ -223,6 +221,34 @@ a, a:hover, a:visited, a:active, a:focus {
 .justify {
     text-align: justify;
 }
+.up-col-main {
+    background-color: @col-main;
+    color: white;
+    .up-clickable {
+        &.active {
+            color: @gray !important;
+        }
+        &:hover {
+            color: white;
+            &.active {
+                color: @gray ;
+            }
+        }
+    }
+    &:hover {
+        background-color: @col-neg;
+        color: white !important;
+
+        .up-clickable {
+            &.active {
+                color: @gray !important;
+            }
+            &:hover {
+                color: @gray;
+            }
+        }
+    }
+}
 .up-clickable{
     cursor: pointer;
     &:hover, &.active {
@@ -234,7 +260,7 @@ a, a:hover, a:visited, a:active, a:focus {
     }
 }
 .up-delete-button:hover{
-    color: #E53B3B;
+    color: @col-red;
 }
 .up-link{
     cursor: pointer;
@@ -262,7 +288,7 @@ a, a:hover, a:visited, a:active, a:focus {
     color: @col-font !important;
 }
 .up-overflow {
-    height: 7.4em;
+    height: 7em;
     overflow: hidden;
 }
 

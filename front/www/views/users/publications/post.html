@@ -1,5 +1,5 @@
 <div ng-controller="Publications_Post_Ctrl">
-    <div class="up-publish up-ticket" ng-if="$root.selfClubs.length && display">
+    <div class="up-publish up-ticket publications" ng-if="$root.selfClubs.length && display">
         <form class="publish-container" ng-submit="publish(post, postPicture)" up-row padded wrap autocomplete="off">
             <!-- Inputs liés aux news et events -->
             <div ng-if="focus" up-col="100%">
@@ -7,7 +7,7 @@
             </div>
 
             <!-- startDate -->
-            <div ng-show="type == 'event'" up-col-xs="100%" up-col-sm="100%" up-col="50%">
+            <div ng-show="type == 'event'" up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%">
                 <div class="up-input-group" ng-click="startPicker=!startPicker">
                     <input up-col="100%" type="text" placeholder="Date de début" ng-value="post.start_date | date:'HH:mm dd/MM/yyyy'"/>
                     <span class="addon"><i class="fa fa-calendar"></i></span>
@@ -15,7 +15,7 @@
                 <datetimepicker ng-show="startPicker" data-ng-model="post.start_date"></datetimepicker>
             </div>
             <!-- endDate -->
-            <div ng-show="type == 'event'" up-col-xs="100%" up-col-sm="100%" up-col="50%">
+            <div ng-show="type == 'event'" up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%">
                 <div class="up-input-group" ng-click="startPicker=!startPicker">
                     <input up-col="100%" type="text" placeholder="Date de fin" ng-value="post.end_date | date:'HH:mm dd/MM/yyyy'"/>
                     <span class="addon"><i class="fa fa-calendar"></i></span>

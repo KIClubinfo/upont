@@ -2,7 +2,7 @@
     <div up-col="100%" style="text-align:center">
     <h1>{{ tuto.name }}</h1>
 </div>
-    <div up-col="100%" ng-bind-html="presentation"></div>
+    <div up-col="100%" class="up-tutos" ng-bind-html="presentation"></div>
     <br><br>
     <div up-col="100%" up-row center ng-if="isAdmin">
         <button ng-click="editTuto()" class="up-btn up-btn-default up-btn-lg">Modifier</button>

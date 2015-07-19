@@ -11,7 +11,7 @@ angular.module('upont')
             {
                 state: 'root.users.publications.index',
                 icon: 'star',
-                text: 'Comme tu as pu le remarquer, ce site est doté d\'un système d\'<strong>achievements</strong><br>' +
+                text: 'Comme tu as pu le remarquer, ce site est doté d\'un système d\'<strong>achievements.</strong><br>' +
                 'Tu as du gagner le premier d\'entre eux en te connectant ! D\'autres arriveront certainement tout au long de ce tour.<br>' +
                 'Note aussi la <strong>barre de recherche</strong> en haut à gauche, elle est <strong>ultra-efficace !</strong>'
             },
@@ -134,8 +134,11 @@ angular.module('upont')
             });
         };
 
-        if (!$rootScope.me.tour)
-            $scope.loadStep(0);
+        if (!$rootScope.me.tour) {
+            $scope.step = 0;
+            $scope.icon = steps[0].icon;
+            $scope.text = steps[0].text;
+        }
 
         $rootScope.$on('tourEnabled', function() {
             $scope.step = 0;

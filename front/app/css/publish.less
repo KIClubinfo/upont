@@ -1,5 +1,13 @@
 .up-publish {
+    &.publications {
+        @media(min-width:@sizeSm) {
+            margin-right: 0 !important;
+        }
+    }
     .publish-container {
+        .bottom-box-container {
+            padding: 0;
+        }
         .redactor-box {
             margin: 0;
         }
@@ -87,4 +95,8 @@
             }
         }
     }
+}
+
+.up-messages {
+    padding-left: 10px;
 }
