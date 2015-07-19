@@ -150,7 +150,7 @@ class Achievement
     self::TOUR => array(
         'name'        => 'Fouilleur',
         'description' => 'Faire le tour du site',
-        'points'      => 20,
+        'points'      => 30,
         'image'       => 'smile-o',
     ),
     self::PHOTO => array(
