@@ -136,8 +136,8 @@ angular.module('upont')
 
         if (!$rootScope.me.tour) {
             $scope.step = 0;
-            $scope.icon = steps[step].icon;
-            $scope.text = steps[step].text;
+            $scope.icon = steps[0].icon;
+            $scope.text = steps[0].text;
         }
 
         $rootScope.$on('tourEnabled', function() {
