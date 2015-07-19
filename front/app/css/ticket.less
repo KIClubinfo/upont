@@ -1,20 +1,23 @@
 .up-ticket {
     position: relative;
-    margin: 1em;
-    padding: 1em;
+    margin: 0.5em;
+    padding: 0.5em;
     background: @col-ticket;
     border: solid 1px @col-ticket-border;
     line-height: 1.2em;
-    
+
     h1, h2, h3, h4, h5, h6 {
         line-height: 1em;
     }
 
     &.divided {
         padding: 0;
-        
+
+        @media(min-width:@sizeSm) {
+            margin-right: 0;
+        }
     }
-    
+
     a {
         cursor: pointer;
         color: @col-main;
@@ -26,7 +29,7 @@
         position: relative;
         overflow: hidden;
         height: 7.5em;
-        
+
         .background{
             filter: blur(4px);
             overflow: hidden;
@@ -63,7 +66,7 @@
     }
     .up-ticket-body{
         position:relative;
-        padding:1em 2em;
+        padding: 1em;
     }
     .up-ticket-footer{
         position:relative;

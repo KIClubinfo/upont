@@ -12,15 +12,15 @@ cd front
 sudo npm install
 bower update --allow-root
 gulp build-html --type=production
-gulp build-js --type=production
+gulp build-js # Bug minification --type=production
 gulp build-css --type=production
 
-cd ../mobile
-sudo npm install
-bower update --allow-root
-gulp build-js # Bug minification --type=production
-gulp build-css-light --type=production
-gulp build-css-dark --type=production
+# cd ../mobile
+# sudo npm install
+# bower update --allow-root
+# gulp build-js --type=production
+# gulp build-css-light --type=production
+# gulp build-css-dark --type=production
 
 cd ../back
 sudo composer self-update

@@ -1,9 +1,13 @@
 <div ng-controller="Publications_List_Messages_Ctrl" ng-inject="{messages: messages}">
     <div infinite-scroll="next()" infinite-scroll-distance="2" infinite-scroll-disabled="$root.infiniteLoading">
         <div class="up-ticket" ng-repeat="message in messages.data">
-            <div up-row class="up-messages" ng-mouseover="showModify=true" ng-mouseleave="showModify=false">
-                <img up-col="20%" class="up-profile-picture" ng-src="{{ message.author_user.image_url | thumb | urlFile }}"/>
-                <div up-col="80%">
+            <div up-row wrap ng-mouseover="showModify=true" ng-mouseleave="showModify=false">
+                <div up-col-xs="12%" up-col-sm="12%" up-col-md="12%" up-col="8%">
+                    <div class="up-image-container">
+                        <div class="up-image up-profile-picture" ng-style="{'background-image' : 'url({{message.author_user.image_url | thumb | urlFile}})'}"></div>
+                    </div>
+                </div>
+                <div up-col-xs="88%" up-col-sm="88%" up-col-md="88%" up-col="92%" class="up-messages">
                     <small>
                         <span class="up-clickable" ui-sref="root.users.publications.message({slug: message.slug})" title="Afficher la publication">{{ message.date | fromNow }}</span>
                         <i ng-show="($root.isAdmin || message.author_user.username == $root.me.username) && showModify"
@@ -14,6 +18,8 @@
                            title="Supprimer le message"></i>
                     </small><br>
                     <strong up-user user="message.author_user">{{ message.author_user.nick }} :</strong><br>
+                </div>
+                <div up-col="100%" style="padding-top: 0.3em">
                     <span up-publi-text string="message.text" style="margin-top: 0"></span>
                 </div>
             </div>
