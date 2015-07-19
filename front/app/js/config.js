@@ -219,4 +219,12 @@ angular.module('upont')
     }])
     .run(function(redactorOptions) {
         redactorOptions.imageUpload = apiPrefix + 'images?bearer=' + localStorage.getItem('token');
-    });
+    })
+    .run(function(StorageService, Piwik, $rootScope, $location) {
+        $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+            Piwik.setReferrerUrl('upont');
+            Piwik.setCustomUrl('upont');
+            Piwik.trackPageView($location.path());
+        });
+    })
+;

@@ -49,6 +49,7 @@
     <script type="text/javascript" src="libs/redactor/table.js"></script>
     <script type="text/javascript" src="libs/redactor/video.js"></script>
     <script type="text/javascript" src="libs/redactor/fr.js"></script>
+    <script type="text/javascript" src="libs/angular-piwik/angular-piwik.js"></script>
     <script type="text/javascript" src="upont.min.js"></script>
 </head>
 
@@ -62,10 +63,12 @@
     </div>
 
     <!-- Piwik -->
-    <script type="text/javascript" type="text/javascript">
+    <!--<script type="text/javascript" type="text/javascript">
         var _paq = _paq || [];
         _paq.push(['trackPageView']);
         _paq.push(['enableLinkTracking']);
+
+        //_paq.push(['setUserId', '{{ $root.me.email }}']);
         (function() {
             var u="//upont.enpc.fr/piwik/";
             _paq.push(['setTrackerUrl', u+'piwik.php']);
@@ -74,7 +77,8 @@
             g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
         })();
     </script>
-    <noscript><p><img src="//upont.enpc.fr/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+    <noscript><p><img src="//upont.enpc.fr/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>-->
+    <ngp-piwik ngp-set-js-url="https://upont.enpc.fr/piwik/piwik.js" ngp-set-tracker-url="https://upont.enpc.fr/piwik/piwik.php" ngp-set-site-id="1"> </ngp-piwik>
     <!-- End Piwik Code -->
 </body>
 

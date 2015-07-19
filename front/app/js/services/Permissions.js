@@ -1,4 +1,4 @@
-angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', '$resource', 'jwtHelper', function(StorageService, $rootScope, $resource, jwtHelper) {
+angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', '$resource', 'jwtHelper', 'Piwik', function(StorageService, $rootScope, $resource, jwtHelper, Piwik) {
     remove = function() {
         $rootScope.isLogged = false;
         $rootScope.isAdmin = false;
@@ -17,8 +17,9 @@ angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', 
             $rootScope.isExterieur = (StorageService.get('droits').indexOf('ROLE_EXTERIEUR') != -1) ? true : false;
 
             var username = jwtHelper.decodeToken(StorageService.get('token')).username;
+            Piwik.setUserId(username);
             // On récupère les données utilisateur
-            $resource(apiPrefix + 'users/:slug', {slug: username }).get(function(data){
+            $resource(apiPrefix + 'users/:slug', {slug: username}).get(function(data){
                 $rootScope.me = data;
             });
 
@@ -26,7 +27,6 @@ angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', 
             $resource(apiPrefix + 'users/:slug/clubs', {slug: username }).query(function(data){
                 $rootScope.selfClubs = data;
             });
-            //remove();
         } else {
             remove();
         }
