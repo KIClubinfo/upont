@@ -36,6 +36,10 @@ gulp.task('build-css', function() {
 gulp.task('build-js', function() {
     var vendorsFiles = mainBowerFiles();
     var appFiles = [
+        'www/libs/redactor/redactor.js',
+        'www/libs/redactor/table.js',
+        'www/libs/redactor/video.js',
+        'www/libs/redactor/fr.js',
         'app/js/app.js',
         'app/js/*.js',
         'app/js/**/*.js',

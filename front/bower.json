@@ -26,9 +26,28 @@
     "angular-elastic": "latest",
     "highcharts-release": "latest",
     "angular-youtube-mb": "latest",
-    "angular-piwik": "~1.3.2"
+    "angular-piwik": "latest",
+    "highmaps": "latest"
   },
   "resolutions": {
     "angular": "^1.2.21"
+  },
+  "overrides": {
+    "highmaps": {
+      "main": [
+        "./modules/map.js"
+      ]
+    },
+    "highcharts-release": {
+      "main": [
+        "highcharts.js",
+        "highcharts-more.js",
+        "modules/solid-gauge.js",
+        "modules/drilldown.js",
+        "modules/treemap.js",
+        "modules/funnel.js",
+        "modules/exporting.js"
+      ]
+    }
   }
 }
