@@ -148,7 +148,7 @@ class Achievement
         'image'       => 'sign-in',
     ),
     self::TOUR => array(
-        'name'        => 'Fouilleur',
+        'name'        => 'The cake is not a lie',
         'description' => 'Faire le tour du site',
         'points'      => 30,
         'image'       => 'smile-o',

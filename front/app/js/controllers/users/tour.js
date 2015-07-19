@@ -85,14 +85,13 @@ angular.module('upont')
             {
                 state: 'root.users.assos.ki',
                 icon: 'download',
-                text: 'En passant par là, voici la page de dépannge du KI, où tu pourras <strong>rapport des bugs/suggérer des améliorations sur uPont, mais aussi crier au secours si ton ordi plante !</strong><br>' +
-                'C\'est super important pour nous d\'avoir du feedback, c\'est ce qui nous permet d\'avoir un intranet aussi exceptionnel !'
+                text: 'En passant par là, voici la page de dépannge du KI, où tu pourras <strong>rapport des bugs/suggérer des améliorations sur uPont, mais aussi crier au secours si ton ordi plante !</strong> C\'est super important pour nous d\'avoir du feedback, c\'est ce qui nous permet d\'avoir un intranet aussi exceptionnel !'
             },
             {
                 state: 'root.users.resources.upont',
                 icon: 'smile-o',
-                text: 'Et voilà, c\'est fini !<br>' +
-                'Enfin, <strong>ce n\'est que le début</strong>...<br>' +
+                text: 'Et voilà, c\'est fini ! Enfin, <strong>ce n\'est que le début</strong>...<br>' +
+                'uPont est encore en développement, <strong>n\'oublie pas de partager tes idées !</strong><br>' +
                 'Comme promis, clique encore une fois la flèche suivante et tu auras un cadeau durement mérité...'
             }
         ];
