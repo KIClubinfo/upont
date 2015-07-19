@@ -98,6 +98,17 @@ angular.module('upont')
         $scope.achievementCheck = function() {
             Achievements.check();
         };
+
+        $scope.enableTour = function(e) {
+            e.preventDefault();
+            if (!$rootScope.me.tour)
+                return;
+            $http.patch($rootScope.url + 'users/' + $rootScope.me.username, {tour: false}).success(function(){
+                $rootScope.me.tour = false;
+                $rootScope.$broadcast('tourEnabled');
+                alertify.success('Tutoriel réactivé !');
+            });
+        };
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider

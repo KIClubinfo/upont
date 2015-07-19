@@ -1,0 +1,11 @@
+<div class="up-tour-container"  ng-class="{'up-tour-shown': isShown}">
+    <div class="up-tour-toggle" ng-click="toggle()">
+        <i ng-class="{'fa-chevron-right': isShown, 'fa-chevron-left': !isShown}" class="fa"></i>
+    </div>
+    <div class="up-tour">
+        <div class="up-tour-title">
+            <h3>{{ title }}</h3>
+        </div>
+        <div class="up-tour-content" ng-transclude></div>
+    </div>
+</div>

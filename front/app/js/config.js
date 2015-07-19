@@ -64,7 +64,8 @@ angular.module('upont')
                 url: '/',
                 template: '<div ui-view="aside" ng-if="!isExterieur" class="up-invisible-xs"></div>'+
                     '<div ui-view="topbar" ng-if="!isExterieur" class="up-invisible-sm up-invisible-md up-invisible-lg"></div>'+
-                    '<div ui-view></div>',
+                    '<div ui-view></div>' +
+                    '<div ui-view="tour" ng-if="!isExterieur"></div>',
             })
             .state('root.403', {
                 url: '403',
@@ -89,7 +90,7 @@ angular.module('upont')
                     needLogin: true
                 },
                 views:{
-                    '':{
+                    '': {
                         template: '<div class="up-main-view" ui-view up-fill-window></div>'
                     },
                     topbar: {
@@ -98,6 +99,10 @@ angular.module('upont')
                     aside: {
                         templateUrl: 'views/users/aside.html',
                         controller: 'Aside_Ctrl'
+                    },
+                    tour: {
+                        templateUrl: 'views/users/tour.html',
+                        controller: 'Tour_Ctrl'
                     }
                 }
             })

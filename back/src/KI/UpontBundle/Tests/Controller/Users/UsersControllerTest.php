@@ -62,6 +62,7 @@ class UsersControllerTest extends WebTestCase
                 'nationality' => 'France',
                 'location' => 'A51',
                 'statsPonthub' => false,
+                'tour' => true,
                 'image' => 'http://i.imgur.com/QKKfs.png'
                 ));
         $response = $this->client->getResponse();
