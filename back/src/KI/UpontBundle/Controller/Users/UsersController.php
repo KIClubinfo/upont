@@ -86,6 +86,12 @@ class UsersController extends \KI\UpontBundle\Controller\Core\ResourceController
         $achievementCheck = new AchievementCheckEvent(Achievement::PROFILE);
         $dispatcher->dispatch('upont.achievement', $achievementCheck);
 
+        if ($this->getRequest()->query->has('achievement')) {
+            $dispatcher = $this->container->get('event_dispatcher');
+            $achievementCheck = new AchievementCheckEvent(Achievement::TOUR);
+            $dispatcher->dispatch('upont.achievement', $achievementCheck);
+        }
+
         return $response;
     }
 

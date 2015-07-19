@@ -87,6 +87,7 @@ class Achievement
     // En effet les fonctions de check dépendent des IDs, voir le fichier
     // EventListener > AchievementCheck
     const LOGIN = 0;
+    const TOUR = 5;
     const PHOTO = 10;
     const COURSES = 20;
     const PROFILE = 30;
@@ -145,6 +146,12 @@ class Achievement
         'description' => 'Se connecter sur le site',
         'points'      => 10,
         'image'       => 'sign-in',
+    ),
+    self::TOUR => array(
+        'name'        => 'The cake is not a lie',
+        'description' => 'Faire le tour du site',
+        'points'      => 30,
+        'image'       => 'smile-o',
     ),
     self::PHOTO => array(
         'name'        => 'Photogénique',

@@ -101,6 +101,14 @@ class User extends \KI\UpontBundle\Entity\Users\CoreUser
     protected $allowedBds;
 
     /**
+     * A fait le tutoriel d'intro ?
+     * @ORM\Column(name="tour", type="boolean", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("boolean")
+     */
+    protected $tour;
+
+    /**
      * Autorisation de rendre publiques les stats Foyer
      * @ORM\Column(name="statsFoyer", type="boolean", nullable=true)
      * @JMS\Expose
@@ -365,6 +373,29 @@ class User extends \KI\UpontBundle\Entity\Users\CoreUser
     public function getAllowedBds()
     {
         return $this->allowedBds;
+    }
+
+    /**
+     * Set tour
+     *
+     * @param string $tour
+     * @return User
+     */
+    public function setTour($tour)
+    {
+        $this->tour = $tour;
+
+        return $this;
+    }
+
+    /**
+     * Get tour
+     *
+     * @return string
+     */
+    public function getTour()
+    {
+        return $this->tour;
     }
 
     /**
