@@ -26,17 +26,16 @@ angular.module('upont')
 		};
 
 		$scope.post = function(promo, hardcore) {
-
 			var params = {
 				promo: promo,
 				hardcore: hardcore
 			};
-
 			if (promo == 'Toutes') {
 				params.promo = undefined;
 			}
 
 			$http.post($rootScope.url + 'facegames', params).success(function(data) {
+				$scope.hardcore = hardcore;
 				$scope.playing = true;
 				$scope.end = false;
 				$scope.change = true;
@@ -60,8 +59,6 @@ angular.module('upont')
 
 				if (hardcore) {
 					$scope.trait = $scope.gameData.list_users[$scope.position].trait;
-					$scope.hardcore = hardcore;
-
 					$scope.traitValue = $scope.gameData.list_users[$scope.position][$scope.answer][2];
 					$scope.traitValue1 = $scope.gameData.list_users[$scope.position][0][2];
 					$scope.traitValue2 = $scope.gameData.list_users[$scope.position][1][2];
