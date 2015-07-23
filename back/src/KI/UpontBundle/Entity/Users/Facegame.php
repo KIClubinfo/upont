@@ -38,6 +38,14 @@ class Facegame
     protected $duration;
 
     /**
+     * Nombre de réponses fausses
+     * @ORM\Column(name="wrongAnswers", type="integer", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("integer")
+     */
+    protected $wrongAnswers;
+
+    /**
      * Joueur
      * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
      * @JMS\Expose
@@ -119,6 +127,30 @@ class Facegame
     public function setDuration($duration)
     {
         $this->duration = $duration;
+
+        return $this;
+    }
+
+    /**
+     * Get wrongAnswers
+     *
+     * @return integer
+     */
+    public function getWrongAnswers()
+    {
+        return $this->wrongAnswers;
+    }
+
+    /**
+     * Set wrongAnswers
+     *
+     * @param integer $wrongAnswers
+     *
+     * @return Facegame
+     */
+    public function setWrongAnswers($wrongAnswers)
+    {
+        $this->wrongAnswers = $wrongAnswers;
 
         return $this;
     }

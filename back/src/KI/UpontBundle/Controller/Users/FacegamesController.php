@@ -8,6 +8,8 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use KI\UpontBundle\Entity\Users\Achievement;
+use KI\UpontBundle\Event\AchievementCheckEvent;
 
 class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceController
 {
@@ -230,7 +232,49 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
      */
     public function patchFacegameAction($slug)
     {
-        return $this->patch($slug);
+        $game = $this->findBySlug($slug);
+
+        if (!empty($game->getDuration())) {
+            throw new BadRequestHttpException('Jeu déjà fini');
+        }
+
+        $request = $this->getRequest()->request;
+        if (!$request->has('wrongAnswers')) {
+            throw new BadRequestHttpException('Paramètre manquant');
+        }
+
+        $wrongAnswers = $request->get('wrongAnswers');
+        $game->setWrongAnswers($wrongAnswers);
+        $duration = time() + 5*$wrongAnswers - $game->getDate();
+        $game->setDuration($duration);
+        $this->em->flush();
+
+        $dispatcher = $this->container->get('event_dispatcher');
+        $achievementCheck = new AchievementCheckEvent(Achievement::GAME_PLAY);
+        $dispatcher->dispatch('upont.achievement', $achievementCheck);
+
+        $promoUser = (int) $this->user->getPromo();
+        $promoGame = (int) $game->getPromo();
+
+        if ($wrongAnswers == 0 && $promoGame == $promoUser-1) {
+            $dispatcher = $this->container->get('event_dispatcher');
+            $achievementCheck = new AchievementCheckEvent(Achievement::GAME_BEFORE);
+            $dispatcher->dispatch('upont.achievement', $achievementCheck);
+        } else if ($wrongAnswers == 0 && $promoGame == $promoUser) {
+            $dispatcher = $this->container->get('event_dispatcher');
+            $achievementCheck = new AchievementCheckEvent(Achievement::GAME_SELF);
+            $dispatcher->dispatch('upont.achievement', $achievementCheck);
+        } else if ($wrongAnswers == 0 && $promoGame == $promoUser+1) {
+            $dispatcher = $this->container->get('event_dispatcher');
+            $achievementCheck = new AchievementCheckEvent(Achievement::GAME_NEXT);
+            $dispatcher->dispatch('upont.achievement', $achievementCheck);
+        }
+        if ($wrongAnswers == 0 && $promoGame > $promoUser && $game->getHardcore()) {
+            $dispatcher = $this->container->get('event_dispatcher');
+            $achievementCheck = new AchievementCheckEvent(Achievement::GAME_OLD);
+            $dispatcher->dispatch('upont.achievement', $achievementCheck);
+        }
+        return $this->jsonResponse(204);
     }
 
     /**

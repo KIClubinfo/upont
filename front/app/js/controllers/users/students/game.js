@@ -1,5 +1,5 @@
 angular.module('upont')
-	.controller('Students_Game_Ctrl', ['$scope', '$rootScope', '$http', '$timeout', function($scope, $rootScope, $http, $timeout) {
+	.controller('Students_Game_Ctrl', ['$scope', '$rootScope', '$http', '$timeout', 'Achievements', function($scope, $rootScope, $http, $timeout, Achievements) {
 		$scope.playing = false;
 		$scope.end = false;
 		$scope.position = 0;
@@ -86,7 +86,9 @@ angular.module('upont')
 				$scope.end = true;
 				$scope.playing = false;
 
-				$http.delete($rootScope.url + 'facegames/' + $scope.gameData.id);
+				$http.patch($rootScope.url + 'facegames/' + $scope.gameData.id, {wrongAnswers: $scope.numWrong}).success(function(){
+					Achievements.check();
+				});
 			} else {
 				$scope.change = $scope.position < ($scope.gameData.list_users.length)/2;
 				$scope.answer = $scope.gameData.list_users[$scope.position].answer;

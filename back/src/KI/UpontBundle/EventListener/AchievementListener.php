@@ -269,6 +269,26 @@ class AchievementListener
     // Oublier son mot de passe
     public function check150() { return true; }
 
+    // The Game
+    // Jouer à La Réponse D
+    public function check153() { return true; }
+
+    // Puceau, pas puceau
+    // Réussir 100% sur la promo d'en dessous dans La Réponse D
+    public function check154() { return true; }
+
+    // Connaisseur
+    // Réussir un 100% sur sa promo dans La Réponse D
+    public function check155() { return true; }
+
+    // Bientôt vieux cons
+    // Réussir un 100% sur la promo d'au dessus dans La Réponse D
+    public function check156() { return true; }
+
+    // JRP'1747
+    // Réussir un 100% en mode hardcore sur une promo de vieux dans La Réponse D
+    public function check157() { return true; }
+
     // H3LLLP UPON SA BEUG!!!!
     // Reporter un bug
     public function check160() { return true; }

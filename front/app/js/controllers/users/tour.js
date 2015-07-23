@@ -134,7 +134,7 @@ angular.module('upont')
             });
         };
 
-        if (!$rootScope.me.tour) {
+        if ($rootScope.me !== undefined && ($rootScope.me.tour === undefined || !$rootScope.me.tour)) {
             $scope.step = 0;
             $scope.icon = steps[0].icon;
             $scope.text = steps[0].text;
