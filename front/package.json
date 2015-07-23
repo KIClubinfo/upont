@@ -9,7 +9,7 @@
     "gulp-uglify": "latest",
     "gulp-less": "latest",
     "gulp-filter": "latest",
-    "gulp-minify-css": "latest",
+    "gulp-uglifycss": "latest",
     "gulp-util": "latest",
     "gulp-autoprefixer": "latest",
     "gulp-concat": "latest",
