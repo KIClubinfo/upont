@@ -49,13 +49,13 @@ angular.module('upont')
 
 				$scope.answer = $scope.gameData.list_users[$scope.position].answer;
 				$scope.name = $scope.gameData.list_users[$scope.position][$scope.answer][0];
-				$scope.picture = '/api/' + $scope.gameData.list_users[$scope.position][$scope.answer][1];
+				$scope.picture = $scope.gameData.list_users[$scope.position][$scope.answer][1];
 				$scope.name1 = $scope.gameData.list_users[$scope.position][0][0];
 				$scope.name2 = $scope.gameData.list_users[$scope.position][1][0];
 				$scope.name3 = $scope.gameData.list_users[$scope.position][2][0];
-				$scope.picture1 = '/api/' + $scope.gameData.list_users[$scope.position][0][1];
-				$scope.picture2 = '/api/' + $scope.gameData.list_users[$scope.position][1][1];
-				$scope.picture3 = '/api/' + $scope.gameData.list_users[$scope.position][2][1];
+				$scope.picture1 = $scope.gameData.list_users[$scope.position][0][1];
+				$scope.picture2 = $scope.gameData.list_users[$scope.position][1][1];
+				$scope.picture3 = $scope.gameData.list_users[$scope.position][2][1];
 
 				if (hardcore) {
 					$scope.trait = $scope.gameData.list_users[$scope.position].trait;
@@ -91,13 +91,13 @@ angular.module('upont')
 				$scope.change = $scope.position < ($scope.gameData.list_users.length)/2;
 				$scope.answer = $scope.gameData.list_users[$scope.position].answer;
 				$scope.name = $scope.gameData.list_users[$scope.position][$scope.answer][0];
-				$scope.picture = '/api/' + $scope.gameData.list_users[$scope.position][$scope.answer][1];
+				$scope.picture = $scope.gameData.list_users[$scope.position][$scope.answer][1];
 				$scope.name1 = $scope.gameData.list_users[$scope.position][0][0];
 				$scope.name2 = $scope.gameData.list_users[$scope.position][1][0];
 				$scope.name3 = $scope.gameData.list_users[$scope.position][2][0];
-				$scope.picture1 = '/api/' + $scope.gameData.list_users[$scope.position][0][1];
-				$scope.picture2 = '/api/' + $scope.gameData.list_users[$scope.position][1][1];
-				$scope.picture3 = '/api/' + $scope.gameData.list_users[$scope.position][2][1];
+				$scope.picture1 = $scope.gameData.list_users[$scope.position][0][1];
+				$scope.picture2 = $scope.gameData.list_users[$scope.position][1][1];
+				$scope.picture3 = $scope.gameData.list_users[$scope.position][2][1];
 
 				if ($scope.hardcore) {
 					$scope.trait = $scope.gameData.list_users[$scope.position].trait;
