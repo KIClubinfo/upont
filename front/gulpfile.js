@@ -1,14 +1,14 @@
 var gulp = require('gulp');
-var gutil = require('gulp-util');
-var concat = require('gulp-concat');
-var less = require('gulp-less');
-var minifyCSS = require('gulp-minify-css');
 var autoprefixer = require('gulp-autoprefixer');
-var jshint = require('gulp-jshint');
-var uglify = require('gulp-uglify');
-var htmlReplace = require('gulp-html-replace');
-var mainBowerFiles = require('main-bower-files');
+var concat = require('gulp-concat');
 var filter = require('gulp-filter');
+var htmlReplace = require('gulp-html-replace');
+var jshint = require('gulp-jshint');
+var less = require('gulp-less');
+var uglify = require('gulp-uglify');
+var minifyCSS = require('gulp-uglifycss');
+var gutil = require('gulp-util');
+var mainBowerFiles = require('main-bower-files');
 
 gulp.task('jshint', function() {
     return gulp.src(['app/js/**/*.js', 'app/js/*.js'])
@@ -29,7 +29,7 @@ gulp.task('build-css', function() {
         .pipe(autoprefixer({
             cascade: false
         }))
-        .pipe(gutil.env.type === 'production' ? minifyCSS() : gutil.noop())
+        .pipe(gutil.env.type === 'production' ? uglifycss() : gutil.noop())
         .pipe(gulp.dest('www/'));
 });
 
@@ -84,4 +84,5 @@ gulp.task('watch', function() {
     gulp.watch('app/css/*.less', ['build-css']);
     gulp.watch('app/index.html', ['build-html']);
 });
-gulp.task('default', ['lint-js', 'build-js', 'build-css', 'build-html', 'copy-fonts', 'watch']);
+gulp.task('build', ['build-js', 'build-css', 'build-html', 'copy-fonts']);
+gulp.task('default', ['build', 'watch']);
