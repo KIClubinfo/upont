@@ -42,6 +42,7 @@ angular.module('upont')
                 nickname: me.nick,
                 statsFoyer: me.stats_foyer,
                 statsPonthub: me.stats_ponthub
+                statsFacegame: me.stats_facegame
             };
 
             if (image) {

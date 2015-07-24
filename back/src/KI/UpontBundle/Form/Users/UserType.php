@@ -28,6 +28,7 @@ class UserType extends AbstractType
             ->add('skype')
             ->add('statsFoyer')
             ->add('statsPonthub')
+            ->add('statsFacegame')
             ->add('allowedBde')
             ->add('allowedBds')
             ->add('tour')

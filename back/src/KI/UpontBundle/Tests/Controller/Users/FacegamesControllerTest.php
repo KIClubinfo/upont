@@ -49,7 +49,7 @@ class FacegamesControllerTest extends WebTestCase
     public function testPatch()
     {
         $this->client->request(
-            'PATCH', '/facegames/1', array('duration' => 42));
+            'PATCH', '/facegames/1', array('wrongAnswers' => 42));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 

@@ -274,7 +274,7 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
             $achievementCheck = new AchievementCheckEvent(Achievement::GAME_OLD);
             $dispatcher->dispatch('upont.achievement', $achievementCheck);
         }
-        return $this->jsonResponse(204);
+        return $this->jsonResponse(null, 204);
     }
 
     /**
