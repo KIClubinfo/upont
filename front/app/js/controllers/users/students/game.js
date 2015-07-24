@@ -13,6 +13,11 @@ angular.module('upont')
 	    $scope.hardcore = false;
 	    $scope.change = false;
 	    $scope.trait = '';
+		$scope.traits = {
+			location: 'Résidence',
+			promo: 'Promo',
+			department: 'Département'
+		};
 
 	    var timer;
 

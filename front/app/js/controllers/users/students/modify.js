@@ -41,7 +41,7 @@ angular.module('upont')
                 skype: me.skype,
                 nickname: me.nick,
                 statsFoyer: me.stats_foyer,
-                statsPonthub: me.stats_ponthub
+                statsPonthub: me.stats_ponthub,
                 statsFacegame: me.stats_facegame
             };
 

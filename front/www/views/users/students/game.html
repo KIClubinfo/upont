@@ -35,7 +35,7 @@
                 <div up-col-xs="50%" up-col-sm="50%" up-col-md="30%" up-col="25%">
                     <h3 ng-if="change && !hardcore" up-row center>{{ name }}</h3>
 
-                    <h3 ng-if="!change && hardcore" up-row center>{{ trait }} : {{ traitValue }}</h3>
+                    <h3 ng-if="!change && hardcore" up-row center>{{ traits[trait] }} : {{ traitValue }}</h3>
 
                     <div ng-if="!change && !hardcore">
                         <br><br>
@@ -141,10 +141,12 @@
 
                         <div up-col="100%">
                             <div ng-if="face.result">
+                                <span ng-if="face.trait">{{ traits[face.trait] }} : {{ face[face.answer][2] }}<br></span>
                                 C'était bien <b>{{ face[face.answer][0] }}</b>.
                             </div>
 
                             <div ng-if="!face.result">
+                                <span ng-if="face.trait">{{ traits[face.trait] }} : {{ face[face.answer][2] }}<br></span>
                                 Ce n'était pas <b>{{ face[face.answered][0] }}</b>, mais <b>{{ face[face.answer][0] }}</b>.
 
                                 <h4>Pénalité : 5 secondes</h4>
@@ -158,7 +160,7 @@
 
     <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%">
         <div class="up-game-container">
-            <h2>Highscore persos</h2>
+            <h2>Highscores Perso</h2>
 
             <em>À venir...</em>
         </div>
@@ -166,7 +168,7 @@
 
     <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%">
         <div class="up-game-container">
-            <h2>Highscore</h2>
+            <h2>Highscores</h2>
 
             <em>À venir...</em>
         </div>
