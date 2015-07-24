@@ -49,11 +49,10 @@ class AchievementListener
         // On peut préciser l'user pour les routes sans authentification
         if ($event->getuser() !== null) {
             $this->loadUser($event->getUser());
-        } else {
-            if (!$this->user instanceof \KI\UpontBundle\Entity\Users\User
-                || in_array($achievement->getIdA(), $this->achievements))
-                return false;
         }
+        if (!$this->user instanceof \KI\UpontBundle\Entity\Users\User
+            || in_array($achievement->getIdA(), $this->achievements))
+            return false;
 
         // Sinon, on lance le check associé
         $check = false;

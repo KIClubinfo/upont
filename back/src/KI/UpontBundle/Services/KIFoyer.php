@@ -44,7 +44,7 @@ class KIFoyer extends ContainerAware
         $data = json_decode($response, true);
         $this->balance = $data['solde'];
 
-        if ($this->balance !== null) {
+        if (!empty($this->balance)) {
             if ($this->balance < 0) {
                 $dispatcher = $this->container->get('event_dispatcher');
                 $achievementCheck = new AchievementCheckEvent(Achievement::FOYER);
