@@ -1,5 +1,5 @@
 angular.module('upont')
-	.controller('Students_Game_Ctrl', ['$scope', '$rootScope', '$http', '$timeout', function($scope, $rootScope, $http, $timeout) {
+	.controller('Students_Game_Ctrl', ['$scope', '$rootScope', '$http', '$timeout', 'Achievements', function($scope, $rootScope, $http, $timeout, Achievements) {
 		$scope.playing = false;
 		$scope.end = false;
 		$scope.position = 0;
@@ -26,17 +26,16 @@ angular.module('upont')
 		};
 
 		$scope.post = function(promo, hardcore) {
-
 			var params = {
 				promo: promo,
 				hardcore: hardcore
 			};
-
 			if (promo == 'Toutes') {
 				params.promo = undefined;
 			}
 
 			$http.post($rootScope.url + 'facegames', params).success(function(data) {
+				$scope.hardcore = hardcore;
 				$scope.playing = true;
 				$scope.end = false;
 				$scope.change = true;
@@ -50,18 +49,16 @@ angular.module('upont')
 
 				$scope.answer = $scope.gameData.list_users[$scope.position].answer;
 				$scope.name = $scope.gameData.list_users[$scope.position][$scope.answer][0];
-				$scope.picture = '/api/' + $scope.gameData.list_users[$scope.position][$scope.answer][1];
+				$scope.picture = $scope.gameData.list_users[$scope.position][$scope.answer][1];
 				$scope.name1 = $scope.gameData.list_users[$scope.position][0][0];
 				$scope.name2 = $scope.gameData.list_users[$scope.position][1][0];
 				$scope.name3 = $scope.gameData.list_users[$scope.position][2][0];
-				$scope.picture1 = '/api/' + $scope.gameData.list_users[$scope.position][0][1];
-				$scope.picture2 = '/api/' + $scope.gameData.list_users[$scope.position][1][1];
-				$scope.picture3 = '/api/' + $scope.gameData.list_users[$scope.position][2][1];
+				$scope.picture1 = $scope.gameData.list_users[$scope.position][0][1];
+				$scope.picture2 = $scope.gameData.list_users[$scope.position][1][1];
+				$scope.picture3 = $scope.gameData.list_users[$scope.position][2][1];
 
 				if (hardcore) {
 					$scope.trait = $scope.gameData.list_users[$scope.position].trait;
-					$scope.hardcore = hardcore;
-
 					$scope.traitValue = $scope.gameData.list_users[$scope.position][$scope.answer][2];
 					$scope.traitValue1 = $scope.gameData.list_users[$scope.position][0][2];
 					$scope.traitValue2 = $scope.gameData.list_users[$scope.position][1][2];
@@ -89,18 +86,20 @@ angular.module('upont')
 				$scope.end = true;
 				$scope.playing = false;
 
-				$http.delete($rootScope.url + 'facegames/' + $scope.gameData.id);
+				$http.patch($rootScope.url + 'facegames/' + $scope.gameData.id, {wrongAnswers: $scope.numWrong}).success(function(){
+					Achievements.check();
+				});
 			} else {
 				$scope.change = $scope.position < ($scope.gameData.list_users.length)/2;
 				$scope.answer = $scope.gameData.list_users[$scope.position].answer;
 				$scope.name = $scope.gameData.list_users[$scope.position][$scope.answer][0];
-				$scope.picture = '/api/' + $scope.gameData.list_users[$scope.position][$scope.answer][1];
+				$scope.picture = $scope.gameData.list_users[$scope.position][$scope.answer][1];
 				$scope.name1 = $scope.gameData.list_users[$scope.position][0][0];
 				$scope.name2 = $scope.gameData.list_users[$scope.position][1][0];
 				$scope.name3 = $scope.gameData.list_users[$scope.position][2][0];
-				$scope.picture1 = '/api/' + $scope.gameData.list_users[$scope.position][0][1];
-				$scope.picture2 = '/api/' + $scope.gameData.list_users[$scope.position][1][1];
-				$scope.picture3 = '/api/' + $scope.gameData.list_users[$scope.position][2][1];
+				$scope.picture1 = $scope.gameData.list_users[$scope.position][0][1];
+				$scope.picture2 = $scope.gameData.list_users[$scope.position][1][1];
+				$scope.picture3 = $scope.gameData.list_users[$scope.position][2][1];
 
 				if ($scope.hardcore) {
 					$scope.trait = $scope.gameData.list_users[$scope.position].trait;

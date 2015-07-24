@@ -125,6 +125,14 @@ class User extends \KI\UpontBundle\Entity\Users\CoreUser
     protected $statsPonthub;
 
     /**
+     * Autorisation de rendre publiques les stats de la réponse D
+     * @ORM\Column(name="statsFacegame", type="boolean", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("boolean")
+     */
+    protected $statsFacegame;
+
+    /**
      * Détails d'un user
      * @ORM\Column(name="details", type="text", nullable=true)
      * @JMS\Expose
@@ -442,6 +450,29 @@ class User extends \KI\UpontBundle\Entity\Users\CoreUser
     public function getStatsPonthub()
     {
         return $this->statsPonthub;
+    }
+
+    /**
+     * Set statsFacegame
+     *
+     * @param string $statsFacegame
+     * @return User
+     */
+    public function setStatsFacegame($statsFacegame)
+    {
+        $this->statsFacegame = $statsFacegame;
+
+        return $this;
+    }
+
+    /**
+     * Get statsFacegame
+     *
+     * @return string
+     */
+    public function getStatsFacegame()
+    {
+        return $this->statsFacegame;
     }
 
     /**

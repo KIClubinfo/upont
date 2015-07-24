@@ -6,7 +6,7 @@
     <up-ribbon class="ribbon-violet" ng-if="fix.status == 'Fermé'">FERMÉ</up-ribbon>
 
     <div ng-if="isFromKI">
-        <select ng-model="fix.status" ng-change="changeStatus(fix)">
+        <select style="margin-bottom:0.7em" ng-model="fix.status" ng-change="changeStatus(fix)">
             <option>Non vu</option>
             <option>En attente</option>
             <option>En cours</option>

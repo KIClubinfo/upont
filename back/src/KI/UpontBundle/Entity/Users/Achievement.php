@@ -121,11 +121,11 @@ class Achievement
     //const PONTLYVALENT = 40;
     //const PONTBINOSCOPE = 41;
     //const FULL_PONTBINOSCOPE = 42;
-    /*const GAME_PLAY = 19;
-    const GAME_BEFORE = 20;
-    const GAME_SELF = 21;
-    const GAME_NEXT = 22;
-    const GAME_OLD = 23;*/
+    const GAME_PLAY = 153;
+    const GAME_BEFORE = 154;
+    const GAME_SELF = 155;
+    const GAME_NEXT = 156;
+    const GAME_OLD = 157;
     const BUG_REPORT = 160;
     const BUG_CONTACT = 170;
     const KIEN = 180;
@@ -375,7 +375,7 @@ class Achievement
         'points'      => 40,
         'image'       => '',
     ),*/
-    /*self::GAME_PLAY => array(
+    self::GAME_PLAY => array(
         'name'        => 'The Game',
         'description' => 'Jouer à La Réponse D',
         'points'      => 20,
@@ -394,7 +394,7 @@ class Achievement
         'image'       => 'check-square',
     ),
     self::GAME_NEXT => array(
-        'name'        => 'Bientôt vieux cons',
+        'name'        => 'Bientôt vieux con',
         'description' => 'Réussir un 100% sur la promo d\'au dessus dans La Réponse D',
         'points'      => 20,
         'image'       => 'check-square-o',
@@ -404,7 +404,7 @@ class Achievement
         'description' => 'Réussir un 100% en mode hardcore sur une promo de vieux dans La Réponse D',
         'points'      => 100,
         'image'       => 'eye',
-    ),*/
+    ),
     self::UNLOCKER => array(
         'name'        => 'Unlocker',
         'description' => 'Compléter 10 achievements',

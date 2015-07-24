@@ -8,11 +8,13 @@
     "gulp-jshint": "latest",
     "gulp-uglify": "latest",
     "gulp-less": "latest",
-    "gulp-minify-css": "latest",
+    "gulp-filter": "latest",
+    "gulp-uglifycss": "latest",
     "gulp-util": "latest",
     "gulp-autoprefixer": "latest",
     "gulp-concat": "latest",
     "jshint-stylish": "latest",
-    "gulp-html-replace": "latest"
+    "gulp-html-replace": "latest",
+    "main-bower-files": "latest"
   }
 }
