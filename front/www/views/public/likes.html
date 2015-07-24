@@ -58,7 +58,7 @@
         <div up-col-xs="90%" up-col-sm="90%" up-col-md="90%" up-col="93%">
             <textarea class="up-col-xs-12 comment-textarea" ng-model="commentText"
                       placeholder="Ajouter un commentaire" msd-elastic
-                      ng-keyup="submitComment($event, commentText) ? commentText = '' : null"></textarea>
+                      ng-keydown="submitComment($event, commentText) ? commentText = '' : null"></textarea>
         </div>
     </form>
 </div>

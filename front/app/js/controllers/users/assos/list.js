@@ -19,7 +19,7 @@ angular.module('upont')
                 controller: 'Assos_List_Ctrl',
                 resolve: {
                     clubs: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'clubs?sort=name').query().$promise;
+                        return $resource(apiPrefix + 'clubs?sort=fullName').query().$promise;
                     }]
                 },
                 data: {

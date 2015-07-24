@@ -146,9 +146,11 @@ angular.module('upont').directive('upLikes', function() {
             };
 
             $scope.submitComment = function($event, text) {
-                if (!($event.keyCode == 13 && !$event.shiftKey))
+
+                if ($event.keyCode != 13 || $event.shiftKey)
                     return false;
 
+                $event.preventDefault();
                 if(text.length > 0){
                     $resource(apiPrefix + $scope.url + '/comments').save({ text: nl2br(text) }, function(data){
                         $scope.comments.push(data);

@@ -1,5 +1,5 @@
 <div up-row wrap>
-    <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
+    <div up-col-xs="100%" up-col-sm="100%" up-col="67%">
         <div class="up-ticket">
             <h2>Feedback uPont</h2>
 
@@ -18,10 +18,12 @@
             </form>
         </div>
 
-        <div ng-include="'views/users/assos/fix.html'" ng-repeat="fix in fixes.data | filter:{fix:false}"></div>
+        <div up-row wrap left>
+            <div ng-repeat="fix in fixes.data | filter:{fix:false} | statusFilter" ng-include="'views/users/assos/fix.html'" up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%"></div>
+        </div>
     </div>
 
-    <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
+    <div up-col-xs="100%" up-col-sm="100%" up-col="33%">
         <div class="up-ticket">
             <h2>Contacte le KI !</h1>
 
@@ -40,7 +42,9 @@
             </form>
         </div>
 
-        <div ng-include="'views/users/assos/fix.html'" ng-repeat="fix in ownFixes.data | filter:{fix:true}"></div>
+        <div up-row wrap left>
+            <div ng-repeat="fix in ownFixes.data | filter:{fix:true} | statusFilter" ng-include="'views/users/assos/fix.html'" up-col="100%"></div>
+        </div>
 
         <div ng-if="isFromKI" class="up-ticket">
             <h2>Problèmes en attente</h2>
@@ -48,6 +52,6 @@
             Tu vois ces demandes parce que tu es membre du KI... à toi de les résoudre au mieux !
         </div>
 
-        <div ng-if="isFromKI" ng-include="'views/users/assos/fix.html'" ng-repeat="fix in fixes.data | filter:{fix:true}"></div>
-    </div>
-</div>
+        <div ng-if="isFromKI" up-row wrap left>
+            <div ng-repeat="fix in fixes.data | filter:{fix:true} | statusFilter" ng-include="'views/users/assos/fix.html'" up-col="100%"></div>
+        </div>
