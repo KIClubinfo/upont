@@ -8,6 +8,7 @@ angular.module('upont')
 	    $scope.tickInterval = 1000;
 	    $scope.promos = $rootScope.promos;
 	    $scope.promos.pop();
+		delete $scope.promos[$scope.promos.indexOf('014')];
 	    $scope.promos.push('Toutes');
 	    $scope.promo = 'Toutes';
 	    $scope.hardcore = false;

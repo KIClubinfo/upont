@@ -382,7 +382,7 @@ class Achievement
         'image'       => 'gamepad',
     ),
     self::GAME_BEFORE => array(
-        'name'        => 'Puceau, pas puceau',
+        'name'        => 'Bientôt vieux con',
         'description' => 'Réussir 100% sur la promo d\'en dessous dans La Réponse D',
         'points'      => 30,
         'image'       => 'check',
@@ -394,7 +394,7 @@ class Achievement
         'image'       => 'check-square',
     ),
     self::GAME_NEXT => array(
-        'name'        => 'Bientôt vieux con',
+        'name'        => 'Puceau, pas puceau',
         'description' => 'Réussir un 100% sur la promo d\'au dessus dans La Réponse D',
         'points'      => 20,
         'image'       => 'check-square-o',

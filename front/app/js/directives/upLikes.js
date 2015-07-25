@@ -12,7 +12,7 @@ angular.module('upont').directive('upLikes', function() {
                 $resource(apiPrefix + $scope.url + '/comments').query(function(data){
                     $scope.comments = data;
                 });
-                $scope.shownComments = -3;
+                $scope.shownComments = -2;
             }
             else{
                 $scope.comments = [];

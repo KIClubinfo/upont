@@ -12,7 +12,7 @@
             <h2>Promo</h2>
 
             <div up-row space-around>
-                <button ng-repeat="item in promos" ng-if="$index > promos.length-6" class="up-btn-game" up-col="15%" ng-class="{'focus':promo==item}" ng-click="switchPromo(item)">{{ item }}</button>
+                <button ng-repeat="item in promos" ng-if="item" class="up-btn-game" up-col="15%" ng-class="{'focus':promo==item}" ng-click="switchPromo(item)">{{ item }}</button>
             </div>
             <br><br>
             <div up-row space-around>
@@ -109,7 +109,7 @@
             <h3>Promo</h3>
 
             <div up-row space-around>
-                <button ng-repeat="item in promos" ng-if="$index > promos.length-6" class="up-btn-game" up-col="15%" ng-class="{'focus':promo==item}" ng-click="switchPromo(item)">{{ item }}</button>
+                <button ng-repeat="item in promos" ng-if="item" class="up-btn-game" up-col="15%" ng-class="{'focus':promo==item}" ng-click="switchPromo(item)">{{ item }}</button>
             </div>
 
             <h3>Mode de jeu</h3>

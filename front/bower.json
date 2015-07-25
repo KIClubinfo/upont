@@ -54,6 +54,12 @@
         "lib/alertify.min.js",
         "themes/alertify.core.css"
       ]
+  },
+    "moment": {
+      "main": [
+        "moment.js",
+        "locale/fr.js"
+      ]
     }
   }
 }
