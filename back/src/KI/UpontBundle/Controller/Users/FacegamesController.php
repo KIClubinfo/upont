@@ -256,20 +256,20 @@ class FacegamesController extends \KI\UpontBundle\Controller\Core\ResourceContro
         $promoUser = (int) $this->user->getPromo();
         $promoGame = (int) $game->getPromo();
 
-        if ($wrongAnswers == 0 && $promoGame == $promoUser-1) {
+        if ($wrongAnswers == 0 && $promoGame == $promoUser-1 && $duration < 60) {
             $dispatcher = $this->container->get('event_dispatcher');
             $achievementCheck = new AchievementCheckEvent(Achievement::GAME_BEFORE);
             $dispatcher->dispatch('upont.achievement', $achievementCheck);
-        } else if ($wrongAnswers == 0 && $promoGame == $promoUser) {
+        } else if ($wrongAnswers == 0 && $promoGame == $promoUser && $duration < 60) {
             $dispatcher = $this->container->get('event_dispatcher');
             $achievementCheck = new AchievementCheckEvent(Achievement::GAME_SELF);
             $dispatcher->dispatch('upont.achievement', $achievementCheck);
-        } else if ($wrongAnswers == 0 && $promoGame == $promoUser+1) {
+        } else if ($wrongAnswers == 0 && $promoGame == $promoUser+1 && $duration < 60) {
             $dispatcher = $this->container->get('event_dispatcher');
             $achievementCheck = new AchievementCheckEvent(Achievement::GAME_NEXT);
             $dispatcher->dispatch('upont.achievement', $achievementCheck);
         }
-        if ($wrongAnswers == 0 && $promoGame > $promoUser && $game->getHardcore()) {
+        if ($wrongAnswers == 0 && $promoGame < $promoUser && $game->getHardcore() && $duration < 60) {
             $dispatcher = $this->container->get('event_dispatcher');
             $achievementCheck = new AchievementCheckEvent(Achievement::GAME_OLD);
             $dispatcher->dispatch('upont.achievement', $achievementCheck);

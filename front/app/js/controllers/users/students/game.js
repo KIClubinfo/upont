@@ -121,7 +121,7 @@ angular.module('upont')
 	.config(['$stateProvider', function($stateProvider) {
 		$stateProvider
 			.state('root.users.students.game', {
-                url: '/game',
+                url: '/reponse-d',
                 templateUrl: 'views/users/students/game.html',
                 controller: 'Students_Game_Ctrl',
                 data: {
