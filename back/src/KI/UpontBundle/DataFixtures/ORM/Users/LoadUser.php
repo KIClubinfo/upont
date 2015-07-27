@@ -70,7 +70,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setDepartment('GCC');
         $user->setLocation('Perronet A53');
         $user->setNationality('France');
-        $user->setOrigin('CC - MP [AT]');
+        $user->setOrigin('CC - PSI [AT]');
         $user->setPhone('06.45.03.69.58');
         $user->setSkype('alberic.trancart');
         $user->setEnabled(true);
@@ -167,7 +167,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setFirstName('Charles');
         $user->setLastName('Bochet');
         $user->setPromo('015');
-        $user->setOrigin('Concours Commun [CB015]');
+        $user->setOrigin('Concours Commun - PSI* [CB015]');
         $user->setDepartment('GCC-Archi');
         $user->setToken('4wtyfMWp');
         $user->setEnabled(true);
