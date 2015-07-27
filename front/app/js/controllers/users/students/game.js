@@ -40,6 +40,10 @@ angular.module('upont')
 				return 'Promo';
 			} else if (trait === 'location') {
 				return 'Résidence';
+			} else if (trait === 'origin') {
+				return 'Origine';
+			} else if (trait === 'nationality') {
+				return 'Nationalité';
 			}
 		};
 

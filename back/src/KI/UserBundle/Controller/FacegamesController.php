@@ -69,7 +69,7 @@ class FacegamesController extends \KI\CoreBundle\Controller\ResourceController
         // Options
         $hardcore = $facegame->getHardcore();
         if ($hardcore) {
-            $defaultTraits = array('department', 'promo', 'location');
+            $defaultTraits = array('department', 'promo', 'location', 'origin', 'nationality');
         }
 
         // Promo
@@ -157,6 +157,14 @@ class FacegamesController extends \KI\CoreBundle\Controller\ResourceController
 
             case 'location':
                 $return = $user->getLocation();
+                break;
+
+            case 'origin':
+                $return = $user->getOrigin();
+                break;
+
+            case 'nationality':
+                $return = $user->getNationality();
                 break;
 
             default:
