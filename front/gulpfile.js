@@ -34,18 +34,23 @@ gulp.task('build-css', function() {
 });
 
 gulp.task('build-js', function() {
-    var vendorsFiles = mainBowerFiles();
-    var appFiles = [
+    // On doit charger le redactor avant angular-redactor qui est dans les bowerfiles, mais redactor dépend de jquery
+    // On exclut donc jquery du main dans le bower.json et on l'introduit manuellement
+    var redactor = [
+        'www/libs/jquery/dist/jquery.js',
         'www/libs/redactor/redactor.js',
         'www/libs/redactor/table.js',
         'www/libs/redactor/video.js',
-        'www/libs/redactor/fr.js',
+        'www/libs/redactor/fr.js'
+    ];
+    var vendorsFiles = mainBowerFiles();
+    var appFiles = [
         'app/js/app.js',
         'app/js/*.js',
         'app/js/**/*.js',
         'app/js/controllers/**/*.js'
     ];
-    var files = vendorsFiles.concat(appFiles);
+    var files = redactor.concat(vendorsFiles.concat(appFiles));
     return gulp.src(files)
         .pipe(filter(['**/*.js', '**/*.coffee']))
         .pipe(concat('upont.min.js'))

@@ -383,7 +383,7 @@ class Achievement
     ),
     self::GAME_BEFORE => array(
         'name'        => 'Puceau, pas puceau',
-        'description' => 'Réussir 100% en moins de 60 secondes sur la promo d\'en dessous dans La Réponse D',
+        'description' => 'Réussir 100% en moins de 60 secondes sur la promo suivante dans La Réponse D',
         'points'      => 30,
         'image'       => 'check',
     ),
@@ -395,7 +395,7 @@ class Achievement
     ),
     self::GAME_NEXT => array(
         'name'        => 'Bientôt vieux cons',
-        'description' => 'Réussir un 100% en moins de 60 secondes sur la promo d\'au dessus dans La Réponse D',
+        'description' => 'Réussir un 100% en moins de 60 secondes sur la promo précédente dans La Réponse D',
         'points'      => 20,
         'image'       => 'check-square-o',
     ),

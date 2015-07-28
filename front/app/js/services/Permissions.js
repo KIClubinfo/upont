@@ -25,7 +25,7 @@ angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', 
 
             // On récupère les clubs de l'utilisateurs pour déterminer ses droits de publication
             $resource(apiPrefix + 'users/:slug/clubs', {slug: username }).query(function(data){
-                $rootScope.selfClubs = data;
+                $rootScope.clubs = data;
             });
         } else {
             remove();
@@ -38,8 +38,8 @@ angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', 
             if ($rootScope.isAdmin)
                 return true;
 
-            for (var i = 0; i < $rootScope.selfClubs.length; i++) {
-                if ($rootScope.selfClubs[i].club.slug == slug)
+            for (var i = 0; i < $rootScope.clubs.length; i++) {
+                if ($rootScope.clubs[i].club.slug == slug)
                     return true;
             }
             return false;

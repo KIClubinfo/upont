@@ -28,7 +28,8 @@
         "sensio/generator-bundle": "~2.3",
         "nelmio/api-doc-bundle": "~2.8",
         "doctrine/migrations": "~1.0@dev",
-        "doctrine/doctrine-migrations-bundle": "~1.0"
+        "doctrine/doctrine-migrations-bundle": "~1.0",
+        "nelmio/cors-bundle": "~1.4.0"
     },
     "require-dev": {
         "liip/functional-test-bundle": "1.2.x-dev",

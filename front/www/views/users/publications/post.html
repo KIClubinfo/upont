@@ -1,5 +1,5 @@
 <div ng-controller="Publications_Post_Ctrl">
-    <div class="up-publish up-ticket publications" ng-if="$root.selfClubs.length && display">
+    <div class="up-publish up-ticket publications" ng-if="$root.clubs.length && display">
         <form class="publish-container" ng-submit="publish(post, postPicture)" up-row padded wrap autocomplete="off">
             <!-- Inputs liés aux news et events -->
             <div ng-if="focus" up-col="100%">
@@ -73,7 +73,7 @@
                                 <i class="fa fa-{{ club.icon ? club.icon : 'users' }}"></i> {{ club.name }}
                             </span>
                             <ul class="select" ng-show="toggle">
-                                <li ng-repeat="club in $root.selfClubs"
+                                <li ng-repeat="club in $root.clubs"
                                     ng-click="changeClub(club.club);"
                                     class="up-clickable">{{ club.club.name }}</li>
                             </ul>
