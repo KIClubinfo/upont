@@ -1,0 +1,6 @@
+services:
+    # Communique avec l'API du Foyer
+    ki_upont.foyer:
+        class: KI\FoyerBundle\Services\FoyerService
+        calls:
+            - [ setContainer,[ @service_container ] ]

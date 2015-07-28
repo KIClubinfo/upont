@@ -1,13 +1,13 @@
 <?php
 
-namespace KI\UpontBundle\Services;
+namespace KI\FoyerBundle\Services;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 use KI\UpontBundle\Entity\Users\Achievement;
 use KI\UpontBundle\Event\AchievementCheckEvent;
 
 // Échange des informations avec l'API du Foyer
-class KIFoyer extends ContainerAware
+class FoyerService extends ContainerAware
 {
     protected $error = null;
     protected $curl;

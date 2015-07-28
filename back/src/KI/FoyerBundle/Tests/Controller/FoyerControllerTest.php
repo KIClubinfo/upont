@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Tests\Controller\Foyer;
+namespace KI\FoyerBundle\Tests\Controller;
 
 use KI\UpontBundle\Tests\WebTestCase;
 

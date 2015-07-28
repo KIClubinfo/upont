@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Controller\Foyer;
+namespace KI\FoyerBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 

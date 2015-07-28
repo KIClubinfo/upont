@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Form\Foyer;
+namespace KI\FoyerBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,7 +20,7 @@ class YoutubeType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'data_class' => 'KI\UpontBundle\Entity\Foyer\Youtube'
+            'data_class' => 'KI\FoyerBundle\Entity\Foyer\Youtube'
         ));
     }
 
