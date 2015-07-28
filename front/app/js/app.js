@@ -33,9 +33,6 @@ angular.module('upont', ['ui.router', 'ngResource', 'ngAnimate', 'mgcrea.ngStrap
 
 // Définition des constantes
 var promos = [
-    '011',
-    '012',
-    '013',
     '014',
     '015',
     '016',

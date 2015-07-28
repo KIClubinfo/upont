@@ -89,7 +89,9 @@ class FixesController extends \KI\UpontBundle\Controller\Core\ResourceController
         if ($return['item']->getProblem() != '[Test] J\'arrive pas à avoir Internet') {
             $fields = array(
                 'channel' => $return['item']->getFix() ? '#depannage' : '#upont-feedback',
-                'text' => '"'.$return['item']->getProblem().'" par '.$user->getFirstname().' '.$user->getLastname()
+                'username' => $user->getFirstname().' '.$user->getLastname(),
+                'icon_url' => 'https://upont.enpc.fr/api/'.$user->getImage()->getWebPath(),
+                'text' => '"'.$return['item']->getProblem().'"'
             );
 
             $this->get('ki_upont.curl')->curl(

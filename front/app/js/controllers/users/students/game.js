@@ -8,6 +8,7 @@ angular.module('upont')
 	    $scope.tickInterval = 1000;
 	    $scope.promos = $rootScope.promos;
 	    $scope.promos.pop();
+		delete $scope.promos[$scope.promos.indexOf('014')];
 	    $scope.promos.push('Toutes');
 	    $scope.promo = 'Toutes';
 	    $scope.hardcore = false;
@@ -120,7 +121,7 @@ angular.module('upont')
 	.config(['$stateProvider', function($stateProvider) {
 		$stateProvider
 			.state('root.users.students.game', {
-                url: '/game',
+                url: '/reponse-d',
                 templateUrl: 'views/users/students/game.html',
                 controller: 'Students_Game_Ctrl',
                 data: {

@@ -292,7 +292,7 @@ class Achievement
         'image'       => 'recycle',
     ),*/
     self::FOYER => array(
-        'name'        => 'Ruiné',
+        'name'        => 'Ruine',
         'description' => 'Avoir un solde foyer négatif',
         'points'      => -100,
         'image'       => 'warning',
@@ -383,25 +383,25 @@ class Achievement
     ),
     self::GAME_BEFORE => array(
         'name'        => 'Puceau, pas puceau',
-        'description' => 'Réussir 100% sur la promo d\'en dessous dans La Réponse D',
+        'description' => 'Réussir 100% en moins de 60 secondes sur la promo suivante dans La Réponse D',
         'points'      => 30,
         'image'       => 'check',
     ),
     self::GAME_SELF => array(
         'name'        => 'Connaisseur',
-        'description' => 'Réussir un 100% sur sa promo dans La Réponse D',
+        'description' => 'Réussir un 100% en moins de 60 secondes sur sa promo dans La Réponse D',
         'points'      => 10,
         'image'       => 'check-square',
     ),
     self::GAME_NEXT => array(
-        'name'        => 'Bientôt vieux con',
-        'description' => 'Réussir un 100% sur la promo d\'au dessus dans La Réponse D',
+        'name'        => 'Bientôt vieux cons',
+        'description' => 'Réussir un 100% en moins de 60 secondes sur la promo précédente dans La Réponse D',
         'points'      => 20,
         'image'       => 'check-square-o',
     ),
     self::GAME_OLD => array(
         'name'        => 'JRP\'1747',
-        'description' => 'Réussir un 100% en mode hardcore sur une promo de vieux dans La Réponse D',
+        'description' => 'Réussir un 100% en moins de 60 secondes en mode hardcore sur une promo de vieux dans La Réponse D',
         'points'      => 100,
         'image'       => 'eye',
     ),

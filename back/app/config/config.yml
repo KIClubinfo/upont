@@ -161,3 +161,12 @@ stof_doctrine_extensions:
     orm:
         default:
             sluggable: true
+
+# Permet d'utiliser l'API depuis d'autres domaines (exemple: foyer.enpc.org)
+nelmio_cors:
+    paths:
+        '^/api':
+            allow_origin: ['*']
+            allow_headers: ['x-requested-with']
+            allow_methods: ['POST', 'PUT', 'PATCH', 'GET', 'DELETE', 'OPTIONS']
+            max_age: 3600

@@ -8,10 +8,10 @@ angular.module('upont')
         if ($stateParams.slug !== null && $stateParams.slug !== undefined) {
             // Par défaut on n'affiche pas le module
             $scope.display = false;
-            for (var key in $rootScope.selfClubs) {
+            for (var key in $rootScope.clubs) {
                 // Si on appartien au club, on affiche avec le club préséléctionné
-                if ($rootScope.selfClubs[key].club !== undefined && $rootScope.selfClubs[key].club.slug == $stateParams.slug) {
-                    club = $rootScope.selfClubs[key].club;
+                if ($rootScope.clubs[key].club !== undefined && $rootScope.clubs[key].club.slug == $stateParams.slug) {
+                    club = $rootScope.clubs[key].club;
                     $scope.display = true;
                 }
             }
@@ -19,7 +19,7 @@ angular.module('upont')
 
         // Si l'utilisateur est un exterieur de l'administration
         if ($rootScope.hasRight('ROLE_EXTERIEUR'))
-            club = $rootScope.selfClubs[0].club;
+            club = $rootScope.clubs[0].club;
 
         var init = function() {
             $scope.focus = false;
@@ -73,7 +73,7 @@ angular.module('upont')
                 params.authorClub = $scope.club.slug;
             } else {
                 if ($rootScope.hasRight('ROLE_EXTERIEUR')) {
-                    params.authorClub = $rootScope.selfClubs[0].club.slug;
+                    params.authorClub = $rootScope.clubs[0].club.slug;
                 } else {
                     alertify.error('Tu n\'as pas choisi avec quelle assos publier');
                     return;

@@ -30,7 +30,7 @@
     "scheduler": "latest"
   },
   "resolutions": {
-    "angular": "^1.2.21"
+    "angular": "^1.4"
   },
   "overrides": {
     "highmaps": {
@@ -53,6 +53,16 @@
       "main": [
         "lib/alertify.min.js",
         "themes/alertify.core.css"
+      ]
+    },
+    "moment": {
+      "main": [
+        "moment.js",
+        "locale/fr.js"
+      ]
+  },
+    "jquery": {
+      "main": [
       ]
     }
   }
