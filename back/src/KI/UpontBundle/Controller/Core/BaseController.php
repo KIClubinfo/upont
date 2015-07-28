@@ -19,16 +19,26 @@ class BaseController extends \FOS\RestBundle\Controller\FOSRestController
 
     // Initialise le controleur de base pour la classe $class
     // On peut éventuellement préciser un sous chemin de $namespace
-    public function initialize($class, $namespace = null)
+    // MIGRATION EN COURS $oldNamespace
+    public function initialize($class, $namespace = null, $oldNamespace = true)
     {
         $this->className = $class;
-        $this->namespace = $namespace === null ? '' : $namespace.'\\';
 
         // Fully qualified class names
-        $this->class = 'KI\UpontBundle\Entity\\'.$this->namespace.$this->className;
-        $this->form = 'KI\UpontBundle\Form\\'.$this->namespace.$this->className.'Type';
-        $this->em = $this->getDoctrine()->getManager();
-        $this->repo = $this->em->getRepository('KIUpontBundle:'.$this->namespace.$this->className);
+        if ($oldNamespace) {
+            $this->namespace = $namespace === null ? '' : $namespace.'\\';
+            $this->class = 'KI\UpontBundle\Entity\\'.$this->namespace.$this->className;
+            $this->form = 'KI\UpontBundle\Form\\'.$this->namespace.$this->className.'Type';
+            $this->em = $this->getDoctrine()->getManager();
+            $this->repo = $this->em->getRepository('KIUpontBundle:'.$this->namespace.$this->className);
+        } else {
+            $this->namespace = $namespace;
+            $this->class = 'KI\\'.$this->namespace.'Bundle\Entity\\'.$this->className;
+            $this->form = 'KI\\'.$this->namespace.'Bundle\Form\\'.$this->className.'Type';
+            $this->em = $this->getDoctrine()->getManager();
+            $this->repo = $this->em->getRepository('KI'.$this->namespace.'Bundle:'.$this->className);
+
+        }
 
         if ($token = $this->container->get('security.context')->getToken())
             $this->user = $token->getUser();

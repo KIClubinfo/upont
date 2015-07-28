@@ -47,6 +47,7 @@ class LikeableController extends \KI\UpontBundle\Controller\Core\BaseController
         case 'softwares'  : $this->initialize('Software', 'Ponthub'); break;
         case 'others'     : $this->initialize('Other', 'Ponthub'); break;
         case 'youtubes'   : $this->initialize('Youtube', 'Foyer'); break;
+        case 'beers'      : $this->initialize('Beer', 'Foyer'); break;
         case 'comments'   : $this->initialize('Comment', 'Core'); break;
 
         default: return;

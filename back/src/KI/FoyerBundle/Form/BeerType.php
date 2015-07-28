@@ -7,20 +7,22 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
-class YoutubeType extends AbstractType
+class BeerType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('name')
-            ->add('link');
+            ->add('price')
+            ->add('alcohol')
+            ->add('volume');
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'data_class' => 'KI\FoyerBundle\Entity\Youtube'
+            'data_class' => 'KI\FoyerBundle\Entity\Beer'
         ));
     }
 

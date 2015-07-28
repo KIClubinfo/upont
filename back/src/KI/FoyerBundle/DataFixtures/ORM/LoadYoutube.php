@@ -1,11 +1,11 @@
 <?php
 
-namespace KI\UpontBundle\DataFixtures\ORM\Foyer;
+namespace KI\FoyerBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use KI\UpontBundle\Entity\Foyer\Youtube;
+use KI\FoyerBundle\Entity\Youtube;
 
 
 class LoadYoutubeFixture extends AbstractFixture implements OrderedFixtureInterface
@@ -31,6 +31,6 @@ class LoadYoutubeFixture extends AbstractFixture implements OrderedFixtureInterf
 
     public function getOrder()
     {
-        return 18;
+        return 50;
     }
 }

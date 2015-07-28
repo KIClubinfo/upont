@@ -62,6 +62,7 @@ doctrine:
                 connection:       default
                 mappings:
                     KIUpontBundle: ~
+                    KIFoyerBundle: ~
                 dql:
                     string_functions:
                         soundex: KI\UpontBundle\DQL\SoundexFunction
