@@ -1,18 +1,4 @@
-// Bibilothèques externes
-// Bootstrap
-@import '../../www/libs/bootstrap/less/variables.less';
-@import '../../www/libs/bootstrap/less/mixins.less';
-@import '../../www/libs/bootstrap/less/scaffolding.less';
-@import '../../www/libs/bootstrap/less/tables.less';
-@import '../../www/libs/bootstrap/less/component-animations.less';
-@import '../../www/libs/bootstrap/less/labels.less';
-// @icon-font-path: 'libs/bootstrap/fonts/';
-
-// Autres
-@import '../../www/libs/fontawesome/less/font-awesome.less';
 @fa-font-path: 'libs/fontawesome/fonts';
-@import (inline) '../../www/libs/alertify.js/themes/alertify.core.css';
-@import (inline) '../../www/libs/angular-bootstrap-datetimepicker/src/css/datetimepicker.css';
 @import (inline) '../../www/libs/redactor/redactor.css';
 
 body {
@@ -28,9 +14,10 @@ body {
 @navbarHgt: 50px;
 @asideWidth: 270px;
 @paneWidth: 250px;
+@tourHeight: 100px;
 
 // Importation de tous les fichiers selon le theme
-.theme(@col-main, @col-font, @col-ticket, @col-bckgnd, @col-input-bckgnd, @col-aside, @col-aside-bckgnd, @col-neg) {
+.theme(@col-main, @col-font, @col-ticket-border, @col-ticket, @col-bckgnd, @col-input-border, @col-input-bckgnd, @col-aside, @col-aside-bckgnd, @col-neg) {
     @import 'admissibles.less';
     @import 'alertify.less';
     @import 'aside-topbar.less';
@@ -54,6 +41,7 @@ body {
     @import 'shotgun.less';
     @import 'sso.less';
     @import 'table.less';
+    @import 'tour.less';
     @import 'the-game.less';
     @import 'ticket.less';
     @import 'zone-picker.less';
@@ -65,29 +53,35 @@ body {
 // Palette de couleurs
 @blue: #5584AD;
 @orange: #F08630;
-@lighter-gray: #d0d0d0;
-@light-gray: #ddd;
-@gray: #5a5a5a;
-@dark-gray: #555;
-@darker-gray: #222;
+@lighter-gray: #e0e0e0;
+@light-gray: #d0d0d0;
+@gray: #444;
+@dark-gray: #333;
+@darker-gray: #1C1C1C;
 @col-aqua: #46be9c;
 @col-yellow: #fdbe37;
 @col-red: #ff643b;
 @col-violet: #a78cd5;
 @col-pink: #ec6ab7;
-@col-ticket-border: #aaa;
 
 // Couleurs spécifiques à chaque thème
+// @col-main, @col-font, @col-ticket-border, @col-ticket, @col-bckgnd, @col-input-border, @col-input-bckgnd, @col-aside, @col-aside-bckgnd, @col-neg
 body.theme-clear {
-    .theme(@blue, @gray, white, #E0E2E8, #F8F8F8, @light-gray, #2A303D, @orange);
+    .theme(@blue, @gray, @light-gray, white, @lighter-gray, @lighter-gray, #F8F8F8, @light-gray, #2A303D, @orange);
     .alertify-log-error {
         background: @orange;
     }
 }
 
 body.theme-dark {
-    .theme(@orange, @light-gray, @darker-gray, @dark-gray, #2a2c2f, @light-gray, @darker-gray, @blue);
+    .theme(@orange, @lighter-gray, @gray, @dark-gray, @darker-gray, @gray, @gray, @lighter-gray, @dark-gray, @blue);
     .alertify-log-error {
-        background: red;
+        background: @col-red;
+    }
+    .redactor-toolbar {
+        background-color: @gray;
+    }
+    .redactor-editor {
+        border-color: @gray;
     }
 }

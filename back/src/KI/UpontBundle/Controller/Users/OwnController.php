@@ -619,7 +619,7 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
      */
     public function getPreferencesAction()
     {
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->user;
         return $this->restResponse($user->getPreferences());
     }
 
@@ -667,5 +667,80 @@ class OwnController extends \KI\UpontBundle\Controller\Core\ResourceController
         $results = $repo->findBy($findBy, $sortBy, $limit, $offset);
 
         return $this->generatePages($results, $limit, $page, $totalPages, $count);
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Renvoie l'utilisateur actuel",
+     *  output="KI\UpontBundle\Entity\Users\User",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Utilisateurs"
+     * )
+     * @Route\Get("/own/user")
+     */
+    public function getOwnUserAction()
+    {
+        return $this->restResponse($this->user);
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Met à jour les informations du compte",
+     *  requirements={
+     *   {
+     *    "name"="old",
+     *    "dataType"="string",
+     *    "description"="L'ancien mot de passe"
+     *   },
+     *   {
+     *    "name"="password",
+     *    "dataType"="string",
+     *    "description"="Le nouveau mot de passe"
+     *   },
+     *   {
+     *    "name"="confirm",
+     *    "dataType"="string",
+     *    "description"="Le mot de passe une seconde fois (confirmation)"
+     *   }
+     *  },
+     *  statusCodes={
+     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   404="Ressource non trouvée",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Utilisateurs"
+     * )
+     * @Route\Post("/own/user")
+     */
+    public function postOwnUserAction()
+    {
+        $request = $this->getRequest()->request;
+        if (!$request->has('password') || !$request->has('confirm')  || !$request->has('old'))
+            throw new BadRequestHttpException('Champs password/confirm non rempli(s)');
+
+        if ($this->user->hasRole('ROLE_ADMISSIBLE'))
+            return $this->jsonResponse(null, 403);
+
+        // Pour changer le mot de passe on doit passer par le UserManager
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $userManager->findUserByUsername($this->user->getUsername());
+
+        $encoder = $this->get('security.encoder_factory')->getEncoder($user);
+        $encodedPassword = $encoder->encodePassword($request->get('old'), $user->getSalt());
+
+        if ($encodedPassword != $user->getPassword())
+            throw new BadRequestHttpException('Ancien mot de passe incorrect');
+
+        $user->setPlainPassword($request->get('password'));
+        $userManager->updateUser($user, true);
+
+        return $this->restResponse(null, 204);
     }
 }

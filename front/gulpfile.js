@@ -1,15 +1,14 @@
 var gulp = require('gulp');
-var gutil = require('gulp-util');
-var concat = require('gulp-concat');
-
-var less = require('gulp-less');
-var minifyCSS = require('gulp-minify-css');
 var autoprefixer = require('gulp-autoprefixer');
-
-var jshint = require('gulp-jshint');
-var uglify = require('gulp-uglify');
-
+var concat = require('gulp-concat');
+var filter = require('gulp-filter');
 var htmlReplace = require('gulp-html-replace');
+var jshint = require('gulp-jshint');
+var less = require('gulp-less');
+var uglify = require('gulp-uglify');
+var minifyCSS = require('gulp-uglifycss');
+var gutil = require('gulp-util');
+var mainBowerFiles = require('main-bower-files');
 
 gulp.task('jshint', function() {
     return gulp.src(['app/js/**/*.js', 'app/js/*.js'])
@@ -18,23 +17,59 @@ gulp.task('jshint', function() {
 });
 
 gulp.task('build-css', function() {
-    return gulp.src(['app/css/upont.less', 'www/libs/scheduler/codebase/dhtmlxscheduler.css'])
+    var vendorsFiles = mainBowerFiles();
+    var appFiles = [
+        'app/css/upont.less'
+    ];
+    var files = vendorsFiles.concat(appFiles);
+    return gulp.src(files)
+        .pipe(filter(['**/*.css', '**/*.less']))
         .pipe(less())
         .pipe(concat('style.min.css'))
         .pipe(autoprefixer({
             cascade: false
         }))
-        .pipe(gutil.env.type === 'production' ? minifyCSS() : gutil.noop())
+        .pipe(gutil.env.type === 'production' ? uglifycss() : gutil.noop())
         .pipe(gulp.dest('www/'));
 });
 
 gulp.task('build-js', function() {
-    return gulp.src(['app/js/app.js', 'app/js/*.js', 'app/js/**/*.js', 'app/js/controllers/**/*.js'])
-        .pipe(jshint())
-        .pipe(jshint.reporter('jshint-stylish'))
+    // On doit charger le redactor avant angular-redactor qui est dans les bowerfiles, mais redactor dépend de jquery
+    // On exclut donc jquery du main dans le bower.json et on l'introduit manuellement
+    var redactor = [
+        'www/libs/jquery/dist/jquery.js',
+        'www/libs/redactor/redactor.js',
+        'www/libs/redactor/table.js',
+        'www/libs/redactor/video.js',
+        'www/libs/redactor/fr.js'
+    ];
+    var vendorsFiles = mainBowerFiles();
+    var appFiles = [
+        'app/js/app.js',
+        'app/js/*.js',
+        'app/js/**/*.js',
+        'app/js/controllers/**/*.js'
+    ];
+    var files = redactor.concat(vendorsFiles.concat(appFiles));
+    return gulp.src(files)
+        .pipe(filter(['**/*.js', '**/*.coffee']))
         .pipe(concat('upont.min.js'))
         .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop())
-        .pipe(gulp.dest('www/'));
+        .pipe(gulp.dest('www/'))
+    ;
+});
+
+gulp.task('lint-js', function() {
+    var appFiles = [
+        'app/js/app.js',
+        'app/js/*.js',
+        'app/js/**/*.js',
+        'app/js/controllers/**/*.js'
+    ];
+    return gulp.src(appFiles)
+        .pipe(jshint())
+        .pipe(jshint.reporter('jshint-stylish'))
+    ;
 });
 
 gulp.task('build-html', function(){
@@ -43,9 +78,16 @@ gulp.task('build-html', function(){
         .pipe(gulp.dest('www/'));
 });
 
+gulp.task('copy-fonts', function () {
+    return gulp.src(mainBowerFiles())
+        .pipe(filter(['**/*.eot', '**/*.svg', '**/*.ttf', '**/*.woff', '**/*.woff2', '**/*.otf']))
+        .pipe(gulp.dest('www/fonts/'));
+});
+
 gulp.task('watch', function() {
-    gulp.watch(['app/js/**/*.js', 'app/js/*.js'], ['build-js']);
+    gulp.watch(['app/js/**/*.js', 'app/js/*.js'], ['lint-js', 'build-js']);
     gulp.watch('app/css/*.less', ['build-css']);
     gulp.watch('app/index.html', ['build-html']);
 });
-gulp.task('default', ['build-js', 'build-css', 'build-html', 'watch']);
+gulp.task('build', ['build-js', 'build-css', 'build-html', 'copy-fonts']);
+gulp.task('default', ['build', 'watch']);

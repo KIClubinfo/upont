@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Controller\Foyer;
+namespace KI\FoyerBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
@@ -9,14 +9,14 @@ class YoutubesController extends \KI\UpontBundle\Controller\Core\ResourceControl
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
         parent::setContainer($container);
-        $this->initialize('Youtube', 'Foyer');
+        $this->initialize('Youtube', 'Foyer', false);
     }
 
     /**
      * @ApiDoc(
      *  resource=true,
      *  description="Liste les liens Youtube",
-     *  output="KI\UpontBundle\Entity\Foyer\Youtube",
+     *  output="KI\FoyerBundle\Entity\Youtube",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -31,7 +31,7 @@ class YoutubesController extends \KI\UpontBundle\Controller\Core\ResourceControl
     /**
      * @ApiDoc(
      *  description="Retourne un lien Youtube",
-     *  output="KI\UpontBundle\Entity\Foyer\Youtube",
+     *  output="KI\FoyerBundle\Entity\Youtube",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -47,8 +47,8 @@ class YoutubesController extends \KI\UpontBundle\Controller\Core\ResourceControl
     /**
      * @ApiDoc(
      *  description="Crée un lien Youtube",
-     *  input="KI\UpontBundle\Form\Foyer\YoutubeType",
-     *  output="KI\UpontBundle\Entity\Foyer\Youtube",
+     *  input="KI\FoyerBundle\Form\YoutubeType",
+     *  output="KI\FoyerBundle\Entity\Youtube",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",

@@ -2,30 +2,68 @@
   "name": "angular",
   "version": "1.0.0",
   "dependencies": {
-    "angular": "latest",
-    "angular-resource": "latest",
-    "angular-redactor": "latest",
-    "angular-animate": "latest",
-    "angular-sanitize": "latest",
-    "angular-strap": "latest",
-    "angular-i18n": "latest",
-    "angular-ui-router": "latest",
-    "scheduler": "latest",
-    "jquery": "latest",
-    "js-base64": "latest",
-    "bootstrap": "latest",
-    "angular-mocks": "latest",
-    "angular-jwt": "latest",
-    "moment": "latest",
-    "fontawesome": "latest",
-    "angular-filter": "latest",
-    "angular-base64-upload": "latest",
-    "ngInfiniteScroll": "latest",
     "alertify.js": "latest",
+    "angular": "latest",
+    "angular-animate": "latest",
+    "angular-base64-upload": "latest",
     "angular-bootstrap-datetimepicker": "latest",
     "angular-elastic": "latest",
-    "highmaps": "latest",
+    "angular-filter": "latest",
+    "angular-i18n": "latest",
+    "angular-jwt": "latest",
+    "angular-mocks": "latest",
+    "angular-piwik": "latest",
+    "angular-redactor": "latest",
+    "angular-resource": "latest",
+    "angular-sanitize": "latest",
+    "angular-strap": "latest",
+    "angular-ui-router": "latest",
+    "angular-youtube-mb": "latest",
+    "bootstrap": "latest",
+    "fontawesome": "latest",
     "highcharts-release": "latest",
-    "angular-youtube-mb": "latest"
+    "highmaps": "latest",
+    "jquery": "latest",
+    "js-base64": "latest",
+    "moment": "latest",
+    "ngInfiniteScroll": "latest",
+    "scheduler": "latest"
+  },
+  "resolutions": {
+    "angular": "^1.4"
+  },
+  "overrides": {
+    "highmaps": {
+      "main": [
+        "./modules/map.js"
+      ]
+    },
+    "highcharts-release": {
+      "main": [
+        "highcharts.js",
+        "highcharts-more.js",
+        "modules/solid-gauge.js",
+        "modules/drilldown.js",
+        "modules/treemap.js",
+        "modules/funnel.js",
+        "modules/exporting.js"
+      ]
+    },
+    "alertify.js": {
+      "main": [
+        "lib/alertify.min.js",
+        "themes/alertify.core.css"
+      ]
+    },
+    "moment": {
+      "main": [
+        "moment.js",
+        "locale/fr.js"
+      ]
+  },
+    "jquery": {
+      "main": [
+      ]
+    }
   }
 }

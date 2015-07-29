@@ -13,16 +13,9 @@ class UsersControllerTest extends WebTestCase
             'POST',
             '/users',
             array(
-                'username' => 'testificate',
-                'email' => 'testificate@phpunit.zorg',
-                'plainPassword' => array('first' => 'test1234', 'second' => 'test1234'),
+                'email' => 'testificate@eleves.enpc.fr',
                 'firstName' => 'KI',
                 'lastName' => 'OP',
-                'nickname' => 'Testeur en chef',
-                'statsFoyer' => true,
-                'allowedBde' => true,
-                'allowedBds' => false,
-                'details' => 'pookie'
             )
         );
         return $this->client->getResponse();
@@ -32,16 +25,6 @@ class UsersControllerTest extends WebTestCase
     {
         $response = $this->postUser();
         $this->assertJsonResponse($response, 201);
-
-        // On vérifie que le lieu du nouvel objet a été indiqué
-        $this->assertTrue(
-            $response->headers->has('Location'),
-            $response->headers
-        );
-
-        // On n'accepte pas les duplicatas selon l'username
-        $response = $this->postUser();
-        $this->assertJsonResponse($response, 400);
 
         $this->client->request('POST', '/users', array('username' => '', 'email' => '123'));
         $response = $this->client->getResponse();
@@ -54,7 +37,7 @@ class UsersControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
-        $this->client->request('GET', '/users/testificate');
+        $this->client->request('GET', '/users/opk');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
@@ -67,7 +50,7 @@ class UsersControllerTest extends WebTestCase
     {
         $this->client->request(
             'PATCH',
-            '/users/testificate',
+            '/users/opk',
             array(
                 'firstName' => 'KIMiam',
                 'gender' => 'M',
@@ -79,12 +62,14 @@ class UsersControllerTest extends WebTestCase
                 'nationality' => 'France',
                 'location' => 'A51',
                 'statsPonthub' => false,
+                'statsFacegame' => false,
+                'tour' => true,
                 'image' => 'http://i.imgur.com/QKKfs.png'
                 ));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/users/testificate', array('firstName' => ''));
+        $this->client->request('PATCH', '/users/opk', array('firstName' => ''));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
@@ -99,7 +84,7 @@ class UsersControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
 
-        $this->client->request('DELETE', '/users/testificate');
+        $this->client->request('DELETE', '/users/opk');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
     }

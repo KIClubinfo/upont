@@ -16,7 +16,6 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new KI\UpontBundle\KIUpontBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new FOS\RestBundle\FOSRestBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
@@ -26,6 +25,9 @@ class AppKernel extends Kernel
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new BOMO\IcalBundle\BOMOIcalBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+            new Nelmio\CorsBundle\NelmioCorsBundle(),
+            new KI\UpontBundle\KIUpontBundle(),
+            new KI\FoyerBundle\KIFoyerBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -1,13 +1,13 @@
 <?php
 
-namespace KI\UpontBundle\Services;
+namespace KI\FoyerBundle\Services;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 use KI\UpontBundle\Entity\Users\Achievement;
 use KI\UpontBundle\Event\AchievementCheckEvent;
 
 // Échange des informations avec l'API du Foyer
-class KIFoyer extends ContainerAware
+class FoyerService extends ContainerAware
 {
     protected $error = null;
     protected $curl;
@@ -44,14 +44,16 @@ class KIFoyer extends ContainerAware
         $data = json_decode($response, true);
         $this->balance = $data['solde'];
 
-        if ($this->balance < 0) {
-            $dispatcher = $this->container->get('event_dispatcher');
-            $achievementCheck = new AchievementCheckEvent(Achievement::FOYER);
-            $dispatcher->dispatch('upont.achievement', $achievementCheck);
-        } else {
-            $dispatcher = $this->container->get('event_dispatcher');
-            $achievementCheck = new AchievementCheckEvent(Achievement::FOYER_BIS);
-            $dispatcher->dispatch('upont.achievement', $achievementCheck);
+        if (!empty($this->balance)) {
+            if ($this->balance < 0) {
+                $dispatcher = $this->container->get('event_dispatcher');
+                $achievementCheck = new AchievementCheckEvent(Achievement::FOYER);
+                $dispatcher->dispatch('upont.achievement', $achievementCheck);
+            } else {
+                $dispatcher = $this->container->get('event_dispatcher');
+                $achievementCheck = new AchievementCheckEvent(Achievement::FOYER_BIS);
+                $dispatcher->dispatch('upont.achievement', $achievementCheck);
+            }
         }
     }
 

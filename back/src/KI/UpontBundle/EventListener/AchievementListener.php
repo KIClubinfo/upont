@@ -5,6 +5,7 @@ namespace KI\UpontBundle\EventListener;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use KI\UpontBundle\Entity\Users\Achievement;
 use KI\UpontBundle\Entity\Users\AchievementUser;
+use KI\UpontBundle\Entity\Users\User;
 use KI\UpontBundle\Entity\Notification;
 use KI\UpontBundle\Event\AchievementCheckEvent;
 
@@ -21,15 +22,21 @@ class AchievementListener
         $this->container = $container;
         $this->manager = $this->container->get('doctrine')->getManager();
 
-        $repoAU = $this->manager->getRepository('KIUpontBundle:Users\AchievementUser');
-
         $token = $this->container->get('security.context')->getToken();
         $this->user = $token === null ? null : $token->getUser();
+
         if ($this->user !== null) {
-            $response = $repoAU->findByUser($this->user);
-            foreach ($response as $achievementUser) {
-                $this->achievements[] = $achievementUser->getAchievement()->getIdA();
-            }
+            $this->loadUser($this->user);
+        }
+    }
+
+    private function loadUser(User $user) {
+        $this->user = $user;
+        $repoAU = $this->manager->getRepository('KIUpontBundle:Users\AchievementUser');
+        $response = $repoAU->findByUser($this->user);
+
+        foreach ($response as $achievementUser) {
+            $this->achievements[] = $achievementUser->getAchievement()->getIdA();
         }
     }
 
@@ -41,12 +48,11 @@ class AchievementListener
 
         // On peut préciser l'user pour les routes sans authentification
         if ($event->getuser() !== null) {
-            $this->user = $event->getUser();
-        } else {
-            if (!$this->user instanceof \KI\UpontBundle\Entity\Users\User
-                || in_array($achievement->getIdA(), $this->achievements))
-                return false;
+            $this->loadUser($event->getUser());
         }
+        if (!$this->user instanceof \KI\UpontBundle\Entity\Users\User
+            || in_array($achievement->getIdA(), $this->achievements))
+            return false;
 
         // Sinon, on lance le check associé
         $check = false;
@@ -135,6 +141,10 @@ class AchievementListener
     // Ponts inside
     // Se logger sur le site
     public function check0() { return true; }
+
+    // Fouilleur
+    // Faire le tour du site
+    public function check5() { return true; }
 
     // Photogénique
     // Changer la photo de son profil
@@ -257,6 +267,26 @@ class AchievementListener
     // Non, ce n'était pas "password1234"
     // Oublier son mot de passe
     public function check150() { return true; }
+
+    // The Game
+    // Jouer à La Réponse D
+    public function check153() { return true; }
+
+    // Puceau, pas puceau
+    // Réussir 100% sur la promo d'en dessous dans La Réponse D
+    public function check154() { return true; }
+
+    // Connaisseur
+    // Réussir un 100% sur sa promo dans La Réponse D
+    public function check155() { return true; }
+
+    // Bientôt vieux cons
+    // Réussir un 100% sur la promo d'au dessus dans La Réponse D
+    public function check156() { return true; }
+
+    // JRP'1747
+    // Réussir un 100% en mode hardcore sur une promo de vieux dans La Réponse D
+    public function check157() { return true; }
 
     // H3LLLP UPON SA BEUG!!!!
     // Reporter un bug

@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('Courses_List_Ctrl', ['$scope', 'courses', 'followed', 'Paginate', '$http', '$resource', 'Achievements', function($scope, courses, followed, Paginate, $http, $resource, Achievements) {
+    .controller('Courses_List_Ctrl', ['$scope', '$rootScope', 'courses', 'followed', 'Paginate', '$http', '$resource', 'Achievements', function($scope, $rootScope, courses, followed, Paginate, $http, $resource, Achievements) {
         $scope.courses = courses;
         $scope.modo = false;
         $scope.search = {

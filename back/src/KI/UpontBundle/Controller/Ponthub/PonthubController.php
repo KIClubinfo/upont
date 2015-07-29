@@ -99,7 +99,7 @@ class PonthubController extends \KI\UpontBundle\Controller\Core\ResourceControll
 
         // On parcourt la liste ligne par ligne
         while (!feof($list)) {
-            // On enlève le caractère de fin de line
+            // On enlève le caractère de fin de ligne
             $line = str_replace(array("\r", "\n"), array('', ''), fgets($list));
 
             // On récupère la taille du fichier et on l'enlève de la line

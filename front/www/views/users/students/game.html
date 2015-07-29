@@ -12,7 +12,7 @@
             <h2>Promo</h2>
 
             <div up-row space-around>
-                <button ng-repeat="item in promos" ng-if="$index > promos.length-6" class="up-btn-game" up-col="15%" ng-class="{'focus':promo==item}" ng-click="switchPromo(item)">{{ item }}</button>
+                <button ng-repeat="item in promos" ng-if="item" class="up-btn-game" up-col="15%" ng-class="{'focus':promo==item}" ng-click="switchPromo(item)">{{ item }}</button>
             </div>
             <br><br>
             <div up-row space-around>
@@ -35,19 +35,23 @@
                 <div up-col-xs="50%" up-col-sm="50%" up-col-md="30%" up-col="25%">
                     <h3 ng-if="change && !hardcore" up-row center>{{ name }}</h3>
 
+<<<<<<< HEAD
                     <h3 ng-if="!change && hardcore" up-row center>{{ text(trait) }} : {{ traitValue }}</h3>
+=======
+                    <h3 ng-if="!change && hardcore" up-row center>{{ traits[trait] }} : {{ traitValue }}</h3>
+>>>>>>> origin/v2.4.8
 
                     <div ng-if="!change && !hardcore">
                         <br><br>
                         <div class="up-image-container">
-                            <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture + ')' }"></div>
+                            <div class="up-image" ng-style="{ 'background-image' : 'url(' + (picture | thumb | urlFile) + ')' }"></div>
                         </div>
                         <br>
                     </div>
 
                     <div ng-if="change && hardcore">
                         <div class="up-image-container">
-                            <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture + ')' }"></div>
+                            <div class="up-image" ng-style="{ 'background-image' : 'url(' + (picture | thumb | urlFile) + ')' }"></div>
                         </div>
                         <h3 up-row center>{{ name }}</h3>
                     </div>
@@ -59,12 +63,12 @@
                 <div up-col-xs="100%" up-col-sm="100%" up-col="25%" ng-click="next(0)">
                     <button up-col="100%" class="up-btn-game" ng-if = "!change && !hardcore">{{ name1 }}</button>
                     <div class="up-image-container up-clickable" ng-if="change && !hardcore">
-                        <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture1 + ')' }"></div>
+                        <div class="up-image" ng-style="{ 'background-image' : 'url(' + (picture1 | thumb | urlFile) + ')' }"></div>
                     </div>
 
                     <div ng-if="!change && hardcore">
                         <div class="up-image-container up-clickable">
-                            <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture1 + ')' }"></div>
+                            <div class="up-image" ng-style="{ 'background-image' : 'url(' + (picture1 | thumb | urlFile) + ')' }"></div>
                         </div><br>
                         <button up-col="100%" class="up-btn-game" up-row center>{{ name1 }}</button>
                     </div>
@@ -74,11 +78,11 @@
                 <div up-col-xs="100%" up-col-sm="100%" up-col="25%" ng-click="next(1)">
                     <button up-col="100%" class="up-btn-game" ng-if = "!change && !hardcore">{{ name2 }}</button>
                     <div class="up-image-container up-clickable" ng-if="change && !hardcore">
-                        <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture2 + ')' }"></div>
+                        <div class="up-image" ng-style="{ 'background-image' : 'url(' + (picture2 | thumb | urlFile) + ')' }"></div>
                     </div>
                     <div ng-if="!change && hardcore">
                         <div class="up-image-container up-clickable">
-                            <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture2 + ')' }"></div>
+                            <div class="up-image" ng-style="{ 'background-image' : 'url(' + (picture2 | thumb | urlFile) + ')' }"></div>
                         </div><br>
                         <button up-col="100%" class="up-btn-game" up-row center>{{ name2 }}</button>
                     </div>
@@ -88,11 +92,11 @@
                 <div up-col-xs="100%" up-col-sm="100%" up-col="25%" ng-click="next(2)">
                     <button up-col="100%" class="up-btn-game" ng-if = "!change && !hardcore">{{ name3 }}</button>
                     <div class="up-image-container up-clickable" ng-if="change && !hardcore">
-                        <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture3 + ')' }"></div>
+                        <div class="up-image" ng-style="{ 'background-image' : 'url(' + (picture3 | thumb | urlFile) + ')' }"></div>
                     </div>
                     <div ng-if="!change && hardcore">
                         <div class="up-image-container up-clickable">
-                            <div class="up-image" ng-style="{ 'background-image' : 'url(' + picture3 + ')' }"></div>
+                            <div class="up-image" ng-style="{ 'background-image' : 'url(' + (picture3 | thumb | urlFile) + ')' }"></div>
                         </div><br>
                         <button up-col="100%" class="up-btn-game" up-row center>{{ name3 }}</button>
                     </div>
@@ -109,7 +113,7 @@
             <h3>Promo</h3>
 
             <div up-row space-around>
-                <button ng-repeat="item in promos" ng-if="$index > promos.length-6" class="up-btn-game" up-col="15%" ng-class="{'focus':promo==item}" ng-click="switchPromo(item)">{{ item }}</button>
+                <button ng-repeat="item in promos" ng-if="item" class="up-btn-game" up-col="15%" ng-class="{'focus':promo==item}" ng-click="switchPromo(item)">{{ item }}</button>
             </div>
 
             <h3>Mode de jeu</h3>
@@ -141,10 +145,12 @@
 
                         <div up-col="100%">
                             <div ng-if="face.result">
+                                <span ng-if="face.trait">{{ traits[face.trait] }} : {{ face[face.answer][2] }}<br></span>
                                 C'était bien <b>{{ face[face.answer][0] }}</b>.
                             </div>
 
                             <div ng-if="!face.result">
+                                <span ng-if="face.trait">{{ traits[face.trait] }} : {{ face[face.answer][2] }}<br></span>
                                 Ce n'était pas <b>{{ face[face.answered][0] }}</b>, mais <b>{{ face[face.answer][0] }}</b>.
 
                                 <h4>Pénalité : 5 secondes</h4>
@@ -158,7 +164,7 @@
 
     <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%">
         <div class="up-game-container">
-            <h2>Highscore persos</h2>
+            <h2>Highscores Perso</h2>
 
             <em>À venir...</em>
         </div>
@@ -166,7 +172,7 @@
 
     <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%">
         <div class="up-game-container">
-            <h2>Highscore</h2>
+            <h2>Highscores</h2>
 
             <em>À venir...</em>
         </div>

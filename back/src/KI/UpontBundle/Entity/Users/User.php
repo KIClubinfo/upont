@@ -101,6 +101,14 @@ class User extends \KI\UpontBundle\Entity\Users\CoreUser
     protected $allowedBds;
 
     /**
+     * A fait le tutoriel d'intro ?
+     * @ORM\Column(name="tour", type="boolean", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("boolean")
+     */
+    protected $tour;
+
+    /**
      * Autorisation de rendre publiques les stats Foyer
      * @ORM\Column(name="statsFoyer", type="boolean", nullable=true)
      * @JMS\Expose
@@ -115,6 +123,14 @@ class User extends \KI\UpontBundle\Entity\Users\CoreUser
      * @Assert\Type("boolean")
      */
     protected $statsPonthub;
+
+    /**
+     * Autorisation de rendre publiques les stats de la réponse D
+     * @ORM\Column(name="statsFacegame", type="boolean", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("boolean")
+     */
+    protected $statsFacegame;
 
     /**
      * Détails d'un user
@@ -368,6 +384,29 @@ class User extends \KI\UpontBundle\Entity\Users\CoreUser
     }
 
     /**
+     * Set tour
+     *
+     * @param string $tour
+     * @return User
+     */
+    public function setTour($tour)
+    {
+        $this->tour = $tour;
+
+        return $this;
+    }
+
+    /**
+     * Get tour
+     *
+     * @return string
+     */
+    public function getTour()
+    {
+        return $this->tour;
+    }
+
+    /**
      * Set statsFoyer
      *
      * @param string $statsFoyer
@@ -411,6 +450,29 @@ class User extends \KI\UpontBundle\Entity\Users\CoreUser
     public function getStatsPonthub()
     {
         return $this->statsPonthub;
+    }
+
+    /**
+     * Set statsFacegame
+     *
+     * @param string $statsFacegame
+     * @return User
+     */
+    public function setStatsFacegame($statsFacegame)
+    {
+        $this->statsFacegame = $statsFacegame;
+
+        return $this;
+    }
+
+    /**
+     * Get statsFacegame
+     *
+     * @return string
+     */
+    public function getStatsFacegame()
+    {
+        return $this->statsFacegame;
     }
 
     /**

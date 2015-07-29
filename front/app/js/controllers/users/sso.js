@@ -8,9 +8,6 @@ angular.module('upont')
         '$window',
         'StorageService',
     function($scope, $rootScope, $stateParams, $location, $http, $window, StorageService) {
-        if (!StorageService.get('token'))
-            $location.path('/');
-
         // Identify the external application
         switch($stateParams.appId) {
             case '3ce745a47e998d2461ed9132dc18979c':
@@ -73,13 +70,19 @@ angular.module('upont')
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state('root.sso', {
+            .state('root.users.sso', {
                 url: 'sso?appId&to',
-                templateUrl: 'views/public/sso.html',
+                templateUrl: 'views/users/sso.html',
                 controller: 'SingleSignOn_Ctrl',
                 data: {
                     title: 'Authentification centralisée - uPont',
                     top: true
+                },
+                // Déclenchement de l'erreur 401 si non connecté
+                resolve: {
+                    online: ['$resource', function($resource) {
+                        return $resource(apiPrefix + 'online').query().$promise;
+                    }],
                 }
             });
     }]);

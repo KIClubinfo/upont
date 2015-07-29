@@ -1,5 +1,5 @@
 angular.module('upont')
-	.controller('Students_Game_Ctrl', ['$scope', '$rootScope', '$http', '$timeout', function($scope, $rootScope, $http, $timeout) {
+	.controller('Students_Game_Ctrl', ['$scope', '$rootScope', '$http', '$timeout', 'Achievements', function($scope, $rootScope, $http, $timeout, Achievements) {
 		$scope.playing = false;
 		$scope.end = false;
 		$scope.position = 0;
@@ -8,11 +8,17 @@ angular.module('upont')
 	    $scope.tickInterval = 1000;
 	    $scope.promos = $rootScope.promos;
 	    $scope.promos.pop();
+		delete $scope.promos[$scope.promos.indexOf('014')];
 	    $scope.promos.push('Toutes');
 	    $scope.promo = 'Toutes';
 	    $scope.hardcore = false;
 	    $scope.change = false;
 	    $scope.trait = '';
+		$scope.traits = {
+			location: 'Résidence',
+			promo: 'Promo',
+			department: 'Département'
+		};
 
 	    var timer;
 
@@ -42,7 +48,6 @@ angular.module('upont')
 		};
 
 		$scope.post = function(promo, hardcore) {
-
 			var params = {
 				promo: promo,
 				hardcore: hardcore
@@ -55,6 +60,7 @@ angular.module('upont')
 			}
 
 			$http.post($rootScope.url + 'facegames', params).success(function(data) {
+				$scope.hardcore = hardcore;
 				$scope.playing = true;
 				$scope.end = false;
 				$scope.change = true;
@@ -106,7 +112,9 @@ angular.module('upont')
 				$scope.end = true;
 				$scope.playing = false;
 
-				$http.delete($rootScope.url + 'facegames/' + $scope.gameData.id);
+				$http.patch($rootScope.url + 'facegames/' + $scope.gameData.id, {wrongAnswers: $scope.numWrong}).success(function(){
+					Achievements.check();
+				});
 			} else {
 				$scope.change = $scope.position < ($scope.gameData.list_users.length)/2;
 				$scope.answer = $scope.gameData.list_users[$scope.position].answer;
@@ -133,7 +141,7 @@ angular.module('upont')
 	.config(['$stateProvider', function($stateProvider) {
 		$stateProvider
 			.state('root.users.students.game', {
-                url: '/game',
+                url: '/reponse-d',
                 templateUrl: 'views/users/students/game.html',
                 controller: 'Students_Game_Ctrl',
                 data: {

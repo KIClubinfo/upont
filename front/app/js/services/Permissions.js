@@ -1,4 +1,4 @@
-angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', '$resource', 'jwtHelper', function(StorageService, $rootScope, $resource, jwtHelper) {
+angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', '$resource', 'jwtHelper', 'Piwik', function(StorageService, $rootScope, $resource, jwtHelper, Piwik) {
     remove = function() {
         $rootScope.isLogged = false;
         $rootScope.isAdmin = false;
@@ -17,16 +17,16 @@ angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', 
             $rootScope.isExterieur = (StorageService.get('droits').indexOf('ROLE_EXTERIEUR') != -1) ? true : false;
 
             var username = jwtHelper.decodeToken(StorageService.get('token')).username;
+            Piwik.setUserId(username);
             // On récupère les données utilisateur
-            $resource(apiPrefix + 'users/:slug', {slug: username }).get(function(data){
+            $resource(apiPrefix + 'users/:slug', {slug: username}).get(function(data){
                 $rootScope.me = data;
             });
 
             // On récupère les clubs de l'utilisateurs pour déterminer ses droits de publication
             $resource(apiPrefix + 'users/:slug/clubs', {slug: username }).query(function(data){
-                $rootScope.selfClubs = data;
+                $rootScope.clubs = data;
             });
-            //remove();
         } else {
             remove();
         }
@@ -38,8 +38,8 @@ angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', 
             if ($rootScope.isAdmin)
                 return true;
 
-            for (var i = 0; i < $rootScope.selfClubs.length; i++) {
-                if ($rootScope.selfClubs[i].club.slug == slug)
+            for (var i = 0; i < $rootScope.clubs.length; i++) {
+                if ($rootScope.clubs[i].club.slug == slug)
                     return true;
             }
             return false;

@@ -2,25 +2,15 @@
     <h2>Créer un utilisateur :</h2>
 
     <div class="up-profile-form">
-        <form up-row padded left wrap ng-submit="post(user, password, confirm)" autocomplete="off">
-
+        <form up-row padded left wrap ng-submit="post(firstName, lastName, email)" autocomplete="off">
             <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
-                <input class="up-col-xs-12" type="text" ng-model="user.first_name" placeholder="Prénom"/>
+                <input class="up-col-xs-12" type="text" ng-model="firstName" placeholder="Prénom"/>
             </div>
             <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
-                <input class="up-col-xs-12" type="text" ng-model="user.last_name" placeholder="Nom"/>
+                <input class="up-col-xs-12" type="text" ng-model="lastName" placeholder="Nom"/>
             </div>
             <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
-                <input class="up-col-xs-12" type="text" ng-model="user.username" placeholder="Identifiant DSI"/>
-            </div>
-            <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
-                <input class="up-col-xs-12" type="email" ng-model="user.email" placeholder="Email"/>
-            </div>
-            <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
-                <input class="up-col-xs-12" type="password" ng-model="password" placeholder="Mot de passe"/>
-            </div>
-            <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
-                <input class="up-col-xs-12" type="password" ng-model="confirm" placeholder="Confirmer le mot de passe"/>
+                <input class="up-col-xs-12" type="email" ng-model="email" placeholder="Email"/>
             </div>
 
             <div up-col="100%" up-row right>
@@ -28,5 +18,28 @@
             </div>
         </form>
     </div>
-</div>
 
+    <h2>Créer plusieurs utilisateurs :</h2>
+
+    <p>
+        <strong>Doit être structuré sous la forme :</strong><br>
+        iddsi,mail,prenom,nom,promo,departement,origine<br>
+        Merci de faire bien attention à ce que les champs "promo,departement,origine" soient des valeurs disponibles dans les &lt;select&gt; de uPont et que le champ mail soit sous la forme prenom.nom@[eleve.]enpc.fr.
+    </p>
+
+    <div class="up-profile-form">
+        <form up-row padded left wrap ng-submit="import()" autocomplete="off">
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <i class="fa fa-file-excel-o"></i>
+                Fichier CSV
+            </div>
+            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+                <input class="up-col-xs-12" type="file" name="file" id="fileUpload" onchange="angular.element(this).scope().uploadFile(this.files)"/>
+            </div>
+
+            <div up-col="100%" up-row right>
+            	<button up-col-xs="100%" up-col-sm="100%" up-col="15%" class="up-btn up-btn-default">Importer</button>
+            </div>
+        </form>
+    </div>
+</div>

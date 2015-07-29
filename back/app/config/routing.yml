@@ -1,2 +1,6 @@
+ki_foyer:
+    resource: "@KIFoyerBundle/Resources/config/routing.yml"
+    prefix:   /
+
 ki_upont_api:
     resource: "@KIUpontBundle/Resources/config/routing.yml"

@@ -35,17 +35,6 @@ services:
         calls:
             - [ setContainer,[ @service_container ] ]
 
-    # Communique avec l'API du Foyer
-    ki_upont.foyer:
-        class: KI\UpontBundle\Services\KIFoyer
-        calls:
-            - [ setContainer,[ @service_container ] ]
-
-
-
-
-
-
     # Les champs de formulaire personnalisés, définis comme des services
     ki_upont.type.imageuploader_selector:
        class: KI\UpontBundle\Form\Type\ImageUploaderSelectorType

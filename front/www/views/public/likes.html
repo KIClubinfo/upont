@@ -18,11 +18,15 @@
     <div ng-if="shownComments < 0 && comments.length > 3">
         <h3 class="up-likes up-clickable" ng-click="openComments()" ng-class="{active : shownComments > 0 }" >Afficher {{ comments.length+shownComments }} {{ comments.length+shownComments == 1 ? 'commentaire précédent' : 'commentaires précédents' }}</h3>
     </div>
-    <div class="up-comment" ng-repeat="comment in comments | orderBy: date | limitTo: shownComments" up-row left
+    <div class="up-comment" ng-repeat="comment in comments | orderBy: date | limitTo: shownComments" up-row left space-between
          ng-mouseover="showModify=true" ng-mouseleave="showModify=false">
-        <img up-col="7%" class="up-profile-picture" ng-src="{{ comment.author.image_url | thumb | urlFile}}" alt="Image de profil"/>
-        <div up-col="87%">
+        <div up-col-xs="8%" up-col-sm="8%" up-col-md="8%" up-col="5%">
+            <div class="up-image-container">
+                <div class="up-image up-profile-picture" ng-style="{'background-image' : 'url({{comment.author.image_url | thumb | urlFile}})'}"></div>
+            </div>
+        </div>
 
+        <div up-col-xs="82%" up-col-sm="82%" up-col-md="82%" up-col="85%">
             <strong ng-if="!$root.isExterieur"><span up-user user="comment.author">{{ comment.author.nick }}</span> : </strong>
             <strong ng-if="$root.isExterieur">{{ comment.author.first_name }} {{ comment.author.last_name }} : </strong>
 
@@ -45,10 +49,16 @@
                title="Supprimer le commentaire"></i>
         </div>
     </div>
-    <form up-row left autocomplete="off" ng-if="!$root.isAdmissible">
-        <img class="up-profile-picture" ng-src="{{ $root.me.image_url | thumb | urlFile }}" />
-        <textarea class="up-col-xs-12 comment-textarea" ng-model="commentText"
-                  placeholder="Ajouter un commentaire" msd-elastic
-                  ng-keyup="submitComment($event, commentText) ? commentText = '' : null"></textarea>
+    <form up-row space-between autocomplete="off" ng-if="!$root.isAdmissible">
+        <div up-col-xs="8%" up-col-sm="8%" up-col-md="8%" up-col="5%">
+            <div class="up-image-container">
+                <div class="up-image up-profile-picture" ng-style="{'background-image' : 'url({{$root.me.image_url | thumb | urlFile}})'}"></div>
+            </div>
+        </div>
+        <div up-col-xs="90%" up-col-sm="90%" up-col-md="90%" up-col="93%">
+            <textarea class="up-col-xs-12 comment-textarea" ng-model="commentText"
+                      placeholder="Ajouter un commentaire" msd-elastic
+                      ng-keydown="submitComment($event, commentText) ? commentText = '' : null"></textarea>
+        </div>
     </form>
 </div>

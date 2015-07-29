@@ -29,7 +29,7 @@ angular.module('upont')
             });
         };
 
-        $scope.submitUser = function(me, image, password, confirm) {
+        $scope.submitUser = function(me, image) {
             var params = {
                 promo: me.promo,
                 gender: me.gender,
@@ -41,20 +41,12 @@ angular.module('upont')
                 skype: me.skype,
                 nickname: me.nick,
                 statsFoyer: me.stats_foyer,
-                statsPonthub: me.stats_ponthub
+                statsPonthub: me.stats_ponthub,
+                statsFacegame: me.stats_facegame
             };
 
             if (image) {
                 params.image = image.base64;
-            }
-
-            if (password !== null && password !== '') {
-                if (password != confirm) {
-                    alertify.error('Les deux mots de passe ne sont pas identiques');
-                    return;
-                } else {
-                    params.plainPassword = {first: password, second: confirm};
-                }
             }
 
             $http.patch($rootScope.url + 'users/' + $rootScope.me.username, params).success(function(){
@@ -66,6 +58,38 @@ angular.module('upont')
             });
         };
 
+        $scope.submitAccount = function(me, old, password, confirm) {
+            if (password === undefined || confirm === undefined || old === undefined) {
+                alertify.error('Champs non remplis');
+                return;
+            }
+
+            if (password != confirm) {
+                alertify.error('Les deux mots de passe ne sont pas identiques');
+                return;
+            }
+
+            var params = {
+                // email: me.email,
+                old: old,
+                password: password,
+                confirm: confirm
+            };
+
+            $http.post($rootScope.url + 'own/user', params)
+                .success(function(){
+                    $resource(apiPrefix + 'users/:slug', {slug: $rootScope.me.username}).get(function(data){
+                        $rootScope.me = data;
+                        Achievements.check();
+                    });
+                    alertify.success('Compte mis à jour !');
+                })
+                .error(function(){
+                    alertify.error('Ancien mot de passe incorrect');
+                })
+            ;
+        };
+
         // Gère l'accordéon du tuto ICS
         $scope.openICS = -1;
         $scope.open = function(index) {
@@ -74,6 +98,17 @@ angular.module('upont')
 
         $scope.achievementCheck = function() {
             Achievements.check();
+        };
+
+        $scope.enableTour = function(e) {
+            e.preventDefault();
+            if (!$rootScope.me.tour)
+                return;
+            $http.patch($rootScope.url + 'users/' + $rootScope.me.username, {tour: false}).success(function(){
+                $rootScope.me.tour = false;
+                $rootScope.$broadcast('tourEnabled');
+                alertify.success('Tutoriel réactivé !');
+            });
         };
     }])
     .config(['$stateProvider', function($stateProvider) {

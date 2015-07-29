@@ -1,6 +1,6 @@
 <div class="up-ticket">
     <div up-row wrap padded space-between>
-        <div up-col-xs="100%" up-col-sm="48%" up-col="30%" class="up-tutorial up-clickable" ng-repeat="tuto in tutos" ui-sref="root.users.resources.tutorials.simple({slug: tuto.slug})">
+        <div up-col-xs="100%" up-col-sm="48%" up-col="30%" class="up-tutorial" ng-repeat="tuto in tutos" ui-sref="root.users.resources.tutorials.simple({slug: tuto.slug})">
             <br><i class="fa fa-{{ tuto.icon ? tuto.icon : 'book' }}"></i><br>
             <h3>{{ tuto.name }}</h3>
         </div>

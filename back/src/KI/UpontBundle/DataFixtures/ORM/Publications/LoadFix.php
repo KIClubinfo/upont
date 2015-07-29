@@ -30,6 +30,24 @@ class LoadFixFixture extends AbstractFixture implements OrderedFixtureInterface
         $fix->setFix(false);
         $manager->persist($fix);
 
+        $fix = new Fix();
+        $fix->setName('Bug');
+        $fix->setProblem('uPont ca bug');
+        $fix->setDate(12345234);
+        $fix->setUser($this->getReference('user-donat-bb'));
+        $fix->setStatus('En attente');
+        $fix->setFix(false);
+        $manager->persist($fix);
+
+        $fix = new Fix();
+        $fix->setName('Bug');
+        $fix->setProblem('uPont ca bug');
+        $fix->setDate(12345234);
+        $fix->setUser($this->getReference('user-donat-bb'));
+        $fix->setStatus('En attente');
+        $fix->setFix(false);
+        $manager->persist($fix);
+
         $manager->flush();
     }
 

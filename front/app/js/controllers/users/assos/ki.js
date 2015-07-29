@@ -86,4 +86,27 @@ angular.module('upont')
                     }]
                 }
             });
-    }]);
+    }])
+    .filter('statusFilter', function() {
+        return function(array) {
+            fixes = {
+                unseen: [],
+                waiting: [],
+                doing: [],
+                done: [],
+                closed: []
+            };
+
+            for (var key in array) {
+                switch (array[key].status) {
+                    case 'Non vu': fixes.unseen.push(array[key]); break;
+                    case 'En attente': fixes.waiting.push(array[key]); break;
+                    case 'En cours': fixes.doing.push(array[key]); break;
+                    case 'Résolu': fixes.done.push(array[key]); break;
+                    case 'Fermé': fixes.closed.push(array[key]); break;
+                }
+            }
+            return fixes.unseen.concat(fixes.waiting.concat(fixes.doing.concat(fixes.done.concat(fixes.closed))));
+        };
+    })
+;

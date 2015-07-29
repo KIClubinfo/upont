@@ -64,7 +64,8 @@ angular.module('upont')
                 url: '/',
                 template: '<div ui-view="aside" ng-if="!isExterieur" class="up-invisible-xs"></div>'+
                     '<div ui-view="topbar" ng-if="!isExterieur" class="up-invisible-sm up-invisible-md up-invisible-lg"></div>'+
-                    '<div ui-view></div>',
+                    '<div ui-view></div>' +
+                    '<div ui-view="tour" ng-if="!isExterieur"></div>',
             })
             .state('root.403', {
                 url: '403',
@@ -89,7 +90,7 @@ angular.module('upont')
                     needLogin: true
                 },
                 views:{
-                    '':{
+                    '': {
                         template: '<div class="up-main-view" ui-view up-fill-window></div>'
                     },
                     topbar: {
@@ -98,6 +99,10 @@ angular.module('upont')
                     aside: {
                         templateUrl: 'views/users/aside.html',
                         controller: 'Aside_Ctrl'
+                    },
+                    tour: {
+                        templateUrl: 'views/users/tour.html',
+                        controller: 'Tour_Ctrl'
                     }
                 }
             })
@@ -180,7 +185,7 @@ angular.module('upont')
                 event.preventDefault();
 
                 if ($location.path() != '/')
-                    $rootScope.urlRef = $location.path();
+                    $rootScope.urlRef = window.location.href;
 
                 $state.go('root.login');
             }
@@ -214,4 +219,12 @@ angular.module('upont')
     }])
     .run(function(redactorOptions) {
         redactorOptions.imageUpload = apiPrefix + 'images?bearer=' + localStorage.getItem('token');
-    });
+    })
+    .run(function(StorageService, Piwik, $rootScope, $location) {
+        /*$rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+            Piwik.setReferrerUrl('upont');
+            Piwik.setCustomUrl('upont');
+            Piwik.trackPageView($location.path());
+        });*/
+    })
+;

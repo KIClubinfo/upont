@@ -14,11 +14,6 @@ ki_upont_api_general:
     prefix: /
     resource: "@KIUpontBundle/Resources/config/general.yml"
 
-ki_upont_api_foyer:
-    type:   rest
-    prefix:   /
-    resource: "@KIUpontBundle/Resources/config/foyer.yml"
-
 ki_upont_api_likes:
     prefix: /
     resource: "@KIUpontBundle/Resources/config/likes.yml"

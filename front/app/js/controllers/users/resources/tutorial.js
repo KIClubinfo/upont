@@ -35,6 +35,7 @@ angular.module('upont')
                     $state.go('root.users.resources.tutorials.list');
                 }
                 $scope.presentation = $sce.trustAsHtml(presentation);
+                $scope.showIcons = false;
                 alertify.success('Modifications prises en compte !');
             });
             $scope.edit = false;

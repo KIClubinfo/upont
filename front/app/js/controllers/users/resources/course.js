@@ -70,6 +70,19 @@ angular.module('upont')
                 alertify.success('Annale supprimée.');
             });
         };
+
+        $scope.isLoading = false;
+        $scope.toggleCourse = function(course) {
+            if ($scope.isLoading) {
+                return;
+            }
+            $scope.isLoading = true;
+
+            course.active = !course.active;
+            $http.patch(apiPrefix + 'courses/' + course.slug, {active: course.active}).success(function(){
+                $scope.isLoading = false;
+            });
+        };
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider

@@ -13,7 +13,11 @@
 }
 
 .up-aside-header{
-    height:7em;
+    height: 7em;
+
+    .up-logo {
+        padding: 1em;
+    }
 }
 
 .up-aside-middle {
@@ -27,18 +31,14 @@
         margin: 0.75em 10%;
         height: 2em;
     }
-    hr {
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
     .fa {
         .fa-block;
     }
-    
+
     a {
         .up-clickable;
     }
-    
+
     .up-aside-menu {
         a {
             margin: 0.4em 5%;
@@ -86,7 +86,7 @@
     padding: 0.5em;
     height:7em;
     font-size: 0.85em;
-    
+
     a {
         .up-clickable;
     }
@@ -101,13 +101,13 @@
     border-radius: 5em;
     background-color: @col-input-bckgnd;
     transition: all 0.30s ease-in-out;
-    
+
     input {
         border: none;
         background-color: @col-input-bckgnd;
         padding: 0;
     }
-        
+
     &.focused {
         box-shadow: 0 0 5px @col-main;
     }
@@ -122,6 +122,7 @@
     left: 2em;
     background: @col-ticket;
     border-radius: 3px;
+    text-align: left;
     z-index: 3;
     border: solid 1px @col-bckgnd;
     .up-searchbar-section:not(:last-of-type){
@@ -205,7 +206,7 @@
 .up-topbar-menu{
     position:relative;
     background-color: @col-ticket;
-    
+
     .caret{
         color:@col-ticket;
         position:absolute;

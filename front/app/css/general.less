@@ -87,24 +87,12 @@ background-size: auto auto;
 .up-calendar {
     margin: 0 0 -30px;
 }
-.up-messages {
-    padding-top: 15px;
-
-    .up-profile-picture {
-        width: 50px;
-        height: 50px;
-    }
-}
 .up-tutorial {
-    background-color: @col-main;
-    color: white;
+    .up-col-main;
     margin-bottom: 1em;
     text-align: center;
+    cursor: pointer;
     .fa { font-size: 5em; }
-    &:hover {
-        background-color: @col-neg !important;
-        color: white !important
-    }
 }
 
 .up-landing-container{
@@ -151,14 +139,19 @@ background-size: auto auto;
     }
 }
 .up-assos {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
     .up-ticket {
         &:hover {
             cursor: pointer;
             border: 1px solid @col-main;
             h3 { color: @col-main !important; }
         }
+    }
+}
+.up-tutos {
+    img {
+        display: block;
+        width: 100%;
+        height: auto;
     }
 }
 
@@ -180,10 +173,16 @@ h5 {
 }
 h1, h2, h3, h4, h5, h6 {
     margin-top: 10px;
+    line-height: 1.4em;
 
     a:hover {
         color: @col-main;
     }
+}
+hr {
+    border-color: @col-ticket-border;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 kbd {
@@ -209,7 +208,7 @@ a, a:hover, a:visited, a:active, a:focus {
     }
 }
 .disabled {
-    opacity: 0.7;
+    opacity: 0.4;
     cursor: not-allowed;
 }
 :disabled, [disabled] {
@@ -223,6 +222,34 @@ a, a:hover, a:visited, a:active, a:focus {
 .justify {
     text-align: justify;
 }
+.up-col-main {
+    background-color: @col-main;
+    color: white;
+    .up-clickable {
+        &.active {
+            color: @gray !important;
+        }
+        &:hover {
+            color: white;
+            &.active {
+                color: @gray ;
+            }
+        }
+    }
+    &:hover {
+        background-color: @col-neg;
+        color: white !important;
+
+        .up-clickable {
+            &.active {
+                color: @gray !important;
+            }
+            &:hover {
+                color: @gray;
+            }
+        }
+    }
+}
 .up-clickable{
     cursor: pointer;
     &:hover, &.active {
@@ -234,7 +261,7 @@ a, a:hover, a:visited, a:active, a:focus {
     }
 }
 .up-delete-button:hover{
-    color: #E53B3B;
+    color: @col-red;
 }
 .up-link{
     cursor: pointer;
@@ -262,7 +289,7 @@ a, a:hover, a:visited, a:active, a:focus {
     color: @col-font !important;
 }
 .up-overflow {
-    height: 7.4em;
+    height: 3.5em;
     overflow: hidden;
 }
 
