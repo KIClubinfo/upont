@@ -15,7 +15,8 @@ class BeerType extends AbstractType
             ->add('name')
             ->add('price')
             ->add('alcohol')
-            ->add('volume');
+            ->add('volume')
+            ->add('image', 'imageuploader_selector');
     }
 
     public function configureOptions(OptionsResolver $resolver)
