@@ -105,7 +105,7 @@ class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
      */
     public function deleteClubAction($slug)
     {
-        $repoLink = $this->em->getRepository('KIUpontBundle:Users\ClubUser');
+        $repoLink = $this->em->getRepository('KIUserBundle:ClubUser');
         $club = $this->findBySlug($slug);
         $link = $repoLink->findBy(array('club' => $club));
 
@@ -163,12 +163,12 @@ class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
             throw new AccessDeniedException('Accès refusé');
 
         // On récupère les deux entités concernées
-        $repo = $this->em->getRepository('KIUpontBundle:Users\User');
+        $repo = $this->em->getRepository('KIUserBundle:User');
         $user = $repo->findOneByUsername($id);
         $club = $this->findBySlug($slug);
 
         // Vérifie que la relation n'existe pas déjà
-        $repoLink = $this->em->getRepository('KIUpontBundle:Users\ClubUser');
+        $repoLink = $this->em->getRepository('KIUserBundle:ClubUser');
         $link = $repoLink->findBy(array('club' => $club, 'user' => $user));
 
         // On crée la relation si elle n'existe pas déjà
@@ -215,12 +215,12 @@ class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
             throw new AccessDeniedException('Accès refusé');
 
         // On récupère les deux entités concernées
-        $repo = $this->em->getRepository('KIUpontBundle:Users\User');
+        $repo = $this->em->getRepository('KIUserBundle:User');
         $user = $repo->findOneByUsername($id);
         $club = $this->findBySlug($slug);
 
         // On récupère la relation
-        $repoLink = $this->em->getRepository('KIUpontBundle:Users\ClubUser');
+        $repoLink = $this->em->getRepository('KIUserBundle:ClubUser');
         $link = $repoLink->findBy(array('club' => $club, 'user' => $user));
 
         // Supprime la relation si elle existe
@@ -308,7 +308,7 @@ class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
      */
     public function getNewsitemsClubAction($slug)
     {
-        $repo = $this->em->getRepository('KIUpontBundle:Publications\Newsitem');
+        $repo = $this->em->getRepository('KIPublicationBundle:Newsitem');
 
         list($findBy, $sortBy, $limit, $offset, $page, $totalPages, $count) = $this->paginate($repo);
         $findBy['authorClub'] = $this->findBySlug($slug);
@@ -332,7 +332,7 @@ class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
      */
     public function getEventsClubAction($slug)
     {
-        $repo = $this->em->getRepository('KIUpontBundle:Publications\Event');
+        $repo = $this->em->getRepository('KIPublicationBundle:Event');
 
         list($findBy, $sortBy, $limit, $offset, $page, $totalPages, $count) = $this->paginate($repo);
         $findBy['authorClub'] = $this->findBySlug($slug);

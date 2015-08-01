@@ -59,7 +59,7 @@ class CoursesController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Crée un cours",
-     *  input="KI\UpontBundle\Form\Publications\CourseType",
+     *  input="KI\PublicationBundle\Form\CourseType",
      *  output="KI\PublicationBundle\Entity\Course",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
@@ -76,7 +76,7 @@ class CoursesController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Modifie un cours",
-     *  input="KI\UpontBundle\Form\Publications\CourseType",
+     *  input="KI\PublicationBundle\Form\CourseType",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   400="La syntaxe de la requête est erronée",
@@ -107,7 +107,7 @@ class CoursesController extends \KI\CoreBundle\Controller\ResourceController
     {
         // Les cours possèdent plein de sous propriétés, il faut faire gaffe à toutes les supprimer
         $course = $this->getOne($slug);
-        $repo = $this->em->getRepository('KIUpontBundle:Users\CourseUser');
+        $repo = $this->em->getRepository('KIPublicationBundle:CourseUser');
 
         foreach ($repo->findByCourse($course) as $courseUser)
             $this->em->remove($courseUser);
@@ -133,7 +133,7 @@ class CoursesController extends \KI\CoreBundle\Controller\ResourceController
         $course = $this->findBySlug($slug);
 
         // Vérifie que la relation n'existe pas déjà
-        $repoLink = $this->em->getRepository('KIUpontBundle:Users\CourseUser');
+        $repoLink = $this->em->getRepository('KIPublicationBundle:CourseUser');
         $link = $repoLink->findBy(array('course' => $course, 'user' => $this->user));
 
         // On crée la relation si elle n'existe pas déjà
@@ -180,7 +180,7 @@ class CoursesController extends \KI\CoreBundle\Controller\ResourceController
         $user = $this->get('security.context')->getToken()->getUser();
         $course = $this->findBySlug($slug);
 
-        $repoLink = $this->em->getRepository('KIUpontBundle:Users\CourseUser');
+        $repoLink = $this->em->getRepository('KIPublicationBundle:CourseUser');
         $link = $repoLink->findBy(array('course' => $course, 'user' => $user));
 
         if (count($link) != 1)

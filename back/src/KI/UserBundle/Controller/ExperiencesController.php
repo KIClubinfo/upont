@@ -118,7 +118,7 @@ class ExperiencesController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function getExperiencesUserAction($slug)
     {
-        $repo = $this->em->getRepository('KIUpontBundle:Users\User');
+        $repo = $this->em->getRepository('KIUserBundle:User');
         $user = $repo->findOneByUsername($slug);
 
         if (!$user instanceof \KI\UserBundle\Entity\User) {

@@ -64,49 +64,4 @@ class FixesControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
     }
-
-
-
-    // Tests relatifs aux utilisateurs liés à la tâche
-
-    public function testLink()
-    {
-        $this->client->request('POST', '/fixes/panne-d-internet/respos/trancara');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-
-        $this->client->request('POST', '/fixes/panne-d-internet/respos/trancara');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 400);
-
-        $this->client->request('POST', '/fixes/panne-d-internet/respos/qmgjreijg');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 404);
-
-        $this->client->request('GET', '/fixes/panne-d-internet/respos');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-    }
-
-    public function testUnlink()
-    {
-        $this->client->request('DELETE', '/fixes/panne-d-internet/respos/trancara');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-
-        $this->client->request('DELETE', '/fixes/panne-d-internet/respos/trancara');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 400);
-    }
-
-    public function testDelete()
-    {
-        $this->client->request('DELETE', '/fixes/panne-d-internet');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-
-        $this->client->request('DELETE', '/fixes/panne-d-internet');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 404);
-    }
 }

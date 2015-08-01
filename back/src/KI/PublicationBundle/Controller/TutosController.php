@@ -47,7 +47,7 @@ class TutosController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Crée un tuto",
-     *  input="KI\UpontBundle\Form\Publications\TutoType",
+     *  input="KI\PublicationBundle\Form\TutoType",
      *  output="KI\PublicationBundle\Entity\Tuto",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
@@ -73,7 +73,7 @@ class TutosController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Modifie un tuto",
-     *  input="KI\UpontBundle\Form\Publications\TutoType",
+     *  input="KI\PublicationBundle\Form\TutoType",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   400="La syntaxe de la requête est erronée",

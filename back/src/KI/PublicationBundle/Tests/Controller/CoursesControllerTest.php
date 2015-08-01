@@ -89,19 +89,10 @@ class CoursesControllerTest extends WebTestCase
         $this->assertJsonResponse($response, 404);
     }
 
-
-
-
-
-
-
-
-
-
     // Tests relatifs aux annales
     public function testPostExercice()
     {
-        $basePath = __DIR__.'/../../../../../../web/uploads/tests/';
+        $basePath = __DIR__.'/../../../../../web/uploads/tests/';
         $fs = new Filesystem();
         $fs->copy($basePath.'file.pdf', $basePath.'file_tmp.pdf');
         $file = new UploadedFile($basePath.'file_tmp.pdf', 'file.pdf');

@@ -62,7 +62,7 @@ class FacegamesController extends \KI\CoreBundle\Controller\ResourceController
     // et la position de la proposition correcte
     protected function postListUsersAction($facegame)
     {
-        $repo = $this->em->getRepository('KIUpontBundle:Users\User');
+        $repo = $this->em->getRepository('KIUserBundle:User');
         $list = $facegame->getListUsers();
         $userGame = $facegame->getUser();
 

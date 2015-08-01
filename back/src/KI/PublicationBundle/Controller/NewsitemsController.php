@@ -55,7 +55,7 @@ class NewsitemsController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Crée une news",
-     *  input="KI\UpontBundle\Form\Publications\NewsitemType",
+     *  input="KI\PublicationBundle\Form\NewsitemType",
      *  output="KI\PublicationBundle\Entity\Newsitem",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
@@ -85,7 +85,7 @@ class NewsitemsController extends \KI\CoreBundle\Controller\ResourceController
                 $achievementCheck = new AchievementCheckEvent(Achievement::NEWS_CREATE);
                 $dispatcher->dispatch('upont.achievement', $achievementCheck);
 
-                $allUsers = $this->em->getRepository('KIUpontBundle:Users\User')->findAll();
+                $allUsers = $this->em->getRepository('KIUserBundle:User')->findAll();
                 $users = array();
 
                 foreach ($allUsers as $candidate) {
@@ -120,7 +120,7 @@ class NewsitemsController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Modifie une news",
-     *  input="KI\UpontBundle\Form\Publications\NewsitemType",
+     *  input="KI\PublicationBundle\Form\NewsitemType",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   400="La syntaxe de la requête est erronée",

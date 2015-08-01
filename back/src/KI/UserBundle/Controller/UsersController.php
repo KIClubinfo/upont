@@ -137,7 +137,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
     {
         $clubs = array();
         $user = $this->findBySlug($slug);
-        $repo = $this->em->getRepository('KIUpontBundle:Users\ClubUser');
+        $repo = $this->em->getRepository('KIUserBundle:ClubUser');
         $clubUsers = $repo->findByUser($user);
 
         foreach ($clubUsers as $clubUser) {
@@ -191,7 +191,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
             throw new BadRequestHttpException('Adresse mail non utilisable');
 
         // On check si l'utilisateur n'existe pas déjà
-        $repo = $this->em->getRepository('KIUpontBundle:Users\User');
+        $repo = $this->em->getRepository('KIUserBundle:User');
         $users = $repo->findByEmail($email);
 
         if (count($users) > 0)
@@ -213,7 +213,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
             ->setSubject('[uPont] Nouvelle inscription ('.$login.')')
             ->setFrom('noreply@upont.enpc.fr')
             ->setTo('root@clubinfo.enpc.fr')
-            ->setBody($this->renderView('KIUpontBundle::registration-ki.txt.twig', array('firstName' => $firstName, 'lastName' => $lastName, 'login' => $login, 'email' => $email)));
+            ->setBody($this->renderView('KIUserBundle::registration-ki.txt.twig', array('firstName' => $firstName, 'lastName' => $lastName, 'login' => $login, 'email' => $email)));
         $this->get('mailer')->send($message);
 
         return $this->restResponse(null, 201);
@@ -260,7 +260,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
 
         // Dans un premier temps on va effectuer une première passe pour vérifier qu'il n'y a pas de duplicatas
         $emails = $logins = $fails = $success = array();
-        $repo = $this->em->getRepository('KIUpontBundle:Users\User');
+        $repo = $this->em->getRepository('KIUserBundle:User');
         foreach ($repo->findAll() as $user) {
             $emails[] = $user->getEmail();
             $logins[] = $user->getUsername();
@@ -295,7 +295,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
             ->setSubject('[uPont] Import utilisateurs')
             ->setFrom('noreply@upont.enpc.fr')
             ->setTo('root@clubinfo.enpc.fr')
-            ->setBody($this->renderView('KIUpontBundle::import.txt.twig', array('fails' => $fails, 'success' => $success)));
+            ->setBody($this->renderView('KIUserBundle::import.txt.twig', array('fails' => $fails, 'success' => $success)));
         $this->get('mailer')->send($message);
 
         return $this->restResponse(null, 201);
@@ -336,7 +336,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
             ->setSubject('Inscription uPont')
             ->setFrom('noreply@upont.enpc.fr')
             ->setTo($email)
-            ->setBody($this->renderView('KIUpontBundle::registration.txt.twig', array('firstName' => $firstName, 'login' => $login, 'password' => $password)));
+            ->setBody($this->renderView('KIUserBundle::registration.txt.twig', array('firstName' => $firstName, 'login' => $login, 'password' => $password)));
         $this->get('mailer')->send($message);
     }
 }

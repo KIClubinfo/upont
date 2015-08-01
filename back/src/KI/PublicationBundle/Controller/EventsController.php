@@ -59,7 +59,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Crée un événement",
-     *  input="KI\UpontBundle\Form\Publications\EventType",
+     *  input="KI\PublicationBundle\Form\EventType",
      *  output="KI\PublicationBundle\Entity\Event",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
@@ -88,7 +88,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
                 $achievementCheck = new AchievementCheckEvent(Achievement::EVENT_CREATE);
                 $dispatcher->dispatch('upont.achievement', $achievementCheck);
 
-                $allUsers = $this->em->getRepository('KIUpontBundle:Users\User')->findAll();
+                $allUsers = $this->em->getRepository('KIUserBundle:User')->findAll();
                 $users = array();
 
                 foreach ($allUsers as $candidate) {
@@ -113,7 +113,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Modifie un événement",
-     *  input="KI\UpontBundle\Form\Publications\EventType",
+     *  input="KI\PublicationBundle\Form\EventType",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   400="La syntaxe de la requête est erronée",
@@ -152,7 +152,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
         $event = $this->findBySlug($slug);
 
         // On n'oublie pas de supprimer tous les shotguns éventuellement associés
-        $repo = $this->em->getRepository('KIUpontBundle:Publications\EventUser');
+        $repo = $this->em->getRepository('KIPublicationBundle:EventUser');
         $userEvent = $repo->findByEvent($event);
 
         foreach ($userEvent as $item) {
@@ -195,7 +195,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
         $event = $this->findBySlug($slug);
         $user = $this->get('security.context')->getToken()->getUser();
 
-        $repo = $this->em->getRepository('KIUpontBundle:Publications\EventUser');
+        $repo = $this->em->getRepository('KIPublicationBundle:EventUser');
         $userEvent = $repo->findBy(array('event' => $event, 'user' => $user));
         if (count($userEvent) != 0)
             return;
@@ -242,7 +242,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
         if (!$request->has('motivation'))
             throw new BadRequestHttpException('Texte de motivation manquant');
 
-        $repo = $this->em->getRepository('KIUpontBundle:Publications\EventUser');
+        $repo = $this->em->getRepository('KIPublicationBundle:EventUser');
         $event = $this->findBySlug($slug);
         $user = $this->get('security.context')->getToken()->getUser();
 
@@ -274,7 +274,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function deleteEventUserAction($slug) {
 
-        $repo = $this->em->getRepository('KIUpontBundle:Publications\EventUser');
+        $repo = $this->em->getRepository('KIPublicationBundle:EventUser');
         $event = $this->findBySlug($slug);
         $user = $this->get('security.context')->getToken()->getUser();
 
@@ -320,7 +320,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function getEventUserAction($slug) {
 
-        $repo = $this->em->getRepository('KIUpontBundle:Publications\EventUser');
+        $repo = $this->em->getRepository('KIPublicationBundle:EventUser');
         $event = $this->findBySlug($slug);
         $user = $this->get('security.context')->getToken()->getUser();
 

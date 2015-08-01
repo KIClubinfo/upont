@@ -82,7 +82,7 @@ class ClubUser
     /**
      * Set club
      *
-     * @param \KI\UpontBundle\Entity\Club $club
+     * @param \KI\UserBundle\Entity\Club $club
      * @return ClubUser
      */
     public function setClub(\KI\UserBundle\Entity\Club $club)
@@ -95,7 +95,7 @@ class ClubUser
     /**
      * Get club
      *
-     * @return \KI\UpontBundle\Entity\Club
+     * @return \KI\UserBundle\Entity\Club
      */
     public function getClub()
     {

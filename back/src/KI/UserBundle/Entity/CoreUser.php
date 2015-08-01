@@ -299,7 +299,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
     /**
      * Add devices
      *
-     * @param \KI\UpontBundle\Entity\Device $devices
+     * @param \KI\UserBundle\Entity\Device $devices
      * @return User
      */
     public function addDevice(\KI\UserBundle\Entity\Device $devices)
@@ -312,7 +312,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
     /**
      * Remove devices
      *
-     * @param \KI\UpontBundle\Entity\Device $devices
+     * @param \KI\UserBundle\Entity\Device $devices
      */
     public function removeDevice(\KI\UserBundle\Entity\Device $devices)
     {
@@ -332,7 +332,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
     /**
      * Add Club Not Followed
      *
-     * @param \KI\UpontBundle\Entity\Club $club
+     * @param \KI\UserBundle\Entity\Club $club
      * @return User
      */
     public function addClubNotFollowed(\KI\UserBundle\Entity\Club $club)
@@ -345,7 +345,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
     /**
      * Remove Club Not Followed
      *
-     * @param \KI\UpontBundle\Entity\Club $club
+     * @param \KI\UserBundle\Entity\Club $club
      */
     public function removeClubNotFollowed(\KI\UserBundle\Entity\Club $club)
     {

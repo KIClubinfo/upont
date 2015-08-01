@@ -29,7 +29,7 @@ class SubresourceController extends \KI\CoreBundle\Controller\ResourceController
             $method = 'get'.ucfirst($name).'s';
             return $item->$method();
         } else {
-            $repo = $this->em->getRepository('KIUpontBundle:'.$this->namespace.$this->className.$name);
+            $repo = $this->em->getRepository('KI'.$this->namespace.'Bundle:'.$this->className.$name);
             return $repo->findBy(array(strtolower($this->className) => $item));
         }
     }

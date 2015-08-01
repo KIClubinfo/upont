@@ -3,4 +3,6 @@ services:
     ki_publication.service.calendar:
         class: KI\PublicationBundle\Service\CalendarService
         arguments:
+            - @bomo_ical.ics_provider
+            - @event_dispatcher
             - @doctrine.orm.entity_manager

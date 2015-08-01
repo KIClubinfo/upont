@@ -205,7 +205,7 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
 
         // On récupère les deux entités concernées
         $group = $this->findBySlug($slug);
-        $user = $this->em->getRepository('KIUpontBundle:Users\User')->findOneByUsername($id);
+        $user = $this->em->getRepository('KIUserBundle:User')->findOneByUsername($id);
 
         if (!$user instanceof \KI\UserBundle\Entity\User)
             throw new NotFoundHttpException('Utilisateur non trouvé');
@@ -241,7 +241,7 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
             throw new AccessDeniedException('Accès refusé');
 
         $group = $this->findBySlug($slug);
-        $user = $this->em->getRepository('KIUpontBundle:Users\User')->findOneByUsername($id);
+        $user = $this->em->getRepository('KIUserBundle:User')->findOneByUsername($id);
 
         if (!$user instanceof \KI\UserBundle\Entity\User)
             throw new NotFoundHttpException('Utilisateur non trouvé');

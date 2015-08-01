@@ -2,19 +2,25 @@
 
 namespace KI\PublicationBundle\Service;
 
-use Symfony\Component\DependencyInjection\ContainerAware;
-use KI\UserBundle\Entity\Users\User;
+use BOMO\IcalBundle\Provider\IcsProvider;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Doctrine\ORM\EntityManager;
 use KI\UserBundle\Entity\Achievement;
+use KI\UserBundle\Entity\User;
 use KI\UserBundle\Event\AchievementCheckEvent;
 
 //Service permettant de gérer les calendrier
-class CalendarService extends ContainerAware
+class CalendarService
 {
-    protected $em;
+    protected $icsProvider;
+    protected $dispatcher;
+    protected $manager;
 
-    public function __construct(\Doctrine\ORM\EntityManager $em)
+    public function __construct(IcsProvider $icsProvider, EventDispatcherInterface $dispatcher, EntityManager $manager)
     {
-        $this->em = $em;
+        $this->icsProvider = $icsProvider;
+        $this->dispatcher  = $dispatcher;
+        $this->manager     = $manager;
     }
 
     private function toDateTime($timestamp)
@@ -27,14 +33,12 @@ class CalendarService extends ContainerAware
     // Retourne un calendrier au format ICS
     public function getCalendar(User $user, array $events)
     {
-        $provider = $this->container->get('bomo_ical.ics_provider');
-
         //On se positionne à Paris
-        $tz = $provider->createTimezone();
+        $tz = $this->icsProvider->createTimezone();
         $tz->setTzid('Europe/Paris')->setProperty('X-LIC-LOCATION', $tz->getTzid());
 
         //Titre et description
-        $cal = $provider->createCalendar($tz);
+        $cal = $this->icsProvider->createCalendar($tz);
         $cal->setName('Calendrier uPont')
             ->setDescription('Calendrier ICS des évènements uPont');
 
@@ -48,9 +52,8 @@ class CalendarService extends ContainerAware
                 ->setLocation($eventDb->getPlace());
         }
 
-        $dispatcher = $this->container->get('event_dispatcher');
         $achievementCheck = new AchievementCheckEvent(Achievement::ICS_CALENDAR, $user);
-        $dispatcher->dispatch('upont.achievement', $achievementCheck);
+        $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
 
         return $cal->returnCalendar();
     }

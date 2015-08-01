@@ -30,8 +30,8 @@ class PromoController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function getPromoGameAction($promo)
     {
-        $maxId = $this->em->createQuery('SELECT MAX(u.id) FROM KIUpontBundle:Users\User u')->getSingleScalarResult();
-        $query = $this->em->createQuery('SELECT u FROM KIUpontBundle:Users\User u WHERE u.id >= :rand ORDER BY u.id ASC');
+        $maxId = $this->em->createQuery('SELECT MAX(u.id) FROM KIUserBundle:User u')->getSingleScalarResult();
+        $query = $this->em->createQuery('SELECT u FROM KIUserBundle:User u WHERE u.id >= :rand ORDER BY u.id ASC');
         $rand1 = rand(0, $maxId);
 
         do {

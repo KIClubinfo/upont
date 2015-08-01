@@ -87,7 +87,7 @@ class ExercicesController extends \KI\CoreBundle\Controller\SubresourceControlle
     /**
      * @ApiDoc(
      *  description="Crée une annale",
-     *  input="KI\UpontBundle\Form\Publications\ExerciceType",
+     *  input="KI\PublicationBundle\Form\ExerciceType",
      *  output="KI\PublicationBundle\Entity\Exercice",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
@@ -124,7 +124,7 @@ class ExercicesController extends \KI\CoreBundle\Controller\SubresourceControlle
             $dispatcher->dispatch('upont.achievement', $achievementCheck);
 
             // On crée une notification
-            $courseUsers = $this->em->getRepository('KIUpontBundle:Users\CourseUser')->findBy(array('course' => $course));
+            $courseUsers = $this->em->getRepository('KIPublicationBundle:CourseUser')->findBy(array('course' => $course));
             $users = array();
 
             foreach ($courseUsers as $courseUser) {
@@ -147,7 +147,7 @@ class ExercicesController extends \KI\CoreBundle\Controller\SubresourceControlle
     /**
      * @ApiDoc(
      *  description="Modifie une annale",
-     *  input="KI\UpontBundle\Form\Publications\ExerciceType",
+     *  input="KI\PublicationBundle\Form\ExerciceType",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   400="La syntaxe de la requête est erronée",
