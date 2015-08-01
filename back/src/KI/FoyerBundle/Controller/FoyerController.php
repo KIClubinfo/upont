@@ -25,7 +25,7 @@ class FoyerController extends \KI\CoreBundle\Controller\BaseController
         if ($this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
             throw new AccessDeniedException();
 
-        $service = $this->get('ki_upont.foyer');
+        $service = $this->get('ki_foyer.service.foyer');
         $service->initialize();
 
         if ($service->hasFailed())
@@ -52,9 +52,9 @@ class FoyerController extends \KI\CoreBundle\Controller\BaseController
         if ($this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
             throw new AccessDeniedException();
 
-        $repo = $this->getDoctrine()->getManager()->getRepository('KIUpontBundle:Users\User');
+        $repo = $this->getDoctrine()->getManager()->getRepository('KIUserBundle:User');
         $user = $repo->findOneByUsername($slug);
-        $service = $this->get('ki_upont.foyer');
+        $service = $this->get('ki_foyer.service.foyer');
         $service->initialize($user);
 
         if ($service->hasFailed())
@@ -80,7 +80,7 @@ class FoyerController extends \KI\CoreBundle\Controller\BaseController
         if ($this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
             throw new AccessDeniedException();
 
-        $service = $this->get('ki_upont.foyer');
+        $service = $this->get('ki_foyer.service.foyer');
         $service->initialize();
 
         return $this->jsonResponse($service->rankings());

@@ -2,13 +2,26 @@
 
 namespace KI\FoyerBundle\Service;
 
-use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Security\Core\SecurityContext;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Event\AchievementCheckEvent;
+use KI\CoreBundle\Service\CurlService;
 
 // Échange des informations avec l'API du Foyer
-class FoyerService extends ContainerAware
+class FoyerService
 {
+    protected $curlService;
+    protected $dispatcher;
+    protected $securityContext;
+
+    public function __construct(CurlService $curlService, EventDispatcherInterface $dispatcher, SecurityContext $securityContext)
+    {
+        $this->curlService     = $curlService;
+        $this->dispatcher      = $dispatcher;
+        $this->securityContext = $securityContext;
+    }
+
     protected $error = null;
     protected $curl;
     protected $token;
@@ -20,18 +33,17 @@ class FoyerService extends ContainerAware
             return;
 
         if ($user === null)
-            $user = $this->container->get('security.context')->getToken()->getUser();
+            $user = $this->securityContext->getToken()->getUser();
         // On vérifie que la personne a le droit de consulter les stats
-        if ($user !== $this->container->get('security.context')->getToken()->getUser()
+        if ($user !== $this->securityContext->getToken()->getUser()
             && ($user->getStatsFoyer() === false || $user->getStatsFoyer() === null)
-            && !$this->container->get('security.context')->isGranted('ROLE_ADMIN')) {
+            && !$this->securityContext->isGranted('ROLE_ADMIN')) {
             $this->error = true;
             return;
         }
 
         // Recupere l'id foyer correspondant
-        $this->curl = $this->container->get('ki_upont.curl');
-        $response = $this->curl->curl('http://dev-foyer.enpc.org/uPonts/qui.php?prenom='.urlencode($user->getFirstName()).'&nom='.urlencode($user->getLastName()));
+        $response = $this->curlService->curl('http://dev-foyer.enpc.org/uPonts/qui.php?prenom='.urlencode($user->getFirstName()).'&nom='.urlencode($user->getLastName()));
         $data = json_decode($response, true);
 
         $this->error = $data['erreur'] != '';
@@ -40,19 +52,17 @@ class FoyerService extends ContainerAware
         if ($this->token === null)
             return;
 
-        $response = $this->curl->curl('http://dev-foyer.enpc.org/uPonts/stats.php?id='.$this->token);
+        $response = $this->curlService->curl('http://dev-foyer.enpc.org/uPonts/stats.php?id='.$this->token);
         $data = json_decode($response, true);
         $this->balance = $data['solde'];
 
         if (!empty($this->balance)) {
             if ($this->balance < 0) {
-                $dispatcher = $this->container->get('event_dispatcher');
                 $achievementCheck = new AchievementCheckEvent(Achievement::FOYER);
-                $dispatcher->dispatch('upont.achievement', $achievementCheck);
+                $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
             } else {
-                $dispatcher = $this->container->get('event_dispatcher');
                 $achievementCheck = new AchievementCheckEvent(Achievement::FOYER_BIS);
-                $dispatcher->dispatch('upont.achievement', $achievementCheck);
+                $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
             }
         }
     }
@@ -63,7 +73,7 @@ class FoyerService extends ContainerAware
 
     public function rankings()
     {
-        $response = $this->curl->curl('http://dev-foyer.enpc.org/uPonts/rankings.php');
+        $response = $this->curlService->curl('http://dev-foyer.enpc.org/uPonts/rankings.php');
         $data = json_decode($response, true);
 
         return array(
@@ -76,7 +86,7 @@ class FoyerService extends ContainerAware
         if ($this->token === null)
             return;
 
-        $response = $this->curl->curl(
+        $response = $this->curlService->curl(
             'http://dev-foyer.enpc.org/uPonts/stats.php?id='.$this->token);
         $data = json_decode($response, true);
 
