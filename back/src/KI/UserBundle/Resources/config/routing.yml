@@ -1,38 +1,38 @@
 clubs:
     type:     rest
-    resource: KI\UpontBundle\Controller\Users\ClubsController
+    resource: KI\UserBundle\Controller\ClubsController
 
 users:
     type:     rest
-    resource: KI\UpontBundle\Controller\Users\UsersController
+    resource: KI\UserBundle\Controller\UsersController
 
 own:
     type:     rest
-    resource: KI\UpontBundle\Controller\Users\OwnController
+    resource: KI\UserBundle\Controller\OwnController
 
 promo:
     type:     rest
-    resource: KI\UpontBundle\Controller\Users\PromoController
+    resource: KI\UserBundle\Controller\PromoController
 
 groups:
     type:     rest
-    resource: KI\UpontBundle\Controller\Users\GroupsController
+    resource: KI\UserBundle\Controller\GroupsController
 
 experiences:
     type:     rest
-    resource: KI\UpontBundle\Controller\Users\ExperiencesController
+    resource: KI\UserBundle\Controller\ExperiencesController
 
 admissibles:
     type:     rest
-    resource: KI\UpontBundle\Controller\Users\AdmissiblesController
+    resource: KI\UserBundle\Controller\AdmissiblesController
 
 facegames:
     type:     rest
-    resource: KI\UpontBundle\Controller\Users\FacegamesController
+    resource: KI\UserBundle\Controller\FacegamesController
 
 upont_api_own_calendar:
     pattern: /users/{token}/calendar
-    defaults: { _controller: KI\UpontBundle\Controller\Users\OwnController::getOwnCalendarAction }
+    defaults: { _controller: KI\UserBundle\Controller\OwnController::getOwnCalendarAction }
     requirements:
         _method: GET
 

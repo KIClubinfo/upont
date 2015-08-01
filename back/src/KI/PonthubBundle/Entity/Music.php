@@ -1,8 +1,8 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Ponthub;
+namespace KI\PonthubBundle\Entity;
 
-use KI\UpontBundle\Entity\Ponthub\PonthubFile;
+use KI\PonthubBundle\Entity\PonthubFile;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -15,7 +15,7 @@ class Music extends PonthubFile
 {
     /**
      * Album parent
-     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Ponthub\Album", inversedBy="musics")
+     * @ORM\ManyToOne(targetEntity="KI\PonthubBundle\Entity\Album", inversedBy="musics")
      * Comme on veut éviter que l'entité se join sur sa propre colonne
      * @ORM\JoinColumn(name="album_id", referencedColumnName="id")
      * @Assert\Valid()
@@ -41,10 +41,10 @@ class Music extends PonthubFile
     /**
      * Set album
      *
-     * @param \KI\UpontBundle\Entity\Ponthub\Album $album
+     * @param \KI\PonthubBundle\Entity\Album $album
      * @return Music
      */
-    public function setAlbum(\KI\UpontBundle\Entity\Ponthub\Album $album)
+    public function setAlbum(\KI\PonthubBundle\Entity\Album $album)
     {
         $this->album = $album;
 
@@ -54,7 +54,7 @@ class Music extends PonthubFile
     /**
      * Get album
      *
-     * @return \KI\UpontBundle\Entity\Ponthub\Album
+     * @return \KI\PonthubBundle\Entity\Album
      */
     public function getAlbum()
     {

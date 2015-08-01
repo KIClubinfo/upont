@@ -1,43 +1,43 @@
 # Système de likes remis ici pour que cela fonctionne avec le prefixe /ponthub
 upont_api_ponthub_filelist:
     pattern: /filelist/{token}
-    defaults: { _controller: KI\UpontBundle\Controller\Ponthub\PonthubController::filelistAction }
+    defaults: { _controller: KI\PonthubBundle\Controller\PonthubController::filelistAction }
     requirements:
         _method: POST
 
 upont_api_ponthub_gracenote:
     pattern: /gracenote
-    defaults: { _controller: KI\UpontBundle\Controller\Ponthub\PonthubController::gracenoteAction }
+    defaults: { _controller: KI\PonthubBundle\Controller\PonthubController::gracenoteAction }
     requirements:
         _method: POST
 
 upont_api_ponthub_imdb_search:
     pattern: /imdb/search
-    defaults: { _controller: KI\UpontBundle\Controller\Ponthub\PonthubController::imdbSearchAction }
+    defaults: { _controller: KI\PonthubBundle\Controller\PonthubController::imdbSearchAction }
     requirements:
         _method: POST
 
 upont_api_ponthub_imdb_infos:
     pattern: /imdb/infos
-    defaults: { _controller: KI\UpontBundle\Controller\Ponthub\PonthubController::imdbInfosAction }
+    defaults: { _controller: KI\PonthubBundle\Controller\PonthubController::imdbInfosAction }
     requirements:
         _method: POST
 
 upont_api_ponthub_search:
     pattern: /search
-    defaults: { _controller: KI\UpontBundle\Controller\Ponthub\PonthubController::searchAction }
+    defaults: { _controller: KI\PonthubBundle\Controller\PonthubController::searchAction }
     requirements:
         _method: POST
 
 upont_api_ponthub_statistics_general:
     pattern: /ponthub/statistics
-    defaults: { _controller: KI\UpontBundle\Controller\Ponthub\PonthubController::statisticsMainAction }
+    defaults: { _controller: KI\PonthubBundle\Controller\PonthubController::statisticsMainAction }
     requirements:
         _method: GET
         
 upont_api_ponthub_statistics:
     pattern: /ponthub/statistics/{slug}
-    defaults: { _controller: KI\UpontBundle\Controller\Ponthub\PonthubController::statisticsAction }
+    defaults: { _controller: KI\PonthubBundle\Controller\PonthubController::statisticsAction }
     requirements:
         _method: GET
 
@@ -46,28 +46,28 @@ upont_api_ponthub_statistics:
 
 albums:
     type:     rest
-    resource: KI\UpontBundle\Controller\Ponthub\AlbumsController
+    resource: KI\PonthubBundle\Controller\AlbumsController
 
 games:
     type:     rest
-    resource: KI\UpontBundle\Controller\Ponthub\GamesController
+    resource: KI\PonthubBundle\Controller\GamesController
 
 movies:
     type:     rest
-    resource: KI\UpontBundle\Controller\Ponthub\MoviesController
+    resource: KI\PonthubBundle\Controller\MoviesController
 
 others:
     type:     rest
-    resource: KI\UpontBundle\Controller\Ponthub\OthersController
+    resource: KI\PonthubBundle\Controller\OthersController
 
 softwares:
     type:     rest
-    resource: KI\UpontBundle\Controller\Ponthub\SoftwaresController
+    resource: KI\PonthubBundle\Controller\SoftwaresController
 
 requests:
     type:     rest
-    resource: KI\UpontBundle\Controller\Ponthub\RequestsController
+    resource: KI\PonthubBundle\Controller\RequestsController
 
 series:
     type:     rest
-    resource: KI\UpontBundle\Controller\Ponthub\SeriesController
+    resource: KI\PonthubBundle\Controller\SeriesController

@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Controller\Users;
+namespace KI\UserBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -135,7 +135,7 @@ class PromoController extends \KI\CoreBundle\Controller\ResourceController
 
     // Compare un User uPont et un utilisateur Facebook et essaye de deviner si
     // ce sont les mêmes personnes
-    private function isSimilar(\KI\UpontBundle\Entity\Users\User $user, array $member)
+    private function isSimilar(\KI\UserBundle\Entity\User $user, array $member)
     {
         $percent = 0;
         similar_text($user->getFirstName().' '.$user->getLastName(), $member['name'], $percent);

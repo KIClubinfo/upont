@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Form\Users;
+namespace KI\UserBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,15 +19,15 @@ class ClubType extends AbstractType
             ->add('active')
             ->add('assos')
             ->add('administration')
-            ->add('image', 'imageuploader_selector')
-            ->add('banner', 'imageuploader_selector');
+            ->add('image', 'image_selector')
+            ->add('banner', 'image_selector');
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'data_class' => 'KI\UpontBundle\Entity\Users\Club'
+            'data_class' => 'KI\UserBundle\Entity\Club'
         ));
     }
 

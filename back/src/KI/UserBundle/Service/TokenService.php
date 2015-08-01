@@ -9,7 +9,7 @@ class KIToken extends ContainerAware
     // Génère un token pour l'utilisateur
     // On n'utilise pas le JWT pour avoir un token plus personnalisable et moins long
     // (donc moins moche)
-    public function getToken(\KI\UpontBundle\Entity\Users\User $user = null)
+    public function getToken(\KI\UserBundle\Entity\User $user = null)
     {
         if ($user === null) {
             if ($result = $this->container->get('security.context')->getToken())

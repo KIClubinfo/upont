@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Entity;
+namespace KI\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
@@ -70,7 +70,7 @@ class Notification
 
     /**
      * Destinataire(s) ou liste d'exclusion suivant le mode d'envoi choisi
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="KI\UserBundle\Entity\User", cascade={"persist"})
      * @ORM\JoinTable(name="notifications_recipient",
      *      joinColumns={@ORM\JoinColumn(name="notifications_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
@@ -80,7 +80,7 @@ class Notification
 
     /**
      * Personnes ayant lu la notification
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="KI\UserBundle\Entity\User", cascade={"persist"})
      * @ORM\JoinTable(name="notifications_read",
      *      joinColumns={@ORM\JoinColumn(name="notification_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
@@ -263,10 +263,10 @@ class Notification
     /**
      * Add recipient
      *
-     * @param \KI\UpontBundle\Entity\User $recipient
+     * @param \KI\UserBundle\Entity\User $recipient
      * @return Notification
      */
-    public function addRecipient(\KI\UpontBundle\Entity\Users\User $recipient)
+    public function addRecipient(\KI\UserBundle\Entity\User $recipient)
     {
         $this->recipient[] = $recipient;
 
@@ -276,9 +276,9 @@ class Notification
     /**
      * Remove recipient
      *
-     * @param \KI\UpontBundle\Entity\User $recipient
+     * @param \KI\UserBundle\Entity\User $recipient
      */
-    public function removeRecipient(\KI\UpontBundle\Entity\Users\User $recipient)
+    public function removeRecipient(\KI\UserBundle\Entity\User $recipient)
     {
         $this->recipient->removeElement($recipient);
     }
@@ -296,10 +296,10 @@ class Notification
     /**
      * Add read
      *
-     * @param \KI\UpontBundle\Entity\User $read
+     * @param \KI\UserBundle\Entity\User $read
      * @return Notification
      */
-    public function addRead(\KI\UpontBundle\Entity\Users\User $read)
+    public function addRead(\KI\UserBundle\Entity\User $read)
     {
         $this->read[] = $read;
 
@@ -309,9 +309,9 @@ class Notification
     /**
      * Remove read
      *
-     * @param \KI\UpontBundle\Entity\User $read
+     * @param \KI\UserBundle\Entity\User $read
      */
-    public function removeRead(\KI\UpontBundle\Entity\Users\User $read)
+    public function removeRead(\KI\UserBundle\Entity\User $read)
     {
         $this->read->removeElement($read);
     }

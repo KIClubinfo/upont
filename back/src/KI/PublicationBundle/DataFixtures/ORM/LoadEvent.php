@@ -1,11 +1,11 @@
 <?php
 
-namespace KI\UpontBundle\DataFixtures\ORM\Publications;
+namespace KI\PublicationBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use KI\UpontBundle\Entity\Publications\Event;
+use KI\PublicationBundle\Entity\Event;
 
 class LoadEventFixture extends AbstractFixture implements OrderedFixtureInterface
 {

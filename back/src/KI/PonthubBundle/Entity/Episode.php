@@ -1,8 +1,8 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Ponthub;
+namespace KI\PonthubBundle\Entity;
 
-use KI\UpontBundle\Entity\Ponthub\PonthubFile;
+use KI\PonthubBundle\Entity\PonthubFile;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -31,7 +31,7 @@ class Episode extends PonthubFile
 
     /**
      * Série parente
-     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Ponthub\Serie", inversedBy="episodes")
+     * @ORM\ManyToOne(targetEntity="KI\PonthubBundle\Entity\Serie", inversedBy="episodes")
      * Comme on veut éviter que l'entité se join sur sa propre colonne
      * @ORM\JoinColumn(name="serie_id", referencedColumnName="id")
      * @Assert\Valid()
@@ -103,10 +103,10 @@ class Episode extends PonthubFile
     /**
      * Set serie
      *
-     * @param \KI\UpontBundle\Entity\Ponthub\Serie $serie
+     * @param \KI\PonthubBundle\Entity\Serie $serie
      * @return episode
      */
-    public function setSerie(\KI\UpontBundle\Entity\Ponthub\Serie $serie)
+    public function setSerie(\KI\PonthubBundle\Entity\Serie $serie)
     {
         $this->serie = $serie;
 
@@ -116,7 +116,7 @@ class Episode extends PonthubFile
     /**
      * Get serie
      *
-     * @return \KI\UpontBundle\Entity\Ponthub\Serie
+     * @return \KI\PonthubBundle\Entity\Serie
      */
     public function getSerie()
     {

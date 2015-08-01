@@ -1,14 +1,14 @@
 <?php
 
-namespace KI\UpontBundle\Services;
+namespace KI\PublicationBundle\Service;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
-use KI\UpontBundle\Entity\Users\User;
-use KI\UpontBundle\Entity\Users\Achievement;
-use KI\UpontBundle\Event\AchievementCheckEvent;
+use KI\UserBundle\Entity\Users\User;
+use KI\UserBundle\Entity\Achievement;
+use KI\UserBundle\Event\AchievementCheckEvent;
 
 //Service permettant de gérer les calendrier
-class KICalendar extends ContainerAware
+class CalendarService extends ContainerAware
 {
     protected $em;
 

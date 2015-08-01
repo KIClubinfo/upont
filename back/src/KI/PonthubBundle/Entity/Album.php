@@ -1,8 +1,8 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Ponthub;
+namespace KI\PonthubBundle\Entity;
 
-use KI\UpontBundle\Entity\Ponthub\PonthubFile;
+use KI\PonthubBundle\Entity\PonthubFile;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -32,7 +32,7 @@ class Album extends PonthubFile
 
     /**
      * Liste des musiques
-     * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Ponthub\Music", mappedBy="album")
+     * @ORM\OneToMany(targetEntity="KI\PonthubBundle\Entity\Music", mappedBy="album")
      * @Assert\Valid()
      */
     protected $musics;
@@ -103,10 +103,10 @@ class Album extends PonthubFile
     /**
      * Add musics
      *
-     * @param \KI\UpontBundle\Entity\Ponthub\Music $musics
+     * @param \KI\PonthubBundle\Entity\Music $musics
      * @return Album
      */
-    public function addMusic(\KI\UpontBundle\Entity\Ponthub\Music $musics)
+    public function addMusic(\KI\PonthubBundle\Entity\Music $musics)
     {
         $this->musics[] = $musics;
 
@@ -116,9 +116,9 @@ class Album extends PonthubFile
     /**
      * Remove musics
      *
-     * @param \KI\UpontBundle\Entity\Ponthub\Music $musics
+     * @param \KI\PonthubBundle\Entity\Music $musics
      */
-    public function removeMusic(\KI\UpontBundle\Entity\Ponthub\Music $musics)
+    public function removeMusic(\KI\PonthubBundle\Entity\Music $musics)
     {
         $this->musics->removeElement($musics);
     }

@@ -1,23 +1,23 @@
 events:
     type:     rest
-    resource: KI\UpontBundle\Controller\Publications\EventsController
+    resource: KI\PublicationBundle\Controller\EventsController
 
 newsitems:
     type:     rest
-    resource: KI\UpontBundle\Controller\Publications\NewsitemsController
+    resource: KI\PublicationBundle\Controller\NewsitemsController
 
 courses:
     type:     rest
-    resource: KI\UpontBundle\Controller\Publications\CoursesController
+    resource: KI\PublicationBundle\Controller\CoursesController
 
 exercices:
     type:     rest
-    resource: KI\UpontBundle\Controller\Publications\ExercicesController
+    resource: KI\PublicationBundle\Controller\ExercicesController
 
 fixes:
     type:     rest
-    resource: KI\UpontBundle\Controller\Publications\FixesController
+    resource: KI\PublicationBundle\Controller\FixesController
 
 tutos:
     type:     rest
-    resource: KI\UpontBundle\Controller\Publications\TutosController
+    resource: KI\PublicationBundle\Controller\TutosController

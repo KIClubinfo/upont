@@ -2,16 +2,20 @@
 
 namespace KI\CoreBundle\Service;
 
-use Symfony\Component\DependencyInjection\ContainerAware;
-
-class CurlService extends ContainerAware
+class CurlService
 {
+    protected $proxyUrl;
+    protected $proxyUser;
+
+    public function __construct($proxyUrl, $proxyUser)
+    {
+        $this->proxyUrl = $proxyUrl;
+        $this->proxyUser = $proxyUser;
+    }
+
     // Téléchargement d'une ressource externe
     public function curl($url, array $options = array())
     {
-        $proxyUrl = $this->container->getParameter('proxy_url');
-        $proxyUser = $this->container->getParameter('proxy_user');
-
         // Réglage des options cURL
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -22,11 +26,15 @@ class CurlService extends ContainerAware
         curl_setopt($ch, CURLOPT_HTTP_VERSION, 'CURL_HTTP_VERSION_1_0');
         curl_setopt($ch, CURLOPT_USERAGENT, 'runscope/0.1');
 
-        if ($proxyUrl !== null)
-            curl_setopt($ch, CURLOPT_PROXY, $proxyUrl);
-        if ($proxyUser !== null)
-            curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyUser);
+        // Réglage éventuel du proxy
+        if ($this->proxyUrl !== null) {
+            curl_setopt($ch, CURLOPT_PROXY, $this->proxyUrl);
+        }
+        if ($this->proxyUser !== null) {
+            curl_setopt($ch, CURLOPT_PROXYUSERPWD, $this->proxyUser);
+        }
 
+        // On ajoute d'éventuelles options si elles sont spécifiées
         foreach ($options as $option => $value) {
             curl_setopt($ch, $option, $value);
         }

@@ -1,11 +1,11 @@
 <?php
 
-namespace KI\UpontBundle\DataFixtures\ORM\Users;
+namespace KI\UserBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use KI\UpontBundle\Entity\Users\Club;
+use KI\UserBundle\Entity\Club;
 
 
 class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface

@@ -1,13 +1,13 @@
 <?php
 
-namespace KI\UpontBundle\Controller\Users;
+namespace KI\UserBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use KI\UpontBundle\Entity\Users\Achievement;
-use KI\UpontBundle\Event\AchievementCheckEvent;
+use KI\UserBundle\Entity\Achievement;
+use KI\UserBundle\Event\AchievementCheckEvent;
 
 class UsersController extends \KI\CoreBundle\Controller\ResourceController
 {
@@ -21,7 +21,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
      * @ApiDoc(
      *  resource=true,
      *  description="Liste les utilisateurs",
-     *  output="KI\UpontBundle\Entity\Users\User",
+     *  output="KI\UserBundle\Entity\User",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -36,7 +36,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Retourne un utilisateur",
-     *  output="KI\UpontBundle\Entity\Users\User",
+     *  output="KI\UserBundle\Entity\User",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -52,7 +52,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Modifie un utilisateur",
-     *  input="KI\UpontBundle\Form\Users\UserType",
+     *  input="KI\UserBundle\Form\UserType",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   400="La syntaxe de la requête est erronée",
@@ -121,7 +121,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Récupère la liste des clubs dont l'utilisateur est membre",
-     *  output="KI\UpontBundle\Entity\Users\Club",
+     *  output="KI\UserBundle\Entity\Club",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",

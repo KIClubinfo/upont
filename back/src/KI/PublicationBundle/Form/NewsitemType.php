@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Form\Publications;
+namespace KI\PublicationBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,14 +14,14 @@ class NewsitemType extends AbstractType
             ->add('name')
             ->add('text')
             ->add('authorClub', 'club_selector')
-            ->add('image', 'imageuploader_selector');
+            ->add('image', 'image_selector');
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'data_class' => 'KI\UpontBundle\Entity\Publications\Newsitem'
+            'data_class' => 'KI\PublicationBundle\Entity\Newsitem'
         ));
     }
 

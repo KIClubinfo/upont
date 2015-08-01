@@ -1,31 +1,42 @@
 <?php
-namespace KI\UpontBundle\Form\Type;
+namespace KI\CoreBundle\Selector;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use KI\UpontBundle\Form\DataTransformer\StringToClubDataTransformer;
+use KI\CoreBundle\Transformer\StringToImageTransformer;
+use KI\CoreBundle\Service\ImageService;
 
-class ClubSelectorType extends AbstractType
+class ImageSelector extends AbstractType
 {
+    /**
+     * @var ObjectManager
+     */
     private $om;
 
-    public function __construct(ObjectManager $om)
+    private $uploaderService;
+
+
+    /**
+     * @param ObjectManager $om
+     */
+    public function __construct(ObjectManager $om, ImageService $uploaderService)
     {
         $this->om = $om;
+        $this->uploaderService = $uploaderService;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $transformer = new StringToClubDataTransformer($this->om);
+        $transformer = new StringToImageTransformer($this->om, $this->uploaderService);
         $builder->addModelTransformer($transformer);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'invalid_message' => 'Le club séléctionné n\'existe pas',
+            'invalid_message' => 'L image selectionnee n existe pas',
         ));
     }
 
@@ -36,6 +47,6 @@ class ClubSelectorType extends AbstractType
 
     public function getName()
     {
-        return 'club_selector';
+        return 'image_selector';
     }
 }

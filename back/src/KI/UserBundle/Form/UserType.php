@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Form\Users;
+namespace KI\UserBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -33,14 +33,14 @@ class UserType extends AbstractType
             ->add('allowedBds')
             ->add('tour')
             ->add('details')
-            ->add('image', 'imageuploader_selector');
+            ->add('image', 'image_selector');
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'data_class' => 'KI\UpontBundle\Entity\Users\User'
+            'data_class' => 'KI\UserBundle\Entity\User'
         ));
     }
 

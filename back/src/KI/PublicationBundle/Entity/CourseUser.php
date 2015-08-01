@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Users;
+namespace KI\PublicationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
@@ -28,14 +28,14 @@ class CourseUser
     protected $group;
 
     /**
-     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Publications\Course")
+     * @ORM\ManyToOne(targetEntity="KI\PublicationBundle\Entity\Course")
      * @ORM\JoinColumn(nullable=false)
      * @JMS\Expose
      */
     protected $course;
 
     /**
-     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User")
+     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      * @JMS\Expose
      */
@@ -81,10 +81,10 @@ class CourseUser
     /**
      * Set course
      *
-     * @param \KI\UpontBundle\Entity\Course $course
+     * @param \KI\PublicationBundle\Entity\Course $course
      * @return CourseUser
      */
-    public function setCourse(\KI\UpontBundle\Entity\Publications\Course $course)
+    public function setCourse(\KI\PublicationBundle\Entity\Course $course)
     {
         $this->course = $course;
 
@@ -94,7 +94,7 @@ class CourseUser
     /**
      * Get course
      *
-     * @return \KI\UpontBundle\Entity\Course
+     * @return \KI\PublicationBundle\Entity\Course
      */
     public function getCourse()
     {
@@ -104,10 +104,10 @@ class CourseUser
     /**
      * Set user
      *
-     * @param \KI\UpontBundle\Entity\User $user
+     * @param \KI\UserBundle\Entity\User $user
      * @return CourseUser
      */
-    public function setUser(\KI\UpontBundle\Entity\Users\User $user)
+    public function setUser(\KI\UserBundle\Entity\User $user)
     {
         $this->user = $user;
 
@@ -117,7 +117,7 @@ class CourseUser
     /**
      * Get user
      *
-     * @return \KI\UpontBundle\Entity\User
+     * @return \KI\UserBundle\Entity\User
      */
     public function getUser()
     {

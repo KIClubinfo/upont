@@ -1,8 +1,7 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Publications;
+namespace KI\PublicationBundle\Entity;
 
-use KI\UpontBundle\Entity\Publications\Post;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

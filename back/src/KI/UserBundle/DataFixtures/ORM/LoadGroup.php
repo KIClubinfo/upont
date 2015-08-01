@@ -1,11 +1,11 @@
 <?php
 
-namespace KI\UpontBundle\DataFixtures\ORM\Users;
+namespace KI\UserBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use KI\UpontBundle\Entity\Users\Group;
+use KI\UserBundle\Entity\Group;
 
 
 class LoadGroupFixture extends AbstractFixture implements OrderedFixtureInterface

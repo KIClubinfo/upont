@@ -1,12 +1,12 @@
 <?php
-namespace KI\UpontBundle\Form\Type;
+namespace KI\CoreBundle\Selector;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use KI\UpontBundle\Form\DataTransformer\StringToGenresDataTransformer;
 use Doctrine\Common\Persistence\ObjectManager;
+use KI\CoreBundle\Transformer\StringToTagsTransformer;
 
-class GenresSelectorType extends AbstractType
+class TagsSelector extends AbstractType
 {
     /**
      * @var ObjectManager
@@ -23,7 +23,7 @@ class GenresSelectorType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $transformer = new StringToGenresDataTransformer($this->om);
+        $transformer = new StringToTagsTransformer($this->om);
         $builder->addModelTransformer($transformer);
     }
 
@@ -34,6 +34,6 @@ class GenresSelectorType extends AbstractType
 
     public function getName()
     {
-        return 'genres_selector';
+        return 'tags_selector';
     }
 }

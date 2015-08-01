@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Form\Ponthub;
+namespace KI\PonthubBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,14 +17,14 @@ class GameType extends AbstractType
             ->add('tags', 'tags_selector')
             ->add('year')
             ->add('studio')
-            ->add('image', 'imageuploader_selector');
+            ->add('image', 'image_selector');
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'data_class' => 'KI\UpontBundle\Entity\Ponthub\Game'
+            'data_class' => 'KI\PonthubBundle\Entity\Game'
         ));
     }
 

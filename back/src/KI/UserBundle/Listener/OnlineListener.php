@@ -1,21 +1,30 @@
 <?php
 
-namespace KI\UpontBundle\EventListener;
+namespace KI\UserBundle\Listener;
 
-use Symfony\Component\DependencyInjection\ContainerAware;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
-class OnlineListener extends ContainerAware
+class OnlineListener
 {
+    protected $manager;
+    protected $securityContext;
+
+    public function __construct(EntityManager $manager, SecurityContext $securityContext)
+    {
+        $this->manager         = $manager;
+        $this->securityContext = $securityContext;
+    }
+
     public function onKernelRequest(GetResponseEvent $event)
     {
-        $session = $this->container->get('security.context')->getToken();
+        $session = $this->securityContext->getToken();
         if (!method_exists($session, 'getUser'))
             return;
 
-        $manager = $this->container->get('doctrine')->getManager();
         $user = $session->getUser();
         $user->setLastConnect(time());
-        $manager->flush();
+        $this->manager->flush();
     }
 }

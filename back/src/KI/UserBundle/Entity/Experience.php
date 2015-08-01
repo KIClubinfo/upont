@@ -1,11 +1,11 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Users;
+namespace KI\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use KI\UpontBundle\Entity\Core\Likeable;
+use KI\CoreBundle\Entity\Likeable;
 
 /**
  * @ORM\Entity
@@ -90,7 +90,7 @@ class Experience extends Likeable
 
     /**
      * Personne ayant fait le stage
-     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User")
+     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User")
      * @JMS\Expose
      * @Assert\Valid()
      */
@@ -221,10 +221,10 @@ class Experience extends Likeable
     /**
      * Set user
      *
-     * @param \KI\UpontBundle\Entity\Users\User $user
+     * @param \KI\UserBundle\Entity\User $user
      * @return Experience
      */
-    public function setUser(\KI\UpontBundle\Entity\Users\User $user = null)
+    public function setUser(\KI\UserBundle\Entity\User $user = null)
     {
         $this->user = $user;
 
@@ -234,7 +234,7 @@ class Experience extends Likeable
     /**
      * Get user
      *
-     * @return \KI\UpontBundle\Entity\Users\User
+     * @return \KI\UserBundle\Entity\User
      */
     public function getUser()
     {

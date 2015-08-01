@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Ponthub;
+namespace KI\PonthubBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;

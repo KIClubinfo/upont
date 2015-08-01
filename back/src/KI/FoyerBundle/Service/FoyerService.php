@@ -1,10 +1,10 @@
 <?php
 
-namespace KI\FoyerBundle\Services;
+namespace KI\FoyerBundle\Service;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
-use KI\UpontBundle\Entity\Users\Achievement;
-use KI\UpontBundle\Event\AchievementCheckEvent;
+use KI\UserBundle\Entity\Achievement;
+use KI\UserBundle\Event\AchievementCheckEvent;
 
 // Échange des informations avec l'API du Foyer
 class FoyerService extends ContainerAware

@@ -1,11 +1,11 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Users;
+namespace KI\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use KI\UpontBundle\Entity\Core\Likeable;
+use KI\CoreBundle\Entity\Likeable;
 
 /**
  * @ORM\Entity
@@ -24,14 +24,14 @@ class Club extends Likeable
 
     /**
      * Logo
-     * @ORM\OneToOne(targetEntity="KI\UpontBundle\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="KI\CoreBundle\Entity\Image", cascade={"persist", "remove"})
      * @Assert\Valid()
      */
     protected $image;
 
     /**
      * Bannière
-     * @ORM\OneToOne(targetEntity="KI\UpontBundle\Entity\Image", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="KI\CoreBundle\Entity\Image", cascade={"persist"})
      * @Assert\Valid()
      */
     protected $banner;
@@ -242,10 +242,10 @@ class Club extends Likeable
     /**
      * Set image
      *
-     * @param \KI\UpontBundle\Entity\Image $image
+     * @param \KI\CoreBundle\Entity\Image $image
      * @return Club
      */
-    public function setImage(\KI\UpontBundle\Entity\Image $image = null)
+    public function setImage(\KI\CoreBundle\Entity\Image $image = null)
     {
         $this->image = $image;
 
@@ -255,7 +255,7 @@ class Club extends Likeable
     /**
      * Get image
      *
-     * @return \KI\UpontBundle\Entity\Image
+     * @return \KI\CoreBundle\Entity\Image
      */
     public function getImage()
     {
@@ -265,10 +265,10 @@ class Club extends Likeable
     /**
      * Set banner
      *
-     * @param \KI\UpontBundle\Entity\Image $banner
+     * @param \KI\CoreBundle\Entity\Image $banner
      * @return Club
      */
-    public function setBanner(\KI\UpontBundle\Entity\Image $banner = null)
+    public function setBanner(\KI\CoreBundle\Entity\Image $banner = null)
     {
         $this->banner = $banner;
 
@@ -278,7 +278,7 @@ class Club extends Likeable
     /**
      * Get banner
      *
-     * @return \KI\UpontBundle\Entity\Image
+     * @return \KI\CoreBundle\Entity\Image
      */
     public function getBanner()
     {

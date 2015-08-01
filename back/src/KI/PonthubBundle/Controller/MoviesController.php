@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Controller\Ponthub;
+namespace KI\PonthubBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -17,7 +17,7 @@ class MoviesController extends \KI\CoreBundle\Controller\ResourceController
      * @ApiDoc(
      *  resource=true,
      *  description="Liste les films",
-     *  output="KI\UpontBundle\Entity\Ponthub\Movie",
+     *  output="KI\PonthubBundle\Entity\Movie",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -32,7 +32,7 @@ class MoviesController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Retourne un film",
-     *  output="KI\UpontBundle\Entity\Ponthub\Movie",
+     *  output="KI\PonthubBundle\Entity\Movie",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -48,7 +48,7 @@ class MoviesController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Modifie un film",
-     *  input="KI\UpontBundle\Form\Ponthub\MovieType",
+     *  input="KI\PonthubBundle\Form\MovieType",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   400="La syntaxe de la requête est erronée",

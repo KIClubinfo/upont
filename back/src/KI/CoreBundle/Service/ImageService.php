@@ -2,14 +2,22 @@
 
 namespace KI\CoreBundle\Service;
 
-use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\File;
 use KI\CoreBundle\Entity\Image;
 
-class ImageService extends ContainerAware
+class ImageService
 {
+    protected $curlService;
+    protected $imagesMaxSize;
+
+    public function __construct(CurlService $curlService, $imagesMaxSize)
+    {
+        $this->curlService = $curlService;
+        $this->imagesMaxSize = $imagesMaxSize;
+    }
+
     public function upload($src, $url = null)
     {
         $fs = new Filesystem();
@@ -61,15 +69,13 @@ class ImageService extends ContainerAware
         if (!($byPassCheck || preg_match('#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#iS', $url)))
             throw new BadRequestHttpException('Ceci n\'est pas une url : '.$url);
 
-        $curl = $this->container->get('ki_upont.curl');
-
         // Réglage des options cURL
-        $data = $curl->curl($url, array(
+        $data = $this->curlService->curl($url, array(
             CURLOPT_BUFFERSIZE => 128,
             CURLOPT_NOPROGRESS => true,
             CURLOPT_PROGRESSFUNCTION, function($downloadSize, $downloaded, $uploadSize, $uploaded) {
-                // If $downloaded exceeds $this->container->getParameter('upont_images_maxSize') B, returning non-0 breaks the connection!
-                return ($downloaded > ($this->container->getParameter('upont_images_maxSize'))) ? 1 : 0;
+                // If downloaded exceeds image max size, returning non-0 breaks the connection!
+                return ($downloaded > ($this->imagesMaxSize)) ? 1 : 0;
             }
         ));
 

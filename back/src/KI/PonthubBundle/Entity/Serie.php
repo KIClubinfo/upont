@@ -1,8 +1,8 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Ponthub;
+namespace KI\PonthubBundle\Entity;
 
-use KI\UpontBundle\Entity\Ponthub\PonthubFile;
+use KI\PonthubBundle\Entity\PonthubFile;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -15,7 +15,7 @@ class Serie extends PonthubFile
 {
     /**
      * Liste des épisodes
-     * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Ponthub\Episode", mappedBy="serie")
+     * @ORM\OneToMany(targetEntity="KI\PonthubBundle\Entity\Episode", mappedBy="serie")
      * @Assert\Valid()
      */
     protected $episodes;
@@ -86,7 +86,7 @@ class Serie extends PonthubFile
 
     /**
      * Acteurs
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Ponthub\Actor", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="KI\PonthubBundle\Entity\Actor", cascade={"persist"})
      * @Assert\Valid()
      */
     protected $actors;
@@ -355,10 +355,10 @@ class Serie extends PonthubFile
     /**
      * Add actor
      *
-     * @param \KI\UpontBundle\Entity\Ponthub\Actor $actor
+     * @param \KI\PonthubBundle\Entity\Actor $actor
      * @return Serie
      */
-    public function addActor(\KI\UpontBundle\Entity\Ponthub\Actor $actor)
+    public function addActor(\KI\PonthubBundle\Entity\Actor $actor)
     {
         $this->actors[] = $actor;
 
@@ -368,9 +368,9 @@ class Serie extends PonthubFile
     /**
      * Remove actor
      *
-     * @param \KI\UpontBundle\Entity\Ponthub\Actor $actor
+     * @param \KI\PonthubBundle\Entity\Actor $actor
      */
-    public function removeActor(\KI\UpontBundle\Entity\Ponthub\Actor $actor)
+    public function removeActor(\KI\PonthubBundle\Entity\Actor $actor)
     {
         $this->actors->removeElement($actor);
     }
@@ -378,10 +378,10 @@ class Serie extends PonthubFile
     /**
      * Add episodes
      *
-     * @param \KI\UpontBundle\Entity\Ponthub\Episode $episode
+     * @param \KI\PonthubBundle\Entity\Episode $episode
      * @return Serie
      */
-    public function addEpisode(\KI\UpontBundle\Entity\Ponthub\Episode $episode)
+    public function addEpisode(\KI\PonthubBundle\Entity\Episode $episode)
     {
         $this->episodes[] = $episode;
 
@@ -391,9 +391,9 @@ class Serie extends PonthubFile
     /**
      * Remove episodes
      *
-     * @param \KI\UpontBundle\Entity\Ponthub\Episode $episode
+     * @param \KI\PonthubBundle\Entity\Episode $episode
      */
-    public function removeEpisode(\KI\UpontBundle\Entity\Ponthub\Episode $episode)
+    public function removeEpisode(\KI\PonthubBundle\Entity\Episode $episode)
     {
         $this->episodes->removeElement($episode);
     }

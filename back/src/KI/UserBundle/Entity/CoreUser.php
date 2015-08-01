@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Users;
+namespace KI\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
@@ -22,7 +22,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
 
     /**
      * Image de profil
-     * @ORM\OneToOne(targetEntity="KI\UpontBundle\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="KI\CoreBundle\Entity\Image", cascade={"persist", "remove"})
      * @Assert\Valid()
      */
     protected $image;
@@ -51,7 +51,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
 
     /**
      * Groupes de permissions FOSUserBundle
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\Group", inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="KI\UserBundle\Entity\Group", inversedBy="users")
      * @ORM\JoinTable(name="fos_user_user_group",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
@@ -68,13 +68,13 @@ class CoreUser extends \FOS\UserBundle\Model\User
 
     /**
      * Appareils mobiles enregistrés pour recevoir des notifications Push
-     * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Users\Device", mappedBy="owner")
+     * @ORM\OneToMany(targetEntity="KI\UserBundle\Entity\Device", mappedBy="owner")
      */
     protected $devices;
 
     /**
      * Clubs auquels l'utilisateur n'est PAS abonné
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\Club")
+     * @ORM\ManyToMany(targetEntity="KI\UserBundle\Entity\Club")
      */
     protected $clubsNotFollowed;
 
@@ -218,10 +218,10 @@ class CoreUser extends \FOS\UserBundle\Model\User
     /**
      * Add group
      *
-     * @param \KI\UpontBundle\Entity\Users\User $group
+     * @param \KI\UserBundle\Entity\User $group
      * @return Comment
      */
-    public function addGroupUser(\KI\UpontBundle\Entity\Users\Group $group)
+    public function addGroupUser(\KI\UserBundle\Entity\Group $group)
     {
         $this->addGroup($group);
         $group->addUser($this);
@@ -232,9 +232,9 @@ class CoreUser extends \FOS\UserBundle\Model\User
     /**
      * Remove group
      *
-     * @param \KI\UpontBundle\Entity\Users\User $group
+     * @param \KI\UserBundle\Entity\User $group
      */
-    public function removeGroupUser(\KI\UpontBundle\Entity\Users\Group $group)
+    public function removeGroupUser(\KI\UserBundle\Entity\Group $group)
     {
         $this->removeGroup($group);
         $group->removeUser($this);
@@ -276,10 +276,10 @@ class CoreUser extends \FOS\UserBundle\Model\User
     /**
      * Set image
      *
-     * @param \KI\UpontBundle\Entity\Image $image
+     * @param \KI\CoreBundle\Entity\Image $image
      * @return User
      */
-    public function setImage(\KI\UpontBundle\Entity\Image $image = null)
+    public function setImage(\KI\CoreBundle\Entity\Image $image = null)
     {
         $this->image = $image;
 
@@ -289,7 +289,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
     /**
      * Get image
      *
-     * @return \KI\UpontBundle\Entity\Image
+     * @return \KI\CoreBundle\Entity\Image
      */
     public function getImage()
     {
@@ -302,7 +302,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
      * @param \KI\UpontBundle\Entity\Device $devices
      * @return User
      */
-    public function addDevice(\KI\UpontBundle\Entity\Users\Device $devices)
+    public function addDevice(\KI\UserBundle\Entity\Device $devices)
     {
         $this->devices[] = $devices;
 
@@ -314,7 +314,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
      *
      * @param \KI\UpontBundle\Entity\Device $devices
      */
-    public function removeDevice(\KI\UpontBundle\Entity\Users\Device $devices)
+    public function removeDevice(\KI\UserBundle\Entity\Device $devices)
     {
         $this->devices->removeElement($devices);
     }
@@ -335,7 +335,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
      * @param \KI\UpontBundle\Entity\Club $club
      * @return User
      */
-    public function addClubNotFollowed(\KI\UpontBundle\Entity\Users\Club $club)
+    public function addClubNotFollowed(\KI\UserBundle\Entity\Club $club)
     {
         $this->clubsNotFollowed[] = $club;
 
@@ -347,7 +347,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
      *
      * @param \KI\UpontBundle\Entity\Club $club
      */
-    public function removeClubNotFollowed(\KI\UpontBundle\Entity\Users\Club $club)
+    public function removeClubNotFollowed(\KI\UserBundle\Entity\Club $club)
     {
         $this->clubsNotFollowed->removeElement($club);
     }

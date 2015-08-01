@@ -1,11 +1,11 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Publications;
+namespace KI\PublicationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use KI\UpontBundle\Entity\Core\Likeable;
+use KI\CoreBundle\Entity\Likeable;
 
 /**
  * @ORM\HasLifecycleCallbacks
@@ -16,7 +16,7 @@ class Exercice extends Likeable
 {
     /**
      * Utilisateur qui a uploadé l'annale
-     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User")
+     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      * @JMS\Expose
      */
@@ -32,7 +32,7 @@ class Exercice extends Likeable
 
     /**
      * Le cours parent
-     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Publications\Course", cascade={"persist"}, inversedBy="exercices")
+     * @ORM\ManyToOne(targetEntity="KI\PublicationBundle\Entity\Course", cascade={"persist"}, inversedBy="exercices")
      * Comme on veut éviter que l'entité se join sur sa propre colonne
      * @ORM\JoinColumn(name="course_id", referencedColumnName="id", nullable=false)
      * @JMS\Expose
@@ -189,10 +189,10 @@ class Exercice extends Likeable
     /**
      * Set uploader
      *
-     * @param \KI\UpontBundle\Entity\User $uploader
+     * @param \KI\UserBundle\Entity\User $uploader
      * @return Exercice
      */
-    public function setUploader(\KI\UpontBundle\Entity\Users\User $uploader)
+    public function setUploader(\KI\UserBundle\Entity\User $uploader)
     {
         $this->uploader = $uploader;
 
@@ -202,7 +202,7 @@ class Exercice extends Likeable
     /**
      * Get uploader
      *
-     * @return \KI\UpontBundle\Entity\User
+     * @return \KI\UserBundle\Entity\User
      */
     public function getUploader()
     {
@@ -212,10 +212,10 @@ class Exercice extends Likeable
     /**
      * Set course
      *
-     * @param \KI\UpontBundle\Entity\Publications\Course $course
+     * @param \KI\PublicationBundle\Entity\Course $course
      * @return Exercice
      */
-    public function setCourse(\KI\UpontBundle\Entity\Publications\Course $course = null)
+    public function setCourse(\KI\PublicationBundle\Entity\Course $course = null)
     {
         $this->course = $course;
 
@@ -225,7 +225,7 @@ class Exercice extends Likeable
     /**
      * Get course
      *
-     * @return \KI\UpontBundle\Entity\Publications\Course
+     * @return \KI\PublicationBundle\Entity\Course
      */
     public function getCourse()
     {

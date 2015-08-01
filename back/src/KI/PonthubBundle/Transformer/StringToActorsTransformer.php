@@ -1,11 +1,11 @@
 <?php
-namespace KI\UpontBundle\Form\DataTransformer;
+namespace KI\PonthubBundle\Transformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use KI\UpontBundle\Entity\Ponthub\Actor;
+use KI\PonthubBundle\Entity\Actor;
 
-class StringToActorsDataTransformer implements DataTransformerInterface
+class StringToActorsTransformer implements DataTransformerInterface
 {
     /**
      * @var ObjectManager
@@ -32,7 +32,7 @@ class StringToActorsDataTransformer implements DataTransformerInterface
             return null;
 
         $array = new \Doctrine\Common\Collections\ArrayCollection();
-        $repo = $this->om->getRepository('KIUpontBundle:Ponthub\Actor');
+        $repo = $this->om->getRepository('KIPonthubBundle:Actor');
         foreach (explode(',', $string) as $actor) {
             $item = $repo->findOneByName($actor);
 

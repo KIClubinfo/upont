@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Publications;
+namespace KI\PublicationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
@@ -54,7 +54,7 @@ class CourseItem
 
     /**
      * Le cours parent
-     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Publications\Course", inversedBy="courseitems")
+     * @ORM\ManyToOne(targetEntity="KI\PublicationBundle\Entity\Course", inversedBy="courseitems")
      * @JMS\Expose
      * @Assert\Valid()
      */
@@ -168,10 +168,10 @@ class CourseItem
     /**
      * Set course
      *
-     * @param \KI\UpontBundle\Entity\Publications\Course $course
+     * @param \KI\PublicationBundle\Entity\Course $course
      * @return CourseItem
      */
-    public function setCourse(\KI\UpontBundle\Entity\Publications\Course $course = null)
+    public function setCourse(\KI\PublicationBundle\Entity\Course $course = null)
     {
         $this->course = $course;
 
@@ -181,7 +181,7 @@ class CourseItem
     /**
      * Get course
      *
-     * @return \KI\UpontBundle\Entity\Publications\Course
+     * @return \KI\PublicationBundle\Entity\Course
      */
     public function getCourse()
     {

@@ -1,12 +1,12 @@
 <?php
-namespace KI\CoreBundle\Form\Selector;
+namespace KI\PonthubBundle\Selector;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use KI\CoreBundle\Transformer\StringToTagsTransformer;
+use KI\PonthubBundle\Transformer\StringToActorsTransformer;
 
-class TagsSelectorType extends AbstractType
+class ActorsSelector extends AbstractType
 {
     /**
      * @var ObjectManager
@@ -23,7 +23,7 @@ class TagsSelectorType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $transformer = new StringToTagsTransformer($this->om);
+        $transformer = new StringToActorsTransformer($this->om);
         $builder->addModelTransformer($transformer);
     }
 
@@ -34,6 +34,6 @@ class TagsSelectorType extends AbstractType
 
     public function getName()
     {
-        return 'tags_selector';
+        return 'actors_selector';
     }
 }

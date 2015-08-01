@@ -1,21 +1,16 @@
 <?php
-namespace KI\UpontBundle\Form\Type;
+namespace KI\UserBundle\Selector;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use KI\UpontBundle\Form\DataTransformer\StringToActorsDataTransformer;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use KI\UserBundle\Transformer\StringToClubTransformer;
 
-class ActorsSelectorType extends AbstractType
+class ClubSelector extends AbstractType
 {
-    /**
-     * @var ObjectManager
-     */
     private $om;
 
-    /**
-     * @param ObjectManager $om
-     */
     public function __construct(ObjectManager $om)
     {
         $this->om = $om;
@@ -23,8 +18,15 @@ class ActorsSelectorType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $transformer = new StringToActorsDataTransformer($this->om);
+        $transformer = new StringToClubTransformer($this->om);
         $builder->addModelTransformer($transformer);
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'invalid_message' => 'Le club séléctionné n\'existe pas',
+        ));
     }
 
     public function getParent()
@@ -34,6 +36,6 @@ class ActorsSelectorType extends AbstractType
 
     public function getName()
     {
-        return 'actors_selector';
+        return 'club_selector';
     }
 }

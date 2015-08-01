@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Users;
+namespace KI\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
@@ -28,14 +28,14 @@ class AchievementUser
     private $date;
 
     /**
-     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\Achievement")
+     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\Achievement")
      * @ORM\JoinColumn(nullable=false)
      * @JMS\Expose
      */
     private $achievement;
 
     /**
-     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User")
+     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      * @JMS\Expose
      */
@@ -88,10 +88,10 @@ class AchievementUser
     /**
      * Set achievement
      *
-     * @param \KI\UpontBundle\Entity\Users\Achievement $achievement
+     * @param \KI\UserBundle\Entity\Achievement $achievement
      * @return AchievementUser
      */
-    public function setAchievement(\KI\UpontBundle\Entity\Users\Achievement $achievement)
+    public function setAchievement(\KI\UserBundle\Entity\Achievement $achievement)
     {
         $this->achievement = $achievement;
 
@@ -101,7 +101,7 @@ class AchievementUser
     /**
      * Get achievement
      *
-     * @return \KI\UpontBundle\Entity\Users\Achievement
+     * @return \KI\UserBundle\Entity\Achievement
      */
     public function getAchievement()
     {
@@ -111,10 +111,10 @@ class AchievementUser
     /**
      * Set user
      *
-     * @param \KI\UpontBundle\Entity\User $user
+     * @param \KI\UserBundle\Entity\User $user
      * @return AchievementUser
      */
-    public function setUser(\KI\UpontBundle\Entity\Users\User $user)
+    public function setUser(\KI\UserBundle\Entity\User $user)
     {
         $this->user = $user;
 
@@ -124,7 +124,7 @@ class AchievementUser
     /**
      * Get user
      *
-     * @return \KI\UpontBundle\Entity\User
+     * @return \KI\UserBundle\Entity\User
      */
     public function getUser()
     {

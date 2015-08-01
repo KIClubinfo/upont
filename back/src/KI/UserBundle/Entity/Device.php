@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Users;
+namespace KI\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
@@ -37,7 +37,7 @@ class Device
     protected $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User", inversedBy="devices")
+     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User", inversedBy="devices")
      * @ORM\JoinColumn(nullable=false)
      */
     protected $owner;
@@ -109,10 +109,10 @@ class Device
     /**
      * Set owner
      *
-     * @param \KI\UpontBundle\Entity\User $owner
+     * @param \KI\UserBundle\Entity\User $owner
      * @return Device
      */
-    public function setOwner(\KI\UpontBundle\Entity\Users\User $owner)
+    public function setOwner(\KI\UserBundle\Entity\User $owner)
     {
         $this->owner = $owner;
 
@@ -122,7 +122,7 @@ class Device
     /**
      * Get owner
      *
-     * @return \KI\UpontBundle\Entity\User
+     * @return \KI\UserBundle\Entity\User
      */
     public function getOwner()
     {

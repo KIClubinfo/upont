@@ -1,11 +1,11 @@
 <?php
 
-namespace KI\UpontBundle\DataFixtures\ORM\Publications;
+namespace KI\PublicationBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use KI\UpontBundle\Entity\Publications\Course;
+use KI\PublicationBundle\Entity\Course;
 
 
 class LoadCourseFixture extends AbstractFixture implements OrderedFixtureInterface

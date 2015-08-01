@@ -1,8 +1,8 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Ponthub;
+namespace KI\PonthubBundle\Entity;
 
-use KI\UpontBundle\Entity\Ponthub\PonthubFile;
+use KI\PonthubBundle\Entity\PonthubFile;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -79,7 +79,7 @@ class Movie extends PonthubFile
 
     /**
      * Acteurs
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Ponthub\Actor", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="KI\PonthubBundle\Entity\Actor", cascade={"persist"})
      * @Assert\Valid()
      */
     protected $actors;
@@ -331,10 +331,10 @@ class Movie extends PonthubFile
     /**
      * Add actor
      *
-     * @param \KI\UpontBundle\Entity\Ponthub\Actor $actor
+     * @param \KI\PonthubBundle\Entity\Actor $actor
      * @return Movie
      */
-    public function addActor(\KI\UpontBundle\Entity\Ponthub\Actor $actor)
+    public function addActor(\KI\PonthubBundle\Entity\Actor $actor)
     {
         $this->actors[] = $actor;
 
@@ -344,9 +344,9 @@ class Movie extends PonthubFile
     /**
      * Remove actor
      *
-     * @param \KI\UpontBundle\Entity\Ponthub\Actor $actor
+     * @param \KI\PonthubBundle\Entity\Actor $actor
      */
-    public function removeActor(\KI\UpontBundle\Entity\Ponthub\Actor $actor)
+    public function removeActor(\KI\PonthubBundle\Entity\Actor $actor)
     {
         $this->actors->removeElement($actor);
     }

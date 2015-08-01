@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Controller\Ponthub;
+namespace KI\PonthubBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -17,7 +17,7 @@ class AlbumsController extends \KI\CoreBundle\Controller\SubresourceController
      * @ApiDoc(
      *  resource=true,
      *  description="Liste les albums de musique",
-     *  output="KI\UpontBundle\Entity\Ponthub\Album",
+     *  output="KI\PonthubBundle\Entity\Album",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -32,7 +32,7 @@ class AlbumsController extends \KI\CoreBundle\Controller\SubresourceController
     /**
      * @ApiDoc(
      *  description="Retourne un album de musique",
-     *  output="KI\UpontBundle\Entity\Ponthub\Album",
+     *  output="KI\PonthubBundle\Entity\Album",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -48,7 +48,7 @@ class AlbumsController extends \KI\CoreBundle\Controller\SubresourceController
     /**
      * @ApiDoc(
      *  description="Modifie un album de musique",
-     *  input="KI\UpontBundle\Form\Ponthub\AlbumType",
+     *  input="KI\PonthubBundle\Form\AlbumType",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   400="La syntaxe de la requête est erronée",
@@ -68,7 +68,7 @@ class AlbumsController extends \KI\CoreBundle\Controller\SubresourceController
     /**
      * @ApiDoc(
      *  description="Liste les musiques associées",
-     *  output="KI\UpontBundle\Entity\Ponthub\Music",
+     *  output="KI\PonthubBundle\Entity\Music",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -84,7 +84,7 @@ class AlbumsController extends \KI\CoreBundle\Controller\SubresourceController
     /**
      * @ApiDoc(
      *  description="Retourne une musique associée",
-     *  output="KI\UpontBundle\Entity\Ponthub\Music",
+     *  output="KI\PonthubBundle\Entity\Music",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -100,7 +100,7 @@ class AlbumsController extends \KI\CoreBundle\Controller\SubresourceController
     /**
      * @ApiDoc(
      *  description="Modifie une musique associée",
-     *  input="KI\UpontBundle\Form\Ponthub\MusicType",
+     *  input="KI\PonthubBundle\Form\MusicType",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   400="La syntaxe de la requête est erronée",

@@ -1,11 +1,11 @@
 <?php
 
-namespace KI\UpontBundle\DataFixtures\ORM\Ponthub;
+namespace KI\PonthubBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use KI\UpontBundle\Entity\Ponthub\Serie;
+use KI\PonthubBundle\Entity\Serie;
 
 class LoadSerieFixture extends AbstractFixture implements OrderedFixtureInterface
 {

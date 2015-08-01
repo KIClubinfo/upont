@@ -1,14 +1,14 @@
 <?php
 
-namespace KI\UpontBundle\Controller\Users;
+namespace KI\UserBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use KI\UpontBundle\Form\Users\ClubUserType;
-use KI\UpontBundle\Entity\Users\ClubUser;
+use KI\UserBundle\Form\ClubUserType;
+use KI\UserBundle\Entity\ClubUser;
 
 class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
 {
@@ -24,7 +24,7 @@ class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
      * @ApiDoc(
      *  resource=true,
      *  description="Liste les clubs",
-     *  output="KI\UpontBundle\Entity\Users\Club",
+     *  output="KI\UserBundle\Entity\Club",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -38,7 +38,7 @@ class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
     /**
      * @ApiDoc(
      *  description="Retourne un club",
-     *  output="KI\UpontBundle\Entity\Users\Club",
+     *  output="KI\UserBundle\Entity\Club",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -53,8 +53,8 @@ class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
     /**
      * @ApiDoc(
      *  description="Crée un club",
-     *  input="KI\UpontBundle\Form\Users\ClubType",
-     *  output="KI\UpontBundle\Entity\Users\Club",
+     *  input="KI\UserBundle\Form\ClubType",
+     *  output="KI\UserBundle\Entity\Club",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",
@@ -69,7 +69,7 @@ class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
     /**
      * @ApiDoc(
      *  description="Modifie un club",
-     *  input="KI\UpontBundle\Form\Users\ClubType",
+     *  input="KI\UserBundle\Form\ClubType",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   400="La syntaxe de la requête est erronée",
@@ -121,7 +121,7 @@ class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
     /**
      * @ApiDoc(
      *  description="Liste les membres d'un club",
-     *  output="KI\UpontBundle\Entity\Users\User",
+     *  output="KI\UserBundle\Entity\User",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",

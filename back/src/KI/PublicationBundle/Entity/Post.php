@@ -1,11 +1,11 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Publications;
+namespace KI\PublicationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use KI\UpontBundle\Entity\Core\Likeable;
+use KI\CoreBundle\Entity\Likeable;
 
 /**
  * @ORM\Entity
@@ -15,7 +15,7 @@ class Post extends Likeable
 {
     /**
      * Au nom de quel club a été publié l'event, null si aucun club
-     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\Club", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\Club", cascade={"persist"})
      * @JMS\Expose
      * @Assert\Valid()
      */
@@ -23,7 +23,7 @@ class Post extends Likeable
 
     /**
      * Auteur réel
-     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User", cascade={"persist"})
      * @JMS\Expose
      * @Assert\Valid()
      */
@@ -48,7 +48,7 @@ class Post extends Likeable
 
     /**
      * Image personnalisée
-     * @ORM\OneToOne(targetEntity="KI\UpontBundle\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="KI\CoreBundle\Entity\Image", cascade={"persist", "remove"})
      * @Assert\Valid()
      */
     protected $image;
@@ -121,10 +121,10 @@ class Post extends Likeable
     /**
      * Set authorClub
      *
-     * @param \KI\UpontBundle\Entity\Club $authorClub
+     * @param \KI\UserBundle\Entity\Club $authorClub
      * @return Newsitem
      */
-    public function setAuthorClub(\KI\UpontBundle\Entity\Users\Club $authorClub = null)
+    public function setAuthorClub(\KI\UserBundle\Entity\Club $authorClub = null)
     {
         $this->authorClub = $authorClub;
 
@@ -134,7 +134,7 @@ class Post extends Likeable
     /**
      * Get authorClub
      *
-     * @return \KI\UpontBundle\Entity\Club
+     * @return \KI\UserBundle\Entity\Club
      */
     public function getAuthorClub()
     {
@@ -144,10 +144,10 @@ class Post extends Likeable
     /**
      * Set authorUser
      *
-     * @param \KI\UpontBundle\Entity\User $authorUser
+     * @param \KI\UserBundle\Entity\User $authorUser
      * @return Newsitem
      */
-    public function setAuthorUser(\KI\UpontBundle\Entity\Users\User $authorUser = null)
+    public function setAuthorUser(\KI\UserBundle\Entity\User $authorUser = null)
     {
         $this->authorUser = $authorUser;
 
@@ -157,7 +157,7 @@ class Post extends Likeable
     /**
      * Get authorUser
      *
-     * @return \KI\UpontBundle\Entity\User
+     * @return \KI\UserBundle\Entity\User
      */
     public function getAuthorUser()
     {
@@ -167,10 +167,10 @@ class Post extends Likeable
     /**
      * Set image
      *
-     * @param \KI\UpontBundle\Entity\Image $image
+     * @param \KI\CoreBundle\Entity\Image $image
      * @return Newsitem
      */
-    public function setImage(\KI\UpontBundle\Entity\Image $image = null)
+    public function setImage(\KI\CoreBundle\Entity\Image $image = null)
     {
         $this->image = $image;
 
@@ -180,7 +180,7 @@ class Post extends Likeable
     /**
      * Get image
      *
-     * @return \KI\UpontBundle\Entity\Image
+     * @return \KI\CoreBundle\Entity\Image
      */
     public function getImage()
     {

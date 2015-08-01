@@ -1,11 +1,11 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Publications;
+namespace KI\PublicationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use KI\UpontBundle\Entity\Core\Likeable;
+use KI\CoreBundle\Entity\Likeable;
 
 /**
  * @ORM\Entity
@@ -57,23 +57,11 @@ class Fix extends Likeable
 
     /**
      * Auteur de la réclamation
-     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User", cascade={"persist"})
      * @JMS\Expose
      * @Assert\Valid()
      */
     protected $user;
-
-    /**
-     * Responsables de la tâche
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
-     * @ORM\JoinTable(name="fix_respos",
-     *      joinColumns={@ORM\JoinColumn(name="fix_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="respo_id", referencedColumnName="id")}
-     * )
-     * @JMS\Expose
-     * @Assert\Valid()
-     */
-    protected $listRespos;
 
 
 
@@ -202,11 +190,11 @@ class Fix extends Likeable
     /**
      * Set user
      *
-     * @param \KI\UpontBundle\Entity\Users\User $user
+     * @param \KI\UserBundle\Entity\User $user
      *
      * @return Fix
      */
-    public function setUser(\KI\UpontBundle\Entity\Users\User $user = null)
+    public function setUser(\KI\UserBundle\Entity\User $user = null)
     {
         $this->user = $user;
 
@@ -216,44 +204,10 @@ class Fix extends Likeable
     /**
      * Get user
      *
-     * @return \KI\UpontBundle\Entity\Users\User
+     * @return \KI\UserBundle\Entity\User
      */
     public function getUser()
     {
         return $this->user;
-    }
-
-    /**
-     * Add listRespo
-     *
-     * @param \KI\UpontBundle\Entity\Users\User $listRespo
-     *
-     * @return Fix
-     */
-    public function addListRespo(\KI\UpontBundle\Entity\Users\User $listRespo)
-    {
-        $this->listRespos[] = $listRespo;
-
-        return $this;
-    }
-
-    /**
-     * Remove listRespo
-     *
-     * @param \KI\UpontBundle\Entity\Users\User $listRespo
-     */
-    public function removeListRespo(\KI\UpontBundle\Entity\Users\User $listRespo)
-    {
-        $this->listRespos->removeElement($listRespo);
-    }
-
-    /**
-     * Get listRespos
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getListRespos()
-    {
-        return $this->listRespos;
     }
 }

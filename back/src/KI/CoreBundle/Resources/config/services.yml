@@ -1,30 +1,41 @@
+parameters:
+    # Images
+    ki_core.images.directory: %kernel.root_dir%/web/uploads/images/
+    ki_core.images.maxSize: 512000 # Taille maximum des images uploadées en octets
+    ki_core.maintenance_lock: %kernel.root_dir%/cache/maintenance.lock
+
 services:
     ki_core.listener.maintenance:
         class: KI\CoreBundle\Listener\MaintenanceListener
         arguments:
-            container: "@service_container"
+            - %ki_core.maintenance_lock%
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
-    ki_upont.service.image:
-        class: KI\CoreBundle\Service\ImageService
-        calls:
-            - [ setContainer,[ @service_container ] ]
 
-
-
-    ki_core.form.selector.image:
-       class: KI\UpontBundle\Form\Type\ImageUploaderSelectorType
-       arguments: ["@doctrine.orm.entity_manager","@ki_upont.images"]
+    ki_core.selector.image:
+       class: KI\CoreBundle\Selector\ImageSelector
+       arguments:
+           - @doctrine.orm.entity_manager
+           - @ki_core.service.image
        tags:
-           - { name: form.type, alias: imageuploader_selector }
-    ki_core.form.selector.tags:
-       class: KI\UpontBundle\Form\Type\TagsSelectorType
-       arguments: ["@doctrine.orm.entity_manager"]
+           - { name: form.type, alias: image_selector }
+
+    ki_core.selector.tags:
+       class: KI\CoreBundle\Selector\TagsSelector
+       arguments:
+           - @doctrine.orm.entity_manager
        tags:
            - { name: form.type, alias: tags_selector }
 
     # Interface cURL
     ki_core.service.curl:
         class: KI\CoreBundle\Service\CurlService
-        calls:
-            - [ setContainer,[ @service_container ] ]
+        arguments:
+            - %proxy_url%
+            - %proxy_user%
+
+    ki_core.service.image:
+        class: KI\CoreBundle\Service\ImageService
+        arguments:
+            - @ki_core.service.curl
+            - %ki_core.images.maxSize%

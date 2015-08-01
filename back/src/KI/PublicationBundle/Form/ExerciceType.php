@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Form\Publications;
+namespace KI\PublicationBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,7 +19,7 @@ class ExerciceType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'data_class' => 'KI\UpontBundle\Entity\Publications\Exercice'));
+            'data_class' => 'KI\PublicationBundle\Entity\Exercice'));
     }
 
     public function getName()

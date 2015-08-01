@@ -1,20 +1,20 @@
 <?php
 
-namespace KI\UpontBundle\DataFixtures\ORM\Publications;
+namespace KI\PublicationBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use KI\UpontBundle\Entity\Publications\Exercice;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Filesystem\Filesystem;
+use KI\PublicationBundle\Entity\Exercice;
 
 
 class LoadExerciceFixture extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $basePath = __DIR__ . '/../../../../../../web/uploads/tests/';
+        $basePath = __DIR__ . '/../../../../../web/uploads/tests/';
         $fs = new Filesystem();
         $fs->copy($basePath . 'file.pdf', $basePath . 'file_tmp.pdf');
         $file = new File($basePath . 'file_tmp.pdf');

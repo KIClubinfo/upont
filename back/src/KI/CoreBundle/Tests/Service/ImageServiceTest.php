@@ -14,8 +14,8 @@ class ImageServiceTest extends WebTestCase
     {
         parent::__construct();
         $this->container = static::$kernel->getContainer();
-        $this->service = $this->container->get('ki_upont.image');
-        $this->path = $this->container->getParameter('upont_images_directory');
+        $this->service = $this->container->get('ki_core.service.image');
+        $this->path = $this->container->getParameter('ki_core.images.directory');
     }
 
     public function testUploadBase64()

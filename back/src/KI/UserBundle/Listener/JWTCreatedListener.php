@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\EventListener;
+namespace KI\UserBundle\Listener;
 
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Users;
+namespace KI\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
@@ -29,14 +29,14 @@ class ClubUser
     private $role;
 
     /**
-     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\Club")
+     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\Club")
      * @ORM\JoinColumn(nullable=false)
      * @JMS\Expose
      */
     private $club;
 
     /**
-     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User")
+     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      * @JMS\Expose
      */
@@ -85,7 +85,7 @@ class ClubUser
      * @param \KI\UpontBundle\Entity\Club $club
      * @return ClubUser
      */
-    public function setClub(\KI\UpontBundle\Entity\Users\Club $club)
+    public function setClub(\KI\UserBundle\Entity\Club $club)
     {
         $this->club = $club;
 
@@ -105,10 +105,10 @@ class ClubUser
     /**
      * Set user
      *
-     * @param \KI\UpontBundle\Entity\User $user
+     * @param \KI\UserBundle\Entity\User $user
      * @return ClubUser
      */
-    public function setUser(\KI\UpontBundle\Entity\Users\User $user)
+    public function setUser(\KI\UserBundle\Entity\User $user)
     {
         $this->user = $user;
 
@@ -118,7 +118,7 @@ class ClubUser
     /**
      * Get user
      *
-     * @return \KI\UpontBundle\Entity\User
+     * @return \KI\UserBundle\Entity\User
      */
     public function getUser()
     {

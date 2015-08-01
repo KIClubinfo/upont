@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Controller\Users;
+namespace KI\UserBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use FOS\RestBundle\View\View as RestView;
@@ -22,7 +22,7 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
      * @ApiDoc(
      *  resource=true,
      *  description="Liste les groupes",
-     *  output="KI\UpontBundle\Entity\Users\Group",
+     *  output="KI\UserBundle\Entity\Group",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -36,7 +36,7 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Retourne un groupe",
-     *  output="KI\UpontBundle\Entity\Users\Group",
+     *  output="KI\UserBundle\Entity\Group",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -51,8 +51,8 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Crée un groupe",
-     *  input="KI\UpontBundle\Form\Users\GroupType",
-     *  output="KI\UpontBundle\Entity\Users\Group",
+     *  input="KI\UserBundle\Form\GroupType",
+     *  output="KI\UserBundle\Entity\Group",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",
@@ -97,7 +97,7 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Modifie un groupe",
-     *  input="KI\UpontBundle\Form\Users\GroupType",
+     *  input="KI\UserBundle\Form\GroupType",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   400="La syntaxe de la requête est erronée",
@@ -159,7 +159,7 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Supprime un groupe",
-     *  input="KI\UpontBundle\Form\Users\GroupType",
+     *  input="KI\UserBundle\Form\GroupType",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   400="La syntaxe de la requête est erronée",
@@ -207,7 +207,7 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
         $group = $this->findBySlug($slug);
         $user = $this->em->getRepository('KIUpontBundle:Users\User')->findOneByUsername($id);
 
-        if (!$user instanceof \KI\UpontBundle\Entity\Users\User)
+        if (!$user instanceof \KI\UserBundle\Entity\User)
             throw new NotFoundHttpException('Utilisateur non trouvé');
 
         if ($user->getGroups()->contains($group)) {
@@ -243,7 +243,7 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
         $group = $this->findBySlug($slug);
         $user = $this->em->getRepository('KIUpontBundle:Users\User')->findOneByUsername($id);
 
-        if (!$user instanceof \KI\UpontBundle\Entity\Users\User)
+        if (!$user instanceof \KI\UserBundle\Entity\User)
             throw new NotFoundHttpException('Utilisateur non trouvé');
 
         if (!$user->getGroups()->contains($group)) {

@@ -1,21 +1,25 @@
 <?php
 
-namespace KI\UpontBundle\EventListener;
+namespace KI\UserBundle\Listener;
 
-use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
+use FOS\UserBundle\Doctrine\UserManager;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationFailureEvent;
+use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use KI\UpontBundle\Entity\Users\Achievement;
-use KI\UpontBundle\Event\AchievementCheckEvent;
+use KI\UserBundle\Entity\Achievement;
+use KI\UserBundle\Entity\User;
+use KI\UserBundle\Event\AchievementCheckEvent;
 
 class JWTResponseListener
 {
-    private $container;
+    protected $dispatcher;
+    protected $userManager;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(EventDispatcherInterface $dispatcher, UserManager $userManager)
     {
-        $this->container = $container;
+        $this->dispatcher  = $dispatcher;
+        $this->userManager = $userManager;
     }
 
     // Renvoi du token avec des informations supplémentaires
@@ -25,23 +29,19 @@ class JWTResponseListener
         $user = $event->getUser();
 
         // On commence par checker éventuellement l'achievement de login
-        $dispatcher = $this->container->get('event_dispatcher');
         $achievementCheck = new AchievementCheckEvent(Achievement::LOGIN);
-        $dispatcher->dispatch('upont.achievement', $achievementCheck);
+        $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
 
-        $dispatcher = $this->container->get('event_dispatcher');
         $achievementCheck = new AchievementCheckEvent(Achievement::SPIRIT);
-        $dispatcher->dispatch('upont.achievement', $achievementCheck);
+        $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
 
-        $dispatcher = $this->container->get('event_dispatcher');
         $achievementCheck = new AchievementCheckEvent(Achievement::KIEN);
-        $dispatcher->dispatch('upont.achievement', $achievementCheck);
+        $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
 
-        $dispatcher = $this->container->get('event_dispatcher');
         $achievementCheck = new AchievementCheckEvent(Achievement::ADMIN);
-        $dispatcher->dispatch('upont.achievement', $achievementCheck);
+        $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
 
-        if (!$user instanceof \KI\UpontBundle\Entity\Users\User) {
+        if (!$user instanceof User) {
             return;
         }
 
@@ -82,10 +82,9 @@ class JWTResponseListener
 
         $username = $request->get('username');
         $password = $request->get('password');
-        $userManager = $this->container->get('fos_user.user_manager');
-        $user = $userManager->findUserByUsername($username);
+        $user = $this->userManager->findUserByUsername($username);
 
-        if (!$user instanceof \KI\UpontBundle\Entity\Users\User)
+        if (!$user instanceof User)
             return $this->badCredentials($event, 'Utilisateur non trouvé');
         return $this->badCredentials($event, 'Mauvais mot de passe');
     }

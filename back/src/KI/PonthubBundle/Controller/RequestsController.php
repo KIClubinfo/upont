@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Controller\Ponthub;
+namespace KI\PonthubBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
@@ -16,7 +16,7 @@ class RequestsController extends \KI\CoreBundle\Controller\ResourceController
      * @ApiDoc(
      *  resource=true,
      *  description="Liste les demandes d'ajout de fichier",
-     *  output="KI\UpontBundle\Entity\Ponthub\Request",
+     *  output="KI\PonthubBundle\Entity\Request",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -31,7 +31,7 @@ class RequestsController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Retourne une demande d'ajout de fichier",
-     *  output="KI\UpontBundle\Entity\Ponthub\Request",
+     *  output="KI\PonthubBundle\Entity\Request",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -47,8 +47,8 @@ class RequestsController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Crée une demande d'ajout de fichier",
-     *  input="KI\UpontBundle\Form\Ponthub\RequestType",
-     *  output="KI\UpontBundle\Entity\Ponthub\Request",
+     *  input="KI\PonthubBundle\Form\RequestType",
+     *  output="KI\PonthubBundle\Entity\Request",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",

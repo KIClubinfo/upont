@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Publications;
+namespace KI\PublicationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
@@ -20,7 +20,7 @@ class EventUser
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Publications\Event")
+     * @ORM\ManyToOne(targetEntity="KI\PublicationBundle\Entity\Event")
      * @ORM\JoinColumn(nullable=false)
      * @JMS\Expose
      * @Assert\NotBlank()
@@ -28,7 +28,7 @@ class EventUser
     private $event;
 
     /**
-     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User")
+     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      * @JMS\Expose
      */
@@ -66,10 +66,10 @@ class EventUser
     /**
      * Set event
      *
-     * @param \KI\UpontBundle\Entity\Event $event
+     * @param \KI\PublicationBundle\Entity\Event $event
      * @return EventUser
      */
-    public function setEvent(\KI\UpontBundle\Entity\Publications\Event $event)
+    public function setEvent(\KI\PublicationBundle\Entity\Event $event)
     {
         $this->event = $event;
 
@@ -79,7 +79,7 @@ class EventUser
     /**
      * Get event
      *
-     * @return \KI\UpontBundle\Entity\Event
+     * @return \KI\PublicationBundle\Entity\Event
      */
     public function getEvent()
     {
@@ -89,10 +89,10 @@ class EventUser
     /**
      * Set user
      *
-     * @param \KI\UpontBundle\Entity\User $user
+     * @param \KI\UserBundle\Entity\User $user
      * @return EventUser
      */
-    public function setUser(\KI\UpontBundle\Entity\Users\User $user)
+    public function setUser(\KI\UserBundle\Entity\User $user)
     {
         $this->user = $user;
 
@@ -102,7 +102,7 @@ class EventUser
     /**
      * Get user
      *
-     * @return \KI\UpontBundle\Entity\User
+     * @return \KI\UserBundle\Entity\User
      */
     public function getUser()
     {

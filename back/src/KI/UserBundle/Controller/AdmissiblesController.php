@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Controller\Users;
+namespace KI\UserBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
@@ -18,7 +18,7 @@ class AdmissiblesController extends \KI\CoreBundle\Controller\ResourceController
      * @ApiDoc(
      *  resource=true,
      *  description="Liste les admissibles",
-     *  output="KI\UpontBundle\Entity\Users\Admissible",
+     *  output="KI\UserBundle\Entity\Admissible",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -45,7 +45,7 @@ class AdmissiblesController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Retourne un admissible",
-     *  output="KI\UpontBundle\Entity\Users\Admissible",
+     *  output="KI\UserBundle\Entity\Admissible",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -60,8 +60,8 @@ class AdmissiblesController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Crée un admissible",
-     *  input="KI\UpontBundle\Form\Users\AdmissibleType",
-     *  output="KI\UpontBundle\Entity\Users\Admissible",
+     *  input="KI\UserBundle\Form\AdmissibleType",
+     *  output="KI\UserBundle\Entity\Admissible",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",
@@ -86,7 +86,7 @@ class AdmissiblesController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Modifie un admissible",
-     *  input="KI\UpontBundle\Form\Users\AdmissibleType",
+     *  input="KI\UserBundle\Form\AdmissibleType",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   400="La syntaxe de la requête est erronée",

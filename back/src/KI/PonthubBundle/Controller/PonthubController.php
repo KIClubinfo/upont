@@ -1,21 +1,21 @@
 <?php
 
-namespace KI\UpontBundle\Controller\Ponthub;
+namespace KI\PonthubBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use KI\UpontBundle\Entity\Ponthub\Album;
-use KI\UpontBundle\Entity\Ponthub\Episode;
-use KI\UpontBundle\Entity\Ponthub\Game;
-use KI\UpontBundle\Entity\Ponthub\Movie;
-use KI\UpontBundle\Entity\Ponthub\Music;
-use KI\UpontBundle\Entity\Ponthub\Other;
-use KI\UpontBundle\Entity\Ponthub\Serie;
-use KI\UpontBundle\Entity\Ponthub\Software;
-use KI\UpontBundle\Entity\Ponthub\Genre;
+use KI\PonthubBundle\Entity\Album;
+use KI\PonthubBundle\Entity\Episode;
+use KI\PonthubBundle\Entity\Game;
+use KI\PonthubBundle\Entity\Movie;
+use KI\PonthubBundle\Entity\Music;
+use KI\PonthubBundle\Entity\Other;
+use KI\PonthubBundle\Entity\Serie;
+use KI\PonthubBundle\Entity\Software;
+use KI\PonthubBundle\Entity\Genre;
 
 class PonthubController extends \KI\CoreBundle\Controller\ResourceController
 {
@@ -282,8 +282,8 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
         $items = $this->repo->findByPath($notFound);
 
         foreach ($items as $item) {
-            if (get_class($item) != 'KI\UpontBundle\Entity\Ponthub\Album'
-             && get_class($item) != 'KI\UpontBundle\Entity\Ponthub\Serie')
+            if (get_class($item) != 'KI\PonthubBundle\Entity\Album'
+             && get_class($item) != 'KI\PonthubBundle\Entity\Serie')
                 $item->setStatus('NotFound');
         }
 
@@ -561,7 +561,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
     public function statisticsMainAction()
     {
         // Recherche des plus gros downloaders
-        $dql = 'SELECT IDENTITY(e.user), SUM(f.size) AS compte FROM KI\UpontBundle\Entity\Ponthub\PonthubFileUser e LEFT JOIN e.file f GROUP BY e.user ORDER BY compte DESC';
+        $dql = 'SELECT IDENTITY(e.user), SUM(f.size) AS compte FROM KI\PonthubBundle\Entity\PonthubFileUser e LEFT JOIN e.file f GROUP BY e.user ORDER BY compte DESC';
         $downloaderIds = $this->em->createQuery($dql)
                                 ->setMaxResults(10)
                                 ->getResult();
@@ -630,7 +630,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
 
         // Timeline répartition par promos par mois
         $dql = 'SELECT u.promo, MONTH(e.date) AS mois, SUM(f.size) AS taille
-                FROM KI\UpontBundle\Entity\Ponthub\PonthubFileUser e
+                FROM KI\PonthubBundle\Entity\PonthubFileUser e
                 LEFT JOIN e.file f LEFT JOIN e.user u
                 WHERE u.promo = \'016\' OR u.promo = \'017\' OR u.promo = \'018\'
                 GROUP BY mois, u.promo';
@@ -679,9 +679,9 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
         );
 
         // Construction de l'arbre des années des films/jeux dispos
-        $dql = 'SELECT e.year, COUNT(e.id) FROM KI\UpontBundle\Entity\Ponthub\Movie e GROUP BY e.year';
+        $dql = 'SELECT e.year, COUNT(e.id) FROM KI\PonthubBundle\Entity\Movie e GROUP BY e.year';
         $movieYears = $this->em->createQuery($dql)->getResult();
-        $dql = 'SELECT e.year, COUNT(e.id) FROM KI\UpontBundle\Entity\Ponthub\Game e GROUP BY e.year';
+        $dql = 'SELECT e.year, COUNT(e.id) FROM KI\PonthubBundle\Entity\Game e GROUP BY e.year';
         $gameYears = $this->em->createQuery($dql)->getResult();
 
         $yearCategories = array();
@@ -750,10 +750,10 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
     // Retourne les données selon une catégorie de fichiers
     private function getTotal($category, $size = false) {
         if ($size) {
-            $dql = 'SELECT SUM(e.size) FROM KI\UpontBundle\Entity\Ponthub\\'.$category.' e';
+            $dql = 'SELECT SUM(e.size) FROM KI\PonthubBundle\Entity\\'.$category.' e';
             return $this->em->createQuery($dql)->getSingleScalarResult() / (1000*1000*1000);
         } else {
-            $dql = 'SELECT COUNT(e.id) FROM KI\UpontBundle\Entity\Ponthub\\'.$category.' e';
+            $dql = 'SELECT COUNT(e.id) FROM KI\PonthubBundle\Entity\\'.$category.' e';
             return $this->em->createQuery($dql)->getSingleScalarResult();
         }
     }

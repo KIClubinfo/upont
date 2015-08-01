@@ -1,21 +1,21 @@
 <?php
 
-namespace KI\UpontBundle\EventListener;
+namespace KI\UserBundle\Listener;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use KI\UpontBundle\Entity\Notification;
-use KI\UpontBundle\Entity\Users\Device;
+use KI\UserBundle\Entity\Notification;
+use KI\UserBundle\Entity\Device;
+use KI\CoreBundle\Service\CurlService;
 
 class NotificationListener
 {
-    private $container;
-    protected $curl;
+    protected $gcmKey;
+    protected $curlService;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(CurlService $curlService, $gcmKey)
     {
-        $this->container = $container;
-        $this->curl = $this->container->get('ki_upont.curl');
+        $this->curlService = $curlService;
+        $this->gcmKey = $gcmKey;
     }
 
     public function postPersist(LifecycleEventArgs $args)
@@ -26,7 +26,7 @@ class NotificationListener
             return;
 
         $manager = $args->getEntityManager();
-        $repo = $manager->getRepository('KIUpontBundle:Users\Device');
+        $repo = $manager->getRepository('KIUserBundle:Device');
         $devices = $repo->findAll();
         $sendToAndroid = $sendToIOS = $sendToWP = array();
 
@@ -97,11 +97,11 @@ class NotificationListener
         );
 
         $headers = array(
-            'Authorization: key='.$this->container->getParameter('upont_push_GCM_API_key'),
+            'Authorization: key='.$this->gcmKey,
             'Content-Type: application/json'
         );
 
-        $this->curl->curl('https://android.googleapis.com/gcm/send', array(
+        $this->curlService->curl('https://android.googleapis.com/gcm/send', array(
             CURLOPT_HEADER     => true,
             CURLOPT_POST       => true,
             CURLOPT_HTTPHEADER => $headers,
@@ -131,7 +131,7 @@ class NotificationListener
             'X-WindowsPhone-Target:toast'
         );
 
-        $this->curl->curl($device->getDevice(), array(
+        $this->curlService->curl($device->getDevice(), array(
             CURLOPT_HEADER     => true,
             CURLOPT_POST       => true,
             CURLOPT_HTTPHEADER => $headers,

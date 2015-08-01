@@ -1,29 +1,29 @@
 <?php
 
-namespace KI\UpontBundle\Controller\Publications;
+namespace KI\PublicationBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use KI\UpontBundle\Entity\Users\CourseUser;
-use KI\UpontBundle\Form\Users\CourseUserType;
-use KI\UpontBundle\Entity\Users\Achievement;
-use KI\UpontBundle\Event\AchievementCheckEvent;
+use KI\UserBundle\Entity\Achievement;
+use KI\UserBundle\Event\AchievementCheckEvent;
+use KI\PublicationBundle\Entity\CourseUser;
+use KI\PublicationBundle\Form\CourseUserType;
 
 class CoursesController extends \KI\CoreBundle\Controller\ResourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
         parent::setContainer($container);
-        $this->initialize('Course', 'Publications');
+        $this->initialize('Course', 'Publication');
     }
 
     /**
      * @ApiDoc(
      *  resource=true,
      *  description="Liste les cours disponibles",
-     *  output="KI\UpontBundle\Entity\Publications\Course",
+     *  output="KI\PublicationBundle\Entity\Course",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -43,7 +43,7 @@ class CoursesController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Retourne un cours",
-     *  output="KI\UpontBundle\Entity\Publications\Course",
+     *  output="KI\PublicationBundle\Entity\Course",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -60,7 +60,7 @@ class CoursesController extends \KI\CoreBundle\Controller\ResourceController
      * @ApiDoc(
      *  description="Crée un cours",
      *  input="KI\UpontBundle\Form\Publications\CourseType",
-     *  output="KI\UpontBundle\Entity\Publications\Course",
+     *  output="KI\PublicationBundle\Entity\Course",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",

@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Services;
+namespace KI\PonthubBundle\Service;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 use KI\UpontBundle\Services\Gracenote\GracenoteWebAPI;
@@ -8,7 +8,7 @@ use KI\UpontBundle\Services\Gracenote\GracenoteWebAPI;
 // Échange des informations avec l'API Gracenote pour récupérer des informations
 // sur la musique (utilisé par Ponthub)
 // Testé par PonthubControllerTest
-class KIGracenote extends ContainerAware
+class GracenoteService extends ContainerAware
 {
     public function searchAlbum($name, $artistHint = '')
     {

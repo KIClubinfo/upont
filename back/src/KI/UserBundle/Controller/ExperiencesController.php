@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Controller\Users;
+namespace KI\UserBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -18,7 +18,7 @@ class ExperiencesController extends \KI\CoreBundle\Controller\ResourceController
      * @ApiDoc(
      *  resource=true,
      *  description="Liste les experiences",
-     *  output="KI\UpontBundle\Entity\Users\Experience",
+     *  output="KI\UserBundle\Entity\Experience",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -32,7 +32,7 @@ class ExperiencesController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Retourne une expérience",
-     *  output="KI\UpontBundle\Entity\Users\Experience",
+     *  output="KI\UserBundle\Entity\Experience",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -47,8 +47,8 @@ class ExperiencesController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Crée une expérience",
-     *  input="KI\UpontBundle\Form\Users\ExperienceType",
-     *  output="KI\UpontBundle\Entity\Users\Experience",
+     *  input="KI\UserBundle\Form\ExperienceType",
+     *  output="KI\UserBundle\Entity\Experience",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",
@@ -73,7 +73,7 @@ class ExperiencesController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Modifie une expérience",
-     *  input="KI\UpontBundle\Form\Users\ExperienceType",
+     *  input="KI\UserBundle\Form\ExperienceType",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   400="La syntaxe de la requête est erronée",
@@ -121,7 +121,7 @@ class ExperiencesController extends \KI\CoreBundle\Controller\ResourceController
         $repo = $this->em->getRepository('KIUpontBundle:Users\User');
         $user = $repo->findOneByUsername($slug);
 
-        if (!$user instanceof \KI\UpontBundle\Entity\Users\User) {
+        if (!$user instanceof \KI\UserBundle\Entity\User) {
             $up = new NotFoundHttpException('Utilisateur non trouvé');
             throw $up; // ahah
         }

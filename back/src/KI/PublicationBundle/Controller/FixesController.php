@@ -1,27 +1,27 @@
 <?php
 
-namespace KI\UpontBundle\Controller\Publications;
+namespace KI\PublicationBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use KI\UpontBundle\Entity\Users\Achievement;
-use KI\UpontBundle\Event\AchievementCheckEvent;
+use KI\UserBundle\Entity\Achievement;
+use KI\UserBundle\Event\AchievementCheckEvent;
 
 class FixesController extends \KI\CoreBundle\Controller\ResourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
         parent::setContainer($container);
-        $this->initialize('Fix', 'Publications');
+        $this->initialize('Fix', 'Publication');
     }
 
     /**
      * @ApiDoc(
      *  resource=true,
      *  description="Liste les tâches de dépannage",
-     *  output="KI\UpontBundle\Entity\Publications\Fix",
+     *  output="KI\PublicationBundle\Entity\Fix",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -36,7 +36,7 @@ class FixesController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Retourne une tâche de dépannage",
-     *  output="KI\UpontBundle\Entity\Publications\Fix",
+     *  output="KI\PublicationBundle\Entity\Fix",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -53,7 +53,7 @@ class FixesController extends \KI\CoreBundle\Controller\ResourceController
      * @ApiDoc(
      *  description="Crée une tâche de dépannage",
      *  input="KI\UpontBundle\Form\Publications\FixType",
-     *  output="KI\UpontBundle\Entity\Publications\Fix",
+     *  output="KI\PublicationBundle\Entity\Fix",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",
@@ -173,7 +173,7 @@ class FixesController extends \KI\CoreBundle\Controller\ResourceController
         $repo = $this->em->getRepository('KIUpontBundle:Users\User');
         $respo = $repo->findOneByUsername($id);
 
-        if (!$respo instanceof \KI\UpontBundle\Entity\Users\User)
+        if (!$respo instanceof \KI\UserBundle\Entity\User)
             throw new NotFoundHttpException('Utilisateur non trouvé');
 
         if ($fix->getListRespos()->contains($respo)) {
@@ -208,7 +208,7 @@ class FixesController extends \KI\CoreBundle\Controller\ResourceController
         $repo = $this->em->getRepository('KIUpontBundle:Users\User');
         $respo = $repo->findOneByUsername($id);
 
-        if (!$respo instanceof \KI\UpontBundle\Entity\Users\User)
+        if (!$respo instanceof \KI\UserBundle\Entity\User)
             throw new NotFoundHttpException('Utilisateur non trouvé');
 
         if (!$fix->getListRespos()->contains($respo)) {
@@ -224,7 +224,7 @@ class FixesController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Retourne les respos liés à la tâche",
-     *  output="KI\UpontBundle\Entity\Users/User",
+     *  output="KI\UserBundle\Entity/User",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",

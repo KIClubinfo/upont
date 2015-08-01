@@ -35,7 +35,7 @@ class BeerUser
     private $beer;
 
     /**
-     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User")
+     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      * @JMS\Expose
      */
@@ -106,11 +106,11 @@ class BeerUser
     /**
      * Set user
      *
-     * @param \KI\UpontBundle\Entity\Users\User $user
+     * @param \KI\UserBundle\Entity\User $user
      *
      * @return BeerUser
      */
-    public function setUser(\KI\UpontBundle\Entity\Users\User $user)
+    public function setUser(\KI\UserBundle\Entity\User $user)
     {
         $this->user = $user;
 
@@ -120,7 +120,7 @@ class BeerUser
     /**
      * Get user
      *
-     * @return \KI\UpontBundle\Entity\Users\User
+     * @return \KI\UserBundle\Entity\User
      */
     public function getUser()
     {

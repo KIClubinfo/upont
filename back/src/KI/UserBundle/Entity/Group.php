@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Users;
+namespace KI\UserBundle\Entity;
 
 use FOS\UserBundle\Model\Group as BaseGroup;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,7 +25,7 @@ class Group extends BaseGroup
 
     /**
      * Utilisateurs faisant partie de ce groupe
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\User", mappedBy="groups")
+     * @ORM\ManyToMany(targetEntity="KI\UserBundle\Entity\User", mappedBy="groups")
      **/
     protected $users;
 
@@ -74,10 +74,10 @@ class Group extends BaseGroup
      * // Never use this setter directly
      * // use the User's addGroupUser($group) (which links to this one)
      *
-     * @param \KI\UpontBundle\Entity\Users\User $user
+     * @param \KI\UserBundle\Entity\User $user
      * @return Comment
      */
-    public function addUser(\KI\UpontBundle\Entity\Users\User $user)
+    public function addUser(\KI\UserBundle\Entity\User $user)
     {
         $this->users[] = $user;
 
@@ -87,9 +87,9 @@ class Group extends BaseGroup
     /**
      * Remove user
      *
-     * @param \KI\UpontBundle\Entity\Users\User $user
+     * @param \KI\UserBundle\Entity\User $user
      */
-    public function removeUser(\KI\UpontBundle\Entity\Users\User $user)
+    public function removeUser(\KI\UserBundle\Entity\User $user)
     {
         $this->users->removeElement($user);
     }

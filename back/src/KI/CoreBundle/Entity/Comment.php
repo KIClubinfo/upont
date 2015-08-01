@@ -195,7 +195,7 @@ class Comment
      * @param \KI\UserBundle\Entity\User $listLikes
      * @return Comment
      */
-    public function addLike(\KI\UpontBundle\Entity\User $listLikes)
+    public function addLike(\KI\UserBundle\Entity\User $listLikes)
     {
         $this->listLikes[] = $listLikes;
 

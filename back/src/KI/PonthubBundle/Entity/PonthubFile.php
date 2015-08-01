@@ -1,11 +1,11 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Ponthub;
+namespace KI\PonthubBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use KI\UpontBundle\Entity\Core\Likeable;
+use KI\CoreBundle\Entity\Likeable;
 
 /**
  * @ORM\Entity
@@ -63,7 +63,7 @@ class PonthubFile extends Likeable
 
     /**
      * Image (affiche/jaquette/screenshot...)
-     * @ORM\OneToOne(targetEntity="KI\UpontBundle\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="KI\CoreBundle\Entity\Image", cascade={"persist", "remove"})
      * @Assert\Valid()
      */
     protected $image;
@@ -78,7 +78,7 @@ class PonthubFile extends Likeable
 
     /**
      * Tags
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Tag", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="KI\CoreBundle\Entity\Tag", cascade={"persist"})
      * @Assert\Valid()
      */
     protected $listTags;
@@ -97,7 +97,7 @@ class PonthubFile extends Likeable
 
     /**
      * Genres
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Ponthub\Genre", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="KI\PonthubBundle\Entity\Genre", cascade={"persist"})
      * @Assert\Valid()
      */
     protected $listGenres;
@@ -116,7 +116,7 @@ class PonthubFile extends Likeable
 
     /**
      * Utilisateurs ayant téléchargé le fichier
-     * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Ponthub\PonthubFileUser", mappedBy="file")
+     * @ORM\OneToMany(targetEntity="KI\PonthubBundle\Entity\PonthubFileUser", mappedBy="file")
      * @Assert\Valid()
      */
     protected $users;
@@ -267,10 +267,10 @@ class PonthubFile extends Likeable
     /**
      * Set image
      *
-     * @param \KI\UpontBundle\Entity\Image $image
+     * @param \KI\CoreBundle\Entity\Image $image
      * @return Album
      */
-    public function setImage(\KI\UpontBundle\Entity\Image $image = null)
+    public function setImage(\KI\CoreBundle\Entity\Image $image = null)
     {
         $this->image = $image;
 
@@ -280,7 +280,7 @@ class PonthubFile extends Likeable
     /**
      * Get image
      *
-     * @return \KI\UpontBundle\Entity\Image
+     * @return \KI\CoreBundle\Entity\Image
      */
     public function getImage()
     {
@@ -290,10 +290,10 @@ class PonthubFile extends Likeable
     /**
      * Add tags
      *
-     * @param \KI\UpontBundle\Entity\Tag $tag
+     * @param \KI\CoreBundle\Entity\Tag $tag
      * @return Album
      */
-    public function addTag(\KI\UpontBundle\Entity\Tag $tag)
+    public function addTag(\KI\CoreBundle\Entity\Tag $tag)
     {
         $this->listTags[] = $tag;
 
@@ -303,9 +303,9 @@ class PonthubFile extends Likeable
     /**
      * Remove tags
      *
-     * @param \KI\UpontBundle\Entity\Tag $tag
+     * @param \KI\CoreBundle\Entity\Tag $tag
      */
-    public function removeTag(\KI\UpontBundle\Entity\Tag $tag)
+    public function removeTag(\KI\CoreBundle\Entity\Tag $tag)
     {
         $this->listTags->removeElement($tag);
     }
@@ -333,10 +333,10 @@ class PonthubFile extends Likeable
     /**
      * Add genres
      *
-     * @param \KI\UpontBundle\Entity\Ponthub\Genre $genre
+     * @param \KI\PonthubBundle\Entity\Genre $genre
      * @return Album
      */
-    public function addGenre(\KI\UpontBundle\Entity\Ponthub\Genre $genre)
+    public function addGenre(\KI\PonthubBundle\Entity\Genre $genre)
     {
         $this->listGenres[] = $genre;
 
@@ -346,9 +346,9 @@ class PonthubFile extends Likeable
     /**
      * Remove genres
      *
-     * @param \KI\UpontBundle\Entity\Ponthub\Genre $genre
+     * @param \KI\PonthubBundle\Entity\Genre $genre
      */
-    public function removeGenre(\KI\UpontBundle\Entity\Ponthub\Genre $genre)
+    public function removeGenre(\KI\PonthubBundle\Entity\Genre $genre)
     {
         $this->listGenres->removeElement($genre);
     }
@@ -377,10 +377,10 @@ class PonthubFile extends Likeable
     /**
      * Add user
      *
-     * @param \KI\UpontBundle\Entity\User $user
+     * @param \KI\UserBundle\Entity\User $user
      * @return PonthubFile
      */
-    public function addUser(\KI\UpontBundle\Entity\Users\User $user)
+    public function addUser(\KI\UserBundle\Entity\User $user)
     {
         $this->users[] = $user;
 
@@ -390,9 +390,9 @@ class PonthubFile extends Likeable
     /**
      * Remove users
      *
-     * @param \KI\UpontBundle\Entity\User $user
+     * @param \KI\UserBundle\Entity\User $user
      */
-    public function removeUser(\KI\UpontBundle\Entity\Users\User $user)
+    public function removeUser(\KI\UserBundle\Entity\User $user)
     {
         $this->users->removeElement($user);
     }

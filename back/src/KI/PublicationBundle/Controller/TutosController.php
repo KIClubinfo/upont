@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Controller\Publications;
+namespace KI\PublicationBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
@@ -9,14 +9,14 @@ class TutosController extends \KI\CoreBundle\Controller\ResourceController
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
         parent::setContainer($container);
-        $this->initialize('Tuto', 'Publications');
+        $this->initialize('Tuto', 'Publication');
     }
 
     /**
      * @ApiDoc(
      *  resource=true,
      *  description="Liste les tutos",
-     *  output="KI\UpontBundle\Entity\Publications\Tuto",
+     *  output="KI\PublicationBundle\Entity\Tuto",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -31,7 +31,7 @@ class TutosController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Retourne un tuto",
-     *  output="KI\UpontBundle\Entity\Publications\Tuto",
+     *  output="KI\PublicationBundle\Entity\Tuto",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -48,7 +48,7 @@ class TutosController extends \KI\CoreBundle\Controller\ResourceController
      * @ApiDoc(
      *  description="Crée un tuto",
      *  input="KI\UpontBundle\Form\Publications\TutoType",
-     *  output="KI\UpontBundle\Entity\Publications\Tuto",
+     *  output="KI\PublicationBundle\Entity\Tuto",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",

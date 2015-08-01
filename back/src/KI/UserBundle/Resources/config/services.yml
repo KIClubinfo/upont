@@ -1,67 +1,68 @@
+parameters:
+    # Notifications push
+    ki_upont.push.gcm: 'AIzaSyCHrIJMqsou89Er6ksjfuqIZQLdOsuky2Q'
+
 services:
-    # Écoute le lancement de notifications push
-    ki_upont.listener.notification:
-        class: KI\UpontBundle\EventListener\NotificationListener
-        arguments:
-            container: "@service_container"
-        tags:
-            - { name: doctrine.event_listener, event: postPersist }
-
-    # Écoute les checks d'achievements demandés un peu partout dans le code
-    ki_upont.listener.achievement:
-        class: KI\UpontBundle\EventListener\AchievementListener
-        arguments:
-            container: "@service_container"
-        tags:
-            - { name: kernel.event_listener, event: upont.achievement, method: check }
-
-    ki_upont.type.club_selector:
-       class: KI\UpontBundle\Form\Type\ClubSelectorType
-       arguments: ["@doctrine.orm.entity_manager"]
-       tags:
-           - { name: form.type, alias: club_selector }
-    # Interface cURL
-    ki_upont.token:
-        class: KI\UpontBundle\Services\KIToken
-        calls:
-            - [ setContainer,[ @service_container ] ]
     # Sert pour la compatibilité FOSUserBundle
-    ki_upont.registration.form.type:
-        class: KI\UpontBundle\Form\Users\UserType
+    ki_user.form.user:
+        class: KI\UserBundle\Form\UserType
         tags:
             - { name: form.type, alias: user }
 
-    # Ajoute les gens online
-    ki_upont.online:
-        class: KI\UpontBundle\EventListener\OnlineListener
-        calls:
-            - [ setContainer,[ @service_container ] ]
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
-    # Permet de gérer le JSON Web Token
-    upont_api.event.jwt_response_listener:
-        class: %upont_api.event.jwt_response_listener.class%
+    # Écoute les checks d'achievements demandés un peu partout dans le code
+    ki_user.listener.achievementcheck:
+        class: KI\UserBundle\Listener\AchievementCheckListener
         arguments:
-            container: "@service_container"
+            - @doctrine.orm.entity_manager
+            - @security.context
+        tags:
+            - { name: kernel.event_listener, event: upont.achievement, method: check }
+
+    # Permet de gérer le JSON Web Token
+    ki_user.listener.jwt_response:
+        class: KI\UserBundle\Listener\JWTResponseListener
+        arguments:
+            - @event_dispatcher
+            - @fos_user.user_manager
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_failure, method: onAuthenticationFailureResponse }
 
-    upont_api.event.jwt_created_listener:
-        class: %upont_api.event.jwt_created_listener.class%
+    ki_user.listener.jwt_created:
+        class: KI\UserBundle\Listener\JWTCreatedListener
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
 
-    upont_api.event.jwt_decoded_listener:
-        class: %upont_api.event.jwt_decoded_listener.class%
+    ki_user.listener.jwt_decoded:
+        class: KI\UserBundle\Listener\JWTDecodedListener
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_decoded, method: onJWTDecoded }
-parameters:
-    # Tokens
-    upont_api.event.jwt_response_listener.class: KI\UpontBundle\EventListener\JWTResponseListener
-    upont_api.event.jwt_created_listener.class: KI\UpontBundle\EventListener\JWTCreatedListener
-    upont_api.event.jwt_decoded_listener.class: KI\UpontBundle\EventListener\JWTDecodedListener
 
-    # Notifications push
-    upont_push_GCM_API_key: 'AIzaSyCHrIJMqsou89Er6ksjfuqIZQLdOsuky2Q'
-    upont_push_WP_url: ''
+    # Écoute le lancement de notifications push
+    ki_user.listener.notification:
+        class: KI\UserBundle\Listener\NotificationListener
+        arguments:
+            - @ki_core.service.curl
+            - %ki_upont.push.gcm%
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+
+    # Ajoute les gens online
+    ki_user.listener.online:
+        class: KI\UserBundle\Listener\OnlineListener
+        arguments:
+            - @doctrine.orm.entity_manager
+            - @security.context
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    ki_user.selector.club:
+       class: KI\UserBundle\Selector\ClubSelector
+       arguments:
+           - @doctrine.orm.entity_manager
+       tags:
+           - { name: form.type, alias: club_selector }
+
+    # Interface cURL
+    ki_user.service.token:
+        class: KI\UserBundle\Service\TokenService

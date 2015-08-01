@@ -1,28 +1,28 @@
 <?php
 
-namespace KI\UpontBundle\Controller\Publications;
+namespace KI\PublicationBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use KI\UpontBundle\Entity\Publications\EventUser;
-use KI\UpontBundle\Entity\Users\Achievement;
-use KI\UpontBundle\Event\AchievementCheckEvent;
+use KI\PublicationBundle\Entity\EventUser;
+use KI\UserBundle\Entity\Achievement;
+use KI\UserBundle\Event\AchievementCheckEvent;
 
 class EventsController extends \KI\CoreBundle\Controller\ResourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
         parent::setContainer($container);
-        $this->initialize('Event', 'Publications');
+        $this->initialize('Event', 'Publication');
     }
 
     /**
      * @ApiDoc(
      *  resource=true,
      *  description="Liste les événements",
-     *  output="KI\UpontBundle\Entity\Publications\Event",
+     *  output="KI\PublicationBundle\Entity\Event",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -40,7 +40,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Retourne un événement",
-     *  output="KI\UpontBundle\Entity\Publications\Event",
+     *  output="KI\PublicationBundle\Entity\Event",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -60,7 +60,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
      * @ApiDoc(
      *  description="Crée un événement",
      *  input="KI\UpontBundle\Form\Publications\EventType",
-     *  output="KI\UpontBundle\Entity\Publications\Event",
+     *  output="KI\PublicationBundle\Entity\Event",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",
@@ -172,7 +172,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
      *    "description"="Un texte de motivation"
      *   }
      *  },
-     *  output="KI\UpontBundle\Entity\Publications\EventUser",
+     *  output="KI\PublicationBundle\Entity\EventUser",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",

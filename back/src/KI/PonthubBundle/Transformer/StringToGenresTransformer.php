@@ -1,11 +1,11 @@
 <?php
-namespace KI\UpontBundle\Form\DataTransformer;
+namespace KI\PonthubBundle\Transformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use KI\UpontBundle\Entity\Ponthub\Genre;
+use KI\PonthubBundle\Entity\Genre;
 
-class StringToGenresDataTransformer implements DataTransformerInterface
+class StringToGenresTransformer implements DataTransformerInterface
 {
     /**
      * @var ObjectManager
@@ -32,7 +32,7 @@ class StringToGenresDataTransformer implements DataTransformerInterface
             return null;
 
         $array = new \Doctrine\Common\Collections\ArrayCollection();
-        $repo = $this->om->getRepository('KIUpontBundle:Ponthub\Genre');
+        $repo = $this->om->getRepository('KIPonthubBundle:Genre');
         foreach (explode(',', $string) as $genre) {
             $item = $repo->findOneByName($genre);
 

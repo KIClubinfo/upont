@@ -1,11 +1,11 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Publications;
+namespace KI\PublicationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use KI\UpontBundle\Entity\Core\Likeable;
+use KI\CoreBundle\Entity\Likeable;
 
 /**
  * @ORM\Entity
@@ -56,7 +56,7 @@ class Course extends Likeable
 
     /**
      * Liste des annales de ce cours
-     * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Publications\Exercice", mappedBy="course", cascade={"persist","remove"})
+     * @ORM\OneToMany(targetEntity="KI\PublicationBundle\Entity\Exercice", mappedBy="course", cascade={"persist","remove"})
      * @JMS\Expose
      * @Assert\Valid()
      */
@@ -64,7 +64,7 @@ class Course extends Likeable
 
     /**
      * Liste des occurrences de ce cours
-     * @ORM\OneToMany(targetEntity="KI\UpontBundle\Entity\Publications\CourseItem", mappedBy="course", cascade={"persist","remove"})
+     * @ORM\OneToMany(targetEntity="KI\PublicationBundle\Entity\CourseItem", mappedBy="course", cascade={"persist","remove"})
      * @Assert\Valid()
      */
     protected $courseitems;
@@ -214,10 +214,10 @@ class Course extends Likeable
     /**
      * Add exercices
      *
-     * @param \KI\UpontBundle\Entity\Publications\Exercice $exercices
+     * @param \KI\PublicationBundle\Entity\Exercice $exercices
      * @return Course
      */
-    public function addExercice(\KI\UpontBundle\Entity\Publications\Exercice $exercices)
+    public function addExercice(\KI\PublicationBundle\Entity\Exercice $exercices)
     {
         $this->exercices[] = $exercices;
 
@@ -227,9 +227,9 @@ class Course extends Likeable
     /**
      * Remove exercices
      *
-     * @param \KI\UpontBundle\Entity\Publications\Exercice $exercices
+     * @param \KI\PublicationBundle\Entity\Exercice $exercices
      */
-    public function removeExercice(\KI\UpontBundle\Entity\Publications\Exercice $exercices)
+    public function removeExercice(\KI\PublicationBundle\Entity\Exercice $exercices)
     {
         $this->exercices->removeElement($exercices);
     }
@@ -257,10 +257,10 @@ class Course extends Likeable
     /**
      * Add courseitems
      *
-     * @param \KI\UpontBundle\Entity\Publications\Courseitem $courseitems
+     * @param \KI\PublicationBundle\Entity\Courseitem $courseitems
      * @return Course
      */
-    public function addCourseitem(\KI\UpontBundle\Entity\Publications\Courseitem $courseitems)
+    public function addCourseitem(\KI\PublicationBundle\Entity\Courseitem $courseitems)
     {
         $this->courseitems[] = $courseitems;
 
@@ -270,9 +270,9 @@ class Course extends Likeable
     /**
      * Remove courseitems
      *
-     * @param \KI\UpontBundle\Entity\Publications\Courseitem $courseitems
+     * @param \KI\PublicationBundle\Entity\Courseitem $courseitems
      */
-    public function removeCourseitem(\KI\UpontBundle\Entity\Publications\Courseitem $courseitems)
+    public function removeCourseitem(\KI\PublicationBundle\Entity\Courseitem $courseitems)
     {
         $this->courseitems->removeElement($courseitems);
     }

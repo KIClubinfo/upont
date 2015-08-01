@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Users;
+namespace KI\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
@@ -47,7 +47,7 @@ class Facegame
 
     /**
      * Joueur
-     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User", cascade={"persist"})
      * @JMS\Expose
      */
     protected $user;
@@ -240,11 +240,11 @@ class Facegame
     /**
      * Set user
      *
-     * @param \KI\UpontBundle\Entity\Users\User $user
+     * @param \KI\UserBundle\Entity\User $user
      *
      * @return Facegame
      */
-    public function setUser(\KI\UpontBundle\Entity\Users\User $user = null)
+    public function setUser(\KI\UserBundle\Entity\User $user = null)
     {
         $this->user = $user;
 
@@ -254,7 +254,7 @@ class Facegame
     /**
      * Get user
      *
-     * @return \KI\UpontBundle\Entity\Users\User
+     * @return \KI\UserBundle\Entity\User
      */
     public function getUser()
     {

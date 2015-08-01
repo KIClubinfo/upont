@@ -1,13 +1,13 @@
 <?php
 
-namespace KI\UpontBundle\Services;
+namespace KI\PonthubBundle\Service;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 
 // Échange des informations avec l'API Imdb pour récupérer des informations
 // sur les films et les séries (utilisé par Ponthub)
 // Testé par PonthubControllerTest
-class KIImdb extends ContainerAware
+class ImdbService extends ContainerAware
 {
     protected $baseUrl = 'http://www.omdbapi.com/';
 

@@ -8,17 +8,16 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class MaintenanceListener
 {
-    private $container;
+    protected $maintenanceLock;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct($maintenanceLock)
     {
-        $this->container = $container;
+        $this->maintenanceLock = $maintenanceLock;
     }
 
     public function onKernelRequest(GetResponseEvent $event)
     {
-        $path = $this->container->get('kernel')->getRootDir().$this->container->getParameter('upont_maintenance_lock');
-        $maintenance = file_exists($path);
+        $maintenance = file_exists($this->maintenanceLock);
         $unlock = preg_match('#/maintenance$#', $event->getRequest()->getRequestUri());
 
         // Si la maintenance est activée et qu'on n'essaye pas de la débloquer
@@ -26,7 +25,7 @@ class MaintenanceListener
             $content = array('code' => 503, 'message' => 'Service actuellement indisponible. Une maintenance est en cours.');
 
             // Durée de la maintenance
-            $until = file_get_contents($path);
+            $until = file_get_contents($this->maintenanceLock);
             if ($until !== '')
                 $content['until'] = (int)$until;
 

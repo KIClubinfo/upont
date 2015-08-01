@@ -1,28 +1,32 @@
 <?php
 
-namespace KI\UpontBundle\EventListener;
+namespace KI\UserBundle\Listener;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use KI\UpontBundle\Entity\Users\Achievement;
-use KI\UpontBundle\Entity\Users\AchievementUser;
-use KI\UpontBundle\Entity\Users\User;
-use KI\UpontBundle\Entity\Notification;
-use KI\UpontBundle\Event\AchievementCheckEvent;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\Security\Core\SecurityContext;
+use KI\UserBundle\Entity\Achievement;
+use KI\UserBundle\Entity\AchievementUser;
+use KI\UserBundle\Entity\Notification;
+use KI\UserBundle\Entity\User;
+use KI\UserBundle\Event\AchievementCheckEvent;
 
-class AchievementListener
+class AchievementCheckListener
 {
-    protected $container;
     protected $manager;
+    protected $securityContext;
+
+    // L'utilisateur qui tente d'obtenir l'achievement
     protected $user;
-    // Liste des achievements unlockés actuellement (identifiants)
+
+    // Liste des achievements unlockés actuellement (identifiants seulement)
     protected $achievements = array();
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(EntityManager $manager, SecurityContext $securityContext)
     {
-        $this->container = $container;
-        $this->manager = $this->container->get('doctrine')->getManager();
+        $this->manager         = $manager;
+        $this->securityContext = $securityContext;
 
-        $token = $this->container->get('security.context')->getToken();
+        $token = $this->securityContext->getToken();
         $this->user = $token === null ? null : $token->getUser();
 
         if ($this->user !== null) {
@@ -32,7 +36,7 @@ class AchievementListener
 
     private function loadUser(User $user) {
         $this->user = $user;
-        $repoAU = $this->manager->getRepository('KIUpontBundle:Users\AchievementUser');
+        $repoAU = $this->manager->getRepository('KIUserBundle:AchievementUser');
         $response = $repoAU->findByUser($this->user);
 
         foreach ($response as $achievementUser) {
@@ -50,7 +54,7 @@ class AchievementListener
         if ($event->getuser() !== null) {
             $this->loadUser($event->getUser());
         }
-        if (!$this->user instanceof \KI\UpontBundle\Entity\Users\User
+        if (!$this->user instanceof User
             || in_array($achievement->getIdA(), $this->achievements))
             return false;
 
@@ -67,7 +71,7 @@ class AchievementListener
         // On ajoute l'achievement
         $pointsBefore = $this->points();
         $achievementUser = new AchievementUser();
-        $repoA = $this->manager->getRepository('KIUpontBundle:Users\Achievement');
+        $repoA = $this->manager->getRepository('KIUserBundle:Achievement');
         $achievementUser->setAchievement($repoA->findOneByAchievement($achievement->getIdA()));
         $achievementUser->setUser($this->user);
         $achievementUser->setDate(time());
@@ -90,20 +94,6 @@ class AchievementListener
             $achievementCheck = new AchievementCheckEvent(Achievement::TOTAL_UNLOCKER);
             $this->check($achievementCheck);
         }
-
-        // On crée des notifications
-        /*$notification = new Notification('notif_achievement', $achievement->name(), $achievement->description(), 'to');
-        $notification->addRecipient($this->user);
-        $this->manager->persist($notification);*/
-
-        // Si l'utilisateur passe de niveau
-        /*if (Achievement::getLevel($this->points()) > Achievement::getLevel($pointsBefore)) {
-            $level = Achievement::getLevel($this->points())['current'];
-            $title = 'Passage au statut de '.$level['name'];
-            $notification = new Notification('notif_next_level', $title, $level['description'], 'to');
-            $notification->addRecipient($this->user);
-            $this->manager->persist($notification);
-        }*/
 
         $this->manager->flush();
         return true;
@@ -192,7 +182,7 @@ class AchievementListener
 
     private function totalPontHubSize()
     {
-        $repo = $this->container->get('doctrine')->getManager()->getRepository('KIUpontBundle:Ponthub\PonthubFileUser');
+        $repo = $this->manager->getRepository('KIPonthubBundle:PonthubFileUser');
         $downloads = $repo->findBy(array('user' => $this->user));
         $total = 0;
 
@@ -214,8 +204,7 @@ class AchievementListener
     // Être membre d'un club
     public function check100()
     {
-        $em = $this->container->get('doctrine')->getManager();
-        $repo = $em->getRepository('KIUpontBundle:Users\ClubUser');
+        $repo = $this->manager->getRepository('KIUserBundle:ClubUser');
         $return = $repo->findBy(array('user' => $this->user));
         return count($return) > 0;
     }
@@ -233,10 +222,10 @@ class AchievementListener
     public function check130()
     {
         // On enlève l'achievement opposé (solde positif)
-        $repoA = $this->manager->getRepository('KIUpontBundle:Users\Achievement');
+        $repoA = $this->manager->getRepository('KIUserBundle:Achievement');
         $oAchievement = $repoA->findOneByAchievement(Achievement::FOYER_BIS);
 
-        $repoAU = $this->manager->getRepository('KIUpontBundle:Users\AchievementUser');
+        $repoAU = $this->manager->getRepository('KIUserBundle:AchievementUser');
         $achievementUsers = $repoAU->findBy(array('achievement' => $oAchievement, 'user' => $this->user));
 
         if (count($achievementUsers) == 1) {
@@ -251,10 +240,10 @@ class AchievementListener
     public function check140()
     {
         // On enlève l'achievement opposé (solde positif)
-        $repoA = $this->manager->getRepository('KIUpontBundle:Users\Achievement');
+        $repoA = $this->manager->getRepository('KIUserBundle:Achievement');
         $oAchievement = $repoA->findOneByAchievement(Achievement::FOYER);
 
-        $repoAU = $this->manager->getRepository('KIUpontBundle:Users\AchievementUser');
+        $repoAU = $this->manager->getRepository('KIUserBundle:AchievementUser');
         $achievementUsers = $repoAU->findBy(array('achievement' => $oAchievement, 'user' => $this->user));
 
         if (count($achievementUsers) == 1) {
@@ -300,17 +289,16 @@ class AchievementListener
     // Faire partie du KI
     public function check180()
     {
-        $em = $this->container->get('doctrine')->getManager();
-        $repo = $em->getRepository('KIUpontBundle:Users\Club');
+        $repo = $this->manager->getRepository('KIUserBundle:Club');
         $club = $repo->findOneBySlug('ki');
-        $repo = $em->getRepository('KIUpontBundle:Users\ClubUser');
+        $repo = $this->manager->getRepository('KIUserBundle:ClubUser');
         $return = $repo->findBy(array('user' => $this->user, 'club' => $club));
         return count($return) == 1;
     }
 
     // Appelez-moi Dieu
     // Être admin
-    public function check190() { return $this->container->get('security.context')->isGranted('ROLE_ADMIN'); }
+    public function check190() { return $this->securityContext->isGranted('ROLE_ADMIN'); }
 
     // Unlocker
     // Compléter 10 achievements

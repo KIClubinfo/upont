@@ -1,24 +1,24 @@
 <?php
 
-namespace KI\UpontBundle\Controller\Publications;
+namespace KI\PublicationBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use KI\UpontBundle\Entity\Users\Achievement;
-use KI\UpontBundle\Event\AchievementCheckEvent;
+use KI\UserBundle\Entity\Achievement;
+use KI\UserBundle\Event\AchievementCheckEvent;
 
 class NewsitemsController extends \KI\CoreBundle\Controller\ResourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
         parent::setContainer($container);
-        $this->initialize('Newsitem', 'Publications');
+        $this->initialize('Newsitem', 'Publication');
     }
 
     /**
      * @ApiDoc(
      *  resource=true,
      *  description="Liste les news",
-     *  output="KI\UpontBundle\Entity\Publications\Newsitem",
+     *  output="KI\PublicationBundle\Entity\Newsitem",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -36,7 +36,7 @@ class NewsitemsController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Retourne une news",
-     *  output="KI\UpontBundle\Entity\Publications\Newsitem",
+     *  output="KI\PublicationBundle\Entity\Newsitem",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -56,7 +56,7 @@ class NewsitemsController extends \KI\CoreBundle\Controller\ResourceController
      * @ApiDoc(
      *  description="Crée une news",
      *  input="KI\UpontBundle\Form\Publications\NewsitemType",
-     *  output="KI\UpontBundle\Entity\Publications\Newsitem",
+     *  output="KI\PublicationBundle\Entity\Newsitem",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",

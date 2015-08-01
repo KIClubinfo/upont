@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Ponthub;
+namespace KI\PonthubBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
@@ -48,7 +48,7 @@ class Request
 
     /**
      * Utilisateur ayant créé la demande
-     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User", cascade={"persist"})
      * @Assert\Valid()
      */
     protected $user;
@@ -173,10 +173,10 @@ class Request
     /**
      * Set user
      *
-     * @param \KI\UpontBundle\Entity\User $user
+     * @param \KI\UserBundle\Entity\User $user
      * @return Request
      */
-    public function setUser(\KI\UpontBundle\Entity\Users\User $user = null)
+    public function setUser(\KI\UserBundle\Entity\User $user = null)
     {
         $this->user = $user;
 
@@ -186,7 +186,7 @@ class Request
     /**
      * Get user
      *
-     * @return \KI\UpontBundle\Entity\User
+     * @return \KI\UserBundle\Entity\User
      */
     public function getUser()
     {

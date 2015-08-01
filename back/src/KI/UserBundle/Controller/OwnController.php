@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Controller\Users;
+namespace KI\UserBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -8,8 +8,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
-use KI\UpontBundle\Entity\Users\Device;
-use KI\UpontBundle\Entity\Users\Achievement;
+use KI\UserBundle\Entity\Device;
+use KI\UserBundle\Entity\Achievement;
 
 class OwnController extends \KI\CoreBundle\Controller\ResourceController
 {
@@ -302,7 +302,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Renvoie la liste des clubs suivis",
-     *  output="KI\UpontBundle\Entity\Users\Club",
+     *  output="KI\UserBundle\Entity\Club",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -337,7 +337,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Renvoie la liste des évènements suivis et persos",
-     *  output="KI\UpontBundle\Entity\Publications\Event",
+     *  output="KI\PublicationBundle\Entity\Event",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -430,7 +430,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Renvoie la liste des news suivies",
-     *  output="KI\UpontBundle\Entity\Publications\Newsitem",
+     *  output="KI\PublicationBundle\Entity\Newsitem",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -462,7 +462,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Renvoie la liste des cours suivis",
-     *  output="KI\UpontBundle\Entity\Publications\Course",
+     *  output="KI\PublicationBundle\Entity\Course",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -487,7 +487,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Renvoie la liste des prochains cours de l'utilisateur",
-     *  output="KI\UpontBundle\Entity\Publications\Courseitem",
+     *  output="KI\PublicationBundle\Entity\Courseitem",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -644,7 +644,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Renvoie la liste des dépannages demandés par l'utilisateur",
-     *  output="KI\UpontBundle\Entity\Publications\Fix",
+     *  output="KI\PublicationBundle\Entity\Fix",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -672,7 +672,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Renvoie l'utilisateur actuel",
-     *  output="KI\UpontBundle\Entity\Users\User",
+     *  output="KI\UserBundle\Entity\User",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",

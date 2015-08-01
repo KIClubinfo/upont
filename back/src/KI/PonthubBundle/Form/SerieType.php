@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Form\Ponthub;
+namespace KI\PonthubBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,14 +25,14 @@ class SerieType extends AbstractType
             ->add('vost')
             ->add('vostfr')
             ->add('hd')
-            ->add('image', 'imageuploader_selector');
+            ->add('image', 'image_selector');
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'data_class' => 'KI\UpontBundle\Entity\Ponthub\Serie'
+            'data_class' => 'KI\PonthubBundle\Entity\Serie'
         ));
     }
 

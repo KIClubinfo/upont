@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Form\Users;
+namespace KI\UserBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,7 +21,7 @@ class FacegameType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'data_class' => 'KI\UpontBundle\Entity\Users\Facegame'
+            'data_class' => 'KI\UserBundle\Entity\Facegame'
         ));
     }
 

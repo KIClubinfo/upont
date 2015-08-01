@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Users;
+namespace KI\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
@@ -17,7 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity("email")
  * @UniqueEntity("username")
  */
-class User extends \KI\UpontBundle\Entity\Users\CoreUser
+class User extends \KI\UserBundle\Entity\CoreUser
 {
     /**
      * Genre [M|Mme]

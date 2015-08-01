@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Controller\Ponthub;
+namespace KI\PonthubBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -17,7 +17,7 @@ class SeriesController extends \KI\CoreBundle\Controller\SubresourceController
      * @ApiDoc(
      *  resource=true,
      *  description="Liste les séries",
-     *  output="KI\UpontBundle\Entity\Ponthub\Serie",
+     *  output="KI\PonthubBundle\Entity\Serie",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -32,7 +32,7 @@ class SeriesController extends \KI\CoreBundle\Controller\SubresourceController
     /**
      * @ApiDoc(
      *  description="Retourne une série",
-     *  output="KI\UpontBundle\Entity\Ponthub\Serie",
+     *  output="KI\PonthubBundle\Entity\Serie",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -48,7 +48,7 @@ class SeriesController extends \KI\CoreBundle\Controller\SubresourceController
     /**
      * @ApiDoc(
      *  description="Modifie une série",
-     *  input="KI\UpontBundle\Form\Ponthub\SerieType",
+     *  input="KI\PonthubBundle\Form\SerieType",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   400="La syntaxe de la requête est erronée",
@@ -68,7 +68,7 @@ class SeriesController extends \KI\CoreBundle\Controller\SubresourceController
     /**
      * @ApiDoc(
      *  description="Liste les épisodes d'une série",
-     *  output="KI\UpontBundle\Entity\Ponthub\Episode",
+     *  output="KI\PonthubBundle\Entity\Episode",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -84,7 +84,7 @@ class SeriesController extends \KI\CoreBundle\Controller\SubresourceController
     /**
      * @ApiDoc(
      *  description="Retourne un épisode d'une série",
-     *  output="KI\UpontBundle\Entity\Ponthub\Episode",
+     *  output="KI\PonthubBundle\Entity\Episode",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -100,7 +100,7 @@ class SeriesController extends \KI\CoreBundle\Controller\SubresourceController
     /**
      * @ApiDoc(
      *  description="Modifie un épisode d'une série",
-     *  input="KI\UpontBundle\Form\Ponthub\EpisodeType",
+     *  input="KI\PonthubBundle\Form\EpisodeType",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   400="La syntaxe de la requête est erronée",

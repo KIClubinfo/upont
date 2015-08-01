@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Form\Publications;
+namespace KI\PublicationBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,14 +21,14 @@ class EventType extends AbstractType
             ->add('shotgunText')
             ->add('place')
             ->add('authorClub', 'club_selector')
-            ->add('image', 'imageuploader_selector');
+            ->add('image', 'image_selector');
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'data_class' => 'KI\UpontBundle\Entity\Publications\Event'
+            'data_class' => 'KI\PublicationBundle\Entity\Event'
         ));
     }
 

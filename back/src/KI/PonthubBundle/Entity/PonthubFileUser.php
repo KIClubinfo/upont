@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Ponthub;
+namespace KI\PonthubBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
@@ -20,14 +20,14 @@ class PonthubFileUser
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Ponthub\PonthubFile")
+     * @ORM\ManyToOne(targetEntity="KI\PonthubBundle\Entity\PonthubFile")
      * @ORM\JoinColumn(nullable=false)
      * @JMS\Expose
      */
     protected $file;
 
     /**
-     * @ORM\ManyToOne(targetEntity="KI\UpontBundle\Entity\Users\User", inversedBy="users")
+     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User", inversedBy="users")
      * @ORM\JoinColumn(nullable=false)
      * @JMS\Expose
      */
@@ -56,10 +56,10 @@ class PonthubFileUser
     /**
      * Set file
      *
-     * @param \KI\UpontBundle\Entity\Ponthub\PonthubFile $file
+     * @param \KI\PonthubBundle\Entity\PonthubFile $file
      * @return PonthubFileUser
      */
-    public function setFile(\KI\UpontBundle\Entity\Ponthub\PonthubFile $file)
+    public function setFile(\KI\PonthubBundle\Entity\PonthubFile $file)
     {
         $this->file = $file;
 
@@ -69,7 +69,7 @@ class PonthubFileUser
     /**
      * Get file
      *
-     * @return \KI\UpontBundle\Entity\Ponthub\PonthubFile
+     * @return \KI\PonthubBundle\Entity\PonthubFile
      */
     public function getFile()
     {
@@ -79,10 +79,10 @@ class PonthubFileUser
     /**
      * Set user
      *
-     * @param \KI\UpontBundle\Entity\User $user
+     * @param \KI\UserBundle\Entity\User $user
      * @return EventUser
      */
-    public function setUser(\KI\UpontBundle\Entity\Users\User $user)
+    public function setUser(\KI\UserBundle\Entity\User $user)
     {
         $this->user = $user;
 
@@ -92,7 +92,7 @@ class PonthubFileUser
     /**
      * Get user
      *
-     * @return \KI\UpontBundle\Entity\User
+     * @return \KI\UserBundle\Entity\User
      */
     public function getUser()
     {

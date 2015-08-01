@@ -1,8 +1,7 @@
 <?php
 
-namespace KI\UpontBundle\Entity\Publications;
+namespace KI\PublicationBundle\Entity;
 
-use KI\UpontBundle\Entity\Publications\Post;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -77,7 +76,7 @@ class Event extends Post
 
     /**
      * Participants
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\User")
+     * @ORM\ManyToMany(targetEntity="KI\UserBundle\Entity\User")
      * @ORM\JoinTable(name="event_attendee",
      *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="attendee_id", referencedColumnName="id")}
@@ -106,7 +105,7 @@ class Event extends Post
 
     /**
      * Personnes ayant refusées
-     * @ORM\ManyToMany(targetEntity="KI\UpontBundle\Entity\Users\User")
+     * @ORM\ManyToMany(targetEntity="KI\UserBundle\Entity\User")
      * @ORM\JoinTable(name="event_pookie",
      *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="pooky_id", referencedColumnName="id")}
@@ -305,10 +304,10 @@ class Event extends Post
     /**
      * Add attendees
      *
-     * @param \KI\UpontBundle\Entity\User $attendee
+     * @param \KI\UserBundle\Entity\User $attendee
      * @return Event
      */
-    public function addAttendee(\KI\UpontBundle\Entity\Users\User $attendee)
+    public function addAttendee(\KI\UserBundle\Entity\User $attendee)
     {
         $this->listAttendees[] = $attendee;
 
@@ -318,9 +317,9 @@ class Event extends Post
     /**
      * Remove attendees
      *
-     * @param \KI\UpontBundle\Entity\User $attendee
+     * @param \KI\UserBundle\Entity\User $attendee
      */
-    public function removeAttendee(\KI\UpontBundle\Entity\Users\User $attendee)
+    public function removeAttendee(\KI\UserBundle\Entity\User $attendee)
     {
         $this->listAttendees->removeElement($attendee);
     }
@@ -338,10 +337,10 @@ class Event extends Post
     /**
      * Add pookies
      *
-     * @param \KI\UpontBundle\Entity\User $pookie
+     * @param \KI\UserBundle\Entity\User $pookie
      * @return Event
      */
-    public function addPookie(\KI\UpontBundle\Entity\Users\User $pookie)
+    public function addPookie(\KI\UserBundle\Entity\User $pookie)
     {
         $this->listPookies[] = $pookie;
 
@@ -351,9 +350,9 @@ class Event extends Post
     /**
      * Remove pookies
      *
-     * @param \KI\UpontBundle\Entity\User $pookie
+     * @param \KI\UserBundle\Entity\User $pookie
      */
-    public function removePookie(\KI\UpontBundle\Entity\Users\User $pookie)
+    public function removePookie(\KI\UserBundle\Entity\User $pookie)
     {
         $this->listPookies->removeElement($pookie);
     }

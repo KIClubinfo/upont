@@ -1,10 +1,4 @@
-parameters:
-    # Images
-    upont_images_directory: 'web/uploads/images/'
-    upont_maintenance_lock: '/cache/maintenance.lock'
-    upont_images_maxSize: 512000 # Taille maximum des images uploadées en octets
-
-# Fos RestBundle
+# FOSRestBundle
 fos_rest:
     # Pas besoin de protection CSRF vu qu'il n'y a pas de formulaire HTML rendered
     disable_csrf_role: NONE

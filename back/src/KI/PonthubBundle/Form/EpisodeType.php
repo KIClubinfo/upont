@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Form\Ponthub;
+namespace KI\PonthubBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,7 +18,7 @@ class EpisodeType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'data_class' => 'KI\UpontBundle\Entity\Ponthub\Episode'
+            'data_class' => 'KI\PonthubBundle\Entity\Episode'
         ));
     }
 

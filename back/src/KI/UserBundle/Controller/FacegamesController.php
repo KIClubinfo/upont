@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Controller\Users;
+namespace KI\UserBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use FOS\RestBundle\View\View as RestView;
@@ -8,8 +8,8 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use KI\UpontBundle\Entity\Users\Achievement;
-use KI\UpontBundle\Event\AchievementCheckEvent;
+use KI\UserBundle\Entity\Achievement;
+use KI\UserBundle\Event\AchievementCheckEvent;
 
 class FacegamesController extends \KI\CoreBundle\Controller\ResourceController
 {
@@ -23,7 +23,7 @@ class FacegamesController extends \KI\CoreBundle\Controller\ResourceController
      * @ApiDoc(
      *  resource=true,
      *  description="Liste les jeux",
-     *  output="KI\UpontBundle\Entity\Users\Facegame",
+     *  output="KI\UserBundle\Entity\Facegame",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -37,7 +37,7 @@ class FacegamesController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Retourne un jeu",
-     *  output="KI\UpontBundle\Entity\Users\Facegame",
+     *  output="KI\UserBundle\Entity\Facegame",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -170,8 +170,8 @@ class FacegamesController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Crée un jeu",
-     *  input="KI\UpontBundle\Form\Users\FacegameType",
-     *  output="KI\UpontBundle\Entity\Users\Facegame",
+     *  input="KI\UserBundle\Form\FacegameType",
+     *  output="KI\UserBundle\Entity\Facegame",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",
@@ -218,7 +218,7 @@ class FacegamesController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Modifie un jeu",
-     *  input="KI\UpontBundle\Form\Users\FacegameType",
+     *  input="KI\UserBundle\Form\FacegameType",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   400="La syntaxe de la requête est erronée",

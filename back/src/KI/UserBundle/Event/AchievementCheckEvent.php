@@ -1,10 +1,12 @@
 <?php
 
-namespace KI\UpontBundle\Event;
+namespace KI\UserBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
-use KI\UpontBundle\Entity\Users\Achievement;
+use KI\UserBundle\Entity\Achievement;
 
+// Lance un check d'achievement avec l'id de l'achievement correspondant
+// Et l'user qui tente d'obtenir l'achievement
 class AchievementCheckEvent extends Event
 {
     protected $achievement;

@@ -1,11 +1,11 @@
 <?php
-namespace KI\UpontBundle\Form\DataTransformer;
+namespace KI\UserBundle\Transformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 
-class StringToClubDataTransformer implements DataTransformerInterface
+class StringToClubTransformer implements DataTransformerInterface
 {
     /**
      * @var ObjectManager
@@ -31,7 +31,7 @@ class StringToClubDataTransformer implements DataTransformerInterface
         if (!$string)
             return null;
 
-        $repo = $this->om->getRepository('KIUpontBundle:Users\Club');
+        $repo = $this->om->getRepository('KIUserBundle:Club');
         return $repo->findOneBySlug($string);
     }
 }
