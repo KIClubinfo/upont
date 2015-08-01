@@ -5,9 +5,12 @@ namespace KI\FoyerBundle\Controller;
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use KI\CoreBundle\Controller\ResourceController;
+use KI\FoyerBundle\Entity\Beer;
 use KI\FoyerBundle\Entity\BeerUser;
+use KI\UserBundle\Entity\User;
 
 class BeerUsersController extends ResourceController
 {
@@ -50,7 +53,7 @@ class BeerUsersController extends ResourceController
      *  },
      *  section="Foyer"
      * )
-     * @Route\Get("/beers/{slug}/users")
+     * @Route\Get("/users/{slug}/beers")
      */
     public function getBeersUserAction($slug)
     {
@@ -76,7 +79,7 @@ class BeerUsersController extends ResourceController
      *  },
      *  section="Foyer"
      * )
-     * @Route\Post("/beers/{slug}/users/{beer}")
+     * @Route\Post("/beers/{beer}/users/{slug}")
      */
     public function postBeerUserAction($slug, $beer)
     {
@@ -86,8 +89,15 @@ class BeerUsersController extends ResourceController
 
         $repo = $this->getDoctrine()->getManager()->getRepository('KIUserBundle:User');
         $user = $repo->findOneByUsername($slug);
+        if (!$user instanceOf User) {
+            throw new NotFoundHttpException('Utilisateur non trouvé');
+        }
+
         $repo = $this->getDoctrine()->getManager()->getRepository('KIFoyerBundle:Beer');
         $beer = $repo->findOneBySlug($beer);
+        if (!$beer instanceOf Beer) {
+            throw new NotFoundHttpException('Bière non trouvée');
+        }
 
         $beerUser = new BeerUser();
         $beerUser->setUser($user);
@@ -113,7 +123,7 @@ class BeerUsersController extends ResourceController
      * )
      * Cette route est un peu spéciale : on fait un douvle check en demandant
      * username, beer et id. IL Y A DE L'ARGENT EN JEU !
-     * @Route\Delete("/beers/{slug}/users/{beer}/{id}")
+     * @Route\Delete("/beers/{beer}/users/{slug}/{id}")
      */
     public function deleteBeerUserAction($slug, $beer, $id)
     {
