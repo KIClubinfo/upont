@@ -56,7 +56,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
 
         // Quelques variables qui vont servir
         $match = $genres = $series = $albums = $pathsDone = array();
-        $path = __DIR__.'/../../../../../web/uploads/tmp/';
+        $path = __DIR__.'/../../../../web/uploads/tmp/';
         $validExt = array(
             'mp3', 'wav', 'ogg', 'flac', 'mp2', 'aac',
             'avi', 'mpeg', 'mp4', 'mkv',
@@ -75,8 +75,8 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
         // On va modifier les entités en fonction de la liste, on récupère les
         // chemins de toutes les entités Ponthub
         $this->em = $this->getDoctrine()->getManager();
-        $repoSeries = $this->em->getRepository('KIUpontBundle:Ponthub\Serie');
-        $repoAlbums = $this->em->getRepository('KIUpontBundle:Ponthub\Album');
+        $repoSeries = $this->em->getRepository('KIPonthubBundle:Serie');
+        $repoAlbums = $this->em->getRepository('KIPonthubBundle:Album');
         $paths = $this->repo->createQueryBuilder('r')->select('r.path')->getQuery()->getScalarResult();
         $paths = array_map('current', $paths);
 
@@ -91,7 +91,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
         }
 
         // On liste aussi les genres pour les musiques
-        $repoGenres = $this->em->getRepository('KIUpontBundle:Ponthub\Genre');
+        $repoGenres = $this->em->getRepository('KIPonthubBundle:Genre');
         $result = $repoGenres->findAll();
         foreach ($result as $genre) {
             $genres[$genre->getName()] = $genre;
@@ -339,7 +339,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
 
         $album = $request->request->get('album');
         $artist = $request->request->has('artist') ? $request->request->get('artist') : '';
-        $gracenote = $this->get('ki_upont.gracenote');
+        $gracenote = $this->get('ki_ponthub.service.gracenote');
         $infos = $gracenote->searchAlbum($album, $artist);
 
         $response = new Response();
@@ -377,7 +377,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
         if (!$request->request->has('name'))
             throw new BadRequestHttpException();
 
-        $imdb = $this->get('ki_upont.imdb');
+        $imdb = $this->get('ki_ponthub.service.imdb');
         $infos = $imdb->search($request->request->get('name'));
 
         $response = new Response();
@@ -417,7 +417,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
         if (!$request->request->has('id'))
             throw new BadRequestHttpException();
 
-        $imdb = $this->get('ki_upont.imdb');
+        $imdb = $this->get('ki_ponthub.service.imdb');
         $infos = $imdb->infos($request->request->get('id'));
 
         if ($infos === null)
@@ -444,7 +444,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function statisticsAction($slug)
     {
-        $repo = $this->getDoctrine()->getManager()->getRepository('KIUpontBundle:Users\User');
+        $repo = $this->getDoctrine()->getManager()->getRepository('KIUserBundle:User');
         $user = $repo->findOneByUsername($slug);
 
         // On vérifie que la personne a le droit de consulter les stats
@@ -454,7 +454,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
             return $this->jsonResponse(array('error' => 'Impossible d\'afficher les statistiques PontHub'));
         }
 
-        $repo = $this->getDoctrine()->getManager()->getRepository('KIUpontBundle:Ponthub\PonthubFileUser');
+        $repo = $this->getDoctrine()->getManager()->getRepository('KIUserBundle:PonthubFileUser');
         $downloads = $repo->findBy(array('user' => $user), array('date' => 'ASC'));
         $totalFiles = count($downloads);
 
@@ -577,7 +577,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
             array('name' => 'Autres', 'data' => array())
         );
         foreach ($downloaderIds as $key => $value) {
-            $repo = $this->getDoctrine()->getManager()->getRepository('KIUpontBundle:Ponthub\PonthubFileUser');
+            $repo = $this->getDoctrine()->getManager()->getRepository('KIPonthubBundle:PonthubFileUser');
             $downloads = $repo->findBy(array('user' => $value[1]));
 
             $user = $downloads[0]->getUser();

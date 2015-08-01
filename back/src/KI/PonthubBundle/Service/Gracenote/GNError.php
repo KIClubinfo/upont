@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Services\Gracenote;
+namespace KI\PonthubBundle\Service\Gracenote;
 
 // A simple class to encapsulate errors that can be returned by the API.
 class GNError

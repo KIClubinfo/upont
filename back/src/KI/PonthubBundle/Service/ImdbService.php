@@ -2,20 +2,26 @@
 
 namespace KI\PonthubBundle\Service;
 
-use Symfony\Component\DependencyInjection\ContainerAware;
+use KI\CoreBundle\Service\CurlService;
 
 // Échange des informations avec l'API Imdb pour récupérer des informations
 // sur les films et les séries (utilisé par Ponthub)
 // Testé par PonthubControllerTest
-class ImdbService extends ContainerAware
+class ImdbService
 {
+    protected $curlService;
+
+    public function __construct(CurlService $curlService)
+    {
+        $this->curlService = $curlService;
+    }
+
     protected $baseUrl = 'http://www.omdbapi.com/';
 
     public function search($name)
     {
         $url = $this->baseUrl.'?s='.urlencode($name);
-        $curl = $this->container->get('ki_upont.curl');
-        $response = json_decode($curl->curl($url), true);
+        $response = json_decode($this->curlService->curl($url), true);
 
         $return = array();
         if (isset($response['Search'])) {
@@ -35,8 +41,7 @@ class ImdbService extends ContainerAware
     public function infos($id)
     {
         $url = $this->baseUrl.'?i='.urlencode($id);
-        $curl = $this->container->get('ki_upont.curl');
-        $response = json_decode($curl->curl($url), true);
+        $response = json_decode($this->curlService->curl($url), true);
 
         if (!isset($response['Title']))
             return null;

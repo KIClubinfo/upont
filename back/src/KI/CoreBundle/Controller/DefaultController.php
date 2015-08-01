@@ -12,7 +12,7 @@ use KI\PublicationBundle\Entity\Publications\CourseItem;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Event\AchievementCheckEvent;
 
-class DefaultController extends\KI\CoreBundle\Controller\BaseController
+class DefaultController extends \KI\CoreBundle\Controller\BaseController
 {
     /**
      * @ApiDoc(

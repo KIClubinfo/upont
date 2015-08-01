@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Services\Gracenote;
+namespace KI\PonthubBundle\Service\Gracenote;
 
 // Extend normal PHP exceptions by includes an additional information field we can utilize.
 class GNException extends \Exception

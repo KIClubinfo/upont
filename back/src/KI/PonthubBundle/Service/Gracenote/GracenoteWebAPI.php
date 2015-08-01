@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Services\Gracenote;
+namespace KI\PonthubBundle\Service\Gracenote;
 
 //===== Gracenote PHP API: https://github.com/richadams/php-gracenote =====//
 // Code modifié en tenant compte des paramètres proxy

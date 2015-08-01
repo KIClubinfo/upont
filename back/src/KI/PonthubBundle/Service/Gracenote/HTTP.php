@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Services\Gracenote;
+namespace KI\PonthubBundle\Service\Gracenote;
 
 // A class to handle all external communication via HTTP(S)
 class HTTP

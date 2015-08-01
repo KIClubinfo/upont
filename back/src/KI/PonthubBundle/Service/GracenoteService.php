@@ -2,25 +2,29 @@
 
 namespace KI\PonthubBundle\Service;
 
-use Symfony\Component\DependencyInjection\ContainerAware;
-use KI\UpontBundle\Services\Gracenote\GracenoteWebAPI;
+use KI\PonthubBundle\Service\Gracenote\GracenoteWebAPI;
 
 // Échange des informations avec l'API Gracenote pour récupérer des informations
 // sur la musique (utilisé par Ponthub)
 // Testé par PonthubControllerTest
-class GracenoteService extends ContainerAware
+class GracenoteService
 {
+    protected $api;
+
+    public function __construct($gracenoteKey1, $gracenoteKey2, $gracenoteKey3, $proxyUser, $proxyUrl)
+    {
+        $this->api = new GracenoteWebAPI(
+            $gracenoteKey1,
+            $gracenoteKey2,
+            $gracenoteKey3,
+            $proxyUrl,
+            $proxyUser
+        );
+    }
+
     public function searchAlbum($name, $artistHint = '')
     {
-        $api = new GracenoteWebAPI(
-            $this->container->getParameter('upont_gracenote_key1'),
-            $this->container->getParameter('upont_gracenote_key2'),
-            $this->container->getParameter('upont_gracenote_key3'),
-            $this->container->getParameter('proxy_url'),
-            $this->container->getParameter('proxy_user')
-        );
-
-        $response = $api->searchAlbum($artistHint, $name, GracenoteWebAPI::BEST_MATCH_ONLY);
+        $response = $this->api->searchAlbum($artistHint, $name, GracenoteWebAPI::BEST_MATCH_ONLY);
 
         // On garde le premier résultat, c'est le plus pertinent
         if (count($response) > 0) {
