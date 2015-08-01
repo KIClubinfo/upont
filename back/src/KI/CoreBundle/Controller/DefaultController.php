@@ -74,7 +74,7 @@ class DefaultController extends\KI\CoreBundle\Controller\BaseController
      */
     public function parseCoursesAction()
     {
-        $curl = $this->get('ki_upont.curl');
+        $curl = $this->get('ki_core.service.curl');
 
         // On va reset les cours actuels au cas où ils seraient updatés
         $manager = $this->getDoctrine()->getManager();
@@ -233,7 +233,7 @@ class DefaultController extends\KI\CoreBundle\Controller\BaseController
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
             return $this->jsonResponse(null, 403);
 
-        $path = $this->get('kernel')->getRootDir().$this->container->getParameter('upont_maintenance_lock');
+        $path = $this->getParameter('ki_core.maintenance_lock');
         $until = $request->request->has('until') ? (string)$request->request->get('until') : '';
         file_put_contents($path, $until);
         return $this->jsonResponse(null, 204);
@@ -255,7 +255,7 @@ class DefaultController extends\KI\CoreBundle\Controller\BaseController
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
             return $this->jsonResponse(null, 403);
 
-        $path = $this->get('kernel')->getRootDir().$this->container->getParameter('upont_maintenance_lock');
+        $path = $this->getParameter('ki_core.maintenance_lock');
 
         if (file_exists($path))
             unlink($path);
@@ -308,7 +308,7 @@ class DefaultController extends\KI\CoreBundle\Controller\BaseController
             ->from('KIUserBundle:User', 'u')
             ->where('u.lastConnect > :date')
             ->setParameter('date', time() - $delay*60);
-        return $qb->getQuery()->getResult(); ;
+        return $this->restResponse($qb->getQuery()->getResult());
     }
 
     /**
@@ -343,7 +343,7 @@ class DefaultController extends\KI\CoreBundle\Controller\BaseController
             if ($user->hasRole('ROLE_ADMISSIBLE'))
                 return $this->jsonResponse(null, 403);
 
-            $token = $this->get('ki_upont.token')->getToken($user);
+            $token = $this->get('ki_user.service.token')->getToken($user);
             $message = \Swift_Message::newInstance()
                 ->setSubject('Réinitialisation du mot de passe')
                 ->setFrom('noreply@upont.enpc.fr')

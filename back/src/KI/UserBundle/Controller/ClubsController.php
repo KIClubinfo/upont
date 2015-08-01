@@ -15,7 +15,7 @@ class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
         parent::setContainer($container);
-        $this->initialize('Club', 'Users');
+        $this->initialize('Club', 'User');
     }
 
 

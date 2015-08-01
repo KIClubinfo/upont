@@ -9,7 +9,7 @@ class AdmissiblesController extends \KI\CoreBundle\Controller\ResourceController
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
         parent::setContainer($container);
-        $this->initialize('Admissible', 'Users');
+        $this->initialize('Admissible', 'User');
     }
 
 

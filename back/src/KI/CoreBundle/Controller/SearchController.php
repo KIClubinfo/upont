@@ -57,22 +57,22 @@ class SearchController extends \KI\CoreBundle\Controller\BaseController
         case 'Game':
         case 'Software':
         case 'Other':
-            $results = array('files' => $this->searchRepo('Ponthub\\'.$category, $criteria));
+            $results = array('files' => $this->searchRepo('KIPonthubBundle:'.$category, $criteria));
             break;
         case 'Ponthub':
-            $results = array('files' => $this->searchRepo('Ponthub\PonthubFile', $criteria));
+            $results = array('files' => $this->searchRepo('KIPonthubBundle:PonthubFile', $criteria));
             break;
         case 'Post':
         case 'Event':
         case 'Exercice':
         case 'Course':
-            $results = array('posts' => $this->searchRepo('Publications\\'.$category, $criteria));
+            $results = array('posts' => $this->searchRepo('KIPublicationBundle:'.$category, $criteria));
             break;
         case 'News':
-            $results = array('posts' => $this->searchRepo('Publications\Newsitem', $criteria));
+            $results = array('posts' => $this->searchRepo('KIPublicationBundle:Newsitem', $criteria));
             break;
         case 'Club':
-            $results = array('clubs' => $this->searchRepo('Users\Club', $criteria, 'e.name, e.fullName'));
+            $results = array('clubs' => $this->searchRepo('KIUserBundle:Club', $criteria, 'e.name, e.fullName'));
             break;
         case 'User':
             $results = array('users' => $this->searchUser($criteria));
@@ -85,11 +85,11 @@ class SearchController extends \KI\CoreBundle\Controller\BaseController
 
         case '':
             $results = array(
-                'files' => $this->searchRepo('Ponthub\PonthubFile', $criteria),
-                'posts' => $this->searchRepo('Publications\Post', $criteria),
-                'clubs' => $this->searchRepo('Users\Club', $criteria, 'e.name, e.fullName'),
+                'files' => $this->searchRepo('KIPonthubBundle:PonthubFile', $criteria),
+                'posts' => $this->searchRepo('KIPublicationBundle:Post', $criteria),
+                'clubs' => $this->searchRepo('KIUserBundle:Club', $criteria, 'e.name, e.fullName'),
                 'users' => $this->searchUser($criteria),
-                'courses' => $this->searchRepo('Publications\Course', $criteria),
+                'courses' => $this->searchRepo('KIPublicationBundle:Course', $criteria),
             );
             break;
         default:
@@ -136,7 +136,7 @@ class SearchController extends \KI\CoreBundle\Controller\BaseController
 
     // On fouille un repo à la recherche d'entités correspondantes au nom
     private function searchRepo($repoName, $search, $fields = 'e.name') {
-        $repo = $this->getDoctrine()->getManager()->getRepository('KIUpontBundle:'.$repoName);
+        $repo = $this->getDoctrine()->getManager()->getRepository($repoName);
         $qb = $repo->createQueryBuilder('e');
 
         // Si on a affaire au repo club on peut chercher sur le nom complet

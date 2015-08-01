@@ -4,9 +4,9 @@ namespace KI\CoreBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use KI\CoreBundle\Entity\Core\Comment;
-use KI\CoreBundle\Entity\Core\Likeable;
-use KI\PublicationBundle\Entity\Publications\Post;
+use KI\CoreBundle\Entity\Comment;
+use KI\CoreBundle\Entity\Likeable;
+use KI\PublicationBundle\Entity\Post;
 
 // Fonctions de like/dislike/commentaire
 class LikeableController extends \KI\CoreBundle\Controller\BaseController
@@ -30,14 +30,14 @@ class LikeableController extends \KI\CoreBundle\Controller\BaseController
     protected function autoInitialize($object)
     {
         switch ($object) {
-        case 'clubs'      : $this->initialize('Club', 'Users'); break;
-        case 'experiences': $this->initialize('Experience', 'Users'); break;
-        case 'newsitems'  : $this->initialize('Newsitem', 'Publications'); break;
-        case 'events'     : $this->initialize('Event', 'Publications'); break;
-        case 'courses'    : $this->initialize('Course', 'Publications'); break;
-        case 'exercices'  : $this->initialize('Exercice', 'Publications'); break;
-        case 'fixes'      : $this->initialize('Fix', 'Publications'); break;
-        case 'tutos'      : $this->initialize('Tuto', 'Publications'); break;
+        case 'clubs'      : $this->initialize('Club', 'User'); break;
+        case 'experiences': $this->initialize('Experience', 'User'); break;
+        case 'newsitems'  : $this->initialize('Newsitem', 'Publication'); break;
+        case 'events'     : $this->initialize('Event', 'Publication'); break;
+        case 'courses'    : $this->initialize('Course', 'Publication'); break;
+        case 'exercices'  : $this->initialize('Exercice', 'Publication'); break;
+        case 'fixes'      : $this->initialize('Fix', 'Publication'); break;
+        case 'tutos'      : $this->initialize('Tuto', 'Publication'); break;
         case 'movies'     : $this->initialize('Movie', 'Ponthub'); break;
         case 'series'     : $this->initialize('Serie', 'Ponthub'); break;
         case 'episodes'   : $this->initialize('Episode', 'Ponthub'); break;
@@ -197,19 +197,9 @@ class LikeableController extends \KI\CoreBundle\Controller\BaseController
         return $this->jsonResponse(null, 204);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-    // Commentaires
+    /*
+     * Commentaires
+     */
 
     /**
      * @ApiDoc(
@@ -294,33 +284,6 @@ class LikeableController extends \KI\CoreBundle\Controller\BaseController
         $comment->setText($request->get('text'));
         $comment->setAuthor($this->user);
         $this->em->persist($comment);
-
-        /*
-        // On va chercher dans les 5 derniers messages des gens à notifier qu'un nouveau commentaire est arrivé
-        $comments = $item->getComments()->getValues();
-        $users = $item->getAuthorUser() == $this->user ? array() : array($item->getAuthorUser());
-
-        // On trie par date
-        /*$sort = array();
-        foreach ($comments as $key => $comment)
-            $sort[$key] = $comment->getDate();
-        array_multisort($sort, SORT_DESC, $comments);
-
-        for ($i = 0; $i < min(5, count($comments)); $i++) {
-            $user = $comments[$i]->getAuthor();
-            if (!in_array($user, $users) && $user != $this->user) {
-                $users[] = $user;
-            }
-        }
-        $this->notify(
-            'notif_comments',
-            $this->user->nick(),
-            $request->get('text'),
-            'to',
-            $users
-        );
-        */
-
         $item->addComment($comment);
         $this->em->flush();
 
@@ -412,22 +375,9 @@ class LikeableController extends \KI\CoreBundle\Controller\BaseController
         return $this->jsonResponse(null, 204);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // Même chose pour les sous ressources
+    /*
+     * Même chose pour les sous ressources
+     */
 
     /**
      * @ApiDoc(
