@@ -97,19 +97,6 @@ class BeerUsersController extends ResourceController
      */
     public function deleteBeerUserAction($slug, $beer, $id)
     {
-        if (!$this->checkClubMembership('foyer')) {
-            throw new AccessDeniedException();
-        }
-
-        $repo = $this->getDoctrine()->getManager()->getRepository('KIUserBundle:User');
-        $user = $repo->findOneByUsername($slug);
-        $repo = $this->getDoctrine()->getManager()->getRepository('KIFoyerBundle:Beer');
-        $beer = $repo->findOneBySlug($beer);
-
-        $beerUser = $this->repo->findOneById($id);
-        $this->em->remove($beerUser);
-        $this->em->flush();
-
-        return $this->jsonResponse(null, 204);
+        return $this->delete($id, $this->checkClubMembership('foyer'));
     }
 }

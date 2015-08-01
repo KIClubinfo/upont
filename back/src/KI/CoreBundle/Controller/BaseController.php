@@ -99,7 +99,7 @@ class BaseController extends \FOS\RestBundle\Controller\FOSRestController
     // Recherche une entité selon son slug
     protected function findBySlug($slug)
     {
-        if (($this->className == 'Comment' || $this->className == 'Facegame') && preg_match('#^\d+$#', $slug)) {
+        if (($this->className == 'Comment' || $this->className == 'Facegame' || $this->className == 'BeerUser') && preg_match('#^\d+$#', $slug)) {
             $item = $this->repo->findOneById($slug);
         } else {
             if ($this->className != 'User')
