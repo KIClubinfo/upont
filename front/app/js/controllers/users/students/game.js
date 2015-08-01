@@ -17,7 +17,9 @@ angular.module('upont')
 		$scope.traits = {
 			location: 'Résidence',
 			promo: 'Promo',
-			department: 'Département'
+			department: 'Département',
+			nationality: 'Nationalité',
+			origin: 'Origine'
 		};
 
 	    var timer;
