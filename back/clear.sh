@@ -5,8 +5,6 @@ sudo ls > /dev/null
 php app/console cache:clear
 sudo rm -rf app/cache/*
 sudo rm -rf app/logs/*
-php app/console doctrine:schema:drop --force
-php app/console doctrine:schema:create
 rm -rf web/uploads/exercices/*
 rm -rf web/uploads/files/*
 rm -rf web/uploads/images/*

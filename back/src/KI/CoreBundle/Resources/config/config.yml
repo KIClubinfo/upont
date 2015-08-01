@@ -1,0 +1,65 @@
+# FOSRestBundle
+fos_rest:
+    # Pas besoin de protection CSRF vu qu'il n'y a pas de formulaire HTML rendered
+    disable_csrf_role: NONE
+    # Activation des listener
+    param_fetcher_listener: true
+    body_listener: true
+    format_listener: true
+    routing_loader:
+        include_format: false
+        default_format: json                # Tout est renvoyé en JSON
+    view:
+        view_response_listener: 'force'
+        formats:
+            json: true
+    format_listener:
+        prefer_extension: false
+        default_priorities:
+            - json
+
+# Nécessaire pour que FOSRestBundle prenne le pas sur la génération des vues
+sensio_framework_extra:
+    view:    { annotations: false }
+    router:  { annotations: true }
+
+# Permet de créer des slugs
+stof_doctrine_extensions:
+    orm:
+        default:
+            sluggable: true
+
+# Nécessaire pour adopter des politiques d'exclusion sur les champs des entités étendues (type FOSUserBundle etc.)
+jms_serializer:
+    metadata:
+        directories:
+            FOSUB:
+                namespace_prefix: "FOS\\UserBundle"
+                path: "%kernel.root_dir%/serializer/FOSUserBundle"
+
+# Permet d'utiliser l'API depuis d'autres domaines (exemple: foyer.enpc.org)
+nelmio_cors:
+    paths:
+        '^/api':
+            allow_origin: ['*']
+            allow_headers: ['x-requested-with']
+            allow_methods: ['POST', 'PUT', 'PATCH', 'GET', 'DELETE', 'OPTIONS']
+            max_age: 3600
+
+# Génération auto de la doc
+nelmio_api_doc:
+    name: uPont API
+    sandbox:
+        authentication:
+            name: Authorization
+            delivery: header
+            type:     bearer
+        accept_type: application/json
+        body_format:
+            formats: [ ]
+            default_format: json
+        request_format:
+            formats:
+                json: application/json
+            method: accept_header
+            default_format: json

@@ -1,0 +1,23 @@
+events:
+    type:     rest
+    resource: KI\PublicationBundle\Controller\EventsController
+
+newsitems:
+    type:     rest
+    resource: KI\PublicationBundle\Controller\NewsitemsController
+
+courses:
+    type:     rest
+    resource: KI\PublicationBundle\Controller\CoursesController
+
+exercices:
+    type:     rest
+    resource: KI\PublicationBundle\Controller\ExercicesController
+
+fixes:
+    type:     rest
+    resource: KI\PublicationBundle\Controller\FixesController
+
+tutos:
+    type:     rest
+    resource: KI\PublicationBundle\Controller\TutosController
