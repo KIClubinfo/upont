@@ -80,7 +80,7 @@ class BeerUsersController extends ResourceController
      */
     public function postBeerUserAction($slug, $beer)
     {
-        if (!$this->checkClubMembership('foyer')) {
+        if (!$this->checkClubMembership('foyer') || $this->get('security.context')->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();
         }
 
@@ -117,6 +117,6 @@ class BeerUsersController extends ResourceController
      */
     public function deleteBeerUserAction($slug, $beer, $id)
     {
-        return $this->delete($id, $this->checkClubMembership('foyer'));
+        return $this->delete($id, $this->checkClubMembership('foyer') || $this->get('security.context')->isGranted('ROLE_ADMIN'));
     }
 }

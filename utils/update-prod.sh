@@ -20,6 +20,6 @@ cd ../back
 sudo composer self-update
 composer update --no-dev --optimize-autoloader
 php app/console cache:clear --env=prod --no-debug
-php app/console do:mi:mi
+php app/console do:mi:mi -n
 sudo chmod 777 -R app/cache && sudo chmod 777 -R app/logs
 rm app/cache/maintenance.lock
