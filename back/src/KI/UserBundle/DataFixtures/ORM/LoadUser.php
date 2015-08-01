@@ -73,6 +73,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setOrigin('CC - PSI [AT]');
         $user->setPhone('06.45.03.69.58');
         $user->setSkype('alberic.trancart');
+        $user->setBalance(20.7);
         $user->setEnabled(true);
         $user->addGroupUser($this->getReference('group-admin'));
         $user->setImage($this->getReference('image-user-trancara'));
