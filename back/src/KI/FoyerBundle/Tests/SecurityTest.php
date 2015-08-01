@@ -14,6 +14,7 @@ class SecurityTest extends WebTestCase
         $this->assertJsonResponse($response, 200);
         $infos = json_decode($response->getContent(), true);
         $this->assertTrue(empty($infos['error']));
+
         $this->client->request('GET', '/foyer/statistics/dziris');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
@@ -27,6 +28,16 @@ class SecurityTest extends WebTestCase
         $this->connect('admissibles', 'password');
         $routes = array(
             array(200, 'GET', '/foyer/statistics'),
+        );
+        $this->checkRoutes($routes);
+    }
+
+    public function testRoleFoyer()
+    {
+        // On se présente comme un admissible
+        $this->connect('muzardt', 'password');
+        $routes = array(
+            array(403, 'POST', '/beers/leffe/users/trancara'),
         );
         $this->checkRoutes($routes);
     }

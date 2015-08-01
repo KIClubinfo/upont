@@ -9,7 +9,7 @@ class YoutubesController extends \KI\CoreBundle\Controller\ResourceController
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
         parent::setContainer($container);
-        $this->initialize('Youtube', 'Foyer', false);
+        $this->initialize('Youtube', 'Foyer');
     }
 
     /**

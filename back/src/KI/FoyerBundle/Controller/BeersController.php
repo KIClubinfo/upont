@@ -9,7 +9,7 @@ class BeersController extends \KI\CoreBundle\Controller\ResourceController
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
         parent::setContainer($container);
-        $this->initialize('Beer', 'Foyer', false);
+        $this->initialize('Beer', 'Foyer');
     }
 
     /**

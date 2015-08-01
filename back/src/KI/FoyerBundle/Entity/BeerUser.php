@@ -15,6 +15,7 @@ class BeerUser
     /**
      * @ORM\Id
      * @ORM\Column(name="id", type="integer")
+     * @JMS\Expose
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;

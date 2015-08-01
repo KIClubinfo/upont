@@ -26,6 +26,7 @@ class LoadImageFixture extends AbstractFixture implements OrderedFixtureInterfac
             'user-gcc' => 'gcc.jpg',
             'club-bda' => 'bda.jpg',
             'club-bde' => 'bde.jpg',
+            'club-foyer' => 'foyer.jpg',
             'club-ki' => 'ki.png',
             'club-pep' => 'pep.png',
             'newsitem-git' => 'git.png',
