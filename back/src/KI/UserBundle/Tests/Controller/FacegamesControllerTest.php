@@ -28,7 +28,6 @@ class FacegamesControllerTest extends WebTestCase
     // Car celui ci change à chaque fois, le auto_incrmeent n'étant pas reset
     // Lors du chargement des fixtures
     public function testCors()
-    {
         $this->client->request('GET', '/facegames');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);

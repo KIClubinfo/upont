@@ -34,8 +34,7 @@
             <div up-row padded center>
                 <div up-col-xs="50%" up-col-sm="50%" up-col-md="30%" up-col="25%">
                     <h3 ng-if="change && !hardcore" up-row center>{{ name }}</h3>
-
-                    <h3 ng-if="!change && hardcore" up-row center>{{ traits[trait] }} : {{ traitValue }}</h3>
+                    <h3 ng-if="!change && hardcore" up-row center>{{ text(trait) }} : {{ traitValue }}</h3>
 
                     <div ng-if="!change && !hardcore">
                         <br><br>
@@ -132,7 +131,7 @@
                 <div ng-repeat="face in gameData.list_users" up-col="50%" up-row wrap padded center style="text-align:left">
                     <div up-col="30%">
                         <div class="up-image-container">
-                            <div class="up-image" ng-style="{ 'background-image' : 'url({{ face[face.answer][1] | urlFile }})' }"></div>
+                            <div class="up-image" ng-style="{ 'background-image' : 'url({{ face[face.answer][1] | thumb | urlFile }})' }"></div>
                         </div>
                     </div>
 

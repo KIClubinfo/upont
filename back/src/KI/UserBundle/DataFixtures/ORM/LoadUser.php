@@ -34,6 +34,8 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setPromo('016');
         $user->setLocation('Campu');
         $user->setDepartment('IMI');
+        $user->setNationality('Maroc');
+        $user->setOrigin('Concours Commun [CK]');
         $user->setEnabled(true);
         $user->addGroupUser($this->getReference('group-user'));
         $user->setImage($this->getReference('image-user-kadaouic'));
@@ -48,7 +50,9 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setLastName('Taquet Gaspérini');
         $user->setPromo('017');
         $user->setDepartment('1A');
+        $user->setOrigin('CC - MP [CTG]');
         $user->setLocation('Coloc');
+        $user->setNationality('Française');
         $user->setEnabled(true);
         $user->setToken('VpqtuEGC');
         $user->addGroupUser($this->getReference('group-admin'));
@@ -66,7 +70,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setDepartment('GCC');
         $user->setLocation('Perronet A53');
         $user->setNationality('France');
-        $user->setOrigin('CC');
+        $user->setOrigin('CC - PSI [AT]');
         $user->setPhone('06.45.03.69.58');
         $user->setSkype('alberic.trancart');
         $user->setEnabled(true);
@@ -84,6 +88,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setLastName('De Boisset');
         $user->setPromo('016');
         $user->setLocation('Campu');
+        $user->setOrigin('CC - PC [CdB]');
         $user->setDepartment('GMM');
         $user->setEnabled(true);
         $user->addGroupUser($this->getReference('group-admin'));
@@ -99,6 +104,8 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setLastName('Guérin');
         $user->setPromo('016');
         $user->setLocation('Perronet A44');
+        $user->setOrigin('CC - PC [HG]');
+        $user->setNationality('Nantes');
         $user->setDepartment('GCC-Archi');
         $user->setEnabled(true);
         $user->addGroupUser($this->getReference('group-user'));
@@ -113,6 +120,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setFirstName('Safia');
         $user->setLastName('Dziri');
         $user->setPromo('016');
+        $user->setOrigin('CC [SD]');
         $user->setDepartment('GCC-Archi');
         $user->setEnabled(true);
         $user->addGroupUser($this->getReference('group-user'));
@@ -128,7 +136,9 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setLastName('Muzard');
         $user->setPromo('016');
         $user->setLocation('Perronet A54');
+        $user->setOrigin('CC - MP [TM]');
         $user->setDepartment('VET');
+        $user->setNationality('Troll');
         $user->setEnabled(true);
         $user->addGroupUser($this->getReference('group-modo'));
         $user->setImage($this->getReference('image-user-muzardt'));
@@ -142,7 +152,9 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setFirstName('Benoît');
         $user->setLastName('Donat Bouillud');
         $user->setPromo('016');
+        $user->setOrigin('CC [BDB]');
         $user->setDepartment('GCC');
+        $user->setNationality('France');
         $user->setEnabled(true);
         $user->addGroupUser($this->getReference('group-user'));
         $userManager->updateUser($user);
@@ -155,6 +167,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setFirstName('Charles');
         $user->setLastName('Bochet');
         $user->setPromo('015');
+        $user->setOrigin('Concours Commun - PSI* [CB015]');
         $user->setDepartment('GCC-Archi');
         $user->setToken('4wtyfMWp');
         $user->setEnabled(true);
@@ -171,6 +184,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setLastName('Vessaire');
         $user->setPromo('017');
         $user->setLocation('M333');
+        $user->setOrigin('CC - MP');
         $user->setDepartment('1A');
         $user->setEnabled(true);
         $user->addGroup($this->getReference('group-user'));
@@ -185,6 +199,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setFirstName('Admissible');
         $user->setLastName('Mines-Ponts');
         $user->setPromo('018');
+        $user->setNationality('Un peu de tout');
         $user->setEnabled(true);
         $user->setStatsFoyer(true);
         $user->setStatsPonthub(true);
@@ -199,7 +214,9 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setPlainPassword('password');
         $user->setFirstName('Département');
         $user->setLastName('GCC');
+        $user->setOrigin('CC');
         $user->setDepartment('GCC');
+        $user->setNationality('Beton');
         $user->setEnabled(true);
         $user->setStatsFoyer(false);
         $user->setStatsPonthub(false);
