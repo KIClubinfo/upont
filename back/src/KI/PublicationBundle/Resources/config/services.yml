@@ -1,0 +1,7 @@
+services:
+    # Permet de générer un calendrier ICS pour un utilisateur donné
+    ki_upont.calendar:
+        class: KI\UpontBundle\Services\KICalendar
+        calls:
+            - [ setContainer,[ @service_container ] ]
+        arguments: [ @doctrine.orm.entity_manager ]

@@ -1,37 +1,37 @@
 <?php
 
-namespace KI\FoyerBundle\Controller;
+namespace KI\UpontBundle\Controller\Publications;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
-class YoutubesController extends \KI\CoreBundle\Controller\ResourceController
+class TutosController extends \KI\CoreBundle\Controller\ResourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
         parent::setContainer($container);
-        $this->initialize('Youtube', 'Foyer', false);
+        $this->initialize('Tuto', 'Publications');
     }
 
     /**
      * @ApiDoc(
      *  resource=true,
-     *  description="Liste les liens Youtube",
-     *  output="KI\FoyerBundle\Entity\Youtube",
+     *  description="Liste les tutos",
+     *  output="KI\UpontBundle\Entity\Publications\Tuto",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
      *   403="Pas les droits suffisants pour effectuer cette action",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Foyer"
+     *  section="Publications"
      * )
      */
-    public function getYoutubesAction() { return $this->getAll(); }
+    public function getTutosAction() { return $this->getAll(); }
 
     /**
      * @ApiDoc(
-     *  description="Retourne un lien Youtube",
-     *  output="KI\FoyerBundle\Entity\Youtube",
+     *  description="Retourne un tuto",
+     *  output="KI\UpontBundle\Entity\Publications\Tuto",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -39,16 +39,16 @@ class YoutubesController extends \KI\CoreBundle\Controller\ResourceController
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Foyer"
+     *  section="Publications"
      * )
      */
-    public function getYoutubeAction($slug) { return $this->getOne($slug); }
+    public function getTutoAction($slug) { return $this->getOne($slug); }
 
     /**
      * @ApiDoc(
-     *  description="Crée un lien Youtube",
-     *  input="KI\FoyerBundle\Form\YoutubeType",
-     *  output="KI\FoyerBundle\Entity\Youtube",
+     *  description="Crée un tuto",
+     *  input="KI\UpontBundle\Form\Publications\TutoType",
+     *  output="KI\UpontBundle\Entity\Publications\Tuto",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",
@@ -56,17 +56,15 @@ class YoutubesController extends \KI\CoreBundle\Controller\ResourceController
      *   403="Pas les droits suffisants pour effectuer cette action",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Foyer"
+     *  section="Publications"
      * )
      */
-    public function postYoutubeAction()
-    {
-        $return = $this->partialPost($this->get('security.context')->isGranted('ROLE_USER'));
+    public function postTutoAction() {
+        $return = $this->partialPost();
 
         if ($return['code'] == 201) {
             // On modifie légèrement la ressource qui vient d'être créée
             $return['item']->setDate(time());
-            $return['item']->setUser($this->user);
         }
 
         return $this->postView($return);
@@ -74,7 +72,24 @@ class YoutubesController extends \KI\CoreBundle\Controller\ResourceController
 
     /**
      * @ApiDoc(
-     *  description="Supprime un lien Youtube",
+     *  description="Modifie un tuto",
+     *  input="KI\UpontBundle\Form\Publications\TutoType",
+     *  statusCodes={
+     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
+     *   400="La syntaxe de la requête est erronée",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   404="Ressource non trouvée",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Publications"
+     * )
+     */
+    public function patchTutoAction($slug) { return $this->patch($slug); }
+
+    /**
+     * @ApiDoc(
+     *  description="Supprime un tuto",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -82,12 +97,8 @@ class YoutubesController extends \KI\CoreBundle\Controller\ResourceController
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Foyer"
+     *  section="Publications"
      * )
      */
-    public function deleteYoutubeAction($slug)
-    {
-        $author = $this->findBySlug($slug)->getUser();
-        return $this->delete($slug, $this->user == $author);
-    }
+    public function deleteTutoAction($slug) { return $this->delete($slug); }
 }

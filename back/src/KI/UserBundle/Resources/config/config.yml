@@ -1,0 +1,36 @@
+parameters:
+    # Tokens
+    upont_api.event.jwt_response_listener.class: KI\UpontBundle\EventListener\JWTResponseListener
+    upont_api.event.jwt_created_listener.class: KI\UpontBundle\EventListener\JWTCreatedListener
+    upont_api.event.jwt_decoded_listener.class: KI\UpontBundle\EventListener\JWTDecodedListener
+
+    # Notifications push
+    upont_push_GCM_API_key: 'AIzaSyCHrIJMqsou89Er6ksjfuqIZQLdOsuky2Q'
+    upont_push_WP_url: ''
+
+# Fos UserBundle
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: KI\UserBundle\Entity\User
+    group:
+        group_class: KI\UserBundle\Entity\Group
+    from_email:
+        address:        noreply@upont.enpc.fr
+        sender_name:    KI
+    change_password:
+        form:
+            type: user
+    registration:
+        form:
+            type: user
+    profile:
+        form:
+            type: user
+
+# JSON Web Token
+lexik_jwt_authentication:
+    private_key_path: %kernel.root_dir%/var/jwt/private.pem   # ssh private key path
+    public_key_path:  %kernel.root_dir%/var/jwt/public.pem    # ssh public key path
+    pass_phrase:      %jwt_passphrase%                        # ssh key pass phrase
+    token_ttl:        86400                                   # token ttl - defaults to 86400

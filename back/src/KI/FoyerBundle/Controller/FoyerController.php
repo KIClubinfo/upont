@@ -5,7 +5,7 @@ namespace KI\FoyerBundle\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-class FoyerController extends \KI\UpontBundle\Controller\Core\BaseController
+class FoyerController extends \KI\CoreBundle\Controller\BaseController
 {
     /**
      * @ApiDoc(

@@ -1,74 +1,92 @@
 <?php
 
-namespace KI\FoyerBundle\Controller;
+namespace KI\UpontBundle\Controller\Users;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
-class BeersController extends \KI\CoreBundle\Controller\ResourceController
+class AdmissiblesController extends \KI\CoreBundle\Controller\ResourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
         parent::setContainer($container);
-        $this->initialize('Beer', 'Foyer', false);
+        $this->initialize('Admissible', 'Users');
     }
+
+
 
     /**
      * @ApiDoc(
      *  resource=true,
-     *  description="Liste les bières",
-     *  output="KI\FoyerBundle\Entity\Beer",
+     *  description="Liste les admissibles",
+     *  output="KI\UpontBundle\Entity\Users\Admissible",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
      *   403="Pas les droits suffisants pour effectuer cette action",
-     *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Foyer"
+     *  section="Utilisateurs"
      * )
      */
-    public function getBeersAction() { return $this->getAll(); }
+    public function getAdmissiblesAction()
+    {
+        // On charge tous les admissibles
+        $admissibles = $this->repo->findAll();
+        $result = array();
+
+        // On ne garde que les admissibles de cette année
+        foreach ($admissibles as $admissible) {
+            if ($admissible->getDate() == date('Y')) {
+                $result[] = $admissible;
+            }
+        }
+        return $result;
+    }
 
     /**
      * @ApiDoc(
-     *  description="Retourne une bière",
-     *  output="KI\FoyerBundle\Entity\Beer",
+     *  description="Retourne un admissible",
+     *  output="KI\UpontBundle\Entity\Users\Admissible",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
      *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
+     *   404="Ressource non trouvée"
      *  },
-     *  section="Foyer"
+     *  section="Utilisateurs"
      * )
      */
-    public function getBeerAction($slug) { return $this->getOne($slug); }
+    public function getAdmissibleAction($slug) { return $this->getOne($slug); }
 
     /**
      * @ApiDoc(
-     *  description="Crée une bière",
-     *  input="KI\FoyerBundle\Form\BeerType",
-     *  output="KI\FoyerBundle\Entity\Beer",
+     *  description="Crée un admissible",
+     *  input="KI\UpontBundle\Form\Users\AdmissibleType",
+     *  output="KI\UpontBundle\Entity\Users\Admissible",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",
      *   401="Une authentification est nécessaire pour effectuer cette action",
      *   403="Pas les droits suffisants pour effectuer cette action",
-     *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Foyer"
+     *  section="Utilisateurs"
      * )
      */
-    public function postBeerAction()
+    public function postAdmissibleAction()
     {
-        $return = $this->partialPost($this->checkClubMembership('foyer'));
+        $return = $this->partialPost(true);
+
+        if ($return['code'] == 201) {
+            // On modifie légèrement la ressource qui vient d'être créée
+            $return['item']->setDate(time());
+        }
+
         return $this->postView($return);
     }
 
     /**
      * @ApiDoc(
-     *  description="Modifie une bière",
-     *  input="KI\FoyerBundle\Form\BeerType",
+     *  description="Modifie un admissible",
+     *  input="KI\UpontBundle\Form\Users\AdmissibleType",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   400="La syntaxe de la requête est erronée",
@@ -77,17 +95,17 @@ class BeersController extends \KI\CoreBundle\Controller\ResourceController
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Foyer"
+     *  section="Utilisateurs"
      * )
      */
-    public function patchBeerAction($slug)
+    public function patchAdmissibleAction($slug)
     {
-        return $this->patch($slug, $this->checkClubMembership('foyer'));
+        return $this->patch($slug);
     }
 
     /**
      * @ApiDoc(
-     *  description="Supprime une bière",
+     *  description="Supprime un admissible",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -95,11 +113,8 @@ class BeersController extends \KI\CoreBundle\Controller\ResourceController
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Foyer"
+     *  section="Utilisateurs"
      * )
      */
-    public function deleteBeerAction($slug)
-    {
-        return $this->delete($slug, $this->checkClubMembership('foyer'));
-    }
+    public function deleteAdmissibleAction($slug) { return $this->delete($slug); }
 }

@@ -1,0 +1,200 @@
+upont_api_clean:
+    pattern: /clean
+    defaults: { _controller: KIUpontBundle:Default:clean }
+    requirements:
+        _method: GET
+
+upont_api_dirty:
+    pattern: /dirty
+    defaults: { _controller: KIUpontBundle:Default:dirty }
+    requirements:
+        _method: GET
+
+login:
+    path: /login
+    defaults: { _controller: KIUpontBundle:Default:login }
+    requirements:
+        _method: POST
+
+upont_api_ping:
+    pattern: /ping
+    defaults: { _controller: KIUpontBundle:Default:ping }
+    requirements:
+        _method: HEAD
+
+upont_api_coffee:
+    pattern: /coffee
+    defaults: { _controller: KIUpontBundle:Default:coffee }
+    requirements:
+        _method: GET
+
+upont_api_online:
+    pattern: /online
+    defaults: { _controller: KIUpontBundle:Default:online }
+    requirements:
+        _method: GET
+
+upont_api_maintenance_lock:
+    pattern: /maintenance
+    defaults: { _controller: KIUpontBundle:Default:maintenanceLock }
+    requirements:
+        _method: POST
+
+upont_api_maintenance_unlock:
+    pattern: /maintenance
+    defaults: { _controller: KIUpontBundle:Default:maintenanceUnlock }
+    requirements:
+        _method: DELETE
+
+upont_api_resetting_token:
+    pattern: /resetting/token/{token}
+    defaults: { _controller: KIUpontBundle:Default:resettingToken }
+    requirements:
+        _method: POST
+
+upont_api_resetting_request:
+    pattern: /resetting/request
+    defaults: { _controller: KIUpontBundle:Default:resetting }
+    requirements:
+        _method: POST
+
+upont_api_parse_courses:
+    pattern: /courses
+    defaults: { _controller: KIUpontBundle:Default:parseCourses }
+    requirements:
+        _method: HEAD
+
+upont_api_version:
+    pattern: /version
+    defaults: { _controller: KIUpontBundle:Default:version }
+    requirements:
+        _method: GET
+
+upont_api_deploy:
+    pattern: /deploy
+    defaults: { _controller: KIUpontBundle:Default:deploy }
+    requirements:
+        _method: HEAD
+
+search:
+    pattern: /search
+    defaults: { _controller: KIUpontBundle:Search:search }
+    requirements:
+        _method: POST
+
+upont_images_post:
+    path: /images
+    defaults: { _controller: KIUpontBundle:Images:uploadImage }
+    requirements:
+        _method: POST
+
+
+
+
+
+
+
+
+# Routes du système de likes/dislikes/commentaires, applicables à beaucoup d'objets
+
+upont_api_likes_post_like:
+    pattern: /{object}/{slug}/like
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::likeView }
+    requirements:
+        _method: POST
+
+upont_api_likes_post_dislike:
+    pattern: /{object}/{slug}/dislike
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::dislikeView }
+    requirements:
+        _method: POST
+
+upont_api_likes_delete_like:
+    pattern: /{object}/{slug}/like
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::deleteLikeView }
+    requirements:
+        _method: DELETE
+
+upont_api_likes_delete_dislike:
+    pattern: /{object}/{slug}/dislike
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::deleteDislikeView }
+    requirements:
+        _method: DELETE
+
+upont_api_likes_get_comments:
+    pattern: /{object}/{slug}/comments
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::getCommentsView }
+    requirements:
+        _method: GET
+
+upont_api_likes_post_comments:
+    pattern: /{object}/{slug}/comments
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::postCommentView }
+    requirements:
+        _method: POST
+
+
+
+
+
+
+
+
+
+# Gestion des sous ressources, on répète la même chose
+upont_api_sublikes_post_like:
+    pattern: /{object}/{slug}/{subobject}/{subslug}/like
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::likeSubView }
+    requirements:
+        _method: POST
+
+upont_api_sublikes_post_dislike:
+    pattern: /{object}/{slug}/{subobject}/{subslug}/dislike
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::dislikeSubView }
+    requirements:
+        _method: POST
+
+upont_api_sublikes_delete_like:
+    pattern: /{object}/{slug}/{subobject}/{subslug}/like
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::deleteLikeSubView }
+    requirements:
+        _method: DELETE
+
+upont_api_sublikes_delete_dislike:
+    pattern: /{object}/{slug}/{subobject}/{subslug}/dislike
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::deleteDislikeSubView }
+    requirements:
+        _method: DELETE
+
+upont_api_sublikes_get_comments:
+    pattern: /{object}/{slug}/{subobject}/{subslug}/comments
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::getCommentsSubView }
+    requirements:
+        _method: GET
+
+upont_api_sublikes_post_comments:
+    pattern: /{object}/{slug}/{subobject}/{subslug}/comments
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::postCommentSubView }
+    requirements:
+        _method: POST
+
+
+
+
+
+# Maintenant, les commentaires
+upont_api_patch_comment:
+    pattern: /comments/{id}
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::patchCommentView }
+    requirements:
+        _method: PATCH
+
+upont_api_delete_comment:
+    pattern: /comments/{id}
+    defaults: { _controller: KI\UpontBundle\Controller\Core\LikeableController::deleteCommentView }
+    requirements:
+        _method: DELETE
+        
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /doc

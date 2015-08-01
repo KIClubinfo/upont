@@ -1,6 +1,19 @@
+ki_core:
+    resource: "@KICoreBundle/Resources/config/routing.yml"
+    prefix:   /
+
+ki_publication:
+    resource: "@KIPublicationBundle/Resources/config/routing.yml"
+    prefix:   /
+
+ki_user:
+    resource: "@KIUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+ki_ponthub:
+    resource: "@KIPonthubBundle/Resources/config/routing.yml"
+    prefix:   /
+
 ki_foyer:
     resource: "@KIFoyerBundle/Resources/config/routing.yml"
     prefix:   /
-
-ki_upont_api:
-    resource: "@KIUpontBundle/Resources/config/routing.yml"

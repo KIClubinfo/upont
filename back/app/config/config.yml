@@ -1,6 +1,11 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
+    - { resource: @KICoreBundle/Resources/config/config.yml }
+    - { resource: @KIFoyerBundle/Resources/config/config.yml }
+    - { resource: @KIPonthubBundle/Resources/config/config.yml }
+    - { resource: @KIPublicationBundle/Resources/config/config.yml }
+    - { resource: @KIUserBundle/Resources/config/config.yml }
 
 framework:
     #esi:             ~
@@ -37,10 +42,6 @@ assetic:
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
-        #closure:
-        #    jar: "%kernel.root_dir%/Resources/java/compiler.jar"
-        #yui_css:
-        #    jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
 
 # Doctrine Configuration
 doctrine:
@@ -61,13 +62,16 @@ doctrine:
             default:
                 connection:       default
                 mappings:
-                    KIUpontBundle: ~
+                    KICoreBundle: ~
                     KIFoyerBundle: ~
+                    KIPonthubBundle: ~
+                    KIPublicationBundle: ~
+                    KIUserBundle: ~
                 dql:
                     string_functions:
-                        soundex: KI\UpontBundle\DQL\SoundexFunction
-                        matchAgainst: KI\UpontBundle\DQL\MatchAgainstFunction
-                        month: KI\UpontBundle\DQL\MonthFunction
+                        soundex: KI\CoreBundle\DQL\Soundex
+                        matchAgainst: KI\CoreBundle\DQL\MatchAgainst
+                        month: KI\CoreBundle\DQL\Month
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -78,96 +82,3 @@ swiftmailer:
     username:   %mailer_user%
     password:   %mailer_password%
     encryption: %mailer_encryption%
-
-# Fos UserBundle
-fos_user:
-    db_driver: orm
-    firewall_name: main
-    user_class: KI\UpontBundle\Entity\Users\User
-    group:
-        group_class: KI\UpontBundle\Entity\Users\Group
-    from_email:
-        address:        noreply@upont.enpc.fr
-        sender_name:    KI
-    change_password:
-        form:
-            type: user
-    registration:
-        form:
-            type: user
-    profile:
-        form:
-            type: user
-
-# Fos RestBundle
-fos_rest:
-    # Pas besoin de protection CSRF vu qu'il n'y a pas de formulaire HTML rendered
-    disable_csrf_role: NONE
-    # Activation des listener
-    param_fetcher_listener: true
-    body_listener: true
-    format_listener: true
-    routing_loader:
-        include_format: false
-        default_format: json                # Tout est renvoyé en JSON
-    view:
-        view_response_listener: 'force'
-        formats:
-            json: true
-    format_listener:
-        prefer_extension: false
-        default_priorities:
-            - json
-
-# Nécessaire pour que FOSRestBundle prenne le pas sur la génération des vues
-sensio_framework_extra:
-    view:    { annotations: false }
-    router:  { annotations: true }
-
-# Nécessaire pour adopter des politiques d'exclusion sur les champs des entités étendues (type FOSUserBundle etc.)
-jms_serializer:
-    metadata:
-        directories:
-            FOSUB:
-                namespace_prefix: "FOS\\UserBundle"
-                path: "%kernel.root_dir%/serializer/FOSUserBundle"
-
-# JSON Web Token
-lexik_jwt_authentication:
-    private_key_path: %kernel.root_dir%/var/jwt/private.pem   # ssh private key path
-    public_key_path:  %kernel.root_dir%/var/jwt/public.pem    # ssh public key path
-    pass_phrase:      %jwt_passphrase%                        # ssh key pass phrase
-    token_ttl:        86400                                   # token ttl - defaults to 86400
-
-# Génération auto de la doc
-nelmio_api_doc:
-    name: uPont API
-    sandbox:
-        authentication:
-            name: Authorization
-            delivery: header
-            type:     bearer
-        accept_type: application/json
-        body_format:
-            formats: [ ]
-            default_format: json
-        request_format:
-            formats:
-                json: application/json
-            method: accept_header
-            default_format: json
-
-# Permet de créer des slugs
-stof_doctrine_extensions:
-    orm:
-        default:
-            sluggable: true
-
-# Permet d'utiliser l'API depuis d'autres domaines (exemple: foyer.enpc.org)
-nelmio_cors:
-    paths:
-        '^/api':
-            allow_origin: ['*']
-            allow_headers: ['x-requested-with']
-            allow_methods: ['POST', 'PUT', 'PATCH', 'GET', 'DELETE', 'OPTIONS']
-            max_age: 3600
