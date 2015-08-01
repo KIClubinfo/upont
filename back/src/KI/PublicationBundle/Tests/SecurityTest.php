@@ -1,5 +1,5 @@
 <?php
-namespace KI\CoreBundle\Tests;
+namespace KI\PublicationBundle\Tests;
 use KI\CoreBundle\Tests\WebTestCase;
 
 class SecurityTest extends WebTestCase

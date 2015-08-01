@@ -638,7 +638,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function getTokenAction()
     {
-        return array('token' => $this->get('ki_upont.token')->getToken());
+        return array('token' => $this->get('ki_user.service.token')->getToken());
     }
 
     /**
