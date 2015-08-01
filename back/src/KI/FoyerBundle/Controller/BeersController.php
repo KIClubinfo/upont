@@ -15,7 +15,7 @@ class BeersController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  resource=true,
-     *  description="Liste les bières",
+     *  description="Liste les bières, les premières sont les plus consommées",
      *  output="KI\FoyerBundle\Entity\Beer",
      *  statusCodes={
      *   200="Requête traitée avec succès",
@@ -26,7 +26,40 @@ class BeersController extends \KI\CoreBundle\Controller\ResourceController
      *  section="Foyer"
      * )
      */
-    public function getBeersAction() { return $this->getAll(); }
+    public function getBeersAction()
+    {
+        // Route un peu particulière : on va ordonner les bières
+        // par ordre décroissant de consommation
+        // On commence par toutes les récupérer
+        $beers = $this->repo->findAll();
+
+        // On va établir les comptes sur les 500 dernières consos
+        $repo = $this->em->getRepository('KIFoyerBundle:BeerUser');
+        $beerUsers = $repo->findBy(array(), array('date' => 'DESC'), 500);
+
+        $counts = array();
+        foreach ($beerUsers as $beerUser) {
+            $beerId = $beerUser->getBeer()->getId();
+
+            if (!isset($counts[$beerId])) {
+                $counts[$beerId] = 0;
+            }
+
+            $counts[$beerId] = $counts[$beerId]+1;
+        }
+
+        // On trie
+        $return = $beerCounts = array();
+        foreach ($beers as $beer) {
+            $beerId = $beer->getId();
+
+            $beerCounts[] = isset($counts[$beerId]) ? $counts[$beerId] : 0;
+            $return[]     = $beer;
+        }
+        array_multisort($beerCounts, SORT_DESC, $return);
+
+        return $this->restResponse($return);
+    }
 
     /**
      * @ApiDoc(
