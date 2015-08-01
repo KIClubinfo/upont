@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\Form;
+namespace KI\CoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -13,15 +13,15 @@ class TagType extends AbstractType
         $builder
             ->add('name');
     }
-    
+
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'data_class' => 'KI\UpontBundle\Entity\Tag'
+            'data_class' => 'KI\CoreBundle\Entity\Tag'
         ));
     }
-        
+
     public function getName()
     {
         return '';

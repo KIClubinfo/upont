@@ -21,7 +21,7 @@ class ImageSelectorType extends AbstractType
     /**
      * @param ObjectManager $om
      */
-    public function __construct(ObjectManager $om, KIImages $uploaderService)
+    public function __construct(ObjectManager $om, ImageService $uploaderService)
     {
         $this->om = $om;
         $this->uploaderService = $uploaderService;
@@ -29,7 +29,7 @@ class ImageSelectorType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $transformer = new Base64OrUrlToImageDataTransformer($this->om, $this->uploaderService);
+        $transformer = new StringToImageTransformer($this->om, $this->uploaderService);
         $builder->addModelTransformer($transformer);
     }
 

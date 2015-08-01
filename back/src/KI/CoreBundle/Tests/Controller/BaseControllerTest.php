@@ -1,8 +1,8 @@
 <?php
 
-namespace KI\UpontBundle\Tests\Controller\Core;
+namespace KI\CoreBundle\Tests\Controller;
 
-use KI\UpontBundle\Tests\WebTestCase;
+use KI\CoreBundle\Tests\WebTestCase;
 
 // Tests généraux à toutes les classes
 class BaseControllerTest extends WebTestCase

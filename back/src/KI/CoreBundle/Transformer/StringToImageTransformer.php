@@ -1,16 +1,16 @@
 <?php
-namespace KI\UpontBundle\Form\DataTransformer;
+namespace KI\CoreBundle\Transformer;
 
-use KI\UpontBundle\Services\KIImages;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Doctrine\Common\Persistence\ObjectManager;
+use KI\CoreBundle\Services\ImageService;
 
-class Base64OrUrlToImageDataTransformer implements DataTransformerInterface
+class StringToImageTransformer implements DataTransformerInterface
 {
     private $uploaderService;
 
-    public function __construct(ObjectManager $om, KIImages $uploaderService)
+    public function __construct(ObjectManager $om, ImageService $uploaderService)
     {
         $this->om = $om;
         $this->uploaderService = $uploaderService;

@@ -1,10 +1,10 @@
 <?php
 
-namespace KI\UpontBundle\Services;
+namespace KI\CoreBundle\Service;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 
-class KICurl extends ContainerAware
+class CurlService extends ContainerAware
 {
     // Téléchargement d'une ressource externe
     public function curl($url, array $options = array())

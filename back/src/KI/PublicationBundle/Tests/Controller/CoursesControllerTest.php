@@ -1,8 +1,8 @@
 <?php
 
-namespace KI\UpontBundle\Tests\Controller\Publications;
+namespace KI\PublicationBundle\Tests\Controller;
 
-use KI\UpontBundle\Tests\WebTestCase;
+use KI\CoreBundle\Tests\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Filesystem\Filesystem;
 

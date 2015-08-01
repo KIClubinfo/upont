@@ -1,30 +1,30 @@
 services:
     ki_core.listener.maintenance:
-        class: KI\UpontBundle\EventListener\MaintenanceListener
+        class: KI\CoreBundle\Listener\MaintenanceListener
         arguments:
             container: "@service_container"
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
-    ki_upont.images:
-        class: KI\UpontBundle\Services\KIImages
+    ki_upont.service.image:
+        class: KI\CoreBundle\Service\ImageService
         calls:
             - [ setContainer,[ @service_container ] ]
 
 
 
-    ki_upont.type.imageuploader_selector:
+    ki_core.form.selector.image:
        class: KI\UpontBundle\Form\Type\ImageUploaderSelectorType
        arguments: ["@doctrine.orm.entity_manager","@ki_upont.images"]
        tags:
            - { name: form.type, alias: imageuploader_selector }
-    ki_upont.type.tags_selector:
+    ki_core.form.selector.tags:
        class: KI\UpontBundle\Form\Type\TagsSelectorType
        arguments: ["@doctrine.orm.entity_manager"]
        tags:
            - { name: form.type, alias: tags_selector }
 
     # Interface cURL
-    ki_upont.curl:
-        class: KI\UpontBundle\Services\KICurl
+    ki_core.service.curl:
+        class: KI\CoreBundle\Service\CurlService
         calls:
             - [ setContainer,[ @service_container ] ]

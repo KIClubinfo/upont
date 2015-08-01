@@ -1,14 +1,14 @@
 <?php
 
-namespace KI\UpontBundle\Services;
+namespace KI\CoreBundle\Service;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\File;
-use KI\UpontBundle\Entity\Image;
+use KI\CoreBundle\Entity\Image;
 
-class KIImages extends ContainerAware
+class ImageService extends ContainerAware
 {
     public function upload($src, $url = null)
     {

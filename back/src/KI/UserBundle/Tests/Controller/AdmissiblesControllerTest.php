@@ -1,8 +1,8 @@
 <?php
 
-namespace KI\UpontBundle\Tests\Controller\Users;
+namespace KI\UserBundle\Tests\Controller;
 
-use KI\UpontBundle\Tests\WebTestCase;
+use KI\CoreBundle\Tests\WebTestCase;
 
 class AdmissiblesControllerTest extends WebTestCase
 {

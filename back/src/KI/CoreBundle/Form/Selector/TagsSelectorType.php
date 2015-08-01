@@ -1,10 +1,10 @@
 <?php
-namespace KI\UpontBundle\Form\Type;
+namespace KI\CoreBundle\Form\Selector;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use KI\UpontBundle\Form\DataTransformer\StringToTagsDataTransformer;
 use Doctrine\Common\Persistence\ObjectManager;
+use KI\CoreBundle\Transformer\StringToTagsTransformer;
 
 class TagsSelectorType extends AbstractType
 {
@@ -23,7 +23,7 @@ class TagsSelectorType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $transformer = new StringToTagsDataTransformer($this->om);
+        $transformer = new StringToTagsTransformer($this->om);
         $builder->addModelTransformer($transformer);
     }
 

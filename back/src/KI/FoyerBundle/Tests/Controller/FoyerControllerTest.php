@@ -2,7 +2,7 @@
 
 namespace KI\FoyerBundle\Tests\Controller;
 
-use KI\UpontBundle\Tests\WebTestCase;
+use KI\CoreBundle\Tests\WebTestCase;
 
 class FoyerControllerTest extends WebTestCase
 {

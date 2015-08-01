@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UpontBundle\EventListener;
+namespace KI\CoreBundle\Listener;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,12 +24,12 @@ class MaintenanceListener
         // Si la maintenance est activée et qu'on n'essaye pas de la débloquer
         if ($maintenance && !$unlock) {
             $content = array('code' => 503, 'message' => 'Service actuellement indisponible. Une maintenance est en cours.');
-            
+
             // Durée de la maintenance
             $until = file_get_contents($path);
             if ($until !== '')
                 $content['until'] = (int)$until;
-           
+
             $event->setResponse(new Response(json_encode($content), 503));
             $event->stopPropagation();
         }
