@@ -23,6 +23,10 @@ class BeerUsersControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
+        $this->client->request('GET', '/userbeers');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 200);
+
         $this->client->request('GET', '/users/trancara/beers');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
