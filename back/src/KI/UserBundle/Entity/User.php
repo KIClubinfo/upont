@@ -140,6 +140,14 @@ class User extends \KI\UserBundle\Entity\CoreUser
      */
     protected $details;
 
+    /**
+     * Solde Foyer
+     * @ORM\Column(name="balance", type="float", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("float")
+     */
+    protected $balance;
+
     protected function acronyme()
     {
         $r = '';
@@ -495,5 +503,27 @@ class User extends \KI\UserBundle\Entity\CoreUser
     public function getDetails()
     {
         return $this->details;
+    }
+
+    /**
+     * Set balance
+     *
+     * @param string $balance
+     * @return Course
+     */
+    public function setBalance($balance)
+    {
+        $this->balance = $balance;
+        return $this;
+    }
+
+    /**
+     * Get balance
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBalance()
+    {
+        return $this->balance;
     }
 }

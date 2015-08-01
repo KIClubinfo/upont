@@ -83,21 +83,7 @@ class BeerUsersController extends ResourceController
      */
     public function postBeerUserAction($slug, $beer)
     {
-        if (!$this->checkClubMembership('foyer') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            throw new AccessDeniedException();
-        }
-
-        $repo = $this->getDoctrine()->getManager()->getRepository('KIUserBundle:User');
-        $user = $repo->findOneByUsername($slug);
-        if (!$user instanceOf User) {
-            throw new NotFoundHttpException('Utilisateur non trouvé');
-        }
-
-        $repo = $this->getDoctrine()->getManager()->getRepository('KIFoyerBundle:Beer');
-        $beer = $repo->findOneBySlug($beer);
-        if (!$beer instanceOf Beer) {
-            throw new NotFoundHttpException('Bière non trouvée');
-        }
+        list($user, $beer) = $this->update($slug, $beer);
 
         $beerUser = new BeerUser();
         $beerUser->setUser($user);
@@ -127,6 +113,36 @@ class BeerUsersController extends ResourceController
      */
     public function deleteBeerUserAction($slug, $beer, $id)
     {
+        list($user, $beer) = $this->update($slug, $beer, false);
+
         return $this->delete($id, $this->checkClubMembership('foyer') && !$this->get('security.context')->isGranted('ROLE_ADMIN'));
+    }
+
+    // Met à jour le compte Foyer d'un utilisateur
+    protected function update($slug, $beer, $add = true)
+    {
+        if (!$this->checkClubMembership('foyer') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException();
+        }
+
+        $repo = $this->getDoctrine()->getManager()->getRepository('KIUserBundle:User');
+        $user = $repo->findOneByUsername($slug);
+        if (!$user instanceOf User) {
+            throw new NotFoundHttpException('Utilisateur non trouvé');
+        }
+
+        $repo = $this->getDoctrine()->getManager()->getRepository('KIFoyerBundle:Beer');
+        $beer = $repo->findOneBySlug($beer);
+        if (!$beer instanceOf Beer) {
+            throw new NotFoundHttpException('Bière non trouvée');
+        }
+
+        $balance = $user->getBalance();
+        $balance = $balance === null ? 0 : $balance;
+        $price = $beer->getPrice();
+        $balance = $add ? $balance+$price : $balance-$price;
+        $user->setBalance($balance);
+
+        return array($user, $beer);
     }
 }
