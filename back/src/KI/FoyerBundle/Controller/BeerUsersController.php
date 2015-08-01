@@ -30,9 +30,29 @@ class BeerUsersController extends ResourceController
      *  },
      *  section="Foyer"
      * )
+     * @Route\Get("/beerusers")
+     */
+    public function getBeerUsersAction()
+    {
+        return $this->getAll();
+    }
+
+    /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Liste les consos",
+     *  output="KI\FoyerBundle\Entity\BeerUser",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Foyer"
+     * )
      * @Route\Get("/beers/{slug}/users")
      */
-    public function getBeerUsersAction($slug)
+    public function getBeersUserAction($slug)
     {
         $repo = $this->getDoctrine()->getManager()->getRepository('KIUserBundle:User');
         $user = $repo->findOneByUsername($slug);
