@@ -43,6 +43,45 @@ class BeerUsersController extends ResourceController
     /**
      * @ApiDoc(
      *  resource=true,
+     *  description="Liste les utilisateurs ayant bu dernièrement",
+     *  output="KI\UserBundle\Entity\User",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Foyer"
+     * )
+     * @Route\Get("/userbeers")
+     */
+    public function getUserBeersAction()
+    {
+        // Route un peu particulière : on va ordonner les utilisateurs
+        // par ordre décroissant de date consommation
+        // On commence par récupérer 500 dernières consos
+        $repo = $this->em->getRepository('KIFoyerBundle:BeerUser');
+        $beerUsers = $repo->findBy(array(), array('date' => 'DESC'), 500);
+
+        $users = array();
+        foreach ($beerUsers as $beerUser) {
+            $user = $beerUser->getUser();
+
+            if (!in_array($user, $users)) {
+                $users[] = $user;
+            }
+            // On ne veut que 48 résultats
+            if (count($users) >= 48) {
+                break;
+            }
+        }
+
+        return $this->restResponse($users);
+    }
+
+    /**
+     * @ApiDoc(
+     *  resource=true,
      *  description="Liste les consos",
      *  output="KI\FoyerBundle\Entity\BeerUser",
      *  statusCodes={
