@@ -76,6 +76,22 @@ class BeerUsersController extends ResourceController
             }
         }
 
+        // On complète avec d'autres utilisateurs au besoin
+        if (count($users) < 48) {
+            $repo = $this->em->getRepository('KIUserBundle:User');
+            $listUsers = $repo->findBy(array(), array('id' => 'DESC'), 100);
+
+            foreach ($listUsers as $user) {
+                if (!in_array($user, $users)) {
+                    $users[] = $user;
+                }
+                // On ne veut que 48 résultats
+                if (count($users) >= 48) {
+                    break;
+                }
+            }
+        }
+
         return $this->restResponse($users);
     }
 
