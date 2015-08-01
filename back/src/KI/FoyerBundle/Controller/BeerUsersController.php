@@ -113,13 +113,13 @@ class BeerUsersController extends ResourceController
      */
     public function deleteBeerUserAction($slug, $beer, $id)
     {
-        list($user, $beer) = $this->update($slug, $beer, false);
+        list($user, $beer) = $this->update($slug, $beer, true);
 
         return $this->delete($id, $this->checkClubMembership('foyer') && !$this->get('security.context')->isGranted('ROLE_ADMIN'));
     }
 
     // Met à jour le compte Foyer d'un utilisateur
-    protected function update($slug, $beer, $add = true)
+    protected function update($slug, $beer, $add = false)
     {
         if (!$this->checkClubMembership('foyer') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();
