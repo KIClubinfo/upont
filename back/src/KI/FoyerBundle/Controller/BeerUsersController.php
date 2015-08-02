@@ -63,7 +63,11 @@ class BeerUsersController extends ResourceController
         $repo = $this->em->getRepository('KIFoyerBundle:BeerUser');
         $beerUsers = $repo->findBy(array(), array('date' => 'DESC'), 500);
 
+        // On veut positionner le compte Externe Foyer en première positionn
+        $repo = $this->em->getRepository('KIUserBundle:User');
         $users = array();
+        $users[] = $repo->findOneByUsername('externe-foyer');
+
         foreach ($beerUsers as $beerUser) {
             $user = $beerUser->getUser();
 
@@ -78,7 +82,7 @@ class BeerUsersController extends ResourceController
 
         // On complète avec d'autres utilisateurs au besoin
         if (count($users) < 48) {
-            $repo = $this->em->getRepository('KIUserBundle:User');
+
             $listUsers = $repo->findBy(array(), array('id' => 'DESC'), 100);
 
             foreach ($listUsers as $user) {
