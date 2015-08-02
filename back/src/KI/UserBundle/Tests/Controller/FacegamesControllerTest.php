@@ -13,11 +13,11 @@ class FacegamesControllerTest extends WebTestCase
     public function testPost()
     {
         $this->client->request(
-			'POST', '/facegames', array(
+            'POST', '/facegames', array(
                 'promo' => '016',
                 'hardcore' => true
-			)
-		);
+            )
+        );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
         // On vérifie que le lieu du nouvel objet a été indiqué

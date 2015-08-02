@@ -198,7 +198,7 @@ class BeerUsersController extends ResourceController
         $balance = $user->getBalance();
         $balance = $balance === null ? 0 : $balance;
         $price = $beer->getPrice();
-        $balance = $add ? $balance+$price : $balance-$price;
+        $balance = $add ? $balance + $price : $balance - $price;
         $user->setBalance($balance);
 
         return array($user, $beer);
@@ -234,7 +234,7 @@ class BeerUsersController extends ResourceController
 
         $balance = $user->getBalance();
         $balance = $balance === null ? 0 : $balance;
-        $balance = $balance+$request->get('balance');
+        $balance = $balance + $request->get('balance');
 
         $user->setBalance($balance);
 
