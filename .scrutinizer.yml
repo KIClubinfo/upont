@@ -4,6 +4,8 @@ filter:
         - back/vendor/*
         - back/app/*
         - back/src/KI/*Bundle/DataFixtures/*
+        - back/src/KI/*Bundle/DependencyInjection/*
+        - back/src/KI/*Bundle/*Bundle.php
 checks:
     php:
         fix_php_opening_tag: true
