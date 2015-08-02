@@ -110,6 +110,6 @@ class LoadEventFixture extends AbstractFixture implements OrderedFixtureInterfac
 
     public function getOrder()
     {
-        return 22;
+        return 41;
     }
 }

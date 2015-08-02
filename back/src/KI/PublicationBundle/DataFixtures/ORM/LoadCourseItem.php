@@ -53,6 +53,6 @@ class LoadCourseItemFixture extends AbstractFixture implements OrderedFixtureInt
 
     public function getOrder()
     {
-        return 16;
+        return 43;
     }
 }

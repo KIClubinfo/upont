@@ -27,6 +27,6 @@ class LoadEpisodeFixture extends AbstractFixture implements OrderedFixtureInterf
 
     public function getOrder()
     {
-        return 36;
+        return 24;
     }
 }

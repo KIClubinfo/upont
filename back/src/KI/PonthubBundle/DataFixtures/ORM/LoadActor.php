@@ -41,6 +41,6 @@ class LoadActorFixture extends AbstractFixture implements OrderedFixtureInterfac
 
     public function getOrder()
     {
-        return 32;
+        return 20;
     }
 }

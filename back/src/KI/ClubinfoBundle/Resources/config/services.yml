@@ -1,1 +1,13 @@
+parameters:
+    ki_clubinfo.slack_hook: https://hooks.slack.com/services/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
+
 services:
+    # Permet la communication avec le Slack du KI
+    ki_clubinfo.service.slack:
+        class: KI\ClubinfoBundle\Service\SlackService
+        arguments:
+            - @ki_core.service.curl
+            - %ki_clubinfo.slack_hook%
+            - %kernel.environment%
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }

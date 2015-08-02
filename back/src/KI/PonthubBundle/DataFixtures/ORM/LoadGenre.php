@@ -46,6 +46,6 @@ class LoadGenreFixture extends AbstractFixture implements OrderedFixtureInterfac
 
     public function getOrder()
     {
-        return 31;
+        return 21;
     }
 }

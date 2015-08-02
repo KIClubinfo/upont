@@ -9,6 +9,7 @@ use KI\CoreBundle\Entity\Likeable;
 
 /**
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  * @JMS\ExclusionPolicy("all")
  */
 class Fix extends Likeable
@@ -17,7 +18,6 @@ class Fix extends Likeable
      * Texte décrivant le problème
      * @ORM\Column(name="problem", type="text")
      * @JMS\Expose
-     * @Assert\Type("string")
      * @Assert\NotBlank()
      */
     protected $problem;
@@ -26,8 +26,6 @@ class Fix extends Likeable
      * Date de publication
      * @ORM\Column(name="date", type="integer", nullable=true)
      * @JMS\Expose
-     * @Assert\Type("integer")
-     * @Assert\GreaterThan(1)
      */
     protected $date;
 
@@ -35,7 +33,6 @@ class Fix extends Likeable
      * Date de résolution
      * @ORM\Column(name="solved", type="integer", nullable=true)
      * @JMS\Expose
-     * @Assert\Type("integer")
      */
     protected $solved;
 
@@ -43,7 +40,6 @@ class Fix extends Likeable
      * Statut (Non vu|En attente|En cours|Résolu|Fermé)
      * @ORM\Column(name="status", type="string")
      * @JMS\Expose
-     * @Assert\Type("string")
      */
     protected $status;
 
@@ -62,10 +58,23 @@ class Fix extends Likeable
      * @Assert\Valid()
      */
     protected $user;
+    protected $autoSetUser = true; // Si $user = null, utilise l'user actuel
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->date = time();
+    }
 
-
-
+    /**
+     * Actualise la date de résolution
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateStatus()
+    {
+        $this->solved = $this->status === 'Résolu' ? time() : null;
+    }
 
     /**
      * Set problem

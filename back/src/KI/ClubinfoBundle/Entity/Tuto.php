@@ -17,7 +17,6 @@ class Tuto extends Likeable
      * Corps du texte
      * @ORM\Column(name="text", type="text")
      * @JMS\Expose
-     * @Assert\Type("string")
      * @Assert\NotBlank()
      */
     protected $text;
@@ -26,7 +25,6 @@ class Tuto extends Likeable
      * Date (timestamp)
      * @ORM\Column(name="date", type="integer")
      * @JMS\Expose
-     * @Assert\Type("integer")
      */
     protected $date;
 
@@ -34,21 +32,20 @@ class Tuto extends Likeable
      * Icône (utilisée par l'application mobile)
      * @ORM\Column(name="icon", type="string", nullable=true)
      * @JMS\Expose
-     * @Assert\Type("string")
      */
     protected $icon;
 
-
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
+    public function __construct()
+    {
+        parent::__construct();
+        $this->date = time();
+    }
 
     /**
      * Set date
      *
      * @param integer $date
-     * @return Newsitem
+     * @return Tuto
      */
     public function setDate($date)
     {

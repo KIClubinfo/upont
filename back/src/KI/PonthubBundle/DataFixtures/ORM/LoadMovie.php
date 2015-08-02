@@ -55,6 +55,6 @@ class LoadMovieFixture extends AbstractFixture implements OrderedFixtureInterfac
 
     public function getOrder()
     {
-        return 41;
+        return 22;
     }
 }
