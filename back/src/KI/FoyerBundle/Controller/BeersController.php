@@ -49,7 +49,7 @@ class BeersController extends \KI\CoreBundle\Controller\ResourceController
                 $counts[$beerId] = 0;
             }
 
-            $counts[$beerId] = $counts[$beerId]+1;
+            $counts[$beerId] = $counts[$beerId] + 1;
         }
 
         // On trie

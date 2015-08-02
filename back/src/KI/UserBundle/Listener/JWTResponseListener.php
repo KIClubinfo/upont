@@ -57,6 +57,9 @@ class JWTResponseListener
         $event->setData($data);
     }
 
+    /**
+     * @param string $reason
+     */
     protected function badCredentials(AuthenticationFailureEvent $event, $reason)
     {
         return $event->setResponse(new JsonResponse(array(

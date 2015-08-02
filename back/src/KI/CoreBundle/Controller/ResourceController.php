@@ -66,6 +66,9 @@ class ResourceController extends \KI\CoreBundle\Controller\LikeableController
         return array($page, $limit, $sortBy);
     }
 
+    /**
+     * @param double $totalPages
+     */
     public function generatePages($results, $limit, $page, $totalPages, $count, $context = null)
     {
         foreach ($results as $key => $result) {

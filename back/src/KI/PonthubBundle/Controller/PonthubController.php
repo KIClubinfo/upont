@@ -532,7 +532,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
             'timeline' => $timeline,
             'totalSize' => $totalSize,
             'totalFiles' => $totalFiles,
-            'hipster' => (int) (10 * $hipster / $totalFiles)
+            'hipster' => (int)(10*$hipster/$totalFiles)
         ));
     }
 
@@ -540,9 +540,9 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
     private function updateSeries(&$series, $date, $id) {
         foreach ($series as $key => &$value) {
             if ($key != $id)
-                $value['data'][] = array($date, $value['data'][count($value['data'])-1][1]);
+                $value['data'][] = array($date, $value['data'][count($value['data']) - 1][1]);
             else
-                $value['data'][] = array($date, $value['data'][count($value['data'])-1][1] + 1);
+                $value['data'][] = array($date, $value['data'][count($value['data']) - 1][1] + 1);
         }
     }
 
@@ -582,8 +582,9 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
 
             $user = $downloads[0]->getUser();
             $downloaderCategories[] = $user->getFirstName().' '.$user->getLastName();
-            for ($i = 0; $i < 6; $i++)
-                $downloaderSeries[$i]['data'][] = 0;
+            for ($i = 0; $i < 6; $i++) {
+                            $downloaderSeries[$i]['data'][] = 0;
+            }
 
             foreach ($downloads as $download) {
                 $file = $download->getFile();
@@ -615,7 +616,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
         // Tri par ordre des downloads totaux
         $total = array();
         foreach ($downloadSerie as $key => $row) {
-            $total[$key]  = $row['y'];
+            $total[$key] = $row['y'];
         }
         array_multisort($total, SORT_DESC, $downloadSerie);
 
@@ -637,10 +638,10 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
         $results = $this->em->createQuery($dql)->getResult();
 
         $timeline = array(
-            'promo016' => array(0,0,0,0,0,0,0,0,0,0,0,0),
-            'promo017' => array(0,0,0,0,0,0,0,0,0,0,0,0),
-            'promo018' => array(0,0,0,0,0,0,0,0,0,0,0,0),
-            'average' => array(0,0,0,0,0,0,0,0,0,0,0,0),
+            'promo016' => array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+            'promo017' => array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+            'promo018' => array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+            'average' => array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
             'pie' => array(
                 'promo016' => 0,
                 'promo017' => 0,
@@ -649,13 +650,13 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
         );
         // On répartit les données dans les tableaux suivants
         foreach ($results as $result) {
-            $size = round($result['taille'] / (1000*1000*1000), 1);
-            $timeline['promo'.$result['promo']][$result['mois']-1] += $size;
+            $size = round($result['taille']/(1000*1000*1000), 1);
+            $timeline['promo'.$result['promo']][$result['mois'] - 1] += $size;
             $timeline['pie']['promo'.$result['promo']] += $size;
         }
         // On calcule les moyennes
         for ($i = 0; $i < 12; $i++) {
-            $timeline['average'][$i] = round(($timeline['promo016'][$i] + $timeline['promo017'][$i] + $timeline['promo018'][$i]) / 3, 1);
+            $timeline['average'][$i] = round(($timeline['promo016'][$i] + $timeline['promo017'][$i] + $timeline['promo018'][$i])/3, 1);
         }
 
         // Construction de la tree map résumant les fichiers dispos sur Ponthub
@@ -692,14 +693,14 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
 
         // On rajoute l'année dans les catégories si elle n'y est pas déjà
         foreach ($movieYears as $key => $value) {
-            if (!in_array((int) $value['year'], $yearCategories)) {
+            if (!in_array((int)$value['year'], $yearCategories)) {
                 $yearCategories[] = $value['year'];
                 $yearSeries[0]['data'][] = 0;
                 $yearSeries[1]['data'][] = 0;
             }
         }
         foreach ($gameYears as $key => $value) {
-            if (!in_array((int) $value['year'], $yearCategories)) {
+            if (!in_array((int)$value['year'], $yearCategories)) {
                 $yearCategories[] = $value['year'];
                 $yearSeries[0]['data'][] = 0;
                 $yearSeries[1]['data'][] = 0;
@@ -713,18 +714,18 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
         $maxPopMovie = 0;
         $maxPopGame = 0;
         foreach ($movieYears as $key => $value) {
-            $id = array_search((int) $value['year'], $yearCategories);
+            $id = array_search((int)$value['year'], $yearCategories);
             $yearSeries[0]['data'][$id] = -$value[1];
 
             if ($value[1] > $maxPopMovie)
-                $maxPopMovie = (int) $value[1];
+                $maxPopMovie = (int)$value[1];
         }
         foreach ($gameYears as $key => $value) {
-            $id = array_search((int) $value['year'], $yearCategories);
-            $yearSeries[1]['data'][$id] = (int) $value[1];
+            $id = array_search((int)$value['year'], $yearCategories);
+            $yearSeries[1]['data'][$id] = (int)$value[1];
 
             if ($value[1] > $maxPopGame)
-                $maxPopGame = (int) $value[1];
+                $maxPopGame = (int)$value[1];
         }
 
         return $this->jsonResponse(array(
@@ -751,7 +752,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
     private function getTotal($category, $size = false) {
         if ($size) {
             $dql = 'SELECT SUM(e.size) FROM KI\PonthubBundle\Entity\\'.$category.' e';
-            return $this->em->createQuery($dql)->getSingleScalarResult() / (1000*1000*1000);
+            return $this->em->createQuery($dql)->getSingleScalarResult()/(1000*1000*1000);
         } else {
             $dql = 'SELECT COUNT(e.id) FROM KI\PonthubBundle\Entity\\'.$category.' e';
             return $this->em->createQuery($dql)->getSingleScalarResult();
@@ -767,7 +768,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
 
         $return = array();
         foreach ($results as $result) {
-            $return[] = array($result['name'], (int) $result['compte']);
+            $return[] = array($result['name'], (int)$result['compte']);
         }
         return $return;
     }
@@ -779,6 +780,6 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
         $statement->execute();
         $results = $statement->fetchAll();
 
-        return (int) $results[0]['compte'];
+        return (int)$results[0]['compte'];
     }
 }

@@ -151,8 +151,9 @@ class User extends \KI\UserBundle\Entity\CoreUser
     protected function acronyme()
     {
         $r = '';
-        foreach (explode(' ', $this->firstName.' '.$this->lastName) as $v)
-            $r .= $v[0];
+        foreach (explode(' ', $this->firstName.' '.$this->lastName) as $v) {
+                    $r .= $v[0];
+        }
         return $r.'\''.$this->promo;
     }
 
