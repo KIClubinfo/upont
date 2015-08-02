@@ -68,22 +68,7 @@ class FixesController extends ResourceController
      */
     public function postFixAction()
     {
-        $return = $this->partialPost($this->get('security.context')->isGranted('ROLE_USER'));
-
-        if ($return['code'] == 201) {
-            // On modifie légèrement la ressource qui vient d'être créée
-            if ($return['item']->getFix()) {
-                $dispatcher = $this->container->get('event_dispatcher');
-                $achievementCheck = new AchievementCheckEvent(Achievement::BUG_CONTACT);
-                $dispatcher->dispatch('upont.achievement', $achievementCheck);
-            } else {
-                $dispatcher = $this->container->get('event_dispatcher');
-                $achievementCheck = new AchievementCheckEvent(Achievement::BUG_REPORT);
-                $dispatcher->dispatch('upont.achievement', $achievementCheck);
-            }
-        }
-
-        return $this->postView($return);
+        return $this->post($this->get('security.context')->isGranted('ROLE_USER'));
     }
 
     /**
