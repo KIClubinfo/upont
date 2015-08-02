@@ -1,0 +1,47 @@
+services:
+    # Écoute les checks d'achievements demandés un peu partout dans le code
+    ki_user.listener.achievementcheck:
+        class: KI\UserBundle\Listener\AchievementCheckListener
+        arguments:
+            - @doctrine.orm.entity_manager
+            - @security.context
+        tags:
+            - { name: kernel.event_listener, event: upont.achievement, method: check }
+
+    # Permet de gérer le JSON Web Token
+    ki_user.listener.jwt_response:
+        class: KI\UserBundle\Listener\JWTResponseListener
+        arguments:
+            - @event_dispatcher
+            - @fos_user.user_manager
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_failure, method: onAuthenticationFailureResponse }
+
+    ki_user.listener.jwt_created:
+        class: KI\UserBundle\Listener\JWTCreatedListener
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
+
+    ki_user.listener.jwt_decoded:
+        class: KI\UserBundle\Listener\JWTDecodedListener
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_decoded, method: onJWTDecoded }
+
+    # Écoute le lancement de notifications push
+    ki_user.listener.notification:
+        class: KI\UserBundle\Listener\NotificationListener
+        arguments:
+            - @ki_core.service.curl
+            - %ki_upont.push.gcm%
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+
+    # Ajoute les gens online
+    ki_user.listener.online:
+        class: KI\UserBundle\Listener\OnlineListener
+        arguments:
+            - @doctrine.orm.entity_manager
+            - @security.context
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
