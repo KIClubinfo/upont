@@ -238,6 +238,16 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setImage($this->getReference('image-user-gcc'));
         $userManager->updateUser($user);
         $this->addReference('user-gcc', $user);
+
+        $user = $userManager->createUser();
+        $user->setUsername('externe-foyer');
+        $user->setEmail('nobody@clubinfo.enpc.fr');
+        $user->setPlainPassword('password');
+        $user->setFirstName('Externe');
+        $user->setLastName('Foyer');
+        $user->setEnabled(true);
+        $user->addGroup($this->getReference('group-exterieur'));
+        $userManager->updateUser($user);
     }
 
     public function getOrder()
