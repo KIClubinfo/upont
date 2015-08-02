@@ -16,7 +16,7 @@ class TutosController extends \KI\CoreBundle\Controller\ResourceController
      * @ApiDoc(
      *  resource=true,
      *  description="Liste les tutos",
-     *  output="KI\PublicationBundle\Entity\Tuto",
+     *  output="KI\ClubinfoBundle\Entity\Tuto",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -31,7 +31,7 @@ class TutosController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Retourne un tuto",
-     *  output="KI\PublicationBundle\Entity\Tuto",
+     *  output="KI\ClubinfoBundle\Entity\Tuto",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -48,7 +48,7 @@ class TutosController extends \KI\CoreBundle\Controller\ResourceController
      * @ApiDoc(
      *  description="Crée un tuto",
      *  input="KI\PublicationBundle\Form\TutoType",
-     *  output="KI\PublicationBundle\Entity\Tuto",
+     *  output="KI\ClubinfoBundle\Entity\Tuto",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",

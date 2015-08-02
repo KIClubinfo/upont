@@ -644,7 +644,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Renvoie la liste des dépannages demandés par l'utilisateur",
-     *  output="KI\PublicationBundle\Entity\Fix",
+     *  output="KI\ClubinfoBundle\Entity\Fix",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",

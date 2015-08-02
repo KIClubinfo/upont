@@ -21,7 +21,7 @@ class FixesController extends \KI\CoreBundle\Controller\ResourceController
      * @ApiDoc(
      *  resource=true,
      *  description="Liste les tâches de dépannage",
-     *  output="KI\PublicationBundle\Entity\Fix",
+     *  output="KI\ClubinfoBundle\Entity\Fix",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -36,7 +36,7 @@ class FixesController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Retourne une tâche de dépannage",
-     *  output="KI\PublicationBundle\Entity\Fix",
+     *  output="KI\ClubinfoBundle\Entity\Fix",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -53,7 +53,7 @@ class FixesController extends \KI\CoreBundle\Controller\ResourceController
      * @ApiDoc(
      *  description="Crée une tâche de dépannage",
      *  input="KI\PublicationBundle\Form\FixType",
-     *  output="KI\PublicationBundle\Entity\Fix",
+     *  output="KI\ClubinfoBundle\Entity\Fix",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",
