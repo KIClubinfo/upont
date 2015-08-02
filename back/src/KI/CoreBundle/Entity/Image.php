@@ -134,9 +134,9 @@ class Image
     {
         $extension = pathinfo(strtolower($path), PATHINFO_EXTENSION);
 
-        if (preg_match('/jpg|jpeg/',$extension))
+        if (preg_match('/jpg|jpeg/', $extension))
             $image = imagecreatefromjpeg($path);
-        else if (preg_match('/png/',$extension))
+        else if (preg_match('/png/', $extension))
             $image = imagecreatefrompng($path);
         else
             throw new BadRequestHttpException('Extension non reconnue !');
@@ -150,12 +150,12 @@ class Image
         $thumbHeight = $imageHeight;
 
         if ($thumbHeight > $mawHeight) {
-            $thumbWidth = floor($thumbWidth * $mawHeight / $thumbHeight);
+            $thumbWidth = floor($thumbWidth*$mawHeight/$thumbHeight);
             $thumbHeight = $mawHeight;
         }
 
         if ($thumbWidth > $maxWidth) {
-            $thumbHeight = floor($thumbHeight * $maxWidth / $thumbWidth);
+            $thumbHeight = floor($thumbHeight*$maxWidth/$thumbWidth);
             $thumbWidth = $maxWidth;
         }
 
@@ -166,12 +166,12 @@ class Image
         // Enregistrement de la miniature
         $thumbPath = dirname(str_replace('images', 'thumbnails', $path)).'/';
         // Création du dossier thumbnails au besoin
-        if(!is_dir($thumbPath)) mkdir($thumbPath);
+        if (!is_dir($thumbPath)) mkdir($thumbPath);
 
         if (preg_match('/jpg|jpeg/', $extension))
-            imagejpeg($thumbnail, $thumbPath . substr($path, strlen(dirname($path)) + 1));
+            imagejpeg($thumbnail, $thumbPath.substr($path, strlen(dirname($path)) + 1));
         else
-            imagepng($thumbnail, $thumbPath . substr($path, strlen(dirname($path)) + 1));
+            imagepng($thumbnail, $thumbPath.substr($path, strlen(dirname($path)) + 1));
 
         imagedestroy($image);
         imagedestroy($thumbnail);

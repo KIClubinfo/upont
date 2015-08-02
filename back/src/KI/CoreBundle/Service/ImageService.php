@@ -18,6 +18,9 @@ class ImageService
         $this->imagesMaxSize = $imagesMaxSize;
     }
 
+    /**
+     * @param string $src
+     */
     public function upload($src, $url = null)
     {
         $fs = new Filesystem();

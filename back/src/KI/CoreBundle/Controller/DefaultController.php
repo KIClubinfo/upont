@@ -441,7 +441,7 @@ class DefaultController extends \KI\CoreBundle\Controller\BaseController
             $major = 0;
             $minor = 0;
 
-            for ($i = 0 ; $i < $count ; $i++) {
+            for ($i = 0; $i < $count; $i++) {
                 // On ne s'intéresse qu'à la dernière version
                 if ($out[1][$i] < $version) continue;
 

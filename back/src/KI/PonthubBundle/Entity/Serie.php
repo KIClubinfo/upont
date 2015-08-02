@@ -310,7 +310,7 @@ class Serie extends PonthubFile
      * Set director
      *
      * @param string $director
-     * @return Movie
+     * @return Serie
      */
     public function setDirector($director)
     {
@@ -434,7 +434,7 @@ class Serie extends PonthubFile
     /**
      * Get rating
      *
-     * @return integer
+     * @return string
      */
     public function getRating()
     {

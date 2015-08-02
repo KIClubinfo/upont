@@ -2,7 +2,6 @@
 
 namespace KI\UserBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use FOS\RestBundle\View\View as RestView;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -85,7 +84,7 @@ class FacegamesController extends \KI\CoreBundle\Controller\ResourceController
         $nbProps = 3;
 
         // $answers = []; // Array d'ids
-        while(count($list) < $nbQuestions) {
+        while (count($list) < $nbQuestions) {
             $tempList = [];
             $ids = [];
 
@@ -101,7 +100,7 @@ class FacegamesController extends \KI\CoreBundle\Controller\ResourceController
             // La réponse est décidée aléatoirement
             $tempList['answer'] = rand(0, $nbProps - 1);
 
-            for ($i = 0 ; $i < $nbProps ; $i ++) {
+            for ($i = 0; $i < $nbProps; $i++) {
                 do {
                     do {
                         $tempId = rand(0, $max - 1);
@@ -144,32 +143,35 @@ class FacegamesController extends \KI\CoreBundle\Controller\ResourceController
         return true;
     }
 
+    /**
+     * @param string $trait
+     */
     protected function postTraitsAction($user, $trait)
     {
         switch ($trait) {
-            case 'department':
-                $return = $user->getDepartment();
-                break;
+        case 'department':
+            $return = $user->getDepartment();
+            break;
 
-            case 'promo':
-                $return = $user->getPromo();
-                break;
+        case 'promo':
+            $return = $user->getPromo();
+            break;
 
-            case 'location':
-                $return = $user->getLocation();
-                break;
+        case 'location':
+            $return = $user->getLocation();
+            break;
 
-            case 'origin':
-                $return = $user->getOrigin();
-                break;
+        case 'origin':
+            $return = $user->getOrigin();
+            break;
 
-            case 'nationality':
-                $return = $user->getNationality();
-                break;
+        case 'nationality':
+            $return = $user->getNationality();
+            break;
 
-            default:
-                throw new BadRequestHttpException('Caractéristique inexistante '.$trait);
-                break;
+        default:
+            throw new BadRequestHttpException('Caractéristique inexistante '.$trait);
+            break;
         }
 
         return $return;
@@ -215,9 +217,7 @@ class FacegamesController extends \KI\CoreBundle\Controller\ResourceController
                     )
                 )
             );
-        }
-
-        else {
+        } else {
             $this->em->flush();
             return RestView::create(null, 204);
         }
@@ -261,10 +261,10 @@ class FacegamesController extends \KI\CoreBundle\Controller\ResourceController
         $achievementCheck = new AchievementCheckEvent(Achievement::GAME_PLAY);
         $dispatcher->dispatch('upont.achievement', $achievementCheck);
 
-        $promoUser = (int) $this->user->getPromo();
-        $promoGame = (int) $game->getPromo();
+        $promoUser = (int)$this->user->getPromo();
+        $promoGame = (int)$game->getPromo();
 
-        if ($wrongAnswers == 0 && $promoGame == $promoUser-1 && $duration < 60) {
+        if ($wrongAnswers == 0 && $promoGame == $promoUser - 1 && $duration < 60) {
             $dispatcher = $this->container->get('event_dispatcher');
             $achievementCheck = new AchievementCheckEvent(Achievement::GAME_BEFORE);
             $dispatcher->dispatch('upont.achievement', $achievementCheck);
@@ -272,7 +272,7 @@ class FacegamesController extends \KI\CoreBundle\Controller\ResourceController
             $dispatcher = $this->container->get('event_dispatcher');
             $achievementCheck = new AchievementCheckEvent(Achievement::GAME_SELF);
             $dispatcher->dispatch('upont.achievement', $achievementCheck);
-        } else if ($wrongAnswers == 0 && $promoGame == $promoUser+1 && $duration < 60) {
+        } else if ($wrongAnswers == 0 && $promoGame == $promoUser + 1 && $duration < 60) {
             $dispatcher = $this->container->get('event_dispatcher');
             $achievementCheck = new AchievementCheckEvent(Achievement::GAME_NEXT);
             $dispatcher->dispatch('upont.achievement', $achievementCheck);
