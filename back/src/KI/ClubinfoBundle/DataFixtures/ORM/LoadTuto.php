@@ -1,11 +1,11 @@
 <?php
 
-namespace KI\PublicationBundle\DataFixtures\ORM;
+namespace KI\ClubinfoBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use KI\PublicationBundle\Entity\Tuto;
+use KI\ClubinfoBundle\Entity\Tuto;
 
 class LoadTutoFixture extends AbstractFixture implements OrderedFixtureInterface
 {

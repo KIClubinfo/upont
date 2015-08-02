@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\PublicationBundle\Entity;
+namespace KI\ClubinfoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;

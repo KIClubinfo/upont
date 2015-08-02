@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\PublicationBundle\Controller;
+namespace KI\ClubinfoBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
@@ -9,7 +9,7 @@ class TutosController extends \KI\CoreBundle\Controller\ResourceController
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
         parent::setContainer($container);
-        $this->initialize('Tuto', 'Publication');
+        $this->initialize('Tuto', 'Clubinfo');
     }
 
     /**
