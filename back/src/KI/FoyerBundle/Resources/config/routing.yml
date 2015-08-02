@@ -6,6 +6,10 @@ beers:
     type:     rest
     resource: KI\FoyerBundle\Controller\BeersController
 
+beerUsers:
+    type:     rest
+    resource: KI\FoyerBundle\Controller\BeerUsersController
+
 upont_api_foyer_balance:
     pattern: /foyer/balance
     defaults: { _controller: KI\FoyerBundle\Controller\FoyerController::balanceAction }

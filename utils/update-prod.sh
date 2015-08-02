@@ -16,16 +16,10 @@ gulp build-js # Bug minification --type=production
 gulp build-css --type=production
 gulp copy-fonts
 
-# cd ../mobile
-# sudo npm install
-# bower update --allow-root
-# gulp build-js --type=production
-# gulp build-css-light --type=production
-# gulp build-css-dark --type=production
-
 cd ../back
 sudo composer self-update
 composer update --no-dev --optimize-autoloader
 php app/console cache:clear --env=prod --no-debug
+php app/console do:mi:mi -n
 sudo chmod 777 -R app/cache && sudo chmod 777 -R app/logs
 rm app/cache/maintenance.lock

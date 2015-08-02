@@ -3,10 +3,17 @@
 namespace KI\FoyerBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-class FoyerController extends \KI\UpontBundle\Controller\Core\BaseController
+class FoyerController extends \KI\CoreBundle\Controller\BaseController
 {
+    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    {
+        parent::setContainer($container);
+        $this->initialize('User', 'User');
+    }
+
     /**
      * @ApiDoc(
      *  description="Retourne le solde du Foyer de l'utilisateur",
@@ -25,7 +32,7 @@ class FoyerController extends \KI\UpontBundle\Controller\Core\BaseController
         if ($this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
             throw new AccessDeniedException();
 
-        $service = $this->get('ki_upont.foyer');
+        $service = $this->get('ki_foyer.service.foyer');
         $service->initialize();
 
         if ($service->hasFailed())
@@ -52,9 +59,9 @@ class FoyerController extends \KI\UpontBundle\Controller\Core\BaseController
         if ($this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
             throw new AccessDeniedException();
 
-        $repo = $this->getDoctrine()->getManager()->getRepository('KIUpontBundle:Users\User');
+        $repo = $this->getDoctrine()->getManager()->getRepository('KIUserBundle:User');
         $user = $repo->findOneByUsername($slug);
-        $service = $this->get('ki_upont.foyer');
+        $service = $this->get('ki_foyer.service.foyer');
         $service->initialize($user);
 
         if ($service->hasFailed())
@@ -80,7 +87,7 @@ class FoyerController extends \KI\UpontBundle\Controller\Core\BaseController
         if ($this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
             throw new AccessDeniedException();
 
-        $service = $this->get('ki_upont.foyer');
+        $service = $this->get('ki_foyer.service.foyer');
         $service->initialize();
 
         return $this->jsonResponse($service->rankings());

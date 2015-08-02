@@ -26,8 +26,11 @@ class AppKernel extends Kernel
             new BOMO\IcalBundle\BOMOIcalBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Nelmio\CorsBundle\NelmioCorsBundle(),
-            new KI\UpontBundle\KIUpontBundle(),
+            new KI\CoreBundle\KICoreBundle(),
             new KI\FoyerBundle\KIFoyerBundle(),
+            new KI\PonthubBundle\KIPonthubBundle(),
+            new KI\PublicationBundle\KIPublicationBundle(),
+            new KI\UserBundle\KIUserBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -1,0 +1,8 @@
+services:
+    # Permet de générer un calendrier ICS pour un utilisateur donné
+    ki_publication.service.calendar:
+        class: KI\PublicationBundle\Service\CalendarService
+        arguments:
+            - @bomo_ical.ics_provider
+            - @event_dispatcher
+            - @doctrine.orm.entity_manager

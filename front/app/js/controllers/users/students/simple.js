@@ -24,6 +24,7 @@ angular.module('upont')
             $scope.chartBeers = {
                 chart: {
                     renderTo: 'beers',
+                    backgroundColor:'rgba(255, 255, 255, 0)',
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
                     plotShadow: true,
@@ -64,6 +65,7 @@ angular.module('upont')
             $scope.chartLiters = {
                 chart: {
                     renderTo: 'liters',
+                    backgroundColor:'rgba(255, 255, 255, 0)',
                     type: 'area',
                 },
                 credits: {
@@ -111,6 +113,7 @@ angular.module('upont')
             $scope.chartRepartition = {
                 chart: {
                     renderTo: 'repartition',
+                    backgroundColor:'rgba(255, 255, 255, 0)',
                     type: 'pyramid',
                 },
                 credits: {
@@ -144,6 +147,7 @@ angular.module('upont')
             $scope.chartTimeline = {
                 chart: {
                     renderTo: 'timeline',
+                    backgroundColor:'rgba(255, 255, 255, 0)',
                     type: 'area',
                     zoomType: 'xy',
                 },
@@ -192,6 +196,7 @@ angular.module('upont')
             $scope.chartHipster = {
                 chart: {
                     renderTo: 'hispter',
+                    backgroundColor:'rgba(255, 255, 255, 0)',
                     type: 'gauge',
                     plotBackgroundColor: null,
                     plotBackgroundImage: null,

@@ -5,7 +5,7 @@ namespace KI\FoyerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use KI\UpontBundle\Entity\Core\Likeable;
+use KI\CoreBundle\Entity\Likeable;
 
 /**
  * @ORM\Entity
@@ -39,7 +39,7 @@ class Beer extends Likeable
 
     /**
      * Logo
-     * @ORM\OneToOne(targetEntity="KI\UpontBundle\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="KI\CoreBundle\Entity\Image", cascade={"persist", "remove"})
      * @Assert\Valid()
      */
     protected $image;
@@ -137,11 +137,11 @@ class Beer extends Likeable
     /**
      * Set image
      *
-     * @param \KI\UpontBundle\Entity\Image $image
+     * @param \KI\CoreBundle\Entity\Image $image
      *
      * @return Beer
      */
-    public function setImage(\KI\UpontBundle\Entity\Image $image = null)
+    public function setImage(\KI\CoreBundle\Entity\Image $image = null)
     {
         $this->image = $image;
 
@@ -151,7 +151,7 @@ class Beer extends Likeable
     /**
      * Get image
      *
-     * @return \KI\UpontBundle\Entity\Image
+     * @return \KI\CoreBundle\Entity\Image
      */
     public function getImage()
     {

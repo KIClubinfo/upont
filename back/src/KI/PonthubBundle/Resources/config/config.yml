@@ -1,0 +1,5 @@
+parameters:
+    # API Gracenote
+    upont_gracenote_key1: '14886144' # Tokens d'accès API Gracenote
+    upont_gracenote_key2: '136467B84B6BCA2854F072597B216096'
+    upont_gracenote_key3: '280723858430018941-61BBB34090F9F4CD6C5D5F903990135F'
