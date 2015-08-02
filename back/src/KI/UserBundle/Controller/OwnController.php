@@ -661,7 +661,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         if (!$this->get('security.context')->isGranted('ROLE_USER'))
             throw new AccessDeniedException('Accès refusé');
 
-        $repo = $this->em->getRepository('KIPublicationBundle:Fix');
+        $repo = $this->em->getRepository('KIClubinfoBundle:Fix');
         list($findBy, $sortBy, $limit, $offset, $page, $totalPages, $count) = $this->paginate($repo);
         $findBy['user'] = $user;
         $results = $repo->findBy($findBy, $sortBy, $limit, $offset);
