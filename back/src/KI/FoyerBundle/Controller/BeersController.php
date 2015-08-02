@@ -39,6 +39,10 @@ class BeersController extends \KI\CoreBundle\Controller\ResourceController
 
         $counts = array();
         foreach ($beerUsers as $beerUser) {
+            // On peut tomber sur une entrée "compte crédité"
+            if ($beerUser->getBeer() === null) {
+                continue;
+            }
             $beerId = $beerUser->getBeer()->getId();
 
             if (!isset($counts[$beerId])) {
