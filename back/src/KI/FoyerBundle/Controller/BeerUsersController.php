@@ -148,6 +148,7 @@ class BeerUsersController extends ResourceController
         $beerUser->setUser($user);
         $beerUser->setBeer($beer);
         $beerUser->setDate(time());
+        $beerUser->setAmount(-1*$beer->getPrice());
         $this->em->persist($beerUser);
         $this->em->flush();
 
@@ -203,5 +204,51 @@ class BeerUsersController extends ResourceController
         $user->setBalance($balance);
 
         return array($user, $beer);
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Modifie le solde d'un utilisateur",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   409="La requête ne peut être traitée à l’état actuel, problème de reconnaisance de nom",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Foyer"
+     * )
+     * @Route\Patch("/users/{slug}/balance")
+     */
+    public function patchBalanceAction($slug)
+    {
+        if (!$this->checkClubMembership('foyer') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException();
+        }
+
+        $request = $this->getRequest()->request;
+        if (!$request->has('balance')) {
+            throw new BadRequestHttpException('Aucun crédit donné');
+        }
+
+        $repo = $this->getDoctrine()->getManager()->getRepository('KIUserBundle:User');
+        $user = $repo->findOneByUsername($slug);
+
+        $balance = $user->getBalance();
+        $balance = $balance === null ? 0 : $balance;
+        $balance = $balance+$request->get('balance');
+
+        $user->setBalance($balance);
+
+        // On enregistre une entrée
+        $beerUser = new BeerUser();
+        $beerUser->setUser($user);
+        $beerUser->setDate(time());
+        $beerUser->setAmount($request->get('balance'));
+        $this->em->persist($beerUser);
+
+        $this->em->flush();
+
+        return $this->jsonResponse(array('balance' => $user->getBalance()), 204);
     }
 }

@@ -43,42 +43,6 @@ class FoyerController extends \KI\CoreBundle\Controller\BaseController
 
     /**
      * @ApiDoc(
-     *  description="Modifie le solde d'un utilisateur",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   409="La requête ne peut être traitée à l’état actuel, problème de reconnaisance de nom",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Foyer"
-     * )
-     */
-    public function patchBalanceAction($slug)
-    {
-        if (!$this->checkClubMembership('foyer') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            throw new AccessDeniedException();
-        }
-
-        $request = $this->getRequest()->request;
-        if (!$request->has('balance')) {
-            throw new BadRequestHttpException('Aucun crédit donné');
-        }
-
-        $user = $this->repo->findOneByUsername($slug);
-
-        $balance = $user->getBalance();
-        $balance = $balance === null ? 0 : $balance;
-        $balance = $balance+$request->get('balance');
-        
-        $user->setBalance($balance);
-        $this->em->flush();
-
-        return $this->jsonResponse(array('balance' => $user->getBalance()), 204);
-    }
-
-    /**
-     * @ApiDoc(
      *  description="Retourne des statistiques Foyer de l'utilisateur",
      *  statusCodes={
      *   200="Requête traitée avec succès",
