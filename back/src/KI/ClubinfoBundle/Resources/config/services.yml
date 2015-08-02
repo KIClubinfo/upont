@@ -2,15 +2,6 @@ parameters:
     ki_clubinfo.slack_hook: https://hooks.slack.com/services/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
 
 services:
-    # Envoie un message Slack quand il y a un feedback
-    ki_clubinfo.listener.fix:
-        class: KI\ClubinfoBundle\Listener\FixListener
-        arguments:
-            - @ki_clubinfo.service.slack
-            - @event_dispatcher
-        tags:
-            - { name: doctrine.event_listener, event: postPersist }
-
     # Permet la communication avec le Slack du KI
     ki_clubinfo.service.slack:
         class: KI\ClubinfoBundle\Service\SlackService
