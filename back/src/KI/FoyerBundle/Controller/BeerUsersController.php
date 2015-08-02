@@ -42,7 +42,6 @@ class BeerUsersController extends ResourceController
 
     /**
      * @ApiDoc(
-     *  resource=true,
      *  description="Liste les utilisateurs ayant bu dernièrement",
      *  output="KI\UserBundle\Entity\User",
      *  statusCodes={
@@ -101,7 +100,6 @@ class BeerUsersController extends ResourceController
 
     /**
      * @ApiDoc(
-     *  resource=true,
      *  description="Liste les consos",
      *  output="KI\FoyerBundle\Entity\BeerUser",
      *  statusCodes={

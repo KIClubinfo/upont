@@ -28,7 +28,7 @@ class FixesController extends \KI\CoreBundle\Controller\ResourceController
      *   403="Pas les droits suffisants pour effectuer cette action",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Publications"
+     *  section="Clubinfo"
      * )
      */
     public function getFixesAction() { return $this->getAll(); }
@@ -44,7 +44,7 @@ class FixesController extends \KI\CoreBundle\Controller\ResourceController
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Publications"
+     *  section="Clubinfo"
      * )
      */
     public function getFixAction($slug) { return $this->getOne($slug); }
@@ -52,7 +52,7 @@ class FixesController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Crée une tâche de dépannage",
-     *  input="KI\PublicationBundle\Form\FixType",
+     *  input="KI\ClubinfoBundle\Form\FixType",
      *  output="KI\ClubinfoBundle\Entity\Fix",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
@@ -61,7 +61,7 @@ class FixesController extends \KI\CoreBundle\Controller\ResourceController
      *   403="Pas les droits suffisants pour effectuer cette action",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Publications"
+     *  section="Clubinfo"
      * )
      */
     public function postFixAction()
@@ -109,7 +109,7 @@ class FixesController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Modifie une tâche de dépannage",
-     *  input="KI\PublicationBundle\Form\FixType",
+     *  input="KI\ClubinfoBundle\Form\FixType",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   400="La syntaxe de la requête est erronée",
@@ -118,7 +118,7 @@ class FixesController extends \KI\CoreBundle\Controller\ResourceController
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Publications"
+     *  section="Clubinfo"
      * )
      */
     public function patchFixAction($slug)
@@ -147,7 +147,7 @@ class FixesController extends \KI\CoreBundle\Controller\ResourceController
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Publications"
+     *  section="Clubinfo"
      * )
      */
     public function deleteFixAction($slug) { return $this->delete($slug); }
