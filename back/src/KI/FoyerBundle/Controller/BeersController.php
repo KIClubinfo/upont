@@ -133,6 +133,14 @@ class BeersController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function deleteBeerAction($slug)
     {
+        // On supprime toutes les consos associées
+        $beer = $this->findBySlug($slug);
+        $repo = $this->em->getRepository('KIFoyerBundle:BeerUser');
+        $beerUsers = $repo->findBy(array('beer' => $beer));
+
+        foreach ($beerUsers as $beerUser) {
+            $this->em->remove($beerUser);
+        }
         return $this->delete($slug, $this->checkClubMembership('foyer'));
     }
 }
