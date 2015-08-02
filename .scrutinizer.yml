@@ -1,14 +1,17 @@
 filter:
     paths: [back/*]
-    excluded_paths: [back/vendor/*, back/app/*, back/src/KI/UpontBundle/DataFixtures/*]
+    excluded_paths:
+        - back/vendor/*
+        - back/app/*
+        - back/src/KI/*Bundle/DataFixtures/*
 checks:
     php:
-        fix_php_opening_tag: false
-        remove_php_closing_tag: false
+        fix_php_opening_tag: true
+        remove_php_closing_tag: true
         one_class_per_file: true
         side_effects_or_types: true
         no_mixed_inline_html: false
-        require_braces_around_control_structures: false
+        require_braces_around_control_structures: true
         php5_style_constructor: true
         no_global_keyword: true
         avoid_usage_of_logical_operators: true
@@ -18,7 +21,7 @@ checks:
         blank_line_after_namespace_declaration: true
         single_namespace_per_use: true
         psr2_switch_declaration: true
-        psr2_control_structure_declaration: false
+        psr2_control_structure_declaration: true
         avoid_superglobals: true
         security_vulnerabilities: true
         use_self_instead_of_fqcn: true
@@ -49,21 +52,8 @@ checks:
         avoid_perl_style_comments: true
         avoid_multiple_statements_on_same_line: true
         avoid_fixme_comments: true
-        fix_doc_comments: false
+        fix_doc_comments: true
 
-coding_style:
-    php:
-        indentation:
-            switch:
-                indent_case: false
-        spaces:
-            around_operators:
-                multiplicative: false
-            other:
-                after_type_cast: false
-        braces:
-            if:
-                always: false
 #tools:
 #    external_code_coverage:
 #        timeout: 1200
