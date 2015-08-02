@@ -12,12 +12,14 @@ class SlackService
     protected $curlService;
     protected $slackHook;
     protected $environment;
+    protected $baseUrl;
 
-    public function __construct(CurlService $curlService, $slackHook, $environment)
+    public function __construct(CurlService $curlService, $slackHook, $environment, $baseUrl)
     {
         $this->curlService  = $curlService;
         $this->slackHook    = $slackHook;
-        $this->$environment = $environment;
+        $this->environment  = $environment;
+        $this->baseUrl      = $baseUrl;
     }
 
     public function postPersist(LifecycleEventArgs $args)
@@ -28,7 +30,7 @@ class SlackService
             $this->post(
                 $entity->getUser(),
                 $entity->getFix() ? '#depannage' : '#upont-feedback',
-                '"'.$entity->getProblem().'"'
+                $entity->getProblem()
             );
         }
     }
@@ -37,10 +39,10 @@ class SlackService
     public function post(User $user, $channel, $text)
     {
         $payload = array(
-            'channel' => $channel,
+            'channel'  => $channel,
             'username' => $user->getFirstname().' '.$user->getLastname(),
-            'icon_url' => 'https://upont.enpc.fr/api/'.$user->getImage()->getWebPath(),
-            'text' => '"'.$text.'"'
+            'icon_url' => $this->baseUrl.$user->getImage()->getWebPath(),
+            'text'     => $text
         );
 
         return $this->curlService->curl($this->slackHook, json_encode($payload));

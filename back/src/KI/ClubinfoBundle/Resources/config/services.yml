@@ -9,5 +9,6 @@ services:
             - @ki_core.service.curl
             - %ki_clubinfo.slack_hook%
             - %kernel.environment%
+            - %ki_core.base_url%
         tags:
             - { name: doctrine.event_listener, event: postPersist }
