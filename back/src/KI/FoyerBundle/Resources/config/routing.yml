@@ -16,6 +16,12 @@ upont_api_foyer_balance:
     requirements:
         _method: GET
 
+upont_api_patch_balance:
+    pattern: /users/{slug}/balance
+    defaults: { _controller: KI\FoyerBundle\Controller\FoyerController::patchBalanceAction }
+    requirements:
+        _method: PATCH
+
 upont_api_foyer_statistics_general:
     pattern: /foyer/statistics
     defaults: { _controller: KI\FoyerBundle\Controller\FoyerController::statisticsMainAction }
