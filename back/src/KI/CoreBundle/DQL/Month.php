@@ -24,8 +24,8 @@ class Month extends FunctionNode
 
     public function getSql(SqlWalker $sqlWalker)
     {
-        return 'MONTH(FROM_UNIXTIME(' .
-            $this->dateExpression->dispatch($sqlWalker) .
+        return 'MONTH(FROM_UNIXTIME('.
+            $this->dateExpression->dispatch($sqlWalker).
         '))';
     }
 }

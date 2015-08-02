@@ -20,15 +20,15 @@ class ImageServiceTest extends WebTestCase
 
     public function testUploadBase64()
     {
-         $imgResult = array();
-         $imgResult = $this->service->uploadBase64($this->base64);
-         $this->assertTrue($imgResult['image'] !== null);
+            $imgResult = array();
+            $imgResult = $this->service->uploadBase64($this->base64);
+            $this->assertTrue($imgResult['image'] !== null);
     }
 
     public function testExtUploadBase64()
     {
-         $result = $this->service->uploadBase64($this->base64);
-         $this->assertEquals($result['extension'], 'png');
+            $result = $this->service->uploadBase64($this->base64);
+            $this->assertEquals($result['extension'], 'png');
     }
 
     public function testUploadUrl()
