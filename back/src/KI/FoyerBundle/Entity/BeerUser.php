@@ -29,8 +29,16 @@ class BeerUser
     protected $date;
 
     /**
+     * Valeur de l'échange
+     * @ORM\Column(name="amount", type="float")
+     * @JMS\Expose
+     * @Assert\Type("float")
+     */
+    protected $amount;
+
+    /**
      * @ORM\ManyToOne(targetEntity="KI\FoyerBundle\Entity\Beer")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @JMS\Expose
      */
     private $beer;
@@ -78,6 +86,30 @@ class BeerUser
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * Get amount
+     *
+     * @return integer
+     */
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
+    /**
+     * Set amount
+     *
+     * @param integer $amount
+     *
+     * @return BeerUser
+     */
+    public function setAmount($amount)
+    {
+        $this->amount = $amount;
+
+        return $this;
     }
 
     /**
