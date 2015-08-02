@@ -174,7 +174,7 @@ class BeerUsersController extends ResourceController
     {
         list($user, $beer) = $this->update($slug, $beer, true);
 
-        return $this->delete($id, $this->checkClubMembership('foyer') && !$this->get('security.context')->isGranted('ROLE_ADMIN'));
+        return $this->delete($id, $this->checkClubMembership('foyer'));
     }
 
     // Met à jour le compte Foyer d'un utilisateur
