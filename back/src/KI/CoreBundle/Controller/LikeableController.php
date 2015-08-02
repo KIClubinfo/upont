@@ -36,8 +36,8 @@ class LikeableController extends \KI\CoreBundle\Controller\BaseController
         case 'events'     : $this->initialize('Event', 'Publication'); break;
         case 'courses'    : $this->initialize('Course', 'Publication'); break;
         case 'exercices'  : $this->initialize('Exercice', 'Publication'); break;
-        case 'fixes'      : $this->initialize('Fix', 'Publication'); break;
-        case 'tutos'      : $this->initialize('Tuto', 'Publication'); break;
+        case 'fixes'      : $this->initialize('Fix', 'Clubinfo'); break;
+        case 'tutos'      : $this->initialize('Tuto', 'Clubinfo'); break;
         case 'movies'     : $this->initialize('Movie', 'Ponthub'); break;
         case 'series'     : $this->initialize('Serie', 'Ponthub'); break;
         case 'episodes'   : $this->initialize('Episode', 'Ponthub'); break;

@@ -1,0 +1,7 @@
+fixes:
+    type:     rest
+    resource: KI\ClubinfoBundle\Controller\FixesController
+
+tutos:
+    type:     rest
+    resource: KI\ClubinfoBundle\Controller\TutosController

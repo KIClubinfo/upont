@@ -1,14 +1,15 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
+    - { resource: @KIClubinfoBundle/Resources/config/config.yml }
     - { resource: @KICoreBundle/Resources/config/config.yml }
+    - { resource: @KIDvpBundle/Resources/config/config.yml }
     - { resource: @KIFoyerBundle/Resources/config/config.yml }
     - { resource: @KIPonthubBundle/Resources/config/config.yml }
     - { resource: @KIPublicationBundle/Resources/config/config.yml }
     - { resource: @KIUserBundle/Resources/config/config.yml }
 
 framework:
-    #esi:             ~
     translator:      ~
     secret:          "%secret%"
     router:
@@ -19,7 +20,6 @@ framework:
     validation:      { enable_annotations: true }
     templating:
         engines: ['twig']
-        #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
     trusted_hosts:   ~
     trusted_proxies: ~
@@ -62,7 +62,9 @@ doctrine:
             default:
                 connection:       default
                 mappings:
+                    KIClubinfoBundle: ~
                     KICoreBundle: ~
+                    KIDvpBundle: ~
                     KIFoyerBundle: ~
                     KIPonthubBundle: ~
                     KIPublicationBundle: ~

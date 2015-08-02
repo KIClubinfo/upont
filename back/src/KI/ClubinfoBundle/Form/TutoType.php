@@ -1,29 +1,26 @@
 <?php
 
-namespace KI\PublicationBundle\Form;
+namespace KI\ClubinfoBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class FixType extends AbstractType
+class TutoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('name')
-            ->add('problem')
-            ->add('date')
-            ->add('solved')
-            ->add('status')
-            ->add('fix');
+            ->add('text')
+            ->add('icon');
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'data_class' => 'KI\PublicationBundle\Entity\Fix'
+            'data_class' => 'KI\ClubinfoBundle\Entity\Tuto'
         ));
     }
 
