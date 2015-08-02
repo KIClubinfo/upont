@@ -2,9 +2,7 @@
 
 namespace KI\ClubinfoBundle\Service;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use KI\CoreBundle\Service\CurlService;
-use KI\ClubinfoBundle\Entity\Fix;
 use KI\UserBundle\Entity\User;
 
 class SlackService
@@ -22,19 +20,6 @@ class SlackService
         $this->baseUrl      = $baseUrl;
     }
 
-    public function postPersist(LifecycleEventArgs $args)
-    {
-        $entity = $args->getEntity();
-
-        if ($entity instanceOf Fix && !in_array($this->environment, array('dev', 'test'))) {
-            $this->post(
-                $entity->getUser(),
-                $entity->getFix() ? '#depannage' : '#upont-feedback',
-                $entity->getProblem()
-            );
-        }
-    }
-
     // Téléchargement d'une ressource externe
     public function post(User $user, $channel, $text)
     {
@@ -45,6 +30,8 @@ class SlackService
             'text'     => $text
         );
 
-        return $this->curlService->curl($this->slackHook, json_encode($payload));
+        if (!in_array($this->environment, array('dev', 'test'))) {
+            return $this->curlService->curl($this->slackHook, json_encode($payload));
+        }
     }
 }
