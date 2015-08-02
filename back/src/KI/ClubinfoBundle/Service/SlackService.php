@@ -23,6 +23,10 @@ class SlackService
     // Téléchargement d'une ressource externe
     public function post(User $user, $channel, $text)
     {
+        if (in_array($this->environment, array('dev', 'test'))) {
+            return;
+        }
+
         $payload = array(
             'channel'  => $channel,
             'username' => $user->getFirstname().' '.$user->getLastname(),
@@ -30,8 +34,6 @@ class SlackService
             'text'     => $text
         );
 
-        if (!in_array($this->environment, array('dev', 'test'))) {
-            return $this->curlService->curl($this->slackHook, json_encode($payload));
-        }
+        return $this->curlService->curl($this->slackHook, json_encode($payload));
     }
 }
