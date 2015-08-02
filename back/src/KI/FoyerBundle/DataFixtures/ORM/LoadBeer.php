@@ -33,6 +33,6 @@ class LoadBeerFixture extends AbstractFixture implements OrderedFixtureInterface
 
     public function getOrder()
     {
-        return 51;
+        return 61;
     }
 }

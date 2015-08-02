@@ -13,17 +13,18 @@ class FixType extends AbstractType
         $builder
             ->add('name')
             ->add('problem')
-            ->add('date')
-            ->add('solved')
             ->add('status')
-            ->add('fix');
+            ->add('fix', null, array(
+                'empty_data' => 'Non vu'
+            ))
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'csrf_protection' => false,
-            'data_class' => 'KI\ClubinfoBundle\Entity\Fix'
+            'data_class'      => 'KI\ClubinfoBundle\Entity\Fix',
+            'csrf_protection' => false
         ));
     }
 

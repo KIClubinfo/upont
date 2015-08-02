@@ -31,6 +31,6 @@ class LoadYoutubeFixture extends AbstractFixture implements OrderedFixtureInterf
 
     public function getOrder()
     {
-        return 50;
+        return 60;
     }
 }

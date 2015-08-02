@@ -3,10 +3,12 @@
 namespace KI\ClubinfoBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use KI\CoreBundle\Controller\ResourceController;
 
-class TutosController extends \KI\CoreBundle\Controller\ResourceController
+class TutosController extends ResourceController
 {
-    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->initialize('Tuto', 'Clubinfo');
@@ -59,16 +61,7 @@ class TutosController extends \KI\CoreBundle\Controller\ResourceController
      *  section="Clubinfo"
      * )
      */
-    public function postTutoAction() {
-        $return = $this->partialPost();
-
-        if ($return['code'] == 201) {
-            // On modifie légèrement la ressource qui vient d'être créée
-            $return['item']->setDate(time());
-        }
-
-        return $this->postView($return);
-    }
+    public function postTutoAction() { return $this->post(); }
 
     /**
      * @ApiDoc(

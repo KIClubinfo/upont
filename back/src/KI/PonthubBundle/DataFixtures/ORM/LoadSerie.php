@@ -29,6 +29,6 @@ class LoadSerieFixture extends AbstractFixture implements OrderedFixtureInterfac
 
     public function getOrder()
     {
-        return 35;
+        return 23;
     }
 }

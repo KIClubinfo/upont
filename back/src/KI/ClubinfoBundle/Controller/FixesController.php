@@ -4,14 +4,16 @@ namespace KI\ClubinfoBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use KI\CoreBundle\Controller\ResourceController;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Event\AchievementCheckEvent;
 
-class FixesController extends \KI\CoreBundle\Controller\ResourceController
+class FixesController extends ResourceController
 {
-    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->initialize('Fix', 'Clubinfo');
@@ -70,11 +72,6 @@ class FixesController extends \KI\CoreBundle\Controller\ResourceController
 
         if ($return['code'] == 201) {
             // On modifie légèrement la ressource qui vient d'être créée
-            $user = $this->get('security.context')->getToken()->getUser();
-            $return['item']->setUser($user);
-            $return['item']->setDate(time());
-            $return['item']->setStatus('Non vu');
-
             if ($return['item']->getFix()) {
                 $dispatcher = $this->container->get('event_dispatcher');
                 $achievementCheck = new AchievementCheckEvent(Achievement::BUG_CONTACT);
@@ -84,23 +81,6 @@ class FixesController extends \KI\CoreBundle\Controller\ResourceController
                 $achievementCheck = new AchievementCheckEvent(Achievement::BUG_REPORT);
                 $dispatcher->dispatch('upont.achievement', $achievementCheck);
             }
-        }
-
-        if ($return['item']->getProblem() != '[Test] J\'arrive pas à avoir Internet') {
-            $fields = array(
-                'channel' => $return['item']->getFix() ? '#depannage' : '#upont-feedback',
-                'username' => $user->getFirstname().' '.$user->getLastname(),
-                'icon_url' => 'https://upont.enpc.fr/api/'.$user->getImage()->getWebPath(),
-                'text' => '"'.$return['item']->getProblem().'"'
-            );
-
-            $this->get('ki_upont.curl')->curl(
-                'https://hooks.slack.com/services/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',
-                array(
-                    CURLOPT_POST => true,
-                    CURLOPT_POSTFIELDS => json_encode($fields)
-                )
-            );
         }
 
         return $this->postView($return);

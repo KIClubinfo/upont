@@ -38,6 +38,6 @@ class LoadAdmissibleFixture extends AbstractFixture implements OrderedFixtureInt
 
     public function getOrder()
     {
-        return 29;
+        return 14;
     }
 }

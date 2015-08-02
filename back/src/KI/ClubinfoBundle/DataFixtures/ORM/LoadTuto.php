@@ -36,6 +36,6 @@ class LoadTutoFixture extends AbstractFixture implements OrderedFixtureInterface
 
     public function getOrder()
     {
-        return 25;
+        return 51;
     }
 }

@@ -49,6 +49,6 @@ class LoadAlbumFixture extends AbstractFixture implements OrderedFixtureInterfac
 
     public function getOrder()
     {
-        return 37;
+        return 25;
     }
 }

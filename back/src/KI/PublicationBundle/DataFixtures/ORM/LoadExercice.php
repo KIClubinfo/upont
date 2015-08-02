@@ -84,6 +84,6 @@ class LoadExerciceFixture extends AbstractFixture implements OrderedFixtureInter
 
     public function getOrder()
     {
-        return 17;
+        return 45;
     }
 }

@@ -12,15 +12,20 @@ class TutoType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('text')
-            ->add('icon');
+            ->add('text', null, array(
+                'empty_data' => 'Tutoriel en cours d\'écriture...'
+            ))
+            ->add('icon', null, array(
+                'empty_data' => 'book'
+            ))
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'csrf_protection' => false,
-            'data_class' => 'KI\ClubinfoBundle\Entity\Tuto'
+            'data_class' => 'KI\ClubinfoBundle\Entity\Tuto',
+            'csrf_protection' => false
         ));
     }
 

@@ -89,6 +89,6 @@ class LoadClubUserFixture extends AbstractFixture implements OrderedFixtureInter
 
     public function getOrder()
     {
-        return 21;
+        return 13;
     }
 }
