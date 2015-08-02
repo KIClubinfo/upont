@@ -454,7 +454,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
             return $this->jsonResponse(array('error' => 'Impossible d\'afficher les statistiques PontHub'));
         }
 
-        $repo = $this->getDoctrine()->getManager()->getRepository('KIUserBundle:PonthubFileUser');
+        $repo = $this->getDoctrine()->getManager()->getRepository('KIPonthubBundle:PonthubFileUser');
         $downloads = $repo->findBy(array('user' => $user), array('date' => 'ASC'));
         $totalFiles = count($downloads);
 
