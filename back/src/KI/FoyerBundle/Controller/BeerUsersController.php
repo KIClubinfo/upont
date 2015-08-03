@@ -173,13 +173,13 @@ class BeerUsersController extends ResourceController
     {
         list($user, $beer) = $this->update($slug, $beer, true);
 
-        return $this->delete($id, $this->checkClubMembership('foyer'));
+        return $this->delete($id, $this->isClubMember('foyer'));
     }
 
     // Met à jour le compte Foyer d'un utilisateur
     protected function update($slug, $beer, $add = false)
     {
-        if (!$this->checkClubMembership('foyer') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+        if (!$this->isClubMember('foyer') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();
         }
 
@@ -220,7 +220,7 @@ class BeerUsersController extends ResourceController
      */
     public function patchBalanceAction($slug)
     {
-        if (!$this->checkClubMembership('foyer') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+        if (!$this->isClubMember('foyer') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();
         }
 

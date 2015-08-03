@@ -58,7 +58,8 @@ class Fix extends Likeable
      * @Assert\Valid()
      */
     protected $user;
-    protected $autoSetUser = true; // Si $user = null, utilise l'user actuel
+    protected $autoSetUser = 'user';
+    public function getAutoSetUser() { return $this->autoSetUser; }
 
     public function __construct()
     {

@@ -1,0 +1,31 @@
+parameters:
+    # Liste les entités likeables
+    likeables:
+        clubinfo:
+            - Fix
+            - Tuto
+        core:
+            - Comment
+        dvp:
+        foyer:
+            - Beer
+            - Youtube
+        ponthub:
+            - Album
+            - Episode
+            - Game
+            - Movie
+            - Music
+            - Other
+            - Request
+            - Serie
+            - Software
+        publication:
+            - Course
+            - Event
+            - Exercice
+            - Newsitem
+        user:
+            - Club
+            - Experience
+            - User

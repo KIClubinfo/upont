@@ -19,8 +19,14 @@ class UserSetter
         $entity = $args->getEntity();
         $token = $this->tokenStorage->getToken();
 
-        if (property_exists($entity, 'autoSetUser') && $token !== null && $entity->getUser() === null) {
-            $entity->setUser($token->getUser());
+        if (method_exists($entity, 'getAutoSetUser') && $token !== null) {
+            $suffix = ucfirst($entity->getAutoSetUser());
+            $getter = 'get'.$suffix;
+            $setter = 'set'.$suffix;
+
+            if ($entity->$getter() === null) {
+                $entity->$setter($token->getUser());
+            }
         }
         $entityManager = $args->getEntityManager();
     }

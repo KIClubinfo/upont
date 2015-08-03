@@ -12,3 +12,10 @@ services:
         factory_method: getRepository
         arguments:
             - KI\UserBundle\Entity\User
+
+    ki_user.repository.clubuser:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - KI\UserBundle\Entity\ClubUser

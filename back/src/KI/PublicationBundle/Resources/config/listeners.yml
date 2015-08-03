@@ -1,0 +1,8 @@
+services:
+    # Sette les propriétés like, dislike sur les entités Likeable
+    ki_user.listener.notification:
+        class: KI\PublicationBundle\Listener\EventListener
+        arguments:
+            - @security.token_storage
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }

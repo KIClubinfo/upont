@@ -98,7 +98,7 @@ class BeersController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function postBeerAction()
     {
-        $return = $this->partialPost($this->checkClubMembership('foyer'));
+        $return = $this->partialPost($this->isClubMember('foyer'));
         return $this->postView($return);
     }
 
@@ -119,7 +119,7 @@ class BeersController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function patchBeerAction($slug)
     {
-        return $this->patch($slug, $this->checkClubMembership('foyer'));
+        return $this->patch($slug, $this->isClubMember('foyer'));
     }
 
     /**
@@ -145,6 +145,6 @@ class BeersController extends \KI\CoreBundle\Controller\ResourceController
         foreach ($beerUsers as $beerUser) {
             $this->em->remove($beerUser);
         }
-        return $this->delete($slug, $this->checkClubMembership('foyer'));
+        return $this->delete($slug, $this->isClubMember('foyer'));
     }
 }

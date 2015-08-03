@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Event\AchievementCheckEvent;
 
-// Fonctions générales pour servir une ressource de type REST
+// Fonctions générales pour servir une ressource de type REST, CommentsController en est un exemple
 class ResourceController extends \KI\CoreBundle\Controller\LikeableController
 {
     // Actions REST
@@ -72,8 +72,6 @@ class ResourceController extends \KI\CoreBundle\Controller\LikeableController
     public function generatePages($results, $limit, $page, $totalPages, $count, $context = null)
     {
         foreach ($results as $key => $result) {
-            $results[$key] = $this->retrieveLikes($result);
-
             // Cas spécial pour les événements :
             // on ne veut pas afficher les événements perso de tout le monde
             if ($this->className == 'Event' && $results[$key]->getAuthorClub() === null)
@@ -127,7 +125,7 @@ class ResourceController extends \KI\CoreBundle\Controller\LikeableController
      */
     public function getAll($auth = false)
     {
-        if (isset($this->user) && $this->get('security.context')->isGranted('ROLE_EXTERIEUR') && !$auth)
+        if (isset($this->user) && $this->is('EXTERIEUR') && !$auth)
             throw new AccessDeniedException();
         list($findBy, $sortBy, $limit, $offset, $page, $totalPages, $count) = $this->paginate($this->repo);
         $results = $this->repo->findBy($findBy, $sortBy, $limit, $offset);
@@ -139,10 +137,9 @@ class ResourceController extends \KI\CoreBundle\Controller\LikeableController
      */
     protected function getOne($slug, $auth = false)
     {
-        if (isset($this->user) && $this->get('security.context')->isGranted('ROLE_EXTERIEUR') && !$auth)
+        if (isset($this->user) && $this->is('EXTERIEUR') && !$auth)
             throw new AccessDeniedException();
-        $item = $this->findBySlug($slug);
-        return $this->retrieveLikes($item);
+        return $this->findBySlug($slug);
     }
 
     // Création de ressources
@@ -168,9 +165,9 @@ class ResourceController extends \KI\CoreBundle\Controller\LikeableController
     protected function partialPost($auth = false)
     {
         if (isset($this->user) &&
-            (!$this->get('security.context')->isGranted('ROLE_MODO')
-                || $this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
-                || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+            (!$this->is('MODO')
+                || $this->is('ADMISSIBLE')
+                || $this->is('EXTERIEUR'))
             && !$auth)
             throw new AccessDeniedException();
         return $this->processForm(new $this->class(), 'POST');
@@ -212,9 +209,9 @@ class ResourceController extends \KI\CoreBundle\Controller\LikeableController
     protected function put($slug, $auth = false)
     {
         if (isset($this->user) &&
-            ((!$this->get('security.context')->isGranted('ROLE_MODO')
-                || $this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
-                || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+            ((!$this->is('MODO')
+                || $this->is('ADMISSIBLE')
+                || $this->is('EXTERIEUR'))
             && !$auth))
             throw new AccessDeniedException('Accès refusé');
         $item = $this->findBySlug($slug);
@@ -227,9 +224,9 @@ class ResourceController extends \KI\CoreBundle\Controller\LikeableController
     protected function patch($slug, $auth = false)
     {
         if (isset($this->user) &&
-            ((!$this->get('security.context')->isGranted('ROLE_MODO')
-                || $this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
-                || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+            ((!$this->is('MODO')
+                || $this->is('ADMISSIBLE')
+                || $this->is('EXTERIEUR'))
             && !$auth))
             throw new AccessDeniedException('Accès refusé');
         $item = $this->findBySlug($slug);
@@ -242,9 +239,9 @@ class ResourceController extends \KI\CoreBundle\Controller\LikeableController
     protected function delete($slug, $auth = false)
     {
         if (isset($this->user) &&
-            ((!$this->get('security.context')->isGranted('ROLE_MODO')
-                || $this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
-                || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+            ((!$this->is('MODO')
+                || $this->is('ADMISSIBLE')
+                || $this->is('EXTERIEUR'))
             && !$auth))
             throw new AccessDeniedException('Accès refusé');
         $item = $this->findBySlug($slug);
@@ -255,7 +252,7 @@ class ResourceController extends \KI\CoreBundle\Controller\LikeableController
     // Pour les fichiers Ponthub
     protected function download($item)
     {
-        if (isset($this->user) && $this->get('security.context')->isGranted('ROLE_EXTERIEUR') && !$auth)
+        if (isset($this->user) && $this->is('EXTERIEUR') && !$auth)
             throw new AccessDeniedException();
 
         // Si l'utilisateur n'a pas déjà téléchargé ce fichier on le rajoute

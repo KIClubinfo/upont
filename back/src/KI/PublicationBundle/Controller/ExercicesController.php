@@ -131,7 +131,7 @@ class ExercicesController extends \KI\CoreBundle\Controller\SubresourceControlle
                 $users[] = $courseUser->getUser();
             }
 
-            $this->notify(
+            $this->get('ki_user.service.notify')->notify(
                 'notif_followed_annal',
                 $return['item']->getName(),
                 'Une annale pour le cours '.$course->getName().' est maintenant disponible',

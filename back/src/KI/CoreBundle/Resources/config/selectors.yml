@@ -1,0 +1,15 @@
+services:
+    ki_core.selector.image:
+       class: KI\CoreBundle\Selector\ImageSelector
+       arguments:
+           - @doctrine.orm.entity_manager
+           - @ki_core.service.image
+       tags:
+           - { name: form.type, alias: image_selector }
+
+    ki_core.selector.tags:
+       class: KI\CoreBundle\Selector\TagsSelector
+       arguments:
+           - @doctrine.orm.entity_manager
+       tags:
+           - { name: form.type, alias: tags_selector }

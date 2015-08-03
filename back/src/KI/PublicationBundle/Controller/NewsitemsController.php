@@ -69,7 +69,7 @@ class NewsitemsController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function postNewsitemAction()
     {
-        $return = $this->partialPost($this->checkClubMembership());
+        $return = $this->partialPost($this->isClubMember());
 
         if ($return['code'] == 201) {
             // On modifie légèrement la ressource qui vient d'être créée
@@ -95,7 +95,7 @@ class NewsitemsController extends \KI\CoreBundle\Controller\ResourceController
                 }
 
                 $text = substr($return['item']->getText(), 0, 140).'...';
-                $this->notify(
+                $this->get('ki_user.service.notify')->notify(
                     'notif_followed_news',
                     $return['item']->getName(),
                     $text,
@@ -104,7 +104,7 @@ class NewsitemsController extends \KI\CoreBundle\Controller\ResourceController
                 );
             } else {
                 // Si c'est une news perso on notifie tous ceux qui ont envie
-                $this->notify(
+                $this->get('ki_user.service.notify')->notify(
                     'notif_news_perso',
                     $return['item']->getName(),
                     $text,
@@ -136,7 +136,7 @@ class NewsitemsController extends \KI\CoreBundle\Controller\ResourceController
     {
         $club = $this->findBySlug($slug)->getAuthorClub();
         $club = $club ? $club->getSlug() : $club;
-        return $this->patch($slug, $this->checkClubMembership($club));
+        return $this->patch($slug, $this->isClubMember($club));
     }
 
     /**
@@ -156,6 +156,6 @@ class NewsitemsController extends \KI\CoreBundle\Controller\ResourceController
     {
         $club = $this->findBySlug($slug)->getAuthorClub();
         $club = $club ? $club->getSlug() : $club;
-        return $this->delete($slug, $this->checkClubMembership($club));
+        return $this->delete($slug, $this->isClubMember($club));
     }
 }

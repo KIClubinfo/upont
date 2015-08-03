@@ -290,7 +290,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
         // Si des nouveaux fichiers ont été ajoutés, on notifie les utilisateurs
         $count = count(array_diff($pathsDone, $paths));
         if ($count > 0) {
-            $this->notify(
+            $this->get('ki_user.service.notify')->notify(
                 'notif_ponthub',
                 'Ponthub',
                 'De nouveaux fichiers sont disponibles sur Ponthub !'

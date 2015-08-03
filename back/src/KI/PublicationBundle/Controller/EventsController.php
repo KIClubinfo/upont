@@ -73,7 +73,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function postEventAction()
     {
-        $return = $this->partialPost($this->checkClubMembership());
+        $return = $this->partialPost($this->isClubMember());
 
         if ($return['code'] == 201) {
             // On modifie légèrement la ressource qui vient d'être créée
@@ -97,7 +97,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
                 }
 
                 $text = substr($return['item']->getText(), 0, 140).'...';
-                $this->notify(
+                $this->get('ki_user.service.notify')->notify(
                     'notif_followed_event',
                     $return['item']->getName(),
                     $text,
@@ -129,7 +129,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
     {
         $club = $this->findBySlug($slug)->getAuthorClub();
         $club = $club ? $club->getSlug() : $club;
-        return $this->patch($slug, $this->checkClubMembership($club));
+        return $this->patch($slug, $this->isClubMember($club));
     }
 
     /**
@@ -159,7 +159,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
             $this->em->remove($item);
         }
 
-        return $this->delete($slug, $this->checkClubMembership($club));
+        return $this->delete($slug, $this->isClubMember($club));
     }
 
     /**
@@ -288,7 +288,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
             $userEvents = $repo->findBy(array('event' => $event));
 
             if (isset($userEvents[$event->getShotgunLimit()])) {
-                $this->notify(
+                $this->get('ki_user.service.notify')->notify(
                     'notif_shotgun_freed',
                     $event->getName(),
                     'Des places de shotgun se sont libérées, tu as maintenant accès à l\'événément !',
