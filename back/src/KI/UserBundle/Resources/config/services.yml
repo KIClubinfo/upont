@@ -25,3 +25,9 @@ services:
         arguments:
             - @ki_core.service.curl
             - %ki_upont.push.gcm%
+
+    # Interface avancée de gestion des permissions utilisateurs
+    ki_user.service.permission:
+        class: KI\UserBundle\Service\PermissionService
+        arguments:
+            - @ki_user.repository.clubuser

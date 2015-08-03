@@ -5,6 +5,7 @@ namespace KI\PublicationBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
+use KI\UserBundle\Entity\User;
 
 /**
  * @ORM\Entity
@@ -89,10 +90,20 @@ class Event extends Post
      */
     protected $attend = false;
 
+    public function isAttended(User $user)
+    {
+        $this->listAttendees->contains($user);
+    }
+
     /**
      * @JMS\Expose
      */
     protected $pookie = false;
+
+    public function isHidden(User $user)
+    {
+        $this->listPookies->contains($user);
+    }
 
     /**
      * Nombre de ceux qui participent

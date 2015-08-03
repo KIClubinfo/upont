@@ -14,15 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @JMS\ExclusionPolicy("all")
  */
-class Likeable
+class Likeable extends LikeClass
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
-
     /**
      * Nom apparent
      * @ORM\Column(name="name", type="string")
@@ -52,15 +45,6 @@ class Likeable
     protected $listLikes;
 
     /**
-     * Nombre de ceux qui likent
-     * @JMS\VirtualProperty()
-     */
-    public function likes()
-    {
-        return count($this->listLikes);
-    }
-
-    /**
      * Ceux qui dislikent
      * @ORM\ManyToMany(targetEntity="KI\UserBundle\Entity\User", cascade={"persist"})
      * @ORM\JoinTable(name="post_dislikes",
@@ -69,25 +53,6 @@ class Likeable
      *  )
      */
     protected $listDislikes;
-
-    /**
-     * Nombre de ceux qui dislikent
-     * @JMS\VirtualProperty()
-     */
-    public function dislikes()
-    {
-        return count($this->listDislikes);
-    }
-
-    /**
-     * @JMS\Expose
-     */
-    protected $like = false;
-
-    /**
-     * @JMS\Expose
-     */
-    protected $dislike = false;
 
     /**
      * Les commentaires
@@ -104,44 +69,20 @@ class Likeable
         return count($this->listComments);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->listLikes = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->listDislikes = new \Doctrine\Common\Collections\ArrayCollection();
+        parent::__construct();
         $this->listComments = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**
      * Set name
      *
      * @param string $name
-     * @return Album
+     * @return Likeable
      */
     public function setName($name)
     {
@@ -164,7 +105,7 @@ class Likeable
      * Set slug
      *
      * @param string $slug
-     * @return Album
+     * @return Likeable
      */
     public function setSlug($slug)
     {
@@ -184,116 +125,10 @@ class Likeable
     }
 
     /**
-     * Add like
-     *
-     * @param \KI\UserBundle\Entity\User $like
-     * @return PonthubFile
-     */
-    public function addLike(\KI\UserBundle\Entity\User $like)
-    {
-        $this->listLikes[] = $like;
-
-        return $this;
-    }
-
-    /**
-     * Remove likes
-     *
-     * @param \KI\UserBundle\Entity\User $like
-     */
-    public function removeLike(\KI\UserBundle\Entity\User $like)
-    {
-        $this->listLikes->removeElement($like);
-    }
-
-    /**
-     * Get likes
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getLikes()
-    {
-        return $this->listLikes;
-    }
-
-    /**
-     * Set likes
-     *
-     * @return PonthubFile
-     */
-    public function setLikes($likes)
-    {
-        return $this->listLikes = $likes;
-    }
-
-    /**
-     * Add dislike
-     *
-     * @param \KI\UserBundle\Entity\User $dislike
-     * @return PonthubFile
-     */
-    public function addDislike(\KI\UserBundle\Entity\User $dislike)
-    {
-        $this->listDislikes[] = $dislike;
-
-        return $this;
-    }
-
-    /**
-     * Remove dislike
-     *
-     * @param \KI\UserBundle\Entity\User $dislike
-     */
-    public function removeDislike(\KI\UserBundle\Entity\User $dislike)
-    {
-        $this->listDislikes->removeElement($dislike);
-    }
-
-    /**
-     * Get dislikes
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getDislikes()
-    {
-        return $this->listDislikes;
-    }
-
-    /**
-     * Set dislikes
-     *
-     * @return PonthubFile
-     */
-    public function setDislikes($dislikes)
-    {
-        return $this->listDislikes = $dislikes;
-    }
-
-    public function getDislike()
-    {
-        return $this->dislike;
-    }
-
-    public function setDislike($dislike)
-    {
-        return $this->dislike = $dislike;
-    }
-
-    public function getLike()
-    {
-        return $this->like;
-    }
-
-    public function setLike($like)
-    {
-        return $this->like = $like;
-    }
-
-    /**
      * Add comment
      *
      * @param \KI\CoreBundle\Entity\Core\Comment $comment
-     * @return PonthubFile
+     * @return Likeable
      */
     public function addcomment(\KI\CoreBundle\Entity\Comment $comment)
     {
@@ -325,7 +160,7 @@ class Likeable
     /**
      * Set comments
      *
-     * @return PonthubFile
+     * @return Likeable
      */
     public function setComments($comments)
     {
