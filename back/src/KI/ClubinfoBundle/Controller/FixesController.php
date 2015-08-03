@@ -1,34 +1,36 @@
 <?php
 
-namespace KI\PublicationBundle\Controller;
+namespace KI\ClubinfoBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use KI\CoreBundle\Controller\ResourceController;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Event\AchievementCheckEvent;
 
-class FixesController extends \KI\CoreBundle\Controller\ResourceController
+class FixesController extends ResourceController
 {
-    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
-        $this->initialize('Fix', 'Publication');
+        $this->initialize('Fix', 'Clubinfo');
     }
 
     /**
      * @ApiDoc(
      *  resource=true,
      *  description="Liste les tâches de dépannage",
-     *  output="KI\PublicationBundle\Entity\Fix",
+     *  output="KI\ClubinfoBundle\Entity\Fix",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
      *   403="Pas les droits suffisants pour effectuer cette action",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Publications"
+     *  section="Clubinfo"
      * )
      */
     public function getFixesAction() { return $this->getAll(); }
@@ -36,7 +38,7 @@ class FixesController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Retourne une tâche de dépannage",
-     *  output="KI\PublicationBundle\Entity\Fix",
+     *  output="KI\ClubinfoBundle\Entity\Fix",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -44,7 +46,7 @@ class FixesController extends \KI\CoreBundle\Controller\ResourceController
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Publications"
+     *  section="Clubinfo"
      * )
      */
     public function getFixAction($slug) { return $this->getOne($slug); }
@@ -52,8 +54,8 @@ class FixesController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Crée une tâche de dépannage",
-     *  input="KI\PublicationBundle\Form\FixType",
-     *  output="KI\PublicationBundle\Entity\Fix",
+     *  input="KI\ClubinfoBundle\Form\FixType",
+     *  output="KI\ClubinfoBundle\Entity\Fix",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",
@@ -61,55 +63,18 @@ class FixesController extends \KI\CoreBundle\Controller\ResourceController
      *   403="Pas les droits suffisants pour effectuer cette action",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Publications"
+     *  section="Clubinfo"
      * )
      */
     public function postFixAction()
     {
-        $return = $this->partialPost($this->get('security.context')->isGranted('ROLE_USER'));
-
-        if ($return['code'] == 201) {
-            // On modifie légèrement la ressource qui vient d'être créée
-            $user = $this->get('security.context')->getToken()->getUser();
-            $return['item']->setUser($user);
-            $return['item']->setDate(time());
-            $return['item']->setStatus('Non vu');
-
-            if ($return['item']->getFix()) {
-                $dispatcher = $this->container->get('event_dispatcher');
-                $achievementCheck = new AchievementCheckEvent(Achievement::BUG_CONTACT);
-                $dispatcher->dispatch('upont.achievement', $achievementCheck);
-            } else {
-                $dispatcher = $this->container->get('event_dispatcher');
-                $achievementCheck = new AchievementCheckEvent(Achievement::BUG_REPORT);
-                $dispatcher->dispatch('upont.achievement', $achievementCheck);
-            }
-        }
-
-        if ($return['item']->getProblem() != '[Test] J\'arrive pas à avoir Internet') {
-            $fields = array(
-                'channel' => $return['item']->getFix() ? '#depannage' : '#upont-feedback',
-                'username' => $user->getFirstname().' '.$user->getLastname(),
-                'icon_url' => 'https://upont.enpc.fr/api/'.$user->getImage()->getWebPath(),
-                'text' => '"'.$return['item']->getProblem().'"'
-            );
-
-            $this->get('ki_upont.curl')->curl(
-                'https://hooks.slack.com/services/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',
-                array(
-                    CURLOPT_POST => true,
-                    CURLOPT_POSTFIELDS => json_encode($fields)
-                )
-            );
-        }
-
-        return $this->postView($return);
+        return $this->post($this->get('security.context')->isGranted('ROLE_USER'));
     }
 
     /**
      * @ApiDoc(
      *  description="Modifie une tâche de dépannage",
-     *  input="KI\PublicationBundle\Form\FixType",
+     *  input="KI\ClubinfoBundle\Form\FixType",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   400="La syntaxe de la requête est erronée",
@@ -118,7 +83,7 @@ class FixesController extends \KI\CoreBundle\Controller\ResourceController
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Publications"
+     *  section="Clubinfo"
      * )
      */
     public function patchFixAction($slug)
@@ -126,7 +91,7 @@ class FixesController extends \KI\CoreBundle\Controller\ResourceController
         $fix = $this->findBySlug($slug);
 
         if ($fix->getFix()) {
-            $this->notify(
+            $this->get('ki_user.service.notify')->notify(
                 'notif_fixes',
                 'Demande de dépannage',
                 'Ta demande de dépannage a été actualisée par le KI !',
@@ -147,7 +112,7 @@ class FixesController extends \KI\CoreBundle\Controller\ResourceController
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Publications"
+     *  section="Clubinfo"
      * )
      */
     public function deleteFixAction($slug) { return $this->delete($slug); }

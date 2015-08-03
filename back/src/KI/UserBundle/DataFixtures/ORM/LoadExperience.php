@@ -31,6 +31,6 @@ class LoadExperienceFixture extends AbstractFixture implements OrderedFixtureInt
 
     public function getOrder()
     {
-        return 24;
+        return 15;
     }
 }

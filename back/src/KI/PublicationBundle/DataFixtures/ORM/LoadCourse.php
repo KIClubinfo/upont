@@ -57,6 +57,6 @@ class LoadCourseFixture extends AbstractFixture implements OrderedFixtureInterfa
 
     public function getOrder()
     {
-        return 15;
+        return 42;
     }
 }

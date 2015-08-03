@@ -13,11 +13,3 @@ courses:
 exercices:
     type:     rest
     resource: KI\PublicationBundle\Controller\ExercicesController
-
-fixes:
-    type:     rest
-    resource: KI\PublicationBundle\Controller\FixesController
-
-tutos:
-    type:     rest
-    resource: KI\PublicationBundle\Controller\TutosController

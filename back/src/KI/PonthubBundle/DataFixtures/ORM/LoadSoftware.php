@@ -14,7 +14,7 @@ class LoadSoftwareFixture extends AbstractFixture implements OrderedFixtureInter
         $software = new Software();
         $software->setSize(487864000);
         $software->setPath('/root/web/softs/WVista.rar');
-        $software->setName('Windows Vista');
+        $software->setName('Windows 8');
         $software->setDescription('C\'est tout pourri mais bon...');
         $software->setTags(array($this->getReference('tag-windaube')));
         $software->setStatus('OK');
@@ -27,6 +27,6 @@ class LoadSoftwareFixture extends AbstractFixture implements OrderedFixtureInter
 
     public function getOrder()
     {
-        return 40;
+        return 28;
     }
 }

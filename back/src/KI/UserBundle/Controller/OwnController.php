@@ -123,8 +123,9 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         }
         array_multisort($ids, SORT_ASC, $unlocked);
         $ids = array();
-        foreach ($locked as $key => $achievement)
-            $ids[$key] = $achievement['id'];
+        foreach ($locked as $key => $achievement) {
+                    $ids[$key] = $achievement['id'];
+        }
         array_multisort($ids, SORT_ASC, $locked);
 
         // On renvoie pas mal de données utiles
@@ -280,13 +281,11 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
                 // Si la notification n'a pas été lue
                 if ($notification->getRecipient()->contains($user) && !$notification->getRead()->contains($user))
                     $return[] = $notification;
-            }
-            else if ($mode == 'exclude') {
+            } else if ($mode == 'exclude') {
                 // Si la notification n'a pas été lue
                 if (!$notification->getRead()->contains($user) && !$notification->getRecipient()->contains($user))
                     $return[] = $notification;
-            }
-            else
+            } else
                 throw new \Exception('Notification : mode d\'envoi inconnu ('.$mode.')');
         }
 
@@ -478,8 +477,9 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         $repo = $this->getDoctrine()->getManager()->getRepository('KIPublicationBundle:CourseUser');
 
         $return = array();
-        foreach ($repo->findBy(array('user' => $this->user)) as $courseUser)
-            $return[] = array('course' => $courseUser->getCourse(), 'group' => $courseUser->getGroup());
+        foreach ($repo->findBy(array('user' => $this->user)) as $courseUser) {
+                    $return[] = array('course' => $courseUser->getCourse(), 'group' => $courseUser->getGroup());
+        }
 
         return $this->restResponse($return);
     }
@@ -644,7 +644,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Renvoie la liste des dépannages demandés par l'utilisateur",
-     *  output="KI\PublicationBundle\Entity\Fix",
+     *  output="KI\ClubinfoBundle\Entity\Fix",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -661,7 +661,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         if (!$this->get('security.context')->isGranted('ROLE_USER'))
             throw new AccessDeniedException('Accès refusé');
 
-        $repo = $this->em->getRepository('KIPublicationBundle:Fix');
+        $repo = $this->em->getRepository('KIClubinfoBundle:Fix');
         list($findBy, $sortBy, $limit, $offset, $page, $totalPages, $count) = $this->paginate($repo);
         $findBy['user'] = $user;
         $results = $repo->findBy($findBy, $sortBy, $limit, $offset);
@@ -722,7 +722,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
     public function postOwnUserAction()
     {
         $request = $this->getRequest()->request;
-        if (!$request->has('password') || !$request->has('confirm')  || !$request->has('old'))
+        if (!$request->has('password') || !$request->has('confirm') || !$request->has('old'))
             throw new BadRequestHttpException('Champs password/confirm non rempli(s)');
 
         if ($this->user->hasRole('ROLE_ADMISSIBLE'))

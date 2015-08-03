@@ -18,6 +18,9 @@ class ImageService
         $this->imagesMaxSize = $imagesMaxSize;
     }
 
+    /**
+     * @param string $src
+     */
     public function upload($src, $url = null)
     {
         $fs = new Filesystem();
@@ -70,7 +73,7 @@ class ImageService
             throw new BadRequestHttpException('Ceci n\'est pas une url : '.$url);
 
         // Réglage des options cURL
-        $data = $this->curlService->curl($url, array(
+        $data = $this->curlService->curl($url, null, array(
             CURLOPT_BUFFERSIZE => 128,
             CURLOPT_NOPROGRESS => true,
             CURLOPT_PROGRESSFUNCTION, function($downloadSize, $downloaded, $uploadSize, $uploaded) {

@@ -42,7 +42,6 @@ class BeerUsersController extends ResourceController
 
     /**
      * @ApiDoc(
-     *  resource=true,
      *  description="Liste les utilisateurs ayant bu dernièrement",
      *  output="KI\UserBundle\Entity\User",
      *  statusCodes={
@@ -101,7 +100,6 @@ class BeerUsersController extends ResourceController
 
     /**
      * @ApiDoc(
-     *  resource=true,
      *  description="Liste les consos",
      *  output="KI\FoyerBundle\Entity\BeerUser",
      *  statusCodes={
@@ -200,7 +198,7 @@ class BeerUsersController extends ResourceController
         $balance = $user->getBalance();
         $balance = $balance === null ? 0 : $balance;
         $price = $beer->getPrice();
-        $balance = $add ? $balance+$price : $balance-$price;
+        $balance = $add ? $balance + $price : $balance - $price;
         $user->setBalance($balance);
 
         return array($user, $beer);
@@ -236,7 +234,7 @@ class BeerUsersController extends ResourceController
 
         $balance = $user->getBalance();
         $balance = $balance === null ? 0 : $balance;
-        $balance = $balance+$request->get('balance');
+        $balance = $balance + $request->get('balance');
 
         $user->setBalance($balance);
 

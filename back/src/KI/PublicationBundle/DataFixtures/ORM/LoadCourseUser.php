@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\UserBundle\DataFixtures\ORM;
+namespace KI\PublicationBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -52,6 +52,6 @@ class LoadCourseUserFixture extends AbstractFixture implements OrderedFixtureInt
 
     public function getOrder()
     {
-        return 19;
+        return 44;
     }
 }

@@ -109,8 +109,9 @@ class CoursesController extends \KI\CoreBundle\Controller\ResourceController
         $course = $this->getOne($slug);
         $repo = $this->em->getRepository('KIPublicationBundle:CourseUser');
 
-        foreach ($repo->findByCourse($course) as $courseUser)
-            $this->em->remove($courseUser);
+        foreach ($repo->findByCourse($course) as $courseUser) {
+                    $this->em->remove($courseUser);
+        }
 
         return $this->delete($slug);
     }

@@ -1,29 +1,31 @@
 <?php
 
-namespace KI\PublicationBundle\Controller;
+namespace KI\ClubinfoBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use KI\CoreBundle\Controller\ResourceController;
 
-class TutosController extends \KI\CoreBundle\Controller\ResourceController
+class TutosController extends ResourceController
 {
-    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
-        $this->initialize('Tuto', 'Publication');
+        $this->initialize('Tuto', 'Clubinfo');
     }
 
     /**
      * @ApiDoc(
      *  resource=true,
      *  description="Liste les tutos",
-     *  output="KI\PublicationBundle\Entity\Tuto",
+     *  output="KI\ClubinfoBundle\Entity\Tuto",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
      *   403="Pas les droits suffisants pour effectuer cette action",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Publications"
+     *  section="Clubinfo"
      * )
      */
     public function getTutosAction() { return $this->getAll(); }
@@ -31,7 +33,7 @@ class TutosController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Retourne un tuto",
-     *  output="KI\PublicationBundle\Entity\Tuto",
+     *  output="KI\ClubinfoBundle\Entity\Tuto",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -39,7 +41,7 @@ class TutosController extends \KI\CoreBundle\Controller\ResourceController
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Publications"
+     *  section="Clubinfo"
      * )
      */
     public function getTutoAction($slug) { return $this->getOne($slug); }
@@ -47,8 +49,8 @@ class TutosController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Crée un tuto",
-     *  input="KI\PublicationBundle\Form\TutoType",
-     *  output="KI\PublicationBundle\Entity\Tuto",
+     *  input="KI\ClubinfoBundle\Form\TutoType",
+     *  output="KI\ClubinfoBundle\Entity\Tuto",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",
@@ -56,24 +58,15 @@ class TutosController extends \KI\CoreBundle\Controller\ResourceController
      *   403="Pas les droits suffisants pour effectuer cette action",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Publications"
+     *  section="Clubinfo"
      * )
      */
-    public function postTutoAction() {
-        $return = $this->partialPost();
-
-        if ($return['code'] == 201) {
-            // On modifie légèrement la ressource qui vient d'être créée
-            $return['item']->setDate(time());
-        }
-
-        return $this->postView($return);
-    }
+    public function postTutoAction() { return $this->post(); }
 
     /**
      * @ApiDoc(
      *  description="Modifie un tuto",
-     *  input="KI\PublicationBundle\Form\TutoType",
+     *  input="KI\ClubinfoBundle\Form\TutoType",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   400="La syntaxe de la requête est erronée",
@@ -82,7 +75,7 @@ class TutosController extends \KI\CoreBundle\Controller\ResourceController
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Publications"
+     *  section="Clubinfo"
      * )
      */
     public function patchTutoAction($slug) { return $this->patch($slug); }
@@ -97,7 +90,7 @@ class TutosController extends \KI\CoreBundle\Controller\ResourceController
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Publications"
+     *  section="Clubinfo"
      * )
      */
     public function deleteTutoAction($slug) { return $this->delete($slug); }

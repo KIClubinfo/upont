@@ -8,7 +8,7 @@ angular.module('upont')
                 return;
             }
 
-            $http.post(apiPrefix + 'tutos', {name: name, text: 'Tutoriel en cours d\'écriture...'}).success(function(data){
+            $http.post(apiPrefix + 'tutos', {name: name}).success(function(data){
                 alertify.alert('Tuto créé ! Redirection...');
                 $state.go('root.users.resources.tutorials.simple', {slug: data.slug});
             });

@@ -69,6 +69,10 @@ class BaseController extends \FOS\RestBundle\Controller\FOSRestController
     }
 
     // Sert à checker si l'utilisateur actuel est membre du club au nom duquel il poste
+
+    /**
+     * @return boolean
+     */
     protected function checkClubMembership($slug = null)
     {
         if ($this->get('security.context')->isGranted('ROLE_ADMISSIBLE'))
@@ -114,6 +118,11 @@ class BaseController extends \FOS\RestBundle\Controller\FOSRestController
     }
 
     // Emet une notification
+
+    /**
+     * @param string $reason
+     * @param string $message
+     */
     protected function notify($reason, $title, $message, $mode = 'to', $recipient = array(), $resource = '')
     {
         $notification = new Notification($reason, $title, $message, $mode, $resource);

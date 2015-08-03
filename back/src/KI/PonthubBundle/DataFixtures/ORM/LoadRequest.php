@@ -30,6 +30,6 @@ class LoadRequestFixture extends AbstractFixture implements OrderedFixtureInterf
 
     public function getOrder()
     {
-        return 39;
+        return 31;
     }
 }

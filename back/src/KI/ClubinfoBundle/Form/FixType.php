@@ -1,6 +1,6 @@
 <?php
 
-namespace KI\PublicationBundle\Form;
+namespace KI\ClubinfoBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -13,17 +13,18 @@ class FixType extends AbstractType
         $builder
             ->add('name')
             ->add('problem')
-            ->add('date')
-            ->add('solved')
             ->add('status')
-            ->add('fix');
+            ->add('fix', null, array(
+                'empty_data' => 'Non vu'
+            ))
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'csrf_protection' => false,
-            'data_class' => 'KI\PublicationBundle\Entity\Fix'
+            'data_class'      => 'KI\ClubinfoBundle\Entity\Fix',
+            'csrf_protection' => false
         ));
     }
 
