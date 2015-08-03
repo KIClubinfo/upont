@@ -22,6 +22,7 @@ class BaseController extends CoreController
 
     protected $repo;
     protected $em;
+    protected $namespace;
     /**
      * Initialise le controleur de base
      * @param string $class  Le nom de la classe sur laquelle se baser
@@ -54,7 +55,7 @@ class BaseController extends CoreController
             $this->save = $this->className;
 
         // À priori, une sous ressource garde le même namespace
-        $this->initialize($class, str_replace('\\', '', $this->namespace));
+        $this->initialize($class, $this->bundle);
     }
 
     /**
