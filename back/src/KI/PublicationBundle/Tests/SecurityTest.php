@@ -69,7 +69,7 @@ class SecurityTest extends WebTestCase
         $routes = array(
             array(200, 'GET', '/newsitems'),
             array(403, 'GET', '/courses'),
-            array(400, 'POST', '/newsitems/le-beton-c-est-bon/comments'),
+            array(403, 'POST', '/newsitems/le-beton-c-est-bon/comments'),
             array(200, 'GET', '/newsitems/le-beton-c-est-bon/comments')
         );
         $this->checkRoutes($routes);
