@@ -54,6 +54,10 @@ class LikeableController extends \KI\CoreBundle\Controller\BaseController
         throw new \Exception('Initialisation impossible du controleur');
     }
 
+    /**
+     * Marque un objet likeable comme liké
+     * @param LikeClass $item
+     */
     protected function like($item)
     {
         $this->isLikeable($item);
@@ -69,9 +73,13 @@ class LikeableController extends \KI\CoreBundle\Controller\BaseController
             $item->removeDislike($this->user);
             $item->setDislike(false);
         }
-        $this->em->flush();
+        $this->manager->flush();
     }
 
+    /**
+     * Marque un objet likeable comme disliké
+     * @param LikeClass $item
+     */
     protected function dislike($item)
     {
         $this->isLikeable($item);
@@ -87,9 +95,13 @@ class LikeableController extends \KI\CoreBundle\Controller\BaseController
             $item->removeLike($this->user);
             $item->setLike(false);
         }
-        $this->em->flush();
+        $this->manager->flush();
     }
 
+    /**
+     * Marque un objet likeable comme non liké
+     * @param LikeClass $item
+     */
     protected function deleteLike($item)
     {
         $this->isLikeable($item);
@@ -99,9 +111,13 @@ class LikeableController extends \KI\CoreBundle\Controller\BaseController
             $item->removeLike($this->user);
             $item->setLike(false);
         }
-        $this->em->flush();
+        $this->manager->flush();
     }
 
+    /**
+     * Marque un objet likeable comme non disliké
+     * @param LikeClass $item
+     */
     protected function deleteDislike($item)
     {
         $this->isLikeable($item);
@@ -111,7 +127,7 @@ class LikeableController extends \KI\CoreBundle\Controller\BaseController
             $item->removeDislike($this->user);
             $item->setDislike(false);
         }
-        $this->em->flush();
+        $this->manager->flush();
     }
 
     /**

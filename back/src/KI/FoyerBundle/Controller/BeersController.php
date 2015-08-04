@@ -31,10 +31,10 @@ class BeersController extends \KI\CoreBundle\Controller\ResourceController
         // Route un peu particulière : on va ordonner les bières
         // par ordre décroissant de consommation
         // On commence par toutes les récupérer
-        $beers = $this->repo->findAll();
+        $beers = $this->repository->findAll();
 
         // On va établir les comptes sur les 500 dernières consos
-        $repo = $this->em->getRepository('KIFoyerBundle:BeerUser');
+        $repo = $this->manager->getRepository('KIFoyerBundle:BeerUser');
         $beerUsers = $repo->findBy(array(), array('date' => 'DESC'), 500);
 
         $counts = array();
@@ -139,11 +139,11 @@ class BeersController extends \KI\CoreBundle\Controller\ResourceController
     {
         // On supprime toutes les consos associées
         $beer = $this->findBySlug($slug);
-        $repo = $this->em->getRepository('KIFoyerBundle:BeerUser');
+        $repo = $this->manager->getRepository('KIFoyerBundle:BeerUser');
         $beerUsers = $repo->findBy(array('beer' => $beer));
 
         foreach ($beerUsers as $beerUser) {
-            $this->em->remove($beerUser);
+            $this->manager->remove($beerUser);
         }
         return $this->delete($slug, $this->isClubMember('foyer'));
     }

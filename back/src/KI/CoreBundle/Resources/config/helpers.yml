@@ -1,0 +1,16 @@
+services:
+    ki_core.helper.form:
+        class: KI\CoreBundle\Helper\FormHelper
+        arguments:
+            - @doctrine.orm.entity_manager
+            - @form.factory
+            - @router
+        calls:
+            - [setRequest, [@request_stack]]
+
+    ki_core.helper.paginate:
+        class: KI\CoreBundle\Helper\PaginateHelper
+        arguments:
+            - @doctrine.orm.entity_manager
+        calls:
+            - [setRequest, [@request_stack]]

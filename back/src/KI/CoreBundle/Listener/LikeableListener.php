@@ -15,9 +15,7 @@ class LikeableListener
         $this->tokenStorage = $tokenStorage;
     }
 
-    public function postLoad(LifecycleEventArgs $args) { $this->loadLikes($args); }
-
-    public function loadLikes(LifecycleEventArgs $args)
+    public function postLoad(LifecycleEventArgs $args)
     {
         if ($token = $this->tokenStorage->getToken()) {
             $user = $token->getUser();

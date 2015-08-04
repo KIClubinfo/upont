@@ -59,11 +59,11 @@ class BeerUsersController extends ResourceController
         // Route un peu particulière : on va ordonner les utilisateurs
         // par ordre décroissant de date consommation
         // On commence par récupérer 500 dernières consos
-        $repo = $this->em->getRepository('KIFoyerBundle:BeerUser');
+        $repo = $this->manager->getRepository('KIFoyerBundle:BeerUser');
         $beerUsers = $repo->findBy(array(), array('date' => 'DESC'), 500);
 
         // On veut positionner le compte Externe Foyer en première positionn
-        $repo = $this->em->getRepository('KIUserBundle:User');
+        $repo = $this->manager->getRepository('KIUserBundle:User');
         $users = array();
         $users[] = $repo->findOneByUsername('externe-foyer');
 
@@ -117,7 +117,7 @@ class BeerUsersController extends ResourceController
         $repo = $this->getDoctrine()->getManager()->getRepository('KIUserBundle:User');
         $user = $repo->findOneByUsername($slug);
 
-        $beerUsers = $this->repo->findBy(array('user' => $user));
+        $beerUsers = $this->repository->findBy(array('user' => $user));
         return $this->restResponse($beerUsers);
     }
 
@@ -147,8 +147,8 @@ class BeerUsersController extends ResourceController
         $beerUser->setBeer($beer);
         $beerUser->setDate(time());
         $beerUser->setAmount(-1*$beer->getPrice());
-        $this->em->persist($beerUser);
-        $this->em->flush();
+        $this->manager->persist($beerUser);
+        $this->manager->flush();
 
         return $this->jsonResponse(null, 204);
     }
@@ -243,9 +243,9 @@ class BeerUsersController extends ResourceController
         $beerUser->setUser($user);
         $beerUser->setDate(time());
         $beerUser->setAmount($request->get('balance'));
-        $this->em->persist($beerUser);
+        $this->manager->persist($beerUser);
 
-        $this->em->flush();
+        $this->manager->flush();
 
         return $this->jsonResponse(array('balance' => $user->getBalance()), 204);
     }

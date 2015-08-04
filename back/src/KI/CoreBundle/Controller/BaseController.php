@@ -42,7 +42,7 @@ class BaseController extends CoreController
 
         // TODO erase legacy
         $this->repo = $this->repository;
-        $this->em = $this->manager;
+        $this->manager = $this->manager;
     }
 
     // Permet de changer le repo actuel. Si $class non précisé, revient au précédent
@@ -107,12 +107,12 @@ class BaseController extends CoreController
     protected function findBySlug($slug)
     {
         if (!method_exists($this->class, 'setSlug')) {
-            $item = $this->repo->findOneById($slug);
+            $item = $this->repository->findOneById($slug);
         } else {
             if ($this->className == 'User') {
-                $item = $this->repo->findOneByUsername($slug);
+                $item = $this->repository->findOneByUsername($slug);
             } else {
-                $item = $this->repo->findOneBySlug($slug);
+                $item = $this->repository->findOneBySlug($slug);
             }
         }
         if (!$item instanceof $this->class) {

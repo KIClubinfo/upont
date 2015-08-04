@@ -107,10 +107,10 @@ class CoursesController extends \KI\CoreBundle\Controller\ResourceController
     {
         // Les cours possèdent plein de sous propriétés, il faut faire gaffe à toutes les supprimer
         $course = $this->getOne($slug);
-        $repo = $this->em->getRepository('KIPublicationBundle:CourseUser');
+        $repo = $this->manager->getRepository('KIPublicationBundle:CourseUser');
 
         foreach ($repo->findByCourse($course) as $courseUser) {
-                    $this->em->remove($courseUser);
+                    $this->manager->remove($courseUser);
         }
 
         return $this->delete($slug);
@@ -134,7 +134,7 @@ class CoursesController extends \KI\CoreBundle\Controller\ResourceController
         $course = $this->findBySlug($slug);
 
         // Vérifie que la relation n'existe pas déjà
-        $repoLink = $this->em->getRepository('KIPublicationBundle:CourseUser');
+        $repoLink = $this->manager->getRepository('KIPublicationBundle:CourseUser');
         $link = $repoLink->findBy(array('course' => $course, 'user' => $this->user));
 
         // On crée la relation si elle n'existe pas déjà
@@ -157,8 +157,8 @@ class CoursesController extends \KI\CoreBundle\Controller\ResourceController
         $achievementCheck = new AchievementCheckEvent(Achievement::COURSES);
         $dispatcher->dispatch('upont.achievement', $achievementCheck);
 
-        $this->em->persist($link);
-        $this->em->flush();
+        $this->manager->persist($link);
+        $this->manager->flush();
 
         return $this->jsonResponse(null, 204);
     }
@@ -181,14 +181,14 @@ class CoursesController extends \KI\CoreBundle\Controller\ResourceController
         $user = $this->get('security.context')->getToken()->getUser();
         $course = $this->findBySlug($slug);
 
-        $repoLink = $this->em->getRepository('KIPublicationBundle:CourseUser');
+        $repoLink = $this->manager->getRepository('KIPublicationBundle:CourseUser');
         $link = $repoLink->findBy(array('course' => $course, 'user' => $user));
 
         if (count($link) != 1)
             throw new NotFoundHttpException('Relation entre Course et User non trouvée');
 
-        $this->em->remove($link[0]);
-        $this->em->flush();
+        $this->manager->remove($link[0]);
+        $this->manager->flush();
 
         return $this->jsonResponse(null, 204);
     }
