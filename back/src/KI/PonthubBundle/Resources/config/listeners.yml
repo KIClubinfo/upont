@@ -1,0 +1,7 @@
+services:
+    ki_ponthub.listener.ponthubfileuser:
+        class: KI\PonthubBundle\Listener\PonthubFileUserListener
+        arguments:
+            - @event_dispatcher
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }

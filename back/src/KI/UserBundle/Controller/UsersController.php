@@ -137,7 +137,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
     {
         $clubs = array();
         $user = $this->findBySlug($slug);
-        $repo = $this->em->getRepository('KIUserBundle:ClubUser');
+        $repo = $this->manager->getRepository('KIUserBundle:ClubUser');
         $clubUsers = $repo->findByUser($user);
 
         foreach ($clubUsers as $clubUser) {
@@ -191,7 +191,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
             throw new BadRequestHttpException('Adresse mail non utilisable');
 
         // On check si l'utilisateur n'existe pas déjà
-        $repo = $this->em->getRepository('KIUserBundle:User');
+        $repo = $this->manager->getRepository('KIUserBundle:User');
         $users = $repo->findByEmail($email);
 
         if (count($users) > 0)
@@ -260,7 +260,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
 
         // Dans un premier temps on va effectuer une première passe pour vérifier qu'il n'y a pas de duplicatas
         $emails = $logins = $fails = $success = array();
-        $repo = $this->em->getRepository('KIUserBundle:User');
+        $repo = $this->manager->getRepository('KIUserBundle:User');
         foreach ($repo->findAll() as $user) {
             $emails[] = $user->getEmail();
             $logins[] = $user->getUsername();

@@ -85,7 +85,7 @@ class NewsitemsController extends \KI\CoreBundle\Controller\ResourceController
                 $achievementCheck = new AchievementCheckEvent(Achievement::NEWS_CREATE);
                 $dispatcher->dispatch('upont.achievement', $achievementCheck);
 
-                $allUsers = $this->em->getRepository('KIUserBundle:User')->findAll();
+                $allUsers = $this->manager->getRepository('KIUserBundle:User')->findAll();
                 $users = array();
 
                 foreach ($allUsers as $candidate) {

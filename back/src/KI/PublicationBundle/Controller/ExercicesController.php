@@ -117,14 +117,14 @@ class ExercicesController extends \KI\CoreBundle\Controller\SubresourceControlle
             if (!$request->files->has('file'))
                 throw new BadRequestHttpException('Aucun fichier présent');
 
-            $this->em->flush();
+            $this->manager->flush();
 
             $dispatcher = $this->container->get('event_dispatcher');
             $achievementCheck = new AchievementCheckEvent(Achievement::POOKIE);
             $dispatcher->dispatch('upont.achievement', $achievementCheck);
 
             // On crée une notification
-            $courseUsers = $this->em->getRepository('KIPublicationBundle:CourseUser')->findBy(array('course' => $course));
+            $courseUsers = $this->manager->getRepository('KIPublicationBundle:CourseUser')->findBy(array('course' => $course));
             $users = array();
 
             foreach ($courseUsers as $courseUser) {

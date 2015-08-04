@@ -30,7 +30,7 @@ class AdmissiblesController extends \KI\CoreBundle\Controller\ResourceController
     public function getAdmissiblesAction()
     {
         // On charge tous les admissibles
-        $admissibles = $this->repo->findAll();
+        $admissibles = $this->repository->findAll();
         $result = array();
 
         // On ne garde que les admissibles de cette année

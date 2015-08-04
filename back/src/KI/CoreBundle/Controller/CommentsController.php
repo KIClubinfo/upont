@@ -46,7 +46,7 @@ class CommentsController extends ResourceController
      */
     public function getCommentsAction($object, $slug)
     {
-        $this->trust('USER');
+        $this->trust($this->is('USER'));
         $this->autoInitialize($object);
         $item = $this->findBySlug($slug);
         return $this->restResponse($item->getComments());
@@ -68,7 +68,7 @@ class CommentsController extends ResourceController
      */
     public function getCommentsSubAction($object, $slug, $subobject, $subslug)
     {
-        $this->trust('USER');
+        $this->trust($this->is('USER'));
         $this->autoInitialize($subobject);
         $item = $this->findBySlug($subslug);
         return $this->restResponse($item->getComments());

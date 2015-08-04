@@ -17,7 +17,7 @@ use KI\PonthubBundle\Entity\Serie;
 use KI\PonthubBundle\Entity\Software;
 use KI\PonthubBundle\Entity\Genre;
 
-class PonthubController extends \KI\CoreBundle\Controller\ResourceController
+class DefaultController extends \KI\CoreBundle\Controller\ResourceController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {
@@ -74,10 +74,10 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
 
         // On va modifier les entités en fonction de la liste, on récupère les
         // chemins de toutes les entités Ponthub
-        $this->em = $this->getDoctrine()->getManager();
-        $repoSeries = $this->em->getRepository('KIPonthubBundle:Serie');
-        $repoAlbums = $this->em->getRepository('KIPonthubBundle:Album');
-        $paths = $this->repo->createQueryBuilder('r')->select('r.path')->getQuery()->getScalarResult();
+        $this->manager = $this->getDoctrine()->getManager();
+        $repoSeries = $this->manager->getRepository('KIPonthubBundle:Serie');
+        $repoAlbums = $this->manager->getRepository('KIPonthubBundle:Album');
+        $paths = $this->repository->createQueryBuilder('r')->select('r.path')->getQuery()->getScalarResult();
         $paths = array_map('current', $paths);
 
         // On stocke les albums et les séries existantes
@@ -91,7 +91,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
         }
 
         // On liste aussi les genres pour les musiques
-        $repoGenres = $this->em->getRepository('KIPonthubBundle:Genre');
+        $repoGenres = $this->manager->getRepository('KIPonthubBundle:Genre');
         $result = $repoGenres->findAll();
         foreach ($result as $genre) {
             $genres[$genre->getName()] = $genre;
@@ -139,7 +139,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
                 $item->setVo(true);
                 $item->setVost(true);
                 $item->setHd(true);
-                $this->em->persist($item);
+                $this->manager->persist($item);
             }
             if (preg_match('#^/root/web/films_light/#', $line)) {
                 if ($size == 0)
@@ -152,7 +152,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
                 $item->setStatus('NeedInfos');
                 $item->setName($name);
                 $item->setHd(false);
-                $this->em->persist($item);
+                $this->manager->persist($item);
             }
             if (preg_match('#^/root/web/jeux/#', $line)) {
                 if ($size == 0)
@@ -164,7 +164,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
                 $item->setPath($line);
                 $item->setStatus('NeedInfos');
                 $item->setName($name);
-                $this->em->persist($item);
+                $this->manager->persist($item);
             }
             if (preg_match('#^/root/web/logiciels/#', $line)) {
                 if ($size == 0)
@@ -176,7 +176,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
                 $item->setPath($line);
                 $item->setStatus('NeedInfos');
                 $item->setName($name);
-                $this->em->persist($item);
+                $this->manager->persist($item);
             }
             if (preg_match('#^/root/web/autres/#', $line)) {
                 if ($size == 0)
@@ -188,7 +188,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
                 $item->setPath($line);
                 $item->setStatus('NeedInfos');
                 $item->setName($name);
-                $this->em->persist($item);
+                $this->manager->persist($item);
             }
             if (preg_match('#^/root/web/series/#', $line)) {
                 // On détermine les différentes données
@@ -204,7 +204,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
                     $serieItem->setName($serie);
                     $serieItem->setVo(true);
                     $serieItem->setHd(false);
-                    $this->em->persist($serieItem);
+                    $this->manager->persist($serieItem);
                     $series[$serie] = $serieItem;
                 } else
                     $serieItem = $series[$serie];
@@ -228,7 +228,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
 
                 // On actualise la date de modification de la série
                 $serieItem->setAdded(time());
-                $this->em->persist($item);
+                $this->manager->persist($item);
                 $pathsDone[] = $line;
             }
             if (preg_match('#^/root/web/musiques/#', $line)) {
@@ -241,7 +241,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
                 if (!isset($genres[$genre])) {
                     $genreItem = new Genre();
                     $genreItem->setName($genre);
-                    $this->em->persist($genreItem);
+                    $this->manager->persist($genreItem);
                     $genres[$genre] = $genreItem;
                 } else
                     $genreItem = $genres[$genre];
@@ -254,7 +254,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
                     $albumItem->setArtist($artist);
                     $albumItem->setStatus('NeedInfos');
                     $albumItem->setPath('/root/web/musiques/'.$genre.'/'.$artist.'/'.$album.'/');
-                    $this->em->persist($albumItem);
+                    $this->manager->persist($albumItem);
                     $albums[$album] = $albumItem;
                     $pathsDone[] = '/root/web/musiques/'.$genre.'/'.$artist.'/'.$album.'/';
                 } else
@@ -271,15 +271,15 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
                 $item->setName($name);
                 $item->addGenre($genreItem);
                 $item->setAlbum($albumItem);
-                $this->em->persist($item);
+                $this->manager->persist($item);
                 $pathsDone[] = $line;
             }
         }
-        $this->em->flush();
+        $this->manager->flush();
 
         // Maintenant on marque les fichiers non trouvés
         $notFound = array_diff($paths, $pathsDone);
-        $items = $this->repo->findByPath($notFound);
+        $items = $this->repository->findByPath($notFound);
 
         foreach ($items as $item) {
             if (get_class($item) != 'KI\PonthubBundle\Entity\Album'
@@ -296,7 +296,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
                 'De nouveaux fichiers sont disponibles sur Ponthub !'
             );
         }
-        $this->em->flush();
+        $this->manager->flush();
 
         return $this->jsonResponse(null, 202);
     }
@@ -562,7 +562,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
     {
         // Recherche des plus gros downloaders
         $dql = 'SELECT IDENTITY(e.user), SUM(f.size) AS compte FROM KI\PonthubBundle\Entity\PonthubFileUser e LEFT JOIN e.file f GROUP BY e.user ORDER BY compte DESC';
-        $downloaderIds = $this->em->createQuery($dql)
+        $downloaderIds = $this->manager->createQuery($dql)
                                 ->setMaxResults(10)
                                 ->getResult();
 
@@ -635,7 +635,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
                 LEFT JOIN e.file f LEFT JOIN e.user u
                 WHERE u.promo = \'016\' OR u.promo = \'017\' OR u.promo = \'018\'
                 GROUP BY mois, u.promo';
-        $results = $this->em->createQuery($dql)->getResult();
+        $results = $this->manager->createQuery($dql)->getResult();
 
         $timeline = array(
             'promo016' => array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -681,9 +681,9 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
 
         // Construction de l'arbre des années des films/jeux dispos
         $dql = 'SELECT e.year, COUNT(e.id) FROM KI\PonthubBundle\Entity\Movie e GROUP BY e.year';
-        $movieYears = $this->em->createQuery($dql)->getResult();
+        $movieYears = $this->manager->createQuery($dql)->getResult();
         $dql = 'SELECT e.year, COUNT(e.id) FROM KI\PonthubBundle\Entity\Game e GROUP BY e.year';
-        $gameYears = $this->em->createQuery($dql)->getResult();
+        $gameYears = $this->manager->createQuery($dql)->getResult();
 
         $yearCategories = array();
         $yearSeries = array(
@@ -752,15 +752,15 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
     private function getTotal($category, $size = false) {
         if ($size) {
             $dql = 'SELECT SUM(e.size) FROM KI\PonthubBundle\Entity\\'.$category.' e';
-            return $this->em->createQuery($dql)->getSingleScalarResult()/(1000*1000*1000);
+            return $this->manager->createQuery($dql)->getSingleScalarResult()/(1000*1000*1000);
         } else {
             $dql = 'SELECT COUNT(e.id) FROM KI\PonthubBundle\Entity\\'.$category.' e';
-            return $this->em->createQuery($dql)->getSingleScalarResult();
+            return $this->manager->createQuery($dql)->getSingleScalarResult();
         }
     }
 
     private function getDownloads($category) {
-        $connection = $this->em->getConnection();
+        $connection = $this->manager->getConnection();
         $statement = $connection->prepare('SELECT Likeable.name, COUNT(*) AS compte FROM PonthubFileUser LEFT JOIN Likeable ON Likeable.id = PonthubFileUser.file_id WHERE Likeable.type = :category GROUP BY PonthubFileUser.file_id ORDER BY compte DESC LIMIT 10');
         $statement->bindValue('category', $category);
         $statement->execute();
@@ -774,7 +774,7 @@ class PonthubController extends \KI\CoreBundle\Controller\ResourceController
     }
 
     private function getTotalDownloads($category) {
-        $connection = $this->em->getConnection();
+        $connection = $this->manager->getConnection();
         $statement = $connection->prepare('SELECT COUNT(*) AS compte FROM PonthubFileUser LEFT JOIN Likeable ON Likeable.id = PonthubFileUser.file_id WHERE Likeable.type = :category');
         $statement->bindValue('category', $category);
         $statement->execute();

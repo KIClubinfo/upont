@@ -29,7 +29,7 @@ class SubresourceController extends \KI\CoreBundle\Controller\ResourceController
             $method = 'get'.ucfirst($name).'s';
             return $item->$method();
         } else {
-            $repo = $this->em->getRepository('KI'.$this->namespace.'Bundle:'.$this->className.$name);
+            $repo = $this->manager->getRepository('KI'.$this->bundle.'Bundle:'.$this->className.$name);
             return $repo->findBy(array(strtolower($this->className) => $item));
         }
     }
@@ -50,7 +50,7 @@ class SubresourceController extends \KI\CoreBundle\Controller\ResourceController
             $filter = 'slug';
 
         $this->switchClass($name);
-        $return = $this->repo->findOneBy(array(strtolower($this->save) => $item, $filter => $id));
+        $return = $this->repository->findOneBy(array(strtolower($this->save) => $item, $filter => $id));
 
         if (!$return instanceof $this->class)
             throw new NotFoundHttpException('Objet '.$this->className.' non trouvée');
@@ -76,7 +76,8 @@ class SubresourceController extends \KI\CoreBundle\Controller\ResourceController
 
         $this->switchClass($name);
         $item = $this->findBySlug($id);
-        $return = $this->processForm($item);
+        $formHelper = $this->get('ki_core.helper.form');
+        $return = $formHelper->processForm($item);
         $this->switchClass();
         return $this->postView($return);
     }
@@ -98,10 +99,10 @@ class SubresourceController extends \KI\CoreBundle\Controller\ResourceController
 
         $this->switchClass($name);
         $item = $this->findBySlug($id);
-        $this->em->remove($item);
+        $this->manager->remove($item);
         $this->switchClass();
 
-        $this->em->flush();
+        $this->manager->flush();
     }
 
     protected function subPostView($data, $slug, $route)
@@ -109,10 +110,10 @@ class SubresourceController extends \KI\CoreBundle\Controller\ResourceController
         if ($data['code'] == 400) {
             return RestView::create($data['form'], 400);
         } else if ($data['code'] == 204) {
-            $this->em->flush();
+            $this->manager->flush();
             return RestView::create(null, 204);
         } else {
-            $this->em->flush();
+            $this->manager->flush();
             return RestView::create($data['item'],
                 201,
                 array(

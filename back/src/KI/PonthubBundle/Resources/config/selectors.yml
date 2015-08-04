@@ -1,0 +1,14 @@
+services:
+    ki_ponthub.selector.actors:
+       class: KI\PonthubBundle\Selector\ActorsSelector
+       arguments:
+           - @doctrine.orm.entity_manager
+       tags:
+           - { name: form.type, alias: actors_selector }
+
+    ki_ponthub.selector.genres:
+       class: KI\PonthubBundle\Selector\GenresSelector
+       arguments:
+           - @doctrine.orm.entity_manager
+       tags:
+           - { name: form.type, alias: genres_selector }

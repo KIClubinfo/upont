@@ -80,8 +80,8 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
 
         $group->setRoles(array($role));
 
-        $this->em->persist($group);
-        $this->em->flush();
+        $this->manager->persist($group);
+        $this->manager->flush();
         return RestView::create($group,
             201,
             array(
@@ -142,8 +142,8 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
         if (count($request->all()) > 0)
             throw new BadRequestHttpException('Ce champ n\'existe pas');
 
-        $this->em->persist($group);
-        $this->em->flush();
+        $this->manager->persist($group);
+        $this->manager->flush();
         return RestView::create($group,
             204,
             array(
@@ -179,8 +179,8 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
         if ($slug === null)
             throw new BadRequestHttpException('Le groupe n\'existe pas');
 
-        $this->em->remove($this->getOne($slug));
-        $this->em->flush();
+        $this->manager->remove($this->getOne($slug));
+        $this->manager->flush();
     }
 
     /**
@@ -205,7 +205,7 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
 
         // On récupère les deux entités concernées
         $group = $this->findBySlug($slug);
-        $user = $this->em->getRepository('KIUserBundle:User')->findOneByUsername($id);
+        $user = $this->manager->getRepository('KIUserBundle:User')->findOneByUsername($id);
 
         if (!$user instanceof \KI\UserBundle\Entity\User)
             throw new NotFoundHttpException('Utilisateur non trouvé');
@@ -214,7 +214,7 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
             throw new BadRequestHttpException('L\'utilisateur appartient déjà à ce groupe');
         } else {
             $user->addGroupUser($group);
-            $this->em->flush();
+            $this->manager->flush();
 
             return $this->restResponse(null, 204);
         }
@@ -241,7 +241,7 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
             throw new AccessDeniedException('Accès refusé');
 
         $group = $this->findBySlug($slug);
-        $user = $this->em->getRepository('KIUserBundle:User')->findOneByUsername($id);
+        $user = $this->manager->getRepository('KIUserBundle:User')->findOneByUsername($id);
 
         if (!$user instanceof \KI\UserBundle\Entity\User)
             throw new NotFoundHttpException('Utilisateur non trouvé');
@@ -250,7 +250,7 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
             throw new BadRequestHttpException('L\'utilisateur n\'appartient pas à ce groupe');
         } else {
             $user->removeGroupUser($group);
-            $this->em->flush();
+            $this->manager->flush();
 
             return $this->restResponse(null, 204);
         }

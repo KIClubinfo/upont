@@ -67,7 +67,7 @@ class RequestsController extends \KI\CoreBundle\Controller\ResourceController
         $return['item']->setDate(time());
         $return['item']->setUser($this->container->get('security.context')->getToken()->getUser());
         $return['item']->setVotes(1);
-        $this->em->flush();
+        $this->manager->flush();
 
         return $this->postView($return);
     }
@@ -107,7 +107,7 @@ class RequestsController extends \KI\CoreBundle\Controller\ResourceController
     {
         $item = $this->findBySlug($slug);
         $item->setVotes($item->getVotes() + 1);
-        $this->em->flush();
+        $this->manager->flush();
 
         return $this->jsonResponse(null, 204);
     }
@@ -129,7 +129,7 @@ class RequestsController extends \KI\CoreBundle\Controller\ResourceController
     {
         $item = $this->findBySlug($slug);
         $item->setVotes($item->getVotes() - 1);
-        $this->em->flush();
+        $this->manager->flush();
 
         return $this->jsonResponse(null, 204);
     }

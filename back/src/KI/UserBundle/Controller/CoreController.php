@@ -37,13 +37,13 @@ class CoreController extends FOSRestController
     }
 
     /**
-     * Éjecte tous les utilisateurs n'ayant pas le rôle voulu
-     * @param  string $role
+     * Éjecte tous les utilisateurs ne respectant pas la condition
+     * @param  boolean $bool
      * @return boolean
      */
-    protected function trust($role)
+    protected function trust($bool)
     {
-        if (!$this->is($role)) {
+        if ($this->user === null || !$bool) {
             throw new AccessDeniedException('Accès refusé');
         }
     }
@@ -67,7 +67,7 @@ class CoreController extends FOSRestController
             return $this->is('USER');
         }
 
-        $repo = $this->em->getRepository('KIUserBundle:Club');
+        $repo = $this->manager->getRepository('KIUserBundle:Club');
         $club = $repo->findOneBySlug($request->has('authorClub') ? $request->get('authorClub') : $club);
 
         if (!$club) {

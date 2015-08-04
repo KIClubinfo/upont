@@ -50,7 +50,7 @@ class FacegamesController extends \KI\CoreBundle\Controller\ResourceController
     {
         if (isset($this->user) && $this->get('security.context')->isGranted('ROLE_EXTERIEUR') && !$auth)
             throw new AccessDeniedException();
-        $game = $this->repo->findOneById($id);
+        $game = $this->repository->findOneById($id);
         if (!isset($game))
             throw new NotFoundHttpException('Jeu non trouvé');
         return $game;
@@ -61,7 +61,7 @@ class FacegamesController extends \KI\CoreBundle\Controller\ResourceController
     // et la position de la proposition correcte
     protected function postListUsersAction($facegame)
     {
-        $repo = $this->em->getRepository('KIUserBundle:User');
+        $repo = $this->manager->getRepository('KIUserBundle:User');
         $list = $facegame->getListUsers();
         $userGame = $facegame->getUser();
 
@@ -202,11 +202,11 @@ class FacegamesController extends \KI\CoreBundle\Controller\ResourceController
             $return['item']->setUser($this->container->get('security.context')->getToken()->getUser());
 
             if (!$this->postListUsersAction($return['item'])) {
-                $this->em->detach($return['item']);
+                $this->manager->detach($return['item']);
                 return RestView::create($return['item'], 400);
             }
 
-            $this->em->flush();
+            $this->manager->flush();
             return RestView::create($return['item'],
                 201,
                 array(
@@ -218,7 +218,7 @@ class FacegamesController extends \KI\CoreBundle\Controller\ResourceController
                 )
             );
         } else {
-            $this->em->flush();
+            $this->manager->flush();
             return RestView::create(null, 204);
         }
     }
@@ -255,7 +255,7 @@ class FacegamesController extends \KI\CoreBundle\Controller\ResourceController
         $game->setWrongAnswers($wrongAnswers);
         $duration = time() + 5*$wrongAnswers - $game->getDate();
         $game->setDuration($duration);
-        $this->em->flush();
+        $this->manager->flush();
 
         $dispatcher = $this->container->get('event_dispatcher');
         $achievementCheck = new AchievementCheckEvent(Achievement::GAME_PLAY);
@@ -305,10 +305,10 @@ class FacegamesController extends \KI\CoreBundle\Controller\ResourceController
                 || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
             && !$auth))
             throw new AccessDeniedException('Accès refusé');
-        $item = $this->repo->findOneById($id);
+        $item = $this->repository->findOneById($id);
         if (!isset($item))
             throw new NotFoundHttpException('Jeu non trouvé');
-        $this->em->remove($item);
-        $this->em->flush();
+        $this->manager->remove($item);
+        $this->manager->flush();
     }
 }
