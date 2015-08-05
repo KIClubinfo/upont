@@ -34,7 +34,7 @@ class FormHelper
      * @param  string $method POST ou PATCH
      * @return array          Des détails sur le résultat de l'opération
      */
-    public function processForm($item, $method = 'PATCH')
+    public function formData($item, $method = 'PATCH')
     {
         // On devine le formulaire à partir du chemin de la classe
         $formName = str_replace('Entity', 'Form', get_class($item)).'Type';
@@ -61,7 +61,7 @@ class FormHelper
      * @param  array $data Le formulaire traité
      * @return Response
      */
-    public function postView($data)
+    public function formView($data)
     {
         // Devine le nom de la classe à partir de l'entité
         $names = explode('\\', get_class($data['item']));

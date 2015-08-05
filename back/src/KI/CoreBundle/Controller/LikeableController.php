@@ -10,7 +10,7 @@ use KI\CoreBundle\Entity\Likeable;
 use KI\PublicationBundle\Entity\Post;
 
 // Fonctions de like/dislike/commentaire
-class LikeableController extends \KI\CoreBundle\Controller\BaseController
+class LikeableController extends BaseController
 {
     /**
      * Précise si une classe peut être likée par l'utilisateur actuel

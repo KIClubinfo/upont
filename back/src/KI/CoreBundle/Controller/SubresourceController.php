@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 // Fonctions générales pour servir une sous ressource de type REST
-class SubresourceController extends \KI\CoreBundle\Controller\ResourceController
+class SubresourceController extends ResourceController
 {
     // Gestion des sous ressources
 
@@ -76,8 +76,7 @@ class SubresourceController extends \KI\CoreBundle\Controller\ResourceController
 
         $this->switchClass($name);
         $item = $this->findBySlug($id);
-        $formHelper = $this->get('ki_core.helper.form');
-        $return = $formHelper->processForm($item);
+        $return = $this->postData($item);
         $this->switchClass();
         return $this->postView($return);
     }
