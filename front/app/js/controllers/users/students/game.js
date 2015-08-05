@@ -54,6 +54,7 @@ angular.module('upont')
 				promo: promo,
 				hardcore: hardcore
 			};
+
 			$scope.hardcore = hardcore;
 
 			if (promo == 'Toutes') {
