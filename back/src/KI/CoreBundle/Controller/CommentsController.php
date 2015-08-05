@@ -105,7 +105,7 @@ class CommentsController extends ResourceController
             $item = $this->findBySlug($slug);
             $item->addComment($return['item']);
         }
-        $this->initialize('Comment', 'Core'); // TODO fix
+        $this->initialize('Comment', 'Core');
         return $this->postView($return);
     }
 
@@ -133,7 +133,7 @@ class CommentsController extends ResourceController
             $item = $this->findBySlug($subslug);
             $item->addComment($return['item']);
         }
-        $this->initialize('Comment', 'Core'); // TODO fix
+        $this->initialize('Comment', 'Core');
         return $this->postView($return);
     }
 

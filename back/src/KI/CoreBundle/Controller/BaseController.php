@@ -20,9 +20,6 @@ class BaseController extends CoreController
     protected $form;
     protected $save;
 
-    protected $repo;
-    protected $em;
-    protected $namespace;
     /**
      * Initialise le controleur de base
      * @param string $class  Le nom de la classe sur laquelle se baser
@@ -39,20 +36,21 @@ class BaseController extends CoreController
         $this->form       = 'KI\\'.$bundle.'Bundle\Form\\'.$class.'Type';
 
         parent::setUser();
-
-        // TODO erase legacy
-        $this->repo = $this->repository;
-        $this->manager = $this->manager;
     }
 
-    // Permet de changer le repo actuel. Si $class non précisé, revient au précédent
+    /**
+     * Permet de changer le type d'objet sur lequel s'appuie le controleur
+     * @param  string $class Le nom de la nouvelle classe. Si laissé à null,
+     * revient à la classe précédent(celle-ci est sauvegardée à chaque changement)
+     */
     protected function switchClass($class = null)
     {
         // On garde en mémoire la classe précédente
-        if ($class === null)
+        if ($class === null) {
             $class = $this->save;
-        else
+        } else {
             $this->save = $this->className;
+        }
 
         // À priori, une sous ressource garde le même namespace
         $this->initialize($class, $this->bundle);

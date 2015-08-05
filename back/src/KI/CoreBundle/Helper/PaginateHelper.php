@@ -5,6 +5,7 @@ namespace KI\CoreBundle\Helper;
 use Doctrine\ORM\EntityManager;
 use FOS\RestBundle\View\View as RestView;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Doctrine\ORM\QueryBuilder;
 
 class PaginateHelper
 {
@@ -23,11 +24,11 @@ class PaginateHelper
 
     /**
      * En fonction de la requête, récupère les données utiles à la pagination
-     * @param QueryBuilder $queryBuilder Le query builder pour effectuer les comptes
+     * @param  QueryBuilder $queryBuilder Le query builder pour effectuer les comptes
      * @return array                     Les données de pagination (nombre de pages, etc.)
      */
     //FIXME querybuilder
-    protected function paginateData($queryBuilder)
+    public function paginateData(QueryBuilder $queryBuilder)
     {
         $request = $this->request->query;
 
@@ -88,14 +89,6 @@ class PaginateHelper
      */
     public function paginateView($results, $limit, $page, $totalPages, $count)
     {
-        foreach ($results as $key => $result) {
-            // Cas spécial pour les événements :
-            // on ne veut pas afficher les événements perso de tout le monde
-            // FIXME
-            if ($this->className == 'Event' && $results[$key]->getAuthorClub() === null)
-                unset($results[$key]);
-        }
-
         // On prend l'url de la requête
         $baseUrl = '<'.str_replace($this->request->getBaseUrl(), '', $this->request->getRequestUri());
 

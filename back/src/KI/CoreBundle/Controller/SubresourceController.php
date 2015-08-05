@@ -7,11 +7,9 @@ use FOS\RestBundle\View\View as RestView;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-// Fonctions générales pour servir une sous ressource de type REST
+// Fonctions générales pour servir une sous ressource de type REST (exemple: Serie -> Episode)
 class SubresourceController extends ResourceController
 {
-    // Gestion des sous ressources
-
     /**
      * Renvoie une sous ressource
      * Si $manyToMany = true, renvoie le paramètre $name de l'entité relié par une relation Many To Many
@@ -35,94 +33,48 @@ class SubresourceController extends ResourceController
     }
 
     /**
-     * @Route\View()
+     * Route GET générique pour une sous ressource
+     * @param  string  $slug Le slug de l'entité parente
+     * @param  string  $name Le nom de la classe fille
+     * @param  string  $id   L'identifiant de l'entité fille
+     * @param  boolean $auth Un override éventuel pour le check des permissions
+     * @return Response
      */
     protected function getOneSub($slug, $name, $id, $auth = false)
     {
-        if (isset($this->user) && $this->get('security.context')->isGranted('ROLE_EXTERIEUR') && !$auth)
-            throw new AccessDeniedException();
-
+        // On n'en a pas besoin ici mais on vérifie que l'item parent existe bien
         $item = $this->findBySlug($slug);
-
-        if (preg_match('#^\d+$#', $id))
-            $filter = 'id';
-        else
-            $filter = 'slug';
-
         $this->switchClass($name);
-        $return = $this->repository->findOneBy(array(strtolower($this->save) => $item, $filter => $id));
-
-        if (!$return instanceof $this->class)
-            throw new NotFoundHttpException('Objet '.$this->className.' non trouvée');
-
-        $this->switchClass();
-        return $return;
+        return $this->getOne($id, $auth);
     }
 
     /**
-     * @Route\View()
+     * Route PATCH générique pour une sous ressource
+     * @param  string  $slug Le slug de l'entité parente
+     * @param  string  $name Le nom de la classe fille
+     * @param  string  $id   L'identifiant de l'entité fille
+     * @param  boolean $auth Un override éventuel pour le check des permissions
+     * @return Response
      */
     protected function patchSub($slug, $name, $id, $auth = false)
     {
-        if (isset($this->user) &&
-            (!$this->get('security.context')->isGranted('ROLE_MODO')
-                || $this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
-                || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
-            && !$auth)
-            throw new AccessDeniedException('Accès refusé');
-
-        // On n'en a pas besoin ici mais on vérifie que l'item parent existe bien
         $this->findBySlug($slug);
-
         $this->switchClass($name);
-        $item = $this->findBySlug($id);
-        $return = $this->postData($item);
-        $this->switchClass();
-        return $this->postView($return);
+        return $this->patch($id, $auth);
     }
 
     /**
-     * @Route\View()
+     * Route DELETE générique pour une sous ressource
+     * @param  string  $slug Le slug de l'entité parente
+     * @param  string  $name Le nom de la classe fille
+     * @param  string  $id   L'identifiant de l'entité fille
+     * @param  boolean $auth Un override éventuel pour le check des permissions
+     * @return Response
      */
     protected function deleteSub($slug, $name, $id, $auth = false)
     {
-        if (isset($this->user) &&
-            (!$this->get('security.context')->isGranted('ROLE_MODO')
-                || $this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
-                || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
-            && !$auth)
-            throw new AccessDeniedException('Accès refusé');
-
-        // On n'en a pas besoin ici mais on vérifie que l'item parent existe bien
         $this->findBySlug($slug);
-
         $this->switchClass($name);
-        $item = $this->findBySlug($id);
-        $this->manager->remove($item);
-        $this->switchClass();
-
-        $this->manager->flush();
-    }
-
-    protected function subPostView($data, $slug, $route)
-    {
-        if ($data['code'] == 400) {
-            return RestView::create($data['form'], 400);
-        } else if ($data['code'] == 204) {
-            $this->manager->flush();
-            return RestView::create(null, 204);
-        } else {
-            $this->manager->flush();
-            return RestView::create($data['item'],
-                201,
-                array(
-                    'Location' => $this->generateUrl(
-                        $route,
-                        array('slug' => $slug, 'id' => $data['item']->getSlug()),
-                        true
-                    )
-                )
-            );
-        }
+        return $this->delete($id, $auth);
     }
 }
