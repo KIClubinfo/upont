@@ -58,14 +58,12 @@ class FormHelper
 
     /**
      * Génère la réponse relative au traitement d'un formulaire
-     * @param  array $data Le formulaire traité
+     * @param  array  $data   Le formulaire traité
+     * @param  object $parent Éventuellement l'objet parent
      * @return Response
      */
-    public function formView($data)
+    public function formView($data, $parent = null)
     {
-        // Devine le nom de la classe à partir de l'entité
-        $names = explode('\\', get_class($data['item']));
-        $className = $names[count($names)-1];
 
         switch ($data['code']) {
         case 400:
@@ -75,13 +73,38 @@ class FormHelper
             return RestView::create(null, 204);
         default:
             $this->manager->flush();
+
+            // Génère la route
+            $className = $this->namespaceToClassname($data['item']);
+            if ($parent === null) {
+                $route = 'get_'.$className;
+                $params = array(
+                    'slug' => $data['item']->getSlug()
+                );
+            } else {
+                $parentClass = $this->namespaceToClassname($parent);
+                $route = 'get_'.$parentClass.'_'.$className;
+                $params = array(
+                    'slug' => $parent->getSlug(),
+                    'id'   => $data['item']->getSlug()
+                );
+            }
+
             return RestView::create($data['item'], 201, array(
-                'Location' => $this->router->generate(
-                    'get_'.strtolower($className),
-                    array('slug' => $data['item']->getSlug()),
-                    true
-                )
+                'Location' => $this->router->generate($route, $params, true)
             ));
         }
+    }
+
+    /**
+     * Récupère le nom de classe d'un objet et le met au format d'une route
+     * @param  object $object L'objet en question
+     * @return string         Le nom de la classe en minuscules
+     */
+    private function namespaceToClassname($object)
+    {
+        $names = explode('\\', get_class($object));
+        $className = $names[count($names)-1];
+        return strtolower($className);
     }
 }

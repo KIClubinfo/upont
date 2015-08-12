@@ -99,7 +99,8 @@ class ExercicesController extends \KI\CoreBundle\Controller\SubresourceControlle
      * )
      * @Route\Post("/courses/{slug}/exercices")
      */
-        public function postCourseExerciceAction($slug) {
+    public function postCourseExerciceAction($slug)
+    {
         $request = $this->getRequest();
         $course = $this->findBySlug($slug);
 
@@ -141,7 +142,7 @@ class ExercicesController extends \KI\CoreBundle\Controller\SubresourceControlle
         }
         $this->switchClass();
 
-        return $this->postView($return, $slug, 'get_course_exercice');
+        return $this->postView($return, $course);
     }
 
     /**
