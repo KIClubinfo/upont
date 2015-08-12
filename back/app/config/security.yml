@@ -44,6 +44,11 @@ security:
             pattern: ^/users/.+/calendar
             security: false
 
+        order:
+            methods: [POST]
+            pattern: ^/dvp/basket/.+/order
+            security: false
+
         # Firewall principal
         api:
             pattern:   ^/.+

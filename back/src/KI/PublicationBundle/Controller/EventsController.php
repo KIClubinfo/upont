@@ -236,7 +236,6 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function patchEventUserAction($slug)
     {
-
         $request = $this->getRequest()->request;
 
         if (!$request->has('motivation'))
@@ -318,8 +317,8 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
      * )
      * @Route\Get("/events/{slug}/shotgun")
      */
-    public function getEventUserAction($slug) {
-
+    public function getEventUserAction($slug)
+    {
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
         $event = $this->findBySlug($slug);
         $user = $this->get('security.context')->getToken()->getUser();
@@ -400,7 +399,8 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
      * )
      * @Route\Post("/events/{slug}/attend")
      */
-    public function attendAction($slug) {
+    public function attendAction($slug)
+    {
         $user = $this->get('security.context')->getToken()->getUser();
         $event = $this->findBySlug($slug);
 
@@ -436,7 +436,8 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
      * )
      * @Route\Delete("/events/{slug}/attend")
      */
-    public function noAttendAction($slug) {
+    public function noAttendAction($slug)
+    {
         $user = $this->get('security.context')->getToken()->getUser();
         $event = $this->findBySlug($slug);
 
@@ -464,7 +465,8 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
      * )
      * @Route\Post("/events/{slug}/decline")
      */
-    public function addPookieAction($slug) {
+    public function addPookieAction($slug)
+    {
         $user = $this->get('security.context')->getToken()->getUser();
         $event = $this->findBySlug($slug);
 
@@ -496,7 +498,8 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
      * )
      * @Route\Delete("/events/{slug}/decline")
      */
-    public function removePookieAction($slug) {
+    public function removePookieAction($slug)
+    {
         $user = $this->get('security.context')->getToken()->getUser();
         $event = $this->findBySlug($slug);
 

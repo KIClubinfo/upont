@@ -1,0 +1,3 @@
+baskets:
+    type:     rest
+    resource: KI\DvpBundle\Controller\BasketsController
