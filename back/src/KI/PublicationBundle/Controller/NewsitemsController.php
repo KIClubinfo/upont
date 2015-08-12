@@ -69,7 +69,7 @@ class NewsitemsController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function postNewsitemAction()
     {
-        $return = $this->partialPost($this->isClubMember());
+        $return = $this->postData($this->isClubMember());
 
         if ($return['code'] == 201) {
             // On modifie légèrement la ressource qui vient d'être créée

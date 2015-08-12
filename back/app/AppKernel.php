@@ -49,4 +49,36 @@ class AppKernel extends Kernel
     {
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
     }
+
+    /**
+     * Modification de la fonction d'initialisation pour qu'en environnement de test,
+     * le chargement des ressources du kernel ne soit en mode debug que lors du
+     * premier test. Divise le temps des tests par deux environ...
+     * NOTE: ne marche pas avec --process-isolation
+     */
+    protected function SinitializeContainer()
+    {
+        static $first = true;
+
+        if ($this->getEnvironment() !== 'test') {
+            parent::initializeContainer();
+            return;
+        }
+
+        $debug = $this->debug;
+
+        if (!$first) {
+            $this->debug = false;
+        }
+        $first = false;
+
+        try {
+            parent::initializeContainer();
+        } catch (\Exception $e) {
+            $this->debug = $debug;
+            throw $e;
+        }
+
+        $this->debug = $debug;
+    }
 }

@@ -104,7 +104,7 @@ class ExercicesController extends \KI\CoreBundle\Controller\SubresourceControlle
         $course = $this->findBySlug($slug);
 
         $this->switchClass('Exercice');
-        $return = $this->partialPost($this->get('security.context')->isGranted('ROLE_USER'));
+        $return = $this->postData($this->get('security.context')->isGranted('ROLE_USER'));
 
         if ($return['code'] != 400) {
             // On règle tout comme on veut
@@ -141,7 +141,7 @@ class ExercicesController extends \KI\CoreBundle\Controller\SubresourceControlle
         }
         $this->switchClass();
 
-        return $this->subPostView($return, $slug, 'get_course_exercice');
+        return $this->postView($return, $slug, 'get_course_exercice');
     }
 
     /**
