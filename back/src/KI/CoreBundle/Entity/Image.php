@@ -171,6 +171,11 @@ class Image
         $thumbnailsDirectory = dirname(str_replace('images', 'thumbnails', $originalPath)).'/';
         $thumbnailPath = $thumbnailsDirectory.substr($originalPath, strlen(dirname($originalPath)) + 1);
 
+        // Création du dossier thumbnails au besoin
+        if(!is_dir($thumbnailsDirectory)) {
+            mkdir($thumbnailsDirectory);
+        }
+
         if (preg_match('/jpg|jpeg/', $extension)) {
             imagejpeg($thumbnail, $thumbnailPath);
         } else {
