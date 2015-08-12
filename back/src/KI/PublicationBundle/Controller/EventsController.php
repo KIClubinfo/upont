@@ -224,10 +224,7 @@ class EventsController extends ResourceController
      */
     public function patchEventUserAction($slug)
     {
-        $event = $this->findBySlug($slug);
-
-        if ($event->getEntryMethod() != Event::TYPE_SHOTGUN)
-            throw new BadRequestHttpException('Ce n\'est pas un événement à shotgun !');
+        $request = $this->getRequest()->request;
 
         $request = $this->getRequest()->request;
         if (!$request->has('motivation'))
@@ -307,9 +304,8 @@ class EventsController extends ResourceController
      * )
      * @Route\Get("/events/{slug}/shotgun")
      */
-    public function getEventUserAction($slug) {
-        $event = $this->findBySlug($slug);
-
+    public function getEventUserAction($slug)
+    {
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
         $user = $this->get('security.context')->getToken()->getUser();
         $userEvent = $repo->findBy(array('event' => $event), array('date' => 'ASC'));
@@ -386,7 +382,8 @@ class EventsController extends ResourceController
      * )
      * @Route\Post("/events/{slug}/attend")
      */
-    public function attendAction($slug) {
+    public function attendAction($slug)
+    {
         $user = $this->get('security.context')->getToken()->getUser();
         $event = $this->findBySlug($slug);
 
@@ -422,7 +419,8 @@ class EventsController extends ResourceController
      * )
      * @Route\Delete("/events/{slug}/attend")
      */
-    public function noAttendAction($slug) {
+    public function noAttendAction($slug)
+    {
         $user = $this->get('security.context')->getToken()->getUser();
         $event = $this->findBySlug($slug);
 
@@ -450,7 +448,8 @@ class EventsController extends ResourceController
      * )
      * @Route\Post("/events/{slug}/decline")
      */
-    public function addPookieAction($slug) {
+    public function addPookieAction($slug)
+    {
         $user = $this->get('security.context')->getToken()->getUser();
         $event = $this->findBySlug($slug);
 
@@ -482,7 +481,8 @@ class EventsController extends ResourceController
      * )
      * @Route\Delete("/events/{slug}/decline")
      */
-    public function removePookieAction($slug) {
+    public function removePookieAction($slug)
+    {
         $user = $this->get('security.context')->getToken()->getUser();
         $event = $this->findBySlug($slug);
 
