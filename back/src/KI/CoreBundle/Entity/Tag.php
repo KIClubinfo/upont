@@ -30,13 +30,6 @@ class Tag
      */
     protected $name;
 
-
-
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
-
     /**
      * Get id
      *

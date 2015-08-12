@@ -3,6 +3,8 @@
 namespace KI\CoreBundle\DQL;
 use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
+use Doctrine\ORM\Query\Parser;
+use Doctrine\ORM\Query\SqlWalker;
 
 /**
  * @example by https://gist.github.com/1234419 Jérémy Hubert
@@ -13,7 +15,7 @@ class MatchAgainst extends FunctionNode {
     public $needle;
     public $mode;
 
-    public function parse(\Doctrine\ORM\Query\Parser $parser)
+    public function parse(Parser $parser)
     {
         $parser->match(Lexer::T_IDENTIFIER);
         $parser->match(Lexer::T_OPEN_PARENTHESIS);
@@ -32,7 +34,7 @@ class MatchAgainst extends FunctionNode {
         $parser->match(Lexer::T_CLOSE_PARENTHESIS);
     }
 
-    public function getSql(\Doctrine\ORM\Query\SqlWalker $sqlWalker)
+    public function getSql(SqlWalker $sqlWalker)
     {
         $haystack = null;
         $first = true;

@@ -20,31 +20,31 @@ class ImageServiceTest extends WebTestCase
 
     public function testUploadBase64()
     {
-            $imgResult = array();
-            $imgResult = $this->service->uploadBase64($this->base64);
-            $this->assertTrue($imgResult['image'] !== null);
+        $imgResult = array();
+        $imgResult = $this->service->uploadFromBase64($this->base64);
+        $this->assertTrue($imgResult['image'] !== null);
     }
 
     public function testExtUploadBase64()
     {
-            $result = $this->service->uploadBase64($this->base64);
-            $this->assertEquals($result['extension'], 'png');
+        $result = $this->service->uploadFromBase64($this->base64);
+        $this->assertEquals($result['extension'], 'png');
     }
 
     public function testUploadUrl()
     {
         $url = 'http://www.youtube.com/yt/brand/media/image/YouTube-logo-full_color.png';
-        $result = $this->service->uploadUrl($url);
+        $result = $this->service->uploadFromUrl($url);
         $this->assertTrue($result['image'] !== null);
         $this->assertEquals($result['extension'], 'png');
 
         $url = 'http://ia.media-imdb.com/images/M/MV5BMTg2OTIwNTQ2OF5BMl5BanBnXkFtZTcwNTA4NDAwMQ@@._V1_SX300.jpg';
-        $result = $this->service->uploadUrl($url);
+        $result = $this->service->uploadFromUrl($url);
         $this->assertTrue($result['image'] !== null);
         $this->assertEquals($result['extension'], 'jpeg');
 
         $url = 'http://akamai-b.cdn.cddbp.net/cds/2.0/cover/FCBA/FCB8/A360/ACE4_medium_front.jpg';
-        $result = $this->service->uploadUrl($url);
+        $result = $this->service->uploadFromUrl($url);
         $this->assertTrue($result['image'] !== null);
         $this->assertEquals($result['extension'], 'jpeg');
     }
@@ -53,7 +53,7 @@ class ImageServiceTest extends WebTestCase
     {
         $this->setExpectedException('Exception');
         $url = 'httzpqq//wsqdqww.youtube.com/yt/brand/media/image/YouTube-logo-full_color.png';
-        $result = $this->service->uploadUrl($url);
+        $result = $this->service->uploadFromUrl($url);
         $this->assertEquals($result, null);
     }
 

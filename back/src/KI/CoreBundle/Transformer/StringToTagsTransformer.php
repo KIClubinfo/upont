@@ -2,50 +2,43 @@
 namespace KI\CoreBundle\Transformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use KI\CoreBundle\Entity\Tag;
 
 class StringToTagsTransformer implements DataTransformerInterface
 {
-    /**
-     * @var ObjectManager
-     */
-    private $om;
+    protected $manager;
+    protected $repository;
 
-    public function __construct(ObjectManager $om)
+    public function __construct(EntityManager $manager, EntityRepository $repository)
     {
-        $this->om = $om;
-    }
-
-    // En théorie, ne sera jamais utilisé
-    public function transform($tags)
-    {
-        if (null === $tags)
-            return '';
-
-        return '';
+        $this->manager    = $manager;
+        $this->repository = $repository;
     }
 
     public function reverseTransform($string)
     {
-        if (!$string)
+        if (!$string) {
             return null;
+        }
 
-        $array = new \Doctrine\Common\Collections\ArrayCollection();
-        $repo = $this->om->getRepository('KICoreBundle:Tag');
+        $array = new ArrayCollection();
+
         foreach (explode(',', $string) as $tag) {
-            $item = $repo->findOneByName($tag);
+            $item = $this->repository->findOneByName($tag);
 
             if ($item instanceof Tag) {
                 $array->add($item);
             } else {
                 $tagItem = new Tag();
                 $tagItem->setName($tag);
-                $this->om->persist($tagItem);
+                $this->manager->persist($tagItem);
                 $array->add($tagItem);
             }
         }
-        $this->om->flush();
+        $this->manager->flush();
 
         return $array;
     }
