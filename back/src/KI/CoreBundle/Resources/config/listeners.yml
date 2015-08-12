@@ -1,15 +1,14 @@
 services:
-    ki_core.listener.maintenance:
-        class: KI\CoreBundle\Listener\MaintenanceListener
-        arguments:
-            - %ki_core.maintenance_lock%
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
-
-    # Sette les propriétés like, dislike sur les entités Likeable
     ki_user.listener.likeable:
         class: KI\CoreBundle\Listener\LikeableListener
         arguments:
             - @security.token_storage
         tags:
             - { name: doctrine.event_listener, event: postLoad }
+
+    ki_core.listener.maintenance:
+        class: KI\CoreBundle\Listener\MaintenanceListener
+        arguments:
+            - %ki_core.maintenance_lockfile_path%
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }

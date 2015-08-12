@@ -18,6 +18,9 @@ class StringToTagsTransformer implements DataTransformerInterface
         $this->repository = $repository;
     }
 
+    // En théorie n'est jamais utilisé
+    public function transform($image) { return; }
+
     public function reverseTransform($string)
     {
         if (!$string) {

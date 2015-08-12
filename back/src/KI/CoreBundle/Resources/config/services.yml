@@ -1,12 +1,10 @@
 parameters:
-    # Images
     ki_core.images.directory: %kernel.root_dir%/web/uploads/images/
     ki_core.images.maxSize: 512000 # Taille maximum des images uploadées en octets
-    ki_core.maintenance_lock: %kernel.root_dir%/cache/maintenance.lock
+    ki_core.maintenance_lockfile_path: %kernel.root_dir%/cache/maintenance.lock
     ki_core.base_url: https://upont.enpc.fr/api/
 
 services:
-    # Interface cURL
     ki_core.service.curl:
         class: KI\CoreBundle\Service\CurlService
         arguments:
@@ -18,3 +16,17 @@ services:
         arguments:
             - @ki_core.service.curl
             - %ki_core.images.maxSize%
+
+    ki_core.service.maintenance:
+        class: KI\CoreBundle\Service\MaintenanceService
+        arguments:
+            - %ki_core.maintenance_lockfile_path%
+
+    ki_core.service.search:
+        class: KI\CoreBundle\Service\SearchService
+        arguments:
+            - @doctrine.orm.entity_manager
+            - @ki_user.repository.user
+
+    ki_core.service.version:
+        class: KI\CoreBundle\Service\VersionService

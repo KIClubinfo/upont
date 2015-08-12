@@ -19,3 +19,10 @@ services:
         factory_method: getRepository
         arguments:
             - KI\UserBundle\Entity\ClubUser
+
+    ki_user.repository.notification:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - KI\UserBundle\Entity\Notification

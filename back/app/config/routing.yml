@@ -25,3 +25,7 @@ ki_publication:
 ki_user:
     resource: "@KIUserBundle/Resources/config/routing.yml"
     prefix:   /
+
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /doc
