@@ -61,7 +61,7 @@ class YoutubesController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function postYoutubeAction()
     {
-        $return = $this->partialPost($this->get('security.context')->isGranted('ROLE_USER'));
+        $return = $this->postData($this->get('security.context')->isGranted('ROLE_USER'));
 
         if ($return['code'] == 201) {
             // On modifie légèrement la ressource qui vient d'être créée

@@ -192,7 +192,7 @@ class FacegamesController extends \KI\CoreBundle\Controller\ResourceController
      * )
      */
     public function postFacegameAction() {
-        $return = $this->partialPost($this->get('security.context')->isGranted('ROLE_USER'));
+        $return = $this->postData($this->get('security.context')->isGranted('ROLE_USER'));
         if ($return['code'] == 400)
             return RestView::create($return['form'], 400);
 

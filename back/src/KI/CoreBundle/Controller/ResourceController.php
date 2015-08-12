@@ -19,8 +19,7 @@ class ResourceController extends LikeableController
         $this->trust(!$this->is('EXTERIEUR') || $auth);
 
         $paginateHelper = $this->get('ki_core.helper.paginate');
-        $queryBuilder = $this->repository->createQueryBuilder('o');
-        extract($paginateHelper->paginateData($queryBuilder));
+        extract($paginateHelper->paginateData($this->repository));
 
         $results = $this->repository->findBy($findBy, $sortBy, $limit, $offset);
         return $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
@@ -53,13 +52,14 @@ class ResourceController extends LikeableController
 
     /**
      * Permet d'afficher un formulaire une fois celui-ci validé
-     * @param  array $data Le formulaire validé
+     * @param  array  $data   Le formulaire validé
+     * @param  object $parent L'objet parent si appliquable
      * @return Response
      */
-    protected function postView($data)
+    protected function postView($data, $parent = null)
     {
         $formHelper = $this->get('ki_core.helper.form');
-        return $formHelper->formView($data);
+        return $formHelper->formView($data, $parent);
     }
 
     /**

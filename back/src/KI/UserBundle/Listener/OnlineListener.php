@@ -23,8 +23,9 @@ class OnlineListener
         if (!method_exists($session, 'getUser'))
             return;
 
-        $user = $session->getUser();
-        $user->setLastConnect(time());
-        $this->manager->flush();
+        if (!$this->securityContext->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
+            $user->setLastConnect(time());
+            $this->manager->flush();
+        }
     }
 }

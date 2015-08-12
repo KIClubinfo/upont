@@ -442,11 +442,12 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function getNewsItemsAction()
     {
-        $repo = $this->manager->getRepository('KIPublicationBundle:Newsitem');
+        $repository = $this->manager->getRepository('KIPublicationBundle:Newsitem');
 
-        list($findBy, $sortBy, $limit, $offset, $page, $totalPages, $count) = $this->paginate($repo);
+        $paginateHelper = $this->get('ki_core.helper.paginate');
+        extract($paginateHelper->paginateData($repository));
         $findBy['authorClub'] = $this->getFollowedClubs();
-        $results = $repo->findBy($findBy, $sortBy, $limit, $offset);
+        $results = $repository->findBy($findBy, $sortBy, $limit, $offset);
 
         // Tri des données
         $dates = array();
@@ -455,7 +456,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
             $dates[$key] = $newsitem->getDate();
         }
         array_multisort($dates, SORT_DESC, $results);
-        return $this->generatePages($results, $limit, $page, $totalPages, $count);
+        return $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
     }
 
     /**
@@ -661,12 +662,14 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         if (!$this->get('security.context')->isGranted('ROLE_USER'))
             throw new AccessDeniedException('Accès refusé');
 
-        $repo = $this->manager->getRepository('KIClubinfoBundle:Fix');
-        list($findBy, $sortBy, $limit, $offset, $page, $totalPages, $count) = $this->paginate($repo);
-        $findBy['user'] = $user;
-        $results = $repo->findBy($findBy, $sortBy, $limit, $offset);
+        $repository = $this->manager->getRepository('KIClubinfoBundle:Fix');
+        $paginateHelper = $this->get('ki_core.helper.paginate');
+        extract($paginateHelper->paginateData($repository));
 
-        return $this->generatePages($results, $limit, $page, $totalPages, $count);
+        $findBy['user'] = $user;
+        $results = $repository->findBy($findBy, $sortBy, $limit, $offset);
+
+        return $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
     }
 
     /**

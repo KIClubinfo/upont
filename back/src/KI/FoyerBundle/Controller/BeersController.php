@@ -98,7 +98,7 @@ class BeersController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function postBeerAction()
     {
-        $return = $this->partialPost($this->isClubMember('foyer'));
+        $return = $this->postData($this->isClubMember('foyer'));
         return $this->postView($return);
     }
 
