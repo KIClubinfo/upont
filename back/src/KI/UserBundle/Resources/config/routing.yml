@@ -26,6 +26,10 @@ admissibles:
     type:     rest
     resource: KI\UserBundle\Controller\AdmissiblesController
 
+default:
+    type:     rest
+    resource: KI\UserBundle\Controller\DefaultController
+
 facegames:
     type:     rest
     resource: KI\UserBundle\Controller\FacegamesController

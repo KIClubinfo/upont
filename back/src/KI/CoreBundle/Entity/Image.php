@@ -53,7 +53,8 @@ class Image
 
     public function getAbsolutePath()
     {
-        return $this->uploadsDirectory.'images/'.$this->id.'.'.$this->ext;
+        // We need to set complete path because this function is called without the constructor by PreRemove
+        return __DIR__.'/../../../../web/uploads/images/'.$this->id.'.'.$this->ext;
     }
 
     public function getWebPath()

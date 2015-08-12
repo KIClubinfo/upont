@@ -44,8 +44,8 @@ class PaginateHelper
             $sortBy = array();
 
             foreach (explode(',', $sort) as $value) {
-                $order = preg_match('#^\-.*#isU', $value) ? 'DESC' : 'ASC';
-                $field = preg_replace('#^\-#isU', '', $value);
+                $order = preg_match('/^\-.*/isU', $value) ? 'DESC' : 'ASC';
+                $field = preg_replace('/^\-/isU', '', $value);
                 $sortBy[$field] = $order;
             }
         }
@@ -94,8 +94,8 @@ class PaginateHelper
         $baseUrl = '<'.str_replace($this->request->getBaseUrl(), '', $this->request->getRequestUri());
 
         // On enlève tous les paramètres GET de type "page" et "limit" précédents s'il y en avait
-        $baseUrl = preg_replace('#[\?&](page|limit)=\d+#', '', $baseUrl);
-        $baseUrl .= !preg_match('#\?#', $baseUrl) ? '?' : '&';
+        $baseUrl = preg_replace('/[\?&](page|limit)=\d+/', '', $baseUrl);
+        $baseUrl .= !preg_match('/\?/', $baseUrl) ? '?' : '&';
 
         // On va générer les notres pour les links
         $baseUrl .= 'page=';

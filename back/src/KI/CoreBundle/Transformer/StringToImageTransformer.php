@@ -15,6 +15,9 @@ class StringToImageTransformer implements DataTransformerInterface
         $this->imageService = $imageService;
     }
 
+    // En théorie n'est jamais utilisé
+    public function transform($image) { return; }
+
     public function reverseTransform($base64orUrl)
     {
         if (!$base64orUrl) {
