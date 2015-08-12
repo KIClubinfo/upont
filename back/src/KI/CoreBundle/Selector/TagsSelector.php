@@ -3,28 +3,20 @@ namespace KI\CoreBundle\Selector;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use KI\CoreBundle\Transformer\StringToTagsTransformer;
 
 class TagsSelector extends AbstractType
 {
-    /**
-     * @var ObjectManager
-     */
-    private $om;
+    protected $transformer;
 
-    /**
-     * @param ObjectManager $om
-     */
-    public function __construct(ObjectManager $om)
+    public function __construct(StringToTagsTransformer $transformer)
     {
-        $this->om = $om;
+        $this->transformer = $transformer;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $transformer = new StringToTagsTransformer($this->om);
-        $builder->addModelTransformer($transformer);
+        $builder->addModelTransformer($this->transformer);
     }
 
     public function getParent()

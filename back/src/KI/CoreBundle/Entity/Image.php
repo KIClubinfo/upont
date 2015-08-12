@@ -37,25 +37,23 @@ class Image
      */
     protected $file;
 
-    public function getAbsolutePathReduced()
+    /**
+     * @var Uploads Directory
+     */
+    protected $uploadsDirectory;
+
+    public function __construct() {
+        $this->uploadsDirectory = __DIR__.'/../../../../web/uploads/';
+    }
+
+    public function getUploadsDirectory()
     {
-        return __DIR__.'/../../../../web/uploads/images/'.$this->id;
+        return $this->uploadsDirectory;
     }
 
     public function getAbsolutePath()
     {
-        return __DIR__.'/../../../../web/uploads/images/'.$this->id.'.'.$this->ext;
-    }
-
-    public function getUploadRootDir()
-    {
-        return __DIR__.'/../../../../web/uploads/images/';
-    }
-
-
-    public function getTemporaryDir()
-    {
-        return __DIR__.'/../../../../web/uploads/tmp/';
+        return $this->uploadsDirectory.'images/'.$this->id.'.'.$this->ext;
     }
 
     public function getWebPath()
@@ -66,35 +64,36 @@ class Image
     /**
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
+     * @see KI\CoreBundle\Service\ImageService
      */
-    public function preUpload()
+    public function checkFileuploadIsPresent()
     {
-        if ($this->file === null)
+        if ($this->file === null) {
             throw new \Exception('Il n\'y a aucun fichier');
+        }
     }
 
     /**
      * @ORM\PostPersist()
      * @ORM\PostUpdate()
+     * @see KI\CoreBundle\Service\ImageService
      */
-    public function upload()
+    public function saveNewImage()
     {
-        if ($this->file === null)
+        if ($this->file === null) {
             return;
+        }
 
-        // Exception lancée si le fichier ne peut pas être bougé et donc
-        // arrête le Persist
         if (file_exists($this->file->getRealPath())) {
-            $this->file->move($this->getUploadRootDir(), $this->id.'.'.$this->ext);
+            $this->file->move($this->uploadsDirectory.'images/', $this->id.'.'.$this->ext);
             unset($this->file);
             $this->createThumbnail($this->getAbsolutePath());
         }
     }
 
-
-
-
-    // Temporary name that is used to remove the file
+    /**
+     * @var Variable utilisée pour stocker le fichier image de manière provisioire
+     */
     protected $filenameForRemove;
 
     /**
@@ -105,15 +104,15 @@ class Image
         $this->filenameForRemove = $this->getAbsolutePath();
     }
 
-
     /**
      * Méthode en postRemove pour être sûr que ça soit être soit supprimé après le flush
      * @ORM\PostRemove()
      */
     public function removeUpload()
     {
-        if ($file = $this->filenameForRemove)
+        if ($file = $this->filenameForRemove) {
             unlink($file);
+        }
     }
 
     // Setter/Getter non généré automatiquement
@@ -128,23 +127,27 @@ class Image
         return $this;
     }
 
-    // Crée une miniature pour l'image de chemin $path
-    // Dans un dossier thumbnails
-    static public function createThumbnail($path)
+    /**
+     *  Crée une miniature pour l'image dans un dossier thumbnails
+     *  @param string $path             Le chemin de l'image non réduite
+     *  @throws BadRequestHttpException Si l'extension n'est pas prise en charge
+     */
+    static public function createThumbnail($originalPath)
     {
-        $extension = pathinfo(strtolower($path), PATHINFO_EXTENSION);
+        $extension = pathinfo(strtolower($originalPath), PATHINFO_EXTENSION);
 
-        if (preg_match('/jpg|jpeg/', $extension))
-            $image = imagecreatefromjpeg($path);
-        else if (preg_match('/png/', $extension))
-            $image = imagecreatefrompng($path);
-        else
+        if (preg_match('/jpg|jpeg/', $extension)) {
+            $image = imagecreatefromjpeg($originalPath);
+        } else if (preg_match('/png/', $extension)) {
+            $image = imagecreatefrompng($originalPath);
+        } else {
             throw new BadRequestHttpException('Extension non reconnue !');
+        }
 
         // Redimensionnement de l'image
         $maxWidth = 200;
         $mawHeight = 200;
-        list($imageWidth, $imageHeight) = getimagesize($path);
+        list($imageWidth, $imageHeight) = getimagesize($originalPath);
 
         $thumbWidth = $imageWidth;
         $thumbHeight = $imageHeight;
@@ -164,32 +167,19 @@ class Image
         imagecopyresampled($thumbnail, $image, 0, 0, 0, 0, $thumbWidth, $thumbHeight, $imageWidth, $imageHeight);
 
         // Enregistrement de la miniature
-        $thumbPath = dirname(str_replace('images', 'thumbnails', $path)).'/';
-        // Création du dossier thumbnails au besoin
-        if (!is_dir($thumbPath)) mkdir($thumbPath);
+        $thumbnailsDirectory = dirname(str_replace('images', 'thumbnails', $originalPath)).'/';
+        $thumbnailPath = $thumbnailsDirectory.substr($originalPath, strlen(dirname($originalPath)) + 1);
 
-        if (preg_match('/jpg|jpeg/', $extension))
-            imagejpeg($thumbnail, $thumbPath.substr($path, strlen(dirname($path)) + 1));
-        else
-            imagepng($thumbnail, $thumbPath.substr($path, strlen(dirname($path)) + 1));
+        if (preg_match('/jpg|jpeg/', $extension)) {
+            imagejpeg($thumbnail, $thumbnailPath);
+        } else {
+            imagepng($thumbnail, $thumbnailPath);
+        }
 
         imagedestroy($image);
         imagedestroy($thumbnail);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
     /**
      * Get id
      *
