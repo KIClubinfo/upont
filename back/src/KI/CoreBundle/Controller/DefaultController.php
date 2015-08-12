@@ -25,6 +25,7 @@ class DefaultController extends \KI\CoreBundle\Controller\BaseController
      *  },
      *  section="Général"
      * )
+     * @Route\Get("/clean")
      */
     public function cleanAction()
     {
@@ -52,6 +53,7 @@ class DefaultController extends \KI\CoreBundle\Controller\BaseController
      *  },
      *  section="Général"
      * )
+     * @Route\Get("/coffee")
      */
     public function coffeeAction()
     {
@@ -71,6 +73,7 @@ class DefaultController extends \KI\CoreBundle\Controller\BaseController
      *  },
      *  section="Général"
      * )
+     * @Route\Head("/courses")
      */
     public function parseCoursesAction()
     {
@@ -175,6 +178,7 @@ class DefaultController extends \KI\CoreBundle\Controller\BaseController
      *  },
      *  section="Général"
      * )
+     * @Route\Get("/dirty")
      */
     public function dirtyAction()
     {
@@ -182,6 +186,7 @@ class DefaultController extends \KI\CoreBundle\Controller\BaseController
     }
 
     /**
+     * Ceci sert juste à documenter cette route, le reste est géré par le LexikJWTAuthenticationBundle
      * @ApiDoc(
      *  description="Se loger et recevoir un JSON Web Token",
      *  requirements={
@@ -204,9 +209,8 @@ class DefaultController extends \KI\CoreBundle\Controller\BaseController
      *  },
      *  section="Général"
      * )
+     * @Route\Post("/login")
      */
-    // Cette action sert juste à documenter cette route,
-    // tout le reste est géré par le LexikJWTAuthenticationBundle
     public function loginAction() { return $this->restResponse(null); }
 
     /**
@@ -227,6 +231,7 @@ class DefaultController extends \KI\CoreBundle\Controller\BaseController
      *  },
      *  section="Général"
      * )
+     * @Route\Post("/maintenance")
      */
     public function maintenanceLockAction(Request $request)
     {
@@ -249,6 +254,7 @@ class DefaultController extends \KI\CoreBundle\Controller\BaseController
      *  },
      *  section="Général"
      * )
+     * @Route\Delete("/maintenance")
      */
     public function maintenanceUnlockAction(Request $request)
     {
@@ -274,6 +280,8 @@ class DefaultController extends \KI\CoreBundle\Controller\BaseController
      *  },
      *  section="Général"
      * )
+     * @Route\Head("/ping")
+     * @Route\Get("/ping")
      */
     public function pingAction() { return $this->jsonResponse(null, 204); }
 
@@ -329,6 +337,7 @@ class DefaultController extends \KI\CoreBundle\Controller\BaseController
      *  },
      *  section="Général"
      * )
+     * @Route\Post("/resetting/request")
      */
     public function resettingAction(Request $request)
     {
@@ -383,6 +392,7 @@ class DefaultController extends \KI\CoreBundle\Controller\BaseController
      *  },
      *  section="Général"
      * )
+     * @Route\Post("/resetting/token/{token}")
      */
     public function resettingTokenAction($token)
     {
@@ -425,6 +435,7 @@ class DefaultController extends \KI\CoreBundle\Controller\BaseController
      *  },
      *  section="Général"
      * )
+     * @Route\Get("/version")
      */
     public function versionAction()
     {

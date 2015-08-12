@@ -11,24 +11,27 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class SubresourceController extends ResourceController
 {
     /**
-     * Renvoie une sous ressource
-     * Si $manyToMany = true, renvoie le paramètre $name de l'entité relié par une relation Many To Many
-     * Sinon, renvoie les éléments d'une relation avec attribut en se basant sur la classe conjointe $name
+     * Renvoie toutes les sous ressources associées à un objet
+     * @param  string  $slug   Le slug de l'entité parente
+     * @param  string  $name   Le nom de la classe fille
+     * @param  boolean $simple Si vrai, considère une relation ManyToMany normale,
+     *                         Sinon considère qu'il y a des attributs et donc
+     *                         qu'il y a une entité intermédiaire
+     * @param  boolean $auth   Un override éventuel pour le check des permissions
      * @Route\View()
      */
-    protected function getAllSub($slug, $name, $manyToMany = true, $auth = false)
+    protected function getAllSub($slug, $name, $simple = true, $auth = false)
     {
-        if (isset($this->user) && $this->get('security.context')->isGranted('ROLE_EXTERIEUR') && !$auth)
-            throw new AccessDeniedException();
-
+        $this->trust(!$this->is('EXTERIEUR') || $auth);
         $item = $this->findBySlug($slug);
 
-        if ($manyToMany) {
+        if ($simple) {
             $method = 'get'.ucfirst($name).'s';
             return $item->$method();
         } else {
-            $repo = $this->manager->getRepository('KI'.$this->bundle.'Bundle:'.$this->className.$name);
-            return $repo->findBy(array(strtolower($this->className) => $item));
+            // Récupère le repository de l'entité intermédiaire
+            $repository = $this->manager->getRepository('KI'.$this->bundle.'Bundle:'.$this->className.$name);
+            return $repository->findBy(array(strtolower($this->className) => $item));
         }
     }
 

@@ -25,7 +25,7 @@ class DefaultControllerTest extends WebTestCase
 
         // On vérifie que le token de la requête marche bien
         $client = static::createClient();
-        $client->request('HEAD', $this->getUrl('upont_api_ping', array($this->queryParameterName => $response['token'])));
+        $client->request('HEAD', $this->getUrl('ping', array($this->queryParameterName => $response['token'])));
         $this->assertJsonResponse($client->getResponse(), 204);
 
         // On vérifie que le token reçu marche bien

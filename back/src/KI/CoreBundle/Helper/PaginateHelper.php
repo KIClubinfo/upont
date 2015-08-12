@@ -3,9 +3,9 @@
 namespace KI\CoreBundle\Helper;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use FOS\RestBundle\View\View as RestView;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Doctrine\ORM\QueryBuilder;
 
 class PaginateHelper
 {
@@ -28,8 +28,9 @@ class PaginateHelper
      * @return array                     Les données de pagination (nombre de pages, etc.)
      */
     //FIXME querybuilder
-    public function paginateData(QueryBuilder $queryBuilder)
+    public function paginateData(EntityRepository $repository)
     {
+        $queryBuilder = $repository->createQueryBuilder('o');
         $request = $this->request->query;
 
         // On récupère les paramètres de la requête

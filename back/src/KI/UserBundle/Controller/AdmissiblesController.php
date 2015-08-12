@@ -73,7 +73,7 @@ class AdmissiblesController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function postAdmissibleAction()
     {
-        $return = $this->partialPost(true);
+        $return = $this->postData(true);
 
         if ($return['code'] == 201) {
             // On modifie légèrement la ressource qui vient d'être créée

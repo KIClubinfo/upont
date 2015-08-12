@@ -13,7 +13,13 @@ class CurlService
         $this->proxyUser = $proxyUser;
     }
 
-    // Téléchargement d'une ressource externe
+    /**
+     * Téléchargement d'une ressource externe
+     * @param  string $url     Le lien vers la ressource
+     * @param  array  $payload Le contenu POST éventuel (méthode POST si non nul)
+     * @param  array  $options Options curl supplémentaire
+     * @return string          La réponse
+     */
     public function curl($url, $payload = null, array $options = array())
     {
         // Réglage des options cURL

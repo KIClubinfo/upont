@@ -308,12 +308,14 @@ class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
      */
     public function getNewsitemsClubAction($slug)
     {
-        $repo = $this->manager->getRepository('KIPublicationBundle:Newsitem');
+        $repository = $this->manager->getRepository('KIPublicationBundle:Newsitem');
 
-        list($findBy, $sortBy, $limit, $offset, $page, $totalPages, $count) = $this->paginate($repo);
+        $paginateHelper = $this->get('ki_core.helper.paginate');
+        extract($paginateHelper->paginateData($repository));
+
         $findBy['authorClub'] = $this->findBySlug($slug);
-        $results = $repo->findBy($findBy, $sortBy, $limit, $offset);
-        return $this->generatePages($results, $limit, $page, $totalPages, $count);
+        $results = $repository->findBy($findBy, $sortBy, $limit, $offset);
+        return $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
     }
 
     /**
@@ -332,11 +334,13 @@ class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
      */
     public function getEventsClubAction($slug)
     {
-        $repo = $this->manager->getRepository('KIPublicationBundle:Event');
+        $repository = $this->manager->getRepository('KIPublicationBundle:Event');
 
-        list($findBy, $sortBy, $limit, $offset, $page, $totalPages, $count) = $this->paginate($repo);
+        $paginateHelper = $this->get('ki_core.helper.paginate');
+        extract($paginateHelper->paginateData($repository));
+
         $findBy['authorClub'] = $this->findBySlug($slug);
-        $results = $repo->findBy($findBy, $sortBy, $limit, $offset);
-        return $this->generatePages($results, $limit, $page, $totalPages, $count);
+        $results = $repository->findBy($findBy, $sortBy, $limit, $offset);
+        return $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
     }
 }
