@@ -16,3 +16,20 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
+    logging: true
+
+twig:
+    strict_variables: true
+
+doctrine:
+    dbal:
+        default_connection:   default
+        connections:
+            default:
+                driver:   pdo_mysql
+                host:     %database_host%
+                port:     %database_port%
+                dbname:   %database_name%
+                user:     %database_user%
+                password: %database_password%
+                charset:  UTF8

@@ -61,7 +61,7 @@ class RequestsController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function postRequestAction()
     {
-        $return = $this->partialPost($this->get('security.context')->isGranted('ROLE_USER'));
+        $return = $this->postData($this->get('security.context')->isGranted('ROLE_USER'));
 
         // On modifie légèrement la ressource qui vient d'être créée
         $return['item']->setDate(time());
