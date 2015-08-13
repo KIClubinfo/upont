@@ -24,7 +24,7 @@ class FacegamesControllerTest extends WebTestCase
         $this->assertTrue($response->headers->has('Location'), $response->headers);
     }
 
-    // obligé de faire une seule grosse fonction pour utiliser le meme id
+    // Obligé de faire une seule grosse fonction pour utiliser le meme id
     // Car celui ci change à chaque fois, le auto_incrmeent n'étant pas reset
     // Lors du chargement des fixtures
     public function testCors()
@@ -55,12 +55,19 @@ class FacegamesControllerTest extends WebTestCase
         $this->client->request('PATCH', '/facegames/0', array('username' => 'miam', 'email' => '123@mail.fr'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
+    }
 
-        $this->client->request('DELETE', '/facegames/'.$this->gameId);
+    public function testStatistics()
+    {
+        $this->client->request('GET', '/statistics/facegame');
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
 
-        $this->client->request('DELETE', '/facegames/'.$this->gameId);
+        $this->client->request('GET', '/statistics/facegame/trancara');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 200);
+
+        $this->client->request('GET', '/statistics/facegame/sjoajsiohaysahais-asbsksaba7');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }

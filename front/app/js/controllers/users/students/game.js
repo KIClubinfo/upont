@@ -1,5 +1,5 @@
 angular.module('upont')
-	.controller('Students_Game_Ctrl', ['$scope', '$rootScope', '$http', '$timeout', 'Achievements', function($scope, $rootScope, $http, $timeout, Achievements) {
+	.controller('Students_Game_Ctrl', ['$scope', '$rootScope', '$http', '$timeout', 'Achievements', 'globalStatistics', function($scope, $rootScope, $http, $timeout, Achievements, globalStatistics) {
 		$scope.playing = false;
 		$scope.end = false;
 		$scope.position = 0;
@@ -21,6 +21,11 @@ angular.module('upont')
 			nationality: 'Nationalité',
 			origin: 'Origine'
 		};
+
+		$scope.globalStatistics = globalStatistics;
+		$http.get(apiPrefix + 'statistics/facegame/' + $rootScope.me.username).success(function(data){
+			$scope.userStatistics = data;
+		});
 
 	    var timer;
 
@@ -148,6 +153,11 @@ angular.module('upont')
                 data: {
                     title: 'Jeu - uPont',
                     top: true
-                }
+                },
+                resolve: {
+                    globalStatistics: ['$resource', function($resource) {
+                        return $resource(apiPrefix + 'statistics/facegame').get().$promise;
+                    }],
+                },
             });
     }]);
