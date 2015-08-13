@@ -7,7 +7,6 @@ class VersionService
     /**
      * Calcule le numéro de version de uPont
      * @return array     $version, $major, $minor, $build, $date
-     * @throws Exception S'il est impossible de calculer la version
      */
     public function getVersion()
     {
