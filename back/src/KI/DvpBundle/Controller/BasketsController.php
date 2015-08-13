@@ -221,8 +221,8 @@ class BasketsController extends \KI\CoreBundle\Controller\ResourceController
         $user = $repository->findOneByUsername($username);
 
         // On vérifie que la commande existe
-        $repository = $this->manager->getRepository('KIDvpBundle:BasketOrder');
-        $basketOrder = $repository->findBy(array('basket' => $basket, 'user' => $user));
+        $this->switchClass('BasketOrder');
+        $basketOrder = $this->repository->findBy(array('basket' => $basket, 'user' => $user));
 
         if (count($basketOrder) != 1)
             throw new BadRequestHttpException('Commande non trouvée');
