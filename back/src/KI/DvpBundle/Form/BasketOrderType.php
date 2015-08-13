@@ -16,7 +16,8 @@ class BasketOrderType extends AbstractType
             ->add('phone')
             ->add('email')
             ->add('dateRetrieve')
-            ->add('paid');
+            ->add('paid')
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

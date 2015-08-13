@@ -94,12 +94,13 @@ class BasketOrder
      */
     protected $basket;
 
-
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
-
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->dateOrder = time();
+    }
 
     /**
      * Get id
@@ -282,11 +283,11 @@ class BasketOrder
     /**
      * Set user
      *
-     * @param \KI\UserBundle\Entity\User $user
+     * @param User $user
      *
      * @return BasketOrder
      */
-    public function setUser(\KI\UserBundle\Entity\User $user = null)
+    public function setUser(User $user = null)
     {
         $this->user = $user;
 
@@ -296,7 +297,7 @@ class BasketOrder
     /**
      * Get user
      *
-     * @return \KI\UserBundle\Entity\User
+     * @return User
      */
     public function getUser()
     {
@@ -306,11 +307,11 @@ class BasketOrder
     /**
      * Set basket
      *
-     * @param \KI\DvpBundle\Entity\Basket $basket
+     * @param Basket $basket
      *
      * @return BasketOrder
      */
-    public function setBasket(\KI\DvpBundle\Entity\Basket $basket = null)
+    public function setBasket(Basket $basket = null)
     {
         $this->basket = $basket;
 
@@ -320,7 +321,7 @@ class BasketOrder
     /**
      * Get basket
      *
-     * @return \KI\DvpBundle\Entity\Basket
+     * @return Basket
      */
     public function getBasket()
     {

@@ -15,7 +15,7 @@ class Basket extends Likeable
 {
     /**
      * Contenu
-     * @ORM\Column(name="content", type="string", nullable=false)
+     * @ORM\Column(name="content", type="text", nullable=false)
      * @JMS\Expose
      * @Assert\Type("string")
      */
@@ -23,18 +23,12 @@ class Basket extends Likeable
 
     /**
      * Prix du panier
-     * @ORM\Column(name="price", type="string", nullable=false)
+     * @ORM\Column(name="price", type="float", nullable=false)
      * @JMS\Expose
-     * @Assert\Type("string")
+     * @Assert\Type("double")
      * @Assert\NotBlank()
      */
     protected $price;
-
-
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
 
     /**
      * Set content
