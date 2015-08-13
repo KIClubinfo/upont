@@ -154,43 +154,45 @@ class BasketsController extends ResourceController
     public function postBasketOrderAction($slug)
     {
         $basket = $this->findBySlug($slug);
-        $user = $this->user;
 
         // On vérifie que la commande n'a pas déjà été faite
         $repository = $this->manager->getRepository('KIDvpBundle:BasketOrder');
-        $basketOrder = $repository->findBy(array('basket' => $basket, 'user' => $user));
+        $basketOrder = $repository->findBy(array(
+            'basket' => $basket,
+            'user' => $this->user
+            ));
 
         if (count($basketOrder) != 0)
             return;
 
         $basketOrder = new BasketOrder();
         $basketOrder->setBasket($basket);
-        $basketOrder->setUser($user);
+        $basketOrder->setUser($this->user);
 
         // Si l'utilisateur n'est pas dans uPont on remplit les infos
         $request = $this->getRequest()->request;
-        if (($user === null && !($request->has('firstName')
-                                    && $request->has('lastName')
-                                    && $request->has('email')
-                                    && $request->has('phone')))
-            || ($user->getPhone() === null && !$request->has('phone'))
+        if ((!isset($this->user) && !($request->has('firstName')
+                            && $request->has('lastName')
+                            && $request->has('email')
+                            && $request->has('phone')))
+            || ($this->user->getPhone() === null && !$request->has('phone'))
            ) {
             throw new BadRequestHttpException('Formulaire incomplet');
         }
 
-        if ($user === null) {
+        if (!isset($this->user)) {
             $basketOrder->setFirstName($request->get('firstName'));
             $basketOrder->setLastName($request->get('lastName'));
             $basketOrder->setEmail($request->get('email'));
             $basketOrder->setPhone($request->get('phone'));
         } else {
-            $basketOrder->setFirstName($user->getFirstName());
-            $basketOrder->setLastName($user->getLastName());
-            $basketOrder->setEmail($user->getEmail());
-            if ($user->getPhone() === null) {
-                $user->setPhone($request->get('phone'));
+            $basketOrder->setFirstName($this->user->getFirstName());
+            $basketOrder->setLastName($this->user->getLastName());
+            $basketOrder->setEmail($this->user->getEmail());
+            if ($this->user->getPhone() === null) {
+                $this->user->setPhone($request->get('phone'));
             }
-            $basketOrder->setPhone($user->getPhone());
+            $basketOrder->setPhone($this->user->getPhone());
         }
 
         $this->manager->persist($basketOrder);

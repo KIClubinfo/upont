@@ -94,9 +94,6 @@ class BasketOrder
      */
     protected $basket;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->dateOrder = time();
