@@ -99,12 +99,13 @@ class ExercicesController extends \KI\CoreBundle\Controller\SubresourceControlle
      * )
      * @Route\Post("/courses/{slug}/exercices")
      */
-     public function postCourseExerciceAction($slug) {
+    public function postCourseExerciceAction($slug)
+    {
         $request = $this->getRequest();
         $course = $this->findBySlug($slug);
 
         $this->switchClass('Exercice');
-        $return = $this->partialPost($this->get('security.context')->isGranted('ROLE_USER'));
+        $return = $this->postData($this->get('security.context')->isGranted('ROLE_USER'));
 
         if ($return['code'] != 400) {
             // On règle tout comme on veut
@@ -117,21 +118,21 @@ class ExercicesController extends \KI\CoreBundle\Controller\SubresourceControlle
             if (!$request->files->has('file'))
                 throw new BadRequestHttpException('Aucun fichier présent');
 
-            $this->em->flush();
+            $this->manager->flush();
 
             $dispatcher = $this->container->get('event_dispatcher');
             $achievementCheck = new AchievementCheckEvent(Achievement::POOKIE);
             $dispatcher->dispatch('upont.achievement', $achievementCheck);
 
             // On crée une notification
-            $courseUsers = $this->em->getRepository('KIPublicationBundle:CourseUser')->findBy(array('course' => $course));
+            $courseUsers = $this->manager->getRepository('KIPublicationBundle:CourseUser')->findBy(array('course' => $course));
             $users = array();
 
             foreach ($courseUsers as $courseUser) {
                 $users[] = $courseUser->getUser();
             }
 
-            $this->notify(
+            $this->get('ki_user.service.notify')->notify(
                 'notif_followed_annal',
                 $return['item']->getName(),
                 'Une annale pour le cours '.$course->getName().' est maintenant disponible',
@@ -141,7 +142,7 @@ class ExercicesController extends \KI\CoreBundle\Controller\SubresourceControlle
         }
         $this->switchClass();
 
-        return $this->subPostView($return, $slug, 'get_course_exercice');
+        return $this->postView($return, $course);
     }
 
     /**

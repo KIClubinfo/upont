@@ -132,6 +132,6 @@ class LoadMusicFixture extends AbstractFixture implements OrderedFixtureInterfac
 
     public function getOrder()
     {
-        return 38;
+        return 26;
     }
 }

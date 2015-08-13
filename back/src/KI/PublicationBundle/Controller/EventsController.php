@@ -73,7 +73,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function postEventAction()
     {
-        $return = $this->partialPost($this->checkClubMembership());
+        $return = $this->postData($this->isClubMember());
 
         if ($return['code'] == 201) {
             // On modifie légèrement la ressource qui vient d'être créée
@@ -88,7 +88,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
                 $achievementCheck = new AchievementCheckEvent(Achievement::EVENT_CREATE);
                 $dispatcher->dispatch('upont.achievement', $achievementCheck);
 
-                $allUsers = $this->em->getRepository('KIUserBundle:User')->findAll();
+                $allUsers = $this->manager->getRepository('KIUserBundle:User')->findAll();
                 $users = array();
 
                 foreach ($allUsers as $candidate) {
@@ -97,7 +97,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
                 }
 
                 $text = substr($return['item']->getText(), 0, 140).'...';
-                $this->notify(
+                $this->get('ki_user.service.notify')->notify(
                     'notif_followed_event',
                     $return['item']->getName(),
                     $text,
@@ -129,7 +129,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
     {
         $club = $this->findBySlug($slug)->getAuthorClub();
         $club = $club ? $club->getSlug() : $club;
-        return $this->patch($slug, $this->checkClubMembership($club));
+        return $this->patch($slug, $this->isClubMember($club));
     }
 
     /**
@@ -152,14 +152,14 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
         $event = $this->findBySlug($slug);
 
         // On n'oublie pas de supprimer tous les shotguns éventuellement associés
-        $repo = $this->em->getRepository('KIPublicationBundle:EventUser');
+        $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
         $userEvent = $repo->findByEvent($event);
 
         foreach ($userEvent as $item) {
-            $this->em->remove($item);
+            $this->manager->remove($item);
         }
 
-        return $this->delete($slug, $this->checkClubMembership($club));
+        return $this->delete($slug, $this->isClubMember($club));
     }
 
     /**
@@ -195,7 +195,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
         $event = $this->findBySlug($slug);
         $user = $this->get('security.context')->getToken()->getUser();
 
-        $repo = $this->em->getRepository('KIPublicationBundle:EventUser');
+        $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
         $userEvent = $repo->findBy(array('event' => $event, 'user' => $user));
         if (count($userEvent) != 0)
             return;
@@ -206,8 +206,8 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
         $userEvent->setDate(time());
         $userEvent->setMotivation($request->get('motivation'));
 
-        $this->em->persist($userEvent);
-        $this->em->flush();
+        $this->manager->persist($userEvent);
+        $this->manager->flush();
 
         return $this->jsonResponse(null, 204);
     }
@@ -242,7 +242,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
         if (!$request->has('motivation'))
             throw new BadRequestHttpException('Texte de motivation manquant');
 
-        $repo = $this->em->getRepository('KIPublicationBundle:EventUser');
+        $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
         $event = $this->findBySlug($slug);
         $user = $this->get('security.context')->getToken()->getUser();
 
@@ -250,7 +250,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
 
         if (count($userEvent) == 1) {
             $userEvent[0]->setMotivation($request->get('motivation'));
-            $this->em->flush();
+            $this->manager->flush();
         } else {
             throw new NotFoundHttpException('Participation au shotgun non trouvée');
         }
@@ -274,7 +274,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function deleteEventUserAction($slug) {
 
-        $repo = $this->em->getRepository('KIPublicationBundle:EventUser');
+        $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
         $event = $this->findBySlug($slug);
         $user = $this->get('security.context')->getToken()->getUser();
 
@@ -288,7 +288,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
             $userEvents = $repo->findBy(array('event' => $event));
 
             if (isset($userEvents[$event->getShotgunLimit()])) {
-                $this->notify(
+                $this->get('ki_user.service.notify')->notify(
                     'notif_shotgun_freed',
                     $event->getName(),
                     'Des places de shotgun se sont libérées, tu as maintenant accès à l\'événément !',
@@ -297,8 +297,8 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
                 );
             }
 
-            $this->em->remove($userEvent[0]);
-            $this->em->flush();
+            $this->manager->remove($userEvent[0]);
+            $this->manager->flush();
         } else {
             throw new NotFoundHttpException('Participation au shotgun non trouvée');
         }
@@ -320,7 +320,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function getEventUserAction($slug) {
 
-        $repo = $this->em->getRepository('KIPublicationBundle:EventUser');
+        $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
         $event = $this->findBySlug($slug);
         $user = $this->get('security.context')->getToken()->getUser();
 
@@ -412,7 +412,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
                 $event->removePookie($user);
 
             $event->addAttendee($user);
-            $this->em->flush();
+            $this->manager->flush();
 
             $dispatcher = $this->container->get('event_dispatcher');
             $achievementCheck = new AchievementCheckEvent(Achievement::EVENT_ATTEND);
@@ -444,7 +444,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
             throw new BadRequestHttpException('Vous ne participez pas à cet évènement');
         } else {
             $event->removeAttendee($user);
-            $this->em->flush();
+            $this->manager->flush();
 
             return $this->restResponse(null, 204);
         }
@@ -476,7 +476,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
                 $event->removeAttendee($user);
 
             $event->addPookie($user);
-            $this->em->flush();
+            $this->manager->flush();
 
             return $this->restResponse(null, 204);
         }
@@ -504,7 +504,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
             throw new BadRequestHttpException('Vous ne vous êtes pas désinscrit de cet évènement');
         } else {
             $event->removePookie($user);
-            $this->em->flush();
+            $this->manager->flush();
 
             return $this->restResponse(null, 204);
         }

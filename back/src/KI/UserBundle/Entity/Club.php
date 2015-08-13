@@ -209,7 +209,6 @@ class Club extends Likeable
      * Get assos
      *
      * @return boolean
-
      */
     public function getAssos()
     {

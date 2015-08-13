@@ -22,5 +22,14 @@ class FoyerControllerTest extends WebTestCase
         $this->client->request('GET', '/foyer/statistics/trancara');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
+
+        $this->connect('peluchom', 'password');
+        $this->client->request('PATCH', '/users/trancara/balance', array('balance' => 20.5));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 204);
+
+        $this->client->request('PATCH', '/users/trancara/balance', array('balance' => -20.5));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 204);
     }
 }

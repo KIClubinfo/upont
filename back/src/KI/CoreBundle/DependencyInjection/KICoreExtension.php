@@ -23,6 +23,12 @@ class KICoreExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('entities.yml');
+        $loader->load('helpers.yml');
+        $loader->load('listeners.yml');
+        $loader->load('repositories.yml');
+        $loader->load('selectors.yml');
         $loader->load('services.yml');
+        $loader->load('transformers.yml');
     }
 }

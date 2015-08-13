@@ -13,9 +13,21 @@ class BeerUsersControllerTest extends WebTestCase
         $this->connect('peluchom', 'password');
         $this->client->request('POST', '/beers/trancara/users/leffe');
         $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 404);
+
+        $this->client->request('POST', '/beers/leffe/users/trancara');
+        $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('GET', '/beers/trancara/users');
+        $this->client->request('GET', '/beerusers');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 200);
+
+        $this->client->request('GET', '/userbeers');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 200);
+
+        $this->client->request('GET', '/users/trancara/beers');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
@@ -25,11 +37,11 @@ class BeerUsersControllerTest extends WebTestCase
         $this->assertTrue(isset($data[$key]['id']));
         $beerUserId = $data[$key]['id'];
 
-        $this->client->request('DELETE', '/beers/trancara/users/leffe/'.$beerUserId);
+        $this->client->request('DELETE', '/beers/leffe/users/trancara/'.$beerUserId);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('DELETE', '/beers/trancara/users/leffe/'.$beerUserId);
+        $this->client->request('DELETE', '/beers/leffe/users/trancara/'.$beerUserId);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }

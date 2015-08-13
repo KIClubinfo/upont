@@ -107,10 +107,11 @@ class CoursesController extends \KI\CoreBundle\Controller\ResourceController
     {
         // Les cours possèdent plein de sous propriétés, il faut faire gaffe à toutes les supprimer
         $course = $this->getOne($slug);
-        $repo = $this->em->getRepository('KIPublicationBundle:CourseUser');
+        $repo = $this->manager->getRepository('KIPublicationBundle:CourseUser');
 
-        foreach ($repo->findByCourse($course) as $courseUser)
-            $this->em->remove($courseUser);
+        foreach ($repo->findByCourse($course) as $courseUser) {
+                    $this->manager->remove($courseUser);
+        }
 
         return $this->delete($slug);
     }
@@ -133,7 +134,7 @@ class CoursesController extends \KI\CoreBundle\Controller\ResourceController
         $course = $this->findBySlug($slug);
 
         // Vérifie que la relation n'existe pas déjà
-        $repoLink = $this->em->getRepository('KIPublicationBundle:CourseUser');
+        $repoLink = $this->manager->getRepository('KIPublicationBundle:CourseUser');
         $link = $repoLink->findBy(array('course' => $course, 'user' => $this->user));
 
         // On crée la relation si elle n'existe pas déjà
@@ -156,8 +157,8 @@ class CoursesController extends \KI\CoreBundle\Controller\ResourceController
         $achievementCheck = new AchievementCheckEvent(Achievement::COURSES);
         $dispatcher->dispatch('upont.achievement', $achievementCheck);
 
-        $this->em->persist($link);
-        $this->em->flush();
+        $this->manager->persist($link);
+        $this->manager->flush();
 
         return $this->jsonResponse(null, 204);
     }
@@ -180,15 +181,120 @@ class CoursesController extends \KI\CoreBundle\Controller\ResourceController
         $user = $this->get('security.context')->getToken()->getUser();
         $course = $this->findBySlug($slug);
 
-        $repoLink = $this->em->getRepository('KIPublicationBundle:CourseUser');
+        $repoLink = $this->manager->getRepository('KIPublicationBundle:CourseUser');
         $link = $repoLink->findBy(array('course' => $course, 'user' => $user));
 
         if (count($link) != 1)
             throw new NotFoundHttpException('Relation entre Course et User non trouvée');
 
-        $this->em->remove($link[0]);
-        $this->em->flush();
+        $this->manager->remove($link[0]);
+        $this->manager->flush();
 
         return $this->jsonResponse(null, 204);
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Parse l'emploi du temps emploidutemps.enpc.fr",
+     *  statusCodes={
+     *   202="Requête traitée mais sans garantie de résultat",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Général"
+     * )
+     * @Route\Head("/courses")
+     */
+    public function parseCoursesAction()
+    {
+        $curl = $this->get('ki_core.service.curl');
+
+        // On va reset les cours actuels au cas où ils seraient updatés
+        $manager = $this->getDoctrine()->getManager();
+        $query = $manager->createQuery('DELETE FROM KIPublicationBundle:CourseItem c WHERE c.startDate > :time');
+        $query->setParameter('time', mktime(0, 0, 0));
+        $query->execute();
+
+        // On construit un tableau des cours connus
+        $repo = $manager->getRepository('KIPublicationBundle:Course');
+        $results = $repo->findAll();
+        $courses = array();
+        foreach ($results as $course) {
+            $courses[$course->getName()] = array(
+                'course' => $course,
+                'groups' => $course->getGroups()
+                );
+        }
+
+        // On récupère les cours de la prochaine semaine
+        for ($day = 0; $day < 8; $day++) {
+            $date = time() + $day*3600*24;
+            $url = 'http://emploidutemps.enpc.fr/index_mobile.php?code_departement=&mydate='
+            . date('d', $date).'%2F'.date('m', $date).'%2F'.date('Y', $date);
+            $result = $curl->curl($url);
+
+            // On parse le résultat
+            $regex = '/<li class="store">.+<span class="image" align="center"><br><b>(.+)<br>(.+)<\/b><\/span><span class="comment">(.*) : (.*)<\/span><span class="name">(.*)<\/span><span class="starcomment">(.*)<\/span><span class="arrow"><\/span><\/a><\/li>/isU';
+            $out = array();
+            preg_match_all($regex, $result, $out);
+
+            // Le résultat est sous la forme
+            // array(
+            //     [0] => array(merde),
+            //     [1] => array(heure de début),
+            //     [2] => array(heure de fin),
+            //     [3] => array(département),
+            //     [4] => array(salle),
+            //     [5] => array(cours),
+            //     [6] => array(groupe),
+            // )
+            list($all, $start, $end, $department, $location, $courseName, $group) = $out;
+
+            foreach ($all as $id => $blank) {
+                $gr = str_replace('(&nbsp;)', '', $group[$id]);
+                $gr = $gr != '' ? (int)str_replace(array('(Gr', ')'), array('', ''), $gr) : 0;
+                $name = $courseName[$id];
+                $data = explode(':', $start[$id]);
+                $startDate = $data[0]*3600 + $data[1]*60;
+                $data = explode(':', $end[$id]);
+                $endDate = $data[0]*3600 + $data[1]*60;
+
+                // Si le cours existe déjà, on le récupère
+                // Sinon on crée un nouveau cours
+                if (array_key_exists($name, $courses)) {
+                    $course = $courses[$name]['course'];
+                } else {
+                    $course = new Course();
+                    $course->setName($name);
+                    $course->setDepartment($department[$id]);
+                    $course->setSemester(0);
+                    $course->addGroup($gr);
+                    $manager->persist($course);
+                    $courses[$name] = array(
+                        'course' => $course,
+                        'groups' => array($gr)
+                        );
+                }
+
+                // Si le groupe n'est pas connu on le rajoute
+                if (!in_array($gr, $courses[$name]['groups'])) {
+                    $course->addGroup($gr);
+                }
+
+                // On ajoute l'objet à ce cours
+                $courseItem = new CourseItem();
+                $courseItem->setStartDate(mktime(0, 0, 0) + $startDate);
+                $courseItem->setEndDate(mktime(0, 0, 0) + $endDate);
+                $courseItem->setLocation($location[$id]);
+                $courseItem->setGroup($gr);
+                $courseItem->setCourse($course);
+                $manager->persist($courseItem);
+            }
+        }
+
+        $manager->flush();
+
+        return $this->jsonResponse(null, 202);
     }
 }

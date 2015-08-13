@@ -1,0 +1,14 @@
+services:
+    ki_core.selector.image:
+       class: KI\CoreBundle\Selector\ImageSelector
+       arguments:
+           - @ki_core.transformer.image
+       tags:
+           - { name: form.type, alias: image_selector }
+
+    ki_core.selector.tags:
+       class: KI\CoreBundle\Selector\TagsSelector
+       arguments:
+           - @ki_core.transformer.tags
+       tags:
+           - { name: form.type, alias: tags_selector }

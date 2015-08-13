@@ -1,43 +1,43 @@
 # Système de likes remis ici pour que cela fonctionne avec le prefixe /ponthub
 upont_api_ponthub_filelist:
     pattern: /filelist/{token}
-    defaults: { _controller: KI\PonthubBundle\Controller\PonthubController::filelistAction }
+    defaults: { _controller: KI\PonthubBundle\Controller\DefaultController::filelistAction }
     requirements:
         _method: POST
 
 upont_api_ponthub_gracenote:
     pattern: /gracenote
-    defaults: { _controller: KI\PonthubBundle\Controller\PonthubController::gracenoteAction }
+    defaults: { _controller: KI\PonthubBundle\Controller\DefaultController::gracenoteAction }
     requirements:
         _method: POST
 
 upont_api_ponthub_imdb_search:
     pattern: /imdb/search
-    defaults: { _controller: KI\PonthubBundle\Controller\PonthubController::imdbSearchAction }
+    defaults: { _controller: KI\PonthubBundle\Controller\DefaultController::imdbSearchAction }
     requirements:
         _method: POST
 
 upont_api_ponthub_imdb_infos:
     pattern: /imdb/infos
-    defaults: { _controller: KI\PonthubBundle\Controller\PonthubController::imdbInfosAction }
+    defaults: { _controller: KI\PonthubBundle\Controller\DefaultController::imdbInfosAction }
     requirements:
         _method: POST
 
 upont_api_ponthub_search:
     pattern: /search
-    defaults: { _controller: KI\PonthubBundle\Controller\PonthubController::searchAction }
+    defaults: { _controller: KI\PonthubBundle\Controller\DefaultController::searchAction }
     requirements:
         _method: POST
 
 upont_api_ponthub_statistics_general:
     pattern: /ponthub/statistics
-    defaults: { _controller: KI\PonthubBundle\Controller\PonthubController::statisticsMainAction }
+    defaults: { _controller: KI\PonthubBundle\Controller\DefaultController::statisticsMainAction }
     requirements:
         _method: GET
-        
+
 upont_api_ponthub_statistics:
     pattern: /ponthub/statistics/{slug}
-    defaults: { _controller: KI\PonthubBundle\Controller\PonthubController::statisticsAction }
+    defaults: { _controller: KI\PonthubBundle\Controller\DefaultController::statisticsAction }
     requirements:
         _method: GET
 

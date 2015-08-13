@@ -26,7 +26,9 @@ class AppKernel extends Kernel
             new BOMO\IcalBundle\BOMOIcalBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Nelmio\CorsBundle\NelmioCorsBundle(),
+            new KI\ClubinfoBundle\KIClubinfoBundle(),
             new KI\CoreBundle\KICoreBundle(),
+            new KI\DvpBundle\KIDvpBundle(),
             new KI\FoyerBundle\KIFoyerBundle(),
             new KI\PonthubBundle\KIPonthubBundle(),
             new KI\PublicationBundle\KIPublicationBundle(),
@@ -46,5 +48,38 @@ class AppKernel extends Kernel
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
+    }
+
+    /**
+     * Modification de la fonction d'initialisation pour qu'en environnement de test,
+     * le chargement des ressources du kernel ne soit en mode debug que lors du
+     * premier test. Divise le temps des tests par deux environ...
+     * NOTE: ne marche pas avec --process-isolation
+     * Enlever l'underscore pour activer
+     */
+    protected function _initializeContainer()
+    {
+        static $first = true;
+
+        if ($this->getEnvironment() !== 'test') {
+            parent::initializeContainer();
+            return;
+        }
+
+        $debug = $this->debug;
+
+        if (!$first) {
+            $this->debug = false;
+        }
+        $first = false;
+
+        try {
+            parent::initializeContainer();
+        } catch (\Exception $e) {
+            $this->debug = $debug;
+            throw $e;
+        }
+
+        $this->debug = $debug;
     }
 }

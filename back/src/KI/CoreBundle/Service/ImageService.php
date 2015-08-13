@@ -18,22 +18,30 @@ class ImageService
         $this->imagesMaxSize = $imagesMaxSize;
     }
 
-    public function upload($src, $url = null)
+    /**
+     * Prend une ressource (url ou Base64) et retourne une image
+     * @param  string $src Source depuis laquelle récupérer une image
+     * @param  bool   $url Peut forcer l'upload par url (pour outrepasser la regex)
+     * @return Image
+     * @see KI\CoreBundle\Entity\Image
+     */
+    public function upload($src, $url = false)
     {
         $fs = new Filesystem();
         $image = new Image();
-        // Checks if the input is an URL or not
-        // Returns an array with the image and the extension
-        $regex = '#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#iS';
-        if ($url || preg_match($regex, $src))
-            $data = $this->uploadUrl($src, true);
-        else
-            $data = $this->uploadBase64($src);
+
+        // Répartition entre url et Base64
+        $regex = '/\b(([\w-]+:\/\/?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|\/)))/iS';
+        if ($url || preg_match($regex, $src)) {
+            $data = $this->uploadFromUrl($src);
+        } else {
+            $data = $this->uploadFromBase64($src);
+        }
 
         $image->setExt($data['extension']);
 
-        // Saves the image locally thanks to md5 hash and puts it in the $image
-        $path = $image->getTemporaryDir().md5($data['image']);
+        // Sauvegarde l'image dans un dossier temporaire, les méthodes (Pre/Post)Persist d'Image font le reste
+        $path = $image->getUploadsDirectory().'tmp/'.md5($data['image']);
         $fs->dumpFile($path, $data['image']);
         $file = new File($path);
         $image->setFile($file);
@@ -41,84 +49,54 @@ class ImageService
         return $image;
     }
 
-    // Upload d'une image à partir de données en base 64
-    // Renvoie l'extension de l'image
-    public function uploadBase64($data)
+    public function uploadFromBase64($base64)
     {
-        // On n'enregistre des données que si elles sont non nulles
-        if ($data !== null && $data !== '') {
-            $imgString = base64_decode($data);
-            $image = imagecreatefromstring($imgString);
-
-            if ($image !== null) {
-                $ext = explode('/', getimagesizefromstring($imgString)['mime'])[1];
-
-                return array(
-                    'image' => $imgString,
-                    'extension' => $ext
-                );
-            }
+        if (empty($base64)) {
+            return;
         }
-        return null;
+
+        $imageString = base64_decode($base64);
+        $image = imagecreatefromstring($imageString);
+
+        if ($image !== null) {
+            $extension = explode('/', getimagesizefromstring($imageString)['mime'])[1];
+
+            return array(
+                'image' => $imageString,
+                'extension' => $extension
+            );
+        }
     }
 
-    // Upload d'une image à partir d'une URL
-    // Renvoie l'image sous forme de string et son extension
-    public function uploadUrl($url, $byPassCheck = false)
+    public function uploadFromUrl($url)
     {
-        if (!($byPassCheck || preg_match('#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#iS', $url)))
-            throw new BadRequestHttpException('Ceci n\'est pas une url : '.$url);
-
         // Réglage des options cURL
-        $data = $this->curlService->curl($url, array(
+        $data = $this->curlService->curl($url, null, array(
             CURLOPT_BUFFERSIZE => 128,
             CURLOPT_NOPROGRESS => true,
             CURLOPT_PROGRESSFUNCTION, function($downloadSize, $downloaded, $uploadSize, $uploaded) {
-                // If downloaded exceeds image max size, returning non-0 breaks the connection!
+                // Retourner autre chose que 0 stoppe la connexion
                 return ($downloaded > ($this->imagesMaxSize)) ? 1 : 0;
             }
         ));
 
         // Récupération de l'image
-        if (!$data)
+        if (!$data) {
             throw new \Exception('Impossible de télécharger l\'image à l\'url '.$url);
+        }
 
-        //Récupération de l'extension
+        // Récupération de l'extension
         $image = imagecreatefromstring($data);
-        if ($image !== null)
-            $ext = explode('/', getimagesizefromstring($data)['mime'])[1];
-        else
+
+        if ($image !== null) {
+            $extension = explode('/', getimagesizefromstring($data)['mime'])[1];
+        } else {
             throw new \Exception('Image non reconnue');
+        }
 
         return array(
             'image' => $data,
-            'extension' => $ext
+            'extension' => $extension
         );
-    }
-
-    // Suppression d'une image
-    public function remove($path)
-    {
-        if (file_exists($path))
-            return unlink($path);
-        return false;
-    }
-
-    // Crée des miniatures pour toutes les images du dossier $path
-    // dans le dossier {path}/thumbnails
-    public function createThumbnails($path)
-    {
-        $images = array();
-        $images = scandir($path);
-
-        foreach ($images as $image) {
-            $extension = pathinfo(strtolower($image), PATHINFO_EXTENSION);
-
-            if (is_file(str_replace('images', 'thumbnails', $path).'/'.$image)
-                || ($extension != 'jpg' && $extension != 'jpeg' && $extension != 'png')
-                ) continue;
-
-            Image::createThumbnail($path.'/'.$image);
-        }
     }
 }

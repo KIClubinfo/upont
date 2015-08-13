@@ -101,7 +101,7 @@ class NotificationListener
             'Content-Type: application/json'
         );
 
-        $this->curlService->curl('https://android.googleapis.com/gcm/send', array(
+        $this->curlService->curl('https://android.googleapis.com/gcm/send', null, array(
             CURLOPT_HEADER     => true,
             CURLOPT_POST       => true,
             CURLOPT_HTTPHEADER => $headers,
@@ -131,7 +131,7 @@ class NotificationListener
             'X-WindowsPhone-Target:toast'
         );
 
-        $this->curlService->curl($device->getDevice(), array(
+        $this->curlService->curl($device->getDevice(), null, array(
             CURLOPT_HEADER     => true,
             CURLOPT_POST       => true,
             CURLOPT_HTTPHEADER => $headers,

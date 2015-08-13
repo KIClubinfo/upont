@@ -30,8 +30,8 @@ class PromoController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function getPromoGameAction($promo)
     {
-        $maxId = $this->em->createQuery('SELECT MAX(u.id) FROM KIUserBundle:User u')->getSingleScalarResult();
-        $query = $this->em->createQuery('SELECT u FROM KIUserBundle:User u WHERE u.id >= :rand ORDER BY u.id ASC');
+        $maxId = $this->manager->createQuery('SELECT MAX(u.id) FROM KIUserBundle:User u')->getSingleScalarResult();
+        $query = $this->manager->createQuery('SELECT u FROM KIUserBundle:User u WHERE u.id >= :rand ORDER BY u.id ASC');
         $rand1 = rand(0, $maxId);
 
         do {
@@ -76,7 +76,7 @@ class PromoController extends \KI\CoreBundle\Controller\ResourceController
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
             throw new AccessDeniedException();
 
-        $users = $this->repo->findByPromo($promo);
+        $users = $this->repository->findByPromo($promo);
         $curl = $this->get('ki_upont.curl');
         $images = $this->get('ki_upont.images');
         $i = 0;
@@ -125,7 +125,7 @@ class PromoController extends \KI\CoreBundle\Controller\ResourceController
             }
         }
 
-        $this->em->flush();
+        $this->manager->flush();
         return $this->jsonResponse(array(
             'hits'  => $i,
             'fails' => count($users) - $i,

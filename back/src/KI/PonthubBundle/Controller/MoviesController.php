@@ -5,7 +5,7 @@ namespace KI\PonthubBundle\Controller;
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
-class MoviesController extends \KI\CoreBundle\Controller\ResourceController
+class MoviesController extends PonthubFileController
 {
     public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
     {

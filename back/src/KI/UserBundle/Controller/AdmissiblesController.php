@@ -30,7 +30,7 @@ class AdmissiblesController extends \KI\CoreBundle\Controller\ResourceController
     public function getAdmissiblesAction()
     {
         // On charge tous les admissibles
-        $admissibles = $this->repo->findAll();
+        $admissibles = $this->repository->findAll();
         $result = array();
 
         // On ne garde que les admissibles de cette année
@@ -73,7 +73,7 @@ class AdmissiblesController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function postAdmissibleAction()
     {
-        $return = $this->partialPost(true);
+        $return = $this->postData(true);
 
         if ($return['code'] == 201) {
             // On modifie légèrement la ressource qui vient d'être créée

@@ -28,6 +28,6 @@ class LoadGameFixture extends AbstractFixture implements OrderedFixtureInterface
 
     public function getOrder()
     {
-        return 34;
+        return 27;
     }
 }

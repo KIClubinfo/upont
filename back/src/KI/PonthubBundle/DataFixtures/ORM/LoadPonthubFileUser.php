@@ -88,6 +88,6 @@ class LoadPonthubFileUserFixture extends AbstractFixture implements OrderedFixtu
 
     public function getOrder()
     {
-        return 42;
+        return 30;
     }
 }

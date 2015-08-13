@@ -13,18 +13,32 @@ class CurlService
         $this->proxyUser = $proxyUser;
     }
 
-    // Téléchargement d'une ressource externe
-    public function curl($url, array $options = array())
+    /**
+     * Téléchargement d'une ressource externe
+     * @param  string $url     Le lien vers la ressource
+     * @param  array  $payload Le contenu POST éventuel (méthode POST si non nul)
+     * @param  array  $options Options curl supplémentaire
+     * @return string          La réponse
+     */
+    public function curl($url, $payload = null, array $options = array())
     {
         // Réglage des options cURL
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HEADER, false);
+
+        // Nécessaire à cause de la configuration d'Odin
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_HTTP_VERSION, 'CURL_HTTP_VERSION_1_0');
+        curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_USERAGENT, 'runscope/0.1');
+        curl_setopt($ch, CURLOPT_HTTP_VERSION, 'CURL_HTTP_VERSION_1_0');
+
+        // Ajout d'éventuels champs POST
+        if (!empty($payload)) {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+            curl_setopt($ch, CURLOPT_POST, true);
+        }
 
         // Réglage éventuel du proxy
         if ($this->proxyUrl !== null) {

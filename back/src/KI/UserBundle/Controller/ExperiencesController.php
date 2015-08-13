@@ -60,7 +60,7 @@ class ExperiencesController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function postExperienceAction()
     {
-        $return = $this->partialPost($this->get('security.context')->isGranted('ROLE_USER'));
+        $return = $this->postData($this->get('security.context')->isGranted('ROLE_USER'));
 
         if ($return['code'] == 201) {
             // On modifie légèrement la ressource qui vient d'être créée
@@ -118,7 +118,7 @@ class ExperiencesController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function getExperiencesUserAction($slug)
     {
-        $repo = $this->em->getRepository('KIUserBundle:User');
+        $repo = $this->manager->getRepository('KIUserBundle:User');
         $user = $repo->findOneByUsername($slug);
 
         if (!$user instanceof \KI\UserBundle\Entity\User) {
@@ -126,6 +126,6 @@ class ExperiencesController extends \KI\CoreBundle\Controller\ResourceController
             throw $up; // ahah
         }
 
-        return $this->restResponse($this->repo->findByUser($user));
+        return $this->restResponse($this->repository->findByUser($user));
     }
 }

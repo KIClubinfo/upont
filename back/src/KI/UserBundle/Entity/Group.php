@@ -97,7 +97,7 @@ class Group extends BaseGroup
     /**
      * Get user
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return User[]
      */
     public function getUsers()
     {

@@ -11,16 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @JMS\ExclusionPolicy("all")
  */
-class Comment
+class Comment extends LikeClass
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @JMS\Expose
-     */
-    protected $id;
-
     /**
      * Date
      * @ORM\Column(name="date", type="integer")
@@ -44,6 +36,8 @@ class Comment
      * @JMS\Expose
      */
     protected $author;
+    public $autoSetUser = 'author';
+    public function getAutoSetUser() { return $this->autoSetUser; }
 
     /**
      * Ceux qui likent
@@ -56,15 +50,6 @@ class Comment
     protected $listLikes;
 
     /**
-     * Nombre de ceux qui likent
-     * @JMS\VirtualProperty()
-     */
-    public function likes()
-    {
-        return count($this->listLikes);
-    }
-
-    /**
      * Ceux qui dislikent
      * @ORM\ManyToMany(targetEntity="KI\UserBundle\Entity\User", cascade={"persist"})
      * @ORM\JoinTable(name="comment_dislikes",
@@ -74,50 +59,15 @@ class Comment
      */
     protected $listDislikes;
 
-    /**
-     * Nombre de ceux qui dislikent
-     * @JMS\VirtualProperty()
-     */
-    public function dislikes()
-    {
-        return count($this->listDislikes);
-    }
-
-    /**
-     * @JMS\Expose
-     */
-    protected $like = false;
-
-    /**
-     * @JMS\Expose
-     */
-    protected $dislike = false;
-
-
-
-
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
-        $this->listLikes = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->listDislikes = new \Doctrine\Common\Collections\ArrayCollection();
+        parent::__construct();
+        $this->date = time();
     }
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
+    public function getSlug()
     {
-        return $this->id;
+        return $this->getId();
     }
 
     /**
@@ -187,91 +137,5 @@ class Comment
     public function getAuthor()
     {
         return $this->author;
-    }
-
-    /**
-     * Add listLikes
-     *
-     * @param \KI\UserBundle\Entity\User $listLikes
-     * @return Comment
-     */
-    public function addLike(\KI\UserBundle\Entity\User $listLikes)
-    {
-        $this->listLikes[] = $listLikes;
-
-        return $this;
-    }
-
-    /**
-     * Remove listLikes
-     *
-     * @param \KI\UserBundle\Entity\User $listLikes
-     */
-    public function removeLike(\KI\UserBundle\Entity\User $listLikes)
-    {
-        $this->listLikes->removeElement($listLikes);
-    }
-
-    /**
-     * Get listLikes
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getLikes()
-    {
-        return $this->listLikes;
-    }
-
-    /**
-     * Add listDislikes
-     *
-     * @param \KI\UserBundle\Entity\User $listDislikes
-     * @return Comment
-     */
-    public function addDislike(\KI\UserBundle\Entity\User $listDislikes)
-    {
-        $this->listDislikes[] = $listDislikes;
-
-        return $this;
-    }
-
-    /**
-     * Remove listDislikes
-     *
-     * @param \KI\UserBundle\Entity\User $listDislikes
-     */
-    public function removeDislike(\KI\UserBundle\Entity\User $listDislikes)
-    {
-        $this->listDislikes->removeElement($listDislikes);
-    }
-
-    /**
-     * Get listDislikes
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getDislikes()
-    {
-        return $this->listDislikes;
-    }
-
-    public function getDislike()
-    {
-        return $this->dislike;
-    }
-
-    public function setDislike($dislike)
-    {
-        return $this->dislike = $dislike;
-    }
-
-    public function getLike()
-    {
-        return $this->like;
-    }
-
-    public function setLike($like)
-    {
-        return $this->like = $like;
     }
 }

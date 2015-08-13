@@ -6,7 +6,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-
 class BeerType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -16,7 +15,8 @@ class BeerType extends AbstractType
             ->add('price')
             ->add('alcohol')
             ->add('volume')
-            ->add('image', 'image_selector');
+            ->add('image', 'image_selector')
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

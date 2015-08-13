@@ -3,6 +3,7 @@ angular.module('upont')
         $scope.chartDownloaders = {
             chart: {
                 renderTo: 'downloaders',
+                backgroundColor:'rgba(255, 255, 255, 0)',
                 type: 'column'
             },
             credits: {
@@ -66,6 +67,7 @@ angular.module('upont')
         $scope.chartDownloads = {
             chart: {
                 renderTo: 'downloads',
+                backgroundColor:'rgba(255, 255, 255, 0)',
                 type: 'column'
             },
             credits: {
@@ -117,6 +119,7 @@ angular.module('upont')
         $scope.chartTimeline = {
             chart: {
                 renderTo: 'timeline',
+                backgroundColor:'rgba(255, 255, 255, 0)',
                 type: 'column'
             },
             credits: {
@@ -227,6 +230,7 @@ angular.module('upont')
         $scope.chartPonthub = {
             chart: {
                 renderTo: 'ponthub',
+                backgroundColor:'rgba(255, 255, 255, 0)',
             },
             credits: {
                 enabled: false,
@@ -265,6 +269,7 @@ angular.module('upont')
         $scope.chartYears = {
             chart: {
                 renderTo: 'years',
+                backgroundColor:'rgba(255, 255, 255, 0)',
                 type: 'bar'
             },
             credits: {

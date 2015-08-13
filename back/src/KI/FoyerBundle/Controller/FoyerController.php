@@ -3,10 +3,17 @@
 namespace KI\FoyerBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class FoyerController extends \KI\CoreBundle\Controller\BaseController
 {
+    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    {
+        parent::setContainer($container);
+        $this->initialize('User', 'User');
+    }
+
     /**
      * @ApiDoc(
      *  description="Retourne le solde du Foyer de l'utilisateur",

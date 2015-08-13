@@ -3,10 +3,12 @@
 namespace KI\FoyerBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use KI\CoreBundle\Controller\ResourceController;
 
-class BeersController extends \KI\CoreBundle\Controller\ResourceController
+class BeersController extends ResourceController
 {
-    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->initialize('Beer', 'Foyer');
@@ -15,7 +17,7 @@ class BeersController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  resource=true,
-     *  description="Liste les bières",
+     *  description="Liste les bières, les premières sont les plus consommées",
      *  output="KI\FoyerBundle\Entity\Beer",
      *  statusCodes={
      *   200="Requête traitée avec succès",
@@ -26,7 +28,44 @@ class BeersController extends \KI\CoreBundle\Controller\ResourceController
      *  section="Foyer"
      * )
      */
-    public function getBeersAction() { return $this->getAll(); }
+    public function getBeersAction()
+    {
+        // Route un peu particulière : on va ordonner les bières
+        // par ordre décroissant de consommation
+        // On commence par toutes les récupérer
+        $beers = $this->repository->findAll();
+
+        // On va établir les comptes sur les 500 dernières consos
+        $beerUserRepository = $this->manager->getRepository('KIFoyerBundle:BeerUser');
+        $beerUsers = $beerUserRepository->findBy(array(), array('date' => 'DESC'), 500);
+
+        $counts = array();
+        foreach ($beerUsers as $beerUser) {
+            // On peut tomber sur une entrée "compte crédité"
+            if ($beerUser->getBeer() === null) {
+                continue;
+            }
+            $beerId = $beerUser->getBeer()->getId();
+
+            if (!isset($counts[$beerId])) {
+                $counts[$beerId] = 0;
+            }
+
+            $counts[$beerId] = $counts[$beerId] + 1;
+        }
+
+        // On trie
+        $return = $beerCounts = array();
+        foreach ($beers as $beer) {
+            $beerId = $beer->getId();
+
+            $beerCounts[] = isset($counts[$beerId]) ? $counts[$beerId] : 0;
+            $return[]     = $beer;
+        }
+        array_multisort($beerCounts, SORT_DESC, $return);
+
+        return $this->restResponse($return);
+    }
 
     /**
      * @ApiDoc(
@@ -61,7 +100,7 @@ class BeersController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function postBeerAction()
     {
-        $return = $this->partialPost($this->checkClubMembership('foyer'));
+        $return = $this->postData($this->isClubMember('foyer'));
         return $this->postView($return);
     }
 
@@ -82,7 +121,7 @@ class BeersController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function patchBeerAction($slug)
     {
-        return $this->patch($slug, $this->checkClubMembership('foyer'));
+        return $this->patch($slug, $this->isClubMember('foyer'));
     }
 
     /**
@@ -100,6 +139,14 @@ class BeersController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function deleteBeerAction($slug)
     {
-        return $this->delete($slug, $this->checkClubMembership('foyer'));
+        // On supprime toutes les consos associées
+        $beer = $this->findBySlug($slug);
+        $beerUserRepository = $this->manager->getRepository('KIFoyerBundle:BeerUser');
+        $beerUsers = $beerUserRepository->findBy(array('beer' => $beer));
+
+        foreach ($beerUsers as $beerUser) {
+            $this->manager->remove($beerUser);
+        }
+        return $this->delete($slug, $this->isClubMember('foyer'));
     }
 }

@@ -2,6 +2,7 @@
 
 namespace KI\CoreBundle\Controller;
 
+use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use KI\CoreBundle\Entity\Comment;
@@ -9,112 +10,124 @@ use KI\CoreBundle\Entity\Likeable;
 use KI\PublicationBundle\Entity\Post;
 
 // Fonctions de like/dislike/commentaire
-class LikeableController extends \KI\CoreBundle\Controller\BaseController
+class LikeableController extends BaseController
 {
-    // Précise si une classe est likeable ou non
+    /**
+     * Précise si une classe peut être likée par l'utilisateur actuel
+     * @param mixed $item L'item à tester
+     * @return boolean
+     */
     protected function isLikeable($item)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_USER')
-            || $this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
-            || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+        if (!$this->is('USER') || $this->is('ADMISSIBLE') || $this->is('EXTERIEUR')) {
             throw new AccessDeniedException('Accès refusé');
+        }
 
-        if (!$item instanceof Likeable)
+        if (!$item instanceof Likeable) {
             return;
+        }
     }
 
-    // Sert à initialiser le controleur avec la bonne classe quand il est appelé
-    // par les routes génériques de like
-    // i.e on veut l'initialiser par exemple avec la classe Newsitems si la route
-    // est /newsitems/{slug}/like
+    /**
+     *  Sert à initialiser le controleur avec la bonne classe quand il est appelé
+     *  par les routes génériques de like. Par exemple on veut l'initialiser
+     *  avec la classe Newsitems si la route est /newsitems/{slug}/like
+     *  @param  string $object Le type d'objet à initialiser
+     *  @throws Exception Si l'objet ne correspond à aucun entité likeable connue
+     */
     protected function autoInitialize($object)
     {
-        switch ($object) {
-        case 'clubs'      : $this->initialize('Club', 'User'); break;
-        case 'experiences': $this->initialize('Experience', 'User'); break;
-        case 'newsitems'  : $this->initialize('Newsitem', 'Publication'); break;
-        case 'events'     : $this->initialize('Event', 'Publication'); break;
-        case 'courses'    : $this->initialize('Course', 'Publication'); break;
-        case 'exercices'  : $this->initialize('Exercice', 'Publication'); break;
-        case 'fixes'      : $this->initialize('Fix', 'Publication'); break;
-        case 'tutos'      : $this->initialize('Tuto', 'Publication'); break;
-        case 'movies'     : $this->initialize('Movie', 'Ponthub'); break;
-        case 'series'     : $this->initialize('Serie', 'Ponthub'); break;
-        case 'episodes'   : $this->initialize('Episode', 'Ponthub'); break;
-        case 'albums'     : $this->initialize('Album', 'Ponthub'); break;
-        case 'musics'     : $this->initialize('Music', 'Ponthub'); break;
-        case 'games'      : $this->initialize('Game', 'Ponthub'); break;
-        case 'softwares'  : $this->initialize('Software', 'Ponthub'); break;
-        case 'others'     : $this->initialize('Other', 'Ponthub'); break;
-        case 'youtubes'   : $this->initialize('Youtube', 'Foyer'); break;
-        case 'beers'      : $this->initialize('Beer', 'Foyer'); break;
-        case 'comments'   : $this->initialize('Comment', 'Core'); break;
+        $likeables = $this->getParameter('likeables');
+        $className = ucfirst(preg_replace('/s$/', '', $object));
 
-        default: return;
+        foreach ($likeables as $bundle => $classes) {
+            if(gettype($classes) != 'array') {
+                continue;
+            }
+            foreach ($classes as $class) {
+                if ($class === $className) {
+                    $bundle = ucfirst($bundle);
+                    return $this->initialize($class, $bundle);;
+                }
+            }
         }
+        throw new \Exception('Initialisation impossible du controleur');
     }
 
-    protected function retrieveLikes($item)
-    {
-        // Si l'entité a un système de like/dislike, précise si l'user actuel (un)like
-        if (property_exists($item, 'like')) {
-            $item->setLike($item->getLikes()->contains($this->user));
-            $item->setDislike($item->getDislikes()->contains($this->user));
-        }
-        if (property_exists($item, 'attend')) {
-            $item->setAttend($item->getAttendees()->contains($this->user));
-            $item->setPookie($item->getPookies()->contains($this->user));
-        }
-        return $item;
-    }
-
-    // Fonctions relatives aux likes/dislikes/commentaires
+    /**
+     * Marque un objet likeable comme liké
+     * @param LikeClass $item
+     */
     protected function like($item)
     {
         $this->isLikeable($item);
 
         // Si l'utilisateur n'a pas déjà liké cet objet on le rajoute
-        if (!$item->getLikes()->contains($this->user))
+        if (!$item->isLiked($this->user)) {
             $item->addLike($this->user);
-        // Si l'utilisateur avait précédemment unliké, on l'enlève
-        if ($item->getDislikes()->contains($this->user))
-            $item->removeDislike($this->user);
+            $item->setLike(true);
+        }
 
-        $this->em->flush();
+        // Si l'utilisateur avait précédemment unliké, on l'enlève
+        if ($item->isDisliked($this->user)) {
+            $item->removeDislike($this->user);
+            $item->setDislike(false);
+        }
+        $this->manager->flush();
     }
 
+    /**
+     * Marque un objet likeable comme disliké
+     * @param LikeClass $item
+     */
     protected function dislike($item)
     {
         $this->isLikeable($item);
 
         // Si l'utilisateur n'a pas déjà unliké cet objet on le rajoute
-        if (!$item->getDislikes()->contains($this->user))
+        if (!$item->isDisliked($this->user)) {
             $item->addDislike($this->user);
-        // Si l'utilisateur avait précédemment liké, on l'enlève
-        if ($item->getLikes()->contains($this->user))
-            $item->removeLike($this->user);
+            $item->setDislike(true);
+        }
 
-        $this->em->flush();
+        // Si l'utilisateur avait précédemment liké, on l'enlève
+        if ($item->isLiked($this->user)) {
+            $item->removeLike($this->user);
+            $item->setLike(false);
+        }
+        $this->manager->flush();
     }
 
+    /**
+     * Marque un objet likeable comme non liké
+     * @param LikeClass $item
+     */
     protected function deleteLike($item)
     {
         $this->isLikeable($item);
 
         // Si l'utilisateur a déjà unliké on l'enlève
-        if ($item->getLikes()->contains($this->user))
+        if ($item->isLiked($this->user)) {
             $item->removeLike($this->user);
-        $this->em->flush();
+            $item->setLike(false);
+        }
+        $this->manager->flush();
     }
 
+    /**
+     * Marque un objet likeable comme non disliké
+     * @param LikeClass $item
+     */
     protected function deleteDislike($item)
     {
         $this->isLikeable($item);
 
         // Si l'utilisateur a déjà unliké on l'enlève
-        if ($item->getDislikes()->contains($this->user))
+        if ($item->isDisliked($this->user)) {
             $item->removeDislike($this->user);
-        $this->em->flush();
+            $item->setDislike(false);
+        }
+        $this->manager->flush();
     }
 
     /**
@@ -129,8 +142,9 @@ class LikeableController extends \KI\CoreBundle\Controller\BaseController
      *  },
      *  section="Likeable"
      * )
+     * @Route\Post("/{object}/{slug}/like")
      */
-    public function likeView($object, $slug)
+    public function likeAction($object, $slug)
     {
         $this->autoInitialize($object);
         $this->like($this->findBySlug($slug));
@@ -149,8 +163,9 @@ class LikeableController extends \KI\CoreBundle\Controller\BaseController
      *  },
      *  section="Likeable"
      * )
+     * @Route\Post("/{object}/{slug}/dislike")
      */
-    public function dislikeView($object, $slug)
+    public function dislikeAction($object, $slug)
     {
         $this->autoInitialize($object);
         $this->dislike($this->findBySlug($slug));
@@ -169,8 +184,9 @@ class LikeableController extends \KI\CoreBundle\Controller\BaseController
      *  },
      *  section="Likeable"
      * )
+     * @Route\Delete("/{object}/{slug}/like")
      */
-    public function deleteLikeView($object, $slug)
+    public function deleteLikeAction($object, $slug)
     {
         $this->autoInitialize($object);
         $this->deleteLike($this->findBySlug($slug));
@@ -189,195 +205,14 @@ class LikeableController extends \KI\CoreBundle\Controller\BaseController
      *  },
      *  section="Likeable"
      * )
+     * @Route\Delete("/{object}/{slug}/dislike")
      */
-    public function deleteDislikeView($object, $slug)
+    public function deleteDislikeAction($object, $slug)
     {
         $this->autoInitialize($object);
         $this->deleteDislike($this->findBySlug($slug));
         return $this->jsonResponse(null, 204);
     }
-
-    /*
-     * Commentaires
-     */
-
-    /**
-     * @ApiDoc(
-     *  description="Retourne les commentaires",
-     *  statusCodes={
-     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette View",
-     *   403="Pas les droits suffisants pour effectuer cette View",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Likeable"
-     * )
-     */
-    public function getCommentsView($object, $slug)
-    {
-        if (!$this->get('security.context')->isGranted('ROLE_USER'))
-            throw new AccessDeniedException('Accès refusé');
-
-        $this->autoInitialize($object);
-        $item = $this->findBySlug($slug);
-        $comments = $item->getComments();
-
-        foreach ($comments as &$comment) {
-            $comment = $this->retrieveLikes($comment);
-        }
-
-        return $this->restResponse($comments);
-    }
-
-    /**
-     * @ApiDoc(
-     *  description="Ajoute un commentaire",
-     *  requirements={
-     *   {
-     *    "name"="text",
-     *    "dataType"="string",
-     *    "description"="Le commentaire"
-     *   }
-     *  },
-     *  statusCodes={
-     *   201="Requête traitée avec succès avec création d’un document",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette View",
-     *   403="Pas les droits suffisants pour effectuer cette View",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Likeable"
-     * )
-     */
-    public function postCommentView($object, $slug)
-    {
-        $this->autoInitialize($object);
-        $item = $this->findBySlug($slug);
-        return $this->postComment($item);
-    }
-
-    protected function postComment($item)
-    {
-        if (!$this->get('security.context')->isGranted('ROLE_USER')
-            || $this->get('security.context')->isGranted('ROLE_ADMISSIBLE'))
-            throw new AccessDeniedException('Accès refusé');
-
-        // Un extérieur ne peut commenter que ses propres posts
-        if ($this->get('security.context')->isGranted('ROLE_EXTERIEUR')) {
-            if (!$item instanceof Post)
-                throw new AccessDeniedException('Accès refusé');
-            if ($item->getAuthorUser() != $this->user)
-                throw new AccessDeniedException('Accès refusé');
-        }
-
-        $request = $this->getRequest()->request;
-
-        if (!$request->has('text'))
-            return $this->jsonResponse('Texte de commentaire non précisé', 400);
-        if ($request->get('text') == '')
-            return $this->jsonResponse('Texte de commentaire non précisé', 400);
-
-        $comment = new Comment();
-        $comment->setDate(time());
-        $comment->setText($request->get('text'));
-        $comment->setAuthor($this->user);
-        $this->em->persist($comment);
-        $item->addComment($comment);
-        $this->em->flush();
-
-        return $this->restResponse($comment,
-            201,
-            array(
-                'Location' => $this->generateUrl(
-                    'upont_api_patch_comment',
-                    array('id' => $comment->getId()),
-                    true
-                )
-            )
-        );
-    }
-
-    /**
-     * @ApiDoc(
-     *  description="Modifie un commentaire",
-     *  statusCodes={
-     *   201="Requête traitée avec succès avec création d’un document",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette View",
-     *   403="Pas les droits suffisants pour effectuer cette View",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Likeable"
-     * )
-     */
-    public function patchCommentView($id)
-    {
-        if (!$this->get('security.context')->isGranted('ROLE_USER'))
-            throw new AccessDeniedException('Accès refusé');
-
-        // L'id doit être entier
-        if (!($id > 0))
-            return $this->jsonResponse(null, 404);
-
-        $request = $this->getRequest()->request;
-        if (!$request->has('text'))
-            return $this->jsonResponse('Texte de commentaire non précisé', 400);
-        if ($request->get('text') == '')
-            return $this->jsonResponse('Texte de commentaire non précisé', 400);
-
-        $this->initialize('Comment', 'Core');
-        $comment = $this->findBySlug($id);
-
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')
-            && $this->user != $comment->getAuthor())
-            throw new AccessDeniedException('Accès refusé');
-
-        $comment->setText($request->get('text'));
-        $this->em->flush();
-        return $this->jsonResponse(null, 204);
-    }
-
-    /**
-     * @ApiDoc(
-     *  description="Supprime un commentaire",
-     *  statusCodes={
-     *   201="Requête traitée avec succès avec création d’un document",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette View",
-     *   403="Pas les droits suffisants pour effectuer cette View",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Likeable"
-     * )
-     */
-    public function deleteCommentView($id)
-    {
-        if (!$this->get('security.context')->isGranted('ROLE_USER'))
-            throw new AccessDeniedException('Accès refusé');
-
-        // L'id doit être entier
-        if (!($id > 0))
-            return $this->jsonResponse(null, 404);
-
-        $this->initialize('Comment', 'Core');
-        $comment = $this->findBySlug($id);
-
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')
-            && $this->user != $comment->getAuthor())
-            throw new AccessDeniedException('Accès refusé');
-
-        $this->em->remove($comment);
-        $this->em->flush();
-        return $this->jsonResponse(null, 204);
-    }
-
-    /*
-     * Même chose pour les sous ressources
-     */
 
     /**
      * @ApiDoc(
@@ -391,11 +226,12 @@ class LikeableController extends \KI\CoreBundle\Controller\BaseController
      *  },
      *  section="Likeable"
      * )
+     * @Route\Post("/{object}/{slug}/{subobject}/{subslug}/like")
      */
-    public function likeSubView($object, $slug, $subobject, $subslug)
+    public function likeSubAction($object, $slug, $subobject, $subslug)
     {
-        $this->autoInitialize($object);
-        $this->like($this->findBySlug($slug));
+        $this->autoInitialize($subobject);
+        $this->like($this->findBySlug($subslug));
         return $this->jsonResponse(null, 204);
     }
 
@@ -411,11 +247,10 @@ class LikeableController extends \KI\CoreBundle\Controller\BaseController
      *  },
      *  section="Likeable"
      * )
+     * @Route\Post("/{object}/{slug}/{subobject}/{subslug}/dislike")
      */
-    public function dislikeSubView($object, $slug, $subobject, $subslug)
+    public function dislikeSubAction($object, $slug, $subobject, $subslug)
     {
-        $this->autoInitialize($object);
-        $this->findBySlug($slug);
         $this->autoInitialize($subobject);
         $this->dislike($this->findBySlug($subslug));
         return $this->jsonResponse(null, 204);
@@ -433,11 +268,10 @@ class LikeableController extends \KI\CoreBundle\Controller\BaseController
      *  },
      *  section="Likeable"
      * )
+     * @Route\Delete("/{object}/{slug}/{subobject}/{subslug}/like")
      */
-    public function deleteLikeSubView($object, $slug, $subobject, $subslug)
+    public function deleteLikeSubAction($object, $slug, $subobject, $subslug)
     {
-        $this->autoInitialize($object);
-        $this->findBySlug($slug);
         $this->autoInitialize($subobject);
         $this->deleteLike($this->findBySlug($subslug));
         return $this->jsonResponse(null, 204);
@@ -455,62 +289,12 @@ class LikeableController extends \KI\CoreBundle\Controller\BaseController
      *  },
      *  section="Likeable"
      * )
+     * @Route\Delete("/{object}/{slug}/{subobject}/{subslug}/dislike")
      */
-    public function deleteDislikeSubView($object, $slug, $subobject, $subslug)
+    public function deleteDislikeSubAction($object, $slug, $subobject, $subslug)
     {
-        $this->autoInitialize($object);
-        $this->findBySlug($slug);
         $this->autoInitialize($subobject);
         $this->deleteDislike($this->findBySlug($subslug));
         return $this->jsonResponse(null, 204);
-    }
-
-    /**
-     * @ApiDoc(
-     *  description="Retourne les commentaires d'une sous ressource",
-     *  statusCodes={
-     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette View",
-     *   403="Pas les droits suffisants pour effectuer cette View",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Likeable"
-     * )
-     */
-    public function getCommentsSubView($object, $slug, $subobject, $subslug)
-    {
-        if (!$this->get('security.context')->isGranted('ROLE_USER')
-            || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
-            throw new AccessDeniedException('Accès refusé');
-
-        $this->autoInitialize($object);
-        $this->findBySlug($slug);
-        $this->autoInitialize($subobject);
-        $item = $this->findBySlug($subslug);
-        return $this->restResponse($item->getComments());
-    }
-
-    /**
-     * @ApiDoc(
-     *  description="Ajoute un commentaire à une sous ressource",
-     *  statusCodes={
-     *   201="Requête traitée avec succès avec création d’un document",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette View",
-     *   403="Pas les droits suffisants pour effectuer cette View",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Likeable"
-     * )
-     */
-    public function postCommentSubView($object, $slug, $subobject, $subslug)
-    {
-        $this->autoInitialize($object);
-        $this->findBySlug($slug);
-        $this->autoInitialize($subobject);
-        $item = $this->findBySlug($subslug);
-        return $this->postComment($item);
     }
 }

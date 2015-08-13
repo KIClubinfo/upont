@@ -52,15 +52,15 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function getUserAchievementsAction($slug)
     {
-        $repo = $this->em->getRepository('KIUserBundle:User');
+        $repo = $this->manager->getRepository('KIUserBundle:User');
         $user = $this->findBySlug($slug);
         return $this->retrieveAchievements($user);
     }
 
     private function retrieveAchievements($user)
     {
-        $repoA = $this->em->getRepository('KIUserBundle:Achievement');
-        $repoAU = $this->em->getRepository('KIUserBundle:AchievementUser');
+        $repoA = $this->manager->getRepository('KIUserBundle:Achievement');
+        $repoAU = $this->manager->getRepository('KIUserBundle:AchievementUser');
         $unlocked = array();
         $oUnlocked = array();
         $all = $this->getRequest()->query->has('all');
@@ -123,8 +123,9 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         }
         array_multisort($ids, SORT_ASC, $unlocked);
         $ids = array();
-        foreach ($locked as $key => $achievement)
-            $ids[$key] = $achievement['id'];
+        foreach ($locked as $key => $achievement) {
+                    $ids[$key] = $achievement['id'];
+        }
         array_multisort($ids, SORT_ASC, $locked);
 
         // On renvoie pas mal de données utiles
@@ -138,7 +139,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
             'locked'        => $locked,
         );
 
-        $this->em->flush();
+        $this->manager->flush();
         return $this->jsonResponse($return);
     }
 
@@ -203,7 +204,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
             throw new BadRequestHttpException('Type de téléphone manquant');
 
         // On vérifie que le smartphone n'a pas déjà été enregistré
-        $repo = $this->em->getRepository('KIUserBundle:Device');
+        $repo = $this->manager->getRepository('KIUserBundle:Device');
         $devices = $repo->findByDevice($request->get('device'));
         if (!empty($devices))
             return $this->jsonResponse(null, 204);
@@ -212,8 +213,8 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         $device->setOwner($this->get('security.context')->getToken()->getUser());
         $device->setDevice($request->get('device'));
         $device->setType($request->get('type'));
-        $this->em->persist($device);
-        $this->em->flush();
+        $this->manager->persist($device);
+        $this->manager->flush();
 
         return $this->jsonResponse(null, 204);
     }
@@ -238,14 +239,14 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
             throw new AccessDeniedException();
         }
 
-        $repo = $this->em->getRepository('KIUserBundle:Device');
+        $repo = $this->manager->getRepository('KIUserBundle:Device');
         $device = $repo->findOneByDevice(str_replace('"', '', $id));
 
         if ($device === null)
             throw new NotFoundHttpException('Téléphone non trouvé');
 
-        $this->em->remove($device);
-        $this->em->flush();
+        $this->manager->remove($device);
+        $this->manager->flush();
 
         return $this->jsonResponse(null, 204);
     }
@@ -266,7 +267,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function getNotificationsAction()
     {
-        $repo = $this->em->getRepository('KIUserBundle:Notification');
+        $repo = $this->manager->getRepository('KIUserBundle:Notification');
         $user = $this->get('security.context')->getToken()->getUser();
 
         // On récupère toutes les notifs
@@ -280,13 +281,11 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
                 // Si la notification n'a pas été lue
                 if ($notification->getRecipient()->contains($user) && !$notification->getRead()->contains($user))
                     $return[] = $notification;
-            }
-            else if ($mode == 'exclude') {
+            } else if ($mode == 'exclude') {
                 // Si la notification n'a pas été lue
                 if (!$notification->getRead()->contains($user) && !$notification->getRecipient()->contains($user))
                     $return[] = $notification;
-            }
-            else
+            } else
                 throw new \Exception('Notification : mode d\'envoi inconnu ('.$mode.')');
         }
 
@@ -294,7 +293,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         foreach ($return as $notification) {
             $notification->addRead($user);
         }
-        $this->em->flush();
+        $this->manager->flush();
 
         return $this->restResponse($return);
     }
@@ -319,7 +318,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
     }
 
     protected function getFollowedClubs($user = null) {
-        $repo = $this->em->getRepository('KIUserBundle:Club');
+        $repo = $this->manager->getRepository('KIUserBundle:Club');
         if ($user === null)
             $user = $this->get('security.context')->getToken()->getUser();
         $userNotFollowed = $user->getClubsNotFollowed();
@@ -382,7 +381,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function getOwnCalendarAction($token)
     {
-        $user = $this->repo->findOneByToken($token);
+        $user = $this->repository->findOneByToken($token);
         if ($user === null) {
             throw new NotFoundHttpException('Aucun utilisateur ne correspond au token saisi');
         } else {
@@ -401,7 +400,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
 
     // Va chercher les événements suivis
     private function getFollowedEvents($user = null) {
-        $repo = $this->em->getRepository('KIPublicationBundle:Event');
+        $repo = $this->manager->getRepository('KIPublicationBundle:Event');
 
         if ($user === null)
             $user = $this->get('security.context')->getToken()->getUser();
@@ -419,7 +418,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
                 continue;
 
             // On trie par date
-            $return[$key] = $this->retrieveLikes($event);
+            $return[$key] = $event;
             $dates[$key] = $event->getStartDate();
         }
         array_multisort($dates, SORT_DESC, $return);
@@ -443,20 +442,21 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function getNewsItemsAction()
     {
-        $repo = $this->em->getRepository('KIPublicationBundle:Newsitem');
+        $repository = $this->manager->getRepository('KIPublicationBundle:Newsitem');
 
-        list($findBy, $sortBy, $limit, $offset, $page, $totalPages, $count) = $this->paginate($repo);
+        $paginateHelper = $this->get('ki_core.helper.paginate');
+        extract($paginateHelper->paginateData($repository));
         $findBy['authorClub'] = $this->getFollowedClubs();
-        $results = $repo->findBy($findBy, $sortBy, $limit, $offset);
+        $results = $repository->findBy($findBy, $sortBy, $limit, $offset);
 
         // Tri des données
         $dates = array();
         foreach ($results as $key => $newsitem) {
-            $results[$key] = $this->retrieveLikes($newsitem);
+            $results[$key] = $newsitem;
             $dates[$key] = $newsitem->getDate();
         }
         array_multisort($dates, SORT_DESC, $results);
-        return $this->generatePages($results, $limit, $page, $totalPages, $count);
+        return $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
     }
 
     /**
@@ -478,8 +478,9 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         $repo = $this->getDoctrine()->getManager()->getRepository('KIPublicationBundle:CourseUser');
 
         $return = array();
-        foreach ($repo->findBy(array('user' => $this->user)) as $courseUser)
-            $return[] = array('course' => $courseUser->getCourse(), 'group' => $courseUser->getGroup());
+        foreach ($repo->findBy(array('user' => $this->user)) as $courseUser) {
+                    $return[] = array('course' => $courseUser->getCourse(), 'group' => $courseUser->getGroup());
+        }
 
         return $this->restResponse($return);
     }
@@ -556,7 +557,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
             throw new BadRequestHttpException('Champ manquant');
 
         if ($user->addPreference($request->request->get('key'), $request->request->get('value'))) {
-            $this->em->flush();
+            $this->manager->flush();
             return $this->restResponse(null, 204);
         }
 
@@ -595,7 +596,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
             throw new BadRequestHttpException('Champ manquant');
 
         if ($user->removePreference($request->request->get('key'))) {
-            $this->em->flush();
+            $this->manager->flush();
 
             return $this->restResponse(null, 204);
         }
@@ -644,7 +645,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
     /**
      * @ApiDoc(
      *  description="Renvoie la liste des dépannages demandés par l'utilisateur",
-     *  output="KI\PublicationBundle\Entity\Fix",
+     *  output="KI\ClubinfoBundle\Entity\Fix",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -661,12 +662,14 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         if (!$this->get('security.context')->isGranted('ROLE_USER'))
             throw new AccessDeniedException('Accès refusé');
 
-        $repo = $this->em->getRepository('KIPublicationBundle:Fix');
-        list($findBy, $sortBy, $limit, $offset, $page, $totalPages, $count) = $this->paginate($repo);
-        $findBy['user'] = $user;
-        $results = $repo->findBy($findBy, $sortBy, $limit, $offset);
+        $repository = $this->manager->getRepository('KIClubinfoBundle:Fix');
+        $paginateHelper = $this->get('ki_core.helper.paginate');
+        extract($paginateHelper->paginateData($repository));
 
-        return $this->generatePages($results, $limit, $page, $totalPages, $count);
+        $findBy['user'] = $user;
+        $results = $repository->findBy($findBy, $sortBy, $limit, $offset);
+
+        return $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
     }
 
     /**
@@ -722,7 +725,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
     public function postOwnUserAction()
     {
         $request = $this->getRequest()->request;
-        if (!$request->has('password') || !$request->has('confirm')  || !$request->has('old'))
+        if (!$request->has('password') || !$request->has('confirm') || !$request->has('old'))
             throw new BadRequestHttpException('Champs password/confirm non rempli(s)');
 
         if ($this->user->hasRole('ROLE_ADMISSIBLE'))

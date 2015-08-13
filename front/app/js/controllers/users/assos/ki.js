@@ -41,15 +41,7 @@ angular.module('upont')
         };
 
         $scope.changeStatus = function(fix) {
-            var params = {
-                status: fix.status
-            };
-
-            if (fix.status == 'Résolu') {
-                params.solved = moment().unix();
-            }
-
-            $http.patch(apiPrefix + 'fixes/' + fix.slug, params).success(function(data){
+            $http.patch(apiPrefix + 'fixes/' + fix.slug, {status: fix.status}).success(function(data){
                 $scope.reload();
             });
         };
