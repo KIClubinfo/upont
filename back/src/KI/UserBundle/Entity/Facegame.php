@@ -51,6 +51,8 @@ class Facegame
      * @JMS\Expose
      */
     protected $user;
+    public $autoSetUser = 'user';
+    public function getAutoSetUser() { return $this->autoSetUser; }
 
     /**
      * Liste des utilisateurs représentés dans le jeu
@@ -76,12 +78,12 @@ class Facegame
      */
     protected $hardcore;
 
+    public function __construct()
+    {
+        $this->date = time();
+    }
 
-
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
+    public function getSlug() { return $this->getId(); }
 
     /**
      * Get id

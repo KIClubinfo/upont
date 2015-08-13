@@ -1,0 +1,9 @@
+services:
+    # Écoute les checks d'achievements demandés un peu partout dans le code
+    ki_user.helper.facegame:
+        class: KI\UserBundle\Helper\FacegameHelper
+        arguments:
+            - @doctrine.orm.entity_manager
+            - @ki_user.repository.user
+            - @event_dispatcher
+            - @security.token_storage

@@ -59,9 +59,6 @@ class Comment extends LikeClass
      */
     protected $listDislikes;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         parent::__construct();
