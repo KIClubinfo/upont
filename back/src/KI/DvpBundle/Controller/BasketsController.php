@@ -3,13 +3,15 @@
 namespace KI\DvpBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use KI\CoreBundle\Controller\ResourceController;
 use KI\DvpBundle\Entity\BasketOrder;
 
-class BasketsController extends \KI\CoreBundle\Controller\ResourceController
+class BasketsController extends ResourceController
 {
-    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->initialize('Basket', 'Dvp');
@@ -31,7 +33,7 @@ class BasketsController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function getBasketsAction()
     {
-        return $this->getAll($this->get('security.context')->isGranted('ROLE_EXTERIEUR'));
+        return $this->getAll($this->is('EXTERIEUR'));
     }
 
     /**
@@ -50,7 +52,7 @@ class BasketsController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function getBasketAction($slug)
     {
-        return $this->getOne($slug, $this->get('security.context')->isGranted('ROLE_EXTERIEUR'));
+        return $this->getOne($slug, $this->is('EXTERIEUR'));
     }
 
     /**
@@ -152,7 +154,7 @@ class BasketsController extends \KI\CoreBundle\Controller\ResourceController
     public function postBasketOrderAction($slug)
     {
         $basket = $this->findBySlug($slug);
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->user;
 
         // On vérifie que la commande n'a pas déjà été faite
         $repository = $this->manager->getRepository('KIDvpBundle:BasketOrder');
@@ -164,7 +166,6 @@ class BasketsController extends \KI\CoreBundle\Controller\ResourceController
         $basketOrder = new BasketOrder();
         $basketOrder->setBasket($basket);
         $basketOrder->setUser($user);
-        $basketOrder->setDateOrder(time());
 
         // Si l'utilisateur n'est pas dans uPont on remplit les infos
         $request = $this->getRequest()->request;
@@ -173,23 +174,23 @@ class BasketsController extends \KI\CoreBundle\Controller\ResourceController
                                     && $request->has('email')
                                     && $request->has('phone')))
             || ($user->getPhone() === null && !$request->has('phone'))
-           )
+           ) {
             throw new BadRequestHttpException('Formulaire incomplet');
+        }
 
         if ($user === null) {
             $basketOrder->setFirstName($request->get('firstName'));
             $basketOrder->setLastName($request->get('lastName'));
             $basketOrder->setEmail($request->get('email'));
-        }
-
-        if ($user === null || $user->getPhone() === null) {
             $basketOrder->setPhone($request->get('phone'));
-            $user->setPhone($request->get('phone'));
         } else {
-            $basketOrder->setPhone($user->getPhone());
             $basketOrder->setFirstName($user->getFirstName());
             $basketOrder->setLastName($user->getLastName());
             $basketOrder->setEmail($user->getEmail());
+            if ($user->getPhone() === null) {
+                $user->setPhone($request->get('phone'));
+            }
+            $basketOrder->setPhone($user->getPhone());
         }
 
         $this->manager->persist($basketOrder);
@@ -222,11 +223,12 @@ class BasketsController extends \KI\CoreBundle\Controller\ResourceController
 
         // On vérifie que la commande existe
         $this->switchClass('BasketOrder');
-        $basketOrder = $this->repository->findBy(array('basket' => $basket, 'user' => $user));
+        $basketOrder = $this->repository->findOneBy(array('basket' => $basket, 'user' => $user));
 
-        if (count($basketOrder) != 1)
+        if ($basketOrder === null) {
             throw new BadRequestHttpException('Commande non trouvée');
+        }
 
-        return $this->patch($basketOrder[0]->getId(), $this->isClubMember('dvp'));
+        return $this->patch($basketOrder->getId(), $this->isClubMember('dvp'));
     }
 }

@@ -13,7 +13,8 @@ class BasketType extends AbstractType
         $builder
             ->add('name')
             ->add('content')
-            ->add('price');
+            ->add('price')
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

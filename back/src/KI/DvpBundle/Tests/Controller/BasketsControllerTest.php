@@ -10,23 +10,18 @@ class BasketsControllerTest extends WebTestCase
     // Ne pas oublier de supprimer à la fin avec le test DELETE.
     public function testPost()
     {
-        $this->client->request('POST',
-            '/dvp/baskets',
-            array(
-                'name' => 'Panier test',
-                'content' => 'Des fruits, des légumes... que des bonnes choses',
-                'price' => 10
-                )
-            );
+        $this->client->request('POST', '/dvp/baskets', array(
+            'name' => 'Panier test',
+            'content' => 'Des fruits, des légumes... que des bonnes choses',
+            'price' => 10
+            )
+        );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
         // On vérifie que le lieu du nouvel objet a été indiqué
         $this->assertTrue($response->headers->has('Location'), $response->headers);
 
-        $this->client->request('POST',
-            '/dvp/baskets/panier-test/order',
-            array()
-            );
+        $this->client->request('POST', '/dvp/baskets/panier-test/order', array());
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
     }
