@@ -1,7 +1,3 @@
-youtubes:
-    type:     rest
-    resource: KI\FoyerBundle\Controller\YoutubesController
-
 beers:
     type:     rest
     resource: KI\FoyerBundle\Controller\BeersController
@@ -9,6 +5,10 @@ beers:
 beerUsers:
     type:     rest
     resource: KI\FoyerBundle\Controller\BeerUsersController
+
+youtubes:
+    type:     rest
+    resource: KI\FoyerBundle\Controller\YoutubesController
 
 upont_api_foyer_balance:
     pattern: /foyer/balance
