@@ -8,7 +8,6 @@ class FixesControllerTest extends WebTestCase
 {
     // On crée une ressource sur laquelle seront effectués les tests.
     // Ne pas oublier de supprimer à la fin avec le test DELETE.
-    // Le problem de ce fix est utilisé dans une condition du hook slack (cf le FixesController)
     public function testPost()
     {
         $this->client->request(
@@ -63,5 +62,16 @@ class FixesControllerTest extends WebTestCase
         $this->client->request('PATCH', '/fixes/panne-d-internet', array('name' => 'miam', 'mail' => '123@mail.fr'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
+    }
+
+    public function testDelete()
+    {
+        $this->client->request('DELETE', '/fixes/panne-d-internet');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 204);
+
+        $this->client->request('DELETE', '/fixes/panne-d-internet');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 404);
     }
 }

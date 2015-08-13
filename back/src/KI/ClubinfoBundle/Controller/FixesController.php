@@ -115,5 +115,10 @@ class FixesController extends ResourceController
      *  section="Clubinfo"
      * )
      */
-    public function deleteFixAction($slug) { return $this->delete($slug); }
+    public function deleteFixAction($slug)
+    {
+        $fix = $this->findBySlug($slug);
+        $user = $this->get('security.context')->getToken()->getUser();
+        return $this->delete($slug, $user->getUsername() == $fix->getUser()->getUsername());
+    }
 }
