@@ -1,18 +1,4 @@
 services:
-    ki_user.repository.device:
-        class: Doctrine\ORM\EntityRepository
-        factory_service: doctrine.orm.default_entity_manager
-        factory_method: getRepository
-        arguments:
-            - KI\UserBundle\Entity\Device
-
-    ki_user.repository.user:
-        class: Doctrine\ORM\EntityRepository
-        factory_service: doctrine.orm.default_entity_manager
-        factory_method: getRepository
-        arguments:
-            - KI\UserBundle\Entity\User
-
     ki_user.repository.clubuser:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.default_entity_manager
@@ -20,9 +6,30 @@ services:
         arguments:
             - KI\UserBundle\Entity\ClubUser
 
+    ki_user.repository.device:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - KI\UserBundle\Entity\Device
+
+    ki_user.repository.facegame:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - KI\UserBundle\Entity\Facegame
+
     ki_user.repository.notification:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.default_entity_manager
         factory_method: getRepository
         arguments:
             - KI\UserBundle\Entity\Notification
+
+    ki_user.repository.user:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - KI\UserBundle\Entity\User
