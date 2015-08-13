@@ -3,10 +3,12 @@
 namespace KI\FoyerBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use KI\CoreBundle\Controller\ResourceController;
 
-class BeersController extends \KI\CoreBundle\Controller\ResourceController
+class BeersController extends ResourceController
 {
-    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->initialize('Beer', 'Foyer');
@@ -34,8 +36,8 @@ class BeersController extends \KI\CoreBundle\Controller\ResourceController
         $beers = $this->repository->findAll();
 
         // On va établir les comptes sur les 500 dernières consos
-        $repo = $this->manager->getRepository('KIFoyerBundle:BeerUser');
-        $beerUsers = $repo->findBy(array(), array('date' => 'DESC'), 500);
+        $beerUserRepository = $this->manager->getRepository('KIFoyerBundle:BeerUser');
+        $beerUsers = $beerUserRepository->findBy(array(), array('date' => 'DESC'), 500);
 
         $counts = array();
         foreach ($beerUsers as $beerUser) {
@@ -139,8 +141,8 @@ class BeersController extends \KI\CoreBundle\Controller\ResourceController
     {
         // On supprime toutes les consos associées
         $beer = $this->findBySlug($slug);
-        $repo = $this->manager->getRepository('KIFoyerBundle:BeerUser');
-        $beerUsers = $repo->findBy(array('beer' => $beer));
+        $beerUserRepository = $this->manager->getRepository('KIFoyerBundle:BeerUser');
+        $beerUsers = $beerUserRepository->findBy(array('beer' => $beer));
 
         foreach ($beerUsers as $beerUser) {
             $this->manager->remove($beerUser);

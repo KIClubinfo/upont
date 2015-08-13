@@ -52,16 +52,6 @@ class Beer extends Likeable
         return $this->image !== null ? $this->image->getWebPath() : null;
     }
 
-
-
-
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
-
-
-
     /**
      * Set price
      *
