@@ -16,7 +16,13 @@ class VersionService
         $out = array();
 
         if (!preg_match_all('/v(\d+)\.(\d+)\.(\d+)/', $tags, $out)) {
-            throw new \Exception('Impossible de calculer la version de uPont.');
+            return array(
+                'version' => 2,
+                'major'   => 0,
+                'minor'   => 0,
+                'build'   => 'Inconnu',
+                'date'    => 0
+            );
         }
 
         $countTags = count($out[0]);
