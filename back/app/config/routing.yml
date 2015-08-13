@@ -8,7 +8,7 @@ ki_core:
 
 ki_dvp:
     resource: "@KIDvpBundle/Resources/config/routing.yml"
-    prefix:   /dvp
+    prefix:   /
 
 ki_foyer:
     resource: "@KIFoyerBundle/Resources/config/routing.yml"
