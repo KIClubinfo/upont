@@ -6,6 +6,18 @@ use KI\CoreBundle\Tests\WebTestCase;
 
 class DefaultControllerTest extends WebTestCase
 {
+    public function testCleaning()
+    {
+        $this->client->request('GET', '/clean');
+        $this->assertJsonResponse($this->client->getResponse(), 204);
+    }
+
+    public function testDirty()
+    {
+        $this->client->request('GET', '/dirty');
+        $this->assertJsonResponse($this->client->getResponse(), 302);
+    }
+
     public function testLoginFailure()
     {
         $client = static::createClient();
@@ -70,27 +82,6 @@ class DefaultControllerTest extends WebTestCase
         $this->assertJsonResponse($this->client->getResponse(), 204);
     }
 
-    public function testCleaning()
-    {
-        $this->client->request('GET', '/clean');
-        $this->assertJsonResponse($this->client->getResponse(), 204);
-    }
-
-    public function testDirty()
-    {
-        $this->client->request('GET', '/dirty');
-        $this->assertJsonResponse($this->client->getResponse(), 302);
-    }
-
-    public function testOnline()
-    {
-        $this->client->request('GET', '/online');
-        $this->assertJsonResponse($this->client->getResponse(), 200);
-
-        $this->client->request('GET', '/online?delay=5');
-        $this->assertJsonResponse($this->client->getResponse(), 200);
-    }
-
     public function testPing()
     {
         $this->client->request('HEAD', '/ping');
@@ -104,59 +95,31 @@ class DefaultControllerTest extends WebTestCase
         $this->assertJsonResponse($client->getResponse(), 204);
     }
 
-    public function testRequestResetting()
+    public function testSearch()
     {
-        $client = static::createClient();
-        $client->enableProfiler();
-        $client->request('POST', '/resetting/request', array('username' => 'iqhjioqiosois'));
+        $this->client->request('POST', '/search', array('search' => 'User/al'));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 200);
 
-        // On vérifie que l'email a été envoyé
-        $mailCollector = $client->getProfile()->getCollector('swiftmailer');
-        $this->assertEquals(0, $mailCollector->getMessageCount());
-        $this->assertJsonResponse($client->getResponse(), 404);
+        $this->client->request('POST', '/search', array('search' => ''));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 400);
 
-        $client = static::createClient();
-        $client->enableProfiler();
-        $client->request('POST', '/resetting/request', array('username' => 'trancara'));
+        $this->client->request('POST', '/search', array('search' => 'Users/'));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 400);
 
-        // On vérifie que l'email a été envoyé
-        $mailCollector = $client->getProfile()->getCollector('swiftmailer');
-        $this->assertEquals(1, $mailCollector->getMessageCount());
-        $this->assertJsonResponse($client->getResponse(), 204);
+        $this->client->request('POST', '/search', array('search' => 'al'));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 400);
 
-        $collectedMessages = $mailCollector->getMessages();
-        $message = $collectedMessages[0];
+        $this->client->request('POST', '/search', array('search' => 'Miam/'));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 400);
 
-        // On vérifie le message
-        $this->assertInstanceOf('Swift_Message', $message);
-        $this->assertEquals('Réinitialisation du mot de passe', $message->getSubject());
-        $this->assertEquals('noreply@upont.enpc.fr', key($message->getFrom()));
-        $this->assertEquals('alberic.trancart@eleves.enpc.fr', key($message->getTo()));
-
-        // On récupère le token
-        $this->assertTrue(preg_match('#/reset/(.*)\n\n.*Si#is', $message->getBody(), $token) == 1);
-        $token = $token[1];
-        $this->assertTrue(!empty($token));
-
-        // On teste le reset en lui même
-        $this->client->request('POST', '/resetting/token/dfdsdsfdsfsfds', array('password' => '1234', 'check' => '1234'));
-        $this->assertJsonResponse($this->client->getResponse(), 404);
-
-        $this->client->request('POST', '/resetting/token/'.$token, array('password' => 'password', 'check' => '12sdqsdsqdqds34'));
-        $this->assertJsonResponse($this->client->getResponse(), 400);
-
-        $this->client->request('POST', '/resetting/token/'.$token, array('password' => 'azerty', 'check' => 'azerty'));
-        $this->assertJsonResponse($this->client->getResponse(), 204);
-
-        // On vérifie que le mot de passe a bien été changé
-        $client = static::createClient();
-        $client->request('POST', '/login', array('username' => 'trancara', 'password' => 'azerty'));
-        $this->assertJsonResponse($client->getResponse(), 200, true);
-
-        // On remet l'ancien mot de passe
-        $client = static::createClient();
-        $client->request('POST', '/resetting/token/'.$token, array('password' => 'password', 'check' => 'password'));
-        $this->assertJsonResponse($this->client->getResponse(), 204);
+        $this->client->request('POST', '/search', array('search' => 'Miam/ps'));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 400);
     }
 
     public function testVersion()
@@ -168,6 +131,5 @@ class DefaultControllerTest extends WebTestCase
         $this->assertArrayHasKey('major', $response);
         $this->assertArrayHasKey('minor', $response);
         $this->assertArrayHasKey('build', $response);
-        $this->assertArrayHasKey('environment', $response);
     }
 }

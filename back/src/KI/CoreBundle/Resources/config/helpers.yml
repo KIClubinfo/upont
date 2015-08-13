@@ -1,4 +1,10 @@
 services:
+    ki_core.helper.cleaning:
+        class: KI\CoreBundle\Helper\CleaningHelper
+        arguments:
+            - @doctrine.orm.entity_manager
+            - @ki_user.repository.notification
+
     ki_core.helper.form:
         class: KI\CoreBundle\Helper\FormHelper
         arguments:

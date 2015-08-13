@@ -53,7 +53,8 @@ class Image
 
     public function getAbsolutePath()
     {
-        return $this->uploadsDirectory.'images/'.$this->id.'.'.$this->ext;
+        // We need to set complete path because this function is called without the constructor by PreRemove
+        return __DIR__.'/../../../../web/uploads/images/'.$this->id.'.'.$this->ext;
     }
 
     public function getWebPath()
@@ -169,6 +170,11 @@ class Image
         // Enregistrement de la miniature
         $thumbnailsDirectory = dirname(str_replace('images', 'thumbnails', $originalPath)).'/';
         $thumbnailPath = $thumbnailsDirectory.substr($originalPath, strlen(dirname($originalPath)) + 1);
+
+        // Création du dossier thumbnails au besoin
+        if(!is_dir($thumbnailsDirectory)) {
+            mkdir($thumbnailsDirectory);
+        }
 
         if (preg_match('/jpg|jpeg/', $extension)) {
             imagejpeg($thumbnail, $thumbnailPath);

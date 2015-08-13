@@ -1,27 +1,15 @@
-search:
-    pattern: /search
-    defaults: { _controller: KICoreBundle:Search:search }
-    requirements:
-        _method: POST
-
-upont_images_post:
-    path: /images
-    defaults: { _controller: KICoreBundle:Images:uploadImage }
-    requirements:
-        _method: POST
+comments:
+    type:     rest
+    resource: KI\CoreBundle\Controller\CommentsController
 
 default:
     type:     rest
     resource: KI\CoreBundle\Controller\DefaultController
 
+images:
+    type:     rest
+    resource: KI\CoreBundle\Controller\ImagesController
+
 likes:
     type:     rest
     resource: KI\CoreBundle\Controller\LikeableController
-
-comments:
-    type:     rest
-    resource: KI\CoreBundle\Controller\CommentsController
-
-NelmioApiDocBundle:
-    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
-    prefix:   /doc

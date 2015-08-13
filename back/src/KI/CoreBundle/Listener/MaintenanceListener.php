@@ -7,17 +7,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MaintenanceListener
 {
-    protected $maintenanceLock;
+    protected $lockfilePath;
 
-    public function __construct($maintenanceLock)
+    public function __construct($lockfilePath)
     {
-        $this->maintenanceLock = $maintenanceLock;
+        $this->lockfilePath = $lockfilePath;
     }
 
     public function onKernelRequest(GetResponseEvent $event)
     {
-        $maintenance = file_exists($this->maintenanceLock);
-        $unlock = preg_match('#/maintenance$#', $event->getRequest()->getRequestUri());
+        $maintenance = file_exists($this->lockfilePath);
+        $unlock = preg_match('/\/maintenance$/', $event->getRequest()->getRequestUri());
 
         // Si la maintenance est activée et qu'on n'essaye pas de la débloquer
         if ($maintenance && !$unlock) {
@@ -27,7 +27,7 @@ class MaintenanceListener
             );
 
             // Durée de la maintenance
-            $until = file_get_contents($this->maintenanceLock);
+            $until = file_get_contents($this->lockfilePath);
             if ($until !== '') {
                 $content['until'] = (int)$until;
             }

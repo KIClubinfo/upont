@@ -38,7 +38,7 @@ class LikeableController extends BaseController
     protected function autoInitialize($object)
     {
         $likeables = $this->getParameter('likeables');
-        $className = ucfirst(preg_replace('#s$#', '', $object));
+        $className = ucfirst(preg_replace('/s$/', '', $object));
 
         foreach ($likeables as $bundle => $classes) {
             if(gettype($classes) != 'array') {

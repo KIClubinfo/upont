@@ -2,12 +2,13 @@
 
 namespace KI\CoreBundle\Controller;
 
+use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use KI\CoreBundle\Entity\Image;
 
-class ImagesController extends \KI\CoreBundle\Controller\BaseController
+class ImagesController extends BaseController
 {
     /**
      * @ApiDoc(
@@ -22,10 +23,11 @@ class ImagesController extends \KI\CoreBundle\Controller\BaseController
      *  section="Général"
      * )
      */
-    public function uploadImageAction(Request $request)
+    public function postImageAction(Request $request)
     {
-        if (!$request->files->has('file'))
+        if (!$request->files->has('file')) {
             throw new BadRequestHttpException('Aucun fichier fourni');
+        }
 
         $image = new Image();
         $file = $this->getRequest()->files->get('file');

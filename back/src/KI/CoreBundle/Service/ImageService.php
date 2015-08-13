@@ -31,7 +31,7 @@ class ImageService
         $image = new Image();
 
         // Répartition entre url et Base64
-        $regex = '#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#iS';
+        $regex = '/\b(([\w-]+:\/\/?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|\/)))/iS';
         if ($url || preg_match($regex, $src)) {
             $data = $this->uploadFromUrl($src);
         } else {
@@ -98,13 +98,5 @@ class ImageService
             'image' => $data,
             'extension' => $extension
         );
-    }
-
-    public function removeImage($path)
-    {
-        if (file_exists($path)) {
-            return unlink($path);
-        }
-        return false;
     }
 }
