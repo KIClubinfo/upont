@@ -25,8 +25,8 @@ class FacegamesControllerTest extends WebTestCase
     }
 
     // Obligé de faire une seule grosse fonction pour utiliser le meme id
-    // Car celui ci change à chaque fois, le auto_incrmeent n'étant pas reset
-    // Lors du chargement des fixtures
+    // Celui-ci change à chaque fois, le auto_increment n'étant pas reset
+    // lors du chargement des fixtures
     public function testCors()
     {
         $this->client->request('GET', '/facegames');

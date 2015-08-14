@@ -27,14 +27,16 @@
                 </div>
 
                 <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
-                    {{ position }}/{{ gameData.list_users.length }}
+                    {{ position + 1 }}/{{ gameData.list_users.length }}
                 </div>
             </div>
             <br>
             <div up-row padded center>
                 <div up-col-xs="50%" up-col-sm="50%" up-col-md="30%" up-col="25%">
                     <h3 ng-if="change && !hardcore" up-row center>{{ name }}</h3>
-                    <h3 ng-if="!change && hardcore" up-row center>{{ text(trait) }} : {{ traitValue }}</h3>
+
+                    <h3 ng-if="!change && hardcore" up-row center>{{ text(trait) }} : {{ traitValue }}.<br>
+                    Quel élève a cette caractéristique ?</h3>
 
                     <div ng-if="!change && !hardcore">
                         <br><br>
@@ -49,6 +51,7 @@
                             <div class="up-image" ng-style="{ 'background-image' : 'url(' + (picture | thumb | urlFile) + ')' }"></div>
                         </div>
                         <h3 up-row center>{{ name }}</h3>
+                        <h3 up-row center>{{ text(trait) }} ?</h3>
                     </div>
                 </div>
             </div>
@@ -123,7 +126,7 @@
             <h2>Temps</h2>
 
             Tu as fini en <b>{{ (clock-start)/1000 | formatDuration }}</b>.<br>
-            <span ng-if="numWrong>0">Tu as commis <b>{{ numWrong }}</b> faute<span ng-if="numWrong>1">s</span>.<br>
+            <span ng-if="numWrong>0">Tu as commis <b>{{ numWrong }}</b> faute<span ng-if="numWrong > 1">s</span>.<br>
             Temps total : <b>{{ (clock-start)/1000 + 5 * numWrong | formatDuration }}.</b></span>
             <br><br>
 
@@ -140,13 +143,15 @@
 
                         <div up-col="100%">
                             <div ng-if="face.result">
-                                <span ng-if="face.trait">{{ traits[face.trait] }} : {{ face[face.answer][2] }}<br></span>
-                                C'était bien <b>{{ face[face.answer][0] }}</b>.
+                                <span ng-if="face.trait">{{ face[face.answer][0] }}<br>
+                                {{ traits[face.trait] }} : <b>{{ face[face.answer][2] }}</b>.<br></span>
+                                <span ng-if="!face.trait">C'est bien <b>{{ face[face.answer][0] }}</b>.<br></span>
                             </div>
 
                             <div ng-if="!face.result">
-                                <span ng-if="face.trait">{{ traits[face.trait] }} : {{ face[face.answer][2] }}<br></span>
-                                Ce n'était pas <b>{{ face[face.answered][0] }}</b>, mais <b>{{ face[face.answer][0] }}</b>.
+                                <span ng-if="face.trait">{{ face[face.answer][0] }}<br>
+                                {{ traits[face.trait] }} : <b>{{ face[face.answer][2] }}</b> et non <b>{{ face[face.answered][2] }}</b> ({{ face[face.answered][0] }}).<br></span>
+                                <span ng-if="!face.trait">C'est <b>{{ face[face.answer][0] }}</b>, pas <b>{{ face[face.answered][0] }}</b>.<br></span>
 
                                 <h4>Pénalité : 5 secondes</h4>
                             </div>
