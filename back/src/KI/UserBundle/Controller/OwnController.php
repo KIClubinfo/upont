@@ -654,9 +654,9 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/own/fixes")
+     * @Route\Get("/own/fixs")
      */
-    public function getOwnFixesAction()
+    public function getOwnFixsAction()
     {
         $user = $this->get('security.context')->getToken()->getUser();
         if (!$this->get('security.context')->isGranted('ROLE_USER'))
