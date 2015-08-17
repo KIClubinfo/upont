@@ -84,4 +84,20 @@ body.theme-dark {
     .redactor-editor {
         border-color: @gray;
     }
+    .cal-year-box .row:hover,
+    .cal-row-fluid:hover {
+        background-color: #555;
+    }
+    [class*="cal-cell"]:hover, .cell-focus, [class*="cal-cell"] .drop-active, .cal-cell.drop-active {
+        background-color: @gray;
+    }
+    .cal-day-box .cal-day-hour:nth-child(odd) {
+        background-color: @gray;
+    }
+    .day-highlight,.cal-day-today {
+        color: @gray;
+        &:hover {
+            color: @light-gray;
+        }
+    }
 }
