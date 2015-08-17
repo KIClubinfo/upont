@@ -63,7 +63,7 @@ class SearchService
     }
 
     // On fouille un repo à la recherche d'entités correspondantes au nom
-    protected function searchRepo($repositoryName, $criteria, $additionnalField = null) {
+    protected function searchRepository($repositoryName, $criteria, $additionnalField = null) {
         $repository = $this->manager->getRepository($repositoryName);
         $qb = $repository->createQueryBuilder('e');
 

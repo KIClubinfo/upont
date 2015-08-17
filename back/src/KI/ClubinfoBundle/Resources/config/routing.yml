@@ -1,6 +1,6 @@
-fixes:
+fixs:
     type:     rest
-    resource: KI\ClubinfoBundle\Controller\FixesController
+    resource: KI\ClubinfoBundle\Controller\FixsController
 
 tutos:
     type:     rest

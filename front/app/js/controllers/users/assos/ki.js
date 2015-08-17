@@ -1,8 +1,8 @@
 angular.module('upont')
-    .controller('KI_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'fixes', 'ownFixes', 'members', 'Paginate', 'Achievements', function($scope, $rootScope, $resource, $http, fixes, ownFixes, members, Paginate, Achievements) {
+    .controller('KI_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'fixs', 'ownFixs', 'members', 'Paginate', 'Achievements', function($scope, $rootScope, $resource, $http, fixs, ownFixs, members, Paginate, Achievements) {
         $('#focus-input').focus();
-        $scope.fixes = fixes;
-        $scope.ownFixes = ownFixes;
+        $scope.fixs = fixs;
+        $scope.ownFixs = ownFixs;
         $scope.isFromKI = false;
         $rootScope.displayTabs = true;
 
@@ -13,11 +13,11 @@ angular.module('upont')
         }
 
         $scope.reload = function() {
-            Paginate.first($scope.ownFixes).then(function(data){
-                $scope.ownFixes = data;
+            Paginate.first($scope.ownFixs).then(function(data){
+                $scope.ownFixs = data;
             });
-            Paginate.first($scope.fixes).then(function(data){
-                $scope.fixes = data;
+            Paginate.first($scope.fixs).then(function(data){
+                $scope.fixs = data;
             });
         };
 
@@ -31,7 +31,7 @@ angular.module('upont')
                 fix: isFix
             };
 
-            $http.post(apiPrefix + 'fixes', params).success(function(data){
+            $http.post(apiPrefix + 'fixs', params).success(function(data){
                 $scope.fix = '';
                 $scope.msg = '';
                 alertify.success('Demande correctement envoyée !');
@@ -41,7 +41,7 @@ angular.module('upont')
         };
 
         $scope.changeStatus = function(fix) {
-            $http.patch(apiPrefix + 'fixes/' + fix.slug, {status: fix.status}).success(function(data){
+            $http.patch(apiPrefix + 'fixs/' + fix.slug, {status: fix.status}).success(function(data){
                 $scope.reload();
             });
         };
@@ -49,7 +49,7 @@ angular.module('upont')
         $scope.delete = function(fix) {
             alertify.confirm('Veux-tu vraiment faire ça ?', function(e) {
                 if (e) {
-                    $http.delete(apiPrefix + 'fixes/' + fix.slug).success(function(data){
+                    $http.delete(apiPrefix + 'fixs/' + fix.slug).success(function(data){
                         $scope.reload();
                     });
                 }
@@ -67,11 +67,11 @@ angular.module('upont')
                     top: true
                 },
                 resolve: {
-                    fixes: ['Paginate', function(Paginate) {
-                        return Paginate.get('fixes', 20);
+                    fixs: ['Paginate', function(Paginate) {
+                        return Paginate.get('fixs', 20);
                     }],
-                    ownFixes: ['Paginate', function(Paginate) {
-                        return Paginate.get('own/fixes', 20);
+                    ownFixs: ['Paginate', function(Paginate) {
+                        return Paginate.get('own/fixs', 20);
                     }],
                     members: ['$resource', function($resource) {
                         return $resource(apiPrefix + 'clubs/ki/users').query().$promise;
@@ -81,7 +81,7 @@ angular.module('upont')
     }])
     .filter('statusFilter', function() {
         return function(array) {
-            fixes = {
+            fixs = {
                 unseen: [],
                 waiting: [],
                 doing: [],
@@ -91,14 +91,14 @@ angular.module('upont')
 
             for (var key in array) {
                 switch (array[key].status) {
-                    case 'Non vu': fixes.unseen.push(array[key]); break;
-                    case 'En attente': fixes.waiting.push(array[key]); break;
-                    case 'En cours': fixes.doing.push(array[key]); break;
-                    case 'Résolu': fixes.done.push(array[key]); break;
-                    case 'Fermé': fixes.closed.push(array[key]); break;
+                    case 'Non vu': fixs.unseen.push(array[key]); break;
+                    case 'En attente': fixs.waiting.push(array[key]); break;
+                    case 'En cours': fixs.doing.push(array[key]); break;
+                    case 'Résolu': fixs.done.push(array[key]); break;
+                    case 'Fermé': fixs.closed.push(array[key]); break;
                 }
             }
-            return fixes.unseen.concat(fixes.waiting.concat(fixes.doing.concat(fixes.done.concat(fixes.closed))));
+            return fixs.unseen.concat(fixs.waiting.concat(fixs.doing.concat(fixs.done.concat(fixs.closed))));
         };
     })
 ;
