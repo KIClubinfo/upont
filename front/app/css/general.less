@@ -14,15 +14,23 @@ background-size: auto auto;
 *, *:before, *:after {
     box-sizing: border-box;
 }
-.dhx_cal_container { // calendar
-    min-height: 100%;
+.cal-context {
+    background-color: @col-ticket;
 }
-.dhx_cal_prev_button {
-    background: url('img/calendar/arrow-left.png') no-repeat scroll center center transparent;
+.cal-month-box, .cal-year-box, .cal-week-box {
+    border: 1px solid @col-ticket-border;
 }
-.dhx_cal_next_button {
-    background: url('img/calendar/arrow-right.png') no-repeat scroll center center transparent;
+.cal-year-box [class*="span"], .cal-month-box [class*="cal-cell"] {
+    border-right: 1px solid @col-ticket-border;
 }
+.cal-year-box .row, .cal-month-box .cal-row-fluid {
+    border-bottom: 1px solid @col-ticket-border;
+}
+.cal-year-box .row:hover,
+.cal-row-fluid:hover {
+    background-color: @col-input-bckgnd;
+}
+
 .container-fluid { // bootstrap
     padding: 0;
 }
