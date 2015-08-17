@@ -1,9 +1,48 @@
-<div dhx-scheduler up-fill-window="calendar" class="up-calendar" data="{{ events }}">
-    <div class="dhx_cal_prev_button"></div>
-    <div class="dhx_cal_next_button"></div>
-    <div class="dhx_cal_today_button"></div>
-    <div class="dhx_cal_date"></div>
-    <div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
-    <div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
-    <div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+<div up-row class="padded">
+    <div class="btn-group">
+        <button
+          class="btn btn-primary"
+          mwl-date-modifier
+          date="calendarDay"
+          decrement="calendarView">
+          Précédent
+        </button>
+
+        <button
+          class="btn btn-default"
+          mwl-date-modifier
+          date="calendarDay"
+          set-to-today>
+          Maintenant
+        </button>
+
+        <button
+          class="btn btn-primary"
+          mwl-date-modifier
+          date="calendarDay"
+          increment="calendarView">
+          Suivant
+        </button>
+    </div>
+
+    <div class="btn-group pull-right">
+        <label class="btn btn-primary" ng-class="{'active':calendarView=='year'}"  ng-click="setView('year')">Année</label>
+        <label class="btn btn-primary" ng-class="{'active':calendarView=='month'}" ng-click="setView('month')">Mois</label>
+        <label class="btn btn-primary" ng-class="{'active':calendarView=='week'}"  ng-click="setView('week')">Semaine</label>
+        <label class="btn btn-primary" ng-class="{'active':calendarView=='day'}"   ng-click="setView('day')">Jour</label>
+    </div>
 </div>
+
+<mwl-calendar
+    view="calendarView"
+    current-day="calendarDay"
+    events="events"
+    view-title="calendarTitle"
+    on-event-click="eventClicked(calendarEvent)"
+    on-event-times-changed="calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
+    edit-event-html="'<i class=\'glyphicon glyphicon-pencil\'></i>'"
+    delete-event-html="'<i class=\'glyphicon glyphicon-remove\'></i>'"
+    on-edit-event-click="eventEdited(calendarEvent)"
+    on-delete-event-click="eventDeleted(calendarEvent)"
+    auto-open="true">
+</mwl-calendar>

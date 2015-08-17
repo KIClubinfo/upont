@@ -6,6 +6,7 @@
     "angular": "latest",
     "angular-animate": "latest",
     "angular-base64-upload": "latest",
+    "angular-bootstrap-calendar": "latest",
     "angular-bootstrap-datetimepicker": "latest",
     "angular-elastic": "latest",
     "angular-filter": "latest",
@@ -17,6 +18,7 @@
     "angular-resource": "latest",
     "angular-sanitize": "latest",
     "angular-strap": "latest",
+    "angular-touch": "latest",
     "angular-ui-router": "latest",
     "angular-youtube-mb": "latest",
     "bootstrap": "latest",
@@ -30,7 +32,7 @@
     "scheduler": "latest"
   },
   "resolutions": {
-    "angular": "^1.4"
+    "angular": "1.4.4"
   },
   "overrides": {
     "highmaps": {
@@ -60,10 +62,9 @@
         "moment.js",
         "locale/fr.js"
       ]
-  },
+    },
     "jquery": {
-      "main": [
-      ]
+      "main": []
     }
   }
 }
