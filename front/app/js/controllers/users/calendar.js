@@ -3,22 +3,39 @@ angular.module('upont')
         $scope.events = [];
         for (var i = 0; i < events.length; i++) {
             $scope.events.push({
-                'id': events[i].slug,
-                'start_date': $filter('date')(events[i].start_date * 1000, 'MM/dd/yyyy HH:mm'),
-                'end_date': $filter('date')(events[i].end_date * 1000, 'MM/dd/yyyy HH:mm'),
-                'text': events[i].author_club.name + ' : ' + events[i].name
+                type: 'warning',
+                startsAt: new Date(events[i].start_date*1000),
+                endsAt: new Date(events[i].end_date*1000),
+                title: events[i].author_club.name + ' : ' + events[i].name,
+                editable: false,
+                deletable: false,
+                draggable: false,
+                resizable: false,
+                incrementsBadgeTotal: true,
             });
         }
 
         for (i = 0; i < courseitems.length; i++) {
             var group = courseitems[i].group;
             $scope.events.push({
-                'id': courseitems[i].slug,
-                'start_date': $filter('date')(courseitems[i].start_date * 1000, 'MM/dd/yyyy HH:mm'),
-                'end_date': $filter('date')(courseitems[i].end_date * 1000, 'MM/dd/yyyy HH:mm'),
-                'text': '[' + courseitems[i].location + '] ' + courseitems[i].course.name + ((group != '0' && group !== undefined) ? ' (Gr ' + group +')' : '')
+                type: 'info',
+                startsAt: new Date(courseitems[i].start_date*1000),
+                endsAt: new Date(courseitems[i].end_date*1000),
+                title: '[' + courseitems[i].location + '] ' + courseitems[i].course.name + ((group != '0' && group !== undefined) ? ' (Gr ' + group +')' : ''),
+                editable: false,
+                deletable: false,
+                draggable: false,
+                resizable: false,
+                incrementsBadgeTotal: true,
             });
         }
+
+        $scope.calendarView = 'month';
+        $scope.calendarDay = new Date();
+
+        $scope.setView = function(view) {
+            $scope.calendarView = view;
+        };
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
@@ -44,4 +61,16 @@ angular.module('upont')
                     $rootScope.hideFooter = false;
                 }]
             });
-    }]);
+    }])
+    .config(function(calendarConfigProvider) {
+        calendarConfigProvider.setDateFormatter('moment');
+        calendarConfigProvider.setDateFormats({
+            hour: 'HH:mm',
+            datetime: 'D MMM, HH:mm'
+        });
+
+        calendarConfigProvider.setTitleFormats({
+            day: 'ddd D MMM'
+        });
+        calendarConfigProvider.setDisplayAllMonthEvents(true);
+    });

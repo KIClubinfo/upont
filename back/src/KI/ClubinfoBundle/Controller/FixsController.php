@@ -11,7 +11,7 @@ use KI\CoreBundle\Controller\ResourceController;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Event\AchievementCheckEvent;
 
-class FixesController extends ResourceController
+class FixsController extends ResourceController
 {
     public function setContainer(ContainerInterface $container = null)
     {
@@ -33,7 +33,7 @@ class FixesController extends ResourceController
      *  section="Clubinfo"
      * )
      */
-    public function getFixesAction() { return $this->getAll(); }
+    public function getFixsAction() { return $this->getAll(); }
 
     /**
      * @ApiDoc(
@@ -48,6 +48,7 @@ class FixesController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
+     * @Route\Get("/fixs/{slug}")
      */
     public function getFixAction($slug) { return $this->getOne($slug); }
 
@@ -65,6 +66,7 @@ class FixesController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
+     * @Route\Post("/fixs")
      */
     public function postFixAction()
     {
@@ -85,6 +87,7 @@ class FixesController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
+     * @Route\Patch("/fixs/{slug}")
      */
     public function patchFixAction($slug)
     {
@@ -92,7 +95,7 @@ class FixesController extends ResourceController
 
         if ($fix->getFix()) {
             $this->get('ki_user.service.notify')->notify(
-                'notif_fixes',
+                'notif_fixs',
                 'Demande de dépannage',
                 'Ta demande de dépannage a été actualisée par le KI !',
                 'to',
@@ -114,6 +117,7 @@ class FixesController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
+     * @Route\Delete("/fixs/{slug}")
      */
     public function deleteFixAction($slug)
     {
