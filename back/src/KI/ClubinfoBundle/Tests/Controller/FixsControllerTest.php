@@ -66,11 +66,11 @@ class FixsControllerTest extends WebTestCase
 
     public function testDelete()
     {
-        $this->client->request('DELETE', '/fixes/panne-d-internet');
+        $this->client->request('DELETE', '/fixs/panne-d-internet');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('DELETE', '/fixes/panne-d-internet');
+        $this->client->request('DELETE', '/fixs/panne-d-internet');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }

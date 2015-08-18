@@ -23,14 +23,14 @@ class SlackService
     // Téléchargement d'une ressource externe
     public function post(User $user, $channel, $text)
     {
-        if (in_array($this->environment, array('dev', 'test'))) {
-            return;
-        }
+        // if (in_array($this->environment, array('dev', 'test'))) {
+        //     return;
+        // }
 
         $payload = array(
             'channel'  => $channel,
             'username' => $user->getFirstname().' '.$user->getLastname(),
-            'icon_url' => $this->baseUrl.$user->getImage()->getWebPath(),
+            'icon_url' => $user->getImage() === null ? '' : $this->baseUrl.$user->getImage()->getWebPath(),
             'text'     => $text
         );
 
