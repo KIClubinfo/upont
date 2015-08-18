@@ -23,9 +23,9 @@ class SlackService
     // Téléchargement d'une ressource externe
     public function post(User $user, $channel, $text)
     {
-        // if (in_array($this->environment, array('dev', 'test'))) {
-        //     return;
-        // }
+        if (in_array($this->environment, array('dev', 'test'))) {
+            return;
+        }
 
         $payload = array(
             'channel'  => $channel,
