@@ -73,4 +73,9 @@ angular.module('upont')
             day: 'ddd D MMM'
         });
         calendarConfigProvider.setDisplayAllMonthEvents(true);
+
+        calendarConfigProvider.setI18nStrings({
+            eventsLabel: 'Événements',
+            timeLabel: 'Temps'
+        });
     });

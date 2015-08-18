@@ -28,8 +28,7 @@
     "jquery": "latest",
     "js-base64": "latest",
     "moment": "latest",
-    "ngInfiniteScroll": "latest",
-    "scheduler": "latest"
+    "ngInfiniteScroll": "latest"
   },
   "resolutions": {
     "angular": "1.4.4"
