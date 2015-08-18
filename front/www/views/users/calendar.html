@@ -1,27 +1,27 @@
 <div up-row class="padded">
     <div class="btn-group">
         <button
-          class="btn btn-primary"
-          mwl-date-modifier
-          date="calendarDay"
-          decrement="calendarView">
-          Précédent
+            class="btn btn-primary"
+            mwl-date-modifier
+            date="calendarDay"
+            decrement="calendarView">
+            <i class="fa fa-chevron-left"></i>
         </button>
 
         <button
-          class="btn btn-default"
-          mwl-date-modifier
-          date="calendarDay"
-          set-to-today>
-          Maintenant
+            class="btn btn-default"
+            mwl-date-modifier
+            date="calendarDay"
+            set-to-today>
+            <i class="fa fa-clock-o"></i>
         </button>
 
         <button
-          class="btn btn-primary"
-          mwl-date-modifier
-          date="calendarDay"
-          increment="calendarView">
-          Suivant
+            class="btn btn-primary"
+            mwl-date-modifier
+            date="calendarDay"
+            increment="calendarView">
+          <i class="fa fa-chevron-right"></i>
         </button>
     </div>
 
@@ -38,6 +38,8 @@
     current-day="calendarDay"
     events="events"
     view-title="calendarTitle"
+    day-view-start="08:00"
+    day-view-end="23:00"
     on-event-click="eventClicked(calendarEvent)"
     on-event-times-changed="calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
     edit-event-html="'<i class=\'glyphicon glyphicon-pencil\'></i>'"
