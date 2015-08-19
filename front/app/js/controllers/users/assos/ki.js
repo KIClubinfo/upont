@@ -28,8 +28,7 @@ angular.module('upont')
             var params  = {
                 problem: msg,
                 name: msg.substring(0, 20),
-                fix: isFix,
-                status: 'Non vu'
+                fix: isFix
             };
 
             $http.post(apiPrefix + 'fixs', params).success(function(data){
