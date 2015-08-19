@@ -28,7 +28,8 @@ angular.module('upont')
             var params  = {
                 problem: msg,
                 name: msg.substring(0, 20),
-                fix: isFix
+                fix: isFix,
+                status: 'Non vu'
             };
 
             $http.post(apiPrefix + 'fixs', params).success(function(data){
@@ -47,7 +48,7 @@ angular.module('upont')
         };
 
         $scope.delete = function(fix) {
-            alertify.confirm('Veux-tu vraiment faire ça ?', function(e) {
+            alertify.confirm('Veux-tu vraiment supprimer ta demande ?', function(e) {
                 if (e) {
                     $http.delete(apiPrefix + 'fixs/' + fix.slug).success(function(data){
                         $scope.reload();
