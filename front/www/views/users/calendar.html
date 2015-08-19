@@ -25,7 +25,7 @@
         </button>
     </div>
 
-    <div>{{ calendarTitle }}</div>
+    <div><h3 style="margin:0 auto; margin-top: 5px;">{{ calendarTitle | ucfirst }}</h3></div>
 
     <div class="btn-group pull-right">
         <label class="btn btn-primary" ng-class="{'active':calendarView=='year'}"  ng-click="setView('year')">Année</label>
