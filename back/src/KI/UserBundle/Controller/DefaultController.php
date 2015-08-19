@@ -44,9 +44,10 @@ class DefaultController extends BaseController
      * )
      * @Route\Get("/online")
      */
-    public function onlineAction(Request $request)
+    public function onlineAction()
     {
-        $delay = $request->query->has('delay') ? (int)$request->query->get('delay') : 30;
+        $query = $this->getRequest()->query;
+        $delay = $query->has('delay') ? (int)$query->get('delay') : 30;
 
         $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
         $qb->select('u')

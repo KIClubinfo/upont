@@ -20,12 +20,11 @@ class OnlineListener
     public function onKernelRequest(GetResponseEvent $event)
     {
         $session = $this->securityContext->getToken();
-        if (!method_exists($session, 'getUser'))
+        if (!method_exists($session, 'getUser')) {
             return;
-
-        if (!$this->securityContext->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
-            $user->setLastConnect(time());
-            $this->manager->flush();
         }
+
+        $session->getUser()->setLastConnect(time());
+        $this->manager->flush();
     }
 }
