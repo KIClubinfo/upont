@@ -2,8 +2,8 @@
     <div class="up-publish up-ticket publications" ng-if="$root.clubs.length && display">
         <form class="publish-container" ng-submit="publish(post, postPicture)" up-row padded wrap autocomplete="off">
             <!-- Inputs liés aux news et events -->
-            <div ng-if="focus" up-col="100%">
-                <input up-col="100%" type="text" ng-model="post.name" placeholder="Titre"/>
+            <div ng-init="focus=false" ng-click="focus=true" up-col="100%">
+                <input up-col="100%" type="text" ng-model="post.name" placeholder="{{ focus ? 'Titre' : 'Écrire une publication...' }}"/>
             </div>
 
             <!-- startDate -->
@@ -55,16 +55,15 @@
                 <textarea up-col="100%" ng-model="post.shotgun_text" placeholder="Texte destiné aux vainqueurs du shotgun"></textarea>
             </div>
 
-            <div ng-click="focus=true" up-col="100%" class="bottom-box-container">
+            <div ng-if="focus" up-col="100%" class="bottom-box-container">
                 <!-- Textarea principal -->
-                <textarea ng-init="focus=false" redactor
-                          ng-model="post.text" placeholder="{{ placeholder }}"></textarea>
+                <textarea redactor ng-model="post.text" placeholder="{{ placeholder }}"></textarea>
 
                 <!-- Toolbar du bas -->
                 <div class="type-container" ng-show="focus">
                     <!-- Séléction du type de publication -->
-                    <div class="type" ng-click="changeType('news')"    ng-class="{active: type == 'news'}">News</div>
-                    <div class="type" ng-click="changeType('event')"   ng-class="{active: type == 'event'}">Événement</div>
+                    <div class="type" ng-click="changeType('news')"  ng-class="{active: type == 'news'}">News</div>
+                    <div class="type" ng-click="changeType('event')" ng-class="{active: type == 'event'}">Événement</div>
 
                     <div style="float: right">
                         <!-- Séléction du club -->

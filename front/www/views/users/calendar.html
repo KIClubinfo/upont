@@ -1,4 +1,4 @@
-<div up-row class="padded">
+<div up-row space-between class="padded">
     <div class="btn-group">
         <button
             class="btn btn-primary"
@@ -25,6 +25,8 @@
         </button>
     </div>
 
+    <div>{{ calendarTitle }}</div>
+
     <div class="btn-group pull-right">
         <label class="btn btn-primary" ng-class="{'active':calendarView=='year'}"  ng-click="setView('year')">Année</label>
         <label class="btn btn-primary" ng-class="{'active':calendarView=='month'}" ng-click="setView('month')">Mois</label>
@@ -40,6 +42,7 @@
     view-title="calendarTitle"
     day-view-start="08:00"
     day-view-end="23:00"
+    day-view-split="60"
     on-event-click="eventClicked(calendarEvent)"
     on-event-times-changed="calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
     edit-event-html="'<i class=\'glyphicon glyphicon-pencil\'></i>'"
