@@ -7,16 +7,16 @@
         <i class="fa fa-thumbs-o-down"></i> {{ objet.dislikes >= 0 ? objet.dislikes : 0 }}
     </div>
 
-    <div class="up-likes" ng-class="{admissibles : $root.isAdmissible}">
+    <div class="up-likes" ng-click="show=true" ng-class="{admissibles : $root.isAdmissible, 'up-clickable': !show}">
         <i class="fa fa-comment"></i> {{ objet.comments }}
     </div>
 </div>
 
-<hr ng-if="!$root.isAdmissible || comments.length > 0">
+<hr ng-if="(!$root.isAdmissible || comments.length > 0) && show">
 
-<div>
-    <div ng-if="shownComments < 0 && comments.length > 3">
-        <h3 class="up-likes up-clickable" ng-click="openComments()" ng-class="{active : shownComments > 0 }" >Afficher {{ comments.length+shownComments }} {{ comments.length+shownComments == 1 ? 'commentaire précédent' : 'commentaires précédents' }}</h3>
+<div ng-if="show">
+    <div ng-if="comments.length + shownComments > 0">
+        <h3 class="up-likes up-clickable" ng-click="openComments()" ng-class="{active : shownComments > 0 }" >Afficher {{ comments.length+shownComments }} {{ comments.length+shownComments == 1 ? 'commentaire' : 'commentaires' }}</h3>
     </div>
     <div class="up-comment" ng-repeat="comment in comments | orderBy: date | limitTo: shownComments" up-row left space-between
          ng-mouseover="showModify=true" ng-mouseleave="showModify=false">

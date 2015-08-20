@@ -1,18 +1,22 @@
 angular.module('upont').directive('upLikes', function() {
     return {
         scope: {
+            show: '=',
             objet: '=',
             url: '='
         },
         controller: ['$scope', '$resource', '$http', '$rootScope', function($scope, $resource, $http, $rootScope) {
             $scope.isLoading = false;
             $scope.commentText = '';
+            if ($scope.show !== false) {
+                $scope.show = true;
+            }
 
             if($scope.objet.comments > 0){
                 $resource(apiPrefix + $scope.url + '/comments').query(function(data){
                     $scope.comments = data;
                 });
-                $scope.shownComments = -2;
+                $scope.shownComments = -5;
             }
             else{
                 $scope.comments = [];
