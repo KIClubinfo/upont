@@ -66,11 +66,18 @@ angular.module('upont')
         calendarConfigProvider.setDateFormatter('moment');
         calendarConfigProvider.setDateFormats({
             hour: 'HH:mm',
-            datetime: 'D MMM, HH:mm'
+            datetime: 'D MMM, HH:mm',
+
         });
 
         calendarConfigProvider.setTitleFormats({
-            day: 'ddd D MMM'
+            day: 'ddd D MMM',
+            week: 'Semaine {week}',
         });
         calendarConfigProvider.setDisplayAllMonthEvents(true);
+
+        calendarConfigProvider.setI18nStrings({
+            eventsLabel: 'Événements',
+            timeLabel: 'Temps'
+        });
     });

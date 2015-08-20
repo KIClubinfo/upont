@@ -13,8 +13,8 @@ class FixType extends AbstractType
         $builder
             ->add('name')
             ->add('problem')
-            ->add('status')
-            ->add('fix', null, array(
+            ->add('fix')
+            ->add('status', null, array(
                 'empty_data' => 'Non vu'
             ))
         ;

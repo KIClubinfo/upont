@@ -63,7 +63,7 @@ class FacegamesController extends ResourceController
      * )
      */
     public function postFacegameAction() {
-        $return = $this->postData();
+        $return = $this->postData($this->is('USER'));
 
         if ($return['code'] == 201) {
             $facegameHelper = $this->get('ki_user.helper.facegame');

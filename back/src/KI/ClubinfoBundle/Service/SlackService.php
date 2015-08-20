@@ -30,7 +30,7 @@ class SlackService
         $payload = array(
             'channel'  => $channel,
             'username' => $user->getFirstname().' '.$user->getLastname(),
-            'icon_url' => $this->baseUrl.$user->getImage()->getWebPath(),
+            'icon_url' => $user->getImage() === null ? '' : $this->baseUrl.$user->getImage()->getWebPath(),
             'text'     => $text
         );
 
