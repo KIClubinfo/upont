@@ -2,9 +2,6 @@
     <div infinite-scroll="next()" infinite-scroll-distance="2" infinite-scroll-disabled="$root.infiniteLoading">
         <div class="up-ticket divided rounded-top" ng-repeat="publication in events.data | concat: newsItems.data | orderBy: 'date' | reverse">
             <div class="up-ticket-body" ng-class="'color{{ publication.slug.length%5+1 }}'">
-                <div class="up-news-icon">
-                    <i class="fa fa-{{ publication.author_club.icon ? publication.author_club.icon : 'envelope'}}"></i>
-                </div>
                 <div up-row>
                     <div class="up-ticket-actions">
                         <div class="up-img-home up-clickable"
