@@ -2,7 +2,7 @@
     <div class="up-publish up-ticket publications" ng-if="$root.clubs.length && display">
         <form class="publish-container" ng-submit="publish(post, postPicture)" up-row padded wrap autocomplete="off">
             <!-- Inputs liés aux news et events -->
-            <div ng-init="focus=false" ng-click="focus=true" up-col="100%">
+            <div ng-init="focus=false" ng-click="focus=true" up-col="100%" style="padding: 0">
                 <input up-col="100%" type="text" ng-model="post.name" placeholder="{{ focus ? 'Titre' : 'Écrire une publication...' }}"/>
             </div>
 
