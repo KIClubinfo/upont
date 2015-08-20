@@ -28,6 +28,8 @@ class FacegameStatisticsHelper
         return array(
             'totalNormal'   => $this->countNumberGamesNormal(),
             'totalHardcore' => $this->countNumberGamesHardcore(),
+            'normalHighscores' => $this->getNormalHighscores(),
+            'hardcoreHighscores' => $this->getHardcoreHighscores(),
         );
     }
 
@@ -49,6 +51,52 @@ class FacegameStatisticsHelper
             ->where('o.hardcore = 1')
         ;
         return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function getNormalHighscores()
+    {
+        $maxResults = 10;
+        $qb = $this->repository->createQueryBuilder('o');
+        $qb
+            ->select('o')
+            ->where('o.hardcore <> 1')
+            ->orderBy('o.duration', 'ASC')
+            ->setMaxResults($maxResults)
+        ;
+        $facegames = $qb->getQuery()->getResult();
+        $return = array();
+
+        foreach ($facegames as $facegame) {
+            $return[] = array(
+                'name' => $facegame->getUser()->getFirstName().' '.$facegame->getUser()->getLastName(),
+                'promo' => $facegame->getUser()->getPromo(),
+                'duration' => $facegame->getDuration(),
+                );
+        }
+        return $return;
+    }
+
+    public function getHardcoreHighscores()
+    {
+        $maxResults = 10;
+        $qb = $this->repository->createQueryBuilder('o');
+        $qb
+            ->select('o')
+            ->where('o.hardcore = 1')
+            ->orderBy('o.duration', 'ASC')
+            ->setMaxResults($maxResults)
+        ;
+        $facegames = $qb->getQuery()->getResult();
+        $return = array();
+
+        foreach ($facegames as $facegame) {
+            $return[] = array(
+                'name' => $facegame->getUser()->getFirstName().' '.$facegame->getUser()->getLastName(),
+                'promo' => $facegame->getUser()->getPromo(),
+                'duration' => $facegame->getDuration(),
+                );
+        }
+        return $return;
     }
 
     /**

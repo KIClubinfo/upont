@@ -33,18 +33,19 @@
             <br>
             <div up-row padded center>
                 <div up-col-xs="50%" up-col-sm="50%" up-col-md="30%" up-col="25%">
-                    <h3 ng-if="change && !hardcore" up-row center>{{ name }}</h3>
-
-                    <h3 ng-if="!change && hardcore" up-row center>{{ text(trait) }} : {{ traitValue }}.<br>
-                    Quel élève a cette caractéristique ?</h3>
+                    <h3 ng-if="change && !hardcore" up-row center>Quelle est la photo de {{ name }} ?</h3>
 
                     <div ng-if="!change && !hardcore">
                         <br><br>
+                        <h3 up-row center>Comment s'appelle cette personne ?</h3>
                         <div class="up-image-container">
                             <div class="up-image" ng-style="{ 'background-image' : 'url(' + (picture | thumb | urlFile) + ')' }"></div>
                         </div>
                         <br>
                     </div>
+
+                    <h3 ng-if="!change && hardcore" up-row center>{{ text(trait) }} : {{ traitValue }}.<br>
+                    Quel élève a cette caractéristique ?</h3>
 
                     <div ng-if="change && hardcore">
                         <div class="up-image-container">
@@ -174,7 +175,52 @@
         <div class="up-game-container">
             <h2>Highscores</h2>
 
-            Jusqu'à maintenant, <strong>{{ globalStatistics.totalNormal }} parties</strong> ont été jouées en mode Normal et <strong>{{ globalStatistics.totalHardcore }} parties</strong> en mode Hardcore !
+            Jusqu'à maintenant, <strong>{{ globalStatistics.totalNormal }} parties</strong> ont été jouées en mode Normal :
+
+            <table class="up-table" up-col="90%">
+                <thead>
+                    <tr>
+                        <th><a ng-click="predicate = 'name'; reverse=!reverse">Élève</a></th>
+                        <th><a ng-click="predicate = 'promo'; reverse=!reverse">Promo</a></th>
+                        <th><a ng-click="predicate = 'duration'; reverse=!reverse">Temps de jeu</a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="highscore in globalStatistics.normalHighscores | orderBy:predicate:reverse">
+                        <td>{{ highscore.name }}</td>
+                        <td>{{ highscore.promo }}</td>
+                        <td>{{ highscore.duration }}</td>
+                    </tr>
+                    <tr ng-hide="globalStatistics.normalHighscores.length">
+                        <td>Rien à afficher</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <strong>{{ globalStatistics.totalHardcore }} parties</strong> ont été jouées en mode Hardcore !
+            <table class="up-table" up-col="90%">
+                <thead>
+                    <tr>
+                        <th><a ng-click="predicate = 'name'; reverse=!reverse">Élève</a></th>
+                        <th><a ng-click="predicate = 'promo'; reverse=!reverse">Promo</a></th>
+                        <th><a ng-click="predicate = 'duration'; reverse=!reverse">Temps de jeu</a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="highscore in globalStatistics.hardcoreHighscores | orderBy:predicate:reverse">
+                        <td>{{ highscore.name }}</td>
+                        <td>{{ highscore.promo }}</td>
+                        <td>{{ highscore.duration }}</td>
+                    </tr>
+                    <tr ng-hide="globalStatistics.hardcoreHighscores.length">
+                        <td>Rien à afficher</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
