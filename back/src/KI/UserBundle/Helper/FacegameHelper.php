@@ -66,6 +66,8 @@ class FacegameHelper
             $tempList = array();
             $ids      = array();
 
+            $tempList['firstPart'] = count($list) < $nbQuestions/2;
+
             if ($hardcore) {
                 // Si la promo est déjà établie on ne va pas la demander comme carac
                 do {
@@ -105,12 +107,12 @@ class FacegameHelper
                     && ($tempTrait === null || in_array($tempTrait, $userTraits, true))
                 );
 
-                $tempList[$i][0] = $user->getFirstName().' '.$user->getLastName();
-                $tempList[$i][1] = $user->getImage()->getWebPath();
+                $tempList[$i]['name'] = $user->getFirstName().' '.$user->getLastName();
+                $tempList[$i]['picture'] = $user->getImage()->getWebPath();
 
                 if ($hardcore) {
-                    $userTraits[]    = $tempTrait;
-                    $tempList[$i][2] = $tempTrait;
+                    $userTraits[] = $tempTrait;
+                    $tempList[$i]['trait'] = $tempTrait;
                 }
             }
             $list[] = $tempList;
