@@ -6,9 +6,32 @@
 
     <div class="up-invisible-sm up-invisible-xs" up-col-md="40%" up-col-lg="40%">
         <div ng-if="!$root.isAdmissible" class="up-ticket centering">
-            <h3>Informations sur le développement</h3>
-            Si vous voulez suivre au jour le jour le développement/ce que nous avons prévu, vous pouvez visionner notre <a target="_blank" href="https://trello.com/b/a7pIk6zk/upont" title="Board Trello de uPont"><i class="fa fa-trello"></i> board Trello.</a><br>
-            Et n'hésitez pas à <a ui-sref="root.users.assos.ki" title="Faire une remarque sur uPont">balancer des coms/remarques/suggestions !</a> On essaiera de les prendre en compte le plus rapidement possible.
+            <div up-row center>
+                <div class="btn-group pull-right">
+                    <label class="btn btn-primary" ng-click="today()">Aujourd'hui</label>
+                    <label class="btn btn-primary" ng-click="tomorrow()">Demain</label>
+                </div>
+            </div>
+
+            <div up-row center>
+                <mwl-calendar
+                    style="width:100%"
+                    view="calendarView"
+                    current-day="calendarDay"
+                    events="calendarEvents"
+                    view-title="calendarTitle"
+                    day-view-start="08:00"
+                    day-view-end="23:00"
+                    day-view-split="60"
+                    on-event-click="eventClicked(calendarEvent)"
+                    on-event-times-changed="calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
+                    edit-event-html="'<i class=\'glyphicon glyphicon-pencil\'></i>'"
+                    delete-event-html="'<i class=\'glyphicon glyphicon-remove\'></i>'"
+                    on-edit-event-click="eventEdited(calendarEvent)"
+                    on-delete-event-click="eventDeleted(calendarEvent)"
+                    auto-open="true">
+                </mwl-calendar>
+            </div>
         </div>
 
         <div ng-if="$root.isAdmissible" class="up-ticket centering">

@@ -3,6 +3,23 @@ angular.module('upont')
         $scope.events = events;
         $scope.newsItems = newsItems;
         $scope.messages = messages;
+
+        $scope.calendarView = 'day';
+        $scope.calendarDay = new Date();
+        $scope.calendarEvents = [];
+        for (var i = 0; i < events.length; i++) {
+            $scope.calendarEvents.push({
+                type: 'warning',
+                startsAt: new Date(events[i].start_date*1000),
+                endsAt: new Date(events[i].end_date*1000),
+                title: events[i].author_club.name + ' : ' + events[i].name,
+                editable: false,
+                deletable: false,
+                draggable: false,
+                resizable: false,
+                incrementsBadgeTotal: true,
+            });
+        }
     }])
     .controller('Publications_List_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'newsItems', 'events', 'Paginate', 'Achievements', function($scope, $rootScope, $resource, $http, newsItems, events, Paginate, Achievements) {
         $scope.events = events;
