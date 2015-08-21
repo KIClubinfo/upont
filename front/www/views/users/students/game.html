@@ -34,9 +34,9 @@
             <br>
             <div up-row padded center>
                 <div up-col-xs="50%" up-col-sm="50%" up-col-md="30%" up-col="25%">
-                    <h3 ng-if="firstPart && !hardcore" up-row center>Quelle est la photo de {{ name }} ?</h3>
+                    <h3 ng-if="!hardcore && gameData.list_users[position].firstPart" up-row center>Quelle est la photo de {{ name }} ?</h3>
 
-                    <div ng-if="!firstPart && !hardcore">
+                    <div ng-if="!hardcore && !gameData.list_users[position].firstPart">
                         <h3 up-row center>Comment s'appelle cette personne ?</h3>
                         <div class="up-image-container">
                             <div class="up-image" ng-style="{ 'background-image' : 'url(' + (picture | thumb | urlFile) + ')' }"></div>
@@ -44,10 +44,10 @@
                         <br>
                     </div>
 
-                    <h3 ng-if="!firstPart && hardcore" up-row center>{{ text(trait) }} : {{ traitValue }}.<br>
+                    <h3 ng-if="hardcore && !gameData.list_users[position].firstPart" up-row center>{{ text(trait) }} : {{ traitValue }}.<br>
                     Quel élève a cette caractéristique ?</h3>
 
-                    <div ng-if="firstPart && hardcore">
+                    <div ng-if="hardcore && gameData.list_users[position].firstPart">
                         <div class="up-image-container">
                             <div class="up-image" ng-style="{ 'background-image' : 'url(' + (picture | thumb | urlFile) + ')' }"></div>
                         </div>
@@ -60,46 +60,46 @@
             <div up-row wrap space-around>
                 <br>
                 <div up-col-xs="100%" up-col-sm="100%" up-col="25%" ng-click="next(0)">
-                    <button up-col="100%" class="up-btn-game" ng-if = "!firstPart && !hardcore">{{ name1 }}</button>
-                    <div class="up-image-container up-clickable" ng-if="firstPart && !hardcore">
+                    <button up-col="100%" class="up-btn-game" ng-if = "!gameData.list_users[position].firstPart && !hardcore">{{ name1 }}</button>
+                    <div class="up-image-container up-clickable" ng-if="gameData.list_users[position].firstPart && !hardcore">
                         <div class="up-image" ng-style="{ 'background-image' : 'url(' + (picture1 | thumb | urlFile) + ')' }"></div>
                     </div>
 
-                    <div ng-if="!firstPart && hardcore">
+                    <div ng-if="!gameData.list_users[position].firstPart && hardcore">
                         <div class="up-image-container up-clickable">
                             <div class="up-image" ng-style="{ 'background-image' : 'url(' + (picture1 | thumb | urlFile) + ')' }"></div>
                         </div><br>
                         <button up-col="100%" class="up-btn-game" up-row center>{{ name1 }}</button>
                     </div>
-                    <button up-col="100%" class="up-btn-game" ng-if="firstPart && hardcore">{{ traitValue1 }}</button>
+                    <button up-col="100%" class="up-btn-game" ng-if="gameData.list_users[position].firstPart && hardcore">{{ traitValue1 }}</button>
                 </div>
 
                 <div up-col-xs="100%" up-col-sm="100%" up-col="25%" ng-click="next(1)">
-                    <button up-col="100%" class="up-btn-game" ng-if = "!firstPart && !hardcore">{{ name2 }}</button>
-                    <div class="up-image-container up-clickable" ng-if="firstPart && !hardcore">
+                    <button up-col="100%" class="up-btn-game" ng-if = "!gameData.list_users[position].firstPart && !hardcore">{{ name2 }}</button>
+                    <div class="up-image-container up-clickable" ng-if="gameData.list_users[position].firstPart && !hardcore">
                         <div class="up-image" ng-style="{ 'background-image' : 'url(' + (picture2 | thumb | urlFile) + ')' }"></div>
                     </div>
-                    <div ng-if="!firstPart && hardcore">
+                    <div ng-if="!gameData.list_users[position].firstPart && hardcore">
                         <div class="up-image-container up-clickable">
                             <div class="up-image" ng-style="{ 'background-image' : 'url(' + (picture2 | thumb | urlFile) + ')' }"></div>
                         </div><br>
                         <button up-col="100%" class="up-btn-game" up-row center>{{ name2 }}</button>
                     </div>
-                    <button up-col="100%" class="up-btn-game" ng-if="firstPart && hardcore">{{ traitValue2 }}</button>
+                    <button up-col="100%" class="up-btn-game" ng-if="gameData.list_users[position].firstPart && hardcore">{{ traitValue2 }}</button>
                 </div>
 
                 <div up-col-xs="100%" up-col-sm="100%" up-col="25%" ng-click="next(2)">
-                    <button up-col="100%" class="up-btn-game" ng-if = "!firstPart && !hardcore">{{ name3 }}</button>
-                    <div class="up-image-container up-clickable" ng-if="firstPart && !hardcore">
+                    <button up-col="100%" class="up-btn-game" ng-if = "!gameData.list_users[position].firstPart && !hardcore">{{ name3 }}</button>
+                    <div class="up-image-container up-clickable" ng-if="gameData.list_users[position].firstPart && !hardcore">
                         <div class="up-image" ng-style="{ 'background-image' : 'url(' + (picture3 | thumb | urlFile) + ')' }"></div>
                     </div>
-                    <div ng-if="!firstPart && hardcore">
+                    <div ng-if="!gameData.list_users[position].firstPart && hardcore">
                         <div class="up-image-container up-clickable">
                             <div class="up-image" ng-style="{ 'background-image' : 'url(' + (picture3 | thumb | urlFile) + ')' }"></div>
                         </div><br>
                         <button up-col="100%" class="up-btn-game" up-row center>{{ name3 }}</button>
                     </div>
-                    <button up-col="100%" class="up-btn-game" ng-if="firstPart && hardcore">{{ traitValue3 }}</button>
+                    <button up-col="100%" class="up-btn-game" ng-if="gameData.list_users[position].firstPart && hardcore">{{ traitValue3 }}</button>
                 </div>
             </div>
         </div>
@@ -143,33 +143,29 @@
                         <h3><span ng-if="face.result">OK !</span><span ng-if="!face.result">FAUX !</span></h3>
 
                         <div up-col="100%" ng-if="face.firstPart">
-                            <div ng-if="face.result">
-                                <span ng-if="face.trait">{{ face[face.answer]['name'] }}<br>
-                                {{ traits[face.trait] }} : <b>{{ face[face.answer]['trait'] }}</b>.<br></span>
-                                <span ng-if="!face.trait">C'est bien <b>{{ face[face.answer]['name'] }}</b>.<br></span>
+                            <div ng-if="face.trait"><b>{{ face[face.answer]['name'] }}</b><br>
+                                {{ traits[face.trait] }} : <b>{{ face[face.answer]['trait'] }}</b> <span ng-if="!face.result"> et non <b>{{ face[face.answered]['trait'] }}</b> ({{ face[face.answered]['name'] }})</span>.<br>
                             </div>
 
-                            <div ng-if="!face.result">
-                                <span ng-if="face.trait">{{ face[face.answer]['name'] }}<br>
-                                {{ traits[face.trait] }} : <b>{{ face[face.answer]['trait'] }}</b> et non <b>{{ face[face.answered]['trait'] }}</b> ({{ face[face.answered]['name'] }}).<br></span>
-                                <span ng-if="!face.trait">C'est <b>{{ face[face.answer]['name'] }}</b>, pas <b>{{ face[face.answered]['name'] }}</b>.<br></span>
+                            <div ng-if="!face.trait">
+                                <span ng-if="face.result">C'est bien la photo de <b>{{ face[face.answer]['name'] }}</b>.<br></span>
+                                <span ng-if="!face.result">Voici la photo de <b>{{ face[face.answer]['name'] }}</b>.<br>
 
-                                <h4>Pénalité : 5 secondes</h4>
+                                <h4>Pénalité : 5 secondes</h4></span>
                             </div>
                         </div>
 
                         <div up-col="100%" ng-if="!face.firstPart">
-                            <div ng-if="face.result">
-                                <span ng-if="face.trait">{{ traits[face.trait] }} : <b>{{ face[face.answer]['trait'] }}</b><br></span>
-                                <span>C'est bien {{ face[face.answer]['name'] }}.<br></span>
+                            <div ng-if="face.trait">{{ traits[face.trait] }} : <b>{{ face[face.answer]['trait'] }}</b><br>
+                                <span ng-if="face.result">C'est bien la caractéristique de {{ face[face.answer]['name'] }}.<br></span>
+                                <span ng-if="!face.result">C'est la caractéristique de <b>{{ face[face.answer]['name'] }}</b> et non de {{ face[face.answered]['name'] }} ({{ face[face.answered]['trait'] }}).<br></span>
                             </div>
 
-                            <div ng-if="!face.result">
-                                <span ng-if="face.trait">{{ traits[face.trait] }} : <b>{{ face[face.answer]['trait'] }}</b><br>
-                                C'est {{ face[face.answer]['name'] }} et non <b>{{ face[face.answered]['name'] }}</b> ({{ face[face.answered]['trait'] }}).<br></span>
-                                <span ng-if="!face.trait">C'est <b>{{ face[face.answer]['name'] }}</b>, pas <b>{{ face[face.answered]['name'] }}</b>.<br></span>
+                            <div ng-if="!face.trait">
+                                <span ng-if="face.result">C'est bien <b>{{ face[face.answer]['name'] }}</b>.<br></span>
+                                <span ng-if="!face.result">C'est <b>{{ face[face.answer]['name'] }}</b>, pas <b>{{ face[face.answered]['name'] }}</b>.<br>
 
-                                <h4>Pénalité : 5 secondes</h4>
+                                <h4>Pénalité : 5 secondes</h4></span>
                             </div>
                         </div>
                     </div>
