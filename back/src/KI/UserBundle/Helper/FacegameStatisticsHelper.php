@@ -26,9 +26,9 @@ class FacegameStatisticsHelper
     public function globalStatistics()
     {
         return array(
-            'totalNormal'   => $this->countNumberGamesNormal(),
-            'totalHardcore' => $this->countNumberGamesHardcore(),
-            'normalHighscores' => $this->getNormalHighscores(),
+            'totalNormal'        => $this->countNumberGamesNormal(),
+            'totalHardcore'      => $this->countNumberGamesHardcore(),
+            'normalHighscores'   => $this->getNormalHighscores(),
             'hardcoreHighscores' => $this->getHardcoreHighscores(),
         );
     }
@@ -71,6 +71,7 @@ class FacegameStatisticsHelper
                 'name' => $facegame->getUser()->getFirstName().' '.$facegame->getUser()->getLastName(),
                 'promo' => $facegame->getUser()->getPromo(),
                 'duration' => $facegame->getDuration(),
+                'date' => $facegame->getDate(),
                 );
         }
         return $return;
@@ -94,6 +95,7 @@ class FacegameStatisticsHelper
                 'name' => $facegame->getUser()->getFirstName().' '.$facegame->getUser()->getLastName(),
                 'promo' => $facegame->getUser()->getPromo(),
                 'duration' => $facegame->getDuration(),
+                'date' => $facegame->getDate(),
                 );
         }
         return $return;
@@ -106,6 +108,67 @@ class FacegameStatisticsHelper
      */
     public function userStatistics(User $user)
     {
+        return array(
+            'totalNormal'        => $this->countUserGamesNormal($user),
+            'totalHardcore'      => $this->countUserGamesHardcore($user),
+            'normalHighscores'   => $this->getUserNormalHighscores($user),
+            'hardcoreHighscores' => $this->getUserHardcoreHighscores($user),
+        );
+    }
 
+    public function countUserGamesNormal($user)
+    {
+        $qb = $this->repository->createQueryBuilder('o');
+        $qb
+            ->select('count(o.id)')
+            ->where('o.hardcore <> 1')
+            ->andWhere('o.user = ?0')
+            ->setParameter(0, $user)
+        ;
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function countUserGamesHardcore($user)
+    {
+        $qb = $this->repository->createQueryBuilder('o');
+        $qb
+            ->select('count(o.id)')
+            ->where('o.hardcore = 1')
+            ->andWhere('o.user = ?0')
+            ->setParameter(0, $user)
+        ;
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function getUserNormalHighscores($user)
+    {
+        $maxResults = 10;
+        $qb = $this->repository->createQueryBuilder('o');
+        $qb
+            ->select('o.duration', 'o.date')
+            ->where('o.hardcore <> 1')
+            ->andWhere('o.user = ?0')
+            ->setParameter(0, $user)
+            ->orderBy('o.duration', 'ASC')
+            ->setMaxResults($maxResults)
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getUserHardcoreHighscores($user)
+    {
+        $maxResults = 10;
+        $qb = $this->repository->createQueryBuilder('o');
+        $qb
+            ->select('o.duration', 'o.date')
+            ->where('o.hardcore = 1')
+            ->andWhere('o.user = ?0')
+            ->setParameter(0, $user)
+            ->orderBy('o.duration', 'ASC')
+            ->setMaxResults($maxResults)
+        ;
+
+        return $qb->getQuery()->getResult();
     }
 }
