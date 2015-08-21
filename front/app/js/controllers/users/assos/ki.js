@@ -47,7 +47,7 @@ angular.module('upont')
         };
 
         $scope.delete = function(fix) {
-            alertify.confirm('Veux-tu vraiment supprimer ta demande ?', function(e) {
+            alertify.confirm('Veux-tu vraiment supprimer le ticket ?', function(e) {
                 if (e) {
                     $http.delete(apiPrefix + 'fixs/' + fix.slug).success(function(data){
                         $scope.reload();
