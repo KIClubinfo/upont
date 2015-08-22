@@ -92,7 +92,7 @@ class Event extends Post
 
     public function isAttended(User $user)
     {
-        $this->listAttendees->contains($user);
+        return $this->listAttendees->contains($user);
     }
 
     /**
@@ -102,7 +102,7 @@ class Event extends Post
 
     public function isHidden(User $user)
     {
-        $this->listPookies->contains($user);
+        return $this->listPookies->contains($user);
     }
 
     /**

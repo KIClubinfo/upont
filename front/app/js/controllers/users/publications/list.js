@@ -47,7 +47,7 @@ angular.module('upont')
             });
         }
     }])
-    .controller('Publications_List_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'newsItems', 'events', 'Paginate', 'Achievements', function($scope, $rootScope, $resource, $http, newsItems, events, Paginate, Achievements) {
+    .controller('Publications_List_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'newsItems', 'events', 'Paginate', 'Achievements', '$location', function($scope, $rootScope, $resource, $http, newsItems, events, Paginate, Achievements, $location) {
         $scope.events = events;
         $scope.newsItems = newsItems;
         $scope.edit = null;
@@ -115,6 +115,17 @@ angular.module('upont')
                 });
             }
         };
+
+        // On peut participer/masquer un événement via l'url
+        var query = $location.search();
+        if (query.action) {
+            if (query.action == 'participer' && $scope.events.data[0].attend !== true) {
+                $scope.attend($scope.events.data[0]);
+            }
+            if (query.action == 'masquer' && $scope.events.data[0].pookie !== true) {
+                $scope.pookie($scope.events.data[0]);
+            }
+        }
 
         $scope.showAttendees = function(publication){
             $http.get(apiPrefix + 'events/' + publication.slug + '/attendees').success(function(data){
@@ -231,7 +242,10 @@ angular.module('upont')
                     }],
                     messages: ['Paginate', '$stateParams', function(Paginate, $stateParams) {
                         return Paginate.get('newsitems?slug=' + $stateParams.slug);
-                    }]
+                    }],
+                    courseitems: function($resource) {
+                        return [];
+                    }
                 }
             });
     }]);

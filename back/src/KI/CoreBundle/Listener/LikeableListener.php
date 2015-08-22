@@ -20,7 +20,7 @@ class LikeableListener
     public function postLoad(LifecycleEventArgs $args)
     {
         if ($token = $this->tokenStorage->getToken()) {
-            $user = $token->getUser();
+            $user   = $token->getUser();
             $entity = $args->getEntity();
 
             if (($entity instanceof Likeable || $entity instanceof Comment) && $user instanceof User) {

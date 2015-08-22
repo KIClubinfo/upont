@@ -1,0 +1,19 @@
+{{ event.text|raw }}
+<br>
+<hr style="width:50%">
+<br>
+<em style="display:inline-block;width:80px">QUOI :</em> <strong>{{ event.name }}</strong><br>
+<em style="display:inline-block;width:80px">OÙ :</em> <strong>{{ event.place }}</strong><br>
+<em style="display:inline-block;width:80px">QUAND :</em> <strong>{{ start }}</strong> - <strong>{{ end }}</strong><br>
+
+<h3>
+    <a href="https://upont.enpc.fr/publications/{{ event.slug }}?action=participer" title="Participer à l'événement">Participer</a>
+    -
+    <a href="https://upont.enpc.fr/publications/{{ event.slug }}?action=masquer" title="Masquer l'événement">Ne pas participer</a>
+</h3>
+
+<h6 style="font-weight:normal">
+    <em>Cet email a été envoyé automatiquement, merci de ne pas y répondre.</em><br>
+    <em>Si ce message ne s'affiche pas correctement, <a href="https://upont.enpc.fr/publications/{{ event.slug }}" title="Aller sur uPont">tu peux aussi le voir sur uPont</a>.</em><br>
+    <a href="https://upont.enpc.fr/eleves/modifier-profil" title="Profil uPont">Modifier ses préférences mail</a>
+</h6>

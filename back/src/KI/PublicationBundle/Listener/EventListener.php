@@ -53,8 +53,8 @@ class EventListener
             $title = '['.$club->getName().'] '.$entity->getName();
             $this->mailerService->send($usersMail, $title, 'KIPublicationBundle::invitation.html.twig', array(
                 'event' => $entity,
-                'start' => ucfirst(strftime('%a %d %B %Hh%M', $entity->getStartDate())),
-                'end'   => ucfirst(strftime('%a %d %B %Hh%M', $entity->getEndDate()))
+                'start' => ucfirst(strftime('%a %d %B à %Hh%M', $entity->getStartDate())),
+                'end'   => ucfirst(strftime('%a %d %B à %Hh%M', $entity->getEndDate()))
             ));
 
             $text = substr($entity->getText(), 0, 140).'...';
