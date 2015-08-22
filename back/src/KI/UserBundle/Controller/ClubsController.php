@@ -33,7 +33,7 @@ class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
      *  section="Utilisateurs"
      * )
      */
-    public function getClubsAction() { return $this->getAll(); }
+    public function getClubsAction() { return $this->getAll($this->is('EXTERIEUR')); }
 
     /**
      * @ApiDoc(
@@ -48,7 +48,7 @@ class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
      *  section="Utilisateurs"
      * )
      */
-    public function getClubAction($slug) { return $this->getOne($slug); }
+    public function getClubAction($slug) { return $this->getOne($slug, $this->is('EXTERIEUR')); }
 
     /**
      * @ApiDoc(

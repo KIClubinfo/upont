@@ -84,6 +84,6 @@ class SecurityTest extends WebTestCase
             array(403, 'PATCH', '/users/gcc'),
             array(403, 'PATCH', '/clubs/gcc'),
         );
-        //$this->checkRoutes($routes);
+        $this->checkRoutes($routes);
     }
 }

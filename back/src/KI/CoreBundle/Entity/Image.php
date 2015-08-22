@@ -130,7 +130,7 @@ class Image
 
     /**
      *  Crée une miniature pour l'image dans un dossier thumbnails
-     *  @param string $path             Le chemin de l'image non réduite
+     *  @param  string $originalPath    Le chemin de l'image non réduite
      *  @throws BadRequestHttpException Si l'extension n'est pas prise en charge
      */
     static public function createThumbnail($originalPath)

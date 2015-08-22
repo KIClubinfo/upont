@@ -84,7 +84,6 @@ class JWTResponseListener
             return $this->badCredentials($event, 'Champs non remplis');
 
         $username = $request->get('username');
-        $password = $request->get('password');
         $user = $this->userManager->findUserByUsername($username);
 
         if (!$user instanceof User)

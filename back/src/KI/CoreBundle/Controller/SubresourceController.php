@@ -43,7 +43,7 @@ class SubresourceController extends ResourceController
     protected function getOneSub($slug, $name, $id, $auth = false)
     {
         // On n'en a pas besoin ici mais on vérifie que l'item parent existe bien
-        $item = $this->findBySlug($slug);
+        $this->findBySlug($slug);
         $this->switchClass($name);
         return $this->getOne($id, $auth);
     }

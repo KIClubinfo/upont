@@ -56,7 +56,7 @@ class NotifyService
     private function pushToCloud(Notification $notification)
     {
         $devices = $this->deviceRepository->findAll();
-        $sendToAndroid = $sendToIOS = $sendToWP = array();
+        $sendToAndroid = array();
 
         // Si le mode d'envoi est direct, on envoie aux utilisateurs qui ont
         // enregistré un ou plusieurs Devices

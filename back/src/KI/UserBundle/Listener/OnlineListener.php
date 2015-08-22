@@ -18,7 +18,7 @@ class OnlineListener
         $this->securityContext = $securityContext;
     }
 
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest()
     {
         $session = $this->securityContext->getToken();
         if (!method_exists($session, 'getUser')) {

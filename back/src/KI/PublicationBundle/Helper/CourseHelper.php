@@ -29,7 +29,7 @@ class CourseHelper
 
     /**
      * Inscrit un élève à un cours
-     * @param  Course $events
+     * @param  Course $course
      * @param  User   $user
      * @param  int    $group
      * @throws BadRequestHttpException si les deux sont déjà reliés
@@ -65,7 +65,7 @@ class CourseHelper
 
     /**
      * Désinscrit un élève d'un cours
-     * @param  Course $events
+     * @param  Course $course
      * @param  User   $user
      * @throws BadRequestHttpException si les deux ne sont pas reliés
      */

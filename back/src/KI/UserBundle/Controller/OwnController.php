@@ -52,7 +52,6 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function getUserAchievementsAction($slug)
     {
-        $repo = $this->manager->getRepository('KIUserBundle:User');
         $user = $this->findBySlug($slug);
         return $this->retrieveAchievements($user);
     }
@@ -509,7 +508,6 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         foreach ($repo->findBy(array('user' => $this->user)) as $courseUser) {
             $course = $courseUser->getCourse();
             foreach ($course->getCourseitems() as $courseitem) {
-                //echo $coursitem->getCourse()->getName().'#'.$coursitem->getGroup();
                 if ($courseUser->getGroup() == $courseitem->getGroup() || $course->getGroups() == array('0') || empty($course->getGroups()) || empty($courseitem->getGroup())) {
                     $result[] = $courseitem;
                     $timestamp[] = $courseitem->getStartDate();

@@ -68,7 +68,6 @@ class AchievementCheckListener
             return false;
 
         // On ajoute l'achievement
-        $pointsBefore = $this->points();
         $achievementUser = new AchievementUser();
         $repoA = $this->manager->getRepository('KIUserBundle:Achievement');
         $achievementUser->setAchievement($repoA->findOneByAchievement($achievement->getIdA()));
