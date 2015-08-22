@@ -27,7 +27,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
 
         $user = $userManager->createUser();
         $user->setUsername('kadaouic');
-        $user->setEmail('chaimaa.kadaoui@eleves.enpc.fr');
+        $user->setEmail('chaimaa.kadaoui@eleves.test.enpc.fr');
         $user->setPlainPassword('password');
         $user->setFirstName('Chaïmaa');
         $user->setLastName('Kadaoui');
@@ -83,7 +83,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user = $userManager->createUser();
         $user->setUsername('de-boisc');
         $user->setNickname('Deboissque');
-        $user->setEmail('corentin.de-boisset@eleves.enpc.fr');
+        $user->setEmail('corentin.de-boisset@eleves.test.enpc.fr');
         $user->setPlainPassword('123');
         $user->setFirstName('Corentin');
         $user->setLastName('De Boisset');
@@ -116,7 +116,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
 
         $user = $userManager->createUser();
         $user->setUsername('dziris');
-        $user->setEmail('safia.dziri@eleves.enpc.fr');
+        $user->setEmail('safia.dziri@eleves.test.enpc.fr');
         $user->setPlainPassword('password');
         $user->setFirstName('Safia');
         $user->setLastName('Dziri');
@@ -131,7 +131,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
 
         $user = $userManager->createUser();
         $user->setUsername('muzardt');
-        $user->setEmail('theo.muzard@eleves.enpc.fr');
+        $user->setEmail('theo.muzard@eleves.test.enpc.fr');
         $user->setPlainPassword('password');
         $user->setFirstName('Théo');
         $user->setLastName('Muzard');
@@ -148,7 +148,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
 
         $user = $userManager->createUser();
         $user->setUsername('donat-bb');
-        $user->setEmail('benoit.donat-bouillud@eleves.enpc.fr');
+        $user->setEmail('benoit.donat-bouillud@eleves.test.enpc.fr');
         $user->setPlainPassword('password');
         $user->setFirstName('Benoît');
         $user->setLastName('Donat Bouillud');
@@ -163,7 +163,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
 
         $user = $userManager->createUser();
         $user->setUsername('bochetc');
-        $user->setEmail('bochetc@eleves.enpc.fr');
+        $user->setEmail('bochetc@eleves.test.enpc.fr');
         $user->setPlainPassword('password');
         $user->setFirstName('Charles');
         $user->setLastName('Bochet');
@@ -179,7 +179,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
 
         $user = $userManager->createUser();
         $user->setUsername('vessairc');
-        $user->setEmail('vessairc@eleves.enpc.fr');
+        $user->setEmail('vessairc@eleves.test.enpc.fr');
         $user->setPlainPassword('password');
         $user->setFirstName('Cyrille');
         $user->setLastName('Vessaire');
@@ -195,7 +195,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
 
         $user = $userManager->createUser();
         $user->setUsername('peluchom');
-        $user->setEmail('peluchom@eleves.enpc.fr');
+        $user->setEmail('peluchom@eleves.test.enpc.fr');
         $user->setPlainPassword('password');
         $user->setFirstName('Mathias');
         $user->setLastName('Peluchon');
