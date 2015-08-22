@@ -14,6 +14,20 @@ class EventsControllerTest extends WebTestCase
         $this->assertJsonResponse($response, 201);
         // On vérifie que le lieu du nouvel objet a été indiqué
         $this->assertTrue($response->headers->has('Location'), $response->headers);
+
+        // On vérifie qu'un mail a été envoyé
+        $mailCollector = $client->getProfile()->getCollector('swiftmailer');
+        $this->assertEquals(1, $mailCollector->getMessageCount());
+        $this->assertJsonResponse($client->getResponse(), 204);
+
+        $collectedMessages = $mailCollector->getMessages();
+        $message = $collectedMessages[0];
+
+        // On vérifie le message
+        $this->assertInstanceOf('Swift_Message', $message);
+        $this->assertEquals('Réinitialisation du mot de passe', $message->getSubject());
+        $this->assertEquals('noreply@upont.enpc.fr', key($message->getFrom()));
+        $this->assertEquals('alberic.trancart@eleves.enpc.fr', key($message->getTo()));
     }
 
     public function testGet()
