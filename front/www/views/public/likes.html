@@ -7,7 +7,7 @@
         <i class="fa fa-thumbs-o-down"></i> {{ objet.dislikes >= 0 ? objet.dislikes : 0 }}
     </div>
 
-    <div class="up-likes" ng-click="show=true" ng-class="{admissibles : $root.isAdmissible, 'up-clickable': !show}">
+    <div class="up-likes up-clickable" ng-click="show=!show">
         <i class="fa fa-comment"></i> {{ objet.comments }}
     </div>
 </div>

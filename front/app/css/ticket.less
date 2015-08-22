@@ -34,45 +34,17 @@
         font-size: 1.3em;
         font-weight: bold;
         margin-bottom: 2px;
-    }
-    .up-news-icon{
-        position:absolute;
-        top: -0.3em;
-        left: -0.6em;
-        width: 1.7em;
-        height: 1.7em;
-        line-height: 1.6em;
-        text-align: center;
-        color: #fff;
-        border-radius: 100%;
-        z-index: 1;
-
-        .fa { font-size: 0.85em; }
+        line-height: 20px;
     }
     .up-ticket-body{
         position: relative;
-        padding: 0.4em;
+        padding: 1em;
 
-        &.color1{
-            border-left: solid 4px @col-aqua;
-            .up-news-icon { background-color:@col-aqua; }
-        }
-        &.color2{
-            border-left: solid 4px @col-yellow;
-            .up-news-icon { background-color: @col-yellow; }
-        }
-        &.color3{
-            border-left: solid 4px @col-red;
-            .up-news-icon { background-color: @col-red; }
-        }
-        &.color4{
-            border-left: solid 4px @col-violet;
-            .up-news-icon { background-color: @col-violet; }
-        }
-        &.color5{
-            border-left: solid 4px @col-pink;
-            .up-news-icon { background-color: @col-pink; }
-        }
+        &.color1 { border-left: solid 4px @col-aqua; }
+        &.color2 { border-left: solid 4px @col-yellow; }
+        &.color3 { border-left: solid 4px @col-red; }
+        &.color4 { border-left: solid 4px @col-violet; }
+        &.color5 { border-left: solid 4px @col-pink; }
     }
     .up-ticket-footer{
         position: relative;
@@ -110,6 +82,9 @@
 .up-ticket-actions {
     text-align: center;
     display: inline-block;
+    a {
+        font-weight: bold;
+    }
 }
 .up-ticket-content {
     display: inline-block;

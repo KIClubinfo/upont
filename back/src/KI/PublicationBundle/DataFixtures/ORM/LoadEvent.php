@@ -19,7 +19,7 @@ class LoadEventFixture extends AbstractFixture implements OrderedFixtureInterfac
         $event->setAuthorUser($this->getReference('user-trancara'));
         $event->setEntryMethod('Libre');
         $event->setStartDate(mktime(0, 0, 0) + 36*3600);
-        $event->setEndDate(mktime(0, 0, 0) + 36.5*3600);
+        $event->setEndDate(mktime(0, 0, 0) + 37.5*3600);
         $event->setPlace('P102');
         $event->addAttendee($this->getReference('user-taquet-c'));
         $event->addAttendee($this->getReference('user-de-boisc'));

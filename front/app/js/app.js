@@ -6,6 +6,14 @@ if (!location.origin)
 moment.locale('fr', {
     week : {
         dow : 1 // Monday is the first day of the week
+    },
+    calendar : {
+        sameDay: '[Aujourd\'hui à] LT',
+        nextDay: '[Demain à] LT',
+        nextWeek: 'dddd [à] LT',
+        lastDay: '[Hier à] LT',
+        lastWeek: 'dddd [dernier]',
+        sameElse : '[Le] DD MMM [à] LT'
     }
 });
 
