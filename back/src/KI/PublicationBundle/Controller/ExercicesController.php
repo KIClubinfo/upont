@@ -5,8 +5,6 @@ namespace KI\PublicationBundle\Controller;
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use KI\UserBundle\Entity\Achievement;
-use KI\UserBundle\Event\AchievementCheckEvent;
 use KI\CoreBundle\Controller\SubresourceController;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;

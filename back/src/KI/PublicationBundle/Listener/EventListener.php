@@ -2,7 +2,6 @@
 
 namespace KI\PublicationBundle\Listener;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use KI\PublicationBundle\Entity\Event;
 use KI\UserBundle\Service\NotifyService;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;

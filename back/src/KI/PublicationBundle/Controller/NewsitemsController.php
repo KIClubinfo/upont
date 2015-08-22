@@ -3,8 +3,6 @@
 namespace KI\PublicationBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use KI\UserBundle\Entity\Achievement;
-use KI\UserBundle\Event\AchievementCheckEvent;
 use KI\CoreBundle\Controller\ResourceController;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

@@ -2,8 +2,6 @@
 
 namespace KI\PublicationBundle\Listener;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use KI\PublicationBundle\Entity\Newsitem;
 use KI\UserBundle\Service\NotifyService;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;

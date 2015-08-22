@@ -55,9 +55,9 @@ class AppKernel extends Kernel
      * le chargement des ressources du kernel ne soit en mode debug que lors du
      * premier test. Divise le temps des tests par deux environ...
      * NOTE: ne marche pas avec --process-isolation
-     * Enlever le A pour activer
+     * Enlever la première lettre pour activer
      */
-    protected function AinitializeContainer()
+    protected function ainitializeContainer()
     {
         static $first = true;
 

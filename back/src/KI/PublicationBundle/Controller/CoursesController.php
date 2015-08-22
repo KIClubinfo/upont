@@ -4,13 +4,7 @@ namespace KI\PublicationBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use KI\UserBundle\Entity\Achievement;
-use KI\UserBundle\Event\AchievementCheckEvent;
-use KI\PublicationBundle\Entity\CourseUser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use KI\PublicationBundle\Form\CourseUserType;
 use KI\CoreBundle\Controller\ResourceController;
 use Symfony\Component\HttpFoundation\Request;
 
