@@ -3,8 +3,8 @@
 namespace KI\PublicationBundle\Tests\Controller;
 
 use KI\CoreBundle\Tests\WebTestCase;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class CoursesControllerTest extends WebTestCase
 {

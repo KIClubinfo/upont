@@ -104,7 +104,7 @@ class FormHelper
     private function namespaceToClassname($object)
     {
         $names = explode('\\', get_class($object));
-        $className = $names[count($names)-1];
+        $className = $names[count($names) - 1];
         return strtolower($className);
     }
 }

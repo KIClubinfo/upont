@@ -3,11 +3,11 @@
 namespace KI\UserBundle\Listener;
 
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\Security\Core\SecurityContext;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Entity\AchievementUser;
 use KI\UserBundle\Entity\User;
 use KI\UserBundle\Event\AchievementCheckEvent;
+use Symfony\Component\Security\Core\SecurityContext;
 
 class AchievementCheckListener
 {

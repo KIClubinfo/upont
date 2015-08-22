@@ -2,12 +2,12 @@
 
 namespace KI\ClubinfoBundle\Listener;
 
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use KI\ClubinfoBundle\Service\SlackService;
 use KI\ClubinfoBundle\Entity\Fix;
+use KI\ClubinfoBundle\Service\SlackService;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Event\AchievementCheckEvent;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class FixListener
 {

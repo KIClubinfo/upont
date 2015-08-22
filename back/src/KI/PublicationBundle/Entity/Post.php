@@ -66,8 +66,7 @@ class Post extends Likeable
     {
         if ($this->image !== null) {
             return $this->image->getWebPath();
-        }
-        else if ($this->authorClub !== null && $this->authorClub->getImage() !== null) {
+        } else if ($this->authorClub !== null && $this->authorClub->getImage() !== null) {
             return $this->authorClub->getImage()->getWebPath();
         }
     }

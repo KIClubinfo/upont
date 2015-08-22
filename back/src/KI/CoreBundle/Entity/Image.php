@@ -172,7 +172,7 @@ class Image
         $thumbnailPath = $thumbnailsDirectory.substr($originalPath, strlen(dirname($originalPath)) + 1);
 
         // Création du dossier thumbnails au besoin
-        if(!is_dir($thumbnailsDirectory)) {
+        if (!is_dir($thumbnailsDirectory)) {
             mkdir($thumbnailsDirectory);
         }
 

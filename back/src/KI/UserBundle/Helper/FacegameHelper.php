@@ -4,8 +4,8 @@ namespace KI\UserBundle\Helper;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use KI\UserBundle\Entity\Facegame;
 use KI\UserBundle\Entity\Achievement;
+use KI\UserBundle\Entity\Facegame;
 use KI\UserBundle\Event\AchievementCheckEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;

@@ -3,11 +3,9 @@
 namespace KI\CoreBundle\Controller;
 
 use KI\UserBundle\Controller\CoreController;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use KI\UserBundle\Entity\Notification;
-use KI\UserBundle\Entity\Club;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 // Fonctions génériques
 class BaseController extends CoreController
