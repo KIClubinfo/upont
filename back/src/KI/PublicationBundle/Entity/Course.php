@@ -69,11 +69,6 @@ class Course extends Likeable
      */
     protected $courseitems;
 
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
-
     /**
      * Constructor
      */

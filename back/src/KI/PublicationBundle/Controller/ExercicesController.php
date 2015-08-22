@@ -7,10 +7,14 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Event\AchievementCheckEvent;
+use KI\CoreBundle\Controller\SubresourceController;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-class ExercicesController extends \KI\CoreBundle\Controller\SubresourceController
+class ExercicesController extends SubresourceController
 {
-    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->initialize('Course', 'Publication');
@@ -67,21 +71,23 @@ class ExercicesController extends \KI\CoreBundle\Controller\SubresourceControlle
         $exercice = $this->findBySlug($id);
         $this->switchClass();
 
-        if (!file_exists($exercice->getAbsolutePath()))
+        if (!file_exists($exercice->getAbsolutePath())) {
             throw new NotFoundHttpException('Fichier PDF non trouvé');
+        }
 
         // On lit le fichier PDF
-        $response = new \Symfony\Component\HttpFoundation\Response();
-        $filename = $exercice->getAbsolutePath();
-        $course = $exercice->getCourse();
+        $response = new Response();
+        $filepath = $exercice->getAbsolutePath();
+        $course   = $exercice->getCourse();
+        $filename = '('.$course->getDepartment().') '.$course->getName().' - '.$exercice->getName().'.pdf';
 
         $response->headers->set('Cache-Control', 'private');
-        $response->headers->set('Content-type', mime_content_type($filename));
-        $response->headers->set('Content-Disposition', 'attachment; filename="('.$course->getDepartment().') '.$course->getName().' - '.$exercice->getName().'";');
-        $response->headers->set('Content-length', filesize($filename));
+        $response->headers->set('Content-type', mime_content_type($filepath));
+        $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'";');
+        $response->headers->set('Content-length', filesize($filepath));
 
         $response->sendHeaders();
-        return $response->setContent(readfile($filename));
+        return $response->setContent(readfile($filepath));
     }
 
     /**
@@ -99,46 +105,26 @@ class ExercicesController extends \KI\CoreBundle\Controller\SubresourceControlle
      * )
      * @Route\Post("/courses/{slug}/exercices")
      */
-    public function postCourseExerciceAction($slug)
+    public function postCourseExerciceAction($slug, Request $request)
     {
-        $request = $this->getRequest();
         $course = $this->findBySlug($slug);
 
         $this->switchClass('Exercice');
-        $return = $this->postData($this->get('security.context')->isGranted('ROLE_USER'));
+        $return = $this->postData($this->is('USER'));
 
         if ($return['code'] != 400) {
             // On règle tout comme on veut
-            $return['item']->setDate(time());
-            $return['item']->setUploader($this->user);
             $return['item']->setCourse($course);
-            $return['item']->setValid($this->get('security.context')->isGranted('ROLE_MODO'));
+            $return['item']->setValid($this->is('MODO'));
 
-            // On upload le fichier
-            if (!$request->files->has('file'))
+            // On vérifie que le fichier est là
+            if (!$request->files->has('file')) {
                 throw new BadRequestHttpException('Aucun fichier présent');
-
-            $this->manager->flush();
-
-            $dispatcher = $this->container->get('event_dispatcher');
-            $achievementCheck = new AchievementCheckEvent(Achievement::POOKIE);
-            $dispatcher->dispatch('upont.achievement', $achievementCheck);
-
-            // On crée une notification
-            $courseUsers = $this->manager->getRepository('KIPublicationBundle:CourseUser')->findBy(array('course' => $course));
-            $users = array();
-
-            foreach ($courseUsers as $courseUser) {
-                $users[] = $courseUser->getUser();
             }
 
-            $this->get('ki_user.service.notify')->notify(
-                'notif_followed_annal',
-                $return['item']->getName(),
-                'Une annale pour le cours '.$course->getName().' est maintenant disponible',
-                'to',
-                $users
-            );
+            // On sauvegarde tout avec le fichier au passage
+            $this->manager->flush();
+            $this->get('ki_publication.listener.exercice')->postPersist($return['item']);
         }
         $this->switchClass();
 
@@ -162,7 +148,7 @@ class ExercicesController extends \KI\CoreBundle\Controller\SubresourceControlle
      */
     public function patchCourseExerciceAction($slug, $id)
     {
-        return $this->patchSub($slug, 'Exercice', $id, $this->get('security.context')->isGranted('ROLE_MODO'));
+        return $this->patchSub($slug, 'Exercice', $id, $this->is('MODO'));
     }
 
     /**
@@ -181,6 +167,6 @@ class ExercicesController extends \KI\CoreBundle\Controller\SubresourceControlle
     public function deleteCourseExerciceAction($slug, $id)
     {
         $exercice = $this->getOneSub($slug, 'Exercice', $id);
-        return $this->deleteSub($slug, 'Exercice', $id, $this->user == $exercice->getUploader() || $this->get('security.context')->isGranted('ROLE_MODO'));
+        return $this->deleteSub($slug, 'Exercice', $id, $this->user == $exercice->getUploader() || $this->is('MODO'));
     }
 }

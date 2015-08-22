@@ -12,18 +12,23 @@ class CourseType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('groups', 'collection', array('type' => 'text', 'allow_add' => true, 'allow_delete' => true))
+            ->add('groups', 'collection', array(
+                'type' => 'text',
+                'allow_add' => true,
+                'allow_delete' => true
+            ))
             ->add('department')
             ->add('semester')
             ->add('ects')
-            ->add('active');
+            ->add('active')
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
+            'data_class' => 'KI\PublicationBundle\Entity\Course',
             'csrf_protection' => false,
-            'data_class' => 'KI\PublicationBundle\Entity\Course'
         ));
     }
 

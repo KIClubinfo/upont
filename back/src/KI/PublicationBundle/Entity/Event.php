@@ -133,20 +133,12 @@ class Event extends Post
         return count($this->listPookies);
     }
 
-
-
-
-
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
-
     /**
      * Constructor
      */
     public function __construct()
     {
+        parent::__construct();
         $this->listAttendees = new \Doctrine\Common\Collections\ArrayCollection();
         $this->listPookies = new \Doctrine\Common\Collections\ArrayCollection();
     }

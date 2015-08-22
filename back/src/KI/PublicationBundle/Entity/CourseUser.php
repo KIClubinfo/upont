@@ -41,10 +41,6 @@ class CourseUser
      */
     protected $user;
 
-
-
-    //===== GENERATED AUTOMATICALLY =====//
-
     /**
      * Get id
      *

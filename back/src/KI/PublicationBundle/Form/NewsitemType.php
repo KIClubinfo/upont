@@ -14,14 +14,15 @@ class NewsitemType extends AbstractType
             ->add('name')
             ->add('text')
             ->add('authorClub', 'club_selector')
-            ->add('image', 'image_selector');
+            ->add('image', 'image_selector')
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
+            'data_class' => 'KI\PublicationBundle\Entity\Newsitem',
             'csrf_protection' => false,
-            'data_class' => 'KI\PublicationBundle\Entity\Newsitem'
         ));
     }
 

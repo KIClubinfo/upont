@@ -21,6 +21,8 @@ class Exercice extends Likeable
      * @JMS\Expose
      */
     private $uploader;
+    protected $autoSetUser = 'uploader';
+    public function getAutoSetUser() { return $this->autoSetUser; }
 
     /**
      * Date de l'upload
@@ -55,7 +57,7 @@ class Exercice extends Likeable
 
     public function getAbsolutePath()
     {
-        return __DIR__.'/../../../../web/uploads/exercices/'.$this->id.'.pdf';
+        return $this->getBasePath().$this->id.'.pdf';
     }
 
     public function getWebPath()
@@ -67,20 +69,22 @@ class Exercice extends Likeable
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
-    public function preUpload()
+    public function checkFileuploadIsPresent()
     {
-        if ($this->file === null)
+        if ($this->file === null) {
             return;
+        }
     }
 
     /**
      * @ORM\PostPersist()
      * @ORM\PostUpdate()
      */
-    public function upload()
+    public function saveNewExercice()
     {
-        if ($this->file === null)
+        if ($this->file === null) {
             return;
+        }
 
         // Exception lancée si le fichier ne peut pas être bougé et donc
         // arrête le Persist
@@ -90,7 +94,9 @@ class Exercice extends Likeable
         }
     }
 
-    // Variable temporaire pour la suppression du fichier
+    /**
+     * @var Variable utilisée pour stocker le fichier image de manière provisioire
+     */
     protected $filenameForRemove;
 
     /**
@@ -107,12 +113,10 @@ class Exercice extends Likeable
      */
     public function removeUpload()
     {
-        if ($this->filenameForRemove)
+        if ($this->filenameForRemove) {
             unlink($this->filenameForRemove);
+        }
     }
-
-
-
 
     /**
      * Propriété dummy pour valider le formulaire, l'upload réel se fait par le controleur
@@ -131,14 +135,11 @@ class Exercice extends Likeable
         return $this;
     }
 
-
-
-
-
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
+    public function __construct()
+    {
+        parent::__construct();
+        $this->date = time();
+    }
 
     /**
      * Set date
