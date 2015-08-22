@@ -36,6 +36,9 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setDepartment('IMI');
         $user->setNationality('Maroc');
         $user->setOrigin('Concours Commun [CK]');
+        $user->setMailEvent(false);
+        $user->setMailModification(false);
+        $user->setMailShotgun(false);
         $user->setEnabled(true);
         $user->addGroupUser($this->getReference('group-user'));
         $user->setImage($this->getReference('image-user-kadaouic'));
@@ -92,6 +95,9 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setOrigin('CC - PC [CdB]');
         $user->setDepartment('GMM');
         $user->setEnabled(true);
+        $user->setMailEvent(false);
+        $user->setMailModification(false);
+        $user->setMailShotgun(false);
         $user->addGroupUser($this->getReference('group-admin'));
         $user->setImage($this->getReference('image-user-de-boisc'));
         $userManager->updateUser($user);
@@ -109,6 +115,9 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setNationality('Nantes');
         $user->setDepartment('GCC-Archi');
         $user->setEnabled(true);
+        $user->setMailEvent(false);
+        $user->setMailModification(false);
+        $user->setMailShotgun(false);
         $user->addGroupUser($this->getReference('group-user'));
         $user->setImage($this->getReference('image-user-guerinh'));
         $userManager->updateUser($user);
@@ -124,6 +133,9 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setOrigin('CC [SD]');
         $user->setDepartment('GCC-Archi');
         $user->setEnabled(true);
+        $user->setMailEvent(false);
+        $user->setMailModification(false);
+        $user->setMailShotgun(false);
         $user->addGroupUser($this->getReference('group-user'));
         $user->setImage($this->getReference('image-user-dziris'));
         $userManager->updateUser($user);
@@ -141,6 +153,9 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setDepartment('VET');
         $user->setNationality('Troll');
         $user->setEnabled(true);
+        $user->setMailEvent(false);
+        $user->setMailModification(false);
+        $user->setMailShotgun(false);
         $user->addGroupUser($this->getReference('group-modo'));
         $user->setImage($this->getReference('image-user-muzardt'));
         $userManager->updateUser($user);
@@ -156,6 +171,9 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setOrigin('CC [BDB]');
         $user->setDepartment('GCC');
         $user->setNationality('France');
+        $user->setMailEvent(false);
+        $user->setMailModification(false);
+        $user->setMailShotgun(false);
         $user->setEnabled(true);
         $user->addGroupUser($this->getReference('group-user'));
         $userManager->updateUser($user);
@@ -172,6 +190,9 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setDepartment('GCC-Archi');
         $user->setToken('4wtyfMWp');
         $user->setEnabled(true);
+        $user->setMailEvent(false);
+        $user->setMailModification(false);
+        $user->setMailShotgun(false);
         $user->addGroupUser($this->getReference('group-user'));
         $user->setImage($this->getReference('image-user-bochetc'));
         $userManager->updateUser($user);
@@ -188,6 +209,9 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setOrigin('CC - MP');
         $user->setDepartment('1A');
         $user->setEnabled(true);
+        $user->setMailEvent(false);
+        $user->setMailModification(false);
+        $user->setMailShotgun(false);
         $user->addGroup($this->getReference('group-user'));
         $user->addGroup($this->getReference('group-jardinier'));
         $userManager->updateUser($user);
@@ -201,6 +225,9 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setLastName('Peluchon');
         $user->setPromo('017');
         $user->setDepartment('1A');
+        $user->setMailEvent(false);
+        $user->setMailModification(false);
+        $user->setMailShotgun(false);
         $user->setEnabled(true);
         $user->addGroup($this->getReference('group-user'));
         $userManager->updateUser($user);
@@ -217,6 +244,9 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setEnabled(true);
         $user->setStatsFoyer(true);
         $user->setStatsPonthub(true);
+        $user->setMailEvent(false);
+        $user->setMailModification(false);
+        $user->setMailShotgun(false);
         $user->addGroup($this->getReference('group-admissible'));
         $user->setImage($this->getReference('image-user-admissibles'));
         $userManager->updateUser($user);
@@ -234,6 +264,9 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setEnabled(true);
         $user->setStatsFoyer(false);
         $user->setStatsPonthub(false);
+        $user->setMailEvent(false);
+        $user->setMailModification(false);
+        $user->setMailShotgun(false);
         $user->addGroup($this->getReference('group-exterieur'));
         $user->setImage($this->getReference('image-user-gcc'));
         $userManager->updateUser($user);
@@ -246,6 +279,9 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setFirstName('Externe');
         $user->setLastName('Foyer');
         $user->setEnabled(true);
+        $user->setMailEvent(false);
+        $user->setMailModification(false);
+        $user->setMailShotgun(false);
         $user->addGroup($this->getReference('group-exterieur'));
         $userManager->updateUser($user);
     }

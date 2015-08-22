@@ -100,28 +100,56 @@
                 <input type="file" class="up-col-xs-12" ng-model="profilePicture" base-sixty-four-input>
             </div>
 
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+            <h3 up-col="100%">Partager mes statistiques</h3>
+
+            <div up-col-xs="80%" up-col-sm="80%" up-col="40%">
                 <i class="fa fa-beer"></i>
-                Partager mes statistiques Foyer
+                Foyer
             </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+            <div up-col-xs="20%" up-col-sm="20%" up-col="10%">
                 <input type="checkbox" ng-model="user.stats_foyer">
             </div>
 
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+            <div up-col-xs="80%" up-col-sm="80%" up-col="40%">
                 <i class="fa fa-download"></i>
-                Partager mes statistiques PontHub
+                PontHub
             </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+            <div up-col-xs="20%" up-col-sm="20%" up-col="10%">
                 <input type="checkbox" ng-model="user.stats_ponthub">
             </div>
 
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+            <div up-col-xs="80%" up-col-sm="80%" up-col="40%">
                 <i class="fa fa-gamepad"></i>
-                Partager mes statistiques de "La Réponse D"
+                La Réponse D
             </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+            <div up-col-xs="20%" up-col-sm="20%" up-col="10%">
                 <input type="checkbox" ng-model="user.stats_facegame">
+            </div>
+
+            <h3 up-col="100%">Récéption de mails</h3>
+
+            <div up-col-xs="80%" up-col-sm="80%" up-col="40%">
+                <i class="fa fa-envelope"></i>
+                Pour les événements des clubs que je suis
+            </div>
+            <div up-col-xs="20%" up-col-sm="20%" up-col="10%">
+                <input type="checkbox" ng-model="user.mail_event">
+            </div>
+
+            <div up-col-xs="80%" up-col-sm="80%" up-col="40%">
+                <i class="fa fa-envelope-o"></i>
+                Quand le lieu/la date d'un événement est modifiée
+            </div>
+            <div up-col-xs="20%" up-col-sm="20%" up-col="10%">
+                <input type="checkbox" ng-model="user.mail_modification" ng-disabled="!user.mail_event">
+            </div>
+
+            <div up-col-xs="80%" up-col-sm="80%" up-col="40%">
+                <i class="fa fa-exclamation-triangle"></i>
+                Rappel le matin d'un shotgun
+            </div>
+            <div up-col-xs="20%" up-col-sm="20%" up-col="10%">
+                <input type="checkbox" ng-model="user.mail_shotgun" ng-disabled="!user.mail_event">
             </div>
 
             <div up-col="100%" up-row right>

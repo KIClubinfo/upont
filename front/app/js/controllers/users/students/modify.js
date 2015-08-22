@@ -42,7 +42,10 @@ angular.module('upont')
                 nickname: me.nick,
                 statsFoyer: me.stats_foyer,
                 statsPonthub: me.stats_ponthub,
-                statsFacegame: me.stats_facegame
+                statsFacegame: me.stats_facegame,
+                mailEvent: me.mail_event,
+                mailModification: me.mail_modification,
+                mailShotgun: me.mail_shotgun,
             };
 
             if (image) {
@@ -70,7 +73,6 @@ angular.module('upont')
             }
 
             var params = {
-                // email: me.email,
                 old: old,
                 password: password,
                 confirm: confirm

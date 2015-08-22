@@ -32,8 +32,11 @@ class UserType extends AbstractType
             ->add('allowedBde')
             ->add('allowedBds')
             ->add('tour')
-            ->add('details')
-            ->add('image', 'image_selector');
+            ->add('image', 'image_selector')
+            ->add('mailEvent')
+            ->add('mailModification')
+            ->add('mailShotgun')
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
