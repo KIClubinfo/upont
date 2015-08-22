@@ -6,16 +6,16 @@
 
     <div class="up-invisible-sm up-invisible-xs" up-col-md="40%" up-col-lg="40%">
         <div ng-if="!$root.isAdmissible" class="up-ticket centering">
-            <div up-row center>
+            <div up-row center style="margin-bottom:5px">
                 <div class="btn-group pull-right">
-                    <label class="btn btn-primary" ng-click="today()">Aujourd'hui</label>
-                    <label class="btn btn-primary" ng-click="tomorrow()">Demain</label>
+                    <label class="btn" ng-class="{'btn-primary': todayActive, 'btn-default': !todayActive}" ng-click="today()">Aujourd'hui</label>
+                    <label class="btn" ng-class="{'btn-primary': !todayActive, 'btn-default': todayActive}" ng-click="tomorrow()">Demain</label>
                 </div>
             </div>
 
             <div up-row center>
                 <mwl-calendar
-                    style="width:100%"
+                    class="up-index-calendar"
                     view="calendarView"
                     current-day="calendarDay"
                     events="calendarEvents"
@@ -23,12 +23,6 @@
                     day-view-start="08:00"
                     day-view-end="23:00"
                     day-view-split="60"
-                    on-event-click="eventClicked(calendarEvent)"
-                    on-event-times-changed="calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
-                    edit-event-html="'<i class=\'glyphicon glyphicon-pencil\'></i>'"
-                    delete-event-html="'<i class=\'glyphicon glyphicon-remove\'></i>'"
-                    on-edit-event-click="eventEdited(calendarEvent)"
-                    on-delete-event-click="eventDeleted(calendarEvent)"
                     auto-open="true">
                 </mwl-calendar>
             </div>
