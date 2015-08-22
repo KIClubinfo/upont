@@ -140,7 +140,7 @@ class Event extends Post
     {
         parent::__construct();
         $this->listAttendees = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->listPookies = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listPookies   = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

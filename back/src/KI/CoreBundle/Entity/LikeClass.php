@@ -83,7 +83,7 @@ class LikeClass
      */
     public function __construct()
     {
-        $this->listLikes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listLikes    = new \Doctrine\Common\Collections\ArrayCollection();
         $this->listDislikes = new \Doctrine\Common\Collections\ArrayCollection();
     }
 

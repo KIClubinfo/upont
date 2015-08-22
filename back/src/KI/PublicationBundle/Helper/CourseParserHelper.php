@@ -13,7 +13,7 @@ class CourseParserHelper
     protected $manager;
     protected $courseRepository;
     protected $curlService;
-    protected $kownCourses;
+    protected $knownCourses;
 
     public function __construct(EntityManager $manager,
                                 EntityRepository $courseRepository,

@@ -112,8 +112,6 @@ class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
         foreach ($link as $clubUser) {
             $this->manager->remove($clubUser);
         }
-        // TODO
-        // S'arranger pour supprimer la bannière de façon automatique
 
         return $this->delete($slug);
     }

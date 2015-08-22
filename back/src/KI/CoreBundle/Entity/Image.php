@@ -37,11 +37,7 @@ class Image
      */
     protected $file;
 
-    /**
-     * @var Uploads Directory
-     */
     protected $uploadsDirectory;
-
     public function __construct() {
         $this->uploadsDirectory = __DIR__.'/../../../../web/uploads/';
     }
@@ -93,7 +89,7 @@ class Image
     }
 
     /**
-     * @var Variable utilisée pour stocker le fichier image de manière provisioire
+     * Variable utilisée pour stocker le fichier image de manière provisioire
      */
     protected $filenameForRemove;
 

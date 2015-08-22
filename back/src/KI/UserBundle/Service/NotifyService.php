@@ -10,6 +10,7 @@ use KI\UserBundle\Service\GcmService;
 class NotifyService
 {
     protected $gcmService;
+    protected $manager;
     protected $deviceRepository;
     protected $userRepository;
 

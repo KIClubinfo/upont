@@ -95,7 +95,7 @@ class Exercice extends Likeable
     }
 
     /**
-     * @var Variable utilisée pour stocker le fichier image de manière provisioire
+     * Variable utilisée pour stocker le fichier image de manière provisioire
      */
     protected $filenameForRemove;
 

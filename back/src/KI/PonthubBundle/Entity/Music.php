@@ -23,22 +23,6 @@ class Music extends PonthubFile
     protected $album;
 
     /**
-     * @JMS\VirtualProperty()
-     */
-    public function imageUrl()
-    {
-        return $this->album->image !== null ? $this->album->image->getWebPath() : null;
-    }
-
-
-
-
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
-
-    /**
      * Set album
      *
      * @param \KI\PonthubBundle\Entity\Album $album

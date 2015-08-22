@@ -128,20 +128,13 @@ class Serie extends PonthubFile
         return 0;
     }
 
-
-
-
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
-
     /**
      * Constructor
      */
     public function __construct()
     {
         parent::__construct();
+        $this->actors   = new \Doctrine\Common\Collections\ArrayCollection();
         $this->episodes = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
