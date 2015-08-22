@@ -3,6 +3,7 @@
 namespace KI\PublicationBundle\Listener;
 
 use KI\PublicationBundle\Entity\Event;
+use KI\UserBundle\Service\MailerService;
 use KI\UserBundle\Service\NotifyService;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use KI\UserBundle\Event\AchievementCheckEvent;
@@ -12,14 +13,17 @@ use Doctrine\ORM\EntityRepository;
 class EventListener
 {
     protected $notifyService;
+    protected $mailerService;
     protected $dispatcher;
     protected $userRepository;
 
     public function __construct(NotifyService $notifyService,
+                                MailerService $mailerService,
                                 EventDispatcherInterface $dispatcher,
                                 EntityRepository $userRepository)
     {
         $this->notifyService  = $notifyService;
+        $this->mailerService  = $mailerService;
         $this->dispatcher     = $dispatcher;
         $this->userRepository = $userRepository;
     }
@@ -34,21 +38,32 @@ class EventListener
             $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
 
             $allUsers = $this->userRepository->findAll();
-            $users = array();
+            $usersPush = $usersMail = array();
 
             foreach ($allUsers as $candidate) {
-                if ($candidate->getClubsNotFollowed()->contains($club)) {
-                    $users[] = $candidate;
+                if (!$candidate->getClubsNotFollowed()->contains($club)) {
+                    $usersPush[] = $candidate;
+
+                    if ($candidate->getMailEvent()) {
+                        $usersMail[] = $candidate;
+                    }
                 }
             }
+
+            $title = '['.$club->getName().'] '.$entity->getName();
+            $this->mailerService->send($usersMail, $title, 'KIPublicationBundle::invitation.html.twig', array(
+                'event' => $entity,
+                'start' => ucfirst(strftime('%a %d %B %Hh%M', $entity->getStartDate())),
+                'end'   => ucfirst(strftime('%a %d %B %Hh%M', $entity->getEndDate()))
+            ));
 
             $text = substr($entity->getText(), 0, 140).'...';
             $this->notifyService->notify(
                 'notif_followed_event',
                 $entity->getName(),
                 $text,
-                'exclude',
-                $users
+                'to',
+                $usersPush
             );
         }
     }

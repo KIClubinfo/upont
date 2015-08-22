@@ -1,5 +1,7 @@
 <?php
 
+setlocale(LC_ALL, 'fr_FR.utf8');
+
 use Symfony\Component\ClassLoader\ApcClassLoader;
 use Symfony\Component\HttpFoundation\Request;
 

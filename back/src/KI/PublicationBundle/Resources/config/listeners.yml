@@ -13,6 +13,7 @@ services:
         class: KI\PublicationBundle\Listener\EventListener
         arguments:
             - @ki_user.service.notify
+            - @ki_user.service.mailer
             - @event_dispatcher
             - @ki_user.repository.user
 

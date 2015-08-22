@@ -1,4 +1,7 @@
 <?php
+
+setlocale(LC_ALL, 'fr_FR.utf8');
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Debug\Debug;
 
