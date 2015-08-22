@@ -2,14 +2,14 @@
 
 namespace KI\PublicationBundle\Helper;
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use KI\PublicationBundle\Entity\Course;
 use KI\PublicationBundle\Entity\CourseUser;
-use KI\UserBundle\Entity\User;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use KI\UserBundle\Event\AchievementCheckEvent;
 use KI\UserBundle\Entity\Achievement;
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\EntityManager;
+use KI\UserBundle\Entity\User;
+use KI\UserBundle\Event\AchievementCheckEvent;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class CourseHelper

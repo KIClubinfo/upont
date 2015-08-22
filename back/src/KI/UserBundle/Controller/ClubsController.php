@@ -3,12 +3,12 @@
 namespace KI\UserBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
+use KI\UserBundle\Entity\ClubUser;
+use KI\UserBundle\Form\ClubUserType;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use KI\UserBundle\Form\ClubUserType;
-use KI\UserBundle\Entity\ClubUser;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
 {

@@ -4,8 +4,8 @@ namespace KI\UserBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use KI\UserBundle\Service\GcmService;
 use KI\UserBundle\Entity\Notification;
+use KI\UserBundle\Service\GcmService;
 
 class NotifyService
 {

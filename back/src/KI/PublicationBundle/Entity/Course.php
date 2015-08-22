@@ -4,8 +4,8 @@ namespace KI\PublicationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
 use KI\CoreBundle\Entity\Likeable;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -173,7 +173,7 @@ class Course extends Likeable
     /**
      * Add groups
      *
-     * @param string $groups
+     * @param string $group
      * @return Course
      */
     public function addGroup($group)
@@ -186,7 +186,7 @@ class Course extends Likeable
     /**
      * Remove groups
      *
-     * @param string $groups
+     * @param string $group
      */
     public function removeGroup($group)
     {

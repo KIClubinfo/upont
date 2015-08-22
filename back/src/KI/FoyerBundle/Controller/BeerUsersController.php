@@ -3,14 +3,13 @@
 namespace KI\FoyerBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use KI\CoreBundle\Controller\ResourceController;
 use KI\FoyerBundle\Entity\Beer;
 use KI\FoyerBundle\Entity\BeerUser;
 use KI\UserBundle\Entity\User;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class BeerUsersController extends ResourceController
 {

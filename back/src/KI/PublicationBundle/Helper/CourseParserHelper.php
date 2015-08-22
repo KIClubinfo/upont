@@ -2,12 +2,11 @@
 
 namespace KI\PublicationBundle\Helper;
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+use KI\CoreBundle\Service\CurlService;
 use KI\PublicationBundle\Entity\Course;
 use KI\PublicationBundle\Entity\CourseItem;
-use KI\CoreBundle\Service\CurlService;
-use KI\UserBundle\Entity\User;
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\EntityManager;
 
 class CourseParserHelper
 {

@@ -3,9 +3,9 @@
 namespace KI\UserBundle\Listener;
 
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\Security\Core\SecurityContext;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use KI\UserBundle\Entity\User;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\Security\Core\SecurityContext;
 
 class OnlineListener
 {

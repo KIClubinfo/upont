@@ -2,9 +2,9 @@
 
 namespace KI\PonthubBundle\Entity;
 
-use KI\PonthubBundle\Entity\PonthubFile;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use KI\PonthubBundle\Entity\PonthubFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
