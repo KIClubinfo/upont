@@ -1,8 +1,51 @@
 angular.module('upont')
-    .controller('Publications_Ctrl', ['$scope', 'newsItems', 'events', 'messages', function($scope, newsItems, events, messages) {
+    .controller('Publications_Ctrl', ['$scope', 'newsItems', 'events', 'messages', 'courseitems', function($scope, newsItems, events, messages, courseitems) {
         $scope.events = events;
         $scope.newsItems = newsItems;
         $scope.messages = messages;
+
+        $scope.calendarView = 'day';
+
+        $scope.today = function() {
+            $scope.calendarDay = new Date();
+            $scope.todayActive = true;
+        };
+        $scope.tomorrow = function() {
+            $scope.calendarDay = new Date(new Date().getTime() + 24*3600*1000);
+            $scope.todayActive = false;
+        };
+        $scope.today();
+
+        $scope.calendarEvents = [];
+        for (var i = 0; i < events.data.length; i++) {
+            if (events.data[i]) {
+                $scope.calendarEvents.push({
+                    type: 'warning',
+                    startsAt: new Date(events.data[i].start_date*1000),
+                    endsAt: new Date(events.data[i].end_date*1000),
+                    title: events.data[i].author_club.name + ' : ' + events.data[i].name,
+                    editable: false,
+                    deletable: false,
+                    draggable: false,
+                    resizable: false,
+                    incrementsBadgeTotal: true,
+                });
+            }
+        }
+        for (i = 0; i < courseitems.length; i++) {
+            var group = courseitems[i].group;
+            $scope.calendarEvents.push({
+                type: 'info',
+                startsAt: new Date(courseitems[i].start_date*1000),
+                endsAt: new Date(courseitems[i].end_date*1000),
+                title: '[' + courseitems[i].location + '] ' + courseitems[i].course.name + ((group != '0' && group !== undefined) ? ' (Gr ' + group +')' : ''),
+                editable: false,
+                deletable: false,
+                draggable: false,
+                resizable: false,
+                incrementsBadgeTotal: true,
+            });
+        }
     }])
     .controller('Publications_List_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'newsItems', 'events', 'Paginate', 'Achievements', function($scope, $rootScope, $resource, $http, newsItems, events, Paginate, Achievements) {
         $scope.events = events;
@@ -165,6 +208,9 @@ angular.module('upont')
                     }],
                     messages: ['Paginate', function(Paginate) {
                         return Paginate.get('newsitems?sort=-date&limit=10&name=message');
+                    }],
+                    courseitems: ['$resource', function($resource) {
+                        return $resource(apiPrefix + 'own/courseitems').query().$promise;
                     }]
                 }
             })

@@ -6,9 +6,26 @@
 
     <div class="up-invisible-sm up-invisible-xs" up-col-md="40%" up-col-lg="40%">
         <div ng-if="!$root.isAdmissible" class="up-ticket centering">
-            <h3>Informations sur le développement</h3>
-            Si vous voulez suivre au jour le jour le développement/ce que nous avons prévu, vous pouvez visionner notre <a target="_blank" href="https://trello.com/b/a7pIk6zk/upont" title="Board Trello de uPont"><i class="fa fa-trello"></i> board Trello.</a><br>
-            Et n'hésitez pas à <a ui-sref="root.users.assos.ki" title="Faire une remarque sur uPont">balancer des coms/remarques/suggestions !</a> On essaiera de les prendre en compte le plus rapidement possible.
+            <div up-row center style="margin-bottom:5px">
+                <div class="btn-group pull-right">
+                    <label class="btn" ng-class="{'btn-primary': todayActive, 'btn-default': !todayActive}" ng-click="today()">Aujourd'hui</label>
+                    <label class="btn" ng-class="{'btn-primary': !todayActive, 'btn-default': todayActive}" ng-click="tomorrow()">Demain</label>
+                </div>
+            </div>
+
+            <div up-row center>
+                <mwl-calendar
+                    class="up-index-calendar"
+                    view="calendarView"
+                    current-day="calendarDay"
+                    events="calendarEvents"
+                    view-title="calendarTitle"
+                    day-view-start="08:00"
+                    day-view-end="23:00"
+                    day-view-split="60"
+                    auto-open="true">
+                </mwl-calendar>
+            </div>
         </div>
 
         <div ng-if="$root.isAdmissible" class="up-ticket centering">
