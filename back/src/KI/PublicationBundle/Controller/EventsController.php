@@ -78,6 +78,7 @@ class EventsController extends ResourceController
         $return = $this->postData($this->isClubMember());
 
         if ($return['code'] == 201) {
+            $this->manager->flush();
             $this->get('ki_publication.listener.event')->postPersist($return['item']);
         }
 
