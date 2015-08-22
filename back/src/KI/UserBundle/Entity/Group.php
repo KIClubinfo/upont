@@ -38,12 +38,6 @@ class Group extends BaseGroup
      */
     protected $slug;
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
     /**
      * Set slug
      *
