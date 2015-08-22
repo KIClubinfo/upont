@@ -18,7 +18,7 @@ class EventsControllerTest extends WebTestCase
 
         // On vérifie qu'un mail a été envoyé
         $mailCollector = $this->client->getProfile()->getCollector('swiftmailer');
-        $this->assertEquals(1, $mailCollector->getMessageCount());
+        $this->assertEquals(2, $mailCollector->getMessageCount());
 
         $collectedMessages = $mailCollector->getMessages();
         $message = $collectedMessages[0];
