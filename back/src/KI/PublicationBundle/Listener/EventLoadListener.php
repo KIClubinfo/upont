@@ -22,7 +22,7 @@ class EventLoadListener
 
         if ($entity instanceof Event) {
             $token = $this->tokenStorage->getToken();
-            $user = $token->getUser();
+            $user = $token ? $token->getUser() : null;
 
             if ($user instanceof User) {
                 $entity->setAttend($entity->isAttended($user));
