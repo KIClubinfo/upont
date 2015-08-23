@@ -72,7 +72,7 @@ class FacegameStatisticsHelper
                 'promo' => $facegame->getUser()->getPromo(),
                 'duration' => $facegame->getDuration(),
                 'date' => $facegame->getDate(),
-                );
+            );
         }
         return $return;
     }
@@ -96,7 +96,7 @@ class FacegameStatisticsHelper
                 'promo' => $facegame->getUser()->getPromo(),
                 'duration' => $facegame->getDuration(),
                 'date' => $facegame->getDate(),
-                );
+            );
         }
         return $return;
     }

@@ -22,10 +22,13 @@ angular.module('upont')
 			origin: 'Origine'
 		};
 
-		$scope.globalStatistics = globalStatistics;
-		$http.get(apiPrefix + 'statistics/facegame/' + $rootScope.me.username).success(function(data){
-			$scope.userStatistics = data;
-		});
+		$scope.loadStats = function() {
+			$scope.globalStatistics = globalStatistics;
+			$http.get(apiPrefix + 'statistics/facegame/' + $rootScope.me.username).success(function(data){
+				$scope.userStatistics = data;
+			});
+		}
+		$scope.loadStats();
 
 	    var timer;
 
@@ -96,6 +99,7 @@ angular.module('upont')
 					$scope.traitValue2 = $scope.gameData.list_users[$scope.position][1]['trait'];
 					$scope.traitValue3 = $scope.gameData.list_users[$scope.position][2]['trait'];
 				}
+				$scope.loadStats();
 			}).error(function() {
 				alertify.error('La promo sélectionnée ne contient pas assez d\'élèves.');
 				return;

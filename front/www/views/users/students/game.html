@@ -3,20 +3,20 @@
         <h1>La Réponse D</h1>
         <div ng-if="!playing && !end">
             <div up-row space-around>
-                <button class="up-btn-game" up-col="20%" ng-click="post(promo, hardcore)">Jouer !</button>
+                <button class="up-btn-game" up-col="50%" ng-click="post(promo, hardcore)">Jouer !</button>
             </div>
 
             <h2>Promo</h2>
 
             <div up-row space-around>
-                <button ng-repeat="item in promos" ng-if="item" class="up-btn-game" up-col="15%" ng-class="{'focus':promo==item}" ng-click="switchPromo(item)">{{ item }}</button>
+                <button ng-repeat="item in promos" ng-if="item" class="up-btn-game" up-col-xs="20%" up-col="15%" ng-class="{'focus':promo==item}" ng-click="switchPromo(item)">{{ item }}</button>
             </div>
 
             <h2>Mode de jeu</h2>
 
             <div up-row space-around>
-                <button class="up-btn-game" up-col="15%" ng-class="{'focus':!hardcore}" ng-click="hardcore=false">Normal</button>
-                <button class="up-btn-game" up-col="15%" ng-class="{'focus':hardcore}" ng-click="hardcore=true">Hardcore</button>
+                <button class="up-btn-game" up-col-xs="40%" up-col-sm="40%" up-col-md="40%" up-col="15%" ng-class="{'focus':!hardcore}" ng-click="hardcore=false">Normal</button>
+                <button class="up-btn-game" up-col-xs="40%" up-col-sm="40%" up-col-md="40%" up-col="15%" ng-class="{'focus':hardcore}" ng-click="hardcore=true">Hardcore</button>
             </div>
             <br><br>
         </div>
@@ -118,8 +118,8 @@
             <h3>Mode de jeu</h3>
 
             <div up-row space-around>
-                <button class="up-btn-game" up-col="15%" ng-class="{'focus':!hardcore}" ng-click="hardcore=false">Normal</button>
-                <button class="up-btn-game" up-col="15%" ng-class="{'focus':hardcore}" ng-click="hardcore=true">Hardcore</button>
+                <button class="up-btn-game" up-col-xs="40%" up-col-sm="40%" up-col-md="40%" up-col="15%" ng-class="{'focus':!hardcore}" ng-click="hardcore=false">Normal</button>
+                <button class="up-btn-game" up-col-xs="40%" up-col-sm="40%" up-col-md="40%" up-col="15%" ng-class="{'focus':hardcore}" ng-click="hardcore=true">Hardcore</button>
             </div>
 
             <br><br>
@@ -174,16 +174,16 @@
         </div>
     </div>
 
-    <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%">
+    <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
         <div class="up-game-container">
             <h2>Highscores Perso</h2>
 
-            Jusqu'à maintenant, tu as joué à <strong>{{ userStatistics.totalNormal }} parties</strong> en mode Normal :
+            Jusqu'à maintenant, tu as joué à <strong>{{ userStatistics.totalNormal }} parties</strong> en mode Normal.
 
             <table class="up-table" up-col="90%">
                 <thead>
                     <tr>
-                        <th><a ng-click="predicate = 'duration'; userNormal=!userNormal">Temps de jeu</a></th>
+                        <th><a ng-init="predicate='duration'" ng-click="predicate = 'duration'; userNormal=!userNormal">Temps</a></th>
                         <th><a ng-click="predicate = 'date'; userNormal=!userNormal">Date</a></th>
                     </tr>
                 </thead>
@@ -195,7 +195,6 @@
                     <tr ng-hide="userStatistics.normalHighscores.length">
                         <td>Rien à afficher</td>
                         <td></td>
-                        <td></td>
                     </tr>
                 </tbody>
             </table>
@@ -204,7 +203,7 @@
             <table class="up-table" up-col="90%">
                 <thead>
                     <tr>
-                        <th><a ng-click="predicate = 'duration'; userHardcore=!userHardcore">Temps de jeu</a></th>
+                        <th><a ng-init="predicate='duration'" ng-click="predicate = 'duration'; userHardcore=!userHardcore">Temps</a></th>
                         <th><a ng-click="predicate = 'date'; userHardcore=!userHardcore">Date</a></th>
                     </tr>
                 </thead>
@@ -216,33 +215,30 @@
                     <tr ng-hide="userStatistics.hardcoreHighscores.length">
                         <td>Rien à afficher</td>
                         <td></td>
-                        <td></td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
 
-    <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%">
+    <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
         <div class="up-game-container">
             <h2>Highscores</h2>
 
-            Jusqu'à maintenant, <strong>{{ globalStatistics.totalNormal }} parties</strong> ont été jouées en mode Normal :
+            Jusqu'à maintenant, <strong>{{ globalStatistics.totalNormal }} parties</strong> ont été jouées en mode Normal.
 
             <table class="up-table" up-col="90%">
                 <thead>
                     <tr>
+                        <th><a ng-init="predicate='duration'" ng-click="predicate = 'duration'; globalNormal=!globalNormal">Temps</a></th>
                         <th><a ng-click="predicate = 'name'; globalNormal=!globalNormal">Élève</a></th>
-                        <th><a ng-click="predicate = 'promo'; globalNormal=!globalNormal">Promo</a></th>
-                        <th><a ng-click="predicate = 'duration'; globalNormal=!globalNormal">Temps de jeu</a></th>
                         <th><a ng-click="predicate = 'date'; globalNormal=!globalNormal">Date</a></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="highscore in globalStatistics.normalHighscores | orderBy:predicate:globalNormal">
-                        <td>{{ highscore.name }}</td>
-                        <td>{{ highscore.promo }}</td>
                         <td>{{ highscore.duration | formatDuration }}</td>
+                        <td>{{ highscore.name }}</td>
                         <td>{{ highscore.date | formatDate }}</td>
                     </tr>
                     <tr ng-hide="globalStatistics.normalHighscores.length">
@@ -257,17 +253,15 @@
             <table class="up-table" up-col="90%">
                 <thead>
                     <tr>
+                        <th><a ng-init="predicate='duration'" ng-click="predicate = 'duration'; globalHardcore=!globalHardcore">Temps</a></th>
                         <th><a ng-click="predicate = 'name'; globalHardcore=!globalHardcore">Élève</a></th>
-                        <th><a ng-click="predicate = 'promo'; globalHardcore=!globalHardcore">Promo</a></th>
-                        <th><a ng-click="predicate = 'duration'; globalHardcore=!globalHardcore">Temps de jeu</a></th>
                         <th><a ng-click="predicate = 'date'; globalHardcore=!globalHardcore">Date</a></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="highscore in globalStatistics.hardcoreHighscores | orderBy:predicate:globalHardcore">
-                        <td>{{ highscore.name }}</td>
-                        <td>{{ highscore.promo }}</td>
                         <td>{{ highscore.duration | formatDuration }}</td>
+                        <td>{{ highscore.name }}</td>
                         <td>{{ highscore.date | formatDate }}</td>
                     </tr>
                     <tr ng-hide="globalStatistics.hardcoreHighscores.length">
