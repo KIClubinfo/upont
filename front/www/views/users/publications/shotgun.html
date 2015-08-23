@@ -1,5 +1,5 @@
 <div class="up-ticket" ng-hide="event.entry_method != 'Shotgun'">
-    <h1>{{ event.name }} - Shotgun - {{ event.shotgun_date*1000 | date : "d MMMM HH'h'mm" }}</h1>
+    <h1>{{ event.name }} - Shotgun - {{ event.shotgun_date | formatDate }}</h1>
 
     <!-- Si on a pas shotgunné -->
     <div ng-hide="shotgunned || shotgun.position" class="up-shotgun centering" up-row wrap left>
@@ -23,7 +23,7 @@
     <div ng-show="shotgunned || shotgun.position" class="up-shotgun centering" up-row wrap left>
 
         <!-- Si le shotgun a réussi -->
-        <div ng-hide="!shotgun.status" up-col-xs="100%" up-col-sm="100%" up-col="50%" class="status">
+        <div ng-hide="!shotgun.status" up-col="100%" class="status">
             <p><i class="fa fa-smile-o"></i></p>
             <p>Shotgun réussi !<br>
             Tu arrives en {{ shotgun.position | formatPosition }} position !<br>
@@ -40,7 +40,7 @@
         </div>
 
         <!-- Si on arrive sur liste d'attente -->
-        <div ng-hide="shotgun.status || shotgun.position === 0" up-col-xs="100%" up-col-sm="100%" up-col="50%" class="status">
+        <div ng-hide="shotgun.status || shotgun.position === 0" up-col="100%" class="status">
             <p><i class="fa fa-meh-o"></i></p>
             <p>Shotgun raté !<br>
             Tu n'as pas répondu à temps, mais tu es quand même en {{ shotgun.waitingList | formatPosition }} position sur la liste d'attente.</p>
@@ -53,16 +53,16 @@
     <h1>Résultats de ce shotgun</h1>
 
     <div up-row wrap left>
-        <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
+        <div up-col="100%">
             <h2>Réussites</h2>
 
-            <table up-col="100%">
+            <table class="up-table" up-col="90%">
                 <thead ng-show="shotgun.success.length">
                     <tr>
-                        <th up-col="5%">Place</th>
-                        <th up-col="30%">Personne</th>
-                        <th up-col="30%">Décalage</th>
-                        <th up-col="40%">Motivation</th>
+                        <th>Place</th>
+                        <th>Personne</th>
+                        <th>Décalage</th>
+                        <th>Motivation</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,16 +78,16 @@
                 </tbody>
             </table>
         </div>
-        <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
+        <div up-col="100%">
             <h2>Liste d'attente</h2>
 
-            <table up-col="100%">
+            <table class="up-table" up-col="90%">
                 <thead ng-show="shotgun.fail.length">
                     <tr>
-                        <th up-col="5%">Place</th>
-                        <th up-col="30%">Personne</th>
-                        <th up-col="30%">Décalage</th>
-                        <th up-col="40%">Motivation</th>
+                        <th>Place</th>
+                        <th>Personne</th>
+                        <th>Décalage</th>
+                        <th>Motivation</th>
                     </tr>
                 </thead>
                 <tbody>

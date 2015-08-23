@@ -173,15 +173,16 @@ angular.module('upont')
         };
 
         $scope.enableModify = function(post) {
-            $scope.edit = post;
-        };
-
-        $scope.modify = function(post) {
             var item = post.start_date !== undefined ? 'events' : 'newsitems' ;
-            $http.patch(apiPrefix + item + '/' + post.slug, {text: post.text}).success(function(data){
-                alertify.success('Publication modifiée !');
-                $scope.edit = null;
-            });
+
+            if (item == 'newsitems') {
+                $http.patch(apiPrefix + item + '/' + post.slug, {text: post.text}).success(function(data){
+                    alertify.success('Publication modifiée !');
+                    $scope.edit = null;
+                });
+            } else {
+                $rootScope.$broadcast('modifyEvent', post);
+            }
         };
     }])
     .config(['$stateProvider', function($stateProvider) {

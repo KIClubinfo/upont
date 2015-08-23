@@ -102,9 +102,15 @@ class EventsController extends ResourceController
      */
     public function patchEventAction($slug)
     {
-        $club = $this->findBySlug($slug)->getAuthorClub();
+        $item = $this->findBySlug($slug);
+        $oldItem = clone $item;
+
+        $club = $item->getAuthorClub();
         $club = $club ? $club->getSlug() : $club;
-        return $this->patch($slug, $this->isClubMember($club));
+        $response = $this->patch($slug, $this->isClubMember($club));
+        $this->get('ki_publication.listener.event')->postUpdate($item, $oldItem);
+
+        return $response;
     }
 
     /**
