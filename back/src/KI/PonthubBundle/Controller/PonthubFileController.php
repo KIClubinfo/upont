@@ -15,7 +15,7 @@ class PonthubFileController extends SubresourceController
      */
     protected function download($item)
     {
-        $this->trust(!$this->is('EXTERIEUR') || $auth);
+        $this->trust(!$this->is('EXTERIEUR'));
 
         // Si l'utilisateur n'a pas déjà téléchargé ce fichier on le rajoute
         $repository = $this->manager->getRepository('KIPonthubBundle:PonthubFileUser');

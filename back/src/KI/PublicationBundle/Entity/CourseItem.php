@@ -60,9 +60,6 @@ class CourseItem
      */
     protected $course;
 
-    //===== GENERATED AUTOMATICALLY =====//
-
-
     /**
      * Get id
      *

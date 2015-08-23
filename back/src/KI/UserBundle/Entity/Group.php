@@ -2,10 +2,10 @@
 
 namespace KI\UserBundle\Entity;
 
-use FOS\UserBundle\Model\Group as BaseGroup;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
+use FOS\UserBundle\Model\Group as BaseGroup;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -37,14 +37,6 @@ class Group extends BaseGroup
      * @Assert\Type("string")
      */
     protected $slug;
-
-
-
-
-
-
-
-
 
     /**
      * Set slug

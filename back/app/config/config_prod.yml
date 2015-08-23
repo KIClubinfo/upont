@@ -27,3 +27,8 @@ monolog:
             level: debug
         console:
             type:  console
+
+swiftmailer:
+    spool:
+        type: file
+        path: "%kernel.root_dir%/spool"

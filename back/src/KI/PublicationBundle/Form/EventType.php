@@ -21,14 +21,15 @@ class EventType extends AbstractType
             ->add('shotgunText')
             ->add('place')
             ->add('authorClub', 'club_selector')
-            ->add('image', 'image_selector');
+            ->add('image', 'image_selector')
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
+            'data_class' => 'KI\PublicationBundle\Entity\Event',
             'csrf_protection' => false,
-            'data_class' => 'KI\PublicationBundle\Entity\Event'
         ));
     }
 

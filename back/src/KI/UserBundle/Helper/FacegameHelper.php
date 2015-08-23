@@ -4,8 +4,8 @@ namespace KI\UserBundle\Helper;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use KI\UserBundle\Entity\Facegame;
 use KI\UserBundle\Entity\Achievement;
+use KI\UserBundle\Entity\Facegame;
 use KI\UserBundle\Event\AchievementCheckEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -36,7 +36,7 @@ class FacegameHelper
     /**
      *  On remplit la listUsers selon les paramètres rentrés
      *  Chaque array contient les noms proposés, une image et la position de la proposition correcte
-     *  @param  Facegame $facegame La partie à populer
+     *  @param  Facegame $game La partie à populer
      *  @return bool Si la partie est possible ou non (assez d'élève dans la promo)
      */
     public function fillUserList(Facegame $facegame)
@@ -121,7 +121,7 @@ class FacegameHelper
 
     /**
      * Finit un jeu
-     * @param Facegame $facegame     La partie à résoudre
+     * @param Facegame $game     La partie à résoudre
      * @param integer  $wrongAnswers Le nombre de mauvaises réponses
      */
     public function endGame(Facegame $game, $wrongAnswers)

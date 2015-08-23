@@ -31,7 +31,7 @@ class Club extends Likeable
 
     /**
      * Bannière
-     * @ORM\OneToOne(targetEntity="KI\CoreBundle\Entity\Image", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="KI\CoreBundle\Entity\Image", cascade={"persist", "remove"})
      * @Assert\Valid()
      */
     protected $banner;

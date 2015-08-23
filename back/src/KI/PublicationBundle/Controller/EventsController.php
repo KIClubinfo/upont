@@ -9,10 +9,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use KI\PublicationBundle\Entity\EventUser;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Event\AchievementCheckEvent;
+use KI\CoreBundle\Controller\ResourceController;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class EventsController extends \KI\CoreBundle\Controller\ResourceController
+class EventsController extends ResourceController
 {
-    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->initialize('Event', 'Publication');
@@ -34,7 +36,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function getEventsAction()
     {
-        return $this->getAll($this->get('security.context')->isGranted('ROLE_EXTERIEUR'));
+        return $this->getAll($this->is('EXTERIEUR'));
     }
 
     /**
@@ -53,7 +55,7 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function getEventAction($slug)
     {
-        return $this->getOne($slug, $this->get('security.context')->isGranted('ROLE_EXTERIEUR'));
+        return $this->getOne($slug, $this->is('EXTERIEUR'));
     }
 
     /**
@@ -76,35 +78,8 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
         $return = $this->postData($this->isClubMember());
 
         if ($return['code'] == 201) {
-            // On modifie légèrement la ressource qui vient d'être créée
-            $return['item']->setDate(time());
-            $return['item']->setAuthorUser($this->container->get('security.context')->getToken()->getUser());
-
-            $club = $return['item']->getAuthorClub();
-
-            // Si ce n'est pas un event perso, on notifie les utilisateurs suivant le club
-            if ($club) {
-                $dispatcher = $this->container->get('event_dispatcher');
-                $achievementCheck = new AchievementCheckEvent(Achievement::EVENT_CREATE);
-                $dispatcher->dispatch('upont.achievement', $achievementCheck);
-
-                $allUsers = $this->manager->getRepository('KIUserBundle:User')->findAll();
-                $users = array();
-
-                foreach ($allUsers as $candidate) {
-                    if ($candidate->getClubsNotFollowed()->contains($club))
-                        $users[] = $candidate;
-                }
-
-                $text = substr($return['item']->getText(), 0, 140).'...';
-                $this->get('ki_user.service.notify')->notify(
-                    'notif_followed_event',
-                    $return['item']->getName(),
-                    $text,
-                    'exclude',
-                    $users
-                );
-            }
+            $this->manager->flush();
+            $this->get('ki_publication.listener.event')->postPersist($return['item']);
         }
 
         return $this->postView($return);
@@ -127,9 +102,15 @@ class EventsController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function patchEventAction($slug)
     {
-        $club = $this->findBySlug($slug)->getAuthorClub();
+        $item = $this->findBySlug($slug);
+        $oldItem = clone $item;
+
+        $club = $item->getAuthorClub();
         $club = $club ? $club->getSlug() : $club;
-        return $this->patch($slug, $this->isClubMember($club));
+        $response = $this->patch($slug, $this->isClubMember($club));
+        $this->get('ki_publication.listener.event')->postUpdate($item, $oldItem);
+
+        return $response;
     }
 
     /**

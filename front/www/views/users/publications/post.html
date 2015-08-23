@@ -30,7 +30,7 @@
 
             <!-- entryMethod -->
             <div ng-if="!$root.isExterieur" ng-show="type == 'event'" up-col-xs="100%" up-col-sm="100%" up-col="50%">
-                <select ng-model="post.entry_method">
+                <select ng-model="post.entry_method" ng-disabled="modify">
                     <option selected>Entrée libre</option>
                     <option>Shotgun</option>
                 </select>
@@ -55,19 +55,19 @@
                 <textarea up-col="100%" ng-model="post.shotgun_text" placeholder="Texte destiné aux vainqueurs du shotgun"></textarea>
             </div>
 
-            <div ng-if="focus" up-col="100%" class="bottom-box-container">
+            <div ng-if="focus || modify" up-col="100%" class="bottom-box-container">
                 <!-- Textarea principal -->
                 <textarea redactor ng-model="post.text" placeholder="{{ placeholder }}"></textarea>
 
                 <!-- Toolbar du bas -->
-                <div class="type-container" ng-show="focus">
+                <div class="type-container" ng-show="focus || modify">
                     <!-- Séléction du type de publication -->
-                    <div class="type" ng-click="changeType('news')"  ng-class="{active: type == 'news'}">News</div>
-                    <div class="type" ng-click="changeType('event')" ng-class="{active: type == 'event'}">Événement</div>
+                    <div class="type" ng-click="changeType('news')"  ng-if="!modify" ng-class="{active: type == 'news'}">News</div>
+                    <div class="type" ng-click="changeType('event')" ng-if="!modify" ng-class="{active: type == 'event'}">Événement</div>
 
                     <div style="float: right">
                         <!-- Séléction du club -->
-                        <div ng-if="!$root.isExterieur" ng-show="type != 'message'" class="type addon" ng-class="{active: club.name != 'Assos'}">
+                        <div ng-if="!$root.isExterieur" ng-show="type != 'message' && !modify" class="type addon" ng-class="{active: club.name != 'Assos'}">
                             <span ng-click="toggleSelect()">
                                 <i class="fa fa-{{ club.icon ? club.icon : 'users' }}"></i> {{ club.name }}
                             </span>
@@ -79,11 +79,11 @@
                         </div>
 
                         <!-- Ajout d'une image -->
-                        <div class="type fileupload" ng-class="{active: postPicture.filename}">
+                        <div class="type fileupload" ng-if="!modify" ng-class="{active: postPicture.filename}">
                             <span><i class="fa fa-file-image-o"></i> {{ postPicture.filename ? postPicture.filename : 'Image' }}</span>
                             <input type="file" ng-model="postPicture" base-sixty-four-input>
                         </div>
-                        <button class="up-btn up-btn-default">Publier !</button>
+                        <button class="up-btn up-btn-default">{{ modify ? 'Modifier' : 'Publier' }}</button>
                     </div>
                 </div>
             </div>

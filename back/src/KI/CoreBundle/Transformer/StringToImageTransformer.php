@@ -2,8 +2,6 @@
 namespace KI\CoreBundle\Transformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\Exception\TransformationFailedException;
-use Doctrine\ORM\EntityManager;
 use KI\CoreBundle\Service\ImageService;
 
 class StringToImageTransformer implements DataTransformerInterface

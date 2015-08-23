@@ -2,9 +2,9 @@
 
 namespace KI\PonthubBundle\Entity;
 
-use KI\PonthubBundle\Entity\PonthubFile;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use KI\PonthubBundle\Entity\PonthubFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -21,22 +21,6 @@ class Music extends PonthubFile
      * @Assert\Valid()
      */
     protected $album;
-
-    /**
-     * @JMS\VirtualProperty()
-     */
-    public function imageUrl()
-    {
-        return $this->album->image !== null ? $this->album->image->getWebPath() : null;
-    }
-
-
-
-
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
 
     /**
      * Set album

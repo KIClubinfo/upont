@@ -9,11 +9,24 @@ class EventsControllerTest extends WebTestCase
     // On crée une ressource sur laquelle seront effectués les tests. Ne pas oublier de supprimer à la fin avec le test DELETE.
     public function testPost()
     {
-        $this->client->request('POST', '/events', array('name' => 'Manger des chips', 'text' => 'C\'est bon', 'startDate' => 151515, 'endDate' => 31415, 'entryMethod' => 'libre', 'place' => 'DTC'));
+
+        $this->client->request('POST', '/events', array('name' => 'Manger des chips', 'text' => 'C\'est bon', 'startDate' => 151515, 'endDate' => 31415, 'entryMethod' => 'libre', 'place' => 'DTC', 'authorClub' => 'bde'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
         // On vérifie que le lieu du nouvel objet a été indiqué
         $this->assertTrue($response->headers->has('Location'), $response->headers);
+
+        // On vérifie qu'un mail a été envoyé
+        $mailCollector = $this->client->getProfile()->getCollector('swiftmailer');
+        $this->assertEquals(2, $mailCollector->getMessageCount());
+
+        $collectedMessages = $mailCollector->getMessages();
+        $message = $collectedMessages[0];
+
+        // On vérifie le message
+        $this->assertInstanceOf('Swift_Message', $message);
+        $this->assertTrue(!empty($message->getSubject()));
+        $this->assertEquals('noreply@upont.enpc.fr', key($message->getFrom()));
     }
 
     public function testGet()

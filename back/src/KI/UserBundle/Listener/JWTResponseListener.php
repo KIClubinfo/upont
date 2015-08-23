@@ -3,13 +3,13 @@
 namespace KI\UserBundle\Listener;
 
 use FOS\UserBundle\Doctrine\UserManager;
+use KI\UserBundle\Entity\Achievement;
+use KI\UserBundle\Entity\User;
+use KI\UserBundle\Event\AchievementCheckEvent;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationFailureEvent;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use KI\UserBundle\Entity\Achievement;
-use KI\UserBundle\Entity\User;
-use KI\UserBundle\Event\AchievementCheckEvent;
 
 class JWTResponseListener
 {
@@ -84,7 +84,6 @@ class JWTResponseListener
             return $this->badCredentials($event, 'Champs non remplis');
 
         $username = $request->get('username');
-        $password = $request->get('password');
         $user = $this->userManager->findUserByUsername($username);
 
         if (!$user instanceof User)

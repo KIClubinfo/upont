@@ -20,7 +20,6 @@ class ImageServiceTest extends WebTestCase
 
     public function testUploadBase64()
     {
-        $imgResult = array();
         $imgResult = $this->service->uploadFromBase64($this->base64);
         $this->assertTrue($imgResult['image'] !== null);
     }

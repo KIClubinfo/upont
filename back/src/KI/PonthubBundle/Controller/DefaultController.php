@@ -521,7 +521,7 @@ class DefaultController extends \KI\CoreBundle\Controller\ResourceController
             else if ($c < 19)
                 $hipster += 3;
             else
-                $hipster += 1;
+                $hipster++;
         }
 
         // Dans le chart stacké, on met la date actuelle comme point de fin

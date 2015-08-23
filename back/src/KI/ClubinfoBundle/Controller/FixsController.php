@@ -5,11 +5,7 @@ namespace KI\ClubinfoBundle\Controller;
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use KI\CoreBundle\Controller\ResourceController;
-use KI\UserBundle\Entity\Achievement;
-use KI\UserBundle\Event\AchievementCheckEvent;
 
 class FixsController extends ResourceController
 {

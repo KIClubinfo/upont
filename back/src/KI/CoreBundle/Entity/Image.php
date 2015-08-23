@@ -37,11 +37,7 @@ class Image
      */
     protected $file;
 
-    /**
-     * @var Uploads Directory
-     */
     protected $uploadsDirectory;
-
     public function __construct() {
         $this->uploadsDirectory = __DIR__.'/../../../../web/uploads/';
     }
@@ -93,7 +89,7 @@ class Image
     }
 
     /**
-     * @var Variable utilisée pour stocker le fichier image de manière provisioire
+     * Variable utilisée pour stocker le fichier image de manière provisioire
      */
     protected $filenameForRemove;
 
@@ -112,7 +108,9 @@ class Image
     public function removeUpload()
     {
         if ($file = $this->filenameForRemove) {
-            unlink($file);
+            if (file_exists($file)) {
+                unlink($file);
+            }
         }
     }
 
@@ -130,7 +128,7 @@ class Image
 
     /**
      *  Crée une miniature pour l'image dans un dossier thumbnails
-     *  @param string $path             Le chemin de l'image non réduite
+     *  @param  string $originalPath    Le chemin de l'image non réduite
      *  @throws BadRequestHttpException Si l'extension n'est pas prise en charge
      */
     static public function createThumbnail($originalPath)
@@ -172,7 +170,7 @@ class Image
         $thumbnailPath = $thumbnailsDirectory.substr($originalPath, strlen(dirname($originalPath)) + 1);
 
         // Création du dossier thumbnails au besoin
-        if(!is_dir($thumbnailsDirectory)) {
+        if (!is_dir($thumbnailsDirectory)) {
             mkdir($thumbnailsDirectory);
         }
 

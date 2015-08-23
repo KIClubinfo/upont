@@ -2,10 +2,9 @@
 
 namespace KI\CoreBundle\Service;
 
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use KI\CoreBundle\Entity\Image;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\File;
-use KI\CoreBundle\Entity\Image;
 
 class ImageService
 {
@@ -49,6 +48,9 @@ class ImageService
         return $image;
     }
 
+    /**
+     * @param string $base64
+     */
     public function uploadFromBase64($base64)
     {
         if (empty($base64)) {
@@ -68,6 +70,9 @@ class ImageService
         }
     }
 
+    /**
+     * @param string $url
+     */
     public function uploadFromUrl($url)
     {
         // Réglage des options cURL

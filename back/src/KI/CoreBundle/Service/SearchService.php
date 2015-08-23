@@ -2,10 +2,9 @@
 
 namespace KI\CoreBundle\Service;
 
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use KI\CoreBundle\Entity\Image;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class SearchService
 {

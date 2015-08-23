@@ -3,12 +3,12 @@
 namespace KI\UserBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
+use KI\UserBundle\Entity\ClubUser;
+use KI\UserBundle\Form\ClubUserType;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use KI\UserBundle\Form\ClubUserType;
-use KI\UserBundle\Entity\ClubUser;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
 {
@@ -33,7 +33,7 @@ class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
      *  section="Utilisateurs"
      * )
      */
-    public function getClubsAction() { return $this->getAll(); }
+    public function getClubsAction() { return $this->getAll($this->is('EXTERIEUR')); }
 
     /**
      * @ApiDoc(
@@ -48,7 +48,7 @@ class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
      *  section="Utilisateurs"
      * )
      */
-    public function getClubAction($slug) { return $this->getOne($slug); }
+    public function getClubAction($slug) { return $this->getOne($slug, $this->is('EXTERIEUR')); }
 
     /**
      * @ApiDoc(
@@ -112,8 +112,6 @@ class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
         foreach ($link as $clubUser) {
             $this->manager->remove($clubUser);
         }
-        // TODO
-        // S'arranger pour supprimer la bannière de façon automatique
 
         return $this->delete($slug);
     }

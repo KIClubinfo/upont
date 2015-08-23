@@ -1,8 +1,32 @@
 services:
-    # Sette les propriétés like, dislike sur les entités Likeable
-    ki_user.listener.notification:
-        class: KI\PublicationBundle\Listener\EventListener
+    ki_publication.listener.eventload:
+        class: KI\PublicationBundle\Listener\EventLoadListener
         arguments:
             - @security.token_storage
         tags:
             - { name: doctrine.event_listener, event: postLoad }
+
+    # Impossible de tagger ces listeners en postPersist car référence circulaire sur doctrine.
+    # Solution ultrameganazie possible : créer un event externe listené par le kernel.
+    # Solution adoptée : les appeler manuellement.
+    ki_publication.listener.event:
+        class: KI\PublicationBundle\Listener\EventListener
+        arguments:
+            - @ki_user.service.notify
+            - @ki_user.service.mailer
+            - @event_dispatcher
+            - @ki_user.repository.user
+
+    ki_publication.listener.exercice:
+        class: KI\PublicationBundle\Listener\ExerciceListener
+        arguments:
+            - @ki_user.service.notify
+            - @event_dispatcher
+            - @ki_publication.repository.courseuser
+
+    ki_publication.listener.newsitem:
+        class: KI\PublicationBundle\Listener\NewsitemListener
+        arguments:
+            - @ki_user.service.notify
+            - @event_dispatcher
+            - @ki_user.repository.user

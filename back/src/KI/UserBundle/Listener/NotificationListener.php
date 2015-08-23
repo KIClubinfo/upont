@@ -3,9 +3,9 @@
 namespace KI\UserBundle\Listener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use KI\UserBundle\Entity\Notification;
-use KI\UserBundle\Entity\Device;
 use KI\CoreBundle\Service\CurlService;
+use KI\UserBundle\Entity\Device;
+use KI\UserBundle\Entity\Notification;
 
 class NotificationListener
 {
