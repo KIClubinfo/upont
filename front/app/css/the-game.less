@@ -1,7 +1,7 @@
 .up-game-container {
-    margin: 1em;
+    margin: 0.5em;
     padding: 1em;
-    background: linear-gradient(bottom, @col-main 0%, mix(@col-main, @col-bckgnd, 97%) 85%, mix(@col-main, @col-bckgnd, 70%) 95%, mix(@col-main, @col-bckgnd, 50%) 98%, @col-bckgnd 100%);
+    background: @col-main;
     color: white;
     font-size: 1em;
     text-align: center;
@@ -25,5 +25,14 @@
 
     .up-image {
         border-radius: 1em;
+    }
+
+    table.up-table {
+        th {
+            border-bottom: 2px solid @col-bckgnd;
+        }
+        td {
+            border-bottom: 1px solid @col-bckgnd;
+        }
     }
 }

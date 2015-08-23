@@ -48,7 +48,7 @@ angular.module('upont')
                 },
                 resolve: {
                     events: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'own/events?all=true').query().$promise;
+                        return $resource(apiPrefix + 'own/events').query().$promise;
                     }],
                     courseitems: ['$resource', function($resource) {
                         return $resource(apiPrefix + 'own/courseitems').query().$promise;

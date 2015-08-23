@@ -176,13 +176,17 @@ angular.module('upont')
             var item = post.start_date !== undefined ? 'events' : 'newsitems' ;
 
             if (item == 'newsitems') {
-                $http.patch(apiPrefix + item + '/' + post.slug, {text: post.text}).success(function(data){
-                    alertify.success('Publication modifiée !');
-                    $scope.edit = null;
-                });
+                $scope.edit = post;
             } else {
                 $rootScope.$broadcast('modifyEvent', post);
             }
+        };
+
+        $scope.modify = function(post) {
+            $http.patch(apiPrefix + item + '/' + post.slug, {text: post.text}).success(function(data){
+                alertify.success('Publication modifiée !');
+                $scope.edit = null;
+            });
         };
     }])
     .config(['$stateProvider', function($stateProvider) {
