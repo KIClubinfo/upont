@@ -50,12 +50,18 @@ class EventListener
                 }
             }
 
-            $title = '['.$club->getName().'] '.$entity->getName();
-            $this->mailerService->send($usersMail, $title, 'KIPublicationBundle::invitation.html.twig', array(
+            $vars = array(
                 'event' => $entity,
                 'start' => ucfirst(strftime('%a %d %B à %Hh%M', $entity->getStartDate())),
                 'end'   => ucfirst(strftime('%a %d %B à %Hh%M', $entity->getEndDate()))
-            ));
+            );
+
+            if (!empty($entity->getShotgunDate())) {
+                $vars['shotgun'] = ucfirst(strftime('%a %d %B à %Hh%M', $entity->getShotgunDate()));
+            }
+
+            $title = '['.$club->getName().'] '.$entity->getName();
+            $this->mailerService->send($usersMail, $title, 'KIPublicationBundle::invitation.html.twig', $vars);
 
             $text = substr($entity->getText(), 0, 140).'...';
             $this->notifyService->notify(
