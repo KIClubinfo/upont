@@ -6,10 +6,12 @@ angular.module('upont')
 		$scope.start = 0;
 		$scope.clock = 0;
 	    $scope.tickInterval = 1000;
-	    $scope.promos = $rootScope.promos;
-	    $scope.promos.pop();
-		delete $scope.promos[$scope.promos.indexOf('014')];
-	    $scope.promos.push('Toutes');
+	    $scope.promos = [
+		    '015',
+		    '016',
+		    '017',
+		    'Toutes'
+		];
 	    $scope.promo = 'Toutes';
 	    $scope.hardcore = false;
 	    $scope.firstPart = false;
