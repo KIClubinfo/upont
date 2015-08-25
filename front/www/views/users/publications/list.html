@@ -63,7 +63,7 @@
                                 {{ publication.attendees == 1 ? 'personne y participe' : 'personnes y participent' }}
                             </a>
                             <div up-row wrap left ng-if="publication.displayAttendees">
-                                <div up-col="15%" up-user user="user" class="up-image-container" ng-repeat="user in publication.userlist">
+                                <div up-col-xs="15%" up-col-sm="15%" up-col-md="15%" up-col="5%" up-user user="user" class="up-image-container" ng-repeat="user in publication.userlist">
                                     <div class="up-image up-profile-picture" ng-style="{'background-image' : 'url({{user.image_url | thumb | urlFile}})'}"></div>
                                 </div>
                             </div>
