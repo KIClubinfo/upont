@@ -23,7 +23,7 @@
                                title="Supprimer la publication"></i>
                         </div>
                         <small class="up-event-date" ng-if="publication.start_date">
-                            <i class="fa fa-map-marker" title="Début"></i> {{ publication.place }}
+                            <i class="fa fa-map-marker" title="Début"></i> {{ publication.place }}<br>
                             <i class="fa fa-hourglass-start" title="Début"></i> {{ publication.start_date | formatDate }}<br>
                             <i class="fa fa-hourglass-end" title="Fin"></i> {{ publication.end_date | formatDate }}<br>
                         </small>
@@ -58,13 +58,13 @@
                         </a>
                         <p ng-if="publication.start_date" ng-show="publication.attendees > 0">
                             <a title="Afficher les participants"
-                               ng-click="showAttendees(publication)">
+                               ng-click="toggleAttendees(publication)">
                                 {{ publication.attendees }}
                                 {{ publication.attendees == 1 ? 'personne y participe' : 'personnes y participent' }}
                             </a>
-                            <div up-row ng-if="publication.displayAttendees">
-                                <div ng-repeat="user in publication.userlist">
-                                    {{ user.first_name }}
+                            <div up-row wrap left ng-if="publication.displayAttendees">
+                                <div up-col="15%" up-user user="user" class="up-image-container" ng-repeat="user in publication.userlist">
+                                    <div class="up-image up-profile-picture" ng-style="{'background-image' : 'url({{user.image_url | thumb | urlFile}})'}"></div>
                                 </div>
                             </div>
                         </p>
