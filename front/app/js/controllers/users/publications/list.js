@@ -127,22 +127,14 @@ angular.module('upont')
             }
         }
 
-        $scope.showAttendees = function(publication){
-            $http.get(apiPrefix + 'events/' + publication.slug + '/attendees').success(function(data){
-                $scope.attendees = data;
+        $scope.toggleAttendees = function(publication){
+            publication.displayAttendees = !publication.displayAttendees;
 
-                var string = '<strong>Personnes participant à l\'événement :</strong><br>';
-                for (var i = 0; i < data.length; i++) {
-                    if (data[i].username != $rootScope.me.username)
-                        string += data[i].nick + ', ';
-                }
-                string = string.replace(/, $/, '');
-
-                if (publication.attend)
-                    string += publication.attendees == 1 ? 'Toi !' : ', toi !';
-
-                alertify.alert(string);
-            });
+            if (publication.userlist === undefined) {
+                $http.get(apiPrefix + 'events/' + publication.slug + '/attendees').success(function(data){
+                    publication.userlist = data;
+                });
+            }
         };
 
         $scope.delete = function(post){
