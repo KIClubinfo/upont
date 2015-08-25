@@ -23,6 +23,7 @@
                                title="Supprimer la publication"></i>
                         </div>
                         <small class="up-event-date" ng-if="publication.start_date">
+                            <i class="fa fa-map-marker" title="Début"></i> {{ publication.place }}
                             <i class="fa fa-hourglass-start" title="Début"></i> {{ publication.start_date | formatDate }}<br>
                             <i class="fa fa-hourglass-end" title="Fin"></i> {{ publication.end_date | formatDate }}<br>
                         </small>
@@ -61,6 +62,11 @@
                                 {{ publication.attendees }}
                                 {{ publication.attendees == 1 ? 'personne y participe' : 'personnes y participent' }}
                             </a>
+                            <div up-row ng-if="publication.displayAttendees">
+                                <div ng-repeat="user in publication.userlist">
+                                    {{ user.first_name }}
+                                </div>
+                            </div>
                         </p>
 
                         <div class="up-assos-container" up-publi-text string="publication.text"
