@@ -2,23 +2,21 @@ angular.module('upont')
     .controller('Students_Simple_Ctrl', ['$rootScope', '$scope', 'user', 'foyer', 'ponthub', 'clubs', 'achievements', function($rootScope, $scope, user, foyer, ponthub, clubs, achievements) {
         $scope.user = user;
         $scope.foyer = foyer;
-        $scope.displayFoyer = empty(foyer.error);
+        $scope.displayFoyer = !empty(foyer);
         $scope.ponthub = ponthub;
         $scope.displayPonthub = empty(ponthub.error);
         $scope.clubs = clubs;
         $scope.achievements = achievements;
 
-        if (empty(foyer.error)) {
+        if (!empty(foyer)) {
             // Définition des graphes Highcharts
             var beers = [];
-            for(var key in foyer.perBeer) {
-                /*jslint evil: true */
-                beers.push(eval(foyer.perBeer[key]));
+            for(var key in foyer.beersDrunk) {
+                beers.push([foyer.beersDrunk[key].beer.name, foyer.beersDrunk[key].count]);
             }
             var liters = [];
             for(key in foyer.stackedLiters) {
-                /*jslint evil: true */
-                liters.push(eval(foyer.stackedLiters[key]));
+                liters.push([key*1000, foyer.stackedLiters[key]]);
             }
 
             $scope.chartBeers = {
@@ -307,7 +305,7 @@ angular.module('upont')
                         }).$promise;
                     }],
                     foyer: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(apiPrefix + 'foyer/statistics/:slug').get({
+                        return $resource(apiPrefix + 'statistics/foyer/:slug').get({
                             slug: $stateParams.slug
                         }).$promise;
                     }],

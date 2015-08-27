@@ -9,7 +9,6 @@ use KI\FoyerBundle\Entity\BeerUser;
 use KI\UserBundle\Entity\User;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class BeerUsersController extends ResourceController
 {
@@ -55,45 +54,8 @@ class BeerUsersController extends ResourceController
      */
     public function getUserBeersAction()
     {
-        // Route un peu particulière : on va ordonner les utilisateurs
-        // par ordre décroissant de date consommation
-        // On commence par récupérer 500 dernières consos
-        $beerUserRepository = $this->manager->getRepository('KIFoyerBundle:BeerUser');
-        $beerUsers = $beerUserRepository->findBy(array(), array('date' => 'DESC'), 500);
-
-        // On veut positionner le compte Externe Foyer en première positionn
-        $userRepository = $this->manager->getRepository('KIUserBundle:User');
-        $users = array();
-        $users[] = $userRepository->findOneByUsername('externe-foyer');
-
-        foreach ($beerUsers as $beerUser) {
-            $user = $beerUser->getUser();
-
-            if (!in_array($user, $users)) {
-                $users[] = $user;
-            }
-            // On ne veut que 48 résultats
-            if (count($users) >= 48) {
-                break;
-            }
-        }
-
-        // On complète avec d'autres utilisateurs au besoin
-        if (count($users) < 48) {
-
-            $listUsers = $userRepository->findBy(array(), array('id' => 'DESC'), 100);
-
-            foreach ($listUsers as $user) {
-                if (!in_array($user, $users)) {
-                    $users[] = $user;
-                }
-                // On ne veut que 48 résultats
-                if (count($users) >= 48) {
-                    break;
-                }
-            }
-        }
-
+        $helper = $this->get('ki_foyer.helper.beer');
+        $users = $helper->getUserOrderedList();
         return $this->restResponse($users);
     }
 
@@ -139,7 +101,9 @@ class BeerUsersController extends ResourceController
      */
     public function postBeerUserAction($slug, $beer)
     {
-        list($user, $beer) = $this->update($slug, $beer);
+        $this->trust($this->isClubMember('foyer') || $this->is('ADMIN'));
+        $helper = $this->get('ki_foyer.helper.beer');
+        list($user, $beer) = $helper->updateBalance($slug, $beer);
 
         $beerUser = new BeerUser();
         $beerUser->setUser($user);
@@ -169,37 +133,14 @@ class BeerUsersController extends ResourceController
      */
     public function deleteBeerUserAction($slug, $beer, $id)
     {
-        list($user, $beer) = $this->update($slug, $beer, true);
+        $this->trust($this->isClubMember('foyer') || $this->is('ADMIN'));
+        $helper = $this->get('ki_foyer.helper.beer');
+        list($user, $beer) = $helper->updateBalance($slug, $beer, true);
 
         return $this->delete($id, $this->isClubMember('foyer'));
     }
 
-    // Met à jour le compte Foyer d'un utilisateur
-    protected function update($slug, $beer, $add = false)
-    {
-        $this->trust($this->isClubMember('foyer') || $this->is('ADMIN'));
 
-        $userRepository = $this->getDoctrine()->getManager()->getRepository('KIUserBundle:User');
-        $user = $userRepository->findOneByUsername($slug);
-
-        if (!$user instanceOf User) {
-            throw new NotFoundHttpException('Utilisateur non trouvé');
-        }
-
-        $beerRepository = $this->getDoctrine()->getManager()->getRepository('KIFoyerBundle:Beer');
-        $beer = $beerRepository->findOneBySlug($beer);
-        if (!$beer instanceOf Beer) {
-            throw new NotFoundHttpException('Bière non trouvée');
-        }
-
-        $balance = $user->getBalance();
-        $balance = $balance === null ? 0 : $balance;
-        $price   = $beer->getPrice();
-        $balance = $add ? $balance + $price : $balance - $price;
-        $user->setBalance($balance);
-
-        return array($user, $beer);
-    }
 
     /**
      * @ApiDoc(
