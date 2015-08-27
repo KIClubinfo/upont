@@ -1,0 +1,14 @@
+services:
+    ki_foyer.repository.beer:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - KI\FoyerBundle\Entity\Beer
+
+    ki_foyer.repository.beeruser:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - KI\FoyerBundle\Entity\BeerUser

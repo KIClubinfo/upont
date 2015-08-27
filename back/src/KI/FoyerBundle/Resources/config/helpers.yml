@@ -1,0 +1,5 @@
+services:
+    ki_foyer.helper.beer:
+        class: KI\FoyerBundle\Helper\FoyerHelper
+        arguments:
+            - @ki_foyer.repository.beer
