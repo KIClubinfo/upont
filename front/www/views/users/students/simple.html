@@ -78,11 +78,11 @@
         <div class="up-ticket" ng-show="displayFoyer">
             <h2>Stats Foyer</h2>
 
-            <div ng-show="foyer.numberBeers === 0">
+            <div ng-show="foyer.totalBeers === 0">
                 Pas de consos à afficher. <strong ng-if="user.username == $root.me.username">Vite, direction le Foyer !</strong>
             </div>
-            <div ng-hide="foyer.numberBeers === 0">
-                {{ user.first_name }} a ingéré un total de <strong>{{ foyer.litersDrunk }} litres</strong> de bière pour <strong>{{ foyer.numberBeers }} {{ foyer.numberBeers == 1 ? 'conso' : 'consos' }}</strong>...<br>
+            <div ng-hide="foyer.totalBeers === 0">
+                {{ user.first_name }} a ingéré un total de <strong>{{ foyer.totalLiters }} litres</strong> de bière pour <strong>{{ foyer.totalBeers }} {{ foyer.totalBeers == 1 ? 'conso' : 'consos' }}</strong>...<br>
                 <br>
                 <br>
                 <div up-row wrap padded>

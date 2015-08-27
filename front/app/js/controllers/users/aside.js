@@ -5,12 +5,6 @@ angular.module('upont')
         $resource(apiPrefix + 'version').get(function(data){
             $scope.version = data;
         });
-        
-        // Solde foyer
-        $resource(apiPrefix + 'foyer/balance').get(function(data){
-            $scope.foyer = data.balance;
-            Achievements.check();
-        });
 
         var loadAchievements = function() {
             $resource(apiPrefix + 'own/achievements?all').get(function(data) {

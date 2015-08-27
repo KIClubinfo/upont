@@ -33,7 +33,7 @@ class FacegameStatisticsHelper
         );
     }
 
-    public function countNumberGamesNormal()
+    protected function countNumberGamesNormal()
     {
         $qb = $this->repository->createQueryBuilder('o');
         $qb
@@ -43,7 +43,7 @@ class FacegameStatisticsHelper
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function countNumberGamesHardcore()
+    protected function countNumberGamesHardcore()
     {
         $qb = $this->repository->createQueryBuilder('o');
         $qb
@@ -53,13 +53,14 @@ class FacegameStatisticsHelper
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function getNormalHighscores()
+    protected function getNormalHighscores()
     {
         $maxResults = 10;
         $qb = $this->repository->createQueryBuilder('o');
         $qb
             ->select('o')
             ->where('o.hardcore <> 1')
+            ->andWhere('o.duration <> 0')
             ->orderBy('o.duration', 'ASC')
             ->setMaxResults($maxResults)
         ;
@@ -77,13 +78,14 @@ class FacegameStatisticsHelper
         return $return;
     }
 
-    public function getHardcoreHighscores()
+    protected function getHardcoreHighscores()
     {
         $maxResults = 10;
         $qb = $this->repository->createQueryBuilder('o');
         $qb
             ->select('o')
             ->where('o.hardcore = 1')
+            ->andWhere('o.duration <> 0')
             ->orderBy('o.duration', 'ASC')
             ->setMaxResults($maxResults)
         ;
@@ -116,31 +118,33 @@ class FacegameStatisticsHelper
         );
     }
 
-    public function countUserGamesNormal($user)
+    protected function countUserGamesNormal($user)
     {
         $qb = $this->repository->createQueryBuilder('o');
         $qb
             ->select('count(o.id)')
             ->where('o.hardcore <> 1')
+            ->andWhere('o.duration <> 0')
             ->andWhere('o.user = ?0')
             ->setParameter(0, $user)
         ;
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function countUserGamesHardcore($user)
+    protected function countUserGamesHardcore($user)
     {
         $qb = $this->repository->createQueryBuilder('o');
         $qb
             ->select('count(o.id)')
             ->where('o.hardcore = 1')
+            ->andWhere('o.duration <> 0')
             ->andWhere('o.user = ?0')
             ->setParameter(0, $user)
         ;
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function getUserNormalHighscores($user)
+    protected function getUserNormalHighscores($user)
     {
         $maxResults = 10;
         $qb = $this->repository->createQueryBuilder('o');
@@ -148,6 +152,7 @@ class FacegameStatisticsHelper
             ->select('o.duration', 'o.date')
             ->where('o.hardcore <> 1')
             ->andWhere('o.user = ?0')
+            ->andWhere('o.duration <> 0')
             ->setParameter(0, $user)
             ->orderBy('o.duration', 'ASC')
             ->setMaxResults($maxResults)
@@ -156,7 +161,7 @@ class FacegameStatisticsHelper
         return $qb->getQuery()->getResult();
     }
 
-    public function getUserHardcoreHighscores($user)
+    protected function getUserHardcoreHighscores($user)
     {
         $maxResults = 10;
         $qb = $this->repository->createQueryBuilder('o');
@@ -164,6 +169,7 @@ class FacegameStatisticsHelper
             ->select('o.duration', 'o.date')
             ->where('o.hardcore = 1')
             ->andWhere('o.user = ?0')
+            ->andWhere('o.duration <> 0')
             ->setParameter(0, $user)
             ->orderBy('o.duration', 'ASC')
             ->setMaxResults($maxResults)

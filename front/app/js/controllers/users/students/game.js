@@ -29,7 +29,8 @@ angular.module('upont')
 			$http.get(apiPrefix + 'statistics/facegame/' + $rootScope.me.username).success(function(data){
 				$scope.userStatistics = data;
 			});
-		}
+		};
+
 		$scope.loadStats();
 
 	    var timer;
@@ -84,22 +85,22 @@ angular.module('upont')
 				$scope.gameData = data;
 
 				$scope.answer = $scope.gameData.list_users[$scope.position].answer;
-				$scope.name = $scope.gameData.list_users[$scope.position][$scope.answer]['name'];
-				$scope.picture = $scope.gameData.list_users[$scope.position][$scope.answer]['picture'];
-				$scope.name1 = $scope.gameData.list_users[$scope.position][0]['name'];
-				$scope.name2 = $scope.gameData.list_users[$scope.position][1]['name'];
-				$scope.name3 = $scope.gameData.list_users[$scope.position][2]['name'];
-				$scope.picture1 = $scope.gameData.list_users[$scope.position][0]['picture'];
-				$scope.picture2 = $scope.gameData.list_users[$scope.position][1]['picture'];
-				$scope.picture3 = $scope.gameData.list_users[$scope.position][2]['picture'];
+				$scope.name = $scope.gameData.list_users[$scope.position][$scope.answer].name;
+				$scope.picture = $scope.gameData.list_users[$scope.position][$scope.answer].picture;
+				$scope.name1 = $scope.gameData.list_users[$scope.position][0].name;
+				$scope.name2 = $scope.gameData.list_users[$scope.position][1].name;
+				$scope.name3 = $scope.gameData.list_users[$scope.position][2].name;
+				$scope.picture1 = $scope.gameData.list_users[$scope.position][0].picture;
+				$scope.picture2 = $scope.gameData.list_users[$scope.position][1].picture;
+				$scope.picture3 = $scope.gameData.list_users[$scope.position][2].picture;
 
 				if (hardcore) {
 					$scope.trait = $scope.gameData.list_users[$scope.position].trait;
 
-					$scope.traitValue = $scope.gameData.list_users[$scope.position][$scope.answer]['trait'];
-					$scope.traitValue1 = $scope.gameData.list_users[$scope.position][0]['trait'];
-					$scope.traitValue2 = $scope.gameData.list_users[$scope.position][1]['trait'];
-					$scope.traitValue3 = $scope.gameData.list_users[$scope.position][2]['trait'];
+					$scope.traitValue = $scope.gameData.list_users[$scope.position][$scope.answer].trait;
+					$scope.traitValue1 = $scope.gameData.list_users[$scope.position][0].trait;
+					$scope.traitValue2 = $scope.gameData.list_users[$scope.position][1].trait;
+					$scope.traitValue3 = $scope.gameData.list_users[$scope.position][2].trait;
 				}
 				$scope.loadStats();
 			}).error(function() {
@@ -130,21 +131,21 @@ angular.module('upont')
 			} else {
 				$scope.firstPart = $scope.gameData.list_users[$scope.position].firstPart;
 				$scope.answer = $scope.gameData.list_users[$scope.position].answer;
-				$scope.name = $scope.gameData.list_users[$scope.position][$scope.answer]['name'];
-				$scope.picture = $scope.gameData.list_users[$scope.position][$scope.answer]['picture'];
-				$scope.name1 = $scope.gameData.list_users[$scope.position][0]['name'];
-				$scope.name2 = $scope.gameData.list_users[$scope.position][1]['name'];
-				$scope.name3 = $scope.gameData.list_users[$scope.position][2]['name'];
-				$scope.picture1 = $scope.gameData.list_users[$scope.position][0]['picture'];
-				$scope.picture2 = $scope.gameData.list_users[$scope.position][1]['picture'];
-				$scope.picture3 = $scope.gameData.list_users[$scope.position][2]['picture'];
+				$scope.name = $scope.gameData.list_users[$scope.position][$scope.answer].name;
+				$scope.picture = $scope.gameData.list_users[$scope.position][$scope.answer].picture;
+				$scope.name1 = $scope.gameData.list_users[$scope.position][0].name;
+				$scope.name2 = $scope.gameData.list_users[$scope.position][1].name;
+				$scope.name3 = $scope.gameData.list_users[$scope.position][2].name;
+				$scope.picture1 = $scope.gameData.list_users[$scope.position][0].picture;
+				$scope.picture2 = $scope.gameData.list_users[$scope.position][1].picture;
+				$scope.picture3 = $scope.gameData.list_users[$scope.position][2].picture;
 
 				if ($scope.hardcore) {
 					$scope.trait = $scope.gameData.list_users[$scope.position].trait;
-					$scope.traitValue = $scope.gameData.list_users[$scope.position][$scope.answer]['trait'];
-					$scope.traitValue1 = $scope.gameData.list_users[$scope.position][0]['trait'];
-					$scope.traitValue2 = $scope.gameData.list_users[$scope.position][1]['trait'];
-					$scope.traitValue3 = $scope.gameData.list_users[$scope.position][2]['trait'];
+					$scope.traitValue = $scope.gameData.list_users[$scope.position][$scope.answer].trait;
+					$scope.traitValue1 = $scope.gameData.list_users[$scope.position][0].trait;
+					$scope.traitValue2 = $scope.gameData.list_users[$scope.position][1].trait;
+					$scope.traitValue3 = $scope.gameData.list_users[$scope.position][2].trait;
 				}
 			}
 		};
