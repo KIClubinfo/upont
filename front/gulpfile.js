@@ -6,7 +6,7 @@ var htmlReplace = require('gulp-html-replace');
 var jshint = require('gulp-jshint');
 var less = require('gulp-less');
 var uglify = require('gulp-uglify');
-var minifyCSS = require('gulp-uglifycss');
+var uglifycss = require('gulp-uglifycss');
 var gutil = require('gulp-util');
 var mainBowerFiles = require('main-bower-files');
 
