@@ -1,6 +1,6 @@
 <div ng-controller="Publications_List_Ctrl" ng-inject="{events: events, newsItems: newsItems}">
     <div infinite-scroll="next()" infinite-scroll-distance="2" infinite-scroll-disabled="$root.infiniteLoading">
-        <div class="up-ticket divided rounded-top" ng-repeat="publication in events.data | concat: newsItems.data | orderBy: 'date' | reverse">
+        <div class="up-ticket divided rounded-top" ng-repeat="publication in events.data | concat: newsItems.data | orderBy: 'date' | reverse" ng-if="publication.entry_method != 'Ferie'">
             <div class="up-ticket-body" ng-class="'color{{ publication.slug.length%5+1 }}'">
                 <div up-row>
                     <div class="up-ticket-actions">

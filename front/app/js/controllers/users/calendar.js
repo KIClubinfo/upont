@@ -2,8 +2,14 @@ angular.module('upont')
     .controller('Calendar_Ctrl', ['$rootScope', '$scope', '$filter', 'events', 'courseitems', function($rootScope, $scope, $filter, events, courseitems) {
         $scope.events = [];
         for (var i = 0; i < events.length; i++) {
+            var type;
+            switch (events[i].entry_method) {
+                case 'Shotgun': type = 'important'; break;
+                case 'Libre':   type = 'warning'; break;
+                case 'Ferie':   type = 'success'; break;
+            }
             $scope.events.push({
-                type: 'warning',
+                type: type,
                 startsAt: new Date(events[i].start_date*1000),
                 endsAt: new Date(events[i].end_date*1000),
                 title: events[i].author_club.name + ' : ' + events[i].name,

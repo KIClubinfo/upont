@@ -33,6 +33,7 @@
                 <select ng-model="post.entry_method" ng-disabled="modify">
                     <option selected>Entrée libre</option>
                     <option>Shotgun</option>
+                    <option ng-if="$root.isAdmin">Ferie</option>
                 </select>
             </div>
 

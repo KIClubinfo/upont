@@ -29,9 +29,13 @@ class EventListener
         $this->userRepository = $userRepository;
     }
 
-    public function postPersist(Event $entity)
+    public function postPersist(Event $event)
     {
-        $club = $entity->getAuthorClub();
+        $club = $event->getAuthorClub();
+
+        if ($event->getEntryMethod() === Event::TYPE_FERIE) {
+            return;
+        }
 
         // Si ce n'est pas un event perso, on notifie les utilisateurs suivant le club
         if ($club) {
@@ -41,24 +45,24 @@ class EventListener
             list($usersPush, $usersMail) = $this->getUsersToNotify($club);
 
             $vars = array(
-                'event' => $entity,
-                'start' => ucfirst(strftime('%a %d %B à %Hh%M', $entity->getStartDate())),
-                'end'   => ucfirst(strftime('%a %d %B à %Hh%M', $entity->getEndDate()))
+                'event' => $event,
+                'start' => ucfirst(strftime('%a %d %B à %Hh%M', $event->getStartDate())),
+                'end'   => ucfirst(strftime('%a %d %B à %Hh%M', $event->getEndDate()))
             );
 
             $shotgunPrefix = '';
-            if (!empty($entity->getShotgunDate())) {
-                $vars['shotgun'] = ucfirst(strftime('%a %d %B à %Hh%M', $entity->getShotgunDate()));
+            if (!empty($event->getShotgunDate())) {
+                $vars['shotgun'] = ucfirst(strftime('%a %d %B à %Hh%M', $event->getShotgunDate()));
                 $shotgunPrefix = '[SHOTGUN]';
             }
 
-            $title = '['.$club->getName().']'.$shotgunPrefix.' '.$entity->getName();
+            $title = '['.$club->getName().']'.$shotgunPrefix.' '.$event->getName();
             $this->mailerService->send($usersMail, $title, 'KIPublicationBundle::invitation.html.twig', $vars);
 
-            $text = substr($entity->getText(), 0, 140).'...';
+            $text = substr($event->getText(), 0, 140).'...';
             $this->notifyService->notify(
                 'notif_followed_event',
-                $entity->getName(),
+                $event->getName(),
                 $text,
                 'to',
                 $usersPush
@@ -69,6 +73,10 @@ class EventListener
     public function postUpdate(Event $event, Event $oldEvent)
     {
         $club = $event->getAuthorClub();
+
+        if ($event->getEntryMethod() === Event::TYPE_FERIE) {
+            return;
+        }
 
         // Si ce n'est pas un event perso, on notifie les utilisateurs des changements
         if ($club) {

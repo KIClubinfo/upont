@@ -18,9 +18,15 @@ angular.module('upont')
 
         $scope.calendarEvents = [];
         for (var i = 0; i < events.data.length; i++) {
+            var type;
+            switch (events.data[i].entry_method) {
+                case 'Shotgun': type = 'important'; break;
+                case 'Libre':   type = 'warning'; break;
+                case 'Ferie':   continue; break;
+            }
             if (events.data[i]) {
                 $scope.calendarEvents.push({
-                    type: 'warning',
+                    type: type,
                     startsAt: new Date(events.data[i].start_date*1000),
                     endsAt: new Date(events.data[i].end_date*1000),
                     title: events.data[i].author_club.name + ' : ' + events.data[i].name,

@@ -136,14 +136,6 @@ class BeerHelper
         $balance = $add ? $balance + $price : $balance - $price;
         $user->setBalance($balance);
 
-        if ($balance < 0) {
-            $achievementCheck = new AchievementCheckEvent(Achievement::FOYER);
-            $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
-        } else {
-            $achievementCheck = new AchievementCheckEvent(Achievement::FOYER_BIS);
-            $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
-        }
-
         return array($user, $beer);
     }
 }
