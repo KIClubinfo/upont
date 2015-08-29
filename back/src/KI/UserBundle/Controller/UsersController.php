@@ -252,7 +252,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
         }
 
         // On récupère le contenu du fichier
-        $path = __DIR__.'/../../../../../web/uploads/tmp/';
+        $path = __DIR__.'/../../../../web/uploads/tmp/';
         $file->move($path, 'users.list');
         $list = fopen($path.'users.list', 'r+');
         if ($list === false)
