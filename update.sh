@@ -21,7 +21,7 @@ gulp build-css-dark
 
 cd ../back
 sudo composer self-update
-composer update
+composer install
 php app/console cache:clear
 sudo rm -rf app/cache/*
 sudo rm -rf app/logs/*
