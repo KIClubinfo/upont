@@ -9,6 +9,7 @@ bower update
 gulp build-js
 gulp build-css
 gulp build-html
+gulp build-templates
 gulp copy-fonts
 
 cd ../mobile

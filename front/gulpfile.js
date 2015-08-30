@@ -79,7 +79,7 @@ gulp.task('build-html', function(){
         .pipe(gulp.dest('www/'));
 });
 
-gulp.task('templates', function(){
+gulp.task('build-templates', function(){
     gulp.src(['www/views/**/*.html'])
         .pipe(templateCache({
             module: 'templates',
@@ -97,7 +97,7 @@ gulp.task('copy-fonts', function () {
 gulp.task('watch', function() {
     gulp.watch(['app/js/**/*.js', 'app/js/*.js'], ['lint-js', 'build-js']);
     gulp.watch('app/css/*.less', ['build-css']);
-    gulp.watch(['app/index.html', 'www/views/**/*.html'], ['build-html', 'templates']);
+    gulp.watch(['app/index.html', 'www/views/**/*.html'], ['build-html', 'build-templates']);
 });
-gulp.task('build', ['build-js', 'build-css', 'build-html', 'templates', 'copy-fonts']);
+gulp.task('build', ['build-js', 'build-css', 'build-html', 'build-templates', 'copy-fonts']);
 gulp.task('default', ['build', 'watch']);
