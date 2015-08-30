@@ -5,6 +5,7 @@
   "private": true,
   "devDependencies": {
     "gulp": "latest",
+    "gulp-angular-templatecache": "latest",
     "gulp-jshint": "latest",
     "gulp-uglify": "latest",
     "gulp-less": "latest",

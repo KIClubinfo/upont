@@ -123,6 +123,10 @@ class SearchService
             if ($class == 'Course' && ($result->getActive() === null || !$result->getActive())) {
                 continue;
             }
+            // On précise des choses en plus pour les utilisateurs
+            if ($type == 'User') {
+                $item['balance'] = $result->getBalance();
+            }
 
             // Pour les épisodes et les musiques on ajoute une référence à l'entité parent
             if ($class == 'Episode') {

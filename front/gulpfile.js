@@ -9,6 +9,7 @@ var uglify = require('gulp-uglify');
 var uglifycss = require('gulp-uglifycss');
 var gutil = require('gulp-util');
 var mainBowerFiles = require('main-bower-files');
+var templateCache = require('gulp-angular-templatecache');
 
 gulp.task('jshint', function() {
     return gulp.src(['app/js/**/*.js', 'app/js/*.js'])
@@ -78,6 +79,15 @@ gulp.task('build-html', function(){
         .pipe(gulp.dest('www/'));
 });
 
+gulp.task('templates', function(){
+    gulp.src(['www/views/**/*.html'])
+        .pipe(templateCache({
+            module: 'templates',
+            standalone: true
+        }))
+        .pipe(gulp.dest('./www'));
+});
+
 gulp.task('copy-fonts', function () {
     return gulp.src(mainBowerFiles())
         .pipe(filter(['**/*.eot', '**/*.svg', '**/*.ttf', '**/*.woff', '**/*.woff2', '**/*.otf']))
@@ -87,7 +97,7 @@ gulp.task('copy-fonts', function () {
 gulp.task('watch', function() {
     gulp.watch(['app/js/**/*.js', 'app/js/*.js'], ['lint-js', 'build-js']);
     gulp.watch('app/css/*.less', ['build-css']);
-    gulp.watch('app/index.html', ['build-html']);
+    gulp.watch(['app/index.html', 'www/views/**/*.html'], ['build-html', 'templates']);
 });
-gulp.task('build', ['build-js', 'build-css', 'build-html', 'copy-fonts']);
+gulp.task('build', ['build-js', 'build-css', 'build-html', 'templates', 'copy-fonts']);
 gulp.task('default', ['build', 'watch']);

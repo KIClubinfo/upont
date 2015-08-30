@@ -107,6 +107,7 @@ class BeerHelper
                 }
             }
         }
+        return $users;
     }
 
     /**
