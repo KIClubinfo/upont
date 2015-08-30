@@ -124,7 +124,7 @@ class SearchService
                 continue;
             }
             // On précise des choses en plus pour les utilisateurs
-            if ($type == 'User') {
+            if ($class == 'User') {
                 $item['balance'] = $result->getBalance();
             }
 
