@@ -23,7 +23,7 @@
     <div ng-if="playing && !end" flex="100">
         <header row wrap>
             <div flex="100" flex-md="50">
-                <strong>Chrono :</strong> {{ (clock - start)/1000 | formatDuration }}
+                <strong>Chrono :</strong> {{ (clock - start)/1000 | formatDuration }} <span>{{ (clock - start)%1000 | number:3 }} ms</span>
             </div>
 
             <div flex="100" flex-md="50">

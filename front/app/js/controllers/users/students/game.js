@@ -5,7 +5,7 @@ angular.module('upont')
 		$scope.position = 0;
 		$scope.start = 0;
 		$scope.clock = 0;
-	    $scope.tickInterval = 1000;
+	    $scope.tickInterval = 1;
 	    $scope.promos = [
 		    '015',
 		    '016',
