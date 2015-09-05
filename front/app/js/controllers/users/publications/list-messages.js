@@ -48,7 +48,7 @@ angular.module('upont')
         $stateProvider
             .state('root.users.messages', {
                 url: 'messages',
-                templateUrl: 'views/users/messages.html',
+                templateUrl: 'controllers/users/messages.html',
                 data: {
                     title: 'Messages - uPont',
                     top: true
@@ -62,7 +62,7 @@ angular.module('upont')
             })
             .state('root.users.publications.message', {
                 url: 'publications-messages/:slug',
-                templateUrl: 'views/users/publications/list-messages.html',
+                templateUrl: 'controllers/users/publications/list-messages.html',
                 data: {
                     title: 'Publication - uPont',
                     top: true

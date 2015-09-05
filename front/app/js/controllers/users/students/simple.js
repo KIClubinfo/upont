@@ -296,7 +296,7 @@ angular.module('upont')
         $stateProvider
             .state('root.users.students.simple', {
                 url: '/:slug',
-                templateUrl: 'views/users/students/simple.html',
+                templateUrl: 'controllers/users/students/simple.html',
                 controller: 'Students_Simple_Ctrl',
                 resolve: {
                     user: ['$resource', '$stateParams', function($resource, $stateParams) {

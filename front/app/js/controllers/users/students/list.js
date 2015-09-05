@@ -37,7 +37,7 @@ angular.module('upont')
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider.state('root.users.students', {
                 url: 'eleves',
-                templateUrl: 'views/users/students/index.html',
+                templateUrl: 'controllers/users/students/index.html',
                 abstract: true,
                 data: {
                     title: 'Élèves - uPont',
@@ -46,7 +46,7 @@ angular.module('upont')
             })
             .state('root.users.students.list', {
                 url: '',
-                templateUrl: 'views/users/students/list.html',
+                templateUrl: 'controllers/users/students/list.html',
                 controller: 'Students_List_Ctrl',
                 resolve: {
                     users: ['Paginate', function(Paginate) {

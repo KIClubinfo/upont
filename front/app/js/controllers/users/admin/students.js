@@ -54,7 +54,7 @@ angular.module('upont')
         $stateProvider
             .state('root.users.admin', {
                 url: 'admin',
-                templateUrl: 'views/users/admin/index.html',
+                templateUrl: 'controllers/users/admin/index.html',
                 abstract: true,
                 data: {
                     title: 'Administration - uPont',
@@ -63,7 +63,7 @@ angular.module('upont')
             })
             .state('root.users.admin.students', {
                 url: '/eleves',
-                templateUrl: 'views/users/admin/students.html',
+                templateUrl: 'controllers/users/admin/students.html',
                 controller: 'Admin_Students_Ctrl',
                 data: {
                     title: 'Administration des élèves - uPont',

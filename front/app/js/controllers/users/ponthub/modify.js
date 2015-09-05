@@ -131,7 +131,7 @@ angular.module('upont')
         $stateProvider
             .state('root.users.ponthub.category.modify', {
                 url: '/:slug/rangement',
-                templateUrl: 'views/users/ponthub/modify.html',
+                templateUrl: 'controllers/users/ponthub/modify.html',
                 controller: 'Ponthub_Modify_Ctrl',
                 data: {
                     top: true

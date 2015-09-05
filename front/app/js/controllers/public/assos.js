@@ -14,7 +14,7 @@ angular.module('upont')
         $stateProvider
             .state('root.public.assos', {
                 url: '/assos',
-                templateUrl: 'views/public/assos.html',
+                templateUrl: 'controllers/public/assos.html',
                 controller: 'Assos_Public_Ctrl',
                 data: {
                     title: 'Clubs & Assos - uPont',

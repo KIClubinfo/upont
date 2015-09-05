@@ -6,6 +6,6 @@ angular.module('upont').controller('503_Ctrl', ['$scope', 'StorageService', func
             .state('root.maintenance', {
                 url: 'maintenance',
                 controller: '503_Ctrl',
-                templateUrl: 'views/public/503.html',
+                templateUrl: 'controllers/public/503.html',
             });
     }]);

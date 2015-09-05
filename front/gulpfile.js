@@ -1,15 +1,15 @@
-var gulp = require('gulp');
-var autoprefixer = require('gulp-autoprefixer');
-var concat = require('gulp-concat');
-var filter = require('gulp-filter');
-var htmlReplace = require('gulp-html-replace');
-var jshint = require('gulp-jshint');
-var less = require('gulp-less');
-var uglify = require('gulp-uglify');
-var uglifycss = require('gulp-uglifycss');
-var gutil = require('gulp-util');
+var gulp           = require('gulp');
+var templateCache  = require('gulp-angular-templatecache');
+var autoprefixer   = require('gulp-autoprefixer');
+var concat         = require('gulp-concat');
+var filter         = require('gulp-filter');
+var htmlReplace    = require('gulp-html-replace');
+var jshint         = require('gulp-jshint');
+var less           = require('gulp-less');
+var uglify         = require('gulp-uglify');
+var uglifycss      = require('gulp-uglifycss');
+var gutil          = require('gulp-util');
 var mainBowerFiles = require('main-bower-files');
-var templateCache = require('gulp-angular-templatecache');
 
 gulp.task('jshint', function() {
     return gulp.src(['app/js/**/*.js', 'app/js/*.js'])
@@ -80,12 +80,15 @@ gulp.task('build-html', function(){
 });
 
 gulp.task('build-templates', function(){
-    gulp.src(['www/views/**/*.html'])
-        .pipe(templateCache({
-            module: 'templates',
-            standalone: true
-        }))
-        .pipe(gulp.dest('./www'));
+    gulp.src([
+        'app/js/*.html',
+        'app/js/**/*.html',
+    ])
+    .pipe(templateCache({
+        module: 'templates',
+        standalone: true
+    }))
+    .pipe(gulp.dest('./www'));
 });
 
 gulp.task('copy-fonts', function () {
@@ -96,8 +99,9 @@ gulp.task('copy-fonts', function () {
 
 gulp.task('watch', function() {
     gulp.watch(['app/js/**/*.js', 'app/js/*.js'], ['lint-js', 'build-js']);
-    gulp.watch('app/css/*.less', ['build-css']);
-    gulp.watch(['app/index.html', 'www/views/**/*.html'], ['build-html', 'build-templates']);
+    gulp.watch(['app/css/*.less'], ['build-css']);
+    gulp.watch(['app/index.html'], ['build-html']);
+    gulp.watch(['app/js/*.html', 'app/js/**/*.html'], ['build-templates']);
 });
 gulp.task('build', ['build-js', 'build-css', 'build-html', 'build-templates', 'copy-fonts']);
 gulp.task('default', ['build', 'watch']);

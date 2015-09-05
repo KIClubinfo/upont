@@ -36,7 +36,7 @@ angular.module('upont')
         $stateProvider
             .state('root.users.ponthub', {
                 url: 'ponthub',
-                templateUrl: 'views/users/ponthub/index.html',
+                templateUrl: 'controllers/users/ponthub/index.html',
                 abstract: true,
                 data: {
                     title: 'PontHub - uPont',
@@ -49,7 +49,7 @@ angular.module('upont')
             // Ce state a besoin d'être enregistré avant le suivant afin que venant de l'exterieur, l'URL "statistiques" ne soit pas interpreté comme une catégorie.
             .state('root.users.ponthub.statistics', {
                 url: '/statistiques',
-                templateUrl: 'views/users/ponthub/statistics.html',
+                templateUrl: 'controllers/users/ponthub/statistics.html',
                 controller: 'Ponthub_Statistics_Ctrl',
                 data: {
                     top: true
@@ -71,7 +71,7 @@ angular.module('upont')
             // Idem, le state simple doit être enregistré avant le state de list
             .state('root.users.ponthub.category.simple', {
                 url: '/:slug',
-                templateUrl: 'views/users/ponthub/simple.html',
+                templateUrl: 'controllers/users/ponthub/simple.html',
                 controller: 'Ponthub_Element_Ctrl',
                 data: {
                     top: true
@@ -103,7 +103,7 @@ angular.module('upont')
             })
             .state('root.users.ponthub.category.list', {
                 url: '',
-                templateUrl: 'views/users/ponthub/list.html',
+                templateUrl: 'controllers/users/ponthub/list.html',
                 controller: 'Ponthub_List_Ctrl',
                 resolve: {
                     elements: ['Paginate', '$stateParams', 'Ponthub', function(Paginate, $stateParams, Ponthub) {

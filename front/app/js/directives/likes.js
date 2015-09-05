@@ -199,6 +199,6 @@ angular.module('upont').directive('upLikes', function() {
                 });
             };
         }],
-        templateUrl : 'views/public/likes.html'
+        templateUrl : 'directives/likes.html'
     };
 });

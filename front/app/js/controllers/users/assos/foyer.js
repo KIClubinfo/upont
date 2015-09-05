@@ -46,7 +46,7 @@ angular.module('upont')
         $stateProvider
             .state('root.users.assos.foyer', {
                 url: '/c-est-ton-foyer',
-                templateUrl: 'views/users/assos/foyer.html',
+                templateUrl: 'controllers/users/assos/foyer.html',
                 controller: 'Foyer_Ctrl',
                 data: {
                     title: 'Foyer - uPont',

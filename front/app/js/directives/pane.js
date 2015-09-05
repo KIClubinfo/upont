@@ -11,6 +11,6 @@ angular.module('upont').directive('upPane', function() {
                 $scope.isShown = !$scope.isShown;
             };
         }],
-        templateUrl: 'views/public/pane.html',
+        templateUrl: 'directives/pane.html',
     };
 });

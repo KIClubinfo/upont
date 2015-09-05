@@ -22,7 +22,7 @@ angular.module('upont')
             switch (events.data[i].entry_method) {
                 case 'Shotgun': type = 'important'; break;
                 case 'Libre':   type = 'warning'; break;
-                case 'Ferie':   continue; break;
+                case 'Ferie':   continue;
             }
             if (events.data[i]) {
                 $scope.calendarEvents.push({
@@ -200,7 +200,7 @@ angular.module('upont')
             })
             .state('root.users.publications.index', {
                 url: '',
-                templateUrl: 'views/users/publications/index.html',
+                templateUrl: 'controllers/users/publications/index.html',
                 data: {
                     title: 'Accueil - uPont',
                     top: true
@@ -230,7 +230,7 @@ angular.module('upont')
             })
             .state('root.users.publications.simple', {
                 url: 'publications/:slug',
-                templateUrl: 'views/users/publications/list.html',
+                templateUrl: 'controllers/users/publications/list.html',
                 data: {
                     title: 'Publication - uPont',
                     top: true

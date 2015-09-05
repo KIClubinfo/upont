@@ -34,7 +34,7 @@ angular.module('upont').controller('Admissibles_Ctrl', ['$scope', '$location', '
             .state('root.admissibles.index', {
                 url: '',
                 controller: 'Admissibles_Ctrl',
-                templateUrl: 'views/admissibles/index.html',
+                templateUrl: 'controllers/admissibles/index.html',
                 data: {
                     title: 'Espace Admissibles - uPont',
                     top: true

@@ -45,6 +45,6 @@ angular.module('upont').directive('upUser', function() {
                 $scope.hover = false;
             });
         }],
-        templateUrl: 'views/public/user.html'
+        templateUrl: 'directives/user.html'
     };
 });

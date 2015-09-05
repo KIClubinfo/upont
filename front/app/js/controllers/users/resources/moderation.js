@@ -3,7 +3,7 @@ angular.module('upont')
         $stateProvider
             .state('root.users.resources.moderation', {
                 url: '/moderation',
-                templateUrl: 'views/users/resources/moderation.html',
+                templateUrl: 'controllers/users/resources/moderation.html',
                 data: {
                     title: 'Règles de modération - uPont',
                     top: true

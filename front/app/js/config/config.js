@@ -69,19 +69,19 @@ angular.module('upont')
             })
             .state('root.403', {
                 url: '403',
-                templateUrl: 'views/public/403.html',
+                templateUrl: 'controllers/public/403.html',
             })
             .state('root.404', {
                 url: '404',
-                templateUrl: 'views/public/404.html',
+                templateUrl: 'controllers/public/404.html',
             })
             .state('root.418', {
                 url: '418',
-                templateUrl: 'views/public/418.html',
+                templateUrl: 'controllers/public/418.html',
             })
             .state('root.erreur', {
                 url: 'erreur',
-                templateUrl: 'views/public/500.html',
+                templateUrl: 'controllers/public/500.html',
             })
             .state('root.users', {
                 url: '',
@@ -94,14 +94,14 @@ angular.module('upont')
                         template: '<div class="up-main-view" ui-view up-fill-window></div>'
                     },
                     topbar: {
-                        templateUrl: 'views/public/top-bar.html'
+                        templateUrl: 'controllers/users/top-bar.html'
                     },
                     aside: {
-                        templateUrl: 'views/users/aside.html',
+                        templateUrl: 'controllers/users/aside.html',
                         controller: 'Aside_Ctrl'
                     },
                     tour: {
-                        templateUrl: 'views/users/tour.html',
+                        templateUrl: 'controllers/users/tour.html',
                         controller: 'Tour_Ctrl'
                     }
                 }

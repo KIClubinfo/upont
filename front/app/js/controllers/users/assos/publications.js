@@ -10,7 +10,7 @@ angular.module('upont')
         $stateProvider
             .state('root.users.assos.simple.publications', {
                 url: '',
-                templateUrl: 'views/users/assos/publications.html',
+                templateUrl: 'controllers/users/assos/publications.html',
                 data: {
                     title: 'Activités - uPont',
                     top: true

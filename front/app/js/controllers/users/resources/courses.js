@@ -178,7 +178,7 @@ angular.module('upont')
         $stateProvider
             .state('root.users.resources', {
                 url: 'ressources',
-                templateUrl: 'views/users/resources/index.html',
+                templateUrl: 'controllers/users/resources/index.html',
                 abstract: true,
                 data: {
                     title: 'Ressources - uPont',
@@ -196,7 +196,7 @@ angular.module('upont')
             })
             .state('root.users.resources.courses.list', {
                 url: '',
-                templateUrl: 'views/users/resources/courses.html',
+                templateUrl: 'controllers/users/resources/courses.html',
                 data: {
                     title: 'Liste des cours - uPont',
                     top: true

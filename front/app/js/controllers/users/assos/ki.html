@@ -19,7 +19,7 @@
         </div>
 
         <div up-row wrap left>
-            <div ng-repeat="fix in fixs.data | filter:{fix:false} | statusFilter" ng-include="'views/users/assos/fix.html'" up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%"></div>
+            <div ng-repeat="fix in fixs.data | filter:{fix:false} | statusFilter" ng-include="'controllers/users/assos/fix.html'" up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%"></div>
         </div>
     </div>
 
@@ -43,7 +43,7 @@
         </div>
 
         <div up-row wrap left>
-            <div ng-repeat="fix in ownFixs.data | filter:{fix:true} | statusFilter" ng-include="'views/users/assos/fix.html'" up-col="100%"></div>
+            <div ng-repeat="fix in ownFixs.data | filter:{fix:true} | statusFilter" ng-include="'controllers/users/assos/fix.html'" up-col="100%"></div>
         </div>
 
         <div ng-if="isFromKI" class="up-ticket">
@@ -53,5 +53,5 @@
         </div>
 
         <div ng-if="isFromKI" up-row wrap left>
-            <div ng-repeat="fix in fixs.data | filter:{fix:true} | statusFilter" ng-include="'views/users/assos/fix.html'" up-col="100%"></div>
+            <div ng-repeat="fix in fixs.data | filter:{fix:true} | statusFilter" ng-include="'controllers/users/assos/fix.html'" up-col="100%"></div>
         </div>

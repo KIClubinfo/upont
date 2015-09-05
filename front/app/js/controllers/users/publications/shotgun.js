@@ -34,7 +34,7 @@ angular.module('upont')
         $stateProvider
             .state('root.users.shotgun', {
                 url: 'shotgun/:slug',
-                templateUrl: 'views/users/publications/shotgun.html',
+                templateUrl: 'controllers/users/publications/shotgun.html',
                 controller: 'Shotgun_Ctrl',
                 data: {
                     top: true

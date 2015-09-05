@@ -88,7 +88,7 @@ angular.module('upont')
             .state('root.users.assos.simple.modify', {
                 url: '/gestion',
                 controller: 'Assos_Modify_Ctrl',
-                templateUrl: 'views/users/assos/modify.html',
+                templateUrl: 'controllers/users/assos/modify.html',
                 data: {
                     title: 'Gestion - uPont',
                     top: true
