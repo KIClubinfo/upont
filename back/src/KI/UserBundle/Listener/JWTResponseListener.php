@@ -27,6 +27,9 @@ class JWTResponseListener
     {
         $data = $event->getData();
         $user = $event->getUser();
+        if (!$user instanceof User) {
+            return;
+        }
 
         // On commence par checker éventuellement l'achievement de login
         $achievementCheck = new AchievementCheckEvent(Achievement::LOGIN);
@@ -41,8 +44,16 @@ class JWTResponseListener
         $achievementCheck = new AchievementCheckEvent(Achievement::ADMIN);
         $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
 
-        if (!$user instanceof User) {
-            return;
+
+        $balance = $user->getBalance();
+        if ($balance !== null) {
+            if ($balance < 0) {
+                $achievementCheck = new AchievementCheckEvent(Achievement::FOYER);
+                $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
+            } else {
+                $achievementCheck = new AchievementCheckEvent(Achievement::FOYER_BIS);
+                $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
+            }
         }
 
         $data['code'] = 200;

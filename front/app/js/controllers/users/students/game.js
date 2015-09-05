@@ -10,6 +10,7 @@ angular.module('upont')
 		    '015',
 		    '016',
 		    '017',
+			'018',
 		    'Toutes'
 		];
 	    $scope.promo = 'Toutes';

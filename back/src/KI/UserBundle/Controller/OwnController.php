@@ -359,7 +359,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
 
         // On élimine les anciens événements si on ne souhaite pas tout
         foreach ($events as $event) {
-            if ($event->getStartDate() > $today)
+            if ($event->getEndDate() > $today)
                 $return[] = $event;
         }
 

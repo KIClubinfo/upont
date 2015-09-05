@@ -12,8 +12,9 @@ cd front
 sudo npm install
 bower update --allow-root
 gulp build-html --type=production
+gulp build-templates --type=production
 gulp build-js # Bug minification --type=production
-gulp build-css # Bug minification --type=production
+gulp build-css --type=production
 gulp copy-fonts
 
 cd ../back

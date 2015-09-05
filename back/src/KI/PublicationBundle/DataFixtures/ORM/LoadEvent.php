@@ -105,6 +105,18 @@ class LoadEventFixture extends AbstractFixture implements OrderedFixtureInterfac
         $event->setShotgunText('Viens chercher la place chez moi');
         $manager->persist($event);
 
+        $event = new Event();
+        $event->setName('Vacances de Noël');
+        $event->setText('I\'m fucking Santa Claus bitchies!');
+        $event->setPlace('Ta mère');
+        $event->setDate(1421778600);
+        $event->setAuthorClub($this->getReference('club-ki'));
+        $event->setAuthorUser($this->getReference('user-trancara'));
+        $event->setEntryMethod('Ferie');
+        $event->setStartDate(time() - 400*3600);
+        $event->setEndDate(time() + 600*3600);
+        $manager->persist($event);
+
         $manager->flush();
     }
 
