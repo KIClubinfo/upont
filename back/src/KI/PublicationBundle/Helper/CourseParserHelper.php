@@ -104,7 +104,7 @@ class CourseParserHelper
     private function getOrCreateCourse($name, $department, $group)
     {
         if (array_key_exists($name, $this->knownCourses)) {
-            $course = $courses[$name]['course'];
+            $course = $this->knownCourses[$name]['course'];
         } else {
             $course = new Course();
             $course->setName($name);

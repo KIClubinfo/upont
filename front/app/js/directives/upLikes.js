@@ -1,7 +1,7 @@
 angular.module('upont').directive('upLikes', function() {
     return {
         scope: {
-            show: '=',
+            show: '=?',
             objet: '=',
             url: '='
         },
