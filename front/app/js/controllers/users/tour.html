@@ -1,16 +1,22 @@
-<div class="up-tour-container"  ng-class="{'up-tour-shown': !$root.me.tour}">
-    <div class="up-tour-toggle" ng-click="off()">
-        <i class="fa fa-times fa-block up-clickable" title="Stopper le tuto"></i>
+<footer class="Tour" ng-class="{'Tour--shown': !$root.me.tour}">
+    <div class="Tour__toggle" ng-click="off()">
+        <i class="fa  fa-times" title="Stopper le tuto"></i>
     </div>
-    <div class="up-tour">
-        <div class="up-tour-content" up-row>
-            <div class="up-tour-controls">
-                <h3>uPont Tour</h3>
-                <i class="fa fa-chevron-left up-clickable" ng-class="{'fa-tour-disabled': step == 0}" ng-click="previous()"></i>
-                <i class="fa fa-{{ icon }} up-tour-icon"></i>
-                <i class="fa fa-chevron-right up-clickable" ng-click="next()"></i>
+    <div row class="padded">
+        <aside col="space-between space-between" class="Tour__controls  text-center">
+            <h3>uPont Tour</h3>
+
+            <div row="space-around center">
+                <i class="fa  fa-chevron-left  clickable"
+                   ng-class="{'Tour__controls--disabled': step == 0}"
+                   ng-click="previous()"></i>
+
+                <i class="fa  fa-{{ icon }}  Tour__icon"></i>
+
+                <i class="fa  fa-chevron-right  clickable"
+                   ng-click="next()"></i>
             </div>
-            <div class="up-tour-text" ng-bind-html="text"></div>
-        </div>
+        </aside>
+        <section class="Tour__text" ng-bind-html="text"></section>
     </div>
-</div>
+</footer>

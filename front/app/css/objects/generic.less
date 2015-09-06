@@ -1,0 +1,115 @@
+// Typo
+.h1 { font-size: 2em;   }
+.h2 { font-size: 1.5em; }
+.h3 { font-size: 1.2em; }
+.h4 { font-size: 0.8em; }
+.h5 { font-size: 0.7em; }
+.h6 { font-size: 0.6em; }
+
+.padded {
+    padding: 5px;
+}
+.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+:disabled, [disabled] {
+    .disabled;
+}
+.centering {
+    text-align: center;
+}
+.justify {
+    text-align: justify;
+}
+
+.clickable{
+    cursor: pointer;
+    &:hover, &.active {
+        color: @col-main;
+    }
+    &.admissibles {
+        .disabled;
+        color: inherit !important;
+    }
+}
+.up-clickable{
+    cursor: pointer;
+    &:hover, &.active {
+        color: @col-main;
+    }
+    &.admissibles {
+        .disabled;
+        color: inherit !important;
+    }
+}
+.up-delete-button:hover{
+    color: @col-red;
+}
+.up-link{
+    cursor: pointer;
+    color: @col-main;
+    &:hover {
+        color: @col-font;
+    }
+}
+.no-click {
+    cursor: default !important;
+}
+// Classes utiles
+.up-col-main {
+    background-color: @col-main;
+    color: white;
+    .up-clickable {
+        &.active {
+            color: @gray !important;
+        }
+        &:hover {
+            color: white;
+            &.active {
+                color: @gray ;
+            }
+        }
+    }
+    &:hover {
+        background-color: @col-neg;
+        color: white !important;
+
+        .up-clickable {
+            &.active {
+                color: @gray !important;
+            }
+            &:hover {
+                color: @gray;
+            }
+        }
+    }
+}
+
+.fa-block {
+    width: 20px;
+    text-align: center;
+}
+.cover {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.whoosh {
+    display: none;
+}
+.raw-link {
+    color: @col-font !important;
+}
+.up-overflow {
+    height: 6.6em;
+    overflow: hidden;
+}
+
+
+.label-upont { // Labels bootstrap pour uPont
+    background-color: @col-main;
+}
+.img-responsive {
+    margin: 10px 0 10px 0;
+}

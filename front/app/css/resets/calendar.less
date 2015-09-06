@@ -1,67 +1,32 @@
-// Resets et overwrite
-*, *:before, *:after {
-    box-sizing: border-box;
-}
 .cal-context {
     background-color: @col-ticket;
 }
-.cal-month-box, .cal-year-box, .cal-week-box {
+.cal-month-box,
+.cal-year-box,
+.cal-week-box {
     border: 1px solid @col-ticket-border;
 }
-.cal-year-box [class*="span"], .cal-month-box [class*="cal-cell"] {
+.cal-year-box [class*="span"],
+.cal-month-box [class*="cal-cell"] {
     border-right: 1px solid @col-ticket-border;
 }
-.cal-year-box .row, .cal-month-box .cal-row-fluid {
+
+.cal-year-box .row,
+.cal-month-box .cal-row-fluid {
     border-bottom: 1px solid @col-ticket-border;
 }
+
 .cal-year-box .row:hover,
 .cal-row-fluid:hover {
     background-color: @col-input-bckgnd;
 }
+
 .cal-day-box .cal-day-hour-part{
     height: 15px;
 }
+
 .cal-day-hour-part {
     font-size: 10px;
-}
-
-.container-fluid { // bootstrap
-    padding: 0;
-}
-.label-upont { // Labels bootstrap pour uPont
-    background-color: @col-main;
-}
-.img-responsive {
-    margin: 10px 0 10px 0;
-}
-
-// Resets imperavi redactor
-.redactor-editor {
-    background: @col-input-bckgnd;
-    border: solid 1px @col-bckgnd;
-
-    &:focus {
-        border-color: @col-main;
-    }
-}
-
-.redactor-toolbar {
-    z-index: 1;
-    li {
-        a:hover {
-          background-color: @col-main;
-          color: #fff;
-        }
-    }
-}
-
-.redactor-dropdown {
-    color: rgba(0, 0, 0, 0.7);
-
-    a:hover {
-      background-color: @col-main;
-      color: #fff;
-    }
 }
 
 .up-index-calendar {

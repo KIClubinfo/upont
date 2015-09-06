@@ -1,3 +1,38 @@
+.flex-row {
+    flex-direction: row;
+    &-reverse { flex-direction: row-reverse; }
+}
+
+.flex-col {
+    flex-direction: column;
+    &-reverse { flex-direction: column-reverse; }
+}
+
+.flex {
+    display: flex;
+    position: relative;
+    &.wrap         { flex-wrap: wrap;         }
+    &.wrap-reverse { flex-wrap: wrap-reverse; }
+}
+
+// Layout dans la direction primaire
+.p {
+    &-start         { justify-content: flex-start; }
+    &-center        { justify-content: center; }
+    &-end           { justify-content: flex-end; }
+    &-space-between { justify-content: space-between; }
+    &-space-around  { justify-content: space-around; }
+}
+
+// Layout dans la direction secondaire (perpendiculaire)
+.s {
+    &-start         { align-items: flex-start; }
+    &-center        { align-items: center; }
+    &-end           { align-items: flex-end; }
+    &-stretch       { align-items: stretch; }
+}
+
+// TODO delete
 // Système flex
 .up-container {
     width: 100%;
