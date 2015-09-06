@@ -21,7 +21,7 @@ var module = angular.module('upont', ['onsen','ngResource','infinite-scroll'])
             },
             responseError: function (response) {
                 // Erreur d'autentification
-                if(response.status == 401) {
+                if (response.status == 401) {
                     if(StorageService.get('token')){
                         StorageService.remove('token');
                         StorageService.remove('token_exp');

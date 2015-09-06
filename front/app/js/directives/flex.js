@@ -30,7 +30,11 @@ angular.module('upont')
             },
             link: {
                 pre: function($scope, element, args) {
-                    element.addClass('flex-row');
+                    if(args.hasOwnProperty('reverse')) {
+                        element.addClass('flex-row-reverse');
+                    } else {
+                        element.addClass('flex-row');
+                    }
                     setFlexLayout($scope.layout, element, args)
                 }
             }
@@ -43,7 +47,12 @@ angular.module('upont')
             },
             link: {
                 pre: function($scope, element, args) {
-                    element.addClass('flex-col');
+
+                    if(args.hasOwnProperty('reverse')) {
+                        element.addClass('flex-col-reverse');
+                    } else {
+                        element.addClass('flex-col');
+                    }
                     setFlexLayout($scope.layout, element, args)
                 }
             }

@@ -7,11 +7,6 @@
                 </ons-toolbar-button>
             </div>
             <div class="center">News</div>
-            <!--<div class="right">
-                <ons-toolbar-button ng-click="nav.pushPage('redactorNews.html');">
-                    <ons-icon icon="fa-compose" fixed-width="false" style="font-size: 26px; vertical-align: -4px"></ons-icon>
-                </ons-toolbar-button>
-            </div>-->
         </ons-toolbar>
 
         <ons-pull-hook ng-action="init($done)" var="loader">
@@ -35,8 +30,8 @@
             <ons-list-item modifier="tappable" ng-repeat="new in news.data.concat(messages.data) | orderBy:'date':true" ng-click="load(new.slug)">
                 <ons-row>
                     <ons-col width="50px">
-                        <img ng-if="new.name != 'message'" style="background-image: url('{{ url + '/' + new.image_url }}')" class="image">
-                        <img ng-if="new.name == 'message'" style="background-image: url('{{ url + '/' + new.author_user.image_url }}')" class="image">
+                        <img ng-if="new.name != 'message'" style="background-image: url('{{ url + '/' + new.image_url | thumb }}')" class="image">
+                        <img ng-if="new.name == 'message'" style="background-image: url('{{ url + '/' + new.author_user.image_url | thumb }}')" class="image">
                     </ons-col>
 
                     <ons-col>
@@ -182,59 +177,5 @@
                 </div>
             </ons-list-item>
         </ons-list>
-    </ons-page>
-</ons-template>
-
-
-
-
-
-
-
-
-
-
-
-<ons-template id="redactorNews.html">
-    <ons-page>
-        <ons-toolbar fixed-style>
-            <div class="left">
-                <ons-toolbar-button ng-click="menu.toggle()">
-                    <ons-icon icon="fa-bars" fixed-width="false"></ons-icon>
-                </ons-toolbar-button>
-            </div>
-            <div class="center">Écrire une news</div>
-            <div class="right"><ons-toolbar-button ng-click="navNews.popPage()">Annuler</ons-toolbar-button></div>
-        </ons-toolbar>
-
-        <ons-list modifier="inset" style="margin-top: 10px">
-            <ons-list-item class="to-wrapper" modifier="chevron">
-                <ons-row>
-                    <ons-col width="52px">
-                        <img class="image" src="images/profile.jpg" width="42">
-                    </ons-col>
-                    <ons-col>
-                        <div class="name">Club Informatique</div>
-                        <div class="email">@ki</div>
-                    </ons-col>
-                </ons-row>
-            </ons-list-item>
-            <ons-list-item>
-                <input type="text" class="text-input text-input--transparent" placeholder="Titre" style="width: 100%">
-            </ons-list-item>
-            <ons-list-item>
-                <input type="text" class="text-input text-input--transparent" placeholder="Texte court (optionnel)" style="width: 100%">
-            </ons-list-item>
-
-            <ons-list-item>
-                <textarea class="textarea textarea--transparent" placeholder="News" style="width: 100%; height: 100px;"></textarea>
-            </ons-list-item>
-        </ons-list>
-
-        <div style="padding: 10px 9px">
-            <ons-button modifier="large" style="margin: 0 auto;">
-                Envoyer
-            </ons-button>
-        </div>
     </ons-page>
 </ons-template>

@@ -13,6 +13,28 @@
     position: relative;
     &.wrap         { flex-wrap: wrap;         }
     &.wrap-reverse { flex-wrap: wrap-reverse; }
+
+    // Classes invisibles
+    &-hide-xs {
+        @media(max-width:@sizeSm) {
+            display: none !important;
+        }
+    }
+    &-hide-sm {
+        @media(min-width: @sizeSm) and (max-width: @sizeMd) {
+            display: none !important;
+        }
+    }
+    &-hide-md {
+        @media(min-width: @sizeMd) and (max-width: @sizeLg) {
+            display: none !important;
+        }
+    }
+    &-hide-lg {
+        @media(min-width: @sizeLg) {
+            display: none !important;
+        }
+    }
 }
 
 // Layout dans la direction primaire
