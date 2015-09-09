@@ -127,7 +127,7 @@
 
         <p>Tu as fini en <strong>{{ (clock-start)/1000 | formatDuration }}</strong>.<br>
         <span ng-if="numWrong>0">Tu as commis <strong>{{ numWrong }}</strong> faute<span ng-if="numWrong > 1">s</span>.<br>
-        Temps total : <strong>{{ (clock-start)/1000 + 5 * numWrong | formatDuration }}.</strong></span></p>
+        Temps total : <strong>{{ (clock-start)/1000 + 5 * numWrong | formatDuration }}  {{ (clock - start)%1000 }} ms.</strong></span></p>
 
         <section row="space-around stretch" wrap>
             <div class="text-left padded" flex="50" row ng-repeat="face in gameData.list_users">
