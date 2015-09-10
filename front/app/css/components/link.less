@@ -1,0 +1,30 @@
+.Link {
+    .clickable;
+    color: @col-main;
+    &:hover {
+        color: inherit;
+    }
+
+    &--reverse {
+        color: inherit;
+        &:hover {
+            color: @col-main;
+        }
+    }
+
+    &--danger:hover {
+        .danger;
+    }
+
+    &--active {
+        color: @col-main;
+    }
+
+    &--disabled {
+        opacity: 0.5;
+        color: inherit;
+        &:hover {
+            color: inherit;
+        }
+    }
+}

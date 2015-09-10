@@ -1,4 +1,4 @@
-<div ng-controller="Publications_Post_Messages_Ctrl" class="up-publish up-ticket" ng-if="!$root.isAdmissible">
+<div ng-controller="Publications_Post_Messages_Ctrl" class="up-publish Ticket" ng-if="!$root.isAdmissible">
     <form class="publish-container" ng-submit="post(msg, postPicture)" up-row wrap right autocomplete="off">
         <div up-col="100%" class="bottom-box-container">
             <textarea ng-focus="focus=true" ng-init="focus=false" rows="1" ng-model="msg.text"

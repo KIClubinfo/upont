@@ -1,0 +1,90 @@
+
+.up-topbar{
+    color: @col-aside;
+    background-color: @col-aside-bckgnd;
+    font-size:1.2em;
+    z-index: 2;
+    .up-topbar-open{
+        display :block;
+        width:3.5em;
+        height:3.5em;
+        float:left;
+        text-align: center;
+        position:relative;
+        .bars{
+            display: block;
+            width:1.7em;
+            height:2px;
+            position:absolute;
+            top:50%;
+            left:1.15em;
+            background-color:@col-aside;
+            &:before, &:after{
+                content:"";
+                display: block;
+                position:relative;
+                width:1.7em;
+                height:2px;
+                background-color: @col-aside;
+            }
+            &:before{ top:-6px; }
+            &:after{ top:4px; }
+        }
+    }
+    .up-topbar-search{
+        display :block;
+        width:3.5em;
+        height:3.5em;
+        line-height:3.5em;
+        float:right;
+        text-align: center;
+    }
+    .up-topbar-title{
+        font-size:0.8em;
+        display :block;
+        height:4.4em;
+        line-height:4.4em;
+        overflow:hidden;
+        float:none;
+        text-align: center;
+    }
+}
+.up-topbar-menu{
+    position:relative;
+    background-color: @col-ticket;
+
+    .caret{
+        color:@col-ticket;
+        position:absolute;
+        top:-1.4em;
+        left:1.75em;
+        pointer-events: none;
+    }
+    &:before{
+        content:"";
+        display: table;
+    }
+    ul{
+        list-style: none;
+        margin:0;
+        padding:0;
+        border-bottom: solid 1px @col-ticket-border;
+    }
+    .up-topbar-link{
+        display:block;
+        position:relative;
+        font-size:1.5em;
+        padding:0.5em 0 0.5em 7%;
+        &:not(.no-underline):after{
+            content:"";
+            position:absolute;
+            bottom:0px;
+            right:10%;
+            left:5%;
+            border-bottom: solid 1px #e0e0e0;
+        }
+        .fa{
+            margin:0 1em 0 0;
+        }
+    }
+}

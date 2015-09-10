@@ -1,0 +1,56 @@
+.Aside {
+    width: @asideWidth;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    z-index: 2;
+    height: 100%;
+
+    color: @col-aside;
+    background-color: @col-aside-bckgnd;
+
+    &__separator {
+        width: 30%;
+    }
+
+    &__header {
+        height: 7em;
+    }
+
+    &__middle {
+        overflow-y: auto;
+        height: calc(~"100% - 12em");
+        background-color: @col-aside-bckgnd;
+        .fa {
+            .fa-block;
+        }
+    }
+
+    &__navlink {
+        margin: 0.4em 5% 0 0;
+        padding: 0.5em 0 2em 10%;
+        display: block;
+        height: 2em;
+
+        .up-clickable;
+        font-size: 0.9em;
+
+        &:hover, &.active {
+            border-radius: 0 5px 5px 0;
+            border: none;
+            color: white;
+        }
+        &:hover {
+            background-color: lighten(@col-aside-bckgnd, 10%);
+        }
+        &.active {
+            background-color: @col-main;
+        }
+    }
+
+    &__footer {
+        height: 7em;
+        .padded;
+        .small;
+    }
+}

@@ -1,4 +1,4 @@
-<div class="up-ticket">
+<div class="Ticket">
     <div up-row wrap padded space-between>
         <div up-col-xs="100%" up-col-sm="48%" up-col="30%" class="up-tutorial" ng-repeat="tuto in tutos" ui-sref="root.users.resources.tutorials.simple({slug: tuto.slug})">
             <br><i class="fa fa-{{ tuto.icon ? tuto.icon : 'book' }}"></i><br>
@@ -7,7 +7,7 @@
     </div>
 </div>
 
-<div up-row padded wrap class="up-ticket" ng-if="isAdmin">
+<div up-row padded wrap class="Ticket" ng-if="isAdmin">
     <h2>Nouveau tutoriel</h2>
 
     <form up-col="100%" up-row padded left wrap autocomplete="off">

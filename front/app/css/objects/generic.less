@@ -1,14 +1,26 @@
 // Typo
-.h1 { font-size: 2em;   }
-.h2 { font-size: 1.5em; }
-.h3 { font-size: 1.2em; }
-.h4 { font-size: 0.8em; }
-.h5 { font-size: 0.7em; }
-.h6 { font-size: 0.6em; }
-
-.padded {
-    padding: 5px;
+.small {
+    font-size: 75%;
 }
+.big {
+    font-size: 125%;
+}
+.bold {
+    font-weight: bold;
+}
+.danger {
+    color: @col-red;
+}
+.spaced {
+    letter-spacing: 0.15em;
+}
+
+// Box-model
+.padded {
+    padding: 0.5em;
+}
+
+// Input
 .disabled {
     opacity: 0.4;
     cursor: not-allowed;
@@ -16,6 +28,13 @@
 :disabled, [disabled] {
     .disabled;
 }
+
+// Liens
+.clickable{
+    cursor: pointer;
+}
+
+// Support
 .centering {
     text-align: center;
 }
@@ -23,16 +42,14 @@
     text-align: justify;
 }
 
-.clickable{
-    cursor: pointer;
-    &:hover, &.active {
-        color: @col-main;
-    }
-    &.admissibles {
-        .disabled;
-        color: inherit !important;
+.wysiwyg-data {
+    a { .Link; }
+
+    img {
+        .img-responsive;
     }
 }
+
 .up-clickable{
     cursor: pointer;
     &:hover, &.active {

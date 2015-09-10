@@ -1,11 +1,11 @@
-<div up-row ng-if="!isExterieur" class="up-page-publication">
-    <div up-col-md="60%" up-col-lg="60%" up-col="100%">
+<div row="space-between start" class="padded" ng-if="!isExterieur" class="up-page-publication">
+    <div col flex="100" flex-md="66">
         <div ng-include="'controllers/users/publications/post.html'"></div>
         <div ng-include="'controllers/users/publications/list.html'" class="transition"></div>
     </div>
 
-    <div class="up-invisible-sm up-invisible-xs" up-col-md="40%" up-col-lg="40%">
-        <div ng-if="!$root.isAdmissible" class="up-ticket centering">
+    <div col flex="33" class="flex-hide-xs  flex-hide-sm">
+        <div ng-if="!$root.isAdmissible" class="Ticket centering">
             <div up-row center style="margin-bottom:5px">
                 <div class="btn-group pull-right">
                     <label class="btn" ng-class="{'btn-primary': todayActive, 'btn-default': !todayActive}" ng-click="today()">Aujourd'hui</label>
@@ -28,7 +28,7 @@
             </div>
         </div>
 
-        <div ng-if="$root.isAdmissible" class="up-ticket centering">
+        <div ng-if="$root.isAdmissible" class="Ticket centering">
             <h3>Ceci est uPont, l'intranet des Ponts !</h3>
             <p class="justify">
                 Cher admissible, tu as le privilège de pouvoir accéder à ce site !<br>

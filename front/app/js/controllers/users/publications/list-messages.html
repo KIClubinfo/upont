@@ -1,6 +1,7 @@
 <div ng-controller="Publications_List_Messages_Ctrl" ng-inject="{messages: messages}">
     <div infinite-scroll="next()" infinite-scroll-distance="2" infinite-scroll-disabled="$root.infiniteLoading">
-        <div class="up-ticket" ng-repeat="message in messages.data">
+
+        <div class="Ticket" ng-repeat="message in messages.data">
             <div up-row wrap ng-mouseover="showModify=true" ng-mouseleave="showModify=false">
                 <div up-col-xs="12%" up-col-sm="12%" up-col-md="12%" up-col="8%">
                     <div class="up-image-container">
@@ -28,5 +29,6 @@
                  ng-src="{{ message.image_url | urlFile }}"/>
             <div up-likes objet="message" url="'newsitems/'+message.slug"></div>
         </div>
+
     </div>
 </div>

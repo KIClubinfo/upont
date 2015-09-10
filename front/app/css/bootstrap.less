@@ -5,6 +5,7 @@ body {
 }
 
 // Définition des variables
+@asideTicketWidth: 150px;
 @radius: 6px;
 @sizeXs: 480px;
 @sizeSm: 768px;
@@ -14,6 +15,7 @@ body {
 @asideWidth: 270px;
 @paneWidth: 250px;
 @tourHeight: 100px;
+@images: '../img';
 
 // Importation de tous les fichiers selon le theme
 .theme(@col-main, @col-font, @col-ticket-border, @col-ticket, @col-bckgnd, @col-input-border, @col-input-bckgnd, @col-aside, @col-aside-bckgnd, @col-neg) {
@@ -29,17 +31,20 @@ body {
     @import 'components/aside.less';
     @import 'components/button.less';
     @import 'components/chart.less';
+    @import 'components/link.less';
+    @import 'components/logo.less';
     @import 'components/list.less';
+    @import 'components/search.less';
     @import 'components/table.less';
+    @import 'components/ticket.less';
+    @import 'components/top-bar.less';
     @import 'components/tour.less';
 
     @import 'admissibles.less';
-    @import 'aside-topbar.less';
     @import 'assos.less';
     @import 'comments.less';
     @import 'courses.less';
     @import 'form.less';
-    @import 'header.less';
     @import 'image.less';
     @import 'keyframes.less';
     @import 'pane.less';
@@ -50,7 +55,6 @@ body {
     @import 'shotgun.less';
     @import 'sso.less';
     @import 'the-game.less';
-    @import 'ticket.less';
     @import 'zone-picker.less';
 }
 

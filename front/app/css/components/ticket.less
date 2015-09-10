@@ -1,0 +1,29 @@
+.Ticket {
+    margin-bottom: 0.5em;
+
+    .padded;
+    color: @col-font;
+    background: @col-ticket;
+    border: solid 1px @col-ticket-border;
+    line-height: 1.2em;
+
+    &--color1 { border-left: solid 4px @col-aqua;   }
+    &--color2 { border-left: solid 4px @col-yellow; }
+    &--color3 { border-left: solid 4px @col-red;    }
+    &--color4 { border-left: solid 4px @col-violet; }
+    &--color5 { border-left: solid 4px @col-pink;   }
+
+    .up-img-home{
+        width: 5em;
+        height: 5em;
+        margin: 0 auto;
+        border: solid 1px #808080;
+        background-size: cover;
+        background-position: center center;
+    }
+
+    &__date {
+        .spaced;
+        color: #999;
+    }
+}

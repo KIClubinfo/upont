@@ -1,4 +1,4 @@
-<div up-row left wrap padded class="up-ticket" infinite-scroll="next()" infinite-scroll-distance="3" infinite-scroll-disabled="$root.infiniteLoading">
+<div up-row left wrap padded class="Ticket" infinite-scroll="next()" infinite-scroll-distance="3" infinite-scroll-disabled="$root.infiniteLoading">
     <div class="up-elemt-ponthub" ng-repeat="element in elements.data" ng-class="{ 'up-col-xs-12 up-col-sm-6 up-col-md-4': element.type == 'game', 'up-col-xs-6 up-col-sm-4 up-col-md-3 up-col-lg-2': element.type != 'game'}">
         <a class="raw-link" ui-sref="root.users.ponthub.category.simple({slug: element.slug})">
             <div class="up-img-ponthub" ng-class="category">

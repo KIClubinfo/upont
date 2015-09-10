@@ -53,13 +53,10 @@ kbd {
 // Liens
 a, a:hover, a:visited, a:active, a:focus {
     text-decoration: none;
-    color: inherit;
     outline: none;
-    cursor: pointer;
-    &.admissibles {
-        .disabled;
-        color: inherit !important;
-    }
+}
+a, a:hover, a:active, a:focus {
+    color: inherit;
 }
 
 // Vues principales
@@ -98,7 +95,7 @@ a, a:hover, a:visited, a:active, a:focus {
     bottom: 0;
     right: 0;
     left: 0;
-    background-image: url('img/ponts.jpg');
+    background-image: url('@{images}/ponts.jpg');
     background-size: cover;
 
     .up-landing {

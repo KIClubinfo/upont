@@ -1,4 +1,4 @@
-<div class="up-ticket">
+<div class="Ticket">
     <h1>{{ course.name }}</h1>
 
     <strong>Département :</strong> {{ course.department }}<br>
@@ -47,7 +47,7 @@
     <div up-likes objet="course" url="'courses/' + course.slug"></div>
 </div>
 
-<div ng-if="$root.isAdmin" class="up-ticket">
+<div ng-if="$root.isAdmin" class="Ticket">
     <h3>Modifier le cours</h3>
 
     <form up-row padded left wrap ng-submit="submitCourse(course, groups)" autocomplete="off">

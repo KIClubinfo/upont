@@ -1,4 +1,4 @@
-<div class="up-ticket" ng-hide="event.entry_method != 'Shotgun'">
+<div class="Ticket" ng-hide="event.entry_method != 'Shotgun'">
     <h1>{{ event.name }} - Shotgun - {{ event.shotgun_date | formatDate }}</h1>
 
     <!-- Si on a pas shotgunné -->
@@ -49,7 +49,7 @@
     </div>
 </div>
 
-<div class="up-ticket" ng-show="shotgun.success">
+<div class="Ticket" ng-show="shotgun.success">
     <h1>Résultats de ce shotgun</h1>
 
     <div up-row wrap left>
@@ -106,11 +106,11 @@
     </div>
 </div>
 
-<div class="up-ticket" ng-show="event.entry_method != 'Shotgun'">
+<div class="Ticket" ng-show="event.entry_method != 'Shotgun'">
     <h1>Impossible de shotgunner cet event !</h1>
 </div>
 
-<div class="up-ticket">
+<div class="Ticket">
     <h1>Classement des meilleurs shotgunners</h1>
 
     <p>À venir...</p>

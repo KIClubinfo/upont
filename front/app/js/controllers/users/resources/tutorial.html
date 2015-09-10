@@ -1,4 +1,4 @@
-<div class="up-ticket" ng-hide="edit">
+<div class="Ticket" ng-hide="edit">
     <div up-col="100%" style="text-align:center">
     <h1>{{ tuto.name }}</h1>
 </div>
@@ -10,7 +10,7 @@
     <div up-likes objet="tuto" url="'tutos/' + tuto.slug"></div>
 </div>
 
-<div up-row padded wrap class="up-ticket" ng-if="edit">
+<div up-row padded wrap class="Ticket" ng-if="edit">
     <div up-col="100%">
         <textarea ng-model="presentation" redactor></textarea>
     </div>
@@ -39,7 +39,7 @@
     </div>
 </div>
 
-<div class="up-ticket" ng-show="showIcons">
+<div class="Ticket" ng-show="showIcons">
     <h1>Icônes <small><a ng-click="switchIcons()">(masquer)</a></small></h1>
     <div up-row wrap padded>
         <div up-col-xs="50%" up-col-sm="33%" up-col="25%" class="up-clickable"

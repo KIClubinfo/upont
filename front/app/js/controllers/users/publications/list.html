@@ -1,90 +1,103 @@
 <div ng-controller="Publications_List_Ctrl" ng-inject="{events: events, newsItems: newsItems}">
     <div infinite-scroll="next()" infinite-scroll-distance="2" infinite-scroll-disabled="$root.infiniteLoading">
-        <div class="up-ticket divided rounded-top" ng-repeat="publication in events.data | concat: newsItems.data | orderBy: 'date' | reverse" ng-if="publication.entry_method != 'Ferie'">
-            <div class="up-ticket-body" ng-class="'color{{ publication.slug.length%5+1 }}'">
-                <div up-row>
-                    <div class="up-ticket-actions">
-                        <div class="up-img-home up-clickable"
+
+        <article col class="Ticket  Ticket--color{{ publication.slug.length%5+1 }}"
+            ng-repeat="publication in events.data | concat: newsItems.data | orderBy: 'date' | reverse"
+            ng-if="publication.entry_method != 'Ferie'">
+            <div row>
+                <aside col="start center" flex="25" class="padded  text-center">
+                    <!-- Image de la publication -->
+                    <figure flex="100">
+                        <div class="up-img-home  clickable"
                              ng-click="$root.zoomIn('/api/' + publication.image_url)"
                              ng-style="{'background-image': 'url({{ publication.image_url | thumb | urlFile }})'}">
                         </div>
-                        <div>
-                            <a ng-if="!$root.isExterieur" ui-sref="root.users.assos.simple.publications({slug: publication.author_club.slug})" title="Lien vers la page du club">
+                        <figcaption>
+                            <a rel="author" title="Lien vers la page du club" class="Link  bold"
+                               ui-sref="root.users.assos.simple.publications({slug: publication.author_club.slug})"
+                               ng-if="!$root.isExterieur">
                                 {{ publication.author_club.name }}
                             </a>
-                        </div>
+                        </figcaption>
+                    </figure>
 
-                        <div ng-show="$root.hasClub(publication.author_club.slug)">
-                            <i class="fa fa-pencil up-clickable"
-                               ng-click="enableModify(publication)"
-                               title="Modifier la publication"></i>
-                            <i class="fa fa-trash up-clickable up-delete-button"
-                               ng-click="delete(publication)"
-                               title="Supprimer la publication"></i>
-                        </div>
-                        <small class="up-event-date" ng-if="publication.start_date">
-                            <i class="fa fa-map-marker" title="Début"></i> {{ publication.place }}<br>
-                            <i class="fa fa-hourglass-start" title="Début"></i> {{ publication.start_date | formatDate }}<br>
-                            <i class="fa fa-hourglass-end" title="Fin"></i> {{ publication.end_date | formatDate }}<br>
-                        </small>
+                    <!-- Actions -->
+                    <section flex="100" ng-show="$root.hasClub(publication.author_club.slug)">
+                        <i class="Link  Link--reverse  fa  fa-pencil"
+                           title="Modifier la publication"
+                           ng-click="enableModify(publication)"></i>
+                        <i class="Link  Link--reverse  Link--danger  fa  fa-trash"
+                           title="Supprimer la publication"
+                           ng-click="delete(publication)"></i>
+                    </section>
 
-                        <div ng-if="publication.start_date && !publication.shotgun_date" up-row center>
-                            <span class="up-likes up-clickable" ng-click="attend(publication)" ng-class="{active : publication.attend, admissibles : $root.isAdmissible}">
-                                <i class="fa fa-check"></i> Go !
-                            </span>
-                            &nbsp;&nbsp;&nbsp;
-                            <span class="up-likes up-clickable" ng-click="pookie(publication)" ng-class="{active : publication.pookie, admissibles : $root.isAdmissible}">
-                                <i class="fa fa-times"></i> Bof...
-                            </span>
-                        </div>
-                    </div>
-                    <div class="up-ticket-content">
-                        <div up-row space-between>
-                            <div class="up-ticket-title up-clickable" ui-sref="root.users.publications.simple({slug: publication.slug})" title="Afficher la publication">{{ publication.name }}</div>
+                    <!-- Détails -->
+                    <section flex="100" class="small" ng-if="publication.start_date">
+                        <i class="fa  fa-map-marker"      title="Lieu"></i>  <time>{{ publication.place }}</time><br>
+                        <i class="fa  fa-hourglass-start" title="Début"></i> <time>{{ publication.start_date | formatDate }}</time><br>
+                        <i class="fa  fa-hourglass-end"   title="Fin"></i>   <time>{{ publication.end_date | formatDate }}</time><br>
+                    </section>
 
-                            <div class="up-ticket-date" title="{{publication.date | date: 'mm:HH dd/MM/yy' }}">{{ publication.date | fromNow }}</div>
-                        </div>
-                        <div up-row space-between class="up-ticket-title">
-                            <span ng-if="$root.isExterieur">
-                                Par {{ publication.author_club.full_name }}
-                            </span>
-                        </div>
-
-                        <a class="up-shotgun-link" title="Lien vers la page de shotgun"
-                        ng-if="publication.start_date && publication.entry_method == 'Shotgun'"
-                        ui-sref="root.users.shotgun({slug: publication.slug})"
-                        ng-class="{admissibles : $root.isAdmissible}">
-                            Shotgun : {{ publication.shotgun_date | formatDate }}
+                    <!-- Boutons de participation -->
+                    <section flex="100" ng-if="publication.start_date && !publication.shotgun_date" up-row center>
+                        <a class="Link  Link--reverse" ng-class="{'Link--active': publication.attend}" ng-disabled="$root.isAdmissible"
+                              ng-click="attend(publication)">
+                            <i class="fa fa-check"></i> Go !
                         </a>
-                        <p ng-if="publication.start_date" ng-show="publication.attendees > 0">
-                            <a title="Afficher les participants"
-                               ng-click="toggleAttendees(publication)">
-                                {{ publication.attendees }}
-                                {{ publication.attendees == 1 ? 'personne y participe' : 'personnes y participent' }}
+                        &nbsp;&nbsp;&nbsp;
+                        <span class="Link  Link--reverse"  ng-class="{'Link--active': publication.pookie}" ng-disabled="$root.isAdmissible"
+                              ng-click="pookie(publication)">
+                            <i class="fa fa-times"></i> Bof...
+                        </span>
+                    </section>
+                </aside>
+
+                <section col flex="75" class="Ticket-content">
+                    <header row="space-between start" flex="100">
+                        <div>
+                            <!-- Titre -->
+                            <h2 class="Link  Link--reverse" rel="bookmark" title="Afficher la publication"
+                                ui-sref="root.users.publications.simple({slug: publication.slug})">{{ publication.name }}</h2>
+
+                            <!-- Lien du Shotgun -->
+                            <a class="Link  bold" title="Lien vers la page de shotgun" ng-disabled="$root.isAdmissible"
+                               ng-if="publication.start_date && publication.entry_method == 'Shotgun'"
+                               ui-sref="root.users.shotgun({slug: publication.slug})">
+                                Shotgun : {{ publication.shotgun_date | formatDate }}
                             </a>
-                            <div up-row wrap left ng-if="publication.displayAttendees">
-                                <div up-col-xs="15%" up-col-sm="15%" up-col-md="15%" up-col="5%" up-user user="user" class="up-image-container" ng-repeat="user in publication.userlist">
-                                    <div class="up-image up-profile-picture" ng-style="{'background-image' : 'url({{user.image_url | thumb | urlFile}})'}"></div>
+
+                            <!-- Liste des participants -->
+                            <section ng-if="publication.start_date" ng-show="publication.attendees > 0">
+                                <a class="Link" title="Afficher les participants"
+                                   ng-click="toggleAttendees(publication)">
+                                    {{ publication.attendees }}
+                                    {{ publication.attendees == 1 ? 'personne y participe' : 'personnes y participent' }}
+                                </a>
+                                <div class="padded" up-row wrap left ng-if="publication.displayAttendees">
+                                    <div up-col="15%" up-user user="user" class="up-image-container" ng-repeat="user in publication.userlist">
+                                        <div class="up-image up-profile-picture" ng-style="{'background-image' : 'url({{user.image_url | thumb | urlFile}})'}"></div>
+                                    </div>
                                 </div>
-                            </div>
-                        </p>
-
-                        <div class="up-assos-container" up-publi-text string="publication.text"
-                             ng-hide="edit !== null && publication.slug == edit.slug"></div>
-
-                        <div ng-if="edit !== null && publication.slug == edit.slug" up-col="100%">
-                            <textarea ng-model="publication.text" redactor></textarea>
-                        </div>
-                        <div ng-if="edit !== null && publication.slug == edit.slug" up-col="100%" up-row center>
-                            <button ng-click="modify(publication)" class="up-btn up-btn-default up-btn-lg">Envoyer</button>
+                            </section>
                         </div>
 
+                        <!-- Date de la publication -->
+                        <time class="Ticket__date  small" title="{{publication.date | date: 'mm:HH dd/MM/yy' }}">{{ publication.date | fromNow }}</time>
+                    </header>
 
+                    <!-- Contenu de la publication -->
+                    <p class="wysiwyg-data" up-publi-text string="publication.text"
+                       ng-hide="edit !== null && publication.slug == edit.slug"></p>
+
+                    <div col ng-if="edit !== null && publication.slug == edit.slug">
+                        <textarea flex="100" ng-model="publication.text" redactor></textarea>
+                        <button flex="50" flex-lg="25" class="Button" ng-click="modify(publication)">Envoyer</button>
                     </div>
-                </div>
-                <div up-likes show="false" objet="publication"
-                     url="(publication.start_date ? 'events/' : 'newsitems/') + publication.slug"></div>
+                </section>
             </div>
-        </div>
+            <div up-likes show="false" objet="publication"
+                 url="(publication.start_date ? 'events/' : 'newsitems/') + publication.slug"></div>
+        </article>
+
     </div>
 </div>

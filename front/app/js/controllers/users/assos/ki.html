@@ -1,6 +1,6 @@
 <div up-row wrap>
     <div up-col-xs="100%" up-col-sm="100%" up-col="67%">
-        <div class="up-ticket">
+        <div class="Ticket">
             <h2>Feedback uPont</h2>
 
             Si tu as des fonctionnalités à suggérer ou des bugs à rapporter, c'est ici ! N'oublie pas de regarder d'abord si la remarque est déjà mentionnée :)<br>
@@ -24,7 +24,7 @@
     </div>
 
     <div up-col-xs="100%" up-col-sm="100%" up-col="33%">
-        <div class="up-ticket">
+        <div class="Ticket">
             <h2>Contacte le KI !</h1>
 
             Un problème ? Ton ordi plante ? Tu n'as plus Internet chez toi ? <a style="color: inherit !important" href="https://www.youtube.com/watch?v=vh3tuL_DVsE" target="_blank">Une horde de martiens t'attaque ?</a> Le KI essayera de résoudre au mieux tes problèmes.<br>
@@ -46,7 +46,7 @@
             <div ng-repeat="fix in ownFixs.data | filter:{fix:true} | statusFilter" ng-include="'controllers/users/assos/fix.html'" up-col="100%"></div>
         </div>
 
-        <div ng-if="isFromKI" class="up-ticket">
+        <div ng-if="isFromKI" class="Ticket">
             <h2>Problèmes en attente</h2>
 
             Tu vois ces demandes parce que tu es membre du KI... à toi de les résoudre au mieux !

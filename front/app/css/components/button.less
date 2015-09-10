@@ -1,3 +1,28 @@
+.Button {
+    .clickable;
+    .padded;
+    .big;
+    color: white;
+    border: 0;
+
+    background-color: @col-main;
+    border-bottom: 2px solid darken(@col-main, 20%);
+    box-shadow: inset 0 -2px darken(@col-main, 20%);
+
+    &--alt {
+        background-color: gray;
+        border-bottom: 2px solid @gray;
+        box-shadow: inset 0 -2px @gray;
+    }
+
+    &:active {
+        top: 1px;
+        outline: none;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+}
+
 // Base des boutons
 .up-btn {
     position: relative;

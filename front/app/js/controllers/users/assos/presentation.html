@@ -1,6 +1,6 @@
 <div up-row wrap left ng-if="!club.administration">
     <div up-col="60%" up-col-xs="100%" up-col-sm="100%" up-col-md="100%">
-        <div class="up-ticket up-assos-container" ng-hide="edit">
+        <div class="Ticket up-assos-container" ng-hide="edit">
             <div up-col="100%" ng-bind-html="presentation">
             </div>
             <div up-col="100%" up-row center ng-if="isAdmin || $root.hasClub(club.slug)">
@@ -8,7 +8,7 @@
             </div>
         </div>
 
-        <div up-row padded wrap class="up-ticket" ng-if="edit">
+        <div up-row padded wrap class="Ticket" ng-if="edit">
             <div up-col="100%">
                 <textarea ng-model="presentation" redactor></textarea>
             </div>
@@ -18,7 +18,7 @@
         </div>
     </div>
     <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="40%" padded>
-        <div class="up-ticket centering">
+        <div class="Ticket centering">
             <h2>Membres - {{ club.full_name }} </h2>
 
             <table class="up-table" up-col="90%">
