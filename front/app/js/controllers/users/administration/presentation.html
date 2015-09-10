@@ -1,0 +1,18 @@
+<div up-col="100%" up-col-xs="100%" up-col-sm="100%" up-col-md="100%">
+    <div class="up-ticket up-assos-container" ng-hide="edit">
+        <div up-col="100%" ng-bind-html="presentation">
+        </div>
+        <div up-col="100%" up-row center>
+            <button ng-click="editPresentation()" class="up-btn up-btn-default up-btn-lg">Modifier</button>
+        </div>
+    </div>
+
+    <div up-row padded wrap class="up-ticket" ng-if="edit">
+        <div up-col="100%">
+            <textarea ng-model="presentation" redactor></textarea>
+        </div>
+        <div up-col="100%" up-row center>
+            <button ng-click="modify(presentation)" class="up-btn up-btn-default up-btn-lg">Envoyer</button>
+        </div>
+    </div>
+</div>
