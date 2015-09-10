@@ -42,7 +42,7 @@
                         <div up-row space-between>
                             <div class="up-ticket-title up-clickable" ui-sref="root.users.publications.simple({slug: publication.slug})" title="Afficher la publication">{{ publication.name }}</div>
 
-                            <div class="up-ticket-date">{{ publication.date | fromNow }}</div>
+                            <div class="up-ticket-date" title="{{publication.date | date: 'mm:HH dd/MM/yy' }}">{{ publication.date | fromNow }}</div>
                         </div>
                         <div up-row space-between class="up-ticket-title">
                             <span ng-if="$root.isExterieur">
