@@ -86,7 +86,9 @@ class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
         return $this->patch(
             $slug,
             $this->isClubMember($slug)
-            && !$this->get('security.context')->isGranted('ROLE_EXTERIEUR')
+            && (!$this->get('security.context')->isGranted('ROLE_EXTERIEUR')
+                || $slug == $this->get('security.context')->getToken()->getUser()->getSlug()
+                )
             );
     }
 
