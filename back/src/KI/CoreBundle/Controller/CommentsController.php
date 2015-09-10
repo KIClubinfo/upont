@@ -98,7 +98,7 @@ class CommentsController extends ResourceController
      */
     public function postCommentAction($object, $slug)
     {
-        $return = $this->postData();
+        $return = $this->postData($this->is('USER') && !$this->is('EXTERIEUR'));
 
         if ($return['code'] == 201) {
             $this->autoInitialize($object);
