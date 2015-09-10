@@ -1,9 +1,9 @@
-<div ng-show="displayTabs" class="up-column up-zone-picker Ticket">
-    <div up-row left>
-        <a ui-sref="root.users.assos.list" up-state-active>Liste des assos</a>
-        <a ui-sref="root.users.assos.ki" up-state-active>Dépannage KI</a>
-        <a ui-sref="root.users.assos.foyer" up-state-active>Playlist Foyer</a>
+<nav ng-show="displayTabs" class="Navbar">
+    <div row>
+        <a class="Navbar__link" up-state-active ui-sref="root.users.assos.list">Liste des assos</a>
+        <a class="Navbar__link" up-state-active ui-sref="root.users.assos.ki">Dépannage KI</a>
+        <a class="Navbar__link" up-state-active ui-sref="root.users.assos.foyer">Playlist Foyer</a>
     </div>
-</div>
+</nav>
 
 <div ui-view root-state="root.users.assos" autoscroll="false"></div>

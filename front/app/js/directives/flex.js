@@ -5,7 +5,7 @@ function setFlexLayout(layout, element, args) {
     var primaryLayout, secondaryLayout;
 
     // Soit le layout a été précisé, soit on utilise celui par défaut
-    if (layout !== undefined) {
+    if (layout !== undefined && layout !== '') {
         layout = layout.split(' ');
         primaryLayout   = layout[0];
         secondaryLayout = layout[1];
@@ -17,7 +17,7 @@ function setFlexLayout(layout, element, args) {
     element.addClass('flex');
     element.addClass('p-' + primaryLayout);
     element.addClass('s-' + secondaryLayout);
-    if (args.hasOwnProperty('flex-wrap')) {
+    if (args.hasOwnProperty('wrap')) {
         element.addClass('flex-wrap');
     }
 }

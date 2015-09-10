@@ -33,30 +33,22 @@
 }
 
 .Results {
-
-    .up-searchbar-section:not(:last-of-type){
+    &:not(:last-of-type){
         border-bottom: solid 2px rgba(red(@col-bckgnd), green(@col-bckgnd), blue(@col-bckgnd), 0.2);
     }
-    .up-searchbar-section .up-searchbar-cell{
-        padding:5px;
+    &__cell{
+        .padded;
         &:not(:last-of-type){
             border-right:solid 2px rgba(red(@col-bckgnd), green(@col-bckgnd), blue(@col-bckgnd), 0.2);
         }
-        &.up-searchbar-title{
-            font-size: 0.8em;
-            font-weight: bold;
-        }
     }
-    .up-profil-picture, .fa {
-        width: 2em;
-        text-align: center;
-    }
-    .up-searchbar-item{
-        padding:5px;
+    &__item{
+        .padded;
+        .clickable;
         border-radius: 5px;
-        cursor:pointer;
+
         &:hover{
-            background: rgba(red(@col-main), green(@col-main), blue(@col-main), 0.7);
+            background: lighten(@col-main, 15%);
             color: white;
         }
     }

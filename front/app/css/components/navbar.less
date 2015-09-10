@@ -1,0 +1,20 @@
+.Navbar {
+    .media;
+    border-bottom: solid 1px @col-ticket-border;
+
+    &__link {
+        padding: 0.5em 2%;
+        margin: 0 2%;
+        &:hover {
+            border-bottom: solid 3px @col-main;
+        }
+        &.active {
+            .bold;
+            border-bottom: solid 3px @col-main;
+        }
+    }
+
+    &__image {
+        max-height: 250px;
+    }
+}

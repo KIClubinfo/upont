@@ -1,0 +1,22 @@
+.Input {
+    .padded;
+    width: 100%;
+    background: @col-input-bckgnd;
+    border: solid 1px @col-input-border;
+    color: @col-font;
+    outline: none;
+    resize:none;
+
+    &:focus {
+        border-color: @col-main;
+    }
+
+    &[type="text"] {
+        vertical-align: middle;
+    }
+
+    &[type="radio"], &[type="checkbox"] {
+        margin: 0 0.5em;
+        vertical-align: middle;
+    }
+}

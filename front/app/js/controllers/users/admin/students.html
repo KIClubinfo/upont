@@ -1,45 +1,48 @@
 <div class="Ticket">
-    <h2>Créer un utilisateur :</h2>
+    <section class="padded">
+        <h1>Créer un utilisateur</h1>
 
-    <div class="up-profile-form">
-        <form up-row padded left wrap ng-submit="post(firstName, lastName, email)" autocomplete="off">
-            <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
-                <input class="up-col-xs-12" type="text" ng-model="firstName" placeholder="Prénom"/>
-            </div>
-            <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
-                <input class="up-col-xs-12" type="text" ng-model="lastName" placeholder="Nom"/>
-            </div>
-            <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
-                <input class="up-col-xs-12" type="email" ng-model="email" placeholder="Email"/>
+        <form row wrap ng-submit="post(firstName, lastName, email)" autocomplete="off">
+            <div flex="100" flex-md="50" class="padded">
+                <input class="Input" type="text" ng-model="firstName" placeholder="Prénom" autofocus>
             </div>
 
-            <div up-col="100%" up-row right>
-            	<button up-col-xs="100%" up-col-sm="100%" up-col="15%" class="up-btn up-btn-default">Créer</button>
+            <div flex="100" flex-md="50" class="padded">
+                <input class="Input" type="text" ng-model="lastName" placeholder="Nom">
+            </div>
+
+            <div flex="100" flex-md="50" class="padded">
+                <input class="Input" type="email" ng-model="email" placeholder="Email">
+            </div>
+
+            <div flex="100" class="padded" row="end center">
+            	<button flex="50" flex-md="15" class="Button">Créer</button>
             </div>
         </form>
-    </div>
+    </section>
 
-    <h2>Créer plusieurs utilisateurs :</h2>
+    <section class="padded">
+        <h2>Créer plusieurs utilisateurs</h2>
 
-    <p>
-        <strong>Doit être structuré sous la forme :</strong><br>
-        iddsi,mail,prenom,nom,promo,departement,origine<br>
-        Merci de faire bien attention à ce que les champs "promo,departement,origine" soient des valeurs disponibles dans les &lt;select&gt; de uPont et que le champ mail soit sous la forme prenom.nom@[eleve.]enpc.fr.
-    </p>
-
-    <div class="up-profile-form">
-        <form up-row padded left wrap ng-submit="import()" autocomplete="off">
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+        <form row="start center" wrap ng-submit="import()" autocomplete="off">
+            <label for="fileUpload" flex="100" flex-md="50" class="padded clickable">
                 <i class="fa fa-file-excel-o"></i>
                 Fichier CSV
-            </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="file" name="file" id="fileUpload" onchange="angular.element(this).scope().uploadFile(this.files)"/>
+            </label>
+            <div flex="100" flex-md="50" class="padded">
+                <input class="Input" type="file" name="file" id="fileUpload" onchange="angular.element(this).scope().uploadFile(this.files)"/>
             </div>
 
-            <div up-col="100%" up-row right>
-            	<button up-col-xs="100%" up-col-sm="100%" up-col="15%" class="up-btn up-btn-default">Importer</button>
+            <div flex="100" class="padded" row="end center">
+            	<button flex="50" flex-md="15" class="Button">Importer</button>
             </div>
         </form>
-    </div>
+
+        <p>
+            <strong>Doit être structuré sous la forme :</strong><br><br>
+
+            <kbd class="code">iddsi,mail,prenom,nom,promo,departement,origine</kbd><br>
+            Merci de faire bien attention à ce que les champs "promo,departement,origine" soient des valeurs disponibles dans les &lt;select&gt; de uPont et que le champ mail soit sous la forme prenom.nom@[eleves.]enpc.fr.
+        </p>
+    </section>
 </div>

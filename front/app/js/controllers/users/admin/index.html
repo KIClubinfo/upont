@@ -1,8 +1,8 @@
-<div class="up-column up-zone-picker Ticket">
-    <div up-row left>
-        <a ui-sref="root.users.admin.students" up-state-active>Élèves</a>
-        <a ui-sref="root.users.admin.assos" up-state-active>Assos</a>
+<nav class="Navbar">
+    <div row>
+        <a class="Navbar__link" up-state-active ui-sref="root.users.admin.assos">Assos</a>
+        <a class="Navbar__link" up-state-active ui-sref="root.users.admin.students">Élèves</a>
     </div>
-</div>
+</nav>
 
-<div ui-view root-state="root.users.admin" autoscroll="false"></div>
+<div class="padded" ui-view root-state="root.users.admin" autoscroll="false"></div>

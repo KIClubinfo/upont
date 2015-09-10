@@ -19,6 +19,16 @@
 .padded {
     padding: 0.5em;
 }
+.media {
+    color: @col-font;
+    background: @col-ticket;
+}
+.code {
+    padding: 2px 5px 2px 5px;
+    color: white;
+    border-radius: 2px;
+    background-color: @col-main;
+}
 
 // Input
 .disabled {
@@ -34,20 +44,18 @@
     cursor: pointer;
 }
 
-// Support
+.wysiwyg-data {
+    a { .Link; }
+    img { .img-responsive; }
+    kbd { .code }
+}
+
+/******************* Support *******************/
 .centering {
     text-align: center;
 }
 .justify {
     text-align: justify;
-}
-
-.wysiwyg-data {
-    a { .Link; }
-
-    img {
-        .img-responsive;
-    }
 }
 
 .up-clickable{

@@ -1,37 +1,3 @@
-// inputs génériques
-input, textarea, select {
-    background: @col-input-bckgnd;
-    border: solid 1px @col-input-border;
-    color: @col-font;
-    border-radius: 1px;
-    padding: 0.5em;
-    outline: none;
-
-    &:focus {
-        border-color: @col-main;
-    }
-}
-input {
-    vertical-align: middle;
-
-    &[type="radio"], &[type="checkbox"] {
-        margin: 0 0.5em;
-        vertical-align: middle;
-    }
-}
-textarea {
-    padding: 8px;
-    width: 100%;
-    resize:none;
-}
-select {
-    width: 100%;
-}
-label {
-    cursor: pointer;
-    font-weight: normal;
-}
-
 // Zone d'autocomplétion pour une barre de recherche
 .up-autocomplete {
     position: relative;

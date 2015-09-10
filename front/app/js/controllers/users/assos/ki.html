@@ -1,4 +1,4 @@
-<div up-row wrap>
+<div class="padded" up-row wrap>
     <div up-col-xs="100%" up-col-sm="100%" up-col="67%">
         <div class="Ticket">
             <h2>Feedback uPont</h2>
@@ -25,7 +25,7 @@
 
     <div up-col-xs="100%" up-col-sm="100%" up-col="33%">
         <div class="Ticket">
-            <h2>Contacte le KI !</h1>
+            <h2>Contacte le KI !</h2>
 
             Un problème ? Ton ordi plante ? Tu n'as plus Internet chez toi ? <a style="color: inherit !important" href="https://www.youtube.com/watch?v=vh3tuL_DVsE" target="_blank">Une horde de martiens t'attaque ?</a> Le KI essayera de résoudre au mieux tes problèmes.<br>
             <br>
@@ -55,3 +55,4 @@
         <div ng-if="isFromKI" up-row wrap left>
             <div ng-repeat="fix in fixs.data | filter:{fix:true} | statusFilter" ng-include="'controllers/users/assos/fix.html'" up-col="100%"></div>
         </div>
+</div>
