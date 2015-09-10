@@ -22,6 +22,10 @@ class SecurityTest extends WebTestCase
         $this->connect('donat-bb', 'password');
 
         // Maintenant on teste quelques trucs
+        $this->client->request('POST', '/newsitems/le-beton-c-est-bon/comments');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 400);
+
         $this->client->request('POST', '/newsitems', array('name' => 'La Porte', 'text' => 'C\'est comme perdre'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
