@@ -1,10 +1,13 @@
 angular.module('upont')
-    .controller('Request_Ctrl', ['$scope', '$http', function($scope, $http) {
+    .controller('Request_Ctrl', ['$scope', '$http', '$state', function($scope, $http, $state) {
         $('#login-input').focus();
         $scope.request = function(username) {
             if (!empty(username)) {
                 $http.post(apiPrefix + 'resetting/request', {username: username}).success(function(){
                     alertify.success('Mail de réinitialisation envoyé !');
+                }).error(function(e){
+                    alertify.error('Identifiant non trouvé !');
+                    $state.go('root.request');
                 });
             } else {
                 alertify.error('Donne ton identifiant !');
