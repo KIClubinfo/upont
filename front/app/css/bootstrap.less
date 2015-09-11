@@ -1,9 +1,5 @@
 @import (inline) '../../www/libs/redactor/redactor.css';
 
-body {
-    margin: 0px;
-}
-
 // Définition des variables
 @asideTicketWidth: 150px;
 @radius: 6px;
@@ -19,13 +15,6 @@ body {
 
 // Importation de tous les fichiers selon le theme
 .theme(@col-main, @col-font, @col-ticket-border, @col-ticket, @col-bckgnd, @col-input-border, @col-input-bckgnd, @col-aside, @col-aside-bckgnd, @col-neg) {
-    @import 'resets/alertify.less';
-    @import 'resets/calendar.less';
-    @import 'resets/chart.less';
-    @import 'resets/fonts.less';
-    @import 'resets/html.less';
-    @import 'resets/redactor.less';
-
     @import 'objects/flex.less';
     @import 'objects/generic.less';
 
@@ -37,28 +26,19 @@ body {
     @import 'components/logo.less';
     @import 'components/list.less';
     @import 'components/navbar.less';
+    @import 'components/page.less';
     @import 'components/search.less';
     @import 'components/table.less';
     @import 'components/ticket.less';
     @import 'components/top-bar.less';
     @import 'components/tour.less';
 
-    @import 'admissibles.less';
-    @import 'assos.less';
-    @import 'comments.less';
-    @import 'courses.less';
-    @import 'form.less';
-    @import 'image.less';
-    @import 'keyframes.less';
-    @import 'pane.less';
-    @import 'ponthub.less';
-    @import 'profile.less';
-    @import 'publish.less';
-    @import 'ribbon.less';
-    @import 'shotgun.less';
-    @import 'sso.less';
-    @import 'the-game.less';
-    @import 'zone-picker.less';
+    @import 'resets/alertify.less';
+    @import 'resets/calendar.less';
+    @import 'resets/chart.less';
+    @import 'resets/fonts.less';
+    @import 'resets/html.less';
+    @import 'resets/redactor.less';
 }
 
 // Palette de couleurs

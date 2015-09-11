@@ -62,10 +62,7 @@ angular.module('upont')
             .state('root', {
                 abstract: true,
                 url: '/',
-                template: '<div ui-view="aside" ng-if="!isExterieur" class="up-invisible-xs"></div>'+
-                    '<div ui-view="topbar" ng-if="!isExterieur" class="up-invisible-sm up-invisible-md up-invisible-lg"></div>'+
-                    '<div ui-view></div>' +
-                    '<div ui-view="tour" ng-if="!isExterieur"></div>',
+                templateUrl: 'container.html',
             })
             .state('root.403', {
                 url: '403',
@@ -91,7 +88,7 @@ angular.module('upont')
                 },
                 views:{
                     '': {
-                        template: '<div class="up-main-view" ui-view up-fill-window></div>'
+                        template: '<div class="Page--main" ui-view></div>'
                     },
                     topbar: {
                         templateUrl: 'controllers/users/top-bar.html'
