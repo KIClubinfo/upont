@@ -33,8 +33,6 @@ angular.module('upont')
         };
 
         $scope.submitParams = function(me, old, password, confirm) {
-            alertify.success('chvbgh');
-
             if (password === undefined || confirm === undefined || old === undefined) {
                 alertify.error('Champs non remplis');
                 return;
