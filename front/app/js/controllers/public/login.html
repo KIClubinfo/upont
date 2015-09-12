@@ -1,5 +1,5 @@
 <div class="Page__landing" col="space-between stretch">
-    <div row="end stretch">
+    <header row="end stretch">
         <div flex="45" flex-md="20" col>
             <a class="Button" ui-sref="root.admissibles.index" title="Admissible au concours Mines-Ponts, cette page est pour toi !">
                 <strong>Espace admissibles</strong>
@@ -11,10 +11,10 @@
                <strong>Clubs & assos</strong>
            </a>
         </div>
-    </div>
+    </header>
     <div col="center stretch" style="height: 100%">
-        <div class="Page__landing--login" flex="100" flex-md="55" row="center stretch">
-            <div class="Page__landing--left padded" flex="90" flex-md="40">
+        <section class="Page__landing--login" flex="100" flex-md="55" row="center stretch">
+            <aside class="Page__landing--left  padded" flex="90" flex-md="40">
                 <div row="center stretch">
                     <svg-image flex="40" src="img/icon.svg" class="svg up-logo"></svg-image>
                 </div>
@@ -22,8 +22,8 @@
                     <h1>Bienvenue sur uPont</h1>
                     <p>uPont est l'intranet étudiant de l'École nationale des ponts et chaussées.</p>
                 </section>
-            </div>
-            <div class="Page__landing--right padded" flex="90" flex-md="70">
+            </aside>
+            <section class="Page__landing--right  padded" flex="90" flex-md="70">
                 <h1 class="padded">Connecte-toi !</h1>
                 <form class="padded" row wrap ng-submit="login(pseudo, password)" autocomplete="off">
                     <div class="padded" flex="100">
@@ -35,14 +35,13 @@
                     <div class="padded" flex="100" row="end stretch">
                         <button class="Button" flex="50" title="Se connecter">Connecte-toi !</button>
                     </div>
-                    <div class="padded" flex="100" row="end stretch">
+                    <footer class="padded" flex="100" row="end stretch">
                         <a class="Link  Link--reverse" title="Réinitialiser le mot de passe" ui-sref="root.request">Mot de passe oublié ?</a>
                         &nbsp;&nbsp;-&nbsp;&nbsp;
                         <a class="Link  Link--reverse" title="S'inscrire" ui-sref="root.register">Inscription</a>
-                    </div>
+                    </footer>
                 </form>
-
-            </div>
-        </div>
+            </section>
+        </section>
     </div>
 </div>
