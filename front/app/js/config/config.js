@@ -66,19 +66,19 @@ angular.module('upont')
             })
             .state('root.403', {
                 url: '403',
-                templateUrl: 'controllers/public/403.html',
+                templateUrl: 'controllers/public/errors/403.html',
             })
             .state('root.404', {
                 url: '404',
-                templateUrl: 'controllers/public/404.html',
+                templateUrl: 'controllers/public/errors/404.html',
             })
             .state('root.418', {
                 url: '418',
-                templateUrl: 'controllers/public/418.html',
+                templateUrl: 'controllers/public/errors/418.html',
             })
             .state('root.erreur', {
                 url: 'erreur',
-                templateUrl: 'controllers/public/500.html',
+                templateUrl: 'controllers/public/errors/500.html',
             })
             .state('root.users', {
                 url: '',
