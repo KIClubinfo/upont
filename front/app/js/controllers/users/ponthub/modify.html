@@ -1,191 +1,190 @@
 <div class="Ticket">
-    <h1>Rangement :</h1>
+    <h1 class="padded">Rangement</h1>
 
-    <div up-row padded center>
-        <div up-col-xs="100%" up-col-sm="100%" up-col="50%" class="centering">
-            <img ng-src="{{ url + element.image_url }}" class="up-profile-page-picture">
+    <div row="center stretch">
+        <div class="Image" flex="25" ng-class="{'Image--portrait': category == 'films' || category == 'series', 'Image--landscape': category == 'jeux'}">
+            <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ element.image_url | urlFile }})' }"></div>
         </div>
     </div>
 
-    <div class="up-profile-form">
-        <!-- Suggestions Imdb/Gracenote -->
-        <form ng-if="type == 'series' || type == 'movies'" up-row padded left wrap autocomplete="off" ng-init="search(element.name)">
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-search"></i>
-                Recherche
-            </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="text" ng-model="criteria" ng-init="criteria=element.name" placeholder="Critère"/>
-            </div>
-
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-question"></i>
-                Propositions
-            </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <select ng-model="proposition">
-                    <option ng-repeat="item in propositions" value="{{ item.id }}" ng-selected="$index === 0">{{ item.name }} - {{ item.year }} ({{ item.type }})</option>
-                </select>
-            </div>
-
-            <div up-col="100%" up-row right>
-                <button ng-click="search(criteria)" up-col-xs="100%" up-col-sm="100%" up-col="25%" class="up-btn up-btn-lg up-btn-primary" style="margin-right: 10px;">Rechercher</button>
-                <button ng-click="fill(proposition)" up-col-xs="100%" up-col-sm="100%" up-col="25%" class="up-btn up-btn-lg up-btn-default">Remplir</button>
-            </div>
-        </form>
-
-        <div ng-if="type == 'albums'" up-row right>
-            <button ng-init="gracenote(element)" ng-click="gracenote(element)" up-col-xs="100%" up-col-sm="100%" up-col="25%" class="up-btn up-btn-lg up-btn-default">Remplir</button>
+    <!-- Suggestions Imdb/Gracenote -->
+    <form row="start center" wrap ng-if="type == 'series' || type == 'movies'" autocomplete="off" ng-init="search(element.name)">
+        <div class="padded" flex="50" flex-md="25">
+            <i class="fa fa-search"></i>
+            Recherche
         </div>
-        <hr>
+        <div class="padded" flex="50" flex-md="25">
+            <input class="Input" type="text" ng-model="criteria" ng-init="criteria=element.name" placeholder="Critère">
+        </div>
 
+        <div class="padded" flex="50" flex-md="25">
+            <i class="fa fa-question"></i>
+            Propositions
+        </div>
+        <div class="padded" flex="50" flex-md="25">
+            <select class="Input" ng-model="proposition">
+                <option ng-repeat="item in propositions" value="{{ item.id }}" ng-selected="$index === 0">
+                    {{ item.name }} - {{ item.year }} ({{ item.type }})
+                </option>
+            </select>
+        </div>
 
+        <div class="padded" flex="100" row="end stretch">
+            <button class="Button  Button--alt" flex="100" flex-md="25" ng-click="search(criteria)">Rechercher</button>
+            <button class="Button" flex="100" flex-md="25" ng-click="fill(proposition)">Remplir</button>
+        </div>
+    </form>
 
-        <form up-row padded left wrap ng-submit="submitFile(element, imageUrl, filePicture)" autocomplete="off">
-            <div up-col="25%">
-                <i class="fa fa-arrow-right"></i>
-                Chemin
-            </div>
-            <div up-col="75%">
-                <input class="up-col-xs-12" type="text" ng-model="element.path" disabled/>
-            </div>
-
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-font"></i>
-                Nom
-            </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="text" ng-model="element.name" placeholder="Nom apparent dans Ponthub"/>
-            </div>
-
-            <div ng-if="type != 'albums' && type != 'series'" up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-hdd-o"></i>
-                Taille
-            </div>
-            <div ng-if="type != 'albums' && type != 'series'" up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="text" ng-value="element.size | formatSize" disabled/>
-            </div>
-
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-user"></i>
-                Artiste
-            </div>
-            <div ng-if="type == 'movies' || type == 'series'" up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="text" ng-model="element.director" placeholder="Steven Spielberg"/>
-            </div>
-            <div ng-if="type == 'albums'" up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="text" ng-model="element.artist" placeholder="AC/DC"/>
-            </div>
-            <div ng-if="type == 'softwares'" up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="text" ng-model="element.author" placeholder="Microsoft"/>
-            </div>
-            <div ng-if="type == 'games'" up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="text" ng-model="element.studio" placeholder="Relic"/>
-            </div>
-
-            <div ng-if="type != 'others'" up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-calendar"></i>
-                Année
-            </div>
-            <div ng-if="type != 'others'" up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="text" ng-model="element.year" placeholder="Année"/>
-            </div>
-
-            <div ng-if="type == 'softwares'" up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-terminal"></i>
-                Version
-            </div>
-            <div ng-if="type == 'softwares'" up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="text" ng-model="element.version" placeholder="2.0.4"/>
-            </div>
-
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-align-left"></i>
-                Description
-            </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <textarea class="up-col-xs-12" ng-model="element.description" placeholder="Description"></textarea>
-            </div>
-
-            <div ng-if="type == 'movies' || type == 'series'" up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-star"></i>
-                Classement Imdb
-            </div>
-            <div ng-if="type == 'movies' || type == 'series'" up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="text" ng-model="element.rating" disabled/>
-            </div>
-
-            <div ng-if="type == 'movies' || type == 'series'" up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-clock-o"></i>
-                Durée
-            </div>
-            <div ng-if="type == 'movies' || type == 'series'" up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="text" ng-model="element.duration" placeholder="Durée en secondes"/>
-            </div>
-
-            <div ng-if="type == 'games'" up-col-xs="100%" up-col-sm="100%" up-col="50%"></div>
-
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-map-marker"></i>
-                Genres
-            </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input type="text" class="up-col-xs-12" ng-model="element.genres" placeholder="Documentaire,Sport" ng-disabled="type == 'albums'"/>
-            </div>
-
-            <div ng-if="type == 'movies' || type == 'series'" up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-users"></i>
-                Acteurs
-            </div>
-            <div ng-if="type == 'movies' || type == 'series'" up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input type="text" class="up-col-xs-12" ng-model="element.actors_list" placeholder="Bruce Willis,Angelina Jolie" />
-            </div>
-
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-tags"></i>
-                Tags
-            </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input type="text" class="up-col-xs-12" ng-model="element.tags" placeholder="Pumping,Manger" />
-            </div>
-
-            <div ng-if="type == 'series'" up-col-xs="100%" up-col-sm="100%" up-col="50%"></div>
-
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-file-image-o"></i>
-                Image (url)
-            </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input type="text" class="up-col-xs-12" ng-model="imageUrl" placeholder="http://..." />
-            </div>
-
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-file-image-o"></i>
-                Image (upload)
-            </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input type="file" class="up-col-xs-12" ng-model="filePicture" base-sixty-four-input>
-            </div>
-
-            <div ng-if="type == 'movies' || type == 'series'" up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input type="checkbox" ng-model="element.vo">&nbsp;VO
-            </div>
-            <div ng-if="type == 'movies' || type == 'series'" up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input type="checkbox" ng-model="element.vf">&nbsp;VF
-            </div>
-            <div ng-if="type == 'movies' || type == 'series'" up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input type="checkbox" ng-model="element.vost">&nbsp;VOST
-            </div>
-            <div ng-if="type == 'movies' || type == 'series'" up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input type="checkbox" ng-model="element.vostfr">&nbsp;VOSTFR
-            </div>
-            <div ng-if="type == 'movies' || type == 'series'" up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input type="checkbox" ng-model="element.hd">&nbsp;HD
-            </div>
-
-            <div up-col="100%" up-row right>
-                <button up-col-xs="100%" up-col-sm="100%" up-col="25%" class="up-btn up-btn-lg up-btn-default">Modifier !</button>
-            </div>
-        </form>
+    <div class="padded" row="end stretch" ng-if="type == 'albums'">
+        <button class="Button" flex="100" flex-md="25" ng-init="gracenote(element)" ng-click="gracenote(element)">Remplir</button>
     </div>
+
+    <hr>
+
+    <form row="start center" wrap ng-submit="submitFile(element, imageUrl, filePicture)" autocomplete="off">
+        <div class="padded" flex="25">
+            <i class="fa fa-arrow-right"></i>
+            Chemin
+        </div>
+        <div class="padded" flex="75">
+            <input class="Input" type="text" ng-model="element.path" disabled>
+        </div>
+
+        <div class="padded" flex="50" flex-md="25">
+            <i class="fa fa-font"></i>
+            Nom
+        </div>
+        <div class="padded" flex="50" flex-md="25">
+            <input class="Input" type="text" ng-model="element.name" placeholder="Nom apparent dans Ponthub">
+        </div>
+
+        <div ng-if="type != 'albums' && type != 'series'" class="padded" flex="50" flex-md="25">
+            <i class="fa fa-hdd-o"></i>
+            Taille
+        </div>
+        <div ng-if="type != 'albums' && type != 'series'" class="padded" flex="50" flex-md="25">
+            <input class="Input" type="text" ng-value="element.size | formatSize" disabled>
+        </div>
+
+        <div class="padded" flex="50" flex-md="25">
+            <i class="fa fa-user"></i>
+            Artiste
+        </div>
+        <div ng-if="type == 'movies' || type == 'series'" class="padded" flex="50" flex-md="25">
+            <input class="Input" type="text" ng-model="element.director" placeholder="Steven Spielberg">
+        </div>
+        <div ng-if="type == 'albums'" class="padded" flex="50" flex-md="25">
+            <input class="Input" type="text" ng-model="element.artist" placeholder="AC/DC">
+        </div>
+        <div ng-if="type == 'softwares'" class="padded" flex="50" flex-md="25">
+            <input class="Input" type="text" ng-model="element.author" placeholder="Microsoft">
+        </div>
+        <div ng-if="type == 'games'" class="padded" flex="50" flex-md="25">
+            <input class="Input" type="text" ng-model="element.studio" placeholder="Relic">
+        </div>
+
+        <div ng-if="type != 'others'" class="padded" flex="50" flex-md="25">
+            <i class="fa fa-calendar"></i>
+            Année
+        </div>
+        <div ng-if="type != 'others'" class="padded" flex="50" flex-md="25">
+            <input class="Input" type="text" ng-model="element.year" placeholder="Année">
+        </div>
+
+        <div ng-if="type == 'softwares'" class="padded" flex="50" flex-md="25">
+            <i class="fa fa-terminal"></i>
+            Version
+        </div>
+        <div ng-if="type == 'softwares'" class="padded" flex="50" flex-md="25">
+            <input class="Input" type="text" ng-model="element.version" placeholder="2.0.4">
+        </div>
+
+        <div class="padded" flex="50" flex-md="25">
+            <i class="fa fa-align-left"></i>
+            Description
+        </div>
+        <div class="padded" flex="50" flex-md="25">
+            <textarea class="Input" ng-model="element.description" placeholder="Description"></textarea>
+        </div>
+
+        <div ng-if="type == 'movies' || type == 'series'" class="padded" flex="50" flex-md="25">
+            <i class="fa fa-star"></i>
+            Classement Imdb
+        </div>
+        <div ng-if="type == 'movies' || type == 'series'" class="padded" flex="50" flex-md="25">
+            <input class="Input" type="text" ng-model="element.rating" disabled>
+        </div>
+
+        <div ng-if="type == 'movies' || type == 'series'" class="padded" flex="50" flex-md="25">
+            <i class="fa fa-clock-o"></i>
+            Durée
+        </div>
+        <div ng-if="type == 'movies' || type == 'series'" class="padded" flex="50" flex-md="25">
+            <input class="Input" type="text" ng-model="element.duration" placeholder="Durée en secondes">
+        </div>
+
+        <div ng-if="type == 'games'" up-col-xs="100%" up-col-sm="100%" up-col="50%"></div>
+
+        <div class="padded" flex="50" flex-md="25">
+            <i class="fa fa-map-marker"></i>
+            Genres
+        </div>
+        <div class="padded" flex="50" flex-md="25">
+            <input type="text" class="Input" ng-model="element.genres" placeholder="Documentaire,Sport" ng-disabled="type == 'albums'">
+        </div>
+
+        <div ng-if="type == 'movies' || type == 'series'" class="padded" flex="50" flex-md="25">
+            <i class="fa fa-users"></i>
+            Acteurs
+        </div>
+        <div ng-if="type == 'movies' || type == 'series'" class="padded" flex="50" flex-md="25">
+            <input type="text" class="Input" ng-model="element.actors_list" placeholder="Bruce Willis,Angelina Jolie">
+        </div>
+
+        <div class="padded" flex="50" flex-md="25">
+            <i class="fa fa-tags"></i>
+            Tags
+        </div>
+        <div class="padded" flex="50" flex-md="25">
+            <input type="text" class="Input" ng-model="element.tags" placeholder="Pumping,Manger">
+        </div>
+
+        <div ng-if="type == 'series'" up-col-xs="100%" up-col-sm="100%" up-col="50%"></div>
+
+        <div class="padded" flex="50" flex-md="25">
+            <i class="fa fa-file-image-o"></i>
+            Image (url)
+        </div>
+        <div class="padded" flex="50" flex-md="25">
+            <input type="text" class="Input" ng-model="imageUrl" placeholder="http://...">
+        </div>
+
+        <div class="padded" flex="50" flex-md="25">
+            <i class="fa fa-file-image-o"></i>
+            Image (upload)
+        </div>
+        <div class="padded" flex="50" flex-md="25">
+            <input type="file" class="Input" ng-model="filePicture" base-sixty-four-input>
+        </div>
+
+        <div ng-if="type == 'movies' || type == 'series'" class="padded" flex="50" flex-md="25">
+            <input type="checkbox" ng-model="element.vo">&nbsp;VO
+        </div>
+        <div ng-if="type == 'movies' || type == 'series'" class="padded" flex="50" flex-md="25">
+            <input type="checkbox" ng-model="element.vf">&nbsp;VF
+        </div>
+        <div ng-if="type == 'movies' || type == 'series'" class="padded" flex="50" flex-md="25">
+            <input type="checkbox" ng-model="element.vost">&nbsp;VOST
+        </div>
+        <div ng-if="type == 'movies' || type == 'series'" class="padded" flex="50" flex-md="25">
+            <input type="checkbox" ng-model="element.vostfr">&nbsp;VOSTFR
+        </div>
+        <div ng-if="type == 'movies' || type == 'series'" class="padded" flex="50" flex-md="25">
+            <input type="checkbox" ng-model="element.hd">&nbsp;HD
+        </div>
+
+        <div class="padded" flex="100" row="end stretch">
+            <button class="Button" flex="100" flex-md="25">Modifier !</button>
+        </div>
+    </form>
 </div>

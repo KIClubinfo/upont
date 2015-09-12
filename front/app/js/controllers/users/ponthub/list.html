@@ -1,20 +1,24 @@
-<div up-row left wrap padded class="Ticket" infinite-scroll="next()" infinite-scroll-distance="3" infinite-scroll-disabled="$root.infiniteLoading">
-    <div class="up-elemt-ponthub" ng-repeat="element in elements.data" ng-class="{ 'up-col-xs-12 up-col-sm-6 up-col-md-4': element.type == 'game', 'up-col-xs-6 up-col-sm-4 up-col-md-3 up-col-lg-2': element.type != 'game'}">
-        <a class="raw-link" ui-sref="root.users.ponthub.category.simple({slug: element.slug})">
-            <div class="up-img-ponthub" ng-class="category">
-                <div ng-if="!!element.image_url" class="img-ph" ng-style="{ 'background-image' : 'url({{ element.image_url | urlFile }})' }"></div>
-                <div ng-if="!element.image_url" class="img-ph fa" ng-class="faIcon(element)"></div>
-
-                <!-- Eventuels ribbons -->
-                <up-ribbon class="ribbon-yellow" ng-if="popular(element.downloads) && element.added < lastWeek">POPULAIRE</up-ribbon>
-                <up-ribbon class="ribbon-violet" ng-if="element.added > lastWeek && !popular(element.downloads)">NOUVEAU</up-ribbon>
-                <up-ribbon class="ribbon-red"    ng-if="element.added > lastWeek && popular(element.downloads)">HOT</up-ribbon>
+<div row wrap class="Ticket" infinite-scroll="next()" infinite-scroll-distance="3" infinite-scroll-disabled="$root.infiniteLoading">
+    <div class="padded" col="start center" ng-class="{ 'flex-100pct flex-sm-50pct flex-md-33pct': category == 'jeux', 'flex-50pct flex-sm-33pct flex-md-25pct flex-lg-20pct': category != 'jeux'}"  ng-repeat="element in elements.data">
+        <div class="Ticket  Ticket--nopadding Ticket--shadow  Ticket--link" flex="100"
+             title="{slug: element.name}"
+             ui-sref="root.users.ponthub.category.simple({slug: element.slug})">
+            <div class="Image  clickable"
+                 ng-class="{'Image--portrait': category == 'films' || category == 'series', 'Image--landscape': category == 'jeux'}" >
+                <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ element.image_url | urlFile }})' }" ng-if="element.image_url"></div>
+                <div class="Image__filler  Image--fa  fa  {{ icon }}" ng-if="!element.image_url"></div>
             </div>
-            <div class="up-title-ponthub">{{ element.name }}</div>
-        </a>
+
+
+            <!-- Eventuels ribbons -->
+            <up-ribbon class="Ribbon--yellow  Ribbon--ponthub" ng-if="popular(element.downloads) && element.added < lastWeek">POPULAIRE</up-ribbon>
+            <up-ribbon class="Ribbon--violet  Ribbon--ponthub" ng-if="element.added > lastWeek && !popular(element.downloads)">NOUVEAU</up-ribbon>
+            <up-ribbon class="Ribbon--red     Ribbon--ponthub" ng-if="element.added > lastWeek && popular(element.downloads)">HOT</up-ribbon>
+        </div>
+        <h3 class="text-center">{{ element.name }}</h3>
     </div>
     <div ng-if="!elements.data.length">
-        <h2>Il n'y a rien dans cette section...<br>
-        Ajoute des demandes aux jardiniers pour corriger cela !</h2>
+        <h2>Il n'y a rien dans cette section...</h2>
+        <p>Ajoute des demandes aux jardiniers pour corriger cela !</p>
     </div>
 </div>

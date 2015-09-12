@@ -4,23 +4,24 @@ angular.module('upont')
         $scope.category = $stateParams.category;
         $scope.lastWeek = moment().subtract(7 , 'days').unix();
 
-        $scope.faIcon = function(element){
-            switch(element.type){
-                case 'game':
+        $scope.faIcon = function(category){
+            switch(category) {
+                case 'jeux':
                     return 'fa-gamepad';
-                case 'movie':
-                case 'serie':
+                case 'films':
+                case 'series':
                     return 'fa-film';
-                case 'album':
+                case 'musiques':
                     return 'fa-music';
-                case 'other':
+                case 'autres':
                     return 'fa-file-o';
-                case 'software':
+                case 'logiciels':
                     return 'fa-desktop';
                 default:
                     return '';
             }
         };
+        $scope.icon = $scope.faIcon($stateParams.category);
 
         $scope.next = function() {
             Paginate.next($scope.elements).then(function(data){
