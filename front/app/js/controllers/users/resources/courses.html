@@ -1,8 +1,10 @@
-<nav up-pane title="Recherche">
-    <div up-row wrap padded>
-        <div up-col="100%"><i class="fa fa-block fa-institution"></i> Département</div>
-        <div up-col="100%">
-            <select ng-model="search.department" ng-change="reload(search)">
+<nav up-panel title="Recherche">
+    <div row wrap>
+        <div class="padded" flex="100">
+            <i class="fa fa-block fa-institution"></i> Département
+        </div>
+        <div class="padded" flex="100">
+            <select class="Input" ng-model="search.department" ng-change="reload(search)">
                 <option value="all">Tous</option>
                 <option ng-repeat="item in $root.departments">{{ item }}</option>
                 <option>SHS</option>
@@ -12,9 +14,11 @@
     </div>
 
     <div up-row wrap padded>
-        <div up-col="100%"><i class="fa fa-block fa-graduation-cap"></i> Période</div>
-        <div up-col="100%">
-            <select ng-model="search.semester" ng-change="reload(search)">
+        <div class="padded" flex="100">
+            <i class="fa fa-block fa-graduation-cap"></i> Période
+        </div>
+        <div class="padded" flex="100">
+            <select class="Input" ng-model="search.semester" ng-change="reload(search)">
                 <option value="all">Toutes</option>
                 <option>Ouverture</option>
                 <option>1er Semestre</option>
@@ -25,9 +29,11 @@
     </div>
 
     <div up-row wrap padded>
-        <div up-col="100%"><i class="fa fa-block fa-dollar"></i> ECTS</div>
-        <div up-col="100%">
-            <select ng-model="search.ects" ng-change="reload(search)">
+        <div class="padded" flex="100">
+            <i class="fa fa-block fa-dollar"></i> ECTS
+        </div>
+        <div class="padded" flex="100">
+            <select class="Input" ng-model="search.ects" ng-change="reload(search)">
                 <option value="all">Tous</option>
                 <!-- Attention le select retourne un string alors que le champs est un integer -->
                 <option>1</option>
@@ -51,7 +57,7 @@
     <div ng-show="followed === null">Aucun cours à afficher</div>
     <div up-row left wrap padded>
         <div ng-repeat="course in followed" class="up-course-item" up-col-xs="50%" up-col-sm="50%" up-col-md="50%" up-col="33%" ng-hide="modo">
-            <div class="up-course-container up-course-active" up-col="100%" up-row>
+            <div class="up-course-container up-course-active" class="padded" flex="100" up-row>
                 <div class="up-course-details" up-col="80%">
                     <h3 ui-sref="root.users.resources.courses.simple({slug: course.slug})">{{ course.name }}</h3>
                 </div>
@@ -80,7 +86,7 @@
 
     <div up-row left wrap padded infinite-scroll="next()" infinite-scroll-distance="3" infinite-scroll-disabled="$root.infiniteLoading">
         <div ng-repeat="course in courses.data" class="up-course-item" up-col-xs="50%" up-col-sm="50%" up-col-md="50%" up-col="33%" ng-show="modo || (course.active && followedIds[course.slug] === undefined)">
-            <div class="up-course-container" ng-class="{'up-course-active': modo && course.active}" up-col="100%" up-row>
+            <div class="up-course-container" ng-class="{'up-course-active': modo && course.active}" class="padded" flex="100" up-row>
                 <div class="up-course-details" up-col="80%">
                     <h3 class="up-clickable" ui-sref="root.users.resources.courses.simple({slug: course.slug})">{{ course.name }}</h3>
                 </div>
@@ -102,7 +108,7 @@
                     </div>
                 </div>
                 <div up-col="20%" up-row wrap left ng-show="modo">
-                    <div class="up-likes up-clickable" ng-click="toggleCourse(course);" ng-class="{active : course.active}" style="font-size:2em" up-col="100%">
+                    <div class="up-likes up-clickable" ng-click="toggleCourse(course);" ng-class="{active : course.active}" style="font-size:2em" class="padded" flex="100">
                         <i class="fa" ng-class="{'fa-toggle-on': course.active, 'fa-toggle-off': !course.active}"></i>
                     </div>
                 </div>
