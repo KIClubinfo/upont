@@ -1,58 +1,49 @@
-<div class="padded" up-row wrap>
-    <div up-col-xs="100%" up-col-sm="100%" up-col="67%">
+<div class="padded" row="space-between start" wrap>
+    <div flex="100" flex-md="66">
         <div class="Ticket">
             <h2>Feedback uPont</h2>
 
-            Si tu as des fonctionnalités à suggérer ou des bugs à rapporter, c'est ici ! N'oublie pas de regarder d'abord si la remarque est déjà mentionnée :)<br>
-            <br>
-            <form class="publish-container" ng-submit="post(msg, false)" up-row wrap right autocomplete="off">
-                <textarea ng-model="msg" ng-class="{disabled : $root.isAdmissible}"
-                          placeholder="Ce qui te passe par la tête... ce que tu aimes, ce que tu n'aimes pas, un bug..."
-                          msd-elastic id="focus-input">
+            <p>Si tu as des fonctionnalités à suggérer ou des bugs à rapporter, c'est ici ! N'oublie pas de regarder d'abord si la remarque est déjà mentionnée :)</p>
+
+            <form row="end start" wrap ng-submit="post(msg, false)" autocomplete="off">
+                <textarea class="Input" placeholder="Ce qui te passe par la tête... ce que tu aimes, ce que tu n'aimes pas, un bug..."
+                          rows="3" ng-model="msg" ng-disabled="$root.isAdmissible" msd-elastic autofocus style="min-height:2em">
                 </textarea>
-                <div up-col-xs="100%" up-col-sm="100%" up-col-md="33%" up-col="33%">
-                    <button up-col="100%" class="up-btn up-btn-default"
-                            ng-class="{disabled : $root.isAdmissible}">Envoyer !
-                    </button>
-                </div>
+                <button class="Button" ng-disabled="$root.isAdmissible">Envoyer !</button>
             </form>
         </div>
 
-        <div up-row wrap left>
-            <div ng-repeat="fix in fixs.data | filter:{fix:false} | statusFilter" ng-include="'controllers/users/assos/fix.html'" up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%"></div>
+        <div row wrap>
+            <div flex="100" flex-lg="50" row  ng-repeat="fix in fixs.data | filter:{fix:false} | statusFilter" ng-include="'controllers/users/assos/fix.html'"></div>
         </div>
     </div>
 
-    <div up-col-xs="100%" up-col-sm="100%" up-col="33%">
+    <div flex="100" flex-md="33">
         <div class="Ticket">
             <h2>Contacte le KI !</h2>
 
-            Un problème ? Ton ordi plante ? Tu n'as plus Internet chez toi ? <a style="color: inherit !important" href="https://www.youtube.com/watch?v=vh3tuL_DVsE" target="_blank">Une horde de martiens t'attaque ?</a> Le KI essayera de résoudre au mieux tes problèmes.<br>
+            <p>Un problème ? Ton ordi plante ? Tu n'as plus Internet chez toi ? <a href="https://www.youtube.com/watch?v=vh3tuL_DVsE" target="_blank">Une horde de martiens t'attaque ?</a> Le KI essayera de résoudre au mieux tes problèmes.</p>
             <br>
-            <form class="publish-container" ng-submit="post(fix, true)" up-row wrap right autocomplete="off">
-                <textarea ng-model="fix" ng-class="{disabled : $root.isAdmissible}"
-                          placeholder="Une explication la plus détaillée possible du problème."
-                          msd-elastic>
+            <form row="end start" wrap ng-submit="post(fix, true)" autocomplete="off">
+                <textarea class="Input" placeholder="Une explication la plus détaillée possible du problème."
+                          rows="3" ng-model="fix" ng-disabled="$root.isAdmissible" msd-elastic style="min-height:2em">
                 </textarea>
-                <div up-col-xs="100%" up-col-sm="100%" up-col-md="33%" up-col="33%">
-                    <button up-col="100%" class="up-btn up-btn-default"
-                            ng-class="{disabled : $root.isAdmissible}">Envoyer !
-                    </button>
-                </div>
+                <button class="Button" ng-disabled="$root.isAdmissible">Envoyer !</button>
             </form>
         </div>
 
-        <div up-row wrap left>
-            <div ng-repeat="fix in ownFixs.data | filter:{fix:true} | statusFilter" ng-include="'controllers/users/assos/fix.html'" up-col="100%"></div>
+        <div row wrap>
+            <div ng-repeat="fix in ownFixs.data | filter:{fix:true} | statusFilter" ng-include="'controllers/users/assos/fix.html'" flex="100"></div>
         </div>
 
         <div ng-if="isFromKI" class="Ticket">
             <h2>Problèmes en attente</h2>
 
-            Tu vois ces demandes parce que tu es membre du KI... à toi de les résoudre au mieux !
+            <p>Tu vois ces demandes parce que tu es membre du KI... à toi de les résoudre au mieux !</p>
         </div>
 
-        <div ng-if="isFromKI" up-row wrap left>
-            <div ng-repeat="fix in fixs.data | filter:{fix:true} | statusFilter" ng-include="'controllers/users/assos/fix.html'" up-col="100%"></div>
+        <div ng-if="isFromKI" row wrap>
+            <div ng-repeat="fix in fixs.data | filter:{fix:true} | statusFilter" ng-include="'controllers/users/assos/fix.html'" flex="100"></div>
         </div>
+    </div>
 </div>

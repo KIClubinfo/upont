@@ -1,7 +1,57 @@
 .Page {
-    &--main {
+    &__main {
         @media(min-width:@sizeSm){
             padding-left: @asideWidth;
         }
+    }
+
+    &__landing {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        background-image: url('@{images}/ponts.jpg');
+        background-size: cover;
+        height: 100vh;
+
+        &--left {
+            background: rgba(red(@col-aside-bckgnd), green(@col-aside-bckgnd), blue(@col-aside-bckgnd), 0.9);
+            color: white;
+        }
+        &--right {
+            background: rgba(red(@col-input-bckgnd), green(@col-input-bckgnd), blue(@col-input-bckgnd), 0.9);
+        }
+
+        &--login {
+            margin-left: 3em;
+        }
+    }
+
+    .up-landing {
+        @media(max-width: @sizeMd) {
+            margin-top: 15px;
+        }
+
+        @media(min-width: @sizeMd) {
+            position: absolute;
+            top: 50%;
+            transform: translate(0, -50%);
+            padding-left: 20px;
+        }
+
+    }
+    .up-landing-links {
+        a {
+            min-width: 210px;
+            margin-right: 10px;
+        }
+        a:first-child {
+            margin-left: 10px;
+        }
+    }
+    .up-forgotten-password {
+        font-size: 0.8em;
+        margin-top: -0.5em;
     }
 }

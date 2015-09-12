@@ -2,8 +2,8 @@ angular.module('upont').directive('upRibbon', function() {
     return {
         transclude: true,
         template:
-            '<div class="ribbon-wrapper">' +
-                '<div class="ribbon" ng-transclude></div>' +
+            '<div class="Ribbon">' +
+                '<div class="Ribbon__content" ng-transclude></div>' +
             '</div>',
     };
 });

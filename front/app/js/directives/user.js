@@ -6,7 +6,7 @@ angular.module('upont').directive('upUser', function() {
         },
         link: {
             post: function(scope, element, args){
-                element.addClass('up-user-hover-container');
+                element.addClass('User');
             }
         },
         controller: ['$scope', '$rootScope', '$resource', '$timeout', function($scope, $rootScope, $resource, $timeout) {

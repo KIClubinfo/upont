@@ -1,16 +1,16 @@
-<div class="padded" up-row left wrap>
-    <div class="up-assos" up-col="25%" up-col-md="33%" up-col-sm="50%" up-col-xs="100%"
+<section class="padded" row wrap>
+    <section class="padded" flex="100" flex-sm="50" flex-md="25" flex-lg="20" row
          ui-sref="root.users.assos.simple.presentation({slug: club.slug})"
          ng-repeat="club in clubs" ng-if="club.active">
-        <div class="Ticket" style="height: 100%">
-            <div up-row space-around>
-                <div up-col="40%" class="up-image-container">
-                    <div class="up-image" ng-style="{ 'background-image' : 'url({{ club.image_url | thumb | urlFile }})' }"></div>
+        <div class="Ticket  Ticket--link" flex="100">
+            <div row="space-between center">
+                <div class="Image" flex="40">
+                    <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ club.image_url | thumb | urlFile }})' }"></div>
                 </div>
-                <div up-col="50%">
+                <div flex="50">
                     <h3>{{ club.full_name }}</h3>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
+</section>

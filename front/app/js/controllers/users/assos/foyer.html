@@ -1,34 +1,38 @@
-<div class="padded" up-row wrap>
-    <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%">
-        <div class="Ticket">
+<div class="padded" row wrap>
+    <section class="padded" flex="100" flex-lg="50">
+        <section class="Ticket">
             <h2>La Playlist</h2>
 
-            Tu peux dès maintenant voter pour la playlist du Foyer ! Publie un lien YouTube de ce que t'as envie d'écouter.<br>
-            <br>
-            <form class="publish-container" ng-submit="post(link)" up-row wrap padded autocomplete="off">
-                <input up-col-xs="100%" up-col="50%" ng-model="link" placeholder="Du bon gros son" id="focus-input" />
-                <button up-col-xs="100%" up-col="50%" class="up-btn up-btn-default">Envoyer !</button>
-            </form>
-        </div>
+            <p>Tu peux dès maintenant voter pour la playlist du Foyer ! Publie un lien YouTube de ce que t'as envie d'écouter.</p>
 
-        <div class="Ticket" ng-repeat="item in youtube.data">
-            <div up-row center>
+            <form row wrap ng-submit="post(link)" autocomplete="off">
+                <div class="padded" flex="100" flex-md="50">
+                    <input class="Input" ng-model="link" placeholder="Du bon gros son" autofocus>
+                </div>
+                <div class="padded" flex="100" flex-md="50">
+                    <button class="Button" flex="100">Envoyer !</button>
+                </div>
+            </form>
+        </section>
+
+        <article class="Ticket" ng-repeat="item in youtube.data">
+            <div row>
                 <youtube-video video-url="item.url"></youtube-video>
             </div>
-            <div ng-if="$root.me.username == item.user.username || $root.hasClub('foyer')" up-row right padded>
-                 <a title="Supprimer la video" ng-click="delete(item)">Supprimer</a><br>
-            </div>
+            <p ng-if="$root.me.username == item.user.username || $root.hasClub('foyer')">
+                 <a class="Link" title="Supprimer la video" ng-click="delete(item)">Supprimer</a>
+            </p>
             <div up-likes objet="item" url="'youtubes/' + item.slug"></div>
-        </div>
-    </div>
+        </article>
+    </section>
 
-    <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%">
-        <div class="Ticket">
+    <section class="padded" flex="100" flex-lg="50">
+        <section class="Ticket">
             <h2>Hall Of Fame</h2>
 
-            Ici sont recensés les plus gros buveurs... attention, seuls les méritants <em>(c'est à dire ceux avec un compte Foyer en positif...)</em> pourront rentrer dans ce classement prestigieux !<br>
+            <p>Ici sont recensés les plus gros buveurs... attention, seuls les méritants <em>(c'est à dire ceux avec un compte Foyer en positif...)</em> pourront rentrer dans ce classement prestigieux !</p>
 
-            <table class="up-table" up-col="90%">
+            <table class="Table" flex="90">
                 <thead>
                     <tr>
                         <th><a ng-click="predicate = 'liters'; reverse=!reverse">Litres bus</a></th>
@@ -49,6 +53,6 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
-    </div>
+        </section>
+    </section>
 </div>

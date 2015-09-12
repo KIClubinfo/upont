@@ -1,287 +1,320 @@
-<div class="Ticket">
-    <h1>Informations Générales</h1>
+<section class="Ticket">
+    <section class="padded">
+        <h1>Informations Générales</h1>
 
-    <div up-row padded center>
-        <div up-col-xs="100%" up-col-sm="100%" up-col="50%" class="centering up-clickable"
-             ng-click="$root.zoomIn('/api/' + user.image_url)">
-            <img ng-src="{{ url + user.image_url }}" class="up-profile-page-picture">
+        <div class="padded" row="center stretch">
+            <div class="Image  clickable" flex="25" ng-click="$root.zoomIn('/api/' + user.image_url)">
+                <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ user.image_url | urlFile }})' }"></div>
+            </div>
         </div>
-    </div>
 
-    <div class="up-profile-form">
-        <form up-row padded left wrap ng-submit="submitUser(user, profilePicture)" autocomplete="off">
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-graduation-cap"></i>
+        <form row="start center" wrap ng-submit="submitUser(user, profilePicture)" autocomplete="off">
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-graduation-cap"></i>
                 Promo
             </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <select ng-model="user.promo">
+            <div class="padded" flex="50" flex-md="25">
+                <select class="Input" ng-model="user.promo">
                     <option ng-repeat="item in $root.promos | reverse">{{ item }}</option>
                 </select>
             </div>
 
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-transgender"></i>
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-transgender"></i>
                 Sexe
             </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <select ng-model="user.gender">
+            <div class="padded" flex="50" flex-md="25">
+                <select class="Input" ng-model="user.gender">
                     <option>M</option>
                     <option>F</option>
                 </select>
             </div>
 
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-globe"></i>
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-globe"></i>
                 Nationalité
             </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <select ng-model="user.nationality">
+            <div class="padded" flex="50" flex-md="25">
+                <select class="Input" ng-model="user.nationality">
                     <option ng-repeat="item in $root.countries">{{ item }}</option>
                 </select>
             </div>
 
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-phone"></i>
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-phone"></i>
                 Téléphone
             </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="text" ng-model="user.phone" placeholder="06.xx.xx.xx.xx, +336.xx.xx.xx.xx"/>
+            <div class="padded" flex="50" flex-md="25">
+                <input class="Input" type="text" ng-model="user.phone" placeholder="06.xx.xx.xx.xx, +336.xx.xx.xx.xx"/>
             </div>
 
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-map-marker"></i>
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-map-marker"></i>
                 Résidence
             </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="text" ng-model="user.location" placeholder="Stockholm, M201, 3ème gauche, A53..."/>
+            <div class="padded" flex="50" flex-md="25">
+                <input class="Input" type="text" ng-model="user.location" placeholder="Stockholm, M201, 3ème gauche, A53..."/>
             </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-institution"></i>
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-institution"></i>
                 Département
             </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <select ng-model="user.department">
+            <div class="padded" flex="50" flex-md="25">
+                <select class="Input" ng-model="user.department">
                     <option ng-repeat="item in $root.departments">{{ item }}</option>
                 </select>
             </div>
 
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-street-view"></i>
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-street-view"></i>
                 Origine
             </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <select ng-model="user.origin">
+            <div class="padded" flex="50" flex-md="25">
+                <select class="Input" ng-model="user.origin">
                     <option ng-repeat="item in $root.origins">{{ item }}</option>
                 </select>
             </div>
 
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-skype"></i>
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-skype"></i>
                 Skype
             </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="text" ng-model="user.skype" placeholder="Pseudo Skype"/>
+            <div class="padded" flex="50" flex-md="25">
+                <input class="Input" type="text" ng-model="user.skype" placeholder="Pseudo Skype"/>
             </div>
 
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-user"></i>
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-user"></i>
                 Pseudo
             </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input type="text" class="up-col-xs-12" ng-model="user.nick" placeholder="Ce que tu souhaites..." />
+            <div class="padded" flex="50" flex-md="25">
+                <input class="Input" type="text" ng-model="user.nick" placeholder="Ce que tu souhaites..." />
             </div>
 
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-file-image-o"></i>
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-file-image-o"></i>
                 Image de profil
             </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input type="file" class="up-col-xs-12" ng-model="profilePicture" base-sixty-four-input>
+            <div class="padded" flex="50" flex-md="25">
+                <input class="Input" type="file" ng-model="profilePicture" base-sixty-four-input>
             </div>
 
-            <h3 up-col="100%">Partager mes statistiques</h3>
+            <div class="padded" flex="100">
+                <h3>Partager mes statistiques</h3>
+            </div>
 
-            <div up-col-xs="80%" up-col-sm="80%" up-col="40%">
-                <i class="fa fa-beer"></i>
+            <div class="padded" flex="80" flex-md="40">
+                <i class="fa  fa-block  fa-beer"></i>
                 Foyer
             </div>
-            <div up-col-xs="20%" up-col-sm="20%" up-col="10%">
+            <div class="padded" flex="20" flex-md="10">
                 <input type="checkbox" ng-model="user.stats_foyer">
             </div>
 
-            <div up-col-xs="80%" up-col-sm="80%" up-col="40%">
-                <i class="fa fa-download"></i>
+            <div class="padded" flex="80" flex-md="40">
+                <i class="fa  fa-block  fa-download"></i>
                 PontHub
             </div>
-            <div up-col-xs="20%" up-col-sm="20%" up-col="10%">
+            <div class="padded" flex="20" flex-md="10">
                 <input type="checkbox" ng-model="user.stats_ponthub">
             </div>
 
-            <div up-col-xs="80%" up-col-sm="80%" up-col="40%">
-                <i class="fa fa-gamepad"></i>
+            <div class="padded" flex="80" flex-md="40">
+                <i class="fa  fa-block  fa-gamepad"></i>
                 La Réponse D
             </div>
-            <div up-col-xs="20%" up-col-sm="20%" up-col="10%">
+            <div class="padded" flex="20" flex-md="10">
                 <input type="checkbox" ng-model="user.stats_facegame">
             </div>
 
-            <h3 up-col="100%">Récéption de mails</h3>
+            <div class="padded" flex="100">
+                <h3>Récéption de mails</h3>
+            </div>
 
-            <div up-col-xs="80%" up-col-sm="80%" up-col="40%">
-                <i class="fa fa-envelope"></i>
+            <div class="padded" flex="80" flex-md="40">
+                <i class="fa  fa-block  fa-envelope"></i>
                 Pour les événements des clubs que je suis
             </div>
-            <div up-col-xs="20%" up-col-sm="20%" up-col="10%">
+            <div class="padded" flex="20" flex-md="10">
                 <input type="checkbox" ng-model="user.mail_event">
             </div>
 
-            <div up-col-xs="80%" up-col-sm="80%" up-col="40%">
-                <i class="fa fa-envelope-o"></i>
+            <div class="padded" flex="80" flex-md="40">
+                <i class="fa  fa-block  fa-envelope-o"></i>
                 Quand le lieu/la date d'un événement est modifiée
             </div>
-            <div up-col-xs="20%" up-col-sm="20%" up-col="10%">
+            <div class="padded" flex="20" flex-md="10">
                 <input type="checkbox" ng-model="user.mail_modification" ng-disabled="!user.mail_event">
             </div>
 
-            <div up-col-xs="80%" up-col-sm="80%" up-col="40%">
-                <i class="fa fa-exclamation-triangle"></i>
+            <div class="padded" flex="80" flex-md="40">
+                <i class="fa  fa-block  fa-exclamation-triangle"></i>
                 Rappel le matin d'un shotgun
             </div>
-            <div up-col-xs="20%" up-col-sm="20%" up-col="10%">
+            <div class="padded" flex="20" flex-md="10">
                 <input type="checkbox" ng-model="user.mail_shotgun" ng-disabled="!user.mail_event">
             </div>
 
-            <div up-col="100%" up-row right>
-                <button up-col-xs="100%" up-col-sm="100%" up-col="25%" class="up-btn up-btn-lg up-btn-default">Modifier !</button>
+            <div row="end stretch" flex="100">
+                <button class="Button" flex="100" flex-md="25">Modifier !</button>
             </div>
         </form>
+    </section>
 
-        <hr>
-
+    <section class="padded">
         <h2>Paramètres du compte</h2>
 
-        <form up-row padded left wrap ng-submit="submitAccount(user, old, password, confirm)" autocomplete="off">
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-lock"></i>
+        <form row wrap ng-submit="submitAccount(user, old, password, confirm)" autocomplete="off">
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-lock"></i>
                 Nouveau mot de passe
             </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="password" ng-model="password" placeholder="Nouveau mot de passe"/>
+            <div class="padded" flex="50" flex-md="25">
+                <input class="Input" type="password" ng-model="password" placeholder="Nouveau mot de passe"/>
             </div>
 
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-lock"></i>
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-lock"></i>
                 Confirmation
             </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input type="password" class="up-col-xs-12" ng-model="confirm" placeholder="Nouveau mot de passe" />
+            <div class="padded" flex="50" flex-md="25">
+                <input class="Input" type="password" ng-model="confirm" placeholder="Nouveau mot de passe" />
             </div>
 
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-unlock"></i>
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-unlock"></i>
                 Ancien mot de passe
             </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="password" ng-model="old" placeholder="Ancien mot de passe"/>
+            <div class="padded" flex="50" flex-md="25">
+                <input class="Input" type="password" ng-model="old" placeholder="Ancien mot de passe"/>
             </div>
 
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-envelope"></i>
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-envelope"></i>
                 Email
             </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="text" ng-model="user.email" placeholder="prenom.nom@eleves.enpc.fr" disabled="disabled"/>
+            <div class="padded" flex="50" flex-md="25">
+                <input class="Input" type="text" ng-model="user.email" placeholder="prenom.nom@eleves.enpc.fr" disabled/>
             </div>
 
-            <div up-col="100%" up-row space-between>
-                <button up-col-xs="100%" up-col-sm="100%" up-col="35%" class="up-btn up-btn-lg up-btn-primary" ng-disabled="!$root.me.tour" ng-click="enableTour($event)">Réactiver le tutoriel</button>
-                <button up-col-xs="100%" up-col-sm="100%" up-col="25%" class="up-btn up-btn-lg up-btn-default">Modifier !</button>
+            <div row="space-between stretch" flex="100">
+                <button class="Button  Button--alt" flex="100" flex-md="25" ng-disabled="!$root.me.tour" ng-click="enableTour($event)">Réactiver le tuto</button>
+                <button class="Button" flex="100" flex-md="25">Modifier !</button>
             </div>
         </form>
-    </div>
-</div>
+    </section>
+</section>
 
-<div class="Ticket">
-    <h1>Synchronisation</h1>
-    <div up-row left wrap>
-        <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
-            <h2>Calendrier ICS</h2>
-            <p>Synchronise le calendrier uPont avec ton smartphone/ton ordinateur pour être certain(e) de ne rien rater ! Regarde vite comment faire ci-dessous pour accéder à cette fonctionnalité géniale :</p>
+<section class="Ticket">
+    <section class="padded">
 
-            <div up-row wrap padded center>
-                <a ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" up-col-xs="100%" up-col-sm="100%" up-col="50%" class="up-btn up-btn-lg up-btn-default centering" target="_blank" ng-click="achievementCheck()">Synchroniser !</a>
-            </div>
+        <h1>Synchronisation</h1><br>
 
-            <h3 ng-click="open('iOS')" class="up-clickable">
-                <i class="fa" ng-class="{'fa-plus-square-o': openICS != 'iOS', 'fa-minus-square-o': openICS == 'iOS'}"></i> iOS
-            </h3>
+        <h2>Calendrier ICS</h2>
 
-            <p ng-show="openICS == 'iOS'">
-                <strong>1.</strong> Va dans "Réglages" puis dans "Mail, Contacts, Calendrier" :<br>
-                <img class="img-responsive" src="img/tuto-ics-ios-1.png" alt="Cliquer sur Abonnement à un calendrier..."/>
-                <strong>2.</strong> Clique sur "Ajouter un compte" puis sur "Autre" ;<br>
-                <strong>3.</strong> Clique sur "Ajouter un calendrier avec abonnement" :<br>
-                <img class="img-responsive" src="img/tuto-ics-ios-2.png" alt="Cliquer sur Ajouter un calendrier avec abonnement"/>
-                <strong>4.</strong> Copie le lien suivant : <a  ng-click="achievementCheck()" ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" title="Calendrier ICS" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a> ;<br>
-                <img class="img-responsive" src="img/tuto-ics-ios-3.png" alt="Copier le lien"/>
+        <p>Synchronise le calendrier uPont avec ton smartphone/ton ordinateur pour être certain(e) de ne rien rater ! Regarde vite comment faire ci-dessous pour accéder à cette fonctionnalité géniale :</p>
+
+        <div row="center stretch">
+            <a class="Button" ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" flex="100" flex-sm="50" flex-md="25" target="_blank" ng-click="achievementCheck()">Synchroniser !</a>
+        </div>
+
+        <h3 class="Link Link--reverse" ng-click="open('iOS')">
+            <i class="fa" ng-class="{'fa-plus-square-o': openICS != 'iOS', 'fa-minus-square-o': openICS == 'iOS'}"></i> iOS
+        </h3>
+
+        <section class="padded text-center" row="center stretch" wrap ng-show="openICS == 'iOS'">
+            <figure class="padded" flex="33">
+                <figcaption class="padded"><strong>1.</strong> Va dans "Réglages" puis dans "Mail, Contacts, Calendrier"</figcaption>
+                <img class="Image" src="img/tuto-ics-ios-1.png" alt="Cliquer sur Abonnement à un calendrier...">
+            </figure>
+            <figure class="padded" flex="33">
+                <figcaption class="padded"><strong>2.</strong> Clique sur "Ajouter un compte" puis sur "Autre"</figcaption>
+                <img class="Image" src="img/tuto-ics-ios-2.png" alt="Cliquer sur Ajouter un calendrier avec abonnement">
+            </figure>
+            <figure class="padded" flex="33">
+                <figcaption class="padded"><strong>3.</strong> Clique sur "Ajouter un calendrier avec abonnement"</figcaption>
+                <img class="Image" src="img/tuto-ics-ios-3.png" alt="Copier le lien"/>
+            </figure>
+            <p flex="100">
+                <strong>4.</strong> Copie le lien suivant : <a class="Link" title="Calendrier ICS" ng-click="achievementCheck()" ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a><br>
                 <strong>5.</strong> Clique sur "Suivant" puis sur "Enregistrer" et c'est terminé !<br>
             </p>
+        </section>
 
-            <h3 ng-click="open('mac')" class="up-clickable">
-                <i class="fa" ng-class="{'fa-plus-square-o': openICS != 'mac', 'fa-minus-square-o': openICS == 'mac'}"></i> Mac (Calendar)
-            </h3>
+        <h3 class="Link Link--reverse" ng-click="open('mac')">
+            <i class="fa" ng-class="{'fa-plus-square-o': openICS != 'mac', 'fa-minus-square-o': openICS == 'mac'}"></i> Mac (Calendar)
+        </h3>
 
-            <p ng-show="openICS == 'mac'">
-                <strong>1.</strong> Clique sur "Fichier", puis sur "Abonnement à un calendrier..."<br>
-                <img class="img-responsive" src="img/tuto-ics-mac-1.png" alt="Cliquer sur Abonnement à un calendrier..."/>
-                <strong>2.</strong> Copie-colle le lien suivant : <a  ng-click="achievementCheck()" ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" title="Calendrier ICS" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a> ;<br>
-                <img class="img-responsive" src="img/tuto-ics-mac-2.png" alt="Copier coller le lien"/>
+        <section class="padded text-center" row="center stretch" wrap ng-show="openICS == 'mac'">
+            <figure class="padded" flex="50">
+                <figcaption class="padded"><strong>1.</strong> Clique sur "Fichier", puis sur "Abonnement à un calendrier..."</figcaption>
+                <img class="Image" src="img/tuto-ics-mac-1.png" alt="Cliquer sur Abonnement à un calendrier..."/>
+            </figure>
+            <figure class="padded" flex="50">
+                <figcaption class="padded"><strong>2.</strong> Copie-colle le lien suivant : <a class="Link" title="Calendrier ICS" ng-click="achievementCheck()" ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a></figcaption>
+                <img class="Image" src="img/tuto-ics-mac-2.png" alt="Copier coller le lien"/>
+            </figure>
+
+            <p flex="100">
                 <strong>3.</strong> Valide et c'est terminé !<br>
                 <strong>Attention ! Ne partage pas le lien, c'est un lien personnalisé...</strong>
             </p>
+        </section>
 
-            <h3 ng-click="open('google')" class="up-clickable">
-                <i class="fa" ng-class="{'fa-plus-square-o': openICS != 'google', 'fa-minus-square-o': openICS == 'google'}"></i> Android/Google Calendar
-            </h3>
+        <h3 class="Link Link--reverse" ng-click="open('google')">
+            <i class="fa" ng-class="{'fa-plus-square-o': openICS != 'google', 'fa-minus-square-o': openICS == 'google'}"></i> Android/Google Calendar
+        </h3>
 
-            <p ng-show="openICS == 'google'">
-                <strong>ATTENTION ! CETTE FONCTION DE GOOGLE CALENDAR EST ASSEZ BUGGÉE, IL EST POSSIBLE QUE LES ÉVÉNEMENTS S'ACTUALISENT DE FAÇON IRRÉGULIÈRE. GOOGLE BOSSE DESSUS MAIS ON NE PEUX PAS FAIRE ACCÉLERER LES CHOSES. NE FAIS DONC PAS TROP CONFIANCE À CETTE FONCTIONNALITÉ POUR L'INSTANT.</strong><br>
-                <strong>1.</strong> Clique sur "Ajouter par URL" dans la catégorie "Autres agendas" de Calendar :<br>
-                <img class="img-responsive" src="img/tuto-ics-google-calendar-1.png" alt="Cliquer sur ajouter par URL"/>
-                <strong>2.</strong> Copie-colle le lien suivant : <a  ng-click="achievementCheck()" ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" title="Calendrier ICS" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a> ;<br>
-                <img class="img-responsive" src="img/tuto-ics-google-calendar-2.png" alt="Copier coller le lien"/>
+        <section class="padded text-center" row="center stretch" wrap ng-show="openICS == 'google'">
+            <p flex="100">
+                <strong>ATTENTION ! CETTE FONCTION DE GOOGLE CALENDAR EST ASSEZ BUGGÉE, IL EST POSSIBLE QUE LES ÉVÉNEMENTS S'ACTUALISENT DE FAÇON IRRÉGULIÈRE. GOOGLE BOSSE DESSUS MAIS ON NE PEUX PAS FAIRE ACCÉLERER LES CHOSES. NE FAIS DONC PAS TROP CONFIANCE À CETTE FONCTIONNALITÉ POUR L'INSTANT.</strong>
+            </p>
+
+            <figure class="padded" flex="50">
+                <figcaption class="padded"><strong>1.</strong> Clique sur "Ajouter par URL" dans la catégorie "Autres agendas" de Calendar</figcaption>
+                <img class="Image" src="img/tuto-ics-google-calendar-1.png" alt="Cliquer sur ajouter par URL"/>
+            </figure>
+            <figure class="padded" flex="50">
+                <figcaption class="padded"><strong>2.</strong> Copie-colle le lien suivant : <a  ng-click="achievementCheck()" title="Calendrier ICS" ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a></figcaption>
+                <img class="Image" src="img/tuto-ics-google-calendar-2.png" alt="Copier coller le lien"/>
+            </figure>
+
+            <p flex="100">
                 <strong>3.</strong> Valide et c'est terminé ! (réessaie une seconde fois s'il t'affiche une erreur la première fois, Google a fait un truc buggé...)<br>
                 <strong>Attention ! Ne partage pas le lien, c'est un lien personnalisé...</strong>
             </p>
+        </section>
 
-            <h3 ng-click="open('thunderbird')" class="up-clickable">
-                <i class="fa" ng-class="{'fa-plus-square-o': openICS != 'thunderbird', 'fa-minus-square-o': openICS == 'thunderbird'}"></i> Thunderbird
-            </h3>
+        <h3 class="Link Link--reverse" ng-click="open('thunderbird')">
+            <i class="fa" ng-class="{'fa-plus-square-o': openICS != 'thunderbird', 'fa-minus-square-o': openICS == 'thunderbird'}"></i> Thunderbird
+        </h3>
 
+        <section class="padded text-center" row="center stretch" wrap ng-show="openICS == 'thunderbird'">
+            <figure class="padded" flex="50">
+                <figcaption class="padded"><strong>1.</strong> Cliques droit dans le menu de gauche dans la partie "Agendas" et fais "Nouvel Agenda"</figcaption>
+                <img class="Image" src="img/tuto-ics-thunderbird-1.png" alt="Cliquer sur ajouter par URL"/>
+            </figure>
+            <figure class="padded" flex="50">
+                <figcaption class="padded"><strong>2.</strong> Choisis "Sur le réseau"</figcaption>
+                <img class="Image" src="img/tuto-ics-thunderbird-2.png" alt="Choisir sur le réseau"/>
+            </figure>
+            <figure class="padded" flex="50">
+                <figcaption class="padded"><strong>3.</strong> Copie-colle le lien suivant : <a  ng-click="achievementCheck()" title="Calendrier ICS" ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a></figcaption>
+                <img class="Image" src="img/tuto-ics-thunderbird-3.png" alt="Copier coller le lien"/>
+            </figure>
 
-            <p ng-show="openICS == 'thunderbird'">
-                <strong>1.</strong> Cliques droit dans le menu de gauche dans la partie "Agendas" et fais "Nouvel Agenda" :<br>
-                <img class="img-responsive" src="img/tuto-ics-thunderbird-1.png" alt="Cliquer sur ajouter par URL"/>
-                <strong>2.</strong> Choisis "Sur le réseau" :<br>
-                <img class="img-responsive" src="img/tuto-ics-thunderbird-2.png" alt="Choisir sur le réseau"/>
-                <strong>3.</strong> Copie-colle le lien suivant : <a  ng-click="achievementCheck()" ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" title="Calendrier ICS" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a> ;<br>
-                <img class="img-responsive" src="img/tuto-ics-thunderbird-3.png" alt="Copier coller le lien"/>
+            <p flex="100">
                 <strong>4.</strong> Valide et c'est terminé !<br>
                 <strong>Attention ! Ne partage pas le lien, c'est un lien personnalisé...</strong>
             </p>
-        </div>
+        </section>
+    </section>
 
+    <section class="padded">
+        <h2>Smartphones</h2>
 
-
-
-
-
-
-        <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
-            <h2>Smartphones</h2>
-
-            <table>
+        <div class="padded" row="center stretch">
+            <table class="Table" flex="80">
                 <thead>
                     <tr>
                         <th up-col="20%">Type</th>
@@ -299,42 +332,33 @@
                     </tr>
                 </tbody>
             </table>
-            <br>
+        </div>
 
-            <div up-row wrap padded space-around>
-                <a href="https://play.google.com/store/apps/details?id=youPont.mobile&hl=fr_CA"
-                   title="Lien vers le Play Store"
-                   up-col-xs="100%" up-col-sm="100%" up-col="30%"
-                   class="up-btn up-btn-lg up-btn-default centering">Android</a>
-                <a href=""
-                   title="Lien vers l'Apple Store (coming soon)"
-                   up-col-xs="100%" up-col-sm="100%" up-col="30%"
-                   class="up-btn up-btn-lg up-btn-default centering" disabled>iOS</a>
-                <a href=""
-                   title="Lien vers le Windows Store (coming soon)"
-                   up-col-xs="100%" up-col-sm="100%" up-col="30%"
-                   class="up-btn up-btn-lg up-btn-default centering" disabled>Windows Phone</a>
+        <div row="space-between stretch">
+            <a class="Button" title="Lien vers le Play Store" href="https://play.google.com/store/apps/details?id=youPont.mobile&hl=fr_CA"
+               flex="100" flex-md="25">Android</a>
+            <a class="Button" title="Lien vers l'Apple Store (coming soon)" href=""
+               flex="100" flex-md="25" disabled>iOS</a>
+            <a class="Button" title="Lien vers le Windows Store (coming soon)" href=""
+               flex="100" flex-md="25" disabled>Windows Phone</a>
+        </div>
+    </section>
+</section>
+
+<section class="Ticket">
+    <section class="padded">
+        <h1>Clubs & Assos suivis</h1>
+        <div row wrap>
+            <div class="padded" row="space-between stretch" flex="100" flex-sm="50" flex-md="33" flex-lg="25" ng-repeat="club in clubs | orderBy:'name'">
+                <div class="Image" flex="33">
+                    <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ club.image_url | thumb | urlFile }})' }"></div>
+                </div>
+                <div flex="60" col="space-around start">
+                    <h3 class="Link  Link--reverse  big" ui-sref="root.users.assos.simple.publications({slug: club.slug})">{{ club.name }}</h3>
+                    <button class="Button  Button--small" ng-show="club.suivi" ng-click="unsubscribe(club.slug);">Suivi</button>
+                    <button class="Button  Button--small  Button--alt" ng-show="!club.suivi" ng-click="subscribe(club.slug);">Suivre</button>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-<!--
-<div class="Ticket">
-    <h1>Cours suivis</h1>
-    <div class="clearfix"></div>
-</div>
--->
-<div class="Ticket">
-    <h1>Clubs & Assos suivis</h1>
-    <div up-row padded left wrap>
-        <div up-row padded ng-repeat="club in clubs | orderBy:'name'" up-col="33%" up-col-xs="100%">
-            <div up-col="33%"><img class="img-responsive" src="{{ club.image_url | thumb | urlFile}}" />
-            </div>
-            <div up-col="66%">
-                <h2><a ui-sref="root.users.assos.simple.publications({slug: club.slug})">{{ club.name }}</a></h2>
-                <button class="up-btn up-btn-default" ng-show="club.suivi" ng-click="unsubscribe(club.slug);">Suivi</button>
-                <button class="up-btn up-btn-primary" ng-show="!club.suivi" ng-click="subscribe(club.slug);">Suivre</button>
-            </div>
-        </div>
-    </div>
-</div>
+    </section>
+</section>

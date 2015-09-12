@@ -88,7 +88,7 @@ angular.module('upont')
                 },
                 views:{
                     '': {
-                        template: '<div class="Page--main" ui-view></div>'
+                        template: '<div class="Page__main" ui-view></div>'
                     },
                     topbar: {
                         templateUrl: 'controllers/users/top-bar.html'

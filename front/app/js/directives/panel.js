@@ -1,4 +1,4 @@
-angular.module('upont').directive('upPane', function() {
+angular.module('upont').directive('upPanel', function() {
     return {
         transclude: true,
         scope: {
@@ -11,6 +11,6 @@ angular.module('upont').directive('upPane', function() {
                 $scope.isShown = !$scope.isShown;
             };
         }],
-        templateUrl: 'directives/pane.html',
+        templateUrl: 'directives/panel.html',
     };
 });

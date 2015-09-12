@@ -1,0 +1,11 @@
+<div class="Panel"  ng-class="{'Panel--show': isShown}">
+    <div class="Panel__toggle" ng-click="toggle()">
+        <i ng-class="{'fa-chevron-right': isShown, 'fa-chevron-left': !isShown}" class="fa"></i>
+    </div>
+    <div class="Panel__container">
+        <div class="padded" row="center center">
+            <h3>{{ title }}</h3>
+        </div>
+        <div class="padded" ng-transclude></div>
+    </div>
+</div>

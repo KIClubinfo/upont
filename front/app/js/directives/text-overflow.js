@@ -1,4 +1,4 @@
-angular.module('upont').directive('upPubliText', ['$sce', function($sce) {
+angular.module('upont').directive('upOverflow', ['$sce', function($sce) {
     return {
         scope: {
             string: '='
@@ -15,7 +15,7 @@ angular.module('upont').directive('upPubliText', ['$sce', function($sce) {
                 $scope.content = $sce.trustAsHtml($scope.string);
             };
         }],
-        template: '<div class="Ticket-texte" ng-class="{\'up-overflow\': overflow}" ng-bind-html="content"></div>' +
-        '<div ng-if="overflow"><span class="up-link" ng-click="open()">Afficher la suite...</span></div>',
+        template: '<div ng-class="{\'overflow\': overflow}" ng-bind-html="content"></div>' +
+        '<div ng-if="overflow"><span class="Link" ng-click="open()">Afficher la suite...</span></div>',
     };
 }]);

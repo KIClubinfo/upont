@@ -1,5 +1,6 @@
 .Image {
     position: relative;
+    display: block;
     max-width: 100%;
 
     &:before{
@@ -18,5 +19,30 @@
         bottom: 0;
         right: 0;
         left: 0;
+    }
+
+    &--thumb {
+        min-width: 40px;
+    }
+
+    &--margin {
+        margin-right: 0.5em;
+    }
+
+    &--round {
+        border-radius: 50%;
+    }
+
+    &--radius {
+        border-radius: 0.5em;
+    }
+
+    &--grey {
+        filter: grayscale(1);
+        transition: all 0.4s ease-in-out 0s;
+
+        &:hover {
+            filter: grayscale(0);
+        }
     }
 }

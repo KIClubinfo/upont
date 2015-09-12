@@ -66,18 +66,13 @@
                                 Shotgun : {{ publication.shotgun_date | formatDate }}
                             </a>
 
-                            <!-- Liste des participants -->
+                            <!-- Activation liste des participants -->
                             <section ng-if="publication.start_date" ng-show="publication.attendees > 0">
                                 <a class="Link" title="Afficher les participants"
                                    ng-click="toggleAttendees(publication)">
                                     {{ publication.attendees }}
                                     {{ publication.attendees == 1 ? 'personne y participe' : 'personnes y participent' }}
                                 </a>
-                                <div class="padded" up-row wrap left ng-if="publication.displayAttendees">
-                                    <div up-col="15%" up-user user="user" class="up-image-container" ng-repeat="user in publication.userlist">
-                                        <div class="up-image up-profile-picture" ng-style="{'background-image' : 'url({{user.image_url | thumb | urlFile}})'}"></div>
-                                    </div>
-                                </div>
                             </section>
                         </div>
 
@@ -85,8 +80,15 @@
                         <time class="Ticket__date  small" title="{{publication.date | date: 'mm:HH dd/MM/yy' }}">{{ publication.date | fromNow }}</time>
                     </header>
 
+                    <!-- Liste des participants -->
+                    <section class="padded" row wrap ng-if="publication.displayAttendees">
+                        <div class="Image" flex="10" flex-lg="5" up-user user="user" ng-repeat="user in publication.userlist">
+                            <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ user.image_url | thumb | urlFile }})' }"></div>
+                        </div>
+                    </section>
+
                     <!-- Contenu de la publication -->
-                    <p class="wysiwyg-data" up-publi-text string="publication.text"
+                    <p class="wysiwyg-data" up-overflow string="publication.text"
                        ng-hide="edit !== null && publication.slug == edit.slug"></p>
 
                     <div col ng-if="edit !== null && publication.slug == edit.slug">

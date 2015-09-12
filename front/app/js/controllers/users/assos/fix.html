@@ -1,25 +1,27 @@
-<div class="Ticket" >
-    <up-ribbon class="ribbon-red" ng-if="fix.status == 'Non vu'">NON VU</up-ribbon>
-    <up-ribbon class="ribbon-yellow" ng-if="fix.status == 'En attente'">EN ATTENTE</up-ribbon>
-    <up-ribbon class="ribbon-aqua" ng-if="fix.status == 'En cours'">EN COURS</up-ribbon>
-    <up-ribbon class="ribbon-pink" ng-if="fix.status == 'Résolu'">RÉSOLU</up-ribbon>
-    <up-ribbon class="ribbon-violet" ng-if="fix.status == 'Fermé'">FERMÉ</up-ribbon>
+<div class="Ticket" flex="100" col="space-between stretch">
+    <section>
+        <up-ribbon class="Ribbon--red"    ng-if="fix.status == 'Non vu'">NON VU</up-ribbon>
+        <up-ribbon class="Ribbon--yellow" ng-if="fix.status == 'En attente'">EN ATTENTE</up-ribbon>
+        <up-ribbon class="Ribbon--aqua"   ng-if="fix.status == 'En cours'">EN COURS</up-ribbon>
+        <up-ribbon class="Ribbon--pink"   ng-if="fix.status == 'Résolu'">RÉSOLU</up-ribbon>
+        <up-ribbon class="Ribbon--violet" ng-if="fix.status == 'Fermé'">FERMÉ</up-ribbon>
 
-    <div ng-if="isFromKI">
-        <select style="margin-bottom:0.7em" ng-model="fix.status" ng-change="changeStatus(fix)">
-            <option>Non vu</option>
-            <option>En attente</option>
-            <option>En cours</option>
-            <option>Résolu</option>
-            <option>Fermé</option>
-        </select>
-    </div>
+        <div ng-if="isFromKI">
+            <select class="Input" ng-model="fix.status" ng-change="changeStatus(fix)">
+                <option>Non vu</option>
+                <option>En attente</option>
+                <option>En cours</option>
+                <option>Résolu</option>
+                <option>Fermé</option>
+            </select>
+        </div>
 
-    <p>{{ fix.problem }}</p>
+        <p>{{ fix.problem }}</p>
 
-    <div ng-if="isFromKI || $root.me.username == fix.user.username" up-row right padded>
-        <a title="Supprimer le ticket" ng-click="delete(fix)">Supprimer</a>
-    </div>
+        <div ng-if="isFromKI || $root.me.username == fix.user.username">
+            <a class="Link" title="Supprimer le ticket" ng-click="delete(fix)">Supprimer</a>
+        </div>
+    </section>
 
     <div up-likes objet="fix" url="'fixs/' + fix.slug"></div>
 </div>

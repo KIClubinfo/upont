@@ -1,72 +1,93 @@
-<div class="up-user-banner" up-col="100%">
-    <div class="up-user-image-container up-clickable" ng-click="$root.zoomIn('/api/' + user.image_url)">
-        <div class="up-user-image" ng-style="{ 'background-image' : 'url({{ user.image_url | urlFile }})' }"></div>
-    </div>
-    <h1>{{ user.nick }}</h1>
-</div>
-
-<div up-row wrap>
-    <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="33%">
-        <div up-row wrap>
-            <div up-col="100%" class="Ticket">
-                <h2>Informations</h2>
+<div row="space-between stretch" wrap>
+    <div flex="100" flex-lg="33">
+        <div row wrap>
+            <div flex="100" class="Ticket">
+                <div row="center stretch" wrap>
+                    <h1 flex="100" class="padded text-center">{{ user.nick }}</h1>
+                    <div class="Image  clickable" flex="50" ng-click="$root.zoomIn('/api/' + user.image_url)">
+                        <div class="Image__filler  Image--round" ng-style="{ 'background-image' : 'url({{ user.image_url | urlFile }})' }"></div>
+                    </div>
+                </div>
                 <div class="up-user-infos" up-row wrap padded>
-                    <div up-col="100%" ng-if="user.promo"><i class="fa fa-graduation-cap"></i> Promo '{{ user.promo }}</div>
-                    <div up-col="100%" ng-if="user.department"><i class="fa fa-institution"></i> {{ user.department }}</div>
-                    <div up-col="100%" ng-if="user.nationality"><i class="fa fa-globe"></i> {{ user.nationality }}</div>
-                    <div up-col="100%" ng-if="user.phone"><i class="fa fa-phone"></i> <a ng-href="tel:{{ user.phone }}">{{ user.phone }}</a></div>
-                    <div up-col="100%" ng-if="user.email"><i class="fa fa-envelope"></i> <a ng-href="mailto:{{ user.email }}">{{ user.email }}</a></div>
-                    <div up-col="100%" ng-if="user.skype"><i class="fa fa-skype"></i> <a ng-href="skype:{{ user.skype }}">{{ user.skype }}</a></div>
-                    <div up-col="100%" ng-if="user.location"><i class="fa fa-map-marker"></i> {{ user.location }}</div>
-                    <div up-col="100%" ng-if="user.origin"><i class="fa fa-street-view"></i> {{ user.origin }}</div>
+                    <div class="padded" flex="100" ng-if="user.promo">
+                        <i class="fa  fa-block fa-graduation-cap"></i> Promo '{{ user.promo }}
+                    </div>
+                    <div class="padded" flex="100" ng-if="user.department">
+                        <i class="fa  fa-block fa-institution"></i> {{ user.department }}
+                    </div>
+                    <div class="padded" flex="100" ng-if="user.nationality">
+                        <i class="fa  fa-block fa-globe"></i> {{ user.nationality }}
+                    </div>
+                    <div class="padded" flex="100" ng-if="user.phone">
+                        <i class="fa  fa-block fa-phone"></i> <a class="Link" ng-href="tel:{{ user.phone }}">{{ user.phone }}</a>
+                    </div>
+                    <div class="padded" flex="100" ng-if="user.email">
+                        <i class="fa  fa-block fa-envelope"></i> <a class="Link" ng-href="mailto:{{ user.email }}">{{ user.email }}</a>
+                    </div>
+                    <div class="padded" flex="100" ng-if="user.skype">
+                        <i class="fa  fa-block fa-skype"></i> <a class="Link" ng-href="skype:{{ user.skype }}">{{ user.skype }}</a>
+                    </div>
+                    <div class="padded" flex="100" ng-if="user.location">
+                        <i class="fa  fa-block fa-map-marker"></i> {{ user.location }}
+                    </div>
+                    <div class="padded" flex="100" ng-if="user.origin">
+                        <i class="fa  fa-block fa-street-view"></i> {{ user.origin }}
+                    </div>
                 </div>
             </div>
-            <div up-col="100%" class="Ticket" ng-if="clubs.length !== 0">
+            <div flex="100" class="Ticket" ng-if="clubs.length !== 0">
                 <h2>Clubs et assos</h2>
 
-                <div up-row wrap center padded>
-                    <div ng-repeat="membership in clubs" up-col="33%">
-                        <div class="up-club-image-container" ui-sref="root.users.assos.simple.publications({slug: membership.club.slug})"
-                             up-col="100%" title="{{ membership.club.name }}{{ membership.role !== '' ? ' - ' + membership.role : '' }}">
-                            <div class="up-club-image" ng-style="{'background-image': 'url({{ membership.club.image_url | thumb | urlFile }})' }"></div>
+                <div row="space-between stretch" wrap>
+                    <div ng-repeat="membership in clubs" flex="33">
+                        <div class="Image  clickable" flex="100" title="{{membership.club.name}}{{membership.role !== ''?' - '+membership.role:''}}"
+                             ui-sref="root.users.assos.simple.publications({slug: membership.club.slug})">
+                            <div class="Image__filler  Image--grey" ng-style="{ 'background-image' : 'url({{ membership.club.image_url | urlFile }})' }"></div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div up-col="100%" class="Ticket">
+            <div flex="100" class="Ticket">
                 <h2>Achievements</h2>
 
-                <div class="up-achievement-container centering" up-col="100%">
-                        <i class="fa fa-{{ achievements.current_level.image }}" style="margin: 0 auto"></i><br>
+                <section class="padded" row="center stretch" wrap>
+                    <div class="Media  Media--main  Media--radius  padded  text-center" flex="33">
+                        <i class="fa  fa-{{ achievements.current_level.image }}  huge"></i>
+                    </div>
 
+                    <p class="text-center" flex="100">
                         Niveau {{ achievements.number }}<br>
                         <strong>{{ achievements.current_level.name }}</strong> ({{ achievements.current_level.points }}pts)<br>
                         {{ achievements.current_level.description }}<br>
                         Prochain niveau à {{ achievements.next_level.points }}pts<br><br>
-                </div>
+                    </p>
+
+                </section>
 
                 <h3>Débloqués</h3>
                 <strong>TOTAL : </strong>{{ achievements.points}} points<br><br>
 
-                <div class="up-achievement-container" ng-repeat="achievement in achievements.unlocked" up-col="100%" up-row wrap left>
-                    <div up-col="30%">
-                        <i class="fa fa-{{ achievement.image }}"></i>
+                <div class="padded" row="space-between start" wrap ng-repeat="achievement in achievements.unlocked">
+                    <div class="Media  Media--main  Media--radius  padded  text-center" flex="30">
+                        <i class="fa  fa-{{ achievement.image }}  huge"></i>
                     </div>
 
-                    <div up-col="70%">
+                    <div flex="66">
                         <strong>{{ achievement.name }}</strong> ({{ achievement.points }}pts)<br>
                         {{ achievement.description }}
                     </div>
                 </div>
 
-                <span class="up-clickable" ng-show="achievements.locked.length > 0" ng-click="showLocked=!showLocked" ng-init="showLocked=false">Montrer les achievements non débloqués<br><br></span>
+                <div class="padded">
+                    <span class="Link" ng-show="achievements.locked.length > 0" ng-click="showLocked=!showLocked" ng-init="showLocked=false">Montrer les achievements non débloqués</span>
+                </div>
 
-                <div ng-show="showLocked" class="up-achievement-container" ng-repeat="achievement in achievements.locked" up-col="100%" up-row wrap left>
-                    <div up-col="30%">
-                        <i class="fa fa-{{ achievement.image }} locked"></i>
+                <div class="padded" row="space-between start" wrap ng-show="showLocked" ng-repeat="achievement in achievements.locked">
+                    <div class="Media  Media--alt  Media--radius  padded  text-center" flex="30">
+                        <i class="fa  fa-{{ achievement.image }}  huge"></i>
                     </div>
 
-                    <div up-col="70%">
+                    <div flex="66">
                         <strong>{{ achievement.name }}</strong> ({{ achievement.points }}pts)<br>
                         {{ achievement.description }}
                     </div>
@@ -74,43 +95,39 @@
             </div>
         </div>
     </div>
-    <div up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="67%">
-        <div class="Ticket" ng-show="displayFoyer">
-            <h2>Stats Foyer</h2>
+    <div flex="100" flex-lg="66">
+        <section class="Ticket" ng-show="displayFoyer">
+            <h2 class="padded">Stats Foyer</h2>
 
-            <div ng-show="foyer.totalBeers === 0">
-                Pas de consos à afficher. <strong ng-if="user.username == $root.me.username">Vite, direction le Foyer !</strong>
-            </div>
-            <div ng-hide="foyer.totalBeers === 0">
-                {{ user.first_name }} a ingéré un total de <strong>{{ foyer.totalLiters }} litres</strong> de bière pour <strong>{{ foyer.totalBeers }} {{ foyer.totalBeers == 1 ? 'conso' : 'consos' }}</strong>...<br>
-                <br>
-                <br>
-                <div up-row wrap padded>
-                    <up-chart up-col="100%" config="chartBeers"></up-chart>
-                    <up-chart up-col="100%" config="chartLiters"></up-chart>
-                </div>
-            </div>
-        </div>
-        <div class="Ticket" ng-if="displayPonthub">
-            <h2>Stats PontHub</h2>
+            <section class="padded" ng-show="foyer.totalBeers === 0">
+                <p>Pas de consos à afficher. <strong ng-if="user.username == $root.me.username">Vite, direction le Foyer !</strong></p>
+            </section>
 
-            <div ng-show="ponthub.totalFiles === 0">
-                Pas de fichiers téléchargés pour l'instant. <a ng-if="user.username == $root.me.username" ui-sref="root.users.ponthub.category.list" title="PontHub"><strong>Vite, direction PontHub !</strong></a>
-            </div>
-            <div ng-hide="ponthub.totalFiles === 0">
-                {{ user.first_name }} a téléchargé <strong>{{ ponthub.totalFiles }} fichiers</strong> pour plus de <strong>{{ ponthub.totalSize | formatSize }}</strong> !<br>
-                <br>
-                <br>
-                <div up-row wrap padded>
-                    <up-chart up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%" config="chartRepartition"></up-chart>
-                    <up-chart up-col-xs="100%" up-col-sm="100%" up-col-md="100%" up-col="50%" config="chartHipster" class="chart-speedometer"></up-chart>
-                    <up-chart up-col="100%" config="chartTimeline"></up-chart>
+            <section class="padded" ng-hide="foyer.totalBeers === 0">
+                <p>{{ user.first_name }} a ingéré un total de <strong>{{ foyer.totalLiters }} litres</strong> de bière pour <strong>{{ foyer.totalBeers }} {{ foyer.totalBeers == 1 ? 'conso' : 'consos' }}</strong>...</p>
+
+                <div class="padded" row wrap>
+                    <up-chart flex="100" config="chartBeers"></up-chart>
+                    <up-chart flex="100" config="chartLiters"></up-chart>
                 </div>
-            </div>
-        </div>
-        <div class="Ticket">
-            <h2>Expériences</h2>
-            À venir...
-        </div>
+            </section>
+        </section>
+
+        <section class="Ticket" ng-if="displayPonthub">
+            <h2 class="padded">Stats PontHub</h2>
+
+            <section class="padded" ng-show="ponthub.totalFiles === 0">
+                <p>Pas de fichiers téléchargés pour l'instant. <a ng-if="user.username == $root.me.username" ui-sref="root.users.ponthub.category.list" title="PontHub"><strong>Vite, direction PontHub !</strong></a></p>
+            </section>
+            <section class="padded" ng-hide="ponthub.totalFiles === 0">
+                <p>{{ user.first_name }} a téléchargé <strong>{{ ponthub.totalFiles }} fichiers</strong> pour plus de <strong>{{ ponthub.totalSize | formatSize }}</strong> !</p>
+
+                <div class="padded" row wrap>
+                    <up-chart flex="100" flex-lg="50" config="chartRepartition"></up-chart>
+                    <up-chart flex="100" flex-lg="50" config="chartHipster" class="chart-speedometer"></up-chart>
+                    <up-chart flex="100" config="chartTimeline"></up-chart>
+                </div>
+            </section>
+        </section>
     </div>
 </div>
