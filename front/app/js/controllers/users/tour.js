@@ -21,7 +21,7 @@ angular.module('upont')
                 text: 'Commencons par cette page d\'accueil. Tous les événements et news des clubs que tu suis sont affichés. Tu peux aussi <strong>publier des messages persos</strong>, et si tu fais partie d\'un club, <strong>créer des événements/news pour ce club</strong> ! Ah... tu peux aussi disliker toutes sortes de choses... et c\'est anonyme ;-p #betterThanFacebook'
             },
             {
-                state: 'root.users.students.modify',
+                state: 'root.users.students.modify({slug: $root.me.username})',
                 icon: 'user',
                 text: 'Je te propose de modifier ton profil afin de partir du bon pied.<br>' +
                 '<strong>Avoir des infos à jour est super important</strong>, si tout le monde les remplit tu pourras profiter au max des fonctionnalités de uPont comme la <strong>synchronisation des contacts</strong> ou le <strong>jeu de la Réponse D !</strong>'

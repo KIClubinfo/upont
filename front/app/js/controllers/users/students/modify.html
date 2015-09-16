@@ -1,5 +1,5 @@
 <section class="Ticket">
-    <section class="padded">
+    <section class="padded" ng-if="$root.isAdmin || $root.me.username == user.username ">
         <h1>Informations Générales</h1>
 
         <div class="padded" row="center stretch">
@@ -9,6 +9,23 @@
         </div>
 
         <form row="start center" wrap ng-submit="submitUser(user, profilePicture)" autocomplete="off">
+            
+            <div class="padded" flex="50" flex-md="25" ng-if="$root.isAdmin">
+                <i class="fa  fa-block  fa-user"></i>
+                Prénom
+            </div>
+            <div class="padded" flex="50" flex-md="25" ng-if="$root.isAdmin">
+                <input class="Input" type="text" ng-model="user.first_name" placeholder="Prénom"/>
+            </div>
+
+            <div class="padded" flex="50" flex-md="25" ng-if="$root.isAdmin">
+                <i class="fa  fa-block  fa-user"></i>
+                Nom
+            </div>
+            <div class="padded" flex="50" flex-md="25" ng-if="$root.isAdmin">
+                <input class="Input" type="text" ng-model="user.last_name" placeholder="Nom"/>
+            </div>
+
             <div class="padded" flex="50" flex-md="25">
                 <i class="fa  fa-block  fa-graduation-cap"></i>
                 Promo
@@ -161,7 +178,7 @@
         </form>
     </section>
 
-    <section class="padded">
+    <section class="padded" ng-if="$root.me.username == user.username">
         <h2>Paramètres du compte</h2>
 
         <form row wrap ng-submit="submitAccount(user, old, password, confirm)" autocomplete="off">
@@ -205,7 +222,7 @@
     </section>
 </section>
 
-<section class="Ticket">
+<section class="Ticket" ng-if="$root.me.username == user.username">
     <section class="padded">
 
         <h1>Synchronisation</h1><br>
@@ -345,7 +362,7 @@
     </section>
 </section>
 
-<section class="Ticket">
+<section class="Ticket" ng-if="$root.me.username == user.username">
     <section class="padded">
         <h1>Clubs & Assos suivis</h1>
         <div row wrap>
