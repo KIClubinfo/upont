@@ -1,70 +1,82 @@
 <div class="Ticket">
-    <h1>{{ course.name }}</h1>
+    <section class="padded">
+        <h1>{{ course.name }}</h1>
+        <p>
+            <strong>Département :</strong> {{ course.department }}<br>
+            <span ng-if="course.semester"><strong>Période :</strong> {{ course.semester }}</span>
+        </p>
+    </section>
 
-    <strong>Département :</strong> {{ course.department }}<br>
-    <span ng-if="course.semester"><strong>Période :</strong> {{ course.semester }}</span><br>
-    <br>
+    <section class="padded">
+        <h2>Annales</h2>
 
-    <h2>Annales</h2>
+        <table class="Table" up-col="90%">
+            <thead>
+                <tr>
+                    <th><a ng-click="predicate = 'exercice.name'; reverse=!reverse">Nom</a></th>
+                    <th><a ng-click="predicate = 'exercice.uploader.nick'; reverse=!reverse">Uploader</a></th>
+                    <th><a ng-click="predicate = 'exercice.date'; reverse=!reverse">Date</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="exercice in filtered =  (exercices | orderBy:predicate:reverse)">
+                    <td>
+                        <a class="Link" title="Télécharger le fichier" target="_blank" ng-href="{{ 'courses/' + course.slug + '/exercices/' + exercice.slug + '/download' | urlFile }}">{{ exercice.name }}</a>
+                        <i class="fa  fa-remove  Link  Link--reverse" ng-if="exercice.uploader.username == $root.me.username || $root.isAdmin" ng-click="removeExercice(course, exercice)"></i>
+                    </td>
+                    <td><span up-user user="exercice.uploader">{{ exercice.uploader.nick }}</span></td>
+                    <td>{{ exercice.date | formatDate }}</td>
+                </tr>
+                <tr ng-hide="filtered.length">
+                    <td>Rien à afficher</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
 
-    <table class="Table" up-col="90%">
-        <thead>
-            <tr>
-                <th><a ng-click="predicate = 'exercice.name'; reverse=!reverse">Nom</a></th>
-                <th><a ng-click="predicate = 'exercice.uploader.nick'; reverse=!reverse">Uploader</a></th>
-                <th><a ng-click="predicate = 'exercice.date'; reverse=!reverse">Date</a></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="exercice in filtered =  (exercices | orderBy:predicate:reverse)">
-                <td>
-                    <a title="Télécharger le fichier" target="_blank" ng-href="{{ 'courses/' + course.slug + '/exercices/' + exercice.slug + '/download' | urlFile }}">{{ exercice.name }}</a>
-                    <i class="fa fa-remove up-clickable" ng-if="exercice.uploader.username == $root.me.username || $root.isAdmin" ng-click="removeExercice(course, exercice)"></i>
-                </td>
-                <td><span up-user user="exercice.uploader">{{ exercice.uploader.nick }}</span></td>
-                <td>{{ exercice.date | formatDate }}</td>
-            </tr>
-            <tr ng-hide="filtered.length">
-                <td>Rien à afficher</td>
-                <td></td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
-
-    <div ng-if="!$root.isAdmissible">
+    <section class="padded" ng-if="!$root.isAdmissible">
         <h3>Uploader une annale</h3>
-        Le fichier doit être au format PDF.<br><br>
-        <form up-row padded space-between wrap ng-submit="submitExercice(name)" autocomplete="off">
-            <input up-col-xs="100%" up-col-sm="100%" up-col="30%" type="text" ng-model="name" placeholder="Final 016, Partiel 017, Exercice..."/>
 
-            <input up-col-xs="100%" up-col-sm="100%" up-col="30%" type="file" name="file" id="fileUpload" onchange="angular.element(this).scope().uploadFile(this.files)"/>
+        <p>Le fichier doit être au format PDF.</p>
 
-            <button up-col-xs="100%" up-col-sm="100%" up-col="30%" class="up-btn up-btn-lg up-btn-default">Envoyer</button>
+        <form row="start center" wrap ng-submit="submitExercice(name)" autocomplete="off">
+            <div class="padded" flex="100" flex-sm="33">
+                <input class="Input" type="text" ng-model="name" placeholder="Final 016, Partiel 017, Exercice..." autofocus>
+            </div>
+
+            <div class="padded" flex="100" flex-sm="33">
+                <input class="Input" type="file" name="file" id="fileUpload" onchange="angular.element(this).scope().uploadFile(this.files)">
+            </div>
+
+            <div class="padded" flex="100" flex-sm="33">
+                <button flex="100" class="Button">Envoyer</button>
+            </div>
         </form>
-    </div>
-    <br>
+    </section>
+
     <div up-likes objet="course" url="'courses/' + course.slug"></div>
 </div>
 
-<div ng-if="$root.isAdmin" class="Ticket">
+<section class="Ticket" ng-if="$root.isAdmin">
     <h3>Modifier le cours</h3>
 
-    <form up-row padded left wrap ng-submit="submitCourse(course, groups)" autocomplete="off">
-        <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-            <i class="fa fa-graduation-cap"></i>
+    <form row="start center" wrap ng-submit="submitCourse(course, groups)" autocomplete="off">
+        <div class="padded" flex="50" flex-md="25">
+            <i class="fa  fa-graduation-cap"></i>
             Nom du cours
         </div>
-        <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-            <input class="up-col-xs-12" type="text" ng-model="course.name" placeholder="Béton - Calcul à la rupture"/>
+        <div class="padded" flex="50" flex-md="25">
+            <input class="Input" type="text" ng-model="course.name" placeholder="Béton - Calcul à la rupture">
         </div>
 
-        <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-            <i class="fa fa-graduation-cap"></i>
+        <div class="padded" flex="50" flex-md="25">
+            <i class="fa  fa-graduation-cap"></i>
             Période
         </div>
-        <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-            <select ng-model="course.semester">
+        <div class="padded" flex="50" flex-md="25">
+            <select class="Input" ng-model="course.semester">
                 <option>Ouverture</option>
                 <option>1er Semestre</option>
                 <option>2nd Semestre</option>
@@ -72,41 +84,40 @@
             </select>
         </div>
 
-        <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-            <i class="fa fa-institution"></i>
+        <div class="padded" flex="50" flex-md="25">
+            <i class="fa  fa-institution"></i>
             Département
         </div>
-        <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-            <select ng-model="course.department">
+        <div class="padded" flex="50" flex-md="25">
+            <select class="Input" ng-model="course.department">
                 <option ng-repeat="item in $root.departments">{{ item }}</option>
                 <option>SHS</option>
                 <option>DFL</option>
             </select>
         </div>
 
-        <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-            <i class="fa fa-usd"></i>
+        <div class="padded" flex="50" flex-md="25">
+            <i class="fa  fa-usd"></i>
             ECTS
         </div>
-        <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-            <input class="up-col-xs-12" type="text" ng-model="course.ects" placeholder="1,5"/>
+        <div class="padded" flex="50" flex-md="25">
+            <input class="Input" type="text" ng-model="course.ects" placeholder="1,5">
         </div>
 
-        <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-            <i class="fa fa-users"></i>
+        <div class="padded" flex="50" flex-md="25">
+            <i class="fa  fa-users"></i>
             Groupes
         </div>
-        <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-            <input class="up-col-xs-12" type="text" ng-model="groups" placeholder="Groupes 1,2,3..."/>
+        <div class="padded" flex="50" flex-md="25">
+            <input class="Input" type="text" ng-model="groups" placeholder="Groupes 1,2,3...">
         </div>
 
-        <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-            <i class="fa fa-check"></i>
-            Afficher le cours <input type="checkbox" ng-model="course.active">
+        <div class="padded" flex="50" flex-md="25">
+            <input type="checkbox" ng-model="course.active"> Afficher le cours
         </div>
 
-        <div up-col="100%" up-row right>
-            <button up-col-xs="100%" up-col-sm="100%" up-col="25%" class="up-btn up-btn-lg up-btn-default">Modifier !</button>
+        <div flex="100" row="end stretch">
+            <button class="Button" flex="50" flex-md="25">Modifier !</button>
         </div>
     </form>
-</div>
+</section>

@@ -13,7 +13,12 @@
 @tourHeight: 100px;
 @images: '../img';
 
-// Importation de tous les fichiers selon le theme
+/**
+ * Guidelines sur les couleurs
+ * @col-ticket doit se distinguer de @col-main
+ * @col-ticket doit se distinguer de @col-neg
+ * @col-font doit se distinguer de @col-neg
+ */
 .theme(@col-main, @col-font, @col-ticket-border, @col-ticket, @col-bckgnd, @col-input-border, @col-input-bckgnd, @col-aside, @col-aside-bckgnd, @col-neg) {
     @import 'objects/flex.less';
     @import 'objects/generic.less';

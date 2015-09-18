@@ -4,15 +4,19 @@
 
     &--main {
         color: white;
-        background: @col-main;
+        background-color: @col-main;
     }
 
     &--alt {
         color: white;
-        background: gray;
+        background-color: gray;
     }
 
     &--radius {
         border-radius: 0.5em;
+    }
+
+    &--hover&--main:hover {
+        background-color: @col-neg;
     }
 }

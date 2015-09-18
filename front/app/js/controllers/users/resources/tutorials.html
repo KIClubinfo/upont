@@ -1,8 +1,8 @@
 <section class="Ticket">
     <div row wrap>
-        <div class="padded" flex="100" flex-sm="50" flex-md="33" row ng-repeat="tuto in tutos">
-            <article class="Media  Media--main  Media--link  padded  text-center" flex="100" ui-sref="root.users.resources.tutorials.simple({slug: tuto.slug})">
-                <i class="fa  fa-{{ tuto.icon ? tuto.icon : 'book' }}  huge"></i><br>
+        <div class="padded  big" flex="100" flex-sm="50" flex-md="33" row ng-repeat="tuto in tutos">
+            <article class="Media  Media--main  Media--hover  clickable  padded  text-center" flex="100" ui-sref="root.users.resources.tutorials.simple({slug: tuto.slug})">
+                <i class="fa  fa-{{ tuto.icon ? tuto.icon : 'book' }}  huge"></i><br><br>
                 <h3>{{ tuto.name }}</h3>
             </article>
         </div>

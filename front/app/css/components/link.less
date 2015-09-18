@@ -16,6 +16,13 @@
         .danger;
     }
 
+    // Utilisé pour des liens sur fond de @col-main
+    &--alt {
+        &:hover, &.Link--active {
+            color: @col-font;
+        }
+    }
+
     &--active {
         color: @col-main;
     }

@@ -45,7 +45,7 @@ angular.module('upont')
             if (criterias.ects != 'all')
                 url += '&ects=' + criterias.ects;
 
-            Paginate.get(url, 20).then(function(data){
+            Paginate.get(url, 50).then(function(data){
                 $scope.courses = data;
             });
         };
@@ -204,7 +204,7 @@ angular.module('upont')
                 controller: 'Courses_List_Ctrl',
                 resolve: {
                     courses: ['Paginate', function(Paginate) {
-                        return Paginate.get('courses?sort=name', 20);
+                        return Paginate.get('courses?sort=name', 50);
                     }],
                     followed: ['$resource', function($resource) {
                         return $resource(apiPrefix + 'own/courses').query().$promise;

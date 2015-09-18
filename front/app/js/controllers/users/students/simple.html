@@ -171,11 +171,11 @@
                 <strong>TOTAL : </strong>{{ achievements.points}} points<br><br>
 
                 <div class="padded" row="space-between start" wrap ng-repeat="achievement in achievements.unlocked">
-                    <div class="Media  Media--main  Media--radius  padded  text-center" flex="30">
+                    <div class="Media  Media--main  Media--radius  padded  text-center" flex="25">
                         <i class="fa  fa-{{ achievement.image }}  huge"></i>
                     </div>
 
-                    <div flex="66">
+                    <div flex="70">
                         <strong>{{ achievement.name }}</strong> ({{ achievement.points }}pts)<br>
                         {{ achievement.description }}
                     </div>
@@ -186,11 +186,11 @@
                 </div>
 
                 <div class="padded" row="space-between start" wrap ng-show="showLocked" ng-repeat="achievement in achievements.locked">
-                    <div class="Media  Media--alt  Media--radius  padded  text-center" flex="30">
+                    <div class="Media  Media--alt  Media--radius  padded  text-center" flex="25">
                         <i class="fa  fa-{{ achievement.image }}  huge"></i>
                     </div>
 
-                    <div flex="66">
+                    <div flex="70">
                         <strong>{{ achievement.name }}</strong> ({{ achievement.points }}pts)<br>
                         {{ achievement.description }}
                     </div>
