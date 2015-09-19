@@ -1,6 +1,7 @@
 node_modules
-/www/libs/
 /www/fonts/
+/www/libs/
+/www/themes/
 /www/style.css
 /www/style.min.css
 /www/upont.min.js

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="fr" ng-app="upont">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- build:base -->
+            <base href="/front/">
+        <!-- endbuild -->
+        <title ng-bind="title">uPont</title>
+        <meta name="description" content="uPont, le site étudiant de l'École nationale des ponts et chaussées">
+        <meta name="keywords" content="ponts chaussées upont intranet admissibles mines concours étudiant clubs associations" />
+        <meta name="author" content="KI - Club Informatique">
+
+        <link rel="icon" type="image/png" href="img/favicon.png" />
+        <link rel="stylesheet" ng-href="{{ 'themes/' + (theme == 'dark' ? 'orange' : 'classic') + '.min.css' }}">
+
+        <script type="text/javascript" src="upont.min.js"></script>
+        <script type="text/javascript" src="templates.js"></script>
+        <script type="text/javascript" src="https://www.youtube.com/iframe_api"></script>
+    </head>
+
+    <body>
+        <div ui-view autoscroll="false"></div>
+
+        <!-- Endroit réservé aux images zoomées -->
+        <div class="Zoom" ng-if="$root.zoom" ng-click="$root.zoomOut($event)">
+            <img class="Zoom__image  Image" ng-src="{{ $root.zoomUrl }}" alt="Image zoomée">
+            <strong>Clic gauche pour fermer</strong>
+        </div>
+
+        <!-- Piwik Analytics -->
+        <ngp-piwik ngp-set-js-url="https://upont.enpc.fr/piwik/piwik.js" ngp-set-tracker-url="https://upont.enpc.fr/piwik/piwik.php" ngp-set-site-id="1"> </ngp-piwik>
+    </body>
+</html>

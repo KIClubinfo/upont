@@ -1,0 +1,31 @@
+<nav class="Navbar">
+    <div row>
+        <a class="Navbar__link" ui-sref="root.users.ponthub.category.list({ category: 'films' })"
+           up-state-active="root.users.ponthub.category" up-state-active-params='{"category":"films"}'>
+            Films
+        </a>
+        <a class="Navbar__link" ui-sref="root.users.ponthub.category.list({ category: 'series' })"
+           up-state-active="root.users.ponthub.category" up-state-active-params='{"category":"series"}'>
+            Séries
+        </a>
+        <a class="Navbar__link" ui-sref="root.users.ponthub.category.list({ category: 'musiques' })"
+           up-state-active="root.users.ponthub.category" up-state-active-params='{"category":"musiques"}'>
+            Musiques
+        </a>
+        <a class="Navbar__link" ui-sref="root.users.ponthub.category.list({ category: 'jeux' })"
+           up-state-active="root.users.ponthub.category" up-state-active-params='{"category":"jeux"}'>
+            Jeux
+        </a>
+        <a class="Navbar__link" ui-sref="root.users.ponthub.category.list({ category: 'logiciels' })"
+           up-state-active="root.users.ponthub.category" up-state-active-params='{"category":"logiciels"}'>
+            Logiciels
+        </a>
+        <a class="Navbar__link" ui-sref="root.users.ponthub.category.list({ category: 'autres' })"
+           up-state-active="root.users.ponthub.category" up-state-active-params='{"category":"autres"}'>
+            Autres
+        </a>
+        <a class="Navbar__link" ui-sref="root.users.ponthub.statistics" ui-sref-active="active">Stats</a>
+    </div>
+</nav>
+
+<div class="padded" ui-view></div>

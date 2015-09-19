@@ -44,11 +44,6 @@ module
                         }
                     }
                     $scope.events = events;
-
-                    // S'il n'y a rien à afficher aujourd'hui, on affiche demain
-                    if (count === 0) {
-                        $scope.eventToday = 'false';
-                    }
                 })
                 .finally(function() {
                     if ($done) {

@@ -2,7 +2,7 @@
 var pushNotification;
 var gcmExpeditor = '124672424252';
 
-if (window.plugins != 'undefined') {
+if (window.plugins !== undefined && window.plugins.pushNotification !== undefined) {
     module
         .factory('PushNotifications', ['$http', '$rootScope', 'StorageService', function ($http, $rootScope, StorageService) {
             return {

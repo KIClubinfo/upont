@@ -1,0 +1,55 @@
+.Search {
+    &__input {
+        .padded;
+        margin: 0px 0.5em;
+        position: relative;
+        color: @col-font;
+        border-radius: 5em;
+        background-color: @col-input-bckgnd;
+        transition: all 0.30s ease-in-out;
+
+        &--focused {
+            box-shadow: 0 0 1em @col-main;
+        }
+    }
+
+    //FIXME
+    input {
+        border: none;
+        background-color: @col-input-bckgnd;
+        padding: 0;
+    }
+
+    &__results {
+        width: 332px;
+        padding: 10px;
+        position: fixed;
+        top: 7em;
+        left: 2em;
+        border-radius: 3px;
+        text-align: left;
+        z-index: 3;
+    }
+}
+
+.Results {
+    &:not(:last-of-type){
+        border-bottom: solid 2px rgba(red(@col-bckgnd), green(@col-bckgnd), blue(@col-bckgnd), 0.2);
+    }
+    &__cell{
+        .padded;
+        &:not(:last-of-type){
+            border-right:solid 2px rgba(red(@col-bckgnd), green(@col-bckgnd), blue(@col-bckgnd), 0.2);
+        }
+    }
+    &__item{
+        .padded;
+        .clickable;
+        border-radius: 5px;
+
+        &:hover{
+            background: lighten(@col-main, 15%);
+            color: white;
+        }
+    }
+}

@@ -60,7 +60,7 @@ angular.module('upont')
         $stateProvider
             .state('root.users.assos.ki', {
                 url: '/depannage',
-                templateUrl: 'views/users/assos/ki.html',
+                templateUrl: 'controllers/users/assos/ki.html',
                 controller: 'KI_Ctrl',
                 data: {
                     title: 'Dépannage - uPont',

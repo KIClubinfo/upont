@@ -1,16 +1,4 @@
 angular.module('upont')
-    .controller('Request_Ctrl', ['$scope', '$http', function($scope, $http) {
-        $('#login-input').focus();
-        $scope.request = function(username) {
-            if (!empty(username)) {
-                $http.post(apiPrefix + 'resetting/request', {username: username}).success(function(){
-                    alertify.success('Mail de réinitialisation envoyé !');
-                });
-            } else {
-                alertify.error('Donne ton identifiant !');
-            }
-        };
-    }])
     .controller('Reset_Ctrl', ['$scope', '$http', '$state', '$stateParams', function($scope, $http, $state, $stateParams) {
         $('#login-input').focus();
         $scope.reset = function(password, check) {
@@ -30,14 +18,9 @@ angular.module('upont')
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state('root.request', {
-                url: 'mot-de-passe-oublie',
-                controller: 'Request_Ctrl',
-                templateUrl: 'views/public/request.html',
-            })
             .state('root.reset', {
                 url: 'reset/:token',
                 controller: 'Reset_Ctrl',
-                templateUrl: 'views/public/reset.html',
+                templateUrl: 'controllers/public/reset.html',
             });
     }]);

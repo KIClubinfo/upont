@@ -20,7 +20,7 @@ angular.module('upont')
             .state('root.users.assos.simple.presentation', {
                 url: '/presentation',
                 controller : 'Assos_Presentation_Ctrl',
-                templateUrl: 'views/users/assos/presentation.html',
+                templateUrl: 'controllers/users/assos/presentation.html',
                 data: {
                     title: 'Présentation - uPont',
                     top: true

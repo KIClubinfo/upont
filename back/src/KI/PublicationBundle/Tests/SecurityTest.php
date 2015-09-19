@@ -12,6 +12,7 @@ class SecurityTest extends WebTestCase
             array(401, 'GET', '/newsitems'),
             array(404, 'GET', '/courses/mecanique-des-structures/exercices/test/download'),
             array(200, 'GET', '/users/VpqtuEGC/calendar'),
+            array(401, 'POST', '/newsitems/le-beton-c-est-bon/comments'),
         );
         $this->checkRoutes($routes);
     }
@@ -22,6 +23,10 @@ class SecurityTest extends WebTestCase
         $this->connect('donat-bb', 'password');
 
         // Maintenant on teste quelques trucs
+        $this->client->request('POST', '/newsitems/le-beton-c-est-bon/comments');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 400);
+
         $this->client->request('POST', '/newsitems', array('name' => 'La Porte', 'text' => 'C\'est comme perdre'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);

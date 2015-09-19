@@ -11,7 +11,7 @@ angular.module('upont')
                 url: '/:slug',
                 abstract: true,
                 controller: 'Assos_Simple_Ctrl',
-                templateUrl: 'views/users/assos/simple.html',
+                templateUrl: 'controllers/users/assos/simple.html',
                 resolve: {
                     club: ['$resource', '$stateParams', function($resource, $stateParams) {
                         return $resource(apiPrefix + 'clubs/:slug').get({

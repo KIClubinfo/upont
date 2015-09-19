@@ -23,10 +23,10 @@ module
         };
 
         $scope.loadPromo = function(){
-            var src = url + '/users?limit=1000&filterBy=promo&filterValue=0' + $scope.promo;
+            var src = url + '/users?limit=1000&promo=0' + $scope.promo;
             if (tabbar) {
                 var index = tabbar.getActiveTabIndex() - 1;
-                src = url + '/users?limit=1000&filterBy=promo&filterValue=0' + ($scope.promo + index);
+                src = url + '/users?limit=1000&promo=0' + ($scope.promo + index);
             }
             $http.get(src).success(function(data){
                 var sorted = [];

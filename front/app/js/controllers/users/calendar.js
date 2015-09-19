@@ -47,7 +47,7 @@ angular.module('upont')
         $stateProvider
             .state('root.users.calendar', {
                 url: 'calendrier',
-                templateUrl: 'views/users/calendar.html',
+                templateUrl: 'controllers/users/calendar.html',
                 controller: 'Calendar_Ctrl',
                 data: {
                     title: 'Calendrier - uPont'

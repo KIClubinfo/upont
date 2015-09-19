@@ -1,0 +1,27 @@
+<section class="Ticket">
+    <div row wrap>
+        <div class="padded  big" flex="100" flex-sm="50" flex-md="33" row ng-repeat="tuto in tutos">
+            <article class="Media  Media--main  Media--hover  clickable  padded  text-center" flex="100" ui-sref="root.users.resources.tutorials.simple({slug: tuto.slug})">
+                <i class="fa  fa-{{ tuto.icon ? tuto.icon : 'book' }}  huge"></i><br><br>
+                <h3>{{ tuto.name }}</h3>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="Ticket" ng-if="isAdmin">
+    <h2 class="padded">Nouveau tutoriel</h2>
+
+    <form class="padded" row wrap autocomplete="off">
+        <div class="padded" flex="50" flex-md="25">
+            <i class="fa fa-star"></i>
+            Nom
+        </div>
+        <div class="padded" flex="50" flex-md="25">
+            <input class="Input" type="text" ng-model="name" placeholder="Les Noobs pour les Nuls"/>
+        </div>
+        <div class="padded" flex="100" flex-md="50" row="center stretch">
+            <button class="Button" flex="100" ng-click="post(name)">Envoyer</button>
+        </div>
+    </form>
+</section>

@@ -1,0 +1,37 @@
+.Link {
+    .clickable;
+    color: @col-main;
+    &:hover {
+        color: inherit;
+    }
+
+    &--reverse {
+        color: inherit;
+        &:hover {
+            color: @col-main;
+        }
+    }
+
+    &--danger:hover {
+        .danger;
+    }
+
+    // Utilisé pour des liens sur fond de @col-main
+    &--alt {
+        &:hover, &.Link--active {
+            color: @col-font;
+        }
+    }
+
+    &--active {
+        color: @col-main;
+    }
+
+    &--disabled {
+        opacity: 0.5;
+        color: inherit;
+        &:hover {
+            color: inherit;
+        }
+    }
+}

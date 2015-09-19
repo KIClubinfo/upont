@@ -348,13 +348,13 @@ class Achievement
     self::KIEN => array(
         'name'        => 'KIen',
         'description' => 'Faire partie du KI',
-        'points'      => 20,
+        'points'      => 0,
         'image'       => 'signal',
     ),
     self::ADMIN => array(
         'name'        => 'Appelez-moi Dieu',
         'description' => 'Être admin',
-        'points'      => 50,
+        'points'      => 0,
         'image'       => 'diamond',
     ),
     /*self::PONTLYVALENT => array(
