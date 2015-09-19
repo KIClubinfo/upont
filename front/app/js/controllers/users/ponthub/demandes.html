@@ -1,0 +1,53 @@
+
+<section class="Ticket" flex="100" flex-md="33">
+    <h2>Demandes</h2>
+
+    <table class="Table" flex="90">
+        <thead>
+            <tr>
+                <th><a ng-click="predicate = 'demande.nom'; reverse=!reverse">Promo</a></th>
+                <th><a ng-click="predicate = 'demande.category'; reverse=!reverse">Élève</a></th>
+                <th><a ng-click="predicate = 'demande.points'; reverse=!reverse">Rôle</a></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="demande in filtered =  (demandes | categoryFilter: category | orderBy:predicate:reverse)">
+                <td>{{ demande.nom }}</td>
+                <td>{{ demande.category }}</td>
+                <td>{{ member.points }}</td>
+                <td><a ng-click="addPoint({demande.nom})">+1</a></td>
+            </tr>
+            <tr ng-hide="filtered.length">
+                <td>Rien à afficher</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <select class="Input" ng-model="category">
+        <option ng-selected="categoryItem == null" value="null" > </option>
+        <option ng-selected="categoryItem == category" ng-repeat="categoryItem in categories"
+                value="{{ categoryItem }}">{{ categoryItem }}</option>
+    </select>
+    
+    <h4> Nouvelle demande </h4>
+
+    <form row wrap ng-submit="post(nom, category)" autocomplete="off">
+        <div flex="100" flex-md="50" class="padded">
+            <input class="Input" type="text" ng-model="nom" placeholder="Mon petit poney saison 1" autofocus>
+        </div>
+
+        <div flex="100" flex-md="50" class="padded">
+            <select class="Input" ng-model="category">
+                <option ng-repeat="category in categories">{{ category }} </option>
+            </select>
+        </div>
+
+        <div flex="100" class="padded" row="end center">
+            <button flex="50" flex-md="15" class="Button">Demander !</button>
+        </div>
+    </form>
+
+</section>
