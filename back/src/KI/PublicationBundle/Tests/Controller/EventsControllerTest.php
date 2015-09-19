@@ -26,7 +26,7 @@ class EventsControllerTest extends WebTestCase
         // On vérifie le message
         $this->assertInstanceOf('Swift_Message', $message);
         $this->assertTrue(!empty($message->getSubject()));
-        $this->assertEquals('noreply@upont.enpc.fr', key($message->getFrom()));
+        $this->assertEquals('evenements@upont.enpc.fr', key($message->getFrom()));
     }
 
     public function testGet()

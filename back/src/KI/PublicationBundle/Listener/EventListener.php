@@ -57,7 +57,7 @@ class EventListener
             }
 
             $title = '['.$club->getName().']'.$shotgunPrefix.' '.$event->getName();
-            $this->mailerService->send($usersMail, $title, 'KIPublicationBundle::invitation.html.twig', $vars);
+            $this->mailerService->send($event->getAuthorUser(), $usersMail, $title, 'KIPublicationBundle::invitation.html.twig', $vars);
 
             $text = substr($event->getText(), 0, 140).'...';
             $this->notifyService->notify(
@@ -100,7 +100,7 @@ class EventListener
             $modifications['event'] = $event;
 
             $title = '['.$club->getName().'][MODIFICATION] '.$event->getName();
-            $this->mailerService->send($usersMail, $title, 'KIPublicationBundle::modification.html.twig', $modifications);
+            $this->mailerService->send($event->getAuthorUser(), $usersMail, $title, 'KIPublicationBundle::modification.html.twig', $modifications);
         }
     }
 
