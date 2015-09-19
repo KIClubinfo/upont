@@ -1,16 +1,13 @@
 angular.module('upont')
-    .controller('Ponthub_Requests_Ctrl', ['$rootScope', '$scope', 'club', 'requests', function($rootScope, $scope, club, requests) {
+    .controller('Ponthub_Requests_Ctrl', ['$rootScope', '$scope', '$http','$resource', 'requests', function($rootScope, $scope, $http, $resource, requests) {
         $scope.requests = requests;
+        $scope.predicate = 'request.votes';
         // $scope.categories = ['film','série','album','jeu','logiciel','autre'];
         $scope.name ='';
 
         $scope.addPoint = function(request) {
-            var x = null;
-            // $scope.request.votes = $scope.request.votes+1 ;
-            // http.patch($rootScope.url + 'request' + user.username, params).success(function(){
-            //     $resource(apiPrefix + 'requests/:slug', {slug: request.slug}).get(function(data){
-            //         request = data;
-            //     });
+            request.votes = request.votes+1 ;
+            $http.patch(apiPrefix + 'requests/' + request.slug + '/upvote');
         };
 
         $scope.post = function(name) {
@@ -22,6 +19,9 @@ angular.module('upont')
             $http.post(apiPrefix + 'requests', {name: name})
                 .success(function(){
                     alertify.success('Demande ajoutée !');
+                    $resource(apiPrefix + 'requests').query(function(data){
+                        $scope.requests = data;
+                    });
                     $scope.name = '';
                 })
                 .error(function(){
@@ -39,7 +39,7 @@ angular.module('upont')
                 templateUrl: 'controllers/users/ponthub/requests.html',
                 resolve: {
                     requests: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(apiPrefix + 'ponthub/requests').get().$promise;
+                        return $resource(apiPrefix + 'requests').query().$promise;
                     }]
                 }
             });
