@@ -136,7 +136,7 @@ angular.module('upont')
         $rootScope.searchCategory = 'Assos';
 
         // Migration
-        if (StorageService.get('theme') == 'clear') {
+        if (StorageService.get('theme') == 'clear' || StorageService.get('theme') == 'dark') {
             StorageService.set('theme', 'classic');
         }
         // Récupération du thème s'il est déjà set
