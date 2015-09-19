@@ -2,6 +2,7 @@
 
 namespace KI\UserBundle\Service;
 
+use KI\UserBundle\Entity\User;
 use Swift_Mailer;
 use Swift_Message;
 use Symfony\Bundle\TwigBundle\TwigEngine;
@@ -17,11 +18,12 @@ class MailerService
         $this->templating = $templating;
     }
 
-    public function send($to, $title, $template, $vars)
+    public function send(User $from, array $to, $title, $template, $vars)
     {
         $message = Swift_Message::newInstance()
             ->setSubject($title)
-            ->setFrom('noreply@upont.enpc.fr')
+            ->setFrom('evenements@upont.enpc.fr')
+            ->setReplyTo(array($from->getEmail() => $from->getFirstName().' '.$from->getLastName()))
             ->setBody($this->templating->render($template, $vars), 'text/html')
         ;
 
