@@ -30,5 +30,20 @@
 
         <!-- Piwik Analytics -->
         <ngp-piwik ngp-set-js-url="https://upont.enpc.fr/piwik/piwik.js" ngp-set-tracker-url="https://upont.enpc.fr/piwik/piwik.php" ngp-set-site-id="1"> </ngp-piwik>
+
+        <!-- Compatibilité -->
+        <script>
+            var $buoop = {vs:{i:10,f:30,o:15,s:7},c:2};
+            function $buo_f(){
+                var e = document.createElement('script');
+                e.src = '//browser-update.org/update.min.js';
+                document.body.appendChild(e);
+            };
+            try {
+                document.addEventListener('DOMContentLoaded', $buo_f,false);
+            } catch (e) {
+                window.attachEvent('onload', $buo_f);
+            }
+        </script>
     </body>
 </html>
