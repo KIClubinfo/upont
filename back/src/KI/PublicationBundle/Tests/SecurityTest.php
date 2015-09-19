@@ -12,7 +12,7 @@ class SecurityTest extends WebTestCase
             array(401, 'GET', '/newsitems'),
             array(404, 'GET', '/courses/mecanique-des-structures/exercices/test/download'),
             array(200, 'GET', '/users/VpqtuEGC/calendar'),
-            array(400, 'POST', '/newsitems/le-beton-c-est-bon/comments'),
+            array(401, 'POST', '/newsitems/le-beton-c-est-bon/comments'),
         );
         $this->checkRoutes($routes);
     }
