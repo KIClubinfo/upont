@@ -67,20 +67,35 @@
 <section class="Ticket">
     <h2>Membres</h2>
 
-    <div class="InputGroup">
-        <span class="InputGroup__addon">Utilisateur</span>
+    <div class="Search  padded">
+        <label for="search-input">
+            <div row class="Search__input" ng-class="{'Search__input--focused': displaySearch}">
+                <i flex="15" class="fa fa-search" style="padding-top:3px"></i>
+                <input flex="85" type="text" placeholder="Rechercher"
+                       ng-change="searchUser(search)" ng-model="search"
+                       ng-focus="displaySearch=true" ng-blur="displaySearch=false"
+                       ng-init="displaySearch=false;hoverSearch=false" id="search-input"/>
+            </div>
+        </label>
 
-        <div class="up-autocomplete">
-            <input class="Input" type="text" ng-model="search" placeholder="Rechercher quelqu'un..."
-                   ng-keyup="searchUser(search)"/>
-            <ul class="suggestions" ng-if="searchResults.length">
-                <li ng-repeat="result in searchResults"
-                    ng-bind-html="result.name | match: search"
-                    ng-click="addMember(result.slug, result.name)"
-                    class="up-clickable"></li>
-            </ul>
-        </div>
-        <span class="InputGroup__addon"><i class="fa fa-search"></i></span>
+        <section class="Search__results  Ticket" ng-mouseenter="hoverSearch=true" ng-mouseleave="hoverSearch=false"
+             ng-show="(displaySearch || hoverSearch) && searchResults.length">
+
+            <section class="Results" row>
+                <div class="Results__cell" flex="25">
+                    <h3 class="small bold">CLUBS</h3>
+                </div>
+                <div class="Results__cell" flex="75">
+                    <div class="Results__item" row="space-between center" ng-repeat="result in searchResults | limitTo: 5"
+                         ng-click="addMember(result.slug, result.name)">
+                        <div class="Image" flex="20">
+                            <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ result.image_url | thumb | urlFile }})' }"></div>
+                        </div>
+                        <div flex="75" ng-bind-html="result.name | match: search"></div>
+                    </div>
+                </div>
+            </section>
+        </section>
     </div>
 
     <table class="Table" flex="90">

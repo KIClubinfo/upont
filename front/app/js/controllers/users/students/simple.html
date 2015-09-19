@@ -38,7 +38,7 @@
 
             <div ng-if="$root.isAdmin" class="Ticket">
                 <div row>
-                  <button class="Button" ng-class="{'disabled': !modo}" ng-click="toggleModo()" style="float:right; cursor:pointer !important">Mode modo</button>
+                    <button class="Button" ng-class="{'disabled': !modo}" ng-click="toggleModo()" style="float:right; cursor:pointer !important">Mode modo</button>
                 </div>
 
                 <form ng-if="modo" row="start center" wrap ng-submit="submitUser(profilePicture)" autocomplete="off">
