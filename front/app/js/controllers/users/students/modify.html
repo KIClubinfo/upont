@@ -11,7 +11,7 @@
         <form row="start center" wrap ng-submit="submitUser(user, profilePicture)" autocomplete="off">
             
             <div class="padded" flex="50" flex-md="25" ng-if="$root.isAdmin">
-                <i class="fa  fa-block  fa-user"></i>
+                <i class="fa  fa-block  fa-user-plus"></i>
                 Prénom
             </div>
             <div class="padded" flex="50" flex-md="25" ng-if="$root.isAdmin">
@@ -19,7 +19,7 @@
             </div>
 
             <div class="padded" flex="50" flex-md="25" ng-if="$root.isAdmin">
-                <i class="fa  fa-block  fa-user"></i>
+                <i class="fa  fa-block  fa-user-plus"></i>
                 Nom
             </div>
             <div class="padded" flex="50" flex-md="25" ng-if="$root.isAdmin">
@@ -144,31 +144,31 @@
                 <input type="checkbox" ng-model="user.stats_facegame">
             </div>
 
-            <div class="padded" flex="100">
+            <div ng-if="$root.me.username == user.username" class="padded" flex="100">
                 <h3>Récéption de mails</h3>
             </div>
 
-            <div class="padded" flex="80" flex-md="40">
+            <div ng-if="$root.me.username == user.username" class="padded" flex="80" flex-md="40">
                 <i class="fa  fa-block  fa-envelope"></i>
                 Pour les événements des clubs que je suis
             </div>
-            <div class="padded" flex="20" flex-md="10">
+            <div ng-if="$root.me.username == user.username" class="padded" flex="20" flex-md="10">
                 <input type="checkbox" ng-model="user.mail_event">
             </div>
 
-            <div class="padded" flex="80" flex-md="40">
+            <div ng-if="$root.me.username == user.username" class="padded" flex="80" flex-md="40">
                 <i class="fa  fa-block  fa-envelope-o"></i>
                 Quand le lieu/la date d'un événement est modifiée
             </div>
-            <div class="padded" flex="20" flex-md="10">
+            <div ng-if="$root.me.username == user.username" class="padded" flex="20" flex-md="10">
                 <input type="checkbox" ng-model="user.mail_modification" ng-disabled="!user.mail_event">
             </div>
 
-            <div class="padded" flex="80" flex-md="40">
+            <div ng-if="$root.me.username == user.username" class="padded" flex="80" flex-md="40">
                 <i class="fa  fa-block  fa-exclamation-triangle"></i>
                 Rappel le matin d'un shotgun
             </div>
-            <div class="padded" flex="20" flex-md="10">
+            <div ng-if="$root.me.username == user.username" class="padded" flex="20" flex-md="10">
                 <input type="checkbox" ng-model="user.mail_shotgun" ng-disabled="!user.mail_event">
             </div>
 
