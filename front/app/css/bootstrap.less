@@ -13,14 +13,7 @@
 @tourHeight: 100px;
 @images: '../img';
 
-/**
- * Guidelines sur les couleurs
- * @col-ticket doit se distinguer de @col-main
- * @col-ticket doit se distinguer de @col-neg
- * @col-font doit se distinguer de @col-neg
- * @col-font doit se distinguer de @col-bckgnd
- */
-.theme(@col-main, @col-font, @col-ticket-border, @col-ticket, @col-bckgnd, @col-input-border, @col-input-bckgnd, @col-aside, @col-aside-bckgnd, @col-neg) {
+.import {
     @import 'objects/flex.less';
     @import 'objects/generic.less';
 
@@ -54,16 +47,88 @@
     @import 'resets/redactor.less';
 }
 
+/**
+ * Guidelines sur les couleurs
+ * @col-ticket doit se distinguer de @col-main
+ * @col-ticket doit se distinguer de @col-neg
+ * @col-font doit se distinguer de @col-neg
+ * @col-font doit se distinguer de @col-bckgnd
+ */
+@col-light: white;
+.theme(@col-dark, @col-primary, @col-alt, @dark) when (@dark = false) {
+    @col-bckgnd: darken(@col-light, 10%);
+
+    @col-aside-bckgnd: @col-dark;
+    @col-aside: darken(@col-light, 10%);
+
+    @col-ticket: @col-light;
+    @col-ticket-border: darken(@col-light, 15%);
+    @col-font: darken(@col-light, 75%);
+
+    @col-input-bckgnd: darken(@col-light, 5%);
+    @col-input-border: darken(@col-light, 15%);
+
+    @col-main: @col-primary;
+    @col-neg: @col-alt;
+
+    .import;
+}
+
+.theme(@col-dark, @col-primary, @col-alt, @dark) when (@dark = true) {
+    @col-bckgnd: darken(@col-dark, 10%);
+
+    @col-aside-bckgnd: @col-dark;
+    @col-aside: darken(@col-light, 10%);
+
+    @col-ticket: @col-dark;
+    @col-ticket-border: lighten(@col-dark, 20%);
+    @col-font: darken(@col-light, 10%);
+
+    @col-input-bckgnd: lighten(@col-dark, 20%);
+    @col-input-border: lighten(@col-dark, 20%);
+
+    @col-main: @col-primary;
+    @col-neg: @col-alt;
+
+    .import;
+
+    .alertify-log-error {
+        background: @col-red;
+    }
+    .redactor-toolbar {
+        background-color: @col-input-bckgnd;
+    }
+    .redactor-editor {
+        border-color: @col-input-bckgnd;
+    }
+    .cal-year-box .row:hover,
+    .cal-row-fluid:hover {
+        background-color: @col-input-bckgnd;
+    }
+    [class*="cal-cell"]:hover, .cell-focus, [class*="cal-cell"] .drop-active, .cal-cell.drop-active {
+        background-color: @col-input-bckgnd;
+    }
+    .cal-day-box .cal-day-hour:nth-child(odd) {
+        background-color: @col-input-bckgnd;
+    }
+    .day-highlight,.cal-day-today {
+        color: @col-input-bckgnd;
+        &:hover {
+            color: @light-gray;
+        }
+    }
+}
+
 // Palette de couleurs
-@blue: #5584AD;
-@orange: #F08630;
 @lighter-gray: #e0e0e0;
 @light-gray: #d0d0d0;
 @gray: #444;
 @dark-gray: #333;
 @darker-gray: #1C1C1C;
-@col-aqua: #46be9c;
-@col-yellow: #fdbe37;
 @col-red: #ff643b;
+@col-orange: #F08630;
+@col-yellow: #fdbe37;
+@col-aqua: #46be9c;
+@col-blue: #6690b5;
 @col-violet: #a78cd5;
 @col-pink: #ec6ab7;

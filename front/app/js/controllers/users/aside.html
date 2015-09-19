@@ -66,10 +66,16 @@
 
     <footer col="space-around end" class="Aside__footer  text-center">
         <section flex="100">
-            <span class="clickable" ng-click="$root.switchTheme()">
-                <input class="clickable" type="checkbox" ng-checked="$root.theme == 'dark'">&nbsp;Thème sombre
-            </span><br>
-
+            <div flex="100" row="center stretch">
+                <div class="padded" flex="75">
+                    <select class="Input" ng-model="theme" ng-change="$root.switchTheme(theme)">
+                        <option value="classic">Classique</option>
+                        <option value="classic-dark">Classique (Sombre)</option>
+                        <option value="orange">Orange</option>
+                        <option value="orange-dark">Orange (Sombre)</option>
+                    </select>
+                </div>
+            </div>
 
             <a class="Link  Link--reverse" target="_blank" href="https://trello.com/b/a7pIk6zk/upont" title="Board Trello de uPont">
                 <i class="fa fa-trello"></i>
