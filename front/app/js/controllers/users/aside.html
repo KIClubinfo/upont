@@ -31,7 +31,7 @@
             <a class="Aside__navlink" ui-sref="root.users.ponthub.category.list" up-state-active="root.users.ponthub">
                 <i class="fa fa-film"></i> PontHub
             </a>
-            <a class="Aside__navlink" ng-if="!$root.isAdmissible" ui-sref="root.users.students.modify" up-state-active>
+            <a class="Aside__navlink" ng-if="!$root.isAdmissible" ui-sref="root.users.students.modify({slug: $root.me.username})" up-state-active>
                 <i class="fa fa-star"></i> Profil
             </a>
             <a class="Aside__navlink" ng-if="$root.isAdmin" ui-sref="root.users.admin.students" up-state-active="root.users.admin">
