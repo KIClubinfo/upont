@@ -135,24 +135,6 @@ angular.module('upont')
 
         $rootScope.searchCategory = 'Assos';
 
-        // Migration
-        if (StorageService.get('theme') == 'clear' || StorageService.get('theme') == 'dark') {
-            StorageService.set('theme', 'classic');
-        }
-        // Récupération du thème s'il est déjà set
-        if (StorageService.get('theme') !== undefined && StorageService.get('theme') !== null) {
-            $rootScope.theme = StorageService.get('theme');
-        } else {
-            StorageService.set('theme', 'classic');
-            $rootScope.theme = 'classic';
-        }
-
-        // Switch de thème
-        $rootScope.switchTheme = function(theme) {
-            StorageService.set('theme', theme);
-            $rootScope.theme = theme;
-        };
-
         // Easter egg
         $rootScope.surprise = (Math.random()*1000 == 314);
 

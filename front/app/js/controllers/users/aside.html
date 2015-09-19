@@ -69,10 +69,7 @@
             <div flex="100" row="center stretch">
                 <div class="padded" flex="75">
                     <select class="Input" ng-model="theme" ng-change="$root.switchTheme(theme)">
-                        <option value="classic">Classique</option>
-                        <option value="classic-dark">Classique (Sombre)</option>
-                        <option value="orange">Orange</option>
-                        <option value="orange-dark">Orange (Sombre)</option>
+                        <option ng-repeat="themeItem in $root.themes" value="{{ themeItem.value }}" ng-selected="$root.theme == themeItem.value">{{ themeItem.name }}</option>
                     </select>
                 </div>
             </div>
