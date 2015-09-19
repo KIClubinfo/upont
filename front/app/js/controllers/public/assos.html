@@ -1,44 +1,39 @@
-<div class="Ticket" style="text-align: center">
-    <h1>La vie associative aux Ponts et chaussées</h1>
+<main class="padded">
+    <section class="Ticket  text-center">
+        <h1>La vie associative aux Ponts et chaussées</h1>
 
-    Être étudiant aux Ponts et chaussées, c'est être entouré et participer à des myriades de clubs et activités. Il n'y a pas de place pour l'ennui ! Tout le monde y trouve son compte : il y a des clubs pour tout.<br>
-    À leur tête, les assos, justement. C'est le summum pour s'impliquer au quotidien dans la vie étudiante des Ponts. Ci-dessous, une présentation de chaque asso et de chaque club de l'école...
-</div>
+        <p class="padded">
+            Être étudiant aux Ponts et chaussées, c'est être entouré et participer à des myriades de clubs et activités.<br>
+            Il n'y a pas de place pour l'ennui ! Tout le monde y trouve son compte : il y a des clubs pour tout.<br><br>
 
-<div up-row center>
-    <h2 up-col="75%" class="up-assos-name"><span class="bckgnd">Associations</span></h2>
-</div>
+            À leur tête, les assos, justement.<br>
+            C'est le summum pour s'impliquer au quotidien dans la vie étudiante des Ponts.<br>
+            Ci-dessous, une présentation de chaque asso et de chaque club de l'école...
+        </p>
+        <p>
+            <strong>Clique sur une assos / un club pour voir ce qu'il fait !</strong>
+        </p>
+    </section>
 
-<div up-row wrap class="up-assos-container">
-    <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
-        <div up-row wrap>
-            <div ng-repeat="club in assos" ng-include="'controllers/public/assos-simple.html'" up-col="100%"
-                 ng-if="$index%2 === 0"></div>
+    <h2 flex="100" class="padded  text-center">Associations</h2>
+
+    <div row wrap>
+        <div class="padded" flex="100" flex-md="50" row ng-repeat="club in assos" ng-if="$index%2 === 0 && club.active && !club.administration">
+            <div flex="100" ng-include="'controllers/public/assos-simple.html'"></div>
+        </div>
+        <div class="padded" flex="100" flex-md="50" row ng-repeat="club in assos" ng-if="$index%2 === 1 && club.active && !club.administration">
+            <div flex="100" ng-include="'controllers/public/assos-simple.html'"></div>
         </div>
     </div>
-    <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
-        <div up-row wrap>
-            <div ng-repeat="club in assos" ng-include="'controllers/public/assos-simple.html'" up-col="100%"
-                 ng-if="$index%2 === 1"></div>
-        </div>
-    </div>
-</div>
 
-<div up-row center>
-    <h2 up-col="75%" class="up-assos-name"><span class="bckgnd">Clubs</span></h2>
-</div>
+    <h2 flex="100" class="padded  text-center">Clubs</h2>
 
-<div up-row wrap class="up-assos-container">
-    <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
-        <div up-row wrap>
-            <div ng-repeat="club in clubs" ng-include="'controllers/public/assos-simple.html'" up-col="100%"
-                 ng-if="$index%2 === 0"></div>
+    <div row wrap>
+        <div class="padded" flex="100" flex-md="50" row ng-repeat="club in clubs" ng-if="$index%2 === 0 && club.active && !club.administration">
+            <div flex="100" ng-include="'controllers/public/assos-simple.html'"></div>
+        </div>
+        <div class="padded" flex="100" flex-md="50" row ng-repeat="club in clubs" ng-if="$index%2 === 1 && club.active && !club.administration">
+            <div flex="100" ng-include="'controllers/public/assos-simple.html'"></div>
         </div>
     </div>
-    <div up-col-xs="100%" up-col-sm="100%" up-col="50%">
-        <div up-row wrap>
-            <div ng-repeat="club in clubs" ng-include="'controllers/public/assos-simple.html'" up-col="100%"
-                 ng-if="$index%2 === 1"></div>
-        </div>
-    </div>
-</div>
+</main>

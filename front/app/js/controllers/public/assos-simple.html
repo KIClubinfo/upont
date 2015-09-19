@@ -1,16 +1,11 @@
-<div ng-if="club.active && !club.administration" up-col="100%" class="row-margin">
-    <div class="Ticket">
-        <div up-row center>
-            <div up-col="25%" class="up-image-container">
-                <div class="up-image" ng-style="{ 'background-image' : 'url({{ club.image_url | urlFile }})' }"></div>
-            </div>
+<article class="Ticket" col="start center">
+    <header class="clickable" flex="100" col="start center" ng-click="showPresentation=!showPresentation">
+        <div class="Image" flex="25">
+            <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ club.image_url | thumb | urlFile }})' }"></div>
         </div>
-        <div up-row center>
-            <h2 up-col="75%" class="up-assos-name"><span>{{ club.full_name }}</span></h2>
-        </div>
-        <div up-row center>
-            <div ng-if="club.presentation !== undefined" ng-bind-html="club.presentation"></div>
-            <div ng-if="club.presentation === undefined"><em>{{ club.assos ? 'Cette asso' : 'Ce club' }} n'a pas encore fourni de présentation</em></div>
-        </div>
-    </div>
-</div>
+        <h2 class="padded">{{ club.full_name }}</h2>
+    </header>
+
+    <p class="wysiwyg-data" ng-show="showPresentation" ng-if="club.presentation !== undefined" ng-bind-html="club.presentation"></p>
+    <p ng-show="showPresentation" ng-if="club.presentation === undefined"><em>{{ club.assos ? 'Cette asso' : 'Ce club' }} n'a pas encore fourni de présentation</em></p>
+</article>
