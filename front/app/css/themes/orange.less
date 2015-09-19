@@ -1,29 +1,42 @@
 @import '../bootstrap.less';
 
-.theme(@orange, @lighter-gray, @gray, @dark-gray, @darker-gray, @gray, @gray, @lighter-gray, @dark-gray, @blue);
+// Couleurs spécifiques à chaque thème
+.theme(
+    #2A303D,
+    @col-blue,
+    white,
+    @col-orange,
+    true
+);
+/*.theme(
+    // @col-main
+    @blue,
+    // @col-font
+    white,
+    // @col-ticket-border
+    lighten(#2A303D, 20%),
+    // @col-ticket
+    #2A303D,
+    // @col-bckgnd
+    darken(#2A303D, 20%),
+    // @col-input-border
+    lighten(#2A303D, 25%),
+    // @col-input-bckgnd
+    lighten(#2A303D, 20%),
+    // @col-aside
+    @light-gray,
+    // @col-aside-bckgnd
+    #2A303D,
+    // @col-neg
+    @orange
+);
 
 .alertify-log-error {
-    background: @col-red;
+    background: @orange;
 }
-.redactor-toolbar {
-    background-color: @gray;
-}
-.redactor-editor {
-    border-color: @gray;
-}
-.cal-year-box .row:hover,
-.cal-row-fluid:hover {
-    background-color: #555;
-}
-[class*="cal-cell"]:hover, .cell-focus, [class*="cal-cell"] .drop-active, .cal-cell.drop-active {
-    background-color: @gray;
-}
-.cal-day-box .cal-day-hour:nth-child(odd) {
-    background-color: @gray;
-}
-.day-highlight,.cal-day-today {
-    color: @gray;
-    &:hover {
-        color: @light-gray;
-    }
-}
+
+
+/*.theme(@orange, @lighter-gray, @gray, @dark-gray, @darker-gray, @gray, @gray, @lighter-gray, @dark-gray, @blue);
+
+
+*/
