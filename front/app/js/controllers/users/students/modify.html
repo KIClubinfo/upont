@@ -1,5 +1,5 @@
 <section class="Ticket">
-    <section class="padded" ng-if="$root.isAdmin || $root.me.username == user.username ">
+    <section class="padded" ng-if="$root.isAdmin || $root.me.username == user.username">
         <h1>Informations Générales</h1>
 
         <div class="padded" row="center stretch">
@@ -116,31 +116,31 @@
                 <input class="Input" type="file" ng-model="profilePicture" base-sixty-four-input>
             </div>
 
-            <div class="padded" flex="100">
+            <div ng-if="$root.me.username == user.username" class="padded" flex="100">
                 <h3>Partager mes statistiques</h3>
             </div>
 
-            <div class="padded" flex="80" flex-md="40">
+            <div ng-if="$root.me.username == user.username" class="padded" flex="80" flex-md="40">
                 <i class="fa  fa-block  fa-beer"></i>
                 Foyer
             </div>
-            <div class="padded" flex="20" flex-md="10">
+            <div ng-if="$root.me.username == user.username" class="padded" flex="20" flex-md="10">
                 <input type="checkbox" ng-model="user.stats_foyer">
             </div>
 
-            <div class="padded" flex="80" flex-md="40">
+            <div ng-if="$root.me.username == user.username" class="padded" flex="80" flex-md="40">
                 <i class="fa  fa-block  fa-download"></i>
                 PontHub
             </div>
-            <div class="padded" flex="20" flex-md="10">
+            <div ng-if="$root.me.username == user.username" class="padded" flex="20" flex-md="10">
                 <input type="checkbox" ng-model="user.stats_ponthub">
             </div>
 
-            <div class="padded" flex="80" flex-md="40">
+            <div ng-if="$root.me.username == user.username" class="padded" flex="80" flex-md="40">
                 <i class="fa  fa-block  fa-gamepad"></i>
                 La Réponse D
             </div>
-            <div class="padded" flex="20" flex-md="10">
+            <div ng-if="$root.me.username == user.username" class="padded" flex="20" flex-md="10">
                 <input type="checkbox" ng-model="user.stats_facegame">
             </div>
 
