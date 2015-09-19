@@ -54,7 +54,8 @@
  * @col-font doit se distinguer de @col-neg
  * @col-font doit se distinguer de @col-bckgnd
  */
-.theme(@col-dark, @col-primary, @col-light, @col-alt, @dark) when (@dark = false) {
+@col-light: white;
+.theme(@col-dark, @col-primary, @col-alt, @dark) when (@dark = false) {
     @col-bckgnd: darken(@col-light, 10%);
 
     @col-aside-bckgnd: @col-dark;
@@ -73,7 +74,7 @@
     .import;
 }
 
-.theme(@col-dark, @col-primary, @col-light, @col-alt, @dark) when (@dark = true) {
+.theme(@col-dark, @col-primary, @col-alt, @dark) when (@dark = true) {
     @col-bckgnd: darken(@col-dark, 10%);
 
     @col-aside-bckgnd: @col-dark;

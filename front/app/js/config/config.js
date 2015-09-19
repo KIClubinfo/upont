@@ -135,23 +135,22 @@ angular.module('upont')
 
         $rootScope.searchCategory = 'Assos';
 
+        // Migration
+        if (StorageService.get('theme') == 'clear') {
+            StorageService.set('theme', 'classic');
+        }
         // Récupération du thème s'il est déjà set
-        if (StorageService.get('theme') == 'dark') {
-            $rootScope.theme = 'dark';
+        if (StorageService.get('theme') !== undefined && StorageService.get('theme') !== null) {
+            $rootScope.theme = StorageService.get('theme');
         } else {
-            StorageService.set('theme', 'clear');
-            $rootScope.theme = 'clear';
+            StorageService.set('theme', 'classic');
+            $rootScope.theme = 'classic';
         }
 
         // Switch de thème
-        $rootScope.switchTheme = function() {
-            if ($rootScope.theme == 'dark') {
-                $rootScope.theme = 'clear';
-                StorageService.set('theme', 'clear');
-            } else {
-                $rootScope.theme = 'dark';
-                StorageService.set('theme', 'dark');
-            }
+        $rootScope.switchTheme = function(theme) {
+            StorageService.set('theme', theme);
+            $rootScope.theme = theme;
         };
 
         // Easter egg
