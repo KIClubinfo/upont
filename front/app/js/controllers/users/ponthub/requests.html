@@ -1,0 +1,34 @@
+
+<section class="Ticket" flex="100" flex-md="33">
+    <h2>requests</h2>
+
+    <table class="Table" flex="90">
+        <thead>
+            <tr>
+                <th><a ng-click="predicate = 'request.name'; reverse=!reverse">Promo</a></th>
+                <th><a ng-click="predicate = 'request.votes'; reverse=!reverse">Rôle</a></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="request in requests">
+                <td>{{ request.name }}</td>
+                <td>{{ request.votes }}</td>
+                <td><a ng-click="addPoint(request)">+1</a></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h4> Nouvelle demande </h4>
+
+    <form row wrap ng-submit="post(name)" autocomplete="off">
+        <div flex="80" flex-md="50" class="padded">
+            <input class="Input" type="text" ng-model="name" placeholder="Mon petit poney saison 1" autofocus>
+        </div>
+
+        <div flex="20" class="padded" row="end center">
+            <button flex="50" flex-md="15" class="Button">Demander !</button>
+        </div>
+    </form>
+
+</section>
