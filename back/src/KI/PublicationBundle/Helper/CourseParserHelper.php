@@ -39,7 +39,7 @@ class CourseParserHelper
         $baseUrl = 'http://emploidutemps.enpc.fr/index_mobile.php?code_departement=&mydate=';
 
         for ($day = 0; $day < 8; $day++) {
-            $date = time() + $day*3600*24;
+            $date = mktime(0, 0, 0, date('n'), date('j') + $day);
             $url = $baseUrl.date('d', $date).'%2F'.date('m', $date).'%2F'.date('Y', $date);
             $response = $this->curlService->curl($url);
 
@@ -69,8 +69,8 @@ class CourseParserHelper
 
                 // On ajoute l'objet à ce cours
                 $courseItem = new CourseItem();
-                $courseItem->setStartDate(mktime(0, 0, 0) + $startDate);
-                $courseItem->setEndDate(mktime(0, 0, 0) + $endDate);
+                $courseItem->setStartDate($date + $startDate);
+                $courseItem->setEndDate($date + $endDate);
                 $courseItem->setLocation($location[$id]);
                 $courseItem->setGroup($gr);
                 $courseItem->setCourse($course);

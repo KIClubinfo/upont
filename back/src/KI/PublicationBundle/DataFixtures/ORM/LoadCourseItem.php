@@ -14,8 +14,8 @@ class LoadCourseItemFixture extends AbstractFixture implements OrderedFixtureInt
     {
         $courseItem = new CourseItem();
         $courseItem->setLocation('P 412');
-        $courseItem->setStartDate(time());
-        $courseItem->setEndDate(time() + 3600*1.5);
+        $courseItem->setStartDate(mktime(0, 0, 0, date('n'), date('j')));
+        $courseItem->setEndDate(mktime(0, 0, 0, date('n'), date('j')) + 3600*10);
         $courseItem->setCourse($this->getReference('course-shark'));
         $manager->persist($courseItem);
 
