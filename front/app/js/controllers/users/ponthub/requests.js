@@ -1,13 +1,26 @@
 angular.module('upont')
     .controller('Ponthub_Requests_Ctrl', ['$rootScope', '$scope', '$http','$resource', 'requests', function($rootScope, $scope, $http, $resource, requests) {
         $scope.requests = requests;
-        $scope.predicate = 'request.votes';
+        $scope.predicate = 'votes';
+        $scope.reverse = true;
         // $scope.categories = ['film','série','album','jeu','logiciel','autre'];
         $scope.name ='';
 
         $scope.addPoint = function(request) {
             request.votes = request.votes+1 ;
             $http.patch(apiPrefix + 'requests/' + request.slug + '/upvote');
+        };
+        $scope.delete = function(request) {
+            $http.delete(apiPrefix + 'requests/' + request.slug)
+                .success(function(){
+                    alertify.success('Demande supprimée !');
+                    $resource(apiPrefix + 'requests').query(function(data){
+                        $scope.requests = data;
+                    });
+                })
+                .error(function(){
+                    alertify.error('Erreur...');
+                });
         };
 
         $scope.post = function(name) {
@@ -30,17 +43,4 @@ angular.module('upont')
             ;
         };
 
-    }])
-    .config(['$stateProvider', function($stateProvider) {
-        $stateProvider
-            .state('root.users.ponthub.requests', {
-                url: '/demandes',
-                controller: 'Ponthub_Requests_Ctrl',
-                templateUrl: 'controllers/users/ponthub/requests.html',
-                resolve: {
-                    requests: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(apiPrefix + 'requests').query().$promise;
-                    }]
-                }
-            });
     }]);

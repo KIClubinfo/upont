@@ -5,16 +5,18 @@
     <table class="Table" flex="90">
         <thead>
             <tr>
-                <th><a ng-click="predicate = 'request.name'; reverse=!reverse">Nom</a></th>
-                <th><a ng-click="predicate = 'request.votes'; reverse=!reverse">Votes</a></th>
+                <th><a ng-click="predicate = 'name'; reverse=!reverse">Nom</a></th>
+                <th><a ng-click="predicate = 'votes'; reverse=!reverse">Votes</a></th>
                 <th></th>
+                <th ng-if="$root.isAdmin"></th>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="request in filtered = (requests | orderBy:predicate:reverse )">
                 <td>{{ request.name }}</td>
                 <td>{{ request.votes }}</td>
-                <td><a ng-click="addPoint(request)">+1</a></td>
+                <td><i class="fa fa-thumbs-o-up Link Link--reverse" title="+1" ng-click="addPoint(request)"></i></td>
+                <td ng-if="$root.isAdmin"><i class="fa fa-trash Link Link--reverse" ng-click="delete(request)"></i></td>
             </tr>
         </tbody>
     </table>

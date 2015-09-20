@@ -118,7 +118,7 @@ angular.module('upont')
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
             .state('root.users.students.modify', {
-                url: '/modifier-profil/:slug',
+                url: '/:slug/modifer',
                 templateUrl: 'controllers/users/students/modify.html',
                 controller: 'Students_Modify_Ctrl',
                 resolve: {
