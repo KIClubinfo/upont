@@ -1,7 +1,6 @@
 
 <section class="Ticket" flex="100" flex-md="100">
     <h2>Demandes de fichiers</h2>
-
     <table class="Table" flex="90">
         <thead>
             <tr>
@@ -21,16 +20,13 @@
         </tbody>
     </table>
     
-    <h2> Nouvelle demande </h2>
-
+    <h2>Nouvelle demande</h2>
     <form row wrap ng-submit="post(name)" autocomplete="off">
         <div flex="70" flex-md="50" class="padded">
             <input class="Input" type="text" ng-model="name" placeholder="Mon petit poney saison 1" autofocus>
         </div>
-
         <div flex="30" class="padded" row="end center">
             <button class="Button">Demander !</button>
         </div>
     </form>
-
 </section>

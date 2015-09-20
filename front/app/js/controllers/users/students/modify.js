@@ -38,7 +38,7 @@ angular.module('upont')
                 nationality: usr.nationality,
                 phone: usr.phone,
                 location: usr.location,
-                departusrnt: usr.departusrnt,
+                department: usr.department,
                 origin: usr.origin,
                 skype: usr.skype,
                 nicknausr: usr.nick,
