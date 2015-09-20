@@ -34,17 +34,17 @@ angular.module('upont')
                 first_name: usr.first_name,
                 last_name: usr.last_name,
                 promo: usr.promo,
-                gender: me.gender,
+                gender: usr.gender,
                 nationality: usr.nationality,
                 phone: usr.phone,
                 location: usr.location,
                 department: usr.department,
                 origin: usr.origin,
                 skype: usr.skype,
-                nicknausr: usr.nick,
+                nickname: usr.nick,
                 statsFoyer: usr.stats_foyer,
                 statsPonthub: usr.stats_ponthub,
-                statsFacegausr: usr.stats_facegausr,
+                statsFacegame: usr.stats_facegame,
                 mailEvent: usr.mail_event,
                 mailModification: usr.mail_modification,
                 mailShotgun: usr.mail_shotgun,
@@ -118,7 +118,7 @@ angular.module('upont')
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
             .state('root.users.students.modify', {
-                url: '/:slug/modifer',
+                url: '/:slug/modifier',
                 templateUrl: 'controllers/users/students/modify.html',
                 controller: 'Students_Modify_Ctrl',
                 resolve: {
