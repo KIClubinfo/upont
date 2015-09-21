@@ -3,24 +3,17 @@
 namespace KI\ClubinfoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use JMS\Serializer\Annotation as JMS;
+use Symfony\Component\Validator\Constraints as Assert;
+use KI\CoreBundle\Entity\Likeable;
 /**
  * Centrale
  *
  * @ORM\Table()
  * @ORM\Entity
  */
-class Centrale
+class Centrale extends Likeable
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
     /**
      * @var string
      *
@@ -38,14 +31,14 @@ class Centrale
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="start_date", type="date")
+     * @ORM\Column(name="start_date", type="integer")
      */
     private $startDate;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="end_date", type="date")
+     * @ORM\Column(name="end_date", type="integer")
      */
     private $endDate;
 
@@ -57,15 +50,6 @@ class Centrale
     private $status;
 
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Set product
@@ -92,9 +76,33 @@ class Centrale
     }
 
     /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Centrale
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
      * Set startDate
      *
-     * @param \DateTime $startDate
+     * @param integer $startDate
      *
      * @return Centrale
      */
@@ -108,7 +116,7 @@ class Centrale
     /**
      * Get startDate
      *
-     * @return \DateTime
+     * @return integer
      */
     public function getStartDate()
     {
@@ -118,7 +126,7 @@ class Centrale
     /**
      * Set endDate
      *
-     * @param \DateTime $endDate
+     * @param integer $endDate
      *
      * @return Centrale
      */
@@ -132,7 +140,7 @@ class Centrale
     /**
      * Get endDate
      *
-     * @return \DateTime
+     * @return integer
      */
     public function getEndDate()
     {
@@ -164,27 +172,104 @@ class Centrale
     }
 
     /**
-     * Set description
+     * Add listLike
      *
-     * @param string $description
+     * @param \KI\UserBundle\Entity\User $listLike
      *
      * @return Centrale
      */
-    public function setDescription($description)
+    public function addListLike(\KI\UserBundle\Entity\User $listLike)
     {
-        $this->description = $description;
+        $this->listLikes[] = $listLike;
 
         return $this;
     }
 
     /**
-     * Get description
+     * Remove listLike
      *
-     * @return string
+     * @param \KI\UserBundle\Entity\User $listLike
      */
-    public function getDescription()
+    public function removeListLike(\KI\UserBundle\Entity\User $listLike)
     {
-        return $this->description;
+        $this->listLikes->removeElement($listLike);
+    }
+
+    /**
+     * Get listLikes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getListLikes()
+    {
+        return $this->listLikes;
+    }
+
+    /**
+     * Add listDislike
+     *
+     * @param \KI\UserBundle\Entity\User $listDislike
+     *
+     * @return Centrale
+     */
+    public function addListDislike(\KI\UserBundle\Entity\User $listDislike)
+    {
+        $this->listDislikes[] = $listDislike;
+
+        return $this;
+    }
+
+    /**
+     * Remove listDislike
+     *
+     * @param \KI\UserBundle\Entity\User $listDislike
+     */
+    public function removeListDislike(\KI\UserBundle\Entity\User $listDislike)
+    {
+        $this->listDislikes->removeElement($listDislike);
+    }
+
+    /**
+     * Get listDislikes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getListDislikes()
+    {
+        return $this->listDislikes;
+    }
+
+    /**
+     * Add listComment
+     *
+     * @param \KI\CoreBundle\Entity\Comment $listComment
+     *
+     * @return Centrale
+     */
+    public function addListComment(\KI\CoreBundle\Entity\Comment $listComment)
+    {
+        $this->listComments[] = $listComment;
+
+        return $this;
+    }
+
+    /**
+     * Remove listComment
+     *
+     * @param \KI\CoreBundle\Entity\Comment $listComment
+     */
+    public function removeListComment(\KI\CoreBundle\Entity\Comment $listComment)
+    {
+        $this->listComments->removeElement($listComment);
+    }
+
+    /**
+     * Get listComments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getListComments()
+    {
+        return $this->listComments;
     }
 }
-
