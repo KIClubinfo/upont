@@ -5,3 +5,7 @@ fixs:
 tutos:
     type:     rest
     resource: KI\ClubinfoBundle\Controller\TutosController
+
+centrales:
+    type:     rest
+    resource: KI\ClubinfoBundle\Controller\CentralesController
