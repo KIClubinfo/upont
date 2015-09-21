@@ -59,7 +59,7 @@ security:
                     name: bearer
 
     access_control:
-        - { path: ^/(clubs)(/[a-zA-Z]+)?,             methods: [GET, PATCH], roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(clubs)(/[a-zA-Z]+)?,             methods: [GET], roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/login,                            methods: [POST], roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/ping,                             methods: [HEAD, GET], roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/courses,                          methods: [HEAD], roles: IS_AUTHENTICATED_ANONYMOUSLY }
