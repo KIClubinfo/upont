@@ -3,7 +3,6 @@ angular.module('upont')
         $scope.requests = requests;
         $scope.predicate = 'votes';
         $scope.reverse = true;
-        // $scope.categories = ['film','série','album','jeu','logiciel','autre'];
         $scope.name ='';
 
         $scope.addPoint = function(request) {

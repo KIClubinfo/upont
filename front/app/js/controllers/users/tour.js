@@ -27,14 +27,14 @@ angular.module('upont')
                 '<strong>Avoir des infos à jour est super important</strong>, si tout le monde les remplit tu pourras profiter au max des fonctionnalités de uPont comme la <strong>synchronisation des contacts</strong> ou le <strong>jeu de la Réponse D !</strong>'
             },
             {
-                state: 'root.users.students.modify',
+                state: 'root.users.students.modify({slug: $root.me.username})',
                 icon: 'mobile',
                 text: 'Plus bas sur cette page, tu as aussi les liens pour télécharger l\'application mobile.<br>' +
                 '<strong>Oui, uPont a une appli pour smartphones</strong> et elle est super badass !<br>' +
                 'Ce serait une honte que tu ne la télécharges pas immédiatement.<br>'
             },
             {
-                state: 'root.users.students.modify',
+                state: 'root.users.students.modify({slug: $root.me.username})',
                 icon: 'calendar',
                 text: 'Accessoirement, sur cette page tu peux aussi synchroniser le calendrier uPont avec ton Mac/iBidule/Thunderbird/etc.<br>' +
                 '<strong>Attends ? Quel calendrier ? ...</strong>'

@@ -34,10 +34,8 @@
                         <i class="fa  fa-block fa-street-view"></i> {{ user.origin }}
                     </div>
                 </div>
-                <div row ng-if="$root.isAdmin">
-                    <a ui-sref="root.users.students.modify({slug: user.username})">
-                      <button class="Button" style="float:right; cursor:pointer !important">Modifier {{ user.username }}</button>
-                    </a>
+                <div row="end stretch" ng-if="$root.isAdmin">
+                    <button class="Button" style="float:right; cursor:pointer !important" ui-sref="root.users.students.modify({slug: user.username})">Modifier {{ user.username }}</button>
                 </div>
             </div>
             
