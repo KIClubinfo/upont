@@ -7,46 +7,6 @@ angular.module('upont')
         $scope.displayPonthub = empty(ponthub.error);
         $scope.clubs = clubs;
         $scope.achievements = achievements;
-        $scope.modo = false;
-        $scope.profilePicture = null;
-
-        $scope.toggleModo = function() {
-            $scope.modo = !$scope.modo;
-        };
-
-        $scope.submitUser = function(image) {
-            var params = {
-                promo: user.promo,
-                gender: user.gender,
-                nationality: user.nationality,
-                phone: user.phone,
-                location: user.location,
-                department: user.department,
-                origin: user.origin,
-                skype: user.skype,
-                nickname: user.nick,
-                statsFoyer: user.stats_foyer,
-                statsPonthub: user.stats_ponthub,
-                statsFacegame: user.stats_facegame,
-                mailEvent: user.mail_event,
-                mailModification: user.mail_modification,
-                mailShotgun: user.mail_shotgun,
-            };
-
-            if (image) {
-                params.image = image.base64;
-            }
-
-            $http.patch($rootScope.url + 'users/' + user.username, params).success(function(){
-                  $resource(apiPrefix + 'users/:slug', {slug: user.username}).get(function(data){
-                      user = data;
-                  });
-                  alertify.success('Profil mis à jour !');
-              }).error(function(data, status, headers, config) {
-                  // Supprime tout token en cas de mauvaise identification
-                  alertify.error(data.reason);
-              });
-        };
 
         if (!empty(foyer)) {
             // Définition des graphes Highcharts

@@ -61,6 +61,16 @@ angular.module('upont')
                     }]
                 }
             })
+            .state('root.users.ponthub.requests', {
+                url: '/demandes',
+                controller: 'Ponthub_Requests_Ctrl',
+                templateUrl: 'controllers/users/ponthub/requests.html',
+                resolve: {
+                    requests: ['$resource', '$stateParams', function($resource, $stateParams) {
+                        return $resource(apiPrefix + 'requests').query().$promise;
+                    }]
+                }
+            })
             .state('root.users.ponthub.category', {
                 url: '/:category',
                 template: '<div ui-view></div>',

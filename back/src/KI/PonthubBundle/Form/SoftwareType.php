@@ -18,6 +18,7 @@ class SoftwareType extends AbstractType
             ->add('year')
             ->add('version')
             ->add('author')
+            ->add('os')
             ->add('image', 'image_selector');
     }
 

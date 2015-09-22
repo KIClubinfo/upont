@@ -1,6 +1,5 @@
 angular.module('upont')
     .controller('Request_Ctrl', ['$scope', '$http', function($scope, $http) {
-        $('#login-input').focus();
         $scope.request = function(username) {
             if (!empty(username)) {
                 $http.post(apiPrefix + 'resetting/request', {username: username}).success(function(){

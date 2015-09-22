@@ -1,6 +1,5 @@
 angular.module('upont')
     .controller('Reset_Ctrl', ['$scope', '$http', '$state', '$stateParams', function($scope, $http, $state, $stateParams) {
-        $('#login-input').focus();
         $scope.reset = function(password, check) {
             if (!empty(password) && !empty(check)) {
                 if (password == check) {

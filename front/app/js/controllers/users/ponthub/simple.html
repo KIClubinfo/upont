@@ -43,6 +43,8 @@
                 <li ng-if="element.rating"><strong>Note Rotten Tomatoes :</strong> {{ element.rating+'%' }}</li>
                 <li ng-if="countDownloads() != 0"><strong>Téléchargé :</strong> {{ countDownloads() }} fois</li>
                 <li ng-if="element.added"><strong>Ajout :</strong> {{ element.added | formatDate }}</li>
+                <li><strong>Extension :</strong> .{{ element.path.split('.')[element.path.split('.').length-1] }}<i ng-if="element.path.split('.')[element.path.split('.').length-1] == 'mp4'"> (Streamable)</i></li>
+                <li ng-if="element.os"><strong>Platforme :</strong> {{ element.os }}</li>
 
                 <div class="padded" row="space-between stretch">
                     <a class="Button" title="Télécharger le fichier" target="_blank" ng-href="{{ type + '/' + element.slug + '/download?bearer=' + token | urlFile }}" ng-hide="category == 'series' || category == 'musiques'">
