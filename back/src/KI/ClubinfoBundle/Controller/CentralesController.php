@@ -7,7 +7,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use KI\CoreBundle\Controller\ResourceController;
 
-class FixsController extends ResourceController
+class CentralesController extends ResourceController
 {
     public function setContainer(ContainerInterface $container = null)
     {

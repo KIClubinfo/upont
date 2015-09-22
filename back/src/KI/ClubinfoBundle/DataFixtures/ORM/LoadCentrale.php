@@ -7,7 +7,7 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use KI\ClubinfoBundle\Entity\Centrale;
 
-class LoadFixFixture extends AbstractFixture implements OrderedFixtureInterface
+class LoadCentraleFixture extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
