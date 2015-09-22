@@ -68,10 +68,10 @@ angular.module('upont')
                 },
                 resolve: {
                     fixs: ['Paginate', function(Paginate) {
-                        return Paginate.get('fixs', 20);
+                        return Paginate.get('fixs', 50);
                     }],
                     ownFixs: ['Paginate', function(Paginate) {
-                        return Paginate.get('own/fixs', 20);
+                        return Paginate.get('own/fixs', 50);
                     }],
                     members: ['$resource', function($resource) {
                         return $resource(apiPrefix + 'clubs/ki/users').query().$promise;
