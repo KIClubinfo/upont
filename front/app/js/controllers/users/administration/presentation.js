@@ -20,7 +20,7 @@ angular.module('upont')
             .state('root.users.administration', {
                 url: 'administration/:slug',
                 abstract: true,
-                templateUrl: 'views/users/administration/index.html',
+                templateUrl: 'controllers/users/administration/index.html',
                 data: {
                     title: 'Administration - uPont'
                 },
@@ -35,7 +35,7 @@ angular.module('upont')
             .state('root.users.administration.presentation', {
                 url: '/presentation',
                 controller : 'Administration_Presentation_Ctrl',
-                templateUrl: 'views/users/administration/presentation.html',
+                templateUrl: 'controllers/users/administration/presentation.html',
                 data: {
                     title: 'Présentation - uPont',
                     top: true

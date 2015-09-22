@@ -7,7 +7,7 @@ angular.module('upont')
             .state('root.users.administration.modify', {
                 url: '/gestion',
                 controller : 'Administration_Modify_Ctrl',
-                templateUrl: 'views/users/administration/modify.html',
+                templateUrl: 'controllers/users/administration/modify.html',
                 data: {
                     title: 'Gestion - uPont',
                     top: true

@@ -10,7 +10,7 @@ angular.module('upont')
             .state('root.users.administration.publications', {
                 url: '',
                 controller : 'Administration_Publications_Ctrl',
-                templateUrl: 'views/users/administration/publications.html',
+                templateUrl: 'controllers/users/administration/publications.html',
                 data: {
                     title: 'Activité - uPont',
                     top: true
