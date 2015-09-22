@@ -17,6 +17,7 @@ class GameType extends AbstractType
             ->add('tags', 'tags_selector')
             ->add('year')
             ->add('studio')
+            ->add('os')
             ->add('image', 'image_selector');
     }
 

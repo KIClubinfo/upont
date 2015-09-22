@@ -37,6 +37,13 @@ class Software extends PonthubFile
      */
     protected $version;
 
+    /**
+     * Operating System
+     * @ORM\Column(name="os", type="string", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("string")
+     */
+    protected $os;
 
     //===== GENERATED AUTOMATICALLY =====//
 
@@ -106,4 +113,29 @@ class Software extends PonthubFile
     {
         return $this->version;
     }
+
+    /**
+     * Set os
+     *
+     * @param string $os
+     *
+     * @return Software
+     */
+    public function setOs($os)
+    {
+        $this->os = $os;
+
+        return $this;
+    }
+
+    /**
+     * Get os
+     *
+     * @return string
+     */
+    public function getOs()
+    {
+        return $this->os;
+    }
+
 }

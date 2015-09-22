@@ -29,6 +29,14 @@ class Game extends PonthubFile
      */
     protected $studio;
 
+    /**
+     * Operating System
+     * @ORM\Column(name="os", type="string", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("string")
+     */
+    protected $os;
+
 
 
 
@@ -80,5 +88,29 @@ class Game extends PonthubFile
     public function getStudio()
     {
         return $this->studio;
+    }
+
+    /**
+     * Set os
+     *
+     * @param string $os
+     *
+     * @return Game
+     */
+    public function setOs($os)
+    {
+        $this->os = $os;
+
+        return $this;
+    }
+
+    /**
+     * Get os
+     *
+     * @return string
+     */
+    public function getOs()
+    {
+        return $this->os;
     }
 }
