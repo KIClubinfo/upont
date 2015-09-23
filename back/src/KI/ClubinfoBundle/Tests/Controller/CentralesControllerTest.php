@@ -4,7 +4,7 @@ namespace KI\PublicationBundle\Tests\Controller;
 
 use KI\CoreBundle\Tests\WebTestCase;
 
-class FixsControllerTest extends WebTestCase
+class CentralesControllerTest extends WebTestCase
 {
     // On crée une ressource sur laquelle seront effectués les tests.
     // Ne pas oublier de supprimer à la fin avec le test DELETE.
