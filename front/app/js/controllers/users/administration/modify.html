@@ -1,103 +1,94 @@
-<div class="up-ticket">
+<div class="Ticket">
     <h1>Informations Générales</h1>
 
-    <div up-row padded center>
-        <div up-col-xs="100%" up-col-sm="100%" up-col="50%" class="centering">
-            <img ng-src="{{ url + club.image_url }}" class="up-profile-page-picture">
+    <br>
+
+    <div row="center stretch">
+        <div class="Image" flex="25">
+            <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ club.image_url | urlFile }})' }"></div>
         </div>
     </div>
 
-    <div class="up-profile-form">
-        <form up-row padded left wrap ng-submit="submitGeneral(club.full_name, club.icon, profilePicture, bannerPicture)" autocomplete="off">
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-angle-double-right"></i>
-                Nom long
-            </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="text" ng-model="club.full_name"/>
-            </div>
+    <br>
 
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-{{ club.icon || 'file-image-o' }}"></i>
-                Icône <a ng-click="showIcons = !showIcons">({{ showIcons ? 'masquer' : 'voir' }} les icônes)</a>
-            </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input class="up-col-xs-12" type="text" ng-model="club.icon" placeholder="Utilisée notamment sur l'appli mobile"/>
-            </div>
+    <form row="start center" wrap ng-submit="submitGeneral(club.full_name, club.icon, profilePicture, bannerPicture)" autocomplete="off">
+        <div class="padded" flex="50" flex-md="25">
+            <i class="fa fa-angle-double-right"></i>
+            Nom long
+        </div>
+        <div class="padded" flex="50" flex-md="25">
+            <input class="Input" type="text" ng-model="club.full_name"/>
+        </div>
 
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-image"></i>
-                Logo
-            </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input type="file" class="up-col-xs-12" ng-model="profilePicture" base-sixty-four-input>
-            </div>
+        <div class="padded" flex="50" flex-md="25">
+            <i class="fa fa-{{ club.icon || 'file-image-o' }}"></i>
+            Icône <a class="Link" ng-click="showIcons = !showIcons">({{ showIcons ? 'masquer' : 'voir' }} les icônes)</a>
+        </div>
+        <div class="padded" flex="50" flex-md="25">
+            <input class="Input" type="text" ng-model="club.icon" placeholder="Utilisée notamment sur l'appli mobile"/>
+        </div>
 
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <i class="fa fa-image"></i>
-                Bannière
-            </div>
-            <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-                <input type="file" class="up-col-xs-12" ng-model="bannerPicture" base-sixty-four-input>
-            </div>
+        <div class="padded" flex="50" flex-md="25">
+            <i class="fa fa-image"></i>
+            Logo
+        </div>
+        <div class="padded" flex="50" flex-md="25">
+            <input type="file" class="Input" ng-model="profilePicture" base-sixty-four-input>
+        </div>
 
-            <div up-col="100%" up-row right>
-                <button up-col-xs="100%" up-col-sm="100%" up-col="25%" class="up-btn up-btn-lg up-btn-default">Modifier !</button>
-            </div>
-        </form>
-    </div>
+        <div class="padded" flex="50" flex-md="25">
+            <i class="fa fa-image"></i>
+            Bannière
+        </div>
+        <div class="padded" flex="50" flex-md="25">
+            <input type="file" class="Input" ng-model="bannerPicture" base-sixty-four-input>
+        </div>
 
-    <div class="up-ticket" ng-show="showIcons">
-    <h1>Icônes <small><a ng-click="showIcons = !showIcons">(masquer)</a></small></h1>
-    <div up-row wrap padded>
-        <div up-col-xs="50%" up-col-sm="33%" up-col="25%" class="up-clickable"
-             ng-repeat="icon in faIcons" ng-click="setIcon(icon)">
-            <i class="fa fa-{{ icon }} fa-block"></i> {{ icon }}
+        <div class="padded" flex="100" row="end start">
+            <button class="Button">Modifier !</button>
+        </div>
+    </form>
+
+    <div class="Ticket" ng-show="showIcons">
+        <h2>Icônes <small><a class="Link" ng-click="showIcons = !showIcons">(masquer)</a></small></h2>
+        <div row wrap class="padded">
+            <div class="Link  Link--reverse padded" flex="50" flex-sm="33" flex-md="25" up-col-sm="33%" up-col="25%" ng-repeat="icon in faIcons" ng-click="setIcon(icon)">
+                <i class="fa fa-{{ icon }} fa-block"></i> {{ icon }}
+            </div>
         </div>
     </div>
-</div>
 
     <hr>
 
     <h2>Paramètres du compte</h2>
 
-    <form up-row padded left wrap ng-submit="submitParams(user, old, password, confirm)" autocomplete="off">
-        <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+    <form row="start center" wrap ng-submit="submitParams(user, old, password, confirm)" autocomplete="off">
+        <div class="padded" flex="50" flex-md="25">
             <i class="fa fa-lock"></i>
             Nouveau mot de passe
         </div>
-        <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-            <input class="up-col-xs-12" type="password" ng-model="password" placeholder="Nouveau mot de passe"/>
+        <div class="padded" flex="50" flex-md="25">
+            <input class="Input" type="password" ng-model="password" placeholder="Nouveau mot de passe"/>
         </div>
 
-        <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+        <div class="padded" flex="50" flex-md="25">
             <i class="fa fa-lock"></i>
             Confirmation
         </div>
-        <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-            <input type="password" class="up-col-xs-12" ng-model="confirm" placeholder="Nouveau mot de passe" />
+        <div class="padded" flex="50" flex-md="25">
+            <input type="password" class="Input" ng-model="confirm" placeholder="Nouveau mot de passe" />
         </div>
 
-        <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
+        <div class="padded" flex="50" flex-md="25">
             <i class="fa fa-unlock"></i>
             Ancien mot de passe
         </div>
-        <div up-col-xs="50%" up-col-sm="50%" up-col="25%">
-            <input class="up-col-xs-12" type="password" ng-model="old" placeholder="Ancien mot de passe"/>
+        <div class="padded" flex="50" flex-md="25">
+            <input class="Input" type="password" ng-model="old" placeholder="Ancien mot de passe"/>
         </div>
 
-        <div up-col="100%" up-row right>
-            <button up-col-xs="100%" up-col-sm="100%" up-col="25%" class="up-btn up-btn-lg up-btn-default">Modifier !</button>
+        <div flex="100" class="padded" row="end start">
+            <button class="Button">Modifier !</button>
         </div>
     </form>  
-</div>
-
-<div class="up-ticket" ng-show="showIcons">
-    <h1>Icônes <small><a ng-click="showIcons = !showIcons">(masquer)</a></small></h1>
-    <div up-row wrap padded>
-        <div up-col-xs="50%" up-col-sm="33%" up-col="25%" class="up-clickable"
-             ng-repeat="icon in faIcons" ng-click="setIcon(icon)">
-            <i class="fa fa-{{ icon }} fa-block"></i> {{ icon }}
-        </div>
-    </div>
 </div>

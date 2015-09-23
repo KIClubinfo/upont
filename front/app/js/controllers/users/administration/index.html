@@ -1,14 +1,14 @@
-<div class="up-ticket up-zone-picker">
-    <div  up-row wrap>
-	    <div class="up-row left" up-col="50%">
-	        <a ui-sref="root.users.administration.presentation({slug: $root.me.username})" up-state-active>Présentation</a>
-	        <a ui-sref="root.users.administration.publications({slug: $root.me.username})" up-state-active>Activité</a>
-	        <a ui-sref="root.users.administration.modify({slug: $root.me.username})" up-state-active>Gestion</a>
+<nav class="Navbar">
+	<div row wrap>
+	    <div row="left" flex="50">
+	        <a class="Navbar__link" up-state-active ui-sref="root.users.administration.presentation({slug: $root.me.username})">Présentation</a>
+	        <a class="Navbar__link" up-state-active ui-sref="root.users.administration.publications({slug: $root.me.username})">Activité</a>
+	        <a class="Navbar__link" up-state-active ui-sref="root.users.administration.modify({slug: $root.me.username})">Gestion</a>
 	    </div>
-		<div class="up-row right" up-col="50%">
-	    	<button class="up-btn up-btn-default" ng-click="logout()">Se déconnecter</button>
-	    </div>
-    </div>
-</div>
+	    <div flex="50" row="end">
+            	<button class="Button">Se déconnecter</button>
+        </div>
+	</div>
+</nav>
 
-<div ui-view root-state="root.users.administration" autoscroll="false"></div>
+<div class="padded" ui-view root-state="root.users.administration" autoscroll="false"></div>
