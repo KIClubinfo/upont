@@ -52,7 +52,7 @@
     <div class="Ticket" ng-show="showIcons">
         <h2>Icônes <small><a class="Link" ng-click="showIcons = !showIcons">(masquer)</a></small></h2>
         <div row wrap class="padded">
-            <div class="Link  Link--reverse padded" flex="50" flex-sm="33" flex-md="25" up-col-sm="33%" up-col="25%" ng-repeat="icon in faIcons" ng-click="setIcon(icon)">
+            <div class="Link  Link--reverse padded" flex="50" flex-sm="33" flex-md="25" ng-repeat="icon in faIcons" ng-click="setIcon(icon)">
                 <i class="fa fa-{{ icon }} fa-block"></i> {{ icon }}
             </div>
         </div>
