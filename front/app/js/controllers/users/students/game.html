@@ -125,9 +125,9 @@
 
         <h2 class="padded">Temps</h2>
 
-        <p>Tu as fini en <strong>{{ (clock-start)/1000 | formatDuration }}</strong>.<br>
+        Tu as fini en <b>{{ (clock-start)/1000 | formatDuration }} {{ (clock - start)%1000 | numberFixedLen:3 }} ms</b>.<br>Tu as fini en <b>{{ (clock-start)/1000 | formatDuration }} {{ (clock - start)%1000 | numberFixedLen:3 }} ms</b>.<br>
         <span ng-if="numWrong>0">Tu as commis <strong>{{ numWrong }}</strong> faute<span ng-if="numWrong > 1">s</span>.<br>
-        Temps total : <strong>{{ (clock-start)/1000 + 5 * numWrong | formatDuration }}  {{ (clock - start)%1000 }} ms.</strong></span></p>
+        Temps total : <strong>{{ (clock-start)/1000 + 5 * numWrong | formatDuration }}  {{ (clock - start)%1000 | numberFixedLen:3 }} ms.</strong></span></p>
 
         <section row="space-around stretch" wrap>
             <div class="text-left padded" flex="50" row ng-repeat="face in gameData.list_users">
@@ -198,7 +198,7 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="highscore in userStatistics.normalHighscores | orderBy:predicate:userNormal">
-                        <td>{{ highscore.duration | formatDuration }}</td>
+                        <td>{{ highscore.duration/1000 | formatDuration }} {{ highscore.duration%1000 | numberFixedLen:3 }} ms</td>
                         <td>{{ highscore.date | formatDate }}</td>
                     </tr>
                     <tr ng-hide="userStatistics.normalHighscores.length">
@@ -219,7 +219,7 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="highscore in userStatistics.hardcoreHighscores | orderBy:predicate:userHardcore">
-                        <td>{{ highscore.duration | formatDuration }}</td>
+                        <td>{{ highscore.duration/1000 | formatDuration }} {{ highscore.duration%1000 }} ms</td>
                         <td>{{ highscore.date | formatDate }}</td>
                     </tr>
                     <tr ng-hide="userStatistics.hardcoreHighscores.length">
@@ -246,7 +246,7 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="highscore in globalStatistics.normalHighscores | orderBy:predicate:globalNormal">
-                        <td>{{ highscore.duration | formatDuration }}</td>
+                        <td>{{ highscore.duration/1000 | formatDuration }} {{ highscore.duration%1000 | numberFixedLen:3 }} ms</td>
                         <td>{{ highscore.name }}</td>
                         <td>{{ highscore.date | formatDate }}</td>
                     </tr>
@@ -270,8 +270,8 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="highscore in globalStatistics.hardcoreHighscores | orderBy:predicate:globalHardcore">
-                        <td>{{ highscore.duration | formatDuration }}</td>
                         <td>{{ highscore.name }}</td>
+                        <td>{{ highscore.duration/1000 | formatDuration }} {{ highscore.duration%1000 }} ms</td>
                         <td>{{ highscore.date | formatDate }}</td>
                     </tr>
                     <tr ng-hide="globalStatistics.hardcoreHighscores.length">
