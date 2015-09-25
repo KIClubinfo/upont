@@ -8,10 +8,11 @@
                 </div>
 
                 <div>
+                    <strong up-user user="message.author_user">{{ message.author_user.nick }}</strong><br>
                     <small>
-                        <span class="Link Link--reverse" title="Afficher la publication" ui-sref="root.users.publications.message({slug: message.slug})">
+                        <time class="Link Link--reverse" title="Afficher la publication" ui-sref="root.users.publications.message({slug: message.slug})">
                             {{ message.date | fromNow }}
-                        </span>
+                        </time>
                         <i class="fa  fa-pencil  Link  Link--reverse" title="Modifier le message"
                            ng-show="($root.isAdmin || message.author_user.username == $root.me.username) && showModify"
                            ng-click="modify(message)"></i>
@@ -19,7 +20,6 @@
                            ng-show="($root.isAdmin || message.author_user.username == $root.me.username) && showModify"
                            ng-click="delete(message)"></i>
                     </small><br>
-                    <strong up-user user="message.author_user">{{ message.author_user.nick }} :</strong><br>
                 </div>
             </header>
 
