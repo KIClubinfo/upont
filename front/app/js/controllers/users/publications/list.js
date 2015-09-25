@@ -171,9 +171,9 @@ angular.module('upont')
         };
 
         $scope.enableModify = function(post) {
-            var item = post.start_date !== undefined ? 'events' : 'newsitems' ;
+            $scope.item = post.start_date !== undefined ? 'events' : 'newsitems' ;
 
-            if (item == 'newsitems') {
+            if ($scope.item == 'newsitems') {
                 $scope.edit = post;
             } else {
                 $rootScope.$broadcast('modifyEvent', post);
@@ -181,8 +181,9 @@ angular.module('upont')
         };
 
         $scope.modify = function(post) {
-            $http.patch(apiPrefix + item + '/' + post.slug, {text: post.text}).success(function(data){
-                alertify.success('Publication modifiée !');
+            $http.patch(apiPrefix + $scope.item + '/' + post.slug, {text: post.text}).success(function(data){
+                alertify.success('Publication modifiée !</br>(Recharge la page)');
+                $scope.edit.text = post.text ;
                 $scope.edit = null;
             });
         };
