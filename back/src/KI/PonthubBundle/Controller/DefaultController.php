@@ -7,19 +7,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use KI\PonthubBundle\Entity\Album;
-use KI\PonthubBundle\Entity\Episode;
-use KI\PonthubBundle\Entity\Game;
-use KI\PonthubBundle\Entity\Movie;
-use KI\PonthubBundle\Entity\Music;
-use KI\PonthubBundle\Entity\Other;
-use KI\PonthubBundle\Entity\Serie;
-use KI\PonthubBundle\Entity\Software;
-use KI\PonthubBundle\Entity\Genre;
+use KI\CoreBundle\Controller\ResourceController;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class DefaultController extends \KI\CoreBundle\Controller\ResourceController
+class DefaultController extends ResourceController
 {
-    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->initialize('PonthubFile', 'Ponthub');
@@ -47,256 +40,25 @@ class DefaultController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function filelistAction($token, Request $request)
     {
-        if ($token != $this->container->getParameter('fleur_token'))
+        $path = __DIR__.'/../../../../web/uploads/tmp/';
+        if ($token != $this->container->getParameter('fleur_token')) {
             return $this->jsonResponse('Vous n\'avez pas le droit de faire ça', 403);
+        }
 
         // On récupère le fichier envoyé
-        if (!$request->files->has('filelist'))
+        if (!$request->files->has('filelist')) {
             throw new BadRequestHttpException('Aucun fichier envoyé');
-
-        // Quelques variables qui vont servir
-        $match = $genres = $series = $albums = $pathsDone = array();
-        $path = __DIR__.'/../../../../web/uploads/tmp/';
-        $validExt = array(
-            'mp3', 'wav', 'ogg', 'flac', 'mp2', 'aac',
-            'avi', 'mpeg', 'mp4', 'mkv',
-            'rar', 'zip', 'iso', 'exe', 'msi',
-            'jpg', 'jpeg', 'png', 'bmp', 'gif',
-            'srt',
-            'pdf', 'epub', 'mobi'
-        );
+        }
 
         // On récupère le contenu du fichier
         $request->files->get('filelist')->move($path, 'files.list');
         $list = fopen($path.'files.list', 'r+');
-        if ($list === false)
+        if ($list === false) {
             throw new BadRequestHttpException('Erreur lors de l\'upload du fichier');
-
-        // On va modifier les entités en fonction de la liste, on récupère les
-        // chemins de toutes les entités Ponthub
-        $this->manager = $this->getDoctrine()->getManager();
-        $repoSeries = $this->manager->getRepository('KIPonthubBundle:Serie');
-        $repoAlbums = $this->manager->getRepository('KIPonthubBundle:Album');
-        $paths = $this->repository->createQueryBuilder('r')->select('r.path')->getQuery()->getScalarResult();
-        $paths = array_map('current', $paths);
-
-        // On stocke les albums et les séries existantes
-        $result = $repoSeries->findAll();
-        foreach ($result as $serie) {
-            $series[$serie->getName()] = $serie;
-        }
-        $result = $repoAlbums->findAll();
-        foreach ($result as $album) {
-            $albums[$album->getName()] = $album;
         }
 
-        // On liste aussi les genres pour les musiques
-        $repoGenres = $this->manager->getRepository('KIPonthubBundle:Genre');
-        $result = $repoGenres->findAll();
-        foreach ($result as $genre) {
-            $genres[$genre->getName()] = $genre;
-        }
-
-        // On parcourt la liste ligne par ligne
-        while (!feof($list)) {
-            // On enlève le caractère de fin de ligne
-            $line = str_replace(array("\r", "\n"), array('', ''), fgets($list));
-
-            // On récupère la taille du fichier et on l'enlève de la line
-            // pour garder uniquement le chemin
-            preg_match('#^(([0-9]+)[\t ]*)#', $line, $match);
-
-            // On vérifie que la line a bien la bonne syntaxe, càd
-            // %size%          %path%
-            if (!(isset($match[1]) && isset($match[2])))
-                continue;
-            $size = $match[2]*1000;
-            $line = str_replace($match[1], '', $line);
-
-            // On exclut tous les fichiers de type non valide
-            $name = preg_replace(array('#.*/#', '#\.[a-zA-Z0-9]+$#'), array('', ''), $line);
-            $ext = strtolower(substr(strrchr($line, '.'), 1));
-            if (!in_array($ext, $validExt))
-                continue;
-
-            // On ne crée une nouvelle entrée que si le fichier n'existe pas
-            if (in_array($line, $paths)) {
-                $pathsDone[] = $line;
-                continue;
-            }
-
-            // On détermine le dossier dans lequel est rangé le fichier et on range selon le type.
-            if (preg_match('#^/root/web/films/#', $line)) {
-                if ($size == 0)
-                    continue;
-
-                $item = new Movie();
-                $item->setSize($size);
-                $item->setAdded(time());
-                $item->setPath($line);
-                $item->setStatus('NeedInfos');
-                $item->setName($name);
-                $item->setVo(true);
-                $item->setVost(true);
-                $item->setHd(true);
-                $this->manager->persist($item);
-            }
-            if (preg_match('#^/root/web/films_light/#', $line)) {
-                if ($size == 0)
-                    continue;
-
-                $item = new Movie();
-                $item->setSize($size);
-                $item->setAdded(time());
-                $item->setPath($line);
-                $item->setStatus('NeedInfos');
-                $item->setName($name);
-                $item->setHd(false);
-                $this->manager->persist($item);
-            }
-            if (preg_match('#^/root/web/jeux/#', $line)) {
-                if ($size == 0)
-                    continue;
-
-                $item = new Game();
-                $item->setSize($size);
-                $item->setAdded(time());
-                $item->setPath($line);
-                $item->setStatus('NeedInfos');
-                $item->setName($name);
-                $this->manager->persist($item);
-            }
-            if (preg_match('#^/root/web/logiciels/#', $line)) {
-                if ($size == 0)
-                    continue;
-
-                $item = new Software();
-                $item->setSize($size);
-                $item->setAdded(time());
-                $item->setPath($line);
-                $item->setStatus('NeedInfos');
-                $item->setName($name);
-                $this->manager->persist($item);
-            }
-            if (preg_match('#^/root/web/autres/#', $line)) {
-                if ($size == 0)
-                    continue;
-
-                $item = new Other();
-                $item->setSize($size);
-                $item->setAdded(time());
-                $item->setPath($line);
-                $item->setStatus('NeedInfos');
-                $item->setName($name);
-                $this->manager->persist($item);
-            }
-            if (preg_match('#^/root/web/series/#', $line)) {
-                // On détermine les différentes données
-                $serie = preg_replace('#/.*#', '', str_replace('/root/web/series/', '', $line));
-                $episode = str_replace($ext, '', preg_replace('#.*/#', '', $line));
-
-                // Si la série existe, on la récupère, sinon on la rajoute
-                if (!isset($series[$serie])) {
-                    $serieItem = new Serie();
-                    $serieItem->setAdded(time());
-                    $serieItem->setPath('/root/web/series/'.$serie.'/');
-                    $serieItem->setStatus('NeedInfos');
-                    $serieItem->setName($serie);
-                    $serieItem->setVo(true);
-                    $serieItem->setHd(false);
-                    $this->manager->persist($serieItem);
-                    $series[$serie] = $serieItem;
-                } else
-                    $serieItem = $series[$serie];
-                if (!in_array('/root/web/series/'.$serie.'/', $pathsDone))
-                    $pathsDone[] = '/root/web/series/'.$serie.'/';
-
-                //On range l'épisode en commencant par déterminer le numéro de saison et d'épisode
-                if (!preg_match('#^S([0-9]{2}) E([0-9]{2})#', $episode, $matches))
-                    continue;
-
-                list(, $numberS, $numberE) = $matches;
-                $item = new Episode();
-                $item->setSize($size);
-                $item->setAdded(time());
-                $item->setPath($line);
-                $item->setSeason($numberS);
-                $item->setNumber($numberE);
-                $item->setStatus('OK');
-                $item->setName($name);
-                $item->setSerie($serieItem);
-
-                // On actualise la date de modification de la série
-                $serieItem->setAdded(time());
-                $this->manager->persist($item);
-                $pathsDone[] = $line;
-            }
-            if (preg_match('#^/root/web/musiques/#', $line)) {
-                // On détermine les différentes données
-                $genre = preg_replace('#/.*#', '', str_replace('/root/web/musiques/', '', $line));
-                $artist = preg_replace('#/.*#', '', str_replace('/root/web/musiques/'.$genre.'/', '', $line));
-                $album = preg_replace('#/.*#', '', str_replace('/root/web/musiques/'.$genre.'/'.$artist.'/', '', $line));
-
-                // Si le genre existe, on le récupère, sinon on le rajoute
-                if (!isset($genres[$genre])) {
-                    $genreItem = new Genre();
-                    $genreItem->setName($genre);
-                    $this->manager->persist($genreItem);
-                    $genres[$genre] = $genreItem;
-                } else
-                    $genreItem = $genres[$genre];
-
-                // Si l'album existe, on le récupère, sinon on le rajoute
-                if (!isset($albums[$album])) {
-                    $albumItem = new Album();
-                    $albumItem->setAdded(time());
-                    $albumItem->setName($album);
-                    $albumItem->setArtist($artist);
-                    $albumItem->setStatus('NeedInfos');
-                    $albumItem->setPath('/root/web/musiques/'.$genre.'/'.$artist.'/'.$album.'/');
-                    $this->manager->persist($albumItem);
-                    $albums[$album] = $albumItem;
-                    $pathsDone[] = '/root/web/musiques/'.$genre.'/'.$artist.'/'.$album.'/';
-                } else
-                    $albumItem = $albums[$album];
-                if (!in_array('/root/web/musiques/'.$genre.'/'.$artist.'/'.$album.'/', $pathsDone))
-                    $pathsDone[] = '/root/web/musiques/'.$genre.'/'.$artist.'/'.$album.'/';
-
-                // Maintenant on range la musique
-                $item = new Music();
-                $item->setSize($size);
-                $item->setAdded(time());
-                $item->setPath($line);
-                $item->setStatus('OK');
-                $item->setName($name);
-                $item->addGenre($genreItem);
-                $item->setAlbum($albumItem);
-                $this->manager->persist($item);
-                $pathsDone[] = $line;
-            }
-        }
-        $this->manager->flush();
-
-        // Maintenant on marque les fichiers non trouvés
-        $notFound = array_diff($paths, $pathsDone);
-        $items = $this->repository->findByPath($notFound);
-
-        foreach ($items as $item) {
-            if (get_class($item) != 'KI\PonthubBundle\Entity\Album'
-             && get_class($item) != 'KI\PonthubBundle\Entity\Serie')
-                $item->setStatus('NotFound');
-        }
-
-        // Si des nouveaux fichiers ont été ajoutés, on notifie les utilisateurs
-        $count = count(array_diff($pathsDone, $paths));
-        if ($count > 0) {
-            $this->get('ki_user.service.notify')->notify(
-                'notif_ponthub',
-                'Ponthub',
-                'De nouveaux fichiers sont disponibles sur Ponthub !'
-            );
-        }
-        $this->manager->flush();
+        $filelistHelper = $this->get('ki_ponthub.helper.filelist');
+        $filelistHelper->parseFilelist($list);
 
         return $this->jsonResponse(null, 202);
     }
