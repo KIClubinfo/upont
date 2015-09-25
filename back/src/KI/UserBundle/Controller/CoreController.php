@@ -45,7 +45,7 @@ class CoreController extends FOSRestController
     }
 
     /**
-     * Sert à checker si l'utilisateur actuel est membre du club au nom duquel il poste
+     * Sert à checker si l'user actuel est membre du club au nom duquel il poste
      * @param  Club $club
      * @return boolean
      */
