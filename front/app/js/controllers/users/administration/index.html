@@ -1,14 +1,16 @@
-<nav class="Navbar">
-	<div row wrap>
-	    <div row="left" flex="50">
-	        <a class="Navbar__link" up-state-active ui-sref="root.users.administration.presentation({slug: $root.me.username})">Présentation</a>
-	        <a class="Navbar__link" up-state-active ui-sref="root.users.administration.publications({slug: $root.me.username})">Activité</a>
-	        <a class="Navbar__link" up-state-active ui-sref="root.users.administration.modify({slug: $root.me.username})">Gestion</a>
-	    </div>
-	    <div flex="50" row="end stretch">
-            	<button class="Button" ng-click="logout()">Se déconnecter</button>
-        </div>
-	</div>
-</nav>
+<main class="Page__noaside">
+	<nav class="Navbar">
+		<div row="start end" wrap>
+		    <div row="left stretch" flex="50">
+		        <a class="Navbar__link" up-state-active ui-sref="root.users.administration.presentation({slug: $root.me.username})">Présentation</a>
+		        <a class="Navbar__link" up-state-active ui-sref="root.users.administration.publications({slug: $root.me.username})">Activité</a>
+		        <a class="Navbar__link" up-state-active ui-sref="root.users.administration.modify({slug: $root.me.username})">Gestion</a>
+		    </div>
+		    <div flex="50" row="end stretch">
+	            <button class="Button" ng-click="logout()">Se déconnecter</button>
+	        </div>
+		</div>
+	</nav>
 
-<div class="padded" ui-view root-state="root.users.administration" autoscroll="false"></div>
+	<div class="padded" ui-view root-state="root.users.administration" autoscroll="false"></div>
+</main>
