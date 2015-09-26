@@ -4,10 +4,11 @@ namespace KI\PonthubBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class SoftwaresController extends PonthubFileController
 {
-    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->initialize('Software', 'Ponthub');
@@ -62,7 +63,7 @@ class SoftwaresController extends PonthubFileController
      */
     public function patchSoftwareAction($slug)
     {
-        return $this->patch($slug, $this->get('security.context')->isGranted('ROLE_JARDINIER'));
+        return $this->patch($slug, $this->is('JARDINIER'));
     }
 
     /**

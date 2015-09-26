@@ -37,13 +37,6 @@ class Game extends PonthubFile
      */
     protected $os;
 
-
-
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
-
     /**
      * Set year
      *

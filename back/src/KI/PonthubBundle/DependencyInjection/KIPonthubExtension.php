@@ -28,5 +28,6 @@ class KIPonthubExtension extends Extension
         $loader->load('repositories.yml');
         $loader->load('selectors.yml');
         $loader->load('services.yml');
+        $loader->load('transformers.yml');
     }
 }

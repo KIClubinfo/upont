@@ -37,14 +37,6 @@ class Album extends PonthubFile
      */
     protected $musics;
 
-
-
-
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
-
     /**
      * Constructor
      */

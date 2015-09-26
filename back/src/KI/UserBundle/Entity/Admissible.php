@@ -102,14 +102,10 @@ class Admissible
 
     public function getName() { return $this->getFirstName().' '.$this->getLastName(); }
 
-
-
-
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
-
+    public function __construct()
+    {
+        $this->date = time();
+    }
 
     /**
      * Get id

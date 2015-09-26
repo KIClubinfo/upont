@@ -3,16 +3,16 @@
 namespace KI\UserBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use KI\CoreBundle\Controller\ResourceController;
 
-class AdmissiblesController extends \KI\CoreBundle\Controller\ResourceController
+class AdmissiblesController extends ResourceController
 {
-    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->initialize('Admissible', 'User');
     }
-
-
 
     /**
      * @ApiDoc(
@@ -71,17 +71,7 @@ class AdmissiblesController extends \KI\CoreBundle\Controller\ResourceController
      *  section="Utilisateurs"
      * )
      */
-    public function postAdmissibleAction()
-    {
-        $return = $this->postData(true);
-
-        if ($return['code'] == 201) {
-            // On modifie légèrement la ressource qui vient d'être créée
-            $return['item']->setDate(time());
-        }
-
-        return $this->postView($return);
-    }
+    public function postAdmissibleAction() { return $this->post(true); }
 
     /**
      * @ApiDoc(
@@ -98,10 +88,7 @@ class AdmissiblesController extends \KI\CoreBundle\Controller\ResourceController
      *  section="Utilisateurs"
      * )
      */
-    public function patchAdmissibleAction($slug)
-    {
-        return $this->patch($slug);
-    }
+    public function patchAdmissibleAction($slug) { return $this->patch($slug); }
 
     /**
      * @ApiDoc(

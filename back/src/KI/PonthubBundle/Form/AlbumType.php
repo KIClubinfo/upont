@@ -17,7 +17,8 @@ class AlbumType extends AbstractType
             ->add('tags', 'tags_selector')
             ->add('year')
             ->add('artist')
-            ->add('image', 'image_selector');
+            ->add('image', 'image_selector')
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

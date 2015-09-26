@@ -1,4 +1,11 @@
 services:
+    ki_ponthub.repository.actor:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - KI\PonthubBundle\Entity\Actor
+
     ki_ponthub.repository.album:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.default_entity_manager
@@ -19,6 +26,13 @@ services:
         factory_method: getRepository
         arguments:
             - KI\PonthubBundle\Entity\PonthubFile
+
+    ki_ponthub.repository.ponthubfileuser:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - KI\PonthubBundle\Entity\PonthubFileUser
 
     ki_ponthub.repository.serie:
         class: Doctrine\ORM\EntityRepository

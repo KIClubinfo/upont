@@ -29,7 +29,7 @@ class DefaultController extends BaseController
      * )
      * @Route\Get("/statistics/foyer/{slug}")
      */
-    public function getStatisticsAction($slug)
+    public function getFoyerStatisticsAction($slug)
     {
         $this->trust(!$this->is('EXTERIEUR'));
 
@@ -57,7 +57,7 @@ class DefaultController extends BaseController
      * )
      * @Route\Get("/statistics/foyer")
      */
-    public function getStatisticsMainAction()
+    public function getFoyerStatisticsMainAction()
     {
         $this->trust(!$this->is('EXTERIEUR'));
 

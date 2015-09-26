@@ -29,13 +29,6 @@ class Actor
      */
     protected $name;
 
-
-
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
-
     /**
      * Get id
      *

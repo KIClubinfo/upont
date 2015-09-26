@@ -4,10 +4,11 @@ namespace KI\PonthubBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class AlbumsController extends PonthubFileController
 {
-    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->initialize('Album', 'Ponthub');
@@ -60,10 +61,7 @@ class AlbumsController extends PonthubFileController
      *  section="Ponthub"
      * )
      */
-    public function patchAlbumAction($slug)
-    {
-        return $this->patch($slug, $this->get('security.context')->isGranted('ROLE_JARDINIER'));
-    }
+    public function patchAlbumAction($slug) { return $this->patch($slug, $this->is('JARDINIER')); }
 
     /**
      * @ApiDoc(
@@ -112,10 +110,7 @@ class AlbumsController extends PonthubFileController
      *  section="Ponthub"
      * )
      */
-    public function patchAlbumMusicAction($slug, $id)
-    {
-        return $this->patchSub($slug, 'Music', $id, $this->get('security.context')->isGranted('ROLE_JARDINIER'));
-    }
+    public function patchAlbumMusicAction($slug, $id) { return $this->patchSub($slug, 'Music', $id, $this->is('JARDINIER')); }
 
     /**
      * @ApiDoc(
