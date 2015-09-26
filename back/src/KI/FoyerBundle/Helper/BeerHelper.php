@@ -4,11 +4,9 @@ namespace KI\FoyerBundle\Helper;
 
 use Doctrine\ORM\EntityRepository;
 use KI\FoyerBundle\Entity\Beer;
-use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Entity\User;
-use KI\UserBundle\Event\AchievementCheckEvent;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class BeerHelper
 {

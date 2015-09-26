@@ -136,7 +136,7 @@ class StatisticsHelper
     /**
      * Retourne le nombre cumulé de litres bus
      * @param  User $user
-     * @return float
+     * @return integer
      */
     private function getTotalLiters(User $user)
     {
