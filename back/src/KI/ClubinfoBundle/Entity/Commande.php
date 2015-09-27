@@ -44,7 +44,7 @@ class Commande
 
     /**
      * Comande retirée ou non
-     * @ORM\Column(name="taken", type="text")
+     * @ORM\Column(name="taken", type="boolean")
      * @JMS\Expose
      * @Assert\NotBlank()
      */
@@ -52,7 +52,7 @@ class Commande
 
     /**
      * Comande payée ou non
-     * @ORM\Column(name="taken", type="text")
+     * @ORM\Column(name="taken", type="boolean")
      * @JMS\Expose
      * @Assert\NotBlank()
      */

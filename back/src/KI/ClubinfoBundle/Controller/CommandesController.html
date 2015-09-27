@@ -7,19 +7,19 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use KI\CoreBundle\Controller\ResourceController;
 
-class CentralesController extends ResourceController
+class CommandeController extends ResourceController
 {
     public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
-        $this->initialize('Centrale', 'Clubinfo');
+        $this->initialize('Commande', 'Clubinfo');
     }
 
     /**
      * @ApiDoc(
      *  resource=true,
-     *  description="Liste les centrales d'achat",
-     *  output="KI\ClubinfoBundle\Entity\Centrale",
+     *  description="Liste les commandes de centrales",
+     *  output="KI\ClubinfoBundle\Entity\Commande",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -29,12 +29,12 @@ class CentralesController extends ResourceController
      *  section="Clubinfo"
      * )
      */
-    public function getCentralesAction() { return $this->getAll(); }
+    public function getCommandesAction() { return $this->getAll(); }
 
     /**
      * @ApiDoc(
-     *  description="Retourne une centrale d'achat",
-     *  output="KI\ClubinfoBundle\Entity\Centrale",
+     *  description="Retourne une commande",
+     *  output="KI\ClubinfoBundle\Entity\Commande",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -44,15 +44,15 @@ class CentralesController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route\Get("/centrales/{slug}")
+     * @Route\Get("/commande/{slug}/{username}")
      */
-    public function getCentraleAction($slug) { return $this->getOne($slug); }
+    public function getCommandeAction($slug, $username) { return $this->getOne($user); }
 
     /**
      * @ApiDoc(
-     *  description="Crée une centrale d'achat",
-     *  input="KI\ClubinfoBundle\Form\CentraleType",
-     *  output="KI\ClubinfoBundle\Entity\Centrale",
+     *  description="Crée une commande",
+     *  input="KI\ClubinfoBundle\Form\CommandeType",
+     *  output="KI\ClubinfoBundle\Entity\Commande",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",
@@ -62,17 +62,17 @@ class CentralesController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route\Post("/centrales")
+     * @Route\Post("/commandes")
      */
-    public function postCentraleAction()
+    public function postCommandeAction()
     {
         return $this->post($this->get('security.context')->isGranted('ROLE_USER'));
     }
 
     /**
      * @ApiDoc(
-     *  description="Modifie une centrale d'achat",
-     *  input="KI\ClubinfoBundle\Form\CentraleType",
+     *  description="Modifie une commande",
+     *  input="KI\ClubinfoBundle\Form\CommandeType",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   400="La syntaxe de la requête est erronée",
@@ -83,18 +83,18 @@ class CentralesController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route\Patch("/centrales/{slug}")
+     * @Route\Patch("/commandes/{slug}/{username}")
      */
-    public function patchCentraleAction($slug)
+    public function patchCommandeAction($slug, $username)
     {
-        $fix = $this->findBySlug($slug);
+        $commande = $this->findByCentraleSlug($slug);
 
         return $this->patch($slug);
     }
 
     /**
      * @ApiDoc(
-     *  description="Supprime une centrale d'achat",
+     *  description="Supprime une commande",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -104,12 +104,12 @@ class CentralesController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route\Delete("/centrales/{slug}")
+     * @Route\Delete("/commandes/{slug}/{username}")
      */
-    public function deleteCentraleAction($slug)
+    public function deleteCommandeAction($slug, $username)
     {
-        // $fix = $this->findBySlug($slug);
-        // $user = $this->get('security.context')->getToken()->getUser();
-        // return $this->delete($slug, $user->getUsername() == $fix->getUser()->getUsername());
+        $commande = $this->findBySlug($slug);
+        $user = $this->get('security.context')->getToken()->getUser();
+        return $this->delete($user, $user->getUsername() == $commande->getUser()->getUsername());
     }
 }
