@@ -98,7 +98,7 @@ class Serie extends PonthubFile
     {
         $actors = array();
         foreach ($this->actors as $actor) {
-                    $actors[] = $actor->getName();
+            $actors[] = $actor->getName();
         }
         return $actors;
     }

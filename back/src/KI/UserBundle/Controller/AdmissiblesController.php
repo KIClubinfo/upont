@@ -32,10 +32,11 @@ class AdmissiblesController extends ResourceController
         // On charge tous les admissibles
         $admissibles = $this->repository->findAll();
         $result = array();
+        $year = strftime('%Y');
 
         // On ne garde que les admissibles de cette année
         foreach ($admissibles as $admissible) {
-            if ($admissible->getDate() == date('Y')) {
+            if (strftime('%Y', $admissible->getDate()) == $year) {
                 $result[] = $admissible;
             }
         }

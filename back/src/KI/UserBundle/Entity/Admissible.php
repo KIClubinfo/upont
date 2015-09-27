@@ -51,9 +51,9 @@ class Admissible
 
     /**
      * Date de création de l'admissible
-     * @ORM\Column(name="date", type="string")
+     * @ORM\Column(name="date", type="integer")
      * @JMS\Expose
-     * @Assert\Type("string")
+     * @Assert\Type("integer")
      */
     protected $date;
 
