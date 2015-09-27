@@ -130,15 +130,6 @@ class PonthubFile extends Likeable
         return count($this->users);
     }
 
-
-
-
-
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
-
     /**
      * Constructor
      */

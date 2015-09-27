@@ -2,50 +2,47 @@
 namespace KI\PonthubBundle\Transformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use KI\PonthubBundle\Entity\Actor;
 
 class StringToActorsTransformer implements DataTransformerInterface
 {
-    /**
-     * @var ObjectManager
-     */
-    private $om;
+    protected $manager;
+    protected $actorRepository;
 
-    public function __construct(ObjectManager $om)
+    public function __construct(EntityManager $manager, EntityRepository $actorRepository)
     {
-        $this->om = $om;
+        $this->manager         = $manager;
+        $this->actorRepository = $actorRepository;
     }
 
     // En théorie, ne sera jamais utilisé
     public function transform($actors)
     {
-        if (null === $actors)
-            return '';
-
         return '';
     }
 
     public function reverseTransform($string)
     {
-        if (!$string)
+        if (!$string) {
             return null;
+        }
 
         $array = new \Doctrine\Common\Collections\ArrayCollection();
-        $repo = $this->om->getRepository('KIPonthubBundle:Actor');
         foreach (explode(',', $string) as $actor) {
-            $item = $repo->findOneByName($actor);
+            $item = $this->actorRepository->findOneByName($actor);
 
             if ($item instanceof Actor) {
                 $array->add($item);
             } else {
                 $actorItem = new Actor();
                 $actorItem->setName($actor);
-                $this->om->persist($actorItem);
+                $this->manager->persist($actorItem);
                 $array->add($actorItem);
             }
         }
-        $this->om->flush();
+        $this->manager->flush();
 
         return $array;
     }

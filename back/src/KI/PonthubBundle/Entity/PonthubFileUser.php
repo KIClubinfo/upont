@@ -41,8 +41,6 @@ class PonthubFileUser
      */
     protected $date;
 
-    //===== GENERATED AUTOMATICALLY =====//mm
-
     /**
      * Get id
      *

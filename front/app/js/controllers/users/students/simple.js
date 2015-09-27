@@ -310,7 +310,7 @@ angular.module('upont')
                         }).$promise;
                     }],
                     ponthub: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(apiPrefix + 'ponthub/statistics/:slug').get({
+                        return $resource(apiPrefix + 'statistics/ponthub/:slug').get({
                             slug: $stateParams.slug
                         }).$promise;
                     }],

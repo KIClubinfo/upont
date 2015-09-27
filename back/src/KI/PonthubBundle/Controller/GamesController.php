@@ -4,10 +4,11 @@ namespace KI\PonthubBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class GamesController extends PonthubFileController
 {
-    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->initialize('Game', 'Ponthub');
@@ -60,10 +61,7 @@ class GamesController extends PonthubFileController
      *  section="Ponthub"
      * )
      */
-    public function patchGameAction($slug)
-    {
-        return $this->patch($slug, $this->get('security.context')->isGranted('ROLE_JARDINIER'));
-    }
+    public function patchGameAction($slug) { return $this->patch($slug, $this->is('JARDINIER')); }
 
     /**
      * @ApiDoc(
