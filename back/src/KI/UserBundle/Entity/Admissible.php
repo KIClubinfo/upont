@@ -51,9 +51,9 @@ class Admissible
 
     /**
      * Date de création de l'admissible
-     * @ORM\Column(name="date", type="string")
+     * @ORM\Column(name="date", type="integer")
      * @JMS\Expose
-     * @Assert\Type("string")
+     * @Assert\Type("integer")
      */
     protected $date;
 
@@ -102,14 +102,10 @@ class Admissible
 
     public function getName() { return $this->getFirstName().' '.$this->getLastName(); }
 
-
-
-
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
-
+    public function __construct()
+    {
+        $this->date = time();
+    }
 
     /**
      * Get id

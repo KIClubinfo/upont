@@ -11,9 +11,10 @@ class RequestType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name');
+            ->add('name')
+        ;
     }
-    
+
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
@@ -21,7 +22,7 @@ class RequestType extends AbstractType
             'data_class' => 'KI\PonthubBundle\Entity\Request'
         ));
     }
-        
+
     public function getName()
     {
         return '';

@@ -45,8 +45,6 @@ class Software extends PonthubFile
      */
     protected $os;
 
-    //===== GENERATED AUTOMATICALLY =====//
-
     /**
      * Set year
      *

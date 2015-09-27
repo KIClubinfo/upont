@@ -10,13 +10,12 @@ use KI\CoreBundle\Service\CurlService;
 class ImdbService
 {
     protected $curlService;
+    protected $baseUrl = 'http://www.omdbapi.com/';
 
     public function __construct(CurlService $curlService)
     {
         $this->curlService = $curlService;
     }
-
-    protected $baseUrl = 'http://www.omdbapi.com/';
 
     public function search($name)
     {

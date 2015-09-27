@@ -30,13 +30,6 @@ class Genre
      */
     protected $name;
 
-
-
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
-
     /**
      * Get id
      *
