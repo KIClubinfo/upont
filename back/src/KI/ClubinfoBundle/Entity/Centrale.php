@@ -6,73 +6,54 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use KI\CoreBundle\Entity\Likeable;
+
 /**
- * Centrale
- *
- * @ORM\Table()
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
+ * @JMS\ExclusionPolicy("all")
  */
 class Centrale extends Likeable
 {
     /**
-     * @var string
-     *
-     * @ORM\Column(name="product", type="string", length=255)
-     */
-    private $product;
-    
-    /**
-     * @var string
-     *
+     * Texte décrivant la centrale
      * @ORM\Column(name="description", type="text")
+     * @JMS\Expose
+     * @Assert\NotBlank()
      */
-    private $description;
+    protected $description;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="start_date", type="integer")
+     * Date de début de la centrale d'achat
+     * @ORM\Column(name="start_date", type="integer", nullable=true)
+     * @JMS\Expose
      */
-    private $startDate;
+    protected $startDate;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="end_date", type="integer")
+     * Date de fin de la centrale d'achat
+     * @ORM\Column(name="end_date", type="integer", nullable=true)
+     * @JMS\Expose
      */
-    private $endDate;
+    protected $endDate;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="status", type="integer")
+     * Produit acheté par la centrale
+     * @ORM\Column(name="solved", type="string", nullable=true)
+     * @JMS\Expose
      */
-    private $status;
-
-
+    protected $produit;
 
     /**
-     * Set product
-     *
-     * @param string $product
-     *
-     * @return Centrale
+     * Statut (Annoncée|En cours|Commandée|Receptionné|Fermée)
+     * @ORM\Column(name="status", type="string")
+     * @JMS\Expose
      */
-    public function setProduct($product)
+    protected $status;
+
+    public function __construct()
     {
-        $this->product = $product;
-
-        return $this;
-    }
-
-    /**
-     * Get product
-     *
-     * @return string
-     */
-    public function getProduct()
-    {
-        return $this->product;
+        parent::__construct();
+        $this->date = time();
     }
 
     /**
@@ -98,11 +79,10 @@ class Centrale extends Likeable
     {
         return $this->description;
     }
-
     /**
      * Set startDate
      *
-     * @param integer $startDate
+     * @param string $startDate
      *
      * @return Centrale
      */
@@ -116,17 +96,17 @@ class Centrale extends Likeable
     /**
      * Get startDate
      *
-     * @return integer
+     * @return string
      */
     public function getStartDate()
     {
         return $this->startDate;
     }
-
+    
     /**
      * Set endDate
      *
-     * @param integer $endDate
+     * @param string $endDate
      *
      * @return Centrale
      */
@@ -140,7 +120,7 @@ class Centrale extends Likeable
     /**
      * Get endDate
      *
-     * @return integer
+     * @return string
      */
     public function getEndDate()
     {
@@ -148,9 +128,33 @@ class Centrale extends Likeable
     }
 
     /**
+     * Set produit
+     *
+     * @param string $produit
+     *
+     * @return Centrale
+     */
+    public function setProduit($produit)
+    {
+        $this->produit = $produit;
+
+        return $this;
+    }
+
+    /**
+     * Get produit
+     *
+     * @return string
+     */
+    public function getProduit()
+    {
+        return $this->produit;
+    }
+
+    /**
      * Set status
      *
-     * @param integer $status
+     * @param string $status
      *
      * @return Centrale
      */
@@ -164,112 +168,11 @@ class Centrale extends Likeable
     /**
      * Get status
      *
-     * @return integer
+     * @return string
      */
     public function getStatus()
     {
         return $this->status;
     }
 
-    /**
-     * Add listLike
-     *
-     * @param \KI\UserBundle\Entity\User $listLike
-     *
-     * @return Centrale
-     */
-    public function addListLike(\KI\UserBundle\Entity\User $listLike)
-    {
-        $this->listLikes[] = $listLike;
-
-        return $this;
-    }
-
-    /**
-     * Remove listLike
-     *
-     * @param \KI\UserBundle\Entity\User $listLike
-     */
-    public function removeListLike(\KI\UserBundle\Entity\User $listLike)
-    {
-        $this->listLikes->removeElement($listLike);
-    }
-
-    /**
-     * Get listLikes
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getListLikes()
-    {
-        return $this->listLikes;
-    }
-
-    /**
-     * Add listDislike
-     *
-     * @param \KI\UserBundle\Entity\User $listDislike
-     *
-     * @return Centrale
-     */
-    public function addListDislike(\KI\UserBundle\Entity\User $listDislike)
-    {
-        $this->listDislikes[] = $listDislike;
-
-        return $this;
-    }
-
-    /**
-     * Remove listDislike
-     *
-     * @param \KI\UserBundle\Entity\User $listDislike
-     */
-    public function removeListDislike(\KI\UserBundle\Entity\User $listDislike)
-    {
-        $this->listDislikes->removeElement($listDislike);
-    }
-
-    /**
-     * Get listDislikes
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getListDislikes()
-    {
-        return $this->listDislikes;
-    }
-
-    /**
-     * Add listComment
-     *
-     * @param \KI\CoreBundle\Entity\Comment $listComment
-     *
-     * @return Centrale
-     */
-    public function addListComment(\KI\CoreBundle\Entity\Comment $listComment)
-    {
-        $this->listComments[] = $listComment;
-
-        return $this;
-    }
-
-    /**
-     * Remove listComment
-     *
-     * @param \KI\CoreBundle\Entity\Comment $listComment
-     */
-    public function removeListComment(\KI\CoreBundle\Entity\Comment $listComment)
-    {
-        $this->listComments->removeElement($listComment);
-    }
-
-    /**
-     * Get listComments
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getListComments()
-    {
-        return $this->listComments;
-    }
 }
