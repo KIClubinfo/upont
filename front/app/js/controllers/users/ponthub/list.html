@@ -1,13 +1,27 @@
-<section row wrap class="Ticket" infinite-scroll="next()" infinite-scroll-distance="3" infinite-scroll-disabled="$root.infiniteLoading">
+<nav up-panel title="Filtres" row wrap>
     <div class="padded" flex="100">
-                <h2 style="display: inline; margin-right: 0.5em;"> Filtres : </h2>
-                <input type="checkbox" ng-model="voFilter"><span class="label label-upont">VO</span>
-                <input type="checkbox" ng-model="vfFilter"><span class="label label-upont">VF</span>
-                <input type="checkbox" ng-model="vostFilter"><span class="label label-upont">VOST</span>
-                <input type="checkbox" ng-model="hdFilter"><span class="label label-upont">HD</span>
+        <i class="fa  fa-block  fa-volume-up"></i> Bande son
+    </div>
+    <div class="padded" flex="100">
+            <input type="checkbox" ng-model="filters.vo">&nbsp;VO
+    </div>
+    <div class="padded" flex="100">
+            <input type="checkbox" ng-model="filters.vost">&nbsp;VOST
+    </div>
+    <div class="padded" flex="100">
+            <input type="checkbox" ng-model="filters.vf">&nbsp;VF
     </div>
 
-    <div class="padded" col="start center" ng-class="{ 'flex-100pct flex-sm-50pct flex-md-33pct': category == 'jeux', 'flex-50pct flex-sm-33pct flex-md-25pct flex-lg-20pct': category != 'jeux'}"  ng-repeat="element in (filteredElements = (elements.data | filter : ponthubFilter))">
+    <div class="padded" flex="100">
+        <i class="fa  fa-block  fa-television"></i> Qualité vidéo
+    </div>
+    <div class="padded" flex="100">
+            <input type="checkbox" ng-model="filters.hd">&nbsp;HD
+    </div>
+</nav>
+
+<section row wrap class="Ticket" infinite-scroll="next()" infinite-scroll-distance="3" infinite-scroll-disabled="$root.infiniteLoading">
+        <div class="padded" col="start center" ng-class="{ 'flex-100pct flex-sm-50pct flex-md-33pct': category == 'jeux', 'flex-50pct flex-sm-33pct flex-md-25pct flex-lg-20pct': category != 'jeux'}"  ng-repeat="element in (filteredElements = (elements.data | filter : ponthubFilter))">
         <div class="Ticket  Ticket--nopadding Ticket--shadow  Ticket--link" flex="100"
              title="{slug: element.name}"
              ui-sref="root.users.ponthub.category.simple({slug: element.slug})">

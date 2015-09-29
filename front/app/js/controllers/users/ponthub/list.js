@@ -3,6 +3,13 @@ angular.module('upont')
         $scope.elements = elements;
         $scope.category = $stateParams.category;
         $scope.lastWeek = moment().subtract(7 , 'days').unix();
+        $scope.filters = {
+            vo: false,
+            vost: false,
+            vf: false,
+            hd: false
+        };
+
 
         $scope.faIcon = function(category){
             switch(category) {
@@ -34,10 +41,10 @@ angular.module('upont')
         };
 
         $scope.ponthubFilter = function(element, index, elements){
-            return ($scope.hdFilter ? (element.hd !== undefined ? element.hd === true : false) : true) && 
-                        ($scope.voFilter ? (element.vo !== undefined ? element.vo === true : false)  : true) &&
-                        ($scope.vostFilter ? (element.vost !== undefined ? element.vost === true : false)  : true) &&
-                        ($scope.vfFilter ? (element.vf !== undefined ? element.vf === true : false)  : true)
+            return ($scope.filters.hd ? (element.hd !== undefined ? element.hd === true : false) : true) && 
+                        ($scope.filters.vo ? (element.vo !== undefined ? element.vo === true : false)  : true) &&
+                        ($scope.filters.vost ? (element.vost !== undefined ? element.vost === true : false)  : true) &&
+                        ($scope.filters.vf ? (element.vf !== undefined ? element.vf === true : false)  : true)
             ;
         };
     }])
