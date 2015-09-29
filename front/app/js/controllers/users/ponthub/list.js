@@ -32,6 +32,14 @@ angular.module('upont')
         $scope.popular = function(count) {
             return Ponthub.isPopular(count, $stateParams.category);
         };
+
+        $scope.ponthubFilter = function(element, index, elements){
+            return ($scope.hdFilter ? (element.hd !== undefined ? element.hd === true : false) : true) && 
+                        ($scope.voFilter ? (element.vo !== undefined ? element.vo === true : false)  : true) &&
+                        ($scope.vostFilter ? (element.vost !== undefined ? element.vost === true : false)  : true) &&
+                        ($scope.vfFilter ? (element.vf !== undefined ? element.vf === true : false)  : true)
+            ;
+        };
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
