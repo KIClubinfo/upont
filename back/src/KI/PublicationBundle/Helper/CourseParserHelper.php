@@ -52,7 +52,7 @@ class CourseParserHelper
             foreach (array_keys($all) as $id) {
                 $name = $courseName[$id];
                 $gr   = str_replace('(&nbsp;)', '', $group[$id]);
-                $gr   = $gr != '' ? (int)str_replace(array('(Gr', ')'), array('', ''), $gr) : 0;
+                $gr   = $gr != '' ? (int) str_replace(array('(Gr', ')'), array('', ''), $gr) : 0;
 
                 $data      = explode(':', $start[$id]);
                 $startDate = $data[0]*3600 + $data[1]*60;
@@ -60,10 +60,10 @@ class CourseParserHelper
                 $endDate   = $data[0]*3600 + $data[1]*60;
 
                 // Si le cours existe déjà, on le récupère, sinon on crée un nouveau cours
-                $course = $this->getOrCreateCourse($name, $department[$id], $gr);
+                $course = $this->getOrCreateCourse($name, $department[$id]);
 
                 // Si le groupe n'est pas connu on le rajoute
-                if (!in_array($gr, $this->knownCourses[$name]['groups'])) {
+                if (!in_array($gr, $this->knownCourses[$name]->getGroups())) {
                     $course->addGroup($gr);
                 }
 
@@ -83,6 +83,17 @@ class CourseParserHelper
 
     private function emptyCourseitems()
     {
+        // $em = $this->manager;
+        // $connection = $em->getConnection();
+        // $statement = $connection->prepare("DELETE FROM upont.CourseItem");
+        // $statement->execute();
+        // $statement = $connection->prepare("DELETE FROM upont.Exercice");
+        // $statement->execute();
+        // $statement = $connection->prepare("DELETE FROM upont.CourseUser");
+        // $statement->execute();
+        // $statement = $connection->prepare("DELETE FROM upont.Course");
+        // $statement->execute();
+
         $query = $this->manager->createQuery('DELETE FROM KIPublicationBundle:CourseItem c WHERE c.startDate > :time');
         $query->setParameter('time', mktime(0, 0, 0));
         $query->execute();
@@ -93,32 +104,23 @@ class CourseParserHelper
         $results = $this->courseRepository->findAll();
         $courses = array();
         foreach ($results as $course) {
-            $courses[$course->getName()] = array(
-                'course' => $course,
-                'groups' => $course->getGroups()
-            );
+            $courses[$course->getName()] = $course;
         }
         return $courses;
     }
 
-    private function getOrCreateCourse($name, $department, $group)
+    private function getOrCreateCourse($name, $department)
     {
-        if (array_key_exists($name, $this->knownCourses)) {
-            $course = $this->knownCourses[$name]['course'];
-        } else {
+        if (!array_key_exists($name, $this->knownCourses)) {
             $course = new Course();
             $course->setName($name);
             $course->setDepartment($department);
             $course->setSemester(0);
-            $course->addGroup($group);
 
             $this->manager->persist($course);
-            $this->knownCourses[$name] = array(
-                'course' => $course,
-                'groups' => array($group)
-            );
+            $this->knownCourses[$name] = $course;
         }
 
-        return $course;
+        return $this->knownCourses[$name];
     }
 }

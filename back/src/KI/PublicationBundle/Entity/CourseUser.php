@@ -21,9 +21,9 @@ class CourseUser
 
     /**
      * Groupe du membre
-     * @ORM\Column(name="course_group", type="string", nullable=true)
+     * @ORM\Column(name="course_group", type="integer", nullable=false)
      * @JMS\Expose
-     * @Assert\Type("string")
+     * @Assert\Type("integer")
      */
     protected $group;
 
