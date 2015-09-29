@@ -35,7 +35,7 @@ class CourseHelper
      * @throws BadRequestHttpException si les deux sont déjà reliés
      * @throws BadRequestHttpException si le groupe n'existe pas pour ce cours
      */
-    public function linkCourseUser(Course $course, User $user, $group = null)
+    public function linkCourseUser(Course $course, User $user, $group = 0)
     {
         $link = $this->courseUserRepository->findBy(array('course' => $course, 'user' => $user));
 

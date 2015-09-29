@@ -49,6 +49,7 @@ class LoadCourseItemFixture extends AbstractFixture implements OrderedFixtureInt
         $courseItem->setStartDate(time() + 3600*1);
         $courseItem->setEndDate(time() + 3600*3.5);
         $courseItem->setCourse($this->getReference('course-mecastru'));
+        $courseItem->setGroup(0);
         $manager->persist($courseItem);
 
         $manager->flush();

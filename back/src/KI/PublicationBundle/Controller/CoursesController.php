@@ -132,9 +132,9 @@ class CoursesController extends ResourceController
         $course = $this->findBySlug($slug);
 
         $data = json_decode($request->getContent(), true);
-        $data = is_array($data) ? $data : array();
+        $request->request->replace(is_array($data) ? $data : array());
 
-        $group = array_key_exists("group", $data) ? intval($data["group"]) : 0;
+        $group = $request->request->get('group', 0);
         $this->get('ki_publication.helper.course')->linkCourseUser($course, $this->user, $group);
         return $this->jsonResponse(null, 204);
     }
