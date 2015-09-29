@@ -64,7 +64,7 @@ class CourseParserHelper
 
                 // Si le groupe n'est pas connu on le rajoute
                 if (!in_array($gr, $this->knownCourses[$name]->getGroups())) {
-                    $course->addGroup($gr);
+                    $this->knownCourses[$name]->addGroup($gr);
                 }
 
                 // On ajoute l'objet à ce cours
@@ -83,17 +83,6 @@ class CourseParserHelper
 
     private function emptyCourseitems()
     {
-        // $em = $this->manager;
-        // $connection = $em->getConnection();
-        // $statement = $connection->prepare("DELETE FROM upont.CourseItem");
-        // $statement->execute();
-        // $statement = $connection->prepare("DELETE FROM upont.Exercice");
-        // $statement->execute();
-        // $statement = $connection->prepare("DELETE FROM upont.CourseUser");
-        // $statement->execute();
-        // $statement = $connection->prepare("DELETE FROM upont.Course");
-        // $statement->execute();
-
         $query = $this->manager->createQuery('DELETE FROM KIPublicationBundle:CourseItem c WHERE c.startDate > :time');
         $query->setParameter('time', mktime(0, 0, 0));
         $query->execute();

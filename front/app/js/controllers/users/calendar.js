@@ -42,10 +42,6 @@ angular.module('upont')
         $scope.setView = function(view) {
             $scope.calendarView = view;
         };
-
-        // $scope.eventClicked = function(calendarEvent) {
-        //     $location.path("root.users.publications.simple({slug: publication.slug})");
-        // };
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
