@@ -508,7 +508,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         foreach ($repo->findBy(array('user' => $this->user)) as $courseUser) {
             $course = $courseUser->getCourse();
             foreach ($course->getCourseitems() as $courseitem) {
-                if ($courseUser->getGroup() == $courseitem->getGroup() || $course->getGroups() == array('0') || empty($course->getGroups()) || empty($courseitem->getGroup())) {
+                if ($courseUser->getGroup() == $courseitem->getGroup() || $courseitem->getGroup() == 0) {
                     $result[] = $courseitem;
                     $timestamp[] = $courseitem->getStartDate();
                 }

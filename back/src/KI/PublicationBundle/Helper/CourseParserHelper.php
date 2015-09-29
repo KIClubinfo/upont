@@ -52,7 +52,7 @@ class CourseParserHelper
             foreach (array_keys($all) as $id) {
                 $name = $courseName[$id];
                 $gr   = str_replace('(&nbsp;)', '', $group[$id]);
-                $gr   = $gr != '' ? (int)str_replace(array('(Gr', ')'), array('', ''), $gr) : 0;
+                $gr   = $gr != '' ? (int) str_replace(array('(Gr', ')'), array('', ''), $gr) : 0;
 
                 $data      = explode(':', $start[$id]);
                 $startDate = $data[0]*3600 + $data[1]*60;

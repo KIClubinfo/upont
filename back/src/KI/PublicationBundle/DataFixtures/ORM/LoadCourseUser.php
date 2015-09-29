@@ -15,36 +15,37 @@ class LoadCourseUserFixture extends AbstractFixture implements OrderedFixtureInt
         $courseUser = new CourseUser();
         $courseUser->setCourse($this->getReference('course-shark'));
         $courseUser->setUser($this->getReference('user-taquet-c'));
+        $courseUser->setGroup(0);
         $manager->persist($courseUser);
 
         $courseUser = new CourseUser();
         $courseUser->setCourse($this->getReference('course-shark'));
         $courseUser->setUser($this->getReference('user-trancara'));
-        $courseUser->setGroup('1');
+        $courseUser->setGroup(1);
         $manager->persist($courseUser);
 
         $courseUser = new CourseUser();
         $courseUser->setCourse($this->getReference('course-shark'));
         $courseUser->setUser($this->getReference('user-de-boisc'));
-        $courseUser->setGroup('1');
+        $courseUser->setGroup(1);
         $manager->persist($courseUser);
 
         $courseUser = new CourseUser();
         $courseUser->setCourse($this->getReference('course-shark'));
         $courseUser->setUser($this->getReference('user-muzardt'));
-        $courseUser->setGroup('2');
+        $courseUser->setGroup(2);
         $manager->persist($courseUser);
 
         $courseUser = new CourseUser();
         $courseUser->setCourse($this->getReference('course-shark'));
         $courseUser->setUser($this->getReference('user-guerinh'));
-        $courseUser->setGroup('1');
+        $courseUser->setGroup(1);
         $manager->persist($courseUser);
 
         $courseUser = new CourseUser();
         $courseUser->setCourse($this->getReference('course-rer'));
         $courseUser->setUser($this->getReference('user-muzardt'));
-        $courseUser->setGroup('0');
+        $courseUser->setGroup(0);
         $manager->persist($courseUser);
 
         $manager->flush();

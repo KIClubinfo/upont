@@ -49,12 +49,10 @@ class CourseHelper
         $link->setCourse($course);
         $link->setUser($user);
 
-        if ($group !== null) {
-            if (!in_array($group, $course->getGroups())) {
-                throw new BadRequestHttpException('Ce groupe n\'existe pas.');
-            }
-            $link->setGroup($group);
+        if (!in_array($group, $course->getGroups())) {
+            throw new BadRequestHttpException('Ce groupe n\'existe pas.');
         }
+        $link->setGroup($group);
 
         $achievementCheck = new AchievementCheckEvent(Achievement::COURSES);
         $this->dispatcher->dispatch('upont.achievement', $achievementCheck);

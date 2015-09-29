@@ -27,7 +27,7 @@ angular.module('upont')
                 type: 'info',
                 startsAt: new Date(courseitems[i].start_date*1000),
                 endsAt: new Date(courseitems[i].end_date*1000),
-                title: '[' + courseitems[i].location + '] ' + courseitems[i].course.name + ((group != '0' && group !== undefined) ? ' (Gr ' + group +')' : ''),
+                title: '[' + courseitems[i].location + '] ' + courseitems[i].course.name + (group != 0 ? ' (Gr ' + group +')' : ''),
                 editable: false,
                 deletable: false,
                 draggable: false,
