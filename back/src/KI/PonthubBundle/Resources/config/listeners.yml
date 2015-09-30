@@ -1,4 +1,10 @@
 services:
+    ki_ponthub.listener.ponthubfile:
+        class: KI\PonthubBundle\Listener\PonthubFileListener
+        arguments:
+            - @security.token_storage
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
     ki_ponthub.listener.ponthubfileuser:
         class: KI\PonthubBundle\Listener\PonthubFileUserListener
         arguments:

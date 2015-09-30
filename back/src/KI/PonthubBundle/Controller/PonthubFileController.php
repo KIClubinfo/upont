@@ -17,11 +17,7 @@ class PonthubFileController extends SubresourceController
     {
         $this->trust(!$this->is('EXTERIEUR'));
 
-        // Si l'utilisateur n'a pas déjà téléchargé ce fichier on le rajoute
-        $repository = $this->manager->getRepository('KIPonthubBundle:PonthubFileUser');
-        $downloads = $repository->findBy(array('file' => $item, 'user' => $this->user));
-
-        if (count($downloads) == 0) {
+        if (!$item->isDownloaded($this->user)) {
             $download = new PonthubFileUser();
             $download->setFile($item);
             $download->setUser($this->user);
