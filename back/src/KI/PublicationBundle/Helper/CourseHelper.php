@@ -35,7 +35,7 @@ class CourseHelper
      * @throws BadRequestHttpException si les deux sont déjà reliés
      * @throws BadRequestHttpException si le groupe n'existe pas pour ce cours
      */
-    public function linkCourseUser(Course $course, User $user, $group = null)
+    public function linkCourseUser(Course $course, User $user, $group = 0)
     {
         $link = $this->courseUserRepository->findBy(array('course' => $course, 'user' => $user));
 
@@ -49,12 +49,10 @@ class CourseHelper
         $link->setCourse($course);
         $link->setUser($user);
 
-        if ($group !== null) {
-            if (!in_array($group, $course->getGroups())) {
-                throw new BadRequestHttpException('Ce groupe n\'existe pas.');
-            }
-            $link->setGroup($group);
+        if (!in_array($group, $course->getGroups())) {
+            throw new BadRequestHttpException('Ce groupe n\'existe pas.');
         }
+        $link->setGroup($group);
 
         $achievementCheck = new AchievementCheckEvent(Achievement::COURSES);
         $this->dispatcher->dispatch('upont.achievement', $achievementCheck);

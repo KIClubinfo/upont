@@ -82,7 +82,7 @@
         <h2>Autres cours</h2>
 
         <div row wrap infinite-scroll="next()" infinite-scroll-distance="3" infinite-scroll-disabled="$root.infiniteLoading">
-            <div class="padded" flex="50" flex-md="33" row ng-repeat="course in courses.data" ng-show="modo || (course.active && followedIds[course.slug] === undefined)">
+            <div class="padded" flex="50" flex-md="33" row ng-repeat="course in courses.data" ng-if="modo || (course.active && followedIds[course.slug] === undefined)">
                 <div class="Ticket" flex="100" row>
                     <h3 class="Link  Link--reverse" flex="75" ui-sref="root.users.resources.courses.simple({slug: course.slug})">{{ course.name }}</h3>
                     <div flex="25" row wrap ng-show="!modo">
