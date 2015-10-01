@@ -1,8 +1,9 @@
 <div class="Ticket" flex="100" col="space-between stretch">
     <!-- Eventuels ribbons -->
-    <up-ribbon class="Ribbon--yellow" ng-if="popular(element.downloads) && element.added < lastWeek">POPULAIRE</up-ribbon>
-    <up-ribbon class="Ribbon--violet" ng-if="element.added > lastWeek && !popular(element.downloads)">NOUVEAU</up-ribbon>
-    <up-ribbon class="Ribbon--red"    ng-if="element.added > lastWeek && popular(element.downloads)">HOT</up-ribbon>
+    <up-ribbon class="Ribbon--yellow  Ribbon--ponthub" ng-if="!element.downloaded && popular(element.downloads) && element.added < lastWeek">POPULAIRE</up-ribbon>
+    <up-ribbon class="Ribbon--violet  Ribbon--ponthub" ng-if="!element.downloaded && element.added > lastWeek && !popular(element.downloads)">NOUVEAU</up-ribbon>
+    <up-ribbon class="Ribbon--red     Ribbon--ponthub" ng-if="!element.downloaded && element.added > lastWeek && popular(element.downloads)">HOT</up-ribbon>
+    <up-ribbon class="Ribbon--aqua  Ribbon--ponthub" ng-if="element.downloaded">TÉLÉCHARGÉ</up-ribbon>
 
     <div class="padded" row>
         <!-- Image du fichier -->
