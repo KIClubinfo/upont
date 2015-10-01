@@ -44,9 +44,51 @@ class CommandeController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route\Get("/commande/{slug}/{username}")
+     * @Route\Get("/commandes/{slug}/{username}")
      */
-    public function getCommandeAction($slug, $username) { return $this->getOne($user); }
+    public function getCommandeAction($slug, $username) 
+    {
+        return $this->findOneBySlugAndUsername($slug, $username);
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Retourne les commandes associées à une centrale",
+     *  output="KI\ClubinfoBundle\Entity\Commande",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   404="Ressource non trouvée",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Clubinfo"
+     * )
+     * @Route\Get("/commandes/{slug}")
+     */
+    public function getCommandeFromCentraleAction($slug)
+    {
+        return $this->findBySlug($slug);
+    }
+    /**
+     * @ApiDoc(
+     *  description="Retourne les commandes associées à un utilisateur",
+     *  output="KI\ClubinfoBundle\Entity\Commande",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   404="Ressource non trouvée",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Clubinfo"
+     * )
+     * @Route\Get("/users/commandes/{username}")
+     */
+    public function getCommandeFromUserAction($username)
+    {
+        return $this->findByUsername($username);
+    }
 
     /**
      * @ApiDoc(

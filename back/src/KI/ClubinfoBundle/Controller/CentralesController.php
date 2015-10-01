@@ -108,8 +108,6 @@ class CentralesController extends ResourceController
      */
     public function deleteCentraleAction($slug)
     {
-        // $fix = $this->findBySlug($slug);
-        // $user = $this->get('security.context')->getToken()->getUser();
-        // return $this->delete($slug, $user->getUsername() == $fix->getUser()->getUsername());
+        return $this->delete($slug);
     }
 }
