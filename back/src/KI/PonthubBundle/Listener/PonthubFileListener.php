@@ -23,7 +23,7 @@ class PonthubFileListener
             $entity = $args->getEntity();
 
             if ($entity instanceof PonthubFile && $user instanceof User) {
-                $entity->setDownloaded($entity->isDownloaded($user));
+                $entity->setDownloaded($entity->hasBeenDownloadedBy($user));
             }
         }
     }

@@ -17,7 +17,7 @@ class PonthubFileController extends SubresourceController
     {
         $this->trust(!$this->is('EXTERIEUR'));
 
-        if (!$item->isDownloaded($this->user)) {
+        if (!$item->hasBeenDownloadedBy($this->user)) {
             $download = new PonthubFileUser();
             $download->setFile($item);
             $download->setUser($this->user);
