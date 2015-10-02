@@ -1,0 +1,22 @@
+<div class="padded" row wrap>
+	<section flex="100" flex-md="66">
+		<section class="Ticket">
+			<h2>Paniers Fruits et Légumes</h2>
+
+			<p>Les paniers sont à chercher tous les vendredis !</p>
+		</section>
+
+		<article class="Ticket" ng-repeat="item in baskets">
+        	<h3>{{ item.name }}</h3>
+        	<p>{{ item.content }}</p>
+
+        	<div row="end stretch">Prix : {{ item.price }} €</div>
+        </article>
+	</section>
+
+	<section flex="100" flex-md="33">
+		<section class="Ticket">
+			<h2>Mes Paniers</h2>
+		</section>
+	</section>
+</div>
