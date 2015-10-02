@@ -1,0 +1,61 @@
+<nav up-panel title="Recherche" row wrap>
+    <div class="padded" flex="100"><i class="fa fa-block fa-graduation-cap"></i> Promo</div>
+    <div class="padded" flex="100">
+        <select class="Input" ng-model="search.promo" ng-change="reload(search)">
+            <option value="all">Toutes</option>
+            <option ng-repeat="item in $root.promos | reverse">{{ item }}</option>
+        </select>
+    </div>
+
+    <div class="padded" flex="100"><i class="fa fa-block fa-institution"></i> Département</div>
+    <div class="padded" flex="100">
+        <select class="Input" ng-model="search.department" ng-change="reload(search)">
+            <option value="all">Tous</option>
+            <option ng-repeat="item in $root.departments">{{ item }}</option>
+        </select>
+    </div>
+
+    <div class="padded" flex="100"><i class="fa fa-block fa-globe"></i> Pays</div>
+    <div class="padded" flex="100">
+        <select class="Input" ng-model="search.nationality" ng-change="reload(search)">
+            <option value="all">Tous</option>
+            <option ng-repeat="item in $root.countries">{{ item }}</option>
+        </select>
+    </div>
+
+    <div class="padded" flex="100"><i class="fa fa-block fa-street-view"></i> Origine</div>
+    <div class="padded" flex="100">
+        <select class="Input" ng-model="search.origin" ng-change="reload(search)">
+            <option value="all">Toutes</option>
+            <option ng-repeat="item in $root.origins">{{ item }}</option>
+        </select>
+    </div>
+
+    <div class="padded" flex="100"><i class="fa fa-block fa-transgender"></i> Sexe</div>
+    <div class="padded" flex="100">
+        <select class="Input" ng-model="search.gender" ng-change="reload(search)">
+            <option value="all">Tout</option>
+            <option>M</option>
+            <option>F</option>
+        </select>
+    </div>
+</nav>
+
+<section class="Ticket" row wrap infinite-scroll="next()" infinite-scroll-distance="3" infinite-scroll-disabled="$root.infiniteLoading">
+    <section class="padded" flex="100" flex-sm="50" flex-md="33" flex-lg="25" row
+         ui-sref="root.users.students.simple({slug: user.username})" ng-repeat="user in users.data">
+        <div class="Ticket  Ticket--link  Ticket--shadow" flex="100">
+            <div row="space-between center">
+                <div class="Image" flex="33">
+                    <div class="Image__filler  Image--round" ng-style="{ 'background-image' : 'url({{ user.image_url | thumb | urlFile }})' }"></div>
+                </div>
+                <div flex="60">
+                    <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+                    {{ user.department !== undefined ? user.department : '' }}
+                    {{ user.department !== undefined && user.promo !== undefined ? ' - ' : '' }}
+                    {{ user.promo !== undefined ? "Promo '" + user.promo : '' }}
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

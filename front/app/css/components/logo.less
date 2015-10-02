@@ -1,0 +1,44 @@
+// Logo du site
+.Logo {
+    padding: 0.3em;
+
+    font-family: 'caviarDreams';
+    font-size: 1.5em;
+
+    border-radius: 6px;
+    border: solid 1px @col-main;
+
+    &:before {
+        content: "u";
+        color: inherit;
+    }
+    &:after {
+        content: "P";
+        color: @col-main;
+        @media(min-width: @sizeMd) {
+            content: "Pont";
+        }
+    }
+    &:hover {
+        color: @col-main;
+    }
+
+    &--pr0n {
+        &:after {
+            @media(min-width: @sizeMd) {
+                content: "Porn";
+            }
+        }
+    }
+}
+
+// Logo svg de la landing page
+.up-logo {
+    .u { fill: @col-font; }
+    .p { fill: @col-main; }
+    .border {
+        fill: rgba(red(@col-aside-bckgnd), green(@col-aside-bckgnd), blue(@col-aside-bckgnd), 0.1);
+        stroke: @col-main;
+    }
+
+}

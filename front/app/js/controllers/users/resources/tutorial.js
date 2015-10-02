@@ -56,7 +56,7 @@ angular.module('upont')
         $stateProvider
             .state('root.users.resources.tutorials.simple', {
                 url: '/:slug',
-                templateUrl: 'views/users/resources/tutorial.html',
+                templateUrl: 'controllers/users/resources/tutorial.html',
                 controller: 'Tutorial_Ctrl',
                 data: {
                     title: 'Tutoriels - uPont',

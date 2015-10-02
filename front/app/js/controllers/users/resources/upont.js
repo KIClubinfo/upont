@@ -6,7 +6,7 @@ angular.module('upont')
         $stateProvider
             .state('root.users.resources.upont', {
                 url: '/upont',
-                templateUrl: 'views/users/resources/upont.html',
+                templateUrl: 'controllers/users/resources/upont.html',
                 data: {
                     title: 'uPont - uPont',
                     top: true

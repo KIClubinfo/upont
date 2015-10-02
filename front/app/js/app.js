@@ -3,7 +3,20 @@ if (!location.origin)
      location.origin = location.protocol + '//' + location.host;
 
 // Configuration de la langue
-moment.locale('fr');
+moment.locale('fr', {
+    week : {
+        dow : 1 // Monday is the first day of the week
+    },
+    calendar : {
+        sameDay: '[Aujourd\'hui à] LT',
+        nextDay: '[Demain à] LT',
+        nextWeek: 'dddd [à] LT',
+        lastDay: '[Hier à] LT',
+        lastWeek: 'dddd [dernier]',
+        sameElse : '[Le] DD MMM [à] LT'
+    }
+});
+
 Highcharts.setOptions({
     lang: {
         months: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
@@ -24,7 +37,7 @@ alertify.set({ labels: {
 }});
 
 
-angular.module('upont', ['ui.router', 'ngResource', 'ngAnimate', 'mgcrea.ngStrap', 'ngSanitize', 'angular-jwt', 'angular.filter', 'naif.base64', 'infinite-scroll', 'ui.bootstrap.datetimepicker', 'monospaced.elastic', 'youtube-embed', 'angular-redactor', 'piwik'])
+angular.module('upont', ['ui.router', 'ngResource', 'ngAnimate', 'mgcrea.ngStrap', 'ngSanitize', 'angular-jwt', 'angular.filter', 'naif.base64', 'infinite-scroll', 'ui.bootstrap.datetimepicker', 'monospaced.elastic', 'youtube-embed', 'angular-redactor', 'piwik', 'mwl.calendar', 'ngTouch', 'templates'])
     .config(function(redactorOptions) {
         redactorOptions.buttons = ['html', 'formatting', 'bold', 'italic', 'underline', 'deleted', 'unorderedlist', 'image', 'file', 'link', 'alignment', 'horizontalrule'];
         redactorOptions.lang = 'fr';

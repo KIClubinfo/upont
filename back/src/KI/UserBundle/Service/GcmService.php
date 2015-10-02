@@ -4,7 +4,6 @@ namespace KI\UserBundle\Service;
 
 use KI\CoreBundle\Service\CurlService;
 use KI\UserBundle\Entity\Notification;
-use KI\UserBundle\Entity\Device;
 
 class GcmService
 {

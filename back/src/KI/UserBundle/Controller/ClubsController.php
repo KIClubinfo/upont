@@ -3,16 +3,18 @@
 namespace KI\UserBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
+use KI\CoreBundle\Controller\SubresourceController;
+use KI\UserBundle\Entity\ClubUser;
+use KI\UserBundle\Form\ClubUserType;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use KI\UserBundle\Form\ClubUserType;
-use KI\UserBundle\Entity\ClubUser;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
+class ClubsController extends SubresourceController
 {
-    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->initialize('Club', 'User');
@@ -33,7 +35,7 @@ class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
      *  section="Utilisateurs"
      * )
      */
-    public function getClubsAction() { return $this->getAll(); }
+    public function getClubsAction() { return $this->getAll($this->is('EXTERIEUR')); }
 
     /**
      * @ApiDoc(
@@ -48,7 +50,7 @@ class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
      *  section="Utilisateurs"
      * )
      */
-    public function getClubAction($slug) { return $this->getOne($slug); }
+    public function getClubAction($slug) { return $this->getOne($slug, $this->is('EXTERIEUR')); }
 
     /**
      * @ApiDoc(
@@ -86,7 +88,9 @@ class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
         return $this->patch(
             $slug,
             $this->isClubMember($slug)
-            && !$this->get('security.context')->isGranted('ROLE_EXTERIEUR')
+            && (!$this->get('security.context')->isGranted('ROLE_EXTERIEUR')
+                || $slug == $this->get('security.context')->getToken()->getUser()->getSlug()
+                )
             );
     }
 
@@ -112,8 +116,6 @@ class ClubsController extends \KI\CoreBundle\Controller\SubresourceController
         foreach ($link as $clubUser) {
             $this->manager->remove($clubUser);
         }
-        // TODO
-        // S'arranger pour supprimer la bannière de façon automatique
 
         return $this->delete($slug);
     }

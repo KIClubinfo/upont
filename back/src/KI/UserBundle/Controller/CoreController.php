@@ -3,11 +3,7 @@
 namespace KI\UserBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
-use KI\UserBundle\Entity\Notification;
 use KI\UserBundle\Entity\Club;
 
 // Fonctions génériques étendant le FOSUserBundle

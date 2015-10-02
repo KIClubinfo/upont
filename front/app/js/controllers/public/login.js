@@ -34,7 +34,7 @@ angular.module('upont')
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
             .state('root.login', {
-                templateUrl: 'views/public/login.html',
+                templateUrl: 'controllers/public/login.html',
                 controller: 'Login_Ctrl'
             });
     }]);

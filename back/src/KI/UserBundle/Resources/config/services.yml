@@ -10,6 +10,13 @@ services:
             - @doctrine.orm.entity_manager
             - @security.context
 
+    # Gère l'envoi de mails
+    ki_user.service.mailer:
+        class: KI\UserBundle\Service\MailerService
+        arguments:
+            - @mailer
+            - @templating
+
     # Gère l'envoi de notification
     ki_user.service.notify:
         class: KI\UserBundle\Service\NotifyService

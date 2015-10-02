@@ -1,10 +1,12 @@
 node_modules
-/www/libs/
 /www/fonts/
+/www/libs/
+/www/themes/
 /www/style.css
 /www/style.min.css
 /www/upont.min.js
 /www/index.html
+/www/templates.js
 coverage
 .sublime-gulp.cache
 npm-debug.log

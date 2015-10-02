@@ -7,8 +7,6 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
-use KI\PublicationBundle\Entity\Publications\Course;
-use KI\PublicationBundle\Entity\Publications\CourseItem;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Event\AchievementCheckEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -44,9 +42,10 @@ class DefaultController extends BaseController
      * )
      * @Route\Get("/online")
      */
-    public function onlineAction(Request $request)
+    public function onlineAction()
     {
-        $delay = $request->query->has('delay') ? (int)$request->query->get('delay') : 30;
+        $query = $this->getRequest()->query;
+        $delay = $query->has('delay') ? (int)$query->get('delay') : 30;
 
         $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
         $qb->select('u')

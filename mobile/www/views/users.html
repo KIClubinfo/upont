@@ -11,7 +11,7 @@
             </ons-tab>
 
             <!-- A changer à chaque rentrée !!! -->
-            <ons-tab page="people.html" ng-if="promo < 17">
+            <ons-tab page="people.html" ng-if="promo < 18">
                 <span class="tab-label">0{{ promo + 1 }}</span>
             </ons-tab>
         </ons-tabbar>
@@ -40,7 +40,7 @@
                                ng-repeat="user in users[char] | filter:search | orderBy:['first_name','last_name']">
                     <ons-row>
                         <ons-col width="40px">
-                            <img style="background-image: url('{{ url + '/' + user.image_url }}')" class="image">
+                            <img style="background-image: url('{{ url + '/' + user.image_url | thumb }}')" class="image">
                         </ons-col>
                         <ons-col class="name">
                             {{ user.first_name }} {{ user.last_name }}
@@ -71,7 +71,6 @@
             <img class="image" style="background-image: url('{{ url + '/' + userItem.image_url }}')">
             <div class="name">{{ userItem.first_name }} {{ userItem.last_name }}</div>
             <div class="id">@{{ userItem.username }}</div>
-            <!--<div class="desc">Pq pas le texte du pontlyvalent ici ?</div>-->
         </div>
 
         <ons-list modifier="inset" style="margin-top: 10px">

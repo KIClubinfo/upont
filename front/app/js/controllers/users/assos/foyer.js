@@ -2,7 +2,7 @@ angular.module('upont')
     .controller('Foyer_Ctrl', ['$scope', '$rootScope', '$http', 'youtube', 'stats', 'members', 'Paginate', function($scope, $rootScope, $http, youtube, stats, members, Paginate) {
         $('#focus-input').focus();
         $scope.youtube = youtube;
-        $scope.stats = stats.rankings;
+        $scope.stats = stats;
         $scope.predicate = 'litres_bus';
         $scope.reverse = true;
         $scope.isFromFoyer = false;
@@ -46,7 +46,7 @@ angular.module('upont')
         $stateProvider
             .state('root.users.assos.foyer', {
                 url: '/c-est-ton-foyer',
-                templateUrl: 'views/users/assos/foyer.html',
+                templateUrl: 'controllers/users/assos/foyer.html',
                 controller: 'Foyer_Ctrl',
                 data: {
                     title: 'Foyer - uPont',
@@ -57,7 +57,7 @@ angular.module('upont')
                         return Paginate.get('youtubes?sort=-date', 20);
                     }],
                     stats: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'foyer/statistics').get().$promise;
+                        return $resource(apiPrefix + 'statistics/foyer').get().$promise;
                     }],
                     members: ['$resource', function($resource) {
                         return $resource(apiPrefix + 'clubs/foyer/users').query().$promise;

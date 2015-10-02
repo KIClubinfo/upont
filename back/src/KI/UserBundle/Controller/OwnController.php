@@ -3,13 +3,13 @@
 namespace KI\UserBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
+use KI\UserBundle\Entity\Achievement;
+use KI\UserBundle\Entity\Device;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpFoundation\Request;
-use KI\UserBundle\Entity\Device;
-use KI\UserBundle\Entity\Achievement;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class OwnController extends \KI\CoreBundle\Controller\ResourceController
 {
@@ -52,7 +52,6 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function getUserAchievementsAction($slug)
     {
-        $repo = $this->manager->getRepository('KIUserBundle:User');
         $user = $this->findBySlug($slug);
         return $this->retrieveAchievements($user);
     }
@@ -360,7 +359,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
 
         // On élimine les anciens événements si on ne souhaite pas tout
         foreach ($events as $event) {
-            if ($event->getStartDate() > $today)
+            if ($event->getEndDate() > $today)
                 $return[] = $event;
         }
 
@@ -509,8 +508,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         foreach ($repo->findBy(array('user' => $this->user)) as $courseUser) {
             $course = $courseUser->getCourse();
             foreach ($course->getCourseitems() as $courseitem) {
-                //echo $coursitem->getCourse()->getName().'#'.$coursitem->getGroup();
-                if ($courseUser->getGroup() == $courseitem->getGroup() || $course->getGroups() == array('0') || empty($course->getGroups()) || empty($courseitem->getGroup())) {
+                if ($courseUser->getGroup() == $courseitem->getGroup() || $courseitem->getGroup() == 0) {
                     $result[] = $courseitem;
                     $timestamp[] = $courseitem->getStartDate();
                 }
@@ -654,9 +652,9 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/own/fixes")
+     * @Route\Get("/own/fixs")
      */
-    public function getOwnFixesAction()
+    public function getOwnFixsAction()
     {
         $user = $this->get('security.context')->getToken()->getUser();
         if (!$this->get('security.context')->isGranted('ROLE_USER'))

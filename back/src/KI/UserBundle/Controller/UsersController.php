@@ -239,6 +239,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function importUsersAction()
     {
+        set_time_limit(3600);
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
             return $this->jsonResponse(null, 403);
 
@@ -252,7 +253,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
         }
 
         // On récupère le contenu du fichier
-        $path = __DIR__.'/../../../../../web/uploads/tmp/';
+        $path = __DIR__.'/../../../../web/uploads/tmp/';
         $file->move($path, 'users.list');
         $list = fopen($path.'users.list', 'r+');
         if ($list === false)
@@ -271,9 +272,9 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
             $line = str_replace(array("\r", "\n"), array('', ''), fgets($list));
             $login = $firstName = $lastName = $email = $promo = $department = $origin = null;
             $explode = explode(',', $line);
-            if (count($explode) != 7)
-                continue;
-            list($login, $email, $firstName, $lastName, $promo, $department, $origin) = $explode;
+            list($login, $email, $firstName, $lastName, $promo, $department) = $explode;
+            $firstName = ucfirst($firstName);
+            $lastName  = ucfirst($lastName);
 
             $e = array();
             if (!preg_match('/@(eleves\.)?enpc\.fr$/', $email))

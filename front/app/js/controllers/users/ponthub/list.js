@@ -4,23 +4,24 @@ angular.module('upont')
         $scope.category = $stateParams.category;
         $scope.lastWeek = moment().subtract(7 , 'days').unix();
 
-        $scope.faIcon = function(element){
-            switch(element.type){
-                case 'game':
+        $scope.faIcon = function(category){
+            switch(category) {
+                case 'jeux':
                     return 'fa-gamepad';
-                case 'movie':
-                case 'serie':
+                case 'films':
+                case 'series':
                     return 'fa-film';
-                case 'album':
+                case 'musiques':
                     return 'fa-music';
-                case 'other':
+                case 'autres':
                     return 'fa-file-o';
-                case 'software':
+                case 'logiciels':
                     return 'fa-desktop';
                 default:
                     return '';
             }
         };
+        $scope.icon = $scope.faIcon($stateParams.category);
 
         $scope.next = function() {
             Paginate.next($scope.elements).then(function(data){
@@ -36,7 +37,7 @@ angular.module('upont')
         $stateProvider
             .state('root.users.ponthub', {
                 url: 'ponthub',
-                templateUrl: 'views/users/ponthub/index.html',
+                templateUrl: 'controllers/users/ponthub/index.html',
                 abstract: true,
                 data: {
                     title: 'PontHub - uPont',
@@ -49,14 +50,24 @@ angular.module('upont')
             // Ce state a besoin d'être enregistré avant le suivant afin que venant de l'exterieur, l'URL "statistiques" ne soit pas interpreté comme une catégorie.
             .state('root.users.ponthub.statistics', {
                 url: '/statistiques',
-                templateUrl: 'views/users/ponthub/statistics.html',
+                templateUrl: 'controllers/users/ponthub/statistics.html',
                 controller: 'Ponthub_Statistics_Ctrl',
                 data: {
                     top: true
                 },
                 resolve: {
                     ponthub: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'ponthub/statistics').get().$promise;
+                        return $resource(apiPrefix + 'statistics/ponthub').get().$promise;
+                    }]
+                }
+            })
+            .state('root.users.ponthub.requests', {
+                url: '/demandes',
+                controller: 'Ponthub_Requests_Ctrl',
+                templateUrl: 'controllers/users/ponthub/requests.html',
+                resolve: {
+                    requests: ['$resource', '$stateParams', function($resource, $stateParams) {
+                        return $resource(apiPrefix + 'requests').query().$promise;
                     }]
                 }
             })
@@ -71,7 +82,7 @@ angular.module('upont')
             // Idem, le state simple doit être enregistré avant le state de list
             .state('root.users.ponthub.category.simple', {
                 url: '/:slug',
-                templateUrl: 'views/users/ponthub/simple.html',
+                templateUrl: 'controllers/users/ponthub/simple.html',
                 controller: 'Ponthub_Element_Ctrl',
                 data: {
                     top: true
@@ -103,7 +114,7 @@ angular.module('upont')
             })
             .state('root.users.ponthub.category.list', {
                 url: '',
-                templateUrl: 'views/users/ponthub/list.html',
+                templateUrl: 'controllers/users/ponthub/list.html',
                 controller: 'Ponthub_List_Ctrl',
                 resolve: {
                     elements: ['Paginate', '$stateParams', 'Ponthub', function(Paginate, $stateParams, Ponthub) {

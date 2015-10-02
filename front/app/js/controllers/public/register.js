@@ -29,7 +29,7 @@ angular.module('upont')
             .state('root.register', {
                 url: 'inscription',
                 controller: 'Register_Ctrl',
-                templateUrl: 'views/public/register.html',
+                templateUrl: 'controllers/public/register.html',
             })
         ;
     }]);

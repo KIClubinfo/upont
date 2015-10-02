@@ -3,10 +3,12 @@
 namespace KI\FoyerBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use KI\CoreBundle\Controller\ResourceController;
 
-class BeersController extends \KI\CoreBundle\Controller\ResourceController
+class BeersController extends ResourceController
 {
-    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->initialize('Beer', 'Foyer');
@@ -28,41 +30,9 @@ class BeersController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function getBeersAction()
     {
-        // Route un peu particulière : on va ordonner les bières
-        // par ordre décroissant de consommation
-        // On commence par toutes les récupérer
-        $beers = $this->repository->findAll();
-
-        // On va établir les comptes sur les 500 dernières consos
-        $repo = $this->manager->getRepository('KIFoyerBundle:BeerUser');
-        $beerUsers = $repo->findBy(array(), array('date' => 'DESC'), 500);
-
-        $counts = array();
-        foreach ($beerUsers as $beerUser) {
-            // On peut tomber sur une entrée "compte crédité"
-            if ($beerUser->getBeer() === null) {
-                continue;
-            }
-            $beerId = $beerUser->getBeer()->getId();
-
-            if (!isset($counts[$beerId])) {
-                $counts[$beerId] = 0;
-            }
-
-            $counts[$beerId] = $counts[$beerId] + 1;
-        }
-
-        // On trie
-        $return = $beerCounts = array();
-        foreach ($beers as $beer) {
-            $beerId = $beer->getId();
-
-            $beerCounts[] = isset($counts[$beerId]) ? $counts[$beerId] : 0;
-            $return[]     = $beer;
-        }
-        array_multisort($beerCounts, SORT_DESC, $return);
-
-        return $this->restResponse($return);
+        $beerHelper = $this->get('ki_foyer.helper.beer');
+        $beers = $beerHelper->getBeerOrderedList();
+        return $this->restResponse($beers);
     }
 
     /**
@@ -98,8 +68,7 @@ class BeersController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function postBeerAction()
     {
-        $return = $this->postData($this->isClubMember('foyer'));
-        return $this->postView($return);
+        return $this->post($this->isClubMember('foyer'));
     }
 
     /**
@@ -139,8 +108,8 @@ class BeersController extends \KI\CoreBundle\Controller\ResourceController
     {
         // On supprime toutes les consos associées
         $beer = $this->findBySlug($slug);
-        $repo = $this->manager->getRepository('KIFoyerBundle:BeerUser');
-        $beerUsers = $repo->findBy(array('beer' => $beer));
+        $beerUserRepository = $this->manager->getRepository('KIFoyerBundle:BeerUser');
+        $beerUsers = $beerUserRepository->findBy(array('beer' => $beer));
 
         foreach ($beerUsers as $beerUser) {
             $this->manager->remove($beerUser);

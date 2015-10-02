@@ -1,0 +1,32 @@
+
+<section class="Ticket" flex="100" flex-md="100">
+    <h2>Demandes de fichiers</h2>
+    <table class="Table" flex="90">
+        <thead>
+            <tr>
+                <th><a ng-click="predicate = 'name'; reverse=!reverse">Nom</a></th>
+                <th><a ng-click="predicate = 'votes'; reverse=!reverse">Votes</a></th>
+                <th></th>
+                <th ng-if="$root.hasRight('ROLE_JARDINIER')"="$root.isAdmin"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="request in filtered = (requests | orderBy:predicate:reverse )">
+                <td>{{ request.name }}</td>
+                <td>{{ request.votes }}</td>
+                <td><i class="fa fa-thumbs-o-up Link Link--reverse" title="+1" ng-click="addPoint(request)"></i></td>
+                <td ng-if="$root.hasRight('ROLE_JARDINIER')"><i class="fa fa-trash Link Link--reverse" ng-click="delete(request)"></i></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h2>Nouvelle demande</h2>
+    <form row wrap ng-submit="post(name)" autocomplete="off">
+        <div flex="70" flex-md="50" class="padded">
+            <input class="Input" type="text" ng-model="name" placeholder="Mon petit poney saison 1" autofocus>
+        </div>
+        <div flex="30" class="padded" row="end center">
+            <button class="Button">Demander !</button>
+        </div>
+    </form>
+</section>

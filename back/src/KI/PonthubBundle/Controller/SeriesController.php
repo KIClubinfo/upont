@@ -4,10 +4,11 @@ namespace KI\PonthubBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class SeriesController extends PonthubFileController
 {
-    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->initialize('Serie', 'Ponthub');
@@ -62,7 +63,7 @@ class SeriesController extends PonthubFileController
      */
     public function patchSerieAction($slug)
     {
-        return $this->patch($slug, $this->get('security.context')->isGranted('ROLE_JARDINIER'));
+        return $this->patch($slug, $this->is('JARDINIER'));
     }
 
     /**
@@ -114,7 +115,7 @@ class SeriesController extends PonthubFileController
      */
     public function patchSerieEpisodeAction($slug, $id)
     {
-        return $this->patchSub($slug, 'Episode', $id, $this->get('security.context')->isGranted('ROLE_JARDINIER'));
+        return $this->patchSub($slug, 'Episode', $id, $this->is('JARDINIER'));
     }
 
     /**

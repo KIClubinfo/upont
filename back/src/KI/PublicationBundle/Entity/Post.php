@@ -28,6 +28,8 @@ class Post extends Likeable
      * @Assert\Valid()
      */
     protected $authorUser;
+    protected $autoSetUser = 'authorUser';
+    public function getAutoSetUser() { return $this->autoSetUser; }
 
     /**
      * Date (timestamp)
@@ -54,23 +56,25 @@ class Post extends Likeable
     protected $image;
 
     /**
-     * Délivre l'url de l'image du post par défaut, l'url de l'image du club si l'image du post est null, l'image de l'auteur si les deux premières sont null, et null si les trois images sont null
+     * Délivre l'url de l'image du post par défaut :
+     * - L'url de l'image du club si l'image du post est null,
+     * - L'image de l'auteur si les deux premières sont null,
+     * - null si les trois images sont null
      * @JMS\VirtualProperty()
      */
     public function imageUrl()
     {
-        if ($this->image !== null) return $this->image->getWebPath();
-        else if ($this->authorClub !== null && $this->authorClub->getImage() !== null) return $this->authorClub->getImage()->getWebPath();
+        if ($this->image !== null) {
+            return $this->image->getWebPath();
+        } else if ($this->authorClub !== null && $this->authorClub->getImage() !== null) {
+            return $this->authorClub->getImage()->getWebPath();
+        }
     }
 
-
-
-
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
-
+    public function __construct()
+    {
+        $this->date = time();
+    }
 
     /**
      * Set date

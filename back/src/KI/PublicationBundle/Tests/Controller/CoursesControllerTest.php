@@ -3,8 +3,6 @@
 namespace KI\PublicationBundle\Tests\Controller;
 
 use KI\CoreBundle\Tests\WebTestCase;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Filesystem\Filesystem;
 
 class CoursesControllerTest extends WebTestCase
 {
@@ -69,7 +67,7 @@ class CoursesControllerTest extends WebTestCase
 
         $this->client->request('DELETE', '/courses/mecanique-des-familles/attend');
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 404);
+        $this->assertJsonResponse($response, 400);
     }
 
     public function testPatch()

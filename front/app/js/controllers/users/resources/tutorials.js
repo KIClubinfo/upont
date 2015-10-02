@@ -27,7 +27,7 @@ angular.module('upont')
             })
             .state('root.users.resources.tutorials.list', {
                 url: '',
-                templateUrl: 'views/users/resources/tutorials.html',
+                templateUrl: 'controllers/users/resources/tutorials.html',
                 controller: 'Tutorials_Ctrl',
                 data: {
                     title: 'Tutoriels - uPont',

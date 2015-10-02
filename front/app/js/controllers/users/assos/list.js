@@ -8,14 +8,14 @@ angular.module('upont')
             .state('root.users.assos', {
                 url: 'assos',
                 abstract: true,
-                templateUrl: 'views/users/assos/index.html',
+                templateUrl: 'controllers/users/assos/index.html',
                 data: {
                     title: 'Clubs & Assos - uPont'
                 }
             })
             .state('root.users.assos.list', {
                 url: '',
-                templateUrl: 'views/users/assos/list.html',
+                templateUrl: 'controllers/users/assos/list.html',
                 controller: 'Assos_List_Ctrl',
                 resolve: {
                     clubs: ['$resource', function($resource) {

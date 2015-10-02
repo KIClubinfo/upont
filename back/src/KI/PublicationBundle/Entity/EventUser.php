@@ -50,9 +50,6 @@ class EventUser
      */
     protected $motivation;
 
-
-    //===== GENERATED AUTOMATICALLY =====//mm
-
     /**
      * Get id
      *

@@ -3,10 +3,12 @@
 namespace KI\FoyerBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use KI\CoreBundle\Controller\ResourceController;
 
-class YoutubesController extends \KI\CoreBundle\Controller\ResourceController
+class YoutubesController extends ResourceController
 {
-    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->initialize('Youtube', 'Foyer');
@@ -61,15 +63,7 @@ class YoutubesController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function postYoutubeAction()
     {
-        $return = $this->postData($this->get('security.context')->isGranted('ROLE_USER'));
-
-        if ($return['code'] == 201) {
-            // On modifie légèrement la ressource qui vient d'être créée
-            $return['item']->setDate(time());
-            $return['item']->setUser($this->user);
-        }
-
-        return $this->postView($return);
+        return $this->post($this->is('USER'));
     }
 
     /**

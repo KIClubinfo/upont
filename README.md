@@ -8,6 +8,32 @@ uPont version 2.0, the intranet of the _École nationale des ponts et chaussées
 [![Code Coverage](https://scrutinizer-ci.com/g/KIClubinfo/upont/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/KIClubinfo/upont/?branch=master)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/35270f9e-ec9c-44c8-911d-399bf991cf45/mini.png)](https://insight.sensiolabs.com/projects/35270f9e-ec9c-44c8-911d-399bf991cf45)
 
+Demo Concepts
+-------------
+
+![The login page](doc/demo/demo1.jpg)
+
+_The login page_
+
+
+![The news page](doc/demo/demo2.jpg)
+
+_The news page with a calendar of the incoming events_
+
+
+![The students page](doc/demo/demo3.jpg)
+
+_The students page with custom filters_
+
+![The club presentation page](doc/demo/demo4.jpg)
+
+_The app features 12 themes_
+
+![Another page with another theme](doc/demo/demo5.jpg)
+
+_Yet another page_
+
+
 Documentation
 -------------
 

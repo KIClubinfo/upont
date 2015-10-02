@@ -50,9 +50,10 @@ class BeerUser
      */
     private $user;
 
-
-
-    //===== GENERATED AUTOMATICALLY =====//
+    public function __construct()
+    {
+        $this->date = time();
+    }
 
     /**
      * Get id

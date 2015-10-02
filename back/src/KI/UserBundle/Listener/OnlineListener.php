@@ -3,8 +3,8 @@
 namespace KI\UserBundle\Listener;
 
 use Doctrine\ORM\EntityManager;
+use KI\UserBundle\Entity\User;
 use Symfony\Component\Security\Core\SecurityContext;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 class OnlineListener
 {
@@ -17,15 +17,19 @@ class OnlineListener
         $this->securityContext = $securityContext;
     }
 
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest()
     {
         $session = $this->securityContext->getToken();
-        if (!method_exists($session, 'getUser'))
+        if (!method_exists($session, 'getUser')) {
             return;
-
-        if (!$this->securityContext->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
-            $user->setLastConnect(time());
-            $this->manager->flush();
         }
+
+        $user = $session->getUser();
+        if (!$user instanceof User) {
+            return;
+        }
+
+        $user->setLastConnect(time());
+        $this->manager->flush();
     }
 }

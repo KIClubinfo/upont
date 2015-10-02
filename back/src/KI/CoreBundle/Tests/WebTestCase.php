@@ -36,6 +36,7 @@ abstract class WebTestCase extends LiipWebTestCase
         }
 
         $client = static::createClient();
+        $client->enableProfiler();
         $client->setServerParameter('HTTP_Authorization', $this->authorizationHeaderPrefix.' '.file_get_contents($path));
         $this->client = $client;
     }

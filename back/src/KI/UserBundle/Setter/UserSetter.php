@@ -28,6 +28,5 @@ class UserSetter
                 $entity->$setter($token->getUser());
             }
         }
-        $entityManager = $args->getEntityManager();
     }
 }

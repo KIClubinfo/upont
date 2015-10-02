@@ -1,0 +1,286 @@
+<section class="Media  Media--main  padded  text-center" flex="100" col="start center">
+    <h1 class="padded">La Réponse D</h1>
+    <div ng-if="!playing && !end" flex="100">
+        <div row="space-around stretch">
+            <button class="Button  Button--special" flex="50" ng-click="post(promo, hardcore)">Jouer !</button>
+        </div>
+
+        <h2 class="padded">Promo</h2>
+
+        <div row="space-around stretch">
+            <button ng-repeat="item in promos" ng-if="item" class="Button  Button--special" flex="20" flex-sm="15" ng-class="{'focus':promo==item}" ng-click="switchPromo(item)">{{ item }}</button>
+        </div>
+
+        <h2 class="padded">Mode de jeu</h2>
+
+        <div row="center stretch">
+            <button class="Button  Button--special" flex="40" flex-lg="15" ng-class="{'focus':!hardcore}" ng-click="hardcore=false">Normal</button>
+            <div flex="5"></div>
+            <button class="Button  Button--special" flex="40" flex-lg="15" ng-class="{'focus':hardcore}" ng-click="hardcore=true">Hardcore</button>
+        </div>
+    </div>
+
+    <div ng-if="playing && !end" flex="100">
+        <header row wrap>
+            <div flex="100" flex-md="50">
+                <strong>Chrono :</strong> {{ (clock - start)/1000 | formatDuration }}
+            </div>
+
+            <div flex="100" flex-md="50">
+                {{ position + 1 }}/{{ gameData.list_users.length }}
+            </div>
+        </header>
+
+        <h3 ng-if="!hardcore && gameData.list_users[position].firstPart">Quelle est la photo de {{ name }} ?</h3>
+
+        <div ng-if="!hardcore && !gameData.list_users[position].firstPart" row="center stretch" wrap>
+            <h3 class="padded" flex="100">Comment s'appelle cette personne ?</h3>
+            <div class="Image" flex="25">
+                <div class="Image__filler  Image--radius" ng-style="{ 'background-image' : 'url(' + (picture | thumb | urlFile) + ')' }"></div>
+            </div>
+        </div>
+
+        <h3 ng-if="hardcore && !gameData.list_users[position].firstPart">
+            {{ text(trait) }} : {{ traitValue }}.<br>
+            Quel élève a cette caractéristique ?
+        </h3>
+
+        <div ng-if="hardcore && gameData.list_users[position].firstPart" row="center stretch" wrap>
+            <div class="Image" flex="25">
+                <div class="Image__filler  Image--radius" ng-style="{ 'background-image' : 'url(' + (picture | thumb | urlFile) + ')' }"></div>
+            </div>
+            <h3 class="padded" flex="100">{{ name }}</h3>
+            <h3 class="padded" flex="100">{{ text(trait) }} ?</h3>
+        </div>
+
+        <div row="space-around start" class="padded">
+            <div flex="25" ng-click="next(0)">
+                <button flex="100" class="Button  Button--special" ng-if="!gameData.list_users[position].firstPart && !hardcore">{{ name1 }}</button>
+
+                <div class="Image clickable" ng-if="gameData.list_users[position].firstPart && !hardcore">
+                    <div class="Image__filler  Image--radius" ng-style="{ 'background-image' : 'url(' + (picture1 | thumb | urlFile) + ')' }"></div>
+                </div>
+
+                <div ng-if="!gameData.list_users[position].firstPart && hardcore">
+                    <div class="Image clickable">
+                        <div class="Image__filler  Image--radius" ng-style="{ 'background-image' : 'url(' + (picture1 | thumb | urlFile) + ')' }"></div>
+                    </div>
+                    <button flex="100" class="Button  Button--special">{{ name1 }}</button>
+                </div>
+                <button flex="100" class="Button  Button--special" ng-if="gameData.list_users[position].firstPart && hardcore">{{ traitValue1 }}</button>
+            </div>
+
+            <div flex="25" ng-click="next(1)">
+                <button flex="100" class="Button  Button--special" ng-if="!gameData.list_users[position].firstPart && !hardcore">{{ name2 }}</button>
+
+                <div class="Image clickable" ng-if="gameData.list_users[position].firstPart && !hardcore">
+                    <div class="Image__filler  Image--radius" ng-style="{ 'background-image' : 'url(' + (picture2 | thumb | urlFile) + ')' }"></div>
+                </div>
+
+                <div ng-if="!gameData.list_users[position].firstPart && hardcore">
+                    <div class="Image clickable">
+                        <div class="Image__filler  Image--radius" ng-style="{ 'background-image' : 'url(' + (picture2 | thumb | urlFile) + ')' }"></div>
+                    </div>
+                    <button flex="100" class="Button  Button--special">{{ name2 }}</button>
+                </div>
+                <button flex="100" class="Button  Button--special" ng-if="gameData.list_users[position].firstPart && hardcore">{{ traitValue2 }}</button>
+            </div>
+
+            <div flex="25" ng-click="next(2)">
+                <button flex="100" class="Button  Button--special" ng-if="!gameData.list_users[position].firstPart && !hardcore">{{ name3 }}</button>
+
+                <div class="Image clickable" ng-if="gameData.list_users[position].firstPart && !hardcore">
+                    <div class="Image__filler  Image--radius" ng-style="{ 'background-image' : 'url(' + (picture3 | thumb | urlFile) + ')' }"></div>
+                </div>
+
+                <div ng-if="!gameData.list_users[position].firstPart && hardcore">
+                    <div class="Image clickable">
+                        <div class="Image__filler  Image--radius" ng-style="{ 'background-image' : 'url(' + (picture3 | thumb | urlFile) + ')' }"></div>
+                    </div>
+                    <button flex="100" class="Button  Button--special">{{ name3 }}</button>
+                </div>
+                <button flex="100" class="Button  Button--special" ng-if="gameData.list_users[position].firstPart && hardcore">{{ traitValue3 }}</button>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="end" flex="100">
+        <div row="space-around stretch">
+            <button class="Button  Button--special" flex="50" ng-click="post(promo, hardcore)">Rejouer !</button>
+        </div>
+
+        <h3 class="padded">Promo</h3>
+
+        <div row="space-around stretch">
+            <button ng-repeat="item in promos" ng-if="item" class="Button  Button--special" flex="20" flex-sm="15" ng-class="{'focus':promo==item}" ng-click="switchPromo(item)">{{ item }}</button>
+        </div>
+
+        <h3 class="padded">Mode de jeu</h3>
+
+        <div row="center stretch">
+            <button class="Button  Button--special" flex="40" flex-lg="15" ng-class="{'focus':!hardcore}" ng-click="hardcore=false">Normal</button>
+            <div flex="5"></div>
+            <button class="Button  Button--special" flex="40" flex-lg="15" ng-class="{'focus':hardcore}" ng-click="hardcore=true">Hardcore</button>
+        </div>
+
+        <h2 class="padded">Temps</h2>
+
+        <p>Tu as fini en <strong>{{ (clock-start)/1000 | formatDuration }}</strong>.<br>
+        <span ng-if="numWrong>0">Tu as commis <strong>{{ numWrong }}</strong> faute<span ng-if="numWrong > 1">s</span>.<br>
+        Temps total : <strong>{{ (clock-start)/1000 + 5 * numWrong | formatDuration }}.</strong></span></p>
+
+        <section row="space-around stretch" wrap>
+            <div class="text-left padded" flex="50" row ng-repeat="face in gameData.list_users">
+                <div class="Image" flex="30">
+                    <div class="Image__filler  Image--radius" ng-style="{ 'background-image' : 'url({{ face[face.answer]['picture'] | urlFile }})' }"></div>
+                </div>
+
+                <div class="padded" flex="70">
+                    <h3>{{ face.result ? 'OK !' : 'FAUX !'}}</h3>
+
+                    <div ng-if="face.firstPart">
+                        <div ng-if="face.trait">
+                            <strong>{{ face[face.answer]['name'] }}</strong><br>
+                            {{ traits[face.trait] }} : <strong>{{ face[face.answer]['trait'] }}</strong> <span ng-if="!face.result"> et non <strong>{{ face[face.answered]['trait'] }}</strong> ({{ face[face.answered]['name'] }})</span>.<br>
+                        </div>
+
+                        <div ng-if="!face.trait">
+                            <span ng-if="face.result">
+                                C'est bien la photo de <strong>{{ face[face.answer]['name'] }}</strong>.<br>
+                            </span>
+                            <span ng-if="!face.result">
+                                Voici la photo de <strong>{{ face[face.answer]['name'] }}</strong>.<br>
+                                <h4>Pénalité : 5 secondes</h4>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div ng-if="!face.firstPart">
+                        <div ng-if="face.trait">
+                            {{ traits[face.trait] }} : <strong>{{ face[face.answer]['trait'] }}</strong><br>
+                            <span ng-if="face.result">
+                                C'est bien la caractéristique de {{ face[face.answer]['name'] }}.<br>
+                            </span>
+                            <span ng-if="!face.result">
+                                C'est la caractéristique de <strong>{{ face[face.answer]['name'] }}</strong> et non de {{ face[face.answered]['name'] }} ({{ face[face.answered]['trait'] }}).<br>
+                            </span>
+                        </div>
+
+                        <div ng-if="!face.trait">
+                            <span ng-if="face.result">
+                                C'est bien <strong>{{ face[face.answer]['name'] }}</strong>.<br>
+                            </span>
+                            <span ng-if="!face.result">
+                                C'est <strong>{{ face[face.answer]['name'] }}</strong>, pas <strong>{{ face[face.answered]['name'] }}</strong>.<br>
+                                <h4>Pénalité : 5 secondes</h4>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</section>
+
+<section row>
+    <div class="padded" flex="100" flex-md="50">
+        <section class="Media  Media--main  padded" flex="100">
+            <h2>Highscores Perso</h2>
+
+            <p>Jusqu'à maintenant, tu as joué à <strong>{{ userStatistics.totalNormal }} parties</strong> en mode Normal.</p>
+
+            <table class="Table  Table--main" flex="90">
+                <thead>
+                    <tr>
+                        <th><a ng-init="predicate='duration'" ng-click="predicate = 'duration'; userNormal=!userNormal">Temps</a></th>
+                        <th><a ng-click="predicate = 'date'; userNormal=!userNormal">Date</a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="highscore in userStatistics.normalHighscores | orderBy:predicate:userNormal">
+                        <td>{{ highscore.duration | formatDuration }}</td>
+                        <td>{{ highscore.date | formatDate }}</td>
+                    </tr>
+                    <tr ng-hide="userStatistics.normalHighscores.length">
+                        <td>Rien à afficher</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p><strong>Tu as joué à {{ userStatistics.totalHardcore }} parties</strong> en mode Hardcore !</p>
+
+            <table class="Table  Table--main" flex="90">
+                <thead>
+                    <tr>
+                        <th><a ng-init="predicate='duration'" ng-click="predicate = 'duration'; userHardcore=!userHardcore">Temps</a></th>
+                        <th><a ng-click="predicate = 'date'; userHardcore=!userHardcore">Date</a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="highscore in userStatistics.hardcoreHighscores | orderBy:predicate:userHardcore">
+                        <td>{{ highscore.duration | formatDuration }}</td>
+                        <td>{{ highscore.date | formatDate }}</td>
+                    </tr>
+                    <tr ng-hide="userStatistics.hardcoreHighscores.length">
+                        <td>Rien à afficher</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+    <div class="padded" flex="100" flex-md="50">
+        <section class="Media  Media--main  padded" flex="100">
+            <h2>Highscores</h2>
+
+            <p>Jusqu'à maintenant, <strong>{{ globalStatistics.totalNormal }} parties</strong> ont été jouées en mode Normal.</p>
+
+            <table class="Table  Table--main" flex="90">
+                <thead>
+                    <tr>
+                        <th><a ng-init="predicate='duration'" ng-click="predicate = 'duration'; globalNormal=!globalNormal">Temps</a></th>
+                        <th><a ng-click="predicate = 'name'; globalNormal=!globalNormal">Élève</a></th>
+                        <th><a ng-click="predicate = 'date'; globalNormal=!globalNormal">Date</a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="highscore in globalStatistics.normalHighscores | orderBy:predicate:globalNormal">
+                        <td>{{ highscore.duration | formatDuration }}</td>
+                        <td>{{ highscore.name }}</td>
+                        <td>{{ highscore.date | formatDate }}</td>
+                    </tr>
+                    <tr ng-hide="globalStatistics.normalHighscores.length">
+                        <td>Rien à afficher</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p><strong>{{ globalStatistics.totalHardcore }} parties</strong> ont été jouées en mode Hardcore !</p>
+
+            <table class="Table  Table--main" flex="90">
+                <thead>
+                    <tr>
+                        <th><a ng-init="predicate='duration'" ng-click="predicate = 'duration'; globalHardcore=!globalHardcore">Temps</a></th>
+                        <th><a ng-click="predicate = 'name'; globalHardcore=!globalHardcore">Élève</a></th>
+                        <th><a ng-click="predicate = 'date'; globalHardcore=!globalHardcore">Date</a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="highscore in globalStatistics.hardcoreHighscores | orderBy:predicate:globalHardcore">
+                        <td>{{ highscore.duration | formatDuration }}</td>
+                        <td>{{ highscore.name }}</td>
+                        <td>{{ highscore.date | formatDate }}</td>
+                    </tr>
+                    <tr ng-hide="globalStatistics.hardcoreHighscores.length">
+                        <td>Rien à afficher</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</section>

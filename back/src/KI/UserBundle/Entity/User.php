@@ -4,8 +4,8 @@ namespace KI\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * La classe User est divisée en deux (autre partie dans CoreUser)
@@ -110,35 +110,27 @@ class User extends \KI\UserBundle\Entity\CoreUser
 
     /**
      * Autorisation de rendre publiques les stats Foyer
-     * @ORM\Column(name="statsFoyer", type="boolean", nullable=true)
+     * @ORM\Column(name="statsFoyer", type="boolean")
      * @JMS\Expose
      * @Assert\Type("boolean")
      */
-    protected $statsFoyer;
+    protected $statsFoyer = true;
 
     /**
      * Autorisation de rendre publiques les stats PontHub
-     * @ORM\Column(name="statsPonthub", type="boolean", nullable=true)
+     * @ORM\Column(name="statsPonthub", type="boolean")
      * @JMS\Expose
      * @Assert\Type("boolean")
      */
-    protected $statsPonthub;
+    protected $statsPonthub = true;
 
     /**
      * Autorisation de rendre publiques les stats de la réponse D
-     * @ORM\Column(name="statsFacegame", type="boolean", nullable=true)
+     * @ORM\Column(name="statsFacegame", type="boolean")
      * @JMS\Expose
      * @Assert\Type("boolean")
      */
-    protected $statsFacegame;
-
-    /**
-     * Détails d'un user
-     * @ORM\Column(name="details", type="text", nullable=true)
-     * @JMS\Expose
-     * @Assert\Type("string")
-     */
-    protected $details;
+    protected $statsFacegame = true;
 
     /**
      * Solde Foyer
@@ -148,6 +140,30 @@ class User extends \KI\UserBundle\Entity\CoreUser
      */
     protected $balance;
 
+    /**
+     * Activation des mails d'événements
+     * @ORM\Column(name="mailEvent", type="boolean")
+     * @JMS\Expose
+     * @Assert\Type("boolean")
+     */
+    protected $mailEvent = true;
+
+    /**
+     * Activation des mails de modification d'événements
+     * @ORM\Column(name="mailModification", type="boolean")
+     * @JMS\Expose
+     * @Assert\Type("boolean")
+     */
+    protected $mailModification = true;
+
+    /**
+     * Activation des mails de rappel de shotguns
+     * @ORM\Column(name="mailShotgun", type="boolean")
+     * @JMS\Expose
+     * @Assert\Type("boolean")
+     */
+    protected $mailShotgun = true;
+
     protected function acronyme()
     {
         $r = '';
@@ -156,11 +172,6 @@ class User extends \KI\UserBundle\Entity\CoreUser
         }
         return $r.'\''.$this->promo;
     }
-
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
 
     /**
      * Set gender
@@ -485,28 +496,6 @@ class User extends \KI\UserBundle\Entity\CoreUser
     }
 
     /**
-     * Set details
-     *
-     * @param string $details
-     * @return Course
-     */
-    public function setDetails($details)
-    {
-        $this->details = $details;
-        return $this;
-    }
-
-    /**
-     * Get details
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getDetails()
-    {
-        return $this->details;
-    }
-
-    /**
      * Set balance
      *
      * @param string $balance
@@ -526,5 +515,74 @@ class User extends \KI\UserBundle\Entity\CoreUser
     public function getBalance()
     {
         return $this->balance;
+    }
+
+    /**
+     * Set mailEvent
+     *
+     * @param  boolean $mailEvent
+     * @return User
+     */
+    public function setMailEvent($mailEvent)
+    {
+        $this->mailEvent = $mailEvent;
+
+        return $this;
+    }
+
+    /**
+     * Get mailEvent
+     *
+     * @return boolean
+     */
+    public function getMailEvent()
+    {
+        return $this->mailEvent;
+    }
+
+    /**
+     * Set mailShotgun
+     *
+     * @param  boolean $mailShotgun
+     * @return User
+     */
+    public function setMailShotgun($mailShotgun)
+    {
+        $this->mailShotgun = $mailShotgun;
+
+        return $this;
+    }
+
+    /**
+     * Get mailShotgun
+     *
+     * @return boolean
+     */
+    public function getMailShotgun()
+    {
+        return $this->mailShotgun;
+    }
+
+    /**
+     * Set mailModification
+     *
+     * @param  boolean $mailModification
+     * @return User
+     */
+    public function setMailModification($mailModification)
+    {
+        $this->mailModification = $mailModification;
+
+        return $this;
+    }
+
+    /**
+     * Get mailModification
+     *
+     * @return boolean
+     */
+    public function getMailModification()
+    {
+        return $this->mailModification;
     }
 }

@@ -45,7 +45,7 @@ angular.module('upont')
             if (criterias.ects != 'all')
                 url += '&ects=' + criterias.ects;
 
-            Paginate.get(url, 20).then(function(data){
+            Paginate.get(url, 50).then(function(data){
                 $scope.courses = data;
             });
         };
@@ -133,8 +133,8 @@ angular.module('upont')
             $scope.isLoading = true;
 
             // S'il y a plusieurs groupes pour ce cours on demande lequel sera suivi
-            if (!empty(course.groups) && course.groups[0] != '0') {
-                alertify.prompt('Dans quel groupe est-tu ? Groupes valides : ' + course.groups.join(','), function(e, str){
+            if (course.groups.length != 1) {
+                alertify.prompt('Dans quel groupe es-tu ? Groupes valides : ' + course.groups.join(','), function(e, str){
                     if (e) {
                         $http.post(apiPrefix + 'courses/' + course.slug + '/attend', {group: str}).success(function() {
                             $resource(apiPrefix + 'own/courses').query(function(data) {
@@ -178,7 +178,7 @@ angular.module('upont')
         $stateProvider
             .state('root.users.resources', {
                 url: 'ressources',
-                templateUrl: 'views/users/resources/index.html',
+                templateUrl: 'controllers/users/resources/index.html',
                 abstract: true,
                 data: {
                     title: 'Ressources - uPont',
@@ -196,7 +196,7 @@ angular.module('upont')
             })
             .state('root.users.resources.courses.list', {
                 url: '',
-                templateUrl: 'views/users/resources/courses.html',
+                templateUrl: 'controllers/users/resources/courses.html',
                 data: {
                     title: 'Liste des cours - uPont',
                     top: true
@@ -204,7 +204,7 @@ angular.module('upont')
                 controller: 'Courses_List_Ctrl',
                 resolve: {
                     courses: ['Paginate', function(Paginate) {
-                        return Paginate.get('courses?sort=name', 20);
+                        return Paginate.get('courses?sort=name', 50);
                     }],
                     followed: ['$resource', function($resource) {
                         return $resource(apiPrefix + 'own/courses').query().$promise;

@@ -82,8 +82,8 @@ class SecurityTest extends WebTestCase
             array(403, 'POST', '/clubs'),
             array(403, 'PATCH', '/promo/016/pictures'),
             array(403, 'PATCH', '/users/gcc'),
-            array(403, 'PATCH', '/clubs/gcc'),
+            array(204, 'PATCH', '/clubs/gcc', array('fullName' => 'Génie')),
         );
-        //$this->checkRoutes($routes);
+        $this->checkRoutes($routes);
     }
 }

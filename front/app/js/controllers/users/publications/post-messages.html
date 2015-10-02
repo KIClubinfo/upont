@@ -1,0 +1,20 @@
+<div ng-controller="Publications_Post_Messages_Ctrl">
+    <section class="Ticket" ng-if="!$root.isAdmissible">
+        <form row ng-submit="post(msg, postPicture)" autocomplete="off">
+            <div col flex="100">
+                <textarea class="Input" rows="1" ng-focus="focus=true" ng-init="focus=false" ng-model="msg.text"
+                          placeholder="Quoi de neuf ?" msd-elastic></textarea>
+
+                <!-- Toolbar du bas -->
+                <div ng-show="focus" row="end start">
+                    <!-- Ajout d'une image -->
+                    <div class="InputButton" ng-class="{'active': postPicture.filename}">
+                        <span><i class="fa fa-file-image-o"></i> {{ postPicture.filename ? postPicture.filename : 'Image' }}</span>
+                        <input class="InputButton__fileinput" type="file" ng-model="postPicture" base-sixty-four-input>
+                    </div>
+                    <button class="Button">Publier !</button>
+                </div>
+            </div>
+        </form>
+    </section>
+</div>

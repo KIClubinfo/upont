@@ -88,7 +88,7 @@ angular.module('upont')
         $stateProvider
             .state('root.users.resources.courses.simple', {
                 url: '/:slug',
-                templateUrl: 'views/users/resources/course.html',
+                templateUrl: 'controllers/users/resources/course.html',
                 data: {
                     title: 'Cours - uPont',
                     top: true

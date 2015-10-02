@@ -1,0 +1,103 @@
+.flex {
+    display: flex;
+    position: relative;
+
+    &-row {
+        flex-direction: row;
+        &-reverse { flex-direction: row-reverse; }
+    }
+
+    &-col {
+        flex-direction: column;
+        &-reverse { flex-direction: column-reverse; }
+    }
+
+    &-wrap         { flex-wrap: wrap;         }
+    &-wrap-reverse { flex-wrap: wrap-reverse; }
+
+    // Classes invisibles
+
+    &-hide-xs {
+        @media(max-width: @sizeSm) {
+            display: none !important;
+        }
+    }
+    &-hide-sm {
+        @media(min-width: @sizeSm) and (max-width: @sizeMd) {
+            display: none !important;
+        }
+    }
+    &-hide-md {
+        @media(min-width: @sizeMd) and (max-width: @sizeLg) {
+            display: none !important;
+        }
+    }
+    &-hide-lg {
+        @media(min-width: @sizeLg) {
+            display: none !important;
+        }
+    }
+}
+
+// Layout dans la direction primaire
+.p {
+    &-start         { justify-content: flex-start; }
+    &-center        { justify-content: center; }
+    &-end           { justify-content: flex-end; }
+    &-space-between { justify-content: space-between; }
+    &-space-around  { justify-content: space-around; }
+}
+
+// Layout dans la direction secondaire (perpendiculaire)
+.s {
+    &-start         { align-items: flex-start; }
+    &-center        { align-items: center; }
+    &-end           { align-items: flex-end; }
+    &-stretch       { align-items: stretch; }
+}
+
+// Largeur des colonnes
+.pct(@width, @prefix) {
+    .flex@{prefix}@{width}pct {
+        width: percentage(@width/100);
+    }
+    .flex@{prefix}-hide {
+        display: none !important;
+    }
+}
+.percentages(@prefix) {
+    .pct(5, @prefix);
+    .pct(10, @prefix);
+    .pct(15, @prefix);
+    .pct(20, @prefix);
+    .pct(25, @prefix);
+    .pct(30, @prefix);
+    .pct(33, @prefix);
+    .pct(35, @prefix);
+    .pct(40, @prefix);
+    .pct(45, @prefix);
+    .pct(50, @prefix);
+    .pct(55, @prefix);
+    .pct(60, @prefix);
+    .pct(65, @prefix);
+    .pct(66, @prefix);
+    .pct(70, @prefix);
+    .pct(75, @prefix);
+    .pct(80, @prefix);
+    .pct(85, @prefix);
+    .pct(90, @prefix);
+    .pct(95, @prefix);
+    .pct(100, @prefix);
+}
+
+.percentages(-);
+.percentages(-xs-);
+@media(min-width: @sizeSm) {
+    .percentages(-sm-);
+}
+@media(min-width: @sizeMd) {
+    .percentages(-md-);
+}
+@media(min-width: @sizeLg) {
+    .percentages(-lg-);
+}

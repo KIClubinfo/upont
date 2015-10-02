@@ -2,9 +2,9 @@
 
 namespace KI\PonthubBundle\Entity;
 
-use KI\PonthubBundle\Entity\PonthubFile;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use KI\PonthubBundle\Entity\PonthubFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -98,7 +98,7 @@ class Serie extends PonthubFile
     {
         $actors = array();
         foreach ($this->actors as $actor) {
-                    $actors[] = $actor->getName();
+            $actors[] = $actor->getName();
         }
         return $actors;
     }
@@ -128,20 +128,13 @@ class Serie extends PonthubFile
         return 0;
     }
 
-
-
-
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
-
     /**
      * Constructor
      */
     public function __construct()
     {
         parent::__construct();
+        $this->actors   = new \Doctrine\Common\Collections\ArrayCollection();
         $this->episodes = new \Doctrine\Common\Collections\ArrayCollection();
     }
 

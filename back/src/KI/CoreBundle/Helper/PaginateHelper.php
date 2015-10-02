@@ -24,10 +24,9 @@ class PaginateHelper
 
     /**
      * En fonction de la requête, récupère les données utiles à la pagination
-     * @param  QueryBuilder $queryBuilder Le query builder pour effectuer les comptes
-     * @return array                     Les données de pagination (nombre de pages, etc.)
+     * @param  EntityRepository $repository Le repository sur lequel effectuer les comptes
+     * @return array                        Les données de pagination (nombre de pages, etc.)
      */
-    //FIXME querybuilder
     public function paginateData(EntityRepository $repository)
     {
         $queryBuilder = $repository->createQueryBuilder('o');

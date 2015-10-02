@@ -1,0 +1,114 @@
+<nav up-panel title="Recherche" row wrap>
+    <div class="padded" flex="100">
+        <i class="fa  fa-block  fa-institution"></i> Département
+    </div>
+    <div class="padded" flex="100">
+        <select class="Input" ng-model="search.department" ng-change="reload(search)">
+            <option value="all">Tous</option>
+            <option ng-repeat="item in $root.departments">{{ item }}</option>
+            <option>SHS</option>
+            <option>DFL</option>
+        </select>
+    </div>
+
+    <div class="padded" flex="100">
+        <i class="fa  fa-block  fa-graduation-cap"></i> Période
+    </div>
+    <div class="padded" flex="100">
+        <select class="Input" ng-model="search.semester" ng-change="reload(search)">
+            <option value="all">Toutes</option>
+            <option>Ouverture</option>
+            <option>1er Semestre</option>
+            <option>2nd Semestre</option>
+            <option>Année complète</option>
+        </select>
+    </div>
+
+    <div class="padded" flex="100">
+        <i class="fa  fa-block  fa-dollar"></i> ECTS
+    </div>
+    <div class="padded" flex="100">
+        <select class="Input" ng-model="search.ects" ng-change="reload(search)">
+            <option value="all">Tous</option>
+            <!-- Attention le select retourne un string alors que le champs est un integer -->
+            <option>1</option>
+            <option>1,5</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+        </select>
+    </div>
+</nav>
+
+<div class="Ticket">
+    <div class="padded" row="space-between stretch">
+        <h1>Liste des cours</h1>
+        <button class="Button  clickable" ng-class="{'disabled':!modo}" ng-if="$root.isAdmin" ng-click="toggleModo()">Mode modo</button>
+    </div>
+
+    <section class="padded">
+        <h2>Cours suivis</h2>
+
+        <div ng-show="followed === null">Aucun cours à afficher</div>
+        <div row wrap ng-hide="modo">
+            <div class="padded" flex="50" flex-md="33" row ng-repeat="course in followed">
+                <div class="Media  Media--main  Media--hover  padded" flex="100" row>
+                    <h3 flex="75" class="clickable" ui-sref="root.users.resources.courses.simple({slug: course.slug})">{{ course.name }}</h3>
+                    <div flex="25" row wrap>
+                        <div class="Link  Link--reverse  Link--alt" ng-class="{'Link--active': course.like}" flex="50" ng-click="upvote(course);" ng-disabled="$root.isAdmissible">
+                            <i class="fa  fa-thumbs-o-up"></i> {{ course.likes >= 0 ? course.likes : 0 }}
+                        </div>
+
+                        <div class="Link  Link--reverse  Link--alt" ng-class="{'Link--active': course.dislike}" flex="50" ng-click="downvote(course);" ng-disabled="$root.isAdmissible">
+                            <i class="fa  fa-thumbs-o-down"></i> {{ course.dislikes >= 0 ? course.dislikes : 0 }}
+                        </div>
+
+                        <div flex="50" ng-disabled="$root.isAdmissible">
+                            <i class="fa  fa-comment"></i> {{ course.comments }}
+                        </div>
+
+                        <div class="Link  Link--reverse  Link--alt  text-center" flex="50" title="Suivre le cours" ng-click="leave(course)" ng-disabled="$root.isAdmissible">
+                            <i class="fa  fa-eye"></i> {{ followedIds[course.slug] !== true ? followedIds[course.slug] : '' }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="padded">
+        <h2>Autres cours</h2>
+
+        <div row wrap infinite-scroll="next()" infinite-scroll-distance="3" infinite-scroll-disabled="$root.infiniteLoading">
+            <div class="padded" flex="50" flex-md="33" row ng-repeat="course in courses.data" ng-if="modo || (course.active && followedIds[course.slug] === undefined)">
+                <div class="Ticket" flex="100" row>
+                    <h3 class="Link  Link--reverse" flex="75" ui-sref="root.users.resources.courses.simple({slug: course.slug})">{{ course.name }}</h3>
+                    <div flex="25" row wrap ng-show="!modo">
+                        <div flex="50" class="Link  Link--reverse" ng-class="{'Link--active': course.like}" ng-click="upvote(course);" ng-disabled="$root.isAdmissible">
+                            <i class="fa fa-thumbs-o-up"></i> {{ course.likes >= 0 ? course.likes : 0 }}
+                        </div>
+
+                        <div flex="50" class="Link  Link--reverse" ng-class="{'Link--active': course.dislike}" ng-click="downvote(course);" ng-disabled="$root.isAdmissible">
+                            <i class="fa fa-thumbs-o-down"></i> {{ course.dislikes >= 0 ? course.dislikes : 0 }}
+                        </div>
+
+                        <div flex="50" up-col="50%" ng-disabled="$root.isAdmissible">
+                            <i class="fa fa-comment"></i> {{ course.comments }}
+                        </div>
+
+                        <div flex="50" class="Link  Link--reverse  text-center" title="Suivre le cours" ng-click="attend(course)" ng-disabled="$root.isAdmissible">
+                            <i class="fa fa-eye"></i>
+                        </div>
+                    </div>
+                    <div class="padded" flex="25" row wrap ng-show="modo">
+                        <div flex="100" class="Link  Link--reverse" ng-class="{'Link--active': course.active}" ng-click="toggleCourse(course);">
+                            <i class="fa  huge" ng-class="{'fa-toggle-on': course.active, 'fa-toggle-off': !course.active}"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

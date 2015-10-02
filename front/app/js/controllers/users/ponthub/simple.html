@@ -1,0 +1,90 @@
+<div class="Ticket" flex="100" col="space-between stretch">
+    <!-- Eventuels ribbons -->
+    <up-ribbon class="Ribbon--yellow" ng-if="popular(element.downloads) && element.added < lastWeek">POPULAIRE</up-ribbon>
+    <up-ribbon class="Ribbon--violet" ng-if="element.added > lastWeek && !popular(element.downloads)">NOUVEAU</up-ribbon>
+    <up-ribbon class="Ribbon--red"    ng-if="element.added > lastWeek && popular(element.downloads)">HOT</up-ribbon>
+
+    <div class="padded" row>
+        <!-- Image du fichier -->
+        <aside flex="25" ng-if="element.image_url" col>
+            <div class="Image  clickable" ng-click="$root.zoomIn('/api/' + element.image_url)"
+                 ng-class="{'Image--portrait': category == 'films' || category == 'series', 'Image--landscape': category == 'jeux'}">
+                <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ element.image_url | urlFile }})' }"></div>
+            </div>
+
+            <div row="space-around stretch">
+                <div ng-if="element.vo"><span class="label label-upont">VO</span></div>
+                <div ng-if="element.vf"><span class="label label-upont">VF</span></div>
+                <div ng-if="element.vost"><span class="label label-upont">VOST</span></div>
+                <div ng-if="element.hd"><span class="label label-upont">HD</span></div>
+            </div>
+        </aside>
+
+        <!-- Détails sur le fichier -->
+        <section flex="75" class="padded">
+            <h1>{{ element.name }}</h1>
+            <p>{{ element.description }}</p>
+            <ul>
+                <li ng-if="element.year"><strong>Année de sortie :</strong> {{ element.year }}</li>
+                <li ng-if="element.genres && element.genres.length > 1">
+                    <strong>Genres :</strong>
+                    <span ng-repeat="genre in element.genres">{{ genre }}{{$last ? '' : ', '}}</span>
+                </li>
+                <li ng-if="element.actors_list && element.actors_list.length > 1">
+                    <strong>Acteurs :</strong>
+                    <span ng-repeat="actor in element.actors_list">{{ actor }}{{$last ? '' : ', '}}</span>
+                </li>
+                <li ng-if="element.artist"><strong>Artiste :</strong> {{ element.artist }}</li>
+                <li ng-if="element.studio"><strong>Studio :</strong> {{ element.studio }}</li>
+                <li ng-if="element.director"><strong>Réalisateur :</strong> {{ element.director }}</li>
+                <li ng-if="element.duration"><strong>Durée :</strong> {{ element.duration | formatDuration }}</li>
+                <li ng-if="element.version"><strong>Version :</strong> {{ element.version }}</li>
+                <li ng-if="element.size"><strong>Taille :</strong> {{ element.size | formatSize }}</li>
+                <li ng-if="element.rating"><strong>Note Rotten Tomatoes :</strong> {{ element.rating+'%' }}</li>
+                <li ng-if="countDownloads() != 0"><strong>Téléchargé :</strong> {{ countDownloads() }} fois</li>
+                <li ng-if="element.added"><strong>Ajout :</strong> {{ element.added | formatDate }}</li>
+                <li><strong>Extension :</strong> .{{ element.path.split('.')[element.path.split('.').length-1] }}<i ng-if="element.path.split('.')[element.path.split('.').length-1] == 'mp4'"> (Streamable)</i></li>
+                <li ng-if="element.os"><strong>Platforme :</strong> {{ element.os }}</li>
+
+                <div class="padded" row="space-between stretch">
+                    <a class="Button" title="Télécharger le fichier" target="_blank" ng-href="{{ type + '/' + element.slug + '/download?bearer=' + token | urlFile }}" ng-hide="category == 'series' || category == 'musiques'">
+                        <i class="fa  fa-download"></i>
+                        Télécharger !
+                    </a>
+
+                    <a class="Button  Button--alt" title="Ranger le fichier" ui-sref="root.users.ponthub.category.modify({slug: element.slug})" ng-if="$root.hasRight('ROLE_JARDINIER')">
+                        <i class="fa  fa-cogs"></i>
+                        Ranger
+                    </a>
+                </div>
+            </ul>
+
+            <!-- Cas des séries -->
+            <section ng-if="saisons" ng-repeat="saison in saisons track by $index" ng-if="saison">
+                <h2 class="Link  Link--reverse" ng-click="open($index)">
+                    <i class="fa" ng-class="{'fa-plus-square-o': openSeason != $index, 'fa-minus-square-o': openSeason == $index}"></i> Saison {{ $index+1 }}
+                </h2>
+
+                <ul class="List  padded" ng-show="openSeason == $index">
+                    <li class="List__element" ng-repeat="episode in saison | orderBy:['name']">
+                        <a title="Télécharger le fichier" target="_blank" ng-href="{{ type + '/' + element.slug + '/episodes/' + episode.slug + '/download?bearer=' + token | urlFile }}">
+                            {{ episode.name }}
+                        </a>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Cas des albums -->
+            <section ng-if="musics">
+                <ul class="List  padded">
+                    <li class="List__element" ng-repeat="music in musics | orderBy:['name']">
+                        <a class="clickable" title="Télécharger le fichier" target="_blank" ng-href="{{ type + '/' + element.slug + '/musics/' + music.slug + '/download?bearer=' + token | urlFile }}">
+                            {{ music.name }}
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </section>
+    </div>
+    <div up-likes objet="element" url="type + '/' + element.slug"></div>
+</div>

@@ -1,7 +1,3 @@
-youtubes:
-    type:     rest
-    resource: KI\FoyerBundle\Controller\YoutubesController
-
 beers:
     type:     rest
     resource: KI\FoyerBundle\Controller\BeersController
@@ -10,20 +6,10 @@ beerUsers:
     type:     rest
     resource: KI\FoyerBundle\Controller\BeerUsersController
 
-upont_api_foyer_balance:
-    pattern: /foyer/balance
-    defaults: { _controller: KI\FoyerBundle\Controller\FoyerController::balanceAction }
-    requirements:
-        _method: GET
+default:
+    type:     rest
+    resource: KI\FoyerBundle\Controller\DefaultController
 
-upont_api_foyer_statistics_general:
-    pattern: /foyer/statistics
-    defaults: { _controller: KI\FoyerBundle\Controller\FoyerController::statisticsMainAction }
-    requirements:
-        _method: GET
-
-upont_api_foyer_statistics:
-    pattern: /foyer/statistics/{slug}
-    defaults: { _controller: KI\FoyerBundle\Controller\FoyerController::statisticsAction }
-    requirements:
-        _method: GET
+youtubes:
+    type:     rest
+    resource: KI\FoyerBundle\Controller\YoutubesController

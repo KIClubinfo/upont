@@ -12,14 +12,16 @@ class ExerciceType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('file');
+            ->add('file')
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
+            'data_class' => 'KI\PublicationBundle\Entity\Exercice',
             'csrf_protection' => false,
-            'data_class' => 'KI\PublicationBundle\Entity\Exercice'));
+        ));
     }
 
     public function getName()

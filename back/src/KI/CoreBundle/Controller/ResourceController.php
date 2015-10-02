@@ -3,7 +3,6 @@
 namespace KI\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
-use FOS\RestBundle\View\View as RestView;
 
 // Fonctions générales pour servir une ressource de type REST, CommentsController en est un exemple
 class ResourceController extends LikeableController

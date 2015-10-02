@@ -1,0 +1,63 @@
+// Panneau latéral rétractable
+.Tour {
+    position: fixed;
+    bottom: -@tourHeight;
+    right: 1%;
+    width: ~"calc(98% - @{asideWidth})";
+    height: @tourHeight;
+    z-index: 1;
+
+    color: @col-aside;
+
+    border-radius: 4px 4px 0 0;
+    background-color: rgba(red(@col-aside-bckgnd), green(@col-aside-bckgnd), blue(@col-aside-bckgnd), 0.9);
+    box-shadow: 0 0 9px 4px rgba(0, 0, 0, 0.4);
+    transition: all 300ms ease;
+
+    // Sans aside
+    @media(max-width:@sizeSm) {
+        width: 90%;
+        right: 5%;
+    }
+
+    &__toggle {
+        position: absolute;
+        right: 0;
+        z-index: 2;
+        width: 1.5em;
+
+        font-size: 1.5em;
+        .clickable;
+    }
+
+    &__controls {
+        width: 160px;
+
+        i { font-size: 2.4em; }
+
+        &--disabled {
+            cursor: inherit;
+            opacity: 0;
+        }
+    }
+
+    &__text {
+        width: ~"calc(100% - 100px)";
+        overflow-y: hidden;
+    }
+
+    &__icon {
+        width: 60px;
+        padding: 0.2em;
+
+        font-size: 2em;
+        color: white;
+
+        background-color: @col-main;
+        border-radius: 0.3em;
+    }
+
+    &--shown {
+        bottom: 0;
+    }
+}

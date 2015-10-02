@@ -1,0 +1,23 @@
+<main class="padded">
+    <div class="Ticket  text-center">
+        <h1>Authentification centralisée</h1>
+        <div row="space-around stretch">
+            <div class="Image" flex="25">
+                <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ 'img/sso_apps/'+app.logo }})' }"></div>
+            </div>
+            <div class="Image" flex="25">
+                <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ 'img/favicon.png' }})' }"></div>
+            </div>
+        </div>
+        <p class="sso_helper lead">
+            Veux-tu te connecter à <strong>{{ app.name }}</strong> avec ton compte uPont ?
+        </p>
+        <div class="padded">
+            <button class="Button" flex="100" flex-md="25" ng-click="acceptAuth()">Autoriser</button>
+            <button class="Button  Button--alt" flex="100" flex-md="25" ng-click="denyAuth()">Ah non !</button>
+        </div>
+        <p class="padded">
+            Cette application pourra accéder à <em>ton nom</em>, ta <em>photo de profil</em>, ta <em>promotion</em> et ton <em>département</em>, à condition que ces informations soient renseignées sur <a ui-sref="root.users.students.modify">ton profil</a>.
+        </p>
+    </div>
+</main>

@@ -1,0 +1,55 @@
+// Typo
+.small {
+    font-size: 75%;
+}
+.big {
+    font-size: 125%;
+}
+.huge {
+    font-size: 300%;
+}
+.bold {
+    font-weight: bold;
+}
+.danger {
+    color: @col-red;
+}
+.spaced {
+    letter-spacing: 0.15em;
+}
+.clickable{
+    cursor: pointer;
+}
+.code {
+    padding: 2px 5px 2px 5px;
+    color: white;
+    border-radius: 2px;
+    background-color: @col-main;
+}
+
+// Box-model
+.padded {
+    padding: 0.5em;
+}
+.fa-block {
+    width: 20px;
+    text-align: center;
+}
+.full-height {
+    min-height: 100vh;
+}
+
+// Input
+.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+:disabled, [disabled] {
+    .disabled !important;
+}
+
+.wysiwyg-data {
+    a { .Link; }
+    img { .Image; }
+    kbd { .code }
+}

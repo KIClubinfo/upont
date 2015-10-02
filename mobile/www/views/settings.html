@@ -31,22 +31,12 @@
                 <ons-icon icon="fa-send-o"></ons-icon>
                 Désactiver les notifications push
             </ons-list-item>
-<!--
-            <ons-list-item modifier="chevron">
-                Cours suivis
-            </ons-list-item>
--->
         </ons-list>
 
         <br>
         <div class="settings-header">Autre</div>
 
         <ons-list modifier="inset" class="settings-list">
-            <!-- <ons-list-item modifier="tappable chevron" ng-click="nav.pushPage('calendar.html')">
-                <ons-icon icon="fa-calendar"></ons-icon>
-                Synchronisation du calendrier
-            </ons-list-item> -->
-
             <ons-list-item ng-click="switchTheme()">
                 <ons-icon icon="fa-eye"></ons-icon>
                 Thème sombre
@@ -55,7 +45,7 @@
 
             <ons-list-item ng-hide="balance === null">
                 <ons-icon icon="fa-eur"></ons-icon>
-                Solde Foyer : {{ balance }}
+                Solde Foyer : {{ balance | number:2 }}
             </ons-list-item>
 
             <ons-list-item modifier="tappable" ng-click="logout()">
@@ -125,49 +115,6 @@
             </ons-list-item>
             <ons-list-item style="opacity: 0.7;">
                 Et plein d'autres choses à venir...
-            </ons-list-item>
-        </ons-list>
-    </ons-page>
-</ons-template>
-
-
-
-<ons-template id="calendar.html">
-    <ons-page>
-        <ons-toolbar fixed-style>
-            <div class="left">
-                <ons-toolbar-button ng-click="menu.toggle()">
-                    <ons-icon icon="fa-bars" fixed-width="false"></ons-icon>
-                </ons-toolbar-button>
-            </div>
-            <div class="center">Calendrier ICS</div>
-            <div class="right"><ons-toolbar-button ng-click="nav.popPage()">Retour</ons-toolbar-button></div>
-        </ons-toolbar>
-
-        <div ng-hide="shotgunned" modifier="tappable">
-            <a ng-href="{{ url + '/users/' + token + '/calendar' }}" alt="Lien vers le calendrier ICS">
-                <div class="container-shotgun">
-                    <ons-icon icon="fa-calendar"></ons-icon><br><br>
-                    Synchronise le calendrier uPont avec ton mobile !<br>
-                    <p>En cliquant sur cette icône, ton téléphone va te proposer de synchroniser le calendrier uPont pour que tu ne puisse vraiment rater aucun événement.</p>
-                </div>
-            </a>
-        </div>
-
-        <div class="settings-header">Options - à venir</div>
-
-        <ons-list modifier="inset" style="margin-top: 10px;">
-            <ons-list-item>
-                Alertes 1h avant shotgun
-                <ons-switch modifier="list-item" disabled></ons-switch>
-            </ons-list-item>
-            <ons-list-item>
-                Alertes 5min avant shotgun
-                <ons-switch modifier="list-item" disabled></ons-switch>
-            </ons-list-item>
-            <ons-list-item>
-                Alertes 1h avant événement
-                <ons-switch modifier="list-item" disabled></ons-switch>
             </ons-list-item>
         </ons-list>
     </ons-page>

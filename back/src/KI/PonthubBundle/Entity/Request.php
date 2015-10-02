@@ -52,6 +52,8 @@ class Request
      * @Assert\Valid()
      */
     protected $user;
+    protected $autoSetUser = 'user';
+    public function getAutoSetUser() { return $this->autoSetUser; }
 
     /**
      * Nombre de votes
@@ -61,12 +63,11 @@ class Request
      */
     protected $votes;
 
-
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
-
+    public function __construct()
+    {
+        $this->date  = time();
+        $this->votes = 1;
+    }
 
     /**
      * Get id

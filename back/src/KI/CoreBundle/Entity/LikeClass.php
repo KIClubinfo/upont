@@ -4,7 +4,6 @@ namespace KI\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
 use KI\UserBundle\Entity\User;
 
 /**
@@ -84,7 +83,7 @@ class LikeClass
      */
     public function __construct()
     {
-        $this->listLikes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listLikes    = new \Doctrine\Common\Collections\ArrayCollection();
         $this->listDislikes = new \Doctrine\Common\Collections\ArrayCollection();
     }
 

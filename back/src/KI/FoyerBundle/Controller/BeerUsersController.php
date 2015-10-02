@@ -3,14 +3,12 @@
 namespace KI\FoyerBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use KI\CoreBundle\Controller\ResourceController;
 use KI\FoyerBundle\Entity\Beer;
 use KI\FoyerBundle\Entity\BeerUser;
 use KI\UserBundle\Entity\User;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class BeerUsersController extends ResourceController
 {
@@ -56,45 +54,8 @@ class BeerUsersController extends ResourceController
      */
     public function getUserBeersAction()
     {
-        // Route un peu particulière : on va ordonner les utilisateurs
-        // par ordre décroissant de date consommation
-        // On commence par récupérer 500 dernières consos
-        $repo = $this->manager->getRepository('KIFoyerBundle:BeerUser');
-        $beerUsers = $repo->findBy(array(), array('date' => 'DESC'), 500);
-
-        // On veut positionner le compte Externe Foyer en première positionn
-        $repo = $this->manager->getRepository('KIUserBundle:User');
-        $users = array();
-        $users[] = $repo->findOneByUsername('externe-foyer');
-
-        foreach ($beerUsers as $beerUser) {
-            $user = $beerUser->getUser();
-
-            if (!in_array($user, $users)) {
-                $users[] = $user;
-            }
-            // On ne veut que 48 résultats
-            if (count($users) >= 48) {
-                break;
-            }
-        }
-
-        // On complète avec d'autres utilisateurs au besoin
-        if (count($users) < 48) {
-
-            $listUsers = $repo->findBy(array(), array('id' => 'DESC'), 100);
-
-            foreach ($listUsers as $user) {
-                if (!in_array($user, $users)) {
-                    $users[] = $user;
-                }
-                // On ne veut que 48 résultats
-                if (count($users) >= 48) {
-                    break;
-                }
-            }
-        }
-
+        $helper = $this->get('ki_foyer.helper.beer');
+        $users = $helper->getUserOrderedList();
         return $this->restResponse($users);
     }
 
@@ -114,8 +75,8 @@ class BeerUsersController extends ResourceController
      */
     public function getBeersUserAction($slug)
     {
-        $repo = $this->getDoctrine()->getManager()->getRepository('KIUserBundle:User');
-        $user = $repo->findOneByUsername($slug);
+        $userRepository = $this->getDoctrine()->getManager()->getRepository('KIUserBundle:User');
+        $user = $userRepository->findOneByUsername($slug);
 
         $beerUsers = $this->repository->findBy(array('user' => $user));
         return $this->restResponse($beerUsers);
@@ -140,12 +101,13 @@ class BeerUsersController extends ResourceController
      */
     public function postBeerUserAction($slug, $beer)
     {
-        list($user, $beer) = $this->update($slug, $beer);
+        $this->trust($this->isClubMember('foyer') || $this->is('ADMIN'));
+        $helper = $this->get('ki_foyer.helper.beer');
+        list($user, $beer) = $helper->updateBalance($slug, $beer);
 
         $beerUser = new BeerUser();
         $beerUser->setUser($user);
         $beerUser->setBeer($beer);
-        $beerUser->setDate(time());
         $beerUser->setAmount(-1*$beer->getPrice());
         $this->manager->persist($beerUser);
         $this->manager->flush();
@@ -171,38 +133,14 @@ class BeerUsersController extends ResourceController
      */
     public function deleteBeerUserAction($slug, $beer, $id)
     {
-        list($user, $beer) = $this->update($slug, $beer, true);
+        $this->trust($this->isClubMember('foyer') || $this->is('ADMIN'));
+        $helper = $this->get('ki_foyer.helper.beer');
+        list($user, $beer) = $helper->updateBalance($slug, $beer, true);
 
         return $this->delete($id, $this->isClubMember('foyer'));
     }
 
-    // Met à jour le compte Foyer d'un utilisateur
-    protected function update($slug, $beer, $add = false)
-    {
-        if (!$this->isClubMember('foyer') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            throw new AccessDeniedException();
-        }
 
-        $repo = $this->getDoctrine()->getManager()->getRepository('KIUserBundle:User');
-        $user = $repo->findOneByUsername($slug);
-        if (!$user instanceOf User) {
-            throw new NotFoundHttpException('Utilisateur non trouvé');
-        }
-
-        $repo = $this->getDoctrine()->getManager()->getRepository('KIFoyerBundle:Beer');
-        $beer = $repo->findOneBySlug($beer);
-        if (!$beer instanceOf Beer) {
-            throw new NotFoundHttpException('Bière non trouvée');
-        }
-
-        $balance = $user->getBalance();
-        $balance = $balance === null ? 0 : $balance;
-        $price = $beer->getPrice();
-        $balance = $add ? $balance + $price : $balance - $price;
-        $user->setBalance($balance);
-
-        return array($user, $beer);
-    }
 
     /**
      * @ApiDoc(
@@ -220,17 +158,15 @@ class BeerUsersController extends ResourceController
      */
     public function patchBalanceAction($slug)
     {
-        if (!$this->isClubMember('foyer') && !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            throw new AccessDeniedException();
-        }
+        $this->trust($this->isClubMember('foyer') || $this->is('ADMIN'));
 
         $request = $this->getRequest()->request;
         if (!$request->has('balance')) {
             throw new BadRequestHttpException('Aucun crédit donné');
         }
 
-        $repo = $this->getDoctrine()->getManager()->getRepository('KIUserBundle:User');
-        $user = $repo->findOneByUsername($slug);
+        $userRepository = $this->getDoctrine()->getManager()->getRepository('KIUserBundle:User');
+        $user = $userRepository->findOneByUsername($slug);
 
         $balance = $user->getBalance();
         $balance = $balance === null ? 0 : $balance;
@@ -241,7 +177,6 @@ class BeerUsersController extends ResourceController
         // On enregistre une entrée
         $beerUser = new BeerUser();
         $beerUser->setUser($user);
-        $beerUser->setDate(time());
         $beerUser->setAmount($request->get('balance'));
         $this->manager->persist($beerUser);
 

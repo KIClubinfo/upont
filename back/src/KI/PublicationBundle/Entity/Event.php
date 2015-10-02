@@ -33,12 +33,15 @@ class Event extends Post
     protected $endDate;
 
     /**
-     * Mode d'entrée [libre|shotgun]
+     * Mode d'entrée [libre|shotgun|ferie]
      * @ORM\Column(name="entryMethod", type="string", length=255)
      * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $entryMethod;
+    const TYPE_LIBRE   = 'Libre';
+    const TYPE_SHOTGUN = 'Shotgun';
+    const TYPE_FERIE   = 'Ferie';
 
     /**
      * Date du shotgun (timestamp)
@@ -92,7 +95,7 @@ class Event extends Post
 
     public function isAttended(User $user)
     {
-        $this->listAttendees->contains($user);
+        return $this->listAttendees->contains($user);
     }
 
     /**
@@ -102,7 +105,7 @@ class Event extends Post
 
     public function isHidden(User $user)
     {
-        $this->listPookies->contains($user);
+        return $this->listPookies->contains($user);
     }
 
     /**
@@ -133,22 +136,14 @@ class Event extends Post
         return count($this->listPookies);
     }
 
-
-
-
-
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
-
     /**
      * Constructor
      */
     public function __construct()
     {
+        parent::__construct();
         $this->listAttendees = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->listPookies = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listPookies   = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

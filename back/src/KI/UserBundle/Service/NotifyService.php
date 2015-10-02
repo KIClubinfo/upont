@@ -4,12 +4,13 @@ namespace KI\UserBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use KI\UserBundle\Service\GcmService;
 use KI\UserBundle\Entity\Notification;
+use KI\UserBundle\Service\GcmService;
 
 class NotifyService
 {
     protected $gcmService;
+    protected $manager;
     protected $deviceRepository;
     protected $userRepository;
 
@@ -56,7 +57,7 @@ class NotifyService
     private function pushToCloud(Notification $notification)
     {
         $devices = $this->deviceRepository->findAll();
-        $sendToAndroid = $sendToIOS = $sendToWP = array();
+        $sendToAndroid = array();
 
         // Si le mode d'envoi est direct, on envoie aux utilisateurs qui ont
         // enregistré un ou plusieurs Devices

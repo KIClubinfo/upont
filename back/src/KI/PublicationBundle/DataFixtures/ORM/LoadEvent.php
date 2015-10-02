@@ -19,7 +19,7 @@ class LoadEventFixture extends AbstractFixture implements OrderedFixtureInterfac
         $event->setAuthorUser($this->getReference('user-trancara'));
         $event->setEntryMethod('Libre');
         $event->setStartDate(mktime(0, 0, 0) + 36*3600);
-        $event->setEndDate(mktime(0, 0, 0) + 36.5*3600);
+        $event->setEndDate(mktime(0, 0, 0) + 37.5*3600);
         $event->setPlace('P102');
         $event->addAttendee($this->getReference('user-taquet-c'));
         $event->addAttendee($this->getReference('user-de-boisc'));
@@ -30,12 +30,12 @@ class LoadEventFixture extends AbstractFixture implements OrderedFixtureInterfac
         $event = new Event();
         $event->setName('Le Faucon MilLANium');
         $event->setText('Un nouvel espoir pour vous après cette période de partiels !<br><br>Venez assister les troupes d\'Obi LAN Kenobi dans leur combat contre le vil empereur PLANpatine! Viens dégainer ton sabre LANser comme LANakin au 4ème étage de Prony le mercredi 17 décembre à partir de 21 heures. Nous revisiterons des épisodes comme LANttaque des clones à travers Star Wars Empire at War - Forces of Corruption (RTS - style Age Of Empires) et Star Wars Battlefront 2 (FPS - style counter strike) tout en dégustant les victuailles habituelles des LANs.<br><br>Tl;dr: mercredi 17 décembre de 21 heures à 1 heures en P402, thème Star Wars.<br>Venez nombreux, ce n\'est pas une LAN Solo! Les jeux seront fournis sur place mais pour gagner du temps téléchargez les sur uPont avant de venir.');
-        $event->setDate(1418634252);
+        $event->setDate(time());
         $event->setAuthorClub($this->getReference('club-ki'));
         $event->setAuthorUser($this->getReference('user-muzardt'));
         $event->setEntryMethod('Libre');
-        $event->setStartDate(1418846400);
-        $event->setEndDate(1418860800);
+        $event->setStartDate(mktime(0, 0, 0) + 36*3600);
+        $event->setEndDate(mktime(0, 0, 0) + 36.5*3600);
         $event->setPlace('P402');
         $event->addAttendee($this->getReference('user-taquet-c'));
         $event->addAttendee($this->getReference('user-de-boisc'));
@@ -103,6 +103,18 @@ class LoadEventFixture extends AbstractFixture implements OrderedFixtureInterfac
         $event->setPlace('Opéra Bastille');
         $event->setShotgunLimit(12);
         $event->setShotgunText('Viens chercher la place chez moi');
+        $manager->persist($event);
+
+        $event = new Event();
+        $event->setName('Vacances de Noël');
+        $event->setText('I\'m fucking Santa Claus bitchies!');
+        $event->setPlace('Ta mère');
+        $event->setDate(1421778600);
+        $event->setAuthorClub($this->getReference('club-ki'));
+        $event->setAuthorUser($this->getReference('user-trancara'));
+        $event->setEntryMethod('Ferie');
+        $event->setStartDate(time() - 400*3600);
+        $event->setEndDate(time() + 600*3600);
         $manager->persist($event);
 
         $manager->flush();

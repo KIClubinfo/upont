@@ -20,7 +20,13 @@ class SlackService
         $this->baseUrl      = $baseUrl;
     }
 
-    // Téléchargement d'une ressource externe
+    /**
+     * Envoie un message sur Slack
+     * @param  User   $user
+     * @param  string $channel
+     * @param  string $text
+     * @return string curl response
+     */
     public function post(User $user, $channel, $text)
     {
         if (in_array($this->environment, array('dev', 'test'))) {
@@ -30,7 +36,7 @@ class SlackService
         $payload = array(
             'channel'  => $channel,
             'username' => $user->getFirstname().' '.$user->getLastname(),
-            'icon_url' => $this->baseUrl.$user->getImage()->getWebPath(),
+            'icon_url' => $user->getImage() === null ? '' : $this->baseUrl.$user->getImage()->getWebPath(),
             'text'     => $text
         );
 

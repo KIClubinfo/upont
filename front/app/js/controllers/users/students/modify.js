@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('Students_Modify_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'preferences', 'clubs', 'clubsSuivis', 'token', 'devices', 'Achievements', function($scope, $rootScope, $resource, $http, preferences, clubs, clubsSuivis, token, devices, Achievements) {
+    .controller('Students_Modify_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'preferences', 'user', 'clubs', 'clubsSuivis', 'token', 'devices', 'Achievements', function($scope, $rootScope, $resource, $http, preferences, user, clubs, clubsSuivis, token, devices, Achievements) {
         for (var i = 0; i < clubsSuivis.length; i++)
             clubsSuivis[i] = clubsSuivis[i].slug;
 
@@ -8,7 +8,7 @@ angular.module('upont')
 
         $scope.preferences = preferences;
         $scope.clubs = clubs;
-        $scope.user = $rootScope.me;
+        $scope.user = user;
         $scope.profilePicture = null;
         $scope.token = token.token;
         $scope.devices = devices;
@@ -29,29 +29,34 @@ angular.module('upont')
             });
         };
 
-        $scope.submitUser = function(me, image) {
+        $scope.submitUser = function(usr, image) {
             var params = {
-                promo: me.promo,
-                gender: me.gender,
-                nationality: me.nationality,
-                phone: me.phone,
-                location: me.location,
-                department: me.department,
-                origin: me.origin,
-                skype: me.skype,
-                nickname: me.nick,
-                statsFoyer: me.stats_foyer,
-                statsPonthub: me.stats_ponthub,
-                statsFacegame: me.stats_facegame
+                firstName: usr.first_name,
+                lastName: usr.last_name,
+                promo: usr.promo,
+                gender: usr.gender,
+                nationality: usr.nationality,
+                phone: usr.phone,
+                location: usr.location,
+                department: usr.department,
+                origin: usr.origin,
+                skype: usr.skype,
+                nickname: usr.nick,
+                statsFoyer: usr.stats_foyer,
+                statsPonthub: usr.stats_ponthub,
+                statsFacegame: usr.stats_facegame,
+                mailEvent: usr.mail_event,
+                mailModification: usr.mail_modification,
+                mailShotgun: usr.mail_shotgun,
             };
 
             if (image) {
                 params.image = image.base64;
             }
 
-            $http.patch($rootScope.url + 'users/' + $rootScope.me.username, params).success(function(){
-                $resource(apiPrefix + 'users/:slug', {slug: $rootScope.me.username}).get(function(data){
-                    $rootScope.me = data;
+            $http.patch($rootScope.url + 'users/' + user.username, params).success(function(){
+                $resource(apiPrefix + 'users/:slug', {slug: user.username}).get(function(data){
+                    user = data;
                     Achievements.check();
                 });
                 alertify.success('Profil mis à jour !');
@@ -70,7 +75,6 @@ angular.module('upont')
             }
 
             var params = {
-                // email: me.email,
                 old: old,
                 password: password,
                 confirm: confirm
@@ -114,8 +118,8 @@ angular.module('upont')
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
             .state('root.users.students.modify', {
-                url: '/modifier-profil',
-                templateUrl: 'views/users/students/modify.html',
+                url: '/:slug/modifier',
+                templateUrl: 'controllers/users/students/modify.html',
                 controller: 'Students_Modify_Ctrl',
                 resolve: {
                     preferences: ['$resource', function($resource) {
@@ -126,6 +130,11 @@ angular.module('upont')
                     }],
                     devices: ['$resource', function($resource) {
                         return $resource(apiPrefix + 'own/devices').query().$promise;
+                    }],
+                    user: ['$resource', '$stateParams', function($resource, $stateParams) {
+                        return $resource(apiPrefix + 'users/:slug').get({
+                            slug: $stateParams.slug
+                        }).$promise;
                     }],
                     clubs: ['$resource', function($resource) {
                         return $resource(apiPrefix + 'clubs?sort=name').query().$promise;

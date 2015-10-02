@@ -1,0 +1,123 @@
+<div class="Ticket">
+    <section class="padded">
+        <h1>{{ course.name }}</h1>
+        <p>
+            <strong>Département :</strong> {{ course.department }}<br>
+            <span ng-if="course.semester"><strong>Période :</strong> {{ course.semester }}</span>
+        </p>
+    </section>
+
+    <section class="padded">
+        <h2>Annales</h2>
+
+        <table class="Table" up-col="90%">
+            <thead>
+                <tr>
+                    <th><a ng-click="predicate = 'exercice.name'; reverse=!reverse">Nom</a></th>
+                    <th><a ng-click="predicate = 'exercice.uploader.nick'; reverse=!reverse">Uploader</a></th>
+                    <th><a ng-click="predicate = 'exercice.date'; reverse=!reverse">Date</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="exercice in filtered =  (exercices | orderBy:predicate:reverse)">
+                    <td>
+                        <a class="Link" title="Télécharger le fichier" target="_blank" ng-href="{{ 'courses/' + course.slug + '/exercices/' + exercice.slug + '/download' | urlFile }}">{{ exercice.name }}</a>
+                        <i class="fa  fa-remove  Link  Link--reverse" ng-if="exercice.uploader.username == $root.me.username || $root.isAdmin" ng-click="removeExercice(course, exercice)"></i>
+                    </td>
+                    <td><span up-user user="exercice.uploader">{{ exercice.uploader.nick }}</span></td>
+                    <td>{{ exercice.date | formatDate }}</td>
+                </tr>
+                <tr ng-hide="filtered.length">
+                    <td>Rien à afficher</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="padded" ng-if="!$root.isAdmissible">
+        <h3>Uploader une annale</h3>
+
+        <p>Le fichier doit être au format PDF.</p>
+
+        <form row="start center" wrap ng-submit="submitExercice(name)" autocomplete="off">
+            <div class="padded" flex="100" flex-sm="33">
+                <input class="Input" type="text" ng-model="name" placeholder="Final 016, Partiel 017, Exercice..." autofocus>
+            </div>
+
+            <div class="padded" flex="100" flex-sm="33">
+                <input class="Input" type="file" name="file" id="fileUpload" onchange="angular.element(this).scope().uploadFile(this.files)">
+            </div>
+
+            <div class="padded" flex="100" flex-sm="33">
+                <button flex="100" class="Button">Envoyer</button>
+            </div>
+        </form>
+    </section>
+
+    <div up-likes objet="course" url="'courses/' + course.slug"></div>
+</div>
+
+<section class="Ticket" ng-if="$root.isAdmin">
+    <h3>Modifier le cours</h3>
+
+    <form row="start center" wrap ng-submit="submitCourse(course, groups)" autocomplete="off">
+        <div class="padded" flex="50" flex-md="25">
+            <i class="fa  fa-graduation-cap"></i>
+            Nom du cours
+        </div>
+        <div class="padded" flex="50" flex-md="25">
+            <input class="Input" type="text" ng-model="course.name" placeholder="Béton - Calcul à la rupture">
+        </div>
+
+        <div class="padded" flex="50" flex-md="25">
+            <i class="fa  fa-graduation-cap"></i>
+            Période
+        </div>
+        <div class="padded" flex="50" flex-md="25">
+            <select class="Input" ng-model="course.semester">
+                <option>Ouverture</option>
+                <option>1er Semestre</option>
+                <option>2nd Semestre</option>
+                <option>Année complète</option>
+            </select>
+        </div>
+
+        <div class="padded" flex="50" flex-md="25">
+            <i class="fa  fa-institution"></i>
+            Département
+        </div>
+        <div class="padded" flex="50" flex-md="25">
+            <select class="Input" ng-model="course.department">
+                <option ng-repeat="item in $root.departments">{{ item }}</option>
+                <option>SHS</option>
+                <option>DFL</option>
+            </select>
+        </div>
+
+        <div class="padded" flex="50" flex-md="25">
+            <i class="fa  fa-usd"></i>
+            ECTS
+        </div>
+        <div class="padded" flex="50" flex-md="25">
+            <input class="Input" type="text" ng-model="course.ects" placeholder="1,5">
+        </div>
+
+        <div class="padded" flex="50" flex-md="25">
+            <i class="fa  fa-users"></i>
+            Groupes
+        </div>
+        <div class="padded" flex="50" flex-md="25">
+            <input class="Input" type="text" ng-model="groups" placeholder="Groupes 1,2,3...">
+        </div>
+
+        <div class="padded" flex="50" flex-md="25">
+            <input type="checkbox" ng-model="course.active"> Afficher le cours
+        </div>
+
+        <div flex="100" row="end stretch">
+            <button class="Button" flex="50" flex-md="25">Modifier !</button>
+        </div>
+    </form>
+</section>

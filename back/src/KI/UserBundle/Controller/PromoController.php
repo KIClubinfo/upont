@@ -73,12 +73,13 @@ class PromoController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function patchPromoPicturesAction($promo)
     {
+        set_time_limit(3600);
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
             throw new AccessDeniedException();
 
         $users = $this->repository->findByPromo($promo);
-        $curl = $this->get('ki_upont.curl');
-        $images = $this->get('ki_upont.images');
+        $curl = $this->get('ki_core.service.curl');
+        $images = $this->get('ki_core.service.image');
         $i = 0;
 
         $request = $this->getRequest()->request;
@@ -90,16 +91,17 @@ class PromoController extends \KI\CoreBundle\Controller\ResourceController
         switch ($promo) {
         // Attention, toujours préciser l'id facebook de la promo d'après
         // pour avoir les étrangers
-        case '014': $id = 0; break;                // Kohlant'wei
-        case '015': $id = 359646667495742; break;  // Wei't spirit
-        case '016': $id = 1451446761806184; break; // Wei't the phoque
-        case '017': $id = 1451446761806184; break; // Wei't the phoque
+        case '014': $id = '0'; break;                // Kohlant'wei
+        case '015': $id = '359646667495742'; break;  // Wei't spirit
+        case '016': $id = '1451446761806184'; break; // Wei't the phoque
+        case '017': $id = '737969042997359'; break;  // F'wei'ght Club
+        case '018': $id = '737969042997359'; break;  // F'wei'ght Club
         default: throw new \Exception('Promo '.$promo.' non prise en charge');
         }
 
         // On récupère la liste des membres
-        $baseUrl = 'https://graph.facebook.com/v2.2';
-        $data = json_decode($curl->curl($baseUrl.'/'.$id.'/members'.$token), true);
+        $baseUrl = 'https://graph.facebook.com/v2.4';
+        $data = json_decode($curl->curl($baseUrl.'/'.$id.'/members'.$token.'&limit=10000'), true);
 
         // Pour chaque utilisateur on essaye de trouver son profil fb, et si oui
         // on récupère la photo de profil

@@ -348,13 +348,13 @@ class Achievement
     self::KIEN => array(
         'name'        => 'KIen',
         'description' => 'Faire partie du KI',
-        'points'      => 20,
+        'points'      => 0,
         'image'       => 'signal',
     ),
     self::ADMIN => array(
         'name'        => 'Appelez-moi Dieu',
         'description' => 'Être admin',
-        'points'      => 50,
+        'points'      => 0,
         'image'       => 'diamond',
     ),
     /*self::PONTLYVALENT => array(
@@ -382,10 +382,10 @@ class Achievement
         'image'       => 'gamepad',
     ),
     self::GAME_BEFORE => array(
-        'name'        => 'Puceau, pas puceau',
-        'description' => 'Réussir 100% en moins de 60 secondes sur la promo suivante dans La Réponse D',
-        'points'      => 30,
-        'image'       => 'check',
+        'name'        => 'Bientôt vieux cons',
+        'description' => 'Réussir un 100% en moins de 60 secondes sur la promo précédente dans La Réponse D',
+        'points'      => 20,
+        'image'       => 'check-square-o',
     ),
     self::GAME_SELF => array(
         'name'        => 'Connaisseur',
@@ -394,10 +394,10 @@ class Achievement
         'image'       => 'check-square',
     ),
     self::GAME_NEXT => array(
-        'name'        => 'Bientôt vieux cons',
-        'description' => 'Réussir un 100% en moins de 60 secondes sur la promo précédente dans La Réponse D',
-        'points'      => 20,
-        'image'       => 'check-square-o',
+        'name'        => 'Puceau, pas puceau',
+        'description' => 'Réussir 100% en moins de 60 secondes sur la promo suivante dans La Réponse D',
+        'points'      => 30,
+        'image'       => 'check',
     ),
     self::GAME_OLD => array(
         'name'        => 'JRP\'1747',

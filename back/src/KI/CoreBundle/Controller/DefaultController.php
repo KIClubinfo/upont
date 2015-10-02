@@ -5,12 +5,7 @@ namespace KI\CoreBundle\Controller;
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
-use KI\PublicationBundle\Entity\Publications\Course;
-use KI\PublicationBundle\Entity\Publications\CourseItem;
-use KI\UserBundle\Entity\Achievement;
-use KI\UserBundle\Event\AchievementCheckEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class DefaultController extends BaseController

@@ -1,0 +1,27 @@
+<div class="Ticket">
+    <section class="padded">
+        <h1>Créer une assos</h1>
+
+        <form row wrap ng-submit="post(club)" autocomplete="off">
+            <div flex="100" flex-md="50" class="padded">
+                <input class="Input" type="text" ng-model="club.fullname" placeholder="Nom long" autofocus>
+            </div>
+
+            <div flex="100" flex-md="50" class="padded">
+                <input class="Input" type="text" ng-model="club.name" placeholder="Nom court">
+            </div>
+
+            <div flex="100" flex-md="50" class="padded">
+                <input type="checkbox" ng-model="club.administration"> Ceci est un channel géré par l'administration
+            </div>
+
+            <div flex="100" flex-md="50" class="padded">
+                <input type="checkbox" ng-model="club.isClub"> Ceci est un club
+            </div>
+
+            <div flex="100" class="padded" row="end center">
+            	<button flex="50" flex-md="15" class="Button">Créer</button>
+            </div>
+        </form>
+    </section>
+</div>

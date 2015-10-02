@@ -38,6 +38,8 @@ class Youtube extends Likeable
      * @Assert\Valid()
      */
     protected $user;
+    protected $autoSetUser = 'user';
+    public function getAutoSetUser() { return $this->autoSetUser; }
 
     /**
      * On n'oublie pas d'ajouter le HTTPS s'il n'est pas présent
@@ -53,14 +55,11 @@ class Youtube extends Likeable
         return $link;
     }
 
-
-
-
-
-
-
-
-    //===== GENERATED AUTOMATICALLY =====//
+    public function __construct()
+    {
+        parent::__construct();
+        $this->date = time();
+    }
 
     /**
      * Set link

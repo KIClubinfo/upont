@@ -5,9 +5,7 @@ namespace KI\CoreBundle\Controller;
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use KI\CoreBundle\Entity\Comment;
 use KI\CoreBundle\Entity\Likeable;
-use KI\PublicationBundle\Entity\Post;
 
 // Fonctions de like/dislike/commentaire
 class LikeableController extends BaseController
@@ -41,13 +39,13 @@ class LikeableController extends BaseController
         $className = ucfirst(preg_replace('/s$/', '', $object));
 
         foreach ($likeables as $bundle => $classes) {
-            if(gettype($classes) != 'array') {
+            if (gettype($classes) != 'array') {
                 continue;
             }
             foreach ($classes as $class) {
                 if ($class === $className) {
                     $bundle = ucfirst($bundle);
-                    return $this->initialize($class, $bundle);;
+                    return $this->initialize($class, $bundle);
                 }
             }
         }

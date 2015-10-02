@@ -2,10 +2,9 @@
 
 namespace KI\CoreBundle\Service;
 
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use KI\CoreBundle\Entity\Image;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class SearchService
 {
@@ -63,7 +62,7 @@ class SearchService
     }
 
     // On fouille un repo à la recherche d'entités correspondantes au nom
-    protected function searchRepo($repositoryName, $criteria, $additionnalField = null) {
+    protected function searchRepository($repositoryName, $criteria, $additionnalField = null) {
         $repository = $this->manager->getRepository($repositoryName);
         $qb = $repository->createQueryBuilder('e');
 
@@ -123,6 +122,10 @@ class SearchService
             // On sort les objets non actifs
             if ($class == 'Course' && ($result->getActive() === null || !$result->getActive())) {
                 continue;
+            }
+            // On précise des choses en plus pour les utilisateurs
+            if ($class == 'User') {
+                $item['balance'] = $result->getBalance();
             }
 
             // Pour les épisodes et les musiques on ajoute une référence à l'entité parent

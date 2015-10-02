@@ -69,18 +69,20 @@ angular.module('upont')
         $scope.publish = function(post, image) {
             var params  = {text: nl2br(post.text)};
 
-            if ($scope.club != club) {
-                params.authorClub = $scope.club.slug;
-            } else {
-                if ($rootScope.hasRight('ROLE_EXTERIEUR')) {
-                    params.authorClub = $rootScope.clubs[0].club.slug;
+            if (!$scope.modify) {
+                if ($scope.club != club) {
+                    params.authorClub = $scope.club.slug;
                 } else {
-                    alertify.error('Tu n\'as pas choisi avec quelle assos publier');
-                    return;
+                    if ($rootScope.hasRight('ROLE_EXTERIEUR')) {
+                        params.authorClub = $rootScope.clubs[0].club.slug;
+                    } else {
+                        alertify.error('Tu n\'as pas choisi avec quelle assos publier');
+                        return;
+                    }
                 }
             }
 
-            if (image) {
+            if (image && !$scope.modify) {
                 params.image = image.base64;
             }
 
@@ -128,17 +130,45 @@ angular.module('upont')
                         }
                     }
 
-                    $http.post(apiPrefix + 'events', params).success(function(data){
-                        $rootScope.$broadcast('newEvent');
-                        Achievements.check();
-                        $scope.changeType('news');
-                        alertify.success('Événement publié');
-                    }).error(function(){
-                        alertify.error('Formulaire vide ou mal rempli');
-                    });
+                    if (!$scope.modify){
+                        $http.post(apiPrefix + 'events', params).success(function(data){
+                            $rootScope.$broadcast('newEvent');
+                            Achievements.check();
+                            init();
+                            alertify.success('Événement publié');
+                        }).error(function(){
+                            alertify.error('Formulaire vide ou mal rempli');
+                        });
+                    } else {
+                        $http.patch(apiPrefix + 'events/' + post.slug, params).success(function(data){
+                            $rootScope.$broadcast('newEvent');
+                            alertify.success('Événement modifié');
+                            init();
+                            $scope.modify = false;
+                        }).error(function(){
+                            alertify.error('Formulaire vide ou mal rempli');
+                        });
+                    }
                     break;
                 default:
                     alertify.error('Type de publication non encore pris en charge');
             }
         };
+
+        $scope.modify = false;
+        $scope.$on('modifyEvent', function(event, post) {
+            $scope.modify = true;
+            $scope.changeType('event');
+            $rootScope.$broadcast('newEvent');
+
+            // Fix date to javascript timestamp
+            post.start_date = post.start_date*1000;
+            post.end_date = post.end_date*1000;
+            if (post.shotgun_date) {
+                post.shotgun_date = post.shotgun_date*1000;
+            }
+
+            $scope.post = post;
+            window.scrollTo(0, 0);
+        });
     }]);
