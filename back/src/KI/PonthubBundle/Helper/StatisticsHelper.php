@@ -4,6 +4,12 @@ namespace KI\PonthubBundle\Helper;
 
 use Doctrine\ORM\EntityRepository;
 use KI\UserBundle\Entity\User;
+use KI\PonthubBundle\Entity\Movie;
+use KI\PonthubBundle\Entity\Episode;
+use KI\PonthubBundle\Entity\Music;
+use KI\PonthubBundle\Entity\Game;
+use KI\PonthubBundle\Entity\Software;
+use KI\PonthubBundle\Entity\Other;
 
 class StatisticsHelper
 {
