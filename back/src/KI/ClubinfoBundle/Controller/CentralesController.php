@@ -89,15 +89,6 @@ class CentralesController extends ResourceController
     {
         $fix = $this->findBySlug($slug);
 
-        // if ($fix->getFix()) {
-        //     $this->get('ki_user.service.notify')->notify(
-        //         'notif_fixs',
-        //         'Demande de dépannage',
-        //         'Ta demande de dépannage a été actualisée par le KI !',
-        //         'to',
-        //         array($fix->getUser())
-        //     );
-        // }
         return $this->patch($slug);
     }
 
@@ -117,8 +108,6 @@ class CentralesController extends ResourceController
      */
     public function deleteCentraleAction($slug)
     {
-        // $fix = $this->findBySlug($slug);
-        // $user = $this->get('security.context')->getToken()->getUser();
-        // return $this->delete($slug, $user->getUsername() == $fix->getUser()->getUsername());
+        return $this->delete($slug);
     }
 }
