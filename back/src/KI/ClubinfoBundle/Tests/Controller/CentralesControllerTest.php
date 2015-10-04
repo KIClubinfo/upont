@@ -12,9 +12,9 @@ class CentralesControllerTest extends WebTestCase
     {
         $this->client->request(
             'POST',
-            '/fixs',
+            '/centrales',
             array(
-                'product' => 'Cles USB',
+                'name' => 'Cles USB',
                 'description' => '[Test] on va acheter la masse de clés USB !',
                 'status' => 'En cours'
             )

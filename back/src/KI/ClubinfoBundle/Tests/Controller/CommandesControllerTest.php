@@ -18,7 +18,7 @@ class CommandesControllerTest extends WebTestCase
                 'payed' => false,
                 'taken' => true,
                 'centrale' => $this->getReference('centrale-cles-usb'),
-                'user' => $this->getReference('user-trancara'))
+                'user' => $this->getReference('user-trancara')
             )
         );
         $response = $this->client->getResponse();

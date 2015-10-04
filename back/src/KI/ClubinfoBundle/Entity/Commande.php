@@ -14,6 +14,15 @@ use KI\CoreBundle\Entity\Likeable;
  */
 class Commande
 {
+
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @JMS\Expose
+     */
+    
+    protected $id;
     /**
      * Quantité comandée
      * @ORM\Column(name="quantity", type="integer")
@@ -52,7 +61,7 @@ class Commande
 
     /**
      * Comande payée ou non
-     * @ORM\Column(name="taken", type="boolean")
+     * @ORM\Column(name="payed", type="boolean")
      * @JMS\Expose
      * @Assert\NotBlank()
      */

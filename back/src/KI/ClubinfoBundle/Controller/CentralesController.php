@@ -66,7 +66,7 @@ class CentralesController extends ResourceController
      */
     public function postCentraleAction()
     {
-        return $this->post($this->get('security.context')->isGranted('ROLE_USER'));
+        return $this->post();
     }
 
     /**
