@@ -16,7 +16,7 @@ class Centrale extends Likeable
 {
     /**
      * Texte décrivant la centrale
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="description", type="text", nullable=true)
      * @JMS\Expose
      * @Assert\NotBlank()
      */
