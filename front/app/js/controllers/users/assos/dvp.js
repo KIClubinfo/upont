@@ -37,7 +37,16 @@ angular.module('upont')
         };
 
         $scope.post = function() {
-            alertify.success('C\'est parti !');
+
+            for (i=0;i<4;i++) {
+                for (j=0;j<baskets.length;j++) {
+                    if ($scope.basketOrders[i][j]) {
+                        $http.post(apiPrefix + 'baskets/' + baskets[j].slug + '/order', {dateRetrieve: $scope.thursdays[i].getTime()}).success(function(){
+                            alertify.success('Commande correctement envoyée !');
+                        });
+                    }
+                }
+            }
         };
 
     }])
