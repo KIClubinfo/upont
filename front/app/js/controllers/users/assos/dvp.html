@@ -3,20 +3,43 @@
 		<section class="Ticket">
 			<h2>Paniers Fruits et Légumes</h2>
 
-			<p>Les paniers sont à chercher tous les vendredis !</p>
+			<p>Les paniers sont à chercher tous les jeudis !</p> {{ basketOrders }}
 		</section>
 
-		<article class="Ticket" ng-repeat="item in baskets">
-        	<h3>{{ item.name }}</h3>
-        	<p>{{ item.content }}</p>
+		<section row wrap ng-if="!ordering">
+			<article class="Ticket" ng-repeat="item in baskets" flex="100" flex-md="50">
+	        	<h3>{{ item.name }}</h3>
+	        	<p>{{ item.content }}</p>
 
-        	<div row="end stretch">Prix : {{ item.price }} €</div>
-        </article>
+	        	<div row="end stretch">Prix : {{ item.price }} €</div>
+	        </article>
+
+	        <div row="end stretch" flex="100">
+	        	<button class="Button" ng-click="order()">Commander</button>
+	        </div>
+        </section>
+
+		<form ng-if="ordering" ng-submit="post()" flex="100" row wrap>
+			<section class="Ticket" flex="100" flex-md="50" ng-repeat="day in thursdays track by $index">
+				<h3>Jeudi {{ day.getDate() }} {{ months[day.getMonth()] }} {{ day.getFullYear() }}</h3>
+
+				<br>
+				<div ng-repeat="item in baskets">
+					<input type="checkbox" value="item.slug" ng-model="basketOrders[$parent.$index][$index]"> {{ item.name }} <i>({{ item.price }} €)</i></input><br>
+				</div>
+			</section>
+
+			<div row="end stretch" flex="100">
+	        	<button class="Button" ng-click="order()">Commander</button>
+	        </div>
+		</form>
 	</section>
 
 	<section flex="100" flex-md="33">
 		<section class="Ticket">
 			<h2>Mes Paniers</h2>
+
+			<p><i>Rien à afficher</i></p>
 		</section>
 	</section>
 </div>
