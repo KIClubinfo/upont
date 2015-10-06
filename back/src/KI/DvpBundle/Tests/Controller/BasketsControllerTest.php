@@ -21,7 +21,11 @@ class BasketsControllerTest extends WebTestCase
         // On vérifie que le lieu du nouvel objet a été indiqué
         $this->assertTrue($response->headers->has('Location'), $response->headers);
 
-        $this->client->request('POST', '/baskets/panier-test/order', array());
+        // Poste une commande
+        $this->client->request('POST', '/baskets/panier-test/order', array(
+            'dateRetrieve' => 123468736
+            )
+        );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
     }
@@ -65,7 +69,7 @@ class BasketsControllerTest extends WebTestCase
         $this->client->request(
             'PATCH',
             '/baskets/panier-test/order/trancara',
-            array('paid' => true, 'dateRetrieve' => 12348596)
+            array('paid' => true)
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
