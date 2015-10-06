@@ -181,11 +181,13 @@ class BasketsController extends ResourceController
         }
 
         if (!isset($this->user)) {
+            // Si l'user n'est pas sur uPont il a tout rempli dans le form
             $basketOrder->setFirstName($request->get('firstName'));
             $basketOrder->setLastName($request->get('lastName'));
             $basketOrder->setEmail($request->get('email'));
             $basketOrder->setPhone($request->get('phone'));
         } else {
+            // Sinon on récupère les infos de son compte
             $basketOrder->setFirstName($this->user->getFirstName());
             $basketOrder->setLastName($this->user->getLastName());
             $basketOrder->setEmail($this->user->getEmail());
@@ -194,6 +196,10 @@ class BasketsController extends ResourceController
             }
             $basketOrder->setPhone($this->user->getPhone());
         }
+
+        $basketOrder->setDateOrder(time());
+        $basketOrder->setDateRetrieve($request->get('dateRetrieve'));
+        $basketOrder->setPaid(false);
 
         $this->manager->persist($basketOrder);
         $this->manager->flush();
