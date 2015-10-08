@@ -8,6 +8,7 @@
         <a class="Navbar__link" ui-sref-active="active" ng-if="club.slug == 'ki'" ui-sref="root.users.assos.ki">Dépannage</a>
         <a class="Navbar__link" ui-sref-active="active" ng-if="club.slug == 'foyer'" ui-sref="root.users.assos.foyer">C'est TON Foyer</a>
         <a class="Navbar__link" ui-sref-active="active" ng-if="club.slug == 'dvp'" ui-sref="root.users.assos.dvp">Paniers Fruits et Légumes</a>
+        <a class="Navbar__link" ui-sref-active="active" ng-if="isAdmin || $root.hasClub(dvp)" ui-sref="root.users.assos.simple.baskets">Gestion paniers</a>
         <a class="Navbar__link" ui-sref-active="active" ng-if="isAdmin || $root.hasClub(club.slug)" ui-sref="root.users.assos.simple.modify">Gestion</a>
     </div>
 </nav>
