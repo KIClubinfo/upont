@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('DVP_Ctrl', ['$scope', '$rootScope', '$http', 'baskets', 'Paginate', function($scope, $rootScope, $http, baskets, Paginate) {
+    .controller('DVP_Ctrl', ['$scope', '$rootScope', '$http', '$q', 'baskets', 'Paginate', function($scope, $rootScope, $http, $q, baskets, Paginate) {
         $scope.baskets = baskets;
         $scope.ordering = false;
         $scope.thursdays = [];
@@ -37,16 +37,24 @@ angular.module('upont')
         };
 
         $scope.post = function() {
+            var promiseArray = [];
+            var dateRetrieve;
 
             for (i=0;i<4;i++) {
                 for (j=0;j<baskets.length;j++) {
                     if ($scope.basketOrders[i][j]) {
-                        $http.post(apiPrefix + 'baskets/' + baskets[j].slug + '/order', {dateRetrieve: $scope.thursdays[i].getTime()}).success(function(){
-                            alertify.success('Commande correctement envoyée !');
-                        });
+                        dateRetrieve = $scope.thursdays[i].getTime();
+                        dateRetrieve = (dateRetrieve - dateRetrieve%1000)/1000;
+                        promiseArray.push($http.post(apiPrefix + 'baskets/' + baskets[j].slug + '/order', {dateRetrieve: dateRetrieve}));
                     }
                 }
             }
+
+            $q.all(promiseArray).then(function() {
+                alertify.success('Commande envoyée !');
+            });
+
+            $scope.ordering = false;
         };
 
     }])
