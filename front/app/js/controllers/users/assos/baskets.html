@@ -1,0 +1,56 @@
+<div class="padded" row padded>
+	<section class="Ticket" flex="100">
+		<h2>Paniers</h2>
+		<br>
+
+		<section>
+			<form row="padded" wrap ng-submit="addBasket(newBasket.name, newBasket.content, newBasket.price)" autocomplete="off">
+				<div class="padded" flex="100" flex-md="25">
+					<input class="Input" type="text" ng-model="newBasket.name" placeholder="Nom"/>
+				</div>
+				<div class="padded" flex="100" flex-md="50">
+					<input class="Input" type="text" ng-model="newBasket.content" placeholder="Contenu"/>
+				</div>
+				<div class="padded" flex="100" flex-md="25" row wrap>
+					<div flex="100" flex-md="25">
+						Prix
+					</div>
+					<div flex="90" flex-md="70">
+						<input class="Input" type="number" ng-model="newBasket.price"/>
+					</div>
+					<div flex="10" flex-md="5">
+						 €
+					</div>
+				</div>
+				<div class="padded" flex="100" row="end start">
+					<button class="Button">Créer !</button>
+				</div>
+			</form>
+		</section>
+
+		<table class="Table" flex="95">
+			<thead>
+				<tr>
+					<th flex="5"></th>
+					<th flex="25">Nom</th>
+					<th flex="45">Description</th>
+					<th flex="25">Prix</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-hide="baskets.length">
+					<td>Rien à afficher</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr ng-repeat="item in baskets">
+					<td><i class="fa fa-remove up-clickable" ng-click="removeBasket(item.slug)"></i> <i class="fa fa-pencil up-clickable" ng-click="modifyBasket(item.slug)"></i></td>
+					<td>{{ item.name }}</td>
+					<td>{{ item.content }}</td>
+					<td>{{ item.price }}</td>
+				</tr>
+			</tbody>
+			
+		</table>
+	</section>
+</div>
