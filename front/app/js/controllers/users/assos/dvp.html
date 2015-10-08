@@ -19,7 +19,7 @@
 	        </div>
         </section>
 
-		<form ng-if="ordering" ng-submit="post()" flex="100" row wrap>
+		<form ng-show="ordering" ng-submit="post()" flex="100" row wrap>
 			<section class="Ticket" flex="100" flex-md="50" ng-repeat="day in thursdays track by $index">
 				<h3>Jeudi {{ day.getDate() }} {{ months[day.getMonth()] }} {{ day.getFullYear() }}</h3>
 
