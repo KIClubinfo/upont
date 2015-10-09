@@ -2,6 +2,8 @@ angular.module('upont')
     .controller('Baskets_Ctrl', ['$scope', '$rootScope', '$http', 'baskets', function($scope, $rootScope, $http, baskets) {
         $scope.baskets = baskets;
         $scope.newBasket = {'name': '', 'content': '', 'price': 0};
+        $scope.changedBasket = {};
+        $scope.modifying = false;
 
         $scope.reloadBaskets = function() {
             $http.get(apiPrefix + 'baskets').success(function(data) {
@@ -31,6 +33,7 @@ angular.module('upont')
 
             $http.post(apiPrefix + 'baskets', params).success(function() {
                 alertify.success('Panier créé !');
+                $scope.newBasket = {'name': '', 'content': '', 'price': 0};
                 $scope.reloadBaskets();
             });
         };
@@ -42,6 +45,38 @@ angular.module('upont')
             });
         };
 
+        $scope.modifyMenu = function(index) {
+            $scope.changedBasket = baskets[index];
+            $scope.modifying = true;
+        };
+
+        $scope.modifyBasket = function(basket) {
+            if (!basket.name) {
+                alertify.error('Le nom du nouveau panier n\'a pas été renseigné');
+                return;
+            }
+            if (!basket.content) {
+                alertify.error('Le contenu du nouveau panier n\'a pas été renseigné');
+                return;
+            }
+            if (!basket.price) {
+                alertify.error('Le prix du nouveau panier n\'a pas été renseigné');
+                return;
+            }
+
+            var params = {
+                'name': basket.name,
+                'content': basket.content,
+                'price': basket.price
+            };
+
+            $http.patch(apiPrefix + 'baskets/' + basket.slug, params).success(function() {
+                alertify.success('Panier modifié !');
+                $scope.reloadBaskets();
+                $scope.changedBasket = {};
+                $scope.modifying = false;
+            });
+        };
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
