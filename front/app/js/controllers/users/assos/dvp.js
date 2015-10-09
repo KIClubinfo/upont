@@ -52,6 +52,7 @@ angular.module('upont')
 
             $q.all(promiseArray).then(function() {
                 alertify.success('Commande envoyée !');
+                $scope.basketOrders = [[],[],[],[]];
             });
 
             $scope.ordering = false;
