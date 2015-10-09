@@ -3,7 +3,7 @@
 		<h2>Paniers</h2>
 		<br>
 
-		<section>
+		<section ng-hide="modifying">
 			<form row="padded" wrap ng-submit="addBasket(newBasket.name, newBasket.content, newBasket.price)" autocomplete="off">
 				<div class="padded" flex="100" flex-md="25">
 					<input class="Input" type="text" ng-model="newBasket.name" placeholder="Nom"/>
@@ -28,7 +28,7 @@
 			</form>
 		</section>
 
-		<table class="Table" flex="95">
+		<table class="Table" flex="95" ng-hide="modifying">
 			<thead>
 				<tr>
 					<th flex="5"></th>
@@ -43,14 +43,38 @@
 					<td></td>
 					<td></td>
 				</tr>
-				<tr ng-repeat="item in baskets">
-					<td><i class="fa fa-remove up-clickable" ng-click="removeBasket(item.slug)"></i> <i class="fa fa-pencil up-clickable" ng-click="modifyBasket(item.slug)"></i></td>
+				<tr ng-repeat="item in baskets track by $index">
+					<td><i class="fa fa-remove up-clickable" ng-click="removeBasket(item.slug)"></i> <i class="fa fa-pencil up-clickable" ng-click="modifyMenu($index)"></i></td>
 					<td>{{ item.name }}</td>
 					<td>{{ item.content }}</td>
 					<td>{{ item.price }}</td>
 				</tr>
 			</tbody>
-			
 		</table>
+
+		<section ng-show="modifying">
+			<form row="padded" wrap ng-submit="modifyBasket(changedBasket)" autocomplete="off">
+				<div class="padded" flex="100" flex-md="25">
+					<input class="Input" type="text" ng-model="changedBasket.name" placeholder="Nom"/>
+				</div>
+				<div class="padded" flex="100" flex-md="50">
+					<input class="Input" type="text" ng-model="changedBasket.content" placeholder="Contenu"/>
+				</div>
+				<div class="padded" flex="100" flex-md="25" row wrap>
+					<div flex="100" flex-md="25">
+						Prix
+					</div>
+					<div flex="90" flex-md="70">
+						<input class="Input" type="number" ng-model="changedBasket.price"/>
+					</div>
+					<div flex="10" flex-md="5">
+						 €
+					</div>
+				</div>
+				<div class="padded" flex="100" row="end start">
+					<button class="Button">Enregistrer les modifications !</button>
+				</div>
+			</form>
+		</section>
 	</section>
 </div>
