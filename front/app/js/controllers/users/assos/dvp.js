@@ -74,5 +74,20 @@ angular.module('upont')
                         return $resource(apiPrefix + 'baskets').query().$promise;
                     }]
                 }
+            })
+
+            .state('root.public.dvp', {
+                url: '/paniers',
+                templateUrl: 'controllers/public/dvp.html',
+                controller: 'DVP_Ctrl',
+                data: {
+                    title: 'DVP - uPont',
+                    top: true
+                },
+                resolve: {
+                    baskets: ['$resource', function($resource) {
+                        return $resource(apiPrefix + 'baskets').query().$promise;
+                    }]
+                }
             });
     }]);
