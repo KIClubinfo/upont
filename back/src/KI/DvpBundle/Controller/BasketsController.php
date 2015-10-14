@@ -157,9 +157,11 @@ class BasketsController extends ResourceController
 
         // On vérifie que la commande n'a pas déjà été faite
         $repository = $this->manager->getRepository('KIDvpBundle:BasketOrder');
+        $request = $this->getRequest()->request;
         $basketOrder = $repository->findBy(array(
             'basket' => $basket,
-            'user' => $this->user
+            'user' => $this->user,
+            'dateRetrieve' => $request->get('dateRetrieve'),
             ));
 
         if (count($basketOrder) != 0)
@@ -170,7 +172,6 @@ class BasketsController extends ResourceController
         $basketOrder->setUser($this->user);
 
         // Si l'utilisateur n'est pas dans uPont on remplit les infos
-        $request = $this->getRequest()->request;
         if ((!isset($this->user) && !($request->has('firstName')
                             && $request->has('lastName')
                             && $request->has('email')
