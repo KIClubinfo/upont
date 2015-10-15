@@ -67,9 +67,9 @@ class Post extends Likeable
     private $uploadedFiles;
 
     /**
-     * Délivre l'url de l'image du post par défaut :
-     * - L'url de l'image du club
-     * - null sinon
+     * Délivre l'url de :
+     * - l'image du club
+     * - l'image d'utilisateur par défaut sinon
      * @JMS\VirtualProperty()
      */
     public function imageUrl()
