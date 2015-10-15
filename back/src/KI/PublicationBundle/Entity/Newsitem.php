@@ -30,14 +30,24 @@ class Newsitem extends Post
      */
     public function imageUrl()
     {
-        if ($this->image !== null) {
-            return $this->image->getWebPath();
+        if($this->name==="message")
+        {
+            if ($this->image !== null)
+            {
+                return $this->image->getWebPath();
+            }
+            else
+                return '';
         }
-        else if ($this->authorClub !== null && $this->authorClub->getImage() !== null) {
-            return $this->authorClub->getImage()->getWebPath();
+        else
+        {
+            if ($this->authorClub !== null && $this->authorClub->getImage() !== null)
+            {
+                return $this->authorClub->getImage()->getWebPath();
+            }
+            else
+                return 'uploads/others/default-user.png';
         }
-
-        return 'uploads/others/default-user.png';
     }
 
     /**
