@@ -6,10 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use KI\CoreBundle\Entity\Likeable;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
  * @JMS\ExclusionPolicy("all")
+ * @ORM\HasLifecycleCallbacks
  */
 class Post extends Likeable
 {
@@ -26,6 +29,8 @@ class Post extends Likeable
      * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User", cascade={"persist"})
      * @JMS\Expose
      * @Assert\Valid()
+     *
+     * @var \KI\UserBundle\Entity\Club
      */
     protected $authorUser;
     protected $autoSetUser = 'authorUser';
@@ -49,31 +54,40 @@ class Post extends Likeable
     protected $text;
 
     /**
-     * Image personnalisée
-     * @ORM\OneToOne(targetEntity="KI\CoreBundle\Entity\Image", cascade={"persist", "remove"})
-     * @Assert\Valid()
+     * @var PostFile
+     *
+     * @ORM\OneToMany(targetEntity="KI\PublicationBundle\Entity\PostFile", mappedBy="post", cascade={"persist", "remove"})
+     *
      */
-    protected $image;
+    private $files;
+
+    /**
+     * @var ArrayCollection
+     */
+    private $uploadedFiles;
 
     /**
      * Délivre l'url de l'image du post par défaut :
-     * - L'url de l'image du club si l'image du post est null,
-     * - L'image de l'auteur si les deux premières sont null,
-     * - null si les trois images sont null
+     * - L'url de l'image du club
+     * - null sinon
      * @JMS\VirtualProperty()
      */
     public function imageUrl()
     {
-        if ($this->image !== null) {
-            return $this->image->getWebPath();
-        } else if ($this->authorClub !== null && $this->authorClub->getImage() !== null) {
+        if ($this->authorClub !== null && $this->authorClub->getImage() !== null) {
             return $this->authorClub->getImage()->getWebPath();
         }
+
+        return 'uploads/others/default-user.png';
     }
 
     public function __construct()
     {
+        parent::__construct();
+
         $this->date = time();
+        $this->files = new ArrayCollection();
+        $this->uploadedFiles = new ArrayCollection();
     }
 
     /**
@@ -168,26 +182,47 @@ class Post extends Likeable
         return $this->authorUser;
     }
 
-    /**
-     * Set image
-     *
-     * @param \KI\CoreBundle\Entity\Image $image
-     * @return Newsitem
-     */
-    public function setImage(\KI\CoreBundle\Entity\Image $image = null)
+    public function getFiles()
     {
-        $this->image = $image;
+        return $this->files;
+    }
 
-        return $this;
+    public function setFiles(array $files)
+    {
+        $this->files = $files;
     }
 
     /**
-     * Get image
-     *
-     * @return \KI\CoreBundle\Entity\Image
+     * @return ArrayCollection
      */
-    public function getImage()
+    public function getUploadedFiles()
     {
-        return $this->image;
+        return $this->uploadedFiles;
+    }
+
+    /**
+     * @param ArrayCollection $uploadedFiles
+     */
+    public function setUploadedFiles($uploadedFiles)
+    {
+        $this->uploadedFiles = $uploadedFiles;
+    }
+
+    /**
+     * @ORM\PostPersist()
+     */
+    public function upload()
+    {
+        if (is_array($this->uploadedFiles))
+        {
+            foreach ($this->uploadedFiles as $uploadedFile) {
+                if ($uploadedFile) {
+                    $file = new PostFile($uploadedFile, $this->getId());
+                    $this->getFiles()->add($file);
+                    $file->setPost($this);
+                    unset($uploadedFile);
+                }
+            }
+        }
     }
 }
