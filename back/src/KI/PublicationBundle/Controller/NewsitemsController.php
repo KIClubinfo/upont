@@ -71,9 +71,10 @@ class NewsitemsController extends ResourceController
     {
         $return = $this->postData($this->isClubMember());
 
-        if ($return['code'] == 201) {
+        //BUG CRITIQUE ICI
+/*        if ($return['code'] == 201) {
             $this->get('ki_publication.listener.newsitem')->postPersist($return['item']);
-        }
+        }*/
 
         return $this->postView($return);
     }
