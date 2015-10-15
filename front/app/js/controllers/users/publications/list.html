@@ -98,11 +98,11 @@
 
                     <!-- Fichiers joints -->
                     <section ng-if="publication.files.length">
-                        <h2 class="Link  Link--reverse" >
+                        <h3 class="Link  Link--reverse" >
                             <i class="fa fa-file-o"></i> Pièces jointes
-                        </h2>
+                        </h3>
                         <ul class="List  padded">
-                            <li class="List__element" ng-repeat="file in publication.files | orderBy:['name']">
+                            <li ng-repeat="file in publication.files | orderBy:['name']">
                                 <a title="Télécharger le fichier" target="_blank" ng-href="{{ file.url | urlFile }}">
                                     {{ file.name }} ({{ file.size }})
                                 </a>
