@@ -31,6 +31,7 @@ class PostFile
     /**
      * @ORM\Column(name="name", type="string", nullable=true)
      * @Assert\Type("string")
+     * @JMS\Expose
      */
     protected $name;
 
@@ -38,6 +39,7 @@ class PostFile
      * @var integer
      *
      * @ORM\Column(name="size", type="integer")
+     * @JMS\Expose
      */
     private $size;
 
@@ -47,6 +49,7 @@ class PostFile
     protected $file;
 
     /**
+     * @var \KI\PublicationBundle\Entity\Post
      * @ORM\ManyToOne(targetEntity="KI\PublicationBundle\Entity\Post", inversedBy="files")
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
      **/
@@ -69,13 +72,11 @@ class PostFile
     }
 
 
-    public function __construct(UploadedFile $uploadedFile, $postId)
+    public function __construct(UploadedFile $uploadedFile)
     {
         $this->setSize($uploadedFile->getClientSize());
         $this->setExt($uploadedFile->guessExtension());
-        $this->setName($postId."_".$uploadedFile->getClientOriginalName()); //SECURITY ISSUE
-
-        $uploadedFile->move($this->getUploadDir(), $this->getName());
+        $this->setName($uploadedFile->getClientOriginalName()); //SECURITY ISSUE
     }
 
     public function getAbsolutePath()
@@ -83,9 +84,14 @@ class PostFile
         return $this->getUploadDir().$this->getName();
     }
 
-    public function getWebPath()
+
+    /**
+     * @JMS\VirtualProperty()
+     * @return string
+     */
+    public function url()
     {
-        return 'uploads/'.$this->getUploadCategory().'/'.$this->getName();
+        return 'uploads/'.$this->getUploadCategory().'/'.$this->post->getId()."_".$this->getName();
     }
 
     /**
@@ -179,6 +185,13 @@ class PostFile
     public function setFile($file)
     {
         $this->file = $file;
+    }
+
+    /**
+     * @ORM\PostPersist()
+     */
+    public function moveFile(){
+        $this->file->move($this->getUploadDir(), $this->post->getId()."_".$this->getName());
     }
 
     /**

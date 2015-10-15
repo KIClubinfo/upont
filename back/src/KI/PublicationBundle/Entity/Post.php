@@ -57,7 +57,7 @@ class Post extends Likeable
      * @var PostFile
      *
      * @ORM\OneToMany(targetEntity="KI\PublicationBundle\Entity\PostFile", mappedBy="post", cascade={"persist", "remove"})
-     *
+     * @JMS\Expose
      */
     private $files;
 
@@ -209,7 +209,7 @@ class Post extends Likeable
     }
 
     /**
-     * @ORM\PostPersist()
+     * @ORM\PreFlush()
      */
     public function upload()
     {
@@ -217,7 +217,8 @@ class Post extends Likeable
         {
             foreach ($this->uploadedFiles as $uploadedFile) {
                 if ($uploadedFile) {
-                    $file = new PostFile($uploadedFile, $this->getId());
+                    $file = new PostFile($uploadedFile);
+                    $file->setFile($uploadedFile);
                     $this->getFiles()->add($file);
                     $file->setPost($this);
                     unset($uploadedFile);

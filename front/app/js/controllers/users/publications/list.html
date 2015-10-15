@@ -95,6 +95,20 @@
                         <textarea flex="100" ng-model="publication.text" redactor></textarea>
                         <button flex="50" flex-lg="25" class="Button" ng-click="modify(publication)">Envoyer</button>
                     </div>
+
+                    <!-- Fichiers joints -->
+                    <section ng-if="publication.files.length">
+                        <h2 class="Link  Link--reverse" >
+                            <i class="fa fa-file-o"></i> Pièces jointes
+                        </h2>
+                        <ul class="List  padded">
+                            <li class="List__element" ng-repeat="file in publication.files | orderBy:['name']">
+                                <a title="Télécharger le fichier" target="_blank" ng-href="{{ file.url | urlFile }}">
+                                    {{ file.name }} ({{ file.size }})
+                                </a>
+                            </li>
+                        </ul>
+                    </section>
                 </section>
             </div>
             <div up-likes show="false" objet="publication"
