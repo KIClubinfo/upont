@@ -23,13 +23,13 @@ class PostFile
     protected $id;
 
     /**
-     * @ORM\Column(name="ext", type="string")
+     * @ORM\Column(name="ext", type="string", nullable=true)
      * @Assert\Type("string")
      */
     protected $ext;
 
     /**
-     * @ORM\Column(name="name", type="string", nullable=true)
+     * @ORM\Column(name="name", type="string")
      * @Assert\Type("string")
      * @JMS\Expose
      */
@@ -76,7 +76,7 @@ class PostFile
     {
         $this->setSize($uploadedFile->getClientSize());
         $this->setExt($uploadedFile->guessExtension());
-        $this->setName($uploadedFile->getClientOriginalName()); //SECURITY ISSUE
+        $this->setName($uploadedFile->getClientOriginalName()); //Potential security issue
     }
 
     public function getAbsolutePath()
