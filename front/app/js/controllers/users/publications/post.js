@@ -102,7 +102,6 @@ angular.module('upont')
                         url: apiPrefix + 'newsitems',
                         data: params
                     })
-                    //$http.post(apiPrefix + 'newsitems', params)
                     .success(function(data){
                         $rootScope.$broadcast('newNewsitem');
                         Achievements.check();
@@ -145,7 +144,12 @@ angular.module('upont')
                     }
 
                     if (!$scope.modify){
-                        $http.post(apiPrefix + 'events', params).success(function(data){
+                        Upload.upload({
+                            method: "POST",
+                            url: apiPrefix + 'events',
+                            data: params
+                        })
+                        .success(function(data){
                             $rootScope.$broadcast('newEvent');
                             Achievements.check();
                             init();
@@ -154,7 +158,12 @@ angular.module('upont')
                             alertify.error('Formulaire vide ou mal rempli');
                         });
                     } else {
-                        $http.patch(apiPrefix + 'events/' + post.slug, params).success(function(data){
+                        Upload.upload({
+                            method: "PATCH",
+                            url: apiPrefix + 'events/' + post.slug,
+                            data: params
+                        })
+                        .success(function(data){
                             $rootScope.$broadcast('newEvent');
                             alertify.success('Événement modifié');
                             init();
