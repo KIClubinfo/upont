@@ -2,13 +2,13 @@ angular.module('upont')
     .controller('Students_Simple_Ctrl', ['$rootScope', '$scope', '$resource', '$http', 'user', 'foyer', 'ponthub', 'clubs', 'achievements', function($rootScope, $scope, $resource, $http, user, foyer, ponthub, clubs, achievements) {
         $scope.user = user;
         $scope.foyer = foyer;
-        $scope.displayFoyer = !empty(foyer);
+        $scope.displayFoyer = user.stats_foyer;
         $scope.ponthub = ponthub;
-        $scope.displayPonthub = empty(ponthub.error);
+        $scope.displayPonthub = user.stats_ponthub && empty(ponthub.error);
         $scope.clubs = clubs;
         $scope.achievements = achievements;
 
-        if (!empty(foyer)) {
+        if ($scope.displayFoyer) {
             // Définition des graphes Highcharts
             var beers = [];
             for(var key in foyer.beersDrunk) {
@@ -106,7 +106,7 @@ angular.module('upont')
             };
         }
 
-        if (empty(ponthub.error)) {
+        if ($scope.displayPonthub) {
             // Définition des graphes Highcharts
             $scope.chartRepartition = {
                 chart: {
