@@ -39,7 +39,7 @@ angular.module('upont')
             else
                 $scope.placeholder = 'Que se passe-t-il d\'intéressant dans ton asso ?';
 
-            $scope.postFiles = {}
+            $scope.postFiles = {};
         };
         init();
 
@@ -71,7 +71,7 @@ angular.module('upont')
 
         $scope.selectFiles = function (files) {
             $scope.postFiles = files;
-        }
+        };
 
         $scope.publish = function(post, files) {
             var params  = {text: nl2br(post.text)};
