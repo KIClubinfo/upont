@@ -125,6 +125,52 @@ class BasketsController extends ResourceController
 
     /**
      * @ApiDoc(
+     *  resource=true,
+     *  description="Liste toutes les commandes",
+     *  output="KI\DvpBundle\Entity\Basket",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="DévelopPonts"
+     * )
+     * @Route\Get("/baskets-orders")
+     */
+    public function getBasketsOrdersAction()
+    {
+        return $this->getAll($this->isClubMember('dvp'));
+    }
+
+    /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Liste les commandes d'un utilisateur",
+     *  output="KI\DvpBundle\Entity\Basket",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="DévelopPonts"
+     * )
+     * @Route\Get("/baskets-orders/{username}")
+     */
+    public function getBasketsOrderAction($username)
+    {
+        $repository = $this->manager->getRepository('KIUserBundle:User');
+        $email = $repository->findOneByUsername($username)->getEmail();
+
+        if (!isset($email))
+            throw new BadRequestHttpException('Utilisateur inconnu');
+
+        return $this->manager->getRepository('KIDvpBundle:BasketOrder')->findByEmail($email);
+    }
+
+    /**
+     * @ApiDoc(
      *  description="Crée une commande",
      *  requirements={
      *   {
@@ -226,18 +272,97 @@ class BasketsController extends ResourceController
      */
     public function patchBasketOrderAction($slug, $username)
     {
-        $basket = $this->findBySlug($slug);
-        $repository = $this->manager->getRepository('KIUserBundle:User');
-        $user = $repository->findOneByUsername($username);
+        $this->trust($this->is('MODO') || $this->isClubMember('dvp'));
 
-        // On vérifie que la commande existe
-        $this->switchClass('BasketOrder');
-        $basketOrder = $this->repository->findOneBy(array('basket' => $basket, 'user' => $user));
+        $request = $this->getRequest()->request;
+        if (!$request->has('dateRetrieve')) {
+            throw new BadRequestHttpException('Paramètre manquant');
+        }
+        $dateRetrieve = $request->get('dateRetrieve');
+
+        $repoBasketOrder = $this->manager->getRepository('KIDvpBundle:BasketOrder');
+        $repoUser = $this->manager->getRepository('KIUserBundle:User');
+        $user = $repoUser->findOneByUsername($username);
+
+        // On identifie les utilisateurs par leur mail
+        if ($user !== null) {
+            $email = $user->getEmail();
+        } else if ($repoBasketOrder->findOneBy(array('email' => $username)) !== null) {
+            $email = $username;
+        } else {
+            throw new BadRequestHttpException('Utilisateur non trouvé');
+        }
+
+        $basket = $this->findBySlug($slug);
+
+        $basketOrder = $repoBasketOrder->findOneBy(array(
+                'basket' => $basket,
+                'email' => $email,
+                'dateRetrieve' => $dateRetrieve
+                ));
 
         if ($basketOrder === null) {
             throw new BadRequestHttpException('Commande non trouvée');
         }
 
-        return $this->patch($basketOrder->getId(), $this->isClubMember('dvp'));
+        // On patche manuellement
+        if ($request->has('paid')) {
+            $basketOrder->setPaid($request->get('paid'));
+        }
+
+        $this->manager->persist($basketOrder);
+        $this->manager->flush();
+
+        return $this->jsonResponse(null, 204);
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Supprime une commande",
+     *  statusCodes={
+     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   404="Ressource non trouvée",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="DévelopPonts"
+     * )
+     * @Route\Delete("/baskets/{slug}/order/{username}")
+     */
+    public function deleteBasketOrderAction($slug, $username)
+    {
+        $request = $this->getRequest()->request;
+        if (!$request->has('dateRetrieve')) {
+            throw new BadRequestHttpException('Paramètre manquant');
+        }
+        $dateRetrieve = $request->get('dateRetrieve');
+
+        $repoBasketOrder = $this->manager->getRepository('KIDvpBundle:BasketOrder');
+        $repoUser = $this->manager->getRepository('KIUserBundle:User');
+        $user = $repoUser->findOneByUsername($username);
+
+        // On identifie les utilisateurs par leur mail
+        if ($user !== null) {
+            $email = $user->getEmail();
+        } else if ($repoBasketOrder->findOneBy(array('email' => $username)) !== null) {
+            $email = $username;
+        } else {
+            throw new BadRequestHttpException('Utilisateur non trouvé');
+        }
+
+        $basket = $this->findBySlug($slug);
+
+        $basketOrder = $repoBasketOrder->findOneBy(array(
+                'basket' => $basket,
+                'email' => $email,
+                'dateRetrieve' => $dateRetrieve
+                ));
+
+        if ($basketOrder === null) {
+            throw new BadRequestHttpException('Commande non trouvée');
+        }
+
+        return $this->manager->remove($basketOrder, $this->isClubMember('dvp'));
     }
 }

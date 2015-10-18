@@ -40,6 +40,14 @@ class BasketsControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
+        $this->client->request('GET', '/baskets-orders/trancara');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 200);
+
+        $this->client->request('GET', '/baskets-orders');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 200);
+
         $this->client->request('GET', '/baskets/sjoajsiohaysahais-asbsksaba7');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
@@ -69,7 +77,10 @@ class BasketsControllerTest extends WebTestCase
         $this->client->request(
             'PATCH',
             '/baskets/panier-test/order/trancara',
-            array('paid' => true)
+            array(
+                'paid' => true,
+                'dateRetrieve' => 123468736,
+                )
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
@@ -77,6 +88,14 @@ class BasketsControllerTest extends WebTestCase
 
     public function testDelete()
     {
+        $this->client->request(
+            'DELETE',
+            '/baskets/panier-test/order/trancara',
+            array('dateRetrieve' => 123468736)
+            );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 204);
+
         $this->client->request('DELETE', '/baskets/panier-test');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
