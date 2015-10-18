@@ -20,8 +20,6 @@ class ClubsController extends SubresourceController
         $this->initialize('Club', 'User');
     }
 
-
-
     /**
      * @ApiDoc(
      *  resource=true,
