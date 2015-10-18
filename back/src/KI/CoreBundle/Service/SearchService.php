@@ -57,8 +57,6 @@ class SearchService
         default:
             throw new BadRequestHttpException('Syntaxe de la recherche erronée');
         }
-
-        return $results;
     }
 
     // On fouille un repo à la recherche d'entités correspondantes au nom

@@ -47,6 +47,7 @@ angular.module('upont')
 
             Paginate.get(url, 50).then(function(data){
                 $scope.courses = data;
+                $scope.next();
             });
         };
 

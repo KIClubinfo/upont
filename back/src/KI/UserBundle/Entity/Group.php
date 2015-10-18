@@ -39,6 +39,15 @@ class Group extends BaseGroup
     protected $slug;
 
     /**
+     * Constructor
+     */
+    public function __construct($name)
+    {
+        parent::__construct($name);
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
      * Set slug
      *
      * @param string $slug
@@ -67,7 +76,7 @@ class Group extends BaseGroup
      * // use the User's addGroupUser($group) (which links to this one)
      *
      * @param \KI\UserBundle\Entity\User $user
-     * @return Comment
+     * @return Group
      */
     public function addUser(\KI\UserBundle\Entity\User $user)
     {

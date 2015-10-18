@@ -12,6 +12,8 @@ class FilelistHelper
     protected $genreRepository;
     protected $serieRepository;
     protected $ponthubFileRepository;
+    protected $validExtensions;
+    protected $fileHelper;
 
     public function __construct(EntityManager $manager,
                                 EntityRepository $albumRepository,
@@ -119,7 +121,7 @@ class FilelistHelper
         $name = preg_replace(array('#.*/#', '#\.[a-zA-Z0-9]+$#'), array('', ''), $line);
         $ext = strtolower(substr(strrchr($line, '.'), 1));
         if (!in_array($ext, $this->validExtensions)) {
-            continue;
+            return array();
         }
 
         // On ne crée une nouvelle entrée que si le fichier n'existe pas

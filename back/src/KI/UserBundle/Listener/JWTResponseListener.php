@@ -73,7 +73,7 @@ class JWTResponseListener
      */
     protected function badCredentials(AuthenticationFailureEvent $event, $reason)
     {
-        return $event->setResponse(new JsonResponse(array(
+        $event->setResponse(new JsonResponse(array(
             'code' => 401,
             'message' => 'Bad credentials',
             'reason' => $reason

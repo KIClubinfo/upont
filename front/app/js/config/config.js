@@ -136,7 +136,7 @@ angular.module('upont')
         $rootScope.searchCategory = 'Assos';
 
         // Easter egg
-        $rootScope.surprise = (Math.random()*1000 == 314);
+        $rootScope.surprise = (Math.floor(Math.random()*1000) == 314);
 
         // Zoom sur les images
         $rootScope.zoom = false;
