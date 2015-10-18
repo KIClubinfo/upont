@@ -3,13 +3,29 @@ angular.module('upont')
         $scope.elements = elements;
         $scope.category = $stateParams.category;
         $scope.lastWeek = moment().subtract(7 , 'days').unix();
-        $scope.filters = {
+/*        $scope.filters = {
             vo: false,
             vost: false,
             vf: false,
             hd: false
-        };
+        };*/
 
+        $scope.reload = function(filters) {
+            var url = Ponthub.cat($stateParams.category) + '?sort=-added,id';
+
+            if (filters.vo)
+                url += '&vo=1';
+            if (filters.vost)
+                url += '&vost=1';
+            if (filters.vf)
+                url += '&vf=1';
+            if (filters.hd)
+                url += '&hd=1';
+
+            Paginate.get(url, 20).then(function(data){
+                $scope.elements = data;
+            });
+        };
 
         $scope.faIcon = function(category){
             switch(category) {
@@ -38,14 +54,6 @@ angular.module('upont')
 
         $scope.popular = function(count) {
             return Ponthub.isPopular(count, $stateParams.category);
-        };
-
-        $scope.ponthubFilter = function(element, index, elements){
-            return ($scope.filters.hd ? (element.hd !== undefined ? element.hd === true : false) : true) && 
-                        ($scope.filters.vo ? (element.vo !== undefined ? element.vo === true : false)  : true) &&
-                        ($scope.filters.vost ? (element.vost !== undefined ? element.vost === true : false)  : true) &&
-                        ($scope.filters.vf ? (element.vf !== undefined ? element.vf === true : false)  : true)
-            ;
         };
     }])
     .config(['$stateProvider', function($stateProvider) {
