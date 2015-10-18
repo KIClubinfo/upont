@@ -37,9 +37,15 @@
 
 	<section flex="100" flex-md="33">
 		<section class="Ticket">
-			<h2>Mes Paniers</h2>
-
-			<p><i>Rien à afficher</i></p>
+			<h2>Mes commandes</h2>
 		</section>
+
+		<div ng-repeat="item in orders" class="Ticket">
+			<h3>{{ item.basket.name }}</h3>
+			<p>A retirer le <b>Jeudi {{ item.date_retrieve.getDate() }} {{ months[item.date_retrieve.getMonth()] }} {{ item.date_retrieve.getFullYear() }}</b></p>
+			<p>Payé : <span ng-if="item.paid">Oui</span><span ng-if="!item.paid">Non</span></p>
+		</div>
+
+		<div ng-if="orders.length == 0" class="Ticket"><i>Rien à afficher</i></div>
 	</section>
 </div>

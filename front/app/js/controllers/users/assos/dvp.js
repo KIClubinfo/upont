@@ -5,13 +5,12 @@ angular.module('upont')
         $scope.thursdays = [];
         $scope.months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
         $scope.basketOrders = [[],[],[],[]];
-
+        
         for (i=0;i<4;i++) {
             for (j=0;j<baskets.length;j++) {
                 $scope.basketOrders[i][j] = false;
             }
         }
-
 
         $scope.order = function() {
             $scope.ordering = true;
@@ -53,10 +52,25 @@ angular.module('upont')
             $q.all(promiseArray).then(function() {
                 alertify.success('Commande envoyée !');
                 $scope.basketOrders = [[],[],[],[]];
+                $scope.get();
             });
 
             $scope.ordering = false;
         };
+
+        $scope.get = function() {
+            $http.get(apiPrefix + 'baskets-orders/' + $rootScope.me.username).success(function(data) {
+                $scope.orders = data;
+
+                for (i=0;i<data.length;i++) {
+                    data[i].date_retrieve = new Date(data[i].date_retrieve*1000);
+                }
+            });
+        };
+
+        if ($rootScope.me.username) {
+            $scope.get();
+        }
 
     }])
     .config(['$stateProvider', function($stateProvider) {
