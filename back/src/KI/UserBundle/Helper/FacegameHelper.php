@@ -126,13 +126,12 @@ class FacegameHelper
      * @param Facegame $game     La partie à résoudre
      * @param integer  $wrongAnswers Le nombre de mauvaises réponses
      */
-    public function endGame(Facegame $game, $wrongAnswers)
+    public function endGame(Facegame $game, $wrongAnswers, $duration)
     {
         if (!empty($game->getDuration())) {
             throw new BadRequestHttpException('Jeu déjà fini');
         }
 
-        $duration = time() + 5*$wrongAnswers - $game->getDate();
         $game->setWrongAnswers($wrongAnswers);
         $game->setDuration($duration);
         $this->manager->flush();

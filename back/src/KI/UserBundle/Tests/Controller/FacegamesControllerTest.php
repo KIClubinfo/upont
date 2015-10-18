@@ -48,7 +48,7 @@ class FacegamesControllerTest extends WebTestCase
         $this->assertJsonResponse($response, 404);
 
         $this->client->request(
-            'PATCH', '/facegames/'.$this->gameId, array('wrongAnswers' => 42));
+            'PATCH', '/facegames/'.$this->gameId, array('wrongAnswers' => 42, 'duration' => 140));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
