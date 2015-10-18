@@ -3,12 +3,6 @@ angular.module('upont')
         $scope.elements = elements;
         $scope.category = $stateParams.category;
         $scope.lastWeek = moment().subtract(7 , 'days').unix();
-/*        $scope.filters = {
-            vo: false,
-            vost: false,
-            vf: false,
-            hd: false
-        };*/
 
         $scope.reload = function(filters) {
             var url = Ponthub.cat($stateParams.category) + '?sort=-added,id';
