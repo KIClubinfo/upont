@@ -3,6 +3,13 @@ angular.module('upont')
         $scope.elements = elements;
         $scope.category = $stateParams.category;
         $scope.lastWeek = moment().subtract(7 , 'days').unix();
+        $scope.filters = {
+            vo: false,
+            vost: false,
+            vf: false,
+            hd: false
+        };
+
 
         $scope.faIcon = function(category){
             switch(category) {
@@ -31,6 +38,14 @@ angular.module('upont')
 
         $scope.popular = function(count) {
             return Ponthub.isPopular(count, $stateParams.category);
+        };
+
+        $scope.ponthubFilter = function(element, index, elements){
+            return ($scope.filters.hd ? (element.hd !== undefined ? element.hd === true : false) : true) && 
+                        ($scope.filters.vo ? (element.vo !== undefined ? element.vo === true : false)  : true) &&
+                        ($scope.filters.vost ? (element.vost !== undefined ? element.vost === true : false)  : true) &&
+                        ($scope.filters.vf ? (element.vf !== undefined ? element.vf === true : false)  : true)
+            ;
         };
     }])
     .config(['$stateProvider', function($stateProvider) {
