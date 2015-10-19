@@ -71,10 +71,10 @@ class NewsitemsController extends ResourceController
     {
         $return = $this->postData($this->isClubMember());
 
-        //BUG CRITIQUE ICI
-/*        if ($return['code'] == 201) {
+        //FIXME En local, je suis incapable de poster sans commenter ce code (problème de proxy ?)
+        if ($return['code'] == 201) {
             $this->get('ki_publication.listener.newsitem')->postPersist($return['item']);
-        }*/
+        }
 
         return $this->postView($return);
     }
