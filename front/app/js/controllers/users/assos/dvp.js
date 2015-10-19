@@ -61,10 +61,6 @@ angular.module('upont')
         $scope.get = function() {
             $http.get(apiPrefix + 'baskets-orders/' + $rootScope.me.username).success(function(data) {
                 $scope.orders = data;
-
-                for (i=0;i<data.length;i++) {
-                    data[i].date_retrieve = new Date(data[i].date_retrieve*1000);
-                }
             });
         };
 
