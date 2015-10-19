@@ -5,7 +5,7 @@ namespace KI\FoyerBundle\Helper;
 use Doctrine\ORM\EntityRepository;
 use KI\UserBundle\Entity\User;
 
-class FoyerStatisticsHelper
+class StatisticsHelper
 {
     protected $beerRepository;
     protected $beerUserRepository;
@@ -43,16 +43,17 @@ class FoyerStatisticsHelper
         foreach ($beerUsers as $beerUser) {
             $user = $beerUser->getUser();
             $beer = $beerUser->getBeer();
+            $slug = $user->getSlug();
 
             // Compte crédité, pas une conso
             if ($beer === null) {
                 continue;
             }
 
-            if (!isset($return[$user->getSlug()])) {
-                $users[$user->getSlug()] = array('user' => $user, 'liters' => 0);
+            if (!isset($users[$slug])) {
+                $users[$slug] = array('user' => $user, 'liters' => 0);
             }
-            $users[$user->getSlug()]['liters'] += $beer->getVolume();
+            $users[$slug]['liters'] += $beer->getVolume();
         }
 
         foreach ($users as $user) {
@@ -135,7 +136,7 @@ class FoyerStatisticsHelper
     /**
      * Retourne le nombre cumulé de litres bus
      * @param  User $user
-     * @return float
+     * @return integer
      */
     private function getTotalLiters(User $user)
     {

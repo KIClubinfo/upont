@@ -15,7 +15,8 @@ class OtherType extends AbstractType
             ->add('description')
             ->add('genres', 'genres_selector')
             ->add('tags', 'tags_selector')
-            ->add('image', 'image_selector');
+            ->add('image', 'image_selector')
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

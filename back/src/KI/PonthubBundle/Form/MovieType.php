@@ -25,7 +25,8 @@ class MovieType extends AbstractType
             ->add('vost')
             ->add('vostfr')
             ->add('hd')
-            ->add('image', 'image_selector');
+            ->add('image', 'image_selector')
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

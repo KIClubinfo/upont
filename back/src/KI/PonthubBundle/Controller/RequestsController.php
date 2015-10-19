@@ -2,11 +2,13 @@
 
 namespace KI\PonthubBundle\Controller;
 
+use KI\CoreBundle\Controller\ResourceController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class RequestsController extends \KI\CoreBundle\Controller\ResourceController
+class RequestsController extends ResourceController
 {
-    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->initialize('Request', 'Ponthub');
@@ -59,18 +61,7 @@ class RequestsController extends \KI\CoreBundle\Controller\ResourceController
      *  section="Ponthub"
      * )
      */
-    public function postRequestAction()
-    {
-        $return = $this->postData($this->get('security.context')->isGranted('ROLE_USER'));
-
-        // On modifie légèrement la ressource qui vient d'être créée
-        $return['item']->setDate(time());
-        $return['item']->setUser($this->container->get('security.context')->getToken()->getUser());
-        $return['item']->setVotes(1);
-        $this->manager->flush();
-
-        return $this->postView($return);
-    }
+    public function postRequestAction() { return $this->post($this->is('USER')); }
 
     /**
      * @ApiDoc(
@@ -85,10 +76,7 @@ class RequestsController extends \KI\CoreBundle\Controller\ResourceController
      *  section="Ponthub"
      * )
      */
-    public function deleteRequestAction($slug)
-    {
-        return $this->delete($slug, $this->get('security.context')->isGranted('ROLE_USER'));
-    }
+    public function deleteRequestAction($slug) { return $this->delete($slug, $this->is('USER')); }
 
     /**
      * @ApiDoc(

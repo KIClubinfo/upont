@@ -19,6 +19,7 @@ class LoadSoftwareFixture extends AbstractFixture implements OrderedFixtureInter
         $software->setTags(array($this->getReference('tag-windaube')));
         $software->setStatus('OK');
         $software->setImage($this->getReference('image-software-vista'));
+        $software->setOs('Windows');
         $manager->persist($software);
         $this->addReference('software-windows', $software);
 

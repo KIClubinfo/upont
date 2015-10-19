@@ -18,7 +18,9 @@ class SoftwareType extends AbstractType
             ->add('year')
             ->add('version')
             ->add('author')
-            ->add('image', 'image_selector');
+            ->add('os')
+            ->add('image', 'image_selector')
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

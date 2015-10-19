@@ -82,7 +82,7 @@
 
                     <!-- Liste des participants -->
                     <section class="padded" row wrap ng-if="publication.displayAttendees">
-                        <div class="Image" flex="10" flex-lg="5" up-user user="user" ng-repeat="user in publication.userlist">
+                        <div class="Image" flex="10" flex-lg="5" up-user user="user" ng-repeat="user in publication.userlist" ui-sref="root.users.students.simple({slug: user.username})" title="{{user.nick}}">
                             <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ user.image_url | thumb | urlFile }})' }"></div>
                         </div>
                     </section>

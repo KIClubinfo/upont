@@ -4,8 +4,8 @@ namespace KI\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * La classe User est divisée en deux (autre partie dans CoreUser)
@@ -429,7 +429,7 @@ class User extends \KI\UserBundle\Entity\CoreUser
     /**
      * Set statsFoyer
      *
-     * @param string $statsFoyer
+     * @param bool $statsFoyer
      * @return User
      */
     public function setStatsFoyer($statsFoyer)
@@ -452,7 +452,7 @@ class User extends \KI\UserBundle\Entity\CoreUser
     /**
      * Set statsPonthub
      *
-     * @param string $statsPonthub
+     * @param bool $statsPonthub
      * @return User
      */
     public function setStatsPonthub($statsPonthub)
@@ -475,7 +475,7 @@ class User extends \KI\UserBundle\Entity\CoreUser
     /**
      * Set statsFacegame
      *
-     * @param string $statsFacegame
+     * @param bool $statsFacegame
      * @return User
      */
     public function setStatsFacegame($statsFacegame)
@@ -499,7 +499,7 @@ class User extends \KI\UserBundle\Entity\CoreUser
      * Set balance
      *
      * @param string $balance
-     * @return Course
+     * @return User
      */
     public function setBalance($balance)
     {

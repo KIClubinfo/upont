@@ -1,14 +1,18 @@
-<div up-row center wrap padded class="up-error-page">
-    <div up-col="30%" up-col-xs="100%" up-row wrap padded>
-        <h1 up-col="100%" style="padding: 0 0 0 0.5em; margin: 0;">Mot de passe oublié</h1>
-        <div up-col="100%">Un mail contenant un lien de réinitialisation sera envoyé à l'adresse mail du compte.</div>
+<main class="full-height  padded" col="center center">
+    <div class="padded" flex="100" flex-md="70" row="center center" wrap>
+        <aside class="padded" flex="100" flex-md="60">
+            <h1>Mot de passe oublié</h1>
+            <p>Un mail contenant un lien de réinitialisation sera envoyé à l'adresse mail du compte.</p>
+        </aside>
+        <section class="padded" flex="100" flex-md="40">
+            <form row wrap ng-submit="request(username)" autocomplete="off">
+                <div class="padded" flex="100">
+                    <input class="Input" ng-model="username" type="text" placeholder="Identifiant" autofocus>
+                </div>
+                <div class="padded" flex="100">
+                    <button class="Button" title="Réinitialiser le mot de passe">Envoyer le mail</button>
+                </div>
+            </form>
+        </section>
     </div>
-    <div up-col="30%" up-col-xs="100%">
-        <form up-row padded wrap class="up-login-form" ng-submit="request(username)" autocomplete="off">
-            <div up-col="100%" ><input up-col="100%" ng-model="username" type="text" placeholder="Identifiant" id="login-input"/></div>
-            <div up-col="100%">
-                <button up-col="100%" title="Réinitialiser le mot de passe" class="up-btn up-btn-default">Envoyer le mail</button>
-            </div>
-        </form>
-    </div>
-</div>
+</main>

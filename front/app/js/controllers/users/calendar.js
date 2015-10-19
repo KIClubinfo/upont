@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('Calendar_Ctrl', ['$rootScope', '$scope', '$filter', 'events', 'courseitems', function($rootScope, $scope, $filter, events, courseitems) {
+    .controller('Calendar_Ctrl', ['$rootScope', '$scope', '$filter', 'events', 'courseitems', '$location', function($rootScope, $scope, $filter, events, courseitems, $location) {
         $scope.events = [];
         for (var i = 0; i < events.length; i++) {
             var type;
@@ -27,7 +27,7 @@ angular.module('upont')
                 type: 'info',
                 startsAt: new Date(courseitems[i].start_date*1000),
                 endsAt: new Date(courseitems[i].end_date*1000),
-                title: '[' + courseitems[i].location + '] ' + courseitems[i].course.name + ((group != '0' && group !== undefined) ? ' (Gr ' + group +')' : ''),
+                title: '[' + courseitems[i].location + '] ' + courseitems[i].course.name + (group !== 0 ? ' (Gr ' + group +')' : ''),
                 editable: false,
                 deletable: false,
                 draggable: false,
@@ -81,6 +81,7 @@ angular.module('upont')
             week: 'Semaine {week}',
         });
         calendarConfigProvider.setDisplayAllMonthEvents(true);
+        calendarConfigProvider.setDisplayEventEndTimes(true);
 
         calendarConfigProvider.setI18nStrings({
             eventsLabel: 'Événements',

@@ -17,7 +17,9 @@ class GameType extends AbstractType
             ->add('tags', 'tags_selector')
             ->add('year')
             ->add('studio')
-            ->add('image', 'image_selector');
+            ->add('os')
+            ->add('image', 'image_selector')
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

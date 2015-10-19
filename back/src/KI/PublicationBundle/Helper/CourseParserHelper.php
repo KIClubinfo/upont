@@ -52,7 +52,7 @@ class CourseParserHelper
             foreach (array_keys($all) as $id) {
                 $name = $courseName[$id];
                 $gr   = str_replace('(&nbsp;)', '', $group[$id]);
-                $gr   = $gr != '' ? (int)str_replace(array('(Gr', ')'), array('', ''), $gr) : 0;
+                $gr   = $gr != '' ? (int) str_replace(array('(Gr', ')'), array('', ''), $gr) : 0;
 
                 $data      = explode(':', $start[$id]);
                 $startDate = $data[0]*3600 + $data[1]*60;
@@ -60,11 +60,11 @@ class CourseParserHelper
                 $endDate   = $data[0]*3600 + $data[1]*60;
 
                 // Si le cours existe déjà, on le récupère, sinon on crée un nouveau cours
-                $course = $this->getOrCreateCourse($name, $department[$id], $gr);
+                $course = $this->getOrCreateCourse($name, $department[$id]);
 
                 // Si le groupe n'est pas connu on le rajoute
-                if (!in_array($gr, $this->knownCourses[$name]['groups'])) {
-                    $course->addGroup($gr);
+                if (!in_array($gr, $this->knownCourses[$name]->getGroups())) {
+                    $this->knownCourses[$name]->addGroup($gr);
                 }
 
                 // On ajoute l'objet à ce cours
@@ -93,32 +93,23 @@ class CourseParserHelper
         $results = $this->courseRepository->findAll();
         $courses = array();
         foreach ($results as $course) {
-            $courses[$course->getName()] = array(
-                'course' => $course,
-                'groups' => $course->getGroups()
-            );
+            $courses[$course->getName()] = $course;
         }
         return $courses;
     }
 
-    private function getOrCreateCourse($name, $department, $group)
+    private function getOrCreateCourse($name, $department)
     {
-        if (array_key_exists($name, $this->knownCourses)) {
-            $course = $this->knownCourses[$name]['course'];
-        } else {
+        if (!array_key_exists($name, $this->knownCourses)) {
             $course = new Course();
             $course->setName($name);
             $course->setDepartment($department);
             $course->setSemester(0);
-            $course->addGroup($group);
 
             $this->manager->persist($course);
-            $this->knownCourses[$name] = array(
-                'course' => $course,
-                'groups' => array($group)
-            );
+            $this->knownCourses[$name] = $course;
         }
 
-        return $course;
+        return $this->knownCourses[$name];
     }
 }

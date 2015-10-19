@@ -29,14 +29,14 @@ class DefaultController extends BaseController
      * )
      * @Route\Get("/statistics/foyer/{slug}")
      */
-    public function getStatisticsAction($slug)
+    public function getFoyerStatisticsAction($slug)
     {
         $this->trust(!$this->is('EXTERIEUR'));
 
         $user = $this->findBySlug($slug);
 
         if (!$user->getStatsFoyer()) {
-            return $this->jsonResponse(array(), 200);
+            return $this->jsonResponse(null, 200);
         }
         $statisticsHelper = $this->get('ki_foyer.helper.statistics');
         $statistics = $statisticsHelper->getUserStatistics($user);
@@ -57,7 +57,7 @@ class DefaultController extends BaseController
      * )
      * @Route\Get("/statistics/foyer")
      */
-    public function getStatisticsMainAction()
+    public function getFoyerStatisticsMainAction()
     {
         $this->trust(!$this->is('EXTERIEUR'));
 

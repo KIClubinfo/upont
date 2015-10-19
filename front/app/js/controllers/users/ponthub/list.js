@@ -57,7 +57,17 @@ angular.module('upont')
                 },
                 resolve: {
                     ponthub: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'ponthub/statistics').get().$promise;
+                        return $resource(apiPrefix + 'statistics/ponthub').get().$promise;
+                    }]
+                }
+            })
+            .state('root.users.ponthub.requests', {
+                url: '/demandes',
+                controller: 'Ponthub_Requests_Ctrl',
+                templateUrl: 'controllers/users/ponthub/requests.html',
+                resolve: {
+                    requests: ['$resource', '$stateParams', function($resource, $stateParams) {
+                        return $resource(apiPrefix + 'requests').query().$promise;
                     }]
                 }
             })
