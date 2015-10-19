@@ -40,7 +40,7 @@
 			<h2>Mes commandes</h2>
 		</section>
 
-		<div ng-repeat="item in orders" class="Ticket">
+		<div ng-repeat="item in orders | orderBy:'date_retrieve'" class="Ticket">
 			<h3>{{ item.basket.name }}</h3>
 			<p>A retirer le <b>Jeudi {{ item.date_retrieve*1000 | date:'dd' }}/{{ item.date_retrieve*1000 | date:'MM' }}/{{item.date_retrieve*1000 | date:'yyyy' }}</b></p>
 			<p>Payé : <span ng-if="item.paid">Oui</span><span ng-if="!item.paid">Non</span></p>
