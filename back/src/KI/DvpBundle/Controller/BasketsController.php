@@ -329,16 +329,10 @@ class BasketsController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
-     * @Route\Delete("/baskets/{slug}/order/{username}")
+     * @Route\Delete("/baskets/{slug}/order/{username}/{dateRetrieve}")
      */
-    public function deleteBasketOrderAction($slug, $username)
+    public function deleteBasketOrderAction($slug, $username, $dateRetrieve)
     {
-        $request = $this->getRequest()->request;
-        if (!$request->has('dateRetrieve')) {
-            throw new BadRequestHttpException('Paramètre manquant');
-        }
-        $dateRetrieve = $request->get('dateRetrieve');
-
         $repoBasketOrder = $this->manager->getRepository('KIDvpBundle:BasketOrder');
         $repoUser = $this->manager->getRepository('KIUserBundle:User');
         $user = $repoUser->findOneByUsername($username);
@@ -364,6 +358,9 @@ class BasketsController extends ResourceController
             throw new BadRequestHttpException('Commande non trouvée');
         }
 
-        return $this->manager->remove($basketOrder, $this->isClubMember('dvp'));
+        $this->manager->remove($basketOrder, $this->isClubMember('dvp'));
+        $this->manager->flush();
+
+        return $this->jsonResponse(null, 204);
     }
 }

@@ -90,8 +90,7 @@ class BasketsControllerTest extends WebTestCase
     {
         $this->client->request(
             'DELETE',
-            '/baskets/panier-test/order/trancara',
-            array('dateRetrieve' => 123468736)
+            '/baskets/panier-test/order/trancara/123468736'
             );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
