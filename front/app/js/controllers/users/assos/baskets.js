@@ -5,10 +5,26 @@ angular.module('upont')
         $scope.newBasket = {'name': '', 'content': '', 'price': 0};
         $scope.changedBasket = {};
         $scope.modifying = false;
+        $scope.numberOrders = {};
+
+        for (i=0;i<$scope.baskets.length;i++) {
+            $scope.numberOrders[$scope.baskets[i].name] = 0;
+        }
+
+        for (i=0;i<$scope.orders.length;i++) {
+            $scope.numberOrders[$scope.orders[i].basket.name]++;   
+        }
 
         $scope.reloadBaskets = function() {
             $http.get(apiPrefix + 'baskets').success(function(data) {
                 $scope.baskets = data;
+                $scope.numberOrders = {};
+                for (i=0;i<$scope.orders.length;i++) {
+                    $scope.numberOrders[$scope.orders[i].basket.name]++;   
+                }
+                for (i=0;i<$scope.baskets.length;i++) {
+                    $scope.numberOrders[$scope.baskets[i].name] = 0;
+                }
             });
         };
 
@@ -83,6 +99,13 @@ angular.module('upont')
         $scope.reloadOrders = function() {
             $http.get(apiPrefix + 'baskets-orders').success(function(data) {
                 $scope.orders = data;
+                $scope.numberOrders = {};
+                for (i=0;i<$scope.baskets.length;i++) {
+                    $scope.numberOrders[$scope.baskets[i].name] = 0;
+                }
+                for (i=0;i<$scope.orders.length;i++) {
+                    $scope.numberOrders[$scope.orders[i].basket.name]++;   
+                }
             });
         };
 
