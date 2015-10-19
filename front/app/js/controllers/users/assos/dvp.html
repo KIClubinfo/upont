@@ -19,7 +19,7 @@
 	        </div>
         </section>
 
-		<form ng-show="ordering" ng-submit="post()" flex="100" row wrap>
+		<form ng-show="ordering" ng-submit="post(firstName, lastName, email, phone)" flex="100" row wrap>
 			<section class="Ticket" flex="100" flex-md="50" ng-repeat="day in thursdays track by $index">
 				<h3>Jeudi {{ day.getDate() }} {{ months[day.getMonth()] }} {{ day.getFullYear() }}</h3>
 
@@ -29,8 +29,45 @@
 				</div>
 			</section>
 
+
+	        <section class="Ticket" flex="100">
+	        	<h3>Informations personnelles</h3>
+	        	<br>
+
+	        	<article row wrap>
+		        	<div class="padded" flex="50" flex-md="25">
+	            		Prénom
+	        		</div>
+			        <div class="padded" flex="50" flex-md="25">
+			            <input class="Input" type="text" ng-model="firstName">
+			        </div>
+
+			        <div class="padded" flex="50" flex-md="25">
+	            		Nom
+	        		</div>
+			        <div class="padded" flex="50" flex-md="25">
+			            <input class="Input" type="text" ng-model="lastName">
+			        </div>
+
+			        <div class="padded" flex="50" flex-md="25">
+	            		Email
+	        		</div>
+			        <div class="padded" flex="50" flex-md="25">
+			            <input class="Input" type="text" ng-model="email" placeholder="prenom.nom@eleves.enpc.fr">
+			        </div>
+
+			        <div class="padded" flex="50" flex-md="25">
+	            		Téléphone
+	        		</div>
+			        <div class="padded" flex="50" flex-md="25">
+			            <input class="Input" type="text" ng-model="phone" placeholder="06.xx.xx.xx.xx, +336.xx.xx.xx.xx">
+			        </div>
+			    </article>
+
+	        </section>
+
 			<div row="end stretch" flex="100">
-	        	<button class="Button" ng-click="order()">Commander</button>
+	        	<button class="Button">Commander</button>
 	        </div>
 		</form>
 	</section>

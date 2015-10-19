@@ -5,6 +5,18 @@ angular.module('upont')
         $scope.thursdays = [];
         $scope.months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
         $scope.basketOrders = [[],[],[],[]];
+
+        if($rootScope.me.username) {
+            $scope.firstName = $rootScope.me.first_name;
+            $scope.lastName = $rootScope.me.last_name;
+            $scope.email = $rootScope.me.email;
+            $scope.phone = $rootScope.me.phone;
+        } else {
+            $scope.firstName = '';
+            $scope.lastName = '';
+            $scope.email = '';
+            $scope.phone = 0;
+        }
         
         for (i=0;i<4;i++) {
             for (j=0;j<baskets.length;j++) {
@@ -35,16 +47,43 @@ angular.module('upont')
 
         };
 
-        $scope.post = function() {
+        $scope.post = function(firstName, lastName, email, phone) {
             var promiseArray = [];
             var dateRetrieve;
+
+            if (!firstName) {
+                alertify.error('Prénom manquant !');
+                return;
+            }
+
+            if (!lastName) {
+                alertify.error('Nom manquant !');
+                return;
+            }
+
+            if (!email) {
+                alertify.error('Email manquant !');
+                return;
+            }
+
+            if (!phone) {
+                alertify.error('Numéro de téléphone manquant !');
+                return;
+            }
 
             for (i=0;i<4;i++) {
                 for (j=0;j<baskets.length;j++) {
                     if ($scope.basketOrders[i][j]) {
                         dateRetrieve = $scope.thursdays[i].getTime();
                         dateRetrieve = (dateRetrieve - dateRetrieve%1000)/1000;
-                        promiseArray.push($http.post(apiPrefix + 'baskets/' + baskets[j].slug + '/order', {dateRetrieve: dateRetrieve}));
+                        promiseArray.push($http.post(apiPrefix + 'baskets/' + baskets[j].slug + '/order',
+                            {
+                                firstName: firstName,
+                                lastName: lastName,
+                                email: email,
+                                phone: phone,
+                                dateRetrieve: dateRetrieve
+                            }));
                     }
                 }
             }
