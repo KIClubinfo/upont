@@ -6,7 +6,7 @@ angular.module('upont')
         $scope.months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
         $scope.basketOrders = [[],[],[],[]];
 
-        if($rootScope.me.username) {
+        if('me' in $rootScope) {
             $scope.firstName = $rootScope.me.first_name;
             $scope.lastName = $rootScope.me.last_name;
             $scope.email = $rootScope.me.email;
@@ -15,7 +15,7 @@ angular.module('upont')
             $scope.firstName = '';
             $scope.lastName = '';
             $scope.email = '';
-            $scope.phone = 0;
+            $scope.phone = '';
         }
         
         for (i=0;i<4;i++) {
@@ -91,7 +91,9 @@ angular.module('upont')
             $q.all(promiseArray).then(function() {
                 alertify.success('Commande envoyée !');
                 $scope.basketOrders = [[],[],[],[]];
-                $scope.get();
+                if ('me' in $rootScope) {
+                    $scope.get();
+                }
             });
 
             $scope.ordering = false;
@@ -103,7 +105,7 @@ angular.module('upont')
             });
         };
 
-        if ($rootScope.me.username) {
+        if ('me' in $rootScope) {
             $scope.get();
         }
 
