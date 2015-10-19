@@ -82,6 +82,16 @@
 	<h2>Commandes</h2>
 	<br>
 
+	<section flex="100">
+		<h3>Récapitulatif des commandes</h3><br>
+
+		<p ng-repeat="(basket, item) in numberOrders">
+			Nombre de <b>{{ basket }}</b> commandés : {{ item }}
+		</p>
+	</section>
+
+	<br>
+
 	<table class="Table" flex="95">
 		<thead>
 			<tr>
