@@ -42,7 +42,7 @@
 
 		<div ng-repeat="item in orders" class="Ticket">
 			<h3>{{ item.basket.name }}</h3>
-			<p>A retirer le <b>Jeudi {{ item.date_retrieve.getDate() }} {{ months[item.date_retrieve.getMonth()] }} {{ item.date_retrieve.getFullYear() }}</b></p>
+			<p>A retirer le <b>Jeudi {{ item.date_retrieve*1000 | date:'dd' }}/{{ item.date_retrieve*1000 | date:'MM' }}/{{item.date_retrieve*1000 | date:'yyyy' }}</b></p>
 			<p>Payé : <span ng-if="item.paid">Oui</span><span ng-if="!item.paid">Non</span></p>
 		</div>
 
