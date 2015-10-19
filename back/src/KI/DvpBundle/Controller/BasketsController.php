@@ -140,6 +140,7 @@ class BasketsController extends ResourceController
      */
     public function getBasketsOrdersAction()
     {
+        $this->switchClass('BasketOrder');
         return $this->getAll($this->isClubMember('dvp'));
     }
 
