@@ -1,6 +1,7 @@
 angular.module('upont')
-    .controller('Baskets_Ctrl', ['$scope', '$rootScope', '$http', 'baskets', function($scope, $rootScope, $http, baskets) {
+    .controller('Baskets_Ctrl', ['$scope', '$rootScope', '$http', 'baskets', 'orders', function($scope, $rootScope, $http, baskets, orders) {
         $scope.baskets = baskets;
+        $scope.orders = orders;
         $scope.newBasket = {'name': '', 'content': '', 'price': 0};
         $scope.changedBasket = {};
         $scope.modifying = false;
@@ -42,6 +43,7 @@ angular.module('upont')
             $http.delete(apiPrefix + 'baskets/' + slug).success(function() {
                 alertify.success('Panier supprimé !');
                 $scope.reloadBaskets();
+                $scope.reloadOrders();
             });
         };
 
@@ -77,6 +79,23 @@ angular.module('upont')
                 $scope.modifying = false;
             });
         };
+
+        $scope.reloadOrders = function() {
+            $http.get(apiPrefix + 'baskets-orders').success(function(data) {
+                $scope.orders = data;
+            });
+        };
+
+        $scope.removeOrder = function(slug, username, date, paid) {
+            /*if (!paid && !alertify.confirm('Ce panier n\'a pas été payé, veux tu vraiment le supprimer ?')) {
+                return;
+            }*/
+            $http.delete(apiPrefix + 'baskets/' + slug + '/order/' + username + '/' + date).success(function() {
+                alertify.success('Commande supprimée !');
+                $scope.reloadOrders();
+            });
+        };
+
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
@@ -91,6 +110,9 @@ angular.module('upont')
                 resolve: {
                     baskets: ['$resource', function($resource) {
                         return $resource(apiPrefix + 'baskets').query().$promise;
+                    }],
+                    orders: ['$resource', function($resource) {
+                        return $resource(apiPrefix + 'baskets-orders/').query().$promise;
                     }]
                 }
             });

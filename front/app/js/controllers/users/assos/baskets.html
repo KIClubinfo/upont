@@ -38,6 +38,7 @@
 		</thead>
 		<tbody>
 			<tr ng-hide="baskets.length">
+				<td></td>
 				<td>Rien à afficher</td>
 				<td></td>
 				<td></td>
@@ -84,16 +85,33 @@
 	<table class="Table" flex="95">
 		<thead>
 			<tr>
+				<th></th>
 				<th>Panier commandé</th>
+				<th>Date de retrait</th>
 				<th>Nom</th>
 				<th>Prénom</th>
 				<th>Email</th>
 				<th>Téléphone</th>
+				<th>Payé</th>
 			</tr>
 		</thead>
 		<tbody>
+			<tr ng-repeat="order in orders">
+				<td><i class="fa fa-remove up-clickable" ng-click="removeOrder(order.basket.slug, order.user.username, order.date_retrieve, order.paid)"></i></td>
+				<td>{{ order.basket.name }}</td>
+				<td>{{ order.date_retrieve*1000 | date : 'dd/MM/yyyy' }}</td>
+				<td>{{ order.last_name }}</td>
+				<td>{{ order.first_name }}</td>
+				<td>{{ order.email }}</td>
+				<td>{{ order.phone }}</td>
+				<td><input type="checkbox" class="Checkbox"/></td>
+			</tr>
+
 			<tr ng-hide="orders.length">
+				<td></td>
 				<td>Rien à afficher</td>
+				<td></td>
+				<td></td>
 				<td></td>
 				<td></td>
 				<td></td>
