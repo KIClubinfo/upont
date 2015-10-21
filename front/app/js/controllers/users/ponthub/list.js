@@ -4,6 +4,23 @@ angular.module('upont')
         $scope.category = $stateParams.category;
         $scope.lastWeek = moment().subtract(7 , 'days').unix();
 
+        $scope.reload = function(filters) {
+            var url = Ponthub.cat($stateParams.category) + '?sort=-added,id';
+
+            if (filters.vo)
+                url += '&vo=1';
+            if (filters.vost)
+                url += '&vost=1';
+            if (filters.vf)
+                url += '&vf=1';
+            if (filters.hd)
+                url += '&hd=1';
+
+            Paginate.get(url, 20).then(function(data){
+                $scope.elements = data;
+            });
+        };
+
         $scope.faIcon = function(category){
             switch(category) {
                 case 'jeux':

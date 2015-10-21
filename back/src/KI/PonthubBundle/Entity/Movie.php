@@ -31,43 +31,43 @@ class Movie extends PonthubFile
 
     /**
      * Son en VO ?
-     * @ORM\Column(name="vo", type="boolean", nullable=true)
+     * @ORM\Column(name="vo", type="boolean")
      * @JMS\Expose
      * @Assert\Type("boolean")
      */
-    protected $vo;
+    protected $vo = false;
 
     /**
      * Son en VF ?
-     * @ORM\Column(name="vf", type="boolean", nullable=true)
+     * @ORM\Column(name="vf", type="boolean")
      * @JMS\Expose
      * @Assert\Type("boolean")
      */
-    protected $vf;
+    protected $vf = false;
 
     /**
      * Sous-titres VO ?
-     * @ORM\Column(name="vost", type="boolean", nullable=true)
+     * @ORM\Column(name="vost", type="boolean")
      * @JMS\Expose
      * @Assert\Type("boolean")
      */
-    protected $vost;
+    protected $vost = false;
 
     /**
      * Sous titres VF ?
-     * @ORM\Column(name="vostfr", type="boolean", nullable=true)
+     * @ORM\Column(name="vostfr", type="boolean")
      * @JMS\Expose
      * @Assert\Type("boolean")
      */
-    protected $vostfr;
+    protected $vostfr = false;
 
     /**
      * Version HD ?
-     * @ORM\Column(name="hd", type="boolean", nullable=true)
+     * @ORM\Column(name="hd", type="boolean")
      * @JMS\Expose
      * @Assert\Type("boolean")
      */
-    protected $hd;
+    protected $hd = false;
 
     /**
      * Réalisateur
