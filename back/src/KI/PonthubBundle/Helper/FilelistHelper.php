@@ -12,6 +12,8 @@ class FilelistHelper
     protected $genreRepository;
     protected $serieRepository;
     protected $ponthubFileRepository;
+    protected $validExtensions;
+    protected $fileHelper;
 
     public function __construct(EntityManager $manager,
                                 EntityRepository $albumRepository,

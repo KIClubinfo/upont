@@ -5,7 +5,7 @@ angular.module('upont')
 		$scope.position = 0;
 		$scope.start = 0;
 		$scope.clock = 0;
-	    $scope.tickInterval = 1000;
+	    $scope.tickInterval = 1;
 	    $scope.promos = [
 		    '015',
 		    '016',
@@ -126,8 +126,9 @@ angular.module('upont')
 				$scope.end = true;
 				$scope.playing = false;
 
-				$http.patch($rootScope.url + 'facegames/' + $scope.gameData.id, {wrongAnswers: $scope.numWrong}).success(function(){
+				$http.patch($rootScope.url + 'facegames/' + $scope.gameData.id, {wrongAnswers: $scope.numWrong, duration: ($scope.clock-$scope.start) + 5000 * $scope.numWrong}).success(function(){
 					Achievements.check();
+					alertify.success();
 				});
 			} else {
 				$scope.firstPart = $scope.gameData.list_users[$scope.position].firstPart;
@@ -168,4 +169,18 @@ angular.module('upont')
                     }],
                 },
             });
-    }]);
+    }])
+    .filter('numberFixedLen', function () {
+    	return function (n, l) {
+    		var num = parseInt(n,10);
+    		var len = parseInt(l,10);
+    		if (isNaN(num) || isNaN(len)) {
+    		    return n;
+    		}
+    		num = '' + num;
+    		while (num.length < len) {
+    			num = '0' + num;
+    		}
+    		return num;
+    	};
+    });
