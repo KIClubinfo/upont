@@ -160,46 +160,4 @@ class TransactionsController extends ResourceController
 
         return $this->delete($id, $this->isClubMember('foyer'));
     }
-
-    /**
-     * @ApiDoc(
-     *  description="Modifie le solde d'un utilisateur",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   409="La requête ne peut être traitée à l’état actuel, problème de reconnaisance de nom",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Foyer"
-     * )
-     * @Route\Patch("/users/{slug}/balance")
-     */
-    public function patchBalanceAction($slug)
-    {
-        set_time_limit(3600);
-        $this->trust($this->isClubMember('foyer') || $this->is('ADMIN'));
-
-        $this->manager->createQuery('DELETE FROM KIFoyerBundle:Transaction')->execute();
-
-        $userRepository = $this->getDoctrine()->getManager()->getRepository('KIUserBundle:User');
-        $users = $userRepository->findAll();
-
-        foreach ($users as $user) {
-            $balance = $user->getBalance();
-            $balance = $balance === null ? 0 : round($balance, 2);
-            $user->setBalance($balance);
-
-            if ($balance != 0) {
-                // On enregistre une entrée
-                $transaction = new \KI\FoyerBundle\Entity\Transaction();
-                $transaction->setUser($user);
-                $transaction->setAmount($balance);
-
-                $this->manager->persist($transaction);
-            }
-            $this->manager->flush();
-        }
-        return $this->jsonResponse('lowl', 204);
-    }
 }
