@@ -4,25 +4,22 @@ namespace KI\FoyerBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use KI\CoreBundle\Controller\ResourceController;
-use KI\FoyerBundle\Entity\Beer;
-use KI\FoyerBundle\Entity\BeerUser;
-use KI\UserBundle\Entity\User;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class BeerUsersController extends ResourceController
+class TransactionsController extends ResourceController
 {
     public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
-        $this->initialize('BeerUser', 'Foyer');
+        $this->initialize('Transaction', 'Foyer');
     }
 
     /**
      * @ApiDoc(
      *  resource=true,
-     *  description="Liste les consos",
-     *  output="KI\FoyerBundle\Entity\BeerUser",
+     *  description="Liste toutes les transactions",
+     *  output="KI\FoyerBundle\Entity\Transaction",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -31,9 +28,9 @@ class BeerUsersController extends ResourceController
      *  },
      *  section="Foyer"
      * )
-     * @Route\Get("/beerusers")
+     * @Route\Get("/transactions")
      */
-    public function getBeerUsersAction()
+    public function getTransactionsAction()
     {
         return $this->getAll();
     }
@@ -61,8 +58,8 @@ class BeerUsersController extends ResourceController
 
     /**
      * @ApiDoc(
-     *  description="Liste les consos",
-     *  output="KI\FoyerBundle\Entity\BeerUser",
+     *  description="Liste les transactions d'un utilisateur",
+     *  output="KI\FoyerBundle\Entity\Transaction",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -71,23 +68,42 @@ class BeerUsersController extends ResourceController
      *  },
      *  section="Foyer"
      * )
-     * @Route\Get("/users/{slug}/beers")
+     * @Route\Get("/users/{slug}/transactions")
      */
-    public function getBeersUserAction($slug)
+    public function getUserTransactionsAction($slug)
     {
         $userRepository = $this->getDoctrine()->getManager()->getRepository('KIUserBundle:User');
         $user = $userRepository->findOneByUsername($slug);
 
-        $beerUsers = $this->repository->findBy(array('user' => $user));
-        return $this->restResponse($beerUsers);
+        $transactions = $this->repository->findBy(array('user' => $user));
+        return $this->restResponse($transactions);
     }
 
 
     /**
      * @ApiDoc(
-     *  description="Crée une bière",
-     *  input="KI\FoyerBundle\Form\BeerType",
-     *  output="KI\FoyerBundle\Entity\Beer",
+     *  description="Crée une transaction - conso ou compte crédité (L'UN OU L'AUTRE, PAS LES DEUX EN MÊME TEMPS)",
+     *  requirements={
+     *   {
+     *    "name"="user",
+     *    "dataType"="string",
+     *    "description"="Le slug de l'utilisateur"
+     *   }
+     *  },
+     *  parameters={
+     *   {
+     *    "name"="beer",
+     *    "dataType"="string",
+     *    "required"=false,
+     *    "description"="Le slug de la bière SI C'EST UNE CONSO"
+     *   },
+     *   {
+     *    "name"="credit",
+     *    "dataType"="string",
+     *    "required"=false,
+     *    "description"="Le montant à créditer SI C'EST UNE TRANSACTION DE CRÉDIT"
+     *   }
+     *  },
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",
@@ -97,27 +113,33 @@ class BeerUsersController extends ResourceController
      *  },
      *  section="Foyer"
      * )
-     * @Route\Post("/beers/{beer}/users/{slug}")
+     * @Route\Post("/transactions")
      */
-    public function postBeerUserAction($slug, $beer)
+    public function postTransactionAction()
     {
         $this->trust($this->isClubMember('foyer') || $this->is('ADMIN'));
-        $helper = $this->get('ki_foyer.helper.beer');
-        list($user, $beer) = $helper->updateBalance($slug, $beer);
 
-        $beerUser = new BeerUser();
-        $beerUser->setUser($user);
-        $beerUser->setBeer($beer);
-        $beerUser->setAmount(-1*$beer->getPrice());
-        $this->manager->persist($beerUser);
-        $this->manager->flush();
+        $request = $this->getRequest()->request;
+        if (!$request->has('user')) {
+            throw new BadRequestHttpException('User obligatoire');
+        }
+        if (!($request->has('beer') xor $request->has('credit'))) {
+            throw new BadRequestHttpException('On rajoute une conso ou du crédit, pas les deux');
+        }
 
-        return $this->jsonResponse(null, 204);
+        $helper = $this->get('ki_foyer.helper.transaction');
+        if ($request->has('beer')) {
+            $id = $helper->addBeerTransaction($request->get('user'), $request->get('beer'));
+        } else if ($request->has('credit')) {
+            $id = $helper->addCreditTransaction($request->get('user'), $request->get('credit'));
+        }
+
+        return $this->jsonResponse($id, 201);
     }
 
     /**
      * @ApiDoc(
-     *  description="Supprime une conso",
+     *  description="Supprime une transaction",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -127,20 +149,17 @@ class BeerUsersController extends ResourceController
      *  },
      *  section="Foyer"
      * )
-     * Cette route est un peu spéciale : on fait un douvle check en demandant
-     * username, beer et id. IL Y A DE L'ARGENT EN JEU !
-     * @Route\Delete("/beers/{beer}/users/{slug}/{id}")
      */
-    public function deleteBeerUserAction($slug, $beer, $id)
+    public function deleteTransactionAction($id)
     {
         $this->trust($this->isClubMember('foyer') || $this->is('ADMIN'));
-        $helper = $this->get('ki_foyer.helper.beer');
-        list($user, $beer) = $helper->updateBalance($slug, $beer, true);
+
+        $transaction = $this->findBySlug($id);
+        $helper = $this->get('ki_foyer.helper.transaction');
+        $helper->updateBalance($transaction->getUser(), -1*$transaction->getAmount());
 
         return $this->delete($id, $this->isClubMember('foyer'));
     }
-
-
 
     /**
      * @ApiDoc(
@@ -158,30 +177,29 @@ class BeerUsersController extends ResourceController
      */
     public function patchBalanceAction($slug)
     {
+        set_time_limit(3600);
         $this->trust($this->isClubMember('foyer') || $this->is('ADMIN'));
 
-        $request = $this->getRequest()->request;
-        if (!$request->has('balance')) {
-            throw new BadRequestHttpException('Aucun crédit donné');
-        }
+        $this->manager->createQuery('DELETE FROM KIFoyerBundle:Transaction')->execute();
 
         $userRepository = $this->getDoctrine()->getManager()->getRepository('KIUserBundle:User');
-        $user = $userRepository->findOneByUsername($slug);
+        $users = $userRepository->findAll();
 
-        $balance = $user->getBalance();
-        $balance = $balance === null ? 0 : $balance;
-        $balance = $balance + $request->get('balance');
+        foreach ($users as $user) {
+            $balance = $user->getBalance();
+            $balance = $balance === null ? 0 : round($balance, 2);
+            $user->setBalance($balance);
 
-        $user->setBalance($balance);
+            if ($balance != 0) {
+                // On enregistre une entrée
+                $transaction = new \KI\FoyerBundle\Entity\Transaction();
+                $transaction->setUser($user);
+                $transaction->setAmount($balance);
 
-        // On enregistre une entrée
-        $beerUser = new BeerUser();
-        $beerUser->setUser($user);
-        $beerUser->setAmount($request->get('balance'));
-        $this->manager->persist($beerUser);
-
-        $this->manager->flush();
-
-        return $this->jsonResponse(array('balance' => $user->getBalance()), 204);
+                $this->manager->persist($transaction);
+            }
+            $this->manager->flush();
+        }
+        return $this->jsonResponse('lowl', 204);
     }
 }

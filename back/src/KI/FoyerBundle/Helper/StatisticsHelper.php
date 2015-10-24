@@ -8,15 +8,15 @@ use KI\UserBundle\Entity\User;
 class StatisticsHelper
 {
     protected $beerRepository;
-    protected $beerUserRepository;
+    protected $transactionRepository;
     protected $userRepository;
 
     public function __construct(EntityRepository $beerRepository,
-                                EntityRepository $beerUserRepository,
+                                EntityRepository $transactionRepository,
                                 EntityRepository $userRepository)
     {
         $this->beerRepository     = $beerRepository;
-        $this->beerUserRepository = $beerUserRepository;
+        $this->transactionRepository = $transactionRepository;
         $this->userRepository     = $userRepository;
     }
 
@@ -39,10 +39,10 @@ class StatisticsHelper
     {
         $return = $users = $liters = array();
 
-        $beerUsers = $this->beerUserRepository->findAll();
-        foreach ($beerUsers as $beerUser) {
-            $user = $beerUser->getUser();
-            $beer = $beerUser->getBeer();
+        $transactions = $this->transactionRepository->findAll();
+        foreach ($transactions as $transaction) {
+            $user = $transaction->getUser();
+            $beer = $transaction->getBeer();
             $slug = $user->getSlug();
 
             // Compte crédité, pas une conso
@@ -88,9 +88,9 @@ class StatisticsHelper
     {
         $return = $counts = array();
 
-        $beerUsers = $this->beerUserRepository->findByUser($user);
-        foreach ($beerUsers as $beerUser) {
-            $beer = $beerUser->getBeer();
+        $transactions = $this->transactionRepository->findByUser($user);
+        foreach ($transactions as $transaction) {
+            $beer = $transaction->getBeer();
 
             // Compte crédité, pas une conso
             if ($beer === null) {
@@ -119,15 +119,15 @@ class StatisticsHelper
         $return = array();
         $total = 0;
 
-        $beerUsers = $this->beerUserRepository->findByUser($user);
-        foreach ($beerUsers as $beerUser) {
-            $beer = $beerUser->getBeer();
+        $transactions = $this->transactionRepository->findByUser($user);
+        foreach ($transactions as $transaction) {
+            $beer = $transaction->getBeer();
             // Compte crédité, pas une conso
             if ($beer === null) {
                 continue;
             }
             $total += $beer->getVolume();
-            $return[$beerUser->getDate()] = $total;
+            $return[$transaction->getDate()] = $total;
         }
 
         return $return;
@@ -142,9 +142,9 @@ class StatisticsHelper
     {
         $count = 0;
 
-        $beerUsers = $this->beerUserRepository->findByUser($user);
-        foreach ($beerUsers as $beerUser) {
-            $beer = $beerUser->getBeer();
+        $transactions = $this->transactionRepository->findByUser($user);
+        foreach ($transactions as $transaction) {
+            $beer = $transaction->getBeer();
             // Compte crédité, pas une conso
             if ($beer === null) {
                 continue;
@@ -162,7 +162,7 @@ class StatisticsHelper
      */
     private function getTotalBeers(User $user)
     {
-        $beerUsers = $this->beerUserRepository->findByUser($user);
-        return count($beerUsers);
+        $transactions = $this->transactionRepository->findByUser($user);
+        return count($transactions);
     }
 }

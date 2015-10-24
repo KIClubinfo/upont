@@ -6,9 +6,9 @@ services:
         arguments:
             - KI\FoyerBundle\Entity\Beer
 
-    ki_foyer.repository.beeruser:
+    ki_foyer.repository.transaction:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.default_entity_manager
         factory_method: getRepository
         arguments:
-            - KI\FoyerBundle\Entity\BeerUser
+            - KI\FoyerBundle\Entity\Transaction
