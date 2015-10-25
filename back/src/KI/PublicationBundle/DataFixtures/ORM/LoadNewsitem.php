@@ -27,7 +27,6 @@ class LoadNewsitemFixture extends AbstractFixture implements OrderedFixtureInter
         $newsitem->setDate(1418325122);
         $newsitem->setAuthorClub($this->getReference('club-ki'));
         $newsitem->setAuthorUser($this->getReference('user-trancara'));
-        $newsitem->setImage($this->getReference('image-newsitem-git'));
         $manager->persist($newsitem);
 
         $newsitem = new Newsitem();
@@ -64,7 +63,6 @@ class LoadNewsitemFixture extends AbstractFixture implements OrderedFixtureInter
         $newsitem->setDate(1417759985);
         $newsitem->setAuthorClub($this->getReference('club-bde'));
         $newsitem->setAuthorUser($this->getReference('user-dziris'));
-        $newsitem->setImage($this->getReference('image-newsitem-pulls'));
         $manager->persist($newsitem);
 
         // Messages persos
