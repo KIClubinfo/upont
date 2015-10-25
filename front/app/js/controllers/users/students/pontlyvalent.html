@@ -1,0 +1,39 @@
+<div flex="100">
+	<section class="Ticket">
+		<h1>Le Pontlyvalent</h1>
+		<br>
+
+		<p>Ici tu peux déposer des commentaires sur tous les élèves de ta promo ! Les meilleurs commentaires sur chaque élève seront retenus pour le Pontlyvalent.</p><br>
+
+		<article>
+			<h2>Publier un commentaire</h2>
+			<br>
+
+			<div class="Search padded">
+				<label for="search-input">
+					<div row class="Search__input" ng-class="{'Search__input--focused': displaySearch}">
+		                <i flex="15" class="fa fa-search" style="padding-top:3px"></i>
+		                <input flex="85" type="text" placeholder="Nouveau membre"
+		                       ng-change="searchUser(search)" ng-model="search"
+		                       ng-focus="displaySearch=true" ng-blur="displaySearch=false"
+		                       ng-init="displaySearch=false;hoverSearch=false" id="search-input"/>
+		            </div>
+				</label>
+				<section class="Search__results  Ticket" ng-mouseenter="hoverSearch=true" ng-mouseleave="hoverSearch=false" ng-show="(displaySearch || hoverSearch) && searchResults.length">
+
+		            <section class="Results" row>
+		                <div class="Results__cell" flex="75">
+		                    <div class="Results__item" row="space-between center" ng-repeat="result in searchResults | limitTo: 5" ng-click="addComment(result.slug, result.name)">
+		                        <div class="Image" flex="20">
+		                            <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ result.image_url | thumb | urlFile }})' }"></div>
+		                        </div>
+		                        <div flex="75" ng-bind-html="result.name | match: search"></div>
+		                    </div>
+		                </div>
+		            </section>
+		        </section>
+			</div>
+
+		</article>
+	</section>
+</div>
