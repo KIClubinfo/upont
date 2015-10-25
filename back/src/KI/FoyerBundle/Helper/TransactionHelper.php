@@ -100,4 +100,22 @@ class TransactionHelper
         $user->setBalance($newBalance);
         $this->manager->flush();
     }
+
+    /**
+     * Recalcule le solde d'un utilisateur à partir de ses transactions
+     * @param  User  $user
+     * @return float $balance
+     */
+    public function rebuildBalance(User $user)
+    {
+        $transactions = $this->transactionRepository->findByUser($user);
+
+        $balance = 0;
+        foreach ($transactions as $transaction) {
+            $balance += $transaction->getAmount();
+        }
+        $user->setBalance(round($balance, 2));
+        $this->manager->flush();
+        return $balance;
+    }
 }
