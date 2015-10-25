@@ -44,6 +44,7 @@ class NewsitemFile
     private $size;
 
     /**
+     * @var UploadedFile
      * @Assert\File(maxSize="6000000")
      */
     protected $file;
@@ -69,14 +70,6 @@ class NewsitemFile
     protected function getUploadCategory()
     {
         return 'newsitems';
-    }
-
-
-    public function __construct(UploadedFile $uploadedFile)
-    {
-        $this->setSize($uploadedFile->getClientSize());
-        $this->setExt($uploadedFile->guessExtension());
-        $this->setName($uploadedFile->getClientOriginalName()); //Potential security issue
     }
 
     public function getAbsolutePath()
@@ -185,6 +178,9 @@ class NewsitemFile
     public function setFile($file)
     {
         $this->file = $file;
+        $this->setSize($this->file->getClientSize());
+        $this->setExt($this->file->getExtension());
+        $this->setName($this->file->getClientOriginalName()); //Potential security issue
     }
 
     /**

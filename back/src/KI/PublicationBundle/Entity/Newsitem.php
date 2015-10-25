@@ -114,7 +114,7 @@ class Newsitem extends Post
     }
 
     /**
-     * @ORM\PreFlush()
+     * @ORM\PrePersist()
      */
     public function upload()
     {
@@ -122,10 +122,11 @@ class Newsitem extends Post
         {
             foreach ($this->uploadedFiles as $uploadedFile) {
                 if ($uploadedFile) {
-                    $file = new NewsitemFile($uploadedFile);
+                    $file = new NewsitemFile();
                     $file->setFile($uploadedFile);
-                    $this->getFiles()->add($file);
                     $file->setNewsitem($this);
+
+                    $this->getFiles()->add($file);
                     unset($uploadedFile);
                 }
             }

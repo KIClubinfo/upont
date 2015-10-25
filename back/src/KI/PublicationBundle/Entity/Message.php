@@ -55,4 +55,10 @@ class Message extends Post
     {
         return $this->image;
     }
+
+    public function __construct(){
+        parent::__construct();
+
+        $this->setName("message");
+    }
 }
