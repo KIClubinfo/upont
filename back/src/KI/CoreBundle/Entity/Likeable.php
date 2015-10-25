@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Classe générique pouvant être likée/commentée
@@ -75,7 +76,7 @@ class Likeable extends LikeClass
     public function __construct()
     {
         parent::__construct();
-        $this->listComments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listComments = new ArrayCollection();
     }
 
     /**
@@ -127,7 +128,7 @@ class Likeable extends LikeClass
     /**
      * Add comment
      *
-     * @param \KI\CoreBundle\Entity\Core\Comment $comment
+     * @param \KI\CoreBundle\Entity\Comment $comment
      * @return Likeable
      */
     public function addcomment(\KI\CoreBundle\Entity\Comment $comment)
@@ -140,7 +141,7 @@ class Likeable extends LikeClass
     /**
      * Remove comments
      *
-     * @param \KI\CoreBundle\Entity\Core\Comment $comment
+     * @param \KI\CoreBundle\Entity\Comment $comment
      */
     public function removeComment(\KI\CoreBundle\Entity\Comment $comment)
     {
