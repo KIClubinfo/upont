@@ -6,31 +6,18 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use KI\CoreBundle\Entity\Likeable;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
  * @JMS\ExclusionPolicy("all")
- * @ORM\HasLifecycleCallbacks
  */
 class Post extends Likeable
 {
-    /**
-     * Au nom de quel club a été publié l'event, null si aucun club
-     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\Club", cascade={"persist"})
-     * @JMS\Expose
-     * @Assert\Valid()
-     */
-    protected $authorClub;
-
     /**
      * Auteur réel
      * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User", cascade={"persist"})
      * @JMS\Expose
      * @Assert\Valid()
-     *
-     * @var \KI\UserBundle\Entity\Club
      */
     protected $authorUser;
     protected $autoSetUser = 'authorUser';
@@ -53,48 +40,18 @@ class Post extends Likeable
      */
     protected $text;
 
-    /**
-     * @var PostFile
-     *
-     * @ORM\OneToMany(targetEntity="KI\PublicationBundle\Entity\PostFile", mappedBy="post", cascade={"persist", "remove"})
-     * @JMS\Expose
-     */
-    private $files;
-
-    /**
-     * @var ArrayCollection
-     */
-    private $uploadedFiles;
-
-    /**
-     * Délivre l'url de :
-     * - l'image du club
-     * - l'image d'utilisateur par défaut sinon
-     * @JMS\VirtualProperty()
-     */
-    public function imageUrl()
-    {
-        if ($this->authorClub !== null && $this->authorClub->getImage() !== null) {
-            return $this->authorClub->getImage()->getWebPath();
-        }
-
-        return 'uploads/others/default-user.png';
-    }
-
     public function __construct()
     {
         parent::__construct();
 
         $this->date = time();
-        $this->files = new ArrayCollection();
-        $this->uploadedFiles = new ArrayCollection();
     }
 
     /**
      * Set date
      *
      * @param integer $date
-     * @return Newsitem
+     * @return Post
      */
     public function setDate($date)
     {
@@ -128,7 +85,6 @@ class Post extends Likeable
 
     /**
      * Get text
-     *
      * @return string
      */
     public function getText()
@@ -137,33 +93,9 @@ class Post extends Likeable
     }
 
     /**
-     * Set authorClub
-     *
-     * @param \KI\UserBundle\Entity\Club $authorClub
-     * @return Newsitem
-     */
-    public function setAuthorClub(\KI\UserBundle\Entity\Club $authorClub = null)
-    {
-        $this->authorClub = $authorClub;
-
-        return $this;
-    }
-
-    /**
-     * Get authorClub
-     *
-     * @return \KI\UserBundle\Entity\Club
-     */
-    public function getAuthorClub()
-    {
-        return $this->authorClub;
-    }
-
-    /**
      * Set authorUser
-     *
      * @param \KI\UserBundle\Entity\User $authorUser
-     * @return Newsitem
+     * @return Post
      */
     public function setAuthorUser(\KI\UserBundle\Entity\User $authorUser = null)
     {
@@ -180,50 +112,5 @@ class Post extends Likeable
     public function getAuthorUser()
     {
         return $this->authorUser;
-    }
-
-    public function getFiles()
-    {
-        return $this->files;
-    }
-
-    public function setFiles(array $files)
-    {
-        $this->files = $files;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getUploadedFiles()
-    {
-        return $this->uploadedFiles;
-    }
-
-    /**
-     * @param ArrayCollection $uploadedFiles
-     */
-    public function setUploadedFiles($uploadedFiles)
-    {
-        $this->uploadedFiles = $uploadedFiles;
-    }
-
-    /**
-     * @ORM\PreFlush()
-     */
-    public function upload()
-    {
-        if (is_array($this->uploadedFiles))
-        {
-            foreach ($this->uploadedFiles as $uploadedFile) {
-                if ($uploadedFile) {
-                    $file = new PostFile($uploadedFile);
-                    $file->setFile($uploadedFile);
-                    $this->getFiles()->add($file);
-                    $file->setPost($this);
-                    unset($uploadedFile);
-                }
-            }
-        }
     }
 }

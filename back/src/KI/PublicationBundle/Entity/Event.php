@@ -6,12 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use KI\UserBundle\Entity\User;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
  * @JMS\ExclusionPolicy("all")
  */
-class Event extends Post
+class Event extends Newsitem
 {
     /**
      * Début (timestamp)
@@ -142,8 +143,8 @@ class Event extends Post
     public function __construct()
     {
         parent::__construct();
-        $this->listAttendees = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->listPookies   = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listAttendees = new ArrayCollection();
+        $this->listPookies   = new ArrayCollection();
     }
 
     /**

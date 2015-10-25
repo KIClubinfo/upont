@@ -5,69 +5,130 @@ namespace KI\PublicationBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Doctrine\Common\Collections\ArrayCollection;
+use KI\UserBundle\Entity\Club;
 
 /**
  * @ORM\Entity
  * @JMS\ExclusionPolicy("all")
+ * @ORM\HasLifecycleCallbacks
  */
 class Newsitem extends Post
 {
     /**
-     * @var \KI\CoreBundle\Entity\Image
-     *
-     * Image personnalisée
-     * @ORM\OneToOne(targetEntity="KI\CoreBundle\Entity\Image", cascade={"persist", "remove"})
+     * Au nom de quel club a été publié l'event, null si aucun club
+     * @var \KI\UserBundle\Entity\Club
+     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\Club", cascade={"persist"})
+     * @JMS\Expose
      * @Assert\Valid()
      */
-    protected $image;
+    protected $authorClub;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="KI\PublicationBundle\Entity\NewsitemFile", mappedBy="newsitem", cascade={"persist", "remove"})
+     * @JMS\Expose
+     */
+    private $files;
+
+    /**
+     * @var ArrayCollection
+     */
+    private $uploadedFiles;
 
     /**
      * Délivre l'url de :
-     * - l'image du post
-     * - l'image du club sinon
+     * - l'image du club
      * - l'image d'utilisateur par défaut sinon
      * @JMS\VirtualProperty()
      */
     public function imageUrl()
     {
-        if($this->name==="message")
-        {
-            if ($this->image !== null)
-            {
-                return $this->image->getWebPath();
-            }
-            else
-                return '';
+        if ($this->authorClub !== null && $this->authorClub->getImage() !== null) {
+            return $this->authorClub->getImage()->getWebPath();
         }
-        else
-        {
-            if ($this->authorClub !== null && $this->authorClub->getImage() !== null)
-            {
-                return $this->authorClub->getImage()->getWebPath();
-            }
-            else
-                return 'uploads/others/default-user.png';
-        }
+
+        return 'uploads/others/default-user.png';
+    }
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->files = new ArrayCollection();
+        $this->uploadedFiles = new ArrayCollection();
     }
 
     /**
-     * Set image
+     * Set authorClub
      *
-     * @param \KI\CoreBundle\Entity\Image $image
+     * @param \KI\UserBundle\Entity\Club $authorClub
      * @return Newsitem
      */
-    public function setImage(\KI\CoreBundle\Entity\Image $image = null)
+    public function setAuthorClub(\KI\UserBundle\Entity\Club $authorClub = null)
     {
-        $this->image = $image;
+        $this->authorClub = $authorClub;
+
         return $this;
     }
+
     /**
-     * Get image
+     * Get authorClub
      *
-     * @return \KI\CoreBundle\Entity\Image
+     * @return \KI\UserBundle\Entity\Club
      */
-    public function getImage()
+    public function getAuthorClub()
     {
-        return $this->image;
+        return $this->authorClub;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getFiles()
+    {
+        return $this->files;
+    }
+
+    public function setFiles(array $files)
+    {
+        $this->files = $files;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getUploadedFiles()
+    {
+        return $this->uploadedFiles;
+    }
+
+    /**
+     * @param ArrayCollection $uploadedFiles
+     */
+    public function setUploadedFiles($uploadedFiles)
+    {
+        $this->uploadedFiles = $uploadedFiles;
+    }
+
+    /**
+     * @ORM\PreFlush()
+     */
+    public function upload()
+    {
+        if (is_array($this->uploadedFiles))
+        {
+            foreach ($this->uploadedFiles as $uploadedFile) {
+                if ($uploadedFile) {
+                    $file = new NewsitemFile($uploadedFile);
+                    $file->setFile($uploadedFile);
+                    $this->getFiles()->add($file);
+                    $file->setNewsitem($this);
+                    unset($uploadedFile);
+                }
+            }
+        }
     }
 }

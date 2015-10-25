@@ -25,6 +25,7 @@ parameters:
             - Event
             - Exercice
             - Newsitem
+            - Message
         user:
             - Club
             - Experience
