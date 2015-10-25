@@ -2,6 +2,10 @@ clubs:
     type:     rest
     resource: KI\UserBundle\Controller\ClubsController
 
+users/pontlyvalent:
+    type:     rest
+    resource: KI\UserBundle\Controller\PontlyvalentsController
+
 users:
     type:     rest
     resource: KI\UserBundle\Controller\UsersController
