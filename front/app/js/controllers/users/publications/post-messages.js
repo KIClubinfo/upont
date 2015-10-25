@@ -1,7 +1,6 @@
 angular.module('upont')
     .controller('Publications_Post_Messages_Ctrl', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
         // Fonctions relatives à la publication
-        var club = {name: 'Au nom de...'};
         var init = function() {
             $scope.focus = false;
             $scope.msg = {
@@ -12,15 +11,14 @@ angular.module('upont')
 
         $scope.post = function(msg, image){
             var params  = {
-                text: msg.text,
-                name: 'message'
+                text: msg.text
             };
 
             if (image) {
                 params.image = image.base64;
             }
 
-            $http.post(apiPrefix + 'newsitems', params).success(function(data){
+            $http.post(apiPrefix + 'messages', params).success(function(data){
                 $rootScope.$broadcast('newMessage');
                 init();
             }).error(function(){

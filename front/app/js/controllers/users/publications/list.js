@@ -223,7 +223,7 @@ angular.module('upont')
                         return Paginate.get('own/events');
                     }],
                     messages: ['Paginate', function(Paginate) {
-                        return Paginate.get('newsitems?sort=-date&limit=10&name=message');
+                        return Paginate.get('messages?sort=-date&limit=10');
                     }],
                     courseitems: ['$resource', function($resource) {
                         return $resource(apiPrefix + 'own/courseitems').query().$promise;
@@ -246,7 +246,7 @@ angular.module('upont')
                         return Paginate.get('events?slug=' + $stateParams.slug);
                     }],
                     messages: ['Paginate', '$stateParams', function(Paginate, $stateParams) {
-                        return Paginate.get('newsitems?slug=' + $stateParams.slug);
+                        return Paginate.get('messages?slug=' + $stateParams.slug);
                     }],
                     courseitems: function($resource) {
                         return [];
