@@ -21,12 +21,21 @@
 
 		<form ng-show="ordering" ng-submit="post(firstName, lastName, email, phone)" flex="100" row wrap>
 			<section class="Ticket" flex="100" flex-md="50" ng-repeat="day in thursdays track by $index">
-				<h3>Jeudi {{ day.getDate() }} {{ months[day.getMonth()] }} {{ day.getFullYear() }}</h3>
+				<article ng-if="holidays.indexOf(day.getTime())">
+					<h3>Jeudi {{ day.getDate() }} {{ months[day.getMonth()] }} {{ day.getFullYear() }}</h3>
 
-				<br>
-				<div ng-repeat="item in baskets">
-					<input type="checkbox" value="item.slug" ng-model="basketOrders[$parent.$index][$index]"> {{ item.name }} <i>({{ item.price }} €)</i></input><br>
-				</div>
+					<br>
+					<div ng-repeat="item in baskets">
+						<input type="checkbox" value="item.slug" ng-model="basketOrders[$parent.$index][$index]"> {{ item.name }} <i>({{ item.price }} €)</i></input><br>
+					</div>
+				</article>
+
+				<article ng-if="!holidays.indexOf(day.getTime())">
+					<h3>Jeudi {{ day.getDate() }} {{ months[day.getMonth()] }} {{ day.getFullYear() }}</h3>
+
+					<br>
+					<p><i>Vacances</i></p>
+				</article>
 			</section>
 
 
