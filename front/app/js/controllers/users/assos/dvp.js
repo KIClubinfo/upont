@@ -5,6 +5,14 @@ angular.module('upont')
         $scope.thursdays = [];
         $scope.months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
         $scope.basketOrders = [[],[],[],[]];
+        $scope.holidays = [
+                new Date('October 29, 2015').getTime(), 
+                new Date('December 24, 2015').getTime(), 
+                new Date('December 31, 2015').getTime(),
+                new Date('March 3, 2016').getTime(),
+                new Date('April 28, 2016').getTime(),
+                new Date('May 5, 2016').getTime()
+                ];
 
         if('me' in $rootScope) {
             $scope.firstName = $rootScope.me.first_name;
@@ -30,11 +38,12 @@ angular.module('upont')
             var diff;
             
             //We compute the next four thursdays.
-            if (d.getDay() > 1 || d.getHours() > 12) {
+            if (d.getDay() > 1) {
                 diff = 4 - d.getDay() + 7;
                 for (i=0;i<4;i++) {
                     $scope.thursdays[i] = new Date();
                     $scope.thursdays[i].setDate(d.getDate() + diff + i*7);
+                    $scope.thursdays[i].setHours(0,0,0,0);
                 }
             }
             else {
@@ -42,9 +51,9 @@ angular.module('upont')
                 for (i=0;i<4;i++) {
                     $scope.thursdays[i] = new Date();
                     $scope.thursdays[i].setDate(d.getDate() + diff + i*7);
+                    $scope.thursdays[i].setHours(0,0,0,0);
                 }
             }
-
         };
 
         $scope.post = function(firstName, lastName, email, phone) {
