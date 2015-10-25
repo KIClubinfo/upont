@@ -53,6 +53,6 @@ class LoadCourseUserFixture extends AbstractFixture implements OrderedFixtureInt
 
     public function getOrder()
     {
-        return 44;
+        return 45;
     }
 }
