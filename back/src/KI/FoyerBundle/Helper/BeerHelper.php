@@ -11,19 +11,16 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class BeerHelper
 {
     protected $beerRepository;
-    protected $beerUserRepository;
+    protected $transactionRepository;
     protected $userRepository;
-    protected $dispatcher;
 
     public function __construct(EntityRepository $beerRepository,
-                                EntityRepository $beerUserRepository,
-                                EntityRepository $userRepository,
-                                EventDispatcherInterface $dispatcher)
+                                EntityRepository $transactionRepository,
+                                EntityRepository $userRepository)
     {
-        $this->beerRepository     = $beerRepository;
-        $this->beerUserRepository = $beerUserRepository;
-        $this->userRepository     = $userRepository;
-        $this->dispatcher         = $dispatcher;
+        $this->beerRepository        = $beerRepository;
+        $this->transactionRepository = $transactionRepository;
+        $this->userRepository        = $userRepository;
     }
 
     /**
@@ -36,15 +33,15 @@ class BeerHelper
         $beers = $this->beerRepository->findAll();
 
         // On va établir les comptes sur les 500 dernières consos
-        $beerUsers = $this->beerUserRepository->findBy(array(), array('date' => 'DESC'), 500);
+        $transactions = $this->transactionRepository->findBy(array(), array('date' => 'DESC'), 500);
 
         $counts = array();
-        foreach ($beerUsers as $beerUser) {
+        foreach ($transactions as $transaction) {
             // On peut tomber sur une entrée "compte crédité"
-            if ($beerUser->getBeer() === null) {
+            if ($transaction->getBeer() === null) {
                 continue;
             }
-            $beerId = $beerUser->getBeer()->getId();
+            $beerId = $transaction->getBeer()->getId();
 
             if (!isset($counts[$beerId])) {
                 $counts[$beerId] = 0;
@@ -73,14 +70,14 @@ class BeerHelper
     public function getUserOrderedList()
     {
         // On commence par récupérer 500 dernières consos
-        $beerUsers = $this->beerUserRepository->findBy(array(), array('date' => 'DESC'), 500);
+        $transactions = $this->transactionRepository->findBy(array(), array('date' => 'DESC'), 500);
 
         // On veut positionner le compte Externe Foyer en première positionn
         $users = array();
         $users[] = $this->userRepository->findOneByUsername('externe-foyer');
 
-        foreach ($beerUsers as $beerUser) {
-            $user = $beerUser->getUser();
+        foreach ($transactions as $transaction) {
+            $user = $transaction->getUser();
 
             if (!in_array($user, $users)) {
                 $users[] = $user;
@@ -106,35 +103,5 @@ class BeerHelper
             }
         }
         return $users;
-    }
-
-    /**
-     * Met à jour le compte d'un élève
-     * @param  string $userSlug [description]
-     * @param  string $beerSlug
-     * @param  boolean $add  Si la conso est comptée positivement ou négativement
-     * @return array(User, Beer)
-     * @throws NotFoundHttpException Si l'utilisateur n'est pas trouvé
-     * @throws NotFoundHttpException Si la bière n'est pas trouvé
-     */
-    public function updateBalance($userSlug, $beerSlug, $add = false)
-    {
-        $user = $this->userRepository->findOneByUsername($userSlug);
-        if (!$user instanceOf User) {
-            throw new NotFoundHttpException('Utilisateur non trouvé');
-        }
-
-        $beer = $this->beerRepository->findOneBySlug($beerSlug);
-        if (!$beer instanceOf Beer) {
-            throw new NotFoundHttpException('Bière non trouvée');
-        }
-
-        $balance = $user->getBalance();
-        $balance = $balance === null ? 0 : $balance;
-        $price   = $beer->getPrice();
-        $balance = $add ? $balance + $price : $balance - $price;
-        $user->setBalance($balance);
-
-        return array($user, $beer);
     }
 }

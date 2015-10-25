@@ -108,11 +108,11 @@ class BeersController extends ResourceController
     {
         // On supprime toutes les consos associées
         $beer = $this->findBySlug($slug);
-        $beerUserRepository = $this->manager->getRepository('KIFoyerBundle:BeerUser');
-        $beerUsers = $beerUserRepository->findBy(array('beer' => $beer));
+        $transactionRepository = $this->manager->getRepository('KIFoyerBundle:Transaction');
+        $transactions = $transactionRepository->findBy(array('beer' => $beer));
 
-        foreach ($beerUsers as $beerUser) {
-            $this->manager->remove($beerUser);
+        foreach ($transactions as $transaction) {
+            $this->manager->remove($transaction);
         }
         return $this->delete($slug, $this->isClubMember('foyer'));
     }

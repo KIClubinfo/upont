@@ -2,9 +2,9 @@ beers:
     type:     rest
     resource: KI\FoyerBundle\Controller\BeersController
 
-beerUsers:
+transactions:
     type:     rest
-    resource: KI\FoyerBundle\Controller\BeerUsersController
+    resource: KI\FoyerBundle\Controller\TransactionsController
 
 default:
     type:     rest
