@@ -108,7 +108,6 @@ class PontlyvalentsController extends ResourceController
         $pontlyvalent->setTarget($target);
         $pontlyvalent->setAuthor($author);
         $pontlyvalent->setText($request->get('text'));
-        $pontlyvalent->setDate(time());
 
         $this->manager->persist($pontlyvalent);
         $this->manager->flush();

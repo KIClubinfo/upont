@@ -17,7 +17,7 @@ class Pontlyvalent
      * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * Texte de commentaire
@@ -26,7 +26,7 @@ class Pontlyvalent
      * @Assert\Type("string")
      * @Assert\NotBlank()
      */
-    private $text;
+    protected $text;
 
     /**
      * Date
@@ -41,14 +41,19 @@ class Pontlyvalent
      * @ORM\JoinColumn(nullable=false)
      * @JMS\Expose
      */
-    private $target;
+    protected $target;
 
     /**
      * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      * @JMS\Expose
      */
-    private $author;
+    protected $author;
+
+    public function __construct()
+    {
+        $this->date = time();
+    }
 
     /**
      * Get id
