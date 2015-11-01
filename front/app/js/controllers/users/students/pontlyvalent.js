@@ -4,6 +4,7 @@ angular.module('upont')
         $scope.searchPost = '';
         $scope.searchResultsPatch = [];
         $scope.searchPatch = '';
+        $scope.searchName = '';
 
         if ($rootScope.hasClub('bde')) {
             Paginate.get('users/pontlyvalent').then(function(data) {

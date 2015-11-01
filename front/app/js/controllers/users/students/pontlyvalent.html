@@ -71,6 +71,7 @@
             <h2>Résultats généraux</h2>
             <br>
 
+			<label>Rechercher: <input class="Search--input" ng-model="searchName"></label>
             <table class="Table" flex="90">
                 <thead>
                     <tr>
@@ -80,8 +81,8 @@
                 </thead>
 
                 <tbody>
-                    <tr ng-repeat="item in comments.data | orderBy:'target.first_name'">
-                        <td>{{ item.target.first_name }} {{ item.target.last_name }}</td>
+                    <tr ng-repeat="item in comments.data | orderBy: 'target.first_name' | filter: {target: {nick: searchName}}">
+                        <td>{{ item.target.nick }}</td>
                         <td>{{ item.text }}</td>
                     </tr>
 
