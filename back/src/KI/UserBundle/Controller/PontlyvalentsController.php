@@ -57,14 +57,10 @@ class PontlyvalentsController extends ResourceController
         $target = $repo->findOneByUsername($slug);
 
         $repoPontly = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
-        if ($this->is('MODO')) {
-            return $repoPontly->findBy(array('target' => $target));
-        } else {
-            return $repoPontly->findBy(array(
-                'target' => $target,
-                'author' => $this->user
-                ));
-        }
+        return $repoPontly->findBy(array(
+            'target' => $target,
+            'author' => $this->user
+            ));
     }
 
     /**
