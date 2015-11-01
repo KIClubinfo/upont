@@ -1,9 +1,15 @@
 angular.module('upont')
-    .controller('Students_Pontlyvalent_Ctrl', ['$scope', '$rootScope', '$resource', '$http', '$q', function($scope, $rootScope, $resource, $http, $q) {
+    .controller('Students_Pontlyvalent_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'Paginate', function($scope, $rootScope, $resource, $http, Paginate) {
         $scope.searchResultsPost = [];
         $scope.searchPost = '';
         $scope.searchResultsPatch = [];
         $scope.searchPatch = '';
+
+        if ($rootScope.hasClub('bde')) {
+            Paginate.get('users/pontlyvalent').then(function(data) {
+                $scope.comments = data;
+            });
+        }
 
         $scope.searchUserPost = function(string) {
             if (string === '') {
@@ -25,10 +31,18 @@ angular.module('upont')
             }
         };
 
-        $scope.loadComments = function() {
+        $scope.reload = function() {
             if ($rootScope.hasClub('bde')) {
-                  Paginate.first($scope.allComments).then(function(data){
-                    $scope.allComments = data;
+                Paginate.first($scope.comments).then(function(data){
+                    $scope.comments = data;
+                });
+            }
+        };
+
+        $scope.next = function() {
+            if ($rootScope.hasClub('bde')) {
+                Paginate.next($scope.comments).then(function(data){
+                    $scope.comments = data;
                 });
             }
         };
@@ -38,6 +52,7 @@ angular.module('upont')
                 if (e) {
                     $http.post(apiPrefix + 'users/' + slug + '/pontlyvalent', {text: text}).success(function() {
                         alertify.success('Entrée enregistrée');
+                        $scope.reload();
                     }).error(function() {
                         alertify.error('Tu as déjà posté pour cette personne !');
                     });
@@ -56,6 +71,7 @@ angular.module('upont')
                     if (e) {
                         $http.patch(apiPrefix + 'users/' + slug + '/pontlyvalent', {text: text}).success(function() {
                             alertify.success('Entrée enregistrée');
+                            $scope.reload();
                         });
                     }
                 }, data[0].text);
@@ -72,6 +88,6 @@ angular.module('upont')
                 data: {
                     title: 'Pontlyvalent - uPont',
                     top: true
-                },
+                }
             });
     }]);

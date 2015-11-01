@@ -1,90 +1,96 @@
 <div flex="100">
-	<section class="Ticket">
-		<h1>Le Pontlyvalent</h1>
-		<br>
+    <section class="Ticket">
+        <h1>Le Pontlyvalent</h1>
+        <br>
 
-		<p>Ici tu peux déposer des commentaires sur tous les élèves de ta promo ! Les meilleurs commentaires sur chaque élève seront retenus pour le Pontlyvalent.</p><br>
+        <p>Ici tu peux déposer des commentaires sur tous les élèves de ta promo ! Les meilleurs commentaires sur chaque élève seront retenus pour le Pontlyvalent.</p><br>
 
-		<div row wrap>
-			<article flex="100" flex-md="50">
-				<h2>Publier un commentaire</h2>
-				<br>
+        <div row wrap>
+            <article flex="100" flex-md="50">
+                <h2>Publier un commentaire</h2>
+                <br>
 
-				<div class="Search padded">
-					<label for="search-input">
-						<div row class="Search__input" ng-class="{'Search__input--focused': displaySearchPost}">
-			                <i flex="15" class="fa fa-search" style="padding-top:3px"></i>
-			                <input flex="85" type="text" placeholder="Élève"
-			                       ng-change="searchUserPost(searchPost)" ng-model="searchPost"
-			                       ng-focus="displaySearchPost=true" ng-blur="displaySearchPost=false"
-			                       ng-init="displaySearchPost=false;hoverSearchPost=false" id="search-input"/>
-			            </div>
-					</label>
-					<section class="Search__results  Ticket" ng-mouseenter="hoverSearchPost=true" ng-mouseleave="hoverSearchPost=false" ng-show="(displaySearchPost || hoverSearchPost) && searchResultsPost.length">
-			            <section class="Results" row>
-			                <div class="Results__cell" flex="75">
-			                    <div class="Results__item" row="space-between center" ng-repeat="result in searchResultsPost | limitTo: 5" ng-click="addComment(result.slug, result.name)">
-			                        <div class="Image" flex="20">
-			                            <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ result.image_url | thumb | urlFile }})' }"></div>
-			                        </div>
-			                        <div flex="75" ng-bind-html="result.name | match: searchPost"></div>
-			                    </div>
-			                </div>
-			            </section>
-			        </section>
-				</div>
-			</article>
+                <div class="Search padded">
+                    <label for="search-input">
+                        <div row class="Search__input" ng-class="{'Search__input--focused': displaySearchPost}">
+                            <i flex="15" class="fa fa-search" style="padding-top:3px"></i>
+                            <input flex="85" type="text" placeholder="Élève"
+                                   ng-change="searchUserPost(searchPost)" ng-model="searchPost"
+                                   ng-focus="displaySearchPost=true" ng-blur="displaySearchPost=false"
+                                   ng-init="displaySearchPost=false;hoverSearchPost=false" id="search-input"/>
+                        </div>
+                    </label>
+                    <section class="Search__results  Ticket" ng-mouseenter="hoverSearchPost=true" ng-mouseleave="hoverSearchPost=false" ng-show="(displaySearchPost || hoverSearchPost) && searchResultsPost.length">
+                        <section class="Results" row>
+                            <div class="Results__cell" flex="75">
+                                <div class="Results__item" row="space-between center" ng-repeat="result in searchResultsPost | limitTo: 5" ng-click="addComment(result.slug, result.name)">
+                                    <div class="Image" flex="20">
+                                        <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ result.image_url | thumb | urlFile }})' }"></div>
+                                    </div>
+                                    <div flex="75" ng-bind-html="result.name | match: searchPost"></div>
+                                </div>
+                            </div>
+                        </section>
+                    </section>
+                </div>
+            </article>
 
-			<article flex="100" flex-md="50">
-				<h2>Modifier un commentaire</h2>
-				<br>
+            <article flex="100" flex-md="50">
+                <h2>Modifier un commentaire</h2>
+                <br>
 
-				<div class="Search padded">
-					<label for="search-input">
-						<div row class="Search__input" ng-class="{'Search__input--focused': displaySearch}">
-			                <i flex="15" class="fa fa-search" style="padding-top:3px"></i>
-			                <input flex="85" type="text" placeholder="Élève"
-			                       ng-change="searchUserPatch(searchPatch)" ng-model="searchPatch"
-			                       ng-focus="displaySearchPatch=true" ng-blur="displaySearchPatch=false"
-			                       ng-init="displaySearchPatch=false;hoverSearchPatch=false" id="search-input"/>
-			            </div>
-					</label>
-					<section class="Search__results  Ticket" ng-mouseenter="hoverSearchPatch=true" ng-mouseleave="hoverSearchPatch=false" ng-show="(displaySearchPatch || hoverSearchPatch) && searchResultsPatch.length">
-			            <section class="Results" row>
-			                <div class="Results__cell" flex="75">
-			                    <div class="Results__item" row="space-between center" ng-repeat="result in searchResultsPatch | limitTo: 5" ng-click="modifyComment(result.slug, result.name)">
-			                        <div class="Image" flex="20">
-			                            <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ result.image_url | thumb | urlFile }})' }"></div>
-			                        </div>
-			                        <div flex="75" ng-bind-html="result.name | match: searchPatch"></div>
-			                    </div>
-			                </div>
-			            </section>
-			        </section>
-				</div>
-			</article>
-		</div>
-	</section>
+                <div class="Search padded">
+                    <label for="search-input">
+                        <div row class="Search__input" ng-class="{'Search__input--focused': displaySearch}">
+                            <i flex="15" class="fa fa-search" style="padding-top:3px"></i>
+                            <input flex="85" type="text" placeholder="Élève"
+                                   ng-change="searchUserPatch(searchPatch)" ng-model="searchPatch"
+                                   ng-focus="displaySearchPatch=true" ng-blur="displaySearchPatch=false"
+                                   ng-init="displaySearchPatch=false;hoverSearchPatch=false" id="search-input"/>
+                        </div>
+                    </label>
+                    <section class="Search__results  Ticket" ng-mouseenter="hoverSearchPatch=true" ng-mouseleave="hoverSearchPatch=false" ng-show="(displaySearchPatch || hoverSearchPatch) && searchResultsPatch.length">
+                        <section class="Results" row>
+                            <div class="Results__cell" flex="75">
+                                <div class="Results__item" row="space-between center" ng-repeat="result in searchResultsPatch | limitTo: 5" ng-click="modifyComment(result.slug, result.name)">
+                                    <div class="Image" flex="20">
+                                        <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ result.image_url | thumb | urlFile }})' }"></div>
+                                    </div>
+                                    <div flex="75" ng-bind-html="result.name | match: searchPatch"></div>
+                                </div>
+                            </div>
+                        </section>
+                    </section>
+                </div>
+            </article>
+        </div>
+    </section>
 
-	<section ng-if="$root.hasClub('bde')">
-		<div class="Ticket">
-			<h2>Résultats généraux</h2>
+    <section ng-if="$root.hasClub('bde')">
+        <div class="Ticket">
+            <h2>Résultats généraux</h2>
+            <br>
 
-			Voici la liste de tous les entrées pour le pontlyvalent.
+            <table class="Table" flex="90">
+                <thead>
+                    <tr>
+                        <th flex="25">Élève</th>
+                        <th flex="75">Entrée</th>
+                    </tr>
+                </thead>
 
-			{{comments}}
-		</div>
+                <tbody>
+                    <tr ng-repeat="item in comments.data | orderBy:'target.first_name'">
+                        <td>{{ item.target.first_name }} {{ item.target.last_name }}</td>
+                        <td>{{ item.text }}</td>
+                    </tr>
 
-		<div row wrap row="space-between center">
-			<div ng-repeat="item in comments" class="Ticket Ticket--link padded" flex="100" flex-md="50" flex-lg="25">
-				<h3><b>{{ item.target.first_name }} {{ item.target.last_name }}</b></h3>
-
-				<p>{{ item.text }}</p>
-			</div>
-		</div>
-
-		<div ng-hide="comments.length" class="padded">
-			<i>Aucune entrée publiée</i>
-		</div>
-	</section>
+                    <tr ng-hide="comments.data.length">
+                        <td></td>
+                        <td><i>Aucune entrée à afficher</i></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 </div>
