@@ -82,8 +82,8 @@ class Version20151025173617 extends AbstractMigration implements ContainerAwareI
     {
         $em = $this->container->get('doctrine.orm.entity_manager');
 
-        $this->addSql("UPDATE Newsitem t0 INNER JOIN Post t1 ON t0.id = t1.id SET t0.authorClub_id = t1.authorClub_id");
-        $this->addSql('ALTER TABLE Post DROP authorClub_id');
+        $this->connection->executeQuery("UPDATE Newsitem t0 INNER JOIN Post t1 ON t0.id = t1.id SET t0.authorClub_id = t1.authorClub_id");
+        $this->connection->executeQuery('ALTER TABLE Post DROP authorClub_id');
 
         $messages = $em->getRepository('KIPublicationBundle:Newsitem')->findBy(array('name' => 'message' ));
 
@@ -109,6 +109,6 @@ class Version20151025173617 extends AbstractMigration implements ContainerAwareI
             $em->flush();
         }
 
-        $this->addSql('ALTER TABLE Newsitem DROP image_id');
+        $this->connection->executeQuery('ALTER TABLE Newsitem DROP image_id');
     }
 }

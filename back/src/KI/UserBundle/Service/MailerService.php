@@ -6,6 +6,7 @@ use KI\UserBundle\Entity\User;
 use Swift_Mailer;
 use Swift_Message;
 use Symfony\Bundle\TwigBundle\TwigEngine;
+use Swift_Attachment;
 
 class MailerService
 {
@@ -18,7 +19,7 @@ class MailerService
         $this->templating = $templating;
     }
 
-    public function send(User $from, array $to, $title, $template, $vars)
+    public function send(User $from, array $to, $title, $template, $vars, $attachments = [])
     {
         $message = Swift_Message::newInstance()
             ->setSubject($title)
@@ -26,6 +27,10 @@ class MailerService
             ->setReplyTo(array($from->getEmail() => $from->getFirstName().' '.$from->getLastName()))
             ->setBody($this->templating->render($template, $vars), 'text/html')
         ;
+
+        foreach($attachments as $attachment){
+            $message->attach(Swift_Attachment::fromPath($attachment));
+        }
 
         foreach ($to as $user) {
             $message->setTo(array($user->getEmail() => $user->getFirstName().' '.$user->getLastName()));

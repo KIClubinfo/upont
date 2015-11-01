@@ -74,7 +74,7 @@ class NewsitemFile
 
     public function getAbsolutePath()
     {
-        return $this->getUploadDir().$this->getName();
+        return $this->getUploadDir().$this->newsitem->getId()."_".$this->getName();
     }
 
 
