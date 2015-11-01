@@ -69,9 +69,12 @@
     <section ng-if="$root.hasClub('bde')">
         <div class="Ticket">
             <h2>Résultats généraux</h2>
-            <br>
 
-			<label>Rechercher: <input class="Search--input" ng-model="searchName"></label>
+			<div flex="25" class="padded">
+				<div class="padded">
+					<input class="Input" ng-model="searchName" placeholder="Filtrer selon le nom">
+				</div>
+			</div>
             <table class="Table" flex="90">
                 <thead>
                     <tr>
