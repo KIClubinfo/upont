@@ -37,7 +37,7 @@ class CalendarService
      * @param  array  $events Les événements pour populer le calendrier
      * @return object
      */
-    public function getCalendar(User $user, array $events)
+    public function getCalendar(User $user, array $events, array $courses = [])
     {
         // On se positionne à Paris
         $tz = $this->icsProvider->createTimezone();
@@ -59,6 +59,20 @@ class CalendarService
                 ->setName($eventDb->getName())
                 ->setDescription($eventDb->getText())
                 ->setLocation($eventDb->getPlace())
+            ;
+        }
+
+        foreach($courses as $course){
+            $event = $cal->newEvent();
+            $name = $course->getCourse()->getName();
+            if($course->getGroup() !== 0)
+                $name .= " (Gr".$course->getGroup().")";
+
+            $event
+                ->setStartDate($this->toDateTime($course->getStartDate()))
+                ->setEndDate($this->toDateTime($course->getEndDate()))
+                ->setName($name)
+                ->setLocation($course->getLocation())
             ;
         }
 
