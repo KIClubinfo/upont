@@ -7,9 +7,10 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use KI\CoreBundle\Controller\ResourceController;
 use KI\UserBundle\Entity\Pontlyvalent;
 use KI\UserBundle\Form\PontlyvalentType;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class PontlyvalentsController extends ResourceController
 {
@@ -35,7 +36,15 @@ class PontlyvalentsController extends ResourceController
      */
     public function getPontlyvalentsAction()
     {
-        return $this->getAll($this->is('MODO'));
+        if ($this->user->getPromo() != '017')
+            throw new AccessDeniedException('Ta promo ne te permet pas de faire ça !');
+
+        if (!($this->is('MODO') || $this->isClubMember('bde'))) {
+            $repoPontly = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
+            return $repoPontly->findBy(array('author' => $this->user));
+        }
+
+        return $this->getAll($this->is('MODO') || $this->isClubMember('bde'));
     }
 
     /**
@@ -52,9 +61,15 @@ class PontlyvalentsController extends ResourceController
      * )
      * @Route\Get("/users/{slug}/pontlyvalent")
      */
-    public function getPontlyvalentAction($slug) {
+    public function getPontlyvalentAction($slug)
+    {
+        if ($this->user->getPromo() != '017')
+            throw new AccessDeniedException('Ta promo ne te permet pas de faire ça !');
+
         $repo = $this->manager->getRepository('KIUserBundle:User');
         $target = $repo->findOneByUsername($slug);
+        if ($target->getPromo() != '017')
+            throw new AccessDeniedException('Ce n\'est pas un 017 !');
 
         $repoPontly = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
         return $repoPontly->findBy(array(
@@ -79,6 +94,9 @@ class PontlyvalentsController extends ResourceController
      * @Route\Post("/users/{slug}/pontlyvalent")
      */
     public function postPontlyvalentAction($slug) {
+        if ($this->user->getPromo() != '017')
+            throw new AccessDeniedException('Ta promo ne te permet pas de faire ça !');
+
         $request = $this->getRequest()->request;
 
         if (!$request->has('text')) {
@@ -88,6 +106,8 @@ class PontlyvalentsController extends ResourceController
         // On vérifie que l'auteur n'a pas déjà écrit sur cet utilisateur
         $repo = $this->manager->getRepository('KIUserBundle:User');
         $target = $repo->findOneByUsername($slug);
+        if ($target->getPromo() != '017')
+            throw new AccessDeniedException('Ce n\'est pas un 017 !');
         $author = $this->user;
 
         $repoPontly = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
@@ -129,6 +149,8 @@ class PontlyvalentsController extends ResourceController
      */
     public function patchPontlyvalentAction($slug)
     {
+        if ($this->user->getPromo() != '017')
+            throw new AccessDeniedException('Ta promo ne te permet pas de faire ça !');
         $request = $this->getRequest()->request;
 
         if (!$request->has('text') || $request->get('text') == null)
@@ -136,6 +158,8 @@ class PontlyvalentsController extends ResourceController
 
         $repo = $this->manager->getRepository('KIUserBundle:User');
         $target = $repo->findOneByUsername($slug);
+        if ($target->getPromo() != '017')
+            throw new AccessDeniedException('Ce n\'est pas un 017 !');
 
         $repoPontly = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
         $pontlyvalent = $repoPontly->findOneBy(array(
@@ -173,6 +197,8 @@ class PontlyvalentsController extends ResourceController
      */
     public function deletePontlyvalentAction($slug)
     {
+        if ($this->user->getPromo() != '017')
+            throw new AccessDeniedException('Ta promo ne te permet pas de faire ça !');
         $request = $this->getRequest()->request;
 
         $repo = $this->manager->getRepository('KIUserBundle:User');
