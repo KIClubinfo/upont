@@ -162,7 +162,18 @@ class StatisticsHelper
      */
     private function getTotalBeers(User $user)
     {
+        $count = 0;
+
         $transactions = $this->transactionRepository->findByUser($user);
-        return count($transactions);
+        foreach ($transactions as $transaction) {
+            $beer = $transaction->getBeer();
+            // Compte crédité, pas une conso
+            if ($beer === null) {
+                continue;
+            }
+            $count += 1;
+        }
+
+        return $count;
     }
 }
