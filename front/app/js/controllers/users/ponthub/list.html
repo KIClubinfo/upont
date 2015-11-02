@@ -16,7 +16,13 @@
             <up-ribbon class="Ribbon--red     Ribbon--ponthub" ng-if="!element.downloaded && element.added > lastWeek && popular(element.downloads)">HOT</up-ribbon>
             <up-ribbon class="Ribbon--aqua  Ribbon--ponthub" ng-if="element.downloaded">TÉLÉCHARGÉ</up-ribbon>
         </div>
-        <h3 class="text-center">{{ element.name }}</h3>
+        <h3 class="text-center">{{ element.name }} <a title="Télécharger le fichier" target="_blank" class="Link Link--reverse"
+            ng-href="{{ type + '/' + element.slug + '/download?bearer=' + token | urlFile }}" ng-if="category != 'series' && category != 'musiques'"
+            ng-click="element.downloaded=true">
+                <i class="fa  fa-download"></i>
+            </a>
+        </h3>
+
     </div>
     <div ng-if="!elements.data.length">
         <h2>Il n'y a rien dans cette section...</h2>
