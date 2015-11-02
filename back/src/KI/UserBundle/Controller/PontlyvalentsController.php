@@ -36,12 +36,15 @@ class PontlyvalentsController extends ResourceController
      */
     public function getPontlyvalentsAction()
     {
-        if ($this->user->getPromo() != '017')
+        if ($this->user->getPromo() != '017') {
             throw new AccessDeniedException('Ta promo ne te permet pas de faire ça !');
+        }
 
         if (!($this->is('MODO') || $this->isClubMember('bde'))) {
-            $repoPontly = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
-            return $repoPontly->findBy(array('author' => $this->user));
+            $pontlyvalentRepository = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
+            return $pontlyvalentRepository->findBy(array(
+                'author' => $this->user
+            ));
         }
 
         return $this->getAll($this->is('MODO') || $this->isClubMember('bde'));
@@ -63,19 +66,21 @@ class PontlyvalentsController extends ResourceController
      */
     public function getPontlyvalentAction($slug)
     {
-        if ($this->user->getPromo() != '017')
+        if ($this->user->getPromo() != '017') {
             throw new AccessDeniedException('Ta promo ne te permet pas de faire ça !');
+        }
 
-        $repo = $this->manager->getRepository('KIUserBundle:User');
-        $target = $repo->findOneByUsername($slug);
-        if ($target->getPromo() != '017')
+        $userRepository = $this->manager->getRepository('KIUserBundle:User');
+        $target = $userRepository->findOneByUsername($slug);
+        if ($target->getPromo() != '017') {
             throw new AccessDeniedException('Ce n\'est pas un 017 !');
+        }
 
-        $repoPontly = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
-        return $repoPontly->findBy(array(
+        $pontlyvalentRepository = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
+        return $pontlyvalentRepository->findBy(array(
             'target' => $target,
             'author' => $this->user
-            ));
+        ));
     }
 
     /**
@@ -93,28 +98,31 @@ class PontlyvalentsController extends ResourceController
      * )
      * @Route\Post("/users/{slug}/pontlyvalent")
      */
-    public function postPontlyvalentAction($slug) {
-        if ($this->user->getPromo() != '017')
+    public function postPontlyvalentAction($slug)
+    {
+        if ($this->user->getPromo() != '017') {
             throw new AccessDeniedException('Ta promo ne te permet pas de faire ça !');
+        }
 
         $request = $this->getRequest()->request;
-
         if (!$request->has('text')) {
             throw new BadRequestHttpException('Texte de commentaire manquant');
         }
 
         // On vérifie que l'auteur n'a pas déjà écrit sur cet utilisateur
-        $repo = $this->manager->getRepository('KIUserBundle:User');
-        $target = $repo->findOneByUsername($slug);
-        if ($target->getPromo() != '017')
+        $userRepository = $this->manager->getRepository('KIUserBundle:User');
+        $target = $userRepository->findOneByUsername($slug);
+        if ($target->getPromo() != '017') {
             throw new AccessDeniedException('Ce n\'est pas un 017 !');
+        }
+
         $author = $this->user;
 
-        $repoPontly = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
-        $pontlyvalent = $repoPontly->findBy(array(
+        $pontlyvalentRepository = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
+        $pontlyvalent = $pontlyvalentRepository->findBy(array(
             'target' => $target,
             'author' => $author
-            ));
+        ));
 
         if (count($pontlyvalent) != 0) {
             throw new BadRequestHttpException('Tu as déjà commenté sur cette personne');
@@ -149,34 +157,37 @@ class PontlyvalentsController extends ResourceController
      */
     public function patchPontlyvalentAction($slug)
     {
-        if ($this->user->getPromo() != '017')
+        if ($this->user->getPromo() != '017') {
             throw new AccessDeniedException('Ta promo ne te permet pas de faire ça !');
+        }
+
         $request = $this->getRequest()->request;
-
-        if (!$request->has('text') || $request->get('text') == null)
+        if (!$request->has('text') || $request->get('text') == null) {
             throw new BadRequestHttpException('Texte de commentaire manquant');
+        }
 
-        $repo = $this->manager->getRepository('KIUserBundle:User');
-        $target = $repo->findOneByUsername($slug);
-        if ($target->getPromo() != '017')
+        $userRepository = $this->manager->getRepository('KIUserBundle:User');
+        $target = $userRepository->findOneByUsername($slug);
+        if ($target->getPromo() != '017') {
             throw new AccessDeniedException('Ce n\'est pas un 017 !');
+        }
 
-        $repoPontly = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
-        $pontlyvalent = $repoPontly->findOneBy(array(
+        $pontlyvalentRepository = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
+        $pontlyvalent = $pontlyvalentRepository->findOneBy(array(
             'target' => $target,
             'author' => $this->user
-            ));
+        ));
 
         if (!isset($pontlyvalent)) {
             throw new NotFoundHttpException('Commentaire non trouvé');
         }
 
-            $pontlyvalent->setDate(time());
-            $pontlyvalent->setText($request->get('text'));
-            $this->manager->persist($pontlyvalent);
-            $this->manager->flush();
+        $pontlyvalent->setDate(time());
+        $pontlyvalent->setText($request->get('text'));
+        $this->manager->persist($pontlyvalent);
+        $this->manager->flush();
 
-            return $this->jsonResponse(null, 204);
+        return $this->jsonResponse(null, 204);
     }
 
     /**
@@ -197,18 +208,20 @@ class PontlyvalentsController extends ResourceController
      */
     public function deletePontlyvalentAction($slug)
     {
-        if ($this->user->getPromo() != '017')
+        if ($this->user->getPromo() != '017') {
             throw new AccessDeniedException('Ta promo ne te permet pas de faire ça !');
+        }
+
         $request = $this->getRequest()->request;
 
-        $repo = $this->manager->getRepository('KIUserBundle:User');
-        $target = $repo->findOneByUsername($slug);
+        $userRepository = $this->manager->getRepository('KIUserBundle:User');
+        $target = $userRepository->findOneByUsername($slug);
 
-        $repoPontly = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
-        $pontlyvalent = $repoPontly->findBy(array(
+        $pontlyvalentRepository = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
+        $pontlyvalent = $pontlyvalentRepository->findBy(array(
             'target' => $target,
             'author' => $this->user
-            ));
+        ));
 
         if (count($pontlyvalent) != 1) {
             throw new NotFoundHttpException('Commentaire non trouvé');
