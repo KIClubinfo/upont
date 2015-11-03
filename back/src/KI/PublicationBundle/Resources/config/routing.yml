@@ -6,6 +6,10 @@ newsitems:
     type:     rest
     resource: KI\PublicationBundle\Controller\NewsitemsController
 
+newsitem_files:
+    type:     rest
+    resource: KI\PublicationBundle\Controller\NewsitemFilesController
+
 messages:
     type:     rest
     resource: KI\PublicationBundle\Controller\MessagesController

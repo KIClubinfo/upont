@@ -19,6 +19,7 @@ class NewsitemFile
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @JMS\Expose
      */
     protected $id;
 
@@ -74,17 +75,7 @@ class NewsitemFile
 
     public function getAbsolutePath()
     {
-        return $this->getUploadDir().$this->newsitem->getId()."_".$this->getName();
-    }
-
-
-    /**
-     * @JMS\VirtualProperty()
-     * @return string
-     */
-    public function url()
-    {
-        return 'uploads/'.$this->getUploadCategory().'/'.$this->newsitem->getId()."_".$this->getName();
+        return $this->getUploadDir().$this->getId();
     }
 
     /**
@@ -180,24 +171,40 @@ class NewsitemFile
         $this->file = $file;
         $this->setSize($this->file->getClientSize());
         $this->setExt($this->file->getExtension());
-        $this->setName($this->file->getClientOriginalName()); //Potential security issue
+        $this->setName($this->file->getClientOriginalName());
     }
 
     /**
      * @ORM\PostPersist()
      */
     public function moveFile(){
-        $this->file->move($this->getUploadDir(), $this->newsitem->getId()."_".$this->getName());
+        if (file_exists($this->file->getRealPath())) {
+            $this->file->move($this->getUploadDir(), $this->id);
+            unset($this->file);
+        }
     }
 
     /**
+     * Variable utilisée pour stocker le nom du fichier de manière provisioire
+     */
+    protected $filenameForRemove;
+
+    /**
+     * @ORM\PreRemove()
+     */
+    public function storeFilenameForRemove()
+    {
+        $this->filenameForRemove = $this->getAbsolutePath();
+    }
+
+    /**
+     * Méthode en postRemove pour être sûr que ça soit être soit supprimé après le flush
      * @ORM\PostRemove()
      */
-    public function removeFile()
+    public function removeUpload()
     {
-        if ($file = $this->getAbsolutePath())
-        {
-            unlink($file);
+        if ($this->filenameForRemove) {
+            unlink($this->filenameForRemove);
         }
     }
 

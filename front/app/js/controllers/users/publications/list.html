@@ -103,7 +103,7 @@
                         </h3>
                         <ul>
                             <li class="Link  Link--reverse padded" ng-repeat="file in publication.files | orderBy:['name']">
-                                <a title="Télécharger le fichier" target="_blank" ng-href="{{ file.url | urlFile }}">
+                                <a title="Télécharger le fichier" target="_blank" ng-href="{{ 'newsitemfiles/' + file.id | urlFile }}">
                                     {{ file.name }} ({{ file.size | formatSize }})
                                 </a>
                             </li>

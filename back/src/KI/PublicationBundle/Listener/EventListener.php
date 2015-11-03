@@ -58,7 +58,7 @@ class EventListener
 
             $attachments = [];
             foreach($event->getFiles() as $file){
-                $attachments[] = $file->getAbsolutePath();
+                $attachments[] = array("path" => $file->getAbsolutePath(), "name" => $file->getName());
             }
 
             $title = '['.$club->getName().']'.$shotgunPrefix.' '.$event->getName();

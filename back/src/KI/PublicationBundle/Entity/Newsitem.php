@@ -127,7 +127,6 @@ class Newsitem extends Post
                     $file->setNewsitem($this);
 
                     $this->getFiles()->add($file);
-                    unset($uploadedFile);
                 }
             }
         }
