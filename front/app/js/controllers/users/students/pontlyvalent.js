@@ -49,14 +49,23 @@ angular.module('upont')
         };
 
         $scope.addComment = function(slug, name) {
+        	var promo;
+
             alertify.prompt('Entrée pour ' + name + ' :', function(e, text) {
                 if (e) {
-                    $http.post(apiPrefix + 'users/' + slug + '/pontlyvalent', {text: text}).success(function() {
-                        alertify.success('Entrée enregistrée');
-                        $scope.reload();
-                    }).error(function() {
-                        alertify.error('Tu as déjà posté pour cette personne !');
-                    });
+                	$http.get(apiPrefix + 'users/' + slug).success(function(data) {
+                		console.log(data);
+                		if (data.promo == 17) {
+	                		$http.post(apiPrefix + 'users/' + slug + '/pontlyvalent', {text: text}).success(function() {
+		                        alertify.success('Entrée enregistrée');
+		                        $scope.reload();
+		                    }).error(function() {
+		                        alertify.error('Tu as déjà posté pour cette personne !');
+                    		});
+		                } else {
+		                	alertify.error('Tu ne peux poster que pour des 017 !');
+		                }
+                	});
                 }
             });
         };
