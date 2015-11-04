@@ -36,8 +36,8 @@ class PontlyvalentsController extends ResourceController
      */
     public function getPontlyvalentsAction()
     {
-        if ($this->user->getPromo() != '017') {
-            throw new AccessDeniedException('Ta promo ne te permet pas de faire ça !');
+        if ($this->user->getPromo() == '018') {
+            throw new AccessDeniedException('Ton tour n\'est pas encore arrivé, petit 018 !');
         }
 
         if (!($this->is('MODO') || $this->isClubMember('bde'))) {
@@ -66,8 +66,8 @@ class PontlyvalentsController extends ResourceController
      */
     public function getPontlyvalentAction($slug)
     {
-        if ($this->user->getPromo() != '017') {
-            throw new AccessDeniedException('Ta promo ne te permet pas de faire ça !');
+        if ($this->user->getPromo() == '018') {
+            throw new AccessDeniedException('Ton tour n\'est pas encore arrivé, petit 018 !');
         }
 
         $userRepository = $this->manager->getRepository('KIUserBundle:User');
@@ -100,8 +100,8 @@ class PontlyvalentsController extends ResourceController
      */
     public function postPontlyvalentAction($slug)
     {
-        if ($this->user->getPromo() != '017') {
-            throw new AccessDeniedException('Ta promo ne te permet pas de faire ça !');
+        if ($this->user->getPromo() == '018') {
+            throw new AccessDeniedException('Ton tour n\'est pas encore arrivé, petit 018 !');
         }
 
         $request = $this->getRequest()->request;
@@ -157,8 +157,8 @@ class PontlyvalentsController extends ResourceController
      */
     public function patchPontlyvalentAction($slug)
     {
-        if ($this->user->getPromo() != '017') {
-            throw new AccessDeniedException('Ta promo ne te permet pas de faire ça !');
+        if ($this->user->getPromo() == '018') {
+            throw new AccessDeniedException('Ton tour n\'est pas encore arrivé, petit 018 !');
         }
 
         $request = $this->getRequest()->request;
@@ -208,8 +208,8 @@ class PontlyvalentsController extends ResourceController
      */
     public function deletePontlyvalentAction($slug)
     {
-        if ($this->user->getPromo() != '017') {
-            throw new AccessDeniedException('Ta promo ne te permet pas de faire ça !');
+        if ($this->user->getPromo() == '018') {
+            throw new AccessDeniedException('Ton tour n\'est pas encore arrivé, petit 018 !');
         }
 
         $request = $this->getRequest()->request;
