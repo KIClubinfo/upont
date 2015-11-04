@@ -5,6 +5,7 @@ angular.module('upont')
         $scope.searchResultsPatch = [];
         $scope.searchPatch = '';
         $scope.searchName = '';
+        var promo = "017";
 
         if ($rootScope.hasClub('bde')) {
             Paginate.get('users/pontlyvalent').then(function(data) {
@@ -49,45 +50,41 @@ angular.module('upont')
         };
 
         $scope.addComment = function(slug, name) {
-        	var promo;
+        	//On get l'user pour voir s'il est dans la bonne promo
+        	$http.get(apiPrefix + 'users/' + slug).success(function(data) {
+        		if (data.promo != promo) {
+        			alertify.error('Tu ne peux poster que pour des 017 !');
+        			return;
+        		}
 
-            alertify.prompt('Entrée pour ' + name + ' :', function(e, text) {
-                if (e) {
-                	$http.get(apiPrefix + 'users/' + slug).success(function(data) {
-                		console.log(data);
-                		if (data.promo == 17) {
-	                		$http.post(apiPrefix + 'users/' + slug + '/pontlyvalent', {text: text}).success(function() {
-		                        alertify.success('Entrée enregistrée');
-		                        $scope.reload();
-		                    }).error(function() {
-		                        alertify.error('Tu as déjà posté pour cette personne !');
-                    		});
-		                } else {
-		                	alertify.error('Tu ne peux poster que pour des 017 !');
-		                }
-                	});
-                }
-            });
+        		//On regarde s'il y a déjà une entrée pour cet user de la part de l'utilisateur connecté
+        		$http.get(apiPrefix + 'users/' + slug + '/pontlyvalent').success(function(data) {
+        			if (data.length === 0) {
+        				//Si oui, on post
+        				alertify.prompt('Entrée pour ' + name + ' :', function(e, text) {
+        					if (e) {
+	        					$http.post(apiPrefix + 'users/' + slug + '/pontlyvalent', {text: text}).success(function() {
+			                        alertify.success('Entrée enregistrée');
+			                        $scope.reload();
+			                    });
+        					}
+        				});
+        			} else {
+        				//Sinon on patch
+        				alertify.prompt('Modifier l\'entrée pour ' + name + ' :', function(e, text) {
+		                    if (e) {
+		                        $http.patch(apiPrefix + 'users/' + slug + '/pontlyvalent', {text: text}).success(function() {
+		                            alertify.success('Entrée enregistrée');
+		                            $scope.reload();
+		                        });
+		                    }
+		                }, data[0].text);
+        			}
+        		});
+        	});
         };
 
-        $scope.modifyComment = function(slug, name) {
-            $http.get(apiPrefix + 'users/' + slug + '/pontlyvalent').success(function(data) {
-                if (data.length === 0){
-                    alertify.error('Tu n\'as jamais posté pour cette personne !');
-                    return;
-                }
-
-                alertify.prompt('Modifier l\'entrée pour ' + name + ' :', function(e, text) {
-                    if (e) {
-                        $http.patch(apiPrefix + 'users/' + slug + '/pontlyvalent', {text: text}).success(function() {
-                            alertify.success('Entrée enregistrée');
-                            $scope.reload();
-                        });
-                    }
-                }, data[0].text);
-            });
-        };
-
+        
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
