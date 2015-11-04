@@ -2,8 +2,6 @@ angular.module('upont')
     .controller('Students_Pontlyvalent_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'Paginate', function($scope, $rootScope, $resource, $http, Paginate) {
         $scope.searchResultsPost = [];
         $scope.searchPost = '';
-        $scope.searchResultsPatch = [];
-        $scope.searchPatch = '';
         $scope.searchName = '';
         var promo = "017";
 
