@@ -125,7 +125,7 @@
 
         <h2 class="padded">Temps</h2>
 
-        Tu as fini en <b>{{ (clock-start)/1000 | formatDuration }} {{ (clock - start)%1000 | numberFixedLen:3 }}ms</b>.<br>Tu as fini en <b>{{ (clock-start)/1000 | formatDuration }} {{ (clock - start)%1000 | numberFixedLen:3 }}ms</b>.<br>
+        Tu as fini en <b>{{ (clock-start)/1000 | formatDuration }} {{ (clock - start)%1000 | numberFixedLen:3 }}ms</b>.
         <span ng-if="numWrong>0">Tu as commis <strong>{{ numWrong }}</strong> faute<span ng-if="numWrong > 1">s</span>.<br>
         Temps total : <strong>{{ (clock-start)/1000 + 5 * numWrong | formatDuration }}  {{ (clock - start)%1000 | numberFixedLen:3 }}ms.</strong></span></p>
 

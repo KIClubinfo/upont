@@ -24,13 +24,13 @@ class ExerciceListener
         $this->courseUserRepository = $courseUserRepository;
     }
 
-    public function postPersist(Exercice $entity)
+    public function postPersist(Exercice $exercice)
     {
         $achievementCheck = new AchievementCheckEvent(Achievement::POOKIE);
         $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
 
         // On crée une notification
-        $course = $entity->getCourse();
+        $course = $exercice->getCourse();
         $courseUsers = $this->courseUserRepository->findBy(array('course' => $course));
         $users = array();
 
@@ -40,7 +40,7 @@ class ExerciceListener
 
         $this->notifyService->notify(
             'notif_followed_annal',
-            $entity->getName(),
+            $exercice->getName(),
             'Une annale pour le cours '.$course->getName().' est maintenant disponible',
             'to',
             $users

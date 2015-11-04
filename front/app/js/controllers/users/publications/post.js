@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('Publications_Post_Ctrl', ['$scope', '$rootScope', '$http', '$stateParams', 'Achievements', function($scope, $rootScope, $http, $stateParams, Achievements) {
+    .controller('Publications_Post_Ctrl', ['$scope', '$rootScope', '$http', '$stateParams', 'Achievements', 'Upload', function($scope, $rootScope, $http, $stateParams, Achievements, Upload) {
         // Fonctions relatives à la publication
         var club = {name: 'Au nom de...'};
         $scope.display = true;
@@ -39,6 +39,8 @@ angular.module('upont')
                 $scope.placeholder = 'Texte de la news';
             else
                 $scope.placeholder = 'Que se passe-t-il d\'intéressant dans ton asso ?';
+
+            $scope.postFiles = {};
         };
         init();
 
@@ -67,7 +69,12 @@ angular.module('upont')
             $scope.toggle = false;
         };
 
-        $scope.publish = function(post, image) {
+
+        $scope.selectFiles = function (files) {
+            $scope.postFiles = files;
+        };
+
+        $scope.publish = function(post, files) {
             var params  = {text: nl2br(post.text)};
 
             if (!$scope.modify) {
@@ -83,8 +90,8 @@ angular.module('upont')
                 }
             }
 
-            if (image && !$scope.modify) {
-                params.image = image.base64;
+            if ($scope.postFiles && !$scope.modify) {
+                params.uploadedFiles = $scope.postFiles;
             }
 
             switch ($scope.type) {
@@ -94,7 +101,12 @@ angular.module('upont')
                         alertify.success('News en cours de publication.</br>Veuillez patienter...');
 
                         params.name = post.name;
-                        $http.post(apiPrefix + 'newsitems', params).success(function(data){
+                        Upload.upload({
+                            method: "POST",
+                            url: apiPrefix + 'newsitems',
+                            data: params
+                        })
+                        .success(function(data){
                             $rootScope.$broadcast('newNewsitem');
                             Achievements.check();
                             alertify.success('News publiée');
@@ -143,7 +155,11 @@ angular.module('upont')
                         alertify.success('Event en cours de publication.</br>Veuillez patienter...');
                         
                         if (!$scope.modify){
-                            $http.post(apiPrefix + 'events', params).success(function(data){
+                            Upload.upload({
+                                method: "POST",
+                                url: apiPrefix + 'events',
+                                data: params
+                        	}).success(function(data){
                                 $rootScope.$broadcast('newEvent');
                                 Achievements.check();
                                 init();
@@ -154,7 +170,11 @@ angular.module('upont')
                                 $scope.isLoading = false;
                             });
                         } else {
-                            $http.patch(apiPrefix + 'events/' + post.slug, params).success(function(data){
+                            Upload.upload({
+                                method: "PATCH",
+                                url: apiPrefix + 'events/' + post.slug,
+                                data: params
+                        	}).success(function(data){
                                 $rootScope.$broadcast('newEvent');
                                 alertify.success('Événement modifié');
                                 init();

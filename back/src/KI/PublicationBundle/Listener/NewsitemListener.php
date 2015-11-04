@@ -24,10 +24,10 @@ class NewsitemListener
         $this->userRepository = $userRepository;
     }
 
-    public function postPersist(Newsitem $entity)
+    public function postPersist(Newsitem $newsitem)
     {
-        $club = $entity->getAuthorClub();
-        $text = substr($entity->getText(), 0, 140).'...';
+        $club = $newsitem->getAuthorClub();
+        $text = substr($newsitem->getText(), 0, 140).'...';
 
         // Si ce n'est pas un message perso, on notifie les utilisateurs suivant le club
         if ($club) {
@@ -45,7 +45,7 @@ class NewsitemListener
 
             $this->notifyService->notify(
                 'notif_followed_news',
-                $entity->getName(),
+                $newsitem->getName(),
                 $text,
                 'exclude',
                 $users
@@ -54,7 +54,7 @@ class NewsitemListener
             // Si c'est une news perso on notifie tous ceux qui ont envie
             $this->notifyService->notify(
                 'notif_news_perso',
-                $entity->getName(),
+                $newsitem->getName(),
                 $text,
                 'exclude',
                 array()

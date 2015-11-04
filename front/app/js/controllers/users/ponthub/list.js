@@ -1,8 +1,10 @@
 angular.module('upont')
-    .controller('Ponthub_List_Ctrl', ['$scope', '$stateParams', 'elements', 'Paginate', 'Ponthub', function($scope, $stateParams, elements, Paginate, Ponthub) {
+    .controller('Ponthub_List_Ctrl', ['$scope', '$stateParams', 'elements', 'Paginate', 'Ponthub', 'StorageService', function($scope, $stateParams, elements, Paginate, Ponthub, StorageService) {
         $scope.elements = elements;
         $scope.category = $stateParams.category;
+        $scope.type = Ponthub.cat($stateParams.category);
         $scope.lastWeek = moment().subtract(7 , 'days').unix();
+        $scope.token = StorageService.get('token');
 
         $scope.reload = function(filters) {
             var url = Ponthub.cat($stateParams.category) + '?sort=-added,id';

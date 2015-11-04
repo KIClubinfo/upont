@@ -385,9 +385,9 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
             throw new NotFoundHttpException('Aucun utilisateur ne correspond au token saisi');
         } else {
             $events = $this->getFollowedEvents($user);
-            $calStr = $this->get('ki_publication.service.calendar')->getCalendar($user, $events);
+            $courses = $this->getCourseitems($user);
 
-
+            $calStr = $this->get('ki_publication.service.calendar')->getCalendar($user, $events, $courses);
 
             return new \Symfony\Component\HttpFoundation\Response($calStr, 200, array(
                     'Content-Type' => 'text/calendar; charset=utf-8',
@@ -423,6 +423,29 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         array_multisort($dates, SORT_DESC, $return);
 
         return $return;
+    }
+
+    private function getCourseitems($user = null){
+        $repo = $this->getDoctrine()->getManager()->getRepository('KIPublicationBundle:CourseUser');
+
+        if ($user === null)
+            $user = $this->get('security.context')->getToken()->getUser();
+
+        // On extraie les Courseitem et on les trie par date de début
+        $result = array();
+        $timestamp = array();
+        foreach ($repo->findBy(array('user' => $user)) as $courseUser) {
+            $course = $courseUser->getCourse();
+            foreach ($course->getCourseitems() as $courseitem) {
+                if ($courseUser->getGroup() == $courseitem->getGroup() || $courseitem->getGroup() == 0) {
+                    $result[] = $courseitem;
+                    $timestamp[] = $courseitem->getStartDate();
+                }
+            }
+        }
+        array_multisort($timestamp, SORT_ASC, $result);
+
+        return $result;
     }
 
     /**
@@ -500,22 +523,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function getCourseitemsAction()
     {
-        $repo = $this->getDoctrine()->getManager()->getRepository('KIPublicationBundle:CourseUser');
-
-        // On extraie les Courseitem et on les trie par date de début
-        $result = array();
-        $timestamp = array();
-        foreach ($repo->findBy(array('user' => $this->user)) as $courseUser) {
-            $course = $courseUser->getCourse();
-            foreach ($course->getCourseitems() as $courseitem) {
-                if ($courseUser->getGroup() == $courseitem->getGroup() || $courseitem->getGroup() == 0) {
-                    $result[] = $courseitem;
-                    $timestamp[] = $courseitem->getStartDate();
-                }
-            }
-        }
-        array_multisort($timestamp, SORT_ASC, $result);
-        return $this->restResponse($result);
+        return $this->restResponse($this->getCourseitems());
     }
 
     /**

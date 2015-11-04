@@ -15,6 +15,12 @@ class NewsitemType extends AbstractType
             ->add('text')
             ->add('authorClub', 'club_selector')
             ->add('image', 'image_selector')
+            ->add('uploadedFiles', 'file', array(
+                    'multiple' => true,
+                    'data_class' => null,
+                    'required' => false,
+                )
+            )
         ;
     }
 

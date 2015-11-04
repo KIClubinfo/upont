@@ -182,9 +182,10 @@ angular.module('upont')
 
         $scope.modify = function(post) {
             $http.patch(apiPrefix + $scope.item + '/' + post.slug, {text: post.text}).success(function(data){
-                alertify.success('Publication modifiée !</br>(Recharge la page)');
+                alertify.success('Publication modifiée');
                 $scope.edit.text = post.text ;
                 $scope.edit = null;
+                $rootScope.$broadcast('newNewsitem');
             });
         };
     }])
