@@ -11,13 +11,13 @@
                 <br>
 
                 <div class="Search padded">
-                    <label for="search-input">
+                    <label for="search-input-post">
                         <div row class="Search__input" ng-class="{'Search__input--focused': displaySearchPost}">
                             <i flex="15" class="fa fa-search" style="padding-top:3px"></i>
                             <input flex="85" type="text" placeholder="Élève"
                                    ng-change="searchUserPost(searchPost)" ng-model="searchPost"
                                    ng-focus="displaySearchPost=true" ng-blur="displaySearchPost=false"
-                                   ng-init="displaySearchPost=false;hoverSearchPost=false" id="search-input"/>
+                                   ng-init="displaySearchPost=false;hoverSearchPost=false" id="search-input-post"/>
                         </div>
                     </label>
                     <section class="Search__results  Ticket" ng-mouseenter="hoverSearchPost=true" ng-mouseleave="hoverSearchPost=false" ng-show="(displaySearchPost || hoverSearchPost) && searchResultsPost.length">
