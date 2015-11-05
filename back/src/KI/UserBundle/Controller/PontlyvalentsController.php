@@ -42,9 +42,12 @@ class PontlyvalentsController extends ResourceController
 
         if (!($this->is('MODO') || $this->isClubMember('bde'))) {
             $pontlyvalentRepository = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
-            return $pontlyvalentRepository->findBy(array(
+            $paginateHelper = $this->get('ki_core.helper.paginate');
+            extract($paginateHelper->paginateData($this->repository));
+            $results = $pontlyvalentRepository->findBy(array(
                 'author' => $this->user
             ));
+            return $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
         }
 
         return $this->getAll($this->is('MODO') || $this->isClubMember('bde'));
