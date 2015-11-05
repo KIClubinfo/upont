@@ -83,7 +83,7 @@
                 </thead>
 
                 <tbody>
-                    <tr ng-repeat="item in comments.data | orderBy: 'target.first_name' | filter: {target: {nick: searchName}}">
+                    <tr ng-repeat="item in comments.data | orderBy: 'target.first_name' | filter: {target: {nick: searchName}}" ng-hide="item.target.username == $root.me.username">
                         <td>{{ item.target.nick }}</td>
                         <td>{{ item.text }}</td>
                     </tr>
