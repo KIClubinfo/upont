@@ -36,6 +36,11 @@ angular.module('upont')
                         //Si oui, on post
                         alertify.prompt('Entrée pour ' + name + ' :', function(e, text) {
                             if (e) {
+                                if (!text) {
+                                    alertify.error('Il faut entrer un texte !');
+                                    return;
+                                }
+
                                 $http.post(apiPrefix + 'users/' + slug + '/pontlyvalent', {text: text}).success(function() {
                                     alertify.success('Entrée enregistrée');
                                     $scope.reload();
@@ -46,6 +51,11 @@ angular.module('upont')
                         //Sinon on patch
                         alertify.prompt('Modifier l\'entrée pour ' + name + ' :', function(e, text) {
                             if (e) {
+                                if (!text) {
+                                    alertify.error('Il faut entrer un texte !');
+                                    return;
+                                }
+                                
                                 $http.patch(apiPrefix + 'users/' + slug + '/pontlyvalent', {text: text}).success(function() {
                                     alertify.success('Entrée enregistrée');
                                     $scope.reload();
