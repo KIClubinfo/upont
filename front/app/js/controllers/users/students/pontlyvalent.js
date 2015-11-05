@@ -16,16 +16,6 @@ angular.module('upont')
             }
         };
 
-        $scope.searchUserPatch = function(string) {
-            if (string === '') {
-                $scope.searchResultsPatch = [];
-            } else {
-                $http.post(apiPrefix + 'search', {search: 'User/' + string}).success(function(data){
-                    $scope.searchResultsPatch = data.users;
-                });
-            }
-        };
-
         $scope.reload = function() {
             Paginate.first($scope.comments).then(function(data){
                 $scope.comments = data;
