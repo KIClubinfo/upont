@@ -57,6 +57,12 @@ angular.module('upont')
             });
         };
 
+        $scope.deleteComment = function(slug) {
+            $http.delete(apiPrefix + 'users/' + slug + '/pontlyvalent').success(function() {
+                alertify.success('Entrée supprimée');
+                $scope.reload();
+            });
+        };
 
     }])
     .config(['$stateProvider', function($stateProvider) {

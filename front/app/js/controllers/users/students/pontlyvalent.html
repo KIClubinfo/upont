@@ -51,7 +51,7 @@
 
             <tbody>
                 <tr ng-repeat="item in comments.data | orderBy: 'target.first_name' | filter: {author: {username: $root.me.username}}">
-                    <td><i class="fa fa-pencil" ng-click="addComment(item.target.username, item.target.nick)"></i></td>
+                    <td><i class="fa fa-pencil" ng-click="addComment(item.target.username, item.target.nick)"></i>  <i class="fa fa-trash" ng-click="deleteComment(item.target.username)"></i></td>
                     <td>{{ item.target.nick }}</td>
                     <td>{{ item.text }}</td>
                 </tr>
