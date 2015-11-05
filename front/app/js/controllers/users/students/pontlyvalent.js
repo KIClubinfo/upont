@@ -1,15 +1,10 @@
 angular.module('upont')
-    .controller('Students_Pontlyvalent_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'Paginate', function($scope, $rootScope, $resource, $http, Paginate) {
+    .controller('Students_Pontlyvalent_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'Paginate', 'comments', function($scope, $rootScope, $resource, $http, Paginate, comments) {
         $scope.searchResultsPost = [];
         $scope.searchPost = '';
         $scope.searchName = '';
         var promo = "017";
-
-        if ($rootScope.hasClub('bde')) {
-            Paginate.get('users/pontlyvalent').then(function(data) {
-                $scope.comments = data;
-            });
-        }
+        $scope.comments = comments;
 
         $scope.searchUserPost = function(string) {
             if (string === '') {
@@ -32,19 +27,9 @@ angular.module('upont')
         };
 
         $scope.reload = function() {
-            if ($rootScope.hasClub('bde')) {
-                Paginate.first($scope.comments).then(function(data){
-                    $scope.comments = data;
-                });
-            }
-        };
-
-        $scope.next = function() {
-            if ($rootScope.hasClub('bde')) {
-                Paginate.next($scope.comments).then(function(data){
-                    $scope.comments = data;
-                });
-            }
+            Paginate.first($scope.comments).then(function(data){
+                $scope.comments = data;
+            });
         };
 
         $scope.addComment = function(slug, name) {
@@ -90,9 +75,14 @@ angular.module('upont')
                 url: '/pontlyvalent',
                 templateUrl: 'controllers/users/students/pontlyvalent.html',
                 controller: 'Students_Pontlyvalent_Ctrl',
+                resolve: {
+                    comments: ['Paginate', function(Paginate) {
+                        return Paginate.get('users/pontlyvalent');
+                    }]
+                },
                 data: {
                     title: 'Pontlyvalent - uPont',
                     top: true
-                }
+                },
             });
     }]);
