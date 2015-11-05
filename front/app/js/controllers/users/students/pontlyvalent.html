@@ -43,13 +43,15 @@
         <table class="Table" flex="90">
             <thead>
                 <tr>
+                    <th flex="5"></th>
                     <th flex="25">Élève</th>
-                    <th flex="75">Entrée</th>
+                    <th flex="70">Entrée</th>
                 </tr>
             </thead>
 
             <tbody>
                 <tr ng-repeat="item in comments.data | orderBy: 'target.first_name' | filter: {author: {username: $root.me.username}}">
+                    <td><i class="fa fa-pencil" ng-click="addComment(item.target.username, item.target.nick)"></i></td>
                     <td>{{ item.target.nick }}</td>
                     <td>{{ item.text }}</td>
                 </tr>
@@ -66,11 +68,11 @@
         <div class="Ticket">
             <h2>Résultats généraux</h2>
 
-			<div flex="25" class="padded">
-				<div class="padded">
-					<input class="Input" ng-model="searchName" placeholder="Filtrer selon le nom">
-				</div>
-			</div>
+            <div flex="25" class="padded">
+                <div class="padded">
+                    <input class="Input" ng-model="searchName" placeholder="Filtrer selon le nom">
+                </div>
+            </div>
             <table class="Table" flex="90">
                 <thead>
                     <tr>
