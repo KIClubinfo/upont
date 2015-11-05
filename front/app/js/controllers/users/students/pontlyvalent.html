@@ -37,7 +37,32 @@
         </div>
     </section>
 
-    <section ng-if="$root.hasClub('bde')">
+    <section class="Ticket" flex="100">
+        <h2>Mes entrées</h2>
+
+        <table class="Table" flex="90">
+            <thead>
+                <tr>
+                    <th flex="25">Élève</th>
+                    <th flex="75">Entrée</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr ng-repeat="item in comments.data | orderBy: 'target.first_name' | filter: {author: {username: $root.me.username}}">
+                    <td>{{ item.target.nick }}</td>
+                    <td>{{ item.text }}</td>
+                </tr>
+
+                <tr ng-hide="comments.data.length">
+                    <td></td>
+                    <td><i>Aucune entrée à afficher</i></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section ng-if="$root.hasClub('bde')" flex="100">
         <div class="Ticket">
             <h2>Résultats généraux</h2>
 
