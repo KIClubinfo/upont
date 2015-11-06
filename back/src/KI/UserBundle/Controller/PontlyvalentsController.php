@@ -36,15 +36,18 @@ class PontlyvalentsController extends ResourceController
      */
     public function getPontlyvalentsAction()
     {
-        if ($this->user->getPromo() != '017') {
-            throw new AccessDeniedException('Ta promo ne te permet pas de faire ça !');
+        if ($this->user->getPromo() == '018') {
+            throw new AccessDeniedException('Ton tour n\'est pas encore arrivé, petit 018 !');
         }
 
         if (!($this->is('MODO') || $this->isClubMember('bde'))) {
             $pontlyvalentRepository = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
-            return $pontlyvalentRepository->findBy(array(
+            $paginateHelper = $this->get('ki_core.helper.paginate');
+            extract($paginateHelper->paginateData($this->repository));
+            $results = $pontlyvalentRepository->findBy(array(
                 'author' => $this->user
             ));
+            return $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
         }
 
         return $this->getAll($this->is('MODO') || $this->isClubMember('bde'));
@@ -66,8 +69,8 @@ class PontlyvalentsController extends ResourceController
      */
     public function getPontlyvalentAction($slug)
     {
-        if ($this->user->getPromo() != '017') {
-            throw new AccessDeniedException('Ta promo ne te permet pas de faire ça !');
+        if ($this->user->getPromo() == '018') {
+            throw new AccessDeniedException('Ton tour n\'est pas encore arrivé, petit 018 !');
         }
 
         $userRepository = $this->manager->getRepository('KIUserBundle:User');
@@ -100,8 +103,8 @@ class PontlyvalentsController extends ResourceController
      */
     public function postPontlyvalentAction($slug)
     {
-        if ($this->user->getPromo() != '017') {
-            throw new AccessDeniedException('Ta promo ne te permet pas de faire ça !');
+        if ($this->user->getPromo() == '018') {
+            throw new AccessDeniedException('Ton tour n\'est pas encore arrivé, petit 018 !');
         }
 
         $request = $this->getRequest()->request;
@@ -157,8 +160,8 @@ class PontlyvalentsController extends ResourceController
      */
     public function patchPontlyvalentAction($slug)
     {
-        if ($this->user->getPromo() != '017') {
-            throw new AccessDeniedException('Ta promo ne te permet pas de faire ça !');
+        if ($this->user->getPromo() == '018') {
+            throw new AccessDeniedException('Ton tour n\'est pas encore arrivé, petit 018 !');
         }
 
         $request = $this->getRequest()->request;
@@ -208,8 +211,8 @@ class PontlyvalentsController extends ResourceController
      */
     public function deletePontlyvalentAction($slug)
     {
-        if ($this->user->getPromo() != '017') {
-            throw new AccessDeniedException('Ta promo ne te permet pas de faire ça !');
+        if ($this->user->getPromo() == '018') {
+            throw new AccessDeniedException('Ton tour n\'est pas encore arrivé, petit 018 !');
         }
 
         $request = $this->getRequest()->request;

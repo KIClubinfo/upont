@@ -11,16 +11,7 @@ class PontlyvalentsControllerTest extends WebTestCase
     {
         $this->client->request(
             'POST', '/users/taquet-c/pontlyvalent', array(
-                'text' => 'Meilleure présidente <3'
-            )
-        );
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 403);
-
-        $this->connect('vessairc', 'password');
-        $this->client->request(
-            'POST', '/users/taquet-c/pontlyvalent', array(
-                'text' => 'Meilleure présidente <3'
+                'text' => 'Meilleure successeur possible <3'
             )
         );
         $response = $this->client->getResponse();
@@ -31,7 +22,6 @@ class PontlyvalentsControllerTest extends WebTestCase
 
     public function testGet()
     {
-        $this->connect('vessairc', 'password');
         $this->client->request('GET', '/users/pontlyvalent');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
@@ -47,7 +37,6 @@ class PontlyvalentsControllerTest extends WebTestCase
 
     public function testPatch()
     {
-        $this->connect('vessairc', 'password');
         $this->client->request(
             'PATCH', '/users/taquet-c/pontlyvalent', array(
             'text' => 'Aime les câlins <3'
@@ -73,7 +62,6 @@ class PontlyvalentsControllerTest extends WebTestCase
 
     public function testDelete()
     {
-        $this->connect('vessairc', 'password');
         $this->client->request('DELETE', '/users/taquet-c/pontlyvalent');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
