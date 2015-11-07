@@ -36,21 +36,20 @@ class PontlyvalentsController extends ResourceController
      */
     public function getPontlyvalentsAction()
     {
-        if ($this->user->getPromo() == '018') {
-            throw new AccessDeniedException('Ton tour n\'est pas encore arrivé, petit 018 !');
-        }
+        $helper = $this->helper();
 
         if (!($this->is('MODO') || $this->isClubMember('bde'))) {
             $pontlyvalentRepository = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
+
             $paginateHelper = $this->get('ki_core.helper.paginate');
             extract($paginateHelper->paginateData($this->repository));
             $results = $pontlyvalentRepository->findBy(array(
                 'author' => $this->user
             ));
-            return $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
+            return $paginateHelper->paginateView($results, 10000, 1, 1);
         }
 
-        return $this->getAll($this->is('MODO') || $this->isClubMember('bde'));
+        return $this->getAll(true);
     }
 
     /**
@@ -69,19 +68,11 @@ class PontlyvalentsController extends ResourceController
      */
     public function getPontlyvalentAction($slug)
     {
-        if ($this->user->getPromo() == '018') {
-            throw new AccessDeniedException('Ton tour n\'est pas encore arrivé, petit 018 !');
-        }
-
-        $userRepository = $this->manager->getRepository('KIUserBundle:User');
-        $target = $userRepository->findOneByUsername($slug);
-        if ($target->getPromo() != '017') {
-            throw new AccessDeniedException('Ce n\'est pas un 017 !');
-        }
+        $helper = $this->helper($slug);
 
         $pontlyvalentRepository = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
         return $pontlyvalentRepository->findBy(array(
-            'target' => $target,
+            'target' => $helper['target'],
             'author' => $this->user
         ));
     }
@@ -103,27 +94,19 @@ class PontlyvalentsController extends ResourceController
      */
     public function postPontlyvalentAction($slug)
     {
-        if ($this->user->getPromo() == '018') {
-            throw new AccessDeniedException('Ton tour n\'est pas encore arrivé, petit 018 !');
-        }
+        $helper = $this->helper($slug);
 
-        $request = $this->getRequest()->request;
+        $request = $helper['request'];
         if (!$request->has('text')) {
             throw new BadRequestHttpException('Texte de commentaire manquant');
         }
 
         // On vérifie que l'auteur n'a pas déjà écrit sur cet utilisateur
-        $userRepository = $this->manager->getRepository('KIUserBundle:User');
-        $target = $userRepository->findOneByUsername($slug);
-        if ($target->getPromo() != '017') {
-            throw new AccessDeniedException('Ce n\'est pas un 017 !');
-        }
-
         $author = $this->user;
 
         $pontlyvalentRepository = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
         $pontlyvalent = $pontlyvalentRepository->findBy(array(
-            'target' => $target,
+            'target' => $helper['target'],
             'author' => $author
         ));
 
@@ -132,7 +115,7 @@ class PontlyvalentsController extends ResourceController
         }
 
         $pontlyvalent = new Pontlyvalent();
-        $pontlyvalent->setTarget($target);
+        $pontlyvalent->setTarget($helper['target']);
         $pontlyvalent->setAuthor($author);
         $pontlyvalent->setText($request->get('text'));
 
@@ -160,24 +143,16 @@ class PontlyvalentsController extends ResourceController
      */
     public function patchPontlyvalentAction($slug)
     {
-        if ($this->user->getPromo() == '018') {
-            throw new AccessDeniedException('Ton tour n\'est pas encore arrivé, petit 018 !');
-        }
+        $helper = $this->helper($slug);
 
-        $request = $this->getRequest()->request;
+        $request = $helper['request'];
         if (!$request->has('text') || $request->get('text') == null) {
             throw new BadRequestHttpException('Texte de commentaire manquant');
         }
 
-        $userRepository = $this->manager->getRepository('KIUserBundle:User');
-        $target = $userRepository->findOneByUsername($slug);
-        if ($target->getPromo() != '017') {
-            throw new AccessDeniedException('Ce n\'est pas un 017 !');
-        }
-
         $pontlyvalentRepository = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
         $pontlyvalent = $pontlyvalentRepository->findOneBy(array(
-            'target' => $target,
+            'target' => $helper['target'],
             'author' => $this->user
         ));
 
@@ -211,18 +186,11 @@ class PontlyvalentsController extends ResourceController
      */
     public function deletePontlyvalentAction($slug)
     {
-        if ($this->user->getPromo() == '018') {
-            throw new AccessDeniedException('Ton tour n\'est pas encore arrivé, petit 018 !');
-        }
-
-        $request = $this->getRequest()->request;
-
-        $userRepository = $this->manager->getRepository('KIUserBundle:User');
-        $target = $userRepository->findOneByUsername($slug);
+        $helper = $this->helper($slug);
 
         $pontlyvalentRepository = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
         $pontlyvalent = $pontlyvalentRepository->findBy(array(
-            'target' => $target,
+            'target' => $helper['target'],
             'author' => $this->user
         ));
 
@@ -234,5 +202,25 @@ class PontlyvalentsController extends ResourceController
         $this->manager->flush();
 
         return $this->jsonResponse(null, 204);
+    }
+
+    private function helper($slug = null)
+    {
+        if ($this->user->getPromo() == '018') {
+            throw new AccessDeniedException('Ton tour n\'est pas encore arrivé, petit 018 !');
+        }
+
+        if (isset($slug)) {
+            $userRepository = $this->manager->getRepository('KIUserBundle:User');
+            $target = $userRepository->findOneByUsername($slug);
+            if ($target->getPromo() != '017') {
+                throw new AccessDeniedException('Ce n\'est pas un 017 !');
+            }
+
+        return array(
+            'target' => $target,
+            'request' => $this->getRequest()->request,
+            );
+        }
     }
 }
