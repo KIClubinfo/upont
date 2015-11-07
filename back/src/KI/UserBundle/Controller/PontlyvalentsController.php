@@ -36,7 +36,7 @@ class PontlyvalentsController extends ResourceController
      */
     public function getPontlyvalentsAction()
     {
-        $helper = $this->helper();
+        $pontlyvalentHelper = $this->helper();
 
         if (!($this->is('MODO') || $this->isClubMember('bde'))) {
             $pontlyvalentRepository = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
@@ -46,7 +46,6 @@ class PontlyvalentsController extends ResourceController
             $results = $pontlyvalentRepository->findBy(array(
                 'author' => $this->user
             ));
-            return $paginateHelper->paginateView($results, 10000, 1, 1);
         }
 
         return $this->getAll(true);
@@ -68,11 +67,11 @@ class PontlyvalentsController extends ResourceController
      */
     public function getPontlyvalentAction($slug)
     {
-        $helper = $this->helper($slug);
+        $pontlyvalentHelper = $this->helper($slug);
 
         $pontlyvalentRepository = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
         return $pontlyvalentRepository->findBy(array(
-            'target' => $helper['target'],
+            'target' => $pontlyvalentHelper['target'],
             'author' => $this->user
         ));
     }
@@ -94,9 +93,9 @@ class PontlyvalentsController extends ResourceController
      */
     public function postPontlyvalentAction($slug)
     {
-        $helper = $this->helper($slug);
+        $pontlyvalentHelper = $this->helper($slug);
 
-        $request = $helper['request'];
+        $request = $pontlyvalentHelper['request'];
         if (!$request->has('text')) {
             throw new BadRequestHttpException('Texte de commentaire manquant');
         }
@@ -106,7 +105,7 @@ class PontlyvalentsController extends ResourceController
 
         $pontlyvalentRepository = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
         $pontlyvalent = $pontlyvalentRepository->findBy(array(
-            'target' => $helper['target'],
+            'target' => $pontlyvalentHelper['target'],
             'author' => $author
         ));
 
@@ -115,7 +114,7 @@ class PontlyvalentsController extends ResourceController
         }
 
         $pontlyvalent = new Pontlyvalent();
-        $pontlyvalent->setTarget($helper['target']);
+        $pontlyvalent->setTarget($pontlyvalentHelper['target']);
         $pontlyvalent->setAuthor($author);
         $pontlyvalent->setText($request->get('text'));
 
@@ -143,16 +142,16 @@ class PontlyvalentsController extends ResourceController
      */
     public function patchPontlyvalentAction($slug)
     {
-        $helper = $this->helper($slug);
+        $pontlyvalentHelper = $this->helper($slug);
 
-        $request = $helper['request'];
+        $request = $pontlyvalentHelper['request'];
         if (!$request->has('text') || $request->get('text') == null) {
             throw new BadRequestHttpException('Texte de commentaire manquant');
         }
 
         $pontlyvalentRepository = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
         $pontlyvalent = $pontlyvalentRepository->findOneBy(array(
-            'target' => $helper['target'],
+            'target' => $pontlyvalentHelper['target'],
             'author' => $this->user
         ));
 
@@ -186,11 +185,11 @@ class PontlyvalentsController extends ResourceController
      */
     public function deletePontlyvalentAction($slug)
     {
-        $helper = $this->helper($slug);
+        $pontlyvalentHelper = $this->helper($slug);
 
         $pontlyvalentRepository = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
         $pontlyvalent = $pontlyvalentRepository->findBy(array(
-            'target' => $helper['target'],
+            'target' => $pontlyvalentHelper['target'],
             'author' => $this->user
         ));
 
