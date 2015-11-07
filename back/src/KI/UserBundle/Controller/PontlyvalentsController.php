@@ -38,17 +38,20 @@ class PontlyvalentsController extends ResourceController
     {
         $pontlyvalentHelper = $this->helper();
 
-        if (!($this->is('MODO') || $this->isClubMember('bde'))) {
-            $pontlyvalentRepository = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
+        $pontlyvalentRepository = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
 
-            $paginateHelper = $this->get('ki_core.helper.paginate');
-            extract($paginateHelper->paginateData($this->repository));
+        $paginateHelper = $this->get('ki_core.helper.paginate');
+        extract($paginateHelper->paginateData($this->repository));
+
+        if ($this->is('MODO') || $this->isClubMember('bde')) {
+            $results = $pontlyvalentRepository->findBy($findBy);
+        } else {
             $results = $pontlyvalentRepository->findBy(array(
                 'author' => $this->user
             ));
         }
 
-        return $this->getAll(true);
+        return $paginateHelper->paginateView($results, 10000, 1, 1, $count);
     }
 
     /**
