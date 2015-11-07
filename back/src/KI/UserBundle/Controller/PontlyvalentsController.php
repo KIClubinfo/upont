@@ -36,7 +36,7 @@ class PontlyvalentsController extends ResourceController
      */
     public function getPontlyvalentsAction()
     {
-        $pontlyvalentHelper = $this->helper();
+        $this->helper();
 
         $paginateHelper = $this->get('ki_core.helper.paginate');
         extract($paginateHelper->paginateData($this->repository));
