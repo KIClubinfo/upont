@@ -227,7 +227,7 @@ class EventsController extends ResourceController
         $event = $this->findBySlug($slug);
 
         if ($event->getEntryMethod() != Event::TYPE_SHOTGUN)
-            throw new BadRequestHttpException("Ce n'est pas un événement à shotgun !");
+            throw new BadRequestHttpException('Ce n\'est pas un événement à shotgun !');
 
         $request = $this->getRequest()->request;
         if (!$request->has('motivation'))
