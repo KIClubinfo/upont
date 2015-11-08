@@ -105,7 +105,7 @@ class EventsControllerTest extends WebTestCase
 
     public function testPostShotgunEvent()
     {
-        $this->client->request('POST', '/events', array('name' => 'Semaine Ski', 'text' => 'Il fait froid', 'startDate' => 151515, 'endDate' => 31415, 'entryMethod' => 'shotgun', 'shotgunDate' => 101010, 'shotgunLimit' => 1, 'shotgunText' => 'Il est deux heures du matin, et tout va bien', 'place' => 'Far Far Away'));
+        $this->client->request('POST', '/events', array('name' => 'Semaine Ski', 'text' => 'Il fait froid', 'startDate' => 151515, 'endDate' => 31415, 'entryMethod' => 'Shotgun', 'shotgunDate' => 101010, 'shotgunLimit' => 1, 'shotgunText' => 'Il est deux heures du matin, et tout va bien', 'place' => 'Far Far Away'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
     }

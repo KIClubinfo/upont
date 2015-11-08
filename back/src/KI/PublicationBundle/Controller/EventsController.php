@@ -168,17 +168,17 @@ class EventsController extends ResourceController
      */
     public function postEventUserAction($slug)
     {
-        $request = $this->getRequest()->request;
         $event = $this->findBySlug($slug);
 
         if ($event->getEntryMethod() != Event::TYPE_SHOTGUN)
             throw new BadRequestHttpException("Ce n'est pas un événement à shotgun !");
 
-        $user = $this->get('security.context')->getToken()->getUser();
+        $request = $this->getRequest()->request;
         if (!$request->has('motivation'))
             throw new BadRequestHttpException('Texte de motivation manquant');
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
+        $user = $this->get('security.context')->getToken()->getUser();
         $userEvent = $repo->findBy(array('event' => $event, 'user' => $user));
 
         // On vérifie que l'utilisateur n'a pas déjà shotguné
@@ -224,16 +224,17 @@ class EventsController extends ResourceController
      */
     public function patchEventUserAction($slug)
     {
+        $event = $this->findBySlug($slug);
+
+        if ($event->getEntryMethod() != Event::TYPE_SHOTGUN)
+            throw new BadRequestHttpException("Ce n'est pas un événement à shotgun !");
 
         $request = $this->getRequest()->request;
-
         if (!$request->has('motivation'))
             throw new BadRequestHttpException('Texte de motivation manquant');
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
-        $event = $this->findBySlug($slug);
         $user = $this->get('security.context')->getToken()->getUser();
-
         $userEvent = $repo->findBy(array('event' => $event, 'user' => $user));
 
         if (count($userEvent) == 1) {
@@ -261,11 +262,10 @@ class EventsController extends ResourceController
      * @Route\Delete("/events/{slug}/shotgun")
      */
     public function deleteEventUserAction($slug) {
+        $event = $this->findBySlug($slug);
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
-        $event = $this->findBySlug($slug);
         $user = $this->get('security.context')->getToken()->getUser();
-
         $userEvent = $repo->findBy(array('event' => $event, 'user' => $user));
 
         if (count($userEvent) == 1) {
@@ -290,7 +290,8 @@ class EventsController extends ResourceController
         } else {
             throw new NotFoundHttpException('Participation au shotgun non trouvée');
         }
-        return $this->jsonResponse(null, 204); }
+        return $this->jsonResponse(null, 204);
+    }
 
     /**
      * @ApiDoc(
@@ -307,11 +308,10 @@ class EventsController extends ResourceController
      * @Route\Get("/events/{slug}/shotgun")
      */
     public function getEventUserAction($slug) {
+        $event = $this->findBySlug($slug);
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
-        $event = $this->findBySlug($slug);
         $user = $this->get('security.context')->getToken()->getUser();
-
         $userEvent = $repo->findBy(array('event' => $event), array('date' => 'ASC'));
 
         $position = 0;
