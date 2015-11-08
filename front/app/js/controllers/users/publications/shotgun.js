@@ -4,18 +4,26 @@ angular.module('upont')
         $scope.shotgun = shotgun;
         $scope.shotgunned = false;
         $scope.motivation = '';
+        $scope.isLoading = false;
 
         $scope.shotgunEvent = function(){
-            if ($scope.motivation === '') {
-                $scope.motivation = 'Shotgun !';
-            }
+            if(!$scope.isLoading) {
+                if ($scope.motivation === '') {
+                    $scope.motivation = 'Shotgun !';
+                }
 
-            $http.post(apiPrefix + 'events/' + $scope.event.slug + '/shotgun', {motivation: $scope.motivation}).success(function(){
-                $resource(apiPrefix + 'events/' + $scope.event.slug + '/shotgun').get(function(data){
-                    $scope.shotgun = data;
-                    $scope.shotgunned = true;
-                });
-            });
+                $scope.isLoading = true;
+                $http.post(apiPrefix + 'events/' + $scope.event.slug + '/shotgun', {motivation: $scope.motivation})
+                    .success(function(data){
+                        $resource(apiPrefix + 'events/' + $scope.event.slug + '/shotgun').get(function(data){
+                            $scope.shotgun = data;
+                            $scope.shotgunned = true;
+                        });
+                        $scope.isLoading = false;
+                    }).error(function(){
+                        $scope.isLoading = false;
+                    });
+            }
         };
 
         $scope.deleteShotgun = function(){
