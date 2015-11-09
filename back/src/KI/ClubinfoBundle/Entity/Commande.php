@@ -5,11 +5,9 @@ namespace KI\ClubinfoBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use KI\CoreBundle\Entity\Likeable;
 
 /**
  * @ORM\Entity
- * @ORM\HasLifecycleCallbacks
  * @JMS\ExclusionPolicy("all")
  */
 class Commande
