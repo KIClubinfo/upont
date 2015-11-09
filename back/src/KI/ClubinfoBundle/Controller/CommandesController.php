@@ -95,8 +95,9 @@ class CommandesController extends ResourceController
 
         $user = $this->get('security.context')->getToken()->getUser();
 
-        if (count($this->repository->findBy(['user' => $user, 'centrale' => $centrale])) != 0) {
-            throw new BadRequestHttpException('Tu ne peux passer commande qu\'une seule fois !');
+        $commandeCount = count($this->repository->findBy(['user' => $user, 'centrale' => $centrale]));
+        if ($commandeCount !== 0) {
+            throw new BadRequestHttpException('Tu ne peux passer commande qu\'une seule fois ! ');
         }
 
         $return = $this->postData($this->is('USER'));
