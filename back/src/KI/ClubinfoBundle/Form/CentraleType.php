@@ -15,6 +15,7 @@ class CentraleType extends AbstractType
             ->add('description')
             ->add('startDate')
             ->add('endDate')
+            ->add('name')
             ->add('status', null, array(
                 'empty_data' => 'En cours'
             ))

@@ -16,7 +16,7 @@ class LoadCommandeFixture extends AbstractFixture implements OrderedFixtureInter
         $commande->setCentrale($this->getReference('centrale-cles-usb'));
         $commande->setUser($this->getReference('user-trancara'));
         $commande->setTaken(true);
-        $commande->setPayed(false);
+        $commande->setPaid(false);
         $manager->persist($commande);
 
         $commande = new Commande();
@@ -24,7 +24,7 @@ class LoadCommandeFixture extends AbstractFixture implements OrderedFixtureInter
         $commande->setCentrale($this->getReference('centrale-cles-usb'));
         $commande->setUser($this->getReference('user-donat-bb'));
         $commande->setTaken(false);
-        $commande->setPayed(false);
+        $commande->setPaid(false);
         $manager->persist($commande);
 
         $manager->flush();

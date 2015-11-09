@@ -38,10 +38,10 @@ class Centrale extends Likeable
 
     /**
      * Produit acheté par la centrale
-     * @ORM\Column(name="solved", type="string", nullable=true)
+     * @ORM\Column(name="product", type="string", nullable=true)
      * @JMS\Expose
      */
-    protected $produit;
+    protected $product;
 
     /**
      * Statut (Annoncée|En cours|Commandée|Receptionné|Fermée)
@@ -49,12 +49,6 @@ class Centrale extends Likeable
      * @JMS\Expose
      */
     protected $status;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->date = time();
-    }
 
     /**
      * Set description
@@ -128,27 +122,27 @@ class Centrale extends Likeable
     }
 
     /**
-     * Set produit
+     * Set product
      *
-     * @param string $produit
+     * @param string $product
      *
      * @return Centrale
      */
-    public function setProduit($produit)
+    public function setProduct($product)
     {
-        $this->produit = $produit;
+        $this->product = $product;
 
         return $this;
     }
 
     /**
-     * Get produit
+     * Get product
      *
      * @return string
      */
-    public function getProduit()
+    public function getProduct()
     {
-        return $this->produit;
+        return $this->product;
     }
 
     /**

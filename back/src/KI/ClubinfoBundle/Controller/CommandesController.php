@@ -7,48 +7,12 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use KI\CoreBundle\Controller\ResourceController;
 
-class CommandeController extends ResourceController
+class CommandesController extends ResourceController
 {
     public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->initialize('Commande', 'Clubinfo');
-    }
-
-    /**
-     * @ApiDoc(
-     *  resource=true,
-     *  description="Liste les commandes de centrales",
-     *  output="KI\ClubinfoBundle\Entity\Commande",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Clubinfo"
-     * )
-     */
-    public function getCommandesAction() { return $this->getAll(); }
-
-    /**
-     * @ApiDoc(
-     *  description="Retourne une commande",
-     *  output="KI\ClubinfoBundle\Entity\Commande",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Clubinfo"
-     * )
-     * @Route\Get("/commandes/{slug}/{username}")
-     */
-    public function getCommandeAction($slug, $username) 
-    {
-        return $this->findOneBySlugAndUsername($slug, $username);
     }
 
     /**
@@ -64,15 +28,20 @@ class CommandeController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route\Get("/commandes/{slug}")
      */
-    public function getCommandeFromCentraleAction($slug)
+
+    public function getCentraleCommandesAction($centraleSlug)
     {
-        return $this->findBySlug($slug);
+        $this->switchClass('Centrale');
+        $centrale = $this->findBySlug($centraleSlug);
+        $this->switchClass();
+
+        return $this->repository->findByCentrale($centrale);
     }
+
     /**
      * @ApiDoc(
-     *  description="Retourne les commandes associées à un utilisateur",
+     *  description="Retourne les commandes associées à un utilisateur et une centrale",
      *  output="KI\ClubinfoBundle\Entity\Commande",
      *  statusCodes={
      *   200="Requête traitée avec succès",
@@ -83,11 +52,22 @@ class CommandeController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route\Get("/users/commandes/{username}")
      */
-    public function getCommandeFromUserAction($username)
+
+    public function getCentraleCommandeAction($centraleSlug, $userSlug)
     {
-        return $this->findByUsername($username);
+        $this->switchClass('Centrale');
+        $centrale = $this->findBySlug($centraleSlug);
+        $this->switchClass();
+
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        return $this->repository->findOneBy(
+                    array(
+                        'user' => $user,
+                        'centrale' => $centrale,
+                        )
+                    );
     }
 
     /**
@@ -104,11 +84,20 @@ class CommandeController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route\Post("/commandes")
      */
-    public function postCommandeAction()
+    public function postCentraleCommandesAction($centraleSlug)
     {
-        return $this->post($this->get('security.context')->isGranted('ROLE_USER'));
+        $this->switchClass('Centrale');
+        $centrale = $this->findBySlug($centraleSlug);
+        $this->switchClass();
+
+        $return = $this->postData($this->is('USER'));
+
+        if ($return['code'] != 400) {
+            $return['item']->setCentrale($centrale);
+        }
+
+        return $this->postView($return, $centrale);
     }
 
     /**
@@ -125,13 +114,27 @@ class CommandeController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route\Patch("/commandes/{slug}/{username}")
      */
-    public function patchCommandeAction($slug, $username)
+    public function patchCentraleCommandeAction($centraleSlug, $userSlug)
     {
-        $commande = $this->findByCentraleSlug($slug);
 
-        return $this->patch($slug);
+        $this->switchClass('Centrale');
+        $centrale = $this->findBySlug($centraleSlug);
+        $this->switchClass();
+
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        $commande = $this->repository->findOneBy(
+                    array(
+                        'user' => $user,
+                        'centrale' => $centrale,
+                        )
+                    );
+
+        $this->trust($this->is('MODO') || $user == $commande->getUser());
+
+        $formHelper = $this->get('ki_core.helper.form');
+        return $this->postView($formHelper->formData($commande, 'PATCH'), $centrale);
     }
 
     /**
@@ -146,12 +149,26 @@ class CommandeController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route\Delete("/commandes/{slug}/{username}")
+     * @Route\Delete("/commandes/{slug}")
      */
-    public function deleteCommandeAction($slug, $username)
+    public function deleteCommandeAction($slug)
     {
-        $commande = $this->findBySlug($slug);
+        $this->switchClass('Centrale');
+        $centrale = $this->findBySlug($centraleSlug);
+        $this->switchClass();
+
         $user = $this->get('security.context')->getToken()->getUser();
-        return $this->delete($user, $user->getUsername() == $commande->getUser()->getUsername());
+
+        $commande = $this->repository->findOneBy(
+                    array(
+                        'user' => $user,
+                        'centrale' => $centrale,
+                        )
+                    );
+
+        $this->trust($this->is('MODO') || $user == $commande->getUser());
+
+        $this->manager->remove($commande);
+        $this->manager->flush();
     }
 }

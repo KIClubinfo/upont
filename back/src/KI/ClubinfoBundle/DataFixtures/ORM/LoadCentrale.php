@@ -17,7 +17,7 @@ class LoadCentraleFixture extends AbstractFixture implements OrderedFixtureInter
         $centrale->setStartDate(1414242424);
         $centrale->setEndDate(1414242424);
         $centrale->setStatus('En cours');
-        $this->addReference('centrale-cles-usb', $user);
+        $this->addReference('centrale-cles-usb', $centrale);
         $manager->persist($centrale);
 
     }

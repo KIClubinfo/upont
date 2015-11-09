@@ -21,11 +21,11 @@ class Commande
      * @ORM\GeneratedValue(strategy="AUTO")
      * @JMS\Expose
      */
-    
+
     protected $id;
     /**
      * Quantité comandée
-     * @ORM\Column(name="quantity", type="integer")
+     * @ORM\Column(name="quantity", type="integer", nullable=false)
      * @JMS\Expose
      * @Assert\NotBlank()
      */
@@ -33,40 +33,46 @@ class Commande
 
     /**
      * Centrale de cette commande
-     * @ORM\OneToOne(targetEntity="KI\ClubinfoBundle\Entity\Centrale", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="KI\ClubinfoBundle\Entity\Centrale", cascade={"persist"})
      * @JMS\Expose
      * @Assert\Valid()
      */
     protected $centrale;
-    protected $autoSetCentrale = 'centrale';
-    public function getAutoSetCentrale() { return $this->autoSetCentrale; }
 
     /**
      * Auteur de la commande
-     * @ORM\OneToOne(targetEntity="KI\UserBundle\Entity\User", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User", cascade={"persist"})
      * @JMS\Expose
      * @Assert\Valid()
      */
     protected $user;
+
     protected $autoSetUser = 'user';
     public function getAutoSetUser() { return $this->autoSetUser; }
 
     /**
      * Comande retirée ou non
-     * @ORM\Column(name="taken", type="boolean")
+     * @ORM\Column(name="taken", type="boolean", nullable=false)
      * @JMS\Expose
-     * @Assert\NotBlank()
      */
     protected $taken;
 
     /**
      * Comande payée ou non
-     * @ORM\Column(name="payed", type="boolean")
+     * @ORM\Column(name="paid", type="boolean", nullable=false)
      * @JMS\Expose
-     * @Assert\NotBlank()
      */
-    protected $payed;
+    protected $paid;
 
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getSlug()
+    {
+        return $this->id;
+    }
 
     /**
      * Set quantity
@@ -91,7 +97,6 @@ class Commande
     {
         return $this->quantity;
     }
-
 
     /**
      * Set centrale
@@ -166,27 +171,27 @@ class Commande
     }
 
     /**
-     * Set payed
+     * Set paid
      *
-     * @param string $payed
+     * @param string $paid
      *
      * @return Commande
      */
-    public function setPayed($payed)
+    public function setPaid($paid)
     {
-        $this->payed = $payed;
+        $this->paid = $paid;
 
         return $this;
     }
 
     /**
-     * Get payed
+     * Get paid
      *
      * @return string
      */
-    public function getPayed()
+    public function getPaid()
     {
-        return $this->payed;
+        return $this->paid;
     }
 
 

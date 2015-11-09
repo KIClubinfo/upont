@@ -14,7 +14,7 @@ class CentralesControllerTest extends WebTestCase
             'POST',
             '/centrales',
             array(
-                'name' => 'Cles USB',
+                'name' => 'Masse clés USB',
                 'description' => '[Test] on va acheter la masse de clés USB !',
                 'status' => 'En cours'
             )
@@ -31,7 +31,7 @@ class CentralesControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
-        $this->client->request('GET', '/centrales/cles-USB');
+        $this->client->request('GET', '/centrales/masse-cles-usb');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
@@ -44,13 +44,13 @@ class CentralesControllerTest extends WebTestCase
     {
         $this->client->request(
             'PATCH',
-            '/centrales/cles-internet',
+            '/centrales/masse-cles-usb',
             array('status' => 'Commandé !')
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/centrales/cles-internet', array('name' => ''));
+        $this->client->request('PATCH', '/centrales/masse-cles-usb', array('name' => ''));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
@@ -58,18 +58,18 @@ class CentralesControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
 
-        $this->client->request('PATCH', '/centrales/cles-internet', array('name' => 'miam', 'mail' => '123@mail.fr'));
+        $this->client->request('PATCH', '/centrales/masse-cles-usb', array('name' => 'miam', 'mail' => '123@mail.fr'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
     }
 
     public function testDelete()
     {
-        $this->client->request('DELETE', '/centrales/cles-internet');
+        $this->client->request('DELETE', '/centrales/masse-cles-usb');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('DELETE', '/centrales/cles-internet');
+        $this->client->request('DELETE', '/centrales/masse-cles-usb');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }

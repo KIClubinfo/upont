@@ -9,3 +9,7 @@ tutos:
 centrales:
     type:     rest
     resource: KI\ClubinfoBundle\Controller\CentralesController
+
+commandes:
+    type:     rest
+    resource: KI\ClubinfoBundle\Controller\CommandesController

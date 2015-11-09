@@ -10,3 +10,10 @@ services:
             - %ki_clubinfo.slack_hook%
             - %kernel.environment%
             - %ki_core.base_url%
+
+    ki_clubinfo.selector.centrale:
+       class: KI\ClubinfoBundle\Selector\CentraleSelector
+       arguments:
+           - @doctrine.orm.entity_manager
+       tags:
+           - { name: form.type, alias: centrale_selector }

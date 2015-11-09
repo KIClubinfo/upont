@@ -25,7 +25,7 @@ class ClubSelector extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'invalid_message' => 'Le club séléctionné n\'existe pas',
+            'invalid_message' => 'Le club sélectionné n\'existe pas',
         ));
     }
 

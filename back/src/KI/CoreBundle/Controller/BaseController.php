@@ -102,7 +102,7 @@ class BaseController extends CoreController
      */
     protected function findBySlug($slug)
     {
-        if (!method_exists($this->class, 'setSlug')) {
+        if (!method_exists($this->class, 'getSlug')) {
             $item = $this->repository->findOneById($slug);
         } else {
             if ($this->className == 'User') {

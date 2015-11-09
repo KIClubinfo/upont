@@ -12,14 +12,12 @@ class CommandesControllerTest extends WebTestCase
     {
         $this->client->request(
             'POST',
-            '/commandes',
+            '/centrales/cles-usb/commandes',
             array(
-                'quantity' => 'Panne d\'Internet',
-                'payed' => false,
+                'paid' => false,
+                'quantity' => 2,
                 'taken' => true,
-                'centrale' => $this->getReference('centrale-cles-usb'),
-                'user' => $this->getReference('user-trancara')
-            )
+                )
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
@@ -29,15 +27,15 @@ class CommandesControllerTest extends WebTestCase
 
     public function testGet()
     {
-        $this->client->request('GET', '/commandes');
+        $this->client->request('GET', '/centrales/cles-usb/commandes');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
-        $this->client->request('GET', '/commandes/cles-usb/trancara');
+        $this->client->request('GET', '/centrales/cles-usb/commandes/trancara');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
-        $this->client->request('GET', '/commandes/sjoajsiohaysahais-asbsksaba7/liuhgvcdfgh');
+        $this->client->request('GET', '/centrales/sjoajsiohayahais-asbsksaba7');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }
@@ -46,32 +44,28 @@ class CommandesControllerTest extends WebTestCase
     {
         $this->client->request(
             'PATCH',
-            '/commandes/cles-usb/trancara',
-            array('payed' => true)
+            '/centrales/cles-usb/commandes/trancara',
+            array('paid' => true)
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/commandes/cles-usb/trancara', array('quantityt' => 2));
+        $this->client->request('PATCH', '/centrales/cles-usb/commandes/trancara', array('quantitytxtghxgfrth' => 2));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('PATCH', '/commandes/sjoajsiosbsksaba7/liuhgvcdfgh', array('quantity' => 2, 'mail' => '123@mail.fr'));
+        $this->client->request('PATCH', '/centrales/sjoajsiosbsksaba7', array('quantity' => 2, 'mail' => '123@mail.fr'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
-
-        $this->client->request('PATCH', '/commandes/cles-usb/trancara', array('quantity' => 2, 'mail' => '123@mail.fr'));
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 400);
     }
 
     public function testDelete()
     {
-        $this->client->request('DELETE', '/commandes/cles-usb/trancara');
+        $this->client->request('DELETE', '/centrales/cles-usb/commandes/trancara');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
-    
-        $this->client->request('DELETE', '/commandes/cles-usb/trancara');
+
+        $this->client->request('DELETE', '/centrales/cles-usb/commandes/trancara');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }
