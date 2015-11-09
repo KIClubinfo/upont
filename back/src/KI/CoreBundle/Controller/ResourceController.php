@@ -53,12 +53,13 @@ class ResourceController extends LikeableController
      * Permet d'afficher un formulaire une fois celui-ci validé
      * @param  array  $data   Le formulaire validé
      * @param  object $parent L'objet parent si appliquable
+     * @param  array  $params Les paramètres de route supplémentaires
      * @return Response
      */
-    protected function postView($data, $parent = null)
+    protected function postView($data, $parent = null, $params = [])
     {
         $formHelper = $this->get('ki_core.helper.form');
-        return $formHelper->formView($data, $parent);
+        return $formHelper->formView($data, $parent, $params);
     }
 
     /**

@@ -60,9 +60,10 @@ class FormHelper
      * Génère la réponse relative au traitement d'un formulaire
      * @param  array  $data   Le formulaire traité
      * @param  object $parent Éventuellement l'objet parent
+     * @param  array  $params Les paramètres de route supplémentaires
      * @return Response
      */
-    public function formView($data, $parent = null)
+    public function formView($data, $parent = null, $params = [])
     {
 
         switch ($data['code']) {
@@ -84,7 +85,7 @@ class FormHelper
             } else {
                 $parentClass = $this->namespaceToClassname($parent);
                 $route = 'get_'.$parentClass.'_'.$className;
-                $params = array(
+                $params += array(
                     'slug' => $parent->getSlug(),
                     'id'   => $data['item']->getSlug()
                 );
