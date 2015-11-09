@@ -171,7 +171,7 @@ class EventsController extends ResourceController
         $event = $this->findBySlug($slug);
 
         if ($event->getEntryMethod() != Event::TYPE_SHOTGUN)
-            throw new BadRequestHttpException("Ce n'est pas un événement à shotgun !");
+            throw new BadRequestHttpException('Ce n\'est pas un événement à shotgun !');
 
         $request = $this->getRequest()->request;
         if (!$request->has('motivation'))
@@ -273,7 +273,7 @@ class EventsController extends ResourceController
 
             // On regarde si une place s'est libérée pour quelqu'un, au cas où
             // on le prévient
-            $userEvents = $repo->findBy(array('event' => $event));
+            $userEvents = $repo->findBy(array('event' => $event), array('date' => 'ASC'));
 
             if (isset($userEvents[$event->getShotgunLimit()])) {
                 $this->get('ki_user.service.notify')->notify(
