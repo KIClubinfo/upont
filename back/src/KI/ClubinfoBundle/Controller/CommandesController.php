@@ -6,6 +6,8 @@ use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use KI\CoreBundle\Controller\ResourceController;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CommandesController extends ResourceController
 {
@@ -30,10 +32,10 @@ class CommandesController extends ResourceController
      * )
      */
 
-    public function getCentraleCommandesAction($centraleSlug)
+    public function getCentraleCommandesAction($slug)
     {
         $this->switchClass('Centrale');
-        $centrale = $this->findBySlug($centraleSlug);
+        $centrale = $this->findBySlug($slug);
         $this->switchClass();
 
         return $this->repository->findByCentrale($centrale);
@@ -54,20 +56,20 @@ class CommandesController extends ResourceController
      * )
      */
 
-    public function getCentraleCommandeAction($centraleSlug, $userSlug)
+    public function getCentraleCommandeAction($slug, $userSlug)
     {
         $this->switchClass('Centrale');
-        $centrale = $this->findBySlug($centraleSlug);
+        $centrale = $this->findBySlug($slug);
         $this->switchClass();
 
         $user = $this->get('security.context')->getToken()->getUser();
 
         return $this->repository->findOneBy(
-                    array(
-                        'user' => $user,
-                        'centrale' => $centrale,
-                        )
-                    );
+            array(
+                'user' => $user,
+                'centrale' => $centrale,
+            )
+        );
     }
 
     /**
@@ -85,11 +87,17 @@ class CommandesController extends ResourceController
      *  section="Clubinfo"
      * )
      */
-    public function postCentraleCommandesAction($centraleSlug)
+    public function postCentraleCommandesAction($slug)
     {
         $this->switchClass('Centrale');
-        $centrale = $this->findBySlug($centraleSlug);
+        $centrale = $this->findBySlug($slug);
         $this->switchClass();
+
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        if (count($this->repository->findBy(['user' => $user, 'centrale' => $centrale])) != 0) {
+            throw new BadRequestHttpException('Tu ne peux passer commande qu\'une seule fois !');
+        }
 
         $return = $this->postData($this->is('USER'));
 
@@ -97,7 +105,7 @@ class CommandesController extends ResourceController
             $return['item']->setCentrale($centrale);
         }
 
-        return $this->postView($return, $centrale);
+        return $this->postView($return, $centrale, ['userSlug' => $this->get('security.context')->getToken()->getUser()]);
     }
 
     /**
@@ -115,26 +123,26 @@ class CommandesController extends ResourceController
      *  section="Clubinfo"
      * )
      */
-    public function patchCentraleCommandeAction($centraleSlug, $userSlug)
+    public function patchCentraleCommandeAction($slug, $userSlug)
     {
 
         $this->switchClass('Centrale');
-        $centrale = $this->findBySlug($centraleSlug);
+        $centrale = $this->findBySlug($slug);
         $this->switchClass();
 
         $user = $this->get('security.context')->getToken()->getUser();
 
         $commande = $this->repository->findOneBy(
-                    array(
-                        'user' => $user,
-                        'centrale' => $centrale,
-                        )
-                    );
+            array(
+                'user' => $user,
+                'centrale' => $centrale,
+            )
+        );
 
         $this->trust($this->is('MODO') || $user == $commande->getUser());
 
         $formHelper = $this->get('ki_core.helper.form');
-        return $this->postView($formHelper->formData($commande, 'PATCH'), $centrale);
+        return $this->postView($formHelper->formData($commande, 'PATCH'), $centrale, ['userSlug' => $this->get('security.context')->getToken()->getUser()]);
     }
 
     /**
@@ -149,24 +157,27 @@ class CommandesController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route\Delete("/commandes/{slug}")
      */
-    public function deleteCommandeAction($slug)
+    public function deleteCentraleCommandeAction($slug, $userSlug)
     {
         $this->switchClass('Centrale');
-        $centrale = $this->findBySlug($centraleSlug);
+        $centrale = $this->findBySlug($slug);
         $this->switchClass();
 
-        $user = $this->get('security.context')->getToken()->getUser();
+        $userCurrent = $this->get('security.context')->getToken()->getUser();
+        $userCommande = $this->manager->getRepository('KIUserBundle:User')->findOneByUsername($userSlug);
 
         $commande = $this->repository->findOneBy(
-                    array(
-                        'user' => $user,
-                        'centrale' => $centrale,
-                        )
-                    );
+            array(
+                'user' => $userCommande,
+                'centrale' => $centrale,
+            )
+        );
 
-        $this->trust($this->is('MODO') || $user == $commande->getUser());
+        if (!$commande)
+            throw new NotFoundHttpException('Cette commande n\'existe pas !');
+
+        $this->trust($this->is('MODO') || $userCurrent == $userCommande);
 
         $this->manager->remove($commande);
         $this->manager->flush();
