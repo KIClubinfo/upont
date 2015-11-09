@@ -23,6 +23,18 @@ class CommandesControllerTest extends WebTestCase
         $this->assertJsonResponse($response, 201);
         // On vérifie que le lieu du nouvel objet a été indiqué
         $this->assertTrue($response->headers->has('Location'), $response->headers);
+
+        $this->client->request(
+            'POST',
+            '/centrales/cles-usb/commandes',
+            array(
+                'paid' => false,
+                'quantity' => 2,
+                'taken' => true,
+            )
+        );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 400);
     }
 
     public function testGet()
