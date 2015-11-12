@@ -50,9 +50,9 @@
             </thead>
 
             <tbody>
-                <tr ng-repeat="item in comments.data | orderBy: 'target.first_name' | filter: {author: {username: $root.me.username}}">
+                <tr ng-repeat="item in comments.data | orderBy: ['target.first_name', 'target.last_name'] | filter: {author: {username: $root.me.username}}">
                     <td><i class="fa fa-pencil" ng-click="addComment(item.target.username, item.target.nick)"></i>  <i class="fa fa-trash" ng-click="deleteComment(item.target.username)"></i></td>
-                    <td>{{ item.target.nick }}</td>
+                    <td>{{ item.target.first_name }} {{ item.target.last_name }}</td>
                     <td>{{ item.text }}</td>
                 </tr>
 
@@ -83,8 +83,8 @@
                 </thead>
 
                 <tbody>
-                    <tr ng-repeat="item in comments.data | orderBy: 'target.first_name' | filter: {target: {nick: searchName}}" ng-hide="item.target.username == $root.me.username">
-                        <td>{{ item.target.nick }}</td>
+                    <tr ng-repeat="item in comments.data | orderBy: ['target.first_name', 'target.last_name'] | filter: {target: {$: searchName}}" ng-hide="item.target.username == $root.me.username">
+                        <td>{{ item.target.first_name }} {{ item.target.last_name }}</td>
                         <td>{{ item.text }}</td>
                     </tr>
 

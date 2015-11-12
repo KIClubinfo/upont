@@ -21,7 +21,7 @@
         <div class="padded  big  text-center" row wrap ng-show="shotgunned || shotgun.position">
 
             <!-- Si le shotgun a réussi -->
-            <div class="padded" flex="100" ng-hide="!shotgun.status">
+            <div class="padded" flex="100" ng-show="shotgun.status">
                 <p><i class="fa  fa-smile-o  huge"></i></p>
                 <p>Shotgun réussi !<br>
                 Tu arrives en {{ shotgun.position | formatPosition }} position !<br>
@@ -31,7 +31,7 @@
             </div>
 
             <!-- Si le shotgun a été fait trop tôt -->
-            <div class="padded" flex="100" ng-hide="shotgun.status || shotgun.position != 0">
+            <div class="padded" flex="100" ng-show="shotgunned && !shotgun.position">
                 <p><i class="fa  fa-frown-o  huge"></i></p>
                 <p>Shotgun raté !<br>
                 En voulant aller trop vite, tu as répondu trop tôt...<br>
@@ -39,7 +39,7 @@
             </div>
 
             <!-- Si on arrive sur liste d'attente -->
-            <div class="padded" flex="100" ng-hide="shotgun.status || shotgun.position === 0">
+            <div class="padded" flex="100" ng-show="shotgun.position > shotgun.limit">
                 <p><i class="fa  fa-meh-o  huge"></i></p>
                 <p>Shotgun raté !<br>
                 Tu n'as pas répondu à temps, mais tu es quand même en {{ shotgun.waitingList | formatPosition }} position sur la liste d'attente.</p>
