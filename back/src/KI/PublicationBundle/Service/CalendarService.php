@@ -62,10 +62,10 @@ class CalendarService
             ;
         }
 
-        foreach($courses as $course){
+        foreach ($courses as $course){
             $event = $cal->newEvent();
             $name = $course->getCourse()->getName();
-            if($course->getGroup() !== 0)
+            if ($course->getGroup() !== 0)
                 $name .= " (Gr".$course->getGroup().")";
 
             $event

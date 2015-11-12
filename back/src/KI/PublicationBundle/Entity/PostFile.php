@@ -190,7 +190,7 @@ class PostFile
     /**
      * @ORM\PostPersist()
      */
-    public function moveFile(){
+    public function moveFile() {
         $this->file->move($this->getUploadDir(), $this->post->getId()."_".$this->getName());
     }
 
@@ -199,8 +199,7 @@ class PostFile
      */
     public function removeFile()
     {
-        if ($file = $this->getAbsolutePath())
-        {
+        if ($file = $this->getAbsolutePath()) {
             unlink($file);
         }
     }
