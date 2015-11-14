@@ -1,4 +1,4 @@
-<div flex="100">
+<div flex="100" ng-if="hasClub('bde')">
     <section class="Ticket">
         <h1>Le Pontlyvalent</h1>
         <br>
@@ -96,4 +96,8 @@
             </table>
         </div>
     </section>
+</div>
+
+<div flex="100" class="Ticket" ng-if="!hasClub('bde')">
+    Le Pontlyvalent est fermé.
 </div>
