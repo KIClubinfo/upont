@@ -13,15 +13,31 @@ use KI\PonthubBundle\Entity\Serie;
 use KI\PonthubBundle\Entity\Software;
 use KI\PonthubBundle\Entity\Genre;
 
+/**
+ * Class FileHelper
+ * @package KI\PonthubBundle\Helper
+ */
 class FileHelper
 {
+    /**
+     * @var EntityManager
+     */
     protected $manager;
 
+    /**
+     * FileHelper constructor.
+     * @param EntityManager $manager
+     */
     public function __construct(EntityManager $manager)
     {
         $this->manager = $manager;
     }
 
+    /**
+     * @param string $path
+     * @param string $name
+     * @param integer $size
+     */
     public function tryToStoreMovie($path, $name, $size)
     {
         if ($size == 0) {
@@ -45,6 +61,11 @@ class FileHelper
         }
     }
 
+    /**
+     * @param string $path
+     * @param string $name
+     * @param integer $size
+     */
     public function tryToStoreGame($path, $name, $size)
     {
         if (!preg_match('#^/root/web/jeux/#', $path) || $size == 0) {
@@ -56,6 +77,11 @@ class FileHelper
         $this->manager->persist($item);
     }
 
+    /**
+     * @param string $path
+     * @param string $name
+     * @param integer $size
+     */
     public function tryToStoreSoftware($path, $name, $size)
     {
         if (!preg_match('#^/root/web/logiciels/#', $path) || $size == 0) {
@@ -67,6 +93,11 @@ class FileHelper
         $this->manager->persist($item);
     }
 
+    /**
+     * @param string $path
+     * @param string $name
+     * @param integer $size
+     */
     public function tryToStoreOther($path, $name, $size)
     {
         if (!preg_match('#^/root/web/autres/#', $path) || $size == 0) {
@@ -78,6 +109,14 @@ class FileHelper
         $this->manager->persist($item);
     }
 
+    /**
+     * @param Serie[] $series
+     * @param string[] $pathsDone
+     * @param string $ext
+     * @param string $path
+     * @param string $name
+     * @param integer $size
+     */
     public function tryToStoreSerie(&$series, &$pathsDone, $ext, $path, $name, $size)
     {
         if (!preg_match('#^/root/web/series/#', $path)) {
@@ -123,6 +162,14 @@ class FileHelper
         $pathsDone[] = $path;
     }
 
+    /**
+     * @param \KI\PonthubBundle\Entity\Genre[] $genres
+     * @param Album[] $albums
+     * @param string[] $pathsDone
+     * @param string $path
+     * @param string $name
+     * @param integer $size
+     */
     public function tryToStoreAlbum(&$genres, &$albums, &$pathsDone, $path, $name, $size)
     {
         if (!preg_match('#^/root/web/musiques/#', $path)) {
@@ -171,6 +218,13 @@ class FileHelper
         $pathsDone[] = $path;
     }
 
+    /**
+     * @param \KI\PonthubBundle\Entity\PonthubFile $item
+     * @param integer $size
+     * @param string $path
+     * @param string $name
+     * @return \KI\PonthubBundle\Entity\PonthubFile
+     */
     private function basicInfos($item, $size, $path, $name)
     {
         $item->setSize($size);

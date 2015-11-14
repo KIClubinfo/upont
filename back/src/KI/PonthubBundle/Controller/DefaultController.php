@@ -1,15 +1,14 @@
 <?php
 
 namespace KI\PonthubBundle\Controller;
+
+use FOS\RestBundle\Controller\Annotations as Route;
+use KI\CoreBundle\Controller\ResourceController;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use KI\CoreBundle\Controller\ResourceController;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use FOS\RestBundle\Controller\Annotations as Route;
 
 class DefaultController extends ResourceController
 {

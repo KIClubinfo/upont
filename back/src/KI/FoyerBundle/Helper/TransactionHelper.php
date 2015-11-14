@@ -5,9 +5,8 @@ namespace KI\FoyerBundle\Helper;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use KI\FoyerBundle\Entity\Beer;
-use KI\UserBundle\Entity\User;
 use KI\FoyerBundle\Entity\Transaction;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use KI\UserBundle\Entity\User;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TransactionHelper

@@ -6,7 +6,6 @@ use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use KI\CoreBundle\Controller\ResourceController;
 use KI\UserBundle\Entity\Pontlyvalent;
-use KI\UserBundle\Form\PontlyvalentType;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -137,7 +136,7 @@ class PontlyvalentsController extends ResourceController
         }
 
         $request = $this->getRequest()->request;
-        if (!$request->has('text') || $request->get('text') == null) {
+        if (!$request->has('text') || $request->get('text') === null) {
             throw new BadRequestHttpException('Texte de commentaire manquant');
         }
 

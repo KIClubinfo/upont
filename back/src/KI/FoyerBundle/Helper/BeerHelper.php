@@ -5,8 +5,6 @@ namespace KI\FoyerBundle\Helper;
 use Doctrine\ORM\EntityRepository;
 use KI\FoyerBundle\Entity\Beer;
 use KI\UserBundle\Entity\User;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class BeerHelper
 {
