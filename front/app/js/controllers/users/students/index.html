@@ -4,7 +4,7 @@
         <a class="Navbar__link" up-state-active="root.users.students.simple" ui-sref="root.users.students.simple({slug: $root.me.username})">Voir le profil</a>
         <a class="Navbar__link" up-state-active ui-sref="root.users.students.modify({slug: $root.me.username})" ng-if="!$root.isAdmissible">Modifier le profil</a>
         <a class="Navbar__link" up-state-active ui-sref="root.users.students.game">La Réponse D</a>
-        <a class="Navbar__link" up-state-active ui-sref="root.users.students.pontlyvalent" ng-if="$root.me.promo != '018'">Pontlyvalent</a>
+        <a class="Navbar__link" up-state-active ui-sref="root.users.students.pontlyvalent" ng-if="hasClub('bde')">Pontlyvalent</a>
     </div>
 </nav>
 
