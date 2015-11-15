@@ -157,16 +157,10 @@ class BasketsController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
-     * @Route\Get("/baskets-orders/{username}")
+     * @Route\Get("/baskets-orders/{email}")
      */
-    public function getBasketsOrderAction($username)
+    public function getBasketsOrderAction($email)
     {
-        $repository = $this->manager->getRepository('KIUserBundle:User');
-        $email = $repository->findOneByUsername($username)->getEmail();
-
-        if (!isset($email))
-            throw new BadRequestHttpException('Utilisateur inconnu');
-
         return $this->manager->getRepository('KIDvpBundle:BasketOrder')->findByEmail($email);
     }
 
@@ -200,32 +194,38 @@ class BasketsController extends ResourceController
      */
     public function postBasketOrderAction($slug)
     {
-        $basket = $this->findBySlug($slug);
-
-        // On vérifie que la commande n'a pas déjà été faite
-        $repository = $this->manager->getRepository('KIDvpBundle:BasketOrder');
         $request = $this->getRequest()->request;
-        $basketOrder = $repository->findBy(array(
-            'basket' => $basket,
-            'user' => $this->user,
-            'dateRetrieve' => $request->get('dateRetrieve'),
-            ));
 
-        if (count($basketOrder) != 0)
-            return;
-
-        $basketOrder = new BasketOrder();
-        $basketOrder->setBasket($basket);
-        $basketOrder->setUser($this->user);
-
-        // Si l'utilisateur n'est pas dans uPont on remplit les infos
-        if ((!isset($this->user) && !($request->has('firstName')
-                            && $request->has('lastName')
-                            && $request->has('email')
-                            && $request->has('phone')))
+        // Si l'utilisateur n'est pas dans uPont il doit avoir rempli les infos
+        if ((!isset($this->user)
+                && !($request->has('firstName')
+                    && $request->has('lastName')
+                    && $request->has('email')
+                    && $request->has('phone')
+                )
+            )
             || ($this->user->getPhone() === null && !$request->has('phone'))
            ) {
             throw new BadRequestHttpException('Formulaire incomplet');
+        }
+
+        // On vérifie que la commande n'a pas déjà été faite
+        $basket = $this->findBySlug($slug);
+        $basketOrderRepository = $this->manager->getRepository('KIDvpBundle:BasketOrder');
+        $basketOrder = $basketOrderRepository->findBy(array(
+            'basket' => $basket,
+            'user' => isset($this->user) ? $this->user : $request->get('email'),
+            'dateRetrieve' => $request->get('dateRetrieve'),
+        ));
+
+        if (count($basketOrder) != 0) {
+            throw new BadRequestHttpException('Tu as déjà commandé !');
+        }
+
+        $basketOrder = new BasketOrder();
+        $basketOrder->setBasket($basket);
+        if (isset($this->user)) {
+            $basketOrder->setUser($this->user);
         }
 
         if (!isset($this->user)) {
@@ -349,10 +349,10 @@ class BasketsController extends ResourceController
         $basket = $this->findBySlug($slug);
 
         $basketOrder = $repoBasketOrder->findOneBy(array(
-                'basket' => $basket,
-                'email' => $email,
-                'dateRetrieve' => $dateRetrieve
-                ));
+            'basket' => $basket,
+            'email' => $email,
+            'dateRetrieve' => $dateRetrieve
+        ));
 
         if ($basketOrder === null) {
             throw new BadRequestHttpException('Commande non trouvée');
