@@ -40,7 +40,7 @@ class BasketsControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
-        $this->client->request('GET', '/baskets-orders/trancara');
+        $this->client->request('GET', '/baskets-orders/alberic.trancart@eleves.enpc.fr');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
@@ -76,7 +76,7 @@ class BasketsControllerTest extends WebTestCase
     {
         $this->client->request(
             'PATCH',
-            '/baskets/panier-test/order/trancara',
+            '/baskets/panier-test/order/alberic.trancart@eleves.enpc.fr',
             array(
                 'paid' => true,
                 'dateRetrieve' => 123468736,
@@ -90,7 +90,7 @@ class BasketsControllerTest extends WebTestCase
     {
         $this->client->request(
             'DELETE',
-            '/baskets/panier-test/order/trancara/123468736'
+            '/baskets/panier-test/order/alberic.trancart@eleves.enpc.fr/123468736'
             );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
