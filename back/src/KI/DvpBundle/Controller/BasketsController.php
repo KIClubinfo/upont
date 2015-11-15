@@ -269,9 +269,9 @@ class BasketsController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
-     * @Route\Patch("/baskets/{slug}/order/{username}")
+     * @Route\Patch("/baskets/{slug}/order/{email}")
      */
-    public function patchBasketOrderAction($slug, $username)
+    public function patchBasketOrderAction($slug, $email)
     {
         $this->trust($this->is('MODO') || $this->isClubMember('dvp'));
 
@@ -279,28 +279,23 @@ class BasketsController extends ResourceController
         if (!$request->has('dateRetrieve')) {
             throw new BadRequestHttpException('Paramètre manquant');
         }
-        $dateRetrieve = $request->get('dateRetrieve');
 
-        $repoBasketOrder = $this->manager->getRepository('KIDvpBundle:BasketOrder');
-        $repoUser = $this->manager->getRepository('KIUserBundle:User');
-        $user = $repoUser->findOneByUsername($username);
+        $userRepository = $this->manager->getRepository('KIUserBundle:User');
 
         // On identifie les utilisateurs par leur mail
-        if ($user !== null) {
-            $email = $user->getEmail();
-        } else if ($repoBasketOrder->findOneBy(array('email' => $username)) !== null) {
-            $email = $username;
-        } else {
+        $user = $userRepository->findOneByEmail($email);
+        $basketOrderRepository = $this->manager->getRepository('KIDvpBundle:BasketOrder');
+        if (!isset($user)
+            || $basketOrderRepository->findOneBy(array('email' => $email)) === null
+            ) {
             throw new BadRequestHttpException('Utilisateur non trouvé');
         }
 
-        $basket = $this->findBySlug($slug);
-
-        $basketOrder = $repoBasketOrder->findOneBy(array(
-                'basket' => $basket,
-                'email' => $email,
-                'dateRetrieve' => $dateRetrieve
-                ));
+        $basketOrder = $basketOrderRepository->findOneBy(array(
+            'basket' => $this->findBySlug($slug),
+            'email' => $email,
+            'dateRetrieve' => $request->get('dateRetrieve'),
+        ));
 
         if ($basketOrder === null) {
             throw new BadRequestHttpException('Commande non trouvée');
@@ -329,27 +324,22 @@ class BasketsController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
-     * @Route\Delete("/baskets/{slug}/order/{username}/{dateRetrieve}")
+     * @Route\Delete("/baskets/{slug}/order/{email}/{dateRetrieve}")
      */
-    public function deleteBasketOrderAction($slug, $username, $dateRetrieve)
+    public function deleteBasketOrderAction($slug, $email, $dateRetrieve)
     {
-        $repoBasketOrder = $this->manager->getRepository('KIDvpBundle:BasketOrder');
-        $repoUser = $this->manager->getRepository('KIUserBundle:User');
-        $user = $repoUser->findOneByUsername($username);
-
         // On identifie les utilisateurs par leur mail
-        if ($user !== null) {
-            $email = $user->getEmail();
-        } else if ($repoBasketOrder->findOneBy(array('email' => $username)) !== null) {
-            $email = $username;
-        } else {
+        $userRepository = $this->manager->getRepository('KIUserBundle:User');
+        $user = $userRepository->findOneByEmail($email);
+        $basketOrderRepository = $this->manager->getRepository('KIDvpBundle:BasketOrder');
+        if (!isset($user)
+            || $basketOrderRepository->findOneBy(array('email' => $email)) === null
+            ) {
             throw new BadRequestHttpException('Utilisateur non trouvé');
         }
 
-        $basket = $this->findBySlug($slug);
-
-        $basketOrder = $repoBasketOrder->findOneBy(array(
-            'basket' => $basket,
+        $basketOrder = $basketOrderRepository->findOneBy(array(
+            'basket' => $this->findBySlug($slug),
             'email' => $email,
             'dateRetrieve' => $dateRetrieve
         ));
