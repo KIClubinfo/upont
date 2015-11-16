@@ -246,13 +246,13 @@ class Achievement
     self::NEWS_CREATE => array(
         'name'        => 'Nouvelliste',
         'description' => 'Écrire une news pour un club',
-        'points'      => 30,
+        'points'      => 20,
         'image'       => 'pencil',
     ),
     self::EVENT_CREATE => array(
         'name'        => 'Organisateur',
         'description' => 'Créer un événement pour un club',
-        'points'      => 20,
+        'points'      => 30,
         'image'       => 'pencil-square-o',
     ),
     /*self::OBJECT_LOST => array(
@@ -342,7 +342,7 @@ class Achievement
     self::BUG_CONTACT => array(
         'name'        => 'Technophobe',
         'description' => 'Contacter le KI pour un dépannage matériel/logiciel',
-        'points'      => 10,
+        'points'      => 20,
         'image'       => 'exclamation',
     ),
     self::KIEN => array(
