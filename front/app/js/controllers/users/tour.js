@@ -5,20 +5,20 @@ angular.module('upont')
                 state: 'root.users.publications.index',
                 icon: 'sign-in',
                 text: '<strong>Bienvenue sur uPont !</strong><br>' +
-                'Que tu sois nouveau/nouvelle ou déjà vieux con, cet intranet déborde tellement de fonctionnalités que le KI te propose d\'en faire le tour de façon interactive !<br>' +
-                'Une surprise t\'attends même à la fin <i class="fa fa-smile-o"></i>'
+                'Que tu sois nouveau.elle ou déjà vieux con, cet intranet déborde tellement de fonctionnalités que le KI te propose d\'en faire le tour de façon interactive !<br>' +
+                'Une surprise t\'attend même à la fin <i class="fa fa-smile-o"></i>'
             },
             {
                 state: 'root.users.publications.index',
                 icon: 'star',
                 text: 'Comme tu as pu le remarquer, ce site est doté d\'un système d\'<strong>achievements.</strong><br>' +
-                'Tu as du gagner le premier d\'entre eux en te connectant ! D\'autres arriveront certainement tout au long de ce tour.<br>' +
+                'Tu as dû gagner le premier d\'entre eux en te connectant ! D\'autres arriveront certainement tout au long de ce tour.<br>' +
                 'Note aussi la <strong>barre de recherche</strong> en haut à gauche, elle est <strong>ultra-efficace !</strong>'
             },
             {
                 state: 'root.users.publications.index',
                 icon: 'pencil',
-                text: 'Commencons par cette page d\'accueil. Tous les événements et news des clubs que tu suis sont affichés. Tu peux aussi <strong>publier des messages persos</strong>, et si tu fais partie d\'un club, <strong>créer des événements/news pour ce club</strong> ! Ah... tu peux aussi disliker toutes sortes de choses... et c\'est anonyme ;-p #betterThanFacebook'
+                text: 'Commençons par cette page d\'accueil. Tous les événements et news des clubs que tu suis sont affichés. Tu peux aussi <strong>publier des messages persos</strong>, et, si tu fais partie d\'un club, <strong>créer des événements/news pour ce club</strong> ! Ah... tu peux aussi disliker toutes sortes de choses... et c\'est anonyme ;-p #betterThanFacebook'
             },
             {
                 state: 'root.users.students.modify({slug: $root.me.username})',
@@ -62,7 +62,7 @@ angular.module('upont')
                 icon: 'arrow-down',
                 text: 'Mais attends ! <strong>Tu peux télécharger autre chose que le dernier exam de strat fi !</strong><br>' +
                 'Ceci est PontHub (prononcer [Pont\'teub]), l\'endroit où tu viendras télécharger toutes les séries et derniers films de vacances !<br>' +
-                'Attention, <strong>ce réseau n\'est accessible que depuis les résidences...</strong>'
+                'Attention, <strong>ce service n\'est accessible que depuis les résidences...</strong>'
             },
             {
                 state: 'root.users.students.game',
@@ -74,7 +74,7 @@ angular.module('upont')
             {
                 state: 'root.users.students.list',
                 icon: 'users',
-                text: 'Si tu as besoin d\'un peu d\'aide, tu peux toujours retrouver quelqu\'un via la recherche ou bien dans le <strong>Ponts\'binoscope</strong> et sa fonction de tri. Les pages de profil des élèves sont tellement détaillées que tu sauras <strong>combien de litres ils ont bû ou combien ils ont téléchargé sur PontHub</strong> s\'ils ont accepté de le partager !'
+                text: 'Si tu as besoin d\'un peu d\'aide, tu peux toujours retrouver quelqu\'un via la recherche ou bien dans le <strong>Ponts\'binoscope</strong> et sa fonction de tri. Les pages de profil des élèves sont tellement détaillées que tu sauras <strong>combien de litres ils ont bu ou combien ils ont téléchargé sur PontHub</strong> s\'ils ont accepté de le partager !'
             },
             {
                 state: 'root.users.assos.foyer',
@@ -92,7 +92,7 @@ angular.module('upont')
                 icon: 'smile-o',
                 text: 'Et voilà, c\'est fini ! Enfin, <strong>ce n\'est que le début</strong>...<br>' +
                 'uPont est encore en développement, <strong>n\'oublie pas de partager tes idées !</strong><br>' +
-                'Comme promis, clique encore une fois la flèche suivante et tu auras un cadeau durement mérité...'
+                'Comme promis, clique encore une fois la flèche suivante et tu auras un cadeau bien mérité...'
             }
         ];
         $scope.numberSteps = steps.length;
