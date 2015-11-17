@@ -61,7 +61,6 @@ class FacegameStatisticsHelper
             ->select('o')
             ->where('o.hardcore <> 1')
             ->andWhere('o.duration <> 0')
-            ->groupBy('o.user')
             ->orderBy('o.duration', 'ASC')
             ->setMaxResults($maxResults)
         ;
@@ -87,7 +86,6 @@ class FacegameStatisticsHelper
             ->select('o')
             ->where('o.hardcore = 1')
             ->andWhere('o.duration <> 0')
-            ->groupBy('o.user')
             ->orderBy('o.duration', 'ASC')
             ->setMaxResults($maxResults)
         ;
