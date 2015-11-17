@@ -53,6 +53,14 @@ class Post extends Likeable
     protected $text;
 
     /**
+     * La publication envoie-t-elle un mail ?
+     * @ORM\Column(name="send_mail", type="boolean", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("boolean")
+     */
+    protected $sendMail;
+
+    /**
      * @var PostFile
      *
      * @ORM\OneToMany(targetEntity="KI\PublicationBundle\Entity\PostFile", mappedBy="post", cascade={"persist", "remove"})
@@ -224,5 +232,29 @@ class Post extends Likeable
                 }
             }
         }
+    }
+
+    /**
+     * Set sendMail
+     *
+     * @param boolean $sendMail
+     *
+     * @return Post
+     */
+    public function setSendMail($sendMail)
+    {
+        $this->sendMail = $sendMail;
+
+        return $this;
+    }
+
+    /**
+     * Get sendMail
+     *
+     * @return boolean
+     */
+    public function getSendMail()
+    {
+        return $this->sendMail;
     }
 }
