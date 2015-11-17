@@ -92,7 +92,7 @@ class PontlyvalentsController extends ResourceController
         $pontlyvalentHelper = $this->helper($slug);
 
         $request = $this->getRequest()->request;
-        if (!$request->has('text')) {
+        if (!$request->has('text') || $text = trim($request->get('text')) === '') {
             throw new BadRequestHttpException('Texte de commentaire manquant');
         }
 
@@ -104,7 +104,7 @@ class PontlyvalentsController extends ResourceController
         $pontlyvalent = new Pontlyvalent();
         $pontlyvalent->setTarget($pontlyvalentHelper['target']);
         $pontlyvalent->setAuthor($this->user);
-        $pontlyvalent->setText($request->get('text'));
+        $pontlyvalent->setText($text);
 
         $this->manager->persist($pontlyvalent);
         $this->manager->flush();
@@ -136,12 +136,12 @@ class PontlyvalentsController extends ResourceController
         }
 
         $request = $this->getRequest()->request;
-        if (!$request->has('text') || $request->get('text') === null) {
+        if (!$request->has('text') || $text = trim($request->get('text')) === '') {
             throw new BadRequestHttpException('Texte de commentaire manquant');
         }
 
         $pontlyvalent->setDate(time());
-        $pontlyvalent->setText($request->get('text'));
+        $pontlyvalent->setText($text);
         $this->manager->persist($pontlyvalent);
         $this->manager->flush();
 
