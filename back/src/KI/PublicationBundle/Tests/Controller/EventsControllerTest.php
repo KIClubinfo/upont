@@ -66,7 +66,7 @@ class EventsControllerTest extends WebTestCase
         $this->client->request(
             'PATCH',
             '/events/manger-des-chips',
-            array('endDate' => 12345),
+            array('endDate' => 12345)
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
@@ -74,7 +74,7 @@ class EventsControllerTest extends WebTestCase
         $this->client->request(
             'PATCH',
             '/events/manger-des-chips',
-            array('text' => ''),
+            array('text' => '')
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
