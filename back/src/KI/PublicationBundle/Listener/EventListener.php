@@ -56,8 +56,13 @@ class EventListener
                 $shotgunPrefix = '[SHOTGUN]';
             }
 
+            $attachments = [];
+            foreach($event->getFiles() as $file){
+                $attachments[] = array("path" => $file->getAbsolutePath(), "name" => $file->getName());
+            }
+
             $title = '['.$club->getName().']'.$shotgunPrefix.' '.$event->getName();
-            $this->mailerService->send($event->getAuthorUser(), $usersMail, $title, 'KIPublicationBundle::invitation.html.twig', $vars);
+            $this->mailerService->send($event->getAuthorUser(), $usersMail, $title, 'KIPublicationBundle::invitation.html.twig', $vars, $attachments);
 
             $text = substr($event->getText(), 0, 140).'...';
             $this->notifyService->notify(

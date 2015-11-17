@@ -13,12 +13,13 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @ORM\HasLifecycleCallbacks
  * @JMS\ExclusionPolicy("all")
  */
-class PostFile
+class NewsitemFile
 {
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @JMS\Expose
      */
     protected $id;
 
@@ -44,16 +45,17 @@ class PostFile
     private $size;
 
     /**
+     * @var UploadedFile
      * @Assert\File(maxSize="6000000")
      */
     protected $file;
 
     /**
-     * @var \KI\PublicationBundle\Entity\Post
-     * @ORM\ManyToOne(targetEntity="KI\PublicationBundle\Entity\Post", inversedBy="files")
-     * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
+     * @var \KI\PublicationBundle\Entity\Newsitem
+     * @ORM\ManyToOne(targetEntity="KI\PublicationBundle\Entity\Newsitem", inversedBy="files")
+     * @ORM\JoinColumn(name="newsitem_id", referencedColumnName="id")
      **/
-    private $post;
+    private $newsitem;
 
     /**
      * @return string
@@ -68,30 +70,12 @@ class PostFile
      */
     protected function getUploadCategory()
     {
-        return 'posts';
-    }
-
-
-    public function __construct(UploadedFile $uploadedFile)
-    {
-        $this->setSize($uploadedFile->getClientSize());
-        $this->setExt($uploadedFile->guessExtension());
-        $this->setName($uploadedFile->getClientOriginalName()); //Potential security issue
+        return 'newsitems';
     }
 
     public function getAbsolutePath()
     {
-        return $this->getUploadDir().$this->getName();
-    }
-
-
-    /**
-     * @JMS\VirtualProperty()
-     * @return string
-     */
-    public function url()
-    {
-        return 'uploads/'.$this->getUploadCategory().'/'.$this->post->getId()."_".$this->getName();
+        return $this->getUploadDir().$this->getId();
     }
 
     /**
@@ -108,7 +92,7 @@ class PostFile
      * Set ext
      *
      * @param string $ext
-     * @return PostFile
+     * @return NewsitemFile
      */
     public function setExt($ext)
     {
@@ -131,7 +115,7 @@ class PostFile
      * Set name
      *
      * @param string $name
-     * @return PostFile
+     * @return NewsitemFile
      */
     public function setName($name)
     {
@@ -154,7 +138,7 @@ class PostFile
      * Set size
      *
      * @param integer $size
-     * @return PostFile
+     * @return NewsitemFile
      */
     public function setSize($size)
     {
@@ -185,39 +169,58 @@ class PostFile
     public function setFile($file)
     {
         $this->file = $file;
+        $this->setSize($this->file->getClientSize());
+        $this->setExt($this->file->getExtension());
+        $this->setName($this->file->getClientOriginalName());
     }
 
     /**
      * @ORM\PostPersist()
      */
     public function moveFile(){
-        $this->file->move($this->getUploadDir(), $this->post->getId()."_".$this->getName());
+        if (file_exists($this->file->getRealPath())) {
+            $this->file->move($this->getUploadDir(), $this->id);
+            unset($this->file);
+        }
     }
 
     /**
+     * Variable utilisée pour stocker le nom du fichier de manière provisioire
+     */
+    protected $filenameForRemove;
+
+    /**
+     * @ORM\PreRemove()
+     */
+    public function storeFilenameForRemove()
+    {
+        $this->filenameForRemove = $this->getAbsolutePath();
+    }
+
+    /**
+     * Méthode en postRemove pour être sûr que ça soit être soit supprimé après le flush
      * @ORM\PostRemove()
      */
-    public function removeFile()
+    public function removeUpload()
     {
-        if ($file = $this->getAbsolutePath())
-        {
-            unlink($file);
+        if ($this->filenameForRemove) {
+            unlink($this->filenameForRemove);
         }
     }
 
     /**
      * @return mixed
      */
-    public function getPost()
+    public function getNewsitem()
     {
-        return $this->post;
+        return $this->newsitem;
     }
 
     /**
-     * @param mixed $post
+     * @param mixed $newsitem
      */
-    public function setPost($post)
+    public function setNewsitem($newsitem)
     {
-        $this->post = $post;
+        $this->newsitem = $newsitem;
     }
 }

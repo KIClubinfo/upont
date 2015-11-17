@@ -17,7 +17,7 @@ angular.module('upont')
             // On demande confirmation
             alertify.prompt('Tu peux modifier ton message :', function(e, str){
                 if (e) {
-                    $http.patch(apiPrefix + 'newsitems/' + $scope.messages.data[index].slug, {text: str}).success(function() {
+                    $http.patch(apiPrefix + 'messages/' + $scope.messages.data[index].slug, {text: str}).success(function() {
                         $scope.messages.data[index].text = str;
                         alertify.success('Message correctement édité');
                     });
@@ -31,7 +31,7 @@ angular.module('upont')
             // On demande confirmation
             alertify.confirm('Est-ce vraiment ce que tu veux ?', function(e){
                 if (e) {
-                    $resource(apiPrefix + 'newsitems/' + $scope.messages.data[index].slug).delete(function() {
+                    $resource(apiPrefix + 'messages/' + $scope.messages.data[index].slug).delete(function() {
                         $scope.messages.data.splice(index, 1);
                     });
                 }
@@ -56,7 +56,7 @@ angular.module('upont')
                 controller: 'Messages_Ctrl',
                 resolve: {
                     messages: ['Paginate', function(Paginate) {
-                        return Paginate.get('newsitems?sort=-date&limit=10&name=message');
+                        return Paginate.get('messages?sort=-date&limit=10');
                     }]
                 }
             })
@@ -70,7 +70,7 @@ angular.module('upont')
                 controller: 'Messages_Ctrl',
                 resolve: {
                     messages: ['Paginate', '$stateParams', function(Paginate, $stateParams) {
-                        return Paginate.get('newsitems?slug=' + $stateParams.slug);
+                        return Paginate.get('messages?slug=' + $stateParams.slug);
                     }]
                 }
             });

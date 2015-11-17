@@ -101,9 +101,9 @@
                         <h3>
                             <i class="fa fa-file-o"></i> Pièces jointes
                         </h3>
-                        <ul class="Link  Link--reverse padded">
-                            <li ng-repeat="file in publication.files | orderBy:['name']">
-                                <a title="Télécharger le fichier" target="_blank" ng-href="{{ file.url | urlFile }}">
+                        <ul>
+                            <li class="Link  Link--reverse padded" ng-repeat="file in publication.files | orderBy:['name']">
+                                <a title="Télécharger le fichier" target="_blank" ng-href="{{ 'newsitemfiles/' + file.id | urlFile }}">
                                     {{ file.name }} ({{ file.size | formatSize }})
                                 </a>
                             </li>

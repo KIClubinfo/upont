@@ -39,6 +39,11 @@ security:
             pattern: ^/courses/.+/exercices/.+/download
             security: false
 
+        newsitem_files:
+            methods: [GET]
+            pattern: ^/newsitemfiles/.+
+            security: false
+
         calendar:
             methods: [GET]
             pattern: ^/users/.+/calendar
