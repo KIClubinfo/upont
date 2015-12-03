@@ -109,15 +109,15 @@ angular.module('upont')
             });
         };
 
-        $scope.removeOrder = function(slug, username, date) {
-            $http.delete(apiPrefix + 'baskets/' + slug + '/order/' + username + '/' + date).success(function() {
+        $scope.removeOrder = function(slug, email, date) {
+            $http.delete(apiPrefix + 'baskets/' + slug + '/order/' + email + '/' + date).success(function() {
                 alertify.success('Commande supprimée !');
                 $scope.reloadOrders();
             });
         };
 
-        $scope.payOrder = function(slug, username, date, paid) {
-            $http.patch(apiPrefix + 'baskets/' + slug + '/order/' + username, {dateRetrieve: date, paid: paid});
+        $scope.payOrder = function(slug, email, date, paid) {
+            $http.patch(apiPrefix + 'baskets/' + slug + '/order/' + email, {dateRetrieve: date, paid: paid});
         };
 
     }])

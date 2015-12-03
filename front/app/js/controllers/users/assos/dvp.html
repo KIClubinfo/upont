@@ -21,7 +21,7 @@
 
 		<form ng-show="ordering" ng-submit="post(firstName, lastName, email, phone)" flex="100" row wrap>
 			<section class="Ticket" flex="100" flex-md="50" ng-repeat="day in thursdays track by $index">
-				<article ng-if="holidays.indexOf(day.getTime())">
+				<article ng-if="holidays.indexOf(day.getTime()) == -1">
 					<h3>Jeudi {{ day.getDate() }} {{ months[day.getMonth()] }} {{ day.getFullYear() }}</h3>
 
 					<br>
@@ -30,7 +30,7 @@
 					</div>
 				</article>
 
-				<article ng-if="!holidays.indexOf(day.getTime())">
+				<article ng-if="holidays.indexOf(day.getTime()) > -1">
 					<h3>Jeudi {{ day.getDate() }} {{ months[day.getMonth()] }} {{ day.getFullYear() }}</h3>
 
 					<br>
