@@ -100,23 +100,17 @@ angular.module('upont')
             $q.all(promiseArray).then(function() {
                 alertify.success('Commande envoyée !');
                 $scope.basketOrders = [[],[],[],[]];
-                if ('me' in $rootScope) {
-                    $scope.get();
-                }
+                $scope.get(email);
             });
 
             $scope.ordering = false;
         };
 
-        $scope.get = function() {
-            $http.get(apiPrefix + 'baskets-orders/' + $rootScope.me.email).success(function(data) {
+        $scope.get = function(email) {
+            $http.get(apiPrefix + 'baskets-orders/' + email).success(function(data) {
                 $scope.orders = data;
             });
         };
-
-        if ('me' in $rootScope) {
-            $scope.get();
-        }
 
     }])
     .config(['$stateProvider', function($stateProvider) {
