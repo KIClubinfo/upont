@@ -287,11 +287,6 @@ class BasketsController extends ResourceController
         // On identifie les utilisateurs par leur mail
         $user = $userRepository->findOneByEmail($email);
         $basketOrderRepository = $this->manager->getRepository('KIDvpBundle:BasketOrder');
-        if (!isset($user)
-            || $basketOrderRepository->findOneBy(array('email' => $email)) === null
-            ) {
-            throw new BadRequestHttpException('Utilisateur non trouvé');
-        }
 
         $basketOrder = $basketOrderRepository->findOneBy(array(
             'basket' => $this->findBySlug($slug),
@@ -334,11 +329,6 @@ class BasketsController extends ResourceController
         $userRepository = $this->manager->getRepository('KIUserBundle:User');
         $user = $userRepository->findOneByEmail($email);
         $basketOrderRepository = $this->manager->getRepository('KIDvpBundle:BasketOrder');
-        if (!isset($user)
-            || $basketOrderRepository->findOneBy(array('email' => $email)) === null
-            ) {
-            throw new BadRequestHttpException('Utilisateur non trouvé');
-        }
 
         $basketOrder = $basketOrderRepository->findOneBy(array(
             'basket' => $this->findBySlug($slug),
