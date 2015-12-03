@@ -196,16 +196,18 @@ class BasketsController extends ResourceController
     {
         $request = $this->getRequest()->request;
 
+        $isAuthenticated = $this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED');
+
         // Si l'utilisateur n'est pas dans uPont il doit avoir rempli les infos
-        if ((!isset($this->user)
-                && !($request->has('firstName')
-                    && $request->has('lastName')
-                    && $request->has('email')
-                    && $request->has('phone')
-                )
-            )
-            || ($this->user->getPhone() === null && !$request->has('phone'))
-           ) {
+        if (!$isAuthenticated) {
+            if (!($request->has('firstName')
+                && $request->has('lastName')
+                && $request->has('email')
+                && $request->has('phone')
+            )) {
+                throw new BadRequestHttpException('Formulaire incomplet');
+            }
+        } else if ($this->user->getPhone() === null && !$request->has('phone')) {
             throw new BadRequestHttpException('Formulaire incomplet');
         }
 
@@ -214,7 +216,7 @@ class BasketsController extends ResourceController
         $basketOrderRepository = $this->manager->getRepository('KIDvpBundle:BasketOrder');
         $basketOrder = $basketOrderRepository->findBy(array(
             'basket' => $basket,
-            'user' => isset($this->user) ? $this->user : $request->get('email'),
+            'user' => $isAuthenticated ? $this->user : $request->get('email'),
             'dateRetrieve' => $request->get('dateRetrieve'),
         ));
 
@@ -224,11 +226,11 @@ class BasketsController extends ResourceController
 
         $basketOrder = new BasketOrder();
         $basketOrder->setBasket($basket);
-        if (isset($this->user)) {
+        if ($isAuthenticated) {
             $basketOrder->setUser($this->user);
         }
 
-        if (!isset($this->user)) {
+        if (!$isAuthenticated) {
             // Si l'user n'est pas sur uPont il a tout rempli dans le form
             $basketOrder->setFirstName($request->get('firstName'));
             $basketOrder->setLastName($request->get('lastName'));
