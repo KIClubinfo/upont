@@ -14,11 +14,18 @@ angular.module('upont')
                 new Date('May 5, 2016').getTime()
                 ];
 
+        $scope.get = function(email) {
+            $http.get(apiPrefix + 'baskets-orders/' + email).success(function(data) {
+                $scope.orders = data;
+            });
+        };
+
         if('me' in $rootScope) {
             $scope.firstName = $rootScope.me.first_name;
             $scope.lastName = $rootScope.me.last_name;
             $scope.email = $rootScope.me.email;
             $scope.phone = $rootScope.me.phone;
+            $scope.get($scope.email);
         } else {
             $scope.firstName = '';
             $scope.lastName = '';
@@ -104,12 +111,6 @@ angular.module('upont')
             });
 
             $scope.ordering = false;
-        };
-
-        $scope.get = function(email) {
-            $http.get(apiPrefix + 'baskets-orders/' + email).success(function(data) {
-                $scope.orders = data;
-            });
         };
 
     }])
