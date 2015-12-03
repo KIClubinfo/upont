@@ -54,11 +54,11 @@ class Post extends Likeable
 
     /**
      * La publication envoie-t-elle un mail ?
-     * @ORM\Column(name="send_mail", type="boolean", nullable=true)
+     * @ORM\Column(name="send_mail", type="boolean", nullable=false)
      * @JMS\Expose
      * @Assert\Type("boolean")
      */
-    protected $sendMail;
+    protected $sendMail = false;
 
     /**
      * @var PostFile
