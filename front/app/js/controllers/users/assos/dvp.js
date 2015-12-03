@@ -109,7 +109,7 @@ angular.module('upont')
         };
 
         $scope.get = function() {
-            $http.get(apiPrefix + 'baskets-orders/' + $rootScope.me.username).success(function(data) {
+            $http.get(apiPrefix + 'baskets-orders/' + $rootScope.me.email).success(function(data) {
                 $scope.orders = data;
             });
         };

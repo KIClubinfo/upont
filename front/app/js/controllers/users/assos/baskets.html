@@ -107,14 +107,14 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="order in orders | orderBy:'date_retrieve'">
-				<td><i class="fa fa-remove up-clickable" ng-click="removeOrder(order.basket.slug, order.user.username, order.date_retrieve)"></i></td>
+				<td><i class="fa fa-remove up-clickable" ng-click="removeOrder(order.basket.slug, order.user.email, order.date_retrieve)"></i></td>
 				<td>{{ order.basket.name }}</td>
 				<td>{{ order.date_retrieve*1000 | date : 'dd/MM/yyyy' }}</td>
 				<td>{{ order.last_name }}</td>
 				<td>{{ order.first_name }}</td>
 				<td>{{ order.email }}</td>
 				<td>{{ order.phone }}</td>
-				<td><input type="checkbox" class="Checkbox" ng-model="order.paid" ng-click="payOrder(order.basket.slug, order.user.username, order.date_retrieve, order.paid)"/></td>
+				<td><input type="checkbox" class="Checkbox" ng-model="order.paid" ng-click="payOrder(order.basket.slug, order.user.email, order.date_retrieve, order.paid)"/></td>
 			</tr>
 
 			<tr ng-hide="orders.length">
