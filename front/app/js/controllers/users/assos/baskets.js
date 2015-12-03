@@ -12,7 +12,7 @@ angular.module('upont')
         }
 
         for (i=0;i<$scope.orders.length;i++) {
-            $scope.numberOrders[$scope.orders[i].basket.name]++;   
+            $scope.numberOrders[$scope.orders[i].basket.name]++;
         }
 
         $scope.reloadBaskets = function() {
@@ -20,7 +20,7 @@ angular.module('upont')
                 $scope.baskets = data;
                 $scope.numberOrders = {};
                 for (i=0;i<$scope.orders.length;i++) {
-                    $scope.numberOrders[$scope.orders[i].basket.name]++;   
+                    $scope.numberOrders[$scope.orders[i].basket.name]++;
                 }
                 for (i=0;i<$scope.baskets.length;i++) {
                     $scope.numberOrders[$scope.baskets[i].name] = 0;
@@ -104,7 +104,7 @@ angular.module('upont')
                     $scope.numberOrders[$scope.baskets[i].name] = 0;
                 }
                 for (i=0;i<$scope.orders.length;i++) {
-                    $scope.numberOrders[$scope.orders[i].basket.name]++;   
+                    $scope.numberOrders[$scope.orders[i].basket.name]++;
                 }
             });
         };
