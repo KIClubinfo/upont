@@ -214,21 +214,19 @@ class BasketsController extends ResourceController
         // On vérifie que la commande n'a pas déjà été faite
         $basket = $this->findBySlug($slug);
         $basketOrderRepository = $this->manager->getRepository('KIDvpBundle:BasketOrder');
-        $basketOrder = $basketOrderRepository->findBy(array(
-            'basket' => $basket,
-            'user' => $isAuthenticated ? $this->user : $request->get('email'),
+
+        $basketOrder = $basketOrderRepository->findOneBy(array(
+            'basket' => $this->findBySlug($slug),
+            'email' => $isAuthenticated ? $this->user->getEmail() : $request->get('email'),
             'dateRetrieve' => $request->get('dateRetrieve'),
         ));
 
-        if (count($basketOrder) != 0) {
+        if ($basketOrder !== null) {
             throw new BadRequestHttpException('Tu as déjà commandé !');
         }
 
         $basketOrder = new BasketOrder();
         $basketOrder->setBasket($basket);
-        if ($isAuthenticated) {
-            $basketOrder->setUser($this->user);
-        }
 
         if (!$isAuthenticated) {
             // Si l'user n'est pas sur uPont il a tout rempli dans le form
@@ -237,14 +235,16 @@ class BasketsController extends ResourceController
             $basketOrder->setEmail($request->get('email'));
             $basketOrder->setPhone($request->get('phone'));
         } else {
+            $user = $this->user;
             // Sinon on récupère les infos de son compte
-            $basketOrder->setFirstName($this->user->getFirstName());
-            $basketOrder->setLastName($this->user->getLastName());
-            $basketOrder->setEmail($this->user->getEmail());
-            if ($this->user->getPhone() === null) {
-                $this->user->setPhone($request->get('phone'));
+            $basketOrder->setUser($user);
+            $basketOrder->setFirstName($user->getFirstName());
+            $basketOrder->setLastName($user->getLastName());
+            $basketOrder->setEmail($user->getEmail());
+            if ($user->getPhone() === null) {
+                $user->setPhone($request->get('phone'));
             }
-            $basketOrder->setPhone($this->user->getPhone());
+            $basketOrder->setPhone($user->getPhone());
         }
 
         $basketOrder->setDateOrder(time());
@@ -285,7 +285,6 @@ class BasketsController extends ResourceController
         $userRepository = $this->manager->getRepository('KIUserBundle:User');
 
         // On identifie les utilisateurs par leur mail
-        $user = $userRepository->findOneByEmail($email);
         $basketOrderRepository = $this->manager->getRepository('KIDvpBundle:BasketOrder');
 
         $basketOrder = $basketOrderRepository->findOneBy(array(

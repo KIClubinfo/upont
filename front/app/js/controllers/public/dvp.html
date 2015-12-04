@@ -1,95 +1,95 @@
 <div class="padded" row="space-between start" wrap>
-	<section flex-md="66" flex="100">
-		<article class="Ticket">
-			<h1>Paniers fruits et légumes</h1>
+    <section flex-md="66" flex="100">
+        <article class="Ticket">
+            <h1>Paniers fruits et légumes</h1>
 
-			<p>Les paniers fruits et légumes sont disponibles tous les jeudis dans le local de Dévelop'Ponts</p>
-		</article>
+            <p>Les paniers fruits et légumes sont disponibles tous les jeudis dans le local de Dévelop'Ponts</p>
+        </article>
 
-		<section row wrap ng-if="!ordering">
-			<div class="Ticket" ng-repeat="item in baskets" flex="100" flex-md="50">
-				<h3>{{ item.name }}</h3>
-				<p>{{ item.content }}</p>
-				<div row="end stretch">Prix : {{ item.price }} €</div>
-			</div>
+        <section row wrap ng-if="!ordering">
+            <div class="Ticket" ng-repeat="item in baskets" flex="100" flex-md="50">
+                <h3>{{ item.name }}</h3>
+                <p>{{ item.content }}</p>
+                <div row="end stretch">Prix : {{ item.price }} €</div>
+            </div>
 
-			<div row="end stretch" flex="100">
-	        	<button class="Button" ng-click="order()">Commander</button>
-	        </div>
-		</section>
+            <div row="end stretch" flex="100">
+                <button class="Button" ng-click="order()">Commander</button>
+            </div>
+        </section>
 
-		<form ng-show="ordering" ng-submit="post(firstName, lastName, email, phone)" flex="100" row wrap>
-			<section class="Ticket" flex="100" flex-md="50" ng-repeat="day in thursdays track by $index">
-				<h3>Jeudi {{ day.getDate() }} {{ months[day.getMonth()] }} {{ day.getFullYear() }}</h3>
+        <form ng-show="ordering" ng-submit="post(firstName, lastName, email, phone)" flex="100" row wrap>
+            <section class="Ticket" flex="100" flex-md="50" ng-repeat="day in thursdays track by $index">
+                <h3>Jeudi {{ day.getDate() }} {{ months[day.getMonth()] }} {{ day.getFullYear() }}</h3>
 
-				<br>
-				<div ng-repeat="item in baskets">
-					<input type="checkbox" value="item.slug" ng-model="basketOrders[$parent.$index][$index]"> {{ item.name }} <i>({{ item.price }} €)</i></input><br>
-				</div>
-			</section>
+                <br>
+                <div ng-repeat="item in baskets">
+                    <input type="checkbox" value="item.slug" ng-model="basketOrders[$parent.$index][$index]"> {{ item.name }} <em>({{ item.price }} €)</em></input><br>
+                </div>
+            </section>
 
 
-	        <section class="Ticket" flex="100">
-	        	<h2>Informations personnelles</h2>
-	        	<br>
+            <section class="Ticket" flex="100">
+                <h2>Informations personnelles</h2>
+                <br>
 
-	        	<article row wrap>
-		        	<div class="padded" flex="50" flex-md="25">
-	            		Prénom
-	        		</div>
-			        <div class="padded" flex="50" flex-md="25">
-			            <input class="Input" type="text" ng-model="firstName">
-			        </div>
+                <article row wrap>
+                    <div class="padded" flex="50" flex-md="25">
+                        Prénom
+                    </div>
+                    <div class="padded" flex="50" flex-md="25">
+                        <input class="Input" type="text" ng-model="firstName">
+                    </div>
 
-			        <div class="padded" flex="50" flex-md="25">
-	            		Nom
-	        		</div>
-			        <div class="padded" flex="50" flex-md="25">
-			            <input class="Input" type="text" ng-model="lastName">
-			        </div>
+                    <div class="padded" flex="50" flex-md="25">
+                        Nom
+                    </div>
+                    <div class="padded" flex="50" flex-md="25">
+                        <input class="Input" type="text" ng-model="lastName">
+                    </div>
 
-			        <div class="padded" flex="50" flex-md="25">
-	            		Email
-	        		</div>
-			        <div class="padded" flex="50" flex-md="25">
-			            <input class="Input" type="text" ng-model="email" placeholder="prenom.nom@eleves.enpc.fr">
-			        </div>
+                    <div class="padded" flex="50" flex-md="25">
+                        Email
+                    </div>
+                    <div class="padded" flex="50" flex-md="25">
+                        <input class="Input" type="text" ng-model="email" placeholder="prenom.nom@eleves.enpc.fr">
+                    </div>
 
-			        <div class="padded" flex="50" flex-md="25">
-	            		Téléphone
-	        		</div>
-			        <div class="padded" flex="50" flex-md="25">
-			            <input class="Input" type="text" ng-model="phone" placeholder="06.xx.xx.xx.xx, +336.xx.xx.xx.xx">
-			        </div>
-			    </article>
+                    <div class="padded" flex="50" flex-md="25">
+                        Téléphone
+                    </div>
+                    <div class="padded" flex="50" flex-md="25">
+                        <input class="Input" type="text" ng-model="phone" placeholder="06.xx.xx.xx.xx, +336.xx.xx.xx.xx">
+                    </div>
+                </article>
 
-	        </section>
+            </section>
 
-			<div row="end stretch" flex="100">
-	        	<button class="Button">Commander</button>
-	        </div>
-		</form>
-	</section>
+            <div row="end stretch" flex="100">
+                <button class="Button">Commander</button>
+            </div>
+        </form>
+    </section>
 
-	<section flex-md="33" flex="100">
-		<article class="Ticket">
-			<h2>Mes commandes</h2>
+    <section flex-md="33" flex="100">
+        <article class="Ticket">
+            <h2>Mes commandes</h2>
 
-			<br>
+            <br>
 
-			<form ng-submit="get(email)">
-				Entre ton email pour voir tes commandes passées.
-				<div class="padded">
-					<input class="Input" type="text" ng-model="email" placeholder="prenom.nom@eleves.enpc.fr"/>
-				</div>
-				<button class="Button">Chercher</button>
-			</form>
-		</article>
+            <form ng-submit="get(email)">
+                Entre ton email pour voir tes commandes passées.
+                <div class="padded">
+                    <input class="Input" type="text" ng-model="email" placeholder="prenom.nom@eleves.enpc.fr"/>
+                </div>
+                <button class="Button">Chercher</button>
+            </form>
+        </article>
 
-		<div ng-repeat="item in orders | orderBy:'date_retrieve'" class="Ticket">
-			<h3>{{ item.basket.name }}</h3>
-			<p>A retirer le <b>Jeudi {{ item.date_retrieve*1000 | date:'dd' }}/{{ item.date_retrieve*1000 | date:'MM' }}/{{item.date_retrieve*1000 | date:'yyyy' }}</b></p>
-			<p>Payé : <span ng-if="item.paid">Oui</span><span ng-if="!item.paid">Non</span></p>
-		</div>
-	</section>
+        <div ng-repeat="item in orders | orderBy:'date_retrieve'" class="Ticket">
+            <h3>{{ item.basket.name }}</h3>
+            <p>À retirer le <b>Jeudi {{ item.date_retrieve*1000 | date:'dd' }}/{{ item.date_retrieve*1000 | date:'MM' }}/{{item.date_retrieve*1000 | date:'yyyy' }}</b></p>
+            <p>Payé : {{ item.paid ? 'Oui' : 'Non' }}</p>
+        </div>
+    </section>
 </div>
