@@ -20,14 +20,6 @@ class BasketsControllerTest extends WebTestCase
         $this->assertJsonResponse($response, 201);
         // On vérifie que le lieu du nouvel objet a été indiqué
         $this->assertTrue($response->headers->has('Location'), $response->headers);
-
-        // Poste une commande
-        $this->client->request('POST', '/baskets/panier-test/order', array(
-            'dateRetrieve' => 123468736
-            )
-        );
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
     }
 
     public function testGet()
@@ -40,20 +32,12 @@ class BasketsControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
-        $this->client->request('GET', '/baskets-orders/alberic.trancart@eleves.enpc.fr');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-
-        $this->client->request('GET', '/baskets-orders');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-
         $this->client->request('GET', '/baskets/sjoajsiohaysahais-asbsksaba7');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }
 
-    public function testPatchBasket()
+    public function testPatch()
     {
         $this->client->request('PATCH', '/baskets/panier-test', array(
             'price' => 20,
@@ -72,29 +56,8 @@ class BasketsControllerTest extends WebTestCase
         $this->assertJsonResponse($response, 404);
     }
 
-    public function testPatchOrder()
-    {
-        $this->client->request(
-            'PATCH',
-            '/baskets/panier-test/order/alberic.trancart@eleves.enpc.fr',
-            array(
-                'paid' => true,
-                'dateRetrieve' => 123468736,
-                )
-        );
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-    }
-
     public function testDelete()
     {
-        $this->client->request(
-            'DELETE',
-            '/baskets/panier-test/order/alberic.trancart@eleves.enpc.fr/123468736'
-            );
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-
         $this->client->request('DELETE', '/baskets/panier-test');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
