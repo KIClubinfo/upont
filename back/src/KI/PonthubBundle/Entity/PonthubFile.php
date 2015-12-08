@@ -407,4 +407,27 @@ class PonthubFile extends Likeable
     {
         return $this->users = $users;
     }
+
+     /**
+     * @JMS\Expose
+     */
+    protected $downloaded = false;
+
+    public function hasBeenDownloadedBy(\KI\UserBundle\Entity\User $user)
+    {
+        foreach ($this->users as $fileUser) {
+            if ($fileUser->getUser() == $user)
+                return true;
+        }
+    }
+
+    public function getDownloaded()
+    {
+        return $this->downloaded;
+    }
+
+    public function setDownloaded($downloaded)
+    {
+        return $this->downloaded = $downloaded;
+    }
 }

@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @JMS\ExclusionPolicy("all")
  */
-class BeerUser
+class Transaction
 {
     /**
      * @ORM\Id
@@ -70,7 +70,7 @@ class BeerUser
      *
      * @param integer $date
      *
-     * @return BeerUser
+     * @return Transaction
      */
     public function setDate($date)
     {
@@ -104,7 +104,7 @@ class BeerUser
      *
      * @param integer $amount
      *
-     * @return BeerUser
+     * @return Transaction
      */
     public function setAmount($amount)
     {
@@ -118,7 +118,7 @@ class BeerUser
      *
      * @param \KI\FoyerBundle\Entity\Beer $beer
      *
-     * @return BeerUser
+     * @return Transaction
      */
     public function setBeer(\KI\FoyerBundle\Entity\Beer $beer)
     {
@@ -142,7 +142,7 @@ class BeerUser
      *
      * @param \KI\UserBundle\Entity\User $user
      *
-     * @return BeerUser
+     * @return Transaction
      */
     public function setUser(\KI\UserBundle\Entity\User $user)
     {

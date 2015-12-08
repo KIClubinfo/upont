@@ -27,7 +27,7 @@ angular.module('upont')
                 .error(function(data, status, headers, config) {
                     // Supprime tout token en cas de mauvaise identification
                     Permissions.remove();
-                    alertify.error(data.reason);
+                    alertify.error('Mauvais identifiant. Soit l\'identifiant n\'existe pas, soit le mot de passe est incorrect.');
                 });
         };
     }])

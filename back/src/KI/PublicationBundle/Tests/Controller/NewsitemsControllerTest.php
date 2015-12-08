@@ -6,10 +6,16 @@ use KI\CoreBundle\Tests\WebTestCase;
 
 class NewsitemsControllerTest extends WebTestCase
 {
-    // On crée une ressource sur laquelle seront effectués les tests. Ne pas oublier de supprimer à la fin avec le test DELETE.
+    // On crée une ressource sur laquelle seront effectués les tests.
+    // Ne pas oublier de supprimer à la fin avec le test DELETE.
     public function testPost()
     {
-        $this->client->request('POST', '/newsitems', array('name' => 'La Porte', 'text' => 'C\'est comme perdre', 'authorClub' => 'ki'));
+        $this->client->request('POST', '/newsitems', array(
+            'name' => 'La Porte',
+            'text' => 'C\'est comme perdre',
+            'sendMail' => false,
+            'authorClub' => 'ki'
+        ));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
         // On vérifie que le lieu du nouvel objet a été indiqué
@@ -33,15 +39,27 @@ class NewsitemsControllerTest extends WebTestCase
 
     public function testPatch()
     {
-        $this->client->request('PATCH', '/newsitems/la-porte', array('text' => 'ddssqdqsd'));
+        $this->client->request(
+            'PATCH',
+            '/newsitems/la-porte',
+            array('text' => 'ddssqdqsd', 'sendMail' => false)
+        );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/newsitems/la-porte', array('text' => ''));
+        $this->client->request(
+            'PATCH',
+            '/newsitems/la-porte',
+            array('text' => '')
+        );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('PATCH', '/newsitems/sjoajsiohaysahais-asbsksaba7', array('username' => 'miam', 'email' => '123@mail.fr'));
+        $this->client->request(
+            'PATCH',
+            '/newsitems/sjoajsiohaysahais-asbsksaba7',
+            array('username' => 'miam', 'email' => '123@mail.fr')
+        );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }

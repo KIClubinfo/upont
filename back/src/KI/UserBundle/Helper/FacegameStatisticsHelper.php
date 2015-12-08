@@ -61,7 +61,6 @@ class FacegameStatisticsHelper
             ->select('o')
             ->where('o.hardcore <> 1')
             ->andWhere('o.duration <> 0')
-            ->groupBy('o.user')
             ->orderBy('o.duration', 'ASC')
             ->setMaxResults($maxResults)
         ;
@@ -87,7 +86,6 @@ class FacegameStatisticsHelper
             ->select('o')
             ->where('o.hardcore = 1')
             ->andWhere('o.duration <> 0')
-            ->groupBy('o.user')
             ->orderBy('o.duration', 'ASC')
             ->setMaxResults($maxResults)
         ;
@@ -113,66 +111,38 @@ class FacegameStatisticsHelper
     public function userStatistics(User $user)
     {
         return array(
-            'totalNormal'        => $this->countUserGamesNormal($user),
-            'totalHardcore'      => $this->countUserGamesHardcore($user),
-            'normalHighscores'   => $this->getUserNormalHighscores($user),
-            'hardcoreHighscores' => $this->getUserHardcoreHighscores($user),
+            'totalNormal'        => $this->countUserGames($user, 0),
+            'totalHardcore'      => $this->countUserGames($user, 1),
+            'normalHighscores'   => $this->getUserHighscores($user, 0),
+            'hardcoreHighscores' => $this->getUserHighscores($user, 1),
         );
     }
 
-    protected function countUserGamesNormal($user)
+    protected function countUserGames($user, $mode)
     {
         $qb = $this->repository->createQueryBuilder('o');
         $qb
             ->select('count(o.id)')
-            ->where('o.hardcore <> 1')
+            ->where('o.hardcore = :mode')
             ->andWhere('o.duration <> 0')
-            ->andWhere('o.user = ?0')
-            ->setParameter(0, $user)
+            ->andWhere('o.user = :user')
+            ->setParameter('user', $user)
+            ->setParameter('mode', $mode)
         ;
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    protected function countUserGamesHardcore($user)
-    {
-        $qb = $this->repository->createQueryBuilder('o');
-        $qb
-            ->select('count(o.id)')
-            ->where('o.hardcore = 1')
-            ->andWhere('o.duration <> 0')
-            ->andWhere('o.user = ?0')
-            ->setParameter(0, $user)
-        ;
-        return $qb->getQuery()->getSingleScalarResult();
-    }
-
-    protected function getUserNormalHighscores($user)
+    protected function getUserHighscores($user, $mode)
     {
         $maxResults = 10;
         $qb = $this->repository->createQueryBuilder('o');
         $qb
             ->select('o.duration', 'o.date')
-            ->where('o.hardcore <> 1')
-            ->andWhere('o.user = ?0')
+            ->where('o.hardcore = :mode')
+            ->andWhere('o.user = :user')
             ->andWhere('o.duration <> 0')
-            ->setParameter(0, $user)
-            ->orderBy('o.duration', 'ASC')
-            ->setMaxResults($maxResults)
-        ;
-
-        return $qb->getQuery()->getResult();
-    }
-
-    protected function getUserHardcoreHighscores($user)
-    {
-        $maxResults = 10;
-        $qb = $this->repository->createQueryBuilder('o');
-        $qb
-            ->select('o.duration', 'o.date')
-            ->where('o.hardcore = 1')
-            ->andWhere('o.user = ?0')
-            ->andWhere('o.duration <> 0')
-            ->setParameter(0, $user)
+            ->setParameter('user', $user)
+            ->setParameter('mode', $mode)
             ->orderBy('o.duration', 'ASC')
             ->setMaxResults($maxResults)
         ;

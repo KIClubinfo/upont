@@ -2,14 +2,16 @@
 
 namespace KI\PublicationBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
 use KI\CoreBundle\Entity\Likeable;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
  * @JMS\ExclusionPolicy("all")
+ * @ORM\HasLifecycleCallbacks
  */
 class Post extends Likeable
 {
@@ -26,6 +28,8 @@ class Post extends Likeable
      * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User", cascade={"persist"})
      * @JMS\Expose
      * @Assert\Valid()
+     *
+     * @var \KI\UserBundle\Entity\Club
      */
     protected $authorUser;
     protected $autoSetUser = 'authorUser';
@@ -49,31 +53,48 @@ class Post extends Likeable
     protected $text;
 
     /**
-     * Image personnalisée
-     * @ORM\OneToOne(targetEntity="KI\CoreBundle\Entity\Image", cascade={"persist", "remove"})
-     * @Assert\Valid()
+     * La publication envoie-t-elle un mail ?
+     * @ORM\Column(name="send_mail", type="boolean", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("boolean")
      */
-    protected $image;
+    protected $sendMail;
 
     /**
-     * Délivre l'url de l'image du post par défaut :
-     * - L'url de l'image du club si l'image du post est null,
-     * - L'image de l'auteur si les deux premières sont null,
-     * - null si les trois images sont null
+     * @var PostFile
+     *
+     * @ORM\OneToMany(targetEntity="KI\PublicationBundle\Entity\PostFile", mappedBy="post", cascade={"persist", "remove"})
+     * @JMS\Expose
+     */
+    private $files;
+
+    /**
+     * @var ArrayCollection
+     */
+    private $uploadedFiles;
+
+    /**
+     * Délivre l'url de :
+     * - l'image du club
+     * - l'image d'utilisateur par défaut sinon
      * @JMS\VirtualProperty()
      */
     public function imageUrl()
     {
-        if ($this->image !== null) {
-            return $this->image->getWebPath();
-        } else if ($this->authorClub !== null && $this->authorClub->getImage() !== null) {
+        if ($this->authorClub !== null && $this->authorClub->getImage() !== null) {
             return $this->authorClub->getImage()->getWebPath();
         }
+
+        return 'uploads/others/default-user.png';
     }
 
     public function __construct()
     {
+        parent::__construct();
+
         $this->date = time();
+        $this->files = new ArrayCollection();
+        $this->uploadedFiles = new ArrayCollection();
     }
 
     /**
@@ -168,26 +189,72 @@ class Post extends Likeable
         return $this->authorUser;
     }
 
-    /**
-     * Set image
-     *
-     * @param \KI\CoreBundle\Entity\Image $image
-     * @return Newsitem
-     */
-    public function setImage(\KI\CoreBundle\Entity\Image $image = null)
+    public function getFiles()
     {
-        $this->image = $image;
+        return $this->files;
+    }
+
+    public function setFiles(array $files)
+    {
+        $this->files = $files;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getUploadedFiles()
+    {
+        return $this->uploadedFiles;
+    }
+
+    /**
+     * @param ArrayCollection $uploadedFiles
+     */
+    public function setUploadedFiles($uploadedFiles)
+    {
+        $this->uploadedFiles = $uploadedFiles;
+    }
+
+    /**
+     * @ORM\PreFlush()
+     */
+    public function upload()
+    {
+        if (is_array($this->uploadedFiles))
+        {
+            foreach ($this->uploadedFiles as $uploadedFile) {
+                if ($uploadedFile) {
+                    $file = new PostFile($uploadedFile);
+                    $file->setFile($uploadedFile);
+                    $this->getFiles()->add($file);
+                    $file->setPost($this);
+                    unset($uploadedFile);
+                }
+            }
+        }
+    }
+
+    /**
+     * Set sendMail
+     *
+     * @param boolean $sendMail
+     *
+     * @return Post
+     */
+    public function setSendMail($sendMail)
+    {
+        $this->sendMail = $sendMail;
 
         return $this;
     }
 
     /**
-     * Get image
+     * Get sendMail
      *
-     * @return \KI\CoreBundle\Entity\Image
+     * @return boolean
      */
-    public function getImage()
+    public function getSendMail()
     {
-        return $this->image;
+        return $this->sendMail;
     }
 }

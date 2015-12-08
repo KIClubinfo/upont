@@ -17,12 +17,12 @@ class FoyerControllerTest extends WebTestCase
         $this->assertJsonResponse($response, 200);
 
         $this->connect('peluchom', 'password');
-        $this->client->request('PATCH', '/users/trancara/balance', array('balance' => 20.5));
+        $this->client->request('POST', '/transactions', array('credit' => 20.5, 'user' => 'trancara'));
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 201);
 
-        $this->client->request('PATCH', '/users/trancara/balance', array('balance' => -20.5));
+        $this->client->request('POST', '/transactions', array('credit' => -20.5, 'user' => 'trancara'));
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 201);
     }
 }

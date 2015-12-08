@@ -31,6 +31,7 @@ angular.module('upont')
 
             Paginate.get(url, 20).then(function(data){
                 $scope.users = data;
+                $scope.next();
             });
         };
     }])

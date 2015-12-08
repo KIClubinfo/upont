@@ -37,7 +37,7 @@ class SecurityTest extends WebTestCase
         // On se présente comme un admissible
         $this->connect('muzardt', 'password');
         $routes = array(
-            array(403, 'POST', '/beers/leffe/users/trancara'),
+            array(403, 'POST', '/transactions'),
         );
         $this->checkRoutes($routes);
     }

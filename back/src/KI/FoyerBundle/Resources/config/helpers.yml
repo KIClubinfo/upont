@@ -3,13 +3,21 @@ services:
         class: KI\FoyerBundle\Helper\BeerHelper
         arguments:
             - @ki_foyer.repository.beer
-            - @ki_foyer.repository.beeruser
+            - @ki_foyer.repository.transaction
             - @ki_user.repository.user
             - @event_dispatcher
+
+    ki_foyer.helper.transaction:
+        class: KI\FoyerBundle\Helper\TransactionHelper
+        arguments:
+            - @ki_foyer.repository.beer
+            - @ki_foyer.repository.transaction
+            - @ki_user.repository.user
+            - @doctrine.orm.entity_manager
 
     ki_foyer.helper.statistics:
         class: KI\FoyerBundle\Helper\StatisticsHelper
         arguments:
             - @ki_foyer.repository.beer
-            - @ki_foyer.repository.beeruser
+            - @ki_foyer.repository.transaction
             - @ki_user.repository.user

@@ -1,6 +1,6 @@
 <div ng-controller="Publications_Post_Ctrl">
     <section class="Ticket Ticket--nopadding" ng-if="$root.clubs.length && display">
-        <form row wrap ng-submit="publish(post, postPicture)" autocomplete="off">
+        <form row wrap ng-submit="publish(post, postFiles)" autocomplete="off">
             <!-- Inputs liés aux news et events -->
             <div class="padded" flex="100" ng-init="focus=false" ng-click="focus=true">
                 <input class="Input" type="text" ng-model="post.name" placeholder="{{ focus ? 'Titre' : 'Écrire une publication...' }}"/>
@@ -79,9 +79,10 @@
                     </div>
 
                     <!-- Ajout d'une image -->
-                    <div class="InputButton" ng-if="!modify" ng-class="{'active': postPicture.filename}">
-                        <span><i class="fa fa-file-image-o"></i> {{ postPicture.filename ? postPicture.filename : 'Image' }}</span>
-                        <input class="InputButton__fileinput" type="file" ng-model="postPicture" base-sixty-four-input>
+                    <div class="InputButton" ng-if="!modify" ng-class="{'active': postFiles.length}">
+                        <i class="fa fa-file-o"></i>
+                        <span ng-repeat="file in postFiles"> {{ file.name ? file.name : 'Fichier' }} </span>
+                        <button class="InputButton__fileinput" ngf-select="selectFiles($files)" multiple></button>
                     </div>
                     <button class="Button" style="margin-left: auto;">{{ modify ? 'Modifier' : 'Publier' }}</button>
                 </div>

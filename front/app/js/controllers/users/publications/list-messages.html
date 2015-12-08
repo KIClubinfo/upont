@@ -4,7 +4,9 @@
         <div class="Ticket" ng-repeat="message in messages.data">
             <header row="start center" ng-mouseover="showModify=true" ng-mouseleave="showModify=false">
                 <div class="Image  Image--thumb  Image--margin">
-                    <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ message.author_user.image_url | thumb | urlFile }})' }"></div>
+                    <a ui-sref="root.users.students.simple({slug: message.author_user.username})">
+                        <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ message.author_user.image_url | thumb | urlFile }})' }"></div>
+                    </a>
                 </div>
 
                 <div>

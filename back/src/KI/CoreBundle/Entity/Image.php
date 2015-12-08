@@ -163,6 +163,12 @@ class Image
 
         $thumbnail = imagecreatetruecolor($thumbWidth, $thumbHeight);
 
+        // Activation de la transparence
+        if (preg_match('/png/', $extension)) {
+            imagealphablending($thumbnail, false);
+            imagesavealpha($thumbnail, true);
+        }
+
         imagecopyresampled($thumbnail, $image, 0, 0, 0, 0, $thumbWidth, $thumbHeight, $imageWidth, $imageHeight);
 
         // Enregistrement de la miniature

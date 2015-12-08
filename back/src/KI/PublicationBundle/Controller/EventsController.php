@@ -11,6 +11,7 @@ use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Event\AchievementCheckEvent;
 use KI\CoreBundle\Controller\ResourceController;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use KI\PublicationBundle\Entity\Event;
 
 class EventsController extends ResourceController
 {
@@ -167,28 +168,34 @@ class EventsController extends ResourceController
      */
     public function postEventUserAction($slug)
     {
-        $request = $this->getRequest()->request;
+        $event = $this->findBySlug($slug);
 
+        if ($event->getEntryMethod() != Event::TYPE_SHOTGUN)
+            throw new BadRequestHttpException('Ce n\'est pas un événement à shotgun !');
+
+        $request = $this->getRequest()->request;
         if (!$request->has('motivation'))
             throw new BadRequestHttpException('Texte de motivation manquant');
 
-        // On vérifie que l'utilisateur n'a pas déjà shotguné
-        $event = $this->findBySlug($slug);
-        $user = $this->get('security.context')->getToken()->getUser();
-
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
+        $user = $this->get('security.context')->getToken()->getUser();
         $userEvent = $repo->findBy(array('event' => $event, 'user' => $user));
+
+        // On vérifie que l'utilisateur n'a pas déjà shotguné
         if (count($userEvent) != 0)
-            return;
+            throw new BadRequestHttpException('Tu es déjà inscrit !');
 
-        $userEvent = new EventUser();
-        $userEvent->setEvent($event);
-        $userEvent->setUser($user);
-        $userEvent->setDate(time());
-        $userEvent->setMotivation($request->get('motivation'));
+        //S'il est trop tôt, on rejète le shotgun
+        if (time() >= $event->getShotgunDate()) {
+            $userEvent = new EventUser();
+            $userEvent->setEvent($event);
+            $userEvent->setUser($user);
+            $userEvent->setDate(time());
+            $userEvent->setMotivation($request->get('motivation'));
 
-        $this->manager->persist($userEvent);
-        $this->manager->flush();
+            $this->manager->persist($userEvent);
+            $this->manager->flush();
+        }
 
         return $this->jsonResponse(null, 204);
     }
@@ -217,15 +224,17 @@ class EventsController extends ResourceController
      */
     public function patchEventUserAction($slug)
     {
-        $request = $this->getRequest()->request;
+        $event = $this->findBySlug($slug);
 
+        if ($event->getEntryMethod() != Event::TYPE_SHOTGUN)
+            throw new BadRequestHttpException('Ce n\'est pas un événement à shotgun !');
+
+        $request = $this->getRequest()->request;
         if (!$request->has('motivation'))
             throw new BadRequestHttpException('Texte de motivation manquant');
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
-        $event = $this->findBySlug($slug);
         $user = $this->get('security.context')->getToken()->getUser();
-
         $userEvent = $repo->findBy(array('event' => $event, 'user' => $user));
 
         if (count($userEvent) == 1) {
@@ -253,11 +262,10 @@ class EventsController extends ResourceController
      * @Route\Delete("/events/{slug}/shotgun")
      */
     public function deleteEventUserAction($slug) {
+        $event = $this->findBySlug($slug);
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
-        $event = $this->findBySlug($slug);
         $user = $this->get('security.context')->getToken()->getUser();
-
         $userEvent = $repo->findBy(array('event' => $event, 'user' => $user));
 
         if (count($userEvent) == 1) {
@@ -265,7 +273,7 @@ class EventsController extends ResourceController
 
             // On regarde si une place s'est libérée pour quelqu'un, au cas où
             // on le prévient
-            $userEvents = $repo->findBy(array('event' => $event));
+            $userEvents = $repo->findBy(array('event' => $event), array('date' => 'ASC'));
 
             if (isset($userEvents[$event->getShotgunLimit()])) {
                 $this->get('ki_user.service.notify')->notify(
@@ -282,7 +290,8 @@ class EventsController extends ResourceController
         } else {
             throw new NotFoundHttpException('Participation au shotgun non trouvée');
         }
-        return $this->jsonResponse(null, 204); }
+        return $this->jsonResponse(null, 204);
+    }
 
     /**
      * @ApiDoc(
@@ -298,47 +307,44 @@ class EventsController extends ResourceController
      * )
      * @Route\Get("/events/{slug}/shotgun")
      */
-    public function getEventUserAction($slug)
-    {
-        $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
+    public function getEventUserAction($slug) {
         $event = $this->findBySlug($slug);
-        $user = $this->get('security.context')->getToken()->getUser();
 
+        $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
+        $user = $this->get('security.context')->getToken()->getUser();
         $userEvent = $repo->findBy(array('event' => $event), array('date' => 'ASC'));
 
-        $position = -1;
+        $position = 0;
         $limit = $event->getShotgunLimit();
 
         $fail = $success = $shotgun = array();
         $count = min(count($userEvent), $limit);
 
         for ($i = 0; $i < $count; $i++) {
-            // Si le shotgun a été fait avant la date prévue, on passe
-            if ($userEvent[$i]->getDate() < $event->getShotgunDate()) {
-                $position = 0;
-                continue;
-            }
-
             if ($user == $userEvent[$i]->getUser())
                 $position = $i + 1;
+
             $shotgun['user'] = $userEvent[$i]->getUser();
             $shotgun['date'] = $userEvent[$i]->getDate();
+
             if ($user == $event->getAuthorUser()) {
                 $shotgun['motivation'] = $userEvent[$i]->getMotivation();
             }
-            $success[$i] = $shotgun;
+            $success[] = $shotgun;
         }
 
         $count = count($userEvent);
         for ($i = $limit; $i < $count; $i++) {
             if ($user == $userEvent[$i]->getUser())
                 $position = $i + 1;
+
             $shotgun['user'] = $userEvent[$i]->getUser();
             $shotgun['date'] = $userEvent[$i]->getDate();
 
             if ($user == $event->getAuthorUser())
                 $shotgun['motivation'] = $userEvent[$i]->getMotivation();
-            $fail[$i] = $shotgun;
+
+            $fail[] = $shotgun;
         }
 
         $result = array(
@@ -353,7 +359,7 @@ class EventsController extends ResourceController
             $result['fail'] = $fail;
         }
 
-        if ($position != -1) {
+        if ($position != 0) {
             $result['position'] = $position;
         }
         if ($position <= $limit && $position > 0) {

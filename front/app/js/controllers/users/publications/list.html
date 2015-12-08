@@ -82,7 +82,7 @@
 
                     <!-- Liste des participants -->
                     <section class="padded" row wrap ng-if="publication.displayAttendees">
-                        <div class="Image" flex="10" flex-lg="5" up-user user="user" ng-repeat="user in publication.userlist">
+                        <div class="Image" flex="10" flex-lg="5" up-user user="user" ng-repeat="user in publication.userlist" ui-sref="root.users.students.simple({slug: user.username})" title="{{user.nick}}">
                             <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ user.image_url | thumb | urlFile }})' }"></div>
                         </div>
                     </section>
@@ -95,6 +95,20 @@
                         <textarea flex="100" ng-model="publication.text" redactor></textarea>
                         <button flex="50" flex-lg="25" class="Button" ng-click="modify(publication)">Envoyer</button>
                     </div>
+
+                    <!-- Fichiers joints -->
+                    <section ng-if="publication.files.length">
+                        <h3>
+                            <i class="fa fa-file-o"></i> Pièces jointes
+                        </h3>
+                        <ul class="Link  Link--reverse padded">
+                            <li ng-repeat="file in publication.files | orderBy:['name']">
+                                <a title="Télécharger le fichier" target="_blank" ng-href="{{ file.url | urlFile }}">
+                                    {{ file.name }} ({{ file.size | formatSize }})
+                                </a>
+                            </li>
+                        </ul>
+                    </section>
                 </section>
             </div>
             <div up-likes show="false" objet="publication"

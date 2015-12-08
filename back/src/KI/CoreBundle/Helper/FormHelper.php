@@ -64,7 +64,6 @@ class FormHelper
      */
     public function formView($data, $parent = null)
     {
-
         switch ($data['code']) {
         case 400:
             return RestView::create($data['form'], 400);

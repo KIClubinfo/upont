@@ -72,6 +72,7 @@ class Software extends PonthubFile
      * Set author
      *
      * @param string $author
+     * @return Software
      */
     public function setAuthor($author)
     {
@@ -94,6 +95,7 @@ class Software extends PonthubFile
      * Set version
      *
      * @param string $version
+     * @return Software
      */
     public function setVersion($version)
     {

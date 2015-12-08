@@ -50,6 +50,7 @@ class ImageService
 
     /**
      * @param string $base64
+     * @return array
      */
     public function uploadFromBase64($base64)
     {

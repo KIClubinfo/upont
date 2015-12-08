@@ -5,26 +5,26 @@ namespace KI\FoyerBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use KI\FoyerBundle\Entity\BeerUser;
+use KI\FoyerBundle\Entity\Transaction;
 
-class LoadBeerUserFixture extends AbstractFixture implements OrderedFixtureInterface
+class LoadTransactionFixture extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $beerUser = new BeerUser();
-        $beerUser->setDate(time()-3600);
-        $beerUser->setAmount(1);
-        $beerUser->setBeer($this->getReference('beer-leffe'));
-        $beerUser->setUser($this->getReference('user-trancara'));
-        $manager->persist($beerUser);
+        $transaction = new Transaction();
+        $transaction->setDate(time()-3600);
+        $transaction->setAmount(1);
+        $transaction->setBeer($this->getReference('beer-leffe'));
+        $transaction->setUser($this->getReference('user-trancara'));
+        $manager->persist($transaction);
 
         for ($i = 0; $i < 6; $i++) {
-            $beerUser = new BeerUser();
-            $beerUser->setDate(time()-900*$i);
-            $beerUser->setAmount(1);
-            $beerUser->setBeer($this->getReference('beer-kro'));
-            $beerUser->setUser($this->getReference('user-de-boisc'));
-            $manager->persist($beerUser);
+            $transaction = new Transaction();
+            $transaction->setDate(time()-900*$i);
+            $transaction->setAmount(1);
+            $transaction->setBeer($this->getReference('beer-kro'));
+            $transaction->setUser($this->getReference('user-de-boisc'));
+            $manager->persist($transaction);
         }
 
         $manager->flush();
