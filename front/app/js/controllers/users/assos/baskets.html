@@ -5,17 +5,17 @@
 	<section ng-hide="modifying">
 		<form row="padded" wrap ng-submit="addBasket(newBasket.name, newBasket.content, newBasket.price)" autocomplete="off">
 			<div class="padded" flex="100" flex-md="25">
-				<input class="Input" type="text" ng-model="newBasket.name" placeholder="Nom"/>
+				<input class="Input" type="text" ng-model="newBasket.name" placeholder="Nom">
 			</div>
 			<div class="padded" flex="100" flex-md="50">
-				<input class="Input" type="text" ng-model="newBasket.content" placeholder="Contenu"/>
+				<input class="Input" type="text" ng-model="newBasket.content" placeholder="Contenu">
 			</div>
 			<div class="padded" flex="100" flex-md="25" row wrap>
 				<div flex="100" flex-md="25">
 					Prix
 				</div>
 				<div flex="90" flex-md="70">
-					<input class="Input" type="number" step="0.01" ng-model="newBasket.price"/>
+					<input class="Input" type="number" step="0.01" ng-model="newBasket.price">
 				</div>
 				<div flex="10" flex-md="5">
 					 €
@@ -55,17 +55,17 @@
 	<section ng-show="modifying">
 		<form row="padded" wrap ng-submit="modifyBasket(changedBasket)" autocomplete="off">
 			<div class="padded" flex="100" flex-md="25">
-				<input class="Input" type="text" ng-model="changedBasket.name" placeholder="Nom"/>
+				<input class="Input" type="text" ng-model="changedBasket.name" placeholder="Nom">
 			</div>
 			<div class="padded" flex="100" flex-md="50">
-				<input class="Input" type="text" ng-model="changedBasket.content" placeholder="Contenu"/>
+				<input class="Input" type="text" ng-model="changedBasket.content" placeholder="Contenu">
 			</div>
 			<div class="padded" flex="100" flex-md="25" row wrap>
 				<div flex="100" flex-md="25">
 					Prix
 				</div>
 				<div flex="90" flex-md="70">
-					<input class="Input" type="number" step="0.01" ng-model="changedBasket.price"/>
+					<input class="Input" type="number" step="0.01" ng-model="changedBasket.price">
 				</div>
 				<div flex="10" flex-md="5">
 					 €
@@ -114,7 +114,7 @@
 				<td>{{ order.first_name }}</td>
 				<td>{{ order.email }}</td>
 				<td>{{ order.phone }}</td>
-				<td><input type="checkbox" class="Checkbox" ng-model="order.paid" ng-click="payOrder(order.basket.slug, order.email, order.date_retrieve, order.paid)"/></td>
+				<td><input type="checkbox" class="Checkbox" ng-model="order.paid" ng-click="payOrder(order.basket.slug, order.email, order.date_retrieve, order.paid)"></td>
 			</tr>
 
 			<tr ng-hide="orders.length">
