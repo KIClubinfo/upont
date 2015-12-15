@@ -24,7 +24,7 @@
 
                 <br>
                 <div ng-repeat="item in baskets">
-                    <input type="checkbox" value="item.slug" ng-model="basketOrders[$parent.$index][$index]"> {{ item.name }} <em>({{ item.price }} €)</em></input><br>
+                    <input type="checkbox" value="item.slug" ng-model="basketOrders[$parent.$index][$index]"> {{ item.name }} <em>({{ item.price }} €)</em><br>
                 </div>
             </section>
 
@@ -88,7 +88,7 @@
 
         <div ng-repeat="item in orders | orderBy:'date_retrieve'" class="Ticket">
             <h3>{{ item.basket.name }}</h3>
-            <p>À retirer le <b>Jeudi {{ item.date_retrieve*1000 | date:'dd' }}/{{ item.date_retrieve*1000 | date:'MM' }}/{{item.date_retrieve*1000 | date:'yyyy' }}</b></p>
+            <p>À retirer le <b>Jeudi {{ item.date_retrieve*1000 | date:'dd/MM/yyyy' }}</b></p>
             <p>Payé : {{ item.paid ? 'Oui' : 'Non' }}</p>
         </div>
     </section>
