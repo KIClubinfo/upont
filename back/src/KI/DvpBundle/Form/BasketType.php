@@ -1,35 +1,27 @@
 <?php
 
-namespace KI\PublicationBundle\Form;
+namespace KI\DvpBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class NewsitemType extends AbstractType
+class BasketType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('name')
-            ->add('text')
-            ->add('sendMail')
-            ->add('authorClub', 'club_selector')
-            ->add('image', 'image_selector')
-            ->add('uploadedFiles', 'file', array(
-                    'multiple' => true,
-                    'data_class' => null,
-                    'required' => false,
-                )
-            )
-        ;
+            ->add('content')
+            ->add('price')
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'KI\PublicationBundle\Entity\Newsitem',
             'csrf_protection' => false,
+            'data_class' => 'KI\DvpBundle\Entity\Basket'
         ));
     }
 

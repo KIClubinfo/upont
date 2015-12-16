@@ -1,42 +1,45 @@
 <?php
 
-namespace KI\PublicationBundle\Controller;
+namespace KI\DvpBundle\Controller;
 
+use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use KI\CoreBundle\Controller\ResourceController;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use KI\CoreBundle\Controller\ResourceController;
+use KI\DvpBundle\Entity\BasketOrder;
 
-class NewsitemsController extends ResourceController
+class BasketsController extends ResourceController
 {
     public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
-        $this->initialize('Newsitem', 'Publication');
+        $this->initialize('Basket', 'Dvp');
     }
 
     /**
      * @ApiDoc(
      *  resource=true,
-     *  description="Liste les news",
-     *  output="KI\PublicationBundle\Entity\Newsitem",
+     *  description="Liste les paniers",
+     *  output="KI\DvpBundle\Entity\Basket",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
      *   403="Pas les droits suffisants pour effectuer cette action",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Publications"
+     *  section="DévelopPonts"
      * )
      */
-    public function getNewsitemsAction()
+    public function getBasketsAction()
     {
         return $this->getAll($this->is('EXTERIEUR'));
     }
 
     /**
      * @ApiDoc(
-     *  description="Retourne une news",
-     *  output="KI\PublicationBundle\Entity\Newsitem",
+     *  description="Retourne un panier",
+     *  output="KI\DvpBundle\Entity\Basket",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -44,19 +47,19 @@ class NewsitemsController extends ResourceController
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Publications"
+     *  section="DévelopPonts"
      * )
      */
-    public function getNewsitemAction($slug)
+    public function getBasketAction($slug)
     {
         return $this->getOne($slug, $this->is('EXTERIEUR'));
     }
 
     /**
      * @ApiDoc(
-     *  description="Crée une news",
-     *  input="KI\PublicationBundle\Form\NewsitemType",
-     *  output="KI\PublicationBundle\Entity\Newsitem",
+     *  description="Crée un panier",
+     *  input="KI\DvpBundle\Form\BasketType",
+     *  output="KI\DvpBundle\Entity\Basket",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",
@@ -64,24 +67,18 @@ class NewsitemsController extends ResourceController
      *   403="Pas les droits suffisants pour effectuer cette action",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Publications"
+     *  section="DévelopPonts"
      * )
      */
-    public function postNewsitemAction()
+    public function postBasketAction()
     {
-        $return = $this->postData($this->isClubMember());
-
-        if ($return['code'] == 201) {
-            $this->get('ki_publication.listener.newsitem')->postPersist($return['item']);
-        }
-
-        return $this->postView($return);
+        return $this->post($this->isClubMember('dvp'));
     }
 
     /**
      * @ApiDoc(
-     *  description="Modifie une news",
-     *  input="KI\PublicationBundle\Form\NewsitemType",
+     *  description="Modifie un panier",
+     *  input="KI\DvpBundle\Form\BasketType",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   400="La syntaxe de la requête est erronée",
@@ -90,19 +87,17 @@ class NewsitemsController extends ResourceController
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Publications"
+     *  section="DévelopPonts"
      * )
      */
-    public function patchNewsitemAction($slug)
+    public function patchBasketAction($slug)
     {
-        $club = $this->findBySlug($slug)->getAuthorClub();
-        $club = $club ? $club->getSlug() : $club;
-        return $this->patch($slug, $this->isClubMember($club));
+        return $this->patch($slug, $this->isClubMember('dvp'));
     }
 
     /**
      * @ApiDoc(
-     *  description="Supprime une news",
+     *  description="Supprime un panier",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -110,13 +105,21 @@ class NewsitemsController extends ResourceController
      *   404="Ressource non trouvée",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
-     *  section="Publications"
+     *  section="DévelopPonts"
      * )
      */
-    public function deleteNewsitemAction($slug)
+    public function deleteBasketAction($slug)
     {
-        $club = $this->findBySlug($slug)->getAuthorClub();
-        $club = $club ? $club->getSlug() : $club;
-        return $this->delete($slug, $this->isClubMember($club));
+        $basket = $this->findBySlug($slug);
+
+        // On n'oublie pas de supprimer toutes les commandes associées
+        $basketOrderRepository = $this->manager->getRepository('KIDvpBundle:BasketOrder');
+        $basketOrder = $basketOrderRepository->findByBasket($basket);
+
+        foreach ($basketOrder as $item) {
+            $this->manager->remove($item);
+        }
+
+        return $this->delete($slug, $this->isClubMember('dvp'));
     }
 }

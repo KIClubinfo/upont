@@ -30,22 +30,15 @@ class Newsitem extends Post
      */
     public function imageUrl()
     {
-        if($this->name==="message")
-        {
-            if ($this->image !== null)
-            {
+        if ($this->name === "message") {
+            if ($this->image !== null) {
                 return $this->image->getWebPath();
-            }
-            else
+            } else
                 return '';
-        }
-        else
-        {
-            if ($this->authorClub !== null && $this->authorClub->getImage() !== null)
-            {
+        } else {
+            if ($this->authorClub !== null && $this->authorClub->getImage() !== null) {
                 return $this->authorClub->getImage()->getWebPath();
-            }
-            else
+            } else
                 return 'uploads/others/default-user.png';
         }
     }

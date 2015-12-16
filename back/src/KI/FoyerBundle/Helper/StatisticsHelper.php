@@ -77,7 +77,7 @@ class StatisticsHelper
         $volume = 0;
         $beerCount = 0;
 
-        $transactions = $this->transactionRepository->findBy(["user" => $user],["date" => "ASC"]);
+        $transactions = $this->transactionRepository->findBy(['user' => $user], ['date' => 'ASC']);
 
         foreach ($transactions as $transaction) {
             $beer = $transaction->getBeer();

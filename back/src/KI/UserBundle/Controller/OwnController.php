@@ -425,7 +425,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         return $return;
     }
 
-    private function getCourseitems($user = null){
+    private function getCourseitems($user = null) {
         $repo = $this->getDoctrine()->getManager()->getRepository('KIPublicationBundle:CourseUser');
 
         if ($user === null)

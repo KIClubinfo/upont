@@ -2,12 +2,11 @@
 
 namespace KI\PublicationBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
 use KI\CoreBundle\Entity\Likeable;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -52,6 +51,14 @@ class Post extends Likeable
      * @Assert\NotBlank()
      */
     protected $text;
+
+    /**
+     * La publication envoie-t-elle un mail ?
+     * @ORM\Column(name="send_mail", type="boolean", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("boolean")
+     */
+    protected $sendMail;
 
     /**
      * @var PostFile
@@ -225,5 +232,29 @@ class Post extends Likeable
                 }
             }
         }
+    }
+
+    /**
+     * Set sendMail
+     *
+     * @param boolean $sendMail
+     *
+     * @return Post
+     */
+    public function setSendMail($sendMail)
+    {
+        $this->sendMail = $sendMail;
+
+        return $this;
+    }
+
+    /**
+     * Get sendMail
+     *
+     * @return boolean
+     */
+    public function getSendMail()
+    {
+        return $this->sendMail;
     }
 }

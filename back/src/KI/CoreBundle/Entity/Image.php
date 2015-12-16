@@ -164,7 +164,7 @@ class Image
         $thumbnail = imagecreatetruecolor($thumbWidth, $thumbHeight);
 
         // Activation de la transparence
-        if (preg_match('/png/', $extension)){
+        if (preg_match('/png/', $extension)) {
             imagealphablending($thumbnail, false);
             imagesavealpha($thumbnail, true);
         }
