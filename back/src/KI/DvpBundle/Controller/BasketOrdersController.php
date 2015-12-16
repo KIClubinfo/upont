@@ -57,10 +57,6 @@ class BasketOrdersController extends ResourceController
     {
         $basketOrder = $this->repository->findByEmail($email);
 
-        if (count($basketOrder) == 0) {
-            throw new NotFoundHttpException('Client non trouvé');
-        }
-
         return $basketOrder;
     }
 
