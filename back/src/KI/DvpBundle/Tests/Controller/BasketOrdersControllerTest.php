@@ -31,7 +31,7 @@ class BasketOrdersControllerTest extends WebTestCase
 
         $this->client->request('GET', '/baskets-orders/srgsegherge');
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 404);
+        $this->assertJsonResponse($response, 200);
     }
 
     public function testPatch()
