@@ -98,7 +98,11 @@ angular.module('upont')
                 case 'news':
                     if(!$scope.isLoading) {
                         $scope.isLoading = true;
-                        alertify.success('News en cours de publication.</br>Veuillez patienter...');
+
+                        // On demande si on envoie un mail
+                        alertify.confirm('Veux-tu envoyer un mail pour cette news ?', function(sendMail){
+                            params.sendMail = sendMail;
+                        });
 
                         params.name = post.name;
                         Upload.upload({
@@ -152,9 +156,13 @@ angular.module('upont')
 
                     if(!$scope.isLoading) {
                         $scope.isLoading = true;
-                        alertify.success('Event en cours de publication.</br>Veuillez patienter...');
-                        
+
                         if (!$scope.modify){
+                        // On demande si on envoie un mail
+                            alertify.confirm('Veux-tu envoyer un mail pour cet événement ?', function(sendMail){
+                                params.sendMail = sendMail;
+                            });
+
                             Upload.upload({
                                 method: "POST",
                                 url: apiPrefix + 'events',
