@@ -167,22 +167,14 @@ angular.module('upont')
                         $scope.isLoading = true;
 
                         if (!$scope.modify) {
-                        // On demande si on envoie un mail
-                            alertify.confirm(
-                                'Veux-tu envoyer un mail pour cet événement ?',
-                                function() {
-                                    params.sendMail = true;
-                                },
-                                function() {
-                                    params.sendMail = false;
-                                }
-                            );
 
+                        function sendMailEvent(mail) {
+                            params.sendMail = mail;
                             Upload.upload({
                                 method: "POST",
                                 url: apiPrefix + 'events',
                                 data: params
-                        	}).success(function(data) {
+                            }).success(function(data) {
                                 $rootScope.$broadcast('newEvent');
                                 Achievements.check();
                                 init();
@@ -192,12 +184,24 @@ angular.module('upont')
                                 alertify.error('Formulaire vide ou mal rempli');
                                 $scope.isLoading = false;
                             });
+                        }
+
+                        // On demande si on envoie un mail
+                            alertify.confirm(
+                                'Veux-tu envoyer un mail pour cet événement ?',
+                                function() {
+                                    sendMailEvent(true);
+                                },
+                                function() {
+                                    sendMailEvent(false);
+                                }
+                            );
                         } else {
                             Upload.upload({
                                 method: "PATCH",
                                 url: apiPrefix + 'events/' + post.slug,
                                 data: params
-                        	}).success(function(data) {
+                            }).success(function(data) {
                                 $rootScope.$broadcast('newEvent');
                                 alertify.success('Événement modifié');
                                 init();

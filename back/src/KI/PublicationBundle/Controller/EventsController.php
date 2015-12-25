@@ -224,7 +224,9 @@ class EventsController extends ResourceController
      */
     public function patchEventUserAction($slug)
     {
-        $request = $this->getRequest()->request;
+        $event = $this->findBySlug($slug);
+        if ($event->getEntryMethod() != Event::TYPE_SHOTGUN)
+            throw new BadRequestHttpException('Ce n\'est pas un événement à shotgun !');
 
         $request = $this->getRequest()->request;
         if (!$request->has('motivation'))
@@ -306,6 +308,8 @@ class EventsController extends ResourceController
      */
     public function getEventUserAction($slug)
     {
+        $event = $this->findBySlug($slug);
+
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
         $user = $this->get('security.context')->getToken()->getUser();
         $userEvent = $repo->findBy(array('event' => $event), array('date' => 'ASC'));
@@ -337,8 +341,9 @@ class EventsController extends ResourceController
             $shotgun['user'] = $userEvent[$i]->getUser();
             $shotgun['date'] = $userEvent[$i]->getDate();
 
-            if ($user == $event->getAuthorUser())
+            if ($user == $event->getAuthorUser()) {
                 $shotgun['motivation'] = $userEvent[$i]->getMotivation();
+            }
 
             $fail[] = $shotgun;
         }
