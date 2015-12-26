@@ -13,19 +13,19 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class EventListener
 {
-    protected $notifyService;
-    protected $mailerService;
     protected $dispatcher;
+    protected $mailerService;
+    protected $notifyService;
     protected $userRepository;
 
-    public function __construct(NotifyService $notifyService,
+    public function __construct(EventDispatcherInterface $dispatcher,
                                 MailerService $mailerService,
-                                EventDispatcherInterface $dispatcher,
+                                NotifyService $notifyService,
                                 EntityRepository $userRepository)
     {
-        $this->notifyService  = $notifyService;
-        $this->mailerService  = $mailerService;
         $this->dispatcher     = $dispatcher;
+        $this->mailerService  = $mailerService;
+        $this->notifyService  = $notifyService;
         $this->userRepository = $userRepository;
     }
 

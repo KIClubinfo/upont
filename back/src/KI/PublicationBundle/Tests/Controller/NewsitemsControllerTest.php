@@ -13,13 +13,25 @@ class NewsitemsControllerTest extends WebTestCase
         $this->client->request('POST', '/newsitems', array(
             'name' => 'La Porte',
             'text' => 'C\'est comme perdre',
-            'sendMail' => false,
+            'sendMail' => true,
             'authorClub' => 'ki'
         ));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
         // On vérifie que le lieu du nouvel objet a été indiqué
         $this->assertTrue($response->headers->has('Location'), $response->headers);
+
+        // On vérifie qu'un mail a été envoyé
+        $mailCollector = $this->client->getProfile()->getCollector('swiftmailer');
+        $this->assertEquals(2, $mailCollector->getMessageCount());
+
+        $collectedMessages = $mailCollector->getMessages();
+        $message = $collectedMessages[0];
+
+        // On vérifie le message
+        $this->assertInstanceOf('Swift_Message', $message);
+        $this->assertTrue(!empty($message->getSubject()));
+        $this->assertEquals('evenements@upont.enpc.fr', key($message->getFrom()));
     }
 
     public function testGet()
