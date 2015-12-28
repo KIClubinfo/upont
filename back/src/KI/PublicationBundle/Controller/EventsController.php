@@ -225,7 +225,6 @@ class EventsController extends ResourceController
     public function patchEventUserAction($slug)
     {
         $event = $this->findBySlug($slug);
-
         if ($event->getEntryMethod() != Event::TYPE_SHOTGUN)
             throw new BadRequestHttpException('Ce n\'est pas un événement à shotgun !');
 
@@ -307,7 +306,8 @@ class EventsController extends ResourceController
      * )
      * @Route\Get("/events/{slug}/shotgun")
      */
-    public function getEventUserAction($slug) {
+    public function getEventUserAction($slug)
+    {
         $event = $this->findBySlug($slug);
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
@@ -341,8 +341,9 @@ class EventsController extends ResourceController
             $shotgun['user'] = $userEvent[$i]->getUser();
             $shotgun['date'] = $userEvent[$i]->getDate();
 
-            if ($user == $event->getAuthorUser())
+            if ($user == $event->getAuthorUser()) {
                 $shotgun['motivation'] = $userEvent[$i]->getMotivation();
+            }
 
             $fail[] = $shotgun;
         }

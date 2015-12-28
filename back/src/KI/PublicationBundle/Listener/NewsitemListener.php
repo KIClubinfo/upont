@@ -2,25 +2,30 @@
 
 namespace KI\PublicationBundle\Listener;
 
+use Doctrine\ORM\EntityRepository;
 use KI\PublicationBundle\Entity\Newsitem;
+use KI\UserBundle\Entity\Achievement;
+use KI\UserBundle\Entity\Club;
+use KI\UserBundle\Event\AchievementCheckEvent;
+use KI\UserBundle\Service\MailerService;
 use KI\UserBundle\Service\NotifyService;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use KI\UserBundle\Event\AchievementCheckEvent;
-use KI\UserBundle\Entity\Achievement;
-use Doctrine\ORM\EntityRepository;
 
 class NewsitemListener
 {
-    protected $notifyService;
     protected $dispatcher;
+    protected $mailerService;
+    protected $notifyService;
     protected $userRepository;
 
-    public function __construct(NotifyService $notifyService,
-                                EventDispatcherInterface $dispatcher,
+    public function __construct(EventDispatcherInterface $dispatcher,
+                                MailerService $mailerService,
+                                NotifyService $notifyService,
                                 EntityRepository $userRepository)
     {
-        $this->notifyService  = $notifyService;
         $this->dispatcher     = $dispatcher;
+        $this->mailerService  = $mailerService;
+        $this->notifyService  = $notifyService;
         $this->userRepository = $userRepository;
     }
 
@@ -34,21 +39,31 @@ class NewsitemListener
             $achievementCheck = new AchievementCheckEvent(Achievement::NEWS_CREATE);
             $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
 
-            $allUsers = $this->userRepository->findAll();
-            $users = array();
+            list($usersPush, $usersMail) = $this->getUsersToNotify($club, $newsitem->getSendMail());
 
-            foreach ($allUsers as $candidate) {
-                if ($candidate->getClubsNotFollowed()->contains($club)) {
-                    $users[] = $candidate;
-                }
+            $vars = array('newsitem' => $newsitem);
+
+            $attachments = [];
+            foreach ($newsitem->getFiles() as $file) {
+                $attachments[] = array("path" => $file->getAbsolutePath(), "name" => $file->getName());
             }
 
+            $title = '['.$club->getName().']'.' '.$newsitem->getName();
+            $this->mailerService->send($newsitem->getAuthorUser(),
+                $usersMail,
+                $title,
+                'KIPublicationBundle::news.html.twig',
+                $vars,
+                $attachments
+            );
+
+            $text = substr($newsitem->getText(), 0, 140).'...';
             $this->notifyService->notify(
                 'notif_followed_news',
                 $newsitem->getName(),
                 $text,
-                'exclude',
-                $users
+                'to',
+                $usersPush
             );
         } else {
             // Si c'est une news perso on notifie tous ceux qui ont envie
@@ -60,5 +75,27 @@ class NewsitemListener
                 array()
             );
         }
+    }
+
+    /**
+     * Retourne les utilisateurs que l'on peut notifier par Push et/ou Mail
+     * @param  Club  $club   Le club servant à déterminer l'égilibilité
+     * @return array
+     */
+    private function getUsersToNotify(Club $club, $sendMail = false)
+    {
+        $allUsers = $this->userRepository->findAll();
+        $usersPush = $usersMail = array();
+
+        foreach ($allUsers as $candidate) {
+            if (!$candidate->getClubsNotFollowed()->contains($club)) {
+                $usersPush[] = $candidate;
+
+                if ($sendMail && $candidate->getMailEvent()) {
+                    $usersMail[] = $candidate;
+                }
+            }
+        }
+        return array($usersPush, $usersMail);
     }
 }

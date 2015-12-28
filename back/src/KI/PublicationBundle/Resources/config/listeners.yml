@@ -12,9 +12,9 @@ services:
     ki_publication.listener.event:
         class: KI\PublicationBundle\Listener\EventListener
         arguments:
-            - @ki_user.service.notify
-            - @ki_user.service.mailer
             - @event_dispatcher
+            - @ki_user.service.mailer
+            - @ki_user.service.notify
             - @ki_user.repository.user
 
     ki_publication.listener.exercice:
@@ -27,6 +27,7 @@ services:
     ki_publication.listener.newsitem:
         class: KI\PublicationBundle\Listener\NewsitemListener
         arguments:
-            - @ki_user.service.notify
             - @event_dispatcher
+            - @ki_user.service.mailer
+            - @ki_user.service.notify
             - @ki_user.repository.user

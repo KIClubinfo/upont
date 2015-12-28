@@ -13,19 +13,19 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class EventListener
 {
-    protected $notifyService;
-    protected $mailerService;
     protected $dispatcher;
+    protected $mailerService;
+    protected $notifyService;
     protected $userRepository;
 
-    public function __construct(NotifyService $notifyService,
+    public function __construct(EventDispatcherInterface $dispatcher,
                                 MailerService $mailerService,
-                                EventDispatcherInterface $dispatcher,
+                                NotifyService $notifyService,
                                 EntityRepository $userRepository)
     {
-        $this->notifyService  = $notifyService;
-        $this->mailerService  = $mailerService;
         $this->dispatcher     = $dispatcher;
+        $this->mailerService  = $mailerService;
+        $this->notifyService  = $notifyService;
         $this->userRepository = $userRepository;
     }
 
@@ -42,7 +42,7 @@ class EventListener
             $achievementCheck = new AchievementCheckEvent(Achievement::EVENT_CREATE);
             $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
 
-            list($usersPush, $usersMail) = $this->getUsersToNotify($club);
+            list($usersPush, $usersMail) = $this->getUsersToNotify($club, false, $event->getSendMail());
 
             $vars = array(
                 'event' => $event,
@@ -57,12 +57,18 @@ class EventListener
             }
 
             $attachments = [];
-            foreach($event->getFiles() as $file){
+            foreach ($event->getFiles() as $file) {
                 $attachments[] = array("path" => $file->getAbsolutePath(), "name" => $file->getName());
             }
 
             $title = '['.$club->getName().']'.$shotgunPrefix.' '.$event->getName();
-            $this->mailerService->send($event->getAuthorUser(), $usersMail, $title, 'KIPublicationBundle::invitation.html.twig', $vars, $attachments);
+            $this->mailerService->send($event->getAuthorUser(),
+                $usersMail,
+                $title,
+                'KIPublicationBundle::invitation.html.twig',
+                $vars,
+                $attachments
+            );
 
             $text = substr($event->getText(), 0, 140).'...';
             $this->notifyService->notify(
@@ -83,17 +89,22 @@ class EventListener
             return;
         }
 
-        // Si ce n'est pas un event perso, on notifie les utilisateurs des changements
+        // Si ce n'est pas un event perso
+        // On notifie les utilisateurs des changements
         if ($club) {
             $modifications = array();
 
-            if ($event->getStartDate() != $oldEvent->getStartDate() || $event->getEndDate() != $oldEvent->getEndDate()) {
+            if ($event->getStartDate() != $oldEvent->getStartDate()
+                || $event->getEndDate() != $oldEvent->getEndDate()
+                ) {
                 $modifications['start'] = ucfirst(strftime('%a %d %B à %Hh%M', $event->getStartDate()));
                 $modifications['end']   = ucfirst(strftime('%a %d %B à %Hh%M', $event->getEndDate()));
             }
+
             if ($event->getShotgunDate() != $oldEvent->getShotgunDate()) {
                 $modifications['shotgun'] = ucfirst(strftime('%a %d %B à %Hh%M', $event->getShotgunDate()));
             }
+
             if ($event->getPlace() != $oldEvent->getPlace()) {
                 $modifications['place'] = $event->getPlace();
             }
@@ -101,11 +112,15 @@ class EventListener
             if (empty($modifications)) {
                 return;
             }
-            list($usersPush, $usersMail) = $this->getUsersToNotify($club, true);
+            list($usersPush, $usersMail) = $this->getUsersToNotify($club, true, $event->getSendMail());
             $modifications['event'] = $event;
 
             $title = '['.$club->getName().'][MODIFICATION] '.$event->getName();
-            $this->mailerService->send($event->getAuthorUser(), $usersMail, $title, 'KIPublicationBundle::modification.html.twig', $modifications);
+            $this->mailerService->send($event->getAuthorUser(),
+                $usersMail,
+                $title,
+                'KIPublicationBundle::modification.html.twig',
+                $modifications);
         }
     }
 
@@ -115,7 +130,7 @@ class EventListener
      * @param  bool  $modify Si le mail concerne la modification d'un événement
      * @return array
      */
-    private function getUsersToNotify(Club $club, $modify = false)
+    private function getUsersToNotify(Club $club, $modify = false, $sendMail = true)
     {
         $allUsers = $this->userRepository->findAll();
         $usersPush = $usersMail = array();
@@ -124,7 +139,10 @@ class EventListener
             if (!$candidate->getClubsNotFollowed()->contains($club)) {
                 $usersPush[] = $candidate;
 
-                if ($candidate->getMailEvent() && (!$modify || $candidate->getMailModification())) {
+                if ($sendMail
+                    && $candidate->getMailEvent()
+                    && (!$modify || $candidate->getMailModification())
+                    ) {
                     $usersMail[] = $candidate;
                 }
             }
