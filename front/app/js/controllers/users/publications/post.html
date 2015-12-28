@@ -57,16 +57,16 @@
             </div>
 
             <div class="padded" col flex="100" ng-if="focus || modify">
-                <!-- Textarea principal -->
+                <!-- Textarea principale -->
                 <textarea redactor ng-model="post.text" placeholder="{{ placeholder }}"></textarea>
 
                 <!-- Toolbar du bas -->
                 <div row="start start" wrap>
-                    <!-- Séléction du type de publication -->
+                    <!-- Sélection du type de publication -->
                     <div class="InputButton" ng-click="changeType('news')"  ng-if="!modify" ng-class="{active: type == 'news'}">News</div>
                     <div class="InputButton" ng-click="changeType('event')" ng-if="!modify" ng-class="{active: type == 'event'}">Événement</div>
 
-                    <!-- Séléction du club -->
+                    <!-- Sélection du club -->
                     <div class="InputButton" ng-if="!$root.isExterieur" ng-show="type != 'message' && !modify" ng-class="{'active': club.name != 'Assos'}">
                         <span ng-click="toggleSelect()">
                             <i class="fa fa-{{ club.icon ? club.icon : 'users' }}"></i> {{ club.name }}
