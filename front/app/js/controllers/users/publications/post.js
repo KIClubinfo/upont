@@ -122,11 +122,12 @@ angular.module('upont')
                         // On demande si on envoie un mail
                         alertify.confirm(
                             'Veux-tu envoyer un mail pour cette news ?',
-                            function() {
-                                sendMail(true);
-                            },
-                            function() {
-                                sendMail(false);
+                            function (e) {
+                                if (e) {
+                                    sendMail(true);
+                                } else {
+                                    sendMail(false);
+                                }
                             }
                         );
                     }
@@ -168,32 +169,33 @@ angular.module('upont')
 
                         if (!$scope.modify) {
 
-                        function sendMailEvent(mail) {
-                            params.sendMail = mail;
-                            Upload.upload({
-                                method: "POST",
-                                url: apiPrefix + 'events',
-                                data: params
-                            }).success(function(data) {
-                                $rootScope.$broadcast('newEvent');
-                                Achievements.check();
-                                init();
-                                alertify.success('Événement publié');
-                                $scope.isLoading = false;
-                            }).error(function() {
-                                alertify.error('Formulaire vide ou mal rempli');
-                                $scope.isLoading = false;
-                            });
-                        }
+                            function sendMailEvent(mail) {
+                                params.sendMail = mail;
+                                Upload.upload({
+                                    method: "POST",
+                                    url: apiPrefix + 'events',
+                                    data: params
+                                }).success(function(data) {
+                                    $rootScope.$broadcast('newEvent');
+                                    Achievements.check();
+                                    init();
+                                    alertify.success('Événement publié');
+                                    $scope.isLoading = false;
+                                }).error(function() {
+                                    alertify.error('Formulaire vide ou mal rempli');
+                                    $scope.isLoading = false;
+                                });
+                            }
 
-                        // On demande si on envoie un mail
+                            // On demande si on envoie un mail
                             alertify.confirm(
                                 'Veux-tu envoyer un mail pour cet événement ?',
-                                function() {
-                                    sendMailEvent(true);
-                                },
-                                function() {
-                                    sendMailEvent(false);
+                                function(e) {
+                                    if(e) {
+                                        sendMailEvent(true);
+                                    } else {
+                                        sendMailEvent(false);
+                                    }
                                 }
                             );
                         } else {
