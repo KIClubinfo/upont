@@ -197,11 +197,8 @@ angular.module('upont')
                                 }
                             );
                         } else {
-                            Upload.upload({
-                                method: "PATCH",
-                                url: apiPrefix + 'events/' + post.slug,
-                                data: params
-                            }).success(function(data) {
+                            $http.patch(apiPrefix + 'events/' + post.slug, params)
+                            .success(function(data) {
                                 $rootScope.$broadcast('newEvent');
                                 alertify.success('Événement modifié');
                                 init();
