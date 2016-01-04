@@ -7,7 +7,7 @@
     "angular-animate": "latest",
     "angular-base64-upload": "latest",
     "angular-bootstrap-calendar": "latest",
-    "angular-bootstrap-datetimepicker": "latest",
+    "angular-bootstrap-datetimepicker": "0.3.15",
     "angular-elastic": "latest",
     "angular-filter": "latest",
     "angular-i18n": "latest",
@@ -29,10 +29,11 @@
     "js-base64": "latest",
     "moment": "latest",
     "ngInfiniteScroll": "latest",
-    "ng-file-upload" : "latest"
+    "ng-file-upload": "latest"
   },
   "resolutions": {
-    "angular": ">=1.3.0 <1.5"
+    "angular": ">=1.3.0 <1.5",
+    "fullcalendar": "2.3.1"
   },
   "overrides": {
     "highmaps": {

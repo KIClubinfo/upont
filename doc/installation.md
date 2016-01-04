@@ -6,7 +6,7 @@ Requirements
 Before anything, you need the following software installed on your machine:
 
   * Linux (any Ubuntu-like distro will do)
-  * Eventually, the proxy should be configured
+  * If needed, the proxy should be configured
 
 Project installation
 --------------------

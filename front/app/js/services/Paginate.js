@@ -50,6 +50,8 @@ angular.module('upont').factory('Paginate', ['$resource', '$q', '$rootScope', fu
         },
 
         first: function(load) {
+            if(typeof load.headers.links == 'undefined')
+                load.headers.links = '';
             return loadData(load, load.headers.links.match(/<\/(.*?)>;rel=first/));
         }
     };
