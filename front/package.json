@@ -14,8 +14,9 @@
     "gulp-util": "latest",
     "gulp-autoprefixer": "latest",
     "gulp-concat": "latest",
-    "jshint-stylish": "latest",
     "gulp-html-replace": "latest",
+    "jshint": "2.x",
+    "jshint-stylish": "latest",
     "main-bower-files": "latest"
   }
 }
