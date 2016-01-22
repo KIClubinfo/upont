@@ -19,13 +19,12 @@ class MailerService
         $this->templating = $templating;
     }
 
-    public function send(User $from, array $to, $title, $template, $vars,  $attachments = [])
+    public function send(User $from, array $to, $title, $template, $vars, $attachments = [])
     {
         $message = Swift_Message::newInstance()
             ->setSubject($title)
             ->setFrom('evenements@upont.enpc.fr')
             ->setReplyTo(array($from->getEmail() => $from->getFirstName().' '.$from->getLastName()))
-            ->setBody($this->templating->render($template, $vars), 'text/html')
         ;
 
         foreach($attachments as $attachment){
@@ -33,7 +32,11 @@ class MailerService
         }
 
         foreach ($to as $user) {
-            $message->setTo(array($user->getEmail() => $user->getFirstName().' '.$user->getLastName()));
+            $vars['username'] = $user->getUsername();
+            $message
+                ->setTo(array($user->getEmail() => $user->getFirstName().' '.$user->getLastName()))
+                ->setBody($this->templating->render($template, $vars), 'text/html')
+            ;
             $this->mailer->send($message);
         }
     }
