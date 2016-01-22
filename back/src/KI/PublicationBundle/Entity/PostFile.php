@@ -81,7 +81,7 @@ class PostFile
 
     public function getAbsolutePath()
     {
-        return $this->getUploadDir().$this->getName();
+        return $this->getUploadDir().$this->post->getId()."_".$this->getName();
     }
 
 
