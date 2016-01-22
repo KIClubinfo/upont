@@ -22,9 +22,9 @@ monolog:
             action_level: error
             handler:      nested
         nested:
-            type:  rotating_file
+            type:  stream
             path:  "%kernel.logs_dir%/%kernel.environment%.log"
-            level: warning
+            level: debug
         console:
             type:  console
 
