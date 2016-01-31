@@ -42,8 +42,13 @@ class SubresourceController extends ResourceController
      */
     protected function getOneSub($slug, $name, $id, $auth = false)
     {
+        $parent = $this->findBySlug($slug);
+
         $this->switchClass($name);
-        return $this->getOne($id, $auth);
+        $out = $this->getOne($id, $auth);
+        $this->switchClass();
+
+        return $out;
     }
 
     /**
@@ -56,6 +61,8 @@ class SubresourceController extends ResourceController
      */
     protected function patchSub($slug, $name, $id, $auth = false)
     {
+        $parent = $this->findBySlug($slug);
+
         $this->switchClass($name);
         return $this->patch($id, $auth);
     }
@@ -70,6 +77,8 @@ class SubresourceController extends ResourceController
      */
     protected function deleteSub($slug, $name, $id, $auth = false)
     {
+        $parent = $this->findBySlug($slug);
+
         $this->switchClass($name);
         return $this->delete($id, $auth);
     }
