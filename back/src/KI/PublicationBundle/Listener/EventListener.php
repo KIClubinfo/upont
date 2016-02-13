@@ -45,7 +45,7 @@ class EventListener
             list($usersPush, $usersMail) = $this->getUsersToNotify($club, false, $event->getSendMail());
 
             $vars = array(
-                'event' => $event,
+                'post' => $event,
                 'start' => ucfirst(strftime('%a %d %B à %Hh%M', $event->getStartDate())),
                 'end'   => ucfirst(strftime('%a %d %B à %Hh%M', $event->getEndDate()))
             );
