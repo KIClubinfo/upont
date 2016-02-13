@@ -64,7 +64,10 @@ class SubresourceController extends ResourceController
         $parent = $this->findBySlug($slug);
 
         $this->switchClass($name);
-        return $this->patch($id, $auth);
+        $out = $this->patch($id, $auth);
+        $this->switchClass();
+
+        return $out;
     }
 
     /**
@@ -80,6 +83,9 @@ class SubresourceController extends ResourceController
         $parent = $this->findBySlug($slug);
 
         $this->switchClass($name);
-        return $this->delete($id, $auth);
+        $out = $this->delete($id, $auth);
+        $this->switchClass();
+
+        return $out;
     }
 }
