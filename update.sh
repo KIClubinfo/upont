@@ -1,10 +1,8 @@
 #!/bin/bash
 # [AT'016] Met automatiquement tout à jour, à lancer à chaque pull/mise à jour des modèles, configurable dans un hook post-receive
 
-sudo ls > /dev/null
 cd front
-sudo npm install
-sudo npm update -g bower
+npm install
 bower update
 gulp build-js
 gulp build-css
@@ -13,8 +11,7 @@ gulp build-templates
 gulp copy-fonts
 
 cd ../mobile
-sudo npm install
-sudo npm update -g bower
+npm install
 bower update
 gulp build-js
 gulp build-css-light

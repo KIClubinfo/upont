@@ -1,4 +1,4 @@
-<h3 style="color:red">L'événement "{{ event.name }}" a été modifié.</h3>
+<h3 style="color:red">L'événement "{{ post.name }}" a été modifié.</h3>
 <u>Changements :</u><br>
 {% if place is defined %}
 <em style="display:inline-block;width:80px">OÙ :</em> <strong>{{ place }}</strong><br>
@@ -11,13 +11,8 @@
 {% if shotgun is defined %}
 <h3>
     <span style="color:red">Shotgun sur uPont le {{ shotgun }}</span>
-    <a href="https://upont.enpc.fr/shotgun/{{ event.slug }}" title="Aller sur la page du Shotgun">(lien)</a>
+    <a href="https://upont.enpc.fr/shotgun/{{ post.slug }}" title="Aller sur la page du Shotgun">(lien)</a>
 </h3>
 {% endif %}
 
-<a style="font-weight:bold" href="https://upont.enpc.fr/publications/{{ event.slug }}" title="Aller sur uPont">Voir l'événement sur uPont</a>
-
-<h6 style="font-weight:normal">
-    <em>Cet email a été envoyé automatiquement, merci de ne pas y répondre.</em><br>
-    <a href="https://upont.enpc.fr/eleves/{{ username }}/modifier-profil" title="Profil uPont">Modifier ses préférences mail</a>
-</h6>
+{% include 'KIPublicationBundle::footer.html.twig' %}

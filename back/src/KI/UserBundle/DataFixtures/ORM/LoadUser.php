@@ -74,7 +74,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setLocation('Perronet A53');
         $user->setNationality('France');
         $user->setOrigin('CC - PSI [AT]');
-        $user->setPhone('06.45.03.69.58');
+        $user->setPhone('03.14.15.92.65');
         $user->setSkype('alberic.trancart');
         $user->setBalance(20.7);
         $user->setEnabled(true);

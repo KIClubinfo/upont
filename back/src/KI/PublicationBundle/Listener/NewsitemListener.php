@@ -41,7 +41,7 @@ class NewsitemListener
 
             list($usersPush, $usersMail) = $this->getUsersToNotify($club, $newsitem->getSendMail());
 
-            $vars = array('newsitem' => $newsitem);
+            $vars = array('post' => $newsitem);
 
             $attachments = [];
             foreach ($newsitem->getFiles() as $file) {

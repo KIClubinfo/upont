@@ -3,8 +3,8 @@ parameters:
     # Paramètres pertinents
     database_host: 127.0.0.1
     database_name: upont
-    database_user: root
-    database_password: root
+    database_user: upont
+    database_password: upont
     database_v1_password: root
     locale: fr
     proxy_url: null     # http://etuproxy.enpc.fr:3128

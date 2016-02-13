@@ -14,9 +14,10 @@ web_profiler:
 monolog:
     handlers:
         main:
-            type:   stream
+            type:   rotating_file
             path:   "%kernel.logs_dir%/%kernel.environment%.log"
             level:  debug
+            max_files: 10
         console:
             type:   console
             bubble: false
@@ -34,3 +35,8 @@ assetic:
 
 #swiftmailer:
 #    delivery_address: me@example.com
+
+swiftmailer:
+    spool:
+        type: file
+        path: "%kernel.root_dir%/spool"

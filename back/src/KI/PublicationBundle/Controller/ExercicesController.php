@@ -162,9 +162,9 @@ class ExercicesController extends SubresourceController
      *  section="Publications"
      * )
      */
-    public function deleteCourseExerciceAction($slug, $id)
+    public function deleteCourseExerciceAction($slugParent, $slugSub)
     {
-        $exercice = $this->getOneSub($slug, 'Exercice', $id);
-        return $this->deleteSub($slug, 'Exercice', $id, $this->user == $exercice->getUploader() || $this->is('MODO'));
+        $exercice = $this->getOneSub($slugParent, 'Exercice', $slugSub);
+        return $this->deleteSub($slugParent, 'Exercice', $slugSub, $this->user == $exercice->getUploader() || $this->is('MODO'));
     }
 }

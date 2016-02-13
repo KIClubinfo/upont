@@ -65,6 +65,7 @@ class PonthubControllerTest extends WebTestCase
         $this->assertJsonResponse($response, 200);
     }
 
+    /*
     public function testGracenote()
     {
         $this->client->request('POST', '/gracenote', array('album' => 'Back In Black'));
@@ -86,6 +87,7 @@ class PonthubControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 500);
     }
+    */
 
     public function testImdbSearch()
     {
