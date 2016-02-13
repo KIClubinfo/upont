@@ -6,7 +6,10 @@
     "angular-resource": "latest",
     "onsenui": "latest",
     "moment": "latest",
-    "jquery": "~2.1.3",
+    "jquery": "latest",
     "ngInfiniteScroll": "latest"
+  },
+  "resolutions": {
+    "angular": ">=1.2.0"
   }
 }
