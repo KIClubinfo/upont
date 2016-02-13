@@ -113,7 +113,7 @@ class EventListener
                 return;
             }
             list($usersPush, $usersMail) = $this->getUsersToNotify($club, true, $event->getSendMail());
-            $modifications['event'] = $event;
+            $modifications['post'] = $event;
 
             $title = '['.$club->getName().'][MODIFICATION] '.$event->getName();
             $this->mailerService->send($event->getAuthorUser(),
