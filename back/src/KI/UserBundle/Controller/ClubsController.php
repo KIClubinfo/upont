@@ -158,9 +158,7 @@ class ClubsController extends SubresourceController
      */
     public function postClubUserAction($slug, $id)
     {
-        if (!($this->get('security.context')->isGranted('ROLE_ADMIN')
-            || $this->isClubMember($slug)))
-            throw new AccessDeniedException('Accès refusé');
+        $this->trust($this->is('ADMIN') || $this->isClubMember($slug));
 
         // On récupère les deux entités concernées
         $repo = $this->manager->getRepository('KIUserBundle:User');
@@ -219,9 +217,7 @@ class ClubsController extends SubresourceController
      */
     public function patchClubUserAction($slug, $username)
     {
-        if (!($this->get('security.context')->isGranted('ROLE_ADMIN')
-            || $this->isClubMember($slug)))
-            throw new AccessDeniedException('Accès refusé');
+        $this->trust($this->is('ADMIN') || $this->isClubMember($slug));
 
         // On récupère les deux entités concernées
         $repo = $this->manager->getRepository('KIUserBundle:User');
@@ -232,7 +228,7 @@ class ClubsController extends SubresourceController
         $repoLink = $this->manager->getRepository('KIUserBundle:ClubUser');
         $link = $repoLink->findBy(array('club' => $club, 'user' => $user));
 
-        // On crée la relation si elle n'existe pas déjà
+        // On édite la relation si elle existe (de façon unique)
         if (count($link) == 1) {
             $link = $link[0];
             // Validation des données annexes
