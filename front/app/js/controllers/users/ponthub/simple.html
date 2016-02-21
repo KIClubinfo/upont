@@ -41,7 +41,7 @@
                 <li ng-if="element.duration"><strong>Durée :</strong> {{ element.duration | formatDuration }}</li>
                 <li ng-if="element.version"><strong>Version :</strong> {{ element.version }}</li>
                 <li ng-if="element.size"><strong>Taille :</strong> {{ element.size | formatSize }}</li>
-                <li ng-if="element.rating"><strong>Note Rotten Tomatoes :</strong> {{ element.rating+'%' }}</li>
+                <li ng-if="element.rating"><strong>Note Metacritic :</strong> {{ element.rating+'%' }}</li>
                 <li ng-if="countDownloads() != 0"><strong>Téléchargé :</strong> {{ countDownloads() }} fois</li>
                 <li ng-if="element.added"><strong>Ajout :</strong> {{ element.added | formatDate }}</li>
                 <li ng-if="type == 'movies' || type == 'games' || type == 'softwares'">
