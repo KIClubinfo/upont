@@ -70,6 +70,30 @@ angular.module('upont')
             });
         };
 
+        $scope.editMember = function(slug, name) {
+            // On vérifie que la personne est déjà membre
+            var found = false;
+            for (var i = 0; i < $scope.members.length; i++) {
+                if ($scope.members[i].user.username == slug) {
+                    found = true;
+                    break;
+                }
+            }
+            if(!found) {
+                alertify.error('Pas membre du club !');
+                return;
+            }
+
+            alertify.prompt('Nouveau rôle de ' + name + ' :', function(e, role){
+                if (e) {
+                    $http.patch(apiPrefix + 'clubs/' + $scope.club.slug + '/users/' + slug, {role: role}).success(function(data){
+                        alertify.success(name + ' a été modifié(e) !');
+                        $scope.reloadMembers();
+                    });
+                }
+            });
+        };
+
         $scope.removeMember = function(slug) {
             $http.delete(apiPrefix + 'clubs/' + $scope.club.slug + '/users/' + slug).success(function(data){
                 alertify.success('Membre supprimé !');

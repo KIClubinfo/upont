@@ -108,6 +108,17 @@ class ClubsControllerTest extends WebTestCase
         $this->assertJsonResponse($response, 404);
     }
 
+    public function testLinkEdit()
+    {
+        $this->client->request('PATCH', '/clubs/cpt/users/dziris', array('role' => ''));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 400);
+
+        $this->client->request('PATCH', '/clubs/cpt/users/dziris', array('role' => 'Test 33'));
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 204);
+    }
+
     public function testUnlink()
     {
         $this->client->request('DELETE', '/clubs/cpt/users/dziriqsqsqsss');
