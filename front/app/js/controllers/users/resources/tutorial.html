@@ -1,8 +1,8 @@
 <div class="Ticket" ng-hide="edit">
-    <div row style="text-align:center">
+    <div row class="text-center">
     <h1>{{ tuto.name }}</h1>
 </div>
-    <div class="up-tutos" ng-bind-html="presentation"></div>
+    <div ng-bind-html="presentation"></div>
     <br><br>
     <div class="padded" flex="25" row="center stretch" ng-if="isAdmin">
         <button class="Button" flex="100" ng-click="editTuto()">Modifier</button>
