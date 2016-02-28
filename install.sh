@@ -19,8 +19,16 @@ else
     npm config set proxy $proxy
     npm config set https-proxy $proxy
 fi
-sudo ln -s /usr/bin/nodejs /usr/bin/node
-sudo npm install -g gulp bower phonegap cordova
+
+sudo npm cache clean -f
+sudo npm install -g n
+sudo n stable
+nodeversion="$(node -v)"
+nodeversion=${nodeversion/v/}
+sudo ln -sf /usr/local/n/versions/node/$nodeversion/bin/node /usr/bin/node
+sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}
+
+npm install -g gulp bower phonegap cordova
 
 echo -e "\e[1m\e[34mConfiguration de git...\e[0m"
 sudo chown -R $user:www-data /var/www
@@ -46,13 +54,13 @@ sudo service apache2 reload
 
 echo -e "\e[1m\e[34mInstallation du front...\e[0m"
 cd front
-sudo npm install
+npm install
 bower install
 gulp build
 
 echo -e "\e[1m\e[34mInstallation de l'appli mobile...\e[0m"
 cd ../mobile
-sudo npm install
+npm install
 bower install
 gulp build
 cordova plugin add org.apache.cordova.device org.apache.cordova.splashscreen https://github.com/phonegap-build/PushPlugin.git
@@ -61,11 +69,12 @@ echo -e "\e[1m\e[34mInstallation du back...\e[0m"
 cd ../back
 
 echo -e "\e[1m\e[34mCréation d'une base de données...\e[0m"
-echo "CREATE DATABASE upont" | mysql -u root -p
+echo "CREATE DATABASE upont; CREATE USER 'upont'@'localhost' IDENTIFIED BY 'upont'; GRANT ALL ON upont.* TO 'upont'@'localhost';" | mysql -u root -p
 
 echo -e "\e[1m\e[34mInstallation de composer...\e[0m"
 curl -sS https://getcomposer.org/installer | php
 sudo mv composer.phar /usr/local/bin/composer
+sudo chmod -R 777 ~/.composer/
 composer install
 
 echo -e "\e[1m\e[34mMise à jour de la BDD...\e[0m"
