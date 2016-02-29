@@ -6,8 +6,6 @@
          backupGlobals="false"
          colors="true"
          bootstrap="bootstrap.php.cache"
-         printerFile="vendor/whatthejeff/nyancat-phpunit-resultprinter/src/NyanCat/PHPUnit/ResultPrinter.php"
-         printerClass="NyanCat\PHPUnit\ResultPrinter"
 >
     <testsuites>
         <testsuite name="Project Test Suite">
