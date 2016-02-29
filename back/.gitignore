@@ -6,6 +6,7 @@
 /app/cache/*
 /app/config/parameters.yml
 /app/logs/*
+/app/spool/*
 /build/
 /vendor/
 /bin/

@@ -170,3 +170,7 @@ nelmio_api_doc:
                 json: application/json
             method: accept_header
             default_format: json
+
+services:
+    fos_user.doctrine_registry:
+        alias: doctrine

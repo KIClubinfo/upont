@@ -18,8 +18,9 @@ gulp build-css-light
 gulp build-css-dark
 
 cd ../back
-sudo composer self-update
+composer self-update
 composer install
+sudo chmod 777 -R app/cache && sudo chmod 777 -R app/logs && sudo chmod 777 -R web/uploads
 php app/console cache:clear
 sudo rm -rf app/cache/*
 sudo rm -rf app/logs/*
