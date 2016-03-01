@@ -10,13 +10,6 @@ gulp build-html
 gulp build-templates
 gulp copy-fonts
 
-cd ../mobile
-npm install
-bower update
-gulp build-js
-gulp build-css-light
-gulp build-css-dark
-
 cd ../back
 composer self-update
 composer install

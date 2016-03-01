@@ -58,13 +58,6 @@ npm install
 bower install
 gulp build
 
-echo -e "\e[1m\e[34mInstallation de l'appli mobile...\e[0m"
-cd ../mobile
-npm install
-bower install
-gulp build
-cordova plugin add org.apache.cordova.device org.apache.cordova.splashscreen https://github.com/phonegap-build/PushPlugin.git
-
 echo -e "\e[1m\e[34mInstallation du back...\e[0m"
 cd ../back
 
