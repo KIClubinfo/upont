@@ -9,15 +9,6 @@ angular.module('upont')
         $scope.reload = function(filters) {
             var url = Ponthub.cat($stateParams.category) + '?sort=-added,id';
 
-            if (filters.vo)
-                url += '&vo=1';
-            if (filters.vost)
-                url += '&vost=1';
-            if (filters.vf)
-                url += '&vf=1';
-            if (filters.hd)
-                url += '&hd=1';
-
             Paginate.get(url, 20).then(function(data){
                 $scope.elements = data;
             });
