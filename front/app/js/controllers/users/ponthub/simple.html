@@ -12,13 +12,6 @@
                  ng-class="{'Image--portrait': category == 'films' || category == 'series', 'Image--landscape': category == 'jeux'}">
                 <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ element.image_url | urlFile }})' }"></div>
             </div>
-
-            <div row="space-around stretch">
-                <div ng-if="element.vo"><span class="label label-upont">VO</span></div>
-                <div ng-if="element.vf"><span class="label label-upont">VF</span></div>
-                <div ng-if="element.vost"><span class="label label-upont">VOST</span></div>
-                <div ng-if="element.hd"><span class="label label-upont">HD</span></div>
-            </div>
         </aside>
 
         <!-- Détails sur le fichier -->

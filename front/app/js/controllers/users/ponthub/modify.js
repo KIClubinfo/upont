@@ -88,11 +88,6 @@ angular.module('upont')
                     params.year = element.year;
                     params.duration = element.duration;
                     params.director = element.director;
-                    params.vo = element.vo;
-                    params.vf = element.vf;
-                    params.vost = element.vost;
-                    params.vostfr = element.vostfr;
-                    params.hd = element.hd;
                     if (element.rating !== '' && element.rating != 'N/A')
                         params.rating = element.rating;
                     break;

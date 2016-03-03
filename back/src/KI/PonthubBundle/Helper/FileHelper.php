@@ -47,16 +47,12 @@ class FileHelper
         if (preg_match('#^/root/web/films/#', $path)) {
             $item = new Movie();
             $item = $this->basicInfos($item, $size, $path, $name);
-            $item->setVo(true);
-            $item->setVost(true);
-            $item->setHd(true);
             $this->manager->persist($item);
         }
 
         if (preg_match('#^/root/web/films_light/#', $path)) {
             $item = new Movie();
             $item = $this->basicInfos($item, $size, $path, $name);
-            $item->setHd(false);
             $this->manager->persist($item);
         }
     }
@@ -131,8 +127,6 @@ class FileHelper
         if (!isset($series[$serie])) {
             $serieItem = new Serie();
             $serieItem = $this->basicInfos($serieItem, null, '/root/web/series/'.$serie.'/', $serie);
-            $serieItem->setVo(true);
-            $serieItem->setHd(false);
             $this->manager->persist($serieItem);
             $series[$serie] = $serieItem;
         } else {
