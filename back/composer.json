@@ -32,8 +32,7 @@
         "nelmio/cors-bundle": "~1.4.0"
     },
     "require-dev": {
-        "liip/functional-test-bundle": "1.2.x-dev",
-        "whatthejeff/nyancat-phpunit-resultprinter": "~1.2"
+        "liip/functional-test-bundle": "1.2.x-dev"
     },
     "scripts": {
         "post-root-package-install": [
