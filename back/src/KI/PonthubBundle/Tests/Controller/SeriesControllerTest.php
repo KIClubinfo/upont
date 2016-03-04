@@ -93,4 +93,15 @@ class SeriesControllerTest extends WebTestCase
         $this->assertNotEquals($infos, null);
         $this->assertEquals($infos['downloads'], 1);
     }
+
+    public function testDelete()
+    {
+        $this->client->request('DELETE', '/series/how-i-met-your-mother');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 200);
+
+        $this->client->request('DELETE', '/series/sjoajsiohaysahaiasbsksaba7');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 404);
+    }
 }
