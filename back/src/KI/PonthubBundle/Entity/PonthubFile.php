@@ -144,7 +144,7 @@ class PonthubFile extends Likeable
      * Set size
      *
      * @param integer $size
-     * @return Album
+     * @return PonthubFile
      */
     public function setSize($size)
     {
@@ -190,7 +190,7 @@ class PonthubFile extends Likeable
      * Set added
      *
      * @param integer $added
-     * @return Album
+     * @return PonthubFile
      */
     public function setAdded($added)
     {
@@ -236,7 +236,7 @@ class PonthubFile extends Likeable
      * Set description
      *
      * @param string $description
-     * @return Album
+     * @return PonthubFile
      */
     public function setDescription($description)
     {
@@ -259,7 +259,7 @@ class PonthubFile extends Likeable
      * Set image
      *
      * @param \KI\CoreBundle\Entity\Image $image
-     * @return Album
+     * @return PonthubFile
      */
     public function setImage(\KI\CoreBundle\Entity\Image $image = null)
     {
@@ -282,7 +282,7 @@ class PonthubFile extends Likeable
      * Add tags
      *
      * @param \KI\CoreBundle\Entity\Tag $tag
-     * @return Album
+     * @return PonthubFile
      */
     public function addTag(\KI\CoreBundle\Entity\Tag $tag)
     {
@@ -325,7 +325,7 @@ class PonthubFile extends Likeable
      * Add genres
      *
      * @param \KI\PonthubBundle\Entity\Genre $genre
-     * @return Album
+     * @return PonthubFile
      */
     public function addGenre(\KI\PonthubBundle\Entity\Genre $genre)
     {
