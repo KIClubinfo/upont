@@ -98,7 +98,7 @@ class SeriesControllerTest extends WebTestCase
     {
         $this->client->request('DELETE', '/series/how-i-met-your-mother');
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
+        $this->assertJsonResponse($response, 204);
 
         $this->client->request('DELETE', '/series/sjoajsiohaysahaiasbsksaba7');
         $response = $this->client->getResponse();

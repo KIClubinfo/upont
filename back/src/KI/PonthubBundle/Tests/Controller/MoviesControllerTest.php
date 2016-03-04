@@ -62,7 +62,7 @@ class MoviesControllerTest extends WebTestCase
     {
         $this->client->request('DELETE', '/movies/pumping-iron');
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
+        $this->assertJsonResponse($response, 204);
 
         $this->client->request('DELETE', '/movies/sjoajsiohaysahais-asbsksaba7');
         $response = $this->client->getResponse();
