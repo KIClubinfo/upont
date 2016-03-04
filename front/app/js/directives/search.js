@@ -23,8 +23,6 @@ angular.module('upont').directive('upSearch', function() {
                 case 'Movie':    return 'root.users.ponthub.category.simple({category: "films", slug: file.slug})';
                 case 'Serie':    return 'root.users.ponthub.category.simple({category: "series", slug: file.slug})';
                 case 'Episode':  return 'root.users.ponthub.category.simple({category: "series", slug: file.parent})';
-                case 'Album':    return 'root.users.ponthub.category.simple({category: "musiques", slug: file.slug})';
-                case 'Music':    return 'root.users.ponthub.category.simple({category: "musiques", slug: file.parent})';
                 case 'Game':     return 'root.users.ponthub.category.simple({category: "jeux", slug: file.slug})';
                 case 'Software': return 'root.users.ponthub.category.simple({category: "logiciels", slug: file.slug})';
                 case 'Other':    return 'root.users.ponthub.category.simple({category: "autres", slug: file.slug})';
@@ -42,9 +40,6 @@ angular.module('upont').directive('upSearch', function() {
                     case 'Serie':
                     case 'Episode':
                         return 'film';
-                    case 'Album':
-                    case 'Music':
-                        return 'music';
                     case 'Game':
                         return 'gamepad';
                     case 'Software':

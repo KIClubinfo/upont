@@ -7,8 +7,6 @@ angular.module('upont').filter('urlFile', function() {
             switch (input.type) {
                 case 'movie':
                     return apiPrefix + 'movies/' + input.slug + '/download';
-                case 'album':
-                    return apiPrefix + 'albums/' + input.slug + '/download';
                 case 'game':
                     return apiPrefix + 'games/' + input.slug + '/download';
                 case 'software':

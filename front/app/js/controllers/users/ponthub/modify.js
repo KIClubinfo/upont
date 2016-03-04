@@ -49,15 +49,6 @@ angular.module('upont')
             }
         };
 
-        $scope.gracenote = function(album) {
-            if ($scope.type == 'albums') {
-                $http.post(apiPrefix + 'gracenote', {album: album.name, artist: album.artist}).success(function(data){
-                    $scope.element.year = data.year;
-                    $scope.imageUrl = data.image;
-                });
-            }
-        };
-
         $scope.submitFile = function(element, imageUrl, imageBase64) {
             var params = {
                 'name' : element.name,
@@ -90,10 +81,6 @@ angular.module('upont')
                     params.director = element.director;
                     if (element.rating !== '' && element.rating != 'N/A')
                         params.rating = element.rating;
-                    break;
-                case 'albums':
-                    params.year = element.year;
-                    params.artist = element.artist;
                     break;
                 case 'games':
                     params.year = element.year;

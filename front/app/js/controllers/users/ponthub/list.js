@@ -21,8 +21,6 @@ angular.module('upont')
                 case 'films':
                 case 'series':
                     return 'fa-film';
-                case 'musiques':
-                    return 'fa-music';
                 case 'autres':
                     return 'fa-file-o';
                 case 'logiciels':
@@ -109,14 +107,6 @@ angular.module('upont')
                             return true;
                         return $resource(apiPrefix + ':cat/:slug/episodes').query({
                             cat: 'series',
-                            slug: $stateParams.slug
-                        }).$promise;
-                    }],
-                    musics: ['$resource', '$stateParams', 'Ponthub', function($resource, $stateParams, Ponthub) {
-                        if(Ponthub.cat($stateParams.category) != 'albums')
-                            return true;
-                        return $resource(apiPrefix + ':cat/:slug/musics').query({
-                            cat: 'albums',
                             slug: $stateParams.slug
                         }).$promise;
                     }],

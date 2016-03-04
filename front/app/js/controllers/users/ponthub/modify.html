@@ -35,10 +35,6 @@
         </div>
     </form>
 
-    <div class="padded" row="end stretch" ng-if="type == 'albums'">
-        <button class="Button" flex="100" flex-md="25" ng-init="gracenote(element)" ng-click="gracenote(element)">Remplir</button>
-    </div>
-
     <hr>
 
     <form row="start center" wrap ng-submit="submitFile(element, imageUrl, filePicture)" autocomplete="off">
@@ -58,11 +54,11 @@
             <input class="Input" type="text" ng-model="element.name" placeholder="Nom apparent dans Ponthub">
         </div>
 
-        <div ng-if="type != 'albums' && type != 'series'" class="padded" flex="50" flex-md="25">
+        <div ng-if="type != 'series'" class="padded" flex="50" flex-md="25">
             <i class="fa fa-hdd-o"></i>
             Taille
         </div>
-        <div ng-if="type != 'albums' && type != 'series'" class="padded" flex="50" flex-md="25">
+        <div ng-if="type != 'series'" class="padded" flex="50" flex-md="25">
             <input class="Input" type="text" ng-value="element.size | formatSize" disabled>
         </div>
 
@@ -72,9 +68,6 @@
         </div>
         <div ng-if="type == 'movies' || type == 'series'" class="padded" flex="50" flex-md="25">
             <input class="Input" type="text" ng-model="element.director" placeholder="Steven Spielberg">
-        </div>
-        <div ng-if="type == 'albums'" class="padded" flex="50" flex-md="25">
-            <input class="Input" type="text" ng-model="element.artist" placeholder="AC/DC">
         </div>
         <div ng-if="type == 'softwares'" class="padded" flex="50" flex-md="25">
             <input class="Input" type="text" ng-model="element.author" placeholder="Microsoft">
@@ -130,7 +123,7 @@
             Genres
         </div>
         <div class="padded" flex="50" flex-md="25">
-            <input type="text" class="Input" ng-model="element.genres" placeholder="Documentaire,Sport" ng-disabled="type == 'albums'">
+            <input type="text" class="Input" ng-model="element.genres" placeholder="Documentaire,Sport">
         </div>
 
         <div ng-if="type == 'movies' || type == 'series'" class="padded" flex="50" flex-md="25">

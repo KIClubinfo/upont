@@ -8,7 +8,6 @@ use Doctrine\ORM\EntityRepository;
 class FilelistHelper
 {
     protected $manager;
-    protected $albumRepository;
     protected $genreRepository;
     protected $serieRepository;
     protected $ponthubFileRepository;
@@ -16,7 +15,6 @@ class FilelistHelper
     protected $fileHelper;
 
     public function __construct(EntityManager $manager,
-                                EntityRepository $albumRepository,
                                 EntityRepository $genreRepository,
                                 EntityRepository $serieRepository,
                                 EntityRepository $ponthubFileRepository,
@@ -24,7 +22,6 @@ class FilelistHelper
                                 FileHelper $fileHelper)
     {
         $this->manager               = $manager;
-        $this->albumRepository       = $albumRepository;
         $this->genreRepository       = $genreRepository;
         $this->serieRepository       = $serieRepository;
         $this->ponthubFileRepository = $ponthubFileRepository;
@@ -62,7 +59,6 @@ class FilelistHelper
             $this->fileHelper->tryToStoreOther($line, $name, $size);
 
             $this->fileHelper->tryToStoreSerie($series, $pathsDone, $ext, $line, $name, $size);
-            $this->fileHelper->tryToStoreAlbum($genres, $albums, $pathsDone, $line, $name, $size);
         }
         $this->manager->flush();
 
@@ -70,26 +66,22 @@ class FilelistHelper
     }
 
     /**
-     * Sert pour le tri des fichiers enfants (épisode/musique)
+     * Sert pour le tri des fichiers enfants (épisode)
      * @return array
      */
     private function listExistingEntities()
     {
-        $series = $albums = $genres = array();
+        $series = $genres = array();
         $result = $this->serieRepository->findAll();
         foreach ($result as $serie) {
             $series[$serie->getName()] = $serie;
-        }
-        $result = $this->albumRepository->findAll();
-        foreach ($result as $album) {
-            $albums[$album->getName()] = $album;
         }
         // On liste aussi les genres pour les musiques
         $result = $this->genreRepository->findAll();
         foreach ($result as $genre) {
             $genres[$genre->getName()] = $genre;
         }
-        return array('albums' => $albums, 'genres' => $genres, 'series' => $series);
+        return array('genres' => $genres, 'series' => $series);
     }
 
     /**
@@ -143,8 +135,7 @@ class FilelistHelper
         $items = $this->ponthubFileRepository->findByPath($notFound);
 
         foreach ($items as $item) {
-            if (get_class($item) != 'KI\PonthubBundle\Entity\Album'
-             && get_class($item) != 'KI\PonthubBundle\Entity\Serie') {
+            if (get_class($item) != 'KI\PonthubBundle\Entity\Serie') {
                 $item->setStatus('NotFound');
             }
         }

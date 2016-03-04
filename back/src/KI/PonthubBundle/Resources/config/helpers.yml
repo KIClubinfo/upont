@@ -7,7 +7,6 @@ services:
         class: KI\PonthubBundle\Helper\FilelistHelper
         arguments:
             - @doctrine.orm.entity_manager
-            - @ki_ponthub.repository.album
             - @ki_ponthub.repository.genre
             - @ki_ponthub.repository.serie
             - @ki_ponthub.repository.ponthubfile

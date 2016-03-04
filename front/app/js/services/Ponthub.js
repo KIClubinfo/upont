@@ -8,8 +8,6 @@ angular.module('upont').factory('Ponthub', function() {
                     return count > 5;
                 case 'logiciels':
                     return count > 10;
-                case 'musiques':
-                    return count > 3;
                 case 'autres':
                     return count > 10;
                 case 'series':
@@ -26,8 +24,6 @@ angular.module('upont').factory('Ponthub', function() {
                     return'games';
                 case 'logiciels':
                     return'softwares';
-                case 'musiques':
-                    return 'albums';
                 case 'autres':
                     return 'others';
                 case 'series':

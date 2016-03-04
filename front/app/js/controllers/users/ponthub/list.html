@@ -17,7 +17,7 @@
             <up-ribbon class="Ribbon--aqua  Ribbon--ponthub" ng-if="element.downloaded">TÉLÉCHARGÉ</up-ribbon>
         </a>
         <h3 class="text-center">{{ element.name }} <a title="Télécharger le fichier" target="_blank" class="Link Link--reverse"
-            ng-href="{{ type + '/' + element.slug + '/download?bearer=' + token | urlFile }}" ng-if="category != 'series' && category != 'musiques'"
+            ng-href="{{ type + '/' + element.slug + '/download?bearer=' + token | urlFile }}" ng-if="category != 'series'"
             ng-click="element.downloaded=true">
                 <i class="fa  fa-download"></i>
             </a>

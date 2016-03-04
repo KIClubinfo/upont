@@ -2,10 +2,6 @@ default:
     type:     rest
     resource: KI\PonthubBundle\Controller\DefaultController
 
-albums:
-    type:     rest
-    resource: KI\PonthubBundle\Controller\AlbumsController
-
 games:
     type:     rest
     resource: KI\PonthubBundle\Controller\GamesController

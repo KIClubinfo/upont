@@ -6,7 +6,6 @@ use Doctrine\ORM\EntityRepository;
 use KI\UserBundle\Entity\User;
 use KI\PonthubBundle\Entity\Movie;
 use KI\PonthubBundle\Entity\Episode;
-use KI\PonthubBundle\Entity\Music;
 use KI\PonthubBundle\Entity\Game;
 use KI\PonthubBundle\Entity\Software;
 use KI\PonthubBundle\Entity\Other;
@@ -40,7 +39,6 @@ class StatisticsHelper
         $repartition = array(
             array('Films', 0),
             array('Épisodes', 0),
-            array('Musiques', 0),
             array('Jeux', 0),
             array('Logiciels', 0),
             array('Autres', 0)
@@ -48,7 +46,6 @@ class StatisticsHelper
         $timeline = array(
             array('name' => 'Films',     'data' => array(array($date, 0))),
             array('name' => 'Épisodes',  'data' => array(array($date, 0))),
-            array('name' => 'Musiques',  'data' => array(array($date, 0))),
             array('name' => 'Jeux',      'data' => array(array($date, 0))),
             array('name' => 'Logiciels', 'data' => array(array($date, 0))),
             array('name' => 'Autres',    'data' => array(array($date, 0)))
@@ -69,10 +66,6 @@ class StatisticsHelper
             if ($file instanceof Episode) {
                 $repartition[1][1]++;
                 $this->updateSeries($timeline, $date, 1);
-            }
-            if ($file instanceof Music) {
-                $repartition[2][1]++;
-                $this->updateSeries($timeline, $date, 2);
             }
             if ($file instanceof Game) {
                 $repartition[3][1]++;

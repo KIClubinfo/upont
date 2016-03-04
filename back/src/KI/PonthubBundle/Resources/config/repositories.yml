@@ -6,13 +6,6 @@ services:
         arguments:
             - KI\PonthubBundle\Entity\Actor
 
-    ki_ponthub.repository.album:
-        class: Doctrine\ORM\EntityRepository
-        factory_service: doctrine.orm.default_entity_manager
-        factory_method: getRepository
-        arguments:
-            - KI\PonthubBundle\Entity\Album
-
     ki_ponthub.repository.genre:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.default_entity_manager
