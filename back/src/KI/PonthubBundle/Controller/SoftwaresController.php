@@ -68,6 +68,24 @@ class SoftwaresController extends PonthubFileController
 
     /**
      * @ApiDoc(
+     *  description="Supprime un logiciel",
+     *  statusCodes={
+     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   404="Ressource non trouvée",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Publications"
+     * )
+     */
+    public function deleteSoftwareAction($slug)
+    {
+        return $this->delete($slug, $this->is('JARDINIER'));
+    }
+
+    /**
+     * @ApiDoc(
      *  description="Télécharge un fichier sur Ponthub, et log le téléchargement",
      *  statusCodes={
      *   200="Requête traitée avec succès mais pas d’information à renvoyer",
