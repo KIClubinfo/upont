@@ -116,7 +116,7 @@ class PonthubFile extends Likeable
 
     /**
      * Utilisateurs ayant téléchargé le fichier
-     * @ORM\OneToMany(targetEntity="KI\PonthubBundle\Entity\PonthubFileUser", mappedBy="file")
+     * @ORM\OneToMany(targetEntity="KI\PonthubBundle\Entity\PonthubFileUser", mappedBy="file", cascade={"remove"})
      * @Assert\Valid()
      */
     protected $users;

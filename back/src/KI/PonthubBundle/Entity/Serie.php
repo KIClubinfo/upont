@@ -15,7 +15,7 @@ class Serie extends PonthubFile
 {
     /**
      * Liste des épisodes
-     * @ORM\OneToMany(targetEntity="KI\PonthubBundle\Entity\Episode", mappedBy="serie")
+     * @ORM\OneToMany(targetEntity="KI\PonthubBundle\Entity\Episode", mappedBy="serie", cascade={"remove"})
      * @Assert\Valid()
      */
     protected $episodes;

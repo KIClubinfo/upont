@@ -44,7 +44,7 @@ angular.module('upont')
                 slug: $stateParams.slug
             }).delete(function() {
                 alertify.success('Suppression réussie');
-                $state.go('root.users.ponthub.list');
+                $state.go('root.users.ponthub.category.list', {category: $stateParams.category});
             });
         };
 
