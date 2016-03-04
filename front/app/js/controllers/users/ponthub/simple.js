@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('Ponthub_Element_Ctrl', ['$scope', '$stateParams', '$q', 'Ponthub', 'StorageService', '$window', '$http', 'element', 'episodes', function($scope, $stateParams, $q, Ponthub, StorageService, $window, $http, element, episodes) {
+    .controller('Ponthub_Element_Ctrl', ['$scope', '$state', '$stateParams', '$q', 'Ponthub', 'StorageService', '$window', '$http', '$resource', 'element', 'episodes', function($scope, $state, $stateParams, $q, Ponthub, StorageService, $window, $http, $resource, element, episodes) {
         $scope.element = element;
         $scope.category = $stateParams.category;
         $scope.lastWeek = moment().subtract(7, 'days').unix();
@@ -36,6 +36,16 @@ angular.module('upont')
 
         $scope.popular = function(count) {
             return Ponthub.isPopular(count, $stateParams.category);
+        };
+
+        $scope.delete = function() {
+            $resource(apiPrefix + ':cat/:slug', {
+                cat: Ponthub.cat($stateParams.category),
+                slug: $stateParams.slug
+            }).delete(function() {
+                alertify.success('Suppression réussie');
+                $state.go('root.users.ponthub.list');
+            });
         };
 
         $scope.countDownloads = function() {

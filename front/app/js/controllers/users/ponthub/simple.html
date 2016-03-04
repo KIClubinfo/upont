@@ -53,6 +53,11 @@
                         <i class="fa  fa-cogs"></i>
                         Ranger
                     </a>
+
+                    <a class="Button  Button--alt" title="Supprimer le fichier" ng-click="delete()" ng-if="$root.hasRight('ROLE_JARDINIER')">
+                        <i class="fa  fa-trash"></i>
+                        Supprimer
+                    </a>
                 </div>
             </ul>
 
