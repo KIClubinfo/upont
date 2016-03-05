@@ -104,7 +104,7 @@ angular.module('upont')
                     }],
                     episodes: ['$resource', '$stateParams', 'Ponthub', function($resource, $stateParams, Ponthub) {
                         if(Ponthub.cat($stateParams.category) != 'series')
-                            return true;
+                            return false;
                         return $resource(apiPrefix + ':cat/:slug/episodes').query({
                             cat: 'series',
                             slug: $stateParams.slug
