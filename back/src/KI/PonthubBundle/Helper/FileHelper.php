@@ -47,12 +47,6 @@ class FileHelper
             $item = $this->basicInfos($item, $size, $path, $name);
             $this->manager->persist($item);
         }
-
-        if (preg_match('#^/root/web/films_light/#', $path)) {
-            $item = new Movie();
-            $item = $this->basicInfos($item, $size, $path, $name);
-            $this->manager->persist($item);
-        }
     }
 
     /**
@@ -118,21 +112,27 @@ class FileHelper
         }
 
         // On détermine les différentes données
-        $serie   = preg_replace('#/.*#', '', str_replace('/root/web/series/', '', $path));
-        $episode = str_replace($ext, '', preg_replace('#.*/#', '', $path));
-
-        // Si la série existe, on la récupère, sinon on la rajoute
-        if (!isset($series[$serie])) {
-            $serieItem = new Serie();
-            $serieItem = $this->basicInfos($serieItem, null, '/root/web/series/'.$serie.'/', $serie);
-            $this->manager->persist($serieItem);
-            $series[$serie] = $serieItem;
-        } else {
-            $serieItem = $series[$serie];
+        if (!preg_match('/^(.*\/)(.*?\/)(.*?)$/', $path, $matches)) {
+            return;
         }
 
-        if (!in_array('/root/web/series/'.$serie.'/', $pathsDone)) {
-            $pathsDone[] = '/root/web/series/'.$serie.'/';
+        list(, $seriePath, , $episode) = $matches;
+
+        $serieName = str_replace('/', '', str_replace('/root/web/series/', '', $seriePath));
+        $episode = str_replace($ext, '', $episode);
+
+        // Si la série existe, on la récupère, sinon on la rajoute
+        if (!isset($series[$seriePath])) {
+            $serieItem = new Serie();
+            $serieItem = $this->basicInfos($serieItem, null, $seriePath, $serieName);
+            $this->manager->persist($serieItem);
+            $series[$seriePath] = $serieItem;
+        } else {
+            $serieItem = $series[$seriePath];
+        }
+
+        if (!in_array($seriePath, $pathsDone)) {
+            $pathsDone[] = $seriePath;
         }
 
         //On range l'épisode en commencant par déterminer le numéro de saison et d'épisode
@@ -140,12 +140,12 @@ class FileHelper
             return;
         }
 
-        list(, $numberS, $numberE) = $matches;
+        list(, $numSaison, $numEpisode) = $matches;
         $item = new Episode();
         $item = $this->basicInfos($item, $size, $path, $name);
         $item->setStatus('OK');
-        $item->setSeason($numberS);
-        $item->setNumber($numberE);
+        $item->setSeason($numSaison);
+        $item->setNumber($numEpisode);
         $item->setSerie($serieItem);
 
         // On actualise la date de modification de la série
@@ -166,7 +166,7 @@ class FileHelper
         $item->setSize($size);
         $item->setAdded(time());
         $item->setPath($path);
-        $item->setStatus('NeedInfos');
+        $item->setStatus('OK');
         $item->setName($name);
         return $item;
     }

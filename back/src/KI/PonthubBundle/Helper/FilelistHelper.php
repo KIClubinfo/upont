@@ -37,8 +37,8 @@ class FilelistHelper
     {
         // On va modifier les entités en fonction de la liste, on récupère les
         // chemins de toutes les entités Ponthub
-        $paths = $this->ponthubFileRepository->createQueryBuilder('r')->select('r.path')->getQuery()->getScalarResult();
-        $paths = array_map('current', $paths);
+        $pathsExisting = $this->ponthubFileRepository->createQueryBuilder('r')->select('r.path')->getQuery()->getScalarResult();
+        $pathsExisting = array_map('current', $pathsExisting);
         $pathsDone = array();
 
         // On stocke les albums et les séries existantes
@@ -46,7 +46,7 @@ class FilelistHelper
 
         while (!feof($list)) {
             // On parcourt la liste ligne par ligne
-            $result = $this->parseLine(fgets($list), $pathsDone, $paths);
+            $result = $this->parseLine(fgets($list), $pathsDone, $pathsExisting);
             if (empty($result)) {
                 continue;
             }
@@ -62,7 +62,7 @@ class FilelistHelper
         }
         $this->manager->flush();
 
-        $this->markFilesNotFound($paths, $pathsDone);
+        $this->markFilesNotFound($pathsExisting, $pathsDone);
     }
 
     /**
@@ -71,27 +71,28 @@ class FilelistHelper
      */
     private function listExistingEntities()
     {
-        $series = $genres = array();
-        $result = $this->serieRepository->findAll();
-        foreach ($result as $serie) {
-            $series[$serie->getName()] = $serie;
+        $seriesOutput = $genresOutput = array();
+        $series = $this->serieRepository->findAll();
+        foreach ($series as $serie) {
+            $seriesOutput[$serie->getPath()] = $serie;
         }
-        // On liste aussi les genres pour les musiques
-        $result = $this->genreRepository->findAll();
-        foreach ($result as $genre) {
-            $genres[$genre->getName()] = $genre;
+
+        // On liste aussi les genres
+        $genres = $this->genreRepository->findAll();
+        foreach ($genres as $genre) {
+            $genresOutput[$genre->getName()] = $genre;
         }
-        return array('genres' => $genres, 'series' => $series);
+        return array('genres' => $genresOutput, 'series' => $seriesOutput);
     }
 
     /**
      * Parse une ligne de la liste et renvoie les données correspondantes
      * @param  string $line
      * @param  array  $pathsDone
-     * @param  array  $paths
+     * @param  array  $pathsExisting
      * @return array
      */
-    private function parseLine($line, &$pathsDone, $paths)
+    private function parseLine($line, &$pathsDone, $pathsExisting)
     {
         // On enlève le caractère de fin de ligne
         $line = str_replace(array("\r", "\n"), array('', ''), $line);
@@ -117,7 +118,7 @@ class FilelistHelper
         }
 
         // On ne crée une nouvelle entrée que si le fichier n'existe pas
-        if (in_array($line, $paths)) {
+        if (in_array($line, $pathsExisting)) {
             $pathsDone[] = $line;
             return array();
         }
@@ -126,18 +127,16 @@ class FilelistHelper
 
     /**
      * Prend les fichiers non trouvés dans la liste et les marque comme tel
-     * @param  array $paths
+     * @param  array $pathsExisting
      * @param  array $pathsDone
      */
-    private function markFilesNotFound($paths, $pathsDone) {
+    private function markFilesNotFound($pathsExisting, $pathsDone) {
         // Maintenant on marque les fichiers non trouvés
-        $notFound = array_diff($paths, $pathsDone);
+        $notFound = array_diff($pathsExisting, $pathsDone);
         $items = $this->ponthubFileRepository->findByPath($notFound);
 
         foreach ($items as $item) {
-            if (get_class($item) != 'KI\PonthubBundle\Entity\Serie') {
-                $item->setStatus('NotFound');
-            }
+            $item->setStatus('NotFound');
         }
         $this->manager->flush();
     }
