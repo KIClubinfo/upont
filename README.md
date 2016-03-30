@@ -38,7 +38,6 @@ Documentation
 -------------
 
   * [Installation](doc/installation.md)
-  * [Installation - Mobile app](doc/installation-mobile.md)
   * [Git Workflow](doc/git-workflow.md)
   * [Deployment](doc/deploy.md)
 
