@@ -5,21 +5,25 @@
         <thead>
             <tr>
                 <th><a ng-click="predicate = 'name'; reverse=!reverse">Nom</a></th>
+                <th><a ng-click="predicate = 'date'; reverse=!reverse">Date</a></th>
                 <th><a ng-click="predicate = 'votes'; reverse=!reverse">Votes</a></th>
                 <th></th>
-                <th ng-if="$root.hasRight('ROLE_JARDINIER')"="$root.isAdmin"></th>
+                <th ng-if="$root.hasRight('ROLE_JARDINIER')"></th>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="request in filtered = (requests | orderBy:predicate:reverse )">
                 <td>{{ request.name }}</td>
+                <td>{{ request.date | formatDate }}</td>
                 <td>{{ request.votes }}</td>
                 <td><i class="fa fa-thumbs-o-up Link Link--reverse" title="+1" ng-click="addPoint(request)"></i></td>
-                <td ng-if="$root.hasRight('ROLE_JARDINIER')"><i class="fa fa-trash Link Link--reverse" ng-click="delete(request)"></i></td>
+                <td ng-if="$root.hasRight('ROLE_JARDINIER')">
+                    <i class="fa fa-trash Link Link--reverse" ng-click="delete(request)"></i>
+                </td>
             </tr>
         </tbody>
     </table>
-    
+
     <h2>Nouvelle demande</h2>
     <form row wrap ng-submit="post(name)" autocomplete="off">
         <div flex="70" flex-md="50" class="padded">

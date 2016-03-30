@@ -1,7 +1,8 @@
 angular.module('upont')
     .controller('Publications_Post_Ctrl', ['$scope', '$rootScope', '$http', '$stateParams', 'Achievements', 'Upload', function($scope, $rootScope, $http, $stateParams, Achievements, Upload) {
         // Fonctions relatives à la publication
-        var club = {name: 'Au nom de...'};
+        var clubDummy = {name: 'Au nom de...'};
+        var club = clubDummy;
         $scope.display = true;
         $scope.isLoading = false;
 
@@ -81,7 +82,7 @@ angular.module('upont')
             };
 
             if (!$scope.modify) {
-                if ($scope.club != club) {
+                if ($scope.club != clubDummy) {
                     params.authorClub = $scope.club.slug;
                 } else {
                     if ($rootScope.hasRight('ROLE_EXTERIEUR')) {

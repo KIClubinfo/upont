@@ -158,9 +158,7 @@ class ClubsController extends SubresourceController
      */
     public function postClubUserAction($slug, $id)
     {
-        if (!($this->get('security.context')->isGranted('ROLE_ADMIN')
-            || $this->isClubMember($slug)))
-            throw new AccessDeniedException('Accès refusé');
+        $this->trust($this->is('ADMIN') || $this->isClubMember($slug));
 
         // On récupère les deux entités concernées
         $repo = $this->manager->getRepository('KIUserBundle:User');
@@ -193,6 +191,61 @@ class ClubsController extends SubresourceController
             }
         } else
             throw new BadRequestHttpException('La relation entre Club et User existe déjà');
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Modifie un membre d'un club",
+     *  requirements={
+     *   {
+     *    "name"="role",
+     *    "dataType"="string",
+     *    "description"="Le rôle du membre dans le club"
+     *   }
+     *  },
+     *  statusCodes={
+     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
+     *   400="La syntaxe de la requête est erronée",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   404="Ressource non trouvée",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Utilisateurs"
+     * )
+     * @Route\Patch("/clubs/{slug}/users/{username}")
+     */
+    public function patchClubUserAction($slug, $username)
+    {
+        $this->trust($this->is('ADMIN') || $this->isClubMember($slug));
+
+        // On récupère les deux entités concernées
+        $repo = $this->manager->getRepository('KIUserBundle:User');
+        $user = $repo->findOneByUsername($username);
+        $club = $this->findBySlug($slug);
+
+        // Vérifie que la relation n'existe pas déjà
+        $repoLink = $this->manager->getRepository('KIUserBundle:ClubUser');
+        $link = $repoLink->findBy(array('club' => $club, 'user' => $user));
+
+        // On édite la relation si elle existe (de façon unique)
+        if (count($link) == 1) {
+            $link = $link[0];
+            // Validation des données annexes
+            $form = $this->createForm(new ClubUserType(), $link, array('method' => 'PATCH'));
+            $form->handleRequest($this->getRequest());
+
+            if ($form->isValid()) {
+                $this->manager->persist($link);
+                $this->manager->flush();
+
+                return $this->jsonResponse(null, 204);
+            } else {
+                $this->manager->detach($link);
+                return $this->jsonResponse($form, 400);
+            }
+        } else
+            throw new BadRequestHttpException('Cette personne ne fait pas partie du club !');
     }
 
     /**

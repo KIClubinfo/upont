@@ -44,7 +44,7 @@ class PostFile
     private $size;
 
     /**
-     * @Assert\File(maxSize="6000000")
+     * @Assert\File(maxSize="2M")
      */
     protected $file;
 
@@ -69,14 +69,6 @@ class PostFile
     protected function getUploadCategory()
     {
         return 'posts';
-    }
-
-
-    public function __construct(UploadedFile $uploadedFile)
-    {
-        $this->setSize($uploadedFile->getClientSize());
-        $this->setExt($uploadedFile->guessExtension());
-        $this->setName($uploadedFile->getClientOriginalName()); //Potential security issue
     }
 
     public function getAbsolutePath()
@@ -191,7 +183,14 @@ class PostFile
      * @ORM\PostPersist()
      */
     public function moveFile() {
-        $this->file->move($this->getUploadDir(), $this->post->getId()."_".$this->getName());
+        if ($this->file === null) {
+            return;
+        }
+
+        if (file_exists($this->file->getRealPath())) {
+            $this->file->move($this->getUploadDir(), $this->post->getId()."_".$this->getName());
+            //unset($this->file);
+        }
     }
 
     /**

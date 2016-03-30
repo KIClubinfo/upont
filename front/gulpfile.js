@@ -100,7 +100,6 @@ gulp.task('build-css', function() {
    });
 });
 
-
 /**
  * Construit le fichier HTML suivant l'environnement
  */
