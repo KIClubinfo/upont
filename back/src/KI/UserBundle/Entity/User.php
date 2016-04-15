@@ -164,6 +164,39 @@ class User extends \KI\UserBundle\Entity\CoreUser
      */
     protected $mailShotgun = true;
 
+    /**
+     * Achievements de l'utilisateur
+     * @ORM\OneToMany(targetEntity="KI\UserBundle\Entity\AchievementUser", mappedBy="user", orphanRemoval=true)
+     * @Assert\Valid()
+     */
+    protected $achievements;
+
+    /**
+     * Téléchargements de l'utilisateur
+     * @ORM\OneToMany(targetEntity="KI\PonthubBundle\Entity\PonthubFileUser", mappedBy="user", orphanRemoval=true)
+     * @Assert\Valid()
+     */
+    protected $downloads;
+
+    /**
+     * Transactions de l'utilisateur
+     * @ORM\OneToMany(targetEntity="KI\FoyerBundle\Entity\Transaction", mappedBy="user")
+     * @Assert\Valid()
+     */
+    protected $transactions;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->achievements = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->downloads = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->transactions = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     protected function acronyme()
     {
         $r = '';

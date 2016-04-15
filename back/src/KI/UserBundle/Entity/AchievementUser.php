@@ -35,7 +35,7 @@ class AchievementUser
     private $achievement;
 
     /**
-     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User", inversedBy="achievements")
      * @ORM\JoinColumn(nullable=false)
      * @JMS\Expose
      */
