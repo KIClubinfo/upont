@@ -226,9 +226,12 @@ class Post extends Likeable
                 if ($uploadedFile) {
                     $file = new PostFile($uploadedFile);
                     $file->setFile($uploadedFile);
-                    $this->getFiles()->add($file);
+                    $file->setSize($uploadedFile->getClientSize());
+                    $file->setExt($uploadedFile->guessExtension());
+                    $file->setName($uploadedFile->getClientOriginalName());
                     $file->setPost($this);
-                    unset($uploadedFile);
+
+                    $this->getFiles()->add($file);
                 }
             }
         }

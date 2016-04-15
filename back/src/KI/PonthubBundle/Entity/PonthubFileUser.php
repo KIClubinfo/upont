@@ -20,14 +20,14 @@ class PonthubFileUser
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="KI\PonthubBundle\Entity\PonthubFile")
+     * @ORM\ManyToOne(targetEntity="KI\PonthubBundle\Entity\PonthubFile", inversedBy="users")
      * @ORM\JoinColumn(nullable=false)
      * @JMS\Expose
      */
     protected $file;
 
     /**
-     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User", inversedBy="users")
+     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User", inversedBy="downloads")
      * @ORM\JoinColumn(nullable=false)
      * @JMS\Expose
      */

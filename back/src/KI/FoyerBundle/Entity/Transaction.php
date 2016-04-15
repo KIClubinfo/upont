@@ -44,7 +44,7 @@ class Transaction
     private $beer;
 
     /**
-     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User", inversedBy="transactions")
      * @ORM\JoinColumn(nullable=false)
      * @JMS\Expose
      */

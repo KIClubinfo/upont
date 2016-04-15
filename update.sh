@@ -1,6 +1,11 @@
 #!/bin/bash
 # [AT'016] Met automatiquement tout à jour, à lancer à chaque pull/mise à jour des modèles, configurable dans un hook post-receive
 
+if [[ $(hostname -s) = clubinfo ]]; then
+    echo "Don't run this script on odin !!!"
+    exit
+fi
+
 cd front
 npm install
 bower update
