@@ -138,7 +138,7 @@ class User extends \KI\UserBundle\Entity\CoreUser
      * @JMS\Expose
      * @Assert\Type("float")
      */
-    protected $balance;
+    protected $balance = 0.0;
 
     /**
      * Activation des mails d'événements
