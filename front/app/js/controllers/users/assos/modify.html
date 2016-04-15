@@ -87,7 +87,7 @@
                 </div>
                 <div class="Results__cell" flex="75">
                     <div class="Results__item" row="space-between center" ng-repeat="result in searchResults | limitTo: 5"
-                         ng-click="addMember(result.slug, result.name)">
+                         ng-click="addMember(result)">
                         <div class="Image" flex="20">
                             <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ result.image_url | thumb | urlFile }})' }"></div>
                         </div>
