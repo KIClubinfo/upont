@@ -10,7 +10,6 @@ use KI\CoreBundle\Entity\Likeable;
 /**
  * @ORM\Entity
  * @JMS\ExclusionPolicy("all")
- * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="path_idx", columns={"path"})})
  */
 class PonthubFile extends Likeable
 {
