@@ -32,7 +32,7 @@ class Transaction
      * Valeur de l'échange
      * @ORM\Column(name="amount", type="float")
      * @JMS\Expose
-     * @Assert\Type("float")
+     * @Assert\Type("numeric")
      */
     protected $amount;
 
