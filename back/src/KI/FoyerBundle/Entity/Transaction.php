@@ -32,7 +32,7 @@ class Transaction
      * Valeur de l'échange
      * @ORM\Column(name="amount", type="float")
      * @JMS\Expose
-     * @Assert\Type("float")
+     * @Assert\Type("numeric")
      */
     protected $amount;
 
@@ -44,7 +44,7 @@ class Transaction
     private $beer;
 
     /**
-     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User", inversedBy="transactions")
      * @ORM\JoinColumn(nullable=false)
      * @JMS\Expose
      */

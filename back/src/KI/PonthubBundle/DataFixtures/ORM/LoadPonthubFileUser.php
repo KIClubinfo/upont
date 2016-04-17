@@ -48,36 +48,6 @@ class LoadPonthubFileUserFixture extends AbstractFixture implements OrderedFixtu
         $manager->persist($ponthubFileUser);
 
         $ponthubFileUser = new PonthubFileUser();
-        $ponthubFileUser->setFile($this->getReference('music-shoot-to-thrill'));
-        $ponthubFileUser->setUser($this->getReference('user-trancara'));
-        $ponthubFileUser->setDate(time() - 456*3600);
-        $manager->persist($ponthubFileUser);
-
-        $ponthubFileUser = new PonthubFileUser();
-        $ponthubFileUser->setFile($this->getReference('music-shoot-to-thrill'));
-        $ponthubFileUser->setUser($this->getReference('user-de-boisc'));
-        $ponthubFileUser->setDate(time() - 456*3600);
-        $manager->persist($ponthubFileUser);
-
-        $ponthubFileUser = new PonthubFileUser();
-        $ponthubFileUser->setFile($this->getReference('music-giving-the-dog-a-bone'));
-        $ponthubFileUser->setUser($this->getReference('user-trancara'));
-        $ponthubFileUser->setDate(time() - 457*3600);
-        $manager->persist($ponthubFileUser);
-
-        $ponthubFileUser = new PonthubFileUser();
-        $ponthubFileUser->setFile($this->getReference('music-play-ball'));
-        $ponthubFileUser->setUser($this->getReference('user-trancara'));
-        $ponthubFileUser->setDate(time() - 458*3600);
-        $manager->persist($ponthubFileUser);
-
-        $ponthubFileUser = new PonthubFileUser();
-        $ponthubFileUser->setFile($this->getReference('music-enter-sandman'));
-        $ponthubFileUser->setUser($this->getReference('user-trancara'));
-        $ponthubFileUser->setDate(time() - 800*3600);
-        $manager->persist($ponthubFileUser);
-
-        $ponthubFileUser = new PonthubFileUser();
         $ponthubFileUser->setFile($this->getReference('software-windows'));
         $ponthubFileUser->setUser($this->getReference('user-trancara'));
         $ponthubFileUser->setDate(time() - 850*3600);

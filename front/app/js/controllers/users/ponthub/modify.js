@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('Ponthub_Modify_Ctrl', ['$scope', '$stateParams', 'Ponthub', '$http', 'element', function($scope, $stateParams, Ponthub, $http, element) {
+    .controller('Ponthub_Modify_Ctrl', ['$scope', '$state', '$stateParams', 'Ponthub', '$http', 'element', function($scope, $state, $stateParams, Ponthub, $http, element) {
         $scope.init = function(element) {
             $scope.element = element;
             $scope.element.tags = $scope.element.tags.join();
@@ -49,15 +49,6 @@ angular.module('upont')
             }
         };
 
-        $scope.gracenote = function(album) {
-            if ($scope.type == 'albums') {
-                $http.post(apiPrefix + 'gracenote', {album: album.name, artist: album.artist}).success(function(data){
-                    $scope.element.year = data.year;
-                    $scope.imageUrl = data.image;
-                });
-            }
-        };
-
         $scope.submitFile = function(element, imageUrl, imageBase64) {
             var params = {
                 'name' : element.name,
@@ -88,17 +79,8 @@ angular.module('upont')
                     params.year = element.year;
                     params.duration = element.duration;
                     params.director = element.director;
-                    params.vo = element.vo;
-                    params.vf = element.vf;
-                    params.vost = element.vost;
-                    params.vostfr = element.vostfr;
-                    params.hd = element.hd;
                     if (element.rating !== '' && element.rating != 'N/A')
                         params.rating = element.rating;
-                    break;
-                case 'albums':
-                    params.year = element.year;
-                    params.artist = element.artist;
                     break;
                 case 'games':
                     params.year = element.year;
@@ -121,7 +103,7 @@ angular.module('upont')
                     });
                 } else {
                     alertify.alert('Le nom apparent du fichier ayant changé, il est nécessaire de recharger la page...');
-                    $state.go('root.users.ponthub.list');
+                    $state.go('root.users.ponthub.category.list', {category: $stateParams.category});
                 }
                 alertify.success('Modifications prises en compte !');
             });

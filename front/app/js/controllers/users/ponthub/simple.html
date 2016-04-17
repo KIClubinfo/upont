@@ -12,13 +12,6 @@
                  ng-class="{'Image--portrait': category == 'films' || category == 'series', 'Image--landscape': category == 'jeux'}">
                 <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ element.image_url | urlFile }})' }"></div>
             </div>
-
-            <div row="space-around stretch">
-                <div ng-if="element.vo"><span class="label label-upont">VO</span></div>
-                <div ng-if="element.vf"><span class="label label-upont">VF</span></div>
-                <div ng-if="element.vost"><span class="label label-upont">VOST</span></div>
-                <div ng-if="element.hd"><span class="label label-upont">HD</span></div>
-            </div>
         </aside>
 
         <!-- Détails sur le fichier -->
@@ -51,7 +44,7 @@
                 <li ng-if="element.os"><strong>Platforme :</strong> {{ element.os }}</li>
 
                 <div class="padded" row="space-between stretch">
-                    <a class="Button" title="Télécharger le fichier" target="_blank" ng-href="{{ type + '/' + element.slug + '/download?bearer=' + token | urlFile }}" ng-hide="category == 'series' || category == 'musiques'">
+                    <a class="Button" title="Télécharger le fichier" target="_blank" ng-href="{{ type + '/' + element.slug + '/download?bearer=' + token | urlFile }}" ng-hide="category == 'series'">
                         <i class="fa  fa-download"></i>
                         Télécharger !
                     </a>
@@ -59,6 +52,11 @@
                     <a class="Button  Button--alt" title="Ranger le fichier" ui-sref="root.users.ponthub.category.modify({slug: element.slug})" ng-if="$root.hasRight('ROLE_JARDINIER')">
                         <i class="fa  fa-cogs"></i>
                         Ranger
+                    </a>
+
+                    <a class="Button  Button--alt" title="Supprimer le fichier" ng-click="delete()" ng-if="$root.hasRight('ROLE_JARDINIER')">
+                        <i class="fa  fa-trash"></i>
+                        Supprimer
                     </a>
                 </div>
             </ul>
@@ -73,17 +71,6 @@
                     <li class="List__element" ng-repeat="episode in saison | orderBy:['name']">
                         <a title="Télécharger le fichier" target="_blank" ng-href="{{ type + '/' + element.slug + '/episodes/' + episode.slug + '/download?bearer=' + token | urlFile }}">
                             {{ episode.name }}
-                        </a>
-                    </li>
-                </ul>
-            </section>
-
-            <!-- Cas des albums -->
-            <section ng-if="musics">
-                <ul class="List  padded">
-                    <li class="List__element" ng-repeat="music in musics | orderBy:['name']">
-                        <a class="clickable" title="Télécharger le fichier" target="_blank" ng-href="{{ type + '/' + element.slug + '/musics/' + music.slug + '/download?bearer=' + token | urlFile }}">
-                            {{ music.name }}
                         </a>
                     </li>
                 </ul>

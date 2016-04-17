@@ -32,8 +32,6 @@ class LoadImageFixture extends AbstractFixture implements OrderedFixtureInterfac
             'newsitem-git' => 'git.png',
             'newsitem-pulls' => 'pulls.jpg',
             'movie-pumping-iron' => 'pumping-iron.jpg',
-            'album-back-in-black' => 'back-in-black.jpg',
-            'album-rock-or-bust' => 'rock-or-bust.jpg',
             'game-age-of-empires-2' => 'age-of-empires-2.jpg',
             'software-vista' => 'vista.png',
             'supaero' => 'supaero.jpg'

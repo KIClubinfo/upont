@@ -66,51 +66,6 @@ class DefaultController extends ResourceController
 
     /**
      * @ApiDoc(
-     *  description="Récupère des informations sur un album de musique grâce à l'API Gracenote",
-     *  requirements={
-     *   {
-     *    "name"="album",
-     *    "dataType"="string",
-     *    "description"="Le critère de recherche est le nom de l'album"
-     *   }
-     *  },
-     *  parameters={
-     *   {
-     *    "name"="artist",
-     *    "dataType"="string",
-     *    "required"=false,
-     *    "description"="Le nom de l'artiste peut être spécifié pour maximiser la pertinence"
-     *   }
-     *  },
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Ponthub"
-     * )
-     * @Route\Post("/gracenote")
-     */
-    public function gracenoteAction(Request $request)
-    {
-        $this->trust($this->is('USER'));
-
-        if (!$request->request->has('album')) {
-            throw new BadRequestHttpException();
-        }
-
-        $album = $request->request->get('album');
-        $artist = $request->request->has('artist') ? $request->request->get('artist') : '';
-        $gracenote = $this->get('ki_ponthub.service.gracenote');
-        $infos = $gracenote->searchAlbum($album, $artist);
-
-        return $this->jsonResponse($infos, 200);
-    }
-
-    /**
-     * @ApiDoc(
      *  description="Recherche des films/séries sur Imdb",
      *  requirements={
      *   {

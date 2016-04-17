@@ -17,7 +17,7 @@ class Beer extends Likeable
      * Prix
      * @ORM\Column(name="price", type="float")
      * @JMS\Expose
-     * @Assert\Type("float")
+     * @Assert\Type("numeric")
      */
     protected $price;
 
@@ -25,7 +25,7 @@ class Beer extends Likeable
      * Taux d'alcohol
      * @ORM\Column(name="ects", type="float")
      * @JMS\Expose
-     * @Assert\Type("float")
+     * @Assert\Type("numeric")
      */
     protected $alcohol;
 
@@ -33,7 +33,7 @@ class Beer extends Likeable
      * Volume (L)
      * @ORM\Column(name="volume", type="float")
      * @JMS\Expose
-     * @Assert\Type("float")
+     * @Assert\Type("numeric")
      */
     protected $volume;
 

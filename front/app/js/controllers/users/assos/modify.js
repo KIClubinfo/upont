@@ -1,11 +1,16 @@
 angular.module('upont')
-    .controller('Assos_Modify_Ctrl', ['$scope', '$http', '$state', 'club', function($scope, $http, $state, club) {
-        $scope.club = club;
+    .controller('Assos_Modify_Ctrl', ['$scope', '$controller', '$http', '$state', function($scope, $controller, $http, $state) {
         $scope.showIcons = false;
         $scope.faIcons = faIcons;
         $scope.search = '';
         $scope.searchResults = [];
-        var clubSlug = club.name;
+        var clubSlug = $scope.club.name;
+
+        $scope.reloadMembers = function() {
+            $http.get(apiPrefix + 'clubs/' + $scope.club.slug + '/users').success(function(data){
+                $scope.members = data;
+            });
+        };
 
         $scope.submitClub = function(name, fullName, icon, image, banner) {
             var params = {
@@ -51,19 +56,19 @@ angular.module('upont')
             }
         };
 
-        $scope.addMember = function(slug, name) {
+        $scope.addMember = function(user) {
             // On vérifie que la personne n'est pas déjà membre
             for (var i = 0; i < $scope.members.length; i++) {
-                if ($scope.members[i].user.username == slug) {
+                if ($scope.members[i].user.username == user.slug) {
                     alertify.error('Déjà membre du club !');
                     return;
                 }
             }
 
-            alertify.prompt('Rôle de ' + name + ' :', function(e, role){
+            alertify.prompt('Rôle de ' + user.name + ' :', function(e, role){
                 if (e) {
-                    $http.post(apiPrefix + 'clubs/' + $scope.club.slug + '/users/' + slug, {role: role}).success(function(data){
-                        alertify.success(name + ' a été ajouté(e) !');
+                    $http.post(apiPrefix + 'clubs/' + $scope.club.slug + '/users/' + user.slug, {role: role}).success(function(data){
+                        alertify.success(user.name + ' a été ajouté(e) !');
                         $scope.reloadMembers();
                     });
                 }
@@ -74,7 +79,7 @@ angular.module('upont')
             // On vérifie que la personne est déjà membre
             var found = false;
             for (var i = 0; i < $scope.members.length; i++) {
-                if ($scope.members[i].user.username == user.slug) {
+                if ($scope.members[i].user.username == user.username) {
                     found = true;
                     break;
                 }
@@ -86,8 +91,8 @@ angular.module('upont')
 
             alertify.prompt('Nouveau rôle de ' + user.first_name + ' ' + user.last_name + ' :', function(e, role){
                 if (e) {
-                    $http.patch(apiPrefix + 'clubs/' + $scope.club.slug + '/users/' + slug, {role: role}).success(function(data){
-                        alertify.success(name + ' a été modifié(e) !');
+                    $http.patch(apiPrefix + 'clubs/' + $scope.club.slug + '/users/' + user.username, {role: role}).success(function(data){
+                        alertify.success(user.first_name + ' ' + user.last_name + ' a été modifié(e) !');
                         $scope.reloadMembers();
                     });
                 }
@@ -95,15 +100,9 @@ angular.module('upont')
         };
 
         $scope.removeMember = function(user) {
-            $http.delete(apiPrefix + 'clubs/' + $scope.club.slug + '/users/' + user.slug).success(function(data){
+            $http.delete(apiPrefix + 'clubs/' + $scope.club.slug + '/users/' + user.username).success(function(data){
                 alertify.success('Membre supprimé !');
                 $scope.reloadMembers();
-            });
-        };
-
-        $scope.reloadMembers = function() {
-            $http.get(apiPrefix + 'clubs/' + $scope.club.slug + '/users').success(function(data){
-                $scope.members = data;
             });
         };
     }])

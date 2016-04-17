@@ -1,10 +1,9 @@
 angular.module('upont')
-    .controller('Ponthub_Element_Ctrl', ['$scope', '$stateParams', '$q', 'Ponthub', 'StorageService', '$window', '$http', 'element', 'episodes', 'musics', function($scope, $stateParams, $q, Ponthub, StorageService, $window, $http, element, episodes, musics) {
+    .controller('Ponthub_Element_Ctrl', ['$scope', '$state', '$stateParams', '$q', 'Ponthub', 'StorageService', '$window', '$http', '$resource', 'element', 'episodes', function($scope, $state, $stateParams, $q, Ponthub, StorageService, $window, $http, $resource, element, episodes) {
         $scope.element = element;
         $scope.category = $stateParams.category;
         $scope.lastWeek = moment().subtract(7, 'days').unix();
         $scope.type = Ponthub.cat($stateParams.category);
-        $scope.musics = musics;
         $scope.openSeason = -1;
         $scope.fleur = null;
         $scope.token = StorageService.get('token');
@@ -39,6 +38,16 @@ angular.module('upont')
             return Ponthub.isPopular(count, $stateParams.category);
         };
 
+        $scope.delete = function() {
+            $resource(apiPrefix + ':cat/:slug', {
+                cat: Ponthub.cat($stateParams.category),
+                slug: $stateParams.slug
+            }).delete(function() {
+                alertify.success('Suppression réussie');
+                $state.go('root.users.ponthub.category.list', {category: $stateParams.category});
+            });
+        };
+
         $scope.countDownloads = function() {
             var count = 0;
             switch ($scope.category) {
@@ -48,11 +57,6 @@ angular.module('upont')
                             count += entry[j].downloads;
                         }
                     });
-                    return count;
-                case 'musiques':
-                    for(var k = 0; k < $scope.musics.length; k++) {
-                        count += $scope.musics[k].downloads;
-                    }
                     return count;
                 default:
                     return $scope.element.downloads;

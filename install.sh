@@ -5,24 +5,16 @@ echo -e "\e[1m\e[34mBienvenue sur le script d'installation de uPont"
 echo -e "Ce script est destiné aux distributions Ubuntu-like. \e[31mUn compte GitHub est nécessaire.\e[0m"
 read -p "Adresse mail du compte GitHub : " mail
 read -p "Prénom Nom : " name
-read -p "Adresse proxy (au format http://user:password@etuproxy.enpc.fr:3128) : " proxy
 
 ### INSTALL ###
 echo -e "\e[1m\e[34mInstallation des dépendances...\e[0m"
-sudo apt-get update
-sudo apt-get install -y curl expect git htop iotop lynx make nano netcat traceroute sl tree vim unzip zip mysql-server python-mysqldb php5-cli php5-fpm php5-curl php5-gd php5-imap php5-intl php5-mcrypt php5-mysql nginx apt-transport-https
-
-echo -e "\e[1m\e[34mConfiguration du proxy...\e[0m"
-if [ -z "$proxy" ]; then
-    echo "\e[31mPas de proxy configuré.\e[0m"
-else
-    npm config set proxy $proxy
-    npm config set https-proxy $proxy
-fi
+sudo -E apt-get update
+sudo -E apt-get install -y curl expect git htop iotop make nano netcat traceroute sl tree vim unzip zip
+sudo -E apt-get install -y mysql-server python-mysqldb php5-cli php5-fpm php5-curl php5-gd php5-imap php5-intl php5-mcrypt php5-mysql nginx apt-transport-https
 
 echo -e "\e[1m\e[34mConfiguration de git...\e[0m"
-sudo chown -R $user:www-data /var/www
-cd /var/www
+sudo chown -R www-data:www-data /var/www
+
 git config --global user.name $name
 git config --global user.email $mail
 git config --global http.postBuffer 524288000
@@ -36,7 +28,7 @@ sudo cp utils/install/www.conf /etc/php5/fpm/pool.d/www.conf
 sudo mkdir /etc/php5/conf.d
 sudo cp utils/install/global.ini /etc/php5/conf.d/global.ini
 
-sudo curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
+sudo -E curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin
 sudo mv /usr/local/bin/composer.phar /usr/local/bin/composer
 chmod -R 0777 ~/.composer/cache
 
@@ -51,8 +43,17 @@ wget -qO - https://deb.nodesource.com/gpgkey/nodesource.gpg.key | sudo apt-key a
 sudo cp utils/install/nodesource.list /etc/apt/sources.list.d/nodesource.list
 sudo cp utils/install/deb_nodesource_com_node.pref /etc/apt/preferences.d/deb_nodesource_com_node.pref
 
-sudo apt-get update
-sudo apt-get install nodejs
+sudo -E apt-get update
+sudo -E apt-get install nodejs
+
+echo -e "\e[1m\e[34mConfiguration du proxy...\e[0m"
+if [ -z "$http_proxy" ]; then
+    echo "\e[31mPas de proxy configuré.\e[0m"
+else
+    npm config set proxy $http_proxy
+    npm config set https-proxy $http_proxy
+fi
+
 sudo npm install -g npm bower gulp
 
 echo "127.0.0.1 dev-upont.enpc.fr" | sudo tee -a /etc/hosts
