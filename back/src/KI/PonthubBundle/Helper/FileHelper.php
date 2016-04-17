@@ -107,7 +107,7 @@ class FileHelper
      */
     public function tryToStoreSerie(&$series, &$pathsDone, $ext, $path, $name, $size)
     {
-        if (!preg_match('#^/root/web/series/#', $path)) {
+        if (!preg_match('#^/root/web/series/.+#', $path)) {
             return;
         }
 
