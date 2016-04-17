@@ -3,11 +3,9 @@
 namespace KI\PonthubBundle\Helper;
 
 use Doctrine\ORM\EntityManager;
-use KI\PonthubBundle\Entity\Album;
 use KI\PonthubBundle\Entity\Episode;
 use KI\PonthubBundle\Entity\Game;
 use KI\PonthubBundle\Entity\Movie;
-use KI\PonthubBundle\Entity\Music;
 use KI\PonthubBundle\Entity\Other;
 use KI\PonthubBundle\Entity\Serie;
 use KI\PonthubBundle\Entity\Software;
@@ -47,16 +45,6 @@ class FileHelper
         if (preg_match('#^/root/web/films/#', $path)) {
             $item = new Movie();
             $item = $this->basicInfos($item, $size, $path, $name);
-            $item->setVo(true);
-            $item->setVost(true);
-            $item->setHd(true);
-            $this->manager->persist($item);
-        }
-
-        if (preg_match('#^/root/web/films_light/#', $path)) {
-            $item = new Movie();
-            $item = $this->basicInfos($item, $size, $path, $name);
-            $item->setHd(false);
             $this->manager->persist($item);
         }
     }
@@ -124,23 +112,27 @@ class FileHelper
         }
 
         // On détermine les différentes données
-        $serie   = preg_replace('#/.*#', '', str_replace('/root/web/series/', '', $path));
-        $episode = str_replace($ext, '', preg_replace('#.*/#', '', $path));
-
-        // Si la série existe, on la récupère, sinon on la rajoute
-        if (!isset($series[$serie])) {
-            $serieItem = new Serie();
-            $serieItem = $this->basicInfos($serieItem, null, '/root/web/series/'.$serie.'/', $serie);
-            $serieItem->setVo(true);
-            $serieItem->setHd(false);
-            $this->manager->persist($serieItem);
-            $series[$serie] = $serieItem;
-        } else {
-            $serieItem = $series[$serie];
+        if (!preg_match('/^(.*\/)(.*?\/)(.*?)$/', $path, $matches)) {
+            return;
         }
 
-        if (!in_array('/root/web/series/'.$serie.'/', $pathsDone)) {
-            $pathsDone[] = '/root/web/series/'.$serie.'/';
+        list(, $seriePath, , $episode) = $matches;
+
+        $serieName = str_replace('/', '', str_replace('/root/web/series/', '', $seriePath));
+        $episode = str_replace($ext, '', $episode);
+
+        // Si la série existe, on la récupère, sinon on la rajoute
+        if (!isset($series[$seriePath])) {
+            $serieItem = new Serie();
+            $serieItem = $this->basicInfos($serieItem, null, $seriePath, $serieName);
+            $this->manager->persist($serieItem);
+            $series[$seriePath] = $serieItem;
+        } else {
+            $serieItem = $series[$seriePath];
+        }
+
+        if (!in_array($seriePath, $pathsDone)) {
+            $pathsDone[] = $seriePath;
         }
 
         //On range l'épisode en commencant par déterminer le numéro de saison et d'épisode
@@ -148,72 +140,16 @@ class FileHelper
             return;
         }
 
-        list(, $numberS, $numberE) = $matches;
+        list(, $numSaison, $numEpisode) = $matches;
         $item = new Episode();
         $item = $this->basicInfos($item, $size, $path, $name);
         $item->setStatus('OK');
-        $item->setSeason($numberS);
-        $item->setNumber($numberE);
+        $item->setSeason($numSaison);
+        $item->setNumber($numEpisode);
         $item->setSerie($serieItem);
 
         // On actualise la date de modification de la série
         $serieItem->setAdded(time());
-        $this->manager->persist($item);
-        $pathsDone[] = $path;
-    }
-
-    /**
-     * @param \KI\PonthubBundle\Entity\Genre[] $genres
-     * @param Album[] $albums
-     * @param string[] $pathsDone
-     * @param string $path
-     * @param string $name
-     * @param integer $size
-     */
-    public function tryToStoreAlbum(&$genres, &$albums, &$pathsDone, $path, $name, $size)
-    {
-        if (!preg_match('#^/root/web/musiques/#', $path)) {
-            return;
-        }
-
-        // On détermine les différentes données
-        $genre  = preg_replace('#/.*#', '', str_replace('/root/web/musiques/', '', $path));
-        $artist = preg_replace('#/.*#', '', str_replace('/root/web/musiques/'.$genre.'/', '', $path));
-        $album  = preg_replace('#/.*#', '', str_replace('/root/web/musiques/'.$genre.'/'.$artist.'/', '', $path));
-
-        // Si le genre existe, on le récupère, sinon on le rajoute
-        if (!isset($genres[$genre])) {
-            $genreItem = new Genre();
-            $genreItem->setName($genre);
-            $this->manager->persist($genreItem);
-            $genres[$genre] = $genreItem;
-        } else {
-            $genreItem = $genres[$genre];
-        }
-
-        // Si l'album existe, on le récupère, sinon on le rajoute
-        if (!isset($albums[$album])) {
-            $albumItem = new Album();
-            $albumItem = $this->basicInfos($albumItem, null, '/root/web/musiques/'.$genre.'/'.$artist.'/'.$album.'/', $album);
-            $albumItem->setArtist($artist);
-            $albumItem->setStatus('NeedInfos');
-            $this->manager->persist($albumItem);
-            $albums[$album] = $albumItem;
-            $pathsDone[] = '/root/web/musiques/'.$genre.'/'.$artist.'/'.$album.'/';
-        } else {
-            $albumItem = $albums[$album];
-        }
-
-        if (!in_array('/root/web/musiques/'.$genre.'/'.$artist.'/'.$album.'/', $pathsDone)) {
-            $pathsDone[] = '/root/web/musiques/'.$genre.'/'.$artist.'/'.$album.'/';
-        }
-
-        // Maintenant on range la musique
-        $item = new Music();
-        $item = $this->basicInfos($item, $size, $path, $name);
-        $item->setStatus('OK');
-        $item->addGenre($genreItem);
-        $item->setAlbum($albumItem);
         $this->manager->persist($item);
         $pathsDone[] = $path;
     }
@@ -230,7 +166,7 @@ class FileHelper
         $item->setSize($size);
         $item->setAdded(time());
         $item->setPath($path);
-        $item->setStatus('NeedInfos');
+        $item->setStatus('OK');
         $item->setName($name);
         return $item;
     }

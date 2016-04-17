@@ -20,11 +20,6 @@ class MovieType extends AbstractType
             ->add('director')
             ->add('rating')
             ->add('year')
-            ->add('vo')
-            ->add('vf')
-            ->add('vost')
-            ->add('vostfr')
-            ->add('hd')
             ->add('image', 'image_selector')
         ;
     }

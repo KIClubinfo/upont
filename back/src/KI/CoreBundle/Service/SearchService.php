@@ -126,12 +126,9 @@ class SearchService
                 $item['balance'] = $result->getBalance();
             }
 
-            // Pour les épisodes et les musiques on ajoute une référence à l'entité parent
+            // Pour les épisodes, on ajoute une référence à l'entité parent
             if ($class == 'Episode') {
                 $item['parent'] = $result->getSerie()->getSlug();
-            }
-            if ($class == 'Music') {
-                $item['parent'] = $result->getAlbum()->getSlug();
             }
 
             // Si une image existe on la rajoute

@@ -16,8 +16,6 @@ class LoadMovieFixture extends AbstractFixture implements OrderedFixtureInterfac
         $movie->setPath('/root/web/films/Pumping Iron 1.mkv');
         $movie->setName('Pumping Iron');
         $movie->setDescription('Do you even lift?');
-        $movie->setVf(false);
-        $movie->setVost(true);
         $movie->setGenres(array($this->getReference('genre-sport'), $this->getReference('genre-documentary')));
         $movie->setActors(array($this->getReference('actor-arnold')));
         $movie->setTags(array($this->getReference('tag-bodybuilding'), $this->getReference('tag-lift')));
@@ -37,8 +35,6 @@ class LoadMovieFixture extends AbstractFixture implements OrderedFixtureInterfac
         $movie->setPath('/root/web/films/300.mkv');
         $movie->setName('300');
         $movie->setDescription('This is Sparta!');
-        $movie->setVf(false);
-        $movie->setVost(true);
         $movie->setGenres(array($this->getReference('genre-action'), $this->getReference('genre-documentary')));
         $movie->setDuration(85*60);
         $movie->setYear(2007);

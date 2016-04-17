@@ -27,9 +27,6 @@ class SeriesControllerTest extends WebTestCase
             'image' => 'https://upload.wikimedia.org/wikipedia/commons/5/5a/Wikipedia-logo-v2-fr.png',
             'year' => '2004',
             'duration' => 7800,
-            'vf' => true,
-            'vost' => true,
-            'vostfr' => false,
             'director' => 'Mickael Bay',
             'actors' => 'Josh Radnor',
             'genres' => 'SitCom',
@@ -95,5 +92,16 @@ class SeriesControllerTest extends WebTestCase
         $this->assertJsonResponse($response, 200);
         $this->assertNotEquals($infos, null);
         $this->assertEquals($infos['downloads'], 1);
+    }
+
+    public function testDelete()
+    {
+        $this->client->request('DELETE', '/series/how-i-met-your-mother');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 204);
+
+        $this->client->request('DELETE', '/series/sjoajsiohaysahaiasbsksaba7');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 404);
     }
 }

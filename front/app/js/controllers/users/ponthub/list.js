@@ -9,15 +9,6 @@ angular.module('upont')
         $scope.reload = function(filters) {
             var url = Ponthub.cat($stateParams.category) + '?sort=-added,id';
 
-            if (filters.vo)
-                url += '&vo=1';
-            if (filters.vost)
-                url += '&vost=1';
-            if (filters.vf)
-                url += '&vf=1';
-            if (filters.hd)
-                url += '&hd=1';
-
             Paginate.get(url, 20).then(function(data){
                 $scope.elements = data;
             });
@@ -30,8 +21,6 @@ angular.module('upont')
                 case 'films':
                 case 'series':
                     return 'fa-film';
-                case 'musiques':
-                    return 'fa-music';
                 case 'autres':
                     return 'fa-file-o';
                 case 'logiciels':
@@ -115,17 +104,9 @@ angular.module('upont')
                     }],
                     episodes: ['$resource', '$stateParams', 'Ponthub', function($resource, $stateParams, Ponthub) {
                         if(Ponthub.cat($stateParams.category) != 'series')
-                            return true;
+                            return false;
                         return $resource(apiPrefix + ':cat/:slug/episodes').query({
                             cat: 'series',
-                            slug: $stateParams.slug
-                        }).$promise;
-                    }],
-                    musics: ['$resource', '$stateParams', 'Ponthub', function($resource, $stateParams, Ponthub) {
-                        if(Ponthub.cat($stateParams.category) != 'albums')
-                            return true;
-                        return $resource(apiPrefix + ':cat/:slug/musics').query({
-                            cat: 'albums',
                             slug: $stateParams.slug
                         }).$promise;
                     }],

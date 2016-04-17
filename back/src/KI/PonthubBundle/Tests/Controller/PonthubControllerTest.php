@@ -24,14 +24,6 @@ class PonthubControllerTest extends WebTestCase
         $this->assertJsonResponse($response, 202);
 
         // On vérifie que les ressources concernées ont bien été créées
-        $this->client->request('GET', '/albums/black-sabbath/musics/black-sabbath-1');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-
-        $this->client->request('GET', '/albums/black-dog-barking/musics/1-10-black-dog-barking');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-
         $this->client->request('GET', '/games/dawn-of-war-1-dark-crusade');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
@@ -64,30 +56,6 @@ class PonthubControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
     }
-
-    /*
-    public function testGracenote()
-    {
-        $this->client->request('POST', '/gracenote', array('album' => 'Back In Black'));
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-
-        $this->client->request('POST', '/gracenote', array('album' => 'Ride The Lightning', 'artist' => 'Metallica'));
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-        $infos = json_decode($response->getContent(), true);
-        $this->assertNotEquals($infos, null);
-        $this->assertEquals($infos['year'], 1984);
-
-        $this->client->request('POST', '/gracenote', array('Back In Black'));
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 400);
-
-        $this->client->request('POST', '/gracenote', array('album' => 'dfsdffszaevzev', 'artist' => 'avrzarzqvzqddq'));
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 500);
-    }
-    */
 
     public function testImdbSearch()
     {

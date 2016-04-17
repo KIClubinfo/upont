@@ -1,25 +1,3 @@
-<nav up-panel title="Filtres" row wrap ng-if="category == 'films'">
-    <div class="padded" flex="100">
-        <i class="fa  fa-block  fa-volume-up"></i> Bande son
-    </div>
-    <div class="padded" flex="100">
-            <input type="checkbox" ng-model="filters.vo" ng-change="reload(filters)">&nbsp;VO
-    </div>
-    <div class="padded" flex="100">
-            <input type="checkbox" ng-model="filters.vost" ng-change="reload(filters)">&nbsp;VOST
-    </div>
-    <div class="padded" flex="100">
-            <input type="checkbox" ng-model="filters.vf" ng-change="reload(filters)">&nbsp;VF
-    </div>
-
-    <div class="padded" flex="100">
-        <i class="fa  fa-block  fa-television"></i> Qualité vidéo
-    </div>
-    <div class="padded" flex="100">
-            <input type="checkbox" ng-model="filters.hd" ng-change="reload(filters)">&nbsp;HD
-    </div>
-</nav>
-
 <section row wrap class="Ticket" infinite-scroll="next()" infinite-scroll-distance="3" infinite-scroll-disabled="$root.infiniteLoading">
     <div class="padded" col="start center" ng-class="{ 'flex-100pct flex-sm-50pct flex-md-33pct': category == 'jeux', 'flex-50pct flex-sm-33pct flex-md-25pct flex-lg-20pct': category != 'jeux'}"  ng-repeat="element in elements.data">
         <a class="Ticket  Ticket--nopadding Ticket--shadow  Ticket--link" flex="100"
@@ -39,7 +17,7 @@
             <up-ribbon class="Ribbon--aqua  Ribbon--ponthub" ng-if="element.downloaded">TÉLÉCHARGÉ</up-ribbon>
         </a>
         <h3 class="text-center">{{ element.name }} <a title="Télécharger le fichier" target="_blank" class="Link Link--reverse"
-            ng-href="{{ type + '/' + element.slug + '/download?bearer=' + token | urlFile }}" ng-if="category != 'series' && category != 'musiques'"
+            ng-href="{{ type + '/' + element.slug + '/download?bearer=' + token | urlFile }}" ng-if="category != 'series'"
             ng-click="element.downloaded=true">
                 <i class="fa  fa-download"></i>
             </a>

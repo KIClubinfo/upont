@@ -12,11 +12,9 @@ parameters:
             - Beer
             - Youtube
         ponthub:
-            - Album
             - Episode
             - Game
             - Movie
-            - Music
             - Other
             - Request
             - Serie

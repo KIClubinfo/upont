@@ -57,4 +57,15 @@ class MoviesControllerTest extends WebTestCase
         $this->assertNotEquals($infos, null);
         $this->assertEquals($infos['downloads'], 3);
     }
+
+    public function testDelete()
+    {
+        $this->client->request('DELETE', '/movies/pumping-iron');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 204);
+
+        $this->client->request('DELETE', '/movies/sjoajsiohaysahais-asbsksaba7');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 404);
+    }
 }

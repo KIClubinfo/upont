@@ -48,13 +48,5 @@ class LikeableControllerTest extends WebTestCase
         $this->client->request('DELETE', '/courses/mecanique-des-structures/exercices/final-016/like');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
-
-        $this->client->request('POST', '/albums/black-album/musics/enter-sandman/like');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-
-        $this->client->request('DELETE', '/albums/black-album/musics/enter-sandman/like');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
     }
 }

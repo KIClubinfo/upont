@@ -7,7 +7,6 @@ use Doctrine\ORM\EntityRepository;
 use KI\PonthubBundle\Entity\Episode;
 use KI\PonthubBundle\Entity\Game;
 use KI\PonthubBundle\Entity\Movie;
-use KI\PonthubBundle\Entity\Music;
 use KI\PonthubBundle\Entity\Other;
 use KI\PonthubBundle\Entity\Software;
 
@@ -39,7 +38,6 @@ class GlobalStatisticsHelper
         $downloaderSeries = array(
             array('name' => 'Films',     'data' => array()),
             array('name' => 'Séries',    'data' => array()),
-            array('name' => 'Musiques',  'data' => array()),
             array('name' => 'Jeux',      'data' => array()),
             array('name' => 'Logiciels', 'data' => array()),
             array('name' => 'Autres',    'data' => array())
@@ -63,9 +61,6 @@ class GlobalStatisticsHelper
                 }
                 if ($file instanceof Episode) {
                     $downloaderSeries[1]['data'][$key] += $size;
-                }
-                if ($file instanceof Music) {
-                    $downloaderSeries[2]['data'][$key] += $size;
                 }
                 if ($file instanceof Game) {
                     $downloaderSeries[3]['data'][$key] += $size;
@@ -95,7 +90,6 @@ class GlobalStatisticsHelper
         $downloadSerie = array(
             array('name' => 'Films', 'drilldown' => 1, 'y' => $this->getTotalDownloads('movie')),
             array('name' => 'Séries', 'drilldown' => 2, 'y' => $this->getTotalDownloads('episode')),
-            array('name' => 'Musiques', 'drilldown' => 3, 'y' => $this->getTotalDownloads('music')),
             array('name' => 'Jeux', 'drilldown' => 4, 'y' => $this->getTotalDownloads('game')),
             array('name' => 'Logiciels', 'drilldown' => 5, 'y' => $this->getTotalDownloads('software')),
             array('name' => 'Autres', 'drilldown' => 6, 'y' => $this->getTotalDownloads('other'))
@@ -111,7 +105,6 @@ class GlobalStatisticsHelper
         $downloadDrilldown = array(
             array('name' => 'Films', 'id' => 1, 'data' => $this->getDownloads('movie')),
             array('name' => 'Séries', 'id' => 2, 'data' => $this->getDownloads('episode')),
-            array('name' => 'Musiques', 'id' => 3, 'data' => $this->getDownloads('music')),
             array('name' => 'Jeux', 'id' => 4, 'data' => $this->getDownloads('game')),
             array('name' => 'Logiciels', 'id' => 5, 'data' => $this->getDownloads('software')),
             array('name' => 'Autres', 'id' => 6, 'data' => $this->getDownloads('other'))
@@ -168,7 +161,6 @@ class GlobalStatisticsHelper
             'Nombre de fichiers dispos' => array(
                 'Films' => $this->getTotal('Movie'),
                 'Séries' => $this->getTotal('Episode'),
-                'Musiques' => $this->getTotal('Music'),
                 'Jeux' => $this->getTotal('Game'),
                 'Logiciels' => $this->getTotal('Software'),
                 'Autres' => $this->getTotal('Other')
@@ -176,7 +168,6 @@ class GlobalStatisticsHelper
             'Volume de fichiers (Go)' => array(
                 'Films' => $this->getTotal('Movie', true),
                 'Séries' => $this->getTotal('Episode', true),
-                'Musiques' => $this->getTotal('Music', true),
                 'Jeux' => $this->getTotal('Game', true),
                 'Logiciels' => $this->getTotal('Software', true),
                 'Autres' => $this->getTotal('Other', true)

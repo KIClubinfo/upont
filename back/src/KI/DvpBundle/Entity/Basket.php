@@ -25,7 +25,7 @@ class Basket extends Likeable
      * Prix du panier
      * @ORM\Column(name="price", type="float", nullable=false)
      * @JMS\Expose
-     * @Assert\Type("double")
+     * @Assert\Type("numeric")
      * @Assert\NotBlank()
      */
     protected $price;
