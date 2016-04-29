@@ -68,15 +68,15 @@ class StatisticsHelper
                 $this->updateSeries($timeline, $date, 1);
             }
             if ($file instanceof Game) {
-                $repartition[3][1]++;
+                $repartition[2][1]++;
                 $this->updateSeries($timeline, $date, 3);
             }
             if ($file instanceof Software) {
-                $repartition[4][1]++;
+                $repartition[3][1]++;
                 $this->updateSeries($timeline, $date, 4);
             }
             if ($file instanceof Other) {
-                $repartition[5][1]++;
+                $repartition[4][1]++;
                 $this->updateSeries($timeline, $date, 5);
             }
             $totalSize += $file->getSize();
