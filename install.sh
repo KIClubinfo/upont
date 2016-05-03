@@ -31,7 +31,7 @@ sudo cp utils/install/global.ini /etc/php5/conf.d/global.ini
 sudo cp utils/install/php5-fpm.conf /etc/nginx/conf.d/php5-fpm.conf
 sudo service php5-fpm restart
 
-sudo -E curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin
+curl -sL https://getcomposer.org/installer | sudo -E php -- --install-dir=/usr/local/bin
 sudo mv /usr/local/bin/composer.phar /usr/local/bin/composer
 chmod -R 0777 ~/.composer/cache
 
