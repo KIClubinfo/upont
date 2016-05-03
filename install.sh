@@ -33,6 +33,7 @@ sudo service php5-fpm restart
 
 curl -sL https://getcomposer.org/installer | sudo -E php -- --install-dir=/usr/local/bin
 sudo mv /usr/local/bin/composer.phar /usr/local/bin/composer
+mkdir ~/.composer/cache
 chmod -R 0777 ~/.composer/cache
 
 sudo cp utils/install/dev-upont.enpc.fr.conf /etc/nginx/sites-available/dev-upont.enpc.fr.conf
@@ -40,7 +41,7 @@ sudo ln -s /etc/nginx/sites-available/dev-upont.enpc.fr.conf /etc/nginx/sites-en
 sudo service nginx restart
 
 curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
-sudo -E apt-get install -nodejs
+sudo -E apt-get install nodejs
 
 echo -e "\e[1m\e[34mConfiguration du proxy...\e[0m"
 if [ -z "$http_proxy" ]; then
