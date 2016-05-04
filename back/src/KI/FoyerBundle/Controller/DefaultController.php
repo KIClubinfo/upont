@@ -6,6 +6,7 @@ use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use KI\CoreBundle\Controller\BaseController;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class DefaultController extends BaseController
 {
@@ -65,5 +66,48 @@ class DefaultController extends BaseController
         $statistics = $statisticsHelper->getMainStatistics();
 
         return $this->restResponse($statistics);
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Retourne le csv des personnes ayant un compte foyer négatif",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Foyer"
+     * )
+     * @Route\Get("/foyer/debts")
+     */
+    public function getFoyerDebtsAction()
+    {
+        $this->trust($this->isClubMember('foyer') || $this->is('ADMIN'));
+
+        // get the service container to pass to the closure
+        $container = $this->container;
+        $response = new StreamedResponse(function() {
+            $results = $this->repository->createQueryBuilder('u')
+                                        ->select('u.username, u.email, u.promo, u.firstName, u.lastName, u.balance')
+                                        ->where('u.balance < 0')
+                                        ->orderBy('u.balance')
+                                        ->getQuery()
+                                        ->iterate();
+            $handle = fopen('php://output', 'r+');
+
+            fputcsv($handle, ['username', 'email', 'promo', 'firstName', 'lastName', 'balance']);
+
+            foreach ($results as $row) {
+                fputcsv($handle, $row[$results->key()]);
+            }
+
+            fclose($handle);
+        });
+
+        $response->headers->set('Content-Type', 'application/force-download');
+        $response->headers->set('Content-Disposition','attachment; filename="dettes.csv"');
+
+        return $response;
     }
 }

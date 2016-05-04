@@ -14,6 +14,9 @@ class BaseController extends CoreController
     protected $bundle;
     protected $className;
     protected $manager;
+    /**
+     * @var \Doctrine\ORM\EntityRepository
+     */
     protected $repository;
     protected $form;
     protected $save;
