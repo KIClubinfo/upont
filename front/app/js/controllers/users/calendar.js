@@ -68,7 +68,7 @@ angular.module('upont')
                 }]
             });
     }])
-    .config(function(calendarConfigProvider) {
+    .config(['calendarConfigProvider', function(calendarConfigProvider) {
         calendarConfigProvider.setDateFormatter('moment');
         calendarConfigProvider.setDateFormats({
             hour: 'HH:mm',
@@ -87,4 +87,4 @@ angular.module('upont')
             eventsLabel: 'Événements',
             timeLabel: 'Temps'
         });
-    });
+    }]);

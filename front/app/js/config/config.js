@@ -195,7 +195,7 @@ angular.module('upont')
             $state.go('root.404');
         });
     }])
-    .run(function(redactorOptions) {
+    .run(['redactorOptions', function(redactorOptions) {
         redactorOptions.imageUpload = apiPrefix + 'images?bearer=' + localStorage.getItem('token');
-    })
+    }])
 ;
