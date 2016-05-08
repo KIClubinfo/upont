@@ -28,9 +28,11 @@
             <a class="Aside__navlink" ui-sref="root.users.resources.courses.list" up-state-active="root.users.resources">
                 <i class="fa fa-suitcase"></i> Ressources
             </a>
+            <!-- build:ponthub -->
             <a class="Aside__navlink" ui-sref="root.users.ponthub.category.list" up-state-active="root.users.ponthub">
                 <i class="fa fa-film"></i> PontHub
             </a>
+            <!-- endbuild -->
             <a class="Aside__navlink" ng-if="!$root.isAdmissible" ui-sref="root.users.students.modify({slug: $root.me.username})" up-state-active>
                 <i class="fa fa-star"></i> Profil
             </a>
