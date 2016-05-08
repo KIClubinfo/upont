@@ -9,7 +9,7 @@ read -p "Prénom Nom : " name
 ### INSTALL ###
 echo -e "\e[1m\e[34mInstallation des dépendances...\e[0m"
 sudo -E apt-get update
-sudo -E apt-get install -y curl expect git htop iotop make nano netcat traceroute sl tree vim unzip zip
+sudo -E apt-get install -y curl expect git make nano netcat traceroute sl tree vim unzip zip
 sudo -E apt-get install -y mysql-server python-mysqldb php5-cli php5-fpm php5-curl php5-gd php5-imap php5-intl php5-mcrypt php5-mysql nginx apt-transport-https
 
 echo -e "\e[1m\e[34mConfiguration de git...\e[0m"
@@ -28,22 +28,19 @@ sudo cp utils/install/www.conf /etc/php5/fpm/pool.d/www.conf
 sudo mkdir /etc/php5/conf.d
 sudo cp utils/install/global.ini /etc/php5/conf.d/global.ini
 
-sudo -E curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin
-sudo mv /usr/local/bin/composer.phar /usr/local/bin/composer
-chmod -R 0777 ~/.composer/cache
-
 sudo cp utils/install/php5-fpm.conf /etc/nginx/conf.d/php5-fpm.conf
-sudo service restart php5-fpm
+sudo service php5-fpm restart
+
+curl -sL https://getcomposer.org/installer | sudo -E php -- --install-dir=/usr/local/bin
+sudo mv /usr/local/bin/composer.phar /usr/local/bin/composer
+mkdir ~/.composer/cache
+chmod -R 0777 ~/.composer/cache
 
 sudo cp utils/install/dev-upont.enpc.fr.conf /etc/nginx/sites-available/dev-upont.enpc.fr.conf
 sudo ln -s /etc/nginx/sites-available/dev-upont.enpc.fr.conf /etc/nginx/sites-enabled/dev-upont.enpc.fr.conf
 sudo service nginx restart
 
-wget -qO - https://deb.nodesource.com/gpgkey/nodesource.gpg.key | sudo apt-key add -
-sudo cp utils/install/nodesource.list /etc/apt/sources.list.d/nodesource.list
-sudo cp utils/install/deb_nodesource_com_node.pref /etc/apt/preferences.d/deb_nodesource_com_node.pref
-
-sudo -E apt-get update
+curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
 sudo -E apt-get install nodejs
 
 echo -e "\e[1m\e[34mConfiguration du proxy...\e[0m"
@@ -54,6 +51,8 @@ else
     npm config set https-proxy $http_proxy
 fi
 
-sudo npm install -g npm bower gulp
+sudo npm install -g npm
+sudo npm install -g bower
+sudo npm install -g gulp
 
 echo "127.0.0.1 dev-upont.enpc.fr" | sudo tee -a /etc/hosts

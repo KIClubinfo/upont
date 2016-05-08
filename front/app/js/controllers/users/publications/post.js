@@ -216,11 +216,15 @@ angular.module('upont')
             $scope.changeType('event');
             $rootScope.$broadcast('newEvent');
 
-            // Fix date to javascript timestamp
-            post.start_date = post.start_date*1000;
-            post.end_date = post.end_date*1000;
-            if (post.shotgun_date) {
-                post.shotgun_date = post.shotgun_date*1000;
+            if (!post.dateModified) {
+                // Fix date to javascript timestamp
+                post.start_date = moment.unix(post.start_date).toDate();
+                post.end_date = moment.unix(post.end_date).toDate();
+                if (post.shotgun_date) {
+                    post.shotgun_date = moment.unix(post.shotgun_date).toDate();
+                }
+
+                post.dateModified = true;
             }
 
             $scope.post = post;
