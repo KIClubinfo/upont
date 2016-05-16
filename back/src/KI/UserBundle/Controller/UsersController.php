@@ -187,7 +187,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
         $firstName = $request->get('firstName');
         $email = $request->get('email');
 
-        if (!preg_match('/@(eleves\.)?enpc\.fr$/', $email))
+        if (!preg_match('/@eleves\.enpc\.fr$/', $email)) ///@(eleves\.)?enpc\.fr$/
             throw new BadRequestHttpException('Adresse mail non utilisable');
 
         // On check si l'utilisateur n'existe pas déjà
