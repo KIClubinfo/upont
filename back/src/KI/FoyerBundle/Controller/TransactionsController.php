@@ -33,7 +33,7 @@ class TransactionsController extends ResourceController
      */
     public function getTransactionsAction()
     {
-        return $this->getAll();
+        return $this->getAll($this->isClubMember('foyer'));
     }
 
     /**
@@ -52,6 +52,8 @@ class TransactionsController extends ResourceController
      */
     public function getUserBeersAction()
     {
+        $this->trust($this->isClubMember('foyer') || $this->is('ADMIN'));
+
         $helper = $this->get('ki_foyer.helper.beer');
         $users = $helper->getUserOrderedList();
         return $this->restResponse($users);
@@ -75,6 +77,8 @@ class TransactionsController extends ResourceController
     {
         $userRepository = $this->getDoctrine()->getManager()->getRepository('KIUserBundle:User');
         $user = $userRepository->findOneByUsername($slug);
+
+        $this->trust($this->isClubMember('foyer') || $this->is('ADMIN') || $this->user == $user);
 
         $transactions = $this->repository->findBy(array('user' => $user));
         return $this->restResponse($transactions);
