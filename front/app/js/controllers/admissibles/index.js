@@ -6,7 +6,6 @@ angular.module('upont').controller('Admissibles_Ctrl', ['$scope', '$location', '
         $scope.campuschannel = 'https://www.youtube.com/watch?v=hNOfq6rmT2I';
         $scope.admissible = {};
         var downloads = [
-            'http://clubinfo.enpc.org/plaquette.pdf',
             'https://upont.enpc.fr/plaquette.pdf'
         ];
         //'http://autonomie-universites.toile-libre.org/plaquette.pdf'
