@@ -72,7 +72,15 @@ class AdmissiblesController extends ResourceController
      *  section="Utilisateurs"
      * )
      */
-    public function postAdmissibleAction() { return $this->post(true); }
+    public function postAdmissibleAction() {
+        $return = $this->postData(true);
+
+        if ($return['code'] == 201) {
+            $this->get('ki_user.listener.admissible')->postPersist($return['item']);
+        }
+
+        return $this->postView($return);
+    }
 
     /**
      * @ApiDoc(
