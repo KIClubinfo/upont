@@ -25,33 +25,29 @@ class AdmissibleListener
     {
         $shotgunConfig = [
             '2016' => [
-                'startDate' => time() - 1000,
-                'places' => [
-                    'simple' => 10,
-                    'double' => 20,
-                    'binom' => 20,
-                ]
+                'simple' => 10,
+                'double' => 20,
+                'binom' => 20,
             ],
         ];
 
         $room = $admissible->getRoom();
         $success = false;
-        if($room == "simple" || $room == "double" || $room == "binome"){
+        if ($room == "simple" || $room == "double" || $room == "binome") {
             // On charge tous les admissibles de la série qui ont réussi le shotgun
             $admissibles = $this->admissibleRepository->createQueryBuilder('a')
                 ->select('a.scei')
-                ->where('a.date >= :startDate')
-                ->setParameter('startDate', $shotgunConfig[strftime('%Y')]['startDate'])
+                ->where('a.year = :year')
+                ->setParameter('year', strftime('%Y'))
                 ->andWhere('a.serie = :serie')
                 ->setParameter('serie', $admissible->getSerie())
                 ->andWhere('a.room = :room')
                 ->setParameter('room', $room)
                 ->orderBy('a.date', 'ASC')
                 ->getQuery()
-                ->getResult()
-            ;
+                ->getResult();
 
-            $success = array_search($admissible->getScei(), $admissibles) < $shotgunConfig[strftime('%Y')]['places'][$room];
+            $success = array_search($admissible->getScei(), $admissibles) < $shotgunConfig[strftime('%Y')][$room];
         }
 
         $vars = [
