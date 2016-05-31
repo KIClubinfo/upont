@@ -46,7 +46,7 @@ class CoreController extends FOSRestController
 
     /**
      * Sert à checker si l'user actuel est membre du club au nom duquel il poste
-     * @param  Club $club
+     * @param  string $club
      * @return boolean
      */
     protected function isClubMember($club = null)

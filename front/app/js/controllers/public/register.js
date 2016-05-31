@@ -8,7 +8,7 @@ angular.module('upont')
                 return;
             }
 
-            var regex = /@(eleves\.)?enpc\.fr$/;
+            var regex = /@eleves\.enpc\.fr$/;
             if (!regex.test(email)) {
                 alertify.error('Désolé, seules les adresses des Ponts sont acceptées !');
             }

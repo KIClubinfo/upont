@@ -11,7 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity
  * @JMS\ExclusionPolicy("all")
- * @UniqueEntity(fields={"scei"})
+ * @UniqueEntity(fields={"scei", "year"})
  */
 class Admissible
 {
@@ -24,7 +24,7 @@ class Admissible
 
     /**
      * Slug
-     * @Gedmo\Slug(fields={"scei"})
+     * @Gedmo\Slug(fields={"scei", "year"})
      * @ORM\Column(name="slug", type="string", unique=true)
      * @JMS\Expose
      * @Assert\Type("string")
@@ -58,6 +58,15 @@ class Admissible
     protected $date;
 
     /**
+     * Année du shotgun
+     * @ORM\Column(name="year", type="integer")
+     * @JMS\Expose
+     * @Assert\Type("integer")
+     * @Assert\NotBlank()
+     */
+    protected $year;
+
+    /**
      * Numéro SCEI
      * @ORM\Column(name="scei", type="string")
      * @JMS\Expose
@@ -70,13 +79,13 @@ class Admissible
      * Informations de contact
      * @ORM\Column(name="contact", type="string")
      * @JMS\Expose
-     * @Assert\Type("string")
+     * @Assert\Email()
      * @Assert\NotBlank()
      */
     protected $contact;
 
     /**
-     * Chambre (simple|double)
+     * Chambre (simple|double|binome)
      * @ORM\Column(name="room", type="string", nullable=true)
      * @JMS\Expose
      * @Assert\Type("string")
@@ -105,6 +114,7 @@ class Admissible
     public function __construct()
     {
         $this->date = time();
+        $this->year = intval(strftime('%Y'));
     }
 
     /**
@@ -207,6 +217,14 @@ class Admissible
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getYear()
+    {
+        return $this->year;
     }
 
     /**

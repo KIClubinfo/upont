@@ -16,8 +16,8 @@ class AdmissiblesControllerTest extends WebTestCase
             array(
                 'firstName' => 'Testy',
                 'lastName' => 'Test',
-                'contact' => 'testificate@phpunit.zorg, 066666666',
-                'scei' => '12345',
+                'contact' => 'testificate@phpunit.zorg',
+                'scei' => 12345,
                 'room' => 'simple',
                 'serie' => 4,
                 'details' => 'Admissible test'
@@ -52,7 +52,7 @@ class AdmissiblesControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
-        $this->client->request('GET', '/admissibles/12345');
+        $this->client->request('GET', '/admissibles/12345-'.date('Y'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
@@ -65,7 +65,7 @@ class AdmissiblesControllerTest extends WebTestCase
     {
         $this->client->request(
             'PATCH',
-            '/admissibles/12345',
+            '/admissibles/12345-'.date('Y'),
             array(
                 'firstName' => 'KImiam',
                 'lastName' => 'OP',
@@ -77,7 +77,7 @@ class AdmissiblesControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/admissibles/12345', array('firstName' => ''));
+        $this->client->request('PATCH', '/admissibles/12345-'.date('Y'), array('firstName' => ''));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
@@ -92,11 +92,11 @@ class AdmissiblesControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
 
-        $this->client->request('DELETE', '/admissibles/12345');
+        $this->client->request('DELETE', '/admissibles/12345-'.date('Y'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('DELETE', '/admissibles/12345');
+        $this->client->request('DELETE', '/admissibles/12345-'.date('Y'));
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }

@@ -1,4 +1,4 @@
-{{ post.text|raw }}
+{{ post.text|replace({'src="../api/uploads/': 'src="https://upont.enpc.fr/api/uploads/'})|raw }}
 <br>
 <hr style="width:50%">
 <br>

@@ -90,9 +90,9 @@ class GlobalStatisticsHelper
         $downloadSerie = array(
             array('name' => 'Films', 'drilldown' => 1, 'y' => $this->getTotalDownloads('movie')),
             array('name' => 'Séries', 'drilldown' => 2, 'y' => $this->getTotalDownloads('episode')),
-            array('name' => 'Jeux', 'drilldown' => 4, 'y' => $this->getTotalDownloads('game')),
-            array('name' => 'Logiciels', 'drilldown' => 5, 'y' => $this->getTotalDownloads('software')),
-            array('name' => 'Autres', 'drilldown' => 6, 'y' => $this->getTotalDownloads('other'))
+            array('name' => 'Jeux', 'drilldown' => 3, 'y' => $this->getTotalDownloads('game')),
+            array('name' => 'Logiciels', 'drilldown' => 4, 'y' => $this->getTotalDownloads('software')),
+            array('name' => 'Autres', 'drilldown' => 5, 'y' => $this->getTotalDownloads('other'))
         );
 
         // Tri par ordre des downloads totaux
@@ -105,9 +105,9 @@ class GlobalStatisticsHelper
         $downloadDrilldown = array(
             array('name' => 'Films', 'id' => 1, 'data' => $this->getDownloads('movie')),
             array('name' => 'Séries', 'id' => 2, 'data' => $this->getDownloads('episode')),
-            array('name' => 'Jeux', 'id' => 4, 'data' => $this->getDownloads('game')),
-            array('name' => 'Logiciels', 'id' => 5, 'data' => $this->getDownloads('software')),
-            array('name' => 'Autres', 'id' => 6, 'data' => $this->getDownloads('other'))
+            array('name' => 'Jeux', 'id' => 3, 'data' => $this->getDownloads('game')),
+            array('name' => 'Logiciels', 'id' => 4, 'data' => $this->getDownloads('software')),
+            array('name' => 'Autres', 'id' => 5, 'data' => $this->getDownloads('other'))
         );
 
         return array(

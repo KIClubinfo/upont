@@ -2,6 +2,7 @@
 
 namespace KI\UserBundle\Service;
 
+use KI\UserBundle\Entity\Admissible;
 use KI\UserBundle\Entity\User;
 use Swift_Attachment;
 use Swift_Mailer;
@@ -39,5 +40,24 @@ class MailerService
             ;
             $this->mailer->send($message);
         }
+    }
+
+    public function sendAdmissible(Admissible $to, $title, $template, $vars, $attachments = [])
+    {
+        $message = Swift_Message::newInstance()
+            ->setSubject($title)
+            ->setFrom(['bde@enpc.org'  => 'Ras\'Ponts\'ine BDE des Ponts'])
+        ;
+
+        foreach($attachments as $attachment){
+            $message->attach(Swift_Attachment::fromPath($attachment["path"])->setFilename($attachment["name"]));
+        }
+
+        $message
+            ->setTo([$to->getContact() => $to->getFirstName().' '.$to->getLastName()])
+            ->setBody($this->templating->render($template, $vars), 'text/html')
+        ;
+        $this->mailer->send($message);
+
     }
 }
