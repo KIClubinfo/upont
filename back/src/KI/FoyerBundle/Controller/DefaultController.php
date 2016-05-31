@@ -85,8 +85,6 @@ class DefaultController extends BaseController
     {
         $this->trust($this->isClubMember('foyer') || $this->is('ADMIN'));
 
-        // get the service container to pass to the closure
-        $container = $this->container;
         $response = new StreamedResponse(function() {
             $results = $this->repository->createQueryBuilder('u')
                                         ->select('u.username, u.email, u.promo, u.firstName, u.lastName, u.balance')
