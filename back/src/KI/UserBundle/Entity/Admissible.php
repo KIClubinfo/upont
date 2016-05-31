@@ -62,6 +62,7 @@ class Admissible
      * @ORM\Column(name="year", type="integer")
      * @JMS\Expose
      * @Assert\Type("integer")
+     * @Assert\NotBlank()
      */
     protected $year;
 
@@ -78,7 +79,7 @@ class Admissible
      * Informations de contact
      * @ORM\Column(name="contact", type="string")
      * @JMS\Expose
-     * @Assert\Type("string")
+     * @Assert\Email()
      * @Assert\NotBlank()
      */
     protected $contact;
@@ -113,7 +114,7 @@ class Admissible
     public function __construct()
     {
         $this->date = time();
-        $this->year = strftime('%Y');
+        $this->year = intval(strftime('%Y'));
     }
 
     /**
