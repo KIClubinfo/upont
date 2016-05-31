@@ -46,8 +46,7 @@ class MailerService
     {
         $message = Swift_Message::newInstance()
             ->setSubject($title)
-            ->setFrom('clubinfo@upont.enpc.fr')
-            ->setReplyTo(array('clubinfo@upont.enpc.fr' => 'Ras\'Ponts\'ine BDE des Ponts'))
+            ->setFrom(['bde@enpc.org'  => 'Ras\'Ponts\'ine BDE des Ponts'])
         ;
 
         foreach($attachments as $attachment){
@@ -55,7 +54,7 @@ class MailerService
         }
 
         $message
-            ->setTo(array($to->getContact() => $to->getFirstName().' '.$to->getLastName()))
+            ->setTo([$to->getContact() => $to->getFirstName().' '.$to->getLastName()])
             ->setBody($this->templating->render($template, $vars), 'text/html')
         ;
         $this->mailer->send($message);
