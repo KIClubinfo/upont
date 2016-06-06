@@ -1,16 +1,33 @@
-angular.module('upont').controller('Admissibles_Ctrl', ['$scope', '$location', '$http', 'Scroll', function($scope, $location, $http, Scroll) {
+angular.module('upont').controller('Admissibles_Ctrl', ['$scope', '$location', '$http', '$timeout', 'Scroll', function($scope, $location, $http, $timeout, Scroll) {
         $scope.goTo = function (id){
             $location.hash(id);
             Scroll.scrollTo(id);
         };
-        $scope.campuschannel = 'https://www.youtube.com/watch?v=hNOfq6rmT2I';
+        $scope.campuschannel = 'https://www.youtube.com/watch?v=yIPz0ecYM1w';
         $scope.admissible = {};
         var downloads = [
             'https://upont.enpc.fr/plaquette.pdf'
         ];
-        //'http://autonomie-universites.toile-libre.org/plaquette.pdf'
-        var rand = Math.floor((Math.random() * downloads.length) + 1);
-        $scope.download = downloads[rand-1];
+
+        var serie1 = {
+            openDate: moment("2016-06-09 20:00 +0200", "YYYY-MM-DD HH:mm Z"),
+            closeDate: moment("2016-06-12 23:00 +0200", "YYYY-MM-DD HH:mm Z"),
+            serie: 1,
+        };
+
+        $scope.shotgun = serie1;
+        $scope.shotgun.openDateString = $scope.shotgun.openDate.format('LLLL');
+        $scope.shotgun.closeDateString = $scope.shotgun.closeDate.format('LLLL');
+
+        var tick = function () {
+            var now = moment();
+            $scope.shotgun.fromNow = $scope.shotgun.openDate.fromNow();
+            $scope.shotgunOpen = $scope.shotgun.openDate.isBefore();
+            $timeout(tick, 1000);
+        };
+        $timeout(tick, 1000);
+
+        $scope.shotgunOpen = $scope.shotgun.openDate.isBefore();
 
         $scope.submit = function(data) {
             if (data.lastName === undefined || data.firstName === undefined || data.scei === undefined || data.contact === undefined || data.serie === undefined || data.room === undefined || data.lastName === '' || data.firstName === '' || data.scei === '' || data.contact === '' || data.serie === '' || data.room === '') {
