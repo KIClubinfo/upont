@@ -29,7 +29,7 @@ class MailerService
         ;
 
         foreach($attachments as $attachment){
-            $message->attach(Swift_Attachment::fromPath($attachment["path"])->setFilename($attachment["name"]));
+            $message->attach(Swift_Attachment::fromPath($attachment['path'])->setFilename($attachment['name']));
         }
 
         foreach ($to as $user) {
@@ -50,7 +50,7 @@ class MailerService
         ;
 
         foreach($attachments as $attachment){
-            $message->attach(Swift_Attachment::fromPath($attachment["path"])->setFilename($attachment["name"]));
+            $message->attach(Swift_Attachment::fromPath($attachment['path'])->setFilename($attachment['name']));
         }
 
         $message
