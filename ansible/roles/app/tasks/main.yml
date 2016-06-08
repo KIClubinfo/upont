@@ -1,0 +1,15 @@
+---
+# application tasks to be customized and to run after the main provision
+- name: add nodejs 5.x to the apt list
+  shell: curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+
+- name: Install Node.JS
+  sudo: yes
+  apt: pkg=nodejs state=latest
+
+- name: install npm packages bower and gulp
+  sudo: yes
+  npm: name='{{ item }}' global=yes
+  with_items:
+    - bower
+    - gulp

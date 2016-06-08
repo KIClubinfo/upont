@@ -35,3 +35,26 @@ Don't forget to update the Git remote:
 ```
 git remote set-url origin git@github.com:KIClubinfo/upont
 ```
+
+Using Vagrant
+=============
+
+```bash
+vagrant up
+vagrant ssh
+
+mkdir -p /dev/shm/upont
+HTTPDUSER=`ps axo user,comm | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1`
+sudo setfacl -R -m u:"$HTTPDUSER":rwX -m u:`whoami`:rwX /dev/shm/upont
+sudo setfacl -dR -m u:"$HTTPDUSER":rwX -m u:`whoami`:rwX /dev/shm/upont
+
+cd /var/www/upont/back
+composer install
+app/console doctrine:mig:mig -n
+app/console doctrine:fix:load -n
+
+cd /var/www/upont/front
+npm install
+bower install
+gulp build
+```
