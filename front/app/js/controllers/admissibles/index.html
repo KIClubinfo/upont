@@ -201,7 +201,8 @@
             Ouverture prochaine du formulaire
         </h1>
         <p flex="100" class="padded  text-center">
-            La réservation des chambres à Meunier pour les admissibles de <i>série {{ shotgun.serie }}</i> se fera à partir du {{ shotgun.openDateString }}.
+            La réservation des chambres à Meunier pour les admissibles se fera à partir du {{ shotgun.openDateString }}.
+            La fermeture des inscriptions aura lieu {{ shotgun.serie1CloseDateString }} pour la série 1 et {{ shotgun.closeDateString }} pour les autres séries.
         </p>
         <p flex="100" class="padded  text-center">
             ({{ shotgun.fromNow }})
@@ -211,7 +212,7 @@
     <div class="Ticket" flex="100" ng-if="shotgunOpen">
         <h2 flex="100" class="padded  text-center">Réservation</h2>
         <p class="padded">
-            La réservation des chambres à Meunier pour les admissibles de série {{ shotgun.serie }} se fait ici du {{ shotgun.openDateString }} au {{ shotgun.closeDateString }}.
+            La réservation des chambres à Meunier pour les admissibles se fait ici du {{ shotgun.openDateString }} au {{ shotgun.closeDateString }} (fermeture anticipée {{ shotgun.serie1CloseDateString }} pour la série 1).
             <br/><br/>
             Nous te conseillons de faire vite car le nombre de chambres est limité ! Tu recevras un mail de confirmation.
         </p>
@@ -250,7 +251,10 @@
             </div>
             <div class="padded" flex="50" flex-md="25">
                 <select class="Input" ng-model="admissible.serie">
-                    <option ng-repeat="serie in [1, 2, 3, 4]" ng-disabled="serie != shotgun.serie">{{ serie }}</option>
+                    <option ng-disabled="!shotgun.serie1Open">1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
                 </select>
             </div>
 
