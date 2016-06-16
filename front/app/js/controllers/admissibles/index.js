@@ -26,14 +26,26 @@ angular.module('upont').controller('Admissibles_Ctrl', ['$scope', '$location', '
         $scope.shotgunOpen = $scope.shotgun.openDate.isBefore() && $scope.shotgun.closeDate.isAfter();
 
         $scope.submit = function(data) {
-            if (data.lastName === undefined || data.firstName === undefined || data.scei === undefined || data.contact === undefined || data.serie === undefined || data.room === undefined || data.lastName === '' || data.firstName === '' || data.scei === '' || data.contact === '' || data.serie === '' || data.room === '') {
-                alertify.error('Au moins un des champs n\'est pas rempli...');
-                return;
-            }
+            if(!$scope.isLoading) {
+                $scope.isLoading = true;
 
-            $http.post(apiPrefix + 'admissibles', data).success(function(){
-                alertify.success('Demande prise en compte !');
-            });
+                if (data.lastName === undefined || data.firstName === undefined || data.scei === undefined || data.contact === undefined || data.serie === undefined || data.room === undefined || data.lastName === '' || data.firstName === '' || data.scei === '' || data.contact === '' || data.serie === '' || data.room === '') {
+                    alertify.error('Au moins un des champs n\'est pas rempli...');
+                    return;
+                }
+
+                $http.post(apiPrefix + 'admissibles', data).success(function (data) {
+                    $scope.isLoading = false;
+                    alertify.success('Demande prise en compte !');
+                }).error(function(data) {
+                    $scope.isLoading = false;
+                    if(data.code == 400 && data.errors.children.scei.errors !== undefined)
+                        alertify.error('Tu es déjà inscrit !');
+                    else
+                        alertify.error('Erreur...');
+                });
+
+            }
         };
     }])
     .config(['$stateProvider', function($stateProvider) {
