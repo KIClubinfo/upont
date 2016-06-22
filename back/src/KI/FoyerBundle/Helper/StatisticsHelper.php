@@ -21,50 +21,6 @@ class StatisticsHelper
     }
 
     /**
-     * Retourne les statistiques générales
-     * @return array
-     */
-    public function getMainStatistics()
-    {
-        return array(
-            'hallOfFame' => $this->getHallOfFame()
-        );
-    }
-
-    /**
-     * Retourne une liste des meilleurs buveurs (avec solde positif !)
-     * @return array($position => array(User $user, float $liters),...)
-     */
-    private function getHallOfFame()
-    {
-        $return = $users = $liters = array();
-
-        $transactions = $this->transactionRepository->findAll();
-        foreach ($transactions as $transaction) {
-            $user = $transaction->getUser();
-            $beer = $transaction->getBeer();
-            $slug = $user->getSlug();
-
-            // Compte crédité, pas une conso
-            if ($beer === null) {
-                continue;
-            }
-
-            if (!isset($users[$slug])) {
-                $users[$slug] = array('user' => $user, 'liters' => 0);
-            }
-            $users[$slug]['liters'] += $beer->getVolume();
-        }
-
-        foreach ($users as $user) {
-            $return[] = $user;
-            $liters[] = $user['liters'];
-        }
-        array_multisort($liters, SORT_DESC, $return);
-        return array_slice($return, 0, 10);
-    }
-
-    /**
      * Retourne les statistiques d'un utilisateur particulier
      * @param  User $user
      * @return array
