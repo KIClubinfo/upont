@@ -105,7 +105,12 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
                     'description' => $achievement->description(),
                     'points'      => $achievement->points(),
                     'image'       => $achievement->image(),
-                    'ownedBy'     => count($repoAU->findByAchievement($achievement)),
+                    'ownedBy'     => $achievementUserRepository->createQueryBuilder('au')
+                        ->select('count(au)')
+                        ->where('au.achievement = :achievement')
+                        ->setParameter('achievement', $achievement)
+                        ->getQuery()
+                        ->getSingleScalarResult(),
                 );
             } else {
                 if (gettype($achievement->points()) == 'integer') {
