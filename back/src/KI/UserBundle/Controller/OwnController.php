@@ -348,22 +348,12 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function getOwnEventsAction()
     {
-        $events = $this->getFollowedEvents();
-
         // Si on prend tout on renvoie comme ça
         if ($this->getRequest()->query->has('all'))
-            return $this->restResponse($events);
+            return $this->restResponse($this->getFollowedEvents());
 
-        $return = array();
-        $today = time();
-
-        // On élimine les anciens événements si on ne souhaite pas tout
-        foreach ($events as $event) {
-            if ($event->getEndDate() > $today)
-                $return[] = $event;
-        }
-
-        return $this->restResponse($return);
+        $events = $this->manager->getRepository('KIUserBundle:User')->findAllFollowedEvents($this->getUser()->getId());
+        return $this->restResponse($events);
     }
 
     /**
