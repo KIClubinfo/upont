@@ -135,17 +135,14 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function getUserClubsAction($slug)
     {
-        $clubs = array();
         $user = $this->findBySlug($slug);
-        $repo = $this->manager->getRepository('KIUserBundle:ClubUser');
-        $clubUsers = $repo->findByUser($user);
 
-        foreach ($clubUsers as $clubUser) {
-            $clubs[] = array(
-                'club' => $clubUser->getClub(),
-                'role' => $clubUser->getRole()
-            );
-        }
+        $clubs = $this->manager->createQuery('SELECT cu, club
+        FROM KIUserBundle:ClubUser cu
+        JOIN cu.club club
+        WHERE cu.user = :user')
+            ->setParameter('user', $user)
+            ->getArrayResult();
 
         return $this->restResponse($clubs, 200);
     }
