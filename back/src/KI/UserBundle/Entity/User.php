@@ -11,13 +11,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  * La classe User est divisée en deux (autre partie dans CoreUser)
  * Ici sont stockées les infos secondaires (infos de contact) dont on n'a pas
  * besoin 100% du temps.
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="KI\UserBundle\Repository\UserRepository")
  * @ORM\Table(name="fos_user")
  * @JMS\ExclusionPolicy("all")
  * @UniqueEntity("email")
  * @UniqueEntity("username")
  */
-class User extends \KI\UserBundle\Entity\CoreUser
+class User extends CoreUser
 {
     /**
      * Genre [M|Mme]
