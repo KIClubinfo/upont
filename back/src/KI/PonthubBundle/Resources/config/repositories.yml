@@ -24,7 +24,7 @@ services:
             - KI\PonthubBundle\Entity\PonthubFileUser
 
     ki_ponthub.repository.serie:
-        class: Doctrine\ORM\EntityRepository
+        class: KI\PonthubBundle\Repository\SerieRepository
         factory: ["@doctrine.orm.default_entity_manager", getRepository]
         arguments:
             - KI\PonthubBundle\Entity\Serie
