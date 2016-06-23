@@ -30,8 +30,14 @@ class GlobalStatisticsHelper
     public function getGlobalDownloaders()
     {
         // Recherche des plus gros downloaders
-        $dql = 'SELECT IDENTITY(e.user), SUM(f.size) AS compte FROM KI\PonthubBundle\Entity\PonthubFileUser e LEFT JOIN e.file f GROUP BY e.user ORDER BY compte DESC';
-        $downloaderIds = $this->manager->createQuery($dql)->setMaxResults(10)->getResult();
+        $downloaderIds = $this->manager->createQuery('SELECT IDENTITY(e.user), SUM(f.size) AS compte
+              FROM KI\PonthubBundle\Entity\PonthubFileUser e
+              LEFT JOIN e.file f
+              GROUP BY e.user
+              ORDER BY compte DESC'
+            )
+            ->setMaxResults(10)
+            ->getResult();
 
         // On regarde les détails sur chaque utilisateur
         $downloaderCategories = array();

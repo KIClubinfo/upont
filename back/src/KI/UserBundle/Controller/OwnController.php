@@ -58,13 +58,13 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
 
     private function retrieveAchievements($user)
     {
-        $repoA = $this->manager->getRepository('KIUserBundle:Achievement');
-        $repoAU = $this->manager->getRepository('KIUserBundle:AchievementUser');
+        $achievementRepository = $this->manager->getRepository('KIUserBundle:Achievement');
+        $achievementUserRepository = $this->manager->getRepository('KIUserBundle:AchievementUser');
         $unlocked = array();
         $oUnlocked = array();
         $all = $this->getRequest()->query->has('all');
 
-        $response = $repoAU->findByUser($user);
+        $response = $achievementUserRepository->findByUser($user);
         foreach ($response as $achievementUser) {
             $achievement = $achievementUser->getAchievement();
             $oUnlocked[] = $achievement;
@@ -78,13 +78,18 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
                     'image'       => $achievement->image(),
                     'date'        => $achievementUser->getDate(),
                     'seen'        => $achievementUser->getSeen(),
-                    'ownedBy'     => count($repoAU->findByAchievement($achievement)),
+                    'ownedBy'     => $achievementUserRepository->createQueryBuilder('au')
+                        ->select('count(au)')
+                        ->where('au.achievement = :achievement')
+                        ->setParameter('achievement', $achievement)
+                        ->getQuery()
+                        ->getSingleScalarResult(),
                 );
                 if (!$achievementUser->getSeen())
                     $achievementUser->setSeen(true);
             }
         }
-        $all = $repoA->findAll();
+        $all = $achievementRepository->findAll();
         $locked = array();
         $points = 0;
         $factor = 1;

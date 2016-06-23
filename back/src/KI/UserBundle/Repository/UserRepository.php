@@ -28,7 +28,7 @@ class UserRepository extends EntityRepository
             )
             AND event.id NOT IN (SELECT cnf FROM KIUserBundle:User usr JOIN usr.clubsNotFollowed cnf WHERE usr.id = user.id)
         ")
-            ->setParameter('now', new DateTime())
+            ->setParameter('now', time())
             ->setParameter('userId', $userId)
             ->getResult();
     }
