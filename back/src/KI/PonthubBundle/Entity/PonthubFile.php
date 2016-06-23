@@ -413,7 +413,7 @@ class PonthubFile extends Likeable
      */
     protected $downloaded = false;
 
-    public function getDownloaded()
+    public function hasBeenDownloaded()
     {
         return $this->downloaded;
     }

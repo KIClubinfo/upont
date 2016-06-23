@@ -180,14 +180,13 @@ class AchievementCheckListener
 
     private function totalPontHubSize()
     {
-        $repo = $this->manager->getRepository('KIPonthubBundle:PonthubFileUser');
-        $downloads = $repo->findBy(array('user' => $this->user));
-        $total = 0;
-
-        foreach ($downloads as $download) {
-            $total += $download->getFile()->getSize();
-        }
-        return $total;
+        return $this->manager->createQuery('SELECT SUM(file.size)
+        FROM KIPonthubBundle:PonthubFileUser pfu,
+        KIPonthubBundle:PonthubFile file
+        WHERE pfu.user = :user
+        AND pfu.file = file')
+        ->setParameter('user', $this->user)
+        ->getSingleScalarResult();
     }
 
     // Will be there !
