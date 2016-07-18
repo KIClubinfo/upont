@@ -24,10 +24,10 @@ class PonthubFileListener
 
             if ($entity instanceof PonthubFile && $user instanceof User) {
                 $entity->setDownloaded(
-                    $args->getEntityManager()->createQuery("SELECT COUNT(pfu.id) FROM
+                    $args->getEntityManager()->createQuery('SELECT COUNT(pfu.id) FROM
                     KIPonthubBundle:PonthubFileUser pfu
                     WHERE pfu.user = :user AND pfu.file = :file
-                    ")
+                    ')
                         ->setParameter('file', $entity)
                         ->setParameter('user', $user)
                         ->getSingleScalarResult() > 0

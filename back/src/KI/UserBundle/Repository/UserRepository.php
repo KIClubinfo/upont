@@ -15,7 +15,7 @@ class UserRepository extends EntityRepository
      */
     public function findAllFollowedEvents($userId)
     {
-        return $this->getEntityManager()->createQuery("SELECT event FROM
+        return $this->getEntityManager()->createQuery('SELECT event FROM
             KIPublicationBundle:Event event,
             KIUserBundle:Club club,
             KIUserBundle:User user
@@ -27,7 +27,7 @@ class UserRepository extends EntityRepository
                 )
             )
             AND event.id NOT IN (SELECT cnf FROM KIUserBundle:User usr JOIN usr.clubsNotFollowed cnf WHERE usr.id = user.id)
-        ")
+        ')
             ->setParameter('now', time())
             ->setParameter('userId', $userId)
             ->getResult();

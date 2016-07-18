@@ -12,7 +12,7 @@ class TransactionRepository extends EntityRepository
      */
     public function getHallOfFame()
     {
-        $hallOfFame = $this->getEntityManager()->createQuery("SELECT usr AS user, SUM(beer.volume) AS liters FROM
+        $hallOfFame = $this->getEntityManager()->createQuery('SELECT usr AS user, SUM(beer.volume) AS liters FROM
             KIUserBundle:User usr,
             KIFoyerBundle:Transaction transac, 
             KIFoyerBundle:Beer beer
@@ -22,7 +22,7 @@ class TransactionRepository extends EntityRepository
             AND usr.balance > 0
             GROUP BY usr.id 
             ORDER BY liters DESC
-            ")
+            ')
             ->setMaxResults(10)
             ->getResult();
 

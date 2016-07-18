@@ -36,7 +36,7 @@ checks:
         parameters_in_camelcaps: true
         optional_parameters_at_the_end: true
         no_long_variable_names:
-            maximum: '20'
+            maximum: '30'
         no_goto: true
         line_length:
             max_length: '120'
