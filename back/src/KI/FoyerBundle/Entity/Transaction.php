@@ -7,7 +7,7 @@ use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="KI\FoyerBundle\Repository\TransactionRepository")
  * @JMS\ExclusionPolicy("all")
  */
 class Transaction

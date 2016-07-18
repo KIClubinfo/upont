@@ -30,17 +30,12 @@ class AdmissiblesController extends ResourceController
     public function getAdmissiblesAction()
     {
         // On charge tous les admissibles
-        $admissibles = $this->repository->findAll();
-        $result = array();
-        $year = strftime('%Y');
+        $admissibles = $this->repository->createQueryBuilder("admissible")
+            ->where("admissible.year = :year")
+            ->setParameter('year', strftime('%Y'))
+            ->getQuery()->getResult();
 
-        // On ne garde que les admissibles de cette année
-        foreach ($admissibles as $admissible) {
-            if (strftime('%Y', $admissible->getDate()) == $year) {
-                $result[] = $admissible;
-            }
-        }
-        return $result;
+        return $admissibles;
     }
 
     /**

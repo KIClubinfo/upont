@@ -413,15 +413,7 @@ class PonthubFile extends Likeable
      */
     protected $downloaded = false;
 
-    public function hasBeenDownloadedBy(\KI\UserBundle\Entity\User $user)
-    {
-        foreach ($this->users as $fileUser) {
-            if ($fileUser->getUser() == $user)
-                return true;
-        }
-    }
-
-    public function getDownloaded()
+    public function hasBeenDownloaded()
     {
         return $this->downloaded;
     }

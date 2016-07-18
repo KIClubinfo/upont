@@ -58,13 +58,13 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
 
     private function retrieveAchievements($user)
     {
-        $repoA = $this->manager->getRepository('KIUserBundle:Achievement');
-        $repoAU = $this->manager->getRepository('KIUserBundle:AchievementUser');
+        $achievementRepository = $this->manager->getRepository('KIUserBundle:Achievement');
+        $achievementUserRepository = $this->manager->getRepository('KIUserBundle:AchievementUser');
         $unlocked = array();
         $oUnlocked = array();
         $all = $this->getRequest()->query->has('all');
 
-        $response = $repoAU->findByUser($user);
+        $response = $achievementUserRepository->findByUser($user);
         foreach ($response as $achievementUser) {
             $achievement = $achievementUser->getAchievement();
             $oUnlocked[] = $achievement;
@@ -78,13 +78,18 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
                     'image'       => $achievement->image(),
                     'date'        => $achievementUser->getDate(),
                     'seen'        => $achievementUser->getSeen(),
-                    'ownedBy'     => count($repoAU->findByAchievement($achievement)),
+                    'ownedBy'     => $achievementUserRepository->createQueryBuilder('au')
+                        ->select('count(au)')
+                        ->where('au.achievement = :achievement')
+                        ->setParameter('achievement', $achievement)
+                        ->getQuery()
+                        ->getSingleScalarResult(),
                 );
                 if (!$achievementUser->getSeen())
                     $achievementUser->setSeen(true);
             }
         }
-        $all = $repoA->findAll();
+        $all = $achievementRepository->findAll();
         $locked = array();
         $points = 0;
         $factor = 1;
@@ -100,7 +105,12 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
                     'description' => $achievement->description(),
                     'points'      => $achievement->points(),
                     'image'       => $achievement->image(),
-                    'ownedBy'     => count($repoAU->findByAchievement($achievement)),
+                    'ownedBy'     => $achievementUserRepository->createQueryBuilder('au')
+                        ->select('count(au)')
+                        ->where('au.achievement = :achievement')
+                        ->setParameter('achievement', $achievement)
+                        ->getQuery()
+                        ->getSingleScalarResult(),
                 );
             } else {
                 if (gettype($achievement->points()) == 'integer') {
@@ -348,22 +358,12 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function getOwnEventsAction()
     {
-        $events = $this->getFollowedEvents();
-
         // Si on prend tout on renvoie comme ça
         if ($this->getRequest()->query->has('all'))
-            return $this->restResponse($events);
+            return $this->restResponse($this->getFollowedEvents());
 
-        $return = array();
-        $today = time();
-
-        // On élimine les anciens événements si on ne souhaite pas tout
-        foreach ($events as $event) {
-            if ($event->getEndDate() > $today)
-                $return[] = $event;
-        }
-
-        return $this->restResponse($return);
+        $events = $this->manager->getRepository('KIUserBundle:User')->findAllFollowedEvents($this->getUser()->getId());
+        return $this->restResponse($events);
     }
 
     /**
