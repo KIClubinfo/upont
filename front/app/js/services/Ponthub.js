@@ -11,7 +11,7 @@ angular.module('upont').factory('Ponthub', function() {
                 case 'autres':
                     return count > 10;
                 case 'series':
-                    return count > 15;
+                    return count > 150;
             }
             return false;
         },
