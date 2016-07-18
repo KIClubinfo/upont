@@ -24,3 +24,6 @@ php app/console cache:clear --env=prod --no-debug
 php app/console do:mi:mi -n
 sudo chmod 777 -R app/cache && sudo chmod 777 -R app/logs
 rm app/cache/maintenance.lock
+
+cd ..
+./newrelic-deploy.sh

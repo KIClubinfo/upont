@@ -1,7 +1,6 @@
 services:
     ki_core.repository.tag:
         class: Doctrine\ORM\EntityRepository
-        factory_service: doctrine.orm.default_entity_manager
-        factory_method: getRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
         arguments:
             - KI\CoreBundle\Entity\Tag

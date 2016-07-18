@@ -11,7 +11,7 @@ class VersionService
     public function getVersion()
     {
         // On récupère le tag de release le plus proche
-        $tags = shell_exec('git tag');
+        $tags = shell_exec('git tag --sort=version:refname');
         $out = array();
 
         if (!preg_match_all('/v(\d+)\.(\d+)\.(\d+)/', $tags, $out)) {
@@ -24,45 +24,10 @@ class VersionService
             );
         }
 
-        $countTags = count($out[0]);
-        $version = 2;
-        $major = 0;
-        $minor = 0;
-
-        for ($i = 0; $i < $countTags; $i++) {
-            // On ne s'intéresse qu'à la dernière version
-            if ($out[1][$i] < $version) {
-                continue;
-            }
-
-            // Si on passe à une version supérieure on réinitialise les 3 composantes
-            // aux valeurs du tag qui nous fait changer de version
-            if ($out[1][$i] > $version) {
-                $version = $out[1][$i];
-                $major = $out[2][$i];
-                $minor = $out[3][$i];
-            } else {
-                // Si on a la même version, on cherche la major maximale
-                if ($out[2][$i] < $major) {
-                    continue;
-                }
-
-                // Même raisonnement qu'avec la version
-                if ($out[2][$i] > $major) {
-                    $major = $out[2][$i];
-                    $minor = $out[3][$i];
-                }
-
-                if ($out[3][$i] > $minor) {
-                    $minor = $out[3][$i];
-                }
-            }
-        }
-
         return array(
-            'version' => $version,
-            'major'   => $major,
-            'minor'   => $minor,
+            'version' => $out[1][count($out[0])-1],
+            'major'   => $out[2][count($out[0])-1],
+            'minor'   => $out[3][count($out[0])-1],
             'build'   => shell_exec('git log --pretty=format:"%h" -n 1'),
             'date'    => (int)shell_exec('git log -1 --pretty=format:%ct')
         );

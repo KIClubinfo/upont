@@ -12,3 +12,8 @@ services:
             - @event_dispatcher
         tags:
             - { name: doctrine.event_listener, event: postPersist }
+
+    ki_ponthub.listener.serie:
+        class: KI\PonthubBundle\Listener\SerieListener
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }

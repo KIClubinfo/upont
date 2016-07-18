@@ -62,8 +62,9 @@ class DefaultController extends BaseController
     {
         $this->trust(!$this->is('EXTERIEUR'));
 
-        $statisticsHelper = $this->get('ki_foyer.helper.statistics');
-        $statistics = $statisticsHelper->getMainStatistics();
+        $statistics = [
+            'hallOfFame' => $this->manager->getRepository('KIFoyerBundle:Transaction')->getHallOfFame(),
+        ];
 
         return $this->restResponse($statistics);
     }

@@ -103,7 +103,7 @@ class LikeClass
      * @param \KI\UserBundle\Entity\User $listLikes
      * @return LikeClass
      */
-    public function addLike(\KI\UserBundle\Entity\User $listLikes)
+    public function addLike($listLikes)
     {
         $this->listLikes[] = $listLikes;
 
@@ -115,7 +115,7 @@ class LikeClass
      *
      * @param \KI\UserBundle\Entity\User $listLikes
      */
-    public function removeLike(\KI\UserBundle\Entity\User $listLikes)
+    public function removeLike($listLikes)
     {
         $this->listLikes->removeElement($listLikes);
     }
@@ -147,7 +147,7 @@ class LikeClass
      * @param \KI\UserBundle\Entity\User $listDislikes
      * @return LikeClass
      */
-    public function addDislike(\KI\UserBundle\Entity\User $listDislikes)
+    public function addDislike($listDislikes)
     {
         $this->listDislikes[] = $listDislikes;
 
@@ -159,7 +159,7 @@ class LikeClass
      *
      * @param \KI\UserBundle\Entity\User $listDislikes
      */
-    public function removeDislike(\KI\UserBundle\Entity\User $listDislikes)
+    public function removeDislike($listDislikes)
     {
         $this->listDislikes->removeElement($listDislikes);
     }

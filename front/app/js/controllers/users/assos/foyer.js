@@ -3,7 +3,7 @@ angular.module('upont')
         $('#focus-input').focus();
         $scope.youtube = youtube;
         $scope.stats = stats;
-        $scope.predicate = 'litres_bus';
+        $scope.predicate = 'liters';
         $scope.reverse = true;
         $scope.isFromFoyer = false;
 

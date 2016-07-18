@@ -127,10 +127,10 @@ class Likeable extends LikeClass
     /**
      * Add comment
      *
-     * @param \KI\CoreBundle\Entity\Core\Comment $comment
+     * @param \KI\CoreBundle\Entity\Comment $comment
      * @return Likeable
      */
-    public function addcomment(\KI\CoreBundle\Entity\Comment $comment)
+    public function addcomment($comment)
     {
         $this->listComments[] = $comment;
 
@@ -140,9 +140,9 @@ class Likeable extends LikeClass
     /**
      * Remove comments
      *
-     * @param \KI\CoreBundle\Entity\Core\Comment $comment
+     * @param \KI\CoreBundle\Entity\Comment $comment
      */
-    public function removeComment(\KI\CoreBundle\Entity\Comment $comment)
+    public function removeComment($comment)
     {
         $this->listComments->removeElement($comment);
     }

@@ -72,21 +72,9 @@ class Serie extends PonthubFile
     protected $rating;
 
     /**
-     * On retourne les vues du premier episode
-     * (retourner le total de toutes les vues est trop couteux pour le back, cela
-     * est fait par le front au cas par cas).
-     * @JMS\VirtualProperty()
+     * @JMS\Expose()
      */
-    public function downloads()
-    {
-        $episodes = $this->getEpisodes();
-
-        foreach ($episodes as $episode) {
-            if ($episode->getSeason() == 1 && $episode->getNumber() == 1)
-                return count($episode->getUsers());
-        }
-        return 0;
-    }
+    protected $downloads = 0;
 
     /**
      * Constructor
@@ -277,5 +265,21 @@ class Serie extends PonthubFile
     public function getRating()
     {
         return $this->rating;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDownloads()
+    {
+        return $this->downloads;
+    }
+
+    /**
+     * @param int $downloads
+     */
+    public function setDownloads($downloads)
+    {
+        $this->downloads = $downloads;
     }
 }
