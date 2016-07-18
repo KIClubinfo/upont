@@ -26,4 +26,4 @@ sudo chmod 777 -R app/cache && sudo chmod 777 -R app/logs
 rm app/cache/maintenance.lock
 
 cd ..
-./newrelic-deploy.sh
+./utils/newrelic-deploy.sh
