@@ -14,7 +14,7 @@
         <h1 class="padded  text-center" flex="100" id="bienvenue">Bienvenue !</h1>
 
         <p class="padded">
-            Admissible, cette page est pour toi ! Tout d’abord, félicitations. Si tu es en MP, tu vas avoir la joie, entre mi-juin et mi-juillet, de passer une semaine d’oraux dans notre splendide École. À cette occasion, le <a href="https://www.facebook.com/bdedesponts" title="Page Facebook du BDE" class="up-link">BDE Ras'Ponts'ine</a> tout de violet vêtu, te recevra, t’aidera à trouver les salles d’examen, à éviter l’hypoglycémie via un stand bien approvisionné et à te mettre à l’aise entre deux oraux !<br><br>
+            Admissible, cette page est pour toi ! Tout d’abord, félicitations. Si tu es en MP ou en PSI, tu vas avoir la joie, entre mi-juin et mi-juillet, de passer une semaine d’oraux dans notre splendide École. À cette occasion, le BDE Ras'Ponts'ine tout de violet vêtu, te recevra, t’aidera à trouver les salles d’examen, à éviter l’hypoglycémie via un stand bien approvisionné et à te mettre à l’aise entre deux oraux !<br><br>
 
             Les réservations pour les logements ont déjà commencé via un formulaire au bas de cette page.
         </p>
@@ -39,13 +39,13 @@
         <p class="padded">
             Bravo à toi, cher admissible, d’être arrivé jusqu’ici, et on espère que tu iras encore plus loin !<br>
             Le BDE sera là pour toi afin que tes oraux aux Ponts se déroulent dans les meilleures conditions possibles.<br>
-            Découvre sur ce site tout ce qu’on peut faire pour toi, et, si nous n’avons pas été assez minutieux, n’hésite pas à nous contacter via <a href="https://www.facebook.com/bdedesponts" title="Page Facebook du BDE" class="up-link">Facebook</a> ou envoie un mail à <a href="mailto:bde@enpc.org" class="up-link">bde@enpc.org</a>.
+            Découvre sur ce site tout ce qu’on peut faire pour toi, et, si nous n’avons pas été assez minutieux, n’hésite pas à nous contacter via <a href="https://www.facebook.com/groups/1027640550664272/" title="Page Facebook admissibles" class="up-link">Facebook</a> ou envoie un mail à <a href="mailto:bde@enpc.org" class="up-link">bde@enpc.org</a>.
         </p>
 
         <div flex="100" row="center stretch"><youtube-video video-url="campuschannel"></youtube-video></div>
 
         <h1 class="padded  text-center" flex="100">
-            <a class="Link  Link--reverse" title="La plaquette alpha au format PDF" ng-href="{{ download }}" target="_blank">Télécharge la plaquette alpha !</a>
+            <a class="Link  Link--reverse" title="La plaquette alpha au format PDF" href="https://upont.enpc.fr/plaquette.pdf" target="_blank">Télécharge la plaquette alpha !</a>
         </h1>
 
         <nav class="padded  text-center" flex="100" row="space-around stretch" wrap>
@@ -183,7 +183,7 @@
             <i class="fa fa-star"></i> Date de la location : une semaine à partir du dimanche précédent les oraux.<br>
             <i class="fa fa-star"></i> Temps de trajet jusqu’aux Ponts : 2 minutes.<br>
             <i class="fa fa-star"></i> Modalités de location : Les chambres sont louées avec le mobilier et un ensemble de couverts. Il faut cependant apporter du linge de lit et de salle de bain.<br>
-            <i class="fa fa-star"></i> Tarifs toutes charges comprises (compter en plus 25€ de frais de dossier, qui comprennent ton accueil par le BDE, la répartition des chambres et qui te donneront également droit au bracelet « admissibles » et te permettront de profiter de tous les événements organisés en ton honneur en toute gratuité).<br>
+            <i class="fa fa-star"></i> Tarifs toutes charges comprise. Possibilités d'acheter pour 30€ un bracelet "all-inclusive" qui donne accès au repas et activités en illimité.<br>
 
             <ul>
                 <li>170€/semaine pour la chambre simple ;</li>
@@ -196,11 +196,25 @@
 
 
 <section class="Page__admissibles--block" row="end start">
-    <div class="Ticket" flex="100">
-        <h2 flex="100" class="padded  text-center">Détails</h2>
+    <div class="Ticket" flex="100" ng-if="!shotgunOpen">
+        <h1 flex="100" class="padded  text-center">
+            Ouverture prochaine du formulaire
+        </h1>
+        <p flex="100" class="padded  text-center">
+            La réservation des chambres à Meunier pour les admissibles se fera à partir du {{ shotgun.openDateString }}.
+            La fermeture des inscriptions aura lieu {{ shotgun.closeDateString }}.
+        </p>
+        <p flex="100" class="padded  text-center">
+            ({{ shotgun.fromNow }})
+        </p>
+    </div>
+
+    <div class="Ticket" flex="100" ng-if="shotgunOpen">
+        <h2 flex="100" class="padded  text-center">Réservation</h2>
         <p class="padded">
-            Pour réserver ta chambre à Meunier, c’est ici !<br>
-            Nous te conseillons de faire vite car le nombre de chambres est limité ! Tu recevras un mail de confirmation. Bonne chance :)
+            La réservation des chambres à Meunier pour les admissibles se fait ici du {{ shotgun.openDateString }} au {{ shotgun.closeDateString }}.
+            <br/><br/>
+            Nous te conseillons de faire vite car le nombre de chambres est limité ! Tu recevras un mail de confirmation.
         </p>
 
         <form row="start center" wrap ng-submit="submit(admissible)">
@@ -267,7 +281,7 @@
             </div>
         </form>
         <p class="padded">
-            <small><em><i class="fa fa-warning"></i> En répondant à ce formulaire tu certifies venir de MP et être admissible au concours Mines-Ponts 2016.</em></small>
+            <small><em><i class="fa fa-warning"></i> En répondant à ce formulaire tu certifies venir de MP ou de PSI et être admissible au concours Mines-Ponts 2016.</em></small>
         </p>
     </div>
 </section>

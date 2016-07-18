@@ -123,8 +123,8 @@ angular.module('upont')
                                         init();
                                         $scope.isLoading = false;
                                     }).error(function() {
-                                    alertify.error('Formulaire vide ou mal rempli');
-                                    $scope.isLoading = false;
+                                        alertify.error('Formulaire vide ou mal rempli');
+                                        $scope.isLoading = false;
                                 });
                             }
                         );
