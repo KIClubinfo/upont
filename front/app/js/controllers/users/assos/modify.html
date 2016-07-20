@@ -103,6 +103,7 @@
             <tr>
                 <th>Élève</th>
                 <th>Rôle</th>
+		<th> </th>
             </tr>
         </thead>
         <tbody>
@@ -115,6 +116,10 @@
                     {{ member.user.first_name }} {{ member.user.last_name }}
                 </td>
                 <td>{{ member.role }}</td>
+		<td>
+		    <i class="fa fa-arrow-up" ng-hide="$first"></i>
+		    <i class="fa fa-arrow-down" ng-hide="$last"></i>
+		</td>
             </tr>
             <tr ng-hide="filtered.length">
                 <td>Rien à afficher</td>
