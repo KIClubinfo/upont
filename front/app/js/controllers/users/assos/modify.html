@@ -107,7 +107,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="member in filtered =  (members | promoFilter: promo | orderBy:['user.first_name'])">
+            <tr ng-repeat="member in filtered =  (members | promoFilter: promo | orderBy:['priority'])">
                 <td>
                     <i class="fa fa-remove up-clickable" ng-click="removeMember(member.user)"></i>
                     <i class="fa fa-pencil up-clickable"
