@@ -175,6 +175,7 @@ class ClubsController extends SubresourceController
             $link = new ClubUser();
             $link->setClub($club);
             $link->setUser($user);
+	    $link->setPriority($user->getId());
 
             // Validation des données annexes
             $form = $this->createForm(new ClubUserType(), $link, array('method' => 'POST'));
