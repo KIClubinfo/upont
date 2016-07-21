@@ -1,18 +1,18 @@
-<main class="full-height  padded" col="center center">
-    <div class="padded" flex="100" flex-md="70" row="center center" wrap>
-        <aside class="padded" flex="100" flex-md="60">
-            <h1>Mot de passe oublié</h1>
-            <p>Un mail contenant un lien de réinitialisation sera envoyé à l'adresse mail du compte.</p>
-        </aside>
-        <section class="padded" flex="100" flex-md="40">
-            <form row wrap ng-submit="request(username)" autocomplete="off">
-                <div class="padded" flex="100">
-                    <input class="Input" ng-model="username" type="text" placeholder="Identifiant" autofocus>
-                </div>
-                <div class="padded" flex="100">
-                    <button class="Button" title="Réinitialiser le mot de passe">Envoyer le mail</button>
-                </div>
-            </form>
-        </section>
+<section row="center center" class="padded">
+    <div class="Ticket" flex="100" flex-md="50">
+        <h2 flex="100" class="padded  text-center">Mot de passe oublié</h2>
+        <p class="padded">
+            Un mail contenant un lien de réinitialisation sera envoyé à l'adresse mail du compte.
+        </p>
+
+        <form row="start center" wrap ng-submit="submit(admissible)">
+            <div class="padded" flex="100">
+                <input class="Input" ng-model="username" type="text" placeholder="Identifiant" autofocus>
+            </div>
+
+            <div class="padded" flex="100" row="center stretch">
+                <button class="Button" flex="100" flex-md="33">Envoyer !</button>
+            </div>
+        </form>
     </div>
-</main>
+</section>
