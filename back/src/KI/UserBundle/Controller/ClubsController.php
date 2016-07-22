@@ -314,18 +314,20 @@ class ClubsController extends SubresourceController
         $link = $repoLink->findOneBy(array('club' => $club, 'user' => $user));
 	
         $priority = $link->getPriority();
+	$promo = $user->getPromo();
 
 	if ($direction == 'down') {
 	    $auDessous = $this->manager->createQuery('SELECT cu
             FROM KIUserBundle:ClubUser cu,
             KIUserBundle:User user
             WHERE cu.club = :club
-            AND cu.priority > :priority
+	    AND cu.user = user
             AND user.promo = :promo
+            AND cu.priority > :priority
             ORDER BY cu.priority ASC')
                 ->setParameter('club', $club)
                 ->setParameter('priority', $priority)
-        	->setParameter('promo', $user->getPromo())
+        	->setParameter('promo', $promo)
 	    	->setMaxResults(1)
             	->getSingleResult();
 
@@ -340,12 +342,13 @@ class ClubsController extends SubresourceController
             FROM KIUserBundle:ClubUser cu,
             KIUserBundle:User user
             WHERE cu.club = :club
-            AND cu.priority < :priority
+	    AND cu.user = user
             AND user.promo = :promo
+            AND cu.priority < :priority
             ORDER BY cu.priority DESC')
                 ->setParameter('club', $club)
                 ->setParameter('priority', $priority)
-        	->setParameter('promo', $user->getPromo())
+        	->setParameter('promo', $promo)
 	    	->setMaxResults(1)
             	->getSingleResult();
 
