@@ -99,6 +99,25 @@ angular.module('upont')
             });
         };
 
+	$scope.moveMember = function(user, direction) {
+            // On vérifie que la personne est déjà membre
+            var found = false;
+            for (var i = 0; i < $scope.members.length; i++) {
+                if ($scope.members[i].user.username == user.username) {
+                    found = true;
+                    break;
+                }
+            }
+            if(!found) {
+                alertify.error('Pas membre du club !');
+                return;
+            }
+
+	    $http.patch(apiPrefix + 'clubs/' + $scope.club.slug + '/users/' + user.username + '/' + direction).success(function(data){
+                $scope.reloadMembers();
+            }); 
+        };
+
         $scope.removeMember = function(user) {
             $http.delete(apiPrefix + 'clubs/' + $scope.club.slug + '/users/' + user.username).success(function(data){
                 alertify.success('Membre supprimé !');

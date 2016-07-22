@@ -117,8 +117,8 @@
                 </td>
                 <td>{{ member.role }}</td>
 		<td>
-		    <i class="fa fa-arrow-up" ng-hide="$first"></i>
-		    <i class="fa fa-arrow-down" ng-hide="$last"></i>
+		    <i class="fa fa-arrow-up up-clickable" ng-hide="$first" ng-click="moveMember(member.user, 'up')"></i>
+		    <i class="fa fa-arrow-down up-clickable" ng-hide="$last" ng-click="moveMember(member.user, 'down')"></i>
 		</td>
             </tr>
             <tr ng-hide="filtered.length">

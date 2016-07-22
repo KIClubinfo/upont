@@ -288,6 +288,76 @@ class ClubsController extends SubresourceController
 
     /**
      * @ApiDoc(
+     *  description="Echange les priorité des 2 clubUsers associés aux Users",
+     *  statusCodes={
+     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
+     *   400="La syntaxe de la requête est erronée",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   404="Ressource non trouvée",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Utilisateurs"
+     * )
+     * @Route\Patch("/clubs/{slug}/users/{username}/{direction}")
+     */
+    public function swapPriorityClubUserAction($slug, $username, $direction) {
+	$this->trust($this->is('ADMIN') || $this->isClubMember($slug));
+
+        // On récupère les entités concernées
+        $repo = $this->manager->getRepository('KIUserBundle:User');
+        $user = $repo->findOneByUsername($username);
+        $club = $this->findBySlug($slug);
+
+        // Trouve les clubUsers assiciés aux Users
+        $repoLink = $this->manager->getRepository('KIUserBundle:ClubUser');
+        $link = $repoLink->findOneBy(array('club' => $club, 'user' => $user));
+	
+        $priority = $link->getPriority();
+
+	if ($direction == 'down') {
+	    $auDessous = $this->manager->createQuery('SELECT cu
+            FROM KIUserBundle:ClubUser cu,
+            KIUserBundle:User user
+            WHERE cu.club = :club
+            AND cu.priority > :priority
+            AND user.promo = :promo
+            ORDER BY cu.priority ASC')
+                ->setParameter('club', $club)
+                ->setParameter('priority', $priority)
+        	->setParameter('promo', $user->getPromo())
+	    	->setMaxResults(1)
+            	->getSingleResult();
+
+            // On édite les clubUsers 
+	    $link->setPriority($auDessous->getPriority());
+	    $auDessous->setPriority($priority);
+            $this->manager->flush();
+	}
+
+	if ($direction == 'up') {
+	    $auDessus = $this->manager->createQuery('SELECT cu
+            FROM KIUserBundle:ClubUser cu,
+            KIUserBundle:User user
+            WHERE cu.club = :club
+            AND cu.priority < :priority
+            AND user.promo = :promo
+            ORDER BY cu.priority DESC')
+                ->setParameter('club', $club)
+                ->setParameter('priority', $priority)
+        	->setParameter('promo', $user->getPromo())
+	    	->setMaxResults(1)
+            	->getSingleResult();
+
+            // On édite les clubUsers 
+	    $link->setPriority($auDessus->getPriority());
+	    $auDessus->setPriority($priority);
+            $this->manager->flush();
+	}
+    }
+
+    /**
+     * @ApiDoc(
      *  description="Abonne un utilisateur à un club",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
