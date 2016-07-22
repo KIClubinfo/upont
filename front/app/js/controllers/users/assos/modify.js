@@ -119,9 +119,11 @@ angular.module('upont')
 	        }
 
 	        $http.patch(apiPrefix + 'clubs/' + $scope.club.slug + '/users/' + user.username + '/' + direction).success(function(data){
+		    $scope.isLoading = false;
 		    $scope.reloadMembers();
-	        }); 
-		$scope.isLoading = false;
+	        }).error(function(data){
+		    $scope.isLoading = false;
+		});
 	    }
         };
 
