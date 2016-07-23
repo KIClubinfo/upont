@@ -75,12 +75,12 @@ class BaseController extends CoreController
 
     /**
      * Génère une réponse au format JSON en parsant les propriétés avec le FOSRestBundle
-     * @param  array $data    Le contenu à renvoyer
+     * @param  mixed $data    Le contenu à renvoyer
      * @param  int   $code    Le code d'erreur HTTP à renvoyer
      * @param  array $headers Des headers spécifiques si nécéssaire
      * @return JsonResponse
      */
-    public function jsonResponse($data, $code = 200, array $headers = array())
+    public function jsonResponse($data, $code = 200, $headers = array())
     {
         return new JsonResponse($data, $code, $headers);
     }
