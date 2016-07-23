@@ -6,6 +6,7 @@ use FOS\RestBundle\Controller\Annotations as Route;
 use KI\CoreBundle\Controller\ResourceController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class TransactionsController extends ResourceController
@@ -120,11 +121,10 @@ class TransactionsController extends ResourceController
      * )
      * @Route\Post("/transactions")
      */
-    public function postTransactionAction()
+    public function postTransactionAction(Request $request)
     {
         $this->trust($this->isClubMember('foyer') || $this->is('ADMIN'));
 
-        $request = $this->getRequest()->request;
         if (!$request->has('user')) {
             throw new BadRequestHttpException('User obligatoire');
         }

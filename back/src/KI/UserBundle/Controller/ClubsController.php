@@ -8,6 +8,7 @@ use KI\UserBundle\Entity\ClubUser;
 use KI\UserBundle\Form\ClubUserType;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -156,7 +157,7 @@ class ClubsController extends SubresourceController
      * )
      * @Route\Post("/clubs/{slug}/users/{id}")
      */
-    public function postClubUserAction($slug, $id)
+    public function postClubUserAction(Request $request, $slug, $id)
     {
         $this->trust($this->is('ADMIN') || $this->isClubMember($slug));
 
@@ -178,7 +179,7 @@ class ClubsController extends SubresourceController
 
             // Validation des données annexes
             $form = $this->createForm(new ClubUserType(), $link, array('method' => 'POST'));
-            $form->handleRequest($this->getRequest());
+            $form->handleRequest($request);
 
             if ($form->isValid()) {
                 $this->manager->persist($link);
@@ -215,7 +216,7 @@ class ClubsController extends SubresourceController
      * )
      * @Route\Patch("/clubs/{slug}/users/{username}")
      */
-    public function patchClubUserAction($slug, $username)
+    public function patchClubUserAction(Request $request, $slug, $username)
     {
         $this->trust($this->is('ADMIN') || $this->isClubMember($slug));
 
@@ -233,7 +234,7 @@ class ClubsController extends SubresourceController
             $link = $link[0];
             // Validation des données annexes
             $form = $this->createForm(new ClubUserType(), $link, array('method' => 'PATCH'));
-            $form->handleRequest($this->getRequest());
+            $form->handleRequest($request);
 
             if ($form->isValid()) {
                 $this->manager->persist($link);

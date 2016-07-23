@@ -32,9 +32,9 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      * )
      * @Route\Get("/own/achievements")
      */
-    public function getAchievementsAction()
+    public function getAchievementsAction(Request $request)
     {
-        return $this->retrieveAchievements($this->user);
+        return $this->retrieveAchievements($request, $this->user);
     }
 
     /**
@@ -50,19 +50,19 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      * )
      * @Route\Get("/users/{slug}/achievements")
      */
-    public function getUserAchievementsAction($slug)
+    public function getUserAchievementsAction(Request $request, $slug)
     {
         $user = $this->findBySlug($slug);
-        return $this->retrieveAchievements($user);
+        return $this->retrieveAchievements($request, $user);
     }
 
-    private function retrieveAchievements($user)
+    private function retrieveAchievements($request, $user)
     {
         $achievementRepository = $this->manager->getRepository('KIUserBundle:Achievement');
         $achievementUserRepository = $this->manager->getRepository('KIUserBundle:AchievementUser');
         $unlocked = array();
         $oUnlocked = array();
-        $all = $this->getRequest()->query->has('all');
+        $all = $request->has('all');
 
         $response = $achievementUserRepository->findByUser($user);
         foreach ($response as $achievementUser) {
@@ -200,13 +200,12 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      * )
      * @Route\Post("/own/devices")
      */
-    public function postDeviceAction()
+    public function postDeviceAction(Request $request)
     {
         if (!$this->get('security.context')->isGranted('ROLE_USER')) {
             throw new AccessDeniedException();
         }
 
-        $request = $this->getRequest()->request;
         if (!$request->has('device'))
             throw new BadRequestHttpException('Identifiant de téléphone manquant');
         if (!$request->has('type'))
@@ -356,10 +355,10 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      * )
      * @Route\Get("/own/events")
      */
-    public function getOwnEventsAction()
+    public function getOwnEventsAction(Request $request)
     {
         // Si on prend tout on renvoie comme ça
-        if ($this->getRequest()->query->has('all'))
+        if ($request->has('all'))
             return $this->restResponse($this->getFollowedEvents());
 
         $events = $this->manager->getRepository('KIUserBundle:User')->findAllFollowedEvents($this->getUser()->getId());
@@ -728,9 +727,8 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      * )
      * @Route\Post("/own/user")
      */
-    public function postOwnUserAction()
+    public function postOwnUserAction(Request $request)
     {
-        $request = $this->getRequest()->request;
         if (!$request->has('password') || !$request->has('confirm') || !$request->has('old'))
             throw new BadRequestHttpException('Champs password/confirm non rempli(s)');
 

@@ -42,10 +42,9 @@ class DefaultController extends BaseController
      * )
      * @Route\Get("/online")
      */
-    public function onlineAction()
+    public function onlineAction(Request $request)
     {
-        $query = $this->getRequest()->query;
-        $delay = $query->has('delay') ? (int)$query->get('delay') : 30;
+        $delay = $request->has('delay') ? (int)$request->get('delay') : 30;
 
         $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
         $qb->select('u')
@@ -131,9 +130,8 @@ class DefaultController extends BaseController
      * )
      * @Route\Post("/resetting/token/{token}")
      */
-    public function resettingTokenAction($token)
+    public function resettingTokenAction(Request $request, $token)
     {
-        $request = $this->getRequest()->request;
         if (!$request->has('password') || !$request->has('check'))
             throw new BadRequestHttpException('Champs password/check non rempli(s)');
 

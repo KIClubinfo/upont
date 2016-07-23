@@ -64,14 +64,13 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
      *  section="Utilisateurs"
      * )
      */
-    public function patchUserAction($slug)
+    public function patchUserAction(Request $request, $slug)
     {
         // Les admissibles et extérieurs ne peuvent pas modifier leur profil
         if ($this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
             || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
             throw new AccessDeniedException();
 
-        $request = $this->getRequest()->request;
         if ($request->has('image')) {
             $dispatcher = $this->container->get('event_dispatcher');
             $achievementCheck = new AchievementCheckEvent(Achievement::PHOTO);
@@ -86,7 +85,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
         $achievementCheck = new AchievementCheckEvent(Achievement::PROFILE);
         $dispatcher->dispatch('upont.achievement', $achievementCheck);
 
-        if ($this->getRequest()->query->has('achievement')) {
+        if ($request->has('achievement')) {
             $dispatcher = $this->container->get('event_dispatcher');
             $achievementCheck = new AchievementCheckEvent(Achievement::TOUR);
             $dispatcher->dispatch('upont.achievement', $achievementCheck);
@@ -174,9 +173,8 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
      *  section="Utilisateurs"
      * )
      */
-    public function postUsersAction()
+    public function postUsersAction(Request $request)
     {
-        $request = $this->getRequest()->request;
         if (!$request->has('firstName') || !$request->has('lastName') || !$request->has('email'))
             throw new BadRequestHttpException('Champs non rempli(s)');
 
@@ -234,15 +232,15 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
      * )
      * @Route\Post("/import/users")
      */
-    public function importUsersAction()
+    public function importUsersAction(Request $request)
     {
         set_time_limit(3600);
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
             return $this->jsonResponse(null, 403);
 
-        if (!$this->getRequest()->files->has('users'))
+        if (!$request->files->has('users'))
             throw new BadRequestHttpException('Aucun fichier envoyé');
-        $file = $this->getRequest()->files->get('users');
+        $file = $request->files->get('users');
 
         // Check CSV
         if ($file->getMimeType() !== 'text/plain' && $file->getMimeType() !== 'text/csv') {

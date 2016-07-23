@@ -6,6 +6,7 @@ use FOS\RestBundle\Controller\Annotations as Route;
 use FOS\RestBundle\View\View as RestView;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -63,11 +64,9 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
      * )
      * @Route\Post("/groups")
      */
-    public function postGroupAction() {
+    public function postGroupAction(Request $request) {
         if (!$this->get('security.context')->isGranted('ROLE_MODO'))
             throw new AccessDeniedException();
-
-        $request = $this->getRequest()->request;
 
         if (!$request->has('name') || !$request->has('role'))
             throw new BadRequestHttpException('Les champs "name" et "role" sont obligatoires');
@@ -110,11 +109,9 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
      * )
      * @Route\Patch("/groups/{slug}")
      */
-    public function patchGroupAction($slug) {
+    public function patchGroupAction(Request $request, $slug) {
         if (!$this->get('security.context')->isGranted('ROLE_MODO'))
             throw new AccessDeniedException();
-
-        $request = $this->getRequest()->request;
 
         if ($slug === null)
             throw new BadRequestHttpException('Le groupe n\'existe pas');

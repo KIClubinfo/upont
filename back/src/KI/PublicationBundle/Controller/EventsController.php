@@ -4,6 +4,7 @@ namespace KI\PublicationBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use KI\PublicationBundle\Entity\EventUser;
@@ -166,14 +167,13 @@ class EventsController extends ResourceController
      * )
      * @Route\Post("/events/{slug}/shotgun")
      */
-    public function postEventUserAction($slug)
+    public function postEventUserAction(Request $request, $slug)
     {
         $event = $this->findBySlug($slug);
 
         if ($event->getEntryMethod() != Event::TYPE_SHOTGUN)
             throw new BadRequestHttpException('Ce n\'est pas un événement à shotgun !');
 
-        $request = $this->getRequest()->request;
         if (!$request->has('motivation'))
             throw new BadRequestHttpException('Texte de motivation manquant');
 
@@ -222,13 +222,12 @@ class EventsController extends ResourceController
      * )
      * @Route\Patch("/events/{slug}/shotgun")
      */
-    public function patchEventUserAction($slug)
+    public function patchEventUserAction(Request $request, $slug)
     {
         $event = $this->findBySlug($slug);
         if ($event->getEntryMethod() != Event::TYPE_SHOTGUN)
             throw new BadRequestHttpException('Ce n\'est pas un événement à shotgun !');
 
-        $request = $this->getRequest()->request;
         if (!$request->has('motivation'))
             throw new BadRequestHttpException('Texte de motivation manquant');
 

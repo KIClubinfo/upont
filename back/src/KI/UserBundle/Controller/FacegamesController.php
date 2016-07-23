@@ -4,6 +4,7 @@ namespace KI\UserBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use KI\CoreBundle\Controller\ResourceController;
@@ -90,11 +91,10 @@ class FacegamesController extends ResourceController
      *  section="Utilisateurs"
      * )
      */
-    public function patchFacegameAction($slug)
+    public function patchFacegameAction(Request $request, $slug)
     {
         $facegame = $this->findBySlug($slug);
 
-        $request = $this->getRequest()->request;
         if (!$request->has('wrongAnswers') || !$request->has('duration')) {
             throw new BadRequestHttpException('Paramètre manquant');
         }
