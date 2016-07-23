@@ -13,10 +13,11 @@ angular.module('upont')
         $scope.type = Ponthub.cat($stateParams.category);
         $scope.propositions = [];
 
-        var elementSlug = element.name;
-
         $scope.search = function(criteria) {
             if ($scope.type == 'movies' || $scope.type == 'series') {
+
+                criteria = criteria.replace(/ \([0-9]{4}\)/, '');
+
                 $http.post(apiPrefix + 'imdb/search', {name: criteria}).success(function(data){
                     $scope.propositions = data;
 
