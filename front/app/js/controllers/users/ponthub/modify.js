@@ -96,16 +96,8 @@ angular.module('upont')
                     break;
             }
 
-            $http.patch(apiPrefix + $scope.type + '/' + element.slug, params).success(function(){
-                // On recharge le fichier pour être sûr d'avoir la nouvelle image
-                if (elementSlug == element.name) {
-                    $http.get(apiPrefix + $scope.type + '/' + element.slug).success(function(data){
-                        $scope.init(data);
-                    });
-                } else {
-                    alertify.alert('Le nom apparent du fichier ayant changé, il est nécessaire de recharger la page...');
-                    $state.go('root.users.ponthub.category.list', {category: $stateParams.category});
-                }
+            $http.patch(apiPrefix + $scope.type + '/' + element.slug, params).success(function(data){
+                $state.go('root.users.ponthub.category.list', {category: $stateParams.category});
                 alertify.success('Modifications prises en compte !');
             });
         };
