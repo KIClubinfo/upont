@@ -31,7 +31,10 @@ class FacegamesController extends ResourceController
      *  section="Utilisateurs"
      * )
      */
-    public function getFacegamesAction() { return $this->getAll(); }
+    public function getFacegamesAction()
+    {
+        return $this->getAll();
+    }
 
     /**
      * @ApiDoc(
@@ -46,7 +49,10 @@ class FacegamesController extends ResourceController
      *  section="Utilisateurs"
      * )
      */
-    public function getFacegameAction($slug) { return $this->getOne($slug); }
+    public function getFacegameAction($slug)
+    {
+        return $this->getOne($slug);
+    }
 
     /**
      * @ApiDoc(
@@ -62,7 +68,8 @@ class FacegamesController extends ResourceController
      *  section="Utilisateurs"
      * )
      */
-    public function postFacegameAction() {
+    public function postFacegameAction()
+    {
         $return = $this->postData($this->is('USER'));
 
         if ($return['code'] == 201) {
