@@ -172,7 +172,7 @@ class BasketOrdersController extends ResourceController
     {
         $this->trust($this->is('MODO') || $this->isClubMember('dvp'));
 
-        if (!$request->has('dateRetrieve')) {
+        if (!$request->request->has('dateRetrieve')) {
             throw new BadRequestHttpException('Paramètre manquant');
         }
 
@@ -184,7 +184,7 @@ class BasketOrdersController extends ResourceController
         $basketOrder = $this->repository->findOneBy(array(
             'basket' => $basketRepository->findOneBySlug($slug),
             'email' => $email,
-            'dateRetrieve' => $request->get('dateRetrieve'),
+            'dateRetrieve' => $request->request->get('dateRetrieve'),
         ));
 
         if ($basketOrder === null) {
@@ -192,8 +192,8 @@ class BasketOrdersController extends ResourceController
         }
 
         // On patche manuellement
-        if ($request->has('paid')) {
-            $basketOrder->setPaid($request->get('paid'));
+        if ($request->request->has('paid')) {
+            $basketOrder->setPaid($request->request->get('paid'));
         }
 
         $this->manager->persist($basketOrder);

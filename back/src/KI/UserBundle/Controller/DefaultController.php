@@ -44,7 +44,7 @@ class DefaultController extends BaseController
      */
     public function onlineAction(Request $request)
     {
-        $delay = $request->has('delay') ? (int)$request->get('delay') : 30;
+        $delay = $request->query->has('delay') ? (int)$request->query->get('delay') : 30;
 
         $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
         $qb->select('u')

@@ -92,7 +92,7 @@ class PontlyvalentsController extends ResourceController
     {
         $pontlyvalentHelper = $this->helper($slug);
 
-        if (!$request->has('text') || $text = trim($request->get('text')) === '') {
+        if (!$request->request->has('text') || $text = trim($request->request->get('text')) === '') {
             throw new BadRequestHttpException('Texte de commentaire manquant');
         }
 
@@ -134,7 +134,7 @@ class PontlyvalentsController extends ResourceController
         if (!isset($pontlyvalent)) {
             throw new NotFoundHttpException('Commentaire non trouvé');
         }
-        if (!$request->has('text') || $text = trim($request->get('text')) === '') {
+        if (!$request->request->has('text') || $text = trim($request->request->get('text')) === '') {
             throw new BadRequestHttpException('Texte de commentaire manquant');
         }
 

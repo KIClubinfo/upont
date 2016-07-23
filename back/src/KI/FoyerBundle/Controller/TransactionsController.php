@@ -125,18 +125,18 @@ class TransactionsController extends ResourceController
     {
         $this->trust($this->isClubMember('foyer') || $this->is('ADMIN'));
 
-        if (!$request->has('user')) {
+        if (!$request->request->has('user')) {
             throw new BadRequestHttpException('User obligatoire');
         }
-        if (!($request->has('beer') xor $request->has('credit'))) {
+        if (!($request->request->has('beer') xor $request->request->has('credit'))) {
             throw new BadRequestHttpException('On rajoute une conso ou du crédit, pas les deux');
         }
 
         $helper = $this->get('ki_foyer.helper.transaction');
-        if ($request->has('beer')) {
-            $id = $helper->addBeerTransaction($request->get('user'), $request->get('beer'));
-        } else if ($request->has('credit')) {
-            $id = $helper->addCreditTransaction($request->get('user'), $request->get('credit'));
+        if ($request->request->has('beer')) {
+            $id = $helper->addBeerTransaction($request->request->get('user'), $request->request->get('beer'));
+        } else if ($request->request->has('credit')) {
+            $id = $helper->addCreditTransaction($request->request->get('user'), $request->request->get('credit'));
         }
 
         return $this->jsonResponse($id, 201);

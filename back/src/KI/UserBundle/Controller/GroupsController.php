@@ -68,12 +68,12 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
         if (!$this->get('security.context')->isGranted('ROLE_MODO'))
             throw new AccessDeniedException();
 
-        if (!$request->has('name') || !$request->has('role'))
+        if (!$request->request->has('name') || !$request->request->has('role'))
             throw new BadRequestHttpException('Les champs "name" et "role" sont obligatoires');
 
-        $group = new $this->class($request->get('name'));
+        $group = new $this->class($request->request->get('name'));
 
-        $role = $request->get('role');
+        $role = $request->request->get('role');
         if (!is_string($role))
             throw new UnexpectedTypeException($role, 'string');
 
@@ -118,25 +118,25 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
 
         $group = $this->getOne($slug);
 
-        if ($request->has('name')) {
-            $name = $request->get('name');
+        if ($request->request->has('name')) {
+            $name = $request->request->get('name');
             if (!is_string($name))
                 throw new UnexpectedTypeException($name, 'string');
 
             $group->setName(array($name));
-            $request->remove('name');
+            $request->request->remove('name');
         }
 
-        if ($request->has('role')) {
-            $role = $request->get('role');
+        if ($request->request->has('role')) {
+            $role = $request->request->get('role');
             if (!is_string($role))
                 throw new UnexpectedTypeException($role, 'string');
 
             $group->setRoles(array($role));
-            $request->remove('role');
+            $request->request->remove('role');
         }
 
-        if (count($request->all()) > 0)
+        if (count($request->request->all()) > 0)
             throw new BadRequestHttpException('Ce champ n\'existe pas');
 
         $this->manager->persist($group);

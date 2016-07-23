@@ -83,9 +83,9 @@ class PromoController extends \KI\CoreBundle\Controller\ResourceController
         $images = $this->get('ki_core.service.image');
         $i = 0;
 
-        if (!$request->has('token'))
+        if (!$request->request->has('token'))
             throw new BadRequestHttpException('Il faut préciser un token Facebook');
-        $token = '?access_token='.$request->get('token');
+        $token = '?access_token='.$request->request->get('token');
 
         // Ids des différents groupes facebook
         switch ($promo) {

@@ -102,12 +102,12 @@ class FacegamesController extends ResourceController
     {
         $facegame = $this->findBySlug($slug);
 
-        if (!$request->has('wrongAnswers') || !$request->has('duration')) {
+        if (!$request->request->has('wrongAnswers') || !$request->request->has('duration')) {
             throw new BadRequestHttpException('Paramètre manquant');
         }
 
         $facegameHelper = $this->get('ki_user.helper.facegame');
-        $facegameHelper->endGame($facegame, $request->get('wrongAnswers'), $request->get('duration'));
+        $facegameHelper->endGame($facegame, $request->request->get('wrongAnswers'), $request->request->get('duration'));
 
         return $this->jsonResponse(null, 204);
     }

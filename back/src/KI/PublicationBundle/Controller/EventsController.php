@@ -174,7 +174,7 @@ class EventsController extends ResourceController
         if ($event->getEntryMethod() != Event::TYPE_SHOTGUN)
             throw new BadRequestHttpException('Ce n\'est pas un événement à shotgun !');
 
-        if (!$request->has('motivation'))
+        if (!$request->request->has('motivation'))
             throw new BadRequestHttpException('Texte de motivation manquant');
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
@@ -191,7 +191,7 @@ class EventsController extends ResourceController
             $userEvent->setEvent($event);
             $userEvent->setUser($user);
             $userEvent->setDate(time());
-            $userEvent->setMotivation($request->get('motivation'));
+            $userEvent->setMotivation($request->request->get('motivation'));
 
             $this->manager->persist($userEvent);
             $this->manager->flush();
@@ -228,7 +228,7 @@ class EventsController extends ResourceController
         if ($event->getEntryMethod() != Event::TYPE_SHOTGUN)
             throw new BadRequestHttpException('Ce n\'est pas un événement à shotgun !');
 
-        if (!$request->has('motivation'))
+        if (!$request->request->has('motivation'))
             throw new BadRequestHttpException('Texte de motivation manquant');
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
@@ -236,7 +236,7 @@ class EventsController extends ResourceController
         $userEvent = $repo->findBy(array('event' => $event, 'user' => $user));
 
         if (count($userEvent) == 1) {
-            $userEvent[0]->setMotivation($request->get('motivation'));
+            $userEvent[0]->setMotivation($request->request->get('motivation'));
             $this->manager->flush();
         } else {
             throw new NotFoundHttpException('Participation au shotgun non trouvée');
