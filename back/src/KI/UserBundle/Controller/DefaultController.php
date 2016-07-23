@@ -132,7 +132,7 @@ class DefaultController extends BaseController
      */
     public function resettingTokenAction(Request $request, $token)
     {
-        if (!$request->has('password') || !$request->has('check'))
+        if (!$request->request->has('password') || !$request->request->has('check'))
             throw new BadRequestHttpException('Champs password/check non rempli(s)');
 
         $manager = $this->getDoctrine()->getManager();
@@ -150,10 +150,10 @@ class DefaultController extends BaseController
             $user = $userManager->findUserByUsername($username);
 
 
-            if ($request->get('password') != $request->get('check'))
+            if ($request->request->get('password') != $request->request->get('check'))
                 throw new BadRequestHttpException('Mots de passe non identiques');
 
-            $user->setPlainPassword($request->get('password'));
+            $user->setPlainPassword($request->request->get('password'));
             $userManager->updateUser($user, true);
 
             return $this->restResponse(null, 204);
