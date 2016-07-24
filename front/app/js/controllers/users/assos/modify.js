@@ -1,6 +1,7 @@
 angular.module('upont')
     .controller('Assos_Modify_Ctrl', ['$scope', '$controller', '$http', '$state', function($scope, $controller, $http, $state) {
         $scope.showIcons = false;
+	$scope.isLoading = false;
         $scope.faIcons = faIcons;
         $scope.search = '';
         $scope.searchResults = [];
@@ -97,6 +98,33 @@ angular.module('upont')
                     });
                 }
             });
+        };
+
+	$scope.moveMember = function(user, direction) {
+	    // On vérifie qu'une requête n'est pas déjà en cours
+	    if ($scope.isLoading == false) {
+		$scope.isLoading = true;
+
+	        // On vérifie que la personne est déjà membre
+	        var found = false;
+	        for (var i = 0; i < $scope.members.length; i++) {
+		    if ($scope.members[i].user.username == user.username) {
+		        found = true;
+		        break;
+		    }
+    	        }
+	        if(!found) {
+		    alertify.error('Pas membre du club !');
+		    return;
+	        }
+
+	        $http.patch(apiPrefix + 'clubs/' + $scope.club.slug + '/users/' + user.username + '/' + direction).success(function(data){
+		    $scope.isLoading = false;
+		    $scope.reloadMembers();
+	        }).error(function(data){
+		    $scope.isLoading = false;
+		});
+	    }
         };
 
         $scope.removeMember = function(user) {
