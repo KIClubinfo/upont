@@ -44,8 +44,10 @@ class ExercicesControllerTest extends WebTestCase
 
     public function testDownloadExercice()
     {
+        ob_start();
         $this->client->request('GET', '/courses/mecanique-des-familles/exercices/super-examen/download');
         $response = $this->client->getResponse();
+        ob_end_clean();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($response->headers->contains('Content-Type', 'application/pdf'));
     }
