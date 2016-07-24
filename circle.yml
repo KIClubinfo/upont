@@ -1,0 +1,24 @@
+general:
+  build_dir: back
+
+machine:
+  timezone:
+    Europe/Paris
+
+checkout:
+  post:
+    - cp ./app/config/parameters.yml.circle ./app/config/parameters.yml
+
+test:
+  pre:
+    - composer install --prefer-source --no-interaction --optimize-autoloader
+    - php app/console cache:clear --env=prod --no-debug
+    - php app/console do:mi:mi -n
+    - php app/console doctrine:fixtures:load --no-interaction
+    - wget https://scrutinizer-ci.com/ocular.phar
+
+  override:
+    - phpunit -c app --coverage-clover=coverage.clover src/KI/ClubinfoBundle
+
+  post:
+    - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
