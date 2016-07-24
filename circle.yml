@@ -1,17 +1,16 @@
 general:
   build_dir: back
 
-machine:
-  timezone:
-    Europe/Paris
-
 checkout:
   post:
     - cp ./app/config/parameters.yml.circle ./app/config/parameters.yml
 
+dependencies:
+  override:
+    - composer install --prefer-source --no-interaction --optimize-autoloader
+
 test:
   pre:
-    - composer install --prefer-source --no-interaction --optimize-autoloader
     - php app/console cache:clear --env=prod --no-debug
     - php app/console do:mi:mi -n
     - php app/console doctrine:fixtures:load --no-interaction
