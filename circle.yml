@@ -28,13 +28,13 @@ test:
 
   override:
     - mkdir -p $CIRCLE_TEST_REPORTS/phpunit
-    - phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml --coverage-clover=core.clover --testsuite core
-    - phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml --coverage-clover=user.clover --testsuite user
-    - phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml --coverage-clover=publication.clover --testsuite publication
-    - phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml --coverage-clover=ponthub.clover --testsuite ponthub
-    - phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml --coverage-clover=foyer.clover --testsuite foyer
-    - phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml --coverage-clover=clubinfo.clover --testsuite clubinfo
-    - phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml --coverage-clover=dvp.clover --testsuite dvp
+    - phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/core.xml --coverage-clover=core.clover --testsuite core
+    - phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/user.xml --coverage-clover=user.clover --testsuite user
+    - phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/publication.xml --coverage-clover=publication.clover --testsuite publication
+    - phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/ponthub.xml --coverage-clover=ponthub.clover --testsuite ponthub
+    - phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/foyer.xml --coverage-clover=foyer.clover --testsuite foyer
+    - phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/clubinfo.xml --coverage-clover=clubinfo.clover --testsuite clubinfo
+    - phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/dvp.xml --coverage-clover=dvp.clover --testsuite dvp
 
   post:
     - php ocular.phar code-coverage:upload --format=php-clover core.clover
