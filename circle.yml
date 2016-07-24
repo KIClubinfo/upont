@@ -6,6 +6,8 @@ checkout:
     - cp ./app/config/parameters.yml.circle ./app/config/parameters.yml
 
 dependencies:
+  cache_directories:
+    - ~/.composer/cache
   override:
     - composer install --prefer-source --no-interaction --optimize-autoloader
 
