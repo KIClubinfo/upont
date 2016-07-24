@@ -26,7 +26,7 @@ test:
     - wget https://scrutinizer-ci.com/ocular.phar
 
   override:
-    - phpunit -c app --coverage-clover=core.clover srcK/KI/CoreBundle
+    - phpunit -c app --coverage-clover=core.clover src/KI/CoreBundle
     - phpunit -c app --coverage-clover=user.clover src/KI/UserBundle
     - phpunit -c app --coverage-clover=publication.clover src/KI/PublicationBundle
     - phpunit -c app --coverage-clover=ponthub.clover src/KI/PonthubBundle
