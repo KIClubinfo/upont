@@ -12,6 +12,7 @@ checkout:
 dependencies:
   cache_directories:
     - ~/.composer/cache
+    - ./vendor
   pre:
     - echo "date.timezone = Europe/Paris" > /opt/circleci/php/$(phpenv global)/etc/conf.d/date.ini
   override:
@@ -25,7 +26,19 @@ test:
     - wget https://scrutinizer-ci.com/ocular.phar
 
   override:
-    - phpunit -c app --coverage-clover=coverage.clover
+    - phpunit -c app --coverage-clover=core.clover srcK/KI/CoreBundle
+    - phpunit -c app --coverage-clover=user.clover src/KI/UserBundle
+    - phpunit -c app --coverage-clover=publication.clover src/KI/PublicationBundle
+    - phpunit -c app --coverage-clover=ponthub.clover src/KI/PonthubBundle
+    - phpunit -c app --coverage-clover=foyer.clover src/KI/FoyerBundle
+    - phpunit -c app --coverage-clover=clubinfo.clover src/KI/ClubinfoBundle
+    - phpunit -c app --coverage-clover=dvp.clover src/KI/DvpBundle
 
   post:
-    - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+    - php ocular.phar code-coverage:upload --format=php-clover core.clover
+    - php ocular.phar code-coverage:upload --format=php-clover user.clover
+    - php ocular.phar code-coverage:upload --format=php-clover publication.clover
+    - php ocular.phar code-coverage:upload --format=php-clover ponthub.clover
+    - php ocular.phar code-coverage:upload --format=php-clover foyer.clover
+    - php ocular.phar code-coverage:upload --format=php-clover clubinfo.clover
+    - php ocular.phar code-coverage:upload --format=php-clover dvp.clover
