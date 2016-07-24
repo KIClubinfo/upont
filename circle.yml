@@ -27,13 +27,14 @@ test:
     - wget https://scrutinizer-ci.com/ocular.phar
 
   override:
-    - phpunit -c app --coverage-clover=core.clover src/KI/CoreBundle
-    - phpunit -c app --coverage-clover=user.clover src/KI/UserBundle
-    - phpunit -c app --coverage-clover=publication.clover src/KI/PublicationBundle
-    - phpunit -c app --coverage-clover=ponthub.clover src/KI/PonthubBundle
-    - phpunit -c app --coverage-clover=foyer.clover src/KI/FoyerBundle
-    - phpunit -c app --coverage-clover=clubinfo.clover src/KI/ClubinfoBundle
-    - phpunit -c app --coverage-clover=dvp.clover src/KI/DvpBundle
+    - mkdir -p $CIRCLE_TEST_REPORTS/phpunit
+    - phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml --coverage-clover=core.clover --testsuite core
+    - phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml --coverage-clover=user.clover --testsuite user
+    - phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml --coverage-clover=publication.clover --testsuite publication
+    - phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml --coverage-clover=ponthub.clover --testsuite ponthub
+    - phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml --coverage-clover=foyer.clover --testsuite foyer
+    - phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml --coverage-clover=clubinfo.clover --testsuite clubinfo
+    - phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml --coverage-clover=dvp.clover --testsuite dvp
 
   post:
     - php ocular.phar code-coverage:upload --format=php-clover core.clover
