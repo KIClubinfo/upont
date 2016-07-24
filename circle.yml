@@ -1,6 +1,10 @@
 general:
   build_dir: back
 
+machine:
+  timezone:
+    Europe/Paris
+
 checkout:
   post:
     - cp ./app/config/parameters.yml.circle ./app/config/parameters.yml
@@ -8,6 +12,8 @@ checkout:
 dependencies:
   cache_directories:
     - ~/.composer/cache
+  pre:
+    - echo "date.timezone = Europe/Paris" > /opt/circleci/php/$(phpenv global)/etc/conf.d/date.ini
   override:
     - composer install --prefer-source --no-interaction --optimize-autoloader
 
