@@ -55,7 +55,7 @@ test:
         if [ $CIRCLE_BRANCH = 'master' ]; then
             phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/foyer.xml --coverage-clover=foyer.clover --testsuite foyer
         else
-            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/foyer.xml--testsuite foyer
+            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/foyer.xml --testsuite foyer
         fi
     - |
         if [ $CIRCLE_BRANCH = 'master' ]; then
