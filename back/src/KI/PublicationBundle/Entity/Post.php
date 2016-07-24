@@ -194,7 +194,7 @@ class Post extends Likeable
         return $this->files;
     }
 
-    public function setFiles(array $files)
+    public function setFiles($files)
     {
         $this->files = $files;
     }
