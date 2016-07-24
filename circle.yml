@@ -15,7 +15,7 @@ dependencies:
   pre:
     - echo "date.timezone = Europe/Paris" > /opt/circleci/php/$(phpenv global)/etc/conf.d/date.ini
   override:
-    - composer install --prefer-source --no-interaction --optimize-autoloader
+    - composer install --no-interaction --optimize-autoloader
 
 test:
   pre:
@@ -25,7 +25,7 @@ test:
     - wget https://scrutinizer-ci.com/ocular.phar
 
   override:
-    - phpunit -c app --coverage-clover=coverage.clover src/KI/ClubinfoBundle
+    - phpunit -c app --coverage-clover=coverage.clover
 
   post:
     - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
