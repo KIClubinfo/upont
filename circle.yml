@@ -4,6 +4,8 @@ general:
 machine:
   timezone:
     Europe/Paris
+  php:
+    version: 5.6
 
 checkout:
   post:
