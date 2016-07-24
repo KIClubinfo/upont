@@ -3,24 +3,24 @@ services:
     ki_user.listener.achievementcheck:
         class: KI\UserBundle\Listener\AchievementCheckListener
         arguments:
-            - @doctrine.orm.entity_manager
-            - @security.context
+            - '@doctrine.orm.entity_manager'
+            - '@security.context'
         tags:
             - { name: kernel.event_listener, event: upont.achievement, method: check }
 
     ki_user.listener.admissible:
         class: KI\UserBundle\Listener\AdmissibleListener
         arguments:
-            - @ki_user.service.mailer
-            - @ki_user.repository.user
-            - @ki_user.repository.admissible
+            - '@ki_user.service.mailer'
+            - '@ki_user.repository.user'
+            - '@ki_user.repository.admissible'
 
     # Permet de gérer le JSON Web Token
     ki_user.listener.jwt_response:
         class: KI\UserBundle\Listener\JWTResponseListener
         arguments:
-            - @event_dispatcher
-            - @fos_user.user_manager
+            - '@event_dispatcher'
+            - '@fos_user.user_manager'
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_failure, method: onAuthenticationFailureResponse }
@@ -39,7 +39,7 @@ services:
     ki_user.listener.notification:
         class: KI\UserBundle\Listener\NotificationListener
         arguments:
-            - @ki_core.service.curl
+            - '@ki_core.service.curl'
             - %ki_upont.push.gcm%
         tags:
             - { name: doctrine.event_listener, event: postPersist }
@@ -48,7 +48,7 @@ services:
     ki_user.listener.online:
         class: KI\UserBundle\Listener\OnlineListener
         arguments:
-            - @doctrine.orm.entity_manager
-            - @security.context
+            - '@doctrine.orm.entity_manager'
+            - '@security.context'
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }

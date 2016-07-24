@@ -14,7 +14,7 @@ services:
     ki_core.service.image:
         class: KI\CoreBundle\Service\ImageService
         arguments:
-            - @ki_core.service.curl
+            - '@ki_core.service.curl'
             - %ki_core.images.maxSize%
 
     ki_core.service.maintenance:
@@ -25,8 +25,8 @@ services:
     ki_core.service.search:
         class: KI\CoreBundle\Service\SearchService
         arguments:
-            - @doctrine.orm.entity_manager
-            - @ki_user.repository.user
+            - '@doctrine.orm.entity_manager'
+            - '@ki_user.repository.user'
 
     ki_core.service.version:
         class: KI\CoreBundle\Service\VersionService

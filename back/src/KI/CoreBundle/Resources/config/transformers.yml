@@ -2,10 +2,10 @@ services:
     ki_core.transformer.image:
        class: KI\CoreBundle\Transformer\StringToImageTransformer
        arguments:
-           - @ki_core.service.image
+           - '@ki_core.service.image'
 
     ki_core.transformer.tags:
        class: KI\CoreBundle\Transformer\StringToTagsTransformer
        arguments:
-           - @doctrine.orm.entity_manager
-           - @ki_core.repository.tag
+           - '@doctrine.orm.entity_manager'
+           - '@ki_core.repository.tag'

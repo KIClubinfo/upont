@@ -2,7 +2,7 @@ services:
     ki_user.listener.likeable:
         class: KI\CoreBundle\Listener\LikeableListener
         arguments:
-            - @security.token_storage
+            - '@security.token_storage'
         tags:
             - { name: doctrine.event_listener, event: postLoad }
 
