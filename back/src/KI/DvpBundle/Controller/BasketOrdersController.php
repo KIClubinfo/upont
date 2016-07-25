@@ -91,7 +91,7 @@ class BasketOrdersController extends ResourceController
      */
     public function postBasketOrderAction(Request $request, $slug)
     {
-        $isAuthenticated = $this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED');
+        $isAuthenticated = $this->isGranted('IS_AUTHENTICATED_REMEMBERED');
 
         // Si l'utilisateur n'est pas dans uPont il doit avoir rempli les infos
         if (!$isAuthenticated) {

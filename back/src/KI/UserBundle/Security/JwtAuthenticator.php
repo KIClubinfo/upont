@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\TokenExtractor\AuthorizationHeaderTokenExtractor;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
@@ -32,7 +33,7 @@ class JwtAuthenticator extends AbstractGuardAuthenticator
         $token = $extractor->extract($request);
 
         if ($token === false){
-            throw new BadCredentialsException();
+            throw new AuthenticationCredentialsNotFoundException();
         }
 
         return $token;
@@ -60,6 +61,9 @@ class JwtAuthenticator extends AbstractGuardAuthenticator
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
+        if ($exception instanceof AuthenticationCredentialsNotFoundException)
+            return;
+
         $data = [
             'message' => $exception->getMessageKey()
         ];
@@ -69,7 +73,7 @@ class JwtAuthenticator extends AbstractGuardAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        
+
     }
 
     public function start(Request $request, AuthenticationException $e = null) {
