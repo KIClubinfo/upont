@@ -64,7 +64,7 @@ class ExperiencesController extends \KI\CoreBundle\Controller\ResourceController
 
         if ($return['code'] == 201) {
             // On modifie légèrement la ressource qui vient d'être créée
-            $return['item']->setUser($this->container->get('security.context')->getToken()->getUser());
+            $return['item']->setUser($this->container->get('security.token_storage')->getToken()->getUser());
         }
 
         return $this->postView($return);

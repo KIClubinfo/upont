@@ -3,18 +3,18 @@
 namespace KI\UserBundle\Service;
 
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use KI\UserBundle\Entity\User;
 
 class TokenService
 {
     protected $manager;
-    protected $securityContext;
+    protected $tokenStorage;
 
-    public function __construct(EntityManager $manager, SecurityContext $securityContext)
+    public function __construct(EntityManager $manager, TokenStorage $securityContext)
     {
         $this->manager         = $manager;
-        $this->securityContext = $securityContext;
+        $this->tokenStorage = $securityContext;
     }
 
     // Génère un token pour l'utilisateur
@@ -23,7 +23,7 @@ class TokenService
     public function getToken(User $user = null)
     {
         if ($user === null) {
-            if ($result = $this->securityContext->getToken())
+            if ($result = $this->tokenStorage->getToken())
                 $user = $result->getUser();
             else
                 return;

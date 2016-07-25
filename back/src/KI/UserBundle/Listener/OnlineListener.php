@@ -4,22 +4,22 @@ namespace KI\UserBundle\Listener;
 
 use Doctrine\ORM\EntityManager;
 use KI\UserBundle\Entity\User;
-use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class OnlineListener
 {
     protected $manager;
-    protected $securityContext;
+    protected $tokenStorage;
 
-    public function __construct(EntityManager $manager, SecurityContext $securityContext)
+    public function __construct(EntityManager $manager, TokenStorage $tokenStorage)
     {
         $this->manager         = $manager;
-        $this->securityContext = $securityContext;
+        $this->tokenStorage = $tokenStorage;
     }
 
     public function onKernelRequest()
     {
-        $session = $this->securityContext->getToken();
+        $session = $this->tokenStorage->getToken();
         if (!method_exists($session, 'getUser')) {
             return;
         }

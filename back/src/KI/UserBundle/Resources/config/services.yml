@@ -8,7 +8,7 @@ services:
         class: KI\UserBundle\Service\TokenService
         arguments:
             - '@doctrine.orm.entity_manager'
-            - '@security.context'
+            - '@security.token_storage'
 
     # Gère l'envoi de mails
     ki_user.service.mailer:

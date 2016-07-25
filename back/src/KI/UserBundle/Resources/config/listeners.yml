@@ -4,7 +4,7 @@ services:
         class: KI\UserBundle\Listener\AchievementCheckListener
         arguments:
             - '@doctrine.orm.entity_manager'
-            - '@security.context'
+            - '@security.token_storage'
         tags:
             - { name: kernel.event_listener, event: upont.achievement, method: check }
 
@@ -49,6 +49,6 @@ services:
         class: KI\UserBundle\Listener\OnlineListener
         arguments:
             - '@doctrine.orm.entity_manager'
-            - '@security.context'
+            - '@security.token_storage'
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
