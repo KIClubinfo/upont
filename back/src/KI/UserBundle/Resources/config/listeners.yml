@@ -5,6 +5,7 @@ services:
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@security.token_storage'
+            - '@security.authorization_checker'
         tags:
             - { name: kernel.event_listener, event: upont.achievement, method: check }
 

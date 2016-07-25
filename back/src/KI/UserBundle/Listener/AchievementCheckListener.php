@@ -8,11 +8,13 @@ use KI\UserBundle\Entity\AchievementUser;
 use KI\UserBundle\Entity\User;
 use KI\UserBundle\Event\AchievementCheckEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 class AchievementCheckListener
 {
     protected $manager;
     protected $tokenStorage;
+    protected $authorizationChecker;
 
     // L'utilisateur qui tente d'obtenir l'achievement
     protected $user;
@@ -20,10 +22,11 @@ class AchievementCheckListener
     // Liste des achievements unlockés actuellement (identifiants seulement)
     protected $achievements = array();
 
-    public function __construct(EntityManager $manager, TokenStorage $tokenStorage)
+    public function __construct(EntityManager $manager, TokenStorage $tokenStorage, AuthorizationChecker $authorizationChecker)
     {
         $this->manager = $manager;
         $this->tokenStorage = $tokenStorage;
+        $this->authorizationChecker = $authorizationChecker;
 
         $token = $this->tokenStorage->getToken();
         $this->user = $token === null ? null : $token->getUser();
@@ -353,7 +356,7 @@ class AchievementCheckListener
     // Être admin
     public function check190()
     {
-        return $this->tokenStorage->isGranted('ROLE_ADMIN');
+        return $this->authorizationChecker->isGranted('ROLE_ADMIN');
     }
 
     // Unlocker
