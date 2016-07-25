@@ -50,3 +50,9 @@ services:
     jwt_authenticator:
         class: KI\UserBundle\Security\JwtAuthenticator
         autowire: true
+
+    sso_enpc_authenticator:
+        class: KI\UserBundle\Security\SsoEnpcAuthenticator
+        arguments:
+          - '@lexik_jwt_authentication.jwt_manager'
+          - '@event_dispatcher'

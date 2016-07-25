@@ -4,7 +4,6 @@ namespace KI\UserBundle\Security;
 
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
@@ -17,29 +16,30 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Event\AchievementCheckEvent;
 
-class FormLoginAuthenticator extends AbstractGuardAuthenticator
+
+class SsoEnpcAuthenticator extends AbstractGuardAuthenticator
 {
-    private $passwordEncoder;
     private $jwtManager;
     private $dispatcher;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, JWTManagerInterface $jwtManager, EventDispatcherInterface $dispatcher)
+    public function __construct(JWTManagerInterface $jwtManager, EventDispatcherInterface $dispatcher)
     {
-        $this->passwordEncoder = $passwordEncoder;
         $this->jwtManager = $jwtManager;
         $this->dispatcher = $dispatcher;
     }
 
     public function getCredentials(Request $request)
     {
-        if ($request->getPathInfo() != '/login') {
-            return;
-        }
 
-        return [
-            'username' => $request->request->get('username'),
-            'password' => $request->request->get('password')
-        ];
+        \phpCAS::setDebug();
+        \phpCAS::setVerbose(true);
+        \phpCAS::client(CAS_VERSION_2_0, 'cas.enpc.fr', 443, '/cas');
+        \phpCAS::setNoCasServerValidation();
+//        \phpCAS::handleLogoutRequests();
+        \phpCAS::forceAuthentication();
+        return array_merge([
+            'username' => \phpCAS::getUser()
+        ], \phpCAS::getAttributes());
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)
@@ -51,11 +51,6 @@ class FormLoginAuthenticator extends AbstractGuardAuthenticator
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        $plainPassword = $credentials['password'];
-        if (!$this->passwordEncoder->isPasswordValid($user, $plainPassword)) {
-            throw new BadCredentialsException();
-        }
-
         return true;
     }
 

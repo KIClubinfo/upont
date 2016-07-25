@@ -29,3 +29,6 @@ ki_user:
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /doc
+
+login_sso:
+    path: /login/sso
