@@ -39,10 +39,9 @@ facegames:
     resource: KI\UserBundle\Controller\FacegamesController
 
 upont_api_own_calendar:
-    pattern: /users/{token}/calendar
+    path: /users/{token}/calendar
     defaults: { _controller: KI\UserBundle\Controller\OwnController::getOwnCalendarAction }
-    requirements:
-        _method: GET
+    methods: [GET]
 
 fos_user_resetting:
     resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
