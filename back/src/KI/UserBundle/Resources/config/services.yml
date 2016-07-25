@@ -38,3 +38,15 @@ services:
         class: KI\UserBundle\Service\PermissionService
         arguments:
             - '@ki_user.repository.clubuser'
+
+    form_login_authenticator:
+        class: KI\UserBundle\Security\FormLoginAuthenticator
+        arguments:
+          - '@security.password_encoder'
+          - '@lexik_jwt_authentication.jwt_manager'
+          - '@event_dispatcher'
+        public: false
+
+    jwt_authenticator:
+        class: KI\UserBundle\Security\JwtAuthenticator
+        autowire: true
