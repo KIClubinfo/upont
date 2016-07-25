@@ -175,4 +175,13 @@ services:
     fos_user.doctrine_registry:
         alias: doctrine
 
-be_simple_sso_auth: ~
+be_simple_sso_auth:
+    enpc_sso:
+        protocol:
+            id: cas
+            version: 2
+        server:
+            id: cas
+            login_url: https://cas.enpc.fr/cas/login
+            logout_url: https://cas.enpc.fr/cas/logout
+            validation_url: https://cas.enpc.fr/cas/serviceValidate
