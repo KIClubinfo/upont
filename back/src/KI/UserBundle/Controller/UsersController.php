@@ -68,8 +68,8 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
     public function patchUserAction(Request $request, $slug)
     {
         // Les admissibles et extérieurs ne peuvent pas modifier leur profil
-        if ($this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
-            || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMISSIBLE')
+            || $this->get('security.authorization_checker')->isGranted('ROLE_EXTERIEUR'))
             throw new AccessDeniedException();
 
         if ($request->request->has('image')) {
@@ -79,7 +79,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
         }
 
         // Un utilisateur peut se modifier lui même
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
         $response = $this->patch($slug, $user->getUsername() == $slug);
 
         $dispatcher = $this->container->get('event_dispatcher');
@@ -110,7 +110,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function deleteUserAction($slug)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();
         }
         $userManager = $this->get('fos_user.user_manager');
@@ -236,7 +236,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
     public function importUsersAction(Request $request)
     {
         set_time_limit(3600);
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
             return $this->jsonResponse(null, 403);
 
         if (!$request->files->has('users'))

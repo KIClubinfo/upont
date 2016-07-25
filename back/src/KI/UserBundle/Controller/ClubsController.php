@@ -96,8 +96,8 @@ class ClubsController extends SubresourceController
         return $this->patch(
             $slug,
             $this->isClubMember($slug)
-            && (!$this->get('security.context')->isGranted('ROLE_EXTERIEUR')
-                || $slug == $this->get('security.context')->getToken()->getUser()->getSlug()
+            && (!$this->get('security.authorization_checker')->isGranted('ROLE_EXTERIEUR')
+                || $slug == $this->get('security.token_storage')->getToken()->getUser()->getSlug()
             )
         );
     }
@@ -278,7 +278,7 @@ class ClubsController extends SubresourceController
      */
     public function deleteClubUserAction($slug, $id)
     {
-        if (!($this->get('security.context')->isGranted('ROLE_ADMIN') || $this->isClubMember($slug)))
+        if (!($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') || $this->isClubMember($slug)))
             throw new AccessDeniedException('Accès refusé');
 
         // On récupère les deux entités concernées
@@ -389,7 +389,7 @@ class ClubsController extends SubresourceController
      */
     public function followClubAction($slug)
     {
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
         $club = $this->findBySlug($slug);
 
         if (!$user->getClubsNotFollowed()->contains($club)) {
@@ -419,7 +419,7 @@ class ClubsController extends SubresourceController
      */
     public function unFollowClubAction($slug)
     {
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
         $club = $this->findBySlug($slug);
 
         if ($user->getClubsNotFollowed()->contains($club)) {

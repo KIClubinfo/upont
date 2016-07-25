@@ -66,7 +66,7 @@ class FixsController extends ResourceController
      */
     public function postFixAction()
     {
-        return $this->post($this->get('security.context')->isGranted('ROLE_USER'));
+        return $this->post($this->get('security.authorization_checker')->isGranted('ROLE_USER'));
     }
 
     /**
@@ -118,7 +118,7 @@ class FixsController extends ResourceController
     public function deleteFixAction($slug)
     {
         $fix = $this->findBySlug($slug);
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
         return $this->delete($slug, $user->getUsername() == $fix->getUser()->getUsername());
     }
 }

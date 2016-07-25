@@ -75,7 +75,7 @@ class PromoController extends \KI\CoreBundle\Controller\ResourceController
     public function patchPromoPicturesAction(Request $request, $promo)
     {
         set_time_limit(3600);
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
             throw new AccessDeniedException();
 
         $users = $this->repository->findByPromo($promo);

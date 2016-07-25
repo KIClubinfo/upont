@@ -9,7 +9,6 @@ use KI\UserBundle\Entity\Club;
 // Fonctions génériques étendant le FOSUserBundle
 class CoreController extends FOSRestController
 {
-    protected $securityContext;
     protected $user = null;
 
     /**
@@ -17,8 +16,7 @@ class CoreController extends FOSRestController
      */
     public function setUser()
     {
-        $this->securityContext = $this->get('security.context');
-        $token = $this->securityContext->getToken();
+        $token = $this->get('security.token_storage')->getToken();
         $this->user = $token ? $token->getUser() : null;
     }
 
@@ -29,7 +27,7 @@ class CoreController extends FOSRestController
      */
     protected function is($role)
     {
-        return $this->securityContext->isGranted('ROLE_'.$role);
+        return $this->get('security.authorization_checker')->isGranted('ROLE_'.$role);
     }
 
     /**

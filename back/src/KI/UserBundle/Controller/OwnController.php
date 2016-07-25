@@ -172,10 +172,10 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function getDevicesAction()
     {
-        if (!$this->get('security.context')->isGranted('ROLE_USER'))
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_USER'))
             throw new AccessDeniedException();
 
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
         return $this->restResponse($user->getDevices());
     }
 
@@ -207,7 +207,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function postDeviceAction(Request $request)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_USER')) {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
             throw new AccessDeniedException();
         }
 
@@ -223,7 +223,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
             return $this->jsonResponse(null, 204);
 
         $device = new Device();
-        $device->setOwner($this->get('security.context')->getToken()->getUser());
+        $device->setOwner($this->get('security.token_storage')->getToken()->getUser());
         $device->setDevice($request->request->get('device'));
         $device->setType($request->request->get('type'));
         $this->manager->persist($device);
@@ -248,7 +248,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function deleteDeviceAction($id)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_USER')) {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
             throw new AccessDeniedException();
         }
 
@@ -281,7 +281,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
     public function getNotificationsAction()
     {
         $repo = $this->manager->getRepository('KIUserBundle:Notification');
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
 
         // On récupère toutes les notifs
         $notifications = $repo->findAll();
@@ -334,7 +334,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
     {
         $repo = $this->manager->getRepository('KIUserBundle:Club');
         if ($user === null)
-            $user = $this->get('security.context')->getToken()->getUser();
+            $user = $this->get('security.token_storage')->getToken()->getUser();
         $userNotFollowed = $user->getClubsNotFollowed();
 
         $clubs = $repo->findAll();
@@ -408,7 +408,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         $repo = $this->manager->getRepository('KIPublicationBundle:Event');
 
         if ($user === null)
-            $user = $this->get('security.context')->getToken()->getUser();
+            $user = $this->get('security.token_storage')->getToken()->getUser();
 
         $followedEvents = $repo->findBy(array('authorClub' => $this->getFollowedClubs($user)));
         $persoEvents = $repo->findBy(array('authorUser' => $user, 'authorClub' => null));
@@ -436,7 +436,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         $repo = $this->getDoctrine()->getManager()->getRepository('KIPublicationBundle:CourseUser');
 
         if ($user === null)
-            $user = $this->get('security.context')->getToken()->getUser();
+            $user = $this->get('security.token_storage')->getToken()->getUser();
 
         // On extraie les Courseitem et on les trie par date de début
         $result = array();
@@ -561,9 +561,9 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function changePreferenceAction(Request $request)
     {
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
 
-        if (!$this->get('security.context')->isGranted('ROLE_USER'))
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_USER'))
             throw new AccessDeniedException('Accès refusé');
 
         if (!($request->request->has('key') && $request->request->has('value')))
@@ -600,9 +600,9 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function removePreferenceAction(Request $request)
     {
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
 
-        if (!$this->get('security.context')->isGranted('ROLE_USER'))
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_USER'))
             throw new AccessDeniedException('Accès refusé');
 
         if (!($request->request->has('key')))
@@ -671,8 +671,8 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function getOwnFixsAction()
     {
-        $user = $this->get('security.context')->getToken()->getUser();
-        if (!$this->get('security.context')->isGranted('ROLE_USER'))
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_USER'))
             throw new AccessDeniedException('Accès refusé');
 
         $repository = $this->manager->getRepository('KIClubinfoBundle:Fix');

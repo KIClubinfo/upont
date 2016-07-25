@@ -65,7 +65,7 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
      * @Route\Post("/groups")
      */
     public function postGroupAction(Request $request) {
-        if (!$this->get('security.context')->isGranted('ROLE_MODO'))
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_MODO'))
             throw new AccessDeniedException();
 
         if (!$request->request->has('name') || !$request->request->has('role'))
@@ -110,7 +110,7 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
      * @Route\Patch("/groups/{slug}")
      */
     public function patchGroupAction(Request $request, $slug) {
-        if (!$this->get('security.context')->isGranted('ROLE_MODO'))
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_MODO'))
             throw new AccessDeniedException();
 
         if ($slug === null)
@@ -170,7 +170,7 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
      * @Route\Delete("/groups/{slug}")
      */
     public function deleteGroupAction($slug) {
-        if (!$this->get('security.context')->isGranted('ROLE_MODO'))
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_MODO'))
             throw new AccessDeniedException();
 
         if ($slug === null)
@@ -197,7 +197,7 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function postUserGroupAction($slug, $id)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
             throw new AccessDeniedException('Accès refusé');
 
         // On récupère les deux entités concernées
@@ -234,7 +234,7 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function removeUserGroupAction($slug, $id)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
             throw new AccessDeniedException('Accès refusé');
 
         $group = $this->findBySlug($slug);
