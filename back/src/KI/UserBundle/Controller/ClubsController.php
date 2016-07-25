@@ -349,9 +349,7 @@ class ClubsController extends SubresourceController
             $link->setPriority($auDessous->getPriority());
             $auDessous->setPriority($priority);
             $this->manager->flush();
-        }
-
-        else if ($direction == 'up') {
+        } else if ($direction == 'up') {
             $auDessus = $this->manager->createQuery('SELECT cu
                 FROM KIUserBundle:ClubUser cu,
                 KIUserBundle:User user
@@ -370,9 +368,7 @@ class ClubsController extends SubresourceController
             $link->setPriority($auDessus->getPriority());
             $auDessus->setPriority($priority);
             $this->manager->flush();
-        }
-
-        else
+        } else
             throw new BadRequestHttpException('Direction invalide');
     }
 

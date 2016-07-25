@@ -6,6 +6,7 @@ use FOS\RestBundle\Controller\Annotations as Route;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Entity\Device;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -56,6 +57,10 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         return $this->retrieveAchievements($request, $user);
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     private function retrieveAchievements($request, $user)
     {
         $achievementRepository = $this->manager->getRepository('KIUserBundle:Achievement');
@@ -71,14 +76,14 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
 
             if ($all || !$achievementUser->getSeen()) {
                 $unlocked[] = array(
-                    'id'          => $achievement->getIdA(),
-                    'name'        => $achievement->name(),
+                    'id' => $achievement->getIdA(),
+                    'name' => $achievement->name(),
                     'description' => $achievement->description(),
-                    'points'      => $achievement->points(),
-                    'image'       => $achievement->image(),
-                    'date'        => $achievementUser->getDate(),
-                    'seen'        => $achievementUser->getSeen(),
-                    'ownedBy'     => $achievementUserRepository->createQueryBuilder('au')
+                    'points' => $achievement->points(),
+                    'image' => $achievement->image(),
+                    'date' => $achievementUser->getDate(),
+                    'seen' => $achievementUser->getSeen(),
+                    'ownedBy' => $achievementUserRepository->createQueryBuilder('au')
                         ->select('count(au)')
                         ->where('au.achievement = :achievement')
                         ->setParameter('achievement', $achievement)
@@ -100,12 +105,12 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         foreach ($all as $achievement) {
             if (!in_array($achievement, $oUnlocked)) {
                 $locked[] = array(
-                    'id'          => $achievement->getIdA(),
-                    'name'        => $achievement->name(),
+                    'id' => $achievement->getIdA(),
+                    'name' => $achievement->name(),
                     'description' => $achievement->description(),
-                    'points'      => $achievement->points(),
-                    'image'       => $achievement->image(),
-                    'ownedBy'     => $achievementUserRepository->createQueryBuilder('au')
+                    'points' => $achievement->points(),
+                    'image' => $achievement->image(),
+                    'ownedBy' => $achievementUserRepository->createQueryBuilder('au')
                         ->select('count(au)')
                         ->where('au.achievement = :achievement')
                         ->setParameter('achievement', $achievement)
@@ -133,19 +138,19 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         array_multisort($ids, SORT_ASC, $unlocked);
         $ids = array();
         foreach ($locked as $key => $achievement) {
-                    $ids[$key] = $achievement['id'];
+            $ids[$key] = $achievement['id'];
         }
         array_multisort($ids, SORT_ASC, $locked);
 
         // On renvoie pas mal de données utiles
-        $response = Achievement::getLevel($factor*$points);
+        $response = Achievement::getLevel($factor * $points);
         $return = array(
-            'number'        => $response['number'],
-            'points'        => ceil($factor*$points),
+            'number' => $response['number'],
+            'points' => ceil($factor * $points),
             'current_level' => $response['current'],
-            'next_level'    => isset($response['next']) ? $response['next'] : null,
-            'unlocked'      => $unlocked,
-            'locked'        => $locked,
+            'next_level' => isset($response['next']) ? $response['next'] : null,
+            'unlocked' => $unlocked,
+            'locked' => $locked,
         );
 
         $this->manager->flush();
@@ -294,7 +299,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
                 if (!$notification->getRead()->contains($user) && !$notification->getRecipient()->contains($user))
                     $return[] = $notification;
             } else
-                throw new \Exception('Notification : mode d\'envoi inconnu ('.$mode.')');
+                throw new \Exception('Notification : mode d\'envoi inconnu (' . $mode . ')');
         }
 
         // On marque chaque notification récupérée comme lue
@@ -325,7 +330,8 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         return $this->restResponse($this->getFollowedClubs());
     }
 
-    protected function getFollowedClubs($user = null) {
+    protected function getFollowedClubs($user = null)
+    {
         $repo = $this->manager->getRepository('KIUserBundle:Club');
         if ($user === null)
             $user = $this->get('security.context')->getToken()->getUser();
@@ -397,13 +403,14 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
     }
 
     // Va chercher les événements suivis
-    private function getFollowedEvents($user = null) {
+    private function getFollowedEvents($user = null)
+    {
         $repo = $this->manager->getRepository('KIPublicationBundle:Event');
 
         if ($user === null)
             $user = $this->get('security.context')->getToken()->getUser();
 
-        $followedEvents = $repo->findBy(array('authorClub'=> $this->getFollowedClubs($user)));
+        $followedEvents = $repo->findBy(array('authorClub' => $this->getFollowedClubs($user)));
         $persoEvents = $repo->findBy(array('authorUser' => $user, 'authorClub' => null));
         $events = array_merge($followedEvents, $persoEvents);
 
@@ -424,7 +431,8 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         return $return;
     }
 
-    private function getCourseitems($user = null) {
+    private function getCourseitems($user = null)
+    {
         $repo = $this->getDoctrine()->getManager()->getRepository('KIPublicationBundle:CourseUser');
 
         if ($user === null)
@@ -500,7 +508,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
 
         $return = array();
         foreach ($repo->findBy(array('user' => $this->user)) as $courseUser) {
-                    $return[] = array('course' => $courseUser->getCourse(), 'group' => $courseUser->getGroup());
+            $return[] = array('course' => $courseUser->getCourse(), 'group' => $courseUser->getGroup());
         }
 
         return $this->restResponse($return);
