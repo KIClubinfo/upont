@@ -1,7 +1,7 @@
 angular.module('upont')
     .controller('Assos_Modify_Ctrl', ['$scope', '$controller', '$http', '$state', function($scope, $controller, $http, $state) {
         $scope.showIcons = false;
-	$scope.isLoading = false;
+        $scope.isLoading = false;
         $scope.faIcons = faIcons;
         $scope.search = '';
         $scope.searchResults = [];
