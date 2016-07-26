@@ -398,7 +398,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         } else {
             $userRepository = $this->manager->getRepository('KIUserBundle:User');
 
-            $events = $userRepository->findFollowedEvents($this->getUser()->getId());
+            $events = $userRepository->findFollowedEvents($user->getId());
             $courses = $this->getCourseitems($user);
 
             $calStr = $this->get('ki_publication.service.calendar')->getCalendar($user, $events, $courses);
