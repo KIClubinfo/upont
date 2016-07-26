@@ -396,7 +396,9 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         if ($user === null) {
             throw new NotFoundHttpException('Aucun utilisateur ne correspond au token saisi');
         } else {
-            $events = $this->getFollowedEvents($user);
+            $userRepository = $this->manager->getRepository('KIUserBundle:User');
+
+            $events = $userRepository->findFollowedEvents($this->getUser()->getId());
             $courses = $this->getCourseitems($user);
 
             $calStr = $this->get('ki_publication.service.calendar')->getCalendar($user, $events, $courses);
