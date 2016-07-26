@@ -142,23 +142,23 @@ class FacegameHelper
         $promoUser = (int)$this->tokenStorage->getToken()->getUser()->getPromo();
         $promoGame = (int)$game->getPromo();
 
-        if ($wrongAnswers == 0 && $promoGame == $promoUser - 1 && $duration < 60) {
+        if ($wrongAnswers == 0 && $promoGame == $promoUser - 1 && $duration < 60 * 1000) {
 
             $achievementCheck = new AchievementCheckEvent(Achievement::GAME_BEFORE);
             $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
 
-        } else if ($wrongAnswers == 0 && $promoGame == $promoUser && $duration < 60) {
+        } else if ($wrongAnswers == 0 && $promoGame == $promoUser && $duration < 60 * 1000) {
 
             $achievementCheck = new AchievementCheckEvent(Achievement::GAME_SELF);
             $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
 
-        } else if ($wrongAnswers == 0 && $promoGame == $promoUser + 1 && $duration < 60) {
+        } else if ($wrongAnswers == 0 && $promoGame == $promoUser + 1 && $duration < 60 * 1000) {
 
             $achievementCheck = new AchievementCheckEvent(Achievement::GAME_NEXT);
             $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
 
         }
-        if ($wrongAnswers == 0 && $promoGame < $promoUser && $game->getHardcore() && $duration < 60) {
+        if ($wrongAnswers == 0 && $promoGame < $promoUser && $game->getHardcore() && $duration < 60 * 1000) {
 
             $achievementCheck = new AchievementCheckEvent(Achievement::GAME_OLD);
             $this->dispatcher->dispatch('upont.achievement', $achievementCheck);

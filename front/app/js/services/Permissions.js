@@ -17,6 +17,7 @@ angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', 
             $rootScope.isExterieur = (StorageService.get('droits').indexOf('ROLE_EXTERIEUR') != -1) ? true : false;
 
             var username = jwtHelper.decodeToken(StorageService.get('token')).username;
+            $rootScope.username = username;
             Piwik.setUserId(username);
             // On récupère les données utilisateur
             $resource(apiPrefix + 'users/:slug', {slug: username}).get(function(data){
