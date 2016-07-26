@@ -82,12 +82,12 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $response = $this->patch($slug, $user->getUsername() == $slug);
 
-        $dispatcher = $this->container->get('event_dispatcher');
+        $dispatcher = $this->get('event_dispatcher');
         $achievementCheck = new AchievementCheckEvent(Achievement::PROFILE);
         $dispatcher->dispatch('upont.achievement', $achievementCheck);
 
         if ($request->query->has('achievement')) {
-            $dispatcher = $this->container->get('event_dispatcher');
+            $dispatcher = $this->get('event_dispatcher');
             $achievementCheck = new AchievementCheckEvent(Achievement::TOUR);
             $dispatcher->dispatch('upont.achievement', $achievementCheck);
         }
