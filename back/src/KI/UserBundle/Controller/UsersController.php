@@ -204,13 +204,16 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
             $i++;
         }
 
-        $this->createUser($login, $email, $firstName, $lastName);
-        $message = \Swift_Message::newInstance()
-            ->setSubject('[uPont] Nouvelle inscription ('.$login.')')
-            ->setFrom('noreply@upont.enpc.fr')
-            ->setTo('root@clubinfo.enpc.fr')
-            ->setBody($this->renderView('KIUserBundle::registration-ki.txt.twig', array('firstName' => $firstName, 'lastName' => $lastName, 'login' => $login, 'email' => $email)));
-        $this->get('mailer')->send($message);
+        $attributes = [
+            'username' => $login,
+            'email' => $email,
+            'password' => substr(str_shuffle(strtolower(sha1(rand().time().'salt'))), 0, 8),
+            'loginMethod' => 'form',
+            'firstName' => $firstName,
+            'lastName' => $lastName,
+        ];
+
+        $this->get('ki_user.factory.user')->createUser($login, [], $attributes);
 
         return $this->restResponse(null, 201);
     }
@@ -283,17 +286,23 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
             if (count($e) > 0) {
                 $fails[] = $line.' : '.implode(', ', $e);
             } else {
-                $this->createUser($login, $email, $firstName, $lastName, $promo, $department, $origin);
+                $attributes = [
+                    'username' => $login,
+                    'email' => $email,
+                    'password' => substr(str_shuffle(strtolower(sha1(rand().time().'salt'))), 0, 8),
+                    'loginMethod' => 'form',
+                    'firstName' => $firstName,
+                    'lastName' => $lastName,
+                    'promo' => $promo,
+                    'department' => $department,
+                    'origin' => $origin,
+                ];
+
+                $this->get('ki_user.factory.user')->createUser($login, [], $attributes);
+
                 $success[] = $firstName.' '.$lastName;
             }
         }
-
-        $message = \Swift_Message::newInstance()
-            ->setSubject('[uPont] Import utilisateurs')
-            ->setFrom('noreply@upont.enpc.fr')
-            ->setTo('root@clubinfo.enpc.fr')
-            ->setBody($this->renderView('KIUserBundle::import.txt.twig', array('fails' => $fails, 'success' => $success)));
-        $this->get('mailer')->send($message);
 
         return $this->restResponse(null, 201);
     }

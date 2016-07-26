@@ -85,5 +85,13 @@ class UserFactory
             ->setBody($this->twigEngine->render('KIUserBundle::registration.txt.twig', $attributes), 'text/html');
 
         $this->swiftMailer->send($message);
+
+        $message = Swift_Message::newInstance()
+            ->setSubject('[uPont] Nouvelle inscription ('.$username.')')
+            ->setFrom('noreply@upont.enpc.fr')
+            ->setTo('root@clubinfo.enpc.fr')
+            ->setBody($this->twigEngine->render('KIUserBundle::registration-ki.txt.twig', $attributes));
+
+        $this->swiftMailer->send($message);
     }
 }
