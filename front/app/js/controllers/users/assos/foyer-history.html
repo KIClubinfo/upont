@@ -1,24 +1,25 @@
-<div class="padded" row wrap>
-    <section class="padded" flex="100">
-        <section row wrap class="Ticket" infinite-scroll="next()"
-                 infinite-scroll-distance="3" infinite-scroll-disabled="$root.infiniteLoading"
-        >
-            <div class="padded" flex="100" row="stretch center">
-                <div flex="50">
-                    <h1> Historique </h1>
-                </div>
-                <div flex="50" style="text-align: right">
-                    Solde : {{ $root.me.balance | number:2 }} €
-                </div>
+<section class="padded">
+    <section row wrap class="Ticket" infinite-scroll="next()" flex="100"
+             infinite-scroll-distance="3" infinite-scroll-disabled="$root.infiniteLoading"
+    >
+        <div class="padded" flex="100" row="stretch center">
+            <div flex="50">
+                <h1> Historique au Foyer </h1>
             </div>
+            <div flex="50" style="text-align: right">
+                Solde : {{ $root.me.balance | number:2 }} €
+            </div>
+        </div>
 
-            <table class="Table" flex="100">
+        <div flex="100" class="padded">
+            <!-- FIXME margin hack -->
+            <table class="Table" flex="100" style="margin:0;">
                 <thead>
                 <tr>
                     <th>Date</th>
                     <th>Heure</th>
-                    <th>Bière</th>
-                    <th>Prix</th>
+                    <th>Opération</th>
+                    <th>Valeur</th>
                     <th>Quantité</th>
                     <th>Taux d'alcool</th>
                 </tr>
@@ -27,10 +28,10 @@
                 <tr ng-repeat="transaction in filtered =  (historique.data | orderBy:['date']:true )">
                     <td>{{ transaction.date * 1000 | date:'dd/MM/yyyy' }}</td>
                     <td>{{ transaction.date * 1000 | date:'H:mm:ss' }}</td>
-                    <td>{{ transaction.beer.name }}</td>
+                    <td>{{ transaction.beer ? transaction.beer.name + ' bue' : 'Compte crédité' }}</td>
                     <td>{{ transaction.amount }} €</td>
-                    <td>{{ transaction.beer.volume }} L</td>
-                    <td>{{ transaction.beer.alcohol }} %</td>
+                    <td>{{ transaction.beer ? transaction.beer.volume + ' L' : '' }}</td>
+                    <td>{{ transaction.beer ? transaction.beer.alcohol + ' %' : '' }}</td>
                 </tr>
                 <tr ng-hide="filtered.length">
                     <td>Rien à afficher</td>
@@ -38,6 +39,6 @@
                 </tr>
                 </tbody>
             </table>
-        </section>
+        </div>
     </section>
-</div>
+</section>
