@@ -177,7 +177,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
     public function postUsersAction()
     {
         //On limite la création de compte aux admins
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+        if (!$this->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();
         }
 
