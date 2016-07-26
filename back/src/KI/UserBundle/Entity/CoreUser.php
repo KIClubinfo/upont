@@ -93,6 +93,13 @@ class CoreUser extends \FOS\UserBundle\Model\User
      */
     protected $token;
 
+    /**
+     * Méthode d'authentification
+     * @ORM\Column(name="login_method", type="string")
+     * @Assert\Type("string")
+     */
+    protected $loginMethod;
+
     protected $preferencesArray = array(
         'notif_followed_event' => true,
         'notif_followed_news'  => true,
@@ -426,4 +433,25 @@ class CoreUser extends \FOS\UserBundle\Model\User
     {
         return $this->token;
     }
+
+    /**
+     * @return string
+     */
+    public function getLoginMethod()
+    {
+        return $this->loginMethod;
+    }
+
+    /**
+     * @param string $loginMethod
+     * @return User
+     */
+    public function setLoginMethod($loginMethod)
+    {
+        $this->loginMethod = $loginMethod;
+
+        return $this;
+    }
+
+
 }
