@@ -27,8 +27,6 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Nelmio\CorsBundle\NelmioCorsBundle(),
 
-            new BeSimple\SsoAuthBundle\BeSimpleSsoAuthBundle(),
-
             new KI\ClubinfoBundle\KIClubinfoBundle(),
             new KI\CoreBundle\KICoreBundle(),
             new KI\DvpBundle\KIDvpBundle(),
