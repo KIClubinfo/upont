@@ -176,6 +176,12 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function postUsersAction(Request $request)
     {
+        //On limite la création de compte aux admins
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException();
+        }
+
+        $request = $this->getRequest()->request;
         if (!$request->request->has('firstName') || !$request->request->has('lastName') || !$request->request->has('email'))
             throw new BadRequestHttpException('Champs non rempli(s)');
 
