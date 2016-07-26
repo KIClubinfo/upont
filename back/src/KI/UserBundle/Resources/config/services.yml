@@ -39,6 +39,10 @@ services:
         arguments:
             - '@ki_user.repository.clubuser'
 
+    ki_user.factory.user:
+        class: KI\UserBundle\Factory\UserFactory
+        autowire: true
+
     form_login_authenticator:
         class: KI\UserBundle\Security\FormLoginAuthenticator
         arguments:

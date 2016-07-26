@@ -304,36 +304,4 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
             array('a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y', 'A', 'A', 'A', 'A', 'A', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'N', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y'),
             $string);
     }
-
-    private function createUser($login, $email, $firstName, $lastName, $promo = null, $department = null, $origin = null) {
-        // Generation du mot de passe
-        $password = substr(str_shuffle(strtolower(sha1(rand().time().'salt'))), 0, 8);
-
-        // Création de l'utilisateur
-        $userManager = $this->get('fos_user.user_manager');
-        $user = $userManager->createUser();
-        $user->setUsername($login);
-        $user->setEmail($email);
-        $user->setEnabled(true);
-        $user->setPlainPassword($password);
-        $user->setFirstName($firstName);
-        $user->setLastName($lastName);
-
-        if ($promo !== null)
-            $user->setPromo($promo);
-        if ($department !== null)
-            $user->setDepartment($department);
-        if ($origin !== null)
-            $user->setOrigin($origin);
-
-        $userManager->updateUser($user);
-
-        // Envoi du mail
-        $message = \Swift_Message::newInstance()
-            ->setSubject('Inscription uPont')
-            ->setFrom('noreply@upont.enpc.fr')
-            ->setTo($email)
-            ->setBody($this->renderView('KIUserBundle::registration.txt.twig', array('firstName' => $firstName, 'login' => $login, 'password' => $password)));
-        $this->get('mailer')->send($message);
-    }
 }
