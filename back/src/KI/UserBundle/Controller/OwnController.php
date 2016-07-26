@@ -363,11 +363,18 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      */
     public function getOwnEventsAction(Request $request)
     {
-        // Si on prend tout on renvoie comme ça
-        if ($request->query->has('all'))
-            return $this->restResponse($this->getFollowedEvents());
+        $userRepository = $this->manager->getRepository('KIUserBundle:User');
 
-        $events = $this->manager->getRepository('KIUserBundle:User')->findAllFollowedEvents($this->getUser()->getId());
+        // Si on prend tout on renvoie comme ça
+        if ($request->query->has('all')) {
+            $events = $userRepository->findFollowedEvents($this->getUser()->getId());
+        } else {
+            $events = $userRepository->findFollowedEvents(
+                $this->getUser()->getId(),
+                $request->query->get('limit'),
+                $request->query->get('page')
+            );
+        }
         return $this->restResponse($events);
     }
 
@@ -400,35 +407,6 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
                 )
             );
         }
-    }
-
-    // Va chercher les événements suivis
-    private function getFollowedEvents($user = null)
-    {
-        $repo = $this->manager->getRepository('KIPublicationBundle:Event');
-
-        if ($user === null)
-            $user = $this->get('security.context')->getToken()->getUser();
-
-        $followedEvents = $repo->findBy(array('authorClub' => $this->getFollowedClubs($user)));
-        $persoEvents = $repo->findBy(array('authorUser' => $user, 'authorClub' => null));
-        $events = array_merge($followedEvents, $persoEvents);
-
-        // Tri et élimination des données
-        $dates = array();
-        $return = array();
-        foreach ($events as $key => $event) {
-            // On enlève l'événement si l'élève l'a masqué
-            if ($event->getPookies()->contains($user))
-                continue;
-
-            // On trie par date
-            $return[$key] = $event;
-            $dates[$key] = $event->getStartDate();
-        }
-        array_multisort($dates, SORT_DESC, $return);
-
-        return $return;
     }
 
     private function getCourseitems($user = null)
@@ -478,13 +456,6 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         $findBy['authorClub'] = $this->getFollowedClubs();
         $results = $repository->findBy($findBy, $sortBy, $limit, $offset);
 
-        // Tri des données
-        $dates = array();
-        foreach ($results as $key => $newsitem) {
-            $results[$key] = $newsitem;
-            $dates[$key] = $newsitem->getDate();
-        }
-        array_multisort($dates, SORT_DESC, $results);
         return $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
     }
 
