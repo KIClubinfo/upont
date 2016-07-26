@@ -53,3 +53,9 @@ services:
             - '@security.token_storage'
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    ki_user.listener.user_registration:
+        class: KI\UserBundle\Listener\UserRegistrationListener
+        autowire: true
+        tags:
+            - { name: kernel.event_listener, event: upont.user_registration, method: sendMail }

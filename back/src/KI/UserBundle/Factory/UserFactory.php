@@ -3,27 +3,19 @@
 namespace KI\UserBundle\Factory;
 
 use FOS\UserBundle\Model\UserManagerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use KI\UserBundle\Entity\User;
-use Swift_Mailer;
-use Swift_Message;
-use Symfony\Bundle\TwigBundle\TwigEngine;
+use KI\UserBundle\Event\UserRegistrationEvent;
 
 class UserFactory
 {
-
     private $userManager;
-    protected $swiftMailer;
-    protected $twigEngine;
+    private $eventDispatcher;
 
-    public function __construct(
-        UserManagerInterface $userManager
-//        Swift_Mailer $swiftMailer,
-//        TwigEngine $twigEngine
-    )
+    public function __construct(UserManagerInterface $userManager, EventDispatcherInterface $eventDispatcher)
     {
         $this->userManager = $userManager;
-//        $this->swiftMailer = $swiftMailer;
-//        $this->twigEngine = $twigEngine;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     private function array_value($array, $key, $default_value = null)
@@ -77,21 +69,9 @@ class UserFactory
 
         $this->userManager->updateUser($user);
 
-        // Envoi du mail
-        $message = Swift_Message::newInstance()
-            ->setSubject('Inscription uPont')
-            ->setFrom('noreply@upont.enpc.fr')
-            ->setTo($email)
-            ->setBody($this->twigEngine->render('KIUserBundle::registration.txt.twig', $attributes), 'text/html');
+        $userRegistration = new UserRegistrationEvent($user, $attributes);
+        $this->eventDispatcher->dispatch('upont.user_registration', $userRegistration);
 
-        $this->swiftMailer->send($message);
-
-        $message = Swift_Message::newInstance()
-            ->setSubject('[uPont] Nouvelle inscription ('.$username.')')
-            ->setFrom('noreply@upont.enpc.fr')
-            ->setTo('root@clubinfo.enpc.fr')
-            ->setBody($this->twigEngine->render('KIUserBundle::registration-ki.txt.twig', $attributes));
-
-        $this->swiftMailer->send($message);
+        return $user;
     }
 }

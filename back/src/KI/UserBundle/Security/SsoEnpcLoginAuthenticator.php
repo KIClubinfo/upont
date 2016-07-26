@@ -3,6 +3,7 @@
 namespace KI\UserBundle\Security;
 
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTManagerInterface;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -29,17 +30,20 @@ class SsoEnpcLoginAuthenticator extends LoginAuthenticator
 
     public function getCredentials(Request $request)
     {
-
-        \phpCAS::setDebug();
-        \phpCAS::setVerbose(true);
-        \phpCAS::client(CAS_VERSION_2_0, 'cas.enpc.fr', 443, '/cas');
-        \phpCAS::setNoCasServerValidation();
-        \phpCAS::handleLogoutRequests();
-        \phpCAS::forceAuthentication();
-        return array_merge([
-            'username' => \phpCAS::getUser(),
-            'validateUrl' => \phpCAS::getServiceURL(),
-        ], \phpCAS::getAttributes());
+        try {
+            \phpCAS::setDebug();
+            \phpCAS::setVerbose(true);
+            \phpCAS::client(CAS_VERSION_2_0, 'cas.enpc.fr', 443, '/cas');
+            \phpCAS::setNoCasServerValidation();
+            \phpCAS::handleLogoutRequests();
+            \phpCAS::forceAuthentication();
+            return array_merge([
+                'username' => \phpCAS::getUser(),
+                'validateUrl' => \phpCAS::getServiceURL(),
+            ], \phpCAS::getAttributes());
+        } catch (\CAS_AuthenticationException $exception) {
+            throw new BadCredentialsException($exception->getMessage());
+        }
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)
