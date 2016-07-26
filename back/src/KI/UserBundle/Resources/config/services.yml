@@ -46,17 +46,18 @@ services:
     form_login_authenticator:
         class: KI\UserBundle\Security\FormLoginAuthenticator
         arguments:
-          - '@security.password_encoder'
           - '@lexik_jwt_authentication.jwt_manager'
           - '@event_dispatcher'
+          - '@security.password_encoder'
         public: false
+
+    sso_enpc_authenticator:
+        class: KI\UserBundle\Security\SsoEnpcLoginAuthenticator
+        arguments:
+          - '@lexik_jwt_authentication.jwt_manager'
+          - '@event_dispatcher'
+          - '@ki_user.factory.user'
 
     jwt_authenticator:
         class: KI\UserBundle\Security\JwtAuthenticator
         autowire: true
-
-    sso_enpc_authenticator:
-        class: KI\UserBundle\Security\SsoEnpcAuthenticator
-        arguments:
-          - '@lexik_jwt_authentication.jwt_manager'
-          - '@event_dispatcher'

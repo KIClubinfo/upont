@@ -5,19 +5,15 @@ namespace KI\UserBundle\Security;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Event\AchievementCheckEvent;
 
-
-class SsoEnpcAuthenticator extends AbstractGuardAuthenticator
+abstract class LoginAuthenticator extends AbstractGuardAuthenticator
 {
     private $jwtManager;
     private $dispatcher;
@@ -26,32 +22,6 @@ class SsoEnpcAuthenticator extends AbstractGuardAuthenticator
     {
         $this->jwtManager = $jwtManager;
         $this->dispatcher = $dispatcher;
-    }
-
-    public function getCredentials(Request $request)
-    {
-
-        \phpCAS::setDebug();
-        \phpCAS::setVerbose(true);
-        \phpCAS::client(CAS_VERSION_2_0, 'cas.enpc.fr', 443, '/cas');
-        \phpCAS::setNoCasServerValidation();
-//        \phpCAS::handleLogoutRequests();
-        \phpCAS::forceAuthentication();
-        return array_merge([
-            'username' => \phpCAS::getUser()
-        ], \phpCAS::getAttributes());
-    }
-
-    public function getUser($credentials, UserProviderInterface $userProvider)
-    {
-        $username = $credentials['username'];
-
-        return $userProvider->loadUserByUsername($username);
-    }
-
-    public function checkCredentials($credentials, UserInterface $user)
-    {
-        return true;
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
