@@ -5,7 +5,7 @@
             <br />
             {{ $root.me.balance | number:2 }} €
         </section>
-        <section class="Ticket">
+        <section class="Ticket" infinite-scroll="next()" infinite-scroll-distance="3" infinite-scroll-disabled="$root.infiniteLoading">
             <h2>Historique</h2>
 
             <table class="Table" flex="90">
@@ -20,7 +20,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="transaction in filtered =  (historique | orderBy:['date']:true )">
+            <tr ng-repeat="transaction in filtered =  (historique.data | orderBy:['date']:true )">
                 <td>{{ transaction.date | date:'dd/MM/yyyy' }}</td>
                 <td>{{ transaction.date | date:'H:mm:ss' }}</td>
                 <td>{{ transaction.beer.name }}</td>
