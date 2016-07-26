@@ -1,12 +1,12 @@
 <div class="padded" row wrap>
     <section class="padded" flex="100">
-        <section class="Ticket" flex=25>
-            <h2>Solde</h2>
-            <br />
-            {{ $root.me.balance | number:2 }} €
-        </section>
-        <section class="Ticket" infinite-scroll="next()" infinite-scroll-distance="3" infinite-scroll-disabled="$root.infiniteLoading">
-            <h2>Historique</h2>
+        <section row wrap class="Ticket" infinite-scroll="next()" infinite-scroll-distance="3" infinite-scroll-disabled="$root.infiniteLoading">
+            <div class="padded" flex="50" flex-md="70" >
+            <FONT size="6pt"> Historique </FONT>
+            </div>
+            <div class="padded" flex="50" flex-md="25">
+            Solde : {{ $root.me.balance | number:2 }} €
+            </div>
 
             <table class="Table" flex="90">
         <thead>
