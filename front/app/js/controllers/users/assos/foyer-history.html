@@ -1,39 +1,43 @@
 <div class="padded" row wrap>
     <section class="padded" flex="100">
-        <section row wrap class="Ticket" infinite-scroll="next()" infinite-scroll-distance="3" infinite-scroll-disabled="$root.infiniteLoading">
-            <div class="padded" flex="50" flex-md="70" >
-            <FONT size="6pt"> Historique </FONT>
-            </div>
-            <div class="padded" flex="50" flex-md="25">
-            Solde : {{ $root.me.balance | number:2 }} €
+        <section row wrap class="Ticket" infinite-scroll="next()"
+                 infinite-scroll-distance="3" infinite-scroll-disabled="$root.infiniteLoading"
+        >
+            <div class="padded" flex="100" row="stretch center">
+                <div flex="50">
+                    <h1> Historique </h1>
+                </div>
+                <div flex="50" style="text-align: right">
+                    Solde : {{ $root.me.balance | number:2 }} €
+                </div>
             </div>
 
-            <table class="Table" flex="90">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Heure</th>
-                <th>Bière</th>
-                <th>Prix</th>
-                <th>Quantité</th>
-                <th>Taux d'alcool</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="transaction in filtered =  (historique.data | orderBy:['date']:true )">
-                <td>{{ transaction.date | date:'dd/MM/yyyy' }}</td>
-                <td>{{ transaction.date | date:'H:mm:ss' }}</td>
-                <td>{{ transaction.beer.name }}</td>
-                <td>{{ transaction.amount }} €</td>
-                <td>{{ transaction.beer.volume }} L</td>
-                <td>{{ transaction.beer.alcohol }} %</td>
-            </tr>
-            <tr ng-hide="filtered.length">
-                <td>Rien à afficher</td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
+            <table class="Table" flex="100">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Heure</th>
+                    <th>Bière</th>
+                    <th>Prix</th>
+                    <th>Quantité</th>
+                    <th>Taux d'alcool</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="transaction in filtered =  (historique.data | orderBy:['date']:true )">
+                    <td>{{ transaction.date * 1000 | date:'dd/MM/yyyy' }}</td>
+                    <td>{{ transaction.date * 1000 | date:'H:mm:ss' }}</td>
+                    <td>{{ transaction.beer.name }}</td>
+                    <td>{{ transaction.amount }} €</td>
+                    <td>{{ transaction.beer.volume }} L</td>
+                    <td>{{ transaction.beer.alcohol }} %</td>
+                </tr>
+                <tr ng-hide="filtered.length">
+                    <td>Rien à afficher</td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
         </section>
     </section>
 </div>
