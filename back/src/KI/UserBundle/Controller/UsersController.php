@@ -181,7 +181,6 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
             throw new AccessDeniedException();
         }
 
-        $request = $this->getRequest()->request;
         if (!$request->request->has('firstName') || !$request->request->has('lastName') || !$request->request->has('email'))
             throw new BadRequestHttpException('Champs non rempli(s)');
 
