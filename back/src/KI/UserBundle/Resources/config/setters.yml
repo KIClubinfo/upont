@@ -3,6 +3,6 @@ services:
     ki_user.setter.user:
         class: KI\UserBundle\Setter\UserSetter
         arguments:
-            - @security.token_storage
+            - '@security.token_storage'
         tags:
             - { name: doctrine.event_listener, event: prePersist }

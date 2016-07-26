@@ -32,9 +32,9 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      * )
      * @Route\Get("/own/achievements")
      */
-    public function getAchievementsAction()
+    public function getAchievementsAction(Request $request)
     {
-        return $this->retrieveAchievements($this->user);
+        return $this->retrieveAchievements($request, $this->user);
     }
 
     /**
@@ -50,19 +50,19 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      * )
      * @Route\Get("/users/{slug}/achievements")
      */
-    public function getUserAchievementsAction($slug)
+    public function getUserAchievementsAction(Request $request, $slug)
     {
         $user = $this->findBySlug($slug);
-        return $this->retrieveAchievements($user);
+        return $this->retrieveAchievements($request, $user);
     }
 
-    private function retrieveAchievements($user)
+    private function retrieveAchievements($request, $user)
     {
         $achievementRepository = $this->manager->getRepository('KIUserBundle:Achievement');
         $achievementUserRepository = $this->manager->getRepository('KIUserBundle:AchievementUser');
         $unlocked = array();
         $oUnlocked = array();
-        $all = $this->getRequest()->query->has('all');
+        $all = $request->query->has('all');
 
         $response = $achievementUserRepository->findByUser($user);
         foreach ($response as $achievementUser) {
@@ -200,28 +200,27 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      * )
      * @Route\Post("/own/devices")
      */
-    public function postDeviceAction()
+    public function postDeviceAction(Request $request)
     {
         if (!$this->get('security.context')->isGranted('ROLE_USER')) {
             throw new AccessDeniedException();
         }
 
-        $request = $this->getRequest()->request;
-        if (!$request->has('device'))
+        if (!$request->request->has('device'))
             throw new BadRequestHttpException('Identifiant de téléphone manquant');
-        if (!$request->has('type'))
+        if (!$request->request->has('type'))
             throw new BadRequestHttpException('Type de téléphone manquant');
 
         // On vérifie que le smartphone n'a pas déjà été enregistré
         $repo = $this->manager->getRepository('KIUserBundle:Device');
-        $devices = $repo->findByDevice($request->get('device'));
+        $devices = $repo->findByDevice($request->request->get('device'));
         if (!empty($devices))
             return $this->jsonResponse(null, 204);
 
         $device = new Device();
         $device->setOwner($this->get('security.context')->getToken()->getUser());
-        $device->setDevice($request->get('device'));
-        $device->setType($request->get('type'));
+        $device->setDevice($request->request->get('device'));
+        $device->setType($request->request->get('type'));
         $this->manager->persist($device);
         $this->manager->flush();
 
@@ -356,10 +355,10 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      * )
      * @Route\Get("/own/events")
      */
-    public function getOwnEventsAction()
+    public function getOwnEventsAction(Request $request)
     {
         // Si on prend tout on renvoie comme ça
-        if ($this->getRequest()->query->has('all'))
+        if ($request->query->has('all'))
             return $this->restResponse($this->getFollowedEvents());
 
         $events = $this->manager->getRepository('KIUserBundle:User')->findAllFollowedEvents($this->getUser()->getId());
@@ -728,10 +727,9 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      * )
      * @Route\Post("/own/user")
      */
-    public function postOwnUserAction()
+    public function postOwnUserAction(Request $request)
     {
-        $request = $this->getRequest()->request;
-        if (!$request->has('password') || !$request->has('confirm') || !$request->has('old'))
+        if (!$request->request->has('password') || !$request->request->has('confirm') || !$request->request->has('old'))
             throw new BadRequestHttpException('Champs password/confirm non rempli(s)');
 
         if ($this->user->hasRole('ROLE_ADMISSIBLE'))
@@ -742,12 +740,12 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         $user = $userManager->findUserByUsername($this->user->getUsername());
 
         $encoder = $this->get('security.encoder_factory')->getEncoder($user);
-        $encodedPassword = $encoder->encodePassword($request->get('old'), $user->getSalt());
+        $encodedPassword = $encoder->encodePassword($request->request->get('old'), $user->getSalt());
 
         if ($encodedPassword != $user->getPassword())
             throw new BadRequestHttpException('Ancien mot de passe incorrect');
 
-        $user->setPlainPassword($request->get('password'));
+        $user->setPlainPassword($request->request->get('password'));
         $userManager->updateUser($user, true);
 
         return $this->restResponse(null, 204);

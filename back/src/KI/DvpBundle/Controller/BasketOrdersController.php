@@ -5,6 +5,7 @@ namespace KI\DvpBundle\Controller;
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use KI\CoreBundle\Controller\ResourceController;
@@ -88,10 +89,8 @@ class BasketOrdersController extends ResourceController
      * )
      * @Route\Post("/baskets/{slug}/order")
      */
-    public function postBasketOrderAction($slug)
+    public function postBasketOrderAction(Request $request, $slug)
     {
-        $request = $this->getRequest()->request;
-
         $isAuthenticated = $this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED');
 
         // Si l'utilisateur n'est pas dans uPont il doit avoir rempli les infos
@@ -169,12 +168,11 @@ class BasketOrdersController extends ResourceController
      * )
      * @Route\Patch("/baskets/{slug}/order/{email}")
      */
-    public function patchBasketOrderAction($slug, $email)
+    public function patchBasketOrderAction(Request $request, $slug, $email)
     {
         $this->trust($this->is('MODO') || $this->isClubMember('dvp'));
 
-        $request = $this->getRequest()->request;
-        if (!$request->has('dateRetrieve')) {
+        if (!$request->request->has('dateRetrieve')) {
             throw new BadRequestHttpException('Paramètre manquant');
         }
 
@@ -186,7 +184,7 @@ class BasketOrdersController extends ResourceController
         $basketOrder = $this->repository->findOneBy(array(
             'basket' => $basketRepository->findOneBySlug($slug),
             'email' => $email,
-            'dateRetrieve' => $request->get('dateRetrieve'),
+            'dateRetrieve' => $request->request->get('dateRetrieve'),
         ));
 
         if ($basketOrder === null) {
@@ -194,8 +192,8 @@ class BasketOrdersController extends ResourceController
         }
 
         // On patche manuellement
-        if ($request->has('paid')) {
-            $basketOrder->setPaid($request->get('paid'));
+        if ($request->request->has('paid')) {
+            $basketOrder->setPaid($request->request->get('paid'));
         }
 
         $this->manager->persist($basketOrder);

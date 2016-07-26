@@ -2,13 +2,13 @@ services:
     ki_publication.helper.course:
         class: KI\PublicationBundle\Helper\CourseHelper
         arguments:
-            - @ki_publication.repository.courseuser
-            - @event_dispatcher
-            - @doctrine.orm.entity_manager
+            - '@ki_publication.repository.courseuser'
+            - '@event_dispatcher'
+            - '@doctrine.orm.entity_manager'
 
     ki_publication.helper.courseparser:
         class: KI\PublicationBundle\Helper\CourseParserHelper
         arguments:
-            - @doctrine.orm.entity_manager
-            - @ki_publication.repository.course
-            - @ki_core.service.curl
+            - '@doctrine.orm.entity_manager'
+            - '@ki_publication.repository.course'
+            - '@ki_core.service.curl'

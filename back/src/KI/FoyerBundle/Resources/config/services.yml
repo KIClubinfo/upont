@@ -3,6 +3,6 @@ services:
     ki_foyer.service.foyer:
         class: KI\FoyerBundle\Service\FoyerService
         arguments:
-            - @ki_core.service.curl
-            - @event_dispatcher
-            - @security.context
+            - '@ki_core.service.curl'
+            - '@event_dispatcher'
+            - '@security.context'

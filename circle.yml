@@ -1,0 +1,45 @@
+general:
+  build_dir: back
+
+machine:
+  timezone:
+    Europe/Paris
+
+checkout:
+  post:
+    - cp ./app/config/parameters.yml.circle ./app/config/parameters.yml
+
+dependencies:
+  cache_directories:
+    - ~/.composer/cache
+    - ./vendor
+  pre:
+    - echo "date.timezone = Europe/Paris" > /opt/circleci/php/$(phpenv global)/etc/conf.d/date.ini
+    - echo "memory_limit = 256M" > /opt/circleci/php/$(phpenv global)/etc/conf.d/memory.ini
+  override:
+    - composer install --no-interaction --optimize-autoloader
+
+test:
+  pre:
+    - php app/console cache:clear --env=prod --no-debug
+    - php app/console do:mi:mi -n
+    - php app/console doctrine:fixtures:load --no-interaction
+    - wget https://scrutinizer-ci.com/ocular.phar
+
+  override:
+    - phpunit -c app --coverage-clover=core.clover src/KI/CoreBundle
+    - phpunit -c app --coverage-clover=user.clover src/KI/UserBundle
+    - phpunit -c app --coverage-clover=publication.clover src/KI/PublicationBundle
+    - phpunit -c app --coverage-clover=ponthub.clover src/KI/PonthubBundle
+    - phpunit -c app --coverage-clover=foyer.clover src/KI/FoyerBundle
+    - phpunit -c app --coverage-clover=clubinfo.clover src/KI/ClubinfoBundle
+    - phpunit -c app --coverage-clover=dvp.clover src/KI/DvpBundle
+
+  post:
+    - php ocular.phar code-coverage:upload --format=php-clover core.clover
+    - php ocular.phar code-coverage:upload --format=php-clover user.clover
+    - php ocular.phar code-coverage:upload --format=php-clover publication.clover
+    - php ocular.phar code-coverage:upload --format=php-clover ponthub.clover
+    - php ocular.phar code-coverage:upload --format=php-clover foyer.clover
+    - php ocular.phar code-coverage:upload --format=php-clover clubinfo.clover
+    - php ocular.phar code-coverage:upload --format=php-clover dvp.clover

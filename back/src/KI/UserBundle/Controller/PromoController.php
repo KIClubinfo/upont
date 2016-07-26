@@ -5,6 +5,7 @@ namespace KI\UserBundle\Controller;
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class PromoController extends \KI\CoreBundle\Controller\ResourceController
@@ -71,7 +72,7 @@ class PromoController extends \KI\CoreBundle\Controller\ResourceController
      * )
      * @Route\Patch("/promo/{promo}/pictures")
      */
-    public function patchPromoPicturesAction($promo)
+    public function patchPromoPicturesAction(Request $request, $promo)
     {
         set_time_limit(3600);
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
@@ -82,10 +83,9 @@ class PromoController extends \KI\CoreBundle\Controller\ResourceController
         $images = $this->get('ki_core.service.image');
         $i = 0;
 
-        $request = $this->getRequest()->request;
-        if (!$request->has('token'))
+        if (!$request->request->has('token'))
             throw new BadRequestHttpException('Il faut préciser un token Facebook');
-        $token = '?access_token='.$request->get('token');
+        $token = '?access_token='.$request->request->get('token');
 
         // Ids des différents groupes facebook
         switch ($promo) {

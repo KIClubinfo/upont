@@ -6,26 +6,26 @@ services:
     ki_ponthub.helper.filelist:
         class: KI\PonthubBundle\Helper\FilelistHelper
         arguments:
-            - @doctrine.orm.entity_manager
-            - @ki_ponthub.repository.genre
-            - @ki_ponthub.repository.serie
-            - @ki_ponthub.repository.ponthubfile
+            - '@doctrine.orm.entity_manager'
+            - '@ki_ponthub.repository.genre'
+            - '@ki_ponthub.repository.serie'
+            - '@ki_ponthub.repository.ponthubfile'
             - %ki_ponthub.files.valid_extensions%
-            - @ki_ponthub.helper.file
+            - '@ki_ponthub.helper.file'
 
     ki_ponthub.helper.file:
         class: KI\PonthubBundle\Helper\FileHelper
         arguments:
-            - @doctrine.orm.entity_manager
+            - '@doctrine.orm.entity_manager'
 
     ki_ponthub.helper.global_statistics:
         class: KI\PonthubBundle\Helper\GlobalStatisticsHelper
         arguments:
-            - @doctrine.orm.entity_manager
-            - @ki_ponthub.repository.ponthubfile
-            - @ki_ponthub.repository.ponthubfileuser
+            - '@doctrine.orm.entity_manager'
+            - '@ki_ponthub.repository.ponthubfile'
+            - '@ki_ponthub.repository.ponthubfileuser'
 
     ki_ponthub.helper.statistics:
         class: KI\PonthubBundle\Helper\StatisticsHelper
         arguments:
-            - @ki_ponthub.repository.ponthubfileuser
+            - '@ki_ponthub.repository.ponthubfileuser'
