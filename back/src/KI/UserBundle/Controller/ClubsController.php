@@ -8,6 +8,7 @@ use KI\UserBundle\Entity\ClubUser;
 use KI\UserBundle\Form\ClubUserType;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -33,7 +34,10 @@ class ClubsController extends SubresourceController
      *  section="Utilisateurs"
      * )
      */
-    public function getClubsAction() { return $this->getAll($this->is('EXTERIEUR')); }
+    public function getClubsAction()
+    {
+        return $this->getAll($this->is('EXTERIEUR'));
+    }
 
     /**
      * @ApiDoc(
@@ -48,7 +52,10 @@ class ClubsController extends SubresourceController
      *  section="Utilisateurs"
      * )
      */
-    public function getClubAction($slug) { return $this->getOne($slug, $this->is('EXTERIEUR')); }
+    public function getClubAction($slug)
+    {
+        return $this->getOne($slug, $this->is('EXTERIEUR'));
+    }
 
     /**
      * @ApiDoc(
@@ -64,7 +71,10 @@ class ClubsController extends SubresourceController
      *  section="Utilisateurs"
      * )
      */
-    public function postClubAction() { return $this->post(); }
+    public function postClubAction()
+    {
+        return $this->post();
+    }
 
     /**
      * @ApiDoc(
@@ -88,8 +98,8 @@ class ClubsController extends SubresourceController
             $this->isClubMember($slug)
             && (!$this->get('security.context')->isGranted('ROLE_EXTERIEUR')
                 || $slug == $this->get('security.context')->getToken()->getUser()->getSlug()
-                )
-            );
+            )
+        );
     }
 
     /**
@@ -132,7 +142,10 @@ class ClubsController extends SubresourceController
      *  section="Utilisateurs"
      * )
      */
-    public function getClubUsersAction($slug) { return $this->getAllSub($slug, 'User', false); }
+    public function getClubUsersAction($slug)
+    {
+        return $this->getAllSub($slug, 'User', false);
+    }
 
     /**
      * @ApiDoc(
@@ -156,7 +169,7 @@ class ClubsController extends SubresourceController
      * )
      * @Route\Post("/clubs/{slug}/users/{id}")
      */
-    public function postClubUserAction($slug, $id)
+    public function postClubUserAction(Request $request, $slug, $id)
     {
         $this->trust($this->is('ADMIN') || $this->isClubMember($slug));
 
@@ -175,10 +188,11 @@ class ClubsController extends SubresourceController
             $link = new ClubUser();
             $link->setClub($club);
             $link->setUser($user);
+            $link->setPriority($user->getId());
 
             // Validation des données annexes
             $form = $this->createForm(new ClubUserType(), $link, array('method' => 'POST'));
-            $form->handleRequest($this->getRequest());
+            $form->handleRequest($request);
 
             if ($form->isValid()) {
                 $this->manager->persist($link);
@@ -215,7 +229,7 @@ class ClubsController extends SubresourceController
      * )
      * @Route\Patch("/clubs/{slug}/users/{username}")
      */
-    public function patchClubUserAction($slug, $username)
+    public function patchClubUserAction(Request $request, $slug, $username)
     {
         $this->trust($this->is('ADMIN') || $this->isClubMember($slug));
 
@@ -233,7 +247,7 @@ class ClubsController extends SubresourceController
             $link = $link[0];
             // Validation des données annexes
             $form = $this->createForm(new ClubUserType(), $link, array('method' => 'PATCH'));
-            $form->handleRequest($this->getRequest());
+            $form->handleRequest($request);
 
             if ($form->isValid()) {
                 $this->manager->persist($link);
@@ -283,6 +297,79 @@ class ClubsController extends SubresourceController
         } else
             throw new NotFoundHttpException('Relation entre Club et User non trouvée');
         return $this->jsonResponse(null, 204);
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Echange les priorité des 2 clubUsers associés aux Users",
+     *  statusCodes={
+     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
+     *   400="La syntaxe de la requête est erronée",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   404="Ressource non trouvée",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Utilisateurs"
+     * )
+     * @Route\Patch("/clubs/{slug}/users/{username}/{direction}")
+     */
+    public function swapPriorityClubUserAction($slug, $username, $direction)
+    {
+        $this->trust($this->is('ADMIN') || $this->isClubMember($slug));
+
+        // On récupère les entités concernées
+        $repo = $this->manager->getRepository('KIUserBundle:User');
+        $user = $repo->findOneByUsername($username);
+        $club = $this->findBySlug($slug);
+
+        // Trouve les clubUsers assiciés aux Users
+        $repoLink = $this->manager->getRepository('KIUserBundle:ClubUser');
+        $link = $repoLink->findOneBy(array('club' => $club, 'user' => $user));
+
+        $priority = $link->getPriority();
+        $promo = $user->getPromo();
+
+        if ($direction == 'down') {
+            $auDessous = $this->manager->createQuery('SELECT cu
+                FROM KIUserBundle:ClubUser cu,
+                KIUserBundle:User user
+                WHERE cu.club = :club
+	            AND cu.user = user
+                AND user.promo = :promo
+                AND cu.priority > :priority
+                ORDER BY cu.priority ASC')
+                ->setParameter('club', $club)
+                ->setParameter('priority', $priority)
+                ->setParameter('promo', $promo)
+                ->setMaxResults(1)
+                ->getSingleResult();
+
+            // On édite les clubUsers
+            $link->setPriority($auDessous->getPriority());
+            $auDessous->setPriority($priority);
+            $this->manager->flush();
+        } else if ($direction == 'up') {
+            $auDessus = $this->manager->createQuery('SELECT cu
+                FROM KIUserBundle:ClubUser cu,
+                KIUserBundle:User user
+                WHERE cu.club = :club
+	            AND cu.user = user
+                AND user.promo = :promo
+                AND cu.priority < :priority
+                ORDER BY cu.priority DESC')
+                ->setParameter('club', $club)
+                ->setParameter('priority', $priority)
+                ->setParameter('promo', $promo)
+                ->setMaxResults(1)
+                ->getSingleResult();
+
+            // On édite les clubUsers
+            $link->setPriority($auDessus->getPriority());
+            $auDessus->setPriority($priority);
+            $this->manager->flush();
+        } else
+            throw new BadRequestHttpException('Direction invalide');
     }
 
     /**

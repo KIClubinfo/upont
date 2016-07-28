@@ -5,6 +5,7 @@ namespace KI\DvpBundle\Controller;
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use KI\CoreBundle\Controller\ResourceController;
@@ -88,22 +89,20 @@ class BasketOrdersController extends ResourceController
      * )
      * @Route\Post("/baskets/{slug}/order")
      */
-    public function postBasketOrderAction($slug)
+    public function postBasketOrderAction(Request $request, $slug)
     {
-        $request = $this->getRequest()->request;
-
         $isAuthenticated = $this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED');
 
         // Si l'utilisateur n'est pas dans uPont il doit avoir rempli les infos
         if (!$isAuthenticated) {
-            if (!($request->has('firstName')
-                && $request->has('lastName')
-                && $request->has('email')
-                && $request->has('phone')
+            if (!($request->request->has('firstName')
+                && $request->request->has('lastName')
+                && $request->request->has('email')
+                && $request->request->has('phone')
             )) {
                 throw new BadRequestHttpException('Formulaire incomplet');
             }
-        } else if ($this->user->getPhone() === null && !$request->has('phone')) {
+        } else if ($this->user->getPhone() === null && !$request->request->has('phone')) {
             throw new BadRequestHttpException('Formulaire incomplet');
         }
 
@@ -113,8 +112,8 @@ class BasketOrdersController extends ResourceController
 
         $basketOrder = $this->repository->findOneBy(array(
             'basket' => $basket,
-            'email' => $isAuthenticated ? $this->user->getEmail() : $request->get('email'),
-            'dateRetrieve' => $request->get('dateRetrieve'),
+            'email' => $isAuthenticated ? $this->user->getEmail() : $request->request->get('email'),
+            'dateRetrieve' => $request->request->get('dateRetrieve'),
         ));
 
         if ($basketOrder !== null) {
@@ -126,10 +125,10 @@ class BasketOrdersController extends ResourceController
 
         if (!$isAuthenticated) {
             // Si l'user n'est pas sur uPont il a tout rempli dans le form
-            $basketOrder->setFirstName($request->get('firstName'));
-            $basketOrder->setLastName($request->get('lastName'));
-            $basketOrder->setEmail($request->get('email'));
-            $basketOrder->setPhone($request->get('phone'));
+            $basketOrder->setFirstName($request->request->get('firstName'));
+            $basketOrder->setLastName($request->request->get('lastName'));
+            $basketOrder->setEmail($request->request->get('email'));
+            $basketOrder->setPhone($request->request->get('phone'));
         } else {
             $user = $this->user;
             // Sinon on récupère les infos de son compte
@@ -138,13 +137,13 @@ class BasketOrdersController extends ResourceController
             $basketOrder->setLastName($user->getLastName());
             $basketOrder->setEmail($user->getEmail());
             if ($user->getPhone() === null) {
-                $user->setPhone($request->get('phone'));
+                $user->setPhone($request->request->get('phone'));
             }
             $basketOrder->setPhone($user->getPhone());
         }
 
         $basketOrder->setDateOrder(time());
-        $basketOrder->setDateRetrieve($request->get('dateRetrieve'));
+        $basketOrder->setDateRetrieve($request->request->get('dateRetrieve'));
         $basketOrder->setPaid(false);
 
         $this->manager->persist($basketOrder);
@@ -169,12 +168,11 @@ class BasketOrdersController extends ResourceController
      * )
      * @Route\Patch("/baskets/{slug}/order/{email}")
      */
-    public function patchBasketOrderAction($slug, $email)
+    public function patchBasketOrderAction(Request $request, $slug, $email)
     {
         $this->trust($this->is('MODO') || $this->isClubMember('dvp'));
 
-        $request = $this->getRequest()->request;
-        if (!$request->has('dateRetrieve')) {
+        if (!$request->request->has('dateRetrieve')) {
             throw new BadRequestHttpException('Paramètre manquant');
         }
 
@@ -186,7 +184,7 @@ class BasketOrdersController extends ResourceController
         $basketOrder = $this->repository->findOneBy(array(
             'basket' => $basketRepository->findOneBySlug($slug),
             'email' => $email,
-            'dateRetrieve' => $request->get('dateRetrieve'),
+            'dateRetrieve' => $request->request->get('dateRetrieve'),
         ));
 
         if ($basketOrder === null) {
@@ -194,8 +192,8 @@ class BasketOrdersController extends ResourceController
         }
 
         // On patche manuellement
-        if ($request->has('paid')) {
-            $basketOrder->setPaid($request->get('paid'));
+        if ($request->request->has('paid')) {
+            $basketOrder->setPaid($request->request->get('paid'));
         }
 
         $this->manager->persist($basketOrder);

@@ -6,6 +6,7 @@ use FOS\RestBundle\Controller\Annotations as Route;
 use KI\CoreBundle\Controller\ResourceController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class TransactionsController extends ResourceController
@@ -80,8 +81,12 @@ class TransactionsController extends ResourceController
 
         $this->trust($this->isClubMember('foyer') || $this->is('ADMIN') || $this->user == $user);
 
-        $transactions = $this->repository->findBy(array('user' => $user));
-        return $this->restResponse($transactions);
+
+        $paginateHelper = $this->get('ki_core.helper.paginate');
+        extract($paginateHelper->paginateData($this->repository));
+
+        $results = $this->repository->findBy(array('user' => $user), $sortBy, $limit, $offset);
+        return $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
     }
 
 
@@ -120,23 +125,22 @@ class TransactionsController extends ResourceController
      * )
      * @Route\Post("/transactions")
      */
-    public function postTransactionAction()
+    public function postTransactionAction(Request $request)
     {
         $this->trust($this->isClubMember('foyer') || $this->is('ADMIN'));
 
-        $request = $this->getRequest()->request;
-        if (!$request->has('user')) {
+        if (!$request->request->has('user')) {
             throw new BadRequestHttpException('User obligatoire');
         }
-        if (!($request->has('beer') xor $request->has('credit'))) {
+        if (!($request->request->has('beer') xor $request->request->has('credit'))) {
             throw new BadRequestHttpException('On rajoute une conso ou du crédit, pas les deux');
         }
 
         $helper = $this->get('ki_foyer.helper.transaction');
-        if ($request->has('beer')) {
-            $id = $helper->addBeerTransaction($request->get('user'), $request->get('beer'));
-        } else if ($request->has('credit')) {
-            $id = $helper->addCreditTransaction($request->get('user'), $request->get('credit'));
+        if ($request->request->has('beer')) {
+            $id = $helper->addBeerTransaction($request->request->get('user'), $request->request->get('beer'));
+        } else if ($request->request->has('credit')) {
+            $id = $helper->addCreditTransaction($request->request->get('user'), $request->request->get('credit'));
         }
 
         return $this->jsonResponse($id, 201);

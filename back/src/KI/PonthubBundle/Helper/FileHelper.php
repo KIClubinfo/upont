@@ -38,15 +38,13 @@ class FileHelper
      */
     public function tryToStoreMovie($path, $name, $size)
     {
-        if ($size == 0) {
+        if (!preg_match('#^/root/web/films/#', $path) || $size == 0) {
             return;
         }
 
-        if (preg_match('#^/root/web/films/#', $path)) {
-            $item = new Movie();
-            $item = $this->basicInfos($item, $size, $path, $name);
-            $this->manager->persist($item);
-        }
+        $item = new Movie();
+        $item = $this->basicInfos($item, $size, $path, $name);
+        $this->manager->persist($item);
     }
 
     /**
@@ -111,15 +109,9 @@ class FileHelper
             return;
         }
 
-        // On détermine les différentes données
-        if (!preg_match('/^(.*\/)(.*?\/)(.*?)$/', $path, $matches)) {
-            return;
-        }
+        preg_match('#^(/root/web/series/(.+?)/)#', $path, $matches);
 
-        list(, $seriePath, , $episode) = $matches;
-
-        $serieName = str_replace('/', '', str_replace('/root/web/series/', '', $seriePath));
-        $episode = str_replace($ext, '', $episode);
+        list(, $seriePath, $serieName) = $matches;
 
         // Si la série existe, on la récupère, sinon on la rajoute
         if (!isset($series[$seriePath])) {
@@ -136,7 +128,7 @@ class FileHelper
         }
 
         //On range l'épisode en commencant par déterminer le numéro de saison et d'épisode
-        if (!preg_match('#^S([0-9]{2}) E([0-9]{2})#', $episode, $matches)) {
+        if (!preg_match('#^S([0-9]{2}) E([0-9]{2})#', $name, $matches)) {
             return;
         }
 

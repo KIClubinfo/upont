@@ -61,7 +61,7 @@ class Post extends Likeable
     protected $sendMail = false;
 
     /**
-     * @var PostFile
+     * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="KI\PublicationBundle\Entity\PostFile", mappedBy="post", cascade={"persist", "remove"})
      * @JMS\Expose
@@ -194,7 +194,7 @@ class Post extends Likeable
         return $this->files;
     }
 
-    public function setFiles(array $files)
+    public function setFiles($files)
     {
         $this->files = $files;
     }

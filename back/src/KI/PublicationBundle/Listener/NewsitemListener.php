@@ -45,7 +45,7 @@ class NewsitemListener
 
             $attachments = [];
             foreach ($newsitem->getFiles() as $file) {
-                $attachments[] = array("path" => $file->getAbsolutePath(), "name" => $file->getName());
+                $attachments[] = array('path' => $file->getAbsolutePath(), 'name' => $file->getName());
             }
 
             $title = '['.$club->getName().']'.' '.$newsitem->getName();

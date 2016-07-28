@@ -21,12 +21,12 @@ class FilelistHelper
                                 array $validExtensions,
                                 FileHelper $fileHelper)
     {
-        $this->manager               = $manager;
-        $this->genreRepository       = $genreRepository;
-        $this->serieRepository       = $serieRepository;
+        $this->manager = $manager;
+        $this->genreRepository = $genreRepository;
+        $this->serieRepository = $serieRepository;
         $this->ponthubFileRepository = $ponthubFileRepository;
-        $this->validExtensions       = $validExtensions;
-        $this->fileHelper            = $fileHelper;
+        $this->validExtensions = $validExtensions;
+        $this->fileHelper = $fileHelper;
     }
 
     /**
@@ -88,8 +88,8 @@ class FilelistHelper
     /**
      * Parse une ligne de la liste et renvoie les données correspondantes
      * @param  string $line
-     * @param  array  $pathsDone
-     * @param  array  $pathsExisting
+     * @param  array $pathsDone
+     * @param  array $pathsExisting
      * @return array
      */
     private function parseLine($line, &$pathsDone, $pathsExisting)
@@ -107,14 +107,17 @@ class FilelistHelper
         if (!(isset($match[1]) && isset($match[2]))) {
             return array();
         }
-        $size = $match[2]*1000;
+        $size = $match[2] * 1000;
         $line = str_replace($match[1], '', $line);
 
         // On exclut tous les fichiers de type non valide
         $name = preg_replace(array('#.*/#', '#\.[a-zA-Z0-9]+$#'), array('', ''), $line);
-        $ext = strtolower(substr(strrchr($line, '.'), 1));
-        if (!in_array($ext, $this->validExtensions)) {
-            return array();
+        $ext = strrchr($line, '.');
+        if ($ext !== false) {
+            $ext = strtolower(substr($ext, 1));
+            if (!in_array($ext, $this->validExtensions)) {
+                return array();
+            }
         }
 
         // On ne crée une nouvelle entrée que si le fichier n'existe pas
@@ -130,7 +133,8 @@ class FilelistHelper
      * @param  array $pathsExisting
      * @param  array $pathsDone
      */
-    private function markFilesNotFound($pathsExisting, $pathsDone) {
+    private function markFilesNotFound($pathsExisting, $pathsDone)
+    {
         // Maintenant on marque les fichiers non trouvés
         $notFound = array_diff($pathsExisting, $pathsDone);
         $items = $this->ponthubFileRepository->findByPath($notFound);

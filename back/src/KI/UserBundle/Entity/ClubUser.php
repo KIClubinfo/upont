@@ -42,6 +42,13 @@ class ClubUser
      */
     private $user;
 
+    /**
+     * Priorité du membre pour l'affichage
+     * @ORM\Column(name="priority", type="integer")
+     * @JMS\Expose
+     */
+    private $priority;
+
 
 
     //===== GENERATED AUTOMATICALLY =====//
@@ -123,5 +130,29 @@ class ClubUser
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set priority
+     *
+     * @param integer $priority
+     *
+     * @return ClubUser
+     */
+    public function setPriority($priority)
+    {
+        $this->priority = $priority;
+
+        return $this;
+    }
+
+    /**
+     * Get priority
+     *
+     * @return integer
+     */
+    public function getPriority()
+    {
+        return $this->priority;
     }
 }

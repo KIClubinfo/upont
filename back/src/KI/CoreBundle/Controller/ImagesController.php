@@ -29,7 +29,7 @@ class ImagesController extends BaseController
         }
 
         $image = new Image();
-        $file = $this->getRequest()->files->get('file');
+        $file = $request->files->get('file');
         $image->setExt($file->guessExtension());
         $image->setFile($file);
 

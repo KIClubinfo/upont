@@ -2,11 +2,11 @@ services:
     ki_ponthub.transformer.actors:
        class: KI\PonthubBundle\Transformer\StringToActorsTransformer
        arguments:
-           - @doctrine.orm.entity_manager
-           - @ki_ponthub.repository.actor
+           - '@doctrine.orm.entity_manager'
+           - '@ki_ponthub.repository.actor'
 
     ki_ponthub.transformer.genres:
        class: KI\PonthubBundle\Transformer\StringToGenresTransformer
        arguments:
-           - @doctrine.orm.entity_manager
-           - @ki_ponthub.repository.genre
+           - '@doctrine.orm.entity_manager'
+           - '@ki_ponthub.repository.genre'

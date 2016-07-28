@@ -6,6 +6,7 @@ use FOS\RestBundle\Controller\Annotations as Route;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Entity\Device;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -32,9 +33,9 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      * )
      * @Route\Get("/own/achievements")
      */
-    public function getAchievementsAction()
+    public function getAchievementsAction(Request $request)
     {
-        return $this->retrieveAchievements($this->user);
+        return $this->retrieveAchievements($request, $this->user);
     }
 
     /**
@@ -50,19 +51,23 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      * )
      * @Route\Get("/users/{slug}/achievements")
      */
-    public function getUserAchievementsAction($slug)
+    public function getUserAchievementsAction(Request $request, $slug)
     {
         $user = $this->findBySlug($slug);
-        return $this->retrieveAchievements($user);
+        return $this->retrieveAchievements($request, $user);
     }
 
-    private function retrieveAchievements($user)
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    private function retrieveAchievements($request, $user)
     {
         $achievementRepository = $this->manager->getRepository('KIUserBundle:Achievement');
         $achievementUserRepository = $this->manager->getRepository('KIUserBundle:AchievementUser');
         $unlocked = array();
         $oUnlocked = array();
-        $all = $this->getRequest()->query->has('all');
+        $all = $request->query->has('all');
 
         $response = $achievementUserRepository->findByUser($user);
         foreach ($response as $achievementUser) {
@@ -71,14 +76,14 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
 
             if ($all || !$achievementUser->getSeen()) {
                 $unlocked[] = array(
-                    'id'          => $achievement->getIdA(),
-                    'name'        => $achievement->name(),
+                    'id' => $achievement->getIdA(),
+                    'name' => $achievement->name(),
                     'description' => $achievement->description(),
-                    'points'      => $achievement->points(),
-                    'image'       => $achievement->image(),
-                    'date'        => $achievementUser->getDate(),
-                    'seen'        => $achievementUser->getSeen(),
-                    'ownedBy'     => $achievementUserRepository->createQueryBuilder('au')
+                    'points' => $achievement->points(),
+                    'image' => $achievement->image(),
+                    'date' => $achievementUser->getDate(),
+                    'seen' => $achievementUser->getSeen(),
+                    'ownedBy' => $achievementUserRepository->createQueryBuilder('au')
                         ->select('count(au)')
                         ->where('au.achievement = :achievement')
                         ->setParameter('achievement', $achievement)
@@ -100,12 +105,12 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         foreach ($all as $achievement) {
             if (!in_array($achievement, $oUnlocked)) {
                 $locked[] = array(
-                    'id'          => $achievement->getIdA(),
-                    'name'        => $achievement->name(),
+                    'id' => $achievement->getIdA(),
+                    'name' => $achievement->name(),
                     'description' => $achievement->description(),
-                    'points'      => $achievement->points(),
-                    'image'       => $achievement->image(),
-                    'ownedBy'     => $achievementUserRepository->createQueryBuilder('au')
+                    'points' => $achievement->points(),
+                    'image' => $achievement->image(),
+                    'ownedBy' => $achievementUserRepository->createQueryBuilder('au')
                         ->select('count(au)')
                         ->where('au.achievement = :achievement')
                         ->setParameter('achievement', $achievement)
@@ -133,19 +138,19 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         array_multisort($ids, SORT_ASC, $unlocked);
         $ids = array();
         foreach ($locked as $key => $achievement) {
-                    $ids[$key] = $achievement['id'];
+            $ids[$key] = $achievement['id'];
         }
         array_multisort($ids, SORT_ASC, $locked);
 
         // On renvoie pas mal de données utiles
-        $response = Achievement::getLevel($factor*$points);
+        $response = Achievement::getLevel($factor * $points);
         $return = array(
-            'number'        => $response['number'],
-            'points'        => ceil($factor*$points),
+            'number' => $response['number'],
+            'points' => ceil($factor * $points),
             'current_level' => $response['current'],
-            'next_level'    => isset($response['next']) ? $response['next'] : null,
-            'unlocked'      => $unlocked,
-            'locked'        => $locked,
+            'next_level' => isset($response['next']) ? $response['next'] : null,
+            'unlocked' => $unlocked,
+            'locked' => $locked,
         );
 
         $this->manager->flush();
@@ -200,28 +205,27 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      * )
      * @Route\Post("/own/devices")
      */
-    public function postDeviceAction()
+    public function postDeviceAction(Request $request)
     {
         if (!$this->get('security.context')->isGranted('ROLE_USER')) {
             throw new AccessDeniedException();
         }
 
-        $request = $this->getRequest()->request;
-        if (!$request->has('device'))
+        if (!$request->request->has('device'))
             throw new BadRequestHttpException('Identifiant de téléphone manquant');
-        if (!$request->has('type'))
+        if (!$request->request->has('type'))
             throw new BadRequestHttpException('Type de téléphone manquant');
 
         // On vérifie que le smartphone n'a pas déjà été enregistré
         $repo = $this->manager->getRepository('KIUserBundle:Device');
-        $devices = $repo->findByDevice($request->get('device'));
+        $devices = $repo->findByDevice($request->request->get('device'));
         if (!empty($devices))
             return $this->jsonResponse(null, 204);
 
         $device = new Device();
         $device->setOwner($this->get('security.context')->getToken()->getUser());
-        $device->setDevice($request->get('device'));
-        $device->setType($request->get('type'));
+        $device->setDevice($request->request->get('device'));
+        $device->setType($request->request->get('type'));
         $this->manager->persist($device);
         $this->manager->flush();
 
@@ -295,7 +299,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
                 if (!$notification->getRead()->contains($user) && !$notification->getRecipient()->contains($user))
                     $return[] = $notification;
             } else
-                throw new \Exception('Notification : mode d\'envoi inconnu ('.$mode.')');
+                throw new \Exception('Notification : mode d\'envoi inconnu (' . $mode . ')');
         }
 
         // On marque chaque notification récupérée comme lue
@@ -326,7 +330,8 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         return $this->restResponse($this->getFollowedClubs());
     }
 
-    protected function getFollowedClubs($user = null) {
+    protected function getFollowedClubs($user = null)
+    {
         $repo = $this->manager->getRepository('KIUserBundle:Club');
         if ($user === null)
             $user = $this->get('security.context')->getToken()->getUser();
@@ -356,13 +361,20 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      * )
      * @Route\Get("/own/events")
      */
-    public function getOwnEventsAction()
+    public function getOwnEventsAction(Request $request)
     {
-        // Si on prend tout on renvoie comme ça
-        if ($this->getRequest()->query->has('all'))
-            return $this->restResponse($this->getFollowedEvents());
+        $userRepository = $this->manager->getRepository('KIUserBundle:User');
 
-        $events = $this->manager->getRepository('KIUserBundle:User')->findAllFollowedEvents($this->getUser()->getId());
+        // Si on prend tout on renvoie comme ça
+        if ($request->query->has('all')) {
+            $events = $userRepository->findFollowedEvents($this->getUser()->getId());
+        } else {
+            $events = $userRepository->findFollowedEvents(
+                $this->getUser()->getId(),
+                $request->query->get('limit'),
+                $request->query->get('page')
+            );
+        }
         return $this->restResponse($events);
     }
 
@@ -384,7 +396,9 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         if ($user === null) {
             throw new NotFoundHttpException('Aucun utilisateur ne correspond au token saisi');
         } else {
-            $events = $this->getFollowedEvents($user);
+            $userRepository = $this->manager->getRepository('KIUserBundle:User');
+
+            $events = $userRepository->findFollowedEvents($user->getId());
             $courses = $this->getCourseitems($user);
 
             $calStr = $this->get('ki_publication.service.calendar')->getCalendar($user, $events, $courses);
@@ -397,35 +411,8 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         }
     }
 
-    // Va chercher les événements suivis
-    private function getFollowedEvents($user = null) {
-        $repo = $this->manager->getRepository('KIPublicationBundle:Event');
-
-        if ($user === null)
-            $user = $this->get('security.context')->getToken()->getUser();
-
-        $followedEvents = $repo->findBy(array('authorClub'=> $this->getFollowedClubs($user)));
-        $persoEvents = $repo->findBy(array('authorUser' => $user, 'authorClub' => null));
-        $events = array_merge($followedEvents, $persoEvents);
-
-        // Tri et élimination des données
-        $dates = array();
-        $return = array();
-        foreach ($events as $key => $event) {
-            // On enlève l'événement si l'élève l'a masqué
-            if ($event->getPookies()->contains($user))
-                continue;
-
-            // On trie par date
-            $return[$key] = $event;
-            $dates[$key] = $event->getStartDate();
-        }
-        array_multisort($dates, SORT_DESC, $return);
-
-        return $return;
-    }
-
-    private function getCourseitems($user = null) {
+    private function getCourseitems($user = null)
+    {
         $repo = $this->getDoctrine()->getManager()->getRepository('KIPublicationBundle:CourseUser');
 
         if ($user === null)
@@ -471,13 +458,6 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         $findBy['authorClub'] = $this->getFollowedClubs();
         $results = $repository->findBy($findBy, $sortBy, $limit, $offset);
 
-        // Tri des données
-        $dates = array();
-        foreach ($results as $key => $newsitem) {
-            $results[$key] = $newsitem;
-            $dates[$key] = $newsitem->getDate();
-        }
-        array_multisort($dates, SORT_DESC, $results);
         return $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
     }
 
@@ -501,7 +481,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
 
         $return = array();
         foreach ($repo->findBy(array('user' => $this->user)) as $courseUser) {
-                    $return[] = array('course' => $courseUser->getCourse(), 'group' => $courseUser->getGroup());
+            $return[] = array('course' => $courseUser->getCourse(), 'group' => $courseUser->getGroup());
         }
 
         return $this->restResponse($return);
@@ -728,10 +708,9 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      * )
      * @Route\Post("/own/user")
      */
-    public function postOwnUserAction()
+    public function postOwnUserAction(Request $request)
     {
-        $request = $this->getRequest()->request;
-        if (!$request->has('password') || !$request->has('confirm') || !$request->has('old'))
+        if (!$request->request->has('password') || !$request->request->has('confirm') || !$request->request->has('old'))
             throw new BadRequestHttpException('Champs password/confirm non rempli(s)');
 
         if ($this->user->hasRole('ROLE_ADMISSIBLE'))
@@ -742,12 +721,12 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         $user = $userManager->findUserByUsername($this->user->getUsername());
 
         $encoder = $this->get('security.encoder_factory')->getEncoder($user);
-        $encodedPassword = $encoder->encodePassword($request->get('old'), $user->getSalt());
+        $encodedPassword = $encoder->encodePassword($request->request->get('old'), $user->getSalt());
 
         if ($encodedPassword != $user->getPassword())
             throw new BadRequestHttpException('Ancien mot de passe incorrect');
 
-        $user->setPlainPassword($request->get('password'));
+        $user->setPlainPassword($request->request->get('password'));
         $userManager->updateUser($user, true);
 
         return $this->restResponse(null, 204);

@@ -4,6 +4,7 @@ namespace KI\UserBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use KI\UserBundle\Entity\Achievement;
@@ -64,15 +65,14 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
      *  section="Utilisateurs"
      * )
      */
-    public function patchUserAction($slug)
+    public function patchUserAction(Request $request, $slug)
     {
         // Les admissibles et extérieurs ne peuvent pas modifier leur profil
         if ($this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
             || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
             throw new AccessDeniedException();
 
-        $request = $this->getRequest()->request;
-        if ($request->has('image')) {
+        if ($request->request->has('image')) {
             $dispatcher = $this->container->get('event_dispatcher');
             $achievementCheck = new AchievementCheckEvent(Achievement::PHOTO);
             $dispatcher->dispatch('upont.achievement', $achievementCheck);
@@ -86,7 +86,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
         $achievementCheck = new AchievementCheckEvent(Achievement::PROFILE);
         $dispatcher->dispatch('upont.achievement', $achievementCheck);
 
-        if ($this->getRequest()->query->has('achievement')) {
+        if ($request->query->has('achievement')) {
             $dispatcher = $this->container->get('event_dispatcher');
             $achievementCheck = new AchievementCheckEvent(Achievement::TOUR);
             $dispatcher->dispatch('upont.achievement', $achievementCheck);
@@ -174,15 +174,19 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
      *  section="Utilisateurs"
      * )
      */
-    public function postUsersAction()
+    public function postUsersAction(Request $request)
     {
-        $request = $this->getRequest()->request;
-        if (!$request->has('firstName') || !$request->has('lastName') || !$request->has('email'))
+        //On limite la création de compte aux admins
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException();
+        }
+
+        if (!$request->request->has('firstName') || !$request->request->has('lastName') || !$request->request->has('email'))
             throw new BadRequestHttpException('Champs non rempli(s)');
 
-        $lastName = $request->get('lastName');
-        $firstName = $request->get('firstName');
-        $email = $request->get('email');
+        $lastName = $request->request->get('lastName');
+        $firstName = $request->request->get('firstName');
+        $email = $request->request->get('email');
 
         if (!preg_match('/@eleves\.enpc\.fr$/', $email)) ///@(eleves\.)?enpc\.fr$/
             throw new BadRequestHttpException('Adresse mail non utilisable');
@@ -234,15 +238,15 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
      * )
      * @Route\Post("/import/users")
      */
-    public function importUsersAction()
+    public function importUsersAction(Request $request)
     {
         set_time_limit(3600);
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
             return $this->jsonResponse(null, 403);
 
-        if (!$this->getRequest()->files->has('users'))
+        if (!$request->files->has('users'))
             throw new BadRequestHttpException('Aucun fichier envoyé');
-        $file = $this->getRequest()->files->get('users');
+        $file = $request->files->get('users');
 
         // Check CSV
         if ($file->getMimeType() !== 'text/plain' && $file->getMimeType() !== 'text/csv') {

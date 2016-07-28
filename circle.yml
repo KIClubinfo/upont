@@ -1,0 +1,105 @@
+general:
+  build_dir: back
+
+machine:
+  timezone:
+    Europe/Paris
+
+checkout:
+  post:
+    - cp ./app/config/parameters.yml.circle ./app/config/parameters.yml
+
+dependencies:
+  cache_directories:
+    - ~/.composer/cache
+    - ./vendor
+  pre:
+    - echo "date.timezone = Europe/Paris" > /opt/circleci/php/$(phpenv global)/etc/conf.d/date.ini
+    - echo "memory_limit = 256M" > /opt/circleci/php/$(phpenv global)/etc/conf.d/memory.ini
+  override:
+    - composer install --no-interaction --optimize-autoloader
+
+test:
+  pre:
+    - php app/console cache:clear --env=prod --no-debug
+    - php app/console do:mi:mi -n
+    - php app/console doctrine:fixtures:load --no-interaction
+
+  override:
+    - mkdir -p $CIRCLE_TEST_REPORTS/phpunit
+    - |
+        if [ $CIRCLE_BRANCH = 'master' ]; then
+            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/core.xml --coverage-clover=core.clover --testsuite core
+        else
+            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/core.xml --testsuite core
+        fi
+    - |
+        if [ $CIRCLE_BRANCH = 'master' ]; then
+            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/user.xml --coverage-clover=user.clover --testsuite user
+        else
+            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/user.xml --testsuite user
+        fi
+    - |
+        if [ $CIRCLE_BRANCH = 'master' ]; then
+            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/publication.xml --coverage-clover=publication.clover --testsuite publication
+        else
+            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/publication.xml --testsuite publication
+        fi
+    - |
+        if [ $CIRCLE_BRANCH = 'master' ]; then
+            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/ponthub.xml --coverage-clover=ponthub.clover --testsuite ponthub
+        else
+            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/ponthub.xml --testsuite ponthub
+        fi
+    - |
+        if [ $CIRCLE_BRANCH = 'master' ]; then
+            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/foyer.xml --coverage-clover=foyer.clover --testsuite foyer
+        else
+            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/foyer.xml --testsuite foyer
+        fi
+    - |
+        if [ $CIRCLE_BRANCH = 'master' ]; then
+            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/clubinfo.xml --coverage-clover=clubinfo.clover --testsuite clubinfo
+        else
+            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/clubinfo.xml --testsuite clubinfo
+        fi
+    - |
+        if [ $CIRCLE_BRANCH = 'master' ]; then
+            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/dvp.xml --coverage-clover=dvp.clover --testsuite dvp
+        else
+            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/dvp.xml --testsuite dvp
+        fi
+
+  post:
+    - |
+        if [ $CIRCLE_BRANCH = 'master' ]; then
+            wget https://scrutinizer-ci.com/ocular.phar
+        fi
+    - |
+        if [ $CIRCLE_BRANCH = 'master' ]; then
+            php ocular.phar code-coverage:upload --format=php-clover core.clover
+        fi
+    - |
+        if [ $CIRCLE_BRANCH = 'master' ]; then
+            php ocular.phar code-coverage:upload --format=php-clover user.clover
+        fi
+    - |
+        if [ $CIRCLE_BRANCH = 'master' ]; then
+            php ocular.phar code-coverage:upload --format=php-clover publication.clover
+        fi
+    - |
+        if [ $CIRCLE_BRANCH = 'master' ]; then
+            php ocular.phar code-coverage:upload --format=php-clover ponthub.clover
+        fi
+    - |
+        if [ $CIRCLE_BRANCH = 'master' ]; then
+            php ocular.phar code-coverage:upload --format=php-clover foyer.clover
+        fi
+    - |
+        if [ $CIRCLE_BRANCH = 'master' ]; then
+            php ocular.phar code-coverage:upload --format=php-clover clubinfo.clover
+        fi
+    - |
+        if [ $CIRCLE_BRANCH = 'master' ]; then
+            php ocular.phar code-coverage:upload --format=php-clover dvp.clover
+        fi

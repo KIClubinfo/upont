@@ -27,7 +27,7 @@ angular.module('upont')
 
 		$scope.loadStats = function() {
 			$scope.globalStatistics = globalStatistics;
-			$http.get(apiPrefix + 'statistics/facegame/' + $rootScope.me.username).success(function(data){
+			$http.get(apiPrefix + 'statistics/facegame/' + $rootScope.username).success(function(data){
 				$scope.userStatistics = data;
 			});
 		};
@@ -128,7 +128,6 @@ angular.module('upont')
 
 				$http.patch($rootScope.url + 'facegames/' + $scope.gameData.id, {wrongAnswers: $scope.numWrong, duration: ($scope.clock-$scope.start) + 5000 * $scope.numWrong}).success(function(){
 					Achievements.check();
-					alertify.success();
 				});
 			} else {
 				$scope.firstPart = $scope.gameData.list_users[$scope.position].firstPart;

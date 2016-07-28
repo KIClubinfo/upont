@@ -13,10 +13,11 @@ angular.module('upont')
         $scope.type = Ponthub.cat($stateParams.category);
         $scope.propositions = [];
 
-        var elementSlug = element.name;
-
         $scope.search = function(criteria) {
             if ($scope.type == 'movies' || $scope.type == 'series') {
+
+                criteria = criteria.replace(/ \([0-9]{4}\)/, '');
+
                 $http.post(apiPrefix + 'imdb/search', {name: criteria}).success(function(data){
                     $scope.propositions = data;
 
@@ -95,16 +96,8 @@ angular.module('upont')
                     break;
             }
 
-            $http.patch(apiPrefix + $scope.type + '/' + element.slug, params).success(function(){
-                // On recharge le fichier pour être sûr d'avoir la nouvelle image
-                if (elementSlug == element.name) {
-                    $http.get(apiPrefix + $scope.type + '/' + element.slug).success(function(data){
-                        $scope.init(data);
-                    });
-                } else {
-                    alertify.alert('Le nom apparent du fichier ayant changé, il est nécessaire de recharger la page...');
-                    $state.go('root.users.ponthub.category.list', {category: $stateParams.category});
-                }
+            $http.patch(apiPrefix + $scope.type + '/' + element.slug, params).success(function(data){
+                $state.go('root.users.ponthub.category.list', {category: $stateParams.category});
                 alertify.success('Modifications prises en compte !');
             });
         };

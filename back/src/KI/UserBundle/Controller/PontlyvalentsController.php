@@ -7,6 +7,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use KI\CoreBundle\Controller\ResourceController;
 use KI\UserBundle\Entity\Pontlyvalent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -87,12 +88,11 @@ class PontlyvalentsController extends ResourceController
      * )
      * @Route\Post("/users/{slug}/pontlyvalent")
      */
-    public function postPontlyvalentAction($slug)
+    public function postPontlyvalentAction(Request $request, $slug)
     {
         $pontlyvalentHelper = $this->helper($slug);
 
-        $request = $this->getRequest()->request;
-        if (!$request->has('text') || $text = trim($request->get('text')) === '') {
+        if (!$request->request->has('text') || $text = trim($request->request->get('text')) === '') {
             throw new BadRequestHttpException('Texte de commentaire manquant');
         }
 
@@ -128,15 +128,13 @@ class PontlyvalentsController extends ResourceController
      * )
      * @Route\Patch("/users/{slug}/pontlyvalent")
      */
-    public function patchPontlyvalentAction($slug)
+    public function patchPontlyvalentAction(Request $request, $slug)
     {
         $pontlyvalent = $this->helper($slug)['pontlyvalent'][0];
         if (!isset($pontlyvalent)) {
             throw new NotFoundHttpException('Commentaire non trouvé');
         }
-
-        $request = $this->getRequest()->request;
-        if (!$request->has('text') || $text = trim($request->get('text')) === '') {
+        if (!$request->request->has('text') || $text = trim($request->request->get('text')) === '') {
             throw new BadRequestHttpException('Texte de commentaire manquant');
         }
 

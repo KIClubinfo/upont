@@ -4,6 +4,7 @@ namespace KI\PublicationBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use KI\PublicationBundle\Entity\EventUser;
@@ -37,7 +38,7 @@ class EventsController extends ResourceController
      */
     public function getEventsAction()
     {
-        return $this->getAll($this->is('EXTERIEUR'));
+        return $this->getAll();
     }
 
     /**
@@ -56,7 +57,7 @@ class EventsController extends ResourceController
      */
     public function getEventAction($slug)
     {
-        return $this->getOne($slug, $this->is('EXTERIEUR'));
+        return $this->getOne($slug);
     }
 
     /**
@@ -166,15 +167,14 @@ class EventsController extends ResourceController
      * )
      * @Route\Post("/events/{slug}/shotgun")
      */
-    public function postEventUserAction($slug)
+    public function postEventUserAction(Request $request, $slug)
     {
         $event = $this->findBySlug($slug);
 
         if ($event->getEntryMethod() != Event::TYPE_SHOTGUN)
             throw new BadRequestHttpException('Ce n\'est pas un événement à shotgun !');
 
-        $request = $this->getRequest()->request;
-        if (!$request->has('motivation'))
+        if (!$request->request->has('motivation'))
             throw new BadRequestHttpException('Texte de motivation manquant');
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
@@ -191,7 +191,7 @@ class EventsController extends ResourceController
             $userEvent->setEvent($event);
             $userEvent->setUser($user);
             $userEvent->setDate(time());
-            $userEvent->setMotivation($request->get('motivation'));
+            $userEvent->setMotivation($request->request->get('motivation'));
 
             $this->manager->persist($userEvent);
             $this->manager->flush();
@@ -222,14 +222,13 @@ class EventsController extends ResourceController
      * )
      * @Route\Patch("/events/{slug}/shotgun")
      */
-    public function patchEventUserAction($slug)
+    public function patchEventUserAction(Request $request, $slug)
     {
         $event = $this->findBySlug($slug);
         if ($event->getEntryMethod() != Event::TYPE_SHOTGUN)
             throw new BadRequestHttpException('Ce n\'est pas un événement à shotgun !');
 
-        $request = $this->getRequest()->request;
-        if (!$request->has('motivation'))
+        if (!$request->request->has('motivation'))
             throw new BadRequestHttpException('Texte de motivation manquant');
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
@@ -237,7 +236,7 @@ class EventsController extends ResourceController
         $userEvent = $repo->findBy(array('event' => $event, 'user' => $user));
 
         if (count($userEvent) == 1) {
-            $userEvent[0]->setMotivation($request->get('motivation'));
+            $userEvent[0]->setMotivation($request->request->get('motivation'));
             $this->manager->flush();
         } else {
             throw new NotFoundHttpException('Participation au shotgun non trouvée');

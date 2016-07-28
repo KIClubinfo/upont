@@ -42,10 +42,9 @@ class DefaultController extends BaseController
      * )
      * @Route\Get("/online")
      */
-    public function onlineAction()
+    public function onlineAction(Request $request)
     {
-        $query = $this->getRequest()->query;
-        $delay = $query->has('delay') ? (int)$query->get('delay') : 30;
+        $delay = $request->query->has('delay') ? (int)$request->query->get('delay') : 30;
 
         $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
         $qb->select('u')
@@ -131,10 +130,9 @@ class DefaultController extends BaseController
      * )
      * @Route\Post("/resetting/token/{token}")
      */
-    public function resettingTokenAction($token)
+    public function resettingTokenAction(Request $request, $token)
     {
-        $request = $this->getRequest()->request;
-        if (!$request->has('password') || !$request->has('check'))
+        if (!$request->request->has('password') || !$request->request->has('check'))
             throw new BadRequestHttpException('Champs password/check non rempli(s)');
 
         $manager = $this->getDoctrine()->getManager();
@@ -152,10 +150,10 @@ class DefaultController extends BaseController
             $user = $userManager->findUserByUsername($username);
 
 
-            if ($request->get('password') != $request->get('check'))
+            if ($request->request->get('password') != $request->request->get('check'))
                 throw new BadRequestHttpException('Mots de passe non identiques');
 
-            $user->setPlainPassword($request->get('password'));
+            $user->setPlainPassword($request->request->get('password'));
             $userManager->updateUser($user, true);
 
             return $this->restResponse(null, 204);

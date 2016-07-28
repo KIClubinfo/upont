@@ -1,0 +1,24 @@
+parameters:
+    database_host: 127.0.0.1
+    database_name: circle_test
+    database_user: ubuntu
+    database_password: null
+    database_v1_password: null
+    locale: fr
+    proxy_url: null
+    proxy_user: null
+    database_driver: pdo_mysql
+    database_port: null
+    mailer_transport: smtp
+    mailer_auth_mode: login
+    mailer_host: eleves.enpc.fr
+    mailer_port: 587
+    mailer_user: null
+    mailer_password: null
+    mailer_encryption: tls
+    secret: ThisTokenIsNotSoSecretChangeIt
+    debug_toolbar: true
+    debug_redirects: false
+    use_assetic_controller: true
+    fleur_token: 1234
+    jwt_passphrase: ololol

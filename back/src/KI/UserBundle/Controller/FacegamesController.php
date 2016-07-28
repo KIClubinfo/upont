@@ -4,6 +4,7 @@ namespace KI\UserBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use KI\CoreBundle\Controller\ResourceController;
@@ -30,7 +31,10 @@ class FacegamesController extends ResourceController
      *  section="Utilisateurs"
      * )
      */
-    public function getFacegamesAction() { return $this->getAll(); }
+    public function getFacegamesAction()
+    {
+        return $this->getAll();
+    }
 
     /**
      * @ApiDoc(
@@ -45,7 +49,10 @@ class FacegamesController extends ResourceController
      *  section="Utilisateurs"
      * )
      */
-    public function getFacegameAction($slug) { return $this->getOne($slug); }
+    public function getFacegameAction($slug)
+    {
+        return $this->getOne($slug);
+    }
 
     /**
      * @ApiDoc(
@@ -61,7 +68,8 @@ class FacegamesController extends ResourceController
      *  section="Utilisateurs"
      * )
      */
-    public function postFacegameAction() {
+    public function postFacegameAction()
+    {
         $return = $this->postData($this->is('USER'));
 
         if ($return['code'] == 201) {
@@ -90,17 +98,16 @@ class FacegamesController extends ResourceController
      *  section="Utilisateurs"
      * )
      */
-    public function patchFacegameAction($slug)
+    public function patchFacegameAction(Request $request, $slug)
     {
         $facegame = $this->findBySlug($slug);
 
-        $request = $this->getRequest()->request;
-        if (!$request->has('wrongAnswers') || !$request->has('duration')) {
+        if (!$request->request->has('wrongAnswers') || !$request->request->has('duration')) {
             throw new BadRequestHttpException('Paramètre manquant');
         }
 
         $facegameHelper = $this->get('ki_user.helper.facegame');
-        $facegameHelper->endGame($facegame, $request->get('wrongAnswers'), $request->get('duration'));
+        $facegameHelper->endGame($facegame, $request->request->get('wrongAnswers'), $request->request->get('duration'));
 
         return $this->jsonResponse(null, 204);
     }

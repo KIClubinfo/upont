@@ -2,21 +2,21 @@ services:
     ki_core.helper.cleaning:
         class: KI\CoreBundle\Helper\CleaningHelper
         arguments:
-            - @doctrine.orm.entity_manager
-            - @ki_user.repository.notification
+            - '@doctrine.orm.entity_manager'
+            - '@ki_user.repository.notification'
 
     ki_core.helper.form:
         class: KI\CoreBundle\Helper\FormHelper
         arguments:
-            - @doctrine.orm.entity_manager
-            - @form.factory
-            - @router
+            - '@doctrine.orm.entity_manager'
+            - '@form.factory'
+            - '@router'
         calls:
-            - [setRequest, [@request_stack]]
+            - [setRequest, ['@request_stack']]
 
     ki_core.helper.paginate:
         class: KI\CoreBundle\Helper\PaginateHelper
         arguments:
-            - @doctrine.orm.entity_manager
+            - '@doctrine.orm.entity_manager'
         calls:
-            - [setRequest, [@request_stack]]
+            - [setRequest, ['@request_stack']]

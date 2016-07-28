@@ -3,7 +3,7 @@ services:
     ki_clubinfo.listener.fix:
         class: KI\ClubinfoBundle\Listener\FixListener
         arguments:
-            - @ki_clubinfo.service.slack
-            - @event_dispatcher
+            - '@ki_clubinfo.service.slack'
+            - '@event_dispatcher'
         tags:
             - { name: doctrine.event_listener, event: postPersist }
