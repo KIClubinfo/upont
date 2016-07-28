@@ -33,11 +33,12 @@ class UserRepository extends EntityRepository
         ')
             ->setParameter('userId', $userId);
 
-        if($limit)
+        if($limit !== null && $limit > 0) {
             $query->setMaxResults($limit);
 
-        if($limit && $page)
-            $query->setFirstResult(($page - 1) * $limit);
+            if ($page !== null && $page > 0)
+                $query->setFirstResult(($page - 1) * $limit);
+        }
 
         return $query->getResult();
     }
