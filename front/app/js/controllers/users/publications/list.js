@@ -62,6 +62,10 @@ angular.module('upont')
             Paginate.next($scope.newsItems).then(function(data){
                 $scope.newsItems = data;
             });
+
+            Paginate.next($scope.events).then(function(data){
+                $scope.events = data;
+            });
         };
 
         $scope.$on('newEvent', function(event, args) {
@@ -220,7 +224,7 @@ angular.module('upont')
                         // Si c'est l'administration on ne charge que le seul club de l'user actuel
                         if (Permissions.hasRight('ROLE_EXTERIEUR'))
                             return Paginate.get('clubs/' + Permissions.username() + '/events?sort=-date', 10);
-                        return Paginate.get('own/events');
+                        return Paginate.get('own/events', 10);
                     }],
                     messages: ['Paginate', function(Paginate) {
                         return Paginate.get('newsitems?sort=-date&limit=10&name=message');
