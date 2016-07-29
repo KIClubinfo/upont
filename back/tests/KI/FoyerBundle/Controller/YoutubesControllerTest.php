@@ -11,10 +11,10 @@ class YoutubesControllerTest extends WebTestCase
     public function testPost()
     {
         $this->client->request(
-            'POST', '/youtubes', array(
+            'POST', '/youtubes', [
                 'name' => 'Test Youtube',
                 'link' => 'www.youtube.com/watch?v=dQw4w9WgXcQ'
-            )
+            ]
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);

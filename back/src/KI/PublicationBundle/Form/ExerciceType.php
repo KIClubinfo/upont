@@ -19,9 +19,9 @@ class ExerciceType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => Exercice::class,
             'csrf_protection' => false,
-        ));
+        ]);
     }
 }

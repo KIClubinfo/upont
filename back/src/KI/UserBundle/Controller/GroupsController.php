@@ -77,19 +77,19 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
         if (!is_string($role))
             throw new UnexpectedTypeException($role, 'string');
 
-        $group->setRoles(array($role));
+        $group->setRoles([$role]);
 
         $this->manager->persist($group);
         $this->manager->flush();
         return RestView::create($group,
             201,
-            array(
+            [
                 'Location' => $this->generateUrl(
                     'get_group',
-                    array('slug' => $group->getSlug()),
+                    ['slug' => $group->getSlug()],
                     true
                 )
-            )
+            ]
         );
     }
 
@@ -123,7 +123,7 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
             if (!is_string($name))
                 throw new UnexpectedTypeException($name, 'string');
 
-            $group->setName(array($name));
+            $group->setName([$name]);
             $request->request->remove('name');
         }
 
@@ -132,7 +132,7 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
             if (!is_string($role))
                 throw new UnexpectedTypeException($role, 'string');
 
-            $group->setRoles(array($role));
+            $group->setRoles([$role]);
             $request->request->remove('role');
         }
 
@@ -143,13 +143,13 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
         $this->manager->flush();
         return RestView::create($group,
             204,
-            array(
+            [
                 'Location' => $this->generateUrl(
                     'get_group',
-                    array('slug' => $group->getSlug()),
+                    ['slug' => $group->getSlug()],
                     true
                 )
-            )
+            ]
         );
     }
 

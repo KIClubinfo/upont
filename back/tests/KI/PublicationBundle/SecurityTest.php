@@ -9,12 +9,12 @@ class SecurityTest extends WebTestCase
     public function testFirewall()
     {
         $this->client = static::createClient();
-        $routes = array(
-            array(401, 'GET', '/newsitems'),
-            array(404, 'GET', '/courses/mecanique-des-structures/exercices/test/download'),
-            array(200, 'GET', '/users/VpqtuEGC/calendar'),
-            array(401, 'POST', '/newsitems/le-beton-c-est-bon/comments'),
-        );
+        $routes = [
+            [401, 'GET', '/newsitems'],
+            [404, 'GET', '/courses/mecanique-des-structures/exercices/test/download'],
+            [200, 'GET', '/users/VpqtuEGC/calendar'],
+            [401, 'POST', '/newsitems/le-beton-c-est-bon/comments'],
+        ];
         $this->checkRoutes($routes);
     }
 
@@ -28,7 +28,7 @@ class SecurityTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('POST', '/newsitems', array('name' => 'La Porte', 'text' => 'C\'est comme perdre'));
+        $this->client->request('POST', '/newsitems', ['name' => 'La Porte', 'text' => 'C\'est comme perdre']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
 
@@ -36,7 +36,7 @@ class SecurityTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('POST', '/newsitems', array('name' => 'La Porte', 'text' => 'C\'est comme perdre', 'authorClub' => 'bde'));
+        $this->client->request('POST', '/newsitems', ['name' => 'La Porte', 'text' => 'C\'est comme perdre', 'authorClub' => 'bde']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 403);
 
@@ -44,7 +44,7 @@ class SecurityTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 403);
 
-        $this->client->request('POST', '/newsitems', array('name' => 'Manger', 'text' => 'C\'est comme perdre', 'authorClub' => 'bda'));
+        $this->client->request('POST', '/newsitems', ['name' => 'Manger', 'text' => 'C\'est comme perdre', 'authorClub' => 'bda']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
 
@@ -57,14 +57,14 @@ class SecurityTest extends WebTestCase
     {
         // On se présente comme un admissible
         $this->connect('admissibles', 'password');
-        $routes = array(
-            array(200, 'GET', '/newsitems'),
-            array(200, 'GET', '/courses'),
-            array(403, 'POST', '/newsitems'),
-            array(403, 'POST', '/events'),
-            array(403, 'PATCH', '/events/don-giovanni'),
-            array(403, 'PATCH', '/newsitems/pulls'),
-        );
+        $routes = [
+            [200, 'GET', '/newsitems'],
+            [200, 'GET', '/courses'],
+            [403, 'POST', '/newsitems'],
+            [403, 'POST', '/events'],
+            [403, 'PATCH', '/events/don-giovanni'],
+            [403, 'PATCH', '/newsitems/pulls'],
+        ];
         $this->checkRoutes($routes);
     }
 
@@ -72,12 +72,12 @@ class SecurityTest extends WebTestCase
     {
         // On se présente comme un extérieur de l'administration
         $this->connect('gcc', 'password');
-        $routes = array(
-            array(200, 'GET', '/newsitems'),
-            array(403, 'GET', '/courses'),
-            array(403, 'POST', '/newsitems/le-beton-c-est-bon/comments'),
-            array(200, 'GET', '/newsitems/le-beton-c-est-bon/comments')
-        );
+        $routes = [
+            [200, 'GET', '/newsitems'],
+            [403, 'GET', '/courses'],
+            [403, 'POST', '/newsitems/le-beton-c-est-bon/comments'],
+            [200, 'GET', '/newsitems/le-beton-c-est-bon/comments']
+        ];
         $this->checkRoutes($routes);
     }
 }

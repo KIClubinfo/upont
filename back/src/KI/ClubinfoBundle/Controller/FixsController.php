@@ -95,7 +95,7 @@ class FixsController extends ResourceController
                 'Demande de dépannage',
                 'Ta demande de dépannage a été actualisée par le KI !',
                 'to',
-                array($fix->getUser())
+                [$fix->getUser()]
             );
         }
         return $this->patch($slug);

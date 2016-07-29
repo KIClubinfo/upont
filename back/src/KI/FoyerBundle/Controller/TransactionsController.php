@@ -81,7 +81,7 @@ class TransactionsController extends ResourceController
 
         $this->trust($this->isClubMember('foyer') || $this->is('ADMIN') || $this->user == $user);
 
-        $transactions = $this->repository->findBy(array('user' => $user));
+        $transactions = $this->repository->findBy(['user' => $user]);
         return $this->restResponse($transactions);
     }
 

@@ -15,11 +15,11 @@ class PonthubControllerTest extends WebTestCase
         $fs->copy($basePath.'files_tmp.list', $basePath.'files.list');
         $list = new UploadedFile($basePath.'files.list', 'files.list');
 
-        $this->client->request('POST', '/filelist/12345', array(), array('filelist' => $list));
+        $this->client->request('POST', '/filelist/12345', [], ['filelist' => $list]);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 403);
 
-        $this->client->request('POST', '/filelist/1234', array(), array('filelist' => $list));
+        $this->client->request('POST', '/filelist/1234', [], ['filelist' => $list]);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 202);
 
@@ -59,11 +59,11 @@ class PonthubControllerTest extends WebTestCase
 
     public function testImdbSearch()
     {
-        $this->client->request('POST', '/imdb/search', array('album' => 'Back In Black'));
+        $this->client->request('POST', '/imdb/search', ['album' => 'Back In Black']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('POST', '/imdb/search', array('name' => 'Star Wars'));
+        $this->client->request('POST', '/imdb/search', ['name' => 'Star Wars']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
         $this->assertTrue(!empty(json_decode($response->getContent())));
@@ -71,11 +71,11 @@ class PonthubControllerTest extends WebTestCase
 
     public function testImdbInfos()
     {
-        $this->client->request('POST', '/imdb/infos', array('album' => 'Back In Black'));
+        $this->client->request('POST', '/imdb/infos', ['album' => 'Back In Black']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('POST', '/imdb/infos', array('id' => 'tt0076759'));
+        $this->client->request('POST', '/imdb/infos', ['id' => 'tt0076759']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
         $infos = json_decode($response->getContent(), true);

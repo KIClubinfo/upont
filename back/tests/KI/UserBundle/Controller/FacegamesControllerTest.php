@@ -13,10 +13,10 @@ class FacegamesControllerTest extends WebTestCase
     public function testPost()
     {
         $this->client->request(
-            'POST', '/facegames', array(
+            'POST', '/facegames', [
                 'promo' => '016',
                 'hardcore' => true
-            )
+            ]
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
@@ -48,11 +48,11 @@ class FacegamesControllerTest extends WebTestCase
         $this->assertJsonResponse($response, 404);
 
         $this->client->request(
-            'PATCH', '/facegames/'.$this->gameId, array('wrongAnswers' => 42, 'duration' => 140));
+            'PATCH', '/facegames/'.$this->gameId, ['wrongAnswers' => 42, 'duration' => 140]);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/facegames/0', array('username' => 'miam', 'email' => '123@mail.fr'));
+        $this->client->request('PATCH', '/facegames/0', ['username' => 'miam', 'email' => '123@mail.fr']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }

@@ -48,7 +48,7 @@ class StatisticsHelper
             $beerCount++;
 
             if (!isset($pieGraph[$beer->getSlug()])) {
-                $pieGraph[$beer->getSlug()] = array('beer' => $beer, 'count' => 0);
+                $pieGraph[$beer->getSlug()] = ['beer' => $beer, 'count' => 0];
                 $beersCountArray[$beer->getSlug()] = 0;
             }
             $pieGraph[$beer->getSlug()]['count']++;
@@ -57,11 +57,11 @@ class StatisticsHelper
 
         array_multisort($beersCountArray, SORT_DESC, $pieGraph);
 
-        return array(
+        return [
             'beersDrunk'    => $pieGraph,
             'stackedLiters' => $timeGraph,
             'totalLiters'   => $volume,
             'totalBeers'    => $beerCount
-        );
+        ];
     }
 }

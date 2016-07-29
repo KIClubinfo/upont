@@ -17,7 +17,7 @@ class LoadGameFixture extends AbstractFixture implements OrderedFixtureInterface
         $game->setName('Age of Empires 2');
         $game->setYear(1999);
         $game->setDescription('Un jeu à apporter absolument aux LANs ! Contient l\'extension Forgotten Empires, version HD !');
-        $game->setTags(array($this->getReference('tag-poseeey')));
+        $game->setTags([$this->getReference('tag-poseeey')]);
         $game->setStatus('OK');
         $game->setImage($this->getReference('image-game-age-of-empires-2'));
         $game->setOs('Windows');

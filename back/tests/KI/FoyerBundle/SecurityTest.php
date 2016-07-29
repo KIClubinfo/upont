@@ -27,9 +27,9 @@ class SecurityTest extends WebTestCase
     {
         // On se présente comme un admissible
         $this->connect('admissibles', 'password');
-        $routes = array(
-            array(200, 'GET', '/statistics/foyer'),
-        );
+        $routes = [
+            [200, 'GET', '/statistics/foyer'],
+        ];
         $this->checkRoutes($routes);
     }
 
@@ -37,9 +37,9 @@ class SecurityTest extends WebTestCase
     {
         // On se présente comme un admissible
         $this->connect('muzardt', 'password');
-        $routes = array(
-            array(403, 'POST', '/transactions'),
-        );
+        $routes = [
+            [403, 'POST', '/transactions'],
+        ];
         $this->checkRoutes($routes);
     }
 
@@ -47,9 +47,9 @@ class SecurityTest extends WebTestCase
     {
         // On se présente comme un extérieur de l'administration
         $this->connect('gcc', 'password');
-        $routes = array(
-            array(403, 'GET', '/statistics/foyer'),
-        );
+        $routes = [
+            [403, 'GET', '/statistics/foyer'],
+        ];
         $this->checkRoutes($routes);
     }
 }

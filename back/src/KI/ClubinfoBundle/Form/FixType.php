@@ -16,17 +16,17 @@ class FixType extends AbstractType
             ->add('name')
             ->add('problem')
             ->add('fix')
-            ->add('status', null, array(
+            ->add('status', null, [
                 'empty_data' => 'Non vu'
-            ))
+            ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class'      => Fix::class,
             'csrf_protection' => false
-        ));
+        ]);
     }
 }

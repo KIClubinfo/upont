@@ -23,15 +23,15 @@ class SoftwaresControllerTest extends WebTestCase
 
     public function testPatch()
     {
-        $this->client->request('PATCH', '/softwares/windows-8', array('image' => 'https://upload.wikimedia.org/wikipedia/commons/5/5a/Wikipedia-logo-v2-fr.png', 'year' => 1999, 'author' => 'Microsoft', 'version' => '0.0.1'));
+        $this->client->request('PATCH', '/softwares/windows-8', ['image' => 'https://upload.wikimedia.org/wikipedia/commons/5/5a/Wikipedia-logo-v2-fr.png', 'year' => 1999, 'author' => 'Microsoft', 'version' => '0.0.1']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/softwares/windows-8', array('size' => 0));
+        $this->client->request('PATCH', '/softwares/windows-8', ['size' => 0]);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('PATCH', '/softwares/sjoajsiohaysahais-asbsksaba7', array('username' => 'miam', 'email' => '123@mail.fr'));
+        $this->client->request('PATCH', '/softwares/sjoajsiohaysahais-asbsksaba7', ['username' => 'miam', 'email' => '123@mail.fr']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }

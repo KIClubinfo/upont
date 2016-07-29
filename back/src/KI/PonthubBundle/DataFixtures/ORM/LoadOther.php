@@ -16,7 +16,7 @@ class LoadOtherFixture extends AbstractFixture implements OrderedFixtureInterfac
         $other->setPath('/root/web/autres/windows vista.iso');
         $other->setName('Windows Vista');
         $other->setDescription('Aimez-vous vraiment l\'informatique?');
-        $other->setTags(array($this->getReference('tag-windaube'), $this->getReference('tag-merde'), $this->getReference('tag-daube')));
+        $other->setTags([$this->getReference('tag-windaube'), $this->getReference('tag-merde'), $this->getReference('tag-daube')]);
         $other->setStatus('OK');
         $manager->persist($other);
         $this->addReference('other-windows-vista', $other);

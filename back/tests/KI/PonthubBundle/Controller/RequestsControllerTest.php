@@ -9,7 +9,7 @@ class RequestsControllerTest extends WebTestCase
     // On crée une ressource sur laquelle seront effectués les tests. Ne pas oublier de supprimer à la fin avec le test DELETE.
     public function testPost()
     {
-        $this->client->request('POST', '/requests', array('name' => 'Sucker Punch'));
+        $this->client->request('POST', '/requests', ['name' => 'Sucker Punch']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
         // On vérifie que le lieu du nouvel objet a été indiqué

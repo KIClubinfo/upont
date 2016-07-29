@@ -13,7 +13,7 @@ class GroupsControllerTest extends WebTestCase
         $this->client->request(
             'POST',
             '/groups',
-            array('name' => 'Groupe test', 'role' => 'ROLE_USER')
+            ['name' => 'Groupe test', 'role' => 'ROLE_USER']
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
@@ -39,17 +39,17 @@ class GroupsControllerTest extends WebTestCase
     public function testPatch()
     {
         $this->client->request('PATCH', '/groups/groupe-test',
-            array('role' => 'ROLE_ADMIN'));
+            ['role' => 'ROLE_ADMIN']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
         $this->client->request('PATCH', '/groups/groupe-test',
-            array('firstName' => ''));
+            ['firstName' => '']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
         $this->client->request('PATCH', '/groups/sjoajsiohaysahais-asbsksaba7',
-            array('username' => 'miam', 'email' => '123@mail.fr'));
+            ['username' => 'miam', 'email' => '123@mail.fr']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }

@@ -13,20 +13,20 @@ class TutoType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('text', null, array(
+            ->add('text', null, [
                 'empty_data' => 'Tutoriel en cours d\'écriture...'
-            ))
-            ->add('icon', null, array(
+            ])
+            ->add('icon', null, [
                 'empty_data' => 'book'
-            ))
+            ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class'      => Tuto::class,
             'csrf_protection' => false
-        ));
+        ]);
     }
 }

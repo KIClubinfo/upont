@@ -38,9 +38,9 @@ class PaginateHelper
         $sort  = $request->has('sort') ? $request->get('sort') : null;
 
         if ($sort === null) {
-            $sortBy = array('id' => 'DESC');
+            $sortBy = ['id' => 'DESC'];
         } else {
-            $sortBy = array();
+            $sortBy = [];
 
             foreach (explode(',', $sort) as $value) {
                 $order = preg_match('/^\-.*/isU', $value) ? 'DESC' : 'ASC';
@@ -49,7 +49,7 @@ class PaginateHelper
             }
         }
 
-        $findBy = array();
+        $findBy = [];
         foreach ($request->all() as $key => $value) {
             if ($key != 'page' && $key != 'limit' && $key != 'sort') {
                 $findBy[$key] = $value;
@@ -67,7 +67,7 @@ class PaginateHelper
         $page  = min($page, $totalPages);
         $page  = max($page, 1);
 
-        return array(
+        return [
             'findBy'     => $findBy,
             'sortBy'     => $sortBy,
             'limit'      => $limit,
@@ -75,7 +75,7 @@ class PaginateHelper
             'page'       => $page,
             'totalPages' => $totalPages,
             'count'      => $count
-        );
+        ];
     }
 
     /**
@@ -98,7 +98,7 @@ class PaginateHelper
 
         // On va générer les notres pour les links
         $baseUrl .= 'page=';
-        $links = array();
+        $links = [];
 
         // First
         $links[] = $baseUrl.'1'.'&limit='.$limit.'>;rel=first';
@@ -119,9 +119,9 @@ class PaginateHelper
         // Last
         $links[] = $baseUrl.$totalPages.'&limit='.$limit.'>;rel=last';
 
-        return RestView::create($results, 200, array(
+        return RestView::create($results, 200, [
             'Links' => implode(',', $links),
             'Total-count' => $count
-        ));
+        ]);
     }
 }

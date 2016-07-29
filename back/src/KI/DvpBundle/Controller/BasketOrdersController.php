@@ -110,11 +110,11 @@ class BasketOrdersController extends ResourceController
         $basketRepository = $this->manager->getRepository('KIDvpBundle:Basket');
         $basket = $basketRepository->findOneBySlug($slug);
 
-        $basketOrder = $this->repository->findOneBy(array(
+        $basketOrder = $this->repository->findOneBy([
             'basket' => $basket,
             'email' => $isAuthenticated ? $this->user->getEmail() : $request->request->get('email'),
             'dateRetrieve' => $request->request->get('dateRetrieve'),
-        ));
+        ]);
 
         if ($basketOrder !== null) {
             throw new BadRequestHttpException('Tu as déjà commandé !');
@@ -181,11 +181,11 @@ class BasketOrdersController extends ResourceController
         // On identifie les utilisateurs par leur mail
         $basketRepository = $this->manager->getRepository('KIDvpBundle:Basket');
 
-        $basketOrder = $this->repository->findOneBy(array(
+        $basketOrder = $this->repository->findOneBy([
             'basket' => $basketRepository->findOneBySlug($slug),
             'email' => $email,
             'dateRetrieve' => $request->request->get('dateRetrieve'),
-        ));
+        ]);
 
         if ($basketOrder === null) {
             throw new BadRequestHttpException('Commande non trouvée');
@@ -223,11 +223,11 @@ class BasketOrdersController extends ResourceController
         $user = $userRepository->findOneByEmail($email);
         $basketRepository = $this->manager->getRepository('KIDvpBundle:Basket');
 
-        $basketOrder = $this->repository->findOneBy(array(
+        $basketOrder = $this->repository->findOneBy([
             'basket' => $basketRepository->findOneBySlug($slug),
             'email' => $email,
             'dateRetrieve' => $dateRetrieve
-        ));
+        ]);
 
         if ($basketOrder === null) {
             throw new NotFoundHttpException('Commande non trouvée');

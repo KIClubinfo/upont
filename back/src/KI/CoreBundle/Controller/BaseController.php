@@ -64,7 +64,7 @@ class BaseController extends CoreController
      * @param  array $headers Des headers spécifiques si nécéssaire
      * @return Response
      */
-    public function restResponse($data, $code = 200, array $headers = array())
+    public function restResponse($data, $code = 200, array $headers = [])
     {
         return new Response(
             $this->get('jms_serializer')->serialize($data, 'json'),
@@ -80,7 +80,7 @@ class BaseController extends CoreController
      * @param  array $headers Des headers spécifiques si nécéssaire
      * @return JsonResponse
      */
-    public function jsonResponse($data, $code = 200, $headers = array())
+    public function jsonResponse($data, $code = 200, $headers = [])
     {
         return new JsonResponse($data, $code, $headers);
     }
@@ -92,7 +92,7 @@ class BaseController extends CoreController
      * @param  array $headers Des headers spécifiques si nécéssaire
      * @return Response
      */
-    public function htmlResponse($data, $code = 200, array $headers = array())
+    public function htmlResponse($data, $code = 200, array $headers = [])
     {
         return new Response($data, $code, $headers);
     }

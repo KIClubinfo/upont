@@ -10,11 +10,11 @@ class BasketsControllerTest extends WebTestCase
     // Ne pas oublier de supprimer à la fin avec le test DELETE.
     public function testPost()
     {
-        $this->client->request('POST', '/baskets', array(
+        $this->client->request('POST', '/baskets', [
             'name' => 'Panier test',
             'content' => 'Des fruits, des légumes... que des bonnes choses',
             'price' => 10
-            )
+            ]
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
@@ -39,19 +39,19 @@ class BasketsControllerTest extends WebTestCase
 
     public function testPatch()
     {
-        $this->client->request('PATCH', '/baskets/panier-test', array(
+        $this->client->request('PATCH', '/baskets/panier-test', [
             'price' => 20,
             'content' => 'Encore plus de bonnes choses'
-            )
+            ]
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/baskets/panier-test', array('text' => ''));
+        $this->client->request('PATCH', '/baskets/panier-test', ['text' => '']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('PATCH', '/baskets/sjoajsiohaysahais-asbsksaba7', array('username' => 'miam', 'email' => '123@mail.fr'));
+        $this->client->request('PATCH', '/baskets/sjoajsiohaysahais-asbsksaba7', ['username' => 'miam', 'email' => '123@mail.fr']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }

@@ -160,7 +160,7 @@ class DefaultController extends ResourceController
 
         // On vérifie que la personne a le droit de consulter les stats
         if ($user !== $this->user && empty($user->getStatsPonthub()) && !$this->is('ADMIN')) {
-            return $this->jsonResponse(array('error' => 'Impossible d\'afficher les statistiques PontHub'));
+            return $this->jsonResponse(['error' => 'Impossible d\'afficher les statistiques PontHub']);
         }
 
         return $this->jsonResponse($statisticsHelper->getUserStatistics($user));
@@ -185,12 +185,12 @@ class DefaultController extends ResourceController
     {
         $statisticsHelper = $this->get('ki_ponthub.helper.global_statistics');
 
-        return $this->jsonResponse(array(
+        return $this->jsonResponse([
             'downloaders' => $statisticsHelper->getGlobalDownloaders(),
             'downloads'   => $statisticsHelper->getGlobalDownloads(),
             'ponthub'     => $statisticsHelper->getGlobalPonthub(),
             'years'       => $statisticsHelper->getGlobalYears(),
             'timeline'    => $statisticsHelper->getGlobalTimeline()
-        ));
+        ]);
     }
 }

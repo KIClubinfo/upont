@@ -37,8 +37,8 @@ class ImagesController extends BaseController
         $manager->persist($image);
         $manager->flush();
 
-        return $this->jsonResponse(array(
+        return $this->jsonResponse([
             'filelink' => '../api/'.$image->getWebPath(),
-        ), 201);
+        ], 201);
     }
 }

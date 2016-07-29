@@ -23,15 +23,15 @@ class GamesControllerTest extends WebTestCase
 
     public function testPatch()
     {
-        $this->client->request('PATCH', '/games/age-of-empires-2', array('genres' => 'Geekage,Lanage', 'year' => 1999));
+        $this->client->request('PATCH', '/games/age-of-empires-2', ['genres' => 'Geekage,Lanage', 'year' => 1999]);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/games/age-of-empires-2', array('size' => 0));
+        $this->client->request('PATCH', '/games/age-of-empires-2', ['size' => 0]);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('PATCH', '/games/sjoajsiohaysahais-asbsksaba7', array('username' => 'miam', 'email' => '123@mail.fr'));
+        $this->client->request('PATCH', '/games/sjoajsiohaysahais-asbsksaba7', ['username' => 'miam', 'email' => '123@mail.fr']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }

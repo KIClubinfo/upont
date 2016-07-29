@@ -84,7 +84,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
      * @ORM\Column(name="preferences", type="array", nullable=true)
      * @Assert\Type("array")
      */
-    protected $preferences = array();
+    protected $preferences = [];
 
     /**
      * Token faible permettant de créer des urls personnalisées pour l'user
@@ -100,7 +100,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
      */
     protected $loginMethod;
 
-    protected $preferencesArray = array(
+    protected $preferencesArray = [
         'notif_followed_event' => true,
         'notif_followed_news'  => true,
         'notif_news_perso'     => true,
@@ -111,7 +111,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
         'notif_followed_annal' => true,
         //'notif_achievement'    => true,
         //'notif_next_level'     => true
-    );
+    ];
 
     /**
      * @JMS\VirtualProperty()

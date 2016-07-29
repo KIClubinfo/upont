@@ -20,7 +20,7 @@ class AchievementCheckListener
     protected $user;
 
     // Liste des achievements unlockés actuellement (identifiants seulement)
-    protected $achievements = array();
+    protected $achievements = [];
 
     public function __construct(EntityManager $manager, TokenStorage $tokenStorage, AuthorizationChecker $authorizationChecker)
     {
@@ -231,7 +231,7 @@ class AchievementCheckListener
     public function check100()
     {
         $repo = $this->manager->getRepository('KIUserBundle:ClubUser');
-        $return = $repo->findBy(array('user' => $this->user));
+        $return = $repo->findBy(['user' => $this->user]);
         return count($return) > 0;
     }
 
@@ -258,7 +258,7 @@ class AchievementCheckListener
         $oAchievement = $repoA->findOneByAchievement(Achievement::FOYER_BIS);
 
         $repoAU = $this->manager->getRepository('KIUserBundle:AchievementUser');
-        $achievementUsers = $repoAU->findBy(array('achievement' => $oAchievement, 'user' => $this->user));
+        $achievementUsers = $repoAU->findBy(['achievement' => $oAchievement, 'user' => $this->user]);
 
         if (count($achievementUsers) == 1) {
             $this->manager->remove($achievementUsers[0]);
@@ -276,7 +276,7 @@ class AchievementCheckListener
         $oAchievement = $repoA->findOneByAchievement(Achievement::FOYER);
 
         $repoAU = $this->manager->getRepository('KIUserBundle:AchievementUser');
-        $achievementUsers = $repoAU->findBy(array('achievement' => $oAchievement, 'user' => $this->user));
+        $achievementUsers = $repoAU->findBy(['achievement' => $oAchievement, 'user' => $this->user]);
 
         if (count($achievementUsers) == 1) {
             $this->manager->remove($achievementUsers[0]);
@@ -348,7 +348,7 @@ class AchievementCheckListener
         $repo = $this->manager->getRepository('KIUserBundle:Club');
         $club = $repo->findOneBySlug('ki');
         $repo = $this->manager->getRepository('KIUserBundle:ClubUser');
-        $return = $repo->findBy(array('user' => $this->user, 'club' => $club));
+        $return = $repo->findBy(['user' => $this->user, 'club' => $club]);
         return count($return) == 1;
     }
 

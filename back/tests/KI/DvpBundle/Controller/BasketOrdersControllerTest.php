@@ -11,9 +11,9 @@ class BasketOrdersControllerTest extends WebTestCase
     public function testPost()
     {
         // Poste une commande
-        $this->client->request('POST', '/baskets/panier-moyen/order', array(
+        $this->client->request('POST', '/baskets/panier-moyen/order', [
             'dateRetrieve' => 123468736
-            )
+            ]
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
@@ -39,10 +39,10 @@ class BasketOrdersControllerTest extends WebTestCase
         $this->client->request(
             'PATCH',
             '/baskets/panier-moyen/order/alberic.trancart@eleves.enpc.fr',
-            array(
+            [
                 'paid' => true,
                 'dateRetrieve' => 123468736,
-                )
+            ]
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);

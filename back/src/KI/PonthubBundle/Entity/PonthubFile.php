@@ -88,7 +88,7 @@ class PonthubFile extends Likeable
      */
     public function tags()
     {
-        $tags = array();
+        $tags = [];
         foreach ($this->listTags as $tag) {
                     $tags[] = $tag->getName();
         }
@@ -107,7 +107,7 @@ class PonthubFile extends Likeable
      */
     public function genres()
     {
-        $genres = array();
+        $genres = [];
         foreach ($this->listGenres as $genre) {
                     $genres[] = $genre->getName();
         }

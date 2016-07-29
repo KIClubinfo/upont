@@ -83,11 +83,11 @@ class OwnControllerTest extends WebTestCase
 
     public function testAddPreferences()
     {
-        $this->client->request('PATCH', '/own/preferences', array('key' => 'lmlqkjflnimpquoi', 'value'=>'ok'));
+        $this->client->request('PATCH', '/own/preferences', ['key' => 'lmlqkjflnimpquoi', 'value'=>'ok']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('PATCH', '/own/preferences', array('key' => 'notif_followed_event', 'value'=>'3'));
+        $this->client->request('PATCH', '/own/preferences', ['key' => 'notif_followed_event', 'value'=>'3']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
@@ -98,11 +98,11 @@ class OwnControllerTest extends WebTestCase
 
     public function testRemovePreferences()
     {
-        $this->client->request('DELETE', '/own/preferences', array('key' => 'lmlqkjflnimpquoi'));
+        $this->client->request('DELETE', '/own/preferences', ['key' => 'lmlqkjflnimpquoi']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('DELETE', '/own/preferences', array('key' => 'notif_followed_event'));
+        $this->client->request('DELETE', '/own/preferences', ['key' => 'notif_followed_event']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
@@ -120,11 +120,11 @@ class OwnControllerTest extends WebTestCase
 
     public function testDeviceRegistration()
     {
-        $this->client->request('POST', '/own/devices', array('device' => 'sjoajsiohaysahais-asbsksaba7', 'type' => 'iOS'));
+        $this->client->request('POST', '/own/devices', ['device' => 'sjoajsiohaysahais-asbsksaba7', 'type' => 'iOS']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('POST', '/own/devices', array('device' => 'sjoajsiohaysahais-asbsksaba7', 'type' => 'iOS'));
+        $this->client->request('POST', '/own/devices', ['device' => 'sjoajsiohaysahais-asbsksaba7', 'type' => 'iOS']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 

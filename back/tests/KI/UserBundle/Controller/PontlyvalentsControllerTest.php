@@ -10,9 +10,9 @@ class PontlyvalentsControllerTest extends WebTestCase
     public function testPost()
     {
         $this->client->request(
-            'POST', '/users/taquet-c/pontlyvalent', array(
+            'POST', '/users/taquet-c/pontlyvalent', [
                 'text' => 'Meilleure successeur possible <3'
-            )
+            ]
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
@@ -38,24 +38,24 @@ class PontlyvalentsControllerTest extends WebTestCase
     public function testPatch()
     {
         $this->client->request(
-            'PATCH', '/users/taquet-c/pontlyvalent', array(
+            'PATCH', '/users/taquet-c/pontlyvalent', [
             'text' => 'Aime les câlins <3'
-            )
+            ]
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
         $this->client->request(
-            'PATCH', '/users/taquet-c/pontlyvalent', array('text' => '')
+            'PATCH', '/users/taquet-c/pontlyvalent', ['text' => '']
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('PATCH', '/users/taquet-c/sjoajsiosbsksaba7', array('name' => 'miam', 'mail' => '123@mail.fr'));
+        $this->client->request('PATCH', '/users/taquet-c/sjoajsiosbsksaba7', ['name' => 'miam', 'mail' => '123@mail.fr']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
 
-        $this->client->request('PATCH', '/users/taquet-c/pontlyvalent', array('name' => 'miam', 'mail' => '123@mail.fr'));
+        $this->client->request('PATCH', '/users/taquet-c/pontlyvalent', ['name' => 'miam', 'mail' => '123@mail.fr']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
     }

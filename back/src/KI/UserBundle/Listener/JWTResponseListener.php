@@ -56,13 +56,13 @@ class JWTResponseListener
         }
 
         $data['code'] = 200;
-        $data['data'] = array(
+        $data['data'] = [
             'username'   => $user->getUsername(),
             'first_name' => $user->getFirstName(),
             'last_name'  => $user->getLastName(),
             'roles'      => $user->getRoles(),
             'first'      => $event->getRequest()->request->has('first')
-        );
+        ];
 
         $event->setData($data);
     }

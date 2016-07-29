@@ -38,7 +38,7 @@ class FormHelper
     {
         // On devine le formulaire à partir du chemin de la classe
         $formName = str_replace('Entity', 'Form', get_class($item)).'Type';
-        $form = $this->formFactory->create(new $formName(), $item, array('method' => $method));
+        $form = $this->formFactory->create(new $formName(), $item, ['method' => $method]);
         $form->handleRequest($this->request);
         $code = 400;
 
@@ -50,10 +50,13 @@ class FormHelper
                 $code = 204;
             }
         } else {
+            if (!$form->isSubmitted()) {
+                $form->submit([]);
+            }
             $this->manager->detach($item);
         }
 
-        return array('form' => $form, 'item' => $item, 'code' => $code);
+        return ['form' => $form, 'item' => $item, 'code' => $code];
     }
 
     /**
@@ -77,21 +80,21 @@ class FormHelper
             $className = $this->namespaceToClassname($data['item']);
             if ($parent === null) {
                 $route = 'get_'.$className;
-                $params = array(
+                $params = [
                     'slug' => $data['item']->getSlug()
-                );
+                ];
             } else {
                 $parentClass = $this->namespaceToClassname($parent);
                 $route = 'get_'.$parentClass.'_'.$className;
-                $params = array(
+                $params = [
                     'slug' => $parent->getSlug(),
                     'id'   => $data['item']->getSlug()
-                );
+                ];
             }
 
-            return RestView::create($data['item'], 201, array(
+            return RestView::create($data['item'], 201, [
                 'Location' => $this->router->generate($route, $params, true)
-            ));
+            ]);
         }
     }
 

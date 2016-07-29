@@ -11,7 +11,7 @@ use Doctrine\ORM\Query\SqlWalker;
  * "MATCH_AGAINST" "(" {StateFieldPathExpression ","}* InParameter {Literal}? ")"
  */
 class MatchAgainst extends FunctionNode {
-    public $columns = array();
+    public $columns = [];
     public $needle;
     public $mode;
 

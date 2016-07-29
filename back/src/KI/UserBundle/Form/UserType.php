@@ -16,10 +16,10 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('plainPassword', RepeatedType::class, array(
+            ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'options' => array('translation_domain' => 'FOSUserBundle'),
-            ))
+                'options' => ['translation_domain' => 'FOSUserBundle'],
+            ])
             ->add('gender')
             ->add('firstName')
             ->add('lastName')
@@ -46,10 +46,10 @@ class UserType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_protection' => false,
             'data_class' => User::class
-        ));
+        ]);
     }
 
     public function getParent()

@@ -20,7 +20,7 @@ class CurlService
      * @param  array  $options Options curl supplémentaire
      * @return string          La réponse
      */
-    public function curl($url, $payload = null, array $options = array())
+    public function curl($url, $payload = null, array $options = [])
     {
         // Réglage des options cURL
         $ch = curl_init();

@@ -13,12 +13,12 @@ class FixsControllerTest extends WebTestCase
         $this->client->request(
             'POST',
             '/fixs',
-            array(
+            [
                 'name' => 'Panne d\'Internet',
                 'problem' => '[Test] J\'arrive pas à avoir Internet',
                 'status' => 'En attente',
                 'fix' => true
-            )
+            ]
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
@@ -46,20 +46,20 @@ class FixsControllerTest extends WebTestCase
         $this->client->request(
             'PATCH',
             '/fixs/panne-d-internet',
-            array('status' => 'Résolu !')
+            ['status' => 'Résolu !']
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/fixs/panne-d-internet', array('name' => ''));
+        $this->client->request('PATCH', '/fixs/panne-d-internet', ['name' => '']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('PATCH', '/fixs/sjoajsiosbsksaba7', array('name' => 'miam', 'mail' => '123@mail.fr'));
+        $this->client->request('PATCH', '/fixs/sjoajsiosbsksaba7', ['name' => 'miam', 'mail' => '123@mail.fr']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
 
-        $this->client->request('PATCH', '/fixs/panne-d-internet', array('name' => 'miam', 'mail' => '123@mail.fr'));
+        $this->client->request('PATCH', '/fixs/panne-d-internet', ['name' => 'miam', 'mail' => '123@mail.fr']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
     }

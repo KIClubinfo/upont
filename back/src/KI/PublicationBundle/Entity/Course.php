@@ -52,7 +52,7 @@ class Course extends Likeable
      * @JMS\Expose
      * @Assert\Type("array")
      */
-    protected $groups = array();
+    protected $groups = [];
 
     /**
      * Liste des annales de ce cours

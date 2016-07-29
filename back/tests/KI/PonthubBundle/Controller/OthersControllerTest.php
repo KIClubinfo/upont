@@ -23,15 +23,15 @@ class OthersControllerTest extends WebTestCase
 
     public function testPatch()
     {
-        $this->client->request('PATCH', '/others/windows-vista', array('image' => 'https://upload.wikimedia.org/wikipedia/commons/5/5a/Wikipedia-logo-v2-fr.png', 'description' => 'De la daube...', 'tags' => 'windaube,vista'));
+        $this->client->request('PATCH', '/others/windows-vista', ['image' => 'https://upload.wikimedia.org/wikipedia/commons/5/5a/Wikipedia-logo-v2-fr.png', 'description' => 'De la daube...', 'tags' => 'windaube,vista']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/others/windows-vista', array('size' => 0));
+        $this->client->request('PATCH', '/others/windows-vista', ['size' => 0]);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('PATCH', '/others/sjoajsiohaysahais-asbsksaba7', array('username' => 'miam', 'email' => '123@mail.fr'));
+        $this->client->request('PATCH', '/others/sjoajsiohaysahais-asbsksaba7', ['username' => 'miam', 'email' => '123@mail.fr']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }

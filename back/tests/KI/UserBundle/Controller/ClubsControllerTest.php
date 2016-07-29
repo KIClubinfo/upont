@@ -10,13 +10,13 @@ class ClubsControllerTest extends WebTestCase
     public function testPost()
     {
         $this->client->request(
-            'POST', '/clubs', array(
+            'POST', '/clubs', [
                 'fullName' => 'Chasse Ponts Tradition',
                 'name' => 'CPT',
                 'administration' => true,
                 'assos' => false,
                 'presentation' => 'La liste pipeau'
-            )
+            ]
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
@@ -53,23 +53,23 @@ class ClubsControllerTest extends WebTestCase
     public function testPatch()
     {
         $this->client->request(
-            'PATCH', '/clubs/cpt', array(
+            'PATCH', '/clubs/cpt', [
                 'image' => 'https://upload.wikimedia.org/wikipedia/commons/5/5a/Wikipedia-logo-v2-fr.png',
                 'banner' => 'https://upload.wikimedia.org/wikipedia/commons/5/5a/Wikipedia-logo-v2-fr.png'
-            )
+            ]
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/clubs/cpt', array('name' => ''));
+        $this->client->request('PATCH', '/clubs/cpt', ['name' => '']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('PATCH', '/clubs/sjoajsiosbsksaba7', array('name' => 'miam', 'mail' => '123@mail.fr'));
+        $this->client->request('PATCH', '/clubs/sjoajsiosbsksaba7', ['name' => 'miam', 'mail' => '123@mail.fr']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
 
-        $this->client->request('PATCH', '/clubs/cpt', array('name' => 'miam', 'mail' => '123@mail.fr'));
+        $this->client->request('PATCH', '/clubs/cpt', ['name' => 'miam', 'mail' => '123@mail.fr']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
     }
@@ -87,34 +87,34 @@ class ClubsControllerTest extends WebTestCase
 
     public function testLink()
     {
-        $this->client->request('POST', '/clubs/cpt/users/dziris', array('role' => ''));
+        $this->client->request('POST', '/clubs/cpt/users/dziris', ['role' => '']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('POST', '/clubs/cpt/users/dziris', array('role' => 'Test'));
+        $this->client->request('POST', '/clubs/cpt/users/dziris', ['role' => 'Test']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('POST', '/clubs/cpt/users/trancara', array('role' => 'Test'));
+        $this->client->request('POST', '/clubs/cpt/users/trancara', ['role' => 'Test']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('POST', '/clubs/cpt/users/dziris', array('role' => 'Test 2'));
+        $this->client->request('POST', '/clubs/cpt/users/dziris', ['role' => 'Test 2']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('POST', '/clubs/fdxcyhjbj/users/dziris', array('role' => 'Test 2'));
+        $this->client->request('POST', '/clubs/fdxcyhjbj/users/dziris', ['role' => 'Test 2']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }
 
     public function testLinkEdit()
     {
-        $this->client->request('PATCH', '/clubs/cpt/users/dziris', array('role' => ''));
+        $this->client->request('PATCH', '/clubs/cpt/users/dziris', ['role' => '']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('PATCH', '/clubs/cpt/users/dziris', array('role' => 'Test 33'));
+        $this->client->request('PATCH', '/clubs/cpt/users/dziris', ['role' => 'Test 33']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
     }

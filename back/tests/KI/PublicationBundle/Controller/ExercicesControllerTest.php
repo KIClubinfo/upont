@@ -19,8 +19,8 @@ class ExercicesControllerTest extends WebTestCase
         $this->client->request(
             'POST',
             '/courses/mecanique-des-familles/exercices',
-            array('name' => 'Super Examen'),
-            array('file' => $file)
+            ['name' => 'Super Examen'],
+            ['file' => $file]
             );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
@@ -54,15 +54,15 @@ class ExercicesControllerTest extends WebTestCase
 
     public function testPatchExercice()
     {
-        $this->client->request('PATCH', '/courses/mecanique-des-familles/exercices/super-examen', array('name' => 'Annale Test'));
+        $this->client->request('PATCH', '/courses/mecanique-des-familles/exercices/super-examen', ['name' => 'Annale Test']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/courses/mecanique-des-familles/exercices/annale-test', array('uploader' => ''));
+        $this->client->request('PATCH', '/courses/mecanique-des-familles/exercices/annale-test', ['uploader' => '']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('PATCH', '/courses/mecanique-des-familles/exercices/sjoajsiosbsksaba7', array('name' => 'Test', 'mail' => '123@mail.fr'));
+        $this->client->request('PATCH', '/courses/mecanique-des-familles/exercices/sjoajsiosbsksaba7', ['name' => 'Test', 'mail' => '123@mail.fr']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }

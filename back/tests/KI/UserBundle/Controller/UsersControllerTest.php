@@ -12,11 +12,11 @@ class UsersControllerTest extends WebTestCase
         $this->client->request(
             'POST',
             '/users',
-            array(
+            [
                 'email' => 'testificate@eleves.enpc.fr',
                 'firstName' => 'KI',
                 'lastName' => 'OP',
-            )
+            ]
         );
         return $this->client->getResponse();
     }
@@ -26,7 +26,7 @@ class UsersControllerTest extends WebTestCase
         $response = $this->postUser();
         $this->assertJsonResponse($response, 201);
 
-        $this->client->request('POST', '/users', array('username' => '', 'email' => '123'));
+        $this->client->request('POST', '/users', ['username' => '', 'email' => '123']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
     }
@@ -51,7 +51,7 @@ class UsersControllerTest extends WebTestCase
         $this->client->request(
             'PATCH',
             '/users/opk',
-            array(
+            [
                 'firstName' => 'KIMiam',
                 'gender' => 'M',
                 'phone' => '06.45.03.69.58',
@@ -65,15 +65,15 @@ class UsersControllerTest extends WebTestCase
                 'statsFacegame' => false,
                 'tour' => true,
                 'image' => 'http://i.imgur.com/QKKfs.png'
-                ));
+            ]);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/users/opk', array('firstName' => ''));
+        $this->client->request('PATCH', '/users/opk', ['firstName' => '']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('PATCH', '/users/sjoajsiohaysahais-asbsksaba7', array('username' => 'miam', 'email' => '123@mail.fr'));
+        $this->client->request('PATCH', '/users/sjoajsiohaysahais-asbsksaba7', ['username' => 'miam', 'email' => '123@mail.fr']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }

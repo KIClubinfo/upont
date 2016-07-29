@@ -93,7 +93,7 @@ class DefaultController extends BaseController
                 ->setSubject('Réinitialisation du mot de passe')
                 ->setFrom('noreply@upont.enpc.fr')
                 ->setTo($user->getEmail())
-                ->setBody($this->renderView('KIUserBundle::resetting.txt.twig', array('token' => $token, 'name' => $user->getFirstName())));
+                ->setBody($this->renderView('KIUserBundle::resetting.txt.twig', ['token' => $token, 'name' => $user->getFirstName()]));
             $this->get('mailer')->send($message);
 
             $dispatcher = $this->container->get('event_dispatcher');

@@ -13,7 +13,7 @@ class LoadImageFixture extends AbstractFixture implements OrderedFixtureInterfac
 {
     public function load(ObjectManager $manager)
     {
-        $images = array(
+        $images = [
             'user-bochetc' => 'bochetc.jpg',
             'user-de-boisc' => 'de-boisc.jpg',
             'user-trancara' => 'trancara.jpg',
@@ -35,7 +35,7 @@ class LoadImageFixture extends AbstractFixture implements OrderedFixtureInterfac
             'game-age-of-empires-2' => 'age-of-empires-2.jpg',
             'software-vista' => 'vista.png',
             'supaero' => 'supaero.jpg'
-        );
+        ];
 
         $path = __DIR__ . '/../../../../../web/uploads/tests/';
         $fs = new Filesystem();

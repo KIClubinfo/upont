@@ -28,7 +28,7 @@ class SubresourceController extends ResourceController
         } else {
             // Récupère le repository de l'entité intermédiaire
             $repository = $this->manager->getRepository('KI'.$this->bundle.'Bundle:'.$this->className.$name);
-            return $repository->findBy(array(strtolower($this->className) => $item));
+            return $repository->findBy([strtolower($this->className) => $item]);
         }
     }
 

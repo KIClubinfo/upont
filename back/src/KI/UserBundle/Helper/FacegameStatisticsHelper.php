@@ -25,12 +25,12 @@ class FacegameStatisticsHelper
      */
     public function globalStatistics()
     {
-        return array(
+        return [
             'totalNormal'        => $this->countNumberGamesNormal(),
             'totalHardcore'      => $this->countNumberGamesHardcore(),
             'normalHighscores'   => $this->getNormalHighscores(),
             'hardcoreHighscores' => $this->getHardcoreHighscores(),
-        );
+        ];
     }
 
     protected function countNumberGamesNormal()
@@ -65,15 +65,15 @@ class FacegameStatisticsHelper
             ->setMaxResults($maxResults)
         ;
         $facegames = $qb->getQuery()->getResult();
-        $return = array();
+        $return = [];
 
         foreach ($facegames as $facegame) {
-            $return[] = array(
+            $return[] = [
                 'name' => $facegame->getUser()->getFirstName().' '.$facegame->getUser()->getLastName(),
                 'promo' => $facegame->getUser()->getPromo(),
                 'duration' => $facegame->getDuration(),
                 'date' => $facegame->getDate(),
-            );
+            ];
         }
         return $return;
     }
@@ -90,15 +90,15 @@ class FacegameStatisticsHelper
             ->setMaxResults($maxResults)
         ;
         $facegames = $qb->getQuery()->getResult();
-        $return = array();
+        $return = [];
 
         foreach ($facegames as $facegame) {
-            $return[] = array(
+            $return[] = [
                 'name' => $facegame->getUser()->getFirstName().' '.$facegame->getUser()->getLastName(),
                 'promo' => $facegame->getUser()->getPromo(),
                 'duration' => $facegame->getDuration(),
                 'date' => $facegame->getDate(),
-            );
+            ];
         }
         return $return;
     }
@@ -110,12 +110,12 @@ class FacegameStatisticsHelper
      */
     public function userStatistics(User $user)
     {
-        return array(
+        return [
             'totalNormal'        => $this->countUserGames($user, 0),
             'totalHardcore'      => $this->countUserGames($user, 1),
             'normalHighscores'   => $this->getUserHighscores($user, 0),
             'hardcoreHighscores' => $this->getUserHighscores($user, 1),
-        );
+        ];
     }
 
     protected function countUserGames($user, $mode)

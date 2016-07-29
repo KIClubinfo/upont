@@ -10,12 +10,12 @@ class NewsitemsControllerTest extends WebTestCase
     // Ne pas oublier de supprimer à la fin avec le test DELETE.
     public function testPost()
     {
-        $this->client->request('POST', '/newsitems', array(
+        $this->client->request('POST', '/newsitems', [
             'name' => 'La Porte',
             'text' => 'C\'est comme perdre',
             'sendMail' => true,
             'authorClub' => 'ki'
-        ));
+        ]);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
         // On vérifie que le lieu du nouvel objet a été indiqué
@@ -54,7 +54,7 @@ class NewsitemsControllerTest extends WebTestCase
         $this->client->request(
             'PATCH',
             '/newsitems/la-porte',
-            array('text' => 'ddssqdqsd', 'sendMail' => false)
+            ['text' => 'ddssqdqsd', 'sendMail' => false]
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
@@ -62,7 +62,7 @@ class NewsitemsControllerTest extends WebTestCase
         $this->client->request(
             'PATCH',
             '/newsitems/la-porte',
-            array('text' => '')
+            ['text' => '']
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
@@ -70,7 +70,7 @@ class NewsitemsControllerTest extends WebTestCase
         $this->client->request(
             'PATCH',
             '/newsitems/sjoajsiohaysahais-asbsksaba7',
-            array('username' => 'miam', 'email' => '123@mail.fr')
+            ['username' => 'miam', 'email' => '123@mail.fr']
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);

@@ -119,7 +119,7 @@ class ClubsController extends SubresourceController
     {
         $repoLink = $this->manager->getRepository('KIUserBundle:ClubUser');
         $club = $this->findBySlug($slug);
-        $link = $repoLink->findBy(array('club' => $club));
+        $link = $repoLink->findBy(['club' => $club]);
 
         foreach ($link as $clubUser) {
             $this->manager->remove($clubUser);
@@ -180,7 +180,7 @@ class ClubsController extends SubresourceController
 
         // Vérifie que la relation n'existe pas déjà
         $repoLink = $this->manager->getRepository('KIUserBundle:ClubUser');
-        $link = $repoLink->findBy(array('club' => $club, 'user' => $user));
+        $link = $repoLink->findBy(['club' => $club, 'user' => $user]);
 
         // On crée la relation si elle n'existe pas déjà
         if (count($link) == 0) {
@@ -191,7 +191,7 @@ class ClubsController extends SubresourceController
             $link->setPriority($user->getId());
 
             // Validation des données annexes
-            $form = $this->createForm(new ClubUserType(), $link, array('method' => 'POST'));
+            $form = $this->createForm(new ClubUserType(), $link, ['method' => 'POST']);
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -240,13 +240,13 @@ class ClubsController extends SubresourceController
 
         // Vérifie que la relation n'existe pas déjà
         $repoLink = $this->manager->getRepository('KIUserBundle:ClubUser');
-        $link = $repoLink->findBy(array('club' => $club, 'user' => $user));
+        $link = $repoLink->findBy(['club' => $club, 'user' => $user]);
 
         // On édite la relation si elle existe (de façon unique)
         if (count($link) == 1) {
             $link = $link[0];
             // Validation des données annexes
-            $form = $this->createForm(new ClubUserType(), $link, array('method' => 'PATCH'));
+            $form = $this->createForm(new ClubUserType(), $link, ['method' => 'PATCH']);
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -288,7 +288,7 @@ class ClubsController extends SubresourceController
 
         // On récupère la relation
         $repoLink = $this->manager->getRepository('KIUserBundle:ClubUser');
-        $link = $repoLink->findBy(array('club' => $club, 'user' => $user));
+        $link = $repoLink->findBy(['club' => $club, 'user' => $user]);
 
         // Supprime la relation si elle existe
         if (count($link) == 1) {
@@ -325,7 +325,7 @@ class ClubsController extends SubresourceController
 
         // Trouve les clubUsers assiciés aux Users
         $repoLink = $this->manager->getRepository('KIUserBundle:ClubUser');
-        $link = $repoLink->findOneBy(array('club' => $club, 'user' => $user));
+        $link = $repoLink->findOneBy(['club' => $club, 'user' => $user]);
 
         $priority = $link->getPriority();
         $promo = $user->getPromo();

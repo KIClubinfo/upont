@@ -43,11 +43,11 @@ class PromoController extends \KI\CoreBundle\Controller\ResourceController
             $rand3 = rand(0, $maxId);
         } while ($rand3 == $rand2 || $rand3 == $rand1);
 
-        $users = array(
+        $users = [
             $query->setParameter('rand', $rand1)->setMaxResults(1)->getSingleResult(),
             $query->setParameter('rand', $rand2)->setMaxResults(1)->getSingleResult(),
             $query->setParameter('rand', $rand3)->setMaxResults(1)->getSingleResult()
-        );
+        ];
 
         return $this->restResponse($users);
     }
@@ -105,7 +105,7 @@ class PromoController extends \KI\CoreBundle\Controller\ResourceController
 
         // Pour chaque utilisateur on essaye de trouver son profil fb, et si oui
         // on récupère la photo de profil
-        $alreadyMatched = array();
+        $alreadyMatched = [];
         foreach ($users as $user) {
             $bestMatch = null;
             $bestPercent = -1;
@@ -128,11 +128,11 @@ class PromoController extends \KI\CoreBundle\Controller\ResourceController
         }
 
         $this->manager->flush();
-        return $this->jsonResponse(array(
+        return $this->jsonResponse([
             'hits'  => $i,
             'fails' => count($users) - $i,
             'ratio' => $i/count($users)
-        ));
+        ]);
     }
 
     // Compare un User uPont et un utilisateur Facebook et essaye de deviner si

@@ -11,12 +11,12 @@ class BeersControllerTest extends WebTestCase
     public function testPost()
     {
         $this->client->request(
-            'POST', '/beers', array(
+            'POST', '/beers', [
                 'name' => 'Test Kro',
                 'price' => 1,
                 'alcohol' => 1,
                 'volume' => 1
-            )
+            ]
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
@@ -33,15 +33,15 @@ class BeersControllerTest extends WebTestCase
 
     public function testPatch()
     {
-        $this->client->request('PATCH', '/beers/test-kro', array('alcohol' => 100));
+        $this->client->request('PATCH', '/beers/test-kro', ['alcohol' => 100]);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/beers/test-kro', array('alcohol' => 'blah'));
+        $this->client->request('PATCH', '/beers/test-kro', ['alcohol' => 'blah']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('PATCH', '/beers/test-ksdqsdqsdsdqsdsdqsro', array('alcohol' => 'blah'));
+        $this->client->request('PATCH', '/beers/test-ksdqsdqsdsdqsdsdqsro', ['alcohol' => 'blah']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }

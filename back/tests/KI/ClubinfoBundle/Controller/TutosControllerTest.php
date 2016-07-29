@@ -13,11 +13,11 @@ class TutosControllerTest extends WebTestCase
         $this->client->request(
             'POST',
             '/tutos',
-            array(
+            [
                 'name' => 'Proxy',
                 'text' => 'Pour régler le proxy faut aller dans "Réglages Proxy"',
                 'icon' => 'Réseau',
-                )
+            ]
             );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
@@ -42,11 +42,11 @@ class TutosControllerTest extends WebTestCase
 
     public function testPatch()
     {
-        $this->client->request('PATCH', '/tutos/proxy', array('icon' => 'lowl'));
+        $this->client->request('PATCH', '/tutos/proxy', ['icon' => 'lowl']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/tutos/sjoajslj', array('username' => 'miam', 'email' => '123@mail.fr'));
+        $this->client->request('PATCH', '/tutos/sjoajslj', ['username' => 'miam', 'email' => '123@mail.fr']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }

@@ -23,7 +23,7 @@ class SeriesControllerTest extends WebTestCase
 
     public function testPatch()
     {
-        $this->client->request('PATCH', '/series/how-i-met-your-mother', array(
+        $this->client->request('PATCH', '/series/how-i-met-your-mother', [
             'image' => 'https://upload.wikimedia.org/wikipedia/commons/5/5a/Wikipedia-logo-v2-fr.png',
             'year' => '2004',
             'duration' => 7800,
@@ -31,15 +31,15 @@ class SeriesControllerTest extends WebTestCase
             'actors' => 'Josh Radnor',
             'genres' => 'SitCom',
             'rating' => 42
-        ));
+        ]);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/series/how-i-met-your-mother', array('size' => 0));
+        $this->client->request('PATCH', '/series/how-i-met-your-mother', ['size' => 0]);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('PATCH', '/series/sjoajsiohaysahaiasbsksaba7', array('username' => 'miam', 'email' => '123@mail.fr'));
+        $this->client->request('PATCH', '/series/sjoajsiohaysahaiasbsksaba7', ['username' => 'miam', 'email' => '123@mail.fr']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }
@@ -63,15 +63,15 @@ class SeriesControllerTest extends WebTestCase
 
     public function testPatchEpisode()
     {
-        $this->client->request('PATCH', '/series/how-i-met-your-mother/episodes/pilot', array('name' => 'PiLoT'));
+        $this->client->request('PATCH', '/series/how-i-met-your-mother/episodes/pilot', ['name' => 'PiLoT']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/series/how-i-met-your-mother/episodes/pilot', array('size' => 0));
+        $this->client->request('PATCH', '/series/how-i-met-your-mother/episodes/pilot', ['size' => 0]);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('PATCH', '/series/dsddddddddddvavzaza/episodes/pilot', array('username' => 'miam', 'email' => '123@mail.fr'));
+        $this->client->request('PATCH', '/series/dsddddddddddvavzaza/episodes/pilot', ['username' => 'miam', 'email' => '123@mail.fr']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }

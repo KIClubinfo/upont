@@ -15,11 +15,11 @@ class CourseType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('groups', CollectionType::class, array(
+            ->add('groups', CollectionType::class, [
                 'entry_type' => TextType::class,
                 'allow_add' => true,
                 'allow_delete' => true
-            ))
+            ])
             ->add('department')
             ->add('semester')
             ->add('ects')
@@ -29,9 +29,9 @@ class CourseType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => Course::class,
             'csrf_protection' => false,
-        ));
+        ]);
     }
 }

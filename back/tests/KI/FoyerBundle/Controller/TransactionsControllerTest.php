@@ -11,11 +11,11 @@ class TransactionsControllerTest extends WebTestCase
     public function testCors()
     {
         $this->connect('peluchom', 'password');
-        $this->client->request('POST', '/transactions', array('user' => 'trasqdsqdsqsqdncara', 'beer' => 'lesqddqsqffe'));
+        $this->client->request('POST', '/transactions', ['user' => 'trasqdsqdsqsqdncara', 'beer' => 'lesqddqsqffe']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
 
-        $this->client->request('POST', '/transactions', array('user' => 'trancara', 'beer' => 'leffe'));
+        $this->client->request('POST', '/transactions', ['user' => 'trancara', 'beer' => 'leffe']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
 

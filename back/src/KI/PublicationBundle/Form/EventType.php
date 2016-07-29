@@ -25,20 +25,20 @@ class EventType extends AbstractType
             ->add('place')
             ->add('sendMail')
             ->add('authorClub', ClubSelector::class)
-            ->add('uploadedFiles', FileType::class, array(
+            ->add('uploadedFiles', FileType::class, [
                     'multiple' => true,
                     'data_class' => null,
                     'required' => false,
-                )
+                ]
             )
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => Event::class,
             'csrf_protection' => false,
-        ));
+        ]);
     }
 }

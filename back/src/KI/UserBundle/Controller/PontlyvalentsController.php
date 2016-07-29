@@ -46,9 +46,9 @@ class PontlyvalentsController extends ResourceController
         if ($this->is('MODO') || $this->isClubMember('bde')) {
             $results = $pontlyvalentRepository->findBy($findBy);
         } else {
-            $results = $pontlyvalentRepository->findBy(array(
+            $results = $pontlyvalentRepository->findBy([
                 'author' => $this->user
-            ));
+            ]);
         }
 
         return $paginateHelper->paginateView($results, 10000, $page, $totalPages, $count);
@@ -189,15 +189,15 @@ class PontlyvalentsController extends ResourceController
             }
 
             $pontlyvalentRepository = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
-            $pontlyvalent = $pontlyvalentRepository->findBy(array(
+            $pontlyvalent = $pontlyvalentRepository->findBy([
                 'target' => $target,
                 'author' => $this->user
-            ));
+            ]);
 
-        return array(
+        return [
             'target' => $target,
             'pontlyvalent' => $pontlyvalent,
-            );
+        ];
         }
     }
 }

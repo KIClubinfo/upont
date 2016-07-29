@@ -10,7 +10,7 @@ class EventsControllerTest extends WebTestCase
     // Ne pas oublier de supprimer à la fin avec le test DELETE.
     public function testPost()
     {
-        $this->client->request('POST', '/events', array(
+        $this->client->request('POST', '/events', [
             'name' => 'Manger des chips',
             'text' => 'C\'est bon',
             'startDate' => 151515,
@@ -19,7 +19,7 @@ class EventsControllerTest extends WebTestCase
             'place' => 'DTC',
             'sendMail' => true,
             'authorClub' => 'bde',
-        ));
+        ]);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
         // On vérifie que le lieu du nouvel objet a été indiqué
@@ -66,7 +66,7 @@ class EventsControllerTest extends WebTestCase
         $this->client->request(
             'PATCH',
             '/events/manger-des-chips',
-            array('endDate' => 12345)
+            ['endDate' => 12345]
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
@@ -74,7 +74,7 @@ class EventsControllerTest extends WebTestCase
         $this->client->request(
             'PATCH',
             '/events/manger-des-chips',
-            array('text' => '')
+            ['text' => '']
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
@@ -82,7 +82,7 @@ class EventsControllerTest extends WebTestCase
         $this->client->request(
             'PATCH',
             '/events/sjoajsiohaysahais-asbsksaba7',
-            array('username' => 'miam', 'email' => '123@mail.fr')
+            ['username' => 'miam', 'email' => '123@mail.fr']
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
@@ -126,7 +126,7 @@ class EventsControllerTest extends WebTestCase
 
     public function testPostShotgunEvent()
     {
-        $this->client->request('POST', '/events', array(
+        $this->client->request('POST', '/events', [
             'name' => 'Semaine Ski',
             'text' => 'Il fait froid',
             'startDate' => 151515,
@@ -137,7 +137,7 @@ class EventsControllerTest extends WebTestCase
             'shotgunText' => 'Il est deux heures du matin, et tout va bien',
             'place' => 'Far Far Away',
             'sendMail' => true,
-        ));
+        ]);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
     }
@@ -147,7 +147,7 @@ class EventsControllerTest extends WebTestCase
         $this->client->request(
             'POST',
             '/events/semaine-ski/shotgun',
-            array('motivation' => 'moimoimoimoi')
+            ['motivation' => 'moimoimoimoi']
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
@@ -155,15 +155,15 @@ class EventsControllerTest extends WebTestCase
 
     public function testPatchShotgun()
     {
-        $this->client->request('PATCH', '/events/semaine-ski/shotgun', array('motivation' => 'lolololol'));
+        $this->client->request('PATCH', '/events/semaine-ski/shotgun', ['motivation' => 'lolololol']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/events/semaine-ski/shotgun', array());
+        $this->client->request('PATCH', '/events/semaine-ski/shotgun', []);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('PATCH', '/events/dfsgjkdnv/shotgun', array('motivation' => 'miam'));
+        $this->client->request('PATCH', '/events/dfsgjkdnv/shotgun', ['motivation' => 'miam']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }

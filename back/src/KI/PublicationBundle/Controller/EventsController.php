@@ -179,7 +179,7 @@ class EventsController extends ResourceController
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        $userEvent = $repo->findBy(array('event' => $event, 'user' => $user));
+        $userEvent = $repo->findBy(['event' => $event, 'user' => $user]);
 
         // On vérifie que l'utilisateur n'a pas déjà shotguné
         if (count($userEvent) != 0)
@@ -233,7 +233,7 @@ class EventsController extends ResourceController
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        $userEvent = $repo->findBy(array('event' => $event, 'user' => $user));
+        $userEvent = $repo->findBy(['event' => $event, 'user' => $user]);
 
         if (count($userEvent) == 1) {
             $userEvent[0]->setMotivation($request->request->get('motivation'));
@@ -264,14 +264,14 @@ class EventsController extends ResourceController
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        $userEvent = $repo->findBy(array('event' => $event, 'user' => $user));
+        $userEvent = $repo->findBy(['event' => $event, 'user' => $user]);
 
         if (count($userEvent) == 1) {
             $event = $userEvent[0]->getEvent();
 
             // On regarde si une place s'est libérée pour quelqu'un, au cas où
             // on le prévient
-            $userEvents = $repo->findBy(array('event' => $event), array('date' => 'ASC'));
+            $userEvents = $repo->findBy(['event' => $event], ['date' => 'ASC']);
 
             if (isset($userEvents[$event->getShotgunLimit()])) {
                 $this->get('ki_user.service.notify')->notify(
@@ -311,12 +311,12 @@ class EventsController extends ResourceController
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        $userEvent = $repo->findBy(array('event' => $event), array('date' => 'ASC'));
+        $userEvent = $repo->findBy(['event' => $event], ['date' => 'ASC']);
 
         $position = 0;
         $limit = $event->getShotgunLimit();
 
-        $fail = $success = $shotgun = array();
+        $fail = $success = $shotgun = [];
         $count = min(count($userEvent), $limit);
 
         for ($i = 0; $i < $count; $i++) {
@@ -347,11 +347,11 @@ class EventsController extends ResourceController
             $fail[] = $shotgun;
         }
 
-        $result = array(
+        $result = [
             'status'  => $position <= $limit && $position > 0,
             'limit'   => $limit,
             'date'    => $event->getShotgunDate()
-        );
+        ];
 
         // Si on est l'auteur du shotgun, on peut récupérer la liste d'attente
         if ($event->getAuthorUser() == $user) {

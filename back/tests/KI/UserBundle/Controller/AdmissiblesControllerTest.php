@@ -13,7 +13,7 @@ class AdmissiblesControllerTest extends WebTestCase
         $this->client->request(
             'POST',
             '/admissibles',
-            array(
+            [
                 'firstName' => 'Testy',
                 'lastName' => 'Test',
                 'contact' => 'testificate@phpunit.zorg',
@@ -21,7 +21,7 @@ class AdmissiblesControllerTest extends WebTestCase
                 'room' => 'simple',
                 'serie' => 4,
                 'details' => 'Admissible test'
-            )
+            ]
         );
         return $this->client->getResponse();
     }
@@ -41,7 +41,7 @@ class AdmissiblesControllerTest extends WebTestCase
         $response = $this->postAdmissible();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('POST', '/admissibles', array('username' => '', 'email' => '123'));
+        $this->client->request('POST', '/admissibles', ['username' => '', 'email' => '123']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
     }
@@ -66,22 +66,22 @@ class AdmissiblesControllerTest extends WebTestCase
         $this->client->request(
             'PATCH',
             '/admissibles/12345-'.date('Y'),
-            array(
+            [
                 'firstName' => 'KImiam',
                 'lastName' => 'OP',
                 'room' => 'simple',
                 'serie' => 4,
                 'details' => 'Admissible test'
-            )
+            ]
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/admissibles/12345-'.date('Y'), array('firstName' => ''));
+        $this->client->request('PATCH', '/admissibles/12345-'.date('Y'), ['firstName' => '']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('PATCH', '/admissibles/sjoajsiohaysahais-asbsksaba7', array('username' => 'miam', 'email' => '123@mail.fr'));
+        $this->client->request('PATCH', '/admissibles/sjoajsiohaysahais-asbsksaba7', ['username' => 'miam', 'email' => '123@mail.fr']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }

@@ -49,7 +49,7 @@ class Movie extends PonthubFile
      */
     public function actorsList()
     {
-        $actors = array();
+        $actors = [];
         foreach ($this->actors as $actor) {
             $actors[] = $actor->getName();
         }

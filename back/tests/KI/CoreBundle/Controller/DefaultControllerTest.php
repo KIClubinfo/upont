@@ -21,14 +21,14 @@ class DefaultControllerTest extends WebTestCase
     public function testLoginFailure()
     {
         $client = static::createClient();
-        $client->request('POST', '/login', array('username' => 'user', 'password' => 'userwrongpass'));
+        $client->request('POST', '/login', ['username' => 'user', 'password' => 'userwrongpass']);
         $this->assertJsonResponse($client->getResponse(), 401, true);
     }
 
     public function testLoginSuccess()
     {
         $client = static::createClient();
-        $client->request('POST', '/login', array('username' => 'trancara', 'password' => 'password'));
+        $client->request('POST', '/login', ['username' => 'trancara', 'password' => 'password']);
 
         $this->assertJsonResponse($client->getResponse(), 200, true);
         $response = json_decode($client->getResponse()->getContent(), true);
@@ -37,7 +37,7 @@ class DefaultControllerTest extends WebTestCase
 
         // On vérifie que le token de la requête marche bien
         $client = static::createClient();
-        $client->request('HEAD', $this->getUrl('ping', array($this->queryParameterName => $response['token'])));
+        $client->request('HEAD', $this->getUrl('ping', [$this->queryParameterName => $response['token']]));
         $this->assertJsonResponse($client->getResponse(), 204);
 
         // On vérifie que le token reçu marche bien
@@ -69,7 +69,7 @@ class DefaultControllerTest extends WebTestCase
         $this->client->request('DELETE', '/maintenance');
         $this->assertJsonResponse($this->client->getResponse(), 400);
 
-        $this->client->request('POST', '/maintenance', array('until' => time()));
+        $this->client->request('POST', '/maintenance', ['until' => time()]);
         $this->assertJsonResponse($this->client->getResponse(), 204);
 
         $this->client->request('HEAD', '/ping');
@@ -97,27 +97,27 @@ class DefaultControllerTest extends WebTestCase
 
     public function testSearch()
     {
-        $this->client->request('POST', '/search', array('search' => 'User/al'));
+        $this->client->request('POST', '/search', ['search' => 'User/al']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
-        $this->client->request('POST', '/search', array('search' => ''));
+        $this->client->request('POST', '/search', ['search' => '']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('POST', '/search', array('search' => 'Users/'));
+        $this->client->request('POST', '/search', ['search' => 'Users/']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('POST', '/search', array('search' => 'al'));
+        $this->client->request('POST', '/search', ['search' => 'al']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('POST', '/search', array('search' => 'Miam/'));
+        $this->client->request('POST', '/search', ['search' => 'Miam/']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('POST', '/search', array('search' => 'Miam/ps'));
+        $this->client->request('POST', '/search', ['search' => 'Miam/ps']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
     }
