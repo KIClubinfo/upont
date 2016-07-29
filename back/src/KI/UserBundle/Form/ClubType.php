@@ -31,4 +31,9 @@ class ClubType extends AbstractType
             'data_class' => Club::class
         ]);
     }
+
+    public function getBlockPrefix()
+    {
+        return '';
+    }
 }

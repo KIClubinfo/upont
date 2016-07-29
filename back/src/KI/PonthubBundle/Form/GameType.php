@@ -33,4 +33,9 @@ class GameType extends AbstractType
             'data_class' => Game::class
         ]);
     }
+
+    public function getBlockPrefix()
+    {
+        return '';
+    }
 }

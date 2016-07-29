@@ -56,4 +56,9 @@ class UserType extends AbstractType
     {
         return RegistrationFormType::class;
     }
+
+    public function getBlockPrefix()
+    {
+        return '';
+    }
 }

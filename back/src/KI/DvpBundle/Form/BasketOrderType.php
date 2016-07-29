@@ -28,4 +28,9 @@ class BasketOrderType extends AbstractType
             'data_class' => BasketOrder::class
         ]);
     }
+
+    public function getBlockPrefix()
+    {
+        return '';
+    }
 }

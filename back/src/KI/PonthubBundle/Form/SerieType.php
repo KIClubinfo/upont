@@ -36,4 +36,9 @@ class SerieType extends AbstractType
             'data_class' => Serie::class
         ]);
     }
+
+    public function getBlockPrefix()
+    {
+        return '';
+    }
 }

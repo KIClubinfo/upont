@@ -34,4 +34,9 @@ class SoftwareType extends AbstractType
             'data_class' => Software::class
         ]);
     }
+
+    public function getBlockPrefix()
+    {
+        return '';
+    }
 }

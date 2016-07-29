@@ -30,4 +30,9 @@ class OtherType extends AbstractType
             'data_class' => Other::class
         ]);
     }
+
+    public function getBlockPrefix()
+    {
+        return '';
+    }
 }

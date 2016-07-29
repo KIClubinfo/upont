@@ -24,4 +24,9 @@ class YoutubeType extends AbstractType
             'data_class' => Youtube::class
         ]);
     }
+
+    public function getBlockPrefix()
+    {
+        return '';
+    }
 }

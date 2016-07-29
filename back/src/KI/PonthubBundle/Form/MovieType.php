@@ -36,4 +36,9 @@ class MovieType extends AbstractType
             'data_class' => Movie::class
         ]);
     }
+
+    public function getBlockPrefix()
+    {
+        return '';
+    }
 }

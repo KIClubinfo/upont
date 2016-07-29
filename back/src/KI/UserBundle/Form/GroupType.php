@@ -25,4 +25,9 @@ class GroupType extends AbstractType
             'data_class' => Group::class
         ]);
     }
+
+    public function getBlockPrefix()
+    {
+        return '';
+    }
 }

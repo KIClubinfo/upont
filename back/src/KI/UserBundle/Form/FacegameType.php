@@ -25,4 +25,9 @@ class FacegameType extends AbstractType
             'data_class' => Facegame::class
         ]);
     }
+
+    public function getBlockPrefix()
+    {
+        return '';
+    }
 }

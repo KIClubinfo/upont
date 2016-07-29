@@ -29,4 +29,9 @@ class AdmissibleType extends AbstractType
             'data_class' => Admissible::class
         ]);
     }
+
+    public function getBlockPrefix()
+    {
+        return '';
+    }
 }

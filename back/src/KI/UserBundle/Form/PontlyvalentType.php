@@ -1,26 +1,27 @@
 <?php
 
-namespace KI\PonthubBundle\Form;
+namespace KI\UserBundle\Form;
 
-use KI\PonthubBundle\Entity\Episode;
+use KI\UserBundle\Entity\Pontlyvalent;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class EpisodeType extends AbstractType
+
+class PontlyvalentType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-        ;
+            ->add('text')
+            ->add('target');
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
-            'data_class' => Episode::class
+            'data_class' => Pontlyvalent::class
         ]);
     }
 

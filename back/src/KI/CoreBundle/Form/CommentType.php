@@ -12,17 +12,19 @@ class CommentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('text')
-        ;
+            ->add('text');
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class'      => Comment::class,
+            'data_class' => Comment::class,
             'csrf_protection' => false
         ]);
     }
 
-    // public function getBlockPrefix() { return ''; }
+    public function getBlockPrefix()
+    {
+        return '';
+    }
 }

@@ -23,4 +23,9 @@ class ActorType extends AbstractType
             'data_class' => Actor::class
         ]);
     }
+
+    public function getBlockPrefix()
+    {
+        return '';
+    }
 }

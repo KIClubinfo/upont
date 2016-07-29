@@ -23,4 +23,9 @@ class TagType extends AbstractType
             'data_class' => Tag::class
         ]);
     }
+
+    public function getBlockPrefix()
+    {
+        return '';
+    }
 }

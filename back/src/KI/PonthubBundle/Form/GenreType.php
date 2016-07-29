@@ -23,4 +23,9 @@ class GenreType extends AbstractType
             'data_class' => Genre::class
         ]);
     }
+
+    public function getBlockPrefix()
+    {
+        return '';
+    }
 }

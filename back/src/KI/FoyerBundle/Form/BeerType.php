@@ -28,4 +28,9 @@ class BeerType extends AbstractType
             'data_class' => Beer::class
         ]);
     }
+
+    public function getBlockPrefix()
+    {
+        return '';
+    }
 }

@@ -23,4 +23,9 @@ class RequestType extends AbstractType
             'data_class' => Request::class
         ]);
     }
+
+    public function getBlockPrefix()
+    {
+        return '';
+    }
 }
