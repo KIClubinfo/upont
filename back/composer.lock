@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1345902ff0b8146e67c975ee92fb0112",
-    "content-hash": "4921ce87378e78a4b1fb8550ab1fd4a0",
+    "hash": "a439ce3ea777c32b0e75ec0d5342e225",
+    "content-hash": "1353cdcfcfbc20b1ec97ae72153a824d",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -965,12 +965,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/migrations.git",
-                "reference": "3c5cdb143d5e00b3429c0676224b495e83cbdadf"
+                "reference": "c501942663cba97efad3059077420d6504c61b98"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/3c5cdb143d5e00b3429c0676224b495e83cbdadf",
-                "reference": "3c5cdb143d5e00b3429c0676224b495e83cbdadf",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/c501942663cba97efad3059077420d6504c61b98",
+                "reference": "c501942663cba97efad3059077420d6504c61b98",
                 "shasum": ""
             },
             "require": {
@@ -1031,7 +1031,7 @@
                 "database",
                 "migrations"
             ],
-            "time": "2016-07-07 11:56:49"
+            "time": "2016-07-26 14:01:39"
         },
         {
             "name": "doctrine/orm",
