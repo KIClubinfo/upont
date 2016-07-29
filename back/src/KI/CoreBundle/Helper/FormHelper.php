@@ -50,9 +50,6 @@ class FormHelper
                 $code = 204;
             }
         } else {
-            if (!$form->isSubmitted()) {
-                $form->submit([]);
-            }
             $this->manager->detach($item);
         }
 

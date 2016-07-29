@@ -3,7 +3,6 @@
 namespace KI\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
-use KI\CoreBundle\Controller\ResourceController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
