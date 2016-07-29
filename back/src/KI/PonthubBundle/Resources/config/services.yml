@@ -9,11 +9,11 @@ services:
     ki_ponthub.service.gracenote:
         class: KI\PonthubBundle\Service\GracenoteService
         arguments:
-            - %ki_ponthub.gracenote.key1%
-            - %ki_ponthub.gracenote.key2%
-            - %ki_ponthub.gracenote.key3%
-            - %proxy_url%
-            - %proxy_user%
+            - '%ki_ponthub.gracenote.key1%'
+            - '%ki_ponthub.gracenote.key2%'
+            - '%ki_ponthub.gracenote.key3%'
+            - '%proxy_url%'
+            - '%proxy_user%'
 
     # Communique avec l'API Imdb
     ki_ponthub.service.imdb:

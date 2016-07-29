@@ -41,7 +41,7 @@ services:
         class: KI\UserBundle\Listener\NotificationListener
         arguments:
             - '@ki_core.service.curl'
-            - %ki_upont.push.gcm%
+            - '%ki_upont.push.gcm%'
         tags:
             - { name: doctrine.event_listener, event: postPersist }
 

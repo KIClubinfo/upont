@@ -5,29 +5,29 @@ imports:
 framework:
     assets: ~
     translator:      ~
-    secret:          "%secret%"
+    secret:          '%secret%'
     router:
-        resource: "%kernel.root_dir%/config/routing.yml"
+        resource: '%kernel.root_dir%/config/routing.yml'
         strict_requirements: ~
     form:            ~
     csrf_protection: ~
     validation:      { enable_annotations: true }
     templating:
         engines: ['twig']
-    default_locale:  "%locale%"
+    default_locale:  '%locale%'
     trusted_hosts:   ~
     trusted_proxies: ~
     session:
         # http://symfony.com/doc/current/reference/configuration/framework.html#handler-id
         handler_id:  session.handler.native_file
-        save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"
+        save_path:   '%kernel.root_dir%/../var/sessions/%kernel.environment%'
     fragments:       ~
     http_method_override: true
 
 # Twig Configuration
 twig:
-    debug:            "%kernel.debug%"
-    strict_variables: "%kernel.debug%"
+    debug:            '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
 
 # Doctrine Configuration
 doctrine:
@@ -35,12 +35,12 @@ doctrine:
         default_connection:   default
         connections:
             default:
-                driver:   %database_driver%
-                host:     %database_host%
-                port:     %database_port%
-                dbname:   %database_name%
-                user:     %database_user%
-                password: %database_password%
+                driver:  '%database_driver%'
+                host:    '%database_host%'
+                port:    '%database_port%'
+                dbname:  '%database_name%'
+                user:    '%database_user%'
+                password: '%database_password%'
                 charset:  UTF8
     orm:
         default_entity_manager:   default
@@ -63,13 +63,13 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport:  %mailer_transport%
-    host:       %mailer_host%
-    auth_mode:  %mailer_auth_mode%
-    port:       %mailer_port%
-    username:   %mailer_user%
-    password:   %mailer_password%
-    encryption: %mailer_encryption%
+    transport: '%mailer_transport%'
+    host:      '%mailer_host%'
+    auth_mode: '%mailer_auth_mode%'
+    port:      '%mailer_port%'
+    username:  '%mailer_user%'
+    password:  '%mailer_password%'
+    encryption: '%mailer_encryption%'
 
 # FOSUserBundle
 fos_user:
@@ -93,9 +93,9 @@ fos_user:
 
 # JSON Web Token
 lexik_jwt_authentication:
-    private_key_path: %kernel.root_dir%/var/jwt/private.pem   # ssh private key path
-    public_key_path:  %kernel.root_dir%/var/jwt/public.pem    # ssh public key path
-    pass_phrase:      %jwt_passphrase%                        # ssh key pass phrase
+    private_key_path: '%kernel.root_dir%/var/jwt/private.pem'   # ssh private key path
+    public_key_path: '%kernel.root_dir%/var/jwt/public.pem'    # ssh public key path
+    pass_phrase:     '%jwt_passphrase%'                        # ssh key pass phrase
     token_ttl:        86400                                   # token ttl - defaults to 86400
 
 # FOSRestBundle
@@ -134,8 +134,8 @@ jms_serializer:
     metadata:
         directories:
             FOSUB:
-                namespace_prefix: "FOS\\UserBundle"
-                path: "%kernel.root_dir%/serializer/FOSUserBundle"
+                namespace_prefix: 'FOS\\UserBundle'
+                path: '%kernel.root_dir%/serializer/FOSUserBundle'
 
 # Permet d'utiliser l'API depuis d'autres domaines (exemple: foyer.enpc.org)
 nelmio_cors:

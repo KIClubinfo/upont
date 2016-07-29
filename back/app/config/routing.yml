@@ -1,33 +1,33 @@
 ki_clubinfo:
-    resource: "@KIClubinfoBundle/Resources/config/routing.yml"
+    resource: '@KIClubinfoBundle/Resources/config/routing.yml'
     prefix:   /
 
 ki_core:
-    resource: "@KICoreBundle/Resources/config/routing.yml"
+    resource: '@KICoreBundle/Resources/config/routing.yml'
     prefix:   /
 
 ki_dvp:
-    resource: "@KIDvpBundle/Resources/config/routing.yml"
+    resource: '@KIDvpBundle/Resources/config/routing.yml'
     prefix:   /
 
 ki_foyer:
-    resource: "@KIFoyerBundle/Resources/config/routing.yml"
+    resource: '@KIFoyerBundle/Resources/config/routing.yml'
     prefix:   /
 
 ki_ponthub:
-    resource: "@KIPonthubBundle/Resources/config/routing.yml"
+    resource: '@KIPonthubBundle/Resources/config/routing.yml'
     prefix:   /
 
 ki_publication:
-    resource: "@KIPublicationBundle/Resources/config/routing.yml"
+    resource: '@KIPublicationBundle/Resources/config/routing.yml'
     prefix:   /
 
 ki_user:
-    resource: "@KIUserBundle/Resources/config/routing.yml"
+    resource: '@KIUserBundle/Resources/config/routing.yml'
     prefix:   /
 
 NelmioApiDocBundle:
-    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    resource: '@NelmioApiDocBundle/Resources/config/routing.yml'
     prefix:   /doc
 
 login_sso:

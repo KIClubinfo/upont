@@ -31,7 +31,7 @@ services:
         class: KI\UserBundle\Service\GcmService
         arguments:
             - '@ki_core.service.curl'
-            - %ki_upont.push.gcm%
+            - '%ki_upont.push.gcm%'
 
     # Interface avancée de gestion des permissions utilisateurs
     ki_user.service.permission:

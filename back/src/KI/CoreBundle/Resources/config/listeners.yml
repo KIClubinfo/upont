@@ -9,6 +9,6 @@ services:
     ki_core.listener.maintenance:
         class: KI\CoreBundle\Listener\MaintenanceListener
         arguments:
-            - %ki_core.maintenance_lockfile_path%
+            -'%ki_core.maintenance_lockfile_path%'
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
