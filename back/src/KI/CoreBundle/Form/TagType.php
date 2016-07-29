@@ -2,6 +2,7 @@
 
 namespace KI\CoreBundle\Form;
 
+use KI\CoreBundle\Entity\Tag;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,7 +20,7 @@ class TagType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'data_class' => 'KI\CoreBundle\Entity\Tag'
+            'data_class' => Tag::class
         ));
     }
 }

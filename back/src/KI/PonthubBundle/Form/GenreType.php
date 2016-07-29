@@ -2,6 +2,7 @@
 
 namespace KI\PonthubBundle\Form;
 
+use KI\PonthubBundle\Entity\Genre;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,7 +20,7 @@ class GenreType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'data_class' => 'KI\PonthubBundle\Entity\Genre'
+            'data_class' => Genre::class
         ));
     }
 }

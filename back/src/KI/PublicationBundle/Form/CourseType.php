@@ -2,7 +2,10 @@
 
 namespace KI\PublicationBundle\Form;
 
+use KI\PublicationBundle\Entity\Course;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,8 +15,8 @@ class CourseType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('groups', 'Symfony\Component\Form\Extension\Core\Type\CollectionType', array(
-                'entry_type' => 'Symfony\Component\Form\Extension\Core\Type\TextType',
+            ->add('groups', CollectionType::class, array(
+                'entry_type' => TextType::class,
                 'allow_add' => true,
                 'allow_delete' => true
             ))
@@ -27,7 +30,7 @@ class CourseType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'KI\PublicationBundle\Entity\Course',
+            'data_class' => Course::class,
             'csrf_protection' => false,
         ));
     }

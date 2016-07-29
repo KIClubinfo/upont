@@ -2,7 +2,11 @@
 
 namespace KI\PublicationBundle\Form;
 
+use KI\CoreBundle\Selector\ImageSelector;
+use KI\PublicationBundle\Entity\Newsitem;
+use KI\UserBundle\Selector\ClubSelector;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,9 +18,9 @@ class NewsitemType extends AbstractType
             ->add('name')
             ->add('text')
             ->add('sendMail')
-            ->add('authorClub', 'KI\UserBundle\Selector\ClubSelector')
-            ->add('image', 'KI\CoreBundle\Selector\ImageSelector')
-            ->add('uploadedFiles', 'Symfony\Component\Form\Extension\Core\Type\FileType', array(
+            ->add('authorClub', ClubSelector::class)
+            ->add('image', ImageSelector::class)
+            ->add('uploadedFiles', FileType::class, array(
                     'multiple' => true,
                     'data_class' => null,
                     'required' => false,
@@ -28,7 +32,7 @@ class NewsitemType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'KI\PublicationBundle\Entity\Newsitem',
+            'data_class' => Newsitem::class,
             'csrf_protection' => false,
         ));
     }

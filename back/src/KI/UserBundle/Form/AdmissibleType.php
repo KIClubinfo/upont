@@ -2,6 +2,7 @@
 
 namespace KI\UserBundle\Form;
 
+use KI\UserBundle\Entity\Admissible;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,7 +26,7 @@ class AdmissibleType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'data_class' => 'KI\UserBundle\Entity\Admissible'
+            'data_class' => Admissible::class
         ));
     }
 }

@@ -2,6 +2,7 @@
 
 namespace KI\UserBundle\Form;
 
+use KI\UserBundle\Entity\Group;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,7 +22,7 @@ class GroupType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'data_class' => 'KI\UserBundle\Entity\Group'
+            'data_class' => Group::class
         ));
     }
 }

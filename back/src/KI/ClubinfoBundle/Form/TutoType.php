@@ -2,6 +2,7 @@
 
 namespace KI\ClubinfoBundle\Form;
 
+use KI\ClubinfoBundle\Entity\Tuto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,7 +25,7 @@ class TutoType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class'      => 'KI\ClubinfoBundle\Entity\Tuto',
+            'data_class'      => Tuto::class,
             'csrf_protection' => false
         ));
     }

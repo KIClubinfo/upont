@@ -2,6 +2,10 @@
 
 namespace KI\PonthubBundle\Form;
 
+use KI\CoreBundle\Selector\ImageSelector;
+use KI\CoreBundle\Selector\TagsSelector;
+use KI\PonthubBundle\Entity\Other;
+use KI\PonthubBundle\Selector\GenresSelector;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,9 +17,9 @@ class OtherType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('genres', 'KI\PonthubBundle\Selector\GenresSelector')
-            ->add('tags', 'KI\CoreBundle\Selector\TagsSelector')
-            ->add('image', 'KI\CoreBundle\Selector\ImageSelector')
+            ->add('genres', GenresSelector::class)
+            ->add('tags', TagsSelector::class)
+            ->add('image', ImageSelector::class)
         ;
     }
 
@@ -23,7 +27,7 @@ class OtherType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'data_class' => 'KI\PonthubBundle\Entity\Other'
+            'data_class' => Other::class
         ));
     }
 }

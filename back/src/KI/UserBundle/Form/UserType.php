@@ -2,7 +2,12 @@
 
 namespace KI\UserBundle\Form;
 
+use FOS\UserBundle\Form\Type\RegistrationFormType;
+use KI\CoreBundle\Selector\ImageSelector;
+use KI\UserBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -11,8 +16,8 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('plainPassword', 'Symfony\Component\Form\Extension\Core\Type\RepeatedType', array(
-                'type' => 'Symfony\Component\Form\Extension\Core\Type\PasswordType',
+            ->add('plainPassword', RepeatedType::class, array(
+                'type' => PasswordType::class,
                 'options' => array('translation_domain' => 'FOSUserBundle'),
             ))
             ->add('gender')
@@ -32,7 +37,7 @@ class UserType extends AbstractType
             ->add('allowedBde')
             ->add('allowedBds')
             ->add('tour')
-            ->add('image', 'KI\CoreBundle\Selector\ImageSelector')
+            ->add('image', ImageSelector::class)
             ->add('mailEvent')
             ->add('mailModification')
             ->add('mailShotgun')
@@ -43,12 +48,12 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'data_class' => 'KI\UserBundle\Entity\User'
+            'data_class' => User::class
         ));
     }
 
     public function getParent()
     {
-        return 'FOS\UserBundle\Form\Type\RegistrationFormType';
+        return RegistrationFormType::class;
     }
 }

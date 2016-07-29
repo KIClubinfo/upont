@@ -2,6 +2,11 @@
 
 namespace KI\PonthubBundle\Form;
 
+use KI\CoreBundle\Selector\ImageSelector;
+use KI\CoreBundle\Selector\TagsSelector;
+use KI\PonthubBundle\Entity\Serie;
+use KI\PonthubBundle\Selector\ActorsSelector;
+use KI\PonthubBundle\Selector\GenresSelector;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,14 +18,14 @@ class SerieType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('actors', 'KI\PonthubBundle\Selector\ActorsSelector')
-            ->add('genres', 'KI\PonthubBundle\Selector\GenresSelector')
-            ->add('tags', 'KI\CoreBundle\Selector\TagsSelector')
+            ->add('actors', ActorsSelector::class)
+            ->add('genres', GenresSelector::class)
+            ->add('tags', TagsSelector::class)
             ->add('duration')
             ->add('director')
             ->add('rating')
             ->add('year')
-            ->add('image', 'KI\CoreBundle\Selector\ImageSelector')
+            ->add('image', ImageSelector::class)
         ;
     }
 
@@ -28,7 +33,7 @@ class SerieType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'data_class' => 'KI\PonthubBundle\Entity\Serie'
+            'data_class' => Serie::class
         ));
     }
 }

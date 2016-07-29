@@ -2,6 +2,7 @@
 
 namespace KI\DvpBundle\Form;
 
+use KI\DvpBundle\Entity\Basket;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,7 +22,7 @@ class BasketType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'data_class' => 'KI\DvpBundle\Entity\Basket'
+            'data_class' => Basket::class
         ));
     }
 }
