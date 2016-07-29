@@ -5,7 +5,7 @@
     "description": "The \"Symfony Standard Edition\" distribution",
     "autoload": {
         "psr-0": { "": "src/", "SymfonyStandard": "app/" },
-        "files": ["app/AppKernel.php"]
+        "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
     },
     "autoload-dev": {
         "psr-4": { "Tests\\": "tests/" }
@@ -13,11 +13,11 @@
     "require": {
         "bomo/ical-bundle": "~1.0",
         "doctrine/data-fixtures": "~1.1.0",
-        "doctrine/doctrine-bundle": "~1.2",
+        "doctrine/doctrine-bundle": "~1.4",
         "doctrine/doctrine-fixtures-bundle": "~2.2",
         "doctrine/doctrine-migrations-bundle": "~1.0",
         "doctrine/migrations": "~1.0@dev",
-        "doctrine/orm": "~2.2",
+        "doctrine/orm": "^2.4.8",
         "friendsofsymfony/rest-bundle": "~1.7",
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "incenteev/composer-parameter-handler": "~2.0",
@@ -27,18 +27,17 @@
         "nelmio/api-doc-bundle": "~2.8",
         "nelmio/cors-bundle": "~1.4",
         "php": "5.*",
-        "sensio/distribution-bundle": "~3.0",
-        "sensio/framework-extra-bundle": "~3.0",
-        "sensio/generator-bundle": "~2.3",
+        "sensio/distribution-bundle": "~5.0",
+        "sensio/framework-extra-bundle": "^3.0.2",
         "stof/doctrine-extensions-bundle": "~1.1",
-        "symfony/assetic-bundle": "~2.3",
         "symfony/monolog-bundle": "~2.4",
         "symfony/swiftmailer-bundle": "~2.3",
         "symfony/symfony": "2.8.*",
         "twig/extensions": "~1.0"
     },
     "require-dev": {
-        "liip/functional-test-bundle": "1.2.x-dev"
+        "liip/functional-test-bundle": "~1.2",
+        "sensio/generator-bundle": "~3.0"
     },
     "scripts": {
         "post-root-package-install": [
@@ -71,7 +70,7 @@
             "file": "app/config/parameters.yml"
         },
         "branch-alias": {
-            "dev-master": "2.5-dev"
+            "dev-master": "2.8-dev"
         }
     }
 }
