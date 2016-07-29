@@ -13,31 +13,31 @@
 
     <testsuites>
         <testsuite name="core">
-            <directory>src/KI/CoreBundle/Tests</directory>
+            <directory>tests/KI/CoreBundle</directory>
         </testsuite>
 
         <testsuite name="clubinfo">
-            <directory>src/KI/ClubinfoBundle/Tests</directory>
+            <directory>tests/KI/ClubinfoBundle</directory>
         </testsuite>
 
         <testsuite name="dvp">
-            <directory>src/KI/DvpBundle/Tests</directory>
+            <directory>tests/KI/DvpBundle</directory>
         </testsuite>
 
         <testsuite name="foyer">
-            <directory>src/KI/FoyerBundle/Tests</directory>
+            <directory>tests/KI/FoyerBundle</directory>
         </testsuite>
 
         <testsuite name="ponthub">
-            <directory>src/KI/PonthubBundle/Tests</directory>
+            <directory>tests/KI/PonthubBundle</directory>
         </testsuite>
 
         <testsuite name="publication">
-            <directory>src/KI/PublicationBundle/Tests</directory>
+            <directory>tests/KI/PublicationBundle</directory>
         </testsuite>
 
         <testsuite name="user">
-            <directory>src/KI/UserBundle/Tests</directory>
+            <directory>tests/KI/UserBundle</directory>
         </testsuite>
     </testsuites>
 

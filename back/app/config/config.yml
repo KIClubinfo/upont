@@ -3,6 +3,7 @@ imports:
     - { resource: security.yml }
 
 framework:
+    assets: ~
     translator:      ~
     secret:          "%secret%"
     router:
