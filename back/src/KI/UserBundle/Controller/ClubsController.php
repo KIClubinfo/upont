@@ -191,7 +191,7 @@ class ClubsController extends SubresourceController
             $link->setPriority($user->getId());
 
             // Validation des données annexes
-            $form = $this->createForm(new ClubUserType(), $link, ['method' => 'POST']);
+            $form = $this->createForm(ClubUserType::class, $link, ['method' => 'POST']);
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -246,7 +246,7 @@ class ClubsController extends SubresourceController
         if (count($link) == 1) {
             $link = $link[0];
             // Validation des données annexes
-            $form = $this->createForm(new ClubUserType(), $link, ['method' => 'PATCH']);
+            $form = $this->createForm(ClubUserType::class, $link, ['method' => 'PATCH']);
             $form->handleRequest($request);
 
             if ($form->isValid()) {
