@@ -38,7 +38,7 @@ class FormHelper
     {
         // On devine le formulaire à partir du chemin de la classe
         $formName = str_replace('Entity', 'Form', get_class($item)).'Type';
-        $form = $this->formFactory->create(new $formName(), $item, ['method' => $method]);
+        $form = $this->formFactory->create($formName, $item, ['method' => $method]);
         $form->handleRequest($this->request);
         $code = 400;
 
