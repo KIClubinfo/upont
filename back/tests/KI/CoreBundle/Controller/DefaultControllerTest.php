@@ -88,7 +88,7 @@ class DefaultControllerTest extends WebTestCase
         $this->assertJsonResponse($this->client->getResponse(), 204);
 
         $this->client->request('GET', '/ping');
-        $this->assertJsonResponse($this->client->getResponse(), 405);
+        $this->assertJsonResponse($this->client->getResponse(), 204);
 
         $client = static::createClient();
         $client->request('HEAD', '/ping');
