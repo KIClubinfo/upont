@@ -3,12 +3,12 @@
 namespace KI\PublicationBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use KI\CoreBundle\Controller\SubresourceController;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ExercicesController extends SubresourceController
 {

@@ -1,8 +1,8 @@
 <?php
 namespace KI\CoreBundle\Transformer;
 
-use Symfony\Component\Form\DataTransformerInterface;
 use KI\CoreBundle\Service\ImageService;
+use Symfony\Component\Form\DataTransformerInterface;
 
 class StringToImageTransformer implements DataTransformerInterface
 {

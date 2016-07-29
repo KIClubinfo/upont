@@ -2,8 +2,8 @@
 
 namespace Tests\KI\CoreBundle;
 
-use Symfony\Component\HttpFoundation\Response;
 use Liip\FunctionalTestBundle\Test\WebTestCase as LiipWebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 abstract class WebTestCase extends LiipWebTestCase
 {

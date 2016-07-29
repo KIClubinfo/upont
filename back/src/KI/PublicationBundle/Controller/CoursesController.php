@@ -3,9 +3,9 @@
 namespace KI\PublicationBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
+use KI\CoreBundle\Controller\ResourceController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use KI\CoreBundle\Controller\ResourceController;
 use Symfony\Component\HttpFoundation\Request;
 
 class CoursesController extends ResourceController

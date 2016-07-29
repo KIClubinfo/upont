@@ -2,10 +2,10 @@
 
 namespace KI\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpFoundation\Request;
 use KI\CoreBundle\Entity\Image;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class ImagesController extends BaseController
 {

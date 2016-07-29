@@ -2,15 +2,15 @@
 
 namespace KI\UserBundle\Security;
 
+use KI\UserBundle\Factory\UserFactory;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTManagerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-use KI\UserBundle\Factory\UserFactory;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 
 class SsoEnpcLoginAuthenticator extends LoginAuthenticator

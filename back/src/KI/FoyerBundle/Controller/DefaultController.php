@@ -3,9 +3,9 @@
 namespace KI\FoyerBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
+use KI\CoreBundle\Controller\BaseController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use KI\CoreBundle\Controller\BaseController;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class DefaultController extends BaseController

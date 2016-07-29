@@ -55,7 +55,7 @@ class CoreController extends FOSRestController
         // On vérifie que la requete est valide.
         // Si aucun club n'est précisé, c'est qu'on publie à son nom
         // (par exemple message perso) donc ok
-        $request = $this->getRequest()->request;
+        $request = $this->get('request_stack')->getCurrentRequest()->request;
         if (!$request->has('authorClub') && $club === null) {
             return $this->is('USER');
         }

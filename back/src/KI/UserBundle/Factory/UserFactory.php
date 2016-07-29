@@ -3,9 +3,9 @@
 namespace KI\UserBundle\Factory;
 
 use FOS\UserBundle\Model\UserManagerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use KI\UserBundle\Entity\User;
 use KI\UserBundle\Event\UserRegistrationEvent;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class UserFactory
 {

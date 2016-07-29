@@ -2,11 +2,11 @@
 
 namespace KI\ClubinfoBundle\Form;
 
+use KI\ClubinfoBundle\Entity\Fix;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
-use KI\ClubinfoBundle\Entity\Fix;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FixType extends AbstractType
 {

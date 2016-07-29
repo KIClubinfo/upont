@@ -1,8 +1,8 @@
 <?php
 namespace KI\UserBundle\Transformer;
 
-use Symfony\Component\Form\DataTransformerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Form\DataTransformerInterface;
 
 
 class StringToClubTransformer implements DataTransformerInterface

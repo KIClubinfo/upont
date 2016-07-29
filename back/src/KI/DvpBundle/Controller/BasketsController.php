@@ -3,11 +3,11 @@
 namespace KI\DvpBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
+use KI\CoreBundle\Controller\ResourceController;
+use KI\DvpBundle\Entity\BasketOrder;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use KI\CoreBundle\Controller\ResourceController;
-use KI\DvpBundle\Entity\BasketOrder;
 
 class BasketsController extends ResourceController
 {

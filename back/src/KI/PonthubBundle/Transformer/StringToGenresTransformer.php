@@ -1,10 +1,10 @@
 <?php
 namespace KI\PonthubBundle\Transformer;
 
-use Symfony\Component\Form\DataTransformerInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use KI\PonthubBundle\Entity\Genre;
+use Symfony\Component\Form\DataTransformerInterface;
 
 class StringToGenresTransformer implements DataTransformerInterface
 {

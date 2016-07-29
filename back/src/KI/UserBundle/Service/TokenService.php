@@ -3,8 +3,8 @@
 namespace KI\UserBundle\Service;
 
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use KI\UserBundle\Entity\User;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class TokenService
 {

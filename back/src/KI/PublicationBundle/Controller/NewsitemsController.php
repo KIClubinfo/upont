@@ -2,8 +2,8 @@
 
 namespace KI\PublicationBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use KI\CoreBundle\Controller\ResourceController;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class NewsitemsController extends ResourceController

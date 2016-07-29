@@ -2,16 +2,16 @@
 
 namespace KI\UserBundle\Security;
 
-use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTManagerInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Event\AchievementCheckEvent;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTManagerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
 abstract class LoginAuthenticator extends AbstractGuardAuthenticator
 {

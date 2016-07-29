@@ -3,9 +3,9 @@
 namespace KI\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
+use KI\CoreBundle\Entity\Likeable;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use KI\CoreBundle\Entity\Likeable;
 
 // Fonctions de like/dislike/commentaire
 class LikeableController extends BaseController

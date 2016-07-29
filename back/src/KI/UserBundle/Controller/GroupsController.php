@@ -5,11 +5,11 @@ namespace KI\UserBundle\Controller;
 use FOS\RestBundle\Controller\Annotations as Route;
 use FOS\RestBundle\View\View as RestView;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class GroupsController extends \KI\CoreBundle\Controller\ResourceController
 {

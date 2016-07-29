@@ -1,9 +1,9 @@
 <?php
 namespace KI\PonthubBundle\Selector;
 
+use KI\PonthubBundle\Transformer\StringToGenresTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use KI\PonthubBundle\Transformer\StringToGenresTransformer;
 
 class GenresSelector extends AbstractType
 {

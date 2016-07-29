@@ -3,8 +3,8 @@
 namespace KI\UserBundle\Event;
 
 use FOS\UserBundle\Model\UserInterface;
-use Symfony\Component\EventDispatcher\Event;
 use KI\UserBundle\Entity\Achievement;
+use Symfony\Component\EventDispatcher\Event;
 
 class UserRegistrationEvent extends Event
 {

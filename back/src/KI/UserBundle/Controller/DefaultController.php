@@ -3,14 +3,14 @@
 namespace KI\UserBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Route;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpFoundation\Request;
+use KI\CoreBundle\Controller\BaseController;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Event\AchievementCheckEvent;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use KI\CoreBundle\Controller\BaseController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class DefaultController extends BaseController
 {

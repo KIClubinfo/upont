@@ -2,9 +2,9 @@
 
 namespace KI\ClubinfoBundle\Controller;
 
+use KI\CoreBundle\Controller\ResourceController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use KI\CoreBundle\Controller\ResourceController;
 
 class TutosController extends ResourceController
 {

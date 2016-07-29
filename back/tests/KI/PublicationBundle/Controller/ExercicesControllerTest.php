@@ -2,9 +2,9 @@
 
 namespace Tests\KI\PublicationBundle\Controller;
 
-use Tests\KI\CoreBundle\WebTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Tests\KI\CoreBundle\WebTestCase;
 
 class ExercicesControllerTest extends WebTestCase
 {

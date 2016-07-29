@@ -1,8 +1,8 @@
 <?php
 namespace KI\UserBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use DateTime;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * Class UserRepository

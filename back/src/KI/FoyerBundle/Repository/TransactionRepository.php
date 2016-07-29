@@ -1,8 +1,8 @@
 <?php
 namespace KI\FoyerBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use DateTime;
+use Doctrine\ORM\EntityRepository;
 use KI\FoyerBundle\Entity\Transaction;
 
 class TransactionRepository extends EntityRepository

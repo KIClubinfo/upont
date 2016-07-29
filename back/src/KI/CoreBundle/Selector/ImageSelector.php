@@ -1,10 +1,10 @@
 <?php
 namespace KI\CoreBundle\Selector;
 
+use KI\CoreBundle\Transformer\StringToImageTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use KI\CoreBundle\Transformer\StringToImageTransformer;
 
 class ImageSelector extends AbstractType
 {

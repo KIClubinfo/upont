@@ -2,9 +2,9 @@
 
 namespace KI\UserBundle\Controller;
 
+use KI\CoreBundle\Controller\ResourceController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use KI\CoreBundle\Controller\ResourceController;
 
 class AdmissiblesController extends ResourceController
 {

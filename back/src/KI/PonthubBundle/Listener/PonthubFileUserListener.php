@@ -3,10 +3,10 @@
 namespace KI\PonthubBundle\Listener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use KI\PonthubBundle\Entity\PonthubFileUser;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Event\AchievementCheckEvent;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class PonthubFileUserListener
 {

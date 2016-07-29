@@ -1,9 +1,9 @@
 <?php
 namespace KI\CoreBundle\Selector;
 
+use KI\CoreBundle\Transformer\StringToTagsTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use KI\CoreBundle\Transformer\StringToTagsTransformer;
 
 class TagsSelector extends AbstractType
 {

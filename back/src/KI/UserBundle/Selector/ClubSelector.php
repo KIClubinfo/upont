@@ -1,11 +1,11 @@
 <?php
 namespace KI\UserBundle\Selector;
 
+use Doctrine\Common\Persistence\ObjectManager;
+use KI\UserBundle\Transformer\StringToClubTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use KI\UserBundle\Transformer\StringToClubTransformer;
 
 class ClubSelector extends AbstractType
 {
