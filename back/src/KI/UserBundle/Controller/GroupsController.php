@@ -9,6 +9,7 @@ use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class GroupsController extends \KI\CoreBundle\Controller\ResourceController
@@ -87,7 +88,7 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
                 'Location' => $this->generateUrl(
                     'get_group',
                     ['slug' => $group->getSlug()],
-                    true
+                    UrlGeneratorInterface::ABSOLUTE_URL
                 )
             ]
         );
@@ -147,7 +148,7 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
                 'Location' => $this->generateUrl(
                     'get_group',
                     ['slug' => $group->getSlug()],
-                    true
+                    UrlGeneratorInterface::ABSOLUTE_URL
                 )
             ]
         );

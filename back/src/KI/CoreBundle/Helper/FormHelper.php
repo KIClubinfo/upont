@@ -7,6 +7,7 @@ use FOS\RestBundle\View\View as RestView;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 // Valide les formulaires pour une entité et affiche la réponse à la demande
 class FormHelper
@@ -90,7 +91,7 @@ class FormHelper
             }
 
             return RestView::create($data['item'], 201, [
-                'Location' => $this->router->generate($route, $params, true)
+                'Location' => $this->router->generate($route, $params, UrlGeneratorInterface::ABSOLUTE_URL)
             ]);
         }
     }

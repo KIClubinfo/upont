@@ -120,7 +120,7 @@ fos_rest:
 
 # Nécessaire pour que FOSRestBundle prenne le pas sur la génération des vues
 sensio_framework_extra:
-    view:    { annotations: true }
+    view:    { annotations: false }
     router:  { annotations: true }
 
 # Permet de créer des slugs
