@@ -2,7 +2,7 @@ clubs:
     type:     rest
     resource: KI\UserBundle\Controller\ClubsController
 
-users/pontlyvalent:
+pontlyvalents:
     type:     rest
     resource: KI\UserBundle\Controller\PontlyvalentsController
 
@@ -21,10 +21,6 @@ promo:
 groups:
     type:     rest
     resource: KI\UserBundle\Controller\GroupsController
-
-experiences:
-    type:     rest
-    resource: KI\UserBundle\Controller\ExperiencesController
 
 admissibles:
     type:     rest
