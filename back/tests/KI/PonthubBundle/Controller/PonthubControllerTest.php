@@ -10,7 +10,7 @@ class PonthubControllerTest extends WebTestCase
 {
     public function testFilelist()
     {
-        $basePath = __DIR__.'/../../../../../web/uploads/tests/';
+        $basePath = __DIR__.'/../../../../web/uploads/tests/';
         $fs = new Filesystem();
         $fs->copy($basePath.'files_tmp.list', $basePath.'files.list');
         $list = new UploadedFile($basePath.'files.list', 'files.list');

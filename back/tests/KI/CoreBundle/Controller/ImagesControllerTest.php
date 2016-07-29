@@ -10,7 +10,7 @@ class ImagesControllerTest extends WebTestCase
 {
     public function testImagePost()
     {
-        $basePath = __DIR__.'/../../../../../web/uploads/tests/';
+        $basePath = __DIR__.'/../../../../web/uploads/tests/';
         $fs = new Filesystem();
         $fs->copy($basePath.'admissibles.png', $basePath.'admissibles2.png');
         $list = new UploadedFile($basePath.'admissibles2.png', 'admissibles2.png');
