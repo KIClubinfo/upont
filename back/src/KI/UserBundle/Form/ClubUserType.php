@@ -21,9 +21,4 @@ class ClubUserType extends AbstractType
             'data_class' => 'KI\UserBundle\Entity\ClubUser'
         ));
     }
-
-    public function getName()
-    {
-        return '';
-    }
 }

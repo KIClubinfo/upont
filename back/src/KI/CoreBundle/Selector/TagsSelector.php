@@ -21,11 +21,6 @@ class TagsSelector extends AbstractType
 
     public function getParent()
     {
-        return 'text';
-    }
-
-    public function getName()
-    {
-        return 'tags_selector';
+        return 'Symfony\Component\Form\Extension\Core\Type\TextType';
     }
 }

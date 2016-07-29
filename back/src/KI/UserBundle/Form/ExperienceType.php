@@ -31,9 +31,4 @@ class ExperienceType extends AbstractType
             'data_class' => 'KI\UserBundle\Entity\Experience'
         ));
     }
-
-    public function getName()
-    {
-        return '';
-    }
 }

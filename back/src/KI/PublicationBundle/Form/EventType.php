@@ -21,8 +21,8 @@ class EventType extends AbstractType
             ->add('shotgunText')
             ->add('place')
             ->add('sendMail')
-            ->add('authorClub', 'club_selector')
-            ->add('uploadedFiles', 'file', array(
+            ->add('authorClub', 'KI\UserBundle\Selector\ClubSelector')
+            ->add('uploadedFiles', 'Symfony\Component\Form\Extension\Core\Type\FileType', array(
                     'multiple' => true,
                     'data_class' => null,
                     'required' => false,
@@ -37,10 +37,5 @@ class EventType extends AbstractType
             'data_class' => 'KI\PublicationBundle\Entity\Event',
             'csrf_protection' => false,
         ));
-    }
-
-    public function getName()
-    {
-        return '';
     }
 }

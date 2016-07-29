@@ -11,8 +11,8 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('plainPassword', 'repeated', array(
-                'type' => 'password',
+            ->add('plainPassword', 'Symfony\Component\Form\Extension\Core\Type\RepeatedType', array(
+                'type' => 'Symfony\Component\Form\Extension\Core\Type\PasswordType',
                 'options' => array('translation_domain' => 'FOSUserBundle'),
             ))
             ->add('gender')
@@ -32,7 +32,7 @@ class UserType extends AbstractType
             ->add('allowedBde')
             ->add('allowedBds')
             ->add('tour')
-            ->add('image', 'image_selector')
+            ->add('image', 'KI\CoreBundle\Selector\ImageSelector')
             ->add('mailEvent')
             ->add('mailModification')
             ->add('mailShotgun')
@@ -49,11 +49,6 @@ class UserType extends AbstractType
 
     public function getParent()
     {
-        return 'fos_user_registration';
-    }
-
-    public function getName()
-    {
-        return '';
+        return 'FOS\UserBundle\Form\Type\RegistrationFormType';
     }
 }

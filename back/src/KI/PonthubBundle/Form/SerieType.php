@@ -13,14 +13,14 @@ class SerieType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('actors', 'actors_selector')
-            ->add('genres', 'genres_selector')
-            ->add('tags', 'tags_selector')
+            ->add('actors', 'KI\PonthubBundle\Selector\ActorsSelector')
+            ->add('genres', 'KI\PonthubBundle\Selector\GenresSelector')
+            ->add('tags', 'KI\CoreBundle\Selector\TagsSelector')
             ->add('duration')
             ->add('director')
             ->add('rating')
             ->add('year')
-            ->add('image', 'image_selector')
+            ->add('image', 'KI\CoreBundle\Selector\ImageSelector')
         ;
     }
 
@@ -30,10 +30,5 @@ class SerieType extends AbstractType
             'csrf_protection' => false,
             'data_class' => 'KI\PonthubBundle\Entity\Serie'
         ));
-    }
-
-    public function getName()
-    {
-        return '';
     }
 }

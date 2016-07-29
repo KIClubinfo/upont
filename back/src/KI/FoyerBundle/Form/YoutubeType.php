@@ -23,9 +23,4 @@ class YoutubeType extends AbstractType
             'data_class' => 'KI\FoyerBundle\Entity\Youtube'
         ));
     }
-
-    public function getName()
-    {
-        return '';
-    }
 }

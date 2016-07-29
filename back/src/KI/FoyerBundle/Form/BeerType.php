@@ -15,7 +15,7 @@ class BeerType extends AbstractType
             ->add('price')
             ->add('alcohol')
             ->add('volume')
-            ->add('image', 'image_selector')
+            ->add('image', 'KI\CoreBundle\Selector\ImageSelector')
         ;
     }
 
@@ -25,10 +25,5 @@ class BeerType extends AbstractType
             'csrf_protection' => false,
             'data_class' => 'KI\FoyerBundle\Entity\Beer'
         ));
-    }
-
-    public function getName()
-    {
-        return '';
     }
 }

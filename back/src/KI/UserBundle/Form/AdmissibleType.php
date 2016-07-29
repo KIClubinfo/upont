@@ -28,9 +28,4 @@ class AdmissibleType extends AbstractType
             'data_class' => 'KI\UserBundle\Entity\Admissible'
         ));
     }
-
-    public function getName()
-    {
-        return '';
-    }
 }

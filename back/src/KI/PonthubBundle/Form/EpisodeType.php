@@ -22,9 +22,4 @@ class EpisodeType extends AbstractType
             'data_class' => 'KI\PonthubBundle\Entity\Episode'
         ));
     }
-
-    public function getName()
-    {
-        return '';
-    }
 }

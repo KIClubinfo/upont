@@ -14,9 +14,9 @@ class NewsitemType extends AbstractType
             ->add('name')
             ->add('text')
             ->add('sendMail')
-            ->add('authorClub', 'club_selector')
-            ->add('image', 'image_selector')
-            ->add('uploadedFiles', 'file', array(
+            ->add('authorClub', 'KI\UserBundle\Selector\ClubSelector')
+            ->add('image', 'KI\CoreBundle\Selector\ImageSelector')
+            ->add('uploadedFiles', 'Symfony\Component\Form\Extension\Core\Type\FileType', array(
                     'multiple' => true,
                     'data_class' => null,
                     'required' => false,
@@ -31,10 +31,5 @@ class NewsitemType extends AbstractType
             'data_class' => 'KI\PublicationBundle\Entity\Newsitem',
             'csrf_protection' => false,
         ));
-    }
-
-    public function getName()
-    {
-        return '';
     }
 }

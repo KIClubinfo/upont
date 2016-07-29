@@ -22,9 +22,4 @@ class GenreType extends AbstractType
             'data_class' => 'KI\PonthubBundle\Entity\Genre'
         ));
     }
-
-    public function getName()
-    {
-        return '';
-    }
 }

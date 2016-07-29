@@ -13,12 +13,12 @@ class GameType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('genres', 'genres_selector')
-            ->add('tags', 'tags_selector')
+            ->add('genres', 'KI\PonthubBundle\Selector\GenresSelector')
+            ->add('tags', 'KI\CoreBundle\Selector\TagsSelector')
             ->add('year')
             ->add('studio')
             ->add('os')
-            ->add('image', 'image_selector')
+            ->add('image', 'KI\CoreBundle\Selector\ImageSelector')
         ;
     }
 
@@ -28,10 +28,5 @@ class GameType extends AbstractType
             'csrf_protection' => false,
             'data_class' => 'KI\PonthubBundle\Entity\Game'
         ));
-    }
-
-    public function getName()
-    {
-        return '';
     }
 }

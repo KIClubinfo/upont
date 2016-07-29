@@ -27,9 +27,4 @@ class BasketOrderType extends AbstractType
             'data_class' => 'KI\DvpBundle\Entity\BasketOrder'
         ));
     }
-
-    public function getName()
-    {
-        return '';
-    }
 }

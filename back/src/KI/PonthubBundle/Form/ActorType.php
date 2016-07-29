@@ -22,9 +22,4 @@ class ActorType extends AbstractType
             'data_class' => 'KI\PonthubBundle\Entity\Actor'
         ));
     }
-
-    public function getName()
-    {
-        return '';
-    }
 }

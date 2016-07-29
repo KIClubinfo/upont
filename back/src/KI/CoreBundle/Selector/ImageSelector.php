@@ -29,11 +29,6 @@ class ImageSelector extends AbstractType
 
     public function getParent()
     {
-        return 'text';
-    }
-
-    public function getName()
-    {
-        return 'image_selector';
+        return 'Symfony\Component\Form\Extension\Core\Type\TextType';
     }
 }

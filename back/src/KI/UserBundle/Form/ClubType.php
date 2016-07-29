@@ -19,8 +19,8 @@ class ClubType extends AbstractType
             ->add('active')
             ->add('assos')
             ->add('administration')
-            ->add('image', 'image_selector')
-            ->add('banner', 'image_selector');
+            ->add('image', 'KI\CoreBundle\Selector\ImageSelector')
+            ->add('banner', 'KI\CoreBundle\Selector\ImageSelector');
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -29,10 +29,5 @@ class ClubType extends AbstractType
             'csrf_protection' => false,
             'data_class' => 'KI\UserBundle\Entity\Club'
         ));
-    }
-
-    public function getName()
-    {
-        return '';
     }
 }

@@ -21,11 +21,6 @@ class GenresSelector extends AbstractType
 
     public function getParent()
     {
-        return 'text';
-    }
-
-    public function getName()
-    {
-        return 'genres_selector';
+        return 'Symfony\Component\Form\Extension\Core\Type\TextType';
     }
 }

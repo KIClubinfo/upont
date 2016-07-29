@@ -22,9 +22,4 @@ class TagType extends AbstractType
             'data_class' => 'KI\CoreBundle\Entity\Tag'
         ));
     }
-
-    public function getName()
-    {
-        return '';
-    }
 }

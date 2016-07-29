@@ -13,13 +13,13 @@ class SoftwareType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('genres', 'genres_selector')
-            ->add('tags', 'tags_selector')
+            ->add('genres', 'KI\PonthubBundle\Selector\GenresSelector')
+            ->add('tags', 'KI\CoreBundle\Selector\TagsSelector')
             ->add('year')
             ->add('version')
             ->add('author')
             ->add('os')
-            ->add('image', 'image_selector')
+            ->add('image', 'KI\CoreBundle\Selector\ImageSelector')
         ;
     }
 
@@ -29,10 +29,5 @@ class SoftwareType extends AbstractType
             'csrf_protection' => false,
             'data_class' => 'KI\PonthubBundle\Entity\Software'
         ));
-    }
-
-    public function getName()
-    {
-        return '';
     }
 }

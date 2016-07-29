@@ -12,8 +12,8 @@ class CourseType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('groups', 'collection', array(
-                'type' => 'text',
+            ->add('groups', 'Symfony\Component\Form\Extension\Core\Type\CollectionType', array(
+                'entry_type' => 'Symfony\Component\Form\Extension\Core\Type\TextType',
                 'allow_add' => true,
                 'allow_delete' => true
             ))
@@ -30,10 +30,5 @@ class CourseType extends AbstractType
             'data_class' => 'KI\PublicationBundle\Entity\Course',
             'csrf_protection' => false,
         ));
-    }
-
-    public function getName()
-    {
-        return '';
     }
 }

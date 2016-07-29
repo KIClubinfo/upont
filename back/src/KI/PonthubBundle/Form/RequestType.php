@@ -22,9 +22,4 @@ class RequestType extends AbstractType
             'data_class' => 'KI\PonthubBundle\Entity\Request'
         ));
     }
-
-    public function getName()
-    {
-        return '';
-    }
 }

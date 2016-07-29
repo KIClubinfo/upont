@@ -31,11 +31,6 @@ class ClubSelector extends AbstractType
 
     public function getParent()
     {
-        return 'text';
-    }
-
-    public function getName()
-    {
-        return 'club_selector';
+        return 'Symfony\Component\Form\Extension\Core\Type\TextType';
     }
 }
