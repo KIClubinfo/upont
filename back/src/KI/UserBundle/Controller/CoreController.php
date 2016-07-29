@@ -4,7 +4,6 @@ namespace KI\UserBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use KI\UserBundle\Entity\Club;
 
 // Fonctions génériques étendant le FOSUserBundle
 class CoreController extends FOSRestController

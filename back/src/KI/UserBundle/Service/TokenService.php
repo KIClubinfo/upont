@@ -11,10 +11,10 @@ class TokenService
     protected $manager;
     protected $tokenStorage;
 
-    public function __construct(EntityManager $manager, TokenStorage $securityContext)
+    public function __construct(EntityManager $manager, TokenStorage $tokenStorage)
     {
         $this->manager         = $manager;
-        $this->tokenStorage = $securityContext;
+        $this->tokenStorage = $tokenStorage;
     }
 
     // Génère un token pour l'utilisateur
