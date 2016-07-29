@@ -31,7 +31,7 @@
         "stof/doctrine-extensions-bundle": "~1.1",
         "symfony/monolog-bundle": "~2.11",
         "symfony/swiftmailer-bundle": "~2.3",
-        "symfony/symfony": "2.8.*"
+        "symfony/symfony": "3.0.*"
     },
     "require-dev": {
         "liip/functional-test-bundle": "~1.6",
@@ -69,7 +69,7 @@
             "file": "app/config/parameters.yml"
         },
         "branch-alias": {
-            "dev-master": "2.8-dev"
+            "dev-master": "3.0-dev"
         }
     }
 }
