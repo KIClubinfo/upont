@@ -64,25 +64,14 @@ class BaseController extends CoreController
      * @param  array $headers Des headers spécifiques si nécéssaire
      * @return Response
      */
-    public function restResponse($data, $code = 200, array $headers = [])
+    public function json($data, $code = 200, array $headers = [])
     {
-        return new Response(
+        return new JsonResponse(
             $this->get('jms_serializer')->serialize($data, 'json'),
             $code,
-            $headers
+            $headers,
+            true
         );
-    }
-
-    /**
-     * Génère une réponse au format JSON en parsant les propriétés avec le FOSRestBundle
-     * @param  mixed $data    Le contenu à renvoyer
-     * @param  int   $code    Le code d'erreur HTTP à renvoyer
-     * @param  array $headers Des headers spécifiques si nécéssaire
-     * @return JsonResponse
-     */
-    public function jsonResponse($data, $code = 200, $headers = [])
-    {
-        return new JsonResponse($data, $code, $headers);
     }
 
     /**

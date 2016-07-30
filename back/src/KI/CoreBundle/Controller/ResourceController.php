@@ -2,7 +2,7 @@
 
 namespace KI\CoreBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
+use Symfony\Component\HttpFoundation\Response;
 
 // Fonctions générales pour servir une ressource de type REST, CommentsController en est un exemple
 class ResourceController extends LikeableController
@@ -11,7 +11,6 @@ class ResourceController extends LikeableController
      * Route GET (liste) générique
      * @param  boolean $auth Un override éventuel pour le check des permissions
      * @return Response
-     * @Route\View()
      */
     public function getAll($auth = false)
     {
@@ -29,12 +28,12 @@ class ResourceController extends LikeableController
      * @param  string  $slug Le slug de l'entité à récupérer
      * @param  boolean $auth Un override éventuel pour le check des permissions
      * @return Response
-     * @Route\View()
      */
     protected function getOne($slug, $auth = false)
     {
         $this->trust(!$this->is('EXTERIEUR') || $auth);
-        return $this->findBySlug($slug);
+        $item =  $this->findBySlug($slug);
+        return $this->json($item);
     }
 
     /**
@@ -65,7 +64,6 @@ class ResourceController extends LikeableController
      * Route POST générique effectuant directement validation et affichage
      * @param  boolean $auth Un override éventuel pour le check des permissions
      * @return Response
-     * @Route\View()
      */
     protected function post($auth = false)
     {
@@ -77,7 +75,6 @@ class ResourceController extends LikeableController
      * @param  string  $slug Le slug de l'entité à modifier
      * @param  boolean $auth Un override éventuel pour le check des permissions
      * @return Response
-     * @Route\View()
      */
     protected function patch($slug, $auth = false)
     {
@@ -93,7 +90,6 @@ class ResourceController extends LikeableController
      * @param  string  $slug Le slug de l'entité à supprimer
      * @param  boolean $auth Un override éventuel pour le check des permissions
      * @return Response
-     * @Route\View()
      */
     protected function delete($slug, $auth = false)
     {
@@ -101,5 +97,7 @@ class ResourceController extends LikeableController
         $item = $this->findBySlug($slug);
         $this->manager->remove($item);
         $this->manager->flush();
+
+        return $this->json(null, 204);
     }
 }

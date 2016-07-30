@@ -37,7 +37,7 @@ class DefaultController extends BaseController
         $user = $this->findBySlug($slug);
 
         if (!$user->getStatsFoyer()) {
-            return $this->jsonResponse(null, 200);
+            return $this->json(null, 200);
         }
         $statisticsHelper = $this->get('ki_foyer.helper.statistics');
         $statistics = $statisticsHelper->getUserStatistics($user);

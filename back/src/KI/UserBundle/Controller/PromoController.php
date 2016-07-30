@@ -128,7 +128,7 @@ class PromoController extends \KI\CoreBundle\Controller\ResourceController
         }
 
         $this->manager->flush();
-        return $this->jsonResponse([
+        return $this->json([
             'hits'  => $i,
             'fails' => count($users) - $i,
             'ratio' => $i/count($users)

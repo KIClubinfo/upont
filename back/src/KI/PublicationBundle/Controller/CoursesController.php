@@ -32,7 +32,7 @@ class CoursesController extends ResourceController
     public function parseCoursesAction()
     {
         $this->get('ki_publication.helper.courseparser')->updateCourses();
-        return $this->jsonResponse(null, 202);
+        return $this->json(null, 202);
     }
 
     /**
@@ -152,7 +152,7 @@ class CoursesController extends ResourceController
 
         $group = $request->request->get('group', 0);
         $this->get('ki_publication.helper.course')->linkCourseUser($course, $this->user, $group);
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -172,6 +172,6 @@ class CoursesController extends ResourceController
     public function deleteCourseUserAction($slug) {
         $course = $this->findBySlug($slug);
         $this->get('ki_publication.helper.course')->unlinkCourseUser($course, $this->user);
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 }

@@ -109,7 +109,7 @@ class FacegamesController extends ResourceController
         $facegameHelper = $this->get('ki_user.helper.facegame');
         $facegameHelper->endGame($facegame, $request->request->get('wrongAnswers'), $request->request->get('duration'));
 
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -129,7 +129,7 @@ class FacegamesController extends ResourceController
     public function getGlobalStatisticsAction()
     {
         $facegameStatisticsHelper = $this->get('ki_user.helper.facegame_statistics');
-        return $this->jsonResponse($facegameStatisticsHelper->globalStatistics());
+        return $this->json($facegameStatisticsHelper->globalStatistics());
     }
 
     /**
@@ -156,6 +156,6 @@ class FacegamesController extends ResourceController
         }
 
         $facegameStatisticsHelper = $this->get('ki_user.helper.facegame_statistics');
-        return $this->jsonResponse($facegameStatisticsHelper->userStatistics($user));
+        return $this->json($facegameStatisticsHelper->userStatistics($user));
     }
 }

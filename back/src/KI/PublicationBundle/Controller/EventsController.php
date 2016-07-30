@@ -197,7 +197,7 @@ class EventsController extends ResourceController
             $this->manager->flush();
         }
 
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -242,7 +242,7 @@ class EventsController extends ResourceController
             throw new NotFoundHttpException('Participation au shotgun non trouvée');
         }
 
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -288,7 +288,7 @@ class EventsController extends ResourceController
         } else {
             throw new NotFoundHttpException('Participation au shotgun non trouvée');
         }
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**

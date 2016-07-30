@@ -86,7 +86,7 @@ class DefaultController extends BaseController
 
         if ($user) {
             if ($user->hasRole('ROLE_ADMISSIBLE'))
-                return $this->jsonResponse(null, 403);
+                return $this->json(null, 403);
 
             $token = $this->get('ki_user.service.token')->getToken($user);
             $message = \Swift_Message::newInstance()
@@ -100,7 +100,7 @@ class DefaultController extends BaseController
             $achievementCheck = new AchievementCheckEvent(Achievement::PASSWORD, $user);
             $dispatcher->dispatch('upont.achievement', $achievementCheck);
 
-            return $this->jsonResponse(null, 204);
+            return $this->json(null, 204);
         } else
             throw new NotFoundHttpException('Utilisateur non trouvé');
     }
@@ -141,7 +141,7 @@ class DefaultController extends BaseController
 
         if ($user) {
             if ($user->hasRole('ROLE_ADMISSIBLE'))
-                return $this->jsonResponse(null, 403);
+                return $this->json(null, 403);
 
             $username = $user->getUsername();
 

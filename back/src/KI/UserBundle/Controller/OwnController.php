@@ -154,7 +154,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         ];
 
         $this->manager->flush();
-        return $this->jsonResponse($return);
+        return $this->json($return);
     }
 
     /**
@@ -220,7 +220,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         $repo = $this->manager->getRepository('KIUserBundle:Device');
         $devices = $repo->findByDevice($request->request->get('device'));
         if (!empty($devices))
-            return $this->jsonResponse(null, 204);
+            return $this->json(null, 204);
 
         $device = new Device();
         $device->setOwner($this->get('security.token_storage')->getToken()->getUser());
@@ -229,7 +229,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         $this->manager->persist($device);
         $this->manager->flush();
 
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -261,7 +261,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         $this->manager->remove($device);
         $this->manager->flush();
 
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -741,7 +741,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
             throw new BadRequestHttpException('Champs password/confirm non rempli(s)');
 
         if ($this->user->hasRole('ROLE_ADMISSIBLE'))
-            return $this->jsonResponse(null, 403);
+            return $this->json(null, 403);
 
         // Pour changer le mot de passe on doit passer par le UserManager
         $userManager = $this->get('fos_user.user_manager');

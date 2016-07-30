@@ -240,7 +240,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
     {
         set_time_limit(3600);
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
-            return $this->jsonResponse(null, 403);
+            return $this->json(null, 403);
 
         if (!$request->files->has('users'))
             throw new BadRequestHttpException('Aucun fichier envoyé');

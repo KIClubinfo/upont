@@ -43,7 +43,7 @@ class DefaultController extends ResourceController
     {
         $path = __DIR__.'/../../../../web/uploads/tmp/';
         if ($token != $this->container->getParameter('fleur_token')) {
-            return $this->jsonResponse('Vous n\'avez pas le droit de faire ça', 403);
+            return $this->json('Vous n\'avez pas le droit de faire ça', 403);
         }
 
         // On récupère le fichier envoyé
@@ -61,7 +61,7 @@ class DefaultController extends ResourceController
         $filelistHelper = $this->get('ki_ponthub.helper.filelist');
         $filelistHelper->parseFilelist($list);
 
-        return $this->jsonResponse(null, 202);
+        return $this->json(null, 202);
     }
 
     /**
@@ -96,7 +96,7 @@ class DefaultController extends ResourceController
         $imdb = $this->get('ki_ponthub.service.imdb');
         $infos = $imdb->search($request->request->get('name'));
 
-        return $this->jsonResponse($infos, 200);
+        return $this->json($infos, 200);
     }
 
     /**
@@ -136,7 +136,7 @@ class DefaultController extends ResourceController
             throw new NotFoundHttpException('Ce film/cette série n\'existe pas dans la base Imdb');
         }
 
-        return $this->jsonResponse($infos, 200);
+        return $this->json($infos, 200);
     }
 
     /**
@@ -160,10 +160,10 @@ class DefaultController extends ResourceController
 
         // On vérifie que la personne a le droit de consulter les stats
         if ($user !== $this->user && empty($user->getStatsPonthub()) && !$this->is('ADMIN')) {
-            return $this->jsonResponse(['error' => 'Impossible d\'afficher les statistiques PontHub']);
+            return $this->json(['error' => 'Impossible d\'afficher les statistiques PontHub']);
         }
 
-        return $this->jsonResponse($statisticsHelper->getUserStatistics($user));
+        return $this->json($statisticsHelper->getUserStatistics($user));
     }
 
 
@@ -185,7 +185,7 @@ class DefaultController extends ResourceController
     {
         $statisticsHelper = $this->get('ki_ponthub.helper.global_statistics');
 
-        return $this->jsonResponse([
+        return $this->json([
             'downloaders' => $statisticsHelper->getGlobalDownloaders(),
             'downloads'   => $statisticsHelper->getGlobalDownloads(),
             'ponthub'     => $statisticsHelper->getGlobalPonthub(),

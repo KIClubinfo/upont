@@ -97,7 +97,7 @@ class RequestsController extends ResourceController
         $item->setVotes($item->getVotes() + 1);
         $this->manager->flush();
 
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -119,6 +119,6 @@ class RequestsController extends ResourceController
         $item->setVotes($item->getVotes() - 1);
         $this->manager->flush();
 
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 }

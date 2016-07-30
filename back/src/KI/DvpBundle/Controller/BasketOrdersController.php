@@ -149,7 +149,7 @@ class BasketOrdersController extends ResourceController
         $this->manager->persist($basketOrder);
         $this->manager->flush();
 
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -199,7 +199,7 @@ class BasketOrdersController extends ResourceController
         $this->manager->persist($basketOrder);
         $this->manager->flush();
 
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -236,6 +236,6 @@ class BasketOrdersController extends ResourceController
         $this->manager->remove($basketOrder, $this->isClubMember('dvp'));
         $this->manager->flush();
 
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 }

@@ -109,7 +109,7 @@ class PontlyvalentsController extends ResourceController
         $this->manager->persist($pontlyvalent);
         $this->manager->flush();
 
-        return $this->jsonResponse(null, 201);
+        return $this->json(null, 201);
     }
 
     /**
@@ -143,7 +143,7 @@ class PontlyvalentsController extends ResourceController
         $this->manager->persist($pontlyvalent);
         $this->manager->flush();
 
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -172,7 +172,7 @@ class PontlyvalentsController extends ResourceController
         $this->manager->remove($pontlyvalent[0]);
         $this->manager->flush();
 
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     private function helper($slug = null)

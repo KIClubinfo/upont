@@ -198,10 +198,10 @@ class ClubsController extends SubresourceController
                 $this->manager->persist($link);
                 $this->manager->flush();
 
-                return $this->jsonResponse(null, 204);
+                return $this->json(null, 204);
             } else {
                 $this->manager->detach($link);
-                return $this->jsonResponse($form, 400);
+                return $this->json($form, 400);
             }
         } else
             throw new BadRequestHttpException('La relation entre Club et User existe déjà');
@@ -253,10 +253,10 @@ class ClubsController extends SubresourceController
                 $this->manager->persist($link);
                 $this->manager->flush();
 
-                return $this->jsonResponse(null, 204);
+                return $this->json(null, 204);
             } else {
                 $this->manager->detach($link);
-                return $this->jsonResponse($form, 400);
+                return $this->json($form, 400);
             }
         } else
             throw new BadRequestHttpException('Cette personne ne fait pas partie du club !');
@@ -296,7 +296,7 @@ class ClubsController extends SubresourceController
             $this->manager->flush();
         } else
             throw new NotFoundHttpException('Relation entre Club et User non trouvée');
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**

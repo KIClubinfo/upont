@@ -146,7 +146,7 @@ class LikeableController extends BaseController
     {
         $this->autoInitialize($object);
         $this->like($this->findBySlug($slug));
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -167,7 +167,7 @@ class LikeableController extends BaseController
     {
         $this->autoInitialize($object);
         $this->dislike($this->findBySlug($slug));
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -188,7 +188,7 @@ class LikeableController extends BaseController
     {
         $this->autoInitialize($object);
         $this->deleteLike($this->findBySlug($slug));
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -209,7 +209,7 @@ class LikeableController extends BaseController
     {
         $this->autoInitialize($object);
         $this->deleteDislike($this->findBySlug($slug));
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -230,7 +230,7 @@ class LikeableController extends BaseController
     {
         $this->autoInitialize($subobject);
         $this->like($this->findBySlug($subslug));
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -251,7 +251,7 @@ class LikeableController extends BaseController
     {
         $this->autoInitialize($subobject);
         $this->dislike($this->findBySlug($subslug));
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -272,7 +272,7 @@ class LikeableController extends BaseController
     {
         $this->autoInitialize($subobject);
         $this->deleteLike($this->findBySlug($subslug));
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -293,6 +293,6 @@ class LikeableController extends BaseController
     {
         $this->autoInitialize($subobject);
         $this->deleteDislike($this->findBySlug($subslug));
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 }

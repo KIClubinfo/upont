@@ -32,7 +32,7 @@ class DefaultController extends BaseController
     public function cleanAction()
     {
         $this->get('ki_core.helper.cleaning')->clean();
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -127,7 +127,7 @@ class DefaultController extends BaseController
         $this->trust($this->is('ADMIN'));
         $until = $request->request->has('until') ? (string)$request->request->get('until') : '';
         $this->get('ki_core.service.maintenance')->lock($until);
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -146,7 +146,7 @@ class DefaultController extends BaseController
     {
         $this->trust($this->is('ADMIN'));
         $this->get('ki_core.service.maintenance')->unlock();
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -164,7 +164,7 @@ class DefaultController extends BaseController
      */
     public function pingAction()
     {
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -199,7 +199,7 @@ class DefaultController extends BaseController
         $searchService = $this->get('ki_core.service.search');
         list($category, $criteria) = $searchService->analyzeRequest($search);
 
-        return $this->jsonResponse($searchService->search($category, $criteria));
+        return $this->json($searchService->search($category, $criteria));
     }
 
     /**
@@ -215,6 +215,6 @@ class DefaultController extends BaseController
      */
     public function versionAction()
     {
-        return $this->jsonResponse($this->get('ki_core.service.version')->getVersion());
+        return $this->json($this->get('ki_core.service.version')->getVersion());
     }
 }

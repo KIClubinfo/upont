@@ -4,8 +4,9 @@ namespace KI\CoreBundle\Helper;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use FOS\RestBundle\View\View as RestView;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
 
 class PaginateHelper
 {
@@ -119,7 +120,7 @@ class PaginateHelper
         // Last
         $links[] = $baseUrl.$totalPages.'&limit='.$limit.'>;rel=last';
 
-        return RestView::create($results, 200, [
+        return new JsonResponse($results, 200, [
             'Links' => implode(',', $links),
             'Total-count' => $count
         ]);

@@ -139,7 +139,7 @@ class TransactionsController extends ResourceController
             $id = $helper->addCreditTransaction($request->request->get('user'), $request->request->get('credit'));
         }
 
-        return $this->jsonResponse($id, 201);
+        return $this->json($id, 201);
     }
 
     /**

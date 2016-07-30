@@ -2,11 +2,10 @@
 
 namespace KI\UserBundle\Controller;
 
-use FOS\RestBundle\Controller\FOSRestController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-// Fonctions génériques étendant le FOSUserBundle
-class CoreController extends FOSRestController
+class CoreController extends Controller
 {
     protected $user = null;
 
