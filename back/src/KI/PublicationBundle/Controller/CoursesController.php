@@ -18,6 +18,25 @@ class CoursesController extends ResourceController
 
     /**
      * @ApiDoc(
+     *  description="Parse l'emploi du temps emploidutemps.enpc.fr",
+     *  statusCodes={
+     *   202="Requête traitée mais sans garantie de résultat",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Général"
+     * )
+     * @Route\Head("/courses")
+     */
+    public function parseCoursesAction()
+    {
+        $this->get('ki_publication.helper.courseparser')->updateCourses();
+        return $this->jsonResponse(null, 202);
+    }
+
+    /**
+     * @ApiDoc(
      *  resource=true,
      *  description="Liste les cours disponibles",
      *  output="KI\PublicationBundle\Entity\Course",
@@ -154,24 +173,5 @@ class CoursesController extends ResourceController
         $course = $this->findBySlug($slug);
         $this->get('ki_publication.helper.course')->unlinkCourseUser($course, $this->user);
         return $this->jsonResponse(null, 204);
-    }
-
-    /**
-     * @ApiDoc(
-     *  description="Parse l'emploi du temps emploidutemps.enpc.fr",
-     *  statusCodes={
-     *   202="Requête traitée mais sans garantie de résultat",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Général"
-     * )
-     * @Route\Head("/courses")
-     */
-    public function parseCoursesAction()
-    {
-        $this->get('ki_publication.helper.courseparser')->updateCourses();
-        return $this->jsonResponse(null, 202);
     }
 }
