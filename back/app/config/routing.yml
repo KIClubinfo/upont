@@ -11,7 +11,9 @@ ki_core:
     prefix:   /
 
 ki_dvp:
-    resource: '@KIDvpBundle/Resources/config/routing.yml'
+    type:     annotation
+    resource: '@KIDvpBundle/Controller'
+    defaults: { _format: 'json' }
     prefix:   /
 
 ki_foyer:

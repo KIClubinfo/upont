@@ -2,10 +2,11 @@
 
 namespace KI\DvpBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use KI\CoreBundle\Controller\ResourceController;
 use KI\DvpBundle\Entity\BasketOrder;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -32,7 +33,8 @@ class BasketOrdersController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
-     * @Route\Get("/baskets-orders")
+     * @Route("/baskets-orders")
+     * @Method("GET")
      */
     public function getBasketsOrdersAction()
     {
@@ -52,13 +54,14 @@ class BasketOrdersController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
-     * @Route\Get("/baskets-orders/{email}")
+     * @Route("/baskets-orders/{email}")
+     * @Method("GET")
      */
     public function getBasketsOrderAction($email)
     {
         $basketOrder = $this->repository->findByEmail($email);
 
-        return $basketOrder;
+        return $this->json($basketOrder);
     }
 
     /**
@@ -87,7 +90,8 @@ class BasketOrdersController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
-     * @Route\Post("/baskets/{slug}/order")
+     * @Route("/baskets/{slug}/order")
+     * @Method("POST")
      */
     public function postBasketOrderAction(Request $request, $slug)
     {
@@ -99,7 +103,8 @@ class BasketOrdersController extends ResourceController
                 && $request->request->has('lastName')
                 && $request->request->has('email')
                 && $request->request->has('phone')
-            )) {
+            )
+            ) {
                 throw new BadRequestHttpException('Formulaire incomplet');
             }
         } else if ($this->user->getPhone() === null && !$request->request->has('phone')) {
@@ -166,7 +171,8 @@ class BasketOrdersController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
-     * @Route\Patch("/baskets/{slug}/order/{email}")
+     * @Route("/baskets/{slug}/order/{email}")
+     * @Method("PATCH")
      */
     public function patchBasketOrderAction(Request $request, $slug, $email)
     {
@@ -214,7 +220,8 @@ class BasketOrdersController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
-     * @Route\Delete("/baskets/{slug}/order/{email}/{dateRetrieve}")
+     * @Route("/baskets/{slug}/order/{email}/{dateRetrieve}")
+     * @Method("DELETE")
      */
     public function deleteBasketOrderAction($slug, $email, $dateRetrieve)
     {

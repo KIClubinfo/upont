@@ -2,9 +2,9 @@
 
 namespace KI\DvpBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use KI\CoreBundle\Controller\ResourceController;
-use KI\DvpBundle\Entity\BasketOrder;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -30,6 +30,8 @@ class BasketsController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
+     * @Route("/baskets")
+     * @Method("GET")
      */
     public function getBasketsAction()
     {
@@ -49,6 +51,8 @@ class BasketsController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
+     * @Route("/baskets/{slug}")
+     * @Method("GET")
      */
     public function getBasketAction($slug)
     {
@@ -69,6 +73,8 @@ class BasketsController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
+     * @Route("/baskets")
+     * @Method("POST")
      */
     public function postBasketAction()
     {
@@ -89,6 +95,8 @@ class BasketsController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
+     * @Route("/baskets/{slug}")
+     * @Method("PATCH")
      */
     public function patchBasketAction($slug)
     {
@@ -107,6 +115,8 @@ class BasketsController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
+     * @Route("/baskets/{slug}")
+     * @Method("DELETE")
      */
     public function deleteBasketAction($slug)
     {
