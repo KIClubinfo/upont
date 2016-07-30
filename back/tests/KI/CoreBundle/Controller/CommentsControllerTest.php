@@ -20,7 +20,6 @@ class CommentsControllerTest extends WebTestCase
         $this->client->request('POST', '/newsitems/le-jeu/comments', ['text' => 'J\'ai perdu.']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
-        $this->assertTrue($response->headers->has('Location'));
 
         $out = [];
         preg_match('#.*/comments/([0-9]+)$#', $response->headers->get('Location'), $out);

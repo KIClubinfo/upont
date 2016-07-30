@@ -166,7 +166,7 @@ class DefaultController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route("/ping")
+     * @Route("/ping", name="ping")
      * @Method({"HEAD", "GET"})
      */
     public function pingAction()
