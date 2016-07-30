@@ -672,7 +672,9 @@ class OwnController extends ResourceController
      */
     public function getTokenAction()
     {
-        return ['token' => $this->get('ki_user.service.token')->getToken()];
+        return $this->json([
+            'token' => $this->get('ki_user.service.token')->getToken()
+        ]);
     }
 
     /**

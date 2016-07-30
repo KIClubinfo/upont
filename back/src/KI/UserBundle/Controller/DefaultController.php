@@ -2,11 +2,12 @@
 
 namespace KI\UserBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use KI\CoreBundle\Controller\BaseController;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Event\AchievementCheckEvent;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -40,7 +41,8 @@ class DefaultController extends BaseController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/online")
+     * @Route("/online")
+     * @Method("GET")
      */
     public function onlineAction(Request $request)
     {
@@ -50,8 +52,8 @@ class DefaultController extends BaseController
         $qb->select('u')
             ->from('KIUserBundle:User', 'u')
             ->where('u.lastConnect > :date')
-            ->setParameter('date', time() - $delay*60);
-        return $this->restResponse($qb->getQuery()->getResult());
+            ->setParameter('date', time() - $delay * 60);
+        return $this->json($qb->getQuery()->getResult());
     }
 
 
@@ -73,7 +75,8 @@ class DefaultController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route\Post("/resetting/request")
+     * @Route("/resetting/request")
+     * @Method("POST")
      */
     public function resettingAction(Request $request)
     {
@@ -128,7 +131,8 @@ class DefaultController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route\Post("/resetting/token/{token}")
+     * @Route("/resetting/token/{token}")
+     * @Method("POST")
      */
     public function resettingTokenAction(Request $request, $token)
     {
@@ -156,7 +160,7 @@ class DefaultController extends BaseController
             $user->setPlainPassword($request->request->get('password'));
             $userManager->updateUser($user, true);
 
-            return $this->restResponse(null, 204);
+            return $this->json(null, 204);
         } else
             throw new NotFoundHttpException('Utilisateur non trouvé');
     }

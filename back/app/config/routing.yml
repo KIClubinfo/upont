@@ -35,8 +35,14 @@ ki_publication:
     prefix: /
 
 ki_user:
-    resource: '@KIUserBundle/Resources/config/routing.yml'
+    type:     annotation
+    resource: '@KIUserBundle/Controller'
+    defaults: { _format: 'json' }
     prefix:   /
+
+fos_user_resetting:
+    resource: '@FOSUserBundle/Resources/config/routing/resetting.xml'
+    prefix: /resetting
 
 NelmioApiDocBundle:
     resource: '@NelmioApiDocBundle/Resources/config/routing.yml'

@@ -2,9 +2,10 @@
 
 namespace KI\UserBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use KI\CoreBundle\Controller\ResourceController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -30,6 +31,8 @@ class FacegamesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/facegames")
+     * @Method("GET")
      */
     public function getFacegamesAction()
     {
@@ -48,6 +51,8 @@ class FacegamesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/facegames/{slug}")
+     * @Method("GET")
      */
     public function getFacegameAction($slug)
     {
@@ -67,6 +72,8 @@ class FacegamesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/facegames")
+     * @Method("POST")
      */
     public function postFacegameAction()
     {
@@ -97,6 +104,8 @@ class FacegamesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/facegames/{slug}")
+     * @Method("PATCH")
      */
     public function patchFacegameAction(Request $request, $slug)
     {
@@ -124,7 +133,8 @@ class FacegamesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/statistics/facegame")
+     * @Route("/statistics/facegame")
+     * @Method("GET")
      */
     public function getGlobalStatisticsAction()
     {
@@ -144,7 +154,8 @@ class FacegamesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/statistics/facegame/{slug}")
+     * @Route("/statistics/facegame/{slug}")
+     * @Method("GET")
      */
     public function getUserStatisticsAction($slug)
     {

@@ -2,11 +2,12 @@
 
 namespace KI\UserBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use KI\CoreBundle\Controller\SubresourceController;
 use KI\UserBundle\Entity\ClubUser;
 use KI\UserBundle\Form\ClubUserType;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -33,6 +34,8 @@ class ClubsController extends SubresourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/clubs")
+     * @Method("GET")
      */
     public function getClubsAction()
     {
@@ -51,6 +54,8 @@ class ClubsController extends SubresourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/clubs/{slug}")
+     * @Method("GET")
      */
     public function getClubAction($slug)
     {
@@ -70,6 +75,8 @@ class ClubsController extends SubresourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/clubs")
+     * @Method("POST")
      */
     public function postClubAction()
     {
@@ -90,6 +97,8 @@ class ClubsController extends SubresourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/clubs/{slug}")
+     * @Method("PATCH")
      */
     public function patchClubAction($slug)
     {
@@ -114,6 +123,8 @@ class ClubsController extends SubresourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/clubs/{slug}")
+     * @Method("DELETE")
      */
     public function deleteClubAction($slug)
     {
@@ -141,10 +152,14 @@ class ClubsController extends SubresourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/clubs/{slug}/users")
+     * @Method("GET")
      */
     public function getClubUsersAction($slug)
     {
-        return $this->getAllSub($slug, 'User', false);
+        $members =  $this->getAllSub($slug, 'User', false);
+
+        return $this->json($members);
     }
 
     /**
@@ -167,7 +182,8 @@ class ClubsController extends SubresourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Post("/clubs/{slug}/users/{id}")
+     * @Route("/clubs/{slug}/users/{id}")
+     * @Method("POST")
      */
     public function postClubUserAction(Request $request, $slug, $id)
     {
@@ -227,7 +243,8 @@ class ClubsController extends SubresourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Patch("/clubs/{slug}/users/{username}")
+     * @Route("/clubs/{slug}/users/{username}")
+     * @Method("PATCH")
      */
     public function patchClubUserAction(Request $request, $slug, $username)
     {
@@ -274,7 +291,8 @@ class ClubsController extends SubresourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Delete("/clubs/{slug}/users/{id}")
+     * @Route("/clubs/{slug}/users/{id}")
+     * @Method("DELETE")
      */
     public function deleteClubUserAction($slug, $id)
     {
@@ -312,7 +330,8 @@ class ClubsController extends SubresourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Patch("/clubs/{slug}/users/{username}/{direction}")
+     * @Route("/clubs/{slug}/users/{username}/{direction}")
+     * @Method("PATCH")
      */
     public function swapPriorityClubUserAction($slug, $username, $direction)
     {
@@ -385,7 +404,8 @@ class ClubsController extends SubresourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Post("/clubs/{slug}/follow")
+     * @Route("/clubs/{slug}/follow")
+     * @Method("POST")
      */
     public function followClubAction($slug)
     {
@@ -398,7 +418,7 @@ class ClubsController extends SubresourceController
             $user->removeClubNotFollowed($club);
             $this->manager->flush();
 
-            return $this->restResponse(null, 204);
+            return $this->json(null, 204);
         }
     }
 
@@ -415,7 +435,8 @@ class ClubsController extends SubresourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Post("/clubs/{slug}/unfollow")
+     * @Route("/clubs/{slug}/unfollow")
+     * @Method("POST")
      */
     public function unFollowClubAction($slug)
     {
@@ -428,7 +449,7 @@ class ClubsController extends SubresourceController
             $user->addClubNotFollowed($club);
             $this->manager->flush();
 
-            return $this->restResponse(null, 204);
+            return $this->json(null, 204);
         }
     }
 
@@ -444,7 +465,8 @@ class ClubsController extends SubresourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/clubs/{slug}/newsitems")
+     * @Route("/clubs/{slug}/newsitems")
+     * @Method("GET")
      */
     public function getNewsitemsClubAction($slug)
     {
@@ -470,7 +492,8 @@ class ClubsController extends SubresourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/clubs/{slug}/events")
+     * @Route("/clubs/{slug}/events")
+     * @Method("GET")
      */
     public function getEventsClubAction($slug)
     {

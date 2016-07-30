@@ -4,6 +4,8 @@ namespace KI\UserBundle\Controller;
 
 use KI\CoreBundle\Controller\ResourceController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class AdmissiblesController extends ResourceController
@@ -26,6 +28,8 @@ class AdmissiblesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/admissibles")
+     * @Method("GET")
      */
     public function getAdmissiblesAction()
     {
@@ -35,7 +39,7 @@ class AdmissiblesController extends ResourceController
             ->setParameter('year', strftime('%Y'))
             ->getQuery()->getResult();
 
-        return $admissibles;
+        return $this->json($admissibles);
     }
 
     /**
@@ -50,8 +54,13 @@ class AdmissiblesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/admissibles/{slug}")
+     * @Method("GET")
      */
-    public function getAdmissibleAction($slug) { return $this->getOne($slug); }
+    public function getAdmissibleAction($slug)
+    {
+        return $this->getOne($slug);
+    }
 
     /**
      * @ApiDoc(
@@ -66,8 +75,11 @@ class AdmissiblesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/admissibles")
+     * @Method("POST")
      */
-    public function postAdmissibleAction() {
+    public function postAdmissibleAction()
+    {
         $return = $this->postData(true);
 
         if ($return['code'] == 201) {
@@ -91,8 +103,13 @@ class AdmissiblesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/admissibles/{slug}")
+     * @Method("PATCH")
      */
-    public function patchAdmissibleAction($slug) { return $this->patch($slug); }
+    public function patchAdmissibleAction($slug)
+    {
+        return $this->patch($slug);
+    }
 
     /**
      * @ApiDoc(
@@ -106,6 +123,11 @@ class AdmissiblesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/admissibles/{slug}")
+     * @Method("DELETE")
      */
-    public function deleteAdmissibleAction($slug) { return $this->delete($slug); }
+    public function deleteAdmissibleAction($slug)
+    {
+        return $this->delete($slug);
+    }
 }

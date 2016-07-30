@@ -2,17 +2,20 @@
 
 namespace KI\UserBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
+use KI\CoreBundle\Controller\ResourceController;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Event\AchievementCheckEvent;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-class UsersController extends \KI\CoreBundle\Controller\ResourceController
+class UsersController extends ResourceController
 {
-    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->initialize('User', 'User');
@@ -31,8 +34,13 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/users")
+     * @Method("GET")
      */
-    public function getUsersAction() { return $this->getAll(); }
+    public function getUsersAction()
+    {
+        return $this->getAll();
+    }
 
     /**
      * @ApiDoc(
@@ -47,8 +55,13 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/users/{slug}")
+     * @Method("GET")
      */
-    public function getUserAction($slug) { return $this->getOne($slug, true); }
+    public function getUserAction($slug)
+    {
+        return $this->getOne($slug, true);
+    }
 
     /**
      * @ApiDoc(
@@ -64,12 +77,15 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/users/{slug}")
+     * @Method("PATCH")
      */
     public function patchUserAction(Request $request, $slug)
     {
         // Les admissibles et extérieurs ne peuvent pas modifier leur profil
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMISSIBLE')
-            || $this->get('security.authorization_checker')->isGranted('ROLE_EXTERIEUR'))
+            || $this->get('security.authorization_checker')->isGranted('ROLE_EXTERIEUR')
+        )
             throw new AccessDeniedException();
 
         if ($request->request->has('image')) {
@@ -107,6 +123,8 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/users/{slug}")
+     * @Method("DELETE")
      */
     public function deleteUserAction($slug)
     {
@@ -116,6 +134,8 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
         $userManager = $this->get('fos_user.user_manager');
         $user = $this->findBySlug($slug);
         $userManager->deleteUser($user);
+
+        return $this->json(null, 204);
     }
 
     /**
@@ -131,7 +151,8 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/users/{slug}/clubs")
+     * @Route("/users/{slug}/clubs")
+     * @Method("GET")
      */
     public function getUserClubsAction($slug)
     {
@@ -144,7 +165,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
             ->setParameter('user', $user)
             ->getArrayResult();
 
-        return $this->restResponse($clubs, 200);
+        return $this->json($clubs, 200);
     }
 
     /**
@@ -173,6 +194,8 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/users")
+     * @Method("POST")
      */
     public function postUsersAction(Request $request)
     {
@@ -194,7 +217,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
             throw new BadRequestHttpException('Cet utilisateur existe déjà.');
 
         // Si le login existe déjà, on ajoute une lettre du prénom
-        $login = strtolower(str_replace(' ', '-', substr($this->stripAccents($lastName), 0, 7).$this->stripAccents($firstName)[0]));
+        $login = strtolower(str_replace(' ', '-', substr($this->stripAccents($lastName), 0, 7) . $this->stripAccents($firstName)[0]));
         $i = 1;
         while (count($repo->findByUsername($login)) > 0) {
             if (isset($firstName[$i]))
@@ -207,7 +230,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
         $attributes = [
             'username' => $login,
             'email' => $email,
-            'password' => substr(str_shuffle(strtolower(sha1(rand().time().'salt'))), 0, 8),
+            'password' => substr(str_shuffle(strtolower(sha1(rand() . time() . 'salt'))), 0, 8),
             'loginMethod' => 'form',
             'firstName' => $firstName,
             'lastName' => $lastName,
@@ -215,7 +238,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
 
         $this->get('ki_user.factory.user')->createUser($login, [], $attributes);
 
-        return $this->restResponse(null, 201);
+        return $this->json(null, 201);
     }
 
     /**
@@ -234,7 +257,8 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Post("/import/users")
+     * @Route("/import/users")
+     * @Method("POST")
      */
     public function importUsersAction(Request $request)
     {
@@ -252,9 +276,9 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
         }
 
         // On récupère le contenu du fichier
-        $path = __DIR__.'/../../../../web/uploads/tmp/';
+        $path = __DIR__ . '/../../../../web/uploads/tmp/';
         $file->move($path, 'users.list');
-        $list = fopen($path.'users.list', 'r+');
+        $list = fopen($path . 'users.list', 'r+');
         if ($list === false)
             throw new BadRequestHttpException('Erreur lors de l\'upload du fichier');
 
@@ -273,7 +297,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
             $explode = explode(',', $line);
             list($login, $email, $firstName, $lastName, $promo, $department) = $explode;
             $firstName = ucfirst($firstName);
-            $lastName  = ucfirst($lastName);
+            $lastName = ucfirst($lastName);
 
             $e = [];
             if (!preg_match('/@(eleves\.)?enpc\.fr$/', $email))
@@ -284,12 +308,12 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
                 $e[] = 'Login déja utilisé';
 
             if (count($e) > 0) {
-                $fails[] = $line.' : '.implode(', ', $e);
+                $fails[] = $line . ' : ' . implode(', ', $e);
             } else {
                 $attributes = [
                     'username' => $login,
                     'email' => $email,
-                    'password' => substr(str_shuffle(strtolower(sha1(rand().time().'salt'))), 0, 8),
+                    'password' => substr(str_shuffle(strtolower(sha1(rand() . time() . 'salt'))), 0, 8),
                     'loginMethod' => 'form',
                     'firstName' => $firstName,
                     'lastName' => $lastName,
@@ -300,14 +324,15 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
 
                 $this->get('ki_user.factory.user')->createUser($login, [], $attributes);
 
-                $success[] = $firstName.' '.$lastName;
+                $success[] = $firstName . ' ' . $lastName;
             }
         }
 
-        return $this->restResponse(null, 201);
+        return $this->json(null, 201);
     }
 
-    private function stripAccents($string) {
+    private function stripAccents($string)
+    {
         return str_replace(
             ['à', 'á', 'â', 'ã', 'ä', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ', 'À', 'Á', 'Â', 'Ã', 'Ä', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ù', 'Ú', 'Û', 'Ü', 'Ý'],
             ['a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y', 'A', 'A', 'A', 'A', 'A', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'N', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y'],

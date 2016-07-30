@@ -2,10 +2,11 @@
 
 namespace KI\UserBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use KI\CoreBundle\Controller\ResourceController;
 use KI\UserBundle\Entity\Pontlyvalent;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -32,7 +33,8 @@ class PontlyvalentsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/users/pontlyvalent")
+     * @Route("/users/pontlyvalent")
+     * @Method("GET")
      */
     public function getPontlyvalentsAction()
     {
@@ -66,11 +68,12 @@ class PontlyvalentsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/users/{slug}/pontlyvalent")
+     * @Route("/users/{slug}/pontlyvalent")
+     * @Method("GET")
      */
     public function getPontlyvalentAction($slug)
     {
-        return $this->helper($slug)['pontlyvalent'];
+        return $this->json($this->helper($slug)['pontlyvalent']);
     }
 
     /**
@@ -86,7 +89,8 @@ class PontlyvalentsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Post("/users/{slug}/pontlyvalent")
+     * @Route("/users/{slug}/pontlyvalent")
+     * @Method("POST")
      */
     public function postPontlyvalentAction(Request $request, $slug)
     {
@@ -126,7 +130,8 @@ class PontlyvalentsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Patch("/users/{slug}/pontlyvalent")
+     * @Route("/users/{slug}/pontlyvalent")
+     * @Method("PATCH")
      */
     public function patchPontlyvalentAction(Request $request, $slug)
     {
@@ -160,7 +165,8 @@ class PontlyvalentsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Delete("/users/{slug}/pontlyvalent")
+     * @Route("/users/{slug}/pontlyvalent")
+     * @Method("DELETE")
      */
     public function deletePontlyvalentAction($slug)
     {
@@ -194,10 +200,10 @@ class PontlyvalentsController extends ResourceController
                 'author' => $this->user
             ]);
 
-        return [
-            'target' => $target,
-            'pontlyvalent' => $pontlyvalent,
-        ];
+            return [
+                'target' => $target,
+                'pontlyvalent' => $pontlyvalent,
+            ];
         }
     }
 }
