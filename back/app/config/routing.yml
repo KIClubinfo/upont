@@ -5,7 +5,9 @@ ki_clubinfo:
     prefix: /
 
 ki_core:
-    resource: '@KICoreBundle/Resources/config/routing.yml'
+    type:     annotation
+    resource: '@KICoreBundle/Controller'
+    defaults: { _format: 'json' }
     prefix:   /
 
 ki_dvp:

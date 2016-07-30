@@ -2,8 +2,9 @@
 
 namespace KI\CoreBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -27,7 +28,8 @@ class DefaultController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route\Get("/clean")
+     * @Route("/clean")
+     * @Method("GET")
      */
     public function cleanAction()
     {
@@ -44,7 +46,8 @@ class DefaultController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route\Get("/coffee")
+     * @Route("/coffee")
+     * @Method("GET")
      */
     public function coffeeAction()
     {
@@ -64,7 +67,8 @@ class DefaultController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route\Get("/dirty")
+     * @Route("/dirty")
+     * @Method("GET")
      */
     public function dirtyAction()
     {
@@ -95,11 +99,12 @@ class DefaultController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route\Post("/login")
+     * @Route("/login", name="login")
+     * @Method("POST")
      */
     public function loginAction()
     {
-        return $this->restResponse(null);
+        return $this->json(null);
     }
 
     /**
@@ -120,7 +125,8 @@ class DefaultController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route\Post("/maintenance")
+     * @Route("/maintenance")
+     * @Method("POST")
      */
     public function maintenanceLockAction(Request $request)
     {
@@ -140,7 +146,8 @@ class DefaultController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route\Delete("/maintenance")
+     * @Route("/maintenance")
+     * @Method("DELETE")
      */
     public function maintenanceUnlockAction()
     {
@@ -159,8 +166,8 @@ class DefaultController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route\Head("/ping")
-     * @Route\Get("/ping")
+     * @Route("/ping")
+     * @Method({"HEAD", "GET"})
      */
     public function pingAction()
     {
@@ -186,7 +193,8 @@ class DefaultController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route\Post("/search")
+     * @Route("/search")
+     * @Method("POST")
      */
     public function searchAction(Request $request)
     {
@@ -211,7 +219,8 @@ class DefaultController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route\Get("/version")
+     * @Route("/version")
+     * @Method("GET")
      */
     public function versionAction()
     {

@@ -2,7 +2,7 @@
 
 namespace KI\CoreBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
+use Symfony\Component\HttpFoundation\Response;
 
 // Fonctions générales pour servir une sous ressource de type REST (exemple: Serie -> Episode)
 class SubresourceController extends ResourceController
@@ -15,7 +15,6 @@ class SubresourceController extends ResourceController
      *                         Sinon considère qu'il y a des attributs et donc
      *                         qu'il y a une entité intermédiaire
      * @param  boolean $auth   Un override éventuel pour le check des permissions
-     * @Route\View()
      */
     protected function getAllSub($slug, $name, $simple = true, $auth = false)
     {

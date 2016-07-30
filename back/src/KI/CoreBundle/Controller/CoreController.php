@@ -1,8 +1,10 @@
 <?php
 
-namespace KI\UserBundle\Controller;
+namespace KI\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class CoreController extends Controller
@@ -68,5 +70,34 @@ class CoreController extends Controller
 
         // On vérifie que l'utilisateur fait bien partie du club
         return $this->get('ki_user.service.permission')->isClubMember($this->user, $club);
+    }
+
+    /**
+     * Génère une réponse au format JSON en parsant les propriétés avec le FOSRestBundle
+     * @param  mixed $data    Le contenu à renvoyer
+     * @param  int   $code    Le code d'erreur HTTP à renvoyer
+     * @param  array $headers Des headers spécifiques si nécéssaire
+     * @return Response
+     */
+    public function json($data, $status = 200, $headers = [], $context = [])
+    {
+        return new JsonResponse(
+            $this->get('jms_serializer')->serialize($data, 'json'),
+            $status,
+            $headers,
+            true
+        );
+    }
+
+    /**
+     * Génère une réponse plain text
+     * @param  mixed $data    Le contenu à renvoyer
+     * @param  int   $code    Le code d'erreur HTTP à renvoyer
+     * @param  array $headers Des headers spécifiques si nécéssaire
+     * @return Response
+     */
+    public function htmlResponse($data, $code = 200, array $headers = [])
+    {
+        return new Response($data, $code, $headers);
     }
 }
