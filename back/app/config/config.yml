@@ -98,29 +98,9 @@ lexik_jwt_authentication:
     pass_phrase:     '%jwt_passphrase%'                        # ssh key pass phrase
     token_ttl:        86400                                   # token ttl - defaults to 86400
 
-# FOSRestBundle
-fos_rest:
-    # Pas besoin de protection CSRF vu qu'il n'y a pas de formulaire HTML rendered
-    disable_csrf_role: NONE
-    # Activation des listener
-    param_fetcher_listener: true
-    body_listener: true
-    format_listener: true
-    routing_loader:
-        include_format: false
-        default_format: json                # Tout est renvoyé en JSON
-    view:
-        view_response_listener: 'force'
-        formats:
-            json: true
-    format_listener:
-        prefer_extension: false
-        default_priorities:
-            - json
-
 # Nécessaire pour que FOSRestBundle prenne le pas sur la génération des vues
 sensio_framework_extra:
-    view:    { annotations: true }
+    view:    { annotations: false }
     router:  { annotations: true }
 
 # Permet de créer des slugs
