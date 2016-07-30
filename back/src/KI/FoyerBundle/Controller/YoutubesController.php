@@ -4,6 +4,8 @@ namespace KI\FoyerBundle\Controller;
 
 use KI\CoreBundle\Controller\ResourceController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class YoutubesController extends ResourceController
@@ -27,8 +29,13 @@ class YoutubesController extends ResourceController
      *  },
      *  section="Foyer"
      * )
+     * @Route("/youtubes")
+     * @Method("GET")
      */
-    public function getYoutubesAction() { return $this->getAll(); }
+    public function getYoutubesAction()
+    {
+        return $this->getAll();
+    }
 
     /**
      * @ApiDoc(
@@ -43,8 +50,13 @@ class YoutubesController extends ResourceController
      *  },
      *  section="Foyer"
      * )
+     * @Route("/youtubes/{slug}")
+     * @Method("GET")
      */
-    public function getYoutubeAction($slug) { return $this->getOne($slug); }
+    public function getYoutubeAction($slug)
+    {
+        return $this->getOne($slug);
+    }
 
     /**
      * @ApiDoc(
@@ -60,6 +72,8 @@ class YoutubesController extends ResourceController
      *  },
      *  section="Foyer"
      * )
+     * @Route("/youtubes")
+     * @Method("POST")
      */
     public function postYoutubeAction()
     {
@@ -78,6 +92,8 @@ class YoutubesController extends ResourceController
      *  },
      *  section="Foyer"
      * )
+     * @Route("/youtubes/{slug}")
+     * @Method("DELETE")
      */
     public function deleteYoutubeAction($slug)
     {

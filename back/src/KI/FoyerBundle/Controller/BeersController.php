@@ -4,6 +4,8 @@ namespace KI\FoyerBundle\Controller;
 
 use KI\CoreBundle\Controller\ResourceController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class BeersController extends ResourceController
@@ -27,12 +29,14 @@ class BeersController extends ResourceController
      *  },
      *  section="Foyer"
      * )
+     * @Route("/beers")
+     * @Method("GET")
      */
     public function getBeersAction()
     {
         $beerHelper = $this->get('ki_foyer.helper.beer');
         $beers = $beerHelper->getBeerOrderedList();
-        return $this->restResponse($beers);
+        return $this->json($beers);
     }
 
     /**
@@ -48,8 +52,13 @@ class BeersController extends ResourceController
      *  },
      *  section="Foyer"
      * )
+     * @Route("/beers/{slug}")
+     * @Method("GET")
      */
-    public function getBeerAction($slug) { return $this->getOne($slug); }
+    public function getBeerAction($slug)
+    {
+        return $this->getOne($slug);
+    }
 
     /**
      * @ApiDoc(
@@ -65,6 +74,8 @@ class BeersController extends ResourceController
      *  },
      *  section="Foyer"
      * )
+     * @Route("/beers")
+     * @Method("POST")
      */
     public function postBeerAction()
     {
@@ -85,6 +96,8 @@ class BeersController extends ResourceController
      *  },
      *  section="Foyer"
      * )
+     * @Route("/beers/{slug}")
+     * @Method("PATCH")
      */
     public function patchBeerAction($slug)
     {
@@ -103,6 +116,8 @@ class BeersController extends ResourceController
      *  },
      *  section="Foyer"
      * )
+     * @Route("/beers/{slug}")
+     * @Method("DELETE")
      */
     public function deleteBeerAction($slug)
     {

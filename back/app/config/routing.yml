@@ -17,7 +17,9 @@ ki_dvp:
     prefix:   /
 
 ki_foyer:
-    resource: '@KIFoyerBundle/Resources/config/routing.yml'
+    type:     annotation
+    resource: '@KIFoyerBundle/Controller'
+    defaults: { _format: 'json' }
     prefix:   /
 
 ki_ponthub:

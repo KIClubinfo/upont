@@ -2,9 +2,10 @@
 
 namespace KI\FoyerBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use KI\CoreBundle\Controller\ResourceController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -30,7 +31,8 @@ class TransactionsController extends ResourceController
      *  },
      *  section="Foyer"
      * )
-     * @Route\Get("/transactions")
+     * @Route("/transactions")
+     * @Method("GET")
      */
     public function getTransactionsAction()
     {
@@ -49,7 +51,8 @@ class TransactionsController extends ResourceController
      *  },
      *  section="Foyer"
      * )
-     * @Route\Get("/userbeers")
+     * @Route("/userbeers")
+     * @Method("GET")
      */
     public function getUserBeersAction()
     {
@@ -57,7 +60,7 @@ class TransactionsController extends ResourceController
 
         $helper = $this->get('ki_foyer.helper.beer');
         $users = $helper->getUserOrderedList();
-        return $this->restResponse($users);
+        return $this->json($users);
     }
 
     /**
@@ -72,7 +75,8 @@ class TransactionsController extends ResourceController
      *  },
      *  section="Foyer"
      * )
-     * @Route\Get("/users/{slug}/transactions")
+     * @Route("/users/{slug}/transactions")
+     * @Method("GET")
      */
     public function getUserTransactionsAction($slug)
     {
@@ -82,7 +86,7 @@ class TransactionsController extends ResourceController
         $this->trust($this->isClubMember('foyer') || $this->is('ADMIN') || $this->user == $user);
 
         $transactions = $this->repository->findBy(['user' => $user]);
-        return $this->restResponse($transactions);
+        return $this->json($transactions);
     }
 
 
@@ -119,7 +123,8 @@ class TransactionsController extends ResourceController
      *  },
      *  section="Foyer"
      * )
-     * @Route\Post("/transactions")
+     * @Route("/transactions")
+     * @Method("POST")
      */
     public function postTransactionAction(Request $request)
     {
@@ -154,6 +159,8 @@ class TransactionsController extends ResourceController
      *  },
      *  section="Foyer"
      * )
+     * @Route("/transactions/{id}")
+     * @Method("DELETE")
      */
     public function deleteTransactionAction($id)
     {
@@ -161,7 +168,7 @@ class TransactionsController extends ResourceController
 
         $transaction = $this->findBySlug($id);
         $helper = $this->get('ki_foyer.helper.transaction');
-        $helper->updateBalance($transaction->getUser(), -1*$transaction->getAmount());
+        $helper->updateBalance($transaction->getUser(), -1 * $transaction->getAmount());
 
         return $this->delete($id, $this->isClubMember('foyer'));
     }

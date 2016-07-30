@@ -2,9 +2,10 @@
 
 namespace KI\FoyerBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use KI\CoreBundle\Controller\BaseController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -28,7 +29,8 @@ class DefaultController extends BaseController
      *  },
      *  section="Foyer"
      * )
-     * @Route\Get("/statistics/foyer/{slug}")
+     * @Route("/statistics/foyer/{slug}")
+     * @Method("GET")
      */
     public function getFoyerStatisticsAction($slug)
     {
@@ -42,7 +44,7 @@ class DefaultController extends BaseController
         $statisticsHelper = $this->get('ki_foyer.helper.statistics');
         $statistics = $statisticsHelper->getUserStatistics($user);
 
-        return $this->restResponse($statistics);
+        return $this->json($statistics);
     }
 
     /**
@@ -56,7 +58,8 @@ class DefaultController extends BaseController
      *  },
      *  section="Foyer"
      * )
-     * @Route\Get("/statistics/foyer")
+     * @Route("/statistics/foyer")
+     * @Method("GET")
      */
     public function getFoyerStatisticsMainAction()
     {
@@ -66,7 +69,7 @@ class DefaultController extends BaseController
             'hallOfFame' => $this->manager->getRepository('KIFoyerBundle:Transaction')->getHallOfFame(),
         ];
 
-        return $this->restResponse($statistics);
+        return $this->json($statistics);
     }
 
     /**
@@ -80,19 +83,20 @@ class DefaultController extends BaseController
      *  },
      *  section="Foyer"
      * )
-     * @Route\Get("/foyer/debts")
+     * @Route("/foyer/debts")
+     * @Method("GET")
      */
     public function getFoyerDebtsAction()
     {
         $this->trust($this->isClubMember('foyer') || $this->is('ADMIN'));
 
-        $response = new StreamedResponse(function() {
+        $response = new StreamedResponse(function () {
             $results = $this->repository->createQueryBuilder('u')
-                                        ->select('u.username, u.email, u.promo, u.firstName, u.lastName, u.balance')
-                                        ->where('u.balance < 0')
-                                        ->orderBy('u.balance')
-                                        ->getQuery()
-                                        ->iterate();
+                ->select('u.username, u.email, u.promo, u.firstName, u.lastName, u.balance')
+                ->where('u.balance < 0')
+                ->orderBy('u.balance')
+                ->getQuery()
+                ->iterate();
             $handle = fopen('php://output', 'r+');
 
             fputcsv($handle, ['username', 'email', 'promo', 'firstName', 'lastName', 'balance']);
@@ -105,7 +109,7 @@ class DefaultController extends BaseController
         });
 
         $response->headers->set('Content-Type', 'application/force-download');
-        $response->headers->set('Content-Disposition','attachment; filename="dettes.csv"');
+        $response->headers->set('Content-Disposition', 'attachment; filename="dettes.csv"');
 
         return $response;
     }
