@@ -20,7 +20,12 @@ class ResourceController extends LikeableController
         extract($paginateHelper->paginateData($this->repository));
 
         $results = $this->repository->findBy($findBy, $sortBy, $limit, $offset);
-        return $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
+        list($results, $links, $count) = $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
+
+        return $this->json($results, 200, [
+            'Links' => implode(',', $links),
+            'Total-count' => $count
+        ]);
     }
 
     /**

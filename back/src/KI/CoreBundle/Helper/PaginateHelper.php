@@ -120,9 +120,10 @@ class PaginateHelper
         // Last
         $links[] = $baseUrl.$totalPages.'&limit='.$limit.'>;rel=last';
 
-        return new JsonResponse($results, 200, [
-            'Links' => implode(',', $links),
-            'Total-count' => $count
-        ]);
+        return [
+            $results,
+            $links,
+            $count
+        ];
     }
 }
