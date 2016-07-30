@@ -29,8 +29,10 @@ ki_ponthub:
     prefix:   /
 
 ki_publication:
-    resource: '@KIPublicationBundle/Resources/config/routing.yml'
-    prefix:   /
+    type:     annotation
+    resource: '@KIPublicationBundle/Controller'
+    defaults: { _format: 'json' }
+    prefix: /
 
 ki_user:
     resource: '@KIUserBundle/Resources/config/routing.yml'

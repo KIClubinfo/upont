@@ -52,7 +52,7 @@ class CommentsController extends ResourceController
         $this->trust($this->is('USER'));
         $this->autoInitialize($object);
         $item = $this->findBySlug($slug);
-        return $this->restResponse($item->getComments());
+        return $this->json($item->getComments());
     }
 
     /**
@@ -75,7 +75,7 @@ class CommentsController extends ResourceController
         $this->trust($this->is('USER'));
         $this->autoInitialize($subobject);
         $item = $this->findBySlug($subslug);
-        return $this->restResponse($item->getComments());
+        return $this->json($item->getComments());
     }
 
     /**

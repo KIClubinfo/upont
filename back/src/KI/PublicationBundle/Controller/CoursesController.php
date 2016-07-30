@@ -2,9 +2,10 @@
 
 namespace KI\PublicationBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use KI\CoreBundle\Controller\ResourceController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -27,7 +28,8 @@ class CoursesController extends ResourceController
      *  },
      *  section="Général"
      * )
-     * @Route\Head("/courses")
+     * @Route("/courses")
+     * @Method("HEAD")
      */
     public function parseCoursesAction()
     {
@@ -48,6 +50,8 @@ class CoursesController extends ResourceController
      *  },
      *  section="Publications"
      * )
+     * @Route("/courses")
+     * @Method("GET")
      */
     public function getCoursesAction(Request $request)
     {
@@ -70,8 +74,13 @@ class CoursesController extends ResourceController
      *  },
      *  section="Publications"
      * )
+     * @Route("/courses/{slug}")
+     * @Method("GET")
      */
-    public function getCourseAction($slug) { return $this->getOne($slug); }
+    public function getCourseAction($slug)
+    {
+        return $this->getOne($slug);
+    }
 
     /**
      * @ApiDoc(
@@ -87,8 +96,13 @@ class CoursesController extends ResourceController
      *  },
      *  section="Publications"
      * )
+     * @Route("/courses")
+     * @Method("POST")
      */
-    public function postCourseAction() { return $this->post(); }
+    public function postCourseAction()
+    {
+        return $this->post();
+    }
 
     /**
      * @ApiDoc(
@@ -104,8 +118,13 @@ class CoursesController extends ResourceController
      *  },
      *  section="Publications"
      * )
+     * @Route("/courses/{slug}")
+     * @Method("PATCH")
      */
-    public function patchCourseAction($slug) { return $this->patch($slug); }
+    public function patchCourseAction($slug)
+    {
+        return $this->patch($slug);
+    }
 
     /**
      * @ApiDoc(
@@ -119,6 +138,8 @@ class CoursesController extends ResourceController
      *  },
      *  section="Publications"
      * )
+     * @Route("/courses/{slug}")
+     * @Method("DELETE")
      */
     public function deleteCourseAction($slug)
     {
@@ -145,9 +166,11 @@ class CoursesController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route\Post("/courses/{slug}/attend")
+     * @Route("/courses/{slug}/attend")
+     * @Method("POST")
      */
-    public function postCourseUserAction($slug, Request $request) {
+    public function postCourseUserAction(Request $request, $slug)
+    {
         $course = $this->findBySlug($slug);
 
         $group = $request->request->get('group', 0);
@@ -167,11 +190,15 @@ class CoursesController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route\Delete("/courses/{slug}/attend")
+     * @Route("/courses/{slug}/attend")
+     * @Method("DELETE")
      */
-    public function deleteCourseUserAction($slug) {
+    public function deleteCourseUserAction($slug)
+    {
         $course = $this->findBySlug($slug);
         $this->get('ki_publication.helper.course')->unlinkCourseUser($course, $this->user);
         return $this->json(null, 204);
     }
+
+
 }

@@ -4,6 +4,8 @@ namespace KI\PublicationBundle\Controller;
 
 use KI\CoreBundle\Controller\ResourceController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class NewsitemsController extends ResourceController
@@ -27,6 +29,8 @@ class NewsitemsController extends ResourceController
      *  },
      *  section="Publications"
      * )
+     * @Route("/newsitems")
+     * @Method("GET")
      */
     public function getNewsitemsAction()
     {
@@ -46,6 +50,8 @@ class NewsitemsController extends ResourceController
      *  },
      *  section="Publications"
      * )
+     * @Route("/newsitems/{slug}")
+     * @Method("GET")
      */
     public function getNewsitemAction($slug)
     {
@@ -66,6 +72,8 @@ class NewsitemsController extends ResourceController
      *  },
      *  section="Publications"
      * )
+     * @Route("/newsitems")
+     * @Method("POST")
      */
     public function postNewsitemAction()
     {
@@ -92,6 +100,8 @@ class NewsitemsController extends ResourceController
      *  },
      *  section="Publications"
      * )
+     * @Route("/newsitems/{slug}")
+     * @Method("PATCH")
      */
     public function patchNewsitemAction($slug)
     {
@@ -112,6 +122,8 @@ class NewsitemsController extends ResourceController
      *  },
      *  section="Publications"
      * )
+     * @Route("/newsitems/{slug}")
+     * @Method("DELETE")
      */
     public function deleteNewsitemAction($slug)
     {
