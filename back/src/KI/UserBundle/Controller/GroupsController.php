@@ -182,7 +182,7 @@ class GroupsController extends ResourceController
         $this->manager->remove($this->findBySlug($slug));
         $this->manager->flush();
 
-        $this->json(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
