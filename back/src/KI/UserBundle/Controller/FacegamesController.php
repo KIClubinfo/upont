@@ -56,7 +56,9 @@ class FacegamesController extends ResourceController
      */
     public function getFacegameAction($slug)
     {
-        return $this->getOne($slug);
+        $facegame = $this->getOne($slug);
+
+        return $this->json($facegame);
     }
 
     /**

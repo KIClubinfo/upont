@@ -59,7 +59,9 @@ class AdmissiblesController extends ResourceController
      */
     public function getAdmissibleAction($slug)
     {
-        return $this->getOne($slug);
+        $admissible = $this->getOne($slug);
+
+        return $this->json($admissible);
     }
 
     /**

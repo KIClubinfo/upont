@@ -31,7 +31,10 @@ class OthersController extends PonthubFileController
      * @Route("/others")
      * @Method("GET")
      */
-    public function getOthersAction() { return $this->getAll(); }
+    public function getOthersAction()
+    {
+        return $this->getAll();
+    }
 
     /**
      * @ApiDoc(
@@ -49,7 +52,12 @@ class OthersController extends PonthubFileController
      * @Route("/others/{slug}")
      * @Method("GET")
      */
-    public function getOtherAction($slug) { return $this->getOne($slug); }
+    public function getOtherAction($slug)
+    {
+        $other = $this->getOne($slug);
+
+        return $this->json($other);
+    }
 
     /**
      * @ApiDoc(
@@ -68,7 +76,10 @@ class OthersController extends PonthubFileController
      * @Route("/others/{slug}")
      * @Method("PATCH")
      */
-    public function patchOtherAction($slug) { return $this->patch($slug, $this->is('JARDINIER')); }
+    public function patchOtherAction($slug)
+    {
+        return $this->patch($slug, $this->is('JARDINIER'));
+    }
 
 
     /**
@@ -108,8 +119,7 @@ class OthersController extends PonthubFileController
      */
     public function downloadOtherAction($slug)
     {
-        $this->trust(!$this->is('EXTERIEUR'));
-        $item =  $this->findBySlug($slug);
+        $item =  $this->getOne($slug, !$this->is('EXTERIEUR'));
         return $this->download($item);
     }
 }

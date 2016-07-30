@@ -79,7 +79,9 @@ class CoursesController extends ResourceController
      */
     public function getCourseAction($slug)
     {
-        return $this->getOne($slug);
+        $course =  $this->getOne($slug);
+
+        return $this->json($course);
     }
 
     /**

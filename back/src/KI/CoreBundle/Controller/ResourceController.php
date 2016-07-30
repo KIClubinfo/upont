@@ -32,13 +32,13 @@ class ResourceController extends LikeableController
      * Route GET générique
      * @param  string  $slug Le slug de l'entité à récupérer
      * @param  boolean $auth Un override éventuel pour le check des permissions
-     * @return Response
+     * @return object
      */
     protected function getOne($slug, $auth = false)
     {
         $this->trust(!$this->is('EXTERIEUR') || $auth);
         $item =  $this->findBySlug($slug);
-        return $this->json($item);
+        return $item;
     }
 
     /**

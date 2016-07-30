@@ -60,7 +60,9 @@ class UsersController extends ResourceController
      */
     public function getUserAction($slug)
     {
-        return $this->getOne($slug, true);
+        $user = $this->getOne($slug, true);
+
+        return $this->json($user);
     }
 
     /**

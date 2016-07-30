@@ -54,7 +54,9 @@ class GamesController extends PonthubFileController
      */
     public function getGameAction($slug)
     {
-        return $this->getOne($slug);
+        $game = $this->getOne($slug);
+
+        return $this->json($game);
     }
 
     /**
@@ -117,8 +119,7 @@ class GamesController extends PonthubFileController
      */
     public function downloadGameAction($slug)
     {
-        $this->trust(!$this->is('EXTERIEUR'));
-        $item =  $this->findBySlug($slug);
+        $item =  $this->getOne($slug, !$this->is('EXTERIEUR'));
         return $this->download($item);
     }
 }

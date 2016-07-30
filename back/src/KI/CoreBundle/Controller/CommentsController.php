@@ -30,7 +30,12 @@ class CommentsController extends ResourceController
      * @Route("/comments/{slug}")
      * @Method("GET")
      */
-    public function getCommentAction($slug) { return $this->getOne($slug); }
+    public function getCommentAction($slug)
+    {
+        $comment = $this->getOne($slug);
+
+        return $this->json($comment);
+    }
 
     /**
      * @ApiDoc(

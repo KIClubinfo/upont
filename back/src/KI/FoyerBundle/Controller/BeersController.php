@@ -57,7 +57,9 @@ class BeersController extends ResourceController
      */
     public function getBeerAction($slug)
     {
-        return $this->getOne($slug);
+        $beer = $this->getOne($slug);
+
+        return $this->json($beer);
     }
 
     /**

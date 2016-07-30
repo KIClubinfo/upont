@@ -59,7 +59,9 @@ class GroupsController extends ResourceController
      */
     public function getGroupAction($slug)
     {
-        return $this->getOne($slug);
+        $group = $this->getOne($slug);
+
+        return $this->json($group);
     }
 
     /**

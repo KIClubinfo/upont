@@ -55,7 +55,9 @@ class YoutubesController extends ResourceController
      */
     public function getYoutubeAction($slug)
     {
-        return $this->getOne($slug);
+        $youtube = $this->getOne($slug);
+
+        return $this->json($youtube);
     }
 
     /**

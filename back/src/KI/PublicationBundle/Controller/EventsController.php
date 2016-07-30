@@ -62,7 +62,9 @@ class EventsController extends ResourceController
      */
     public function getEventAction($slug)
     {
-        return $this->getOne($slug, $this->is('EXTERIEUR'));
+        $event = $this->getOne($slug, $this->is('EXTERIEUR'));
+
+        return $this->json($event);
     }
 
     /**

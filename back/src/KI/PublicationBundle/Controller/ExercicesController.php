@@ -186,11 +186,7 @@ class ExercicesController extends SubresourceController
      */
     public function deleteCourseExerciceAction($slugParent, $slugSub)
     {
-        $this->findBySlug($slugParent);
-
-        $this->switchClass('Exercice');
-        $exercice = $this->findBySlug($slugSub);
-        $this->switchClass();
+        $exercice = $this->getOneSub($slugParent, 'Exercice', $slugSub);
 
         return $this->deleteSub($slugParent, 'Exercice', $slugSub, $this->user == $exercice->getUploader() || $this->is('MODO'));
     }

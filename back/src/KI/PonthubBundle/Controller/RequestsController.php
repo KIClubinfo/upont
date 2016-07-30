@@ -55,7 +55,9 @@ class RequestsController extends ResourceController
      */
     public function getRequestAction($slug)
     {
-        return $this->getOne($slug);
+        $request = $this->getOne($slug);
+
+        return $this->json($request);
     }
 
     /**
@@ -117,7 +119,7 @@ class RequestsController extends ResourceController
      */
     public function upvoteRequestAction($slug)
     {
-        $item = $this->findBySlug($slug);
+        $item = $this->getOne($slug);
         $item->setVotes($item->getVotes() + 1);
         $this->manager->flush();
 
@@ -141,7 +143,7 @@ class RequestsController extends ResourceController
      */
     public function downvoteRequestAction($slug)
     {
-        $item = $this->findBySlug($slug);
+        $item = $this->getOne($slug);
         $item->setVotes($item->getVotes() - 1);
         $this->manager->flush();
 

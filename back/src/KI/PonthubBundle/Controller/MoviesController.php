@@ -54,7 +54,9 @@ class MoviesController extends PonthubFileController
      */
     public function getMovieAction($slug)
     {
-        return $this->getOne($slug);
+        $movie = $this->getOne($slug);
+
+        return $this->json($movie);
     }
 
     /**
@@ -116,8 +118,7 @@ class MoviesController extends PonthubFileController
      */
     public function downloadMovieAction($slug)
     {
-        $this->trust(!$this->is('EXTERIEUR'));
-        $item = $this->findBySlug($slug);
+        $item = $this->getOne($slug, !$this->is('EXTERIEUR'));
         return $this->download($item);
     }
 }

@@ -59,7 +59,9 @@ class ClubsController extends SubresourceController
      */
     public function getClubAction($slug)
     {
-        return $this->getOne($slug, $this->is('EXTERIEUR'));
+        $club = $this->getOne($slug, $this->is('EXTERIEUR'));
+
+        return $this->json($club);
     }
 
     /**

@@ -31,7 +31,10 @@ class SoftwaresController extends PonthubFileController
      * @Route("/softwares")
      * @Method("GET")
      */
-    public function getSoftwaresAction() { return $this->getAll(); }
+    public function getSoftwaresAction()
+    {
+        return $this->getAll();
+    }
 
     /**
      * @ApiDoc(
@@ -49,7 +52,12 @@ class SoftwaresController extends PonthubFileController
      * @Route("/softwares/{slug}")
      * @Method("GET")
      */
-    public function getSoftwareAction($slug) { return $this->getOne($slug); }
+    public function getSoftwareAction($slug)
+    {
+        $software = $this->getOne($slug);
+
+        return $this->json($software);
+    }
 
     /**
      * @ApiDoc(
@@ -110,8 +118,7 @@ class SoftwaresController extends PonthubFileController
      */
     public function downloadSoftwareAction($slug)
     {
-        $this->trust(!$this->is('EXTERIEUR'));
-        $item =  $this->findBySlug($slug);
+        $item = $this->getOne($slug, !$this->is('EXTERIEUR'));
         return $this->download($item);
     }
 }

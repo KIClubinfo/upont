@@ -32,7 +32,10 @@ class FixsController extends ResourceController
      * @Route("/fixs")
      * @Method("GET")
      */
-    public function getFixsAction() { return $this->getAll(); }
+    public function getFixsAction()
+    {
+        return $this->getAll();
+    }
 
     /**
      * @ApiDoc(
@@ -50,7 +53,12 @@ class FixsController extends ResourceController
      * @Route("/fixs/{slug}")
      * @Method("GET")
      */
-    public function getFixAction($slug) { return $this->getOne($slug); }
+    public function getFixAction($slug)
+    {
+        $fix = $this->getOne($slug);
+
+        return $this->json($fix);
+    }
 
     /**
      * @ApiDoc(
@@ -93,7 +101,7 @@ class FixsController extends ResourceController
      */
     public function patchFixAction($slug)
     {
-        $fix = $this->findBySlug($slug);
+        $fix = $this->getOne($slug);
 
         if ($fix->getFix()) {
             $this->get('ki_user.service.notify')->notify(
@@ -124,7 +132,7 @@ class FixsController extends ResourceController
      */
     public function deleteFixAction($slug)
     {
-        $fix = $this->findBySlug($slug);
+        $fix = $this->getOne($slug);
         $user = $this->get('security.token_storage')->getToken()->getUser();
         return $this->delete($slug, $user->getUsername() == $fix->getUser()->getUsername());
     }

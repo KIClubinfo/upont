@@ -56,7 +56,9 @@ class BasketsController extends ResourceController
      */
     public function getBasketAction($slug)
     {
-        return $this->getOne($slug, $this->is('EXTERIEUR'));
+        $basket = $this->getOne($slug, $this->is('EXTERIEUR'));
+
+        return $this->json($basket);
     }
 
     /**
@@ -120,7 +122,7 @@ class BasketsController extends ResourceController
      */
     public function deleteBasketAction($slug)
     {
-        $basket = $this->findBySlug($slug);
+        $basket = $this->getOne($slug);
 
         // On n'oublie pas de supprimer toutes les commandes associées
         $basketOrderRepository = $this->manager->getRepository('KIDvpBundle:BasketOrder');

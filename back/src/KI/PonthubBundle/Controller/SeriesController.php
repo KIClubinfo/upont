@@ -54,7 +54,9 @@ class SeriesController extends PonthubFileController
      */
     public function getSerieAction($slug)
     {
-        return $this->getOne($slug);
+        $serie = $this->getOne($slug);
+
+        return $this->json($serie);
     }
 
     /**
@@ -186,12 +188,8 @@ class SeriesController extends PonthubFileController
      */
     public function downloadEpisodeAction($slug, $id)
     {
-        $this->findBySlug($slug);
+        $episode = $this->getOneSub($slug, 'Episode', $id);
 
-        $this->switchClass('Episode');
-        $item = $this->findBySlug($id);
-        $this->switchClass();
-
-        return $this->download($item);
+        return $this->download($episode);
     }
 }

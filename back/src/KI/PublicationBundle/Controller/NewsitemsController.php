@@ -55,7 +55,9 @@ class NewsitemsController extends ResourceController
      */
     public function getNewsitemAction($slug)
     {
-        return $this->getOne($slug, $this->is('EXTERIEUR'));
+        $newsitem = $this->getOne($slug, $this->is('EXTERIEUR'));
+
+        return $this->json($newsitem);
     }
 
     /**

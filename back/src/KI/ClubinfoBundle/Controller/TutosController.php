@@ -55,7 +55,9 @@ class TutosController extends ResourceController
      */
     public function getTutoAction($slug)
     {
-        return $this->getOne($slug);
+        $tuto = $this->getOne($slug);
+
+        return $this->json($tuto);
     }
 
     /**

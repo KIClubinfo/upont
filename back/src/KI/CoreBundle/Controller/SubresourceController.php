@@ -37,7 +37,7 @@ class SubresourceController extends ResourceController
      * @param  string  $name Le nom de la classe fille
      * @param  string  $id   L'identifiant de l'entité fille
      * @param  boolean $auth Un override éventuel pour le check des permissions
-     * @return Response
+     * @return object
      */
     protected function getOneSub($slug, $name, $id, $auth = false)
     {
