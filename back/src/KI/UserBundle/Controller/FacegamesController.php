@@ -84,7 +84,7 @@ class FacegamesController extends ResourceController
 
             if (!$facegameHelper->fillUserList($return['item'])) {
                 $this->manager->detach($return['item']);
-                return $this->restResponse($return['item'], 400);
+                return $this->json($return['item'], 400);
             }
         }
         return $this->postView($return);
