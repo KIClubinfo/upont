@@ -4,6 +4,8 @@ namespace KI\PonthubBundle\Controller;
 
 use KI\CoreBundle\Controller\SubresourceController;
 use KI\PonthubBundle\Entity\PonthubFileUser;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 // Surcouche pour les fichiers de type PonthubFile
 class PonthubFileController extends SubresourceController

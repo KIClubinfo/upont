@@ -2,8 +2,9 @@
 
 namespace KI\PonthubBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class MoviesController extends PonthubFileController
@@ -27,8 +28,13 @@ class MoviesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
+     * @Route("/movies")
+     * @Method("GET")
      */
-    public function getMoviesAction() { return $this->getAll(); }
+    public function getMoviesAction()
+    {
+        return $this->getAll();
+    }
 
     /**
      * @ApiDoc(
@@ -43,8 +49,13 @@ class MoviesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
+     * @Route("/movies/{slug}")
+     * @Method("GET")
      */
-    public function getMovieAction($slug) { return $this->getOne($slug); }
+    public function getMovieAction($slug)
+    {
+        return $this->getOne($slug);
+    }
 
     /**
      * @ApiDoc(
@@ -60,8 +71,13 @@ class MoviesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
+     * @Route("/movies/{slug}")
+     * @Method("PATCH")
      */
-    public function patchMovieAction($slug) { return $this->patch($slug, $this->is('JARDINIER')); }
+    public function patchMovieAction($slug)
+    {
+        return $this->patch($slug, $this->is('JARDINIER'));
+    }
 
     /**
      * @ApiDoc(
@@ -75,6 +91,8 @@ class MoviesController extends PonthubFileController
      *  },
      *  section="Publications"
      * )
+     * @Route("/movies/{slug}")
+     * @Method("DELETE")
      */
     public function deleteMovieAction($slug)
     {
@@ -93,11 +111,13 @@ class MoviesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route\Get("/movies/{slug}/download")
+     * @Route("/movies/{slug}/download")
+     * @Method("GET")
      */
     public function downloadMovieAction($slug)
     {
-        $item = $this->getOne($slug);
+        $this->trust(!$this->is('EXTERIEUR'));
+        $item = $this->findBySlug($slug);
         return $this->download($item);
     }
 }

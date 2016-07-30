@@ -2,8 +2,9 @@
 
 namespace KI\PonthubBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class SoftwaresController extends PonthubFileController
@@ -27,6 +28,8 @@ class SoftwaresController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
+     * @Route("/softwares")
+     * @Method("GET")
      */
     public function getSoftwaresAction() { return $this->getAll(); }
 
@@ -43,6 +46,8 @@ class SoftwaresController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
+     * @Route("/softwares/{slug}")
+     * @Method("GET")
      */
     public function getSoftwareAction($slug) { return $this->getOne($slug); }
 
@@ -60,6 +65,8 @@ class SoftwaresController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
+     * @Route("/softwares/{slug}")
+     * @Method("PATCH")
      */
     public function patchSoftwareAction($slug)
     {
@@ -78,6 +85,8 @@ class SoftwaresController extends PonthubFileController
      *  },
      *  section="Publications"
      * )
+     * @Route("/softwares/{slug}")
+     * @Method("DELETE")
      */
     public function deleteSoftwareAction($slug)
     {
@@ -96,11 +105,13 @@ class SoftwaresController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route\Get("/softwares/{slug}/download")
+     * @Route("/softwares/{slug}/download")
+     * @Method("GET")
      */
     public function downloadSoftwareAction($slug)
     {
-        $item = $this->getOne($slug);
+        $this->trust(!$this->is('EXTERIEUR'));
+        $item =  $this->findBySlug($slug);
         return $this->download($item);
     }
 }

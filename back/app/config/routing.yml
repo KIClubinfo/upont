@@ -23,7 +23,9 @@ ki_foyer:
     prefix:   /
 
 ki_ponthub:
-    resource: '@KIPonthubBundle/Resources/config/routing.yml'
+    type:     annotation
+    resource: '@KIPonthubBundle/Controller'
+    defaults: { _format: 'json' }
     prefix:   /
 
 ki_publication:

@@ -2,9 +2,10 @@
 
 namespace KI\PonthubBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use KI\CoreBundle\Controller\ResourceController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -37,11 +38,12 @@ class DefaultController extends ResourceController
      *  },
      *  section="Ponthub"
      * )
-     * @Route\Post("/filelist/{token}")
+     * @Route("/filelist/{token}")
+     * @Method("POST")
      */
     public function filelistAction($token, Request $request)
     {
-        $path = __DIR__.'/../../../../web/uploads/tmp/';
+        $path = __DIR__ . '/../../../../web/uploads/tmp/';
         if ($token != $this->container->getParameter('fleur_token')) {
             return $this->json('Vous n\'avez pas le droit de faire ça', 403);
         }
@@ -53,7 +55,7 @@ class DefaultController extends ResourceController
 
         // On récupère le contenu du fichier
         $request->files->get('filelist')->move($path, 'files.list');
-        $list = fopen($path.'files.list', 'r+');
+        $list = fopen($path . 'files.list', 'r+');
         if ($list === false) {
             throw new BadRequestHttpException('Erreur lors de l\'upload du fichier');
         }
@@ -83,7 +85,8 @@ class DefaultController extends ResourceController
      *  },
      *  section="Ponthub"
      * )
-     * @Route\Post("/imdb/search")
+     * @Route("/imdb/search")
+     * @Method("POST")
      */
     public function imdbSearchAction(Request $request)
     {
@@ -119,7 +122,8 @@ class DefaultController extends ResourceController
      *  },
      *  section="Ponthub"
      * )
-     * @Route\Post("/imdb/infos")
+     * @Route("/imdb/infos")
+     * @Method("POST")
      */
     public function imdbInfosAction(Request $request)
     {
@@ -150,7 +154,8 @@ class DefaultController extends ResourceController
      *  },
      *  section="Ponthub"
      * )
-     * @Route\Get("/statistics/ponthub/{slug}")
+     * @Route("/statistics/ponthub/{slug}")
+     * @Method("GET")
      */
     public function getPonthubStatisticsAction($slug)
     {
@@ -167,7 +172,6 @@ class DefaultController extends ResourceController
     }
 
 
-
     /**
      * @ApiDoc(
      *  description="Retourne les statistiques d'utilisation de Ponthub",
@@ -179,7 +183,8 @@ class DefaultController extends ResourceController
      *  },
      *  section="Ponthub"
      * )
-     * @Route\Get("/statistics/ponthub")
+     * @Route("/statistics/ponthub")
+     * @Method("GET")
      */
     public function getPonthubStatisticsMainAction()
     {
@@ -187,10 +192,10 @@ class DefaultController extends ResourceController
 
         return $this->json([
             'downloaders' => $statisticsHelper->getGlobalDownloaders(),
-            'downloads'   => $statisticsHelper->getGlobalDownloads(),
-            'ponthub'     => $statisticsHelper->getGlobalPonthub(),
-            'years'       => $statisticsHelper->getGlobalYears(),
-            'timeline'    => $statisticsHelper->getGlobalTimeline()
+            'downloads' => $statisticsHelper->getGlobalDownloads(),
+            'ponthub' => $statisticsHelper->getGlobalPonthub(),
+            'years' => $statisticsHelper->getGlobalYears(),
+            'timeline' => $statisticsHelper->getGlobalTimeline()
         ]);
     }
 }

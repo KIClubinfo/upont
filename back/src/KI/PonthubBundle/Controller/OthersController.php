@@ -2,8 +2,9 @@
 
 namespace KI\PonthubBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class OthersController extends PonthubFileController
@@ -27,6 +28,8 @@ class OthersController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
+     * @Route("/others")
+     * @Method("GET")
      */
     public function getOthersAction() { return $this->getAll(); }
 
@@ -43,6 +46,8 @@ class OthersController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
+     * @Route("/others/{slug}")
+     * @Method("GET")
      */
     public function getOtherAction($slug) { return $this->getOne($slug); }
 
@@ -60,6 +65,8 @@ class OthersController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
+     * @Route("/others/{slug}")
+     * @Method("PATCH")
      */
     public function patchOtherAction($slug) { return $this->patch($slug, $this->is('JARDINIER')); }
 
@@ -76,6 +83,8 @@ class OthersController extends PonthubFileController
      *  },
      *  section="Publications"
      * )
+     * @Route("/others/{slug}")
+     * @Method("DELETE")
      */
     public function deleteOtherAction($slug)
     {
@@ -94,11 +103,13 @@ class OthersController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route\Get("/others/{slug}/download")
+     * @Route("/others/{slug}/download")
+     * @Method("GET")
      */
     public function downloadOtherAction($slug)
     {
-        $item = $this->getOne($slug);
+        $this->trust(!$this->is('EXTERIEUR'));
+        $item =  $this->findBySlug($slug);
         return $this->download($item);
     }
 }
