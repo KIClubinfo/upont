@@ -21,8 +21,6 @@ class TutosControllerTest extends WebTestCase
             );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
-        // On vérifie que le lieu du nouvel objet a été indiqué
-        $this->assertTrue($response->headers->has('Location'), $response->headers);
     }
 
     public function testGet()

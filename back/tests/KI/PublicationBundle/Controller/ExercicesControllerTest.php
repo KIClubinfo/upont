@@ -24,7 +24,6 @@ class ExercicesControllerTest extends WebTestCase
             );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
-        $this->assertTrue($response->headers->has('Location'), $response->headers);
     }
 
     public function testGetExercice()

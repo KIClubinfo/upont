@@ -22,8 +22,6 @@ class EventsControllerTest extends WebTestCase
         ]);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
-        // On vérifie que le lieu du nouvel objet a été indiqué
-        $this->assertTrue($response->headers->has('Location'), $response->headers);
 
         // On vérifie qu'un mail a été envoyé
         $mailCollector = $this->client->getProfile()->getCollector('swiftmailer');

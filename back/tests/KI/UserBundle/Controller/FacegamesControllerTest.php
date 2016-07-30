@@ -20,8 +20,6 @@ class FacegamesControllerTest extends WebTestCase
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
-        // On vérifie que le lieu du nouvel objet a été indiqué
-        $this->assertTrue($response->headers->has('Location'), $response->headers);
     }
 
     // Obligé de faire une seule grosse fonction pour utiliser le meme id

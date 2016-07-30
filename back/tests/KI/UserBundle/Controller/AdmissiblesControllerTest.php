@@ -31,12 +31,6 @@ class AdmissiblesControllerTest extends WebTestCase
         $response = $this->postAdmissible();
         $this->assertJsonResponse($response, 201);
 
-        // On vérifie que le lieu du nouvel objet a été indiqué
-        $this->assertTrue(
-            $response->headers->has('Location'),
-            $response->headers
-        );
-
         // On n'accepte pas les duplicatas selon le numéro SCEI
         $response = $this->postAdmissible();
         $this->assertJsonResponse($response, 400);
