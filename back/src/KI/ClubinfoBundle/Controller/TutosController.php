@@ -4,6 +4,8 @@ namespace KI\ClubinfoBundle\Controller;
 
 use KI\CoreBundle\Controller\ResourceController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class TutosController extends ResourceController
@@ -27,8 +29,13 @@ class TutosController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
+     * @Route("/tutos")
+     * @Method("GET")
      */
-    public function getTutosAction() { return $this->getAll(); }
+    public function getTutosAction()
+    {
+        return $this->getAll();
+    }
 
     /**
      * @ApiDoc(
@@ -43,8 +50,13 @@ class TutosController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
+     * @Route("/tutos/{slug}")
+     * @Method("GET")
      */
-    public function getTutoAction($slug) { return $this->getOne($slug); }
+    public function getTutoAction($slug)
+    {
+        return $this->getOne($slug);
+    }
 
     /**
      * @ApiDoc(
@@ -60,8 +72,13 @@ class TutosController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
+     * @Route("/tutos")
+     * @Method("POST")
      */
-    public function postTutoAction() { return $this->post(); }
+    public function postTutoAction()
+    {
+        return $this->post();
+    }
 
     /**
      * @ApiDoc(
@@ -77,8 +94,13 @@ class TutosController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
+     * @Route("/tutos/{slug}")
+     * @Method("PATCH")
      */
-    public function patchTutoAction($slug) { return $this->patch($slug); }
+    public function patchTutoAction($slug)
+    {
+        return $this->patch($slug);
+    }
 
     /**
      * @ApiDoc(
@@ -92,6 +114,11 @@ class TutosController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
+     * @Route("/tutos/{slug}")
+     * @Method("DELETE")
      */
-    public function deleteTutoAction($slug) { return $this->delete($slug); }
+    public function deleteTutoAction($slug)
+    {
+        return $this->delete($slug);
+    }
 }

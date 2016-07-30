@@ -2,9 +2,10 @@
 
 namespace KI\ClubinfoBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use KI\CoreBundle\Controller\ResourceController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class FixsController extends ResourceController
@@ -28,6 +29,8 @@ class FixsController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
+     * @Route("/fixs")
+     * @Method("GET")
      */
     public function getFixsAction() { return $this->getAll(); }
 
@@ -44,7 +47,8 @@ class FixsController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route\Get("/fixs/{slug}")
+     * @Route("/fixs/{slug}")
+     * @Method("GET")
      */
     public function getFixAction($slug) { return $this->getOne($slug); }
 
@@ -62,11 +66,12 @@ class FixsController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route\Post("/fixs")
+     * @Route("/fixs")
+     * @Method("POST")
      */
     public function postFixAction()
     {
-        return $this->post($this->get('security.authorization_checker')->isGranted('ROLE_USER'));
+        return $this->post($this->is('USER'));
     }
 
     /**
@@ -83,7 +88,8 @@ class FixsController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route\Patch("/fixs/{slug}")
+     * @Route("/fixs/{slug}")
+     * @Method("PATCH")
      */
     public function patchFixAction($slug)
     {
@@ -113,7 +119,8 @@ class FixsController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route\Delete("/fixs/{slug}")
+     * @Route("/fixs/{slug}")
+     * @Method("DELETE")
      */
     public function deleteFixAction($slug)
     {
