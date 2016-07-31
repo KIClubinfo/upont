@@ -170,9 +170,9 @@ class SeriesController extends PonthubFileController
      */
     public function patchSerieEpisodeAction($slug, $id)
     {
-        $episode = $this->patchSub($slug, 'Episode', $id, $this->is('JARDINIER'));
+        $data = $this->patchSub($slug, 'Episode', $id, $this->is('JARDINIER'));
 
-        return $this->json($episode, 204);
+        return $this->formJson($data);
     }
 
     /**

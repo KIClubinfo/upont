@@ -193,7 +193,7 @@ class EventsController extends ResourceController
             throw new BadRequestHttpException('Texte de motivation manquant');
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
-        $user = $this->getUser();
+        $user = $this->user;
         $userEvent = $repo->findBy(['event' => $event, 'user' => $user]);
 
         // On vérifie que l'utilisateur n'a pas déjà shotguné

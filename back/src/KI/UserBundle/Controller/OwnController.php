@@ -179,7 +179,7 @@ class OwnController extends ResourceController
      */
     public function getDevicesAction()
     {
-        if (!$this-is('USER'))
+        if (!$this->is('USER'))
             throw new AccessDeniedException();
 
         $user = $this->user;

@@ -12,6 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Exception;
 
 class UsersController extends ResourceController
 {
@@ -98,7 +99,7 @@ class UsersController extends ResourceController
 
         // Un utilisateur peut se modifier lui même
         $user = $this->getUser();
-        $response = $this->patch($slug, $user->getUsername() == $slug);
+        $patchData = $this->patch($slug, $user->getUsername() == $slug);
 
         $dispatcher = $this->get('event_dispatcher');
         $achievementCheck = new AchievementCheckEvent(Achievement::PROFILE);
@@ -110,7 +111,7 @@ class UsersController extends ResourceController
             $dispatcher->dispatch('upont.achievement', $achievementCheck);
         }
 
-        return $response;
+        return $this->formJson($patchData);
     }
 
     /**
