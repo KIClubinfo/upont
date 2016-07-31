@@ -3,7 +3,7 @@ uPont 2.0
 
 uPont version 2.0, the intranet of the _École nationale des ponts et chaussées_. It features an AngularJS front-end and a Cordova mobile app powered by a Symfony2 REST API.
 
-[![CircleCI](https://circleci.com/gh/KIClubinfo/upont/tree/v2.7.1.svg?style=svg)](https://circleci.com/gh/KIClubinfo/upont/tree/v2.7.1)
+[![CircleCI](https://circleci.com/gh/KIClubinfo/upont/tree/master.svg?style=svg)](https://circleci.com/gh/KIClubinfo/upont/tree/master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/KIClubinfo/upont/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/KIClubinfo/upont/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/KIClubinfo/upont/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/KIClubinfo/upont/?branch=master)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/35270f9e-ec9c-44c8-911d-399bf991cf45/mini.png)](https://insight.sensiolabs.com/projects/35270f9e-ec9c-44c8-911d-399bf991cf45)
