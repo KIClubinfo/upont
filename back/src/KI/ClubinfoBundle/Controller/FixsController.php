@@ -133,7 +133,7 @@ class FixsController extends ResourceController
     public function deleteFixAction($slug)
     {
         $fix = $this->getOne($slug);
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user = $this->getUser();
         return $this->delete($slug, $user->getUsername() == $fix->getUser()->getUsername());
     }
 }

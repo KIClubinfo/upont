@@ -97,7 +97,7 @@ class UsersController extends ResourceController
         }
 
         // Un utilisateur peut se modifier lui même
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user = $this->getUser();
         $response = $this->patch($slug, $user->getUsername() == $slug);
 
         $dispatcher = $this->get('event_dispatcher');

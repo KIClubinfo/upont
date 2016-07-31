@@ -179,10 +179,10 @@ class OwnController extends ResourceController
      */
     public function getDevicesAction()
     {
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_USER'))
+        if (!$this-is('USER'))
             throw new AccessDeniedException();
 
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user = $this->getUser();
         return $this->json($user->getDevices());
     }
 
@@ -215,7 +215,7 @@ class OwnController extends ResourceController
      */
     public function postDeviceAction(Request $request)
     {
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
+        if (!$this->is('USER')) {
             throw new AccessDeniedException();
         }
 
@@ -231,7 +231,7 @@ class OwnController extends ResourceController
             return $this->json(null, 204);
 
         $device = new Device();
-        $device->setOwner($this->get('security.token_storage')->getToken()->getUser());
+        $device->setOwner($this->getUser());
         $device->setDevice($request->request->get('device'));
         $device->setType($request->request->get('type'));
         $this->manager->persist($device);
@@ -257,7 +257,7 @@ class OwnController extends ResourceController
      */
     public function deleteDeviceAction($id)
     {
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
+        if (!$this->is('USER')) {
             throw new AccessDeniedException();
         }
 
@@ -291,7 +291,7 @@ class OwnController extends ResourceController
     public function getNotificationsAction()
     {
         $repo = $this->manager->getRepository('KIUserBundle:Notification');
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user = $this->getUser();
 
         // On récupère toutes les notifs
         $notifications = $repo->findAll();
@@ -345,7 +345,7 @@ class OwnController extends ResourceController
     {
         $repo = $this->manager->getRepository('KIUserBundle:Club');
         if ($user === null)
-            $user = $this->get('security.token_storage')->getToken()->getUser();
+            $user = $this->getUser();
         $userNotFollowed = $user->getClubsNotFollowed();
 
         $clubs = $repo->findAll();
@@ -422,7 +422,7 @@ class OwnController extends ResourceController
         $repo = $this->manager->getRepository('KIPublicationBundle:Event');
 
         if ($user === null)
-            $user = $this->get('security.token_storage')->getToken()->getUser();
+            $user = $this->getUser();
 
         $followedEvents = $repo->findBy(['authorClub' => $this->getFollowedClubs($user)]);
         $persoEvents = $repo->findBy(['authorUser' => $user, 'authorClub' => null]);
@@ -450,7 +450,7 @@ class OwnController extends ResourceController
         $repo = $this->getDoctrine()->getManager()->getRepository('KIPublicationBundle:CourseUser');
 
         if ($user === null)
-            $user = $this->get('security.token_storage')->getToken()->getUser();
+            $user = $this->getUser();
 
         // On extraie les Courseitem et on les trie par date de début
         $result = [];
@@ -586,9 +586,9 @@ class OwnController extends ResourceController
      */
     public function changePreferenceAction(Request $request)
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user = $this->getUser();
 
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_USER'))
+        if (!$this->is('USER'))
             throw new AccessDeniedException('Accès refusé');
 
         if (!($request->request->has('key') && $request->request->has('value')))
@@ -626,9 +626,9 @@ class OwnController extends ResourceController
      */
     public function removePreferenceAction(Request $request)
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user = $this->getUser();
 
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_USER'))
+        if (!$this->is('USER'))
             throw new AccessDeniedException('Accès refusé');
 
         if (!($request->request->has('key')))
@@ -702,8 +702,8 @@ class OwnController extends ResourceController
      */
     public function getOwnFixsAction()
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_USER'))
+        $user = $this->getUser();
+        if (!$this->is('USER'))
             throw new AccessDeniedException('Accès refusé');
 
         $repository = $this->manager->getRepository('KIClubinfoBundle:Fix');
@@ -713,7 +713,12 @@ class OwnController extends ResourceController
         $findBy['user'] = $user;
         $results = $repository->findBy($findBy, $sortBy, $limit, $offset);
 
-        return $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
+        list($results, $links, $count) = $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
+
+        return $this->json($results, 200, [
+            'Links' => implode(',', $links),
+            'Total-count' => $count
+        ]);
     }
 
     /**

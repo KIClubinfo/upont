@@ -192,7 +192,7 @@ class EventsController extends ResourceController
             throw new BadRequestHttpException('Texte de motivation manquant');
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user = $this->getUser();
         $userEvent = $repo->findBy(['event' => $event, 'user' => $user]);
 
         // On vérifie que l'utilisateur n'a pas déjà shotguné
@@ -247,7 +247,7 @@ class EventsController extends ResourceController
             throw new BadRequestHttpException('Texte de motivation manquant');
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user = $this->getUser();
         $userEvent = $repo->findBy(['event' => $event, 'user' => $user]);
 
         if (count($userEvent) == 1) {
@@ -280,7 +280,7 @@ class EventsController extends ResourceController
         $event = $this->findBySlug($slug);
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user = $this->getUser();
         $userEvent = $repo->findBy(['event' => $event, 'user' => $user]);
 
         if (count($userEvent) == 1) {
@@ -328,7 +328,7 @@ class EventsController extends ResourceController
         $event = $this->findBySlug($slug);
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user = $this->getUser();
         $userEvent = $repo->findBy(['event' => $event], ['date' => 'ASC']);
 
         $position = 0;
@@ -407,7 +407,7 @@ class EventsController extends ResourceController
      */
     public function attendAction($slug)
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user = $this->getUser();
         $event = $this->findBySlug($slug);
 
         if ($event->getAttendees()->contains($user)) {
@@ -445,7 +445,7 @@ class EventsController extends ResourceController
      */
     public function noAttendAction($slug)
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user = $this->getUser();
         $event = $this->findBySlug($slug);
 
         if (!$event->getAttendees()->contains($user)) {
@@ -475,7 +475,7 @@ class EventsController extends ResourceController
      */
     public function addPookieAction($slug)
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user = $this->getUser();
         $event = $this->findBySlug($slug);
 
         if ($event->getPookies()->contains($user)) {
@@ -509,7 +509,7 @@ class EventsController extends ResourceController
      */
     public function removePookieAction($slug)
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user = $this->getUser();
         $event = $this->findBySlug($slug);
 
         if (!$event->getPookies()->contains($user)) {

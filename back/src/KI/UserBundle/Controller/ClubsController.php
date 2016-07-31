@@ -108,7 +108,7 @@ class ClubsController extends SubresourceController
             $slug,
             $this->isClubMember($slug)
             && (!$this->get('security.authorization_checker')->isGranted('ROLE_EXTERIEUR')
-                || $slug == $this->get('security.token_storage')->getToken()->getUser()->getSlug()
+                || $slug == $this->getUser()->getSlug()
             )
         );
     }
@@ -298,7 +298,7 @@ class ClubsController extends SubresourceController
      */
     public function deleteClubUserAction($slug, $id)
     {
-        if (!($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') || $this->isClubMember($slug)))
+        if (!($this->is('ADMIN') || $this->isClubMember($slug)))
             throw new AccessDeniedException('Accès refusé');
 
         // On récupère les deux entités concernées
@@ -411,7 +411,7 @@ class ClubsController extends SubresourceController
      */
     public function followClubAction($slug)
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user = $this->getUser();
         $club = $this->findBySlug($slug);
 
         if (!$user->getClubsNotFollowed()->contains($club)) {
@@ -442,7 +442,7 @@ class ClubsController extends SubresourceController
      */
     public function unFollowClubAction($slug)
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user = $this->getUser();
         $club = $this->findBySlug($slug);
 
         if ($user->getClubsNotFollowed()->contains($club)) {
@@ -479,7 +479,12 @@ class ClubsController extends SubresourceController
 
         $findBy['authorClub'] = $this->findBySlug($slug);
         $results = $repository->findBy($findBy, $sortBy, $limit, $offset);
-        return $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
+        list($results, $links, $count) = $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
+
+        return $this->json($results, 200, [
+            'Links' => implode(',', $links),
+            'Total-count' => $count
+        ]);
     }
 
     /**
@@ -506,6 +511,11 @@ class ClubsController extends SubresourceController
 
         $findBy['authorClub'] = $this->findBySlug($slug);
         $results = $repository->findBy($findBy, $sortBy, $limit, $offset);
-        return $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
+        list($results, $links, $count) = $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
+
+        return $this->json($results, 200, [
+            'Links' => implode(',', $links),
+            'Total-count' => $count
+        ]);
     }
 }
