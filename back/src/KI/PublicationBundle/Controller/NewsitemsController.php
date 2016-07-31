@@ -79,13 +79,13 @@ class NewsitemsController extends ResourceController
      */
     public function postNewsitemAction()
     {
-        $return = $this->postData($this->isClubMember());
+        $data = $this->post($this->isClubMember());
 
-        if ($return['code'] == 201) {
-            $this->get('ki_publication.listener.newsitem')->postPersist($return['item']);
+        if ($data['code'] == 201) {
+            $this->get('ki_publication.listener.newsitem')->postPersist($data['item']);
         }
 
-        return $this->postView($return);
+        return $this->formJson($data);
     }
 
     /**
@@ -109,7 +109,9 @@ class NewsitemsController extends ResourceController
     {
         $club = $this->findBySlug($slug)->getAuthorClub();
         $club = $club ? $club->getSlug() : $club;
-        return $this->patch($slug, $this->isClubMember($club));
+        $data = $this->patch($slug, $this->isClubMember($club));
+
+        return $this->formJson($data);
     }
 
     /**
@@ -131,6 +133,9 @@ class NewsitemsController extends ResourceController
     {
         $club = $this->findBySlug($slug)->getAuthorClub();
         $club = $club ? $club->getSlug() : $club;
-        return $this->delete($slug, $this->isClubMember($club));
+
+        $this->delete($slug, $this->isClubMember($club));
+
+        return $this->json(null, 204);
     }
 }

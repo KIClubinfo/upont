@@ -56,7 +56,7 @@ class SubresourceController extends ResourceController
      * @param  string  $name Le nom de la classe fille
      * @param  string  $id   L'identifiant de l'entité fille
      * @param  boolean $auth Un override éventuel pour le check des permissions
-     * @return Response
+     * @return array
      */
     protected function patchSub($slug, $name, $id, $auth = false)
     {
@@ -75,16 +75,13 @@ class SubresourceController extends ResourceController
      * @param  string  $name Le nom de la classe fille
      * @param  string  $id   L'identifiant de l'entité fille
      * @param  boolean $auth Un override éventuel pour le check des permissions
-     * @return Response
      */
     protected function deleteSub($slug, $name, $id, $auth = false)
     {
         $this->findBySlug($slug);
 
         $this->switchClass($name);
-        $out = $this->delete($id, $auth);
+        $this->delete($id, $auth);
         $this->switchClass();
-
-        return $out;
     }
 }

@@ -108,15 +108,15 @@ class CommentsController extends ResourceController
      */
     public function postCommentAction($object, $slug)
     {
-        $return = $this->postData($this->is('USER') && !$this->is('EXTERIEUR'));
+        $data = $this->post($this->is('USER') && !$this->is('EXTERIEUR'));
 
-        if ($return['code'] == 201) {
+        if ($data['code'] == 201) {
             $this->autoInitialize($object);
             $item = $this->findBySlug($slug);
-            $item->addComment($return['item']);
+            $item->addComment($data['item']);
         }
         $this->initialize('Comment', 'Core');
-        return $this->postView($return);
+        return $this->formJson($data);
     }
 
     /**
@@ -167,7 +167,10 @@ class CommentsController extends ResourceController
     public function patchCommentAction($id)
     {
         $comment = $this->findBySlug($id);
-        return $this->patch($id, !$this->is('ADMIN') && $this->user != $comment->getAuthor());
+
+        $data = $this->patch($id, !$this->is('ADMIN') && $this->user != $comment->getAuthor());
+
+        return $this->formJson($data);
     }
 
     /**
@@ -189,6 +192,8 @@ class CommentsController extends ResourceController
     public function deleteCommentAction($id)
     {
         $comment = $this->findBySlug($id);
-        return $this->delete($id, !$this->is('ADMIN') && $this->user != $comment->getAuthor());
+        $this->delete($id, !$this->is('ADMIN') && $this->user != $comment->getAuthor());
+
+        return $this->json(null, 204);
     }
 }

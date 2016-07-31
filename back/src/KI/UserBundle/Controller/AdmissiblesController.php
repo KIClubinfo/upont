@@ -82,13 +82,13 @@ class AdmissiblesController extends ResourceController
      */
     public function postAdmissibleAction()
     {
-        $return = $this->postData(true);
+        $data = $this->post(true);
 
-        if ($return['code'] == 201) {
-            $this->get('ki_user.listener.admissible')->postPersist($return['item']);
+        if ($data['code'] == 201) {
+            $this->get('ki_user.listener.admissible')->postPersist($data['item']);
         }
 
-        return $this->postView($return);
+        return $this->formJson($data);
     }
 
     /**
@@ -110,7 +110,9 @@ class AdmissiblesController extends ResourceController
      */
     public function patchAdmissibleAction($slug)
     {
-        return $this->patch($slug);
+        $data = $this->patch($slug);
+
+        return $this->formJson($data);
     }
 
     /**
@@ -130,6 +132,8 @@ class AdmissiblesController extends ResourceController
      */
     public function deleteAdmissibleAction($slug)
     {
-        return $this->delete($slug);
+        $this->delete($slug);
+
+        return $this->json(null, 204);
     }
 }

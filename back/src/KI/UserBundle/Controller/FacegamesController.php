@@ -79,17 +79,17 @@ class FacegamesController extends ResourceController
      */
     public function postFacegameAction()
     {
-        $return = $this->postData($this->is('USER'));
+        $data = $this->post($this->is('USER'));
 
-        if ($return['code'] == 201) {
+        if ($data['code'] == 201) {
             $facegameHelper = $this->get('ki_user.helper.facegame');
 
-            if (!$facegameHelper->fillUserList($return['item'])) {
-                $this->manager->detach($return['item']);
-                return $this->json($return['item'], 400);
+            if (!$facegameHelper->fillUserList($data['item'])) {
+                $this->manager->detach($data['item']);
+                return $this->json($data['item'], 400);
             }
         }
-        return $this->postView($return);
+        return $this->formJson($data);
     }
 
     /**

@@ -103,7 +103,9 @@ class CoursesController extends ResourceController
      */
     public function postCourseAction()
     {
-        return $this->post();
+        $data = $this->post();
+
+        return $this->formJson($data);
     }
 
     /**
@@ -125,7 +127,9 @@ class CoursesController extends ResourceController
      */
     public function patchCourseAction($slug)
     {
-        return $this->patch($slug);
+        $data = $this->patch($slug);
+
+        return $this->formJson($data);
     }
 
     /**
@@ -153,7 +157,9 @@ class CoursesController extends ResourceController
             $this->manager->remove($courseUser);
         }
 
-        return $this->delete($slug);
+        $this->delete($slug);
+
+        return $this->json(null, 204);
     }
 
     /**

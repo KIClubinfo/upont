@@ -78,7 +78,9 @@ class OthersController extends PonthubFileController
      */
     public function patchOtherAction($slug)
     {
-        return $this->patch($slug, $this->is('JARDINIER'));
+        $data = $this->patch($slug, $this->is('JARDINIER'));
+
+        return $this->formJson($data);
     }
 
 
@@ -99,7 +101,9 @@ class OthersController extends PonthubFileController
      */
     public function deleteOtherAction($slug)
     {
-        return $this->delete($slug, $this->is('JARDINIER'));
+        $this->delete($slug, $this->is('JARDINIER'));
+
+        return $this->json(null, 204);
     }
 
     /**

@@ -78,7 +78,9 @@ class GamesController extends PonthubFileController
      */
     public function patchGameAction($slug)
     {
-        return $this->patch($slug, $this->is('JARDINIER'));
+        $data = $this->patch($slug, $this->is('JARDINIER'));
+
+        return $this->formJson($data);
     }
 
 
@@ -99,7 +101,9 @@ class GamesController extends PonthubFileController
      */
     public function deleteGameAction($slug)
     {
-        return $this->delete($slug, $this->is('JARDINIER'));
+        $this->delete($slug, $this->is('JARDINIER'));
+
+        return $this->json(null, 204);
     }
 
     /**

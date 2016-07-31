@@ -79,7 +79,9 @@ class RequestsController extends ResourceController
      */
     public function postRequestAction()
     {
-        return $this->post($this->is('USER'));
+        $data = $this->post($this->is('USER'));
+
+        return $this->formJson($data);
     }
 
     /**
@@ -99,7 +101,9 @@ class RequestsController extends ResourceController
      */
     public function deleteRequestAction($slug)
     {
-        return $this->delete($slug, $this->is('USER'));
+        $this->delete($slug, $this->is('USER'));
+
+        return $this->json(null, 204);
     }
 
     /**

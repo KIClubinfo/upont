@@ -79,7 +79,9 @@ class TutosController extends ResourceController
      */
     public function postTutoAction()
     {
-        return $this->post();
+        $data = $this->post();
+
+        return $this->formJson($data);
     }
 
     /**
@@ -101,7 +103,9 @@ class TutosController extends ResourceController
      */
     public function patchTutoAction($slug)
     {
-        return $this->patch($slug);
+        $data = $this->patch($slug);
+
+        return $this->formJson($data);
     }
 
     /**
@@ -121,6 +125,8 @@ class TutosController extends ResourceController
      */
     public function deleteTutoAction($slug)
     {
-        return $this->delete($slug);
+        $this->delete($slug);
+
+        return $this->json(null, 204);
     }
 }

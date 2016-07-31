@@ -86,14 +86,13 @@ class EventsController extends ResourceController
      */
     public function postEventAction()
     {
-        $return = $this->postData($this->isClubMember());
+        $data = $this->post($this->isClubMember());
 
-        if ($return['code'] == 201) {
-            $this->manager->flush();
-            $this->get('ki_publication.listener.event')->postPersist($return['item']);
+        if ($data['code'] == 201) {
+            $this->get('ki_publication.listener.event')->postPersist($data['item']);
         }
 
-        return $this->postView($return);
+        return $this->formJson($data);
     }
 
     /**
@@ -155,7 +154,9 @@ class EventsController extends ResourceController
             $this->manager->remove($item);
         }
 
-        return $this->delete($slug, $this->isClubMember($club));
+        $this->delete($slug, $this->isClubMember($club));
+
+        return $this->json(null, 204);
     }
 
     /**
@@ -247,7 +248,7 @@ class EventsController extends ResourceController
             throw new BadRequestHttpException('Texte de motivation manquant');
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
-        $user = $this->getUser();
+        $user = $this->user;
         $userEvent = $repo->findBy(['event' => $event, 'user' => $user]);
 
         if (count($userEvent) == 1) {
@@ -280,7 +281,7 @@ class EventsController extends ResourceController
         $event = $this->findBySlug($slug);
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
-        $user = $this->getUser();
+        $user = $this->user;
         $userEvent = $repo->findBy(['event' => $event, 'user' => $user]);
 
         if (count($userEvent) == 1) {
@@ -328,7 +329,7 @@ class EventsController extends ResourceController
         $event = $this->findBySlug($slug);
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
-        $user = $this->getUser();
+        $user = $this->user;
         $userEvent = $repo->findBy(['event' => $event], ['date' => 'ASC']);
 
         $position = 0;
@@ -407,7 +408,7 @@ class EventsController extends ResourceController
      */
     public function attendAction($slug)
     {
-        $user = $this->getUser();
+        $user = $this->user;
         $event = $this->findBySlug($slug);
 
         if ($event->getAttendees()->contains($user)) {
@@ -445,7 +446,7 @@ class EventsController extends ResourceController
      */
     public function noAttendAction($slug)
     {
-        $user = $this->getUser();
+        $user = $this->user;
         $event = $this->findBySlug($slug);
 
         if (!$event->getAttendees()->contains($user)) {
@@ -475,7 +476,7 @@ class EventsController extends ResourceController
      */
     public function addPookieAction($slug)
     {
-        $user = $this->getUser();
+        $user = $this->user;
         $event = $this->findBySlug($slug);
 
         if ($event->getPookies()->contains($user)) {
@@ -509,7 +510,7 @@ class EventsController extends ResourceController
      */
     public function removePookieAction($slug)
     {
-        $user = $this->getUser();
+        $user = $this->user;
         $event = $this->findBySlug($slug);
 
         if (!$event->getPookies()->contains($user)) {

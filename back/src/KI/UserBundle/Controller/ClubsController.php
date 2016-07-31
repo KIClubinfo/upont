@@ -82,7 +82,9 @@ class ClubsController extends SubresourceController
      */
     public function postClubAction()
     {
-        return $this->post();
+        $data = $this->post();
+
+        return $this->formJson($data);
     }
 
     /**
@@ -104,13 +106,15 @@ class ClubsController extends SubresourceController
      */
     public function patchClubAction($slug)
     {
-        return $this->patch(
+        $data = $this->patch(
             $slug,
             $this->isClubMember($slug)
             && (!$this->get('security.authorization_checker')->isGranted('ROLE_EXTERIEUR')
-                || $slug == $this->getUser()->getSlug()
+                || $slug == $this->user->getSlug()
             )
         );
+
+        return $this->formJson($data);
     }
 
     /**
@@ -138,7 +142,9 @@ class ClubsController extends SubresourceController
             $this->manager->remove($clubUser);
         }
 
-        return $this->delete($slug);
+        $this->delete($slug);
+
+        return $this->json(null, 204);
     }
 
     /**
@@ -159,7 +165,7 @@ class ClubsController extends SubresourceController
      */
     public function getClubUsersAction($slug)
     {
-        $members =  $this->getAllSub($slug, 'User', false);
+        $members = $this->getAllSub($slug, 'User', false);
 
         return $this->json($members);
     }
@@ -411,7 +417,7 @@ class ClubsController extends SubresourceController
      */
     public function followClubAction($slug)
     {
-        $user = $this->getUser();
+        $user = $this->user;
         $club = $this->findBySlug($slug);
 
         if (!$user->getClubsNotFollowed()->contains($club)) {
@@ -442,7 +448,7 @@ class ClubsController extends SubresourceController
      */
     public function unFollowClubAction($slug)
     {
-        $user = $this->getUser();
+        $user = $this->user;
         $club = $this->findBySlug($slug);
 
         if ($user->getClubsNotFollowed()->contains($club)) {

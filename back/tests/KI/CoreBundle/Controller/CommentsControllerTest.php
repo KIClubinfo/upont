@@ -21,15 +21,16 @@ class CommentsControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
 
-        $out = [];
-        preg_match('#.*/comments/([0-9]+)$#', $response->headers->get('Location'), $out);
-        $this->assertTrue(!empty($out));
+        $comment = json_decode($response->getContent(), true);
 
-        $this->client->request('PATCH', '/comments/'.$out[1], ['text' => 'J\'ai perdu au Jeu.']);
+        $this->assertTrue(isset($comment['id']) && !empty($comment['id']));
+        $id = $comment['id'];
+
+        $this->client->request('PATCH', '/comments/'.$id, ['text' => 'J\'ai perdu au Jeu.']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/comments/'.$out[1], ['text' => '']);
+        $this->client->request('PATCH', '/comments/'.$id, ['text' => '']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
@@ -37,23 +38,23 @@ class CommentsControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
 
-        $this->client->request('POST', '/comments/'.$out[1].'/like');
+        $this->client->request('POST', '/comments/'.$id.'/like');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('DELETE', '/comments/'.$out[1].'/like');
+        $this->client->request('DELETE', '/comments/'.$id.'/like');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('POST', '/comments/'.$out[1].'/dislike');
+        $this->client->request('POST', '/comments/'.$id.'/dislike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('DELETE', '/comments/'.$out[1].'/dislike');
+        $this->client->request('DELETE', '/comments/'.$id.'/dislike');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('DELETE', '/comments/'.$out[1], ['text' => 'J\'ai perdu au Jeu.']);
+        $this->client->request('DELETE', '/comments/'.$id, ['text' => 'J\'ai perdu au Jeu.']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 

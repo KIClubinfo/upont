@@ -126,12 +126,12 @@ class ExercicesController extends SubresourceController
         $course = $this->findBySlug($slug);
 
         $this->switchClass('Exercice');
-        $return = $this->postData($this->is('USER'));
+        $data = $this->post($this->is('USER'));
 
-        if ($return['code'] != 400) {
+        if ($data['code'] != 400) {
             // On règle tout comme on veut
-            $return['item']->setCourse($course);
-            $return['item']->setValid($this->is('MODO'));
+            $data['item']->setCourse($course);
+            $data['item']->setValid($this->is('MODO'));
 
             // On vérifie que le fichier est là
             if (!$request->files->has('file')) {
@@ -140,11 +140,11 @@ class ExercicesController extends SubresourceController
 
             // On sauvegarde tout avec le fichier au passage
             $this->manager->flush();
-            $this->get('ki_publication.listener.exercice')->postPersist($return['item']);
+            $this->get('ki_publication.listener.exercice')->postPersist($data['item']);
         }
         $this->switchClass();
 
-        return $this->postView($return, $course);
+        return $this->formJson($data);
     }
 
     /**
@@ -166,7 +166,9 @@ class ExercicesController extends SubresourceController
      */
     public function patchCourseExerciceAction($slugParent, $slugSub)
     {
-        return $this->patchSub($slugParent, 'Exercice', $slugSub, $this->is('MODO'));
+        $data = $this->patchSub($slugParent, 'Exercice', $slugSub, $this->is('MODO'));
+
+        return $this->formJson($data);
     }
 
     /**
@@ -188,6 +190,8 @@ class ExercicesController extends SubresourceController
     {
         $exercice = $this->getOneSub($slugParent, 'Exercice', $slugSub);
 
-        return $this->deleteSub($slugParent, 'Exercice', $slugSub, $this->user == $exercice->getUploader() || $this->is('MODO'));
+        $this->deleteSub($slugParent, 'Exercice', $slugSub, $this->user == $exercice->getUploader() || $this->is('MODO'));
+
+        return $this->json(null, 204);
     }
 }

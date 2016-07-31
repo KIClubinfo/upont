@@ -50,30 +50,11 @@ class FormHelper
             } else {
                 $code = 204;
             }
+            $this->manager->flush();
         } else {
             $this->manager->detach($item);
         }
 
         return ['form' => $form, 'item' => $item, 'code' => $code];
-    }
-
-    /**
-     * Génère la réponse relative au traitement d'un formulaire
-     * @param  array  $data   Le formulaire traité
-     * @param  object $parent Éventuellement l'objet parent
-     * @return Response
-     */
-    public function formView($data, $parent = null)
-    {
-        switch ($data['code']) {
-        case 400:
-            return new JsonResponse($data['form'], 400);
-        case 204:
-            $this->manager->flush();
-            return new JsonResponse(null, 204);
-        default:
-            $this->manager->flush();
-            return new JsonResponse($data['item'], 201);
-        }
     }
 }

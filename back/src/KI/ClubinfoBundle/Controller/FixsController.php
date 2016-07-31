@@ -79,7 +79,9 @@ class FixsController extends ResourceController
      */
     public function postFixAction()
     {
-        return $this->post($this->is('USER'));
+        $data = $this->post($this->is('USER'));
+
+        return $this->formJson($data);
     }
 
     /**
@@ -112,7 +114,9 @@ class FixsController extends ResourceController
                 [$fix->getUser()]
             );
         }
-        return $this->patch($slug);
+        $data = $this->patch($slug);
+
+        return $this->formJson($data);
     }
 
     /**
@@ -133,7 +137,8 @@ class FixsController extends ResourceController
     public function deleteFixAction($slug)
     {
         $fix = $this->getOne($slug);
-        $user = $this->getUser();
-        return $this->delete($slug, $user->getUsername() == $fix->getUser()->getUsername());
+        $this->delete($slug, $this->user->getUsername() == $fix->getUser()->getUsername());
+
+        return $this->json(null, 204);
     }
 }

@@ -79,7 +79,9 @@ class YoutubesController extends ResourceController
      */
     public function postYoutubeAction()
     {
-        return $this->post($this->is('USER'));
+        $data = $this->post($this->is('USER'));
+
+        return $this->formJson($data);
     }
 
     /**
@@ -100,6 +102,8 @@ class YoutubesController extends ResourceController
     public function deleteYoutubeAction($slug)
     {
         $author = $this->findBySlug($slug)->getUser();
-        return $this->delete($slug, $this->user == $author);
+        $this->delete($slug, $this->user == $author);
+
+        return $this->json(null, 204);
     }
 }

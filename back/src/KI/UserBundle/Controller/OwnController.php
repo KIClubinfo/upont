@@ -182,7 +182,7 @@ class OwnController extends ResourceController
         if (!$this-is('USER'))
             throw new AccessDeniedException();
 
-        $user = $this->getUser();
+        $user = $this->user;
         return $this->json($user->getDevices());
     }
 
@@ -231,7 +231,7 @@ class OwnController extends ResourceController
             return $this->json(null, 204);
 
         $device = new Device();
-        $device->setOwner($this->getUser());
+        $device->setOwner($this->user);
         $device->setDevice($request->request->get('device'));
         $device->setType($request->request->get('type'));
         $this->manager->persist($device);
@@ -291,7 +291,7 @@ class OwnController extends ResourceController
     public function getNotificationsAction()
     {
         $repo = $this->manager->getRepository('KIUserBundle:Notification');
-        $user = $this->getUser();
+        $user = $this->user;
 
         // On récupère toutes les notifs
         $notifications = $repo->findAll();
@@ -345,7 +345,7 @@ class OwnController extends ResourceController
     {
         $repo = $this->manager->getRepository('KIUserBundle:Club');
         if ($user === null)
-            $user = $this->getUser();
+            $user = $this->user;
         $userNotFollowed = $user->getClubsNotFollowed();
 
         $clubs = $repo->findAll();
@@ -379,7 +379,7 @@ class OwnController extends ResourceController
         if ($request->query->has('all'))
             return $this->json($this->getFollowedEvents());
 
-        $events = $this->manager->getRepository('KIUserBundle:User')->findAllFollowedEvents($this->getUser()->getId());
+        $events = $this->manager->getRepository('KIUserBundle:User')->findAllFollowedEvents($this->user->getId());
         return $this->json($events);
     }
 
@@ -422,7 +422,7 @@ class OwnController extends ResourceController
         $repo = $this->manager->getRepository('KIPublicationBundle:Event');
 
         if ($user === null)
-            $user = $this->getUser();
+            $user = $this->user;
 
         $followedEvents = $repo->findBy(['authorClub' => $this->getFollowedClubs($user)]);
         $persoEvents = $repo->findBy(['authorUser' => $user, 'authorClub' => null]);
@@ -450,7 +450,7 @@ class OwnController extends ResourceController
         $repo = $this->getDoctrine()->getManager()->getRepository('KIPublicationBundle:CourseUser');
 
         if ($user === null)
-            $user = $this->getUser();
+            $user = $this->user;
 
         // On extraie les Courseitem et on les trie par date de début
         $result = [];
@@ -586,7 +586,7 @@ class OwnController extends ResourceController
      */
     public function changePreferenceAction(Request $request)
     {
-        $user = $this->getUser();
+        $user = $this->user;
 
         if (!$this->is('USER'))
             throw new AccessDeniedException('Accès refusé');
@@ -626,7 +626,7 @@ class OwnController extends ResourceController
      */
     public function removePreferenceAction(Request $request)
     {
-        $user = $this->getUser();
+        $user = $this->user;
 
         if (!$this->is('USER'))
             throw new AccessDeniedException('Accès refusé');
@@ -702,7 +702,7 @@ class OwnController extends ResourceController
      */
     public function getOwnFixsAction()
     {
-        $user = $this->getUser();
+        $user = $this->user;
         if (!$this->is('USER'))
             throw new AccessDeniedException('Accès refusé');
 

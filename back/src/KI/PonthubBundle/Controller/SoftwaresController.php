@@ -78,7 +78,9 @@ class SoftwaresController extends PonthubFileController
      */
     public function patchSoftwareAction($slug)
     {
-        return $this->patch($slug, $this->is('JARDINIER'));
+        $data = $this->patch($slug, $this->is('JARDINIER'));
+
+        return $this->formJson($data);
     }
 
     /**
@@ -98,7 +100,9 @@ class SoftwaresController extends PonthubFileController
      */
     public function deleteSoftwareAction($slug)
     {
-        return $this->delete($slug, $this->is('JARDINIER'));
+        $this->delete($slug, $this->is('JARDINIER'));
+
+        return $this->json(null, 204);
     }
 
     /**

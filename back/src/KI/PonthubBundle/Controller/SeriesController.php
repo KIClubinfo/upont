@@ -78,7 +78,9 @@ class SeriesController extends PonthubFileController
      */
     public function patchSerieAction($slug)
     {
-        return $this->patch($slug, $this->is('JARDINIER'));
+        $data = $this->patch($slug, $this->is('JARDINIER'));
+
+        return $this->formJson($data);
     }
 
     /**
@@ -98,7 +100,9 @@ class SeriesController extends PonthubFileController
      */
     public function deleteSerieAction($slug)
     {
-        return $this->delete($slug, $this->is('JARDINIER'));
+        $this->delete($slug, $this->is('JARDINIER'));
+
+        return $this->json(null, 204);
     }
 
     /**
@@ -168,7 +172,7 @@ class SeriesController extends PonthubFileController
     {
         $episode = $this->patchSub($slug, 'Episode', $id, $this->is('JARDINIER'));
 
-        return $this->json(null, 204);
+        return $this->json($episode, 204);
     }
 
     /**

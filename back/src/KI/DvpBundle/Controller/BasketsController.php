@@ -80,7 +80,9 @@ class BasketsController extends ResourceController
      */
     public function postBasketAction()
     {
-        return $this->post($this->isClubMember('dvp'));
+        $data = $this->post($this->isClubMember('dvp'));
+
+        return $this->formJson($data);
     }
 
     /**
@@ -102,7 +104,9 @@ class BasketsController extends ResourceController
      */
     public function patchBasketAction($slug)
     {
-        return $this->patch($slug, $this->isClubMember('dvp'));
+        $data = $this->patch($slug, $this->isClubMember('dvp'));
+
+        return $this->formJson($data);
     }
 
     /**
@@ -132,6 +136,8 @@ class BasketsController extends ResourceController
             $this->manager->remove($item);
         }
 
-        return $this->delete($slug, $this->isClubMember('dvp'));
+        $this->delete($slug, $this->isClubMember('dvp'));
+
+        return $this->json(null, 204);
     }
 }

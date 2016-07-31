@@ -170,6 +170,8 @@ class TransactionsController extends ResourceController
         $helper = $this->get('ki_foyer.helper.transaction');
         $helper->updateBalance($transaction->getUser(), -1 * $transaction->getAmount());
 
-        return $this->delete($id, $this->isClubMember('foyer'));
+        $this->delete($id, $this->isClubMember('foyer'));
+
+        return $this->json(null, 204);
     }
 }

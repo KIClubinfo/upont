@@ -46,7 +46,7 @@ class ResourceController extends LikeableController
      * @param  boolean $auth Un override éventuel pour le check des permissions
      * @return array         Le formulaire traité
      */
-    protected function postData($auth = false)
+    protected function post($auth = false)
     {
         $this->trust($this->is('MODO') || $auth);
         $formHelper = $this->get('ki_core.helper.form');
@@ -54,32 +54,10 @@ class ResourceController extends LikeableController
     }
 
     /**
-     * Permet d'afficher un formulaire une fois celui-ci validé
-     * @param  array  $data   Le formulaire validé
-     * @param  object $parent L'objet parent si appliquable
-     * @return Response
-     */
-    protected function postView($data, $parent = null)
-    {
-        $formHelper = $this->get('ki_core.helper.form');
-        return $formHelper->formView($data, $parent);
-    }
-
-    /**
-     * Route POST générique effectuant directement validation et affichage
-     * @param  boolean $auth Un override éventuel pour le check des permissions
-     * @return Response
-     */
-    protected function post($auth = false)
-    {
-        return $this->postView($this->postData($auth));
-    }
-
-    /**
      * Route PATCH générique
      * @param  string  $slug Le slug de l'entité à modifier
      * @param  boolean $auth Un override éventuel pour le check des permissions
-     * @return Response
+     * @return array
      */
     protected function patch($slug, $auth = false)
     {
@@ -87,14 +65,13 @@ class ResourceController extends LikeableController
         $item = $this->findBySlug($slug);
 
         $formHelper = $this->get('ki_core.helper.form');
-        return $this->postView($formHelper->formData($item, 'PATCH'));
+        return $formHelper->formData($item, 'PATCH');
     }
 
     /**
      * Route DELETE générique
      * @param  string  $slug Le slug de l'entité à supprimer
      * @param  boolean $auth Un override éventuel pour le check des permissions
-     * @return Response
      */
     protected function delete($slug, $auth = false)
     {
@@ -102,7 +79,5 @@ class ResourceController extends LikeableController
         $item = $this->findBySlug($slug);
         $this->manager->remove($item);
         $this->manager->flush();
-
-        return $this->json(null, 204);
     }
 }

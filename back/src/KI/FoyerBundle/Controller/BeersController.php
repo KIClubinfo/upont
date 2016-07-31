@@ -81,7 +81,9 @@ class BeersController extends ResourceController
      */
     public function postBeerAction()
     {
-        return $this->post($this->isClubMember('foyer'));
+        $data = $this->post($this->isClubMember('foyer'));
+
+        return $this->formJson($data);
     }
 
     /**
@@ -103,7 +105,9 @@ class BeersController extends ResourceController
      */
     public function patchBeerAction($slug)
     {
-        return $this->patch($slug, $this->isClubMember('foyer'));
+        $data = $this->patch($slug, $this->isClubMember('foyer'));
+
+        return $this->formJson($data);
     }
 
     /**
@@ -131,6 +135,9 @@ class BeersController extends ResourceController
         foreach ($transactions as $transaction) {
             $this->manager->remove($transaction);
         }
-        return $this->delete($slug, $this->isClubMember('foyer'));
+        
+        $this->delete($slug, $this->isClubMember('foyer'));
+
+        return $this->json(null, 204);
     }
 }

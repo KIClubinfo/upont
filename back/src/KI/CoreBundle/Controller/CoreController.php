@@ -2,6 +2,7 @@
 
 namespace KI\CoreBundle\Controller;
 
+use KI\UserBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -9,6 +10,9 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class CoreController extends Controller
 {
+    /**
+     * @var User
+     */
     protected $user = null;
 
     /**
@@ -99,5 +103,22 @@ class CoreController extends Controller
     public function htmlResponse($data, $code = 200, array $headers = [])
     {
         return new Response($data, $code, $headers);
+    }
+
+    /**
+     * Génère la réponse relative au traitement d'un formulaire
+     * @param  array  $data   Le formulaire traité
+     * @param  object $parent Éventuellement l'objet parent
+     * @return Response
+     */
+    public function formJson($data)
+    {
+        switch ($data['code']) {
+            case 400:
+                return $this->json($data['form'], $data['code']);
+            case 204:
+            default:
+                return $this->json($data['item'], $data['code']);
+        }
     }
 }
