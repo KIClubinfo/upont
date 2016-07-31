@@ -12,3 +12,8 @@ services:
             - '%ki_core.maintenance_lockfile_path%'
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    ki_core.listener.json_request_transformer:
+        class: KI\CoreBundle\Listener\JsonRequestTransformerListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 100 }
