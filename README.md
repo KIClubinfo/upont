@@ -44,7 +44,7 @@ Documentation
 Team
 ----
 
-See [contributors](../../graphs/contributors).
+See [contributors](https://github.com/KIClubinfo/upont/graphs/contributors).
 
 
 Join the project
