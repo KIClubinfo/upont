@@ -126,7 +126,7 @@ class ExercicesController extends SubresourceController
         $course = $this->findBySlug($slug);
 
         $this->switchClass('Exercice');
-        $data = $this->post($this->is('USER'));
+        $data = $this->post($this->is('USER'), false);
 
         if ($data['code'] != 400) {
             // On règle tout comme on veut

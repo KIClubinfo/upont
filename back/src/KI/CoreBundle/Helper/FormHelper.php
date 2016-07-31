@@ -35,7 +35,7 @@ class FormHelper
      * @param  string $method POST ou PATCH
      * @return array          Des détails sur le résultat de l'opération
      */
-    public function formData($item, $method = 'PATCH')
+    public function formData($item, $method, $flush = true)
     {
         // On devine le formulaire à partir du chemin de la classe
         $formName = str_replace('Entity', 'Form', get_class($item)).'Type';
@@ -50,7 +50,8 @@ class FormHelper
             } else {
                 $code = 204;
             }
-            $this->manager->flush();
+            if ($flush)
+                $this->manager->flush();
         } else {
             $this->manager->detach($item);
         }

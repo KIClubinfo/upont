@@ -46,11 +46,11 @@ class ResourceController extends LikeableController
      * @param  boolean $auth Un override éventuel pour le check des permissions
      * @return array         Le formulaire traité
      */
-    protected function post($auth = false)
+    protected function post($auth = false, $flush = true)
     {
         $this->trust($this->is('MODO') || $auth);
         $formHelper = $this->get('ki_core.helper.form');
-        return $formHelper->formData(new $this->class(), 'POST');
+        return $formHelper->formData(new $this->class(), 'POST', $flush);
     }
 
     /**
@@ -59,13 +59,13 @@ class ResourceController extends LikeableController
      * @param  boolean $auth Un override éventuel pour le check des permissions
      * @return array
      */
-    protected function patch($slug, $auth = false)
+    protected function patch($slug, $auth = false, $flush = true)
     {
         $this->trust($this->is('MODO') || $auth);
         $item = $this->findBySlug($slug);
 
         $formHelper = $this->get('ki_core.helper.form');
-        return $formHelper->formData($item, 'PATCH');
+        return $formHelper->formData($item, 'PATCH', $flush);
     }
 
     /**

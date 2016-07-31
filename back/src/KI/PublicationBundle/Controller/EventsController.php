@@ -119,10 +119,10 @@ class EventsController extends ResourceController
 
         $club = $item->getAuthorClub();
         $club = $club ? $club->getSlug() : $club;
-        $response = $this->patch($slug, $this->isClubMember($club));
+        $data = $this->patch($slug, $this->isClubMember($club));
         $this->get('ki_publication.listener.event')->postUpdate($item, $oldItem);
 
-        return $response;
+        return $this->formJson($data);
     }
 
     /**
