@@ -6,12 +6,12 @@ use Tests\KI\CoreBundle\WebTestCase;
 
 class CoursesControllerTest extends WebTestCase
 {
-    public function testCoursesParsing()
-    {
-        $this->client->request('HEAD', '/courses');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 202);
-    }
+//    public function testCoursesParsing()
+//    {
+//        $this->client->request('HEAD', '/courses');
+//        $response = $this->client->getResponse();
+//        $this->assertJsonResponse($response, 202);
+//    }
 
     // On crée une ressource sur laquelle seront effectués les tests. Ne pas oublier de supprimer à la fin avec le test DELETE.
     public function testPost()
