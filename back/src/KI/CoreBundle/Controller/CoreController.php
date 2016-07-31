@@ -75,7 +75,7 @@ class CoreController extends Controller
     /**
      * Génère une réponse au format JSON en parsant les propriétés avec le FOSRestBundle
      * @param  mixed $data    Le contenu à renvoyer
-     * @param  int   $code    Le code d'erreur HTTP à renvoyer
+     * @param  int   $status    Le code d'erreur HTTP à renvoyer
      * @param  array $headers Des headers spécifiques si nécéssaire
      * @return Response
      */

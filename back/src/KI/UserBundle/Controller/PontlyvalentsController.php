@@ -53,7 +53,7 @@ class PontlyvalentsController extends ResourceController
             ]);
         }
 
-        return $paginateHelper->paginateView($results, 10000, $page, $totalPages, $count);
+        return $this->json($results);
     }
 
     /**

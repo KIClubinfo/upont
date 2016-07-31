@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -407,7 +408,7 @@ class OwnController extends ResourceController
 
             $calStr = $this->get('ki_publication.service.calendar')->getCalendar($user, $events, $courses);
 
-            return new \Symfony\Component\HttpFoundation\Response($calStr, 200, [
+            return new Response($calStr, 200, [
                     'Content-Type' => 'text/calendar; charset=utf-8',
                     'Content-Disposition' => 'attachment; filename="calendar.ics"',
                 ]
@@ -499,7 +500,14 @@ class OwnController extends ResourceController
             $dates[$key] = $newsitem->getDate();
         }
         array_multisort($dates, SORT_DESC, $results);
-        return $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
+
+        list($results, $links, $count) = $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
+
+        return $this->json($results, 200, [
+            'Links' => implode(',', $links),
+            'Total-count' => $count
+        ]);
+
     }
 
     /**
