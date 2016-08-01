@@ -7,7 +7,7 @@ use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="KI\UserBundle\Repository\PontlyvalentRepository")
  * @JMS\ExclusionPolicy("all")
  */
 class Pontlyvalent
@@ -69,7 +69,7 @@ class Pontlyvalent
      * Set date
      *
      * @param integer $date
-     * @return Newsitem
+     * @return Pontlyvalent
      */
     public function setDate($date)
     {
@@ -92,7 +92,7 @@ class Pontlyvalent
      * Set text
      *
      * @param string $text
-     * @return Post
+     * @return Pontlyvalent
      */
     public function setText($text)
     {
@@ -114,10 +114,10 @@ class Pontlyvalent
     /**
      * Set target
      *
-     * @param \KI\UserBundle\Entity\Club $target
+     * @param User $target
      * @return Pontlyvalent
      */
-    public function setTarget(\KI\UserBundle\Entity\User $target)
+    public function setTarget($target)
     {
         $this->target = $target;
 
@@ -127,7 +127,7 @@ class Pontlyvalent
     /**
      * Get target
      *
-     * @return \KI\UserBundle\Entity\User
+     * @return User
      */
     public function getTarget()
     {
@@ -137,10 +137,10 @@ class Pontlyvalent
     /**
      * Set author
      *
-     * @param \KI\UserBundle\Entity\User $author
+     * @param User $author
      * @return Pontlyvalent
      */
-    public function setAuthor(\KI\UserBundle\Entity\User $author)
+    public function setAuthor(User $author)
     {
         $this->author = $author;
 
@@ -150,7 +150,7 @@ class Pontlyvalent
     /**
      * Get author
      *
-     * @return \KI\UserBundle\Entity\User
+     * @return User
      */
     public function getAuthor()
     {

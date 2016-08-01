@@ -36,24 +36,24 @@ class PontlyvalentsControllerTest extends WebTestCase
     public function testPatch()
     {
         $this->client->request(
-            'PATCH', '/users/taquet-c/pontlyvalent', [
+            'POST', '/users/taquet-c/pontlyvalent', [
             'text' => 'Aime les câlins <3'
             ]
         );
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 201);
 
         $this->client->request(
-            'PATCH', '/users/taquet-c/pontlyvalent', ['text' => '']
+            'POST', '/users/taquet-c/pontlyvalent', ['text' => '']
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('PATCH', '/users/taquet-c/sjoajsiosbsksaba7', ['name' => 'miam', 'mail' => '123@mail.fr']);
+        $this->client->request('POST', '/users/taquet-c/sjoajsiosbsksaba7', ['name' => 'miam', 'mail' => '123@mail.fr']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
 
-        $this->client->request('PATCH', '/users/taquet-c/pontlyvalent', ['name' => 'miam', 'mail' => '123@mail.fr']);
+        $this->client->request('POST', '/users/taquet-c/pontlyvalent', ['name' => 'miam', 'mail' => '123@mail.fr']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
     }

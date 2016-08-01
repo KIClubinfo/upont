@@ -13,8 +13,7 @@ class PontlyvalentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('text')
-            ->add('target');
+            ->add('text');
     }
 
     public function configureOptions(OptionsResolver $resolver)

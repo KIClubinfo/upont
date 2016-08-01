@@ -53,7 +53,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setLoginMethod('form');
         $user->setFirstName('Cécile');
         $user->setLastName('Taquet Gaspérini');
-        $user->setPromo('017');
+        $user->setPromo('018'); // En vrai, 017
         $user->setDepartment('1A');
         $user->setOrigin('CC - MP [CTG]');
         $user->setLocation('Coloc');

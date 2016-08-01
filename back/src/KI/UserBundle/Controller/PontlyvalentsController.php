@@ -4,6 +4,8 @@ namespace KI\UserBundle\Controller;
 
 use KI\CoreBundle\Controller\ResourceController;
 use KI\UserBundle\Entity\Pontlyvalent;
+use KI\UserBundle\Entity\User;
+use KI\UserBundle\Form\PontlyvalentType;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -11,7 +13,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class PontlyvalentsController extends ResourceController
 {
@@ -38,17 +39,17 @@ class PontlyvalentsController extends ResourceController
      */
     public function getPontlyvalentsAction()
     {
-        $this->helper();
+        if ($this->user->getPromo() == '019') {
+            throw new BadRequestHttpException('Ton tour n\'est pas encore arrivé, petit 019 !');
+        }
 
         $paginateHelper = $this->get('ki_core.helper.paginate');
         extract($paginateHelper->paginateData($this->repository));
 
-        $pontlyvalentRepository = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
-
         if ($this->is('MODO') || $this->isClubMember('bde')) {
-            $results = $pontlyvalentRepository->findBy($findBy);
+            $results = $this->repository->findBy($findBy);
         } else {
-            $results = $pontlyvalentRepository->findBy([
+            $results = $this->repository->findBy([
                 'author' => $this->user
             ]);
         }
@@ -68,12 +69,23 @@ class PontlyvalentsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/users/{slug}/pontlyvalent")
+     * @Route("/users/{targetUsername}/pontlyvalent")
      * @Method("GET")
      */
-    public function getPontlyvalentAction($slug)
+    public function getPontlyvalentAction($targetUsername)
     {
-        return $this->json($this->helper($slug)['pontlyvalent']);
+        if ($this->user->getPromo() == '019') {
+            throw new BadRequestHttpException('Ton tour n\'est pas encore arrivé, petit 019 !');
+        }
+
+        $target = $this->manager->getRepository('KIUserBundle:User')->findOneByUsername($targetUsername);
+
+        $pontlyvalent = $this->repository->getPontlyvalent($target, $this->user);
+
+        if(count($pontlyvalent) != 1)
+            throw new NotFoundHttpException();
+
+        return $this->json($pontlyvalent[0]);
     }
 
     /**
@@ -89,66 +101,47 @@ class PontlyvalentsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/users/{slug}/pontlyvalent")
+     * @Route("/users/{targetUsername}/pontlyvalent")
      * @Method("POST")
      */
-    public function postPontlyvalentAction(Request $request, $slug)
+    public function postPontlyvalentAction(Request $request, $targetUsername)
     {
-        $pontlyvalentHelper = $this->helper($slug);
-
-        if (!$request->request->has('text') || $text = trim($request->request->get('text')) === '') {
-            throw new BadRequestHttpException('Texte de commentaire manquant');
+        if ($this->user->getPromo() == '019') {
+            throw new BadRequestHttpException('Ton tour n\'est pas encore arrivé, petit 019 !');
         }
 
-        $pontlyvalent = $pontlyvalentHelper['pontlyvalent'];
-        if (count($pontlyvalent) != 0) {
-            throw new BadRequestHttpException('Tu as déjà commenté sur cette personne');
+        /**
+         * @var User $target
+         */
+        $target = $this->manager->getRepository('KIUserBundle:User')->findOneByUsername($targetUsername);
+
+        if ($target->getPromo() != '018') {
+            throw new BadRequestHttpException('Ce n\'est pas un 018 !');
         }
 
-        $pontlyvalent = new Pontlyvalent();
-        $pontlyvalent->setTarget($pontlyvalentHelper['target']);
-        $pontlyvalent->setAuthor($this->user);
-        $pontlyvalent->setText($text);
-
-        $this->manager->persist($pontlyvalent);
-        $this->manager->flush();
-
-        return $this->json(null, 201);
-    }
-
-    /**
-     * @ApiDoc(
-     *  description="Modifie un commentaire",
-     *  input="KI\UserBundle\Form\PontlyvalentType",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Utilisateurs"
-     * )
-     * @Route("/users/{slug}/pontlyvalent")
-     * @Method("PATCH")
-     */
-    public function patchPontlyvalentAction(Request $request, $slug)
-    {
-        $pontlyvalent = $this->helper($slug)['pontlyvalent'][0];
-        if (!isset($pontlyvalent)) {
-            throw new NotFoundHttpException('Commentaire non trouvé');
-        }
-        if (!$request->request->has('text') || $text = trim($request->request->get('text')) === '') {
-            throw new BadRequestHttpException('Texte de commentaire manquant');
+        $pontlyvalent = $this->repository->getPontlyvalent($target, $this->user);
+        if (count($pontlyvalent) == 0) {
+            $pontlyvalent = new Pontlyvalent();
+            $pontlyvalent->setTarget($target);
+            $pontlyvalent->setAuthor($this->user);
+        } else {
+            $pontlyvalent = $pontlyvalent[0];
         }
 
         $pontlyvalent->setDate(time());
-        $pontlyvalent->setText($text);
-        $this->manager->persist($pontlyvalent);
-        $this->manager->flush();
 
-        return $this->json(null, 204);
+        $form = $this->createForm(PontlyvalentType::class, $pontlyvalent, ['method' => 'POST']);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $this->manager->persist($pontlyvalent);
+            $this->manager->flush();
+
+            return $this->json($pontlyvalent, 201);
+        } else {
+            $this->manager->detach($pontlyvalent);
+            return $this->json($form, 400);
+        }
     }
 
     /**
@@ -165,12 +158,15 @@ class PontlyvalentsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/users/{slug}/pontlyvalent")
+     * @Route("/users/{targetUsername}/pontlyvalent")
      * @Method("DELETE")
      */
-    public function deletePontlyvalentAction($slug)
+    public function deletePontlyvalentAction($targetUsername)
     {
-        $pontlyvalent = $this->helper($slug)['pontlyvalent'];
+        $target = $this->manager->getRepository('KIUserBundle:User')->findOneByUsername($targetUsername);
+
+        $pontlyvalent = $this->repository->getPontlyvalent($target, $this->user);
+
         if (count($pontlyvalent) != 1) {
             throw new NotFoundHttpException('Commentaire non trouvé');
         }
@@ -179,31 +175,5 @@ class PontlyvalentsController extends ResourceController
         $this->manager->flush();
 
         return $this->json(null, 204);
-    }
-
-    private function helper($slug = null)
-    {
-        if ($this->user->getPromo() == '018') {
-            throw new AccessDeniedException('Ton tour n\'est pas encore arrivé, petit 018 !');
-        }
-
-        if (isset($slug)) {
-            $userRepository = $this->manager->getRepository('KIUserBundle:User');
-            $target = $userRepository->findOneByUsername($slug);
-            if ($target->getPromo() != '017') {
-                throw new AccessDeniedException('Ce n\'est pas un 017 !');
-            }
-
-            $pontlyvalentRepository = $this->manager->getRepository('KIUserBundle:Pontlyvalent');
-            $pontlyvalent = $pontlyvalentRepository->findBy([
-                'target' => $target,
-                'author' => $this->user
-            ]);
-
-            return [
-                'target' => $target,
-                'pontlyvalent' => $pontlyvalent,
-            ];
-        }
     }
 }
