@@ -16,10 +16,10 @@
                             {{ message.date | fromNow }}
                         </time>
                         <i class="fa  fa-pencil  Link  Link--reverse" title="Modifier le message"
-                           ng-show="($root.isAdmin || message.author_user.username == $root.me.username) && showModify"
+                           ng-show="($root.isAdmin || message.author_user.username == $root.username) && showModify"
                            ng-click="modify(message)"></i>
                         <i class="fa  fa-trash  Link  Link--reverse  Link--danger" title="Supprimer le message"
-                           ng-show="($root.isAdmin || message.author_user.username == $root.me.username) && showModify"
+                           ng-show="($root.isAdmin || message.author_user.username == $root.username) && showModify"
                            ng-click="delete(message)"></i>
                     </small><br>
                 </div>

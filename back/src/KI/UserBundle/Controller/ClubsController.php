@@ -190,17 +190,17 @@ class ClubsController extends SubresourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/clubs/{slug}/users/{id}")
+     * @Route("/clubs/{slugClub}/users/{username}")
      * @Method("POST")
      */
-    public function postClubUserAction(Request $request, $slug, $id)
+    public function postClubUserAction(Request $request, $slugClub, $username)
     {
-        $this->trust($this->is('ADMIN') || $this->isClubMember($slug));
+        $this->trust($this->is('ADMIN') || $this->isClubMember($slugClub));
 
         // On récupère les deux entités concernées
-        $repo = $this->manager->getRepository('KIUserBundle:User');
-        $user = $repo->findOneByUsername($id);
-        $club = $this->findBySlug($slug);
+        $userRepository = $this->manager->getRepository('KIUserBundle:User');
+        $user = $userRepository->findOneByUsername($username);
+        $club = $this->findBySlug($slugClub);
 
         // Vérifie que la relation n'existe pas déjà
         $repoLink = $this->manager->getRepository('KIUserBundle:ClubUser');

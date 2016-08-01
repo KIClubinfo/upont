@@ -8,7 +8,7 @@ angular.module('upont')
         $scope.isFromFoyer = false;
 
         for (var key in members) {
-            if (members[key].user !== undefined && members[key].user.username == $rootScope.me.username) {
+            if (members[key].user !== undefined && members[key].user.username == $rootScope.username) {
                 $scope.isFromFoyer = true;
             }
         }

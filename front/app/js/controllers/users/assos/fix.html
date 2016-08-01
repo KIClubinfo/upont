@@ -18,7 +18,7 @@
 
         <p>{{ fix.problem }}</p>
 
-        <div ng-if="isFromKI || $root.me.username == fix.user.username">
+        <div ng-if="isFromKI || $root.username == fix.user.username">
             <a class="Link" title="Supprimer le ticket" ng-click="delete(fix)">Supprimer</a>
         </div>
     </section>

@@ -7,7 +7,7 @@ angular.module('upont')
         $rootScope.displayTabs = true;
 
         for (var key in members) {
-            if (members[key].user !== undefined && members[key].user.username == $rootScope.me.username) {
+            if (members[key].user !== undefined && members[key].user.username == $rootScope.username) {
                 $scope.isFromKI = true;
             }
         }

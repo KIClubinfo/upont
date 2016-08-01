@@ -22,14 +22,14 @@ angular.module('upont')
             },
             {
                 state: 'root.users.students.modify',
-                params: {slug: $rootScope.me.username},
+                params: {slug: $rootScope.username},
                 icon: 'user',
                 text: 'Je te propose de modifier ton profil afin de partir du bon pied.<br>' +
                 '<strong>Avoir des infos à jour est super important</strong>, si tout le monde les remplit tu pourras profiter au max des fonctionnalités de uPont comme la <strong>synchronisation des contacts</strong> ou le <strong>jeu de la Réponse D !</strong>'
             },
             {
                 state: 'root.users.students.modify',
-                params: {slug: $rootScope.me.username},
+                params: {slug: $rootScope.username},
                 icon: 'mobile',
                 text: 'Plus bas sur cette page, tu as aussi les liens pour télécharger l\'application mobile.<br>' +
                 '<strong>Oui, uPont a une appli pour smartphones</strong> et elle est super badass !<br>' +
@@ -37,7 +37,7 @@ angular.module('upont')
             },
             {
                 state: 'root.users.students.modify',
-                params: {slug: $rootScope.me.username},
+                params: {slug: $rootScope.username},
                 icon: 'calendar',
                 text: 'Accessoirement, sur cette page tu peux aussi synchroniser le calendrier uPont avec ton Mac/iBidule/Thunderbird/etc.<br>' +
                 '<strong>Attends ? Quel calendrier ? ...</strong>'
@@ -105,7 +105,7 @@ angular.module('upont')
             // On demande confirmation
             alertify.confirm('Veux-tu quitter le tutoriel ? Tu pourras toujours le réactiver depuis la page de profil.', function(e){
                 if (e) {
-                    $http.patch($rootScope.url + 'users/' + $rootScope.me.username, {tour: true}).success(function(){
+                    $http.patch($rootScope.url + 'users/' + $rootScope.username, {tour: true}).success(function(){
                         $rootScope.me.tour = true;
                         alertify.success('Tutoriel masqué !');
                     });
@@ -122,7 +122,7 @@ angular.module('upont')
             if ($scope.step + 1 < steps.length) {
                 $scope.loadStep($scope.step + 1);
             } else if ($scope.step + 1 == steps.length) {
-                $http.patch($rootScope.url + 'users/' + $rootScope.me.username + '?achievement=unlocked', {tour: true}).success(function(){
+                $http.patch($rootScope.url + 'users/' + $rootScope.username + '?achievement=unlocked', {tour: true}).success(function(){
                     $rootScope.me.tour = true;
                     Achievements.check();
                 });

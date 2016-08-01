@@ -10,6 +10,9 @@ abstract class BaseController extends CoreController
     protected $class;
     protected $bundle;
     protected $className;
+    /**
+     * @var \Doctrine\ORM\EntityManager
+     */
     protected $manager;
     /**
      * @var \Doctrine\ORM\EntityRepository
