@@ -7,9 +7,3 @@ services:
             - '@ki_user.repository.user'
             - '@event_dispatcher'
             - '@security.token_storage'
-
-    ki_user.helper.facegame_statistics:
-        class: KI\UserBundle\Helper\FacegameStatisticsHelper
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@ki_user.repository.facegame'

@@ -17,12 +17,6 @@ services:
         arguments:
             - KI\UserBundle\Entity\Device
 
-    ki_user.repository.facegame:
-        class: Doctrine\ORM\EntityRepository
-        factory: ['@doctrine.orm.default_entity_manager', getRepository]
-        arguments:
-            - KI\UserBundle\Entity\Facegame
-
     ki_user.repository.notification:
         class: Doctrine\ORM\EntityRepository
         factory: ['@doctrine.orm.default_entity_manager', getRepository]

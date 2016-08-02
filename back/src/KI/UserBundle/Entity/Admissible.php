@@ -9,7 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="KI\UserBundle\Repository\AdmissibleRepository")
  * @JMS\ExclusionPolicy("all")
  * @UniqueEntity(fields={"scei", "year"})
  */

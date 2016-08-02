@@ -41,8 +41,7 @@ class DefaultController extends BaseController
         if (!$user->getStatsFoyer()) {
             return $this->json(null, 200);
         }
-        $statisticsHelper = $this->get('ki_foyer.helper.statistics');
-        $statistics = $statisticsHelper->getUserStatistics($user);
+        $statistics = $this->manager->getRepository('KIFoyerBundle:Transaction')->getUserStatistics($user);
 
         return $this->json($statistics);
     }
@@ -91,12 +90,7 @@ class DefaultController extends BaseController
         $this->trust($this->isClubMember('foyer') || $this->is('ADMIN'));
 
         $response = new StreamedResponse(function () {
-            $results = $this->repository->createQueryBuilder('u')
-                ->select('u.username, u.email, u.promo, u.firstName, u.lastName, u.balance')
-                ->where('u.balance < 0')
-                ->orderBy('u.balance')
-                ->getQuery()
-                ->iterate();
+            $results = $this->repository->getDebtsIterator();
             $handle = fopen('php://output', 'r+');
 
             fputcsv($handle, ['username', 'email', 'promo', 'firstName', 'lastName', 'balance']);

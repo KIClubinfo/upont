@@ -48,12 +48,7 @@ class DefaultController extends BaseController
     {
         $delay = $request->query->has('delay') ? (int)$request->query->get('delay') : 30;
 
-        $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
-        $qb->select('u')
-            ->from('KIUserBundle:User', 'u')
-            ->where('u.lastConnect > :date')
-            ->setParameter('date', time() - $delay * 60);
-        return $this->json($qb->getQuery()->getResult());
+        return $this->json($this->repository->getOnlineUsers($delay));
     }
 
 

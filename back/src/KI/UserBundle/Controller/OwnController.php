@@ -89,12 +89,7 @@ class OwnController extends ResourceController
                     'image' => $achievement->image(),
                     'date' => $achievementUser->getDate(),
                     'seen' => $achievementUser->getSeen(),
-                    'ownedBy' => $achievementUserRepository->createQueryBuilder('au')
-                        ->select('count(au)')
-                        ->where('au.achievement = :achievement')
-                        ->setParameter('achievement', $achievement)
-                        ->getQuery()
-                        ->getSingleScalarResult(),
+                    'ownedBy' => $achievementUserRepository->getOwnedByCount($achievement),
                 ];
                 if (!$achievementUser->getSeen())
                     $achievementUser->setSeen(true);
@@ -116,12 +111,7 @@ class OwnController extends ResourceController
                     'description' => $achievement->description(),
                     'points' => $achievement->points(),
                     'image' => $achievement->image(),
-                    'ownedBy' => $achievementUserRepository->createQueryBuilder('au')
-                        ->select('count(au)')
-                        ->where('au.achievement = :achievement')
-                        ->setParameter('achievement', $achievement)
-                        ->getQuery()
-                        ->getSingleScalarResult(),
+                    'ownedBy' => $achievementUserRepository->getOwnedByCount($achievement),
                 ];
             } else {
                 if (gettype($achievement->points()) == 'integer') {

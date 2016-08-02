@@ -1,41 +1,14 @@
 <?php
+namespace KI\UserBundle\Repository;
 
-namespace KI\UserBundle\Helper;
-
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
+use KI\CoreBundle\Repository\ResourceRepository;
 use KI\UserBundle\Entity\User;
 
-
-// Valide les formulaires pour une entité et affiche la réponse à la demande
-class FacegameStatisticsHelper
+class FacegameRepository extends ResourceRepository
 {
-    protected $manager;
-    protected $repository;
-
-    public function __construct(EntityManager $manager, EntityRepository $repository)
+    public function getNormalGamesCount()
     {
-        $this->manager    = $manager;
-        $this->repository = $repository;
-    }
-
-    /**
-     *  Retourne des statistiques globales sur toutes les parties
-     *  @return array
-     */
-    public function globalStatistics()
-    {
-        return [
-            'totalNormal'        => $this->countNumberGamesNormal(),
-            'totalHardcore'      => $this->countNumberGamesHardcore(),
-            'normalHighscores'   => $this->getNormalHighscores(),
-            'hardcoreHighscores' => $this->getHardcoreHighscores(),
-        ];
-    }
-
-    protected function countNumberGamesNormal()
-    {
-        $qb = $this->repository->createQueryBuilder('o');
+        $qb = $this->createQueryBuilder('o');
         $qb
             ->select('count(o.id)')
             ->where('o.hardcore <> 1')
@@ -43,9 +16,9 @@ class FacegameStatisticsHelper
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    protected function countNumberGamesHardcore()
+    public function getHardcoreGamesCount()
     {
-        $qb = $this->repository->createQueryBuilder('o');
+        $qb = $this->createQueryBuilder('o');
         $qb
             ->select('count(o.id)')
             ->where('o.hardcore = 1')
@@ -53,10 +26,10 @@ class FacegameStatisticsHelper
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    protected function getNormalHighscores()
+    public function getNormalHighscores()
     {
         $maxResults = 10;
-        $qb = $this->repository->createQueryBuilder('o');
+        $qb = $this->createQueryBuilder('o');
         $qb
             ->select('o')
             ->where('o.hardcore <> 1')
@@ -78,10 +51,10 @@ class FacegameStatisticsHelper
         return $return;
     }
 
-    protected function getHardcoreHighscores()
+    public function getHardcoreHighscores()
     {
         $maxResults = 10;
-        $qb = $this->repository->createQueryBuilder('o');
+        $qb = $this->createQueryBuilder('o');
         $qb
             ->select('o')
             ->where('o.hardcore = 1')
@@ -103,24 +76,9 @@ class FacegameStatisticsHelper
         return $return;
     }
 
-    /**
-     *  Retourne des statistiques d'un utilisateur
-     *  @param  User $user
-     *  @return array
-     */
-    public function userStatistics(User $user)
+    public function getUserGamesCount(User $user, $mode)
     {
-        return [
-            'totalNormal'        => $this->countUserGames($user, 0),
-            'totalHardcore'      => $this->countUserGames($user, 1),
-            'normalHighscores'   => $this->getUserHighscores($user, 0),
-            'hardcoreHighscores' => $this->getUserHighscores($user, 1),
-        ];
-    }
-
-    protected function countUserGames($user, $mode)
-    {
-        $qb = $this->repository->createQueryBuilder('o');
+        $qb = $this->createQueryBuilder('o');
         $qb
             ->select('count(o.id)')
             ->where('o.hardcore = :mode')
@@ -132,10 +90,10 @@ class FacegameStatisticsHelper
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    protected function getUserHighscores($user, $mode)
+    public function getUserHighscores(User $user, $mode)
     {
         $maxResults = 10;
-        $qb = $this->repository->createQueryBuilder('o');
+        $qb = $this->createQueryBuilder('o');
         $qb
             ->select('o.duration', 'o.date')
             ->where('o.hardcore = :mode')

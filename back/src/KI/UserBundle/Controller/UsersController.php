@@ -161,12 +161,7 @@ class UsersController extends ResourceController
     {
         $user = $this->findBySlug($slug);
 
-        $clubs = $this->manager->createQuery('SELECT cu, club
-        FROM KIUserBundle:ClubUser cu
-        JOIN cu.club club
-        WHERE cu.user = :user')
-            ->setParameter('user', $user)
-            ->getArrayResult();
+        $clubs = $this->repository->getUserClubs($user);
 
         return $this->json($clubs, 200);
     }

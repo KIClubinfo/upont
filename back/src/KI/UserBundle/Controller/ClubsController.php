@@ -351,52 +351,24 @@ class ClubsController extends SubresourceController
         $club = $this->findBySlug($slug);
 
         // Trouve les clubUsers assiciés aux Users
-        $repoLink = $this->manager->getRepository('KIUserBundle:ClubUser');
-        $link = $repoLink->findOneBy(['club' => $club, 'user' => $user]);
+        $clubUserRepository = $this->manager->getRepository('KIUserBundle:ClubUser');
+        $link = $clubUserRepository->findOneBy(['club' => $club, 'user' => $user]);
 
         $priority = $link->getPriority();
         $promo = $user->getPromo();
 
         if ($direction == 'down') {
-            $auDessous = $this->manager->createQuery('SELECT cu
-                FROM KIUserBundle:ClubUser cu,
-                KIUserBundle:User user
-                WHERE cu.club = :club
-	            AND cu.user = user
-                AND user.promo = :promo
-                AND cu.priority > :priority
-                ORDER BY cu.priority ASC')
-                ->setParameter('club', $club)
-                ->setParameter('priority', $priority)
-                ->setParameter('promo', $promo)
-                ->setMaxResults(1)
-                ->getSingleResult();
-
-            // On édite les clubUsers
-            $link->setPriority($auDessous->getPriority());
-            $auDessous->setPriority($priority);
-            $this->manager->flush();
+            $swappedWith = $clubUserRepository->getUserBelowInClubWithPromo($club, $promo, $priority);
         } else if ($direction == 'up') {
-            $auDessus = $this->manager->createQuery('SELECT cu
-                FROM KIUserBundle:ClubUser cu,
-                KIUserBundle:User user
-                WHERE cu.club = :club
-	            AND cu.user = user
-                AND user.promo = :promo
-                AND cu.priority < :priority
-                ORDER BY cu.priority DESC')
-                ->setParameter('club', $club)
-                ->setParameter('priority', $priority)
-                ->setParameter('promo', $promo)
-                ->setMaxResults(1)
-                ->getSingleResult();
-
-            // On édite les clubUsers
-            $link->setPriority($auDessus->getPriority());
-            $auDessus->setPriority($priority);
-            $this->manager->flush();
+            $swappedWith = $clubUserRepository->getUserAboveInClubWithPromo($club, $promo, $priority);
         } else
             throw new BadRequestHttpException('Direction invalide');
+
+        $link->setPriority($swappedWith->getPriority());
+        $swappedWith->setPriority($priority);
+        $this->manager->flush();
+
+        return $this->json(null, 204);
     }
 
     /**

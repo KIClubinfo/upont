@@ -140,8 +140,12 @@ class FacegamesController extends ResourceController
      */
     public function getGlobalStatisticsAction()
     {
-        $facegameStatisticsHelper = $this->get('ki_user.helper.facegame_statistics');
-        return $this->json($facegameStatisticsHelper->globalStatistics());
+        return $this->json([
+            'totalNormal'        => $this->repository->getNormalGamesCount(),
+            'totalHardcore'      => $this->repository->getHardcoreGamesCount(),
+            'normalHighscores'   => $this->repository->getNormalHighscores(),
+            'hardcoreHighscores' => $this->repository->getHardcoreHighscores(),
+        ]);
     }
 
     /**
@@ -168,7 +172,11 @@ class FacegamesController extends ResourceController
             throw new NotFoundHttpException('Utilisateur non trouvé');
         }
 
-        $facegameStatisticsHelper = $this->get('ki_user.helper.facegame_statistics');
-        return $this->json($facegameStatisticsHelper->userStatistics($user));
+        return $this->json([
+            'totalNormal'        => $this->repository->getUserGamesCount($user, 0),
+            'totalHardcore'      => $this->repository->getUserGamesCount($user, 1),
+            'normalHighscores'   => $this->repository->getUserHighscores($user, 0),
+            'hardcoreHighscores' => $this->repository->getUserHighscores($user, 1),
+        ]);
     }
 }

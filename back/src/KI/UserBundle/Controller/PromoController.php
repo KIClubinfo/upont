@@ -22,43 +22,6 @@ class PromoController extends ResourceController
 
     /**
      * @ApiDoc(
-     *  description="Retourne un tableau de données pour le jeu du trombinoscope",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Utilisateurs"
-     * )
-     * @Route("/promo/{promo}/game")
-     * @Method("GET")
-     */
-    public function getPromoGameAction($promo)
-    {
-        $maxId = $this->manager->createQuery('SELECT MAX(u.id) FROM KIUserBundle:User u')->getSingleScalarResult();
-        $query = $this->manager->createQuery('SELECT u FROM KIUserBundle:User u WHERE u.id >= :rand ORDER BY u.id ASC');
-        $rand1 = rand(0, $maxId);
-
-        do {
-            $rand2 = rand(0, $maxId);
-        } while ($rand1 == $rand2);
-
-        do {
-            $rand3 = rand(0, $maxId);
-        } while ($rand3 == $rand2 || $rand3 == $rand1);
-
-        $users = [
-            $query->setParameter('rand', $rand1)->setMaxResults(1)->getSingleResult(),
-            $query->setParameter('rand', $rand2)->setMaxResults(1)->getSingleResult(),
-            $query->setParameter('rand', $rand3)->setMaxResults(1)->getSingleResult()
-        ];
-
-        return $this->json($users);
-    }
-
-    /**
-     * @ApiDoc(
      *  description="Met à jour les photos de profil d'une promo via Facebook",
      *  requirements={
      *   {
