@@ -28,7 +28,7 @@ class PaginateHelper
      * @param  EntityRepository $repository Le repository sur lequel effectuer les comptes
      * @return array                        Les données de pagination (nombre de pages, etc.)
      */
-    public function paginateData(EntityRepository $repository)
+    public function paginateData(EntityRepository $repository, array $findBy = [])
     {
         $queryBuilder = $repository->createQueryBuilder('o');
         $request = $this->request->query;
@@ -50,7 +50,6 @@ class PaginateHelper
             }
         }
 
-        $findBy = [];
         foreach ($request->all() as $key => $value) {
             if ($key != 'page' && $key != 'limit' && $key != 'sort') {
                 $findBy[$key] = $value;
@@ -59,6 +58,10 @@ class PaginateHelper
 
         // On compte le nombre total d'entrées dans la BDD
         $queryBuilder->select('count(o.id)');
+        foreach ($findBy as $key => $value){
+            $queryBuilder->andWhere('o.' . $key . ' = :' . $key);
+            $queryBuilder->setParameter($key, $value);
+        }
         $count = $queryBuilder->getQuery()->getSingleScalarResult();
 
         // On vérifie que l'utilisateur ne fasse pas de connerie avec les variables

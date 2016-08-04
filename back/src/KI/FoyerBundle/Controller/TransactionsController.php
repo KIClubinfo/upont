@@ -86,8 +86,9 @@ class TransactionsController extends ResourceController
         $this->trust($this->isClubMember('foyer') || $this->is('ADMIN') || $this->user == $user);
 
         $paginateHelper = $this->get('ki_core.helper.paginate');
-        extract($paginateHelper->paginateData($this->repository));
-        $transactions = $this->repository->findBy(['user' => $user], $sortBy, $limit, $offset);
+        extract($paginateHelper->paginateData($this->repository, ['user' => $user]));
+
+        $transactions = $this->repository->findBy($findBy, $sortBy, $limit, $offset);
         list($results, $links, $count) = $paginateHelper->paginateView($transactions, $limit, $page, $totalPages, $count);
 
         return $this->json($transactions, 200, [
