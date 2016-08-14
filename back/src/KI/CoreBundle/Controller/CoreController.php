@@ -41,9 +41,11 @@ class CoreController extends Controller
      */
     protected function trust($bool)
     {
-        if ($this->user === null || !$bool) {
-            throw new AccessDeniedException('Accès refusé');
+        if ($this->user && $bool || $this->is('ADMIN')) {
+            return;
         }
+
+        throw new AccessDeniedException('Accès refusé');
     }
 
     /**

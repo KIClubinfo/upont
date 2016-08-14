@@ -64,9 +64,9 @@ class BasketOrder
 
     /**
      * Date à laquelle la commande est censée être retirée (timestamp)
-     * @ORM\Column(name="dateRetrieve", type="integer", nullable=true)
+     * @ORM\Column(name="dateRetrieve", type="date")
      * @JMS\Expose
-     * @Assert\Type("integer")
+     * @Assert\Type("DateTime")
      */
     protected $dateRetrieve;
 
@@ -232,7 +232,7 @@ class BasketOrder
     /**
      * Set dateRetrieve
      *
-     * @param integer $dateRetrieve
+     * @param \DateTime $dateRetrieve
      *
      * @return BasketOrder
      */
@@ -246,7 +246,7 @@ class BasketOrder
     /**
      * Get dateRetrieve
      *
-     * @return integer
+     * @return \DateTime
      */
     public function getDateRetrieve()
     {

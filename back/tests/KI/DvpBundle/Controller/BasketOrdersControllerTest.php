@@ -12,7 +12,7 @@ class BasketOrdersControllerTest extends WebTestCase
     {
         // Poste une commande
         $this->client->request('POST', '/baskets/panier-moyen/order', [
-            'dateRetrieve' => 123468736
+            'dateRetrieve' => '2016-08-08'
             ]
         );
         $response = $this->client->getResponse();
@@ -41,7 +41,7 @@ class BasketOrdersControllerTest extends WebTestCase
             '/baskets/panier-moyen/order/alberic.trancart@eleves.enpc.fr',
             [
                 'paid' => true,
-                'dateRetrieve' => 123468736,
+                'dateRetrieve' => '2016-08-08',
             ]
         );
         $response = $this->client->getResponse();
@@ -52,14 +52,14 @@ class BasketOrdersControllerTest extends WebTestCase
     {
         $this->client->request(
             'DELETE',
-            '/baskets/panier-moyen/order/alberic.trancart@eleves.enpc.fr/123468736'
+            '/baskets/panier-moyen/order/alberic.trancart@eleves.enpc.fr/2016-08-08'
             );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
         $this->client->request(
             'DELETE',
-            '/baskets/panier-moyen/order/alberic.trancart@eleves.enpc.fr/123468736'
+            '/baskets/panier-moyen/order/alberic.trancart@eleves.enpc.fr/2016-08-08'
             );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);

@@ -107,8 +107,8 @@ class BasketOrdersController extends ResourceController
             ) {
                 throw new BadRequestHttpException('Formulaire incomplet');
             }
-        } else if ($this->user->getPhone() === null && !$request->request->has('phone')) {
-            throw new BadRequestHttpException('Formulaire incomplet');
+        } else if ($this->user->getPhone() === null) {
+            throw new BadRequestHttpException('Indique ton numéro de téléphone sur ton profil !');
         }
 
         // On vérifie que la commande n'a pas déjà été faite
@@ -118,7 +118,7 @@ class BasketOrdersController extends ResourceController
         $basketOrder = $this->repository->findOneBy([
             'basket' => $basket,
             'email' => $isAuthenticated ? $this->user->getEmail() : $request->request->get('email'),
-            'dateRetrieve' => $request->request->get('dateRetrieve'),
+            'dateRetrieve' => new \DateTime($request->request->get('dateRetrieve')),
         ]);
 
         if ($basketOrder !== null) {
@@ -148,7 +148,7 @@ class BasketOrdersController extends ResourceController
         }
 
         $basketOrder->setDateOrder(time());
-        $basketOrder->setDateRetrieve($request->request->get('dateRetrieve'));
+        $basketOrder->setDateRetrieve(new \DateTime($request->request->get('dateRetrieve')));
         $basketOrder->setPaid(false);
 
         $this->manager->persist($basketOrder);
@@ -176,7 +176,7 @@ class BasketOrdersController extends ResourceController
      */
     public function patchBasketOrderAction(Request $request, $slug, $email)
     {
-        $this->trust($this->is('MODO') || $this->isClubMember('dvp'));
+        $this->trust($this->isClubMember('dvp'));
 
         if (!$request->request->has('dateRetrieve')) {
             throw new BadRequestHttpException('Paramètre manquant');
@@ -190,7 +190,7 @@ class BasketOrdersController extends ResourceController
         $basketOrder = $this->repository->findOneBy([
             'basket' => $basketRepository->findOneBySlug($slug),
             'email' => $email,
-            'dateRetrieve' => $request->request->get('dateRetrieve'),
+            'dateRetrieve' => new \DateTime($request->request->get('dateRetrieve')),
         ]);
 
         if ($basketOrder === null) {
@@ -233,7 +233,7 @@ class BasketOrdersController extends ResourceController
         $basketOrder = $this->repository->findOneBy([
             'basket' => $basketRepository->findOneBySlug($slug),
             'email' => $email,
-            'dateRetrieve' => $dateRetrieve
+            'dateRetrieve' => new \DateTime($dateRetrieve)
         ]);
 
         if ($basketOrder === null) {
