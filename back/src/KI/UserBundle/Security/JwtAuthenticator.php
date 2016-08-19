@@ -32,6 +32,9 @@ class JwtAuthenticator extends AbstractGuardAuthenticator
 
         $token = $extractor->extract($request);
 
+        if ($token === false)
+            $token = $request->query->get('bearer');
+
         if ($token === false){
             throw new AuthenticationCredentialsNotFoundException();
         }
