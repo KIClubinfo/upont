@@ -24,20 +24,17 @@
         <table class="Table" flex="90">
             <thead>
                 <tr>
-                    <th><a ng-click="predicate = 'user.promo'; reverse=!reverse">Promo</a></th>
-                    <th><a ng-click="predicate = 'user.first_name+user.last_name'; reverse=!reverse">Élève</a></th>
-                    <th><a ng-click="predicate = 'role'; reverse=!reverse">Rôle</a></th>
+                    <th>Élève</th>
+                    <th>Rôle</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="member in filtered =  (members | promoFilter: promo | orderBy:predicate:reverse)">
-                    <td>{{ member.user.promo }}</td>
+                <tr ng-repeat="member in filtered =  (members | promoFilter: promo | orderBy:orderBy:['priority'])">
                     <td><span up-user user="member.user">{{ member.user.first_name }} {{ member.user.last_name }}</span></td>
                     <td>{{ member.role }}</td>
                 </tr>
                 <tr ng-hide="filtered.length">
                     <td>Rien à afficher</td>
-                    <td></td>
                     <td></td>
                 </tr>
             </tbody>
