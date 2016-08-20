@@ -326,40 +326,6 @@
             </p>
         </section>
     </section>
-
-    <section class="padded">
-        <h2>Smartphones</h2>
-
-        <div class="padded" row="center stretch">
-            <table class="Table" flex="80">
-                <thead>
-                    <tr>
-                        <th up-col="20%">Type</th>
-                        <th>Identifiant</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="device in devices">
-                        <td>{{ device.type }}</td>
-                        <td>{{ device.device }}</td>
-                    </tr>
-                    <tr ng-hide="devices.length">
-                        <td>Aucun téléphone enregistré !</td>
-                        <td>Télécharge l'appli mobile !</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div row="space-between stretch">
-            <a class="Button" title="Lien vers le Play Store" href="https://play.google.com/store/apps/details?id=youPont.mobile&hl=fr_CA"
-               flex="100" flex-md="25">Android</a>
-            <a class="Button" title="Lien vers l'Apple Store (coming soon)" href=""
-               flex="100" flex-md="25" disabled>iOS</a>
-            <a class="Button" title="Lien vers le Windows Store (coming soon)" href=""
-               flex="100" flex-md="25" disabled>Windows Phone</a>
-        </div>
-    </section>
 </section>
 
 <section class="Ticket" ng-if="$root.username == user.username">

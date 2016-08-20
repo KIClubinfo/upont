@@ -30,14 +30,6 @@ angular.module('upont')
             {
                 state: 'root.users.students.modify',
                 params: {slug: $rootScope.username},
-                icon: 'mobile',
-                text: 'Plus bas sur cette page, tu as aussi les liens pour télécharger l\'application mobile.<br>' +
-                '<strong>Oui, uPont a une appli pour smartphones</strong> et elle est super badass !<br>' +
-                'Ce serait une honte que tu ne la télécharges pas immédiatement.<br>'
-            },
-            {
-                state: 'root.users.students.modify',
-                params: {slug: $rootScope.username},
                 icon: 'calendar',
                 text: 'Accessoirement, sur cette page tu peux aussi synchroniser le calendrier uPont avec ton Mac/iBidule/Thunderbird/etc.<br>' +
                 '<strong>Attends ? Quel calendrier ? ...</strong>'
@@ -45,15 +37,14 @@ angular.module('upont')
             {
                 state: 'root.users.calendar',
                 icon: 'calendar',
-                text: 'Celui-ci ! Tu le retrouveras également sur l\'appli mobile.<br>' +
-                'Il contient <strong>tous les événements des clubs que tu suis</strong> mais aussi tes cours !<br>' +
+                text: 'Le calendrier contient <strong>tous les événements des clubs que tu suis</strong> mais aussi tes cours !<br>' +
                 '<strong>Quoi ? Il est synchronisé avec mes cours ?</strong>'
             },
             {
                 state: 'root.users.resources.courses.list',
                 icon: 'graduation-cap',
                 text: 'En effet ! C\'est ici que tu as la liste des cours et que <strong>tu peux choisir ceux que tu suis !</strong><br>' +
-                'Par exemple, essaye de suivre un cours en cliquant sur le symbole <i class="fa fa-eye"></i>. Il sera <strong>automatiquement ajouté au calendrier</strong> dès qu\'il y aura une prochaine séance de ce cours, et sera affiché en gros (gros GROS) sur l\'appli mobile !'
+                'Par exemple, essaye de suivre un cours en cliquant sur le symbole <i class="fa fa-eye"></i>. Il sera <strong>automatiquement ajouté au calendrier</strong> dès qu\'il y aura une prochaine séance de ce cours !'
             },
             {
                 state: 'root.users.resources.courses.list',
