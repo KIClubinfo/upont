@@ -16,7 +16,6 @@ class SecurityTest extends WebTestCase
             [200, 'GET', '/users/VpqtuEGC/calendar'],
             [401, 'POST', '/clubs'],
             [400, 'POST', '/resetting/request'],
-            [401, 'PATCH', '/promo/016/pictures']
         ];
         $this->checkRoutes($routes);
     }
@@ -64,7 +63,6 @@ class SecurityTest extends WebTestCase
             [200, 'GET', '/users'],
             [403, 'POST', '/clubs'],
             [403, 'PATCH', '/users/admissibles'],
-            [403, 'PATCH', '/promo/016/pictures'],
             [403, 'POST', '/resetting/request', ['username' => 'admissibles']],
         ];
         $this->checkRoutes($routes);
@@ -81,7 +79,6 @@ class SecurityTest extends WebTestCase
             [404, 'GET', '/clubs/sddsdqs'],
             [403, 'GET', '/users'],
             [403, 'POST', '/clubs'],
-            [403, 'PATCH', '/promo/016/pictures'],
             [403, 'PATCH', '/users/gcc'],
             [204, 'PATCH', '/clubs/gcc', ['fullName' => 'Génie']],
         ];
