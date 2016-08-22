@@ -28,11 +28,13 @@ services:
 
     ki_user.listener.jwt_created:
         class: KI\UserBundle\Listener\JWTCreatedListener
+        autowire: true
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
 
     ki_user.listener.jwt_decoded:
         class: KI\UserBundle\Listener\JWTDecodedListener
+        autowire: true
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_decoded, method: onJWTDecoded }
 
