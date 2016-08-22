@@ -1,59 +1,61 @@
 angular.module('upont')
-    .factory('ErrorCodes_Interceptor', ['StorageService', '$rootScope', '$location', '$q', function(StorageService, $rootScope, $location, $q) {
+    .factory('ErrorCodes_Interceptor', ['StorageService', '$rootScope', '$location', '$q', function (StorageService, $rootScope, $location, $q) {
         //On est obligé d'utiliser $location pour les changements d'url parcque le router n'est initialisé qu'après $http
         return {
-            responseError: function(response) {
+            responseError: function (response) {
                 switch (response.status) {
-                case 401:
-                    StorageService.remove('token');
-                    StorageService.remove('droits');
-                    $rootScope.isLogged = false;
-                    $location.path('/');
-                    break;
-                case 403:
-                    $location.path('/403');
-                    break;
-                case 404:
-                    $location.path('/404');
-                    break;
-                case 500:
-                    $location.path('/erreur');
-                    break;
-                case 503:
-                    if (response.data.until)
-                        StorageService.set('maintenance', response.data.until);
-                    else
-                        StorageService.remove('maintenance');
-                    $location.path('/maintenance');
-                    $rootScope.maintenance = true;
-                    break;
+                    case 401:
+                        StorageService.remove('token');
+                        StorageService.remove('droits');
+                        $rootScope.isLogged = false;
+                        $location.path('/');
+                        break;
+                    case 403:
+                        $location.path('/403');
+                        break;
+                    case 404:
+                        $location.path('/404');
+                        break;
+                    case 500:
+                        $location.path('/erreur');
+                        break;
+                    case 503:
+                        if (response.data.until)
+                            StorageService.set('maintenance', response.data.until);
+                        else
+                            StorageService.remove('maintenance');
+                        $location.path('/maintenance');
+                        $rootScope.maintenance = true;
+                        break;
                 }
                 return $q.reject(response);
             }
         };
     }])
-    .config(['$httpProvider', 'jwtInterceptorProvider', function($httpProvider, jwtInterceptorProvider) {
-        jwtInterceptorProvider.tokenGetter = ['StorageService', 'config', 'jwtHelper', '$rootScope', '$q', function(StorageService, config, jwtHelper, $rootScope, $q) {
-            //On n'envoie pas le token pour les templates
-            if (config.url.substr(config.url.length - 5) == '.html')
-                return null;
+    .config(['$httpProvider', 'jwtOptionsProvider', function ($httpProvider, jwtOptionsProvider) {
+        jwtOptionsProvider.config({
+            tokenGetter: ['StorageService', 'options', 'jwtHelper', '$rootScope', '$q', function (StorageService, options, jwtHelper, $rootScope, $q) {
+                //On n'envoie pas le token pour les templates
+                if (options.url.substr(options.url.length - 5) == '.html')
+                    return null;
 
-            if (StorageService.get('token') && jwtHelper.isTokenExpired(StorageService.get('token'))) {
-                $rootScope.isLogged = false;
-                $rootScope.isAdmin = false;
-                $rootScope.isAdmissible = false;
-                StorageService.remove('token');
-                StorageService.remove('droits');
-                return $q.reject(config);
-            }
-            return StorageService.get('token');
-        }];
+                if (StorageService.get('token') && jwtHelper.isTokenExpired(StorageService.get('token'))) {
+                    $rootScope.isLogged = false;
+                    $rootScope.isAdmin = false;
+                    $rootScope.isAdmissible = false;
+                    StorageService.remove('token');
+                    StorageService.remove('droits');
+                    return $q.reject(options);
+                }
+                return StorageService.get('token');
+            }]
+        });
 
 
         $httpProvider.interceptors.push('jwtInterceptor');
         $httpProvider.interceptors.push('ErrorCodes_Interceptor');
     }])
-    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$urlMatcherFactoryProvider', function($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) {
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$urlMatcherFactoryProvider', function ($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) {
         $urlMatcherFactoryProvider.strictMode(false);
         $urlRouterProvider.otherwise('/404');
         $locationProvider.html5Mode(true);
@@ -86,7 +88,7 @@ angular.module('upont')
                 data: {
                     needLogin: true
                 },
-                views:{
+                views: {
                     '': {
                         template: '<div class="Page__main" ui-view></div>'
                     },
@@ -109,11 +111,11 @@ angular.module('upont')
                 template: '<div ui-view></div>'
             });
     }])
-    .run(['$rootScope', 'StorageService', 'Permissions', '$state', '$interval', '$resource', '$location', '$window', '$sce', 'Achievements', function($rootScope, StorageService, Permissions, $state, $interval, $resource, $location, $window, $sce, Achievements) {
+    .run(['$rootScope', 'StorageService', 'Permissions', '$state', '$interval', '$resource', '$location', '$window', '$sce', 'Achievements', function ($rootScope, StorageService, Permissions, $state, $interval, $resource, $location, $window, $sce, Achievements) {
         Permissions.load();
 
         // Déconnexion
-        $rootScope.logout = function() {
+        $rootScope.logout = function () {
             Permissions.remove();
             // On arrête de regarder en permanence qui est en ligne
             $interval.cancel($rootScope.reloadOnline);
@@ -121,8 +123,12 @@ angular.module('upont')
         };
 
         // Vérifie si l'utilisateur a les droits sur un club/role
-        $rootScope.hasClub = function(slug) { return Permissions.hasClub(slug); };
-        $rootScope.hasRight = function(role) { return Permissions.hasRight(role); };
+        $rootScope.hasClub = function (slug) {
+            return Permissions.hasClub(slug);
+        };
+        $rootScope.hasRight = function (role) {
+            return Permissions.hasRight(role);
+        };
 
         // Diverses variables globales
         $rootScope.url = location.origin + apiPrefix;
@@ -136,26 +142,26 @@ angular.module('upont')
         $rootScope.searchCategory = 'Assos';
 
         // Easter egg
-        $rootScope.surprise = (Math.floor(Math.random()*1000) == 314);
+        $rootScope.surprise = (Math.floor(Math.random() * 1000) == 314);
 
         // Zoom sur les images
         $rootScope.zoom = false;
         $rootScope.zoomUrl = null;
-        $rootScope.zoomOut = function(event) {
+        $rootScope.zoomOut = function (event) {
             if (event.which == 1) {
                 $rootScope.zoom = false;
                 $rootScope.zoomUrl = null;
             }
         };
-        $rootScope.zoomIn = function(url) {
+        $rootScope.zoomIn = function (url) {
             $rootScope.zoom = true;
             $rootScope.zoomUrl = $sce.trustAsUrl(url);
         };
 
         // Au changement de page
-        $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-            function needLogin(state){
-                if(state.data && state.data.needLogin)
+        $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+            function needLogin(state) {
+                if (state.data && state.data.needLogin)
                     return state.data.needLogin;
             }
 
@@ -169,19 +175,20 @@ angular.module('upont')
             }
         });
 
-        $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
-            function getName(state){
-                if(state.data && state.data.title)
+        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+            function getName(state) {
+                if (state.data && state.data.title)
                     return state.data.title;
-                if(state.parent){
-                    if(state.parent.data && state.parent.data.title)
+                if (state.parent) {
+                    if (state.parent.data && state.parent.data.title)
                         return state.parent.data.title;
                     return getName(state.parent);
                 }
             }
+
             // Réglage de la balise <title> du <head>
             var title = getName(toState);
-            if(title)
+            if (title)
                 $rootScope.title = title;
             else
                 $rootScope.title = 'uPont';
@@ -191,11 +198,11 @@ angular.module('upont')
         });
 
         // Erreur 404
-        $rootScope.$on('$stateNotFound', function(event, toState, toParams, fromState, fromParams) {
+        $rootScope.$on('$stateNotFound', function (event, toState, toParams, fromState, fromParams) {
             $state.go('root.404');
         });
     }])
-    .run(['redactorOptions', function(redactorOptions) {
+    .run(['redactorOptions', function (redactorOptions) {
         redactorOptions.imageUpload = apiPrefix + 'images?bearer=' + localStorage.getItem('token');
     }])
 ;
