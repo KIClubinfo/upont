@@ -377,7 +377,7 @@ class OwnController extends ResourceController
                 $request->query->get('page')
             );
         }
-        return $this->restResponse($events);
+        return $this->json($events);
     }
 
     /**
