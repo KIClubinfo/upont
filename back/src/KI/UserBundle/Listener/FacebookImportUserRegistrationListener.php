@@ -49,7 +49,7 @@ class FacebookImportUserRegistrationListener
                 $id = '1739424532975028';
                 break;  // WEI'STED
             default:
-                throw new \Exception('Promo ' . $user->getPromo() . ' non prise en charge');
+                return;
         }
 
         // On récupère la liste des membres
