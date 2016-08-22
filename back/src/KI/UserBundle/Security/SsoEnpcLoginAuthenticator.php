@@ -6,7 +6,7 @@ use KI\UserBundle\Factory\UserFactory;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Exception\BadCredentialsException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -41,14 +41,10 @@ class SsoEnpcLoginAuthenticator extends LoginAuthenticator
         try {
             \phpCAS::setDebug();
             \phpCAS::setVerbose(true);
-            \phpCAS::client(CAS_VERSION_2_0, 'cas.enpc.fr', 443, '/cas');
+            \phpCAS::client(SAML_VERSION_1_1, 'cas.enpc.fr', 443, '/cas');
             \phpCAS::setNoCasServerValidation();
-            \phpCAS::handleLogoutRequests();
-//            \phpCAS::setCacheTimesForAuthRecheck(0);
-            \phpCAS::setFixedServiceURL('https://upont.enpc.fr');
             \phpCAS::setExtraCurlOption(CURLOPT_PROXY, $this->proxyUrl);
             \phpCAS::setExtraCurlOption(CURLOPT_PROXYUSERPWD, $this->proxyUser);
-//            \phpCAS::logout();
             \phpCAS::setNoClearTicketsFromUrl();
             \phpCAS::forceAuthentication();
         } catch (\CAS_AuthenticationException $exception) {
@@ -66,31 +62,30 @@ class SsoEnpcLoginAuthenticator extends LoginAuthenticator
     {
         $username = $credentials['username'];
 
+        $email = $credentials['mail'];
+        if(!preg_match('/@eleves\.enpc\.fr$/', $email))
+            throw new AccessDeniedException();
+
         $user = null;
 
-        $user = $userProvider->loadUserByUsername($username);
+        try {
+            $user = $userProvider->loadUserByUsername($username);
+        } catch (UsernameNotFoundException $exception) {
 
+        }
 
-//        try {
-//            $user = $userProvider->loadUserByUsername($username);
-//        } catch (UsernameNotFoundException $exception) {
-//
-//        }
+        if (!$user) {
+            $credentials = [
+                'username' => $username,
+                'firstName' => $credentials['givenName'],
+                'lastName' => ucwords(strtolower($credentials['sn'])),
+                'email' => $credentials['mail'],
+                'password' => '',
+                'loginMethod' => 'cas'
+            ];
 
-//        throw new BadCredentialsException(print_r($credentials));
-
-//        if (!$user) {
-//            //FIXME
-//            $credentials = array_merge($credentials, [
-//                'firstName' => 'Louis',
-//                'lastName' => 'Trezzini',
-//                'email' => 'louis.trezzini@eleves.enpc.fr',
-//                'password' => '',
-//                'loginMethod' => 'cas'
-//            ]);
-//
-//            $user = $this->userFactory->createUser($username, [], $credentials);
-//        }
+            $user = $this->userFactory->createUser($username, [], $credentials);
+        }
 
 
         return $user;
