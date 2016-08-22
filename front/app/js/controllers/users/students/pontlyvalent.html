@@ -1,4 +1,4 @@
-<div flex="100" ng-if="hasClub('bde')">
+<div flex="100">
     <section class="Ticket">
         <h1>Le Pontlyvalent</h1>
         <br>
@@ -50,13 +50,13 @@
             </thead>
 
             <tbody>
-                <tr ng-repeat="item in comments.data | orderBy: ['target.first_name', 'target.last_name'] | filter: {author: {username: $root.me.username}}">
+                <tr ng-repeat="item in comments | orderBy: ['target.first_name', 'target.last_name'] | filter: {author: {username: $root.username}}">
                     <td><i class="fa fa-pencil" ng-click="addComment(item.target.username, item.target.nick)"></i>  <i class="fa fa-trash" ng-click="deleteComment(item.target.username)"></i></td>
                     <td>{{ item.target.first_name }} {{ item.target.last_name }}</td>
                     <td>{{ item.text }}</td>
                 </tr>
 
-                <tr ng-hide="comments.data.length">
+                <tr ng-hide="comments.length">
                     <td></td>
                     <td><i>Aucune entrée à afficher</i></td>
                     <td></td>
@@ -83,12 +83,12 @@
                 </thead>
 
                 <tbody>
-                    <tr ng-repeat="item in comments.data | orderBy: ['target.first_name', 'target.last_name'] | filter: {target: {$: searchName}}" ng-hide="item.target.username == $root.me.username">
+                    <tr ng-repeat="item in comments | orderBy: ['target.first_name', 'target.last_name'] | filter: {target: {$: searchName}}" ng-hide="item.target.username == $root.username">
                         <td>{{ item.target.first_name }} {{ item.target.last_name }}</td>
                         <td>{{ item.text }}</td>
                     </tr>
 
-                    <tr ng-hide="comments.data.length">
+                    <tr ng-hide="comments.length">
                         <td></td>
                         <td><i>Aucune entrée à afficher</i></td>
                     </tr>
@@ -96,8 +96,4 @@
             </table>
         </div>
     </section>
-</div>
-
-<div flex="100" class="Ticket" ng-if="!hasClub('bde')">
-    Le Pontlyvalent est fermé.
 </div>

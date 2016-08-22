@@ -28,7 +28,7 @@ class NotificationListener
         $manager = $args->getEntityManager();
         $repo = $manager->getRepository('KIUserBundle:Device');
         $devices = $repo->findAll();
-        $sendToAndroid = $sendToIOS = $sendToWP = array();
+        $sendToAndroid = $sendToIOS = $sendToWP = [];
 
         // Si le mode d'envoi est direct, on envoie aux utilisateurs qui ont
         // enregistré un ou plusieurs Devices
@@ -84,29 +84,29 @@ class NotificationListener
 
     public function pushAndroid(Notification $notification, array $to)
     {
-        $message = array(
+        $message = [
             'title'     => $notification->getTitle(),
             'message'   => $notification->getMessage(),
             'vibrate'   => 1,
             'sound'     => 1,
-        );
+        ];
 
-        $fields = array(
+        $fields = [
             'registration_ids'     => $to,
             'data'                => $message
-        );
+        ];
 
-        $headers = array(
+        $headers = [
             'Authorization: key='.$this->gcmKey,
             'Content-Type: application/json'
-        );
+        ];
 
-        $this->curlService->curl('https://android.googleapis.com/gcm/send', null, array(
+        $this->curlService->curl('https://android.googleapis.com/gcm/send', null, [
             CURLOPT_HEADER     => true,
             CURLOPT_POST       => true,
             CURLOPT_HTTPHEADER => $headers,
             CURLOPT_POSTFIELDS => json_encode($fields)
-        ));
+        ]);
     }
 
     public function pushIOS(Notification $notification, array $to)
@@ -124,18 +124,18 @@ class NotificationListener
                     '</wp:Toast>'.
                     '</wp:Notification>';
 
-        $headers = array(
+        $headers = [
             'Content-Type: text/xml',
             'Accept: application/*',
             'X-NotificationClass: 0',
             'X-WindowsPhone-Target:toast'
-        );
+        ];
 
-        $this->curlService->curl($device->getDevice(), null, array(
+        $this->curlService->curl($device->getDevice(), null, [
             CURLOPT_HEADER     => true,
             CURLOPT_POST       => true,
             CURLOPT_HTTPHEADER => $headers,
             CURLOPT_POSTFIELDS => $message
-        ));
+        ]);
     }
 }

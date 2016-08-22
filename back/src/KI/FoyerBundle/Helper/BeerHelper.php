@@ -31,9 +31,9 @@ class BeerHelper
         $beers = $this->beerRepository->findAll();
 
         // On va établir les comptes sur les 500 dernières consos
-        $transactions = $this->transactionRepository->findBy(array(), array('date' => 'DESC'), 500);
+        $transactions = $this->transactionRepository->findBy([], ['date' => 'DESC'], 500);
 
-        $counts = array();
+        $counts = [];
         foreach ($transactions as $transaction) {
             // On peut tomber sur une entrée "compte crédité"
             if ($transaction->getBeer() === null) {
@@ -49,7 +49,7 @@ class BeerHelper
         }
 
         // On trie
-        $return = $beerCounts = array();
+        $return = $beerCounts = [];
         foreach ($beers as $beer) {
             $beerId = $beer->getId();
 
@@ -68,10 +68,10 @@ class BeerHelper
     public function getUserOrderedList()
     {
         // On commence par récupérer 500 dernières consos
-        $transactions = $this->transactionRepository->findBy(array(), array('date' => 'DESC'), 500);
+        $transactions = $this->transactionRepository->findBy([], ['date' => 'DESC'], 500);
 
         // On veut positionner le compte Externe Foyer en première positionn
-        $users = array();
+        $users = [];
         $users[] = $this->userRepository->findOneByUsername('externe-foyer');
 
         foreach ($transactions as $transaction) {
@@ -88,7 +88,7 @@ class BeerHelper
 
         // On complète avec d'autres utilisateurs au besoin
         if (count($users) < 48) {
-            $listUsers = $this->userRepository->findBy(array(), array('id' => 'DESC'), 100);
+            $listUsers = $this->userRepository->findBy([], ['id' => 'DESC'], 100);
 
             foreach ($listUsers as $user) {
                 if (!in_array($user, $users)) {

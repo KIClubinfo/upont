@@ -1,8 +1,8 @@
 <?php
 
 namespace KI\CoreBundle\DQL;
-use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
+use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 
@@ -11,7 +11,7 @@ use Doctrine\ORM\Query\SqlWalker;
  * "MATCH_AGAINST" "(" {StateFieldPathExpression ","}* InParameter {Literal}? ")"
  */
 class MatchAgainst extends FunctionNode {
-    public $columns = array();
+    public $columns = [];
     public $needle;
     public $mode;
 

@@ -13,14 +13,9 @@ class SerieListener
 
         if ($entity instanceof Serie) {
             $entity->setDownloads(
-                $args->getEntityManager()->createQuery('SELECT COUNT(pfu.id) FROM
-                    KIPonthubBundle:Episode episode, 
-                    KIPonthubBundle:PonthubFileUser pfu
-                    WHERE pfu.file = episode
-                    AND episode.serie = :serie
-                    ')
-                ->setParameter('serie', $entity)
-                ->getSingleScalarResult()
+                $args->getEntityManager()
+                    ->getRepository('KIPonthubBundle:PonthubFileUser')
+                    ->getSerieDownloads($entity)
             );
         }
     }

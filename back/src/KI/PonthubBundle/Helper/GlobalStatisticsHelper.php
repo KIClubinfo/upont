@@ -40,17 +40,17 @@ class GlobalStatisticsHelper
             ->getResult();
 
         // On regarde les détails sur chaque utilisateur
-        $downloaderCategories = array();
-        $downloaderSeries = array(
-            array('name' => 'Films',     'data' => array()),
-            array('name' => 'Séries',    'data' => array()),
-            array('name' => 'Jeux',      'data' => array()),
-            array('name' => 'Logiciels', 'data' => array()),
-            array('name' => 'Autres',    'data' => array())
-        );
+        $downloaderCategories = [];
+        $downloaderSeries = [
+            ['name' => 'Films',     'data' => []],
+            ['name' => 'Séries',    'data' => []],
+            ['name' => 'Jeux',      'data' => []],
+            ['name' => 'Logiciels', 'data' => []],
+            ['name' => 'Autres',    'data' => []]
+        ];
 
         foreach ($downloaderIds as $key => $value) {
-            $downloads = $this->ponthubFileUserRepository->findBy(array('user' => $value[1]));
+            $downloads = $this->ponthubFileUserRepository->findBy(['user' => $value[1]]);
 
             $user = $downloads[0]->getUser();
             $downloaderCategories[] = $user->getFirstName().' '.$user->getLastName();
@@ -80,10 +80,10 @@ class GlobalStatisticsHelper
             }
         }
 
-        return array(
+        return [
             'categories' => $downloaderCategories,
             'series'     => $downloaderSeries
-        );
+        ];
     }
 
     /**
@@ -93,33 +93,33 @@ class GlobalStatisticsHelper
     public function getGlobalDownloads()
     {
         // Recherche des fichiers les plus téléchargés
-        $downloadSerie = array(
-            array('name' => 'Films', 'drilldown' => 1, 'y' => $this->getTotalDownloads('movie')),
-            array('name' => 'Séries', 'drilldown' => 2, 'y' => $this->getTotalDownloads('episode')),
-            array('name' => 'Jeux', 'drilldown' => 3, 'y' => $this->getTotalDownloads('game')),
-            array('name' => 'Logiciels', 'drilldown' => 4, 'y' => $this->getTotalDownloads('software')),
-            array('name' => 'Autres', 'drilldown' => 5, 'y' => $this->getTotalDownloads('other'))
-        );
+        $downloadSerie = [
+            ['name' => 'Films', 'drilldown' => 1, 'y' => $this->getTotalDownloads('movie')],
+            ['name' => 'Séries', 'drilldown' => 2, 'y' => $this->getTotalDownloads('episode')],
+            ['name' => 'Jeux', 'drilldown' => 3, 'y' => $this->getTotalDownloads('game')],
+            ['name' => 'Logiciels', 'drilldown' => 4, 'y' => $this->getTotalDownloads('software')],
+            ['name' => 'Autres', 'drilldown' => 5, 'y' => $this->getTotalDownloads('other')]
+        ];
 
         // Tri par ordre des downloads totaux
-        $total = array();
+        $total = [];
         foreach ($downloadSerie as $key => $row) {
             $total[$key] = $row['y'];
         }
         array_multisort($total, SORT_DESC, $downloadSerie);
 
-        $downloadDrilldown = array(
-            array('name' => 'Films', 'id' => 1, 'data' => $this->getDownloads('movie')),
-            array('name' => 'Séries', 'id' => 2, 'data' => $this->getDownloads('episode')),
-            array('name' => 'Jeux', 'id' => 3, 'data' => $this->getDownloads('game')),
-            array('name' => 'Logiciels', 'id' => 4, 'data' => $this->getDownloads('software')),
-            array('name' => 'Autres', 'id' => 5, 'data' => $this->getDownloads('other'))
-        );
+        $downloadDrilldown = [
+            ['name' => 'Films', 'id' => 1, 'data' => $this->getDownloads('movie')],
+            ['name' => 'Séries', 'id' => 2, 'data' => $this->getDownloads('episode')],
+            ['name' => 'Jeux', 'id' => 3, 'data' => $this->getDownloads('game')],
+            ['name' => 'Logiciels', 'id' => 4, 'data' => $this->getDownloads('software')],
+            ['name' => 'Autres', 'id' => 5, 'data' => $this->getDownloads('other')]
+        ];
 
-        return array(
+        return [
             'serie' => $downloadSerie,
             'drilldown' => $downloadDrilldown
-        );
+        ];
     }
 
     /**
@@ -149,9 +149,9 @@ class GlobalStatisticsHelper
         $statement->execute();
         $results = $statement->fetchAll();
 
-        $return = array();
+        $return = [];
         foreach ($results as $result) {
-            $return[] = array($result['name'], (int)$result['compte']);
+            $return[] = [$result['name'], (int)$result['compte']];
         }
         return $return;
     }
@@ -163,22 +163,22 @@ class GlobalStatisticsHelper
     public function getGlobalPonthub()
     {
         // Construction de la tree map résumant les fichiers dispos sur Ponthub
-        return array(
-            'Nombre de fichiers dispos' => array(
+        return [
+            'Nombre de fichiers dispos' => [
                 'Films' => $this->getTotal('Movie'),
                 'Séries' => $this->getTotal('Episode'),
                 'Jeux' => $this->getTotal('Game'),
                 'Logiciels' => $this->getTotal('Software'),
                 'Autres' => $this->getTotal('Other')
-            ),
-            'Volume de fichiers (Go)' => array(
+            ],
+            'Volume de fichiers (Go)' => [
                 'Films' => $this->getTotal('Movie', true),
                 'Séries' => $this->getTotal('Episode', true),
                 'Jeux' => $this->getTotal('Game', true),
                 'Logiciels' => $this->getTotal('Software', true),
                 'Autres' => $this->getTotal('Other', true)
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -209,11 +209,11 @@ class GlobalStatisticsHelper
         $dql = 'SELECT e.year, COUNT(e.id) FROM KI\PonthubBundle\Entity\Game e GROUP BY e.year';
         $gameYears = $this->manager->createQuery($dql)->getResult();
 
-        $yearCategories = array();
-        $yearSeries = array(
-            array('name' => 'Films', 'data' => array()),
-            array('name' => 'Jeux', 'data' => array())
-        );
+        $yearCategories = [];
+        $yearSeries = [
+            ['name' => 'Films', 'data' => []],
+            ['name' => 'Jeux', 'data' => []]
+        ];
 
         // On rajoute l'année dans les catégories si elle n'y est pas déjà
         foreach ($movieYears as $key => $value) {
@@ -252,12 +252,12 @@ class GlobalStatisticsHelper
                 $maxPopGame = (int)$value[1];
         }
 
-        return array(
+        return [
             'categories' => $yearCategories,
             'series' => $yearSeries,
             'min' => -$maxPopMovie,
             'max' => $maxPopGame
-        );
+        ];
     }
 
     /**
@@ -274,17 +274,17 @@ class GlobalStatisticsHelper
                 GROUP BY mois, u.promo';
         $results = $this->manager->createQuery($dql)->getResult();
 
-        $timeline = array(
-            'promo016' => array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-            'promo017' => array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-            'promo018' => array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-            'average' => array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-            'pie' => array(
+        $timeline = [
+            'promo016' => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            'promo017' => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            'promo018' => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            'average' => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            'pie' => [
                 'promo016' => 0,
                 'promo017' => 0,
                 'promo018' => 0,
-            )
-        );
+            ]
+        ];
         // On répartit les données dans les tableaux suivants
         foreach ($results as $result) {
             $size = round($result['taille']/(1000*1000*1000), 1);

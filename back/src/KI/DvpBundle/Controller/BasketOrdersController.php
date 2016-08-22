@@ -2,14 +2,15 @@
 
 namespace KI\DvpBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
+use KI\CoreBundle\Controller\ResourceController;
+use KI\DvpBundle\Entity\BasketOrder;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use KI\CoreBundle\Controller\ResourceController;
-use KI\DvpBundle\Entity\BasketOrder;
 
 class BasketOrdersController extends ResourceController
 {
@@ -32,7 +33,8 @@ class BasketOrdersController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
-     * @Route\Get("/baskets-orders")
+     * @Route("/baskets-orders")
+     * @Method("GET")
      */
     public function getBasketsOrdersAction()
     {
@@ -52,13 +54,14 @@ class BasketOrdersController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
-     * @Route\Get("/baskets-orders/{email}")
+     * @Route("/baskets-orders/{email}")
+     * @Method("GET")
      */
     public function getBasketsOrderAction($email)
     {
         $basketOrder = $this->repository->findByEmail($email);
 
-        return $basketOrder;
+        return $this->json($basketOrder);
     }
 
     /**
@@ -87,11 +90,12 @@ class BasketOrdersController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
-     * @Route\Post("/baskets/{slug}/order")
+     * @Route("/baskets/{slug}/order")
+     * @Method("POST")
      */
     public function postBasketOrderAction(Request $request, $slug)
     {
-        $isAuthenticated = $this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED');
+        $isAuthenticated = $this->isGranted('IS_AUTHENTICATED_REMEMBERED');
 
         // Si l'utilisateur n'est pas dans uPont il doit avoir rempli les infos
         if (!$isAuthenticated) {
@@ -99,22 +103,23 @@ class BasketOrdersController extends ResourceController
                 && $request->request->has('lastName')
                 && $request->request->has('email')
                 && $request->request->has('phone')
-            )) {
+            )
+            ) {
                 throw new BadRequestHttpException('Formulaire incomplet');
             }
-        } else if ($this->user->getPhone() === null && !$request->request->has('phone')) {
-            throw new BadRequestHttpException('Formulaire incomplet');
+        } else if ($this->user->getPhone() === null) {
+            throw new BadRequestHttpException('Indique ton numéro de téléphone sur ton profil !');
         }
 
         // On vérifie que la commande n'a pas déjà été faite
         $basketRepository = $this->manager->getRepository('KIDvpBundle:Basket');
         $basket = $basketRepository->findOneBySlug($slug);
 
-        $basketOrder = $this->repository->findOneBy(array(
+        $basketOrder = $this->repository->findOneBy([
             'basket' => $basket,
             'email' => $isAuthenticated ? $this->user->getEmail() : $request->request->get('email'),
-            'dateRetrieve' => $request->request->get('dateRetrieve'),
-        ));
+            'dateRetrieve' => new \DateTime($request->request->get('dateRetrieve')),
+        ]);
 
         if ($basketOrder !== null) {
             throw new BadRequestHttpException('Tu as déjà commandé !');
@@ -143,13 +148,13 @@ class BasketOrdersController extends ResourceController
         }
 
         $basketOrder->setDateOrder(time());
-        $basketOrder->setDateRetrieve($request->request->get('dateRetrieve'));
+        $basketOrder->setDateRetrieve(new \DateTime($request->request->get('dateRetrieve')));
         $basketOrder->setPaid(false);
 
         $this->manager->persist($basketOrder);
         $this->manager->flush();
 
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -166,11 +171,12 @@ class BasketOrdersController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
-     * @Route\Patch("/baskets/{slug}/order/{email}")
+     * @Route("/baskets/{slug}/order/{email}")
+     * @Method("PATCH")
      */
     public function patchBasketOrderAction(Request $request, $slug, $email)
     {
-        $this->trust($this->is('MODO') || $this->isClubMember('dvp'));
+        $this->trust($this->isClubMember('dvp'));
 
         if (!$request->request->has('dateRetrieve')) {
             throw new BadRequestHttpException('Paramètre manquant');
@@ -181,11 +187,11 @@ class BasketOrdersController extends ResourceController
         // On identifie les utilisateurs par leur mail
         $basketRepository = $this->manager->getRepository('KIDvpBundle:Basket');
 
-        $basketOrder = $this->repository->findOneBy(array(
+        $basketOrder = $this->repository->findOneBy([
             'basket' => $basketRepository->findOneBySlug($slug),
             'email' => $email,
-            'dateRetrieve' => $request->request->get('dateRetrieve'),
-        ));
+            'dateRetrieve' => new \DateTime($request->request->get('dateRetrieve')),
+        ]);
 
         if ($basketOrder === null) {
             throw new BadRequestHttpException('Commande non trouvée');
@@ -199,7 +205,7 @@ class BasketOrdersController extends ResourceController
         $this->manager->persist($basketOrder);
         $this->manager->flush();
 
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -214,7 +220,8 @@ class BasketOrdersController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
-     * @Route\Delete("/baskets/{slug}/order/{email}/{dateRetrieve}")
+     * @Route("/baskets/{slug}/order/{email}/{dateRetrieve}")
+     * @Method("DELETE")
      */
     public function deleteBasketOrderAction($slug, $email, $dateRetrieve)
     {
@@ -223,11 +230,11 @@ class BasketOrdersController extends ResourceController
         $user = $userRepository->findOneByEmail($email);
         $basketRepository = $this->manager->getRepository('KIDvpBundle:Basket');
 
-        $basketOrder = $this->repository->findOneBy(array(
+        $basketOrder = $this->repository->findOneBy([
             'basket' => $basketRepository->findOneBySlug($slug),
             'email' => $email,
-            'dateRetrieve' => $dateRetrieve
-        ));
+            'dateRetrieve' => new \DateTime($dateRetrieve)
+        ]);
 
         if ($basketOrder === null) {
             throw new NotFoundHttpException('Commande non trouvée');
@@ -236,6 +243,6 @@ class BasketOrdersController extends ResourceController
         $this->manager->remove($basketOrder, $this->isClubMember('dvp'));
         $this->manager->flush();
 
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 }

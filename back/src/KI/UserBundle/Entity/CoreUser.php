@@ -84,7 +84,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
      * @ORM\Column(name="preferences", type="array", nullable=true)
      * @Assert\Type("array")
      */
-    protected $preferences = array();
+    protected $preferences = [];
 
     /**
      * Token faible permettant de créer des urls personnalisées pour l'user
@@ -93,7 +93,14 @@ class CoreUser extends \FOS\UserBundle\Model\User
      */
     protected $token;
 
-    protected $preferencesArray = array(
+    /**
+     * Méthode d'authentification
+     * @ORM\Column(name="login_method", type="string")
+     * @Assert\Type("string")
+     */
+    protected $loginMethod;
+
+    protected $preferencesArray = [
         'notif_followed_event' => true,
         'notif_followed_news'  => true,
         'notif_news_perso'     => true,
@@ -104,7 +111,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
         'notif_followed_annal' => true,
         //'notif_achievement'    => true,
         //'notif_next_level'     => true
-    );
+    ];
 
     /**
      * @JMS\VirtualProperty()
@@ -426,4 +433,25 @@ class CoreUser extends \FOS\UserBundle\Model\User
     {
         return $this->token;
     }
+
+    /**
+     * @return string
+     */
+    public function getLoginMethod()
+    {
+        return $this->loginMethod;
+    }
+
+    /**
+     * @param string $loginMethod
+     * @return User
+     */
+    public function setLoginMethod($loginMethod)
+    {
+        $this->loginMethod = $loginMethod;
+
+        return $this;
+    }
+
+
 }

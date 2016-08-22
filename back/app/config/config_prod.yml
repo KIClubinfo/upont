@@ -3,7 +3,7 @@ imports:
 
 #framework:
 #    validation:
-#        cache: apc
+#        cache: validator.mapping.cache.doctrine.apc
 
 #doctrine:
 #    orm:
@@ -23,7 +23,7 @@ monolog:
             handler:      nested
         nested:
             type:  rotating_file
-            path:  "%kernel.logs_dir%/%kernel.environment%.log"
+            path:  '%kernel.logs_dir%/%kernel.environment%.log'
             level: debug
             max_files: 0
         console:
@@ -32,4 +32,4 @@ monolog:
 swiftmailer:
     spool:
         type: file
-        path: "%kernel.root_dir%/spool"
+        path: '%kernel.root_dir%/spool'

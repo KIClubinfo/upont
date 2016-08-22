@@ -4,7 +4,8 @@ services:
         class: KI\UserBundle\Listener\AchievementCheckListener
         arguments:
             - '@doctrine.orm.entity_manager'
-            - '@security.context'
+            - '@security.token_storage'
+            - '@security.authorization_checker'
         tags:
             - { name: kernel.event_listener, event: upont.achievement, method: check }
 
@@ -40,7 +41,7 @@ services:
         class: KI\UserBundle\Listener\NotificationListener
         arguments:
             - '@ki_core.service.curl'
-            - %ki_upont.push.gcm%
+            - '%ki_upont.push.gcm%'
         tags:
             - { name: doctrine.event_listener, event: postPersist }
 
@@ -49,6 +50,12 @@ services:
         class: KI\UserBundle\Listener\OnlineListener
         arguments:
             - '@doctrine.orm.entity_manager'
-            - '@security.context'
+            - '@security.token_storage'
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    ki_user.listener.user_registration:
+        class: KI\UserBundle\Listener\UserRegistrationListener
+        autowire: true
+        tags:
+            - { name: kernel.event_listener, event: upont.user_registration, method: sendMail }

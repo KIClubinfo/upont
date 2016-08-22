@@ -22,15 +22,15 @@ class ImdbService
         $url = $this->baseUrl.'?s='.urlencode($name);
         $response = json_decode($this->curlService->curl($url), true);
 
-        $return = array();
+        $return = [];
         if (isset($response['Search'])) {
             foreach ($response['Search'] as $result) {
-                $return[] = array(
+                $return[] = [
                     'name' => $result['Title'],
                     'year' => $result['Year'],
                     'type' => $result['Type'],
                     'id'   => $result['imdbID']
-                );
+                ];
             }
         }
 
@@ -48,7 +48,7 @@ class ImdbService
         if (preg_match('#\d–\d#', $response['Year']))
             $response['Year'] = explode('–', $response['Year'])[0];
 
-        return array(
+        return [
             'title'       => $response['Title'],
             'year'        => (int)$response['Year'],
             'duration'    => 60*str_replace(' min', '', $response['Runtime']),
@@ -58,6 +58,6 @@ class ImdbService
             'description' => $response['Plot'],
             'image'       => $response['Poster'],
             'rating'      => isset($response['Metascore']) ? $response['Metascore'] : $response['imdbRating']*10
-        );
+        ];
     }
 }

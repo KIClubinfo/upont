@@ -4,8 +4,9 @@ namespace KI\CoreBundle\Helper;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use FOS\RestBundle\View\View as RestView;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
 
 class PaginateHelper
 {
@@ -27,7 +28,7 @@ class PaginateHelper
      * @param  EntityRepository $repository Le repository sur lequel effectuer les comptes
      * @return array                        Les données de pagination (nombre de pages, etc.)
      */
-    public function paginateData(EntityRepository $repository)
+    public function paginateData(EntityRepository $repository, array $findBy = [])
     {
         $queryBuilder = $repository->createQueryBuilder('o');
         $request = $this->request->query;
@@ -38,9 +39,9 @@ class PaginateHelper
         $sort  = $request->has('sort') ? $request->get('sort') : null;
 
         if ($sort === null) {
-            $sortBy = array('id' => 'DESC');
+            $sortBy = ['id' => 'DESC'];
         } else {
-            $sortBy = array();
+            $sortBy = [];
 
             foreach (explode(',', $sort) as $value) {
                 $order = preg_match('/^\-.*/isU', $value) ? 'DESC' : 'ASC';
@@ -49,7 +50,6 @@ class PaginateHelper
             }
         }
 
-        $findBy = array();
         foreach ($request->all() as $key => $value) {
             if ($key != 'page' && $key != 'limit' && $key != 'sort') {
                 $findBy[$key] = $value;
@@ -58,6 +58,10 @@ class PaginateHelper
 
         // On compte le nombre total d'entrées dans la BDD
         $queryBuilder->select('count(o.id)');
+        foreach ($findBy as $key => $value){
+            $queryBuilder->andWhere('o.' . $key . ' = :' . $key);
+            $queryBuilder->setParameter($key, $value);
+        }
         $count = $queryBuilder->getQuery()->getSingleScalarResult();
 
         // On vérifie que l'utilisateur ne fasse pas de connerie avec les variables
@@ -67,7 +71,7 @@ class PaginateHelper
         $page  = min($page, $totalPages);
         $page  = max($page, 1);
 
-        return array(
+        return [
             'findBy'     => $findBy,
             'sortBy'     => $sortBy,
             'limit'      => $limit,
@@ -75,7 +79,7 @@ class PaginateHelper
             'page'       => $page,
             'totalPages' => $totalPages,
             'count'      => $count
-        );
+        ];
     }
 
     /**
@@ -98,7 +102,7 @@ class PaginateHelper
 
         // On va générer les notres pour les links
         $baseUrl .= 'page=';
-        $links = array();
+        $links = [];
 
         // First
         $links[] = $baseUrl.'1'.'&limit='.$limit.'>;rel=first';
@@ -119,9 +123,10 @@ class PaginateHelper
         // Last
         $links[] = $baseUrl.$totalPages.'&limit='.$limit.'>;rel=last';
 
-        return RestView::create($results, 200, array(
-            'Links' => implode(',', $links),
-            'Total-count' => $count
-        ));
+        return [
+            $results,
+            $links,
+            $count
+        ];
     }
 }

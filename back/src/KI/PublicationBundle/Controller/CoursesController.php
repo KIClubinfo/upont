@@ -2,10 +2,11 @@
 
 namespace KI\PublicationBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use KI\CoreBundle\Controller\ResourceController;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class CoursesController extends ResourceController
@@ -14,6 +15,26 @@ class CoursesController extends ResourceController
     {
         parent::setContainer($container);
         $this->initialize('Course', 'Publication');
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Parse l'emploi du temps emploidutemps.enpc.fr",
+     *  statusCodes={
+     *   202="Requête traitée mais sans garantie de résultat",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Général"
+     * )
+     * @Route("/courses")
+     * @Method("HEAD")
+     */
+    public function parseCoursesAction()
+    {
+        $this->get('ki_publication.helper.courseparser')->updateCourses();
+        return $this->json(null, 202);
     }
 
     /**
@@ -29,6 +50,8 @@ class CoursesController extends ResourceController
      *  },
      *  section="Publications"
      * )
+     * @Route("/courses")
+     * @Method("GET")
      */
     public function getCoursesAction(Request $request)
     {
@@ -51,8 +74,15 @@ class CoursesController extends ResourceController
      *  },
      *  section="Publications"
      * )
+     * @Route("/courses/{slug}")
+     * @Method("GET")
      */
-    public function getCourseAction($slug) { return $this->getOne($slug); }
+    public function getCourseAction($slug)
+    {
+        $course =  $this->getOne($slug);
+
+        return $this->json($course);
+    }
 
     /**
      * @ApiDoc(
@@ -68,8 +98,15 @@ class CoursesController extends ResourceController
      *  },
      *  section="Publications"
      * )
+     * @Route("/courses")
+     * @Method("POST")
      */
-    public function postCourseAction() { return $this->post(); }
+    public function postCourseAction()
+    {
+        $data = $this->post();
+
+        return $this->formJson($data);
+    }
 
     /**
      * @ApiDoc(
@@ -85,8 +122,15 @@ class CoursesController extends ResourceController
      *  },
      *  section="Publications"
      * )
+     * @Route("/courses/{slug}")
+     * @Method("PATCH")
      */
-    public function patchCourseAction($slug) { return $this->patch($slug); }
+    public function patchCourseAction($slug)
+    {
+        $data = $this->patch($slug);
+
+        return $this->formJson($data);
+    }
 
     /**
      * @ApiDoc(
@@ -100,6 +144,8 @@ class CoursesController extends ResourceController
      *  },
      *  section="Publications"
      * )
+     * @Route("/courses/{slug}")
+     * @Method("DELETE")
      */
     public function deleteCourseAction($slug)
     {
@@ -111,7 +157,9 @@ class CoursesController extends ResourceController
             $this->manager->remove($courseUser);
         }
 
-        return $this->delete($slug);
+        $this->delete($slug);
+
+        return $this->json(null, 204);
     }
 
     /**
@@ -126,14 +174,16 @@ class CoursesController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route\Post("/courses/{slug}/attend")
+     * @Route("/courses/{slug}/attend")
+     * @Method("POST")
      */
-    public function postCourseUserAction($slug, Request $request) {
+    public function postCourseUserAction(Request $request, $slug)
+    {
         $course = $this->findBySlug($slug);
 
         $group = $request->request->get('group', 0);
         $this->get('ki_publication.helper.course')->linkCourseUser($course, $this->user, $group);
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -148,30 +198,15 @@ class CoursesController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route\Delete("/courses/{slug}/attend")
+     * @Route("/courses/{slug}/attend")
+     * @Method("DELETE")
      */
-    public function deleteCourseUserAction($slug) {
+    public function deleteCourseUserAction($slug)
+    {
         $course = $this->findBySlug($slug);
         $this->get('ki_publication.helper.course')->unlinkCourseUser($course, $this->user);
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
-    /**
-     * @ApiDoc(
-     *  description="Parse l'emploi du temps emploidutemps.enpc.fr",
-     *  statusCodes={
-     *   202="Requête traitée mais sans garantie de résultat",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Général"
-     * )
-     * @Route\Head("/courses")
-     */
-    public function parseCoursesAction()
-    {
-        $this->get('ki_publication.helper.courseparser')->updateCourses();
-        return $this->jsonResponse(null, 202);
-    }
+
 }

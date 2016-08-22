@@ -1,9 +1,9 @@
 <?php
 namespace KI\PonthubBundle\Selector;
 
+use KI\PonthubBundle\Transformer\StringToActorsTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use KI\PonthubBundle\Transformer\StringToActorsTransformer;
 
 class ActorsSelector extends AbstractType
 {
@@ -21,11 +21,6 @@ class ActorsSelector extends AbstractType
 
     public function getParent()
     {
-        return 'text';
-    }
-
-    public function getName()
-    {
-        return 'actors_selector';
+        return 'Symfony\Component\Form\Extension\Core\Type\TextType';
     }
 }

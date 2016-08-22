@@ -2,7 +2,10 @@
 
 namespace KI\PublicationBundle\Form;
 
+use KI\PublicationBundle\Entity\Event;
+use KI\UserBundle\Selector\ClubSelector;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -21,25 +24,25 @@ class EventType extends AbstractType
             ->add('shotgunText')
             ->add('place')
             ->add('sendMail')
-            ->add('authorClub', 'club_selector')
-            ->add('uploadedFiles', 'file', array(
+            ->add('authorClub', ClubSelector::class)
+            ->add('uploadedFiles', FileType::class, [
                     'multiple' => true,
                     'data_class' => null,
                     'required' => false,
-                )
+                ]
             )
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'KI\PublicationBundle\Entity\Event',
+        $resolver->setDefaults([
+            'data_class' => Event::class,
             'csrf_protection' => false,
-        ));
+        ]);
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return '';
     }

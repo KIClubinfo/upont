@@ -17,8 +17,8 @@ class LoadNewsitemFixture extends AbstractFixture implements OrderedFixtureInter
         $newsitem->setDate(1414242424);
         $newsitem->setAuthorClub($this->getReference('club-ki'));
         $newsitem->setAuthorUser($this->getReference('user-taquet-c'));
-        $newsitem->setLikes(array($this->getReference('user-taquet-c')));
-        $newsitem->setDislikes(array($this->getReference('user-trancara')));
+        $newsitem->setLikes([$this->getReference('user-taquet-c')]);
+        $newsitem->setDislikes([$this->getReference('user-trancara')]);
         $manager->persist($newsitem);
 
         $newsitem = new Newsitem();
@@ -44,7 +44,7 @@ class LoadNewsitemFixture extends AbstractFixture implements OrderedFixtureInter
         $newsitem->setDate(1412831521);
         $newsitem->setAuthorClub($this->getReference('club-bde'));
         $newsitem->setAuthorUser($this->getReference('user-dziris'));
-        $newsitem->setDislikes(array($this->getReference('user-trancara'), $this->getReference('user-dziris')));
+        $newsitem->setDislikes([$this->getReference('user-trancara'), $this->getReference('user-dziris')]);
         $newsitem->addComment($this->getReference('comment-genial'));
         $newsitem->addComment($this->getReference('comment-rage'));
         $newsitem->addComment($this->getReference('comment-arret'));
@@ -89,8 +89,8 @@ class LoadNewsitemFixture extends AbstractFixture implements OrderedFixtureInter
         $newsitem->setDate(time() - 21*3600);
         $newsitem->setAuthorUser($this->getReference('user-gcc'));
         $newsitem->setAuthorClub($this->getReference('club-gcc'));
-        $newsitem->setLikes(array($this->getReference('user-taquet-c')));
-        $newsitem->setDislikes(array($this->getReference('user-trancara'), $this->getReference('user-dziris')));
+        $newsitem->setLikes([$this->getReference('user-taquet-c')]);
+        $newsitem->setDislikes([$this->getReference('user-trancara'), $this->getReference('user-dziris')]);
         $newsitem->addComment($this->getReference('comment-rage'));
         $newsitem->addComment($this->getReference('comment-arret'));
         $manager->persist($newsitem);

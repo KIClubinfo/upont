@@ -82,7 +82,7 @@ angular.module('upont')
 
             $http.post($rootScope.url + 'own/user', params)
                 .success(function(){
-                    $resource(apiPrefix + 'users/:slug', {slug: $rootScope.me.username}).get(function(data){
+                    $resource(apiPrefix + 'users/:slug', {slug: $rootScope.username}).get(function(data){
                         $rootScope.me = data;
                         Achievements.check();
                     });
@@ -108,7 +108,7 @@ angular.module('upont')
             e.preventDefault();
             if (!$rootScope.me.tour)
                 return;
-            $http.patch($rootScope.url + 'users/' + $rootScope.me.username, {tour: false}).success(function(){
+            $http.patch($rootScope.url + 'users/' + $rootScope.username, {tour: false}).success(function(){
                 $rootScope.me.tour = false;
                 $rootScope.$broadcast('tourEnabled');
                 alertify.success('Tutoriel réactivé !');

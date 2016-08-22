@@ -2,10 +2,10 @@
 
 namespace KI\CoreBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use KI\CoreBundle\Controller\ResourceController;
 
 class CommentsController extends ResourceController
 {
@@ -27,8 +27,15 @@ class CommentsController extends ResourceController
      *  },
      *  section="Likeable"
      * )
+     * @Route("/comments/{slug}")
+     * @Method("GET")
      */
-    public function getCommentAction($slug) { return $this->getOne($slug); }
+    public function getCommentAction($slug)
+    {
+        $comment = $this->getOne($slug);
+
+        return $this->json($comment);
+    }
 
     /**
      * @ApiDoc(
@@ -42,14 +49,15 @@ class CommentsController extends ResourceController
      *  },
      *  section="Likeable"
      * )
-     * @Route\Get("/{object}/{slug}/comments")
+     * @Route("/{object}/{slug}/comments")
+     * @Method("GET")
      */
     public function getCommentsAction($object, $slug)
     {
         $this->trust($this->is('USER'));
         $this->autoInitialize($object);
         $item = $this->findBySlug($slug);
-        return $this->restResponse($item->getComments());
+        return $this->json($item->getComments());
     }
 
     /**
@@ -64,14 +72,15 @@ class CommentsController extends ResourceController
      *  },
      *  section="Likeable"
      * )
-     * @Route\Get("/{object}/{slug}/{subobject}/{subslug}/comments")
+     * @Route("/{object}/{slug}/{subobject}/{subslug}/comments")
+     * @Method("GET")
      */
     public function getCommentsSubAction($object, $slug, $subobject, $subslug)
     {
         $this->trust($this->is('USER'));
         $this->autoInitialize($subobject);
         $item = $this->findBySlug($subslug);
-        return $this->restResponse($item->getComments());
+        return $this->json($item->getComments());
     }
 
     /**
@@ -94,19 +103,20 @@ class CommentsController extends ResourceController
      *  },
      *  section="Likeable"
      * )
-     * @Route\Post("/{object}/{slug}/comments")
+     * @Route("/{object}/{slug}/comments")
+     * @Method("POST")
      */
     public function postCommentAction($object, $slug)
     {
-        $return = $this->postData($this->is('USER') && !$this->is('EXTERIEUR'));
+        $data = $this->post($this->is('USER') && !$this->is('EXTERIEUR'));
 
-        if ($return['code'] == 201) {
+        if ($data['code'] == 201) {
             $this->autoInitialize($object);
             $item = $this->findBySlug($slug);
-            $item->addComment($return['item']);
+            $item->addComment($data['item']);
         }
         $this->initialize('Comment', 'Core');
-        return $this->postView($return);
+        return $this->formJson($data);
     }
 
     /**
@@ -122,7 +132,8 @@ class CommentsController extends ResourceController
      *  },
      *  section="Likeable"
      * )
-     * @Route\Post("/{object}/{slug}/{subobject}/{subslug}/comments")
+     * @Route("/{object}/{slug}/{subobject}/{subslug}/comments")
+     * @Method("POST")
      */
     public function postCommentSubAction($object, $slug, $subobject, $subslug)
     {
@@ -150,12 +161,16 @@ class CommentsController extends ResourceController
      *  },
      *  section="Likeable"
      * )
-     * @Route\Patch("/comments/{id}")
+     * @Route("/comments/{id}")
+     * @Method("PATCH")
      */
     public function patchCommentAction($id)
     {
         $comment = $this->findBySlug($id);
-        return $this->patch($id, !$this->is('ADMIN') && $this->user != $comment->getAuthor());
+
+        $data = $this->patch($id, !$this->is('ADMIN') && $this->user != $comment->getAuthor());
+
+        return $this->formJson($data);
     }
 
     /**
@@ -171,10 +186,14 @@ class CommentsController extends ResourceController
      *  },
      *  section="Likeable"
      * )
+     * @Route("/comments/{id}")
+     * @Method("DELETE")
      */
     public function deleteCommentAction($id)
     {
         $comment = $this->findBySlug($id);
-        return $this->delete($id, !$this->is('ADMIN') && $this->user != $comment->getAuthor());
+        $this->delete($id, !$this->is('ADMIN') && $this->user != $comment->getAuthor());
+
+        return $this->json(null, 204);
     }
 }

@@ -1,13 +1,13 @@
 <?php
 namespace KI\UserBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
-use DateTime;
+use KI\CoreBundle\Repository\ResourceRepository;
+use KI\UserBundle\Entity\User;
 
 /**
  * Class UserRepository
  */
-class UserRepository extends EntityRepository
+class UserRepository extends ResourceRepository
 {
     /**
      * @param  int $userId
@@ -64,6 +64,35 @@ class UserRepository extends EntityRepository
         ')
             ->setParameter('now', time())
             ->setParameter('userId', $userId)
+            ->getResult();
+    }
+
+    public function getDebtsIterator()
+    {
+        $this->createQueryBuilder('u')
+            ->select('u.username, u.email, u.promo, u.firstName, u.lastName, u.balance')
+            ->where('u.balance < 0')
+            ->orderBy('u.balance')
+            ->getQuery()
+            ->iterate();
+    }
+
+    public function getUserClubs(User $user)
+    {
+        return $this->getEntityManager()->createQuery('SELECT cu, club
+            FROM KIUserBundle:ClubUser cu
+            JOIN cu.club club
+            WHERE cu.user = :user
+        ')
+            ->setParameter('user', $user)
+            ->getResult();
+    }
+
+    public function getOnlineUsers($delay = 30) {
+        return $this->createQueryBuilder('u')
+            ->where('u.lastConnect > :date')
+            ->setParameter('date', time() - $delay * 60)
+            ->getQuery()
             ->getResult();
     }
 }

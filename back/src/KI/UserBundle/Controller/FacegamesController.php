@@ -2,13 +2,14 @@
 
 namespace KI\UserBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
+use KI\CoreBundle\Controller\ResourceController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use KI\CoreBundle\Controller\ResourceController;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class FacegamesController extends ResourceController
 {
@@ -30,6 +31,8 @@ class FacegamesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/facegames")
+     * @Method("GET")
      */
     public function getFacegamesAction()
     {
@@ -48,10 +51,14 @@ class FacegamesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/facegames/{slug}")
+     * @Method("GET")
      */
     public function getFacegameAction($slug)
     {
-        return $this->getOne($slug);
+        $facegame = $this->getOne($slug);
+
+        return $this->json($facegame);
     }
 
     /**
@@ -67,20 +74,22 @@ class FacegamesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/facegames")
+     * @Method("POST")
      */
     public function postFacegameAction()
     {
-        $return = $this->postData($this->is('USER'));
+        $data = $this->post($this->is('USER'));
 
-        if ($return['code'] == 201) {
+        if ($data['code'] == 201) {
             $facegameHelper = $this->get('ki_user.helper.facegame');
 
-            if (!$facegameHelper->fillUserList($return['item'])) {
-                $this->manager->detach($return['item']);
-                return $this->restResponse($return['item'], 400);
+            if (!$facegameHelper->fillUserList($data['item'])) {
+                $this->manager->detach($data['item']);
+                return $this->json($data['item'], 400);
             }
         }
-        return $this->postView($return);
+        return $this->formJson($data);
     }
 
     /**
@@ -97,6 +106,8 @@ class FacegamesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/facegames/{slug}")
+     * @Method("PATCH")
      */
     public function patchFacegameAction(Request $request, $slug)
     {
@@ -109,7 +120,7 @@ class FacegamesController extends ResourceController
         $facegameHelper = $this->get('ki_user.helper.facegame');
         $facegameHelper->endGame($facegame, $request->request->get('wrongAnswers'), $request->request->get('duration'));
 
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -124,12 +135,17 @@ class FacegamesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/statistics/facegame")
+     * @Route("/statistics/facegame")
+     * @Method("GET")
      */
     public function getGlobalStatisticsAction()
     {
-        $facegameStatisticsHelper = $this->get('ki_user.helper.facegame_statistics');
-        return $this->jsonResponse($facegameStatisticsHelper->globalStatistics());
+        return $this->json([
+            'totalNormal'        => $this->repository->getNormalGamesCount(),
+            'totalHardcore'      => $this->repository->getHardcoreGamesCount(),
+            'normalHighscores'   => $this->repository->getNormalHighscores(),
+            'hardcoreHighscores' => $this->repository->getHardcoreHighscores(),
+        ]);
     }
 
     /**
@@ -144,7 +160,8 @@ class FacegamesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/statistics/facegame/{slug}")
+     * @Route("/statistics/facegame/{slug}")
+     * @Method("GET")
      */
     public function getUserStatisticsAction($slug)
     {
@@ -155,7 +172,11 @@ class FacegamesController extends ResourceController
             throw new NotFoundHttpException('Utilisateur non trouvé');
         }
 
-        $facegameStatisticsHelper = $this->get('ki_user.helper.facegame_statistics');
-        return $this->jsonResponse($facegameStatisticsHelper->userStatistics($user));
+        return $this->json([
+            'totalNormal'        => $this->repository->getUserGamesCount($user, 0),
+            'totalHardcore'      => $this->repository->getUserGamesCount($user, 1),
+            'normalHighscores'   => $this->repository->getUserHighscores($user, 0),
+            'hardcoreHighscores' => $this->repository->getUserHighscores($user, 1),
+        ]);
     }
 }

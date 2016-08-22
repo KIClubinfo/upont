@@ -1,10 +1,10 @@
 <?php
 namespace KI\CoreBundle\Selector;
 
+use KI\CoreBundle\Transformer\StringToImageTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use KI\CoreBundle\Transformer\StringToImageTransformer;
 
 class ImageSelector extends AbstractType
 {
@@ -22,18 +22,13 @@ class ImageSelector extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'invalid_message' => 'L\'image selectionnee n existe pas',
-        ));
+        ]);
     }
 
     public function getParent()
     {
-        return 'text';
-    }
-
-    public function getName()
-    {
-        return 'image_selector';
+        return 'Symfony\Component\Form\Extension\Core\Type\TextType';
     }
 }

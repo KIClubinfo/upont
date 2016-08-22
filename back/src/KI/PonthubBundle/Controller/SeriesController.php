@@ -2,8 +2,9 @@
 
 namespace KI\PonthubBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class SeriesController extends PonthubFileController
@@ -27,8 +28,13 @@ class SeriesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
+     * @Route("/series")
+     * @Method("GET")
      */
-    public function getSeriesAction() { return $this->getAll(); }
+    public function getSeriesAction()
+    {
+        return $this->getAll();
+    }
 
     /**
      * @ApiDoc(
@@ -43,8 +49,15 @@ class SeriesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
+     * @Route("/series/{slug}")
+     * @Method("GET")
      */
-    public function getSerieAction($slug) { return $this->getOne($slug); }
+    public function getSerieAction($slug)
+    {
+        $serie = $this->getOne($slug);
+
+        return $this->json($serie);
+    }
 
     /**
      * @ApiDoc(
@@ -60,10 +73,14 @@ class SeriesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
+     * @Route("/series/{slug}")
+     * @Method("PATCH")
      */
     public function patchSerieAction($slug)
     {
-        return $this->patch($slug, $this->is('JARDINIER'));
+        $data = $this->patch($slug, $this->is('JARDINIER'));
+
+        return $this->formJson($data);
     }
 
     /**
@@ -78,10 +95,14 @@ class SeriesController extends PonthubFileController
      *  },
      *  section="Publications"
      * )
+     * @Route("/series/{slug}")
+     * @Method("DELETE")
      */
     public function deleteSerieAction($slug)
     {
-        return $this->delete($slug, $this->is('JARDINIER'));
+        $this->delete($slug, $this->is('JARDINIER'));
+
+        return $this->json(null, 204);
     }
 
     /**
@@ -97,8 +118,15 @@ class SeriesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
+     * @Route("/series/{slug}/episodes")
+     * @Method("GET")
      */
-    public function getSerieEpisodesAction($slug) { return $this->getAllSub($slug, 'Episode'); }
+    public function getSerieEpisodesAction($slug)
+    {
+        $episodes =  $this->getAllSub($slug, 'Episode');
+
+        return $this->json($episodes);
+    }
 
     /**
      * @ApiDoc(
@@ -113,8 +141,15 @@ class SeriesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
+     * @Route("/series/{slug}/episodes/{id}")
+     * @Method("GET")
      */
-    public function getSerieEpisodeAction($slug, $id) { return $this->getOneSub($slug, 'Episode', $id); }
+    public function getSerieEpisodeAction($slug, $id)
+    {
+        $episode =  $this->getOneSub($slug, 'Episode', $id);
+
+        return $this->json($episode);
+    }
 
     /**
      * @ApiDoc(
@@ -130,10 +165,14 @@ class SeriesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
+     * @Route("/series/{slug}/episodes/{id}")
+     * @Method("PATCH")
      */
     public function patchSerieEpisodeAction($slug, $id)
     {
-        return $this->patchSub($slug, 'Episode', $id, $this->is('JARDINIER'));
+        $data = $this->patchSub($slug, 'Episode', $id, $this->is('JARDINIER'));
+
+        return $this->formJson($data);
     }
 
     /**
@@ -148,11 +187,13 @@ class SeriesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route\Get("/series/{slug}/episodes/{id}/download")
+     * @Route("/series/{slug}/episodes/{id}/download")
+     * @Method("GET")
      */
     public function downloadEpisodeAction($slug, $id)
     {
-        $item = $this->getOneSub($slug, 'Episode', $id);
-        return $this->download($item);
+        $episode = $this->getOneSub($slug, 'Episode', $id);
+
+        return $this->download($episode);
     }
 }

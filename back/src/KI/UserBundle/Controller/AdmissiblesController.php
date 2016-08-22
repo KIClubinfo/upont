@@ -2,9 +2,11 @@
 
 namespace KI\UserBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use KI\CoreBundle\Controller\ResourceController;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class AdmissiblesController extends ResourceController
 {
@@ -26,16 +28,15 @@ class AdmissiblesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/admissibles")
+     * @Method("GET")
      */
     public function getAdmissiblesAction()
     {
         // On charge tous les admissibles
-        $admissibles = $this->repository->createQueryBuilder('admissible')
-            ->where('admissible.year = :year')
-            ->setParameter('year', strftime('%Y'))
-            ->getQuery()->getResult();
+        $admissibles = $this->repository->getCurrentYearAdmissibles();
 
-        return $admissibles;
+        return $this->json($admissibles);
     }
 
     /**
@@ -50,8 +51,15 @@ class AdmissiblesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/admissibles/{slug}")
+     * @Method("GET")
      */
-    public function getAdmissibleAction($slug) { return $this->getOne($slug); }
+    public function getAdmissibleAction($slug)
+    {
+        $admissible = $this->getOne($slug);
+
+        return $this->json($admissible);
+    }
 
     /**
      * @ApiDoc(
@@ -66,15 +74,18 @@ class AdmissiblesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/admissibles")
+     * @Method("POST")
      */
-    public function postAdmissibleAction() {
-        $return = $this->postData(true);
+    public function postAdmissibleAction()
+    {
+        $data = $this->post(true);
 
-        if ($return['code'] == 201) {
-            $this->get('ki_user.listener.admissible')->postPersist($return['item']);
+        if ($data['code'] == 201) {
+            $this->get('ki_user.listener.admissible')->postPersist($data['item']);
         }
 
-        return $this->postView($return);
+        return $this->formJson($data);
     }
 
     /**
@@ -91,8 +102,15 @@ class AdmissiblesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/admissibles/{slug}")
+     * @Method("PATCH")
      */
-    public function patchAdmissibleAction($slug) { return $this->patch($slug); }
+    public function patchAdmissibleAction($slug)
+    {
+        $data = $this->patch($slug);
+
+        return $this->formJson($data);
+    }
 
     /**
      * @ApiDoc(
@@ -106,6 +124,13 @@ class AdmissiblesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/admissibles/{slug}")
+     * @Method("DELETE")
      */
-    public function deleteAdmissibleAction($slug) { return $this->delete($slug); }
+    public function deleteAdmissibleAction($slug)
+    {
+        $this->delete($slug);
+
+        return $this->json(null, 204);
+    }
 }

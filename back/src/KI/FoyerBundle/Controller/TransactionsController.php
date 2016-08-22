@@ -2,9 +2,10 @@
 
 namespace KI\FoyerBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use KI\CoreBundle\Controller\ResourceController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -30,7 +31,8 @@ class TransactionsController extends ResourceController
      *  },
      *  section="Foyer"
      * )
-     * @Route\Get("/transactions")
+     * @Route("/transactions")
+     * @Method("GET")
      */
     public function getTransactionsAction()
     {
@@ -49,7 +51,8 @@ class TransactionsController extends ResourceController
      *  },
      *  section="Foyer"
      * )
-     * @Route\Get("/userbeers")
+     * @Route("/userbeers")
+     * @Method("GET")
      */
     public function getUserBeersAction()
     {
@@ -57,7 +60,7 @@ class TransactionsController extends ResourceController
 
         $helper = $this->get('ki_foyer.helper.beer');
         $users = $helper->getUserOrderedList();
-        return $this->restResponse($users);
+        return $this->json($users);
     }
 
     /**
@@ -72,7 +75,8 @@ class TransactionsController extends ResourceController
      *  },
      *  section="Foyer"
      * )
-     * @Route\Get("/users/{slug}/transactions")
+     * @Route("/users/{slug}/transactions")
+     * @Method("GET")
      */
     public function getUserTransactionsAction($slug)
     {
@@ -81,12 +85,16 @@ class TransactionsController extends ResourceController
 
         $this->trust($this->isClubMember('foyer') || $this->is('ADMIN') || $this->user == $user);
 
-
         $paginateHelper = $this->get('ki_core.helper.paginate');
-        extract($paginateHelper->paginateData($this->repository));
+        extract($paginateHelper->paginateData($this->repository, ['user' => $user]));
 
-        $results = $this->repository->findBy(array('user' => $user), $sortBy, $limit, $offset);
-        return $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
+        $transactions = $this->repository->findBy($findBy, $sortBy, $limit, $offset);
+        list($results, $links, $count) = $paginateHelper->paginateView($transactions, $limit, $page, $totalPages, $count);
+
+        return $this->json($transactions, 200, [
+            'Links' => implode(',', $links),
+            'Total-count' => $count
+        ]);
     }
 
 
@@ -123,7 +131,8 @@ class TransactionsController extends ResourceController
      *  },
      *  section="Foyer"
      * )
-     * @Route\Post("/transactions")
+     * @Route("/transactions")
+     * @Method("POST")
      */
     public function postTransactionAction(Request $request)
     {
@@ -143,7 +152,7 @@ class TransactionsController extends ResourceController
             $id = $helper->addCreditTransaction($request->request->get('user'), $request->request->get('credit'));
         }
 
-        return $this->jsonResponse($id, 201);
+        return $this->json($id, 201);
     }
 
     /**
@@ -158,6 +167,8 @@ class TransactionsController extends ResourceController
      *  },
      *  section="Foyer"
      * )
+     * @Route("/transactions/{id}")
+     * @Method("DELETE")
      */
     public function deleteTransactionAction($id)
     {
@@ -165,8 +176,10 @@ class TransactionsController extends ResourceController
 
         $transaction = $this->findBySlug($id);
         $helper = $this->get('ki_foyer.helper.transaction');
-        $helper->updateBalance($transaction->getUser(), -1*$transaction->getAmount());
+        $helper->updateBalance($transaction->getUser(), -1 * $transaction->getAmount());
 
-        return $this->delete($id, $this->isClubMember('foyer'));
+        $this->delete($id, $this->isClubMember('foyer'));
+
+        return $this->json(null, 204);
     }
 }

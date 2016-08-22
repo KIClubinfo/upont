@@ -2,12 +2,12 @@
 
 namespace KI\PublicationBundle\Listener;
 
+use Doctrine\ORM\EntityRepository;
 use KI\PublicationBundle\Entity\Exercice;
+use KI\UserBundle\Entity\Achievement;
+use KI\UserBundle\Event\AchievementCheckEvent;
 use KI\UserBundle\Service\NotifyService;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use KI\UserBundle\Event\AchievementCheckEvent;
-use KI\UserBundle\Entity\Achievement;
-use Doctrine\ORM\EntityRepository;
 
 class ExerciceListener
 {
@@ -31,8 +31,8 @@ class ExerciceListener
 
         // On crée une notification
         $course = $exercice->getCourse();
-        $courseUsers = $this->courseUserRepository->findBy(array('course' => $course));
-        $users = array();
+        $courseUsers = $this->courseUserRepository->findBy(['course' => $course]);
+        $users = [];
 
         foreach ($courseUsers as $courseUser) {
             $users[] = $courseUser->getUser();

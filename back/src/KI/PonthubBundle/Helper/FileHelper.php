@@ -5,11 +5,11 @@ namespace KI\PonthubBundle\Helper;
 use Doctrine\ORM\EntityManager;
 use KI\PonthubBundle\Entity\Episode;
 use KI\PonthubBundle\Entity\Game;
+use KI\PonthubBundle\Entity\Genre;
 use KI\PonthubBundle\Entity\Movie;
 use KI\PonthubBundle\Entity\Other;
 use KI\PonthubBundle\Entity\Serie;
 use KI\PonthubBundle\Entity\Software;
-use KI\PonthubBundle\Entity\Genre;
 
 /**
  * Class FileHelper

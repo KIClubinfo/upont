@@ -1,11 +1,11 @@
 <?php
 namespace KI\CoreBundle\Transformer;
 
-use Symfony\Component\Form\DataTransformerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use KI\CoreBundle\Entity\Tag;
+use Symfony\Component\Form\DataTransformerInterface;
 
 class StringToTagsTransformer implements DataTransformerInterface
 {

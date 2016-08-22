@@ -2,17 +2,17 @@
 
 namespace KI\CoreBundle\Controller;
 
-use KI\UserBundle\Controller\CoreController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 // Fonctions génériques
-class BaseController extends CoreController
+abstract class BaseController extends CoreController
 {
     protected $class;
     protected $bundle;
     protected $className;
+    /**
+     * @var \Doctrine\ORM\EntityManager
+     */
     protected $manager;
     /**
      * @var \Doctrine\ORM\EntityRepository
@@ -55,46 +55,6 @@ class BaseController extends CoreController
 
         // À priori, une sous ressource garde le même namespace
         $this->initialize($class, $this->bundle);
-    }
-
-    /**
-     * Génère une réponse au format JSON en parsant les propriétés avec le FOSRestBundle
-     * @param  mixed $data    Le contenu à renvoyer
-     * @param  int   $code    Le code d'erreur HTTP à renvoyer
-     * @param  array $headers Des headers spécifiques si nécéssaire
-     * @return Response
-     */
-    public function restResponse($data, $code = 200, array $headers = array())
-    {
-        return new Response(
-            $this->get('jms_serializer')->serialize($data, 'json'),
-            $code,
-            $headers
-        );
-    }
-
-    /**
-     * Génère une réponse au format JSON en parsant les propriétés avec le FOSRestBundle
-     * @param  mixed $data    Le contenu à renvoyer
-     * @param  int   $code    Le code d'erreur HTTP à renvoyer
-     * @param  array $headers Des headers spécifiques si nécéssaire
-     * @return JsonResponse
-     */
-    public function jsonResponse($data, $code = 200, $headers = array())
-    {
-        return new JsonResponse($data, $code, $headers);
-    }
-
-    /**
-     * Génère une réponse plain text
-     * @param  mixed $data    Le contenu à renvoyer
-     * @param  int   $code    Le code d'erreur HTTP à renvoyer
-     * @param  array $headers Des headers spécifiques si nécéssaire
-     * @return Response
-     */
-    public function htmlResponse($data, $code = 200, array $headers = array())
-    {
-        return new Response($data, $code, $headers);
     }
 
     /**

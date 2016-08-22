@@ -2,10 +2,11 @@
 
 namespace KI\ClubinfoBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use KI\CoreBundle\Controller\ResourceController;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class FixsController extends ResourceController
 {
@@ -28,8 +29,13 @@ class FixsController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
+     * @Route("/fixs")
+     * @Method("GET")
      */
-    public function getFixsAction() { return $this->getAll(); }
+    public function getFixsAction()
+    {
+        return $this->getAll();
+    }
 
     /**
      * @ApiDoc(
@@ -44,9 +50,15 @@ class FixsController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route\Get("/fixs/{slug}")
+     * @Route("/fixs/{slug}")
+     * @Method("GET")
      */
-    public function getFixAction($slug) { return $this->getOne($slug); }
+    public function getFixAction($slug)
+    {
+        $fix = $this->getOne($slug);
+
+        return $this->json($fix);
+    }
 
     /**
      * @ApiDoc(
@@ -62,11 +74,14 @@ class FixsController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route\Post("/fixs")
+     * @Route("/fixs")
+     * @Method("POST")
      */
     public function postFixAction()
     {
-        return $this->post($this->get('security.context')->isGranted('ROLE_USER'));
+        $data = $this->post($this->is('USER'));
+
+        return $this->formJson($data);
     }
 
     /**
@@ -83,11 +98,12 @@ class FixsController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route\Patch("/fixs/{slug}")
+     * @Route("/fixs/{slug}")
+     * @Method("PATCH")
      */
     public function patchFixAction($slug)
     {
-        $fix = $this->findBySlug($slug);
+        $fix = $this->getOne($slug);
 
         if ($fix->getFix()) {
             $this->get('ki_user.service.notify')->notify(
@@ -95,10 +111,12 @@ class FixsController extends ResourceController
                 'Demande de dépannage',
                 'Ta demande de dépannage a été actualisée par le KI !',
                 'to',
-                array($fix->getUser())
+                [$fix->getUser()]
             );
         }
-        return $this->patch($slug);
+        $data = $this->patch($slug);
+
+        return $this->formJson($data);
     }
 
     /**
@@ -113,12 +131,14 @@ class FixsController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route\Delete("/fixs/{slug}")
+     * @Route("/fixs/{slug}")
+     * @Method("DELETE")
      */
     public function deleteFixAction($slug)
     {
-        $fix = $this->findBySlug($slug);
-        $user = $this->get('security.context')->getToken()->getUser();
-        return $this->delete($slug, $user->getUsername() == $fix->getUser()->getUsername());
+        $fix = $this->getOne($slug);
+        $this->delete($slug, $this->user->getUsername() == $fix->getUser()->getUsername());
+
+        return $this->json(null, 204);
     }
 }

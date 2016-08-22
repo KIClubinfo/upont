@@ -2,6 +2,7 @@
 
 namespace KI\FoyerBundle\Form;
 
+use KI\FoyerBundle\Entity\Youtube;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,13 +19,13 @@ class YoutubeType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_protection' => false,
-            'data_class' => 'KI\FoyerBundle\Entity\Youtube'
-        ));
+            'data_class' => Youtube::class
+        ]);
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return '';
     }

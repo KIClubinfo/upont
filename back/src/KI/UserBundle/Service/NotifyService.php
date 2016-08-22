@@ -23,7 +23,7 @@ class NotifyService
     }
 
     // Persiste des objets notification qui seront retrievables
-    public function notify($reason, $title, $message, $mode = 'to', $recipient = array(), $resource = '')
+    public function notify($reason, $title, $message, $mode = 'to', $recipient = [], $resource = '')
     {
         $notification = new Notification($reason, $title, $message, $mode, $resource);
 
@@ -57,7 +57,7 @@ class NotifyService
     private function pushToCloud(Notification $notification)
     {
         $devices = $this->deviceRepository->findAll();
-        $sendToAndroid = array();
+        $sendToAndroid = [];
 
         // Si le mode d'envoi est direct, on envoie aux utilisateurs qui ont
         // enregistré un ou plusieurs Devices

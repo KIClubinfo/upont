@@ -2,6 +2,8 @@
 
 namespace KI\FoyerBundle\Form;
 
+use KI\CoreBundle\Selector\ImageSelector;
+use KI\FoyerBundle\Entity\Beer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,19 +17,19 @@ class BeerType extends AbstractType
             ->add('price')
             ->add('alcohol')
             ->add('volume')
-            ->add('image', 'image_selector')
+            ->add('image', ImageSelector::class)
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_protection' => false,
-            'data_class' => 'KI\FoyerBundle\Entity\Beer'
-        ));
+            'data_class' => Beer::class
+        ]);
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return '';
     }

@@ -1,97 +1,79 @@
 <div class="padded" row="space-between start" wrap>
 	<section flex="100" flex-md="66">
-		<section class="Ticket">
+		<div class="Ticket">
 			<h2>Paniers Fruits et Légumes</h2>
 
 			<p>Les paniers sont à chercher tous les jeudis !</p>
-		</section>
-
-		<section row wrap ng-if="!ordering">
-			<article class="Ticket" ng-repeat="item in baskets" flex="100" flex-md="50">
-	        	<h3>{{ item.name }}</h3>
-	        	<p>{{ item.content }}</p>
-
-	        	<div row="end stretch">Prix : {{ item.price }} €</div>
-	        </article>
-
-	        <div row="end stretch" flex="100">
-	        	<button class="Button" ng-click="order()">Commander</button>
-	        </div>
-        </section>
-
-		<form ng-show="ordering" ng-submit="post(firstName, lastName, email, phone)" flex="100" row wrap>
-			<section class="Ticket" flex="100" flex-md="50" ng-repeat="day in thursdays track by $index">
-				<article ng-if="holidays.indexOf(day.getTime()) == -1">
-					<h3>Jeudi {{ day.getDate() }} {{ months[day.getMonth()] }} {{ day.getFullYear() }}</h3>
-
-					<br>
-					<div ng-repeat="item in baskets">
-						<input type="checkbox" value="item.slug" ng-model="basketOrders[$parent.$index][$index]"> {{ item.name }} <em>({{ item.price }} €)</em><br>
-					</div>
-				</article>
-
-				<article ng-if="holidays.indexOf(day.getTime()) > -1">
-					<h3>Jeudi {{ day.getDate() }} {{ months[day.getMonth()] }} {{ day.getFullYear() }}</h3>
-
-					<br>
-					<p><em>Vacances</em></p>
-				</article>
-			</section>
-
-
-	        <section class="Ticket" flex="100">
-	        	<h3>Informations personnelles</h3>
-	        	<br>
-
-	        	<article row wrap>
-		        	<div class="padded" flex="50" flex-md="25">
-	            		Prénom
-	        		</div>
-			        <div class="padded" flex="50" flex-md="25">
-			            <input class="Input" type="text" ng-model="firstName">
-			        </div>
-
-			        <div class="padded" flex="50" flex-md="25">
-	            		Nom
-	        		</div>
-			        <div class="padded" flex="50" flex-md="25">
-			            <input class="Input" type="text" ng-model="lastName">
-			        </div>
-
-			        <div class="padded" flex="50" flex-md="25">
-	            		Email
-	        		</div>
-			        <div class="padded" flex="50" flex-md="25">
-			            <input class="Input" type="text" ng-model="email" placeholder="prenom.nom@eleves.enpc.fr">
-			        </div>
-
-			        <div class="padded" flex="50" flex-md="25">
-	            		Téléphone
-	        		</div>
-			        <div class="padded" flex="50" flex-md="25">
-			            <input class="Input" type="text" ng-model="phone" placeholder="06.xx.xx.xx.xx, +336.xx.xx.xx.xx">
-			        </div>
-			    </article>
-
-	        </section>
-
-			<div row="end stretch" flex="100">
-	        	<button class="Button">Commander</button>
-	        </div>
-		</form>
-	</section>
-
-	<section flex="100" flex-md="33">
-		<section class="Ticket">
-			<h2>Mes commandes</h2>
-		</section>
-
-		<div ng-repeat="item in orders | orderBy:'date_retrieve'" class="Ticket">
-			<h3>{{ item.basket.name }}</h3>
-			<p>A retirer le <b>Jeudi {{ item.date_retrieve*1000 | date:'dd/MM/yyyy' }}</b></p>
-			<p>Payé : <span ng-if="item.paid">Oui</span><span ng-if="!item.paid">Non</span></p>
 		</div>
 
-		<div ng-if="orders.length == 0" class="Ticket"><em>Rien à afficher</em></div>
+        <form ng-submit="post(firstName, lastName, email, phone)" flex="100">
+            <section class="Ticket" flex="100">
+                <table class="Table Table--center" flex="100">
+                    <thead>
+                        <tr>
+                            <th>Panier</th>
+                            <th ng-repeat="day in thursdays">{{ day.format('ddd DD MMM YYYY') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="basket in baskets">
+                            <td>{{ basket.name }} </td>
+                            <td ng-repeat="day in thursdays">
+                                <input type="checkbox"
+                                       ng-model="basketOrders[basket.slug][day.format('YYYY-MM-DD')].ordered"
+                                       ng-disabled="basketOrders[basket.slug][day.format('YYYY-MM-DD')].disabled"
+                                >
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <div row="end stretch" flex="100">
+                <button class="Button">Commander</button>
+            </div>
+        </form>
 	</section>
+
+	<div flex="100" flex-md="33">
+        <section class="Ticket">
+            <h2>Les paniers</h2>
+
+            <div ng-repeat="item in baskets" flex="100">
+                <hr>
+                <div class="padded">
+                    <h3>{{ item.name }}</h3>
+                    <p>{{ item.content }}</p>
+
+                    <div row="end stretch">Prix : {{ item.price }} €</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="Ticket">
+            <h2>Mes commandes à venir</h2>
+
+            <div ng-repeat="order in orders | filter:after | orderBy:'date_retrieve'" flex="100">
+                <hr>
+                <div class="padded">
+                    <h3>{{ order.basket.name }}</h3>
+                    <p>À retirer le <b>{{ order.date_retrieve.format('dddd DD MMMM YYYY') }}</b></p>
+                    <p>Payé : {{ order.paid ? 'Oui' : 'Non' }}</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="Ticket">
+            <h2>Mes commandes passées</h2>
+
+            <div ng-repeat="order in orders | filter:before | orderBy:'date_retrieve':reverse" flex="100">
+                <hr>
+                <div class="padded">
+                    <h3>{{ order.basket.name }}</h3>
+                    <p>À retirer le <b>{{ order.date_retrieve.format('dddd DD MMMM YYYY') }}</b></p>
+                    <p>Payé : {{ order.paid ? 'Oui' : 'Non' }}</p>
+                </div>
+            </div>
+        </section>
+	</div>
 </div>

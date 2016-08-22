@@ -21,10 +21,10 @@ class PermissionService
      */
     public function isClubMember(User $user, Club $club)
     {
-        $clubUser = $this->clubUserRepository->findOneBy(array(
+        $clubUser = $this->clubUserRepository->findOneBy([
             'user' => $user,
             'club' => $club
-        ));
+        ]);
 
         return (bool)$clubUser;
     }

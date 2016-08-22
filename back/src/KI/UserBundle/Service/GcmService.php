@@ -18,26 +18,26 @@ class GcmService
 
     public function push(Notification $notification, array $to)
     {
-        $message = array(
+        $message = [
             'title'   => $notification->getTitle(),
             'message' => $notification->getMessage(),
             'vibrate' => 1,
             'sound'   => 1
-        );
+        ];
 
-        $fields = array(
+        $fields = [
             'registration_ids' => $to,
             'data'             => $message
-        );
+        ];
 
-        $headers = array(
+        $headers = [
             'Authorization: key='.$this->gcmKey,
             'Content-Type: application/json'
-        );
+        ];
 
-        $this->curlService->curl('https://android.googleapis.com/gcm/send', json_encode($fields), array(
+        $this->curlService->curl('https://android.googleapis.com/gcm/send', json_encode($fields), [
             CURLOPT_HTTPHEADER => $headers,
             CURLOPT_HEADER     => true
-        ));
+        ]);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace KI\CoreBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
+use Symfony\Component\HttpFoundation\Response;
 
 // Fonctions générales pour servir une ressource de type REST, CommentsController en est un exemple
 class ResourceController extends LikeableController
@@ -11,7 +11,6 @@ class ResourceController extends LikeableController
      * Route GET (liste) générique
      * @param  boolean $auth Un override éventuel pour le check des permissions
      * @return Response
-     * @Route\View()
      */
     public function getAll($auth = false)
     {
@@ -21,20 +20,25 @@ class ResourceController extends LikeableController
         extract($paginateHelper->paginateData($this->repository));
 
         $results = $this->repository->findBy($findBy, $sortBy, $limit, $offset);
-        return $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
+        list($results, $links, $count) = $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
+
+        return $this->json($results, 200, [
+            'Links' => implode(',', $links),
+            'Total-count' => $count
+        ]);
     }
 
     /**
      * Route GET générique
      * @param  string  $slug Le slug de l'entité à récupérer
      * @param  boolean $auth Un override éventuel pour le check des permissions
-     * @return Response
-     * @Route\View()
+     * @return object
      */
     protected function getOne($slug, $auth = false)
     {
         $this->trust(!$this->is('EXTERIEUR') || $auth);
-        return $this->findBySlug($slug);
+        $item =  $this->findBySlug($slug);
+        return $item;
     }
 
     /**
@@ -42,58 +46,32 @@ class ResourceController extends LikeableController
      * @param  boolean $auth Un override éventuel pour le check des permissions
      * @return array         Le formulaire traité
      */
-    protected function postData($auth = false)
+    protected function post($auth = false, $flush = true)
     {
         $this->trust($this->is('MODO') || $auth);
         $formHelper = $this->get('ki_core.helper.form');
-        return $formHelper->formData(new $this->class(), 'POST');
-    }
-
-    /**
-     * Permet d'afficher un formulaire une fois celui-ci validé
-     * @param  array  $data   Le formulaire validé
-     * @param  object $parent L'objet parent si appliquable
-     * @return Response
-     */
-    protected function postView($data, $parent = null)
-    {
-        $formHelper = $this->get('ki_core.helper.form');
-        return $formHelper->formView($data, $parent);
-    }
-
-    /**
-     * Route POST générique effectuant directement validation et affichage
-     * @param  boolean $auth Un override éventuel pour le check des permissions
-     * @return Response
-     * @Route\View()
-     */
-    protected function post($auth = false)
-    {
-        return $this->postView($this->postData($auth));
+        return $formHelper->formData(new $this->class(), 'POST', $flush);
     }
 
     /**
      * Route PATCH générique
      * @param  string  $slug Le slug de l'entité à modifier
      * @param  boolean $auth Un override éventuel pour le check des permissions
-     * @return Response
-     * @Route\View()
+     * @return array
      */
-    protected function patch($slug, $auth = false)
+    protected function patch($slug, $auth = false, $flush = true)
     {
         $this->trust($this->is('MODO') || $auth);
         $item = $this->findBySlug($slug);
 
         $formHelper = $this->get('ki_core.helper.form');
-        return $this->postView($formHelper->formData($item, 'PATCH'));
+        return $formHelper->formData($item, 'PATCH', $flush);
     }
 
     /**
      * Route DELETE générique
      * @param  string  $slug Le slug de l'entité à supprimer
      * @param  boolean $auth Un override éventuel pour le check des permissions
-     * @return Response
-     * @Route\View()
      */
     protected function delete($slug, $auth = false)
     {

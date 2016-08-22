@@ -1,120 +1,104 @@
 angular.module('upont')
-    .controller('DVP_Ctrl', ['$scope', '$rootScope', '$http', '$q', 'baskets', 'Paginate', function($scope, $rootScope, $http, $q, baskets, Paginate) {
+    .controller('DVP_Ctrl', ['$scope', '$rootScope', '$http', '$q', 'baskets', function ($scope, $rootScope, $http, $q, baskets) {
         $scope.baskets = baskets;
-        $scope.ordering = false;
         $scope.thursdays = [];
-        $scope.months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
-        $scope.basketOrders = [[],[],[],[]];
+        $scope.basketOrders = {};
         $scope.holidays = [
-                new Date('October 29, 2015').getTime(), 
-                new Date('December 24, 2015').getTime(), 
-                new Date('December 31, 2015').getTime(),
-                new Date('March 3, 2016').getTime(),
-                new Date('April 28, 2016').getTime(),
-                new Date('May 5, 2016').getTime()
-                ];
+            moment('2015-10-29'),
+            moment('2015-12-24'),
+            moment('2015-12-31'),
+        ];
 
-        $scope.get = function(email) {
-            $http.get(apiPrefix + 'baskets-orders/' + email).success(function(data) {
+        $scope.loadOrders = function (email) {
+            $http.get(apiPrefix + 'baskets-orders/' + email).success(function (data) {
                 $scope.orders = data;
+                for (var i = 0; i < $scope.orders.length; i++) {
+                    $scope.orders[i].date_retrieve = moment($scope.orders[i].date_retrieve);
+
+                    var order = $scope.orders[i];
+                    if(typeof $scope.basketOrders[order.basket.slug] === 'undefined')
+                        $scope.basketOrders[order.basket.slug] = {};
+                    $scope.basketOrders[order.basket.slug][order.date_retrieve.format('YYYY-MM-DD')] = {
+                        ordered: true,
+                        disabled: true,
+                    };
+                }
             });
         };
 
-        if('me' in $rootScope) {
-            $scope.firstName = $rootScope.me.first_name;
-            $scope.lastName = $rootScope.me.last_name;
+        if($rootScope.isLogged) {
             $scope.email = $rootScope.me.email;
-            $scope.phone = $rootScope.me.phone;
-            $scope.get($scope.email);
-        } else {
-            $scope.firstName = '';
-            $scope.lastName = '';
-            $scope.email = '';
-            $scope.phone = '';
-        }
-        
-        for (i=0;i<4;i++) {
-            for (j=0;j<baskets.length;j++) {
-                $scope.basketOrders[i][j] = false;
-            }
+            $scope.loadOrders($scope.email);
         }
 
-        $scope.order = function() {
-            $scope.ordering = true;
-            var d = new Date();
-            var diff;
-            
-            //We compute the next four thursdays.
-            if (d.getDay() > 1) {
-                diff = 4 - d.getDay() + 7;
-                for (i=0;i<4;i++) {
-                    $scope.thursdays[i] = new Date();
-                    $scope.thursdays[i].setDate(d.getDate() + diff + i*7);
-                    $scope.thursdays[i].setHours(0,0,0,0);
-                }
-            }
-            else {
-                diff = 4 - d.getDay();
-                for (i=0;i<4;i++) {
-                    $scope.thursdays[i] = new Date();
-                    $scope.thursdays[i].setDate(d.getDate() + diff + i*7);
-                    $scope.thursdays[i].setHours(0,0,0,0);
-                }
-            }
+        $scope.thursdays = [
+            moment().day(4),
+            moment().day(4 + 7),
+            moment().day(4 + 14),
+            moment().day(4 + 21)
+        ];
+
+        $scope.after = function(item){
+            return item['date_retrieve'].format('YYYY-MM-DD') >= moment().format('YYYY-MM-DD');
         };
 
-        $scope.post = function(firstName, lastName, email, phone) {
+        $scope.before = function(item){
+            return item['date_retrieve'].format('YYYY-MM-DD') < moment().format('YYYY-MM-DD');
+        };
+
+        $scope.post = function (firstName, lastName, email, phone) {
             var promiseArray = [];
-            var dateRetrieve;
 
-            if (!firstName) {
-                alertify.error('Prénom manquant !');
-                return;
+            if (!$rootScope.isLogged) {
+                if (!firstName) {
+                    alertify.error('Prénom manquant !');
+                    return;
+                }
+
+                if (!lastName) {
+                    alertify.error('Nom manquant !');
+                    return;
+                }
+
+                if (!email) {
+                    alertify.error('Email manquant !');
+                    return;
+                }
+
+                if (!phone) {
+                    alertify.error('Numéro de téléphone manquant !');
+                    return;
+                }
             }
 
-            if (!lastName) {
-                alertify.error('Nom manquant !');
-                return;
-            }
+            for (var i = 0; i < $scope.baskets.length; i++) {
+                var currBasket = $scope.basketOrders[baskets[i].slug];
+                for (var date in currBasket) {
+                    if (currBasket[date].ordered && !currBasket[date].disabled) {
+                        var orderData = {
+                            dateRetrieve: date
+                        };
 
-            if (!email) {
-                alertify.error('Email manquant !');
-                return;
-            }
+                        if (!$rootScope.isLogged) {
+                            orderData.firstName = $scope.firstName;
+                            orderData.lastName = $scope.lastName;
+                            orderData.email = $scope.email;
+                            orderData.phone = $scope.phone;
+                        }
 
-            if (!phone) {
-                alertify.error('Numéro de téléphone manquant !');
-                return;
-            }
-
-            for (i=0;i<4;i++) {
-                for (j=0;j<baskets.length;j++) {
-                    if ($scope.basketOrders[i][j]) {
-                        dateRetrieve = $scope.thursdays[i].getTime();
-                        dateRetrieve = (dateRetrieve - dateRetrieve%1000)/1000;
-                        promiseArray.push($http.post(apiPrefix + 'baskets/' + baskets[j].slug + '/order',
-                            {
-                                firstName: firstName,
-                                lastName: lastName,
-                                email: email,
-                                phone: phone,
-                                dateRetrieve: dateRetrieve
-                            }));
+                        promiseArray.push($http.post(apiPrefix + 'baskets/' + baskets[i].slug + '/order', orderData));
                     }
                 }
             }
 
-            $q.all(promiseArray).then(function() {
+            $q.all(promiseArray).then(function () {
                 alertify.success('Commande envoyée !');
-                $scope.basketOrders = [[],[],[],[]];
-                $scope.get(email);
+                $scope.loadOrders($scope.email);
             });
-
-            $scope.ordering = false;
         };
 
     }])
-    .config(['$stateProvider', function($stateProvider) {
+    .config(['$stateProvider', function ($stateProvider) {
         $stateProvider
             .state('root.users.assos.dvp', {
                 url: '/paniers',
@@ -125,7 +109,7 @@ angular.module('upont')
                     top: true
                 },
                 resolve: {
-                    baskets: ['$resource', function($resource) {
+                    baskets: ['$resource', function ($resource) {
                         return $resource(apiPrefix + 'baskets').query().$promise;
                     }]
                 }
@@ -140,7 +124,7 @@ angular.module('upont')
                     top: true
                 },
                 resolve: {
-                    baskets: ['$resource', function($resource) {
+                    baskets: ['$resource', function ($resource) {
                         return $resource(apiPrefix + 'baskets').query().$promise;
                     }]
                 }

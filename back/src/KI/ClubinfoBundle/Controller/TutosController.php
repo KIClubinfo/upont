@@ -2,9 +2,11 @@
 
 namespace KI\ClubinfoBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use KI\CoreBundle\Controller\ResourceController;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class TutosController extends ResourceController
 {
@@ -27,8 +29,13 @@ class TutosController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
+     * @Route("/tutos")
+     * @Method("GET")
      */
-    public function getTutosAction() { return $this->getAll(); }
+    public function getTutosAction()
+    {
+        return $this->getAll();
+    }
 
     /**
      * @ApiDoc(
@@ -43,8 +50,15 @@ class TutosController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
+     * @Route("/tutos/{slug}")
+     * @Method("GET")
      */
-    public function getTutoAction($slug) { return $this->getOne($slug); }
+    public function getTutoAction($slug)
+    {
+        $tuto = $this->getOne($slug);
+
+        return $this->json($tuto);
+    }
 
     /**
      * @ApiDoc(
@@ -60,8 +74,15 @@ class TutosController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
+     * @Route("/tutos")
+     * @Method("POST")
      */
-    public function postTutoAction() { return $this->post(); }
+    public function postTutoAction()
+    {
+        $data = $this->post();
+
+        return $this->formJson($data);
+    }
 
     /**
      * @ApiDoc(
@@ -77,8 +98,15 @@ class TutosController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
+     * @Route("/tutos/{slug}")
+     * @Method("PATCH")
      */
-    public function patchTutoAction($slug) { return $this->patch($slug); }
+    public function patchTutoAction($slug)
+    {
+        $data = $this->patch($slug);
+
+        return $this->formJson($data);
+    }
 
     /**
      * @ApiDoc(
@@ -92,6 +120,13 @@ class TutosController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
+     * @Route("/tutos/{slug}")
+     * @Method("DELETE")
      */
-    public function deleteTutoAction($slug) { return $this->delete($slug); }
+    public function deleteTutoAction($slug)
+    {
+        $this->delete($slug);
+
+        return $this->json(null, 204);
+    }
 }

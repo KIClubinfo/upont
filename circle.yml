@@ -21,9 +21,9 @@ dependencies:
 
 test:
   pre:
-    - php app/console cache:clear --env=prod --no-debug
-    - php app/console do:mi:mi -n
-    - php app/console doctrine:fixtures:load --no-interaction
+    - bin/console cache:clear --env=prod --no-debug
+    - bin/console do:mi:mi -n
+    - bin/console doctrine:fixtures:load --no-interaction
 
   override:
     - mkdir -p $CIRCLE_TEST_REPORTS/phpunit

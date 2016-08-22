@@ -22,7 +22,7 @@
                 <tr ng-repeat="exercice in filtered =  (exercices | orderBy:predicate:reverse)">
                     <td>
                         <a class="Link" title="Télécharger le fichier" target="_blank" ng-href="{{ 'courses/' + course.slug + '/exercices/' + exercice.slug + '/download' | urlFile }}">{{ exercice.name }}</a>
-                        <i class="fa  fa-remove  Link  Link--reverse" ng-if="exercice.uploader.username == $root.me.username || $root.isAdmin" ng-click="removeExercice(course, exercice)"></i>
+                        <i class="fa  fa-remove  Link  Link--reverse" ng-if="exercice.uploader.username == $root.username || $root.isAdmin" ng-click="removeExercice(course, exercice)"></i>
                     </td>
                     <td><span up-user user="exercice.uploader">{{ exercice.uploader.nick }}</span></td>
                     <td>{{ exercice.date | formatDate }}</td>

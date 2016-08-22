@@ -38,11 +38,11 @@
                     <i class="fa  fa-thumbs-o-down"></i> {{ comment.dislikes >= 0 ? comment.dislikes : 0 }}
                 </span>
 
-                <span class="Link  Link--reverse" title="Modifier le commentaire" ng-show="comment.author.username == $root.me.username && showModify" ng-click="modifyComment(comment)">
+                <span class="Link  Link--reverse" title="Modifier le commentaire" ng-show="comment.author.username == $root.username && showModify" ng-click="modifyComment(comment)">
                     <i class="fa  fa-pencil"></i>
                 </span>
 
-                <span class="Link  Link--reverse  Link--danger" title="Supprimer le commentaire" ng-show="comment.author.username == $root.me.username && showModify" ng-click="deleteComment(comment)">
+                <span class="Link  Link--reverse  Link--danger" title="Supprimer le commentaire" ng-show="comment.author.username == $root.username && showModify" ng-click="deleteComment(comment)">
                     <i class="fa  fa-trash"></i>
                 </span>
             </footer>

@@ -1,31 +1,52 @@
 ki_clubinfo:
-    resource: "@KIClubinfoBundle/Resources/config/routing.yml"
-    prefix:   /
+    type:     annotation
+    resource: '@KIClubinfoBundle/Controller'
+    defaults: { _format: 'json' }
+    prefix: /
 
 ki_core:
-    resource: "@KICoreBundle/Resources/config/routing.yml"
+    type:     annotation
+    resource: '@KICoreBundle/Controller'
+    defaults: { _format: 'json' }
     prefix:   /
 
 ki_dvp:
-    resource: "@KIDvpBundle/Resources/config/routing.yml"
+    type:     annotation
+    resource: '@KIDvpBundle/Controller'
+    defaults: { _format: 'json' }
     prefix:   /
 
 ki_foyer:
-    resource: "@KIFoyerBundle/Resources/config/routing.yml"
+    type:     annotation
+    resource: '@KIFoyerBundle/Controller'
+    defaults: { _format: 'json' }
     prefix:   /
 
 ki_ponthub:
-    resource: "@KIPonthubBundle/Resources/config/routing.yml"
+    type:     annotation
+    resource: '@KIPonthubBundle/Controller'
+    defaults: { _format: 'json' }
     prefix:   /
 
 ki_publication:
-    resource: "@KIPublicationBundle/Resources/config/routing.yml"
-    prefix:   /
+    type:     annotation
+    resource: '@KIPublicationBundle/Controller'
+    defaults: { _format: 'json' }
+    prefix: /
 
 ki_user:
-    resource: "@KIUserBundle/Resources/config/routing.yml"
+    type:     annotation
+    resource: '@KIUserBundle/Controller'
+    defaults: { _format: 'json' }
     prefix:   /
 
+fos_user_resetting:
+    resource: '@FOSUserBundle/Resources/config/routing/resetting.xml'
+    prefix: /resetting
+
 NelmioApiDocBundle:
-    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    resource: '@NelmioApiDocBundle/Resources/config/routing.yml'
     prefix:   /doc
+
+login_sso:
+    path: /login/sso

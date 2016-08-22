@@ -2,6 +2,10 @@
 
 namespace KI\PonthubBundle\Form;
 
+use KI\CoreBundle\Selector\ImageSelector;
+use KI\CoreBundle\Selector\TagsSelector;
+use KI\PonthubBundle\Entity\Software;
+use KI\PonthubBundle\Selector\GenresSelector;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,25 +17,25 @@ class SoftwareType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('genres', 'genres_selector')
-            ->add('tags', 'tags_selector')
+            ->add('genres', GenresSelector::class)
+            ->add('tags', TagsSelector::class)
             ->add('year')
             ->add('version')
             ->add('author')
             ->add('os')
-            ->add('image', 'image_selector')
+            ->add('image', ImageSelector::class)
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_protection' => false,
-            'data_class' => 'KI\PonthubBundle\Entity\Software'
-        ));
+            'data_class' => Software::class
+        ]);
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return '';
     }

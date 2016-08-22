@@ -41,7 +41,7 @@
     </div>
 </nav>
 
-<section class="Ticket" row wrap infinite-scroll="next()" infinite-scroll-distance="3" infinite-scroll-disabled="$root.infiniteLoading">
+<section row wrap infinite-scroll="next()" infinite-scroll-distance="3" infinite-scroll-disabled="$root.infiniteLoading">
     <section class="padded" flex="100" flex-sm="50" flex-md="33" flex-lg="25" row
          ui-sref="root.users.students.simple({slug: user.username})" ng-repeat="user in users.data">
         <div class="Ticket  Ticket--link  Ticket--shadow" flex="100">

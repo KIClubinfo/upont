@@ -2,6 +2,7 @@
 
 namespace KI\DvpBundle\Form;
 
+use KI\DvpBundle\Entity\BasketOrder;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,13 +23,13 @@ class BasketOrderType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_protection' => false,
-            'data_class' => 'KI\DvpBundle\Entity\BasketOrder'
-        ));
+            'data_class' => BasketOrder::class
+        ]);
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return '';
     }

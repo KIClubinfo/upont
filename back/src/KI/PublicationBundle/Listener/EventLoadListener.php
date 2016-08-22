@@ -3,9 +3,9 @@
 namespace KI\PublicationBundle\Listener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use KI\PublicationBundle\Entity\Event;
 use KI\UserBundle\Entity\User;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class EventLoadListener
 {

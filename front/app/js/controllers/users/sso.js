@@ -38,7 +38,7 @@ angular.module('upont')
             var payload = {
                 token: $stateParams.to,
                 auth: StorageService.get('token'),
-                username: $rootScope.me.username,
+                username: $rootScope.username,
                 success: true
             };
 

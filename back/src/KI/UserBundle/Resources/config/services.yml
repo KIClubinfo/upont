@@ -8,7 +8,7 @@ services:
         class: KI\UserBundle\Service\TokenService
         arguments:
             - '@doctrine.orm.entity_manager'
-            - '@security.context'
+            - '@security.token_storage'
 
     # Gère l'envoi de mails
     ki_user.service.mailer:
@@ -31,10 +31,35 @@ services:
         class: KI\UserBundle\Service\GcmService
         arguments:
             - '@ki_core.service.curl'
-            - %ki_upont.push.gcm%
+            - '%ki_upont.push.gcm%'
 
     # Interface avancée de gestion des permissions utilisateurs
     ki_user.service.permission:
         class: KI\UserBundle\Service\PermissionService
         arguments:
             - '@ki_user.repository.clubuser'
+
+    ki_user.factory.user:
+        class: KI\UserBundle\Factory\UserFactory
+        arguments:
+          - '@fos_user.user_manager'
+          - '@event_dispatcher'
+
+    form_login_authenticator:
+        class: KI\UserBundle\Security\FormLoginAuthenticator
+        arguments:
+          - '@lexik_jwt_authentication.jwt_manager'
+          - '@event_dispatcher'
+          - '@security.password_encoder'
+        public: false
+
+    sso_enpc_authenticator:
+        class: KI\UserBundle\Security\SsoEnpcLoginAuthenticator
+        arguments:
+          - '@lexik_jwt_authentication.jwt_manager'
+          - '@event_dispatcher'
+          - '@ki_user.factory.user'
+
+    jwt_authenticator:
+        class: KI\UserBundle\Security\JwtAuthenticator
+        autowire: true
