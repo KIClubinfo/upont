@@ -3,7 +3,7 @@
 
 sudo ls > /dev/null
 cd /srv/upont
-touch back/app/cache/maintenance.lock
+touch back/var/cache/maintenance.lock
 git pull
 
 export SYMFONY_ENV=prod
@@ -23,7 +23,7 @@ composer install --no-dev --optimize-autoloader
 bin/console cache:clear --env=prod --no-debug
 bin/console do:mi:mi -n
 sudo chmod 777 -R var/cache && sudo chmod 777 -R var/logs
-rm app/cache/maintenance.lock
+rm var/cache/maintenance.lock
 
 cd ..
 ./utils/newrelic-deploy.sh
