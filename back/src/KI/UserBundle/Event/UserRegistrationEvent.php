@@ -3,7 +3,7 @@
 namespace KI\UserBundle\Event;
 
 use FOS\UserBundle\Model\UserInterface;
-use KI\UserBundle\Entity\Achievement;
+use KI\UserBundle\Entity\User;
 use Symfony\Component\EventDispatcher\Event;
 
 class UserRegistrationEvent extends Event
@@ -22,6 +22,9 @@ class UserRegistrationEvent extends Event
         return $this->attributes;
     }
 
+    /**
+     * @return User
+     */
     public function getUser()
     {
         return $this->user;

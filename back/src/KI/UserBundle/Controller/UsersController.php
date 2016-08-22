@@ -233,7 +233,6 @@ class UsersController extends ResourceController
         $attributes = [
             'username' => $login,
             'email' => $email,
-            'password' => substr(str_shuffle(strtolower(sha1(rand() . time() . 'salt'))), 0, 8),
             'loginMethod' => 'form',
             'firstName' => $firstName,
             'lastName' => $lastName,
@@ -300,7 +299,7 @@ class UsersController extends ResourceController
             $explode = explode(',', $line);
             list($login, $email, $firstName, $lastName, $promo, $department) = $explode;
             $firstName = ucfirst($firstName);
-            $lastName = ucfirst($lastName);
+            $lastName = ucfirst(strtolower($lastName));
 
             $e = [];
             if (!preg_match('/@(eleves\.)?enpc\.fr$/', $email))
@@ -316,7 +315,6 @@ class UsersController extends ResourceController
                 $attributes = [
                     'username' => $login,
                     'email' => $email,
-                    'password' => substr(str_shuffle(strtolower(sha1(rand() . time() . 'salt'))), 0, 8),
                     'loginMethod' => 'form',
                     'firstName' => $firstName,
                     'lastName' => $lastName,

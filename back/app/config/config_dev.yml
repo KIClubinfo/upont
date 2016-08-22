@@ -33,8 +33,3 @@ monolog:
 
 #swiftmailer:
 #    delivery_address: me@example.com
-
-swiftmailer:
-    spool:
-        type: file
-        path: '%kernel.root_dir%/spool'

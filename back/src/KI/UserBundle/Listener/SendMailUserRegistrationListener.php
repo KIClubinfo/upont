@@ -1,60 +1,58 @@
 <?php
 
-namespace KI\UserBundle\Controller;
+namespace KI\UserBundle\Listener;
 
-use KI\CoreBundle\Controller\ResourceController;
 use KI\UserBundle\Entity\User;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use KI\UserBundle\Event\UserRegistrationEvent;
+use Swift_Mailer;
+use Swift_Message;
+use Symfony\Bundle\TwigBundle\TwigEngine;
 
-class PromoController extends ResourceController
+class SendMailUserRegistrationListener
 {
-    public function setContainer(ContainerInterface $container = null)
+    private $swiftMailer;
+    private $twigEngine;
+
+    public function __construct(Swift_Mailer $swiftMailer, TwigEngine $twigEngine)
     {
-        parent::setContainer($container);
-        $this->initialize('User', 'User');
+        $this->swiftMailer = $swiftMailer;
+        $this->twigEngine = $twigEngine;
     }
 
-    /**
-     * @ApiDoc(
-     *  description="Met à jour les photos de profil d'une promo via Facebook",
-     *  requirements={
-     *   {
-     *    "name"="token",
-     *    "dataType"="string",
-     *    "description"="Token facebook (doit avoir les permissions user_group !!!)"
-     *   }
-     *  },
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Utilisateurs"
-     * )
-     * @Route("/promo/{promo}/pictures")
-     * @Method("PATCH")
-     */
-    public function patchPromoPicturesAction(Request $request, $promo)
+    // Check si un achievement donné est accompli, si oui envoie une notification
+    public function sendMail(UserRegistrationEvent $event)
     {
+        $attributes = $event->getAttributes();
+        $email = $event->getUser()->getEmail();
+        $username = $event->getUser()->getUsername();
+
+        // Envoi du mail
+        $message = Swift_Message::newInstance()
+            ->setSubject('Inscription uPont')
+            ->setFrom('noreply@upont.enpc.fr')
+            ->setTo($email)
+            ->setBody($this->twigEngine->render('KIUserBundle::registration.txt.twig', $attributes));
+
+        $this->swiftMailer->send($message);
+
+        $message = Swift_Message::newInstance()
+            ->setSubject('[uPont] Nouvelle inscription (' . $username . ')')
+            ->setFrom('noreply@upont.enpc.fr')
+            ->setTo('root@clubinfo.enpc.fr')
+            ->setBody($this->twigEngine->render('KIUserBundle::registration-ki.txt.twig', $attributes));
+
+        $this->swiftMailer->send($message);
+    }
+
+    public function importFacebook(UserRegistrationEvent $event, $token){
         set_time_limit(3600);
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
-            throw new AccessDeniedException();
 
         $users = $this->repository->findByPromo($promo);
         $curl = $this->get('ki_core.service.curl');
         $images = $this->get('ki_core.service.image');
         $i = 0;
 
-        if (!$request->request->has('token'))
-            throw new BadRequestHttpException('Il faut préciser un token Facebook');
-        $token = '?access_token=' . $request->request->get('token');
+        $token = '?access_token=' . $token;
 
         // Ids des différents groupes facebook
         switch ($promo) {

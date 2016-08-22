@@ -80,8 +80,7 @@ class SsoEnpcLoginAuthenticator extends LoginAuthenticator
                 'firstName' => $credentials['givenName'],
                 'lastName' => ucwords(strtolower($credentials['sn'])),
                 'email' => $credentials['mail'],
-                'password' => '',
-                'loginMethod' => 'cas'
+                'promo' => '0' . ( substr(strftime('%Y'), 2) + 3)
             ];
 
             $user = $this->userFactory->createUser($username, [], $credentials);

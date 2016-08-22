@@ -47,16 +47,17 @@ class UserFactory
         $user->setUsername($username);
         $user->setEmail($email);
 
-        $hasPassword = $this->array_value($attributes, 'loginMethod') == 'form';
+        $loginMethod = $this->array_value($attributes, 'loginMethod');
 
-        //FIXME: hackhackhack
-        if($hasPassword)
+        if($loginMethod == 'form')
             $password = $this->array_value($attributes, 'password');
-        else
-            $password = 'sso-cas-enpc';
+        else {
+            $password = substr(str_shuffle(strtolower(sha1(rand() . time() . 'salt'))), 0, 8);
+            $attributes['password'] = $password;
+            $loginMethod = 'form';
+        }
 
-
-        $user->setLoginMethod($hasPassword);
+        $user->setLoginMethod($loginMethod);
         $user->setPlainPassword($password);
 
         $user->setFirstName($this->array_value($attributes, 'firstName'));
