@@ -365,12 +365,19 @@ class OwnController extends ResourceController
      */
     public function getOwnEventsAction(Request $request)
     {
-        // Si on prend tout on renvoie comme ça
-        if ($request->query->has('all'))
-            return $this->json($this->getFollowedEvents());
+        $userRepository = $this->manager->getRepository('KIUserBundle:User');
 
-        $events = $this->manager->getRepository('KIUserBundle:User')->findAllFollowedEvents($this->user->getId());
-        return $this->json($events);
+        // Si on prend tout on renvoie comme ça
+        if ($request->query->has('all')) {
+            $events = $userRepository->findFollowedEvents($this->getUser()->getId());
+        } else {
+            $events = $userRepository->findFollowedEvents(
+                $this->getUser()->getId(),
+                $request->query->get('limit'),
+                $request->query->get('page')
+            );
+        }
+        return $this->restResponse($events);
     }
 
     /**
@@ -393,7 +400,9 @@ class OwnController extends ResourceController
         if ($user === null) {
             throw new NotFoundHttpException('Aucun utilisateur ne correspond au token saisi');
         } else {
-            $events = $this->getFollowedEvents($user);
+            $userRepository = $this->manager->getRepository('KIUserBundle:User');
+
+            $events = $userRepository->findFollowedEvents($user->getId());
             $courses = $this->getCourseitems($user);
 
             $calStr = $this->get('ki_publication.service.calendar')->getCalendar($user, $events, $courses);
@@ -404,35 +413,6 @@ class OwnController extends ResourceController
                 ]
             );
         }
-    }
-
-    // Va chercher les événements suivis
-    private function getFollowedEvents($user = null)
-    {
-        $repo = $this->manager->getRepository('KIPublicationBundle:Event');
-
-        if ($user === null)
-            $user = $this->user;
-
-        $followedEvents = $repo->findBy(['authorClub' => $this->getFollowedClubs($user)]);
-        $persoEvents = $repo->findBy(['authorUser' => $user, 'authorClub' => null]);
-        $events = array_merge($followedEvents, $persoEvents);
-
-        // Tri et élimination des données
-        $dates = [];
-        $return = [];
-        foreach ($events as $key => $event) {
-            // On enlève l'événement si l'élève l'a masqué
-            if ($event->getPookies()->contains($user))
-                continue;
-
-            // On trie par date
-            $return[$key] = $event;
-            $dates[$key] = $event->getStartDate();
-        }
-        array_multisort($dates, SORT_DESC, $return);
-
-        return $return;
     }
 
     private function getCourseitems($user = null)
@@ -483,21 +463,12 @@ class OwnController extends ResourceController
         $findBy['authorClub'] = $this->getFollowedClubs();
         $results = $repository->findBy($findBy, $sortBy, $limit, $offset);
 
-        // Tri des données
-        $dates = [];
-        foreach ($results as $key => $newsitem) {
-            $results[$key] = $newsitem;
-            $dates[$key] = $newsitem->getDate();
-        }
-        array_multisort($dates, SORT_DESC, $results);
-
         list($results, $links, $count) = $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
 
         return $this->json($results, 200, [
             'Links' => implode(',', $links),
             'Total-count' => $count
         ]);
-
     }
 
     /**

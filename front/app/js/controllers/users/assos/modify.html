@@ -78,24 +78,26 @@
             </div>
         </label>
 
-        <section class="Search__results  Ticket" ng-mouseenter="hoverSearch=true" ng-mouseleave="hoverSearch=false"
-             ng-show="(displaySearch || hoverSearch) && searchResults.length">
+        <div style="position: relative;">
+            <section class="Search__results  Ticket" ng-mouseenter="hoverSearch=true" ng-mouseleave="hoverSearch=false"
+                 ng-show="(displaySearch || hoverSearch) && searchResults.length">
 
-            <section class="Results" row>
-                <div class="Results__cell" flex="25">
-                    <h3 class="small bold">MEMBRES</h3>
-                </div>
-                <div class="Results__cell" flex="75">
-                    <div class="Results__item" row="space-between center" ng-repeat="result in searchResults | limitTo: 5"
-                         ng-click="addMember(result)">
-                        <div class="Image" flex="20">
-                            <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ result.image_url | thumb | urlFile }})' }"></div>
-                        </div>
-                        <div flex="75" ng-bind-html="result.name | match: search"></div>
+                <section class="Results" row>
+                    <div class="Results__cell" flex="25">
+                        <h3 class="small bold">MEMBRES</h3>
                     </div>
-                </div>
+                    <div class="Results__cell" flex="75">
+                        <div class="Results__item" row="space-between center" ng-repeat="result in searchResults | limitTo: 5"
+                             ng-click="addMember(result)">
+                            <div class="Image" flex="20">
+                                <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ result.image_url | thumb | urlFile }})' }"></div>
+                            </div>
+                            <div flex="75" ng-bind-html="result.name | match: search"></div>
+                        </div>
+                    </div>
+                </section>
             </section>
-        </section>
+        </div>
     </div>
 
     <table class="Table" flex="90">

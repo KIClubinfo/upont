@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('Foyer_Ctrl', ['$scope', '$rootScope', '$http', 'youtube', 'stats', 'members', 'Paginate', function($scope, $rootScope, $http, youtube, stats, members, Paginate) {
+    .controller('Foyer_Playlist_Ctrl', ['$scope', '$rootScope', '$http', 'youtube', 'stats', 'members', 'Paginate', function($scope, $rootScope, $http, youtube, stats, members, Paginate) {
         $('#focus-input').focus();
         $scope.youtube = youtube;
         $scope.stats = stats;
@@ -44,12 +44,12 @@ angular.module('upont')
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state('root.users.assos.foyer', {
+            .state('root.users.assos.foyer-playlist', {
                 url: '/c-est-ton-foyer',
-                templateUrl: 'controllers/users/assos/foyer.html',
-                controller: 'Foyer_Ctrl',
+                templateUrl: 'controllers/users/assos/foyer-playlist.html',
+                controller: 'Foyer_Playlist_Ctrl',
                 data: {
-                    title: 'Foyer - uPont',
+                    title: 'Playlist foyer - uPont',
                     top: true
                 },
                 resolve: {
