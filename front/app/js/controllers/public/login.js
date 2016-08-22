@@ -51,7 +51,7 @@ angular.module('upont')
             }
 
             $scope.loginSSO = function () {
-                $window.location.href = 'https://cas.enpc.fr/cas/login?service=' + encodeURI($window.location.href);
+                $window.location.href = 'https://cas.enpc.fr/cas/login?service=' + encodeURI(location.origin);
             };
 
             $scope.login = function (pseudo, password, firstTime) {
