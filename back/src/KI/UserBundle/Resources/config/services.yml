@@ -59,6 +59,8 @@ services:
           - '@lexik_jwt_authentication.jwt_manager'
           - '@event_dispatcher'
           - '@ki_user.factory.user'
+          - '%proxy_url%'
+          - '%proxy_user%'
 
     jwt_authenticator:
         class: KI\UserBundle\Security\JwtAuthenticator

@@ -17,16 +17,22 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 class SsoEnpcLoginAuthenticator extends LoginAuthenticator
 {
     private $userFactory;
+    private $proxyUrl;
+    private $proxyUser;
 
     public function __construct(
         JWTManagerInterface $jwtManager,
         EventDispatcherInterface $dispatcher,
-        UserFactory $userFactory
+        UserFactory $userFactory,
+        $proxyUrl,
+        $proxyUser
     )
     {
         parent::__construct($jwtManager, $dispatcher);
 
         $this->userFactory = $userFactory;
+        $this->proxyUrl = $proxyUrl;
+        $this->proxyUser = $proxyUser;
     }
 
     public function getCredentials(Request $request)
@@ -40,6 +46,8 @@ class SsoEnpcLoginAuthenticator extends LoginAuthenticator
             \phpCAS::handleLogoutRequests();
 //            \phpCAS::setCacheTimesForAuthRecheck(0);
             \phpCAS::setFixedServiceURL('https://upont.enpc.fr');
+            \phpCAS::setExtraCurlOption(CURLOPT_PROXY, $this->proxyUrl);
+            \phpCAS::setExtraCurlOption(CURLOPT_PROXYUSERPWD, $this->proxyUser);
 //            \phpCAS::logout();
             \phpCAS::setNoClearTicketsFromUrl();
             \phpCAS::forceAuthentication();
