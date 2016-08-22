@@ -114,7 +114,7 @@ jms_serializer:
     metadata:
         directories:
             FOSUB:
-                namespace_prefix: 'FOS\\UserBundle'
+                namespace_prefix: "FOS\\UserBundle"
                 path: '%kernel.root_dir%/serializer/FOSUserBundle'
 
 # Permet d'utiliser l'API depuis d'autres domaines (exemple: foyer.enpc.org)
