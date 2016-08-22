@@ -47,17 +47,13 @@ class UserFactory
         $user->setUsername($username);
         $user->setEmail($email);
 
-        $loginMethod = $this->array_value($attributes, 'loginMethod');
-
-        if($loginMethod == 'form')
-            $password = $this->array_value($attributes, 'password');
-        else {
+        $password = $this->array_value($attributes, 'password');
+        if(!$password) {
             $password = substr(str_shuffle(strtolower(sha1(rand() . time() . 'salt'))), 0, 8);
             $attributes['password'] = $password;
-            $loginMethod = 'form';
         }
 
-        $user->setLoginMethod($loginMethod);
+        $user->setLoginMethod($this->array_value($attributes, 'loginMethod', 'form'));
         $user->setPlainPassword($password);
 
         $user->setFirstName($this->array_value($attributes, 'firstName'));

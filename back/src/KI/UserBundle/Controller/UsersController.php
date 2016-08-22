@@ -233,7 +233,6 @@ class UsersController extends ResourceController
         $attributes = [
             'username' => $login,
             'email' => $email,
-            'loginMethod' => 'form',
             'firstName' => $firstName,
             'lastName' => $lastName,
         ];
