@@ -3,6 +3,7 @@
 namespace KI\UserBundle\Security;
 
 use KI\UserBundle\Factory\UserFactory;
+use KI\UserBundle\Repository\UserRepository;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +18,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 class SsoEnpcLoginAuthenticator extends LoginAuthenticator
 {
     private $userFactory;
+    private $userRepository;
     private $proxyUrl;
     private $proxyUser;
 
@@ -24,6 +26,7 @@ class SsoEnpcLoginAuthenticator extends LoginAuthenticator
         JWTManagerInterface $jwtManager,
         EventDispatcherInterface $dispatcher,
         UserFactory $userFactory,
+        UserRepository $userRepository,
         $proxyUrl,
         $proxyUser
     )
@@ -31,6 +34,7 @@ class SsoEnpcLoginAuthenticator extends LoginAuthenticator
         parent::__construct($jwtManager, $dispatcher);
 
         $this->userFactory = $userFactory;
+        $this->userRepository = $userRepository;
         $this->proxyUrl = $proxyUrl;
         $this->proxyUser = $proxyUser;
     }
@@ -72,6 +76,10 @@ class SsoEnpcLoginAuthenticator extends LoginAuthenticator
             $user = $userProvider->loadUserByUsername($username);
         } catch (UsernameNotFoundException $exception) {
 
+        }
+
+        if(!$user) {
+            $user = $this->userRepository->findOneBy(['email' => $credentials['mail']]);
         }
 
         if (!$user) {
