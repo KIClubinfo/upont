@@ -1,7 +1,7 @@
 parameters:
     ki_core.images.directory: '%kernel.root_dir%/../web/uploads/images/'
     ki_core.images.maxSize: 512000 # Taille maximum des images uploadées en octets
-    ki_core.maintenance_lockfile_path: '%kernel.root_dir%/var/maintenance.lock'
+    ki_core.maintenance_lockfile_path: '%kernel.root_dir%/../var/cache/maintenance.lock'
     ki_core.base_url: https://upont.enpc.fr/api/
 
 services:
