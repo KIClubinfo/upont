@@ -45,7 +45,7 @@ class SsoEnpcLoginAuthenticator extends LoginAuthenticator
         try {
             \phpCAS::setDebug();
             \phpCAS::setVerbose(true);
-            \phpCAS::client(SAML_VERSION_1_1, 'cas.enpc.fr', 443, '/cas');
+            \phpCAS::client(SAML_VERSION_1_1, 'cas.enpc.fr', 443, '/cas', false);
             \phpCAS::setNoCasServerValidation();
             \phpCAS::setExtraCurlOption(CURLOPT_PROXY, $this->proxyUrl);
             \phpCAS::setExtraCurlOption(CURLOPT_PROXYUSERPWD, $this->proxyUser);
