@@ -89,8 +89,10 @@ class PonthubFile extends Likeable
     public function tags()
     {
         $tags = [];
-        foreach ($this->listTags as $tag) {
-                    $tags[] = $tag->getName();
+        if(is_array($this->listTags) || is_object($this->listTags)) {
+            foreach ($this->listTags as $tag) {
+                $tags[] = $tag->getName();
+            }
         }
         return $tags;
     }
