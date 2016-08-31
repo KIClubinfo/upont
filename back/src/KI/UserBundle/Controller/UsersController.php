@@ -4,6 +4,7 @@ namespace KI\UserBundle\Controller;
 
 use KI\CoreBundle\Controller\ResourceController;
 use KI\UserBundle\Entity\Achievement;
+use KI\UserBundle\Entity\User;
 use KI\UserBundle\Event\AchievementCheckEvent;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -284,51 +285,62 @@ class UsersController extends ResourceController
             throw new BadRequestHttpException('Erreur lors de l\'upload du fichier');
 
         // Dans un premier temps on va effectuer une première passe pour vérifier qu'il n'y a pas de duplicatas
-        $emails = $logins = $fails = $success = [];
-        $repo = $this->manager->getRepository('KIUserBundle:User');
-        foreach ($repo->findAll() as $user) {
-            $emails[] = $user->getEmail();
-            $logins[] = $user->getUsername();
-        }
+        $fails = $success = [];
 
         while (!feof($list)) {
             // On enlève le caractère de fin de ligne
             $line = str_replace(["\r", "\n"], ['', ''], fgets($list));
-            $login = $firstName = $lastName = $email = $promo = $department = $origin = null;
+            if(empty($line))
+                continue;
+
+            $gender = $login = $firstName = $lastName = $email = $promo = $department = $origin = null;
             $explode = explode(',', $line);
-            list($login, $email, $firstName, $lastName, $promo, $department) = $explode;
+            list($gender, $lastName, $firstName, $email, $origin, $department, $promo) = $explode;
             $firstName = ucfirst($firstName);
-            $lastName = ucfirst(strtolower($lastName));
+            $lastName = ucwords(mb_strtolower($lastName));
+
+            $login = explode('@', $email)[0];
 
             $e = [];
             if (!preg_match('/@(eleves\.)?enpc\.fr$/', $email))
                 $e[] = 'Adresse mail non utilisable';
-            if (in_array($email, $emails))
-                $e[] = 'Adresse mail déja utilisée';
-            if (in_array($login, $logins))
-                $e[] = 'Login déja utilisé';
 
             if (count($e) > 0) {
                 $fails[] = $line . ' : ' . implode(', ', $e);
             } else {
-                $attributes = [
-                    'username' => $login,
-                    'email' => $email,
-                    'loginMethod' => 'form',
-                    'firstName' => $firstName,
-                    'lastName' => $lastName,
-                    'promo' => $promo,
-                    'department' => $department,
-                    'origin' => $origin,
-                ];
 
-                $this->get('ki_user.factory.user')->createUser($login, [], $attributes);
+                /**
+                 * @var $user User
+                 */
+                $user = $this->repository->findOneBy(['email' => $email]);
+                if (!$user) {
+                    $attributes = [
+                        'username' => $login,
+                        'email' => $email,
+                        'loginMethod' => 'form',
+                        'firstName' => $firstName,
+                        'lastName' => $lastName,
+                        'promo' => $promo,
+                        'department' => $department,
+                        'origin' => $origin,
+                    ];
+
+                    $user = $this->get('ki_user.factory.user')->createUser($login, [], $attributes);
+                } else {
+                    $user->setPromo($promo);
+                    $user->setDepartment($department);
+                    $user->setOrigin($origin);
+                }
+                $user->setGender($gender);
 
                 $success[] = $firstName . ' ' . $lastName;
             }
         }
 
-        return $this->json(null, 201);
+        return $this->json([
+            'success' => $success,
+            'fails' => $fails,
+        ], 201);
     }
 
     private function stripAccents($string)
