@@ -270,7 +270,7 @@ class GlobalStatisticsHelper
         $dql = 'SELECT u.promo, MONTH(e.date) AS mois, SUM(f.size) AS taille
                 FROM KI\PonthubBundle\Entity\PonthubFileUser e
                 LEFT JOIN e.file f LEFT JOIN e.user u
-                WHERE u.promo = \'016\' OR u.promo = \'017\' OR u.promo = \'018\'
+                WHERE u.promo = \'016\' OR u.promo = \'017\' OR u.promo = \'018\' OR u.promo = \'019\'
                 GROUP BY mois, u.promo';
         $results = $this->manager->createQuery($dql)->getResult();
 
@@ -278,11 +278,13 @@ class GlobalStatisticsHelper
             'promo016' => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             'promo017' => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             'promo018' => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            'promo019' => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             'average' => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             'pie' => [
                 'promo016' => 0,
                 'promo017' => 0,
                 'promo018' => 0,
+                'promo019' => 0,
             ]
         ];
         // On répartit les données dans les tableaux suivants
@@ -293,7 +295,7 @@ class GlobalStatisticsHelper
         }
         // On calcule les moyennes
         for ($i = 0; $i < 12; $i++) {
-            $timeline['average'][$i] = round(($timeline['promo016'][$i] + $timeline['promo017'][$i] + $timeline['promo018'][$i])/3, 1);
+            $timeline['average'][$i] = round(($timeline['promo016'][$i] + $timeline['promo017'][$i] + $timeline['promo018'][$i] + $timeline['promo019'][$i])/4, 1);
         }
         return $timeline;
     }

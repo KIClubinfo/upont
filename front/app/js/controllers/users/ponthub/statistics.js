@@ -168,6 +168,10 @@ angular.module('upont')
                 name: '018',
                 data: ponthub.timeline.promo018
             }, {
+                type: 'column',
+                name: '019',
+                data: ponthub.timeline.promo019
+            }, {
                 type: 'spline',
                 name: 'Moyenne',
                 data: ponthub.timeline.average,
@@ -188,6 +192,9 @@ angular.module('upont')
                 }, {
                     name: '018',
                     y: ponthub.timeline.pie.promo018
+                }, {
+                    name: '019',
+                    y: ponthub.timeline.pie.promo019
                 }],
                 center: [100, 60],
                 size: 100
