@@ -14,3 +14,4 @@ services:
             - '@ki_foyer.repository.transaction'
             - '@ki_user.repository.user'
             - '@doctrine.orm.entity_manager'
+            - '@event_dispatcher'

@@ -6,7 +6,9 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use KI\FoyerBundle\Entity\Beer;
 use KI\FoyerBundle\Entity\Transaction;
+use KI\FoyerBundle\Event\UserNegativeBalanceEvent;
 use KI\UserBundle\Entity\User;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TransactionHelper
@@ -15,16 +17,20 @@ class TransactionHelper
     protected $transactionRepository;
     protected $userRepository;
     protected $manager;
+    protected $eventDispatcher;
 
     public function __construct(EntityRepository $beerRepository,
                                 EntityRepository $transactionRepository,
                                 EntityRepository $userRepository,
-                                EntityManager $manager)
+                                EntityManager $manager,
+                                EventDispatcherInterface $eventDispatcher
+    )
     {
         $this->beerRepository        = $beerRepository;
         $this->transactionRepository = $transactionRepository;
         $this->userRepository        = $userRepository;
         $this->manager               = $manager;
+        $this->eventDispatcher       = $eventDispatcher;
     }
 
     /**
@@ -98,6 +104,16 @@ class TransactionHelper
 
         $user->setBalance($newBalance);
         $this->manager->flush();
+
+        if($newBalance < 0){
+            if($balance >= 0) {
+                $negativeBalance = new UserNegativeBalanceEvent($user, true);
+            }
+            else {
+                $negativeBalance = new UserNegativeBalanceEvent($user, false);
+            }
+            $this->eventDispatcher->dispatch('upont.negative_balance', $negativeBalance);
+        }
     }
 
     /**
