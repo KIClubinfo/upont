@@ -1,27 +1,18 @@
 angular.module('upont')
-    .controller('DVP_Ctrl', ['$scope', '$rootScope', '$http', '$q', 'baskets', function ($scope, $rootScope, $http, $q, baskets) {
+    .controller('DVP_Ctrl', ['$scope', '$rootScope', '$http', 'baskets', 'dates', function ($scope, $rootScope, $http, baskets, dates) {
         $scope.baskets = baskets;
-        $scope.thursdays = [];
+        $scope.dates = dates;
         $scope.basketOrders = {};
-        $scope.holidays = [
-            moment('2015-10-29'),
-            moment('2015-12-24'),
-            moment('2015-12-31'),
-        ];
 
         $scope.loadOrders = function (email) {
             $http.get(apiPrefix + 'baskets-orders/' + email).success(function (data) {
                 $scope.orders = data;
                 for (var i = 0; i < $scope.orders.length; i++) {
-                    $scope.orders[i].date_retrieve = moment($scope.orders[i].date_retrieve);
-
                     var order = $scope.orders[i];
                     if(typeof $scope.basketOrders[order.basket.slug] === 'undefined')
                         $scope.basketOrders[order.basket.slug] = {};
-                    $scope.basketOrders[order.basket.slug][order.date_retrieve.format('YYYY-MM-DD')] = {
-                        ordered: true,
-                        disabled: true,
-                    };
+
+                    $scope.basketOrders[order.basket.slug][order.date_retrieve.id] = true;
                 }
             });
         };
@@ -31,23 +22,18 @@ angular.module('upont')
             $scope.loadOrders($scope.email);
         }
 
-        $scope.thursdays = [
-            moment().day(4),
-            moment().day(4 + 7),
-            moment().day(4 + 14),
-            moment().day(4 + 21)
-        ];
-
         $scope.after = function(item){
-            return item['date_retrieve'].format('YYYY-MM-DD') >= moment().format('YYYY-MM-DD');
+            return item.date_retrieve.date_retrieve >= moment().format();
         };
 
         $scope.before = function(item){
-            return item['date_retrieve'].format('YYYY-MM-DD') < moment().format('YYYY-MM-DD');
+            return item.date_retrieve.date_retrieve < moment().format();
         };
 
         $scope.post = function (firstName, lastName, email, phone) {
-            var promiseArray = [];
+            var postData = {
+                orders: []
+            };
 
             if (!$rootScope.isLogged) {
                 if (!firstName) {
@@ -69,29 +55,27 @@ angular.module('upont')
                     alertify.error('Numéro de téléphone manquant !');
                     return;
                 }
+
+                postData.firstName = $scope.firstName;
+                postData.lastName = $scope.lastName;
+                postData.email = $scope.email;
+                postData.phone = $scope.phone;
             }
 
             for (var i = 0; i < $scope.baskets.length; i++) {
                 var currBasket = $scope.basketOrders[baskets[i].slug];
                 for (var date in currBasket) {
-                    if (currBasket[date].ordered && !currBasket[date].disabled) {
-                        var orderData = {
-                            dateRetrieve: date
-                        };
+                    var orderData = {
+                        dateRetrieve: date,
+                        basket: baskets[i].slug,
+                        ordered: currBasket[date]
+                    };
 
-                        if (!$rootScope.isLogged) {
-                            orderData.firstName = $scope.firstName;
-                            orderData.lastName = $scope.lastName;
-                            orderData.email = $scope.email;
-                            orderData.phone = $scope.phone;
-                        }
-
-                        promiseArray.push($http.post(apiPrefix + 'baskets/' + baskets[i].slug + '/order', orderData));
-                    }
+                    postData.orders.push(orderData);
                 }
             }
 
-            $q.all(promiseArray).then(function () {
+            $http.post(apiPrefix + 'baskets-orders', postData).then(function () {
                 alertify.success('Commande envoyée !');
                 $scope.loadOrders($scope.email);
             });
@@ -111,6 +95,9 @@ angular.module('upont')
                 resolve: {
                     baskets: ['$resource', function ($resource) {
                         return $resource(apiPrefix + 'baskets').query().$promise;
+                    }],
+                    dates: ['$resource', function ($resource) {
+                        return $resource(apiPrefix + 'basketdates').query().$promise;
                     }]
                 }
             })
@@ -126,6 +113,9 @@ angular.module('upont')
                 resolve: {
                     baskets: ['$resource', function ($resource) {
                         return $resource(apiPrefix + 'baskets').query().$promise;
+                    }],
+                    dates: ['$resource', function ($resource) {
+                        return $resource(apiPrefix + 'basketdates').query().$promise;
                     }]
                 }
             });

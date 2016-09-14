@@ -76,8 +76,8 @@ security:
         - { path: ^/coffee,                           methods: [GET],  roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/version,                          methods: [GET],  roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admissibles,                      methods: [POST], roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/baskets/.+/order,                 methods: [POST], roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/baskets,                          methods: [GET], roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/basketdates,                      methods: [GET], roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/baskets,                          methods: [GET, POST], roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/filelist,                         methods: [POST], roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/users,                            methods: [POST], roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/doc, roles: IS_AUTHENTICATED_ANONYMOUSLY }

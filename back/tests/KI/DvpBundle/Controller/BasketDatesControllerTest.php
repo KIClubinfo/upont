@@ -4,63 +4,72 @@ namespace Tests\KI\DvpBundle\Controller;
 
 use Tests\KI\CoreBundle\WebTestCase;
 
-class BasketsControllerTest extends WebTestCase
+class BasketDatesControllerTest extends WebTestCase
 {
     // On crée une ressource sur laquelle seront effectués les tests.
     // Ne pas oublier de supprimer à la fin avec le test DELETE.
     public function testPost()
     {
-        $this->client->request('POST', '/baskets', [
-            'name' => 'Panier test',
-            'content' => 'Des fruits, des légumes... que des bonnes choses',
-            'price' => 10
+        $this->client->request('POST', '/basketdates', [
+                'locked' => false,
+                'dateRetrieve' => date("Y-m-d", mt_rand(1, 2147385600))
             ]
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
+
+        return json_decode($response->getContent(), true)['id'];
     }
 
-    public function testGet()
+    /**
+     * @depends testPost
+     */
+    public function testGet($id)
     {
-        $this->client->request('GET', '/baskets');
+        $this->client->request('GET', '/basketdates');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
-        $this->client->request('GET', '/baskets/panier-test');
+        $this->client->request('GET', '/basketdates/' . $id);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
-        $this->client->request('GET', '/baskets/sjoajsiohaysahais-asbsksaba7');
+        $this->client->request('GET', '/basketdates/sjoajsiohaysahais-asbsksaba7');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }
 
-    public function testPatch()
+    /**
+     * @depends testPost
+     */
+    public function testPatch($id)
     {
-        $this->client->request('PATCH', '/baskets/panier-test', [
-                'price' => 20,
-                'content' => 'Encore plus de bonnes choses'
+        $this->client->request('PATCH', '/basketdates/' . $id, [
+                'locked' => true,
             ]
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/baskets/panier-test', ['text' => '']);
+        $this->client->request('PATCH', '/basketdates/' . $id, ['dateRetrieve' => '3 janvier']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
-        $this->client->request('PATCH', '/baskets/sjoajsiohaysahais-asbsksaba7', ['username' => 'miam', 'email' => '123@mail.fr']);
+        $this->client->request('PATCH', '/basketdates/sjoajsiohaysahais-asbsksaba7');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }
 
-    public function testDelete()
+    /**
+     * @depends testPost
+     */
+    public function testDelete($id)
     {
-        $this->client->request('DELETE', '/baskets/panier-test');
+        $this->client->request('DELETE', '/basketdates/' . $id);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('DELETE', '/baskets/panier-test');
+        $this->client->request('DELETE', '/basketdates/' . $id);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }

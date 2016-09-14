@@ -90,157 +90,72 @@ class BasketOrdersController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
-     * @Route("/baskets/{slug}/order")
+     * @Route("/baskets-orders")
      * @Method("POST")
      */
-    public function postBasketOrderAction(Request $request, $slug)
+    public function postBasketOrderAction(Request $request)
     {
+        $orders = $request->request->get('orders');
         $isAuthenticated = $this->isGranted('IS_AUTHENTICATED_REMEMBERED');
 
-        // Si l'utilisateur n'est pas dans uPont il doit avoir rempli les infos
-        if (!$isAuthenticated) {
-            if (!($request->request->has('firstName')
-                && $request->request->has('lastName')
-                && $request->request->has('email')
-                && $request->request->has('phone')
-            )
-            ) {
-                throw new BadRequestHttpException('Formulaire incomplet');
-            }
-        } else if ($this->user->getPhone() === null) {
-            throw new BadRequestHttpException('Indique ton numéro de téléphone sur ton profil !');
-        }
-
-        // On vérifie que la commande n'a pas déjà été faite
-        $basketRepository = $this->manager->getRepository('KIDvpBundle:Basket');
-        $basket = $basketRepository->findOneBySlug($slug);
-
-        $basketOrder = $this->repository->findOneBy([
-            'basket' => $basket,
-            'email' => $isAuthenticated ? $this->user->getEmail() : $request->request->get('email'),
-            'dateRetrieve' => new \DateTime($request->request->get('dateRetrieve')),
-        ]);
-
-        if ($basketOrder !== null) {
-            throw new BadRequestHttpException('Tu as déjà commandé !');
-        }
-
-        $basketOrder = new BasketOrder();
-        $basketOrder->setBasket($basket);
-
-        if (!$isAuthenticated) {
-            // Si l'user n'est pas sur uPont il a tout rempli dans le form
-            $basketOrder->setFirstName($request->request->get('firstName'));
-            $basketOrder->setLastName($request->request->get('lastName'));
-            $basketOrder->setEmail($request->request->get('email'));
-            $basketOrder->setPhone($request->request->get('phone'));
+        if(!$isAuthenticated) {
+            $firstName = $request->request->get('firstName');
+            $lastName = $request->request->get('lastName');
+            $email = $request->request->get('email');
+            $phone = $request->request->get('phone');
         } else {
             $user = $this->user;
-            // Sinon on récupère les infos de son compte
-            $basketOrder->setUser($user);
-            $basketOrder->setFirstName($user->getFirstName());
-            $basketOrder->setLastName($user->getLastName());
-            $basketOrder->setEmail($user->getEmail());
-            if ($user->getPhone() === null) {
-                $user->setPhone($request->request->get('phone'));
+            $firstName = $user->getFirstName();
+            $lastName = $user->getLastName();
+            $email = $user->getEmail();
+            $phone = $user->getPhone();
+        }
+
+        // Si l'utilisateur n'est pas dans uPont il doit avoir rempli les infos
+        if (!($firstName && $lastName && $email && $phone)) {
+            throw new BadRequestHttpException('Formulaire incomplet');
+        }
+
+        foreach ($orders as $order) {
+            $basketSlug = $order['basket'];
+            $dateRetrieve = $order['dateRetrieve'];
+            $ordered = $order['ordered'];
+
+            $basketRepository = $this->manager->getRepository('KIDvpBundle:Basket');
+            $basket = $basketRepository->findOneBySlug($basketSlug);
+
+            $basketDateRepository = $this->manager->getRepository('KIDvpBundle:BasketDate');
+            $basketDate = $basketDateRepository->findOneById($dateRetrieve);
+
+            $basketOrder = $this->repository->findOneBy([
+                'basket' => $basket,
+                'email' => $email,
+                'dateRetrieve' => $basketDate,
+            ]);
+
+            if($basketDate->isLocked())
+                continue;
+
+            if($ordered && $basketOrder === null) {
+                $basketOrder = new BasketOrder();
+                $basketOrder->setBasket($basket);
+
+                $basketOrder->setFirstName($firstName);
+                $basketOrder->setLastName($lastName);
+                $basketOrder->setEmail($email);
+                $basketOrder->setPhone($phone);
+
+                $basketOrder->setDateOrder(time());
+                $basketOrder->setDateRetrieve($basketDate);
+                $basketOrder->setPaid(false);
+
+                $this->manager->persist($basketOrder);
             }
-            $basketOrder->setPhone($user->getPhone());
+
+            if(!$ordered && $basketOrder !== null){
+                $this->manager->remove($basketOrder);
+            }
         }
-
-        $basketOrder->setDateOrder(time());
-        $basketOrder->setDateRetrieve(new \DateTime($request->request->get('dateRetrieve')));
-        $basketOrder->setPaid(false);
-
-        $this->manager->persist($basketOrder);
-        $this->manager->flush();
-
-        return $this->json(null, 204);
-    }
-
-    /**
-     * @ApiDoc(
-     *  description="Modifie une commande",
-     *  input="KI\DvpBundle\Form\BasketOrderType",
-     *  output="KI\DvpBundle\Entity\BasketOrder",
-     *  statusCodes={
-     *   201="Requête traitée avec succès avec création d’un document",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="DévelopPonts"
-     * )
-     * @Route("/baskets/{slug}/order/{email}")
-     * @Method("PATCH")
-     */
-    public function patchBasketOrderAction(Request $request, $slug, $email)
-    {
-        $this->trust($this->isClubMember('dvp'));
-
-        if (!$request->request->has('dateRetrieve')) {
-            throw new BadRequestHttpException('Paramètre manquant');
-        }
-
-        $userRepository = $this->manager->getRepository('KIUserBundle:User');
-
-        // On identifie les utilisateurs par leur mail
-        $basketRepository = $this->manager->getRepository('KIDvpBundle:Basket');
-
-        $basketOrder = $this->repository->findOneBy([
-            'basket' => $basketRepository->findOneBySlug($slug),
-            'email' => $email,
-            'dateRetrieve' => new \DateTime($request->request->get('dateRetrieve')),
-        ]);
-
-        if ($basketOrder === null) {
-            throw new BadRequestHttpException('Commande non trouvée');
-        }
-
-        // On patche manuellement
-        if ($request->request->has('paid')) {
-            $basketOrder->setPaid($request->request->get('paid'));
-        }
-
-        $this->manager->persist($basketOrder);
-        $this->manager->flush();
-
-        return $this->json(null, 204);
-    }
-
-    /**
-     * @ApiDoc(
-     *  description="Supprime une commande",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="DévelopPonts"
-     * )
-     * @Route("/baskets/{slug}/order/{email}/{dateRetrieve}")
-     * @Method("DELETE")
-     */
-    public function deleteBasketOrderAction($slug, $email, $dateRetrieve)
-    {
-        // On identifie les utilisateurs par leur mail
-        $userRepository = $this->manager->getRepository('KIUserBundle:User');
-        $user = $userRepository->findOneByEmail($email);
-        $basketRepository = $this->manager->getRepository('KIDvpBundle:Basket');
-
-        $basketOrder = $this->repository->findOneBy([
-            'basket' => $basketRepository->findOneBySlug($slug),
-            'email' => $email,
-            'dateRetrieve' => new \DateTime($dateRetrieve)
-        ]);
-
-        if ($basketOrder === null) {
-            throw new NotFoundHttpException('Commande non trouvée');
-        }
-
-        $this->manager->remove($basketOrder, $this->isClubMember('dvp'));
         $this->manager->flush();
 
         return $this->json(null, 204);

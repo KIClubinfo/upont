@@ -7,21 +7,22 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-class BasketsController extends ResourceController
+class BasketDatesController extends ResourceController
 {
     public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
-        $this->initialize('Basket', 'Dvp');
+        $this->initialize('BasketDate', 'Dvp');
     }
 
     /**
      * @ApiDoc(
      *  resource=true,
      *  description="Liste les paniers",
-     *  output="KI\DvpBundle\Entity\Basket",
+     *  output="KI\DvpBundle\Entity\BasketDate",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -30,18 +31,22 @@ class BasketsController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
-     * @Route("/baskets")
+     * @Route("/basketdates")
      * @Method("GET")
      */
-    public function getBasketsAction()
+    public function getBasketDatesAction(Request $request)
     {
+        $request->query->set('sort', 'dateRetrieve');
+        $request->query->set('locked', false);
+        $request->query->set('limit', 4);
+
         return $this->getAll($this->is('EXTERIEUR'));
     }
 
     /**
      * @ApiDoc(
      *  description="Retourne un panier",
-     *  output="KI\DvpBundle\Entity\Basket",
+     *  output="KI\DvpBundle\Entity\BasketDate",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -51,10 +56,10 @@ class BasketsController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
-     * @Route("/baskets/{slug}")
+     * @Route("/basketdates/{slug}")
      * @Method("GET")
      */
-    public function getBasketAction($slug)
+    public function getBasketDateAction($slug)
     {
         $basket = $this->getOne($slug, $this->is('EXTERIEUR'));
 
@@ -64,8 +69,8 @@ class BasketsController extends ResourceController
     /**
      * @ApiDoc(
      *  description="Crée un panier",
-     *  input="KI\DvpBundle\Form\BasketType",
-     *  output="KI\DvpBundle\Entity\Basket",
+     *  input="KI\DvpBundle\Form\BasketDateType",
+     *  output="KI\DvpBundle\Entity\BasketDate",
      *  statusCodes={
      *   201="Requête traitée avec succès avec création d’un document",
      *   400="La syntaxe de la requête est erronée",
@@ -75,10 +80,10 @@ class BasketsController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
-     * @Route("/baskets")
+     * @Route("/basketdates")
      * @Method("POST")
      */
-    public function postBasketAction()
+    public function postBasketDateAction()
     {
         $data = $this->post($this->isClubMember('dvp'));
 
@@ -88,7 +93,7 @@ class BasketsController extends ResourceController
     /**
      * @ApiDoc(
      *  description="Modifie un panier",
-     *  input="KI\DvpBundle\Form\BasketType",
+     *  input="KI\DvpBundle\Form\BasketDateType",
      *  statusCodes={
      *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   400="La syntaxe de la requête est erronée",
@@ -99,10 +104,10 @@ class BasketsController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
-     * @Route("/baskets/{slug}")
+     * @Route("/basketdates/{slug}")
      * @Method("PATCH")
      */
-    public function patchBasketAction($slug)
+    public function patchBasketDateAction($slug)
     {
         $data = $this->patch($slug, $this->isClubMember('dvp'));
 
@@ -121,10 +126,10 @@ class BasketsController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
-     * @Route("/baskets/{slug}")
+     * @Route("/basketdates/{slug}")
      * @Method("DELETE")
      */
-    public function deleteBasketAction($slug)
+    public function deleteBasketDateAction($slug)
     {
         $basket = $this->getOne($slug);
 

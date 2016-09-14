@@ -63,10 +63,10 @@ class BasketOrder
     protected $dateOrder;
 
     /**
-     * Date à laquelle la commande est censée être retirée (timestamp)
-     * @ORM\Column(name="dateRetrieve", type="date")
+     * Date à laquelle la commande est censée être retirée
+     * @ORM\ManyToOne(targetEntity="KI\DvpBundle\Entity\BasketDate", inversedBy="orders", cascade={"persist"})
      * @JMS\Expose
-     * @Assert\Type("DateTime")
+     * @Assert\Valid()
      */
     protected $dateRetrieve;
 
@@ -232,7 +232,7 @@ class BasketOrder
     /**
      * Set dateRetrieve
      *
-     * @param \DateTime $dateRetrieve
+     * @param BasketDate $dateRetrieve
      *
      * @return BasketOrder
      */
@@ -246,7 +246,7 @@ class BasketOrder
     /**
      * Get dateRetrieve
      *
-     * @return \DateTime
+     * @return BasketDate
      */
     public function getDateRetrieve()
     {

@@ -11,8 +11,14 @@ class BasketOrdersControllerTest extends WebTestCase
     public function testPost()
     {
         // Poste une commande
-        $this->client->request('POST', '/baskets/panier-moyen/order', [
-            'dateRetrieve' => '2016-08-08'
+        $this->client->request('POST', '/baskets-orders', [
+                'orders' => [
+                    [
+                        'dateRetrieve' => 1,
+                        'ordered' => true,
+                        'basket' => 'panier-test'
+                    ]
+                ]
             ]
         );
         $response = $this->client->getResponse();
@@ -32,36 +38,5 @@ class BasketOrdersControllerTest extends WebTestCase
         $this->client->request('GET', '/baskets-orders/srgsegherge');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
-    }
-
-    public function testPatch()
-    {
-        $this->client->request(
-            'PATCH',
-            '/baskets/panier-moyen/order/alberic.trancart@eleves.enpc.fr',
-            [
-                'paid' => true,
-                'dateRetrieve' => '2016-08-08',
-            ]
-        );
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-    }
-
-    public function testDelete()
-    {
-        $this->client->request(
-            'DELETE',
-            '/baskets/panier-moyen/order/alberic.trancart@eleves.enpc.fr/2016-08-08'
-            );
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
-
-        $this->client->request(
-            'DELETE',
-            '/baskets/panier-moyen/order/alberic.trancart@eleves.enpc.fr/2016-08-08'
-            );
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 404);
     }
 }

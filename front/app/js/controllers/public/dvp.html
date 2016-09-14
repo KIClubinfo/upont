@@ -12,16 +12,15 @@
                     <thead>
                     <tr>
                         <th>Panier</th>
-                        <th ng-repeat="day in thursdays">{{ day.format('ddd DD MMM YYYY') }}</th>
+                        <th ng-repeat="day in dates">{{ day.date_retrieve | dvpDate }}</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr ng-repeat="basket in baskets">
-                        <td>{{ basket.name }}</td>
-                        <td ng-repeat="day in thursdays">
+                        <td>{{ basket.name }} </td>
+                        <td ng-repeat="day in dates">
                             <input type="checkbox"
-                                   ng-model="basketOrders[basket.slug][day.format('YYYY-MM-DD')].ordered"
-                                   ng-disabled="basketOrders[basket.slug][day.format('YYYY-MM-DD')].disabled"
+                                   ng-model="basketOrders[basket.slug][day.id]"
                             >
                         </td>
                     </tr>
@@ -105,7 +104,7 @@
                 <hr>
                 <div class="padded">
                     <h3>{{ order.basket.name }}</h3>
-                    <p>À retirer le <b>{{ order.date_retrieve.format('dddd DD MMMM YYYY') }}</b></p>
+                    <p>À retirer le <b>{{ order.date_retrieve.date_retrieve | dvpDate }}</b></p>
                     <p>Payé : {{ order.paid ? 'Oui' : 'Non' }}</p>
                 </div>
             </div>
@@ -118,11 +117,10 @@
                 <hr>
                 <div class="padded">
                     <h3>{{ order.basket.name }}</h3>
-                    <p>À retirer le <b>{{ order.date_retrieve.format('dddd DD MMMM YYYY') }}</b></p>
+                    <p>À retirer le <b>{{ order.date_retrieve.date_retrieve | dvpDate }}</b></p>
                     <p>Payé : {{ order.paid ? 'Oui' : 'Non' }}</p>
                 </div>
             </div>
         </section>
     </div>
 </div>
-
