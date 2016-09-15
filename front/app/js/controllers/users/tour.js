@@ -71,7 +71,7 @@ angular.module('upont')
                 text: 'Si tu as besoin d\'un peu d\'aide, tu peux toujours retrouver quelqu\'un via la recherche ou bien dans le <strong>Ponts\'binoscope</strong> et sa fonction de tri. Les pages de profil des élèves sont tellement détaillées que tu sauras <strong>combien de litres ils ont bu ou combien ils ont téléchargé sur PontHub</strong> s\'ils ont accepté de le partager !'
             },
             {
-                state: 'root.users.assos.foyer',
+                state: 'root.users.assos.foyer-playlist',
                 icon: 'beer',
                 text: 'En parlant de Foyer, tu pourras trouver le <strong>Hall Of Fame des plus gros buveurs</strong> sur cette page.<br>' +
                 'Si ça te chante, tu peux même <strong>ajouter le dernier clip de Booba pour qu\'il soit passé au prochain Foyer !</strong>'
