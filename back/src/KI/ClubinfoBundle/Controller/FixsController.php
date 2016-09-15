@@ -103,7 +103,9 @@ class FixsController extends ResourceController
      */
     public function patchFixAction($slug)
     {
-        $fix = $this->getOne($slug);
+        $data = $this->patch($slug, $this->isClubMember('ki'));
+
+        $fix = $data['item'];
 
         if ($fix->getFix()) {
             $this->get('ki_user.service.notify')->notify(
@@ -114,7 +116,6 @@ class FixsController extends ResourceController
                 [$fix->getUser()]
             );
         }
-        $data = $this->patch($slug);
 
         return $this->formJson($data);
     }
@@ -137,7 +138,9 @@ class FixsController extends ResourceController
     public function deleteFixAction($slug)
     {
         $fix = $this->getOne($slug);
-        $this->delete($slug, $this->user->getUsername() == $fix->getUser()->getUsername());
+        $this->delete($slug,
+            $this->user->getUsername() == $fix->getUser()->getUsername() || $this->isClubMember('ki')
+        );
 
         return $this->json(null, 204);
     }
