@@ -5,7 +5,7 @@
             Tu peux maintenant choisir un nouveau mot de passe. Essaye de ne pas l'oublier cette fois ;-)
         </p>
 
-        <form row="start center" wrap ng-submit="submit(admissible)">
+        <form row="start center" wrap ng-submit="reset(password, check)">
             <div class="padded" flex="100">
                 <input class="Input" ng-model="password" type="password" placeholder="Mot de passe" autofocus>
             </div>
