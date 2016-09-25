@@ -1,0 +1,6 @@
+services:
+    ki_foyer.listener.negative_balance.send_mail:
+        class: KI\FoyerBundle\Listener\SendMailNegativeBalanceListener
+        autowire: true
+        tags:
+            - { name: kernel.event_listener, event: upont.negative_balance, method: sendMail }
