@@ -69,12 +69,22 @@ class UserRepository extends ResourceRepository
 
     public function getDebtsIterator()
     {
-        $this->createQueryBuilder('u')
-            ->select('u.username, u.email, u.promo, u.firstName, u.lastName, u.balance')
-            ->where('u.balance < 0')
-            ->orderBy('u.balance')
-            ->getQuery()
+        return $this->getEntityManager()->createQuery('SELECT usr.username, usr.email, usr.promo, usr.firstName, usr.lastName, usr.balance
+            FROM KIUserBundle:User usr
+            WHERE usr.balance < 0
+            ORDER BY usr.balance
+        ')
             ->iterate();
+    }
+
+    public function getPromoBalance()
+    {
+        return $this->getEntityManager()->createQuery('SELECT usr.promo, SUM(usr.balance)
+            FROM KIUserBundle:User usr
+            GROUP BY usr.promo
+            ORDER BY usr.promo
+        ')
+            ->getArrayResult();
     }
 
     public function getUserClubs(User $user)

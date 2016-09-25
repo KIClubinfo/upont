@@ -107,4 +107,41 @@ class DefaultController extends BaseController
 
         return $response;
     }
+
+    /**
+     * @ApiDoc(
+     *  description="Retourne le csv de la répartition de l'argent par promo",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Foyer"
+     * )
+     * @Route("/foyer/promo-balance")
+     * @Method("GET")
+     */
+    public function getFoyerPromoBalanceAction()
+    {
+        $this->trust($this->isFoyerMember());
+
+        $response = new StreamedResponse(function () {
+            $results = $this->repository->getPromoBalance();
+            $handle = fopen('php://output', 'r+');
+
+            fputcsv($handle, ['promo', 'balance']);
+
+            foreach ($results as $row) {
+                fputcsv($handle, $row);
+            }
+
+            fclose($handle);
+        });
+
+        $response->headers->set('Content-Type', 'application/force-download');
+        $response->headers->set('Content-Disposition', 'attachment; filename="promo-balance.csv"');
+
+        return $response;
+    }
 }
