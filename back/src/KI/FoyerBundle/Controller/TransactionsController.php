@@ -36,7 +36,7 @@ class TransactionsController extends ResourceController
      */
     public function getTransactionsAction()
     {
-        return $this->getAll($this->isClubMember('foyer'));
+        return $this->getAll($this->isFoyerMember());
     }
 
     /**
@@ -56,7 +56,7 @@ class TransactionsController extends ResourceController
      */
     public function getUserBeersAction()
     {
-        $this->trust($this->isClubMember('foyer') || $this->is('ADMIN'));
+        $this->trust($this->isFoyerMember());
 
         $helper = $this->get('ki_foyer.helper.beer');
         $users = $helper->getUserOrderedList();
@@ -83,7 +83,7 @@ class TransactionsController extends ResourceController
         $userRepository = $this->getDoctrine()->getManager()->getRepository('KIUserBundle:User');
         $user = $userRepository->findOneByUsername($slug);
 
-        $this->trust($this->isClubMember('foyer') || $this->is('ADMIN') || $this->user == $user);
+        $this->trust($this->isFoyerMember() || $this->user == $user);
 
         $paginateHelper = $this->get('ki_core.helper.paginate');
         extract($paginateHelper->paginateData($this->repository, ['user' => $user]));
@@ -136,7 +136,7 @@ class TransactionsController extends ResourceController
      */
     public function postTransactionAction(Request $request)
     {
-        $this->trust($this->isClubMember('foyer') || $this->is('ADMIN'));
+        $this->trust($this->isFoyerMember());
 
         if (!$request->request->has('user')) {
             throw new BadRequestHttpException('User obligatoire');
@@ -172,13 +172,13 @@ class TransactionsController extends ResourceController
      */
     public function deleteTransactionAction($id)
     {
-        $this->trust($this->isClubMember('foyer') || $this->is('ADMIN'));
+        $this->trust($this->isFoyerMember());
 
         $transaction = $this->findBySlug($id);
         $helper = $this->get('ki_foyer.helper.transaction');
         $helper->updateBalance($transaction->getUser(), -1 * $transaction->getAmount());
 
-        $this->delete($id, $this->isClubMember('foyer'));
+        $this->delete($id, $this->isFoyerMember());
 
         return $this->json(null, 204);
     }

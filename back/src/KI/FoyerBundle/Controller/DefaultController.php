@@ -87,7 +87,7 @@ class DefaultController extends BaseController
      */
     public function getFoyerDebtsAction()
     {
-        $this->trust($this->isClubMember('foyer') || $this->is('ADMIN'));
+        $this->trust($this->isFoyerMember());
 
         $response = new StreamedResponse(function () {
             $results = $this->repository->getDebtsIterator();

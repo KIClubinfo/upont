@@ -79,6 +79,16 @@ class CoreController extends Controller
     }
 
     /**
+     * Sert à checker si l'user actuel est membre du club au nom duquel il poste
+     * @param  string $club
+     * @return boolean
+     */
+    protected function isFoyerMember()
+    {
+        return $this->isClubMember('foyer') && $this->user->getPromo() == '018';
+    }
+
+    /**
      * Génère une réponse au format JSON en parsant les propriétés avec le FOSRestBundle
      * @param  mixed $data    Le contenu à renvoyer
      * @param  int   $status    Le code d'erreur HTTP à renvoyer
