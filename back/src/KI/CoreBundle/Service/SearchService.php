@@ -124,6 +124,7 @@ class SearchService
             // On précise des choses en plus pour les utilisateurs
             if ($class == 'User') {
                 $item['balance'] = $result->getBalance();
+                $item['promo'] = $result->getPromo();
             }
 
             // Pour les épisodes, on ajoute une référence à l'entité parent
