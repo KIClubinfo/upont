@@ -1,6 +1,6 @@
 parameters:
     # Tokens d'accès API Gracenote
-    ki_ponthub.files.valid_extensions: ['mp3', 'wav', 'ogg', 'flac', 'mp2', 'aac', 'avi', 'mpeg', 'mp4', 'mkv', 'rar', 'zip', 'iso', 'exe', 'msi', 'jpg', 'jpeg', 'png', 'bmp', 'gif', 'srt', 'pdf', 'epub', 'mobi']
+    ki_ponthub.files.valid_extensions: ['avi', 'mpeg', 'mp4', 'mkv', 'rar', 'zip', 'iso', 'exe', 'msi', 'jpg', 'jpeg', 'png', 'bmp', 'gif', 'srt', 'pdf', 'epub', 'mobi', 'dmg']
 
 services:
     ki_ponthub.helper.filelist:
