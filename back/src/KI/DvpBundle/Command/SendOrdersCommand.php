@@ -20,7 +20,7 @@ class SendOrdersCommand extends ContainerAwareCommand
     {
         $this
             ->setName('upont:dvp:sendorders')
-            ->setDescription('Sends email to users with negatif balance')
+            ->setDescription('Sends orders to dvp')
         ;
     }
 
@@ -49,6 +49,7 @@ class SendOrdersCommand extends ContainerAwareCommand
                 ->setFrom('noreply@upont.enpc.fr')
                 ->setTo('paniersprimeur@upont.enpc.fr')
                 ->setBody($this->getContainer()->get('twig')->render('KIDvpBundle::basket-orders.html.twig', [
+                    'dateRetrieve' => $basketDate,
                     'orders' => $orders
                 ]), 'text/html');
 
