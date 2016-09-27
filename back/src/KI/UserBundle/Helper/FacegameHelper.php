@@ -47,7 +47,7 @@ class FacegameHelper
         $list     = $facegame->getListUsers();
 
         if ($hardcore) {
-            $defaultTraits = array('department', 'promo', 'location', 'origin', 'nationality');
+            $defaultTraits = ['department', 'promo', 'location', 'origin', 'nationality'];
             $nbTraits      = count($defaultTraits);
         }
 
@@ -63,8 +63,8 @@ class FacegameHelper
         $nbPropositions = 3;
 
         while (count($list) < $nbQuestions) {
-            $tempList = array();
-            $ids      = array();
+            $tempList = [];
+            $ids      = [];
 
             $tempList['firstPart'] = count($list) < $nbQuestions/2;
 
@@ -75,7 +75,7 @@ class FacegameHelper
                 } while ($promo !== null && $trait == 'promo');
 
                 $tempList['trait'] = $trait;
-                $userTraits = array();
+                $userTraits = [];
             }
 
             // La réponse est décidée aléatoirement

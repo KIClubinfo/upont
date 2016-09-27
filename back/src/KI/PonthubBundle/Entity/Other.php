@@ -2,8 +2,8 @@
 
 namespace KI\PonthubBundle\Entity;
 
-use KI\PonthubBundle\Entity\PonthubFile;
 use Doctrine\ORM\Mapping as ORM;
+use KI\PonthubBundle\Entity\PonthubFile;
 
 /**
  * @ORM\Entity

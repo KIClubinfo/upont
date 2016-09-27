@@ -4,8 +4,8 @@ namespace KI\FoyerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
 use KI\CoreBundle\Entity\Likeable;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Représentation d'un lien YouTube pour les suggestions de musique du Foyer

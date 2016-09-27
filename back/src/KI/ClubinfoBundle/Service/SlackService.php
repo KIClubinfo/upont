@@ -29,16 +29,16 @@ class SlackService
      */
     public function post(User $user, $channel, $text)
     {
-        if (in_array($this->environment, array('dev', 'test'))) {
+        if (in_array($this->environment, ['dev', 'test'])) {
             return;
         }
 
-        $payload = array(
+        $payload = [
             'channel'  => $channel,
             'username' => $user->getFirstname().' '.$user->getLastname(),
             'icon_url' => $user->getImage() === null ? '' : $this->baseUrl.$user->getImage()->getWebPath(),
             'text'     => $text
-        );
+        ];
 
         return $this->curlService->curl($this->slackHook, json_encode($payload));
     }

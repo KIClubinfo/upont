@@ -1,9 +1,9 @@
 <?php
 namespace KI\CoreBundle\Selector;
 
+use KI\CoreBundle\Transformer\StringToTagsTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use KI\CoreBundle\Transformer\StringToTagsTransformer;
 
 class TagsSelector extends AbstractType
 {
@@ -21,11 +21,6 @@ class TagsSelector extends AbstractType
 
     public function getParent()
     {
-        return 'text';
-    }
-
-    public function getName()
-    {
-        return 'tags_selector';
+        return 'Symfony\Component\Form\Extension\Core\Type\TextType';
     }
 }

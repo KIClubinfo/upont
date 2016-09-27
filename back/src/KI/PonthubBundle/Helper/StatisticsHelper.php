@@ -3,12 +3,12 @@
 namespace KI\PonthubBundle\Helper;
 
 use Doctrine\ORM\EntityRepository;
-use KI\UserBundle\Entity\User;
-use KI\PonthubBundle\Entity\Movie;
 use KI\PonthubBundle\Entity\Episode;
 use KI\PonthubBundle\Entity\Game;
-use KI\PonthubBundle\Entity\Software;
+use KI\PonthubBundle\Entity\Movie;
 use KI\PonthubBundle\Entity\Other;
+use KI\PonthubBundle\Entity\Software;
+use KI\UserBundle\Entity\User;
 
 class StatisticsHelper
 {
@@ -25,31 +25,31 @@ class StatisticsHelper
      */
     public function getUserStatistics(User $user)
     {
-        $downloads = $this->ponthubFileUserRepository->findBy(array('user' => $user), array('date' => 'ASC'));
+        $downloads = $this->ponthubFileUserRepository->findBy(['user' => $user], ['date' => 'ASC']);
         $totalFiles = count($downloads);
 
         if ($totalFiles == 0) {
-            return array('repartition' => array(), 'timeline' => array(), 'totalSize' => 0, 'totalFiles' => 0, 'hipster' => 0);
+            return ['repartition' => [], 'timeline' => [], 'totalSize' => 0, 'totalFiles' => 0, 'hipster' => 0];
         }
 
         // Récupération de la date javascript du premier download
         $date = 1000*($downloads[0]->getDate() - 10*3600);
 
         // Initialisation des tableaux à retourner
-        $repartition = array(
-            array('Films', 0),
-            array('Épisodes', 0),
-            array('Jeux', 0),
-            array('Logiciels', 0),
-            array('Autres', 0)
-        );
-        $timeline = array(
-            array('name' => 'Films',     'data' => array(array($date, 0))),
-            array('name' => 'Épisodes',  'data' => array(array($date, 0))),
-            array('name' => 'Jeux',      'data' => array(array($date, 0))),
-            array('name' => 'Logiciels', 'data' => array(array($date, 0))),
-            array('name' => 'Autres',    'data' => array(array($date, 0)))
-        );
+        $repartition = [
+            ['Films', 0],
+            ['Épisodes', 0],
+            ['Jeux', 0],
+            ['Logiciels', 0],
+            ['Autres', 0]
+        ];
+        $timeline = [
+            ['name' => 'Films',     'data' => [[$date, 0]]],
+            ['name' => 'Épisodes',  'data' => [[$date, 0]]],
+            ['name' => 'Jeux',      'data' => [[$date, 0]]],
+            ['name' => 'Logiciels', 'data' => [[$date, 0]]],
+            ['name' => 'Autres',    'data' => [[$date, 0]]]
+        ];
         $totalSize = 0;
         $hipster = 0;
 
@@ -89,13 +89,13 @@ class StatisticsHelper
         // Dans le chart stacké, on met la date actuelle comme point de fin
         $this->updateSeries($timeline, time()*1000, -1);
 
-        return array(
+        return [
             'repartition' => $repartition,
             'timeline'    => $timeline,
             'totalSize'   => $totalSize,
             'totalFiles'  => $totalFiles,
             'hipster'     => (int)(10*$hipster/$totalFiles)
-        );
+        ];
     }
 
     /**
@@ -107,9 +107,9 @@ class StatisticsHelper
     private function updateSeries(&$series, $date, $id) {
         foreach ($series as $key => &$value) {
             if ($key != $id) {
-                $value['data'][] = array($date, $value['data'][count($value['data']) - 1][1]);
+                $value['data'][] = [$date, $value['data'][count($value['data']) - 1][1]];
             } else {
-                $value['data'][] = array($date, $value['data'][count($value['data']) - 1][1] + 1);
+                $value['data'][] = [$date, $value['data'][count($value['data']) - 1][1] + 1];
             }
         }
     }

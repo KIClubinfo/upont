@@ -64,10 +64,10 @@ class ImageService
         if ($image !== null) {
             $extension = explode('/', getimagesizefromstring($imageString)['mime'])[1];
 
-            return array(
+            return [
                 'image' => $imageString,
                 'extension' => $extension
-            );
+            ];
         }
     }
 
@@ -77,14 +77,14 @@ class ImageService
     public function uploadFromUrl($url)
     {
         // Réglage des options cURL
-        $data = $this->curlService->curl($url, null, array(
+        $data = $this->curlService->curl($url, null, [
             CURLOPT_BUFFERSIZE => 128,
             CURLOPT_NOPROGRESS => true,
             CURLOPT_PROGRESSFUNCTION, function($downloadSize, $downloaded, $uploadSize, $uploaded) {
                 // Retourner autre chose que 0 stoppe la connexion
                 return ($downloaded > ($this->imagesMaxSize)) ? 1 : 0;
             }
-        ));
+        ]);
 
         // Récupération de l'image
         if (!$data) {
@@ -100,9 +100,9 @@ class ImageService
             throw new \Exception('Image non reconnue');
         }
 
-        return array(
+        return [
             'image' => $data,
             'extension' => $extension
-        );
+        ];
     }
 }

@@ -2,9 +2,10 @@
 
 namespace KI\UserBundle\Form;
 
+use KI\UserBundle\Entity\Facegame;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
 class FacegameType extends AbstractType
@@ -17,15 +18,15 @@ class FacegameType extends AbstractType
             ->add('hardcore');
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_protection' => false,
-            'data_class' => 'KI\UserBundle\Entity\Facegame'
-        ));
+            'data_class' => Facegame::class
+        ]);
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return '';
     }

@@ -41,11 +41,11 @@ class NewsitemListener
 
             list($usersPush, $usersMail) = $this->getUsersToNotify($club, $newsitem->getSendMail());
 
-            $vars = array('post' => $newsitem);
+            $vars = ['post' => $newsitem];
 
             $attachments = [];
             foreach ($newsitem->getFiles() as $file) {
-                $attachments[] = array('path' => $file->getAbsolutePath(), 'name' => $file->getName());
+                $attachments[] = ['path' => $file->getAbsolutePath(), 'name' => $file->getName()];
             }
 
             $title = '['.$club->getName().']'.' '.$newsitem->getName();
@@ -72,7 +72,7 @@ class NewsitemListener
                 $newsitem->getName(),
                 $text,
                 'exclude',
-                array()
+                []
             );
         }
     }
@@ -85,7 +85,7 @@ class NewsitemListener
     private function getUsersToNotify(Club $club, $sendMail = false)
     {
         $allUsers = $this->userRepository->findAll();
-        $usersPush = $usersMail = array();
+        $usersPush = $usersMail = [];
 
         foreach ($allUsers as $candidate) {
             if (!$candidate->getClubsNotFollowed()->contains($club)) {
@@ -96,6 +96,6 @@ class NewsitemListener
                 }
             }
         }
-        return array($usersPush, $usersMail);
+        return [$usersPush, $usersMail];
     }
 }

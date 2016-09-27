@@ -3,9 +3,9 @@
 namespace KI\PonthubBundle\Listener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use KI\PonthubBundle\Entity\PonthubFile;
 use KI\UserBundle\Entity\User;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class PonthubFileListener
 {
@@ -24,13 +24,9 @@ class PonthubFileListener
 
             if ($entity instanceof PonthubFile && $user instanceof User) {
                 $entity->setDownloaded(
-                    $args->getEntityManager()->createQuery('SELECT COUNT(pfu.id) FROM
-                    KIPonthubBundle:PonthubFileUser pfu
-                    WHERE pfu.user = :user AND pfu.file = :file
-                    ')
-                        ->setParameter('file', $entity)
-                        ->setParameter('user', $user)
-                        ->getSingleScalarResult() > 0
+                    $args->getEntityManager()
+                        ->getRepository('KIPonthubBundle:PonthubFileUser')
+                        ->hasBeenDownloadedBy($entity, $user)
                 );
             }
         }

@@ -2,7 +2,7 @@
 
 namespace KI\CoreBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
+use Symfony\Component\HttpFoundation\Response;
 
 // Fonctions générales pour servir une sous ressource de type REST (exemple: Serie -> Episode)
 class SubresourceController extends ResourceController
@@ -15,7 +15,6 @@ class SubresourceController extends ResourceController
      *                         Sinon considère qu'il y a des attributs et donc
      *                         qu'il y a une entité intermédiaire
      * @param  boolean $auth   Un override éventuel pour le check des permissions
-     * @Route\View()
      */
     protected function getAllSub($slug, $name, $simple = true, $auth = false)
     {
@@ -28,7 +27,7 @@ class SubresourceController extends ResourceController
         } else {
             // Récupère le repository de l'entité intermédiaire
             $repository = $this->manager->getRepository('KI'.$this->bundle.'Bundle:'.$this->className.$name);
-            return $repository->findBy(array(strtolower($this->className) => $item));
+            return $repository->findBy([strtolower($this->className) => $item]);
         }
     }
 
@@ -38,7 +37,7 @@ class SubresourceController extends ResourceController
      * @param  string  $name Le nom de la classe fille
      * @param  string  $id   L'identifiant de l'entité fille
      * @param  boolean $auth Un override éventuel pour le check des permissions
-     * @return Response
+     * @return object
      */
     protected function getOneSub($slug, $name, $id, $auth = false)
     {
@@ -57,7 +56,7 @@ class SubresourceController extends ResourceController
      * @param  string  $name Le nom de la classe fille
      * @param  string  $id   L'identifiant de l'entité fille
      * @param  boolean $auth Un override éventuel pour le check des permissions
-     * @return Response
+     * @return array
      */
     protected function patchSub($slug, $name, $id, $auth = false)
     {
@@ -76,16 +75,13 @@ class SubresourceController extends ResourceController
      * @param  string  $name Le nom de la classe fille
      * @param  string  $id   L'identifiant de l'entité fille
      * @param  boolean $auth Un override éventuel pour le check des permissions
-     * @return Response
      */
     protected function deleteSub($slug, $name, $id, $auth = false)
     {
         $this->findBySlug($slug);
 
         $this->switchClass($name);
-        $out = $this->delete($id, $auth);
+        $this->delete($id, $auth);
         $this->switchClass();
-
-        return $out;
     }
 }

@@ -4,9 +4,9 @@ namespace KI\DvpBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
-use KI\UserBundle\Entity\User;
 use KI\DvpBundle\Entity\Basket;
+use KI\UserBundle\Entity\User;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -63,10 +63,10 @@ class BasketOrder
     protected $dateOrder;
 
     /**
-     * Date à laquelle la commande est censée être retirée (timestamp)
-     * @ORM\Column(name="dateRetrieve", type="integer", nullable=true)
+     * Date à laquelle la commande est censée être retirée
+     * @ORM\ManyToOne(targetEntity="KI\DvpBundle\Entity\BasketDate", inversedBy="orders", cascade={"persist"})
      * @JMS\Expose
-     * @Assert\Type("integer")
+     * @Assert\Valid()
      */
     protected $dateRetrieve;
 
@@ -232,7 +232,7 @@ class BasketOrder
     /**
      * Set dateRetrieve
      *
-     * @param integer $dateRetrieve
+     * @param BasketDate $dateRetrieve
      *
      * @return BasketOrder
      */
@@ -246,7 +246,7 @@ class BasketOrder
     /**
      * Get dateRetrieve
      *
-     * @return integer
+     * @return BasketDate
      */
     public function getDateRetrieve()
     {

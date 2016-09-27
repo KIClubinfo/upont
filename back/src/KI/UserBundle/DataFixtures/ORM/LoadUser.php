@@ -2,11 +2,11 @@
 
 namespace KI\UserBundle\DataFixtures\ORM;
 
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 // Cette fixture est un peu spéciale car elle doit utiliser la classe User de l'UserBundle
 class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
@@ -29,6 +29,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setUsername('kadaouic');
         $user->setEmail('chaimaa.kadaoui@eleves.test.enpc.fr');
         $user->setPlainPassword('password');
+        $user->setLoginMethod('form');
         $user->setFirstName('Chaïmaa');
         $user->setLastName('Kadaoui');
         $user->setPromo('016');
@@ -49,9 +50,10 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setUsername('taquet-c');
         $user->setEmail('cecile.taquet-gasperini@eleves.enpc.fr');
         $user->setPlainPassword('tata');
+        $user->setLoginMethod('form');
         $user->setFirstName('Cécile');
         $user->setLastName('Taquet Gaspérini');
-        $user->setPromo('017');
+        $user->setPromo('018'); // En vrai, 017
         $user->setDepartment('1A');
         $user->setOrigin('CC - MP [CTG]');
         $user->setLocation('Coloc');
@@ -67,6 +69,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setUsername('trancara');
         $user->setEmail('alberic.trancart@eleves.enpc.fr');
         $user->setPlainPassword('password');
+        $user->setLoginMethod('form');
         $user->setFirstName('Albéric');
         $user->setLastName('Trancart');
         $user->setPromo('016');
@@ -88,6 +91,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setNickname('Deboissque');
         $user->setEmail('corentin.de-boisset@eleves.test.enpc.fr');
         $user->setPlainPassword('123');
+        $user->setLoginMethod('form');
         $user->setFirstName('Corentin');
         $user->setLastName('De Boisset');
         $user->setPromo('016');
@@ -107,6 +111,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setUsername('guerinh');
         $user->setEmail('henri.guerin@eleves.enpc.fr');
         $user->setPlainPassword('1234567890');
+        $user->setLoginMethod('form');
         $user->setFirstName('Henri');
         $user->setLastName('Guérin');
         $user->setPromo('016');
@@ -127,6 +132,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setUsername('dziris');
         $user->setEmail('safia.dziri@eleves.test.enpc.fr');
         $user->setPlainPassword('password');
+        $user->setLoginMethod('form');
         $user->setFirstName('Safia');
         $user->setLastName('Dziri');
         $user->setPromo('016');
@@ -145,6 +151,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setUsername('muzardt');
         $user->setEmail('theo.muzard@eleves.test.enpc.fr');
         $user->setPlainPassword('password');
+        $user->setLoginMethod('form');
         $user->setFirstName('Théo');
         $user->setLastName('Muzard');
         $user->setPromo('016');
@@ -165,6 +172,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setUsername('donat-bb');
         $user->setEmail('benoit.donat-bouillud@eleves.test.enpc.fr');
         $user->setPlainPassword('password');
+        $user->setLoginMethod('form');
         $user->setFirstName('Benoît');
         $user->setLastName('Donat Bouillud');
         $user->setPromo('016');
@@ -183,6 +191,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setUsername('bochetc');
         $user->setEmail('bochetc@eleves.test.enpc.fr');
         $user->setPlainPassword('password');
+        $user->setLoginMethod('form');
         $user->setFirstName('Charles');
         $user->setLastName('Bochet');
         $user->setPromo('015');
@@ -202,6 +211,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setUsername('vessairc');
         $user->setEmail('vessairc@eleves.test.enpc.fr');
         $user->setPlainPassword('password');
+        $user->setLoginMethod('form');
         $user->setFirstName('Cyrille');
         $user->setLastName('Vessaire');
         $user->setPromo('017');
@@ -221,9 +231,10 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setUsername('peluchom');
         $user->setEmail('peluchom@eleves.test.enpc.fr');
         $user->setPlainPassword('password');
+        $user->setLoginMethod('form');
         $user->setFirstName('Mathias');
         $user->setLastName('Peluchon');
-        $user->setPromo('017');
+        $user->setPromo('018');
         $user->setDepartment('1A');
         $user->setMailEvent(false);
         $user->setMailModification(false);
@@ -237,6 +248,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setUsername('admissibles');
         $user->setEmail('admissible@clubinfo.enpc.fr');
         $user->setPlainPassword('password');
+        $user->setLoginMethod('form');
         $user->setFirstName('Admissible');
         $user->setLastName('Mines-Ponts');
         $user->setPromo('018');
@@ -256,6 +268,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setUsername('gcc');
         $user->setEmail('root@clubinfo.enpc.fr');
         $user->setPlainPassword('password');
+        $user->setLoginMethod('form');
         $user->setFirstName('Département');
         $user->setLastName('GCC');
         $user->setOrigin('CC');
@@ -276,6 +289,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setUsername('externe-foyer');
         $user->setEmail('nobody@clubinfo.enpc.fr');
         $user->setPlainPassword('password');
+        $user->setLoginMethod('form');
         $user->setFirstName('Externe');
         $user->setLastName('Foyer');
         $user->setEnabled(true);

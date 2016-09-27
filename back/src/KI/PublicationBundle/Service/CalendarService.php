@@ -3,10 +3,10 @@
 namespace KI\PublicationBundle\Service;
 
 use BOMO\IcalBundle\Provider\IcsProvider;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Entity\User;
 use KI\UserBundle\Event\AchievementCheckEvent;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class CalendarService
 {

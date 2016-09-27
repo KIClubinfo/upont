@@ -11,7 +11,7 @@ angular.module('upont')
             // Par défaut on n'affiche pas le module
             $scope.display = false;
             for (var key in $rootScope.clubs) {
-                // Si on appartien au club, on affiche avec le club préséléctionné
+                // Si on appartient au club, on affiche avec le club préséléctionné
                 if ($rootScope.clubs[key].club !== undefined && $rootScope.clubs[key].club.slug == $stateParams.slug) {
                     club = $rootScope.clubs[key].club;
                     $scope.display = true;

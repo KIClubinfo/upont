@@ -2,7 +2,12 @@
 
 namespace KI\UserBundle\Form;
 
+use FOS\UserBundle\Form\Type\RegistrationFormType;
+use KI\CoreBundle\Selector\ImageSelector;
+use KI\UserBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -11,10 +16,10 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('plainPassword', 'repeated', array(
-                'type' => 'password',
-                'options' => array('translation_domain' => 'FOSUserBundle'),
-            ))
+            ->add('plainPassword', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'options' => ['translation_domain' => 'FOSUserBundle'],
+            ])
             ->add('gender')
             ->add('firstName')
             ->add('lastName')
@@ -32,7 +37,7 @@ class UserType extends AbstractType
             ->add('allowedBde')
             ->add('allowedBds')
             ->add('tour')
-            ->add('image', 'image_selector')
+            ->add('image', ImageSelector::class)
             ->add('mailEvent')
             ->add('mailModification')
             ->add('mailShotgun')
@@ -41,18 +46,18 @@ class UserType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_protection' => false,
-            'data_class' => 'KI\UserBundle\Entity\User'
-        ));
+            'data_class' => User::class
+        ]);
     }
 
     public function getParent()
     {
-        return 'fos_user_registration';
+        return RegistrationFormType::class;
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return '';
     }

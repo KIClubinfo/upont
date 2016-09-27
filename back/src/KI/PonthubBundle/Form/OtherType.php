@@ -2,6 +2,10 @@
 
 namespace KI\PonthubBundle\Form;
 
+use KI\CoreBundle\Selector\ImageSelector;
+use KI\CoreBundle\Selector\TagsSelector;
+use KI\PonthubBundle\Entity\Other;
+use KI\PonthubBundle\Selector\GenresSelector;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,21 +17,21 @@ class OtherType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('genres', 'genres_selector')
-            ->add('tags', 'tags_selector')
-            ->add('image', 'image_selector')
+            ->add('genres', GenresSelector::class)
+            ->add('tags', TagsSelector::class)
+            ->add('image', ImageSelector::class)
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_protection' => false,
-            'data_class' => 'KI\PonthubBundle\Entity\Other'
-        ));
+            'data_class' => Other::class
+        ]);
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return '';
     }

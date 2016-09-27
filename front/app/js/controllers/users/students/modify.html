@@ -1,5 +1,5 @@
 <section class="Ticket">
-    <section class="padded" ng-if="$root.isAdmin || $root.me.username == user.username">
+    <section class="padded" ng-if="$root.isAdmin || $root.username == user.username">
         <h1>Informations Générales</h1>
 
         <div class="padded" row="center stretch">
@@ -9,7 +9,7 @@
         </div>
 
         <form row="start center" wrap ng-submit="submitUser(user, profilePicture)" autocomplete="off">
-            
+
             <div class="padded" flex="50" flex-md="25" ng-if="$root.isAdmin">
                 <i class="fa  fa-block  fa-user-plus"></i>
                 Prénom
@@ -116,59 +116,59 @@
                 <input class="Input" type="file" ng-model="profilePicture" base-sixty-four-input>
             </div>
 
-            <div ng-if="$root.me.username == user.username" class="padded" flex="100">
+            <div ng-if="$root.username == user.username" class="padded" flex="100">
                 <h3>Partager mes statistiques</h3>
             </div>
 
-            <div ng-if="$root.me.username == user.username" class="padded" flex="80" flex-md="40">
+            <div ng-if="$root.username == user.username" class="padded" flex="80" flex-md="40">
                 <i class="fa  fa-block  fa-beer"></i>
                 Foyer
             </div>
-            <div ng-if="$root.me.username == user.username" class="padded" flex="20" flex-md="10">
+            <div ng-if="$root.username == user.username" class="padded" flex="20" flex-md="10">
                 <input type="checkbox" ng-model="user.stats_foyer">
             </div>
 
-            <div ng-if="$root.me.username == user.username" class="padded" flex="80" flex-md="40">
+            <div ng-if="$root.username == user.username" class="padded" flex="80" flex-md="40">
                 <i class="fa  fa-block  fa-download"></i>
                 PontHub
             </div>
-            <div ng-if="$root.me.username == user.username" class="padded" flex="20" flex-md="10">
+            <div ng-if="$root.username == user.username" class="padded" flex="20" flex-md="10">
                 <input type="checkbox" ng-model="user.stats_ponthub">
             </div>
 
-            <div ng-if="$root.me.username == user.username" class="padded" flex="80" flex-md="40">
+            <div ng-if="$root.username == user.username" class="padded" flex="80" flex-md="40">
                 <i class="fa  fa-block  fa-gamepad"></i>
                 La Réponse D
             </div>
-            <div ng-if="$root.me.username == user.username" class="padded" flex="20" flex-md="10">
+            <div ng-if="$root.username == user.username" class="padded" flex="20" flex-md="10">
                 <input type="checkbox" ng-model="user.stats_facegame">
             </div>
 
-            <div ng-if="$root.me.username == user.username" class="padded" flex="100">
+            <div ng-if="$root.username == user.username" class="padded" flex="100">
                 <h3>Récéption de mails</h3>
             </div>
 
-            <div ng-if="$root.me.username == user.username" class="padded" flex="80" flex-md="40">
+            <div ng-if="$root.username == user.username" class="padded" flex="80" flex-md="40">
                 <i class="fa  fa-block  fa-envelope"></i>
                 Pour les événements des clubs que je suis
             </div>
-            <div ng-if="$root.me.username == user.username" class="padded" flex="20" flex-md="10">
+            <div ng-if="$root.username == user.username" class="padded" flex="20" flex-md="10">
                 <input type="checkbox" ng-model="user.mail_event">
             </div>
 
-            <div ng-if="$root.me.username == user.username" class="padded" flex="80" flex-md="40">
+            <div ng-if="$root.username == user.username" class="padded" flex="80" flex-md="40">
                 <i class="fa  fa-block  fa-envelope-o"></i>
                 Quand le lieu/la date d'un événement est modifiée
             </div>
-            <div ng-if="$root.me.username == user.username" class="padded" flex="20" flex-md="10">
+            <div ng-if="$root.username == user.username" class="padded" flex="20" flex-md="10">
                 <input type="checkbox" ng-model="user.mail_modification" ng-disabled="!user.mail_event">
             </div>
 
-            <div ng-if="$root.me.username == user.username" class="padded" flex="80" flex-md="40">
+            <div ng-if="$root.username == user.username" class="padded" flex="80" flex-md="40">
                 <i class="fa  fa-block  fa-exclamation-triangle"></i>
                 Rappel le matin d'un shotgun
             </div>
-            <div ng-if="$root.me.username == user.username" class="padded" flex="20" flex-md="10">
+            <div ng-if="$root.username == user.username" class="padded" flex="20" flex-md="10">
                 <input type="checkbox" ng-model="user.mail_shotgun" ng-disabled="!user.mail_event">
             </div>
 
@@ -178,7 +178,7 @@
         </form>
     </section>
 
-    <section class="padded" ng-if="$root.me.username == user.username">
+    <section class="padded" ng-if="$root.username == user.username">
         <h2>Paramètres du compte</h2>
 
         <form row wrap ng-submit="submitAccount(user, old, password, confirm)" autocomplete="off">
@@ -222,7 +222,7 @@
     </section>
 </section>
 
-<section class="Ticket" ng-if="$root.me.username == user.username">
+<section class="Ticket" ng-if="$root.username == user.username">
     <section class="padded">
 
         <h1>Synchronisation</h1><br>
@@ -326,43 +326,9 @@
             </p>
         </section>
     </section>
-
-    <section class="padded">
-        <h2>Smartphones</h2>
-
-        <div class="padded" row="center stretch">
-            <table class="Table" flex="80">
-                <thead>
-                    <tr>
-                        <th up-col="20%">Type</th>
-                        <th>Identifiant</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="device in devices">
-                        <td>{{ device.type }}</td>
-                        <td>{{ device.device }}</td>
-                    </tr>
-                    <tr ng-hide="devices.length">
-                        <td>Aucun téléphone enregistré !</td>
-                        <td>Télécharge l'appli mobile !</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div row="space-between stretch">
-            <a class="Button" title="Lien vers le Play Store" href="https://play.google.com/store/apps/details?id=youPont.mobile&hl=fr_CA"
-               flex="100" flex-md="25">Android</a>
-            <a class="Button" title="Lien vers l'Apple Store (coming soon)" href=""
-               flex="100" flex-md="25" disabled>iOS</a>
-            <a class="Button" title="Lien vers le Windows Store (coming soon)" href=""
-               flex="100" flex-md="25" disabled>Windows Phone</a>
-        </div>
-    </section>
 </section>
 
-<section class="Ticket" ng-if="$root.me.username == user.username">
+<section class="Ticket" ng-if="$root.username == user.username">
     <section class="padded">
         <h1>Clubs & Assos suivis</h1>
         <div row wrap>

@@ -3,10 +3,10 @@
 namespace KI\CoreBundle\Listener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use KI\CoreBundle\Entity\Likeable;
 use KI\CoreBundle\Entity\Comment;
+use KI\CoreBundle\Entity\Likeable;
 use KI\UserBundle\Entity\User;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class LikeableListener
 {

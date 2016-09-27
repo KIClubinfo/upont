@@ -2,18 +2,21 @@
 
 namespace KI\UserBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
-use FOS\RestBundle\View\View as RestView;
+use KI\CoreBundle\Controller\ResourceController;
+use KI\UserBundle\Entity\User;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\Exception\UnexpectedTypeException;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-class GroupsController extends \KI\CoreBundle\Controller\ResourceController
+class GroupsController extends ResourceController
 {
-    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->initialize('Group', 'User');
@@ -31,8 +34,13 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/groups")
+     * @Method("GET")
      */
-    public function getGroupsAction() { return $this->getAll(); }
+    public function getGroupsAction()
+    {
+        return $this->getAll();
+    }
 
     /**
      * @ApiDoc(
@@ -46,8 +54,15 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/groups/{slug}")
+     * @Method("GET")
      */
-    public function getGroupAction($slug) { return $this->getOne($slug); }
+    public function getGroupAction($slug)
+    {
+        $group = $this->getOne($slug);
+
+        return $this->json($group);
+    }
 
     /**
      * @ApiDoc(
@@ -62,10 +77,12 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Post("/groups")
+     * @Route("/groups")
+     * @Method("POST")
      */
-    public function postGroupAction(Request $request) {
-        if (!$this->get('security.context')->isGranted('ROLE_MODO'))
+    public function postGroupAction(Request $request)
+    {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_MODO'))
             throw new AccessDeniedException();
 
         if (!$request->request->has('name') || !$request->request->has('role'))
@@ -77,20 +94,11 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
         if (!is_string($role))
             throw new UnexpectedTypeException($role, 'string');
 
-        $group->setRoles(array($role));
+        $group->setRoles([$role]);
 
         $this->manager->persist($group);
         $this->manager->flush();
-        return RestView::create($group,
-            201,
-            array(
-                'Location' => $this->generateUrl(
-                    'get_group',
-                    array('slug' => $group->getSlug()),
-                    true
-                )
-            )
-        );
+        return $this->json($group, 201);
     }
 
     /**
@@ -107,23 +115,25 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Patch("/groups/{slug}")
+     * @Route("/groups/{slug}")
+     * @Method("PATCH")
      */
-    public function patchGroupAction(Request $request, $slug) {
-        if (!$this->get('security.context')->isGranted('ROLE_MODO'))
+    public function patchGroupAction(Request $request, $slug)
+    {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_MODO'))
             throw new AccessDeniedException();
 
         if ($slug === null)
             throw new BadRequestHttpException('Le groupe n\'existe pas');
 
-        $group = $this->getOne($slug);
+        $group = $this->findBySlug($slug);
 
         if ($request->request->has('name')) {
             $name = $request->request->get('name');
             if (!is_string($name))
                 throw new UnexpectedTypeException($name, 'string');
 
-            $group->setName(array($name));
+            $group->setName([$name]);
             $request->request->remove('name');
         }
 
@@ -132,7 +142,7 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
             if (!is_string($role))
                 throw new UnexpectedTypeException($role, 'string');
 
-            $group->setRoles(array($role));
+            $group->setRoles([$role]);
             $request->request->remove('role');
         }
 
@@ -141,16 +151,7 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
 
         $this->manager->persist($group);
         $this->manager->flush();
-        return RestView::create($group,
-            204,
-            array(
-                'Location' => $this->generateUrl(
-                    'get_group',
-                    array('slug' => $group->getSlug()),
-                    true
-                )
-            )
-        );
+        return $this->json($group, 204);
     }
 
     /**
@@ -167,17 +168,21 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Delete("/groups/{slug}")
+     * @Route("/groups/{slug}")
+     * @Method("DELETE")
      */
-    public function deleteGroupAction($slug) {
-        if (!$this->get('security.context')->isGranted('ROLE_MODO'))
+    public function deleteGroupAction($slug)
+    {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_MODO'))
             throw new AccessDeniedException();
 
         if ($slug === null)
             throw new BadRequestHttpException('Le groupe n\'existe pas');
 
-        $this->manager->remove($this->getOne($slug));
+        $this->manager->remove($this->findBySlug($slug));
         $this->manager->flush();
+
+        return $this->json(null, 204);
     }
 
     /**
@@ -193,18 +198,19 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Post("/groups/{slug}/users/{id}")
+     * @Route("/groups/{slug}/users/{id}")
+     * @Method("POST")
      */
     public function postUserGroupAction($slug, $id)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
             throw new AccessDeniedException('Accès refusé');
 
         // On récupère les deux entités concernées
         $group = $this->findBySlug($slug);
         $user = $this->manager->getRepository('KIUserBundle:User')->findOneByUsername($id);
 
-        if (!$user instanceof \KI\UserBundle\Entity\User)
+        if (!$user instanceof User)
             throw new NotFoundHttpException('Utilisateur non trouvé');
 
         if ($user->getGroups()->contains($group)) {
@@ -213,7 +219,7 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
             $user->addGroupUser($group);
             $this->manager->flush();
 
-            return $this->restResponse(null, 204);
+            return $this->json(null, 204);
         }
     }
 
@@ -230,17 +236,18 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Delete("/groups/{slug}/users/{id}")
+     * @Route("/groups/{slug}/users/{id}")
+     * @Method("DELETE")
      */
     public function removeUserGroupAction($slug, $id)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
             throw new AccessDeniedException('Accès refusé');
 
         $group = $this->findBySlug($slug);
         $user = $this->manager->getRepository('KIUserBundle:User')->findOneByUsername($id);
 
-        if (!$user instanceof \KI\UserBundle\Entity\User)
+        if (!$user instanceof User)
             throw new NotFoundHttpException('Utilisateur non trouvé');
 
         if (!$user->getGroups()->contains($group)) {
@@ -249,7 +256,7 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
             $user->removeGroupUser($group);
             $this->manager->flush();
 
-            return $this->restResponse(null, 204);
+            return $this->json(null, 204);
         }
     }
 
@@ -265,8 +272,14 @@ class GroupsController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/groups/{slug}/users")
+     * @Route("/groups/{slug}/users")
+     * @Method("GET")
      */
-    public function getUsersGroupAction($slug) { return $this->findBySlug($slug)->getUsers(); }
+    public function getUsersGroupAction($slug)
+    {
+        $groupUsers = $this->findBySlug($slug)->getUsers();
+
+        return $this->json($groupUsers);
+    }
 
 }

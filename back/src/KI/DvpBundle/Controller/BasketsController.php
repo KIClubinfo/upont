@@ -2,12 +2,12 @@
 
 namespace KI\DvpBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
+use KI\CoreBundle\Controller\ResourceController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use KI\CoreBundle\Controller\ResourceController;
-use KI\DvpBundle\Entity\BasketOrder;
 
 class BasketsController extends ResourceController
 {
@@ -30,6 +30,8 @@ class BasketsController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
+     * @Route("/baskets")
+     * @Method("GET")
      */
     public function getBasketsAction()
     {
@@ -49,10 +51,14 @@ class BasketsController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
+     * @Route("/baskets/{slug}")
+     * @Method("GET")
      */
     public function getBasketAction($slug)
     {
-        return $this->getOne($slug, $this->is('EXTERIEUR'));
+        $basket = $this->getOne($slug, $this->is('EXTERIEUR'));
+
+        return $this->json($basket);
     }
 
     /**
@@ -69,10 +75,14 @@ class BasketsController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
+     * @Route("/baskets")
+     * @Method("POST")
      */
     public function postBasketAction()
     {
-        return $this->post($this->isClubMember('dvp'));
+        $data = $this->post($this->isClubMember('dvp'));
+
+        return $this->formJson($data);
     }
 
     /**
@@ -89,10 +99,14 @@ class BasketsController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
+     * @Route("/baskets/{slug}")
+     * @Method("PATCH")
      */
     public function patchBasketAction($slug)
     {
-        return $this->patch($slug, $this->isClubMember('dvp'));
+        $data = $this->patch($slug, $this->isClubMember('dvp'));
+
+        return $this->formJson($data);
     }
 
     /**
@@ -107,19 +121,15 @@ class BasketsController extends ResourceController
      *  },
      *  section="DévelopPonts"
      * )
+     * @Route("/baskets/{slug}")
+     * @Method("DELETE")
      */
     public function deleteBasketAction($slug)
     {
-        $basket = $this->findBySlug($slug);
+        $basket = $this->getOne($slug);
 
-        // On n'oublie pas de supprimer toutes les commandes associées
-        $basketOrderRepository = $this->manager->getRepository('KIDvpBundle:BasketOrder');
-        $basketOrder = $basketOrderRepository->findByBasket($basket);
+        $this->delete($slug, $this->isClubMember('dvp'));
 
-        foreach ($basketOrder as $item) {
-            $this->manager->remove($item);
-        }
-
-        return $this->delete($slug, $this->isClubMember('dvp'));
+        return $this->json(null, 204);
     }
 }

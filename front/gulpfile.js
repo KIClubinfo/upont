@@ -117,18 +117,7 @@ gulp.task('build-templates', function(){
         'app/js/*.html',
         'app/js/**/*.html',
     ])
-    .pipe(htmlReplace({ponthub: ''}))
     .pipe(templateCache({
-        module: 'templates',
-        standalone: true
-    }))
-    .pipe(gulp.dest('./www'));
-
-    gulp.src([
-        'app/js/*.html',
-        'app/js/**/*.html',
-    ])
-    .pipe(templateCache('templates-ponts.js', {
         module: 'templates',
         standalone: true
     }))

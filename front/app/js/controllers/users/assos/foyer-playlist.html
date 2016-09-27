@@ -1,4 +1,4 @@
-<div class="padded" row wrap>
+<div row wrap>
     <section class="padded" flex="100" flex-lg="50">
         <section class="Ticket">
             <h2>La Playlist</h2>
@@ -19,7 +19,7 @@
             <div row>
                 <youtube-video video-url="item.url"></youtube-video>
             </div>
-            <p ng-if="$root.me.username == item.user.username || $root.hasClub('foyer')">
+            <p ng-if="$root.username == item.user.username || $root.hasClub('foyer')">
                  <a class="Link" title="Supprimer la video" ng-click="delete(item)">Supprimer</a>
             </p>
             <div up-likes objet="item" url="'youtubes/' + item.slug"></div>

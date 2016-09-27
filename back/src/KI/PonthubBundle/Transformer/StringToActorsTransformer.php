@@ -1,10 +1,10 @@
 <?php
 namespace KI\PonthubBundle\Transformer;
 
-use Symfony\Component\Form\DataTransformerInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use KI\PonthubBundle\Entity\Actor;
+use Symfony\Component\Form\DataTransformerInterface;
 
 class StringToActorsTransformer implements DataTransformerInterface
 {

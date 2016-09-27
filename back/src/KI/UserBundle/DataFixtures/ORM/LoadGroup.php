@@ -13,23 +13,23 @@ class LoadGroupFixture extends AbstractFixture implements OrderedFixtureInterfac
     public function load(ObjectManager $manager)
     {
         $group = new Group('admin');
-        $group->setRoles(array('ROLE_ADMIN'));
+        $group->setRoles(['ROLE_ADMIN']);
         $manager->persist($group);
         $this->addReference('group-admin', $group);
 
         $group = new Group('modo');
-        $group->setRoles(array('ROLE_MODO'));
+        $group->setRoles(['ROLE_MODO']);
         $manager->persist($group);
         $this->addReference('group-modo', $group);
 
         $group = new Group('user');
-        $group->setRoles(array('ROLE_USER'));
+        $group->setRoles(['ROLE_USER']);
         $manager->persist($group);
         $this->addReference('group-user', $group);
 
         // Peut ranger les fichiers PontHub
         $group = new Group('jardinier');
-        $group->setRoles(array('ROLE_JARDINIER'));
+        $group->setRoles(['ROLE_JARDINIER']);
         $manager->persist($group);
         $this->addReference('group-jardinier', $group);
 

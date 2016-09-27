@@ -4,8 +4,8 @@ namespace KI\PonthubBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
 use KI\CoreBundle\Entity\Likeable;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -88,9 +88,11 @@ class PonthubFile extends Likeable
      */
     public function tags()
     {
-        $tags = array();
-        foreach ($this->listTags as $tag) {
-                    $tags[] = $tag->getName();
+        $tags = [];
+        if(is_array($this->listTags) || is_object($this->listTags)) {
+            foreach ($this->listTags as $tag) {
+                $tags[] = $tag->getName();
+            }
         }
         return $tags;
     }
@@ -107,7 +109,7 @@ class PonthubFile extends Likeable
      */
     public function genres()
     {
-        $genres = array();
+        $genres = [];
         foreach ($this->listGenres as $genre) {
                     $genres[] = $genre->getName();
         }

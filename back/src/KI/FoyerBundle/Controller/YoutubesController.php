@@ -2,9 +2,11 @@
 
 namespace KI\FoyerBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use KI\CoreBundle\Controller\ResourceController;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class YoutubesController extends ResourceController
 {
@@ -27,8 +29,13 @@ class YoutubesController extends ResourceController
      *  },
      *  section="Foyer"
      * )
+     * @Route("/youtubes")
+     * @Method("GET")
      */
-    public function getYoutubesAction() { return $this->getAll(); }
+    public function getYoutubesAction()
+    {
+        return $this->getAll();
+    }
 
     /**
      * @ApiDoc(
@@ -43,8 +50,15 @@ class YoutubesController extends ResourceController
      *  },
      *  section="Foyer"
      * )
+     * @Route("/youtubes/{slug}")
+     * @Method("GET")
      */
-    public function getYoutubeAction($slug) { return $this->getOne($slug); }
+    public function getYoutubeAction($slug)
+    {
+        $youtube = $this->getOne($slug);
+
+        return $this->json($youtube);
+    }
 
     /**
      * @ApiDoc(
@@ -60,10 +74,14 @@ class YoutubesController extends ResourceController
      *  },
      *  section="Foyer"
      * )
+     * @Route("/youtubes")
+     * @Method("POST")
      */
     public function postYoutubeAction()
     {
-        return $this->post($this->is('USER'));
+        $data = $this->post($this->is('USER'));
+
+        return $this->formJson($data);
     }
 
     /**
@@ -78,10 +96,14 @@ class YoutubesController extends ResourceController
      *  },
      *  section="Foyer"
      * )
+     * @Route("/youtubes/{slug}")
+     * @Method("DELETE")
      */
     public function deleteYoutubeAction($slug)
     {
         $author = $this->findBySlug($slug)->getUser();
-        return $this->delete($slug, $this->user == $author);
+        $this->delete($slug, $this->user == $author);
+
+        return $this->json(null, 204);
     }
 }

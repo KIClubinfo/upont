@@ -2,19 +2,23 @@
 
 namespace KI\UserBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
+use KI\CoreBundle\Controller\ResourceController;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Entity\Device;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-class OwnController extends \KI\CoreBundle\Controller\ResourceController
+class OwnController extends ResourceController
 {
-    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->initialize('User', 'User');
@@ -31,7 +35,8 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/own/achievements")
+     * @Route("/own/achievements")
+     * @Method("GET")
      */
     public function getAchievementsAction(Request $request)
     {
@@ -49,7 +54,8 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/users/{slug}/achievements")
+     * @Route("/users/{slug}/achievements")
+     * @Method("GET")
      */
     public function getUserAchievementsAction(Request $request, $slug)
     {
@@ -65,8 +71,8 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
     {
         $achievementRepository = $this->manager->getRepository('KIUserBundle:Achievement');
         $achievementUserRepository = $this->manager->getRepository('KIUserBundle:AchievementUser');
-        $unlocked = array();
-        $oUnlocked = array();
+        $unlocked = [];
+        $oUnlocked = [];
         $all = $request->query->has('all');
 
         $response = $achievementUserRepository->findByUser($user);
@@ -75,7 +81,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
             $oUnlocked[] = $achievement;
 
             if ($all || !$achievementUser->getSeen()) {
-                $unlocked[] = array(
+                $unlocked[] = [
                     'id' => $achievement->getIdA(),
                     'name' => $achievement->name(),
                     'description' => $achievement->description(),
@@ -83,19 +89,14 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
                     'image' => $achievement->image(),
                     'date' => $achievementUser->getDate(),
                     'seen' => $achievementUser->getSeen(),
-                    'ownedBy' => $achievementUserRepository->createQueryBuilder('au')
-                        ->select('count(au)')
-                        ->where('au.achievement = :achievement')
-                        ->setParameter('achievement', $achievement)
-                        ->getQuery()
-                        ->getSingleScalarResult(),
-                );
+                    'ownedBy' => $achievementUserRepository->getOwnedByCount($achievement),
+                ];
                 if (!$achievementUser->getSeen())
                     $achievementUser->setSeen(true);
             }
         }
         $all = $achievementRepository->findAll();
-        $locked = array();
+        $locked = [];
         $points = 0;
         $factor = 1;
 
@@ -104,19 +105,14 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         // achievements
         foreach ($all as $achievement) {
             if (!in_array($achievement, $oUnlocked)) {
-                $locked[] = array(
+                $locked[] = [
                     'id' => $achievement->getIdA(),
                     'name' => $achievement->name(),
                     'description' => $achievement->description(),
                     'points' => $achievement->points(),
                     'image' => $achievement->image(),
-                    'ownedBy' => $achievementUserRepository->createQueryBuilder('au')
-                        ->select('count(au)')
-                        ->where('au.achievement = :achievement')
-                        ->setParameter('achievement', $achievement)
-                        ->getQuery()
-                        ->getSingleScalarResult(),
-                );
+                    'ownedBy' => $achievementUserRepository->getOwnedByCount($achievement),
+                ];
             } else {
                 if (gettype($achievement->points()) == 'integer') {
                     $points += $achievement->points();
@@ -131,12 +127,12 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         }
 
         // On trie les achievements par leur ID
-        $ids = array();
+        $ids = [];
         foreach ($unlocked as $key => $achievement) {
             $ids[$key] = $achievement['id'];
         }
         array_multisort($ids, SORT_ASC, $unlocked);
-        $ids = array();
+        $ids = [];
         foreach ($locked as $key => $achievement) {
             $ids[$key] = $achievement['id'];
         }
@@ -144,17 +140,17 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
 
         // On renvoie pas mal de données utiles
         $response = Achievement::getLevel($factor * $points);
-        $return = array(
+        $return = [
             'number' => $response['number'],
             'points' => ceil($factor * $points),
             'current_level' => $response['current'],
             'next_level' => isset($response['next']) ? $response['next'] : null,
             'unlocked' => $unlocked,
             'locked' => $locked,
-        );
+        ];
 
         $this->manager->flush();
-        return $this->jsonResponse($return);
+        return $this->json($return);
     }
 
     /**
@@ -168,15 +164,16 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/own/devices")
+     * @Route("/own/devices")
+     * @Method("GET")
      */
     public function getDevicesAction()
     {
-        if (!$this->get('security.context')->isGranted('ROLE_USER'))
+        if (!$this->is('USER'))
             throw new AccessDeniedException();
 
-        $user = $this->get('security.context')->getToken()->getUser();
-        return $this->restResponse($user->getDevices());
+        $user = $this->user;
+        return $this->json($user->getDevices());
     }
 
     /**
@@ -203,11 +200,12 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Post("/own/devices")
+     * @Route("/own/devices")
+     * @Method("POST")
      */
     public function postDeviceAction(Request $request)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_USER')) {
+        if (!$this->is('USER')) {
             throw new AccessDeniedException();
         }
 
@@ -220,16 +218,16 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         $repo = $this->manager->getRepository('KIUserBundle:Device');
         $devices = $repo->findByDevice($request->request->get('device'));
         if (!empty($devices))
-            return $this->jsonResponse(null, 204);
+            return $this->json(null, 204);
 
         $device = new Device();
-        $device->setOwner($this->get('security.context')->getToken()->getUser());
+        $device->setOwner($this->user);
         $device->setDevice($request->request->get('device'));
         $device->setType($request->request->get('type'));
         $this->manager->persist($device);
         $this->manager->flush();
 
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -244,11 +242,12 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Delete("/own/devices/{id}")
+     * @Route("/own/devices/{id}")
+     * @Method("DELETE")
      */
     public function deleteDeviceAction($id)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_USER')) {
+        if (!$this->is('USER')) {
             throw new AccessDeniedException();
         }
 
@@ -261,7 +260,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         $this->manager->remove($device);
         $this->manager->flush();
 
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -276,16 +275,17 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/own/notifications")
+     * @Route("/own/notifications")
+     * @Method("GET")
      */
     public function getNotificationsAction()
     {
         $repo = $this->manager->getRepository('KIUserBundle:Notification');
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->user;
 
         // On récupère toutes les notifs
         $notifications = $repo->findAll();
-        $return = array();
+        $return = [];
 
         // On filtre celles qui sont uniquement destinées à l'utilisateur actuel
         foreach ($notifications as $notification) {
@@ -308,7 +308,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         }
         $this->manager->flush();
 
-        return $this->restResponse($return);
+        return $this->json($return);
     }
 
     /**
@@ -323,22 +323,23 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/own/followed")
+     * @Route("/own/followed")
+     * @Method("GET")
      */
     public function getFollowedAction()
     {
-        return $this->restResponse($this->getFollowedClubs());
+        return $this->json($this->getFollowedClubs());
     }
 
     protected function getFollowedClubs($user = null)
     {
         $repo = $this->manager->getRepository('KIUserBundle:Club');
         if ($user === null)
-            $user = $this->get('security.context')->getToken()->getUser();
+            $user = $this->user;
         $userNotFollowed = $user->getClubsNotFollowed();
 
         $clubs = $repo->findAll();
-        $return = array();
+        $return = [];
         foreach ($clubs as $club) {
             if (!$userNotFollowed->contains($club)) {
                 $return[] = $club;
@@ -359,7 +360,8 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/own/events")
+     * @Route("/own/events")
+     * @Method("GET")
      */
     public function getOwnEventsAction(Request $request)
     {
@@ -375,7 +377,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
                 $request->query->get('page')
             );
         }
-        return $this->restResponse($events);
+        return $this->json($events);
     }
 
     /**
@@ -389,6 +391,8 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/users/{token}/calendar")
+     * @Method("GET")
      */
     public function getOwnCalendarAction($token)
     {
@@ -403,10 +407,10 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
 
             $calStr = $this->get('ki_publication.service.calendar')->getCalendar($user, $events, $courses);
 
-            return new \Symfony\Component\HttpFoundation\Response($calStr, 200, array(
+            return new Response($calStr, 200, [
                     'Content-Type' => 'text/calendar; charset=utf-8',
                     'Content-Disposition' => 'attachment; filename="calendar.ics"',
-                )
+                ]
             );
         }
     }
@@ -416,12 +420,12 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         $repo = $this->getDoctrine()->getManager()->getRepository('KIPublicationBundle:CourseUser');
 
         if ($user === null)
-            $user = $this->get('security.context')->getToken()->getUser();
+            $user = $this->user;
 
         // On extraie les Courseitem et on les trie par date de début
-        $result = array();
-        $timestamp = array();
-        foreach ($repo->findBy(array('user' => $user)) as $courseUser) {
+        $result = [];
+        $timestamp = [];
+        foreach ($repo->findBy(['user' => $user]) as $courseUser) {
             $course = $courseUser->getCourse();
             foreach ($course->getCourseitems() as $courseitem) {
                 if ($courseUser->getGroup() == $courseitem->getGroup() || $courseitem->getGroup() == 0) {
@@ -447,7 +451,8 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/own/newsitems")
+     * @Route("/own/newsitems")
+     * @Method("GET")
      */
     public function getNewsItemsAction()
     {
@@ -458,7 +463,12 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         $findBy['authorClub'] = $this->getFollowedClubs();
         $results = $repository->findBy($findBy, $sortBy, $limit, $offset);
 
-        return $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
+        list($results, $links, $count) = $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
+
+        return $this->json($results, 200, [
+            'Links' => implode(',', $links),
+            'Total-count' => $count
+        ]);
     }
 
     /**
@@ -473,18 +483,19 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/own/courses")
+     * @Route("/own/courses")
+     * @Method("GET")
      */
     public function getOwnCoursesAction()
     {
         $repo = $this->getDoctrine()->getManager()->getRepository('KIPublicationBundle:CourseUser');
 
-        $return = array();
-        foreach ($repo->findBy(array('user' => $this->user)) as $courseUser) {
-            $return[] = array('course' => $courseUser->getCourse(), 'group' => $courseUser->getGroup());
+        $return = [];
+        foreach ($repo->findBy(['user' => $this->user]) as $courseUser) {
+            $return[] = ['course' => $courseUser->getCourse(), 'group' => $courseUser->getGroup()];
         }
 
-        return $this->restResponse($return);
+        return $this->json($return);
     }
 
     /**
@@ -499,11 +510,12 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/own/courseitems")
+     * @Route("/own/courseitems")
+     * @Method("GET")
      */
     public function getCourseitemsAction()
     {
-        return $this->restResponse($this->getCourseitems());
+        return $this->json($this->getCourseitems());
     }
 
     /**
@@ -530,13 +542,14 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Patch("/own/preferences")
+     * @Route("/own/preferences")
+     * @Method("PATCH")
      */
     public function changePreferenceAction(Request $request)
     {
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->user;
 
-        if (!$this->get('security.context')->isGranted('ROLE_USER'))
+        if (!$this->is('USER'))
             throw new AccessDeniedException('Accès refusé');
 
         if (!($request->request->has('key') && $request->request->has('value')))
@@ -544,7 +557,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
 
         if ($user->addPreference($request->request->get('key'), $request->request->get('value'))) {
             $this->manager->flush();
-            return $this->restResponse(null, 204);
+            return $this->json(null, 204);
         }
 
         throw new BadRequestHttpException('Cette préférence n\'existe pas');
@@ -569,13 +582,14 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Delete("/own/preferences")
+     * @Route("/own/preferences")
+     * @Method("DELETE")
      */
     public function removePreferenceAction(Request $request)
     {
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->user;
 
-        if (!$this->get('security.context')->isGranted('ROLE_USER'))
+        if (!$this->is('USER'))
             throw new AccessDeniedException('Accès refusé');
 
         if (!($request->request->has('key')))
@@ -584,7 +598,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         if ($user->removePreference($request->request->get('key'))) {
             $this->manager->flush();
 
-            return $this->restResponse(null, 204);
+            return $this->json(null, 204);
         }
 
         throw new BadRequestHttpException('Cette préférence n\'existe pas');
@@ -602,12 +616,13 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/own/preferences")
+     * @Route("/own/preferences")
+     * @Method("GET")
      */
     public function getPreferencesAction()
     {
         $user = $this->user;
-        return $this->restResponse($user->getPreferences());
+        return $this->json($user->getPreferences());
     }
 
     /**
@@ -621,11 +636,14 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/own/token")
+     * @Route("/own/token")
+     * @Method("GET")
      */
     public function getTokenAction()
     {
-        return array('token' => $this->get('ki_user.service.token')->getToken());
+        return $this->json([
+            'token' => $this->get('ki_user.service.token')->getToken()
+        ]);
     }
 
     /**
@@ -640,12 +658,13 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/own/fixs")
+     * @Route("/own/fixs")
+     * @Method("GET")
      */
     public function getOwnFixsAction()
     {
-        $user = $this->get('security.context')->getToken()->getUser();
-        if (!$this->get('security.context')->isGranted('ROLE_USER'))
+        $user = $this->user;
+        if (!$this->is('USER'))
             throw new AccessDeniedException('Accès refusé');
 
         $repository = $this->manager->getRepository('KIClubinfoBundle:Fix');
@@ -655,7 +674,12 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         $findBy['user'] = $user;
         $results = $repository->findBy($findBy, $sortBy, $limit, $offset);
 
-        return $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
+        list($results, $links, $count) = $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
+
+        return $this->json($results, 200, [
+            'Links' => implode(',', $links),
+            'Total-count' => $count
+        ]);
     }
 
     /**
@@ -670,11 +694,12 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/own/user")
+     * @Route("/own/user")
+     * @Method("GET")
      */
     public function getOwnUserAction()
     {
-        return $this->restResponse($this->user);
+        return $this->json($this->user);
     }
 
     /**
@@ -706,7 +731,8 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Post("/own/user")
+     * @Route("/own/user")
+     * @Method("POST")
      */
     public function postOwnUserAction(Request $request)
     {
@@ -714,7 +740,7 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
             throw new BadRequestHttpException('Champs password/confirm non rempli(s)');
 
         if ($this->user->hasRole('ROLE_ADMISSIBLE'))
-            return $this->jsonResponse(null, 403);
+            return $this->json(null, 403);
 
         // Pour changer le mot de passe on doit passer par le UserManager
         $userManager = $this->get('fos_user.user_manager');
@@ -729,6 +755,6 @@ class OwnController extends \KI\CoreBundle\Controller\ResourceController
         $user->setPlainPassword($request->request->get('password'));
         $userManager->updateUser($user, true);
 
-        return $this->restResponse(null, 204);
+        return $this->json(null, 204);
     }
 }

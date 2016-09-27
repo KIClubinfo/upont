@@ -3,7 +3,7 @@
 
 sudo ls > /dev/null
 cd /srv/upont
-touch back/app/cache/maintenance.lock
+touch back/var/cache/maintenance.lock
 git pull
 
 export SYMFONY_ENV=prod
@@ -20,10 +20,10 @@ gulp copy-fonts
 cd ../back
 sudo composer self-update
 composer install --no-dev --optimize-autoloader
-php app/console cache:clear --env=prod --no-debug
-php app/console do:mi:mi -n
-sudo chmod 777 -R app/cache && sudo chmod 777 -R app/logs
-rm app/cache/maintenance.lock
+bin/console cache:clear --env=prod --no-debug
+bin/console do:mi:mi -n
+sudo chmod 777 -R var/cache && sudo chmod 777 -R var/logs
+rm var/cache/maintenance.lock
 
 cd ..
 ./utils/newrelic-deploy.sh

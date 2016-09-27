@@ -1,11 +1,11 @@
 <?php
 namespace KI\UserBundle\Selector;
 
+use Doctrine\Common\Persistence\ObjectManager;
+use KI\UserBundle\Transformer\StringToClubTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use KI\UserBundle\Transformer\StringToClubTransformer;
 
 class ClubSelector extends AbstractType
 {
@@ -24,18 +24,13 @@ class ClubSelector extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'invalid_message' => 'Le club séléctionné n\'existe pas',
-        ));
+        ]);
     }
 
     public function getParent()
     {
-        return 'text';
-    }
-
-    public function getName()
-    {
-        return 'club_selector';
+        return 'Symfony\Component\Form\Extension\Core\Type\TextType';
     }
 }

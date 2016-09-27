@@ -37,7 +37,7 @@ class CourseHelper
      */
     public function linkCourseUser(Course $course, User $user, $group = 0)
     {
-        $link = $this->courseUserRepository->findBy(array('course' => $course, 'user' => $user));
+        $link = $this->courseUserRepository->findBy(['course' => $course, 'user' => $user]);
 
         // On crée la relation si elle n'existe pas déjà
         if (count($link) != 0) {
@@ -69,7 +69,7 @@ class CourseHelper
      */
     public function unlinkCourseUser(Course $course, User $user)
     {
-        $link = $this->courseUserRepository->findBy(array('course' => $course, 'user' => $user));
+        $link = $this->courseUserRepository->findBy(['course' => $course, 'user' => $user]);
 
         if (count($link) != 1) {
             throw new BadRequestHttpException('Relation entre Course et User non trouvée');

@@ -1,7 +1,0 @@
-fixs:
-    type:     rest
-    resource: KI\ClubinfoBundle\Controller\FixsController
-
-tutos:
-    type:     rest
-    resource: KI\ClubinfoBundle\Controller\TutosController

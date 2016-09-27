@@ -2,8 +2,8 @@
 
 namespace KI\CoreBundle\Listener;
 
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 class MaintenanceListener
 {
@@ -21,10 +21,10 @@ class MaintenanceListener
 
         // Si la maintenance est activée et qu'on n'essaye pas de la débloquer
         if ($maintenance && !$unlock) {
-            $content = array(
+            $content = [
                 'code' => 503,
                 'message' => 'Service actuellement indisponible. Une maintenance est en cours.'
-            );
+            ];
 
             // Durée de la maintenance
             $until = file_get_contents($this->lockfilePath);

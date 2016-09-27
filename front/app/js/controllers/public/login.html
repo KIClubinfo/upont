@@ -25,7 +25,7 @@
             </aside>
             <section class="Page__landing--right  padded" flex="90" flex-md="70">
                 <h1 class="padded">Connecte-toi !</h1>
-                <form class="padded" row wrap ng-submit="login(pseudo, password)" autocomplete="off">
+                <form class="padded" row wrap ng-submit="login(pseudo, password)" autocomplete="off" ng-if="formLogin">
                     <div class="padded" flex="100">
                         <input class="Input" ng-model="pseudo" type="text" placeholder="Identifiant DSI" autofocus>
                     </div>
@@ -33,12 +33,34 @@
                         <input class="Input" ng-model="password" type="password" placeholder="Mot de passe" />
                     </div>
                     <div class="padded" flex="100" row="end stretch">
-                        <button class="Button" flex="50" title="Se connecter">Connecte-toi !</button>
+                        <button class="Button" flex="50" title="Se connecter">
+                            Connecte-toi !
+                        </button>
                     </div>
-                    <footer class="padded" flex="100" row="end stretch">
-                        <a class="Link  Link--reverse" title="Réinitialiser le mot de passe" ui-sref="root.request">Mot de passe oublié ?</a>
-                    </footer>
                 </form>
+                <div class="padded" row wrap autocomplete="off" ng-if="!formLogin">
+                    <div class="padded" flex="100" row="end stretch">
+                        <button class="Button" flex="50" title="Se connecter" ng-click="login('sso', 'sso')" >
+                            Connexion SSO
+                        </button>
+                    </div>
+                </div>
+                <footer class="padded" flex="100" row="end stretch">
+                    <a class="Link  Link--reverse" title="Connexion par formulaire"
+                       ng-click="switchLoginMethod()"
+                       ng-if="!formLogin"
+                    >
+                        Connexion directe
+                    </a>
+                    <a class="Link  Link--reverse" title="Connexion par SSO CAS des Ponts"
+                       ng-click="loginSSO()"
+                       ng-if="formLogin"
+                    >
+                        Connexion SSO (beta)
+                    </a>
+                    &nbsp;&nbsp;-&nbsp;&nbsp;
+                    <a class="Link  Link--reverse" title="Réinitialiser le mot de passe" ui-sref="root.request">Mot de passe oublié ?</a>
+                </footer>
             </section>
         </section>
     </div>

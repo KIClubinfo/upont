@@ -1,7 +1,0 @@
-baskets:
-    type:     rest
-    resource: KI\DvpBundle\Controller\BasketsController
-
-basketOrders:
-    type:     rest
-    resource: KI\DvpBundle\Controller\BasketOrdersController

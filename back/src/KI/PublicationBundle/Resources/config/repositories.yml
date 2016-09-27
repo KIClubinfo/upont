@@ -1,12 +1,12 @@
 services:
     ki_publication.repository.course:
         class: Doctrine\ORM\EntityRepository
-        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
         arguments:
             - KI\PublicationBundle\Entity\Course
 
     ki_publication.repository.courseuser:
         class: Doctrine\ORM\EntityRepository
-        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
         arguments:
             - KI\PublicationBundle\Entity\CourseUser

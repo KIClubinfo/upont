@@ -2,11 +2,12 @@
 
 namespace KI\CoreBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class DefaultController extends BaseController
 {
@@ -27,12 +28,13 @@ class DefaultController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route\Get("/clean")
+     * @Route("/clean")
+     * @Method("GET")
      */
     public function cleanAction()
     {
         $this->get('ki_core.helper.cleaning')->clean();
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -44,7 +46,8 @@ class DefaultController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route\Get("/coffee")
+     * @Route("/coffee")
+     * @Method("GET")
      */
     public function coffeeAction()
     {
@@ -64,7 +67,8 @@ class DefaultController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route\Get("/dirty")
+     * @Route("/dirty")
+     * @Method("GET")
      */
     public function dirtyAction()
     {
@@ -95,11 +99,12 @@ class DefaultController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route\Post("/login")
+     * @Route("/login", name="login")
+     * @Method("POST")
      */
     public function loginAction()
     {
-        return $this->restResponse(null);
+        return $this->json(null);
     }
 
     /**
@@ -120,14 +125,15 @@ class DefaultController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route\Post("/maintenance")
+     * @Route("/maintenance")
+     * @Method("POST")
      */
     public function maintenanceLockAction(Request $request)
     {
         $this->trust($this->is('ADMIN'));
         $until = $request->request->has('until') ? (string)$request->request->get('until') : '';
         $this->get('ki_core.service.maintenance')->lock($until);
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -140,13 +146,14 @@ class DefaultController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route\Delete("/maintenance")
+     * @Route("/maintenance")
+     * @Method("DELETE")
      */
     public function maintenanceUnlockAction()
     {
         $this->trust($this->is('ADMIN'));
         $this->get('ki_core.service.maintenance')->unlock();
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -159,12 +166,12 @@ class DefaultController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route\Head("/ping")
-     * @Route\Get("/ping")
+     * @Route("/ping", name="ping")
+     * @Method({"HEAD", "GET"})
      */
     public function pingAction()
     {
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -186,7 +193,8 @@ class DefaultController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route\Post("/search")
+     * @Route("/search")
+     * @Method("POST")
      */
     public function searchAction(Request $request)
     {
@@ -199,7 +207,7 @@ class DefaultController extends BaseController
         $searchService = $this->get('ki_core.service.search');
         list($category, $criteria) = $searchService->analyzeRequest($search);
 
-        return $this->jsonResponse($searchService->search($category, $criteria));
+        return $this->json($searchService->search($category, $criteria));
     }
 
     /**
@@ -211,10 +219,11 @@ class DefaultController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route\Get("/version")
+     * @Route("/version")
+     * @Method("GET")
      */
     public function versionAction()
     {
-        return $this->jsonResponse($this->get('ki_core.service.version')->getVersion());
+        return $this->json($this->get('ki_core.service.version')->getVersion());
     }
 }

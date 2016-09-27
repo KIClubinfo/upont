@@ -4,6 +4,8 @@ namespace KI\PonthubBundle\Controller;
 
 use KI\CoreBundle\Controller\ResourceController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class RequestsController extends ResourceController
@@ -27,8 +29,13 @@ class RequestsController extends ResourceController
      *  },
      *  section="Ponthub"
      * )
+     * @Route("/requests")
+     * @Method("GET")
      */
-    public function getRequestsAction() { return $this->getAll(); }
+    public function getRequestsAction()
+    {
+        return $this->getAll();
+    }
 
     /**
      * @ApiDoc(
@@ -43,8 +50,15 @@ class RequestsController extends ResourceController
      *  },
      *  section="Ponthub"
      * )
+     * @Route("/requests/{slug}")
+     * @Method("GET")
      */
-    public function getRequestAction($slug) { return $this->getOne($slug); }
+    public function getRequestAction($slug)
+    {
+        $request = $this->getOne($slug);
+
+        return $this->json($request);
+    }
 
     /**
      * @ApiDoc(
@@ -60,8 +74,15 @@ class RequestsController extends ResourceController
      *  },
      *  section="Ponthub"
      * )
+     * @Route("/requests")
+     * @Method("POST")
      */
-    public function postRequestAction() { return $this->post($this->is('USER')); }
+    public function postRequestAction()
+    {
+        $data = $this->post($this->is('USER'));
+
+        return $this->formJson($data);
+    }
 
     /**
      * @ApiDoc(
@@ -75,8 +96,15 @@ class RequestsController extends ResourceController
      *  },
      *  section="Ponthub"
      * )
+     * @Route("/requests/{slug}")
+     * @Method("DELETE")
      */
-    public function deleteRequestAction($slug) { return $this->delete($slug, $this->is('USER')); }
+    public function deleteRequestAction($slug)
+    {
+        $this->delete($slug, $this->is('USER'));
+
+        return $this->json(null, 204);
+    }
 
     /**
      * @ApiDoc(
@@ -90,14 +118,16 @@ class RequestsController extends ResourceController
      *  },
      *  section="Ponthub"
      * )
+     * @Route("/requests/{slug}/upvote")
+     * @Method("PATCH")
      */
     public function upvoteRequestAction($slug)
     {
-        $item = $this->findBySlug($slug);
+        $item = $this->getOne($slug);
         $item->setVotes($item->getVotes() + 1);
         $this->manager->flush();
 
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -112,13 +142,15 @@ class RequestsController extends ResourceController
      *  },
      *  section="Ponthub"
      * )
+     * @Route("/requests/{slug}/downvote")
+     * @Method("PATCH")
      */
     public function downvoteRequestAction($slug)
     {
-        $item = $this->findBySlug($slug);
+        $item = $this->getOne($slug);
         $item->setVotes($item->getVotes() - 1);
         $this->manager->flush();
 
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 }

@@ -45,14 +45,14 @@ class CourseParserHelper
 
             // On parse le résultat
             $regex = '/<li class="store">.+<span class="image" align="center"><br><b>(.+)<br>(.+)<\/b><\/span><span class="comment">(.*) : (.*)<\/span><span class="name">(.*)<\/span><span class="starcomment">(.*)<\/span><span class="arrow"><\/span><\/a><\/li>/isU';
-            $out = array();
+            $out = [];
             preg_match_all($regex, $response, $out);
             list($all, $start, $end, $department, $location, $courseName, $group) = $out;
 
             foreach (array_keys($all) as $id) {
                 $name = $courseName[$id];
                 $gr   = str_replace('(&nbsp;)', '', $group[$id]);
-                $gr   = $gr != '' ? (int) str_replace(array('(Gr', ')'), array('', ''), $gr) : 0;
+                $gr   = $gr != '' ? (int) str_replace(['(Gr', ')'], ['', ''], $gr) : 0;
 
                 $data      = explode(':', $start[$id]);
                 $startDate = $data[0]*3600 + $data[1]*60;
@@ -91,7 +91,7 @@ class CourseParserHelper
     private function getKnownCourses()
     {
         $results = $this->courseRepository->findAll();
-        $courses = array();
+        $courses = [];
         foreach ($results as $course) {
             $courses[$course->getName()] = $course;
         }

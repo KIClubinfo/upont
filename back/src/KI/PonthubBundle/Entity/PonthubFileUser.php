@@ -7,7 +7,7 @@ use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="KI\PonthubBundle\Repository\PonthubFileUserRepository")
  * @JMS\ExclusionPolicy("all")
  */
 class PonthubFileUser

@@ -24,13 +24,13 @@ class SearchService
      */
     public function analyzeRequest($search)
     {
-        $match = array();
+        $match = [];
 
         if (!preg_match('/(.*)\/(.*)/', $search, $match)) {
             throw new BadRequestHttpException('Syntaxe de la recherche erronée');
         }
 
-        return array($match[1], $match[2]);
+        return [$match[1], $match[2]];
     }
 
     /**
@@ -45,15 +45,15 @@ class SearchService
     {
         switch ($category) {
         case 'User':
-            return array('users' => $this->searchUser($criteria));
+            return ['users' => $this->searchUser($criteria)];
         case '':
-            return array(
+            return [
                 'clubs'   => $this->searchRepository('KIUserBundle:Club', $criteria, 'fullName'),
                 'courses' => $this->searchRepository('KIPublicationBundle:Course', $criteria),
                 'files'   => $this->searchRepository('KIPonthubBundle:PonthubFile', $criteria),
                 'posts'   => $this->searchRepository('KIPublicationBundle:Post', $criteria),
                 'users'   => $this->searchUser($criteria),
-            );
+            ];
         default:
             throw new BadRequestHttpException('Syntaxe de la recherche erronée');
         }
@@ -105,17 +105,17 @@ class SearchService
 
     // On formate et ordonne les données pour le retour
     protected function format($results, $criteria) {
-        $return = $score = array();
+        $return = $score = [];
         $percent = 0;
 
         foreach ($results as $result) {
             $name = $result->getName();
             $class = preg_replace('/.*\\\/', '', get_class($result));
-            $item = array(
+            $item = [
                 'name' => $name,
                 'slug' => $result->getSlug(),
                 'type' => $class
-            );
+            ];
 
             // On sort les objets non actifs
             if ($class == 'Course' && ($result->getActive() === null || !$result->getActive())) {
@@ -124,6 +124,7 @@ class SearchService
             // On précise des choses en plus pour les utilisateurs
             if ($class == 'User') {
                 $item['balance'] = $result->getBalance();
+                $item['promo'] = $result->getPromo();
             }
 
             // Pour les épisodes, on ajoute une référence à l'entité parent

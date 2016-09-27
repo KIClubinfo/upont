@@ -5,11 +5,11 @@ namespace KI\UserBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="KI\UserBundle\Repository\AdmissibleRepository")
  * @JMS\ExclusionPolicy("all")
  * @UniqueEntity(fields={"scei", "year"})
  */

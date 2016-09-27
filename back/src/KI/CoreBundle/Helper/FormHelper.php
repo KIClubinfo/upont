@@ -3,10 +3,11 @@
 namespace KI\CoreBundle\Helper;
 
 use Doctrine\ORM\EntityManager;
-use FOS\RestBundle\View\View as RestView;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Form\FormFactory;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 // Valide les formulaires pour une entité et affiche la réponse à la demande
 class FormHelper
@@ -18,9 +19,9 @@ class FormHelper
 
     public function __construct(EntityManager $manager, FormFactory $formFactory, Router $router)
     {
-        $this->manager     = $manager;
+        $this->manager = $manager;
         $this->formFactory = $formFactory;
-        $this->router      = $router;
+        $this->router = $router;
     }
 
     public function setRequest(RequestStack $requestStack)
@@ -30,15 +31,15 @@ class FormHelper
 
     /**
      * Traite un formulaire
-     * @param  mixed  $item   L'item éventuellement existant à processer
+     * @param  mixed $item L'item éventuellement existant à processer
      * @param  string $method POST ou PATCH
      * @return array          Des détails sur le résultat de l'opération
      */
-    public function formData($item, $method = 'PATCH')
+    public function formData($item, $method, $flush = true)
     {
         // On devine le formulaire à partir du chemin de la classe
-        $formName = str_replace('Entity', 'Form', get_class($item)).'Type';
-        $form = $this->formFactory->create(new $formName(), $item, array('method' => $method));
+        $formName = str_replace('Entity', 'Form', get_class($item)) . 'Type';
+        $form = $this->formFactory->create($formName, $item, ['method' => $method]);
         $form->handleRequest($this->request);
         $code = 400;
 
@@ -49,61 +50,12 @@ class FormHelper
             } else {
                 $code = 204;
             }
+            if ($flush)
+                $this->manager->flush();
         } else {
             $this->manager->detach($item);
         }
 
-        return array('form' => $form, 'item' => $item, 'code' => $code);
-    }
-
-    /**
-     * Génère la réponse relative au traitement d'un formulaire
-     * @param  array  $data   Le formulaire traité
-     * @param  object $parent Éventuellement l'objet parent
-     * @return Response
-     */
-    public function formView($data, $parent = null)
-    {
-        switch ($data['code']) {
-        case 400:
-            return RestView::create($data['form'], 400);
-        case 204:
-            $this->manager->flush();
-            return RestView::create(null, 204);
-        default:
-            $this->manager->flush();
-
-            // Génère la route
-            $className = $this->namespaceToClassname($data['item']);
-            if ($parent === null) {
-                $route = 'get_'.$className;
-                $params = array(
-                    'slug' => $data['item']->getSlug()
-                );
-            } else {
-                $parentClass = $this->namespaceToClassname($parent);
-                $route = 'get_'.$parentClass.'_'.$className;
-                $params = array(
-                    'slug' => $parent->getSlug(),
-                    'id'   => $data['item']->getSlug()
-                );
-            }
-
-            return RestView::create($data['item'], 201, array(
-                'Location' => $this->router->generate($route, $params, true)
-            ));
-        }
-    }
-
-    /**
-     * Récupère le nom de classe d'un objet et le met au format d'une route
-     * @param  object $object L'objet en question
-     * @return string         Le nom de la classe en minuscules
-     */
-    private function namespaceToClassname($object)
-    {
-        $names = explode('\\', get_class($object));
-        $className = $names[count($names) - 1];
-        return strtolower($className);
+        return ['form' => $form, 'item' => $item, 'code' => $code];
     }
 }

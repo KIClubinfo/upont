@@ -38,7 +38,7 @@
                     <button class="Button" style="float:right; cursor:pointer !important" ui-sref="root.users.students.modify({slug: user.username})">Modifier {{ user.username }}</button>
                 </div>
             </div>
-            
+
             <div flex="100" class="Ticket" ng-if="clubs.length !== 0">
                 <h2>Clubs et assos</h2>
 
@@ -104,7 +104,7 @@
             <h2 class="padded">Stats Foyer</h2>
 
             <section class="padded" ng-show="foyer.totalBeers === 0">
-                <p>Pas de consos à afficher. <strong ng-if="user.username == $root.me.username">Vite, direction le Foyer !</strong></p>
+                <p>Pas de consos à afficher. <strong ng-if="user.username == $root.username">Vite, direction le Foyer !</strong></p>
             </section>
 
             <section class="padded" ng-hide="foyer.totalBeers === 0">
@@ -121,7 +121,7 @@
             <h2 class="padded">Stats PontHub</h2>
 
             <section class="padded" ng-show="ponthub.totalFiles === 0">
-                <p>Pas de fichiers téléchargés pour l'instant. <a ng-if="user.username == $root.me.username" ui-sref="root.users.ponthub.category.list" title="PontHub"><strong>Vite, direction PontHub !</strong></a></p>
+                <p>Pas de fichiers téléchargés pour l'instant. <a ng-if="user.username == $root.username" ui-sref="root.users.ponthub.category.list" title="PontHub"><strong>Vite, direction PontHub !</strong></a></p>
             </section>
             <section class="padded" ng-hide="ponthub.totalFiles === 0">
                 <p>{{ user.first_name }} a téléchargé <strong>{{ ponthub.totalFiles }} fichiers</strong> pour plus de <strong>{{ ponthub.totalSize | formatSize }}</strong> !</p>

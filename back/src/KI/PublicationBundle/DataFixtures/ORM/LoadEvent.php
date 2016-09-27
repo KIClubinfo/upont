@@ -24,8 +24,8 @@ class LoadEventFixture extends AbstractFixture implements OrderedFixtureInterfac
         $event->setSendMail(true);
         $event->addAttendee($this->getReference('user-taquet-c'));
         $event->addAttendee($this->getReference('user-de-boisc'));
-        $event->setLikes(array($this->getReference('user-taquet-c')));
-        $event->setDislikes(array($this->getReference('user-trancara')));
+        $event->setLikes([$this->getReference('user-taquet-c')]);
+        $event->setDislikes([$this->getReference('user-trancara')]);
         $manager->persist($event);
 
         $event = new Event();

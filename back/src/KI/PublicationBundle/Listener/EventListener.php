@@ -44,11 +44,11 @@ class EventListener
 
             list($usersPush, $usersMail) = $this->getUsersToNotify($club, false, $event->getSendMail());
 
-            $vars = array(
+            $vars = [
                 'post' => $event,
                 'start' => ucfirst(strftime('%a %d %B à %Hh%M', $event->getStartDate())),
                 'end'   => ucfirst(strftime('%a %d %B à %Hh%M', $event->getEndDate()))
-            );
+            ];
 
             $shotgunPrefix = '';
             if (!empty($event->getShotgunDate())) {
@@ -58,7 +58,7 @@ class EventListener
 
             $attachments = [];
             foreach ($event->getFiles() as $file) {
-                $attachments[] = array("path" => $file->getAbsolutePath(), "name" => $file->getName());
+                $attachments[] = ["path" => $file->getAbsolutePath(), "name" => $file->getName()];
             }
 
             $title = '['.$club->getName().']'.$shotgunPrefix.' '.$event->getName();
@@ -92,7 +92,7 @@ class EventListener
         // Si ce n'est pas un event perso
         // On notifie les utilisateurs des changements
         if ($club) {
-            $modifications = array();
+            $modifications = [];
 
             if ($event->getStartDate() != $oldEvent->getStartDate()
                 || $event->getEndDate() != $oldEvent->getEndDate()
@@ -133,7 +133,7 @@ class EventListener
     private function getUsersToNotify(Club $club, $modify = false, $sendMail = true)
     {
         $allUsers = $this->userRepository->findAll();
-        $usersPush = $usersMail = array();
+        $usersPush = $usersMail = [];
 
         foreach ($allUsers as $candidate) {
             if (!$candidate->getClubsNotFollowed()->contains($club)) {
@@ -147,6 +147,6 @@ class EventListener
                 }
             }
         }
-        return array($usersPush, $usersMail);
+        return [$usersPush, $usersMail];
     }
 }

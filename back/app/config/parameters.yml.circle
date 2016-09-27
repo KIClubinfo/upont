@@ -22,3 +22,4 @@ parameters:
     use_assetic_controller: true
     fleur_token: 1234
     jwt_passphrase: ololol
+    facebook_token: null

@@ -39,7 +39,7 @@ class FilelistHelper
         // chemins de toutes les entités Ponthub
         $pathsExisting = $this->ponthubFileRepository->createQueryBuilder('r')->select('r.path')->getQuery()->getScalarResult();
         $pathsExisting = array_map('current', $pathsExisting);
-        $pathsDone = array();
+        $pathsDone = [];
 
         // On stocke les albums et les séries existantes
         extract($this->listExistingEntities());
@@ -71,7 +71,7 @@ class FilelistHelper
      */
     private function listExistingEntities()
     {
-        $seriesOutput = $genresOutput = array();
+        $seriesOutput = $genresOutput = [];
         $series = $this->serieRepository->findAll();
         foreach ($series as $serie) {
             $seriesOutput[$serie->getPath()] = $serie;
@@ -82,7 +82,7 @@ class FilelistHelper
         foreach ($genres as $genre) {
             $genresOutput[$genre->getName()] = $genre;
         }
-        return array('genres' => $genresOutput, 'series' => $seriesOutput);
+        return ['genres' => $genresOutput, 'series' => $seriesOutput];
     }
 
     /**
@@ -95,37 +95,37 @@ class FilelistHelper
     private function parseLine($line, &$pathsDone, $pathsExisting)
     {
         // On enlève le caractère de fin de ligne
-        $line = str_replace(array("\r", "\n"), array('', ''), $line);
+        $line = str_replace(["\r", "\n"], ['', ''], $line);
 
         // On récupère la taille du fichier et on l'enlève de la line
         // pour garder uniquement le chemin
-        $match = array();
+        $match = [];
         preg_match('/^(([0-9]+)[\t ]*)/', $line, $match);
 
         // On vérifie que la line a bien la bonne syntaxe, càd
         // %size%          %path%
         if (!(isset($match[1]) && isset($match[2]))) {
-            return array();
+            return [];
         }
         $size = $match[2] * 1000;
         $line = str_replace($match[1], '', $line);
 
         // On exclut tous les fichiers de type non valide
-        $name = preg_replace(array('#.*/#', '#\.[a-zA-Z0-9]+$#'), array('', ''), $line);
+        $name = preg_replace(['#.*/#', '#\.[a-zA-Z0-9]+$#'], ['', ''], $line);
         $ext = strrchr($line, '.');
         if ($ext !== false) {
             $ext = strtolower(substr($ext, 1));
             if (!in_array($ext, $this->validExtensions)) {
-                return array();
+                return [];
             }
         }
 
         // On ne crée une nouvelle entrée que si le fichier n'existe pas
         if (in_array($line, $pathsExisting)) {
             $pathsDone[] = $line;
-            return array();
+            return [];
         }
-        return array('line' => $line, 'name' => $name, 'size' => $size, 'ext' => $ext);
+        return ['line' => $line, 'name' => $name, 'size' => $size, 'ext' => $ext];
     }
 
     /**

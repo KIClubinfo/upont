@@ -2,9 +2,11 @@
 
 namespace KI\FoyerBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use KI\CoreBundle\Controller\ResourceController;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class BeersController extends ResourceController
 {
@@ -27,12 +29,14 @@ class BeersController extends ResourceController
      *  },
      *  section="Foyer"
      * )
+     * @Route("/beers")
+     * @Method("GET")
      */
     public function getBeersAction()
     {
         $beerHelper = $this->get('ki_foyer.helper.beer');
         $beers = $beerHelper->getBeerOrderedList();
-        return $this->restResponse($beers);
+        return $this->json($beers);
     }
 
     /**
@@ -48,8 +52,15 @@ class BeersController extends ResourceController
      *  },
      *  section="Foyer"
      * )
+     * @Route("/beers/{slug}")
+     * @Method("GET")
      */
-    public function getBeerAction($slug) { return $this->getOne($slug); }
+    public function getBeerAction($slug)
+    {
+        $beer = $this->getOne($slug);
+
+        return $this->json($beer);
+    }
 
     /**
      * @ApiDoc(
@@ -65,10 +76,14 @@ class BeersController extends ResourceController
      *  },
      *  section="Foyer"
      * )
+     * @Route("/beers")
+     * @Method("POST")
      */
     public function postBeerAction()
     {
-        return $this->post($this->isClubMember('foyer'));
+        $data = $this->post($this->isFoyerMember());
+
+        return $this->formJson($data);
     }
 
     /**
@@ -85,10 +100,14 @@ class BeersController extends ResourceController
      *  },
      *  section="Foyer"
      * )
+     * @Route("/beers/{slug}")
+     * @Method("PATCH")
      */
     public function patchBeerAction($slug)
     {
-        return $this->patch($slug, $this->isClubMember('foyer'));
+        $data = $this->patch($slug, $this->isFoyerMember());
+
+        return $this->formJson($data);
     }
 
     /**
@@ -103,17 +122,22 @@ class BeersController extends ResourceController
      *  },
      *  section="Foyer"
      * )
+     * @Route("/beers/{slug}")
+     * @Method("DELETE")
      */
     public function deleteBeerAction($slug)
     {
         // On supprime toutes les consos associées
         $beer = $this->findBySlug($slug);
         $transactionRepository = $this->manager->getRepository('KIFoyerBundle:Transaction');
-        $transactions = $transactionRepository->findBy(array('beer' => $beer));
+        $transactions = $transactionRepository->findBy(['beer' => $beer]);
 
         foreach ($transactions as $transaction) {
             $this->manager->remove($transaction);
         }
-        return $this->delete($slug, $this->isClubMember('foyer'));
+
+        $this->delete($slug, $this->isFoyerMember());
+
+        return $this->json(null, 204);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace KI\PublicationBundle\Form;
 
+use KI\PublicationBundle\Entity\Exercice;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,13 +19,13 @@ class ExerciceType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'KI\PublicationBundle\Entity\Exercice',
+        $resolver->setDefaults([
+            'data_class' => Exercice::class,
             'csrf_protection' => false,
-        ));
+        ]);
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return '';
     }

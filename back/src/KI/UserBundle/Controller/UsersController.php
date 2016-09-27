@@ -2,17 +2,22 @@
 
 namespace KI\UserBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
+use KI\CoreBundle\Controller\ResourceController;
+use KI\UserBundle\Entity\Achievement;
+use KI\UserBundle\Entity\User;
+use KI\UserBundle\Event\AchievementCheckEvent;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use KI\UserBundle\Entity\Achievement;
-use KI\UserBundle\Event\AchievementCheckEvent;
+use Exception;
 
-class UsersController extends \KI\CoreBundle\Controller\ResourceController
+class UsersController extends ResourceController
 {
-    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->initialize('User', 'User');
@@ -31,8 +36,13 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/users")
+     * @Method("GET")
      */
-    public function getUsersAction() { return $this->getAll(); }
+    public function getUsersAction()
+    {
+        return $this->getAll();
+    }
 
     /**
      * @ApiDoc(
@@ -47,8 +57,15 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/users/{slug}")
+     * @Method("GET")
      */
-    public function getUserAction($slug) { return $this->getOne($slug, true); }
+    public function getUserAction($slug)
+    {
+        $user = $this->getOne($slug, true);
+
+        return $this->json($user);
+    }
 
     /**
      * @ApiDoc(
@@ -64,12 +81,15 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/users/{slug}")
+     * @Method("PATCH")
      */
     public function patchUserAction(Request $request, $slug)
     {
         // Les admissibles et extérieurs ne peuvent pas modifier leur profil
-        if ($this->get('security.context')->isGranted('ROLE_ADMISSIBLE')
-            || $this->get('security.context')->isGranted('ROLE_EXTERIEUR'))
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMISSIBLE')
+            || $this->get('security.authorization_checker')->isGranted('ROLE_EXTERIEUR')
+        )
             throw new AccessDeniedException();
 
         if ($request->request->has('image')) {
@@ -79,20 +99,20 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
         }
 
         // Un utilisateur peut se modifier lui même
-        $user = $this->get('security.context')->getToken()->getUser();
-        $response = $this->patch($slug, $user->getUsername() == $slug);
+        $user = $this->getUser();
+        $patchData = $this->patch($slug, $user->getUsername() == $slug);
 
-        $dispatcher = $this->container->get('event_dispatcher');
+        $dispatcher = $this->get('event_dispatcher');
         $achievementCheck = new AchievementCheckEvent(Achievement::PROFILE);
         $dispatcher->dispatch('upont.achievement', $achievementCheck);
 
         if ($request->query->has('achievement')) {
-            $dispatcher = $this->container->get('event_dispatcher');
+            $dispatcher = $this->get('event_dispatcher');
             $achievementCheck = new AchievementCheckEvent(Achievement::TOUR);
             $dispatcher->dispatch('upont.achievement', $achievementCheck);
         }
 
-        return $response;
+        return $this->formJson($patchData);
     }
 
     /**
@@ -107,15 +127,19 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/users/{slug}")
+     * @Method("DELETE")
      */
     public function deleteUserAction($slug)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();
         }
         $userManager = $this->get('fos_user.user_manager');
         $user = $this->findBySlug($slug);
         $userManager->deleteUser($user);
+
+        return $this->json(null, 204);
     }
 
     /**
@@ -131,20 +155,16 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Get("/users/{slug}/clubs")
+     * @Route("/users/{slug}/clubs")
+     * @Method("GET")
      */
     public function getUserClubsAction($slug)
     {
         $user = $this->findBySlug($slug);
 
-        $clubs = $this->manager->createQuery('SELECT cu, club
-        FROM KIUserBundle:ClubUser cu
-        JOIN cu.club club
-        WHERE cu.user = :user')
-            ->setParameter('user', $user)
-            ->getArrayResult();
+        $clubs = $this->repository->getUserClubs($user);
 
-        return $this->restResponse($clubs, 200);
+        return $this->json($clubs, 200);
     }
 
     /**
@@ -173,6 +193,8 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
+     * @Route("/users")
+     * @Method("POST")
      */
     public function postUsersAction(Request $request)
     {
@@ -199,7 +221,7 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
             throw new BadRequestHttpException('Cet utilisateur existe déjà.');
 
         // Si le login existe déjà, on ajoute une lettre du prénom
-        $login = strtolower(str_replace(' ', '-', substr($this->stripAccents($lastName), 0, 7).$this->stripAccents($firstName)[0]));
+        $login = strtolower(str_replace(' ', '-', substr($this->stripAccents($lastName), 0, 7) . $this->stripAccents($firstName)[0]));
         $i = 1;
         while (count($repo->findByUsername($login)) > 0) {
             if (isset($firstName[$i]))
@@ -209,15 +231,16 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
             $i++;
         }
 
-        $this->createUser($login, $email, $firstName, $lastName);
-        $message = \Swift_Message::newInstance()
-            ->setSubject('[uPont] Nouvelle inscription ('.$login.')')
-            ->setFrom('noreply@upont.enpc.fr')
-            ->setTo('root@clubinfo.enpc.fr')
-            ->setBody($this->renderView('KIUserBundle::registration-ki.txt.twig', array('firstName' => $firstName, 'lastName' => $lastName, 'login' => $login, 'email' => $email)));
-        $this->get('mailer')->send($message);
+        $attributes = [
+            'username' => $login,
+            'email' => $email,
+            'firstName' => $firstName,
+            'lastName' => $lastName,
+        ];
 
-        return $this->restResponse(null, 201);
+        $this->get('ki_user.factory.user')->createUser($login, [], $attributes);
+
+        return $this->json(null, 201);
     }
 
     /**
@@ -236,13 +259,14 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route\Post("/import/users")
+     * @Route("/import/users")
+     * @Method("POST")
      */
     public function importUsersAction(Request $request)
     {
         set_time_limit(3600);
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN'))
-            return $this->jsonResponse(null, 403);
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
+            return $this->json(null, 403);
 
         if (!$request->files->has('users'))
             throw new BadRequestHttpException('Aucun fichier envoyé');
@@ -254,91 +278,76 @@ class UsersController extends \KI\CoreBundle\Controller\ResourceController
         }
 
         // On récupère le contenu du fichier
-        $path = __DIR__.'/../../../../web/uploads/tmp/';
+        $path = __DIR__ . '/../../../../web/uploads/tmp/';
         $file->move($path, 'users.list');
-        $list = fopen($path.'users.list', 'r+');
+        $list = fopen($path . 'users.list', 'r+');
         if ($list === false)
             throw new BadRequestHttpException('Erreur lors de l\'upload du fichier');
 
         // Dans un premier temps on va effectuer une première passe pour vérifier qu'il n'y a pas de duplicatas
-        $emails = $logins = $fails = $success = array();
-        $repo = $this->manager->getRepository('KIUserBundle:User');
-        foreach ($repo->findAll() as $user) {
-            $emails[] = $user->getEmail();
-            $logins[] = $user->getUsername();
-        }
+        $fails = $success = [];
 
         while (!feof($list)) {
             // On enlève le caractère de fin de ligne
-            $line = str_replace(array("\r", "\n"), array('', ''), fgets($list));
-            $login = $firstName = $lastName = $email = $promo = $department = $origin = null;
-            $explode = explode(',', $line);
-            list($login, $email, $firstName, $lastName, $promo, $department) = $explode;
-            $firstName = ucfirst($firstName);
-            $lastName  = ucfirst($lastName);
+            $line = str_replace(["\r", "\n"], ['', ''], fgets($list));
+            if(empty($line))
+                continue;
 
-            $e = array();
+            $gender = $login = $firstName = $lastName = $email = $promo = $department = $origin = null;
+            $explode = explode(',', $line);
+            list($gender, $lastName, $firstName, $email, $origin, $department, $promo) = $explode;
+            $firstName = ucfirst($firstName);
+            $lastName = ucwords(mb_strtolower($lastName));
+
+            $login = explode('@', $email)[0];
+
+            $e = [];
             if (!preg_match('/@(eleves\.)?enpc\.fr$/', $email))
                 $e[] = 'Adresse mail non utilisable';
-            if (in_array($email, $emails))
-                $e[] = 'Adresse mail déja utilisée';
-            if (in_array($login, $logins))
-                $e[] = 'Login déja utilisé';
 
             if (count($e) > 0) {
-                $fails[] = $line.' : '.implode(', ', $e);
+                $fails[] = $line . ' : ' . implode(', ', $e);
             } else {
-                $this->createUser($login, $email, $firstName, $lastName, $promo, $department, $origin);
-                $success[] = $firstName.' '.$lastName;
+
+                /**
+                 * @var $user User
+                 */
+                $user = $this->repository->findOneBy(['email' => $email]);
+                if (!$user) {
+                    $attributes = [
+                        'username' => $login,
+                        'email' => $email,
+                        'loginMethod' => 'form',
+                        'firstName' => $firstName,
+                        'lastName' => $lastName,
+                        'promo' => $promo,
+                        'department' => $department,
+                        'origin' => $origin,
+                    ];
+
+                    $user = $this->get('ki_user.factory.user')->createUser($login, [], $attributes);
+                } else {
+                    $user->setPromo($promo);
+                    $user->setDepartment($department);
+                    $user->setOrigin($origin);
+                }
+                $user->setGender($gender);
+
+                $success[] = $firstName . ' ' . $lastName;
             }
         }
 
-        $message = \Swift_Message::newInstance()
-            ->setSubject('[uPont] Import utilisateurs')
-            ->setFrom('noreply@upont.enpc.fr')
-            ->setTo('root@clubinfo.enpc.fr')
-            ->setBody($this->renderView('KIUserBundle::import.txt.twig', array('fails' => $fails, 'success' => $success)));
-        $this->get('mailer')->send($message);
-
-        return $this->restResponse(null, 201);
+        return $this->json([
+            'success' => $success,
+            'fails' => $fails,
+        ], 201);
     }
 
-    private function stripAccents($string) {
+    private function stripAccents($string)
+    {
         return str_replace(
-            array('à', 'á', 'â', 'ã', 'ä', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ', 'À', 'Á', 'Â', 'Ã', 'Ä', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ù', 'Ú', 'Û', 'Ü', 'Ý'),
-            array('a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y', 'A', 'A', 'A', 'A', 'A', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'N', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y'),
+            ['à', 'á', 'â', 'ã', 'ä', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ', 'À', 'Á', 'Â', 'Ã', 'Ä', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ù', 'Ú', 'Û', 'Ü', 'Ý'],
+            ['a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y', 'A', 'A', 'A', 'A', 'A', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'N', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y'],
             $string);
-    }
-
-    private function createUser($login, $email, $firstName, $lastName, $promo = null, $department = null, $origin = null) {
-        // Generation du mot de passe
-        $password = substr(str_shuffle(strtolower(sha1(rand().time().'salt'))), 0, 8);
-
-        // Création de l'utilisateur
-        $userManager = $this->get('fos_user.user_manager');
-        $user = $userManager->createUser();
-        $user->setUsername($login);
-        $user->setEmail($email);
-        $user->setEnabled(true);
-        $user->setPlainPassword($password);
-        $user->setFirstName($firstName);
-        $user->setLastName($lastName);
-
-        if ($promo !== null)
-            $user->setPromo($promo);
-        if ($department !== null)
-            $user->setDepartment($department);
-        if ($origin !== null)
-            $user->setOrigin($origin);
-
-        $userManager->updateUser($user);
-
-        // Envoi du mail
-        $message = \Swift_Message::newInstance()
-            ->setSubject('Inscription uPont')
-            ->setFrom('noreply@upont.enpc.fr')
-            ->setTo($email)
-            ->setBody($this->renderView('KIUserBundle::registration.txt.twig', array('firstName' => $firstName, 'login' => $login, 'password' => $password)));
-        $this->get('mailer')->send($message);
     }
 }

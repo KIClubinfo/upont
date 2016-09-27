@@ -22,22 +22,14 @@ angular.module('upont')
             },
             {
                 state: 'root.users.students.modify',
-                params: {slug: $rootScope.me.username},
+                params: {slug: $rootScope.username},
                 icon: 'user',
                 text: 'Je te propose de modifier ton profil afin de partir du bon pied.<br>' +
                 '<strong>Avoir des infos à jour est super important</strong>, si tout le monde les remplit tu pourras profiter au max des fonctionnalités de uPont comme la <strong>synchronisation des contacts</strong> ou le <strong>jeu de la Réponse D !</strong>'
             },
             {
                 state: 'root.users.students.modify',
-                params: {slug: $rootScope.me.username},
-                icon: 'mobile',
-                text: 'Plus bas sur cette page, tu as aussi les liens pour télécharger l\'application mobile.<br>' +
-                '<strong>Oui, uPont a une appli pour smartphones</strong> et elle est super badass !<br>' +
-                'Ce serait une honte que tu ne la télécharges pas immédiatement.<br>'
-            },
-            {
-                state: 'root.users.students.modify',
-                params: {slug: $rootScope.me.username},
+                params: {slug: $rootScope.username},
                 icon: 'calendar',
                 text: 'Accessoirement, sur cette page tu peux aussi synchroniser le calendrier uPont avec ton Mac/iBidule/Thunderbird/etc.<br>' +
                 '<strong>Attends ? Quel calendrier ? ...</strong>'
@@ -45,15 +37,14 @@ angular.module('upont')
             {
                 state: 'root.users.calendar',
                 icon: 'calendar',
-                text: 'Celui-ci ! Tu le retrouveras également sur l\'appli mobile.<br>' +
-                'Il contient <strong>tous les événements des clubs que tu suis</strong> mais aussi tes cours !<br>' +
+                text: 'Le calendrier contient <strong>tous les événements des clubs que tu suis</strong> mais aussi tes cours !<br>' +
                 '<strong>Quoi ? Il est synchronisé avec mes cours ?</strong>'
             },
             {
                 state: 'root.users.resources.courses.list',
                 icon: 'graduation-cap',
                 text: 'En effet ! C\'est ici que tu as la liste des cours et que <strong>tu peux choisir ceux que tu suis !</strong><br>' +
-                'Par exemple, essaye de suivre un cours en cliquant sur le symbole <i class="fa fa-eye"></i>. Il sera <strong>automatiquement ajouté au calendrier</strong> dès qu\'il y aura une prochaine séance de ce cours, et sera affiché en gros (gros GROS) sur l\'appli mobile !'
+                'Par exemple, essaye de suivre un cours en cliquant sur le symbole <i class="fa fa-eye"></i>. Il sera <strong>automatiquement ajouté au calendrier</strong> dès qu\'il y aura une prochaine séance de ce cours !'
             },
             {
                 state: 'root.users.resources.courses.list',
@@ -80,7 +71,7 @@ angular.module('upont')
                 text: 'Si tu as besoin d\'un peu d\'aide, tu peux toujours retrouver quelqu\'un via la recherche ou bien dans le <strong>Ponts\'binoscope</strong> et sa fonction de tri. Les pages de profil des élèves sont tellement détaillées que tu sauras <strong>combien de litres ils ont bu ou combien ils ont téléchargé sur PontHub</strong> s\'ils ont accepté de le partager !'
             },
             {
-                state: 'root.users.assos.foyer',
+                state: 'root.users.assos.foyer-playlist',
                 icon: 'beer',
                 text: 'En parlant de Foyer, tu pourras trouver le <strong>Hall Of Fame des plus gros buveurs</strong> sur cette page.<br>' +
                 'Si ça te chante, tu peux même <strong>ajouter le dernier clip de Booba pour qu\'il soit passé au prochain Foyer !</strong>'
@@ -105,7 +96,7 @@ angular.module('upont')
             // On demande confirmation
             alertify.confirm('Veux-tu quitter le tutoriel ? Tu pourras toujours le réactiver depuis la page de profil.', function(e){
                 if (e) {
-                    $http.patch($rootScope.url + 'users/' + $rootScope.me.username, {tour: true}).success(function(){
+                    $http.patch($rootScope.url + 'users/' + $rootScope.username, {tour: true}).success(function(){
                         $rootScope.me.tour = true;
                         alertify.success('Tutoriel masqué !');
                     });
@@ -122,7 +113,7 @@ angular.module('upont')
             if ($scope.step + 1 < steps.length) {
                 $scope.loadStep($scope.step + 1);
             } else if ($scope.step + 1 == steps.length) {
-                $http.patch($rootScope.url + 'users/' + $rootScope.me.username + '?achievement=unlocked', {tour: true}).success(function(){
+                $http.patch($rootScope.url + 'users/' + $rootScope.username + '?achievement=unlocked', {tour: true}).success(function(){
                     $rootScope.me.tour = true;
                     Achievements.check();
                 });

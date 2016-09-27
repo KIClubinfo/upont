@@ -2,8 +2,9 @@
 
 namespace KI\PonthubBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class GamesController extends PonthubFileController
@@ -27,8 +28,13 @@ class GamesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
+     * @Route("/games")
+     * @Method("GET")
      */
-    public function getGamesAction() { return $this->getAll(); }
+    public function getGamesAction()
+    {
+        return $this->getAll();
+    }
 
     /**
      * @ApiDoc(
@@ -43,8 +49,15 @@ class GamesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
+     * @Route("/games/{slug}")
+     * @Method("GET")
      */
-    public function getGameAction($slug) { return $this->getOne($slug); }
+    public function getGameAction($slug)
+    {
+        $game = $this->getOne($slug);
+
+        return $this->json($game);
+    }
 
     /**
      * @ApiDoc(
@@ -60,8 +73,15 @@ class GamesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
+     * @Route("/games/{slug}")
+     * @Method("PATCH")
      */
-    public function patchGameAction($slug) { return $this->patch($slug, $this->is('JARDINIER')); }
+    public function patchGameAction($slug)
+    {
+        $data = $this->patch($slug, $this->is('JARDINIER'));
+
+        return $this->formJson($data);
+    }
 
 
     /**
@@ -76,10 +96,14 @@ class GamesController extends PonthubFileController
      *  },
      *  section="Publications"
      * )
+     * @Route("/games/{slug}")
+     * @Method("DELETE")
      */
     public function deleteGameAction($slug)
     {
-        return $this->delete($slug, $this->is('JARDINIER'));
+        $this->delete($slug, $this->is('JARDINIER'));
+
+        return $this->json(null, 204);
     }
 
     /**
@@ -94,11 +118,12 @@ class GamesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route\Get("/games/{slug}/download")
+     * @Route("/games/{slug}/download")
+     * @Method("GET")
      */
     public function downloadGameAction($slug)
     {
-        $item = $this->getOne($slug);
+        $item =  $this->getOne($slug, !$this->is('EXTERIEUR'));
         return $this->download($item);
     }
 }

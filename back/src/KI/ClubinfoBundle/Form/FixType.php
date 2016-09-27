@@ -2,8 +2,10 @@
 
 namespace KI\ClubinfoBundle\Form;
 
+use KI\ClubinfoBundle\Entity\Fix;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FixType extends AbstractType
@@ -14,21 +16,21 @@ class FixType extends AbstractType
             ->add('name')
             ->add('problem')
             ->add('fix')
-            ->add('status', null, array(
+            ->add('status', null, [
                 'empty_data' => 'Non vu'
-            ))
+            ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class'      => 'KI\ClubinfoBundle\Entity\Fix',
+        $resolver->setDefaults([
+            'data_class'      => Fix::class,
             'csrf_protection' => false
-        ));
+        ]);
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return '';
     }

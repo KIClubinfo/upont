@@ -2,6 +2,7 @@
 
 namespace KI\ClubinfoBundle\Form;
 
+use KI\ClubinfoBundle\Entity\Tuto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,24 +13,24 @@ class TutoType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('text', null, array(
+            ->add('text', null, [
                 'empty_data' => 'Tutoriel en cours d\'écriture...'
-            ))
-            ->add('icon', null, array(
+            ])
+            ->add('icon', null, [
                 'empty_data' => 'book'
-            ))
+            ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class'      => 'KI\ClubinfoBundle\Entity\Tuto',
+        $resolver->setDefaults([
+            'data_class'      => Tuto::class,
             'csrf_protection' => false
-        ));
+        ]);
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return '';
     }

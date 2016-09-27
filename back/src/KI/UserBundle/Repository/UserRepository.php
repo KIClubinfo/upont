@@ -1,13 +1,13 @@
 <?php
 namespace KI\UserBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
-use DateTime;
+use KI\CoreBundle\Repository\ResourceRepository;
+use KI\UserBundle\Entity\User;
 
 /**
  * Class UserRepository
  */
-class UserRepository extends EntityRepository
+class UserRepository extends ResourceRepository
 {
     /**
      * @param  int $userId
@@ -64,6 +64,45 @@ class UserRepository extends EntityRepository
         ')
             ->setParameter('now', time())
             ->setParameter('userId', $userId)
+            ->getResult();
+    }
+
+    public function getDebtsIterator()
+    {
+        return $this->getEntityManager()->createQuery('SELECT usr.username, usr.email, usr.promo, usr.firstName, usr.lastName, usr.balance
+            FROM KIUserBundle:User usr
+            WHERE usr.balance < 0
+            ORDER BY usr.balance
+        ')
+            ->iterate();
+    }
+
+    public function getPromoBalance()
+    {
+        return $this->getEntityManager()->createQuery('SELECT usr.promo, SUM(usr.balance)
+            FROM KIUserBundle:User usr
+            GROUP BY usr.promo
+            ORDER BY usr.promo
+        ')
+            ->getArrayResult();
+    }
+
+    public function getUserClubs(User $user)
+    {
+        return $this->getEntityManager()->createQuery('SELECT cu, club
+            FROM KIUserBundle:ClubUser cu
+            JOIN cu.club club
+            WHERE cu.user = :user
+        ')
+            ->setParameter('user', $user)
+            ->getResult();
+    }
+
+    public function getOnlineUsers($delay = 30) {
+        return $this->createQueryBuilder('u')
+            ->where('u.lastConnect > :date')
+            ->setParameter('date', time() - $delay * 60)
+            ->getQuery()
             ->getResult();
     }
 }

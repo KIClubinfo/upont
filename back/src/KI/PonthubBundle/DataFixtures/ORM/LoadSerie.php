@@ -15,7 +15,7 @@ class LoadSerieFixture extends AbstractFixture implements OrderedFixtureInterfac
         $serie->setName('How I Met Your Mother');
         $serie->setPath('/root/web/series/How I met your mother');
         $serie->setDescription('Ted searches for the woman of his dreams in New York City with the help of his four best friends.');
-        $serie->setTags(array($this->getReference('tag-poseeey')));
+        $serie->setTags([$this->getReference('tag-poseeey')]);
         $serie->setDuration(1320);
         $serie->setRating(91);
         $serie->setDirector('Carter Bays');

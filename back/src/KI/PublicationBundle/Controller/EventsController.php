@@ -2,17 +2,18 @@
 
 namespace KI\PublicationBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Route;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use KI\CoreBundle\Controller\ResourceController;
+use KI\PublicationBundle\Entity\Event;
 use KI\PublicationBundle\Entity\EventUser;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Event\AchievementCheckEvent;
-use KI\CoreBundle\Controller\ResourceController;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use KI\PublicationBundle\Entity\Event;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class EventsController extends ResourceController
 {
@@ -35,6 +36,8 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
+     * @Route("/events")
+     * @Method("GET")
      */
     public function getEventsAction()
     {
@@ -54,10 +57,14 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
+     * @Route("/events/{slug}")
+     * @Method("GET")
      */
     public function getEventAction($slug)
     {
-        return $this->getOne($slug);
+        $event = $this->getOne($slug);
+
+        return $this->json($event);
     }
 
     /**
@@ -74,17 +81,18 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
+     * @Route("/events")
+     * @Method("POST")
      */
     public function postEventAction()
     {
-        $return = $this->postData($this->isClubMember());
+        $data = $this->post($this->isClubMember());
 
-        if ($return['code'] == 201) {
-            $this->manager->flush();
-            $this->get('ki_publication.listener.event')->postPersist($return['item']);
+        if ($data['code'] == 201) {
+            $this->get('ki_publication.listener.event')->postPersist($data['item']);
         }
 
-        return $this->postView($return);
+        return $this->formJson($data);
     }
 
     /**
@@ -101,6 +109,8 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
+     * @Route("/events/{slug}")
+     * @Method("PATCH")
      */
     public function patchEventAction($slug)
     {
@@ -109,10 +119,10 @@ class EventsController extends ResourceController
 
         $club = $item->getAuthorClub();
         $club = $club ? $club->getSlug() : $club;
-        $response = $this->patch($slug, $this->isClubMember($club));
+        $data = $this->patch($slug, $this->isClubMember($club));
         $this->get('ki_publication.listener.event')->postUpdate($item, $oldItem);
 
-        return $response;
+        return $this->formJson($data);
     }
 
     /**
@@ -127,6 +137,8 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
+     * @Route("/events/{slug}")
+     * @Method("DELETE")
      */
     public function deleteEventAction($slug)
     {
@@ -142,7 +154,9 @@ class EventsController extends ResourceController
             $this->manager->remove($item);
         }
 
-        return $this->delete($slug, $this->isClubMember($club));
+        $this->delete($slug, $this->isClubMember($club));
+
+        return $this->json(null, 204);
     }
 
     /**
@@ -165,7 +179,8 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route\Post("/events/{slug}/shotgun")
+     * @Route("/events/{slug}/shotgun")
+     * @Method("POST")
      */
     public function postEventUserAction(Request $request, $slug)
     {
@@ -178,14 +193,14 @@ class EventsController extends ResourceController
             throw new BadRequestHttpException('Texte de motivation manquant');
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
-        $user = $this->get('security.context')->getToken()->getUser();
-        $userEvent = $repo->findBy(array('event' => $event, 'user' => $user));
+        $user = $this->user;
+        $userEvent = $repo->findBy(['event' => $event, 'user' => $user]);
 
         // On vérifie que l'utilisateur n'a pas déjà shotguné
         if (count($userEvent) != 0)
             throw new BadRequestHttpException('Tu es déjà inscrit !');
 
-        //S'il est trop tôt, on rejète le shotgun
+        //S'il est l'heure, on accepte le shotgun
         if (time() >= $event->getShotgunDate()) {
             $userEvent = new EventUser();
             $userEvent->setEvent($event);
@@ -197,7 +212,7 @@ class EventsController extends ResourceController
             $this->manager->flush();
         }
 
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -220,7 +235,8 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route\Patch("/events/{slug}/shotgun")
+     * @Route("/events/{slug}/shotgun")
+     * @Method("PATCH")
      */
     public function patchEventUserAction(Request $request, $slug)
     {
@@ -232,8 +248,8 @@ class EventsController extends ResourceController
             throw new BadRequestHttpException('Texte de motivation manquant');
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
-        $user = $this->get('security.context')->getToken()->getUser();
-        $userEvent = $repo->findBy(array('event' => $event, 'user' => $user));
+        $user = $this->user;
+        $userEvent = $repo->findBy(['event' => $event, 'user' => $user]);
 
         if (count($userEvent) == 1) {
             $userEvent[0]->setMotivation($request->request->get('motivation'));
@@ -242,7 +258,7 @@ class EventsController extends ResourceController
             throw new NotFoundHttpException('Participation au shotgun non trouvée');
         }
 
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -257,21 +273,23 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route\Delete("/events/{slug}/shotgun")
+     * @Route("/events/{slug}/shotgun")
+     * @Method("DELETE")
      */
-    public function deleteEventUserAction($slug) {
+    public function deleteEventUserAction($slug)
+    {
         $event = $this->findBySlug($slug);
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
-        $user = $this->get('security.context')->getToken()->getUser();
-        $userEvent = $repo->findBy(array('event' => $event, 'user' => $user));
+        $user = $this->user;
+        $userEvent = $repo->findBy(['event' => $event, 'user' => $user]);
 
         if (count($userEvent) == 1) {
             $event = $userEvent[0]->getEvent();
 
             // On regarde si une place s'est libérée pour quelqu'un, au cas où
             // on le prévient
-            $userEvents = $repo->findBy(array('event' => $event), array('date' => 'ASC'));
+            $userEvents = $repo->findBy(['event' => $event], ['date' => 'ASC']);
 
             if (isset($userEvents[$event->getShotgunLimit()])) {
                 $this->get('ki_user.service.notify')->notify(
@@ -288,7 +306,7 @@ class EventsController extends ResourceController
         } else {
             throw new NotFoundHttpException('Participation au shotgun non trouvée');
         }
-        return $this->jsonResponse(null, 204);
+        return $this->json(null, 204);
     }
 
     /**
@@ -303,20 +321,21 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route\Get("/events/{slug}/shotgun")
+     * @Route("/events/{slug}/shotgun")
+     * @Method("GET")
      */
     public function getEventUserAction($slug)
     {
         $event = $this->findBySlug($slug);
 
         $repo = $this->manager->getRepository('KIPublicationBundle:EventUser');
-        $user = $this->get('security.context')->getToken()->getUser();
-        $userEvent = $repo->findBy(array('event' => $event), array('date' => 'ASC'));
+        $user = $this->user;
+        $userEvent = $repo->findBy(['event' => $event], ['date' => 'ASC']);
 
         $position = 0;
         $limit = $event->getShotgunLimit();
 
-        $fail = $success = $shotgun = array();
+        $fail = $success = $shotgun = [];
         $count = min(count($userEvent), $limit);
 
         for ($i = 0; $i < $count; $i++) {
@@ -347,11 +366,11 @@ class EventsController extends ResourceController
             $fail[] = $shotgun;
         }
 
-        $result = array(
-            'status'  => $position <= $limit && $position > 0,
-            'limit'   => $limit,
-            'date'    => $event->getShotgunDate()
-        );
+        $result = [
+            'status' => $position <= $limit && $position > 0,
+            'limit' => $limit,
+            'date' => $event->getShotgunDate()
+        ];
 
         // Si on est l'auteur du shotgun, on peut récupérer la liste d'attente
         if ($event->getAuthorUser() == $user) {
@@ -369,7 +388,7 @@ class EventsController extends ResourceController
             $result['waitingList'] = $position - $limit;
         }
 
-        return $this->restResponse($result);
+        return $this->json($result);
     }
 
     /**
@@ -384,11 +403,12 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route\Post("/events/{slug}/attend")
+     * @Route("/events/{slug}/attend")
+     * @Method("POST")
      */
     public function attendAction($slug)
     {
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->user;
         $event = $this->findBySlug($slug);
 
         if ($event->getAttendees()->contains($user)) {
@@ -405,7 +425,7 @@ class EventsController extends ResourceController
             $achievementCheck = new AchievementCheckEvent(Achievement::EVENT_ATTEND);
             $dispatcher->dispatch('upont.achievement', $achievementCheck);
 
-            return $this->restResponse(null, 204);
+            return $this->json(null, 204);
         }
     }
 
@@ -421,11 +441,12 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route\Delete("/events/{slug}/attend")
+     * @Route("/events/{slug}/attend")
+     * @Method("DELETE")
      */
     public function noAttendAction($slug)
     {
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->user;
         $event = $this->findBySlug($slug);
 
         if (!$event->getAttendees()->contains($user)) {
@@ -434,7 +455,7 @@ class EventsController extends ResourceController
             $event->removeAttendee($user);
             $this->manager->flush();
 
-            return $this->restResponse(null, 204);
+            return $this->json(null, 204);
         }
     }
 
@@ -450,11 +471,12 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route\Post("/events/{slug}/decline")
+     * @Route("/events/{slug}/decline")
+     * @Method("POST")
      */
     public function addPookieAction($slug)
     {
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->user;
         $event = $this->findBySlug($slug);
 
         if ($event->getPookies()->contains($user)) {
@@ -467,7 +489,7 @@ class EventsController extends ResourceController
             $event->addPookie($user);
             $this->manager->flush();
 
-            return $this->restResponse(null, 204);
+            return $this->json(null, 204);
         }
     }
 
@@ -483,11 +505,12 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route\Delete("/events/{slug}/decline")
+     * @Route("/events/{slug}/decline")
+     * @Method("DELETE")
      */
     public function removePookieAction($slug)
     {
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->user;
         $event = $this->findBySlug($slug);
 
         if (!$event->getPookies()->contains($user)) {
@@ -496,7 +519,7 @@ class EventsController extends ResourceController
             $event->removePookie($user);
             $this->manager->flush();
 
-            return $this->restResponse(null, 204);
+            return $this->json(null, 204);
         }
     }
 
@@ -512,9 +535,13 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route\Get("/events/{slug}/attendees")
+     * @Route("/events/{slug}/attendees")
+     * @Method("GET")
      */
-    public function getAttendeesAction($slug) { return $this->restResponse($this->findBySlug($slug)->getAttendees()); }
+    public function getAttendeesAction($slug)
+    {
+        return $this->json($this->findBySlug($slug)->getAttendees());
+    }
 
     /**
      * @ApiDoc(
@@ -528,7 +555,11 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route\Get("/events/{slug}/pookies")
+     * @Route("/events/{slug}/pookies")
+     * @Method("GET")
      */
-    public function getPookiesAction($slug) { return $this->restResponse($this->findBySlug($slug)->getPookies()); }
+    public function getPookiesAction($slug)
+    {
+        return $this->json($this->findBySlug($slug)->getPookies());
+    }
 }

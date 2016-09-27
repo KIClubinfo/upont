@@ -2,10 +2,12 @@
 
 namespace KI\CoreBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpFoundation\Request;
 use KI\CoreBundle\Entity\Image;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class ImagesController extends BaseController
 {
@@ -21,6 +23,8 @@ class ImagesController extends BaseController
      *  },
      *  section="Général"
      * )
+     * @Route("/images")
+     * @Method("POST")
      */
     public function postImageAction(Request $request)
     {
@@ -37,8 +41,8 @@ class ImagesController extends BaseController
         $manager->persist($image);
         $manager->flush();
 
-        return $this->jsonResponse(array(
+        return $this->json([
             'filelink' => '../api/'.$image->getWebPath(),
-        ), 201);
+        ], 201);
     }
 }

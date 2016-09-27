@@ -7,6 +7,6 @@ services:
         class: KI\ClubinfoBundle\Service\SlackService
         arguments:
             - '@ki_core.service.curl'
-            - %ki_clubinfo.slack_hook%
-            - %kernel.environment%
-            - %ki_core.base_url%
+            - '%ki_clubinfo.slack_hook%'
+            - '%kernel.environment%'
+            - '%ki_core.base_url%'
