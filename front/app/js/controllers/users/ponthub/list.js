@@ -112,6 +112,22 @@ angular.module('upont')
                     }],
                 }
             })
+            .state('root.users.ponthub.category.modify', {
+                url: '/:slug/rangement',
+                templateUrl: 'controllers/users/ponthub/modify.html',
+                controller: 'Ponthub_Modify_Ctrl',
+                data: {
+                    top: true
+                },
+                resolve: {
+                    element: ['$resource', '$stateParams', 'Ponthub', function($resource, $stateParams, Ponthub) {
+                        return $resource(apiPrefix + ':cat/:slug').get({
+                            cat: Ponthub.cat($stateParams.category),
+                            slug: $stateParams.slug
+                        }).$promise;
+                    }]
+                }
+            })
             .state('root.users.ponthub.category.list', {
                 url: '',
                 templateUrl: 'controllers/users/ponthub/list.html',

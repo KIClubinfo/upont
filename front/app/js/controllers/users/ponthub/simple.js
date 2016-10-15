@@ -63,5 +63,4 @@ angular.module('upont')
             }
         };
     }])
-    .config(['$stateProvider', function($stateProvider) {
-    }]);
+;

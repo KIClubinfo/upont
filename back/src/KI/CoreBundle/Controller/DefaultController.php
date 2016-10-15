@@ -6,6 +6,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\IpUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -225,5 +226,29 @@ class DefaultController extends BaseController
     public function versionAction()
     {
         return $this->json($this->get('ki_core.service.version')->getVersion());
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Retourne la configuration de uPont",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Général"
+     * )
+     * @Route("/config")
+     * @Method("GET")
+     */
+    public function configAction(Request $request)
+    {
+        return $this->json([
+            "studentNetwork" => IpUtils::checkIp($request->getClientIp(), [
+                "172.24.0.0-172.24.0.255",
+                "172.24.20.0-172.24.60.255",
+                "172.24.100.0-172.24.200.255",
+                "195.221.194.14-195.221.194.14",
+            ])
+        ]);
     }
 }
