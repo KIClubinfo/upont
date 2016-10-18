@@ -182,7 +182,7 @@ angular.module('upont')
 
             if(!$rootScope.isStudentNetwork && toState.name.startsWith('root.users.ponthub')){
                 event.preventDefault();
-                return false;
+                $state.go('root.404');
             }
         });
 

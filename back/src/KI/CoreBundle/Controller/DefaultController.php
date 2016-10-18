@@ -245,6 +245,7 @@ class DefaultController extends BaseController
         return $this->json([
             'ip' => $request->getClientIp(),
             'studentNetwork' => IpUtils::checkIp($request->getClientIp(), [
+//                '127.0.0.1',
                 '172.24.0.0/24',
                 '172.24.20.0/22',
                 '172.24.24.0/21',
