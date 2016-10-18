@@ -28,7 +28,7 @@
     "jquery": "latest",
     "js-base64": "latest",
     "moment": "latest",
-    "ngInfiniteScroll": "latest",
+    "ng-infinite-scroll-npm-is-better-than-bower": "latest",
     "ng-file-upload": "latest"
   },
   "resolutions": {
