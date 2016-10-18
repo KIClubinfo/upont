@@ -52,9 +52,7 @@ angular.module('upont')
         };
 
         var sendResponse = function (url, params) {
-            $http.post(url, params, {
-                skipAuthorization: true,
-            })
+            $http.post(url, params)
                 .success(function(){
                     $window.location.href = $scope.app.urlRedirect + '/' + $stateParams.to;
                 })
