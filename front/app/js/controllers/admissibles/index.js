@@ -5,13 +5,10 @@ angular.module('upont').controller('Admissibles_Ctrl', ['$scope', '$location', '
         };
         $scope.campuschannel = 'https://www.youtube.com/watch?v=yIPz0ecYM1w';
         $scope.admissible = {};
-        var downloads = [
-            'https://upont.enpc.fr/plaquette.pdf'
-        ];
 
         $scope.shotgun = {
-            openDate: moment("2016-06-15 20:00 +0200", "YYYY-MM-DD HH:mm Z"),
-            closeDate: moment("2016-06-20 23:00 +0200", "YYYY-MM-DD HH:mm Z"),
+            openDate: moment($rootScope.config.admissibles.openDate, 'YYYY-MM-DD HH:mm Z'),
+            closeDate: moment($rootScope.config.admissibles.closeDate, 'YYYY-MM-DD HH:mm Z'),
         };
         $scope.shotgun.openDateString = $scope.shotgun.openDate.format('LLLL');
         $scope.shotgun.closeDateString = $scope.shotgun.closeDate.format('LLLL');

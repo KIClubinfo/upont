@@ -3,7 +3,6 @@ angular.module('upont')
         $scope.searchResultsPost = [];
         $scope.searchPost = '';
         $scope.searchName = '';
-        var promo = '018';
         $scope.comments = comments;
 
         $scope.searchUserPost = function(string) {

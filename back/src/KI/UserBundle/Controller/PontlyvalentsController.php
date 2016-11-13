@@ -22,6 +22,18 @@ class PontlyvalentsController extends ResourceController
         $this->initialize('Pontlyvalent', 'User');
     }
 
+    private function checkPontlyvalentOpen(){
+        $lastPromo = $this->container->getParameter('upont.promos.latest');
+
+        if ($this->user->getPromo() == $lastPromo) {
+            throw new BadRequestHttpException('Ton tour n\'est pas encore arrivé, petit ' . $lastPromo . ' !');
+        }
+
+        if($this->container->getParameter('upont.pontlyvalent.open')) {
+            throw new BadRequestHttpException('Le pontlyvalent est fermé !');
+        }
+    }
+
     /**
      * @ApiDoc(
      *  resource=true,
@@ -39,10 +51,6 @@ class PontlyvalentsController extends ResourceController
      */
     public function getPontlyvalentsAction()
     {
-        if ($this->user->getPromo() == '019') {
-            throw new BadRequestHttpException('Ton tour n\'est pas encore arrivé, petit 019 !');
-        }
-
         $paginateHelper = $this->get('ki_core.helper.paginate');
         extract($paginateHelper->paginateData($this->repository));
 
@@ -74,9 +82,7 @@ class PontlyvalentsController extends ResourceController
      */
     public function getPontlyvalentAction($targetUsername)
     {
-        if ($this->user->getPromo() == '019') {
-            throw new BadRequestHttpException('Ton tour n\'est pas encore arrivé, petit 019 !');
-        }
+        $this->checkPontlyvalentOpen();
 
         $target = $this->manager->getRepository('KIUserBundle:User')->findOneByUsername($targetUsername);
 
@@ -106,17 +112,16 @@ class PontlyvalentsController extends ResourceController
      */
     public function postPontlyvalentAction(Request $request, $targetUsername)
     {
-        if ($this->user->getPromo() == '019') {
-            throw new BadRequestHttpException('Ton tour n\'est pas encore arrivé, petit 019 !');
-        }
+        $this->checkPontlyvalentOpen();
 
         /**
          * @var User $target
          */
         $target = $this->manager->getRepository('KIUserBundle:User')->findOneByUsername($targetUsername);
 
-        if ($target->getPromo() != '018') {
-            throw new BadRequestHttpException('Ce n\'est pas un 018 !');
+        $targetPromo = $this->container->getParameter('upont.promos.assos');
+        if ($target->getPromo() != $targetPromo) {
+            throw new BadRequestHttpException('Ce n\'est pas un ' . $targetPromo . ' !');
         }
 
         $pontlyvalent = $this->repository->getPontlyvalent($target, $this->user);
@@ -163,6 +168,8 @@ class PontlyvalentsController extends ResourceController
      */
     public function deletePontlyvalentAction($targetUsername)
     {
+        $this->checkPontlyvalentOpen();
+
         $target = $this->manager->getRepository('KIUserBundle:User')->findOneByUsername($targetUsername);
 
         $pontlyvalent = $this->repository->getPontlyvalent($target, $this->user);
