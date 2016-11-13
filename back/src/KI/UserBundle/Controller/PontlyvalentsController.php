@@ -23,13 +23,13 @@ class PontlyvalentsController extends ResourceController
     }
 
     private function checkPontlyvalentOpen(){
-        $lastPromo = $this->container->getParameter('upont.promos.latest');
+        $lastPromo = $this->container->getParameter('upont')['promos']['latest'];
 
         if ($this->user->getPromo() == $lastPromo) {
             throw new BadRequestHttpException('Ton tour n\'est pas encore arrivé, petit ' . $lastPromo . ' !');
         }
 
-        if($this->container->getParameter('upont.pontlyvalent.open')) {
+        if($this->container->getParameter('upont')['pontlyvalent']['open']) {
             throw new BadRequestHttpException('Le pontlyvalent est fermé !');
         }
     }
@@ -119,7 +119,7 @@ class PontlyvalentsController extends ResourceController
          */
         $target = $this->manager->getRepository('KIUserBundle:User')->findOneByUsername($targetUsername);
 
-        $targetPromo = $this->container->getParameter('upont.promos.assos');
+        $targetPromo = $this->container->getParameter('upont')['promos']['assos'];
         if ($target->getPromo() != $targetPromo) {
             throw new BadRequestHttpException('Ce n\'est pas un ' . $targetPromo . ' !');
         }

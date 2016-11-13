@@ -2,7 +2,7 @@ parameters:
   upont:
     promos:
       latest: '019'
-      assos: '017'
+      assos: '018'
       all:
         - '014'
         - '015'
