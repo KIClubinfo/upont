@@ -1,6 +1,6 @@
 imports:
     - { resource: parameters.yml }
-    - { resource: upont_config.yml }
+    - { resource: upont.yml }
     - { resource: security.yml }
 
 framework:

@@ -1,5 +1,5 @@
 parameters:
-  upont_config:
+  upont:
     promos:
       latest: '019'
       assos: '017'

@@ -261,6 +261,6 @@ class DefaultController extends BaseController
                 '172.24.200.0/24',
                 '195.221.194.14',
             ])
-        ], $this->container->getParameter('upont_config')));
+        ], $this->container->getParameter('upont')));
     }
 }
