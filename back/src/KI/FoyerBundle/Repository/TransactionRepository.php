@@ -33,6 +33,26 @@ class TransactionRepository extends EntityRepository
         return $hallOfFame;
     }
 
+    /**
+     * @return object[]
+     */
+    public function getPromoBalances()
+    {
+        $promoBalances = $this->getEntityManager()->createQuery('SELECT 
+            SUM(usr.balance) AS promoBalance, usr.promo as promo FROM
+            KIUserBundle:User usr
+            GROUP BY promo
+            ORDER BY promo ASC
+            ')
+            ->getArrayResult();
+
+        foreach ($promoBalances as &$promoBalance){
+            $promoBalance['promoBalance'] = round($promoBalance['promoBalance'], 2);
+        }
+
+        return $promoBalances;
+    }
+
 
     /**
      * Retourne les statistiques d'un utilisateur particulier

@@ -19,6 +19,41 @@ class DefaultController extends BaseController
 
     /**
      * @ApiDoc(
+     *  description="Retourne des statistiques générales sur le Foyer",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Foyer"
+     * )
+     * @Route("/statistics/foyer/dashboard")
+     * @Method("GET")
+     */
+    public function getFoyerStatisticsDashboardAction()
+    {
+        $this->trust($this->isFoyerMember());
+
+        $statistics = [
+            'promoBalances' => [
+                'labels' => [],
+                'data' => [],
+            ],
+        ];
+
+        $promoBalances = $this->manager->getRepository('KIFoyerBundle:Transaction')->getPromoBalances();
+
+        foreach ($promoBalances as $promoBalance){
+            $statistics['promoBalances']['labels'][] = trim($promoBalance['promo']);
+            $statistics['promoBalances']['data'][] += round($promoBalance['promoBalance'], 2);
+        }
+
+        return $this->json($statistics);
+    }
+
+    /**
+     * @ApiDoc(
      *  description="Retourne des statistiques Foyer de l'utilisateur",
      *  statusCodes={
      *   200="Requête traitée avec succès",
