@@ -114,6 +114,11 @@ angular.module('upont')
     .run(['$rootScope', 'StorageService', 'Permissions', '$state', '$interval', '$resource', '$location', '$window', '$sce', 'Achievements', function ($rootScope, StorageService, Permissions, $state, $interval, $resource, $location, $window, $sce, Achievements) {
         Permissions.load();
 
+        $rootScope.isStudentNetwork = false;
+        $resource(apiPrefix + 'config').get(function(data){
+            $rootScope.isStudentNetwork = data.studentNetwork;
+        });
+
         // Déconnexion
         $rootScope.logout = function () {
             Permissions.remove();
@@ -142,7 +147,8 @@ angular.module('upont')
         $rootScope.searchCategory = 'Assos';
 
         // Easter egg
-        $rootScope.surprise = (Math.floor(Math.random() * 1000) == 314);
+        // $rootScope.surprise = (Math.floor(Math.random() * 1000) == 314);
+        $rootScope.surprise = false;
 
         // Zoom sur les images
         $rootScope.zoom = false;
@@ -172,6 +178,11 @@ angular.module('upont')
                     $rootScope.urlRef = window.location.href;
 
                 $state.go('root.login');
+            }
+
+            if(!$rootScope.isStudentNetwork && toState.name.startsWith('root.users.ponthub')){
+                event.preventDefault();
+                $state.go('root.404');
             }
         });
 

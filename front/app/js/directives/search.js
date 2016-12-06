@@ -3,7 +3,7 @@ angular.module('upont').directive('upSearch', function() {
         compile: function(element) {
             element.addClass('Search');
         },
-        controller: ['$scope', '$resource', function($scope, $resource) {
+        controller: ['$rootScope', '$scope', '$resource', function($rootScope, $scope, $resource) {
             // RECHERCHE
             var empty = {posts: [], clubs: [], files: [], users: []};
             $scope.searchResults = empty;
@@ -12,6 +12,9 @@ angular.module('upont').directive('upSearch', function() {
                 if (string.length > 2) {
                     $resource(apiPrefix + 'search').save({search: '/' + string}, function(data){
                         $scope.searchResults = data;
+
+                        if(!$rootScope.isStudentNetwork)
+                            $scope.searchResults.files = [];
                     });
                 } else {
                     $scope.searchResults = empty;
