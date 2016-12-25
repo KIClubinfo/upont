@@ -30,7 +30,8 @@
         "stof/doctrine-extensions-bundle": "~1.1",
         "symfony/monolog-bundle": "~2.11",
         "symfony/swiftmailer-bundle": "~2.3",
-        "symfony/symfony": "3.1.*"
+        "symfony/symfony": "3.1.*",
+        "sentry/sentry-symfony": "^0.6.0"
     },
     "require-dev": {
         "liip/functional-test-bundle": "~1.6",
