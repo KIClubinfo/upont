@@ -1,4 +1,4 @@
-angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', '$resource', 'jwtHelper', 'Piwik', function(StorageService, $rootScope, $resource, jwtHelper, Piwik) {
+angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', '$resource', 'jwtHelper', function(StorageService, $rootScope, $resource, jwtHelper) {
     remove = function() {
         $rootScope.isLogged = false;
         $rootScope.isAdmin = false;
@@ -18,7 +18,7 @@ angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', 
 
             var username = jwtHelper.decodeToken(StorageService.get('token')).username;
             $rootScope.username = username;
-            Piwik.setUserId(username);
+            // FIXME Piwik.setUserId(username);
             // On récupère les données utilisateur
             $resource(apiPrefix + 'users/:slug', {slug: username}).get(function(data){
                 $rootScope.me = data;

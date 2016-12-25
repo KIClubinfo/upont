@@ -47,7 +47,6 @@ angular.module('upont')
 
         $scope.denyAuth = function () {
             // The user just clicked on 'Cancel'
-            // TODO: log it into Piwik ?
             sendResponse($scope.app.urlCallback, {token: $stateParams.to, success: false});
         };
 

@@ -37,7 +37,25 @@ alertify.set({ labels: {
 }});
 
 
-angular.module('upont', ['ui.router', 'ngResource', 'ngAnimate', 'mgcrea.ngStrap', 'ngSanitize', 'angular-jwt', 'angular.filter', 'naif.base64', 'infinite-scroll', 'ui.bootstrap.datetimepicker', 'monospaced.elastic', 'youtube-embed', 'angular-redactor', 'piwik', 'mwl.calendar', 'ngTouch', 'templates', 'ngFileUpload'])
+angular.module('upont', [
+    'ui.router',
+    'ngResource',
+    'ngAnimate',
+    'mgcrea.ngStrap',
+    'ngSanitize',
+    'angular-jwt',
+    'angular.filter',
+    'naif.base64',
+    'infinite-scroll',
+    'ui.bootstrap.datetimepicker',
+    'monospaced.elastic',
+    'youtube-embed',
+    'angular-redactor',
+    'mwl.calendar',
+    'ngTouch',
+    'templates',
+    'ngFileUpload'
+])
     .config(['redactorOptions', function(redactorOptions) {
         redactorOptions.buttons = ['html', 'formatting', 'bold', 'italic', 'underline', 'deleted', 'unorderedlist', 'image', 'file', 'link', 'alignment', 'horizontalrule'];
         redactorOptions.lang = 'fr';
