@@ -36,25 +36,30 @@ alertify.set({ labels: {
     cancel : 'Annuler'
 }});
 
+Raven
+    .config('https://7d2c55ff641e4762a7816581a7eba19b@sentry.io/124785')
+    .addPlugin(Raven.Plugins.Angular)
+    .install();
 
 angular.module('upont', [
-    'ui.router',
-    'ngResource',
-    'ngAnimate',
-    'mgcrea.ngStrap',
-    'ngSanitize',
     'angular-jwt',
-    'angular.filter',
-    'naif.base64',
-    'infinite-scroll',
-    'ui.bootstrap.datetimepicker',
-    'monospaced.elastic',
-    'youtube-embed',
     'angular-redactor',
+    'angular.filter',
+    'infinite-scroll',
+    'mgcrea.ngStrap',
+    'monospaced.elastic',
     'mwl.calendar',
+    'naif.base64',
+    'ngAnimate',
+    'ngFileUpload',
+    'ngRaven',
+    'ngResource',
+    'ngSanitize',
     'ngTouch',
     'templates',
-    'ngFileUpload'
+    'ui.bootstrap.datetimepicker',
+    'ui.router',
+    'youtube-embed',
 ])
     .config(['redactorOptions', function(redactorOptions) {
         redactorOptions.buttons = ['html', 'formatting', 'bold', 'italic', 'underline', 'deleted', 'unorderedlist', 'image', 'file', 'link', 'alignment', 'horizontalrule'];

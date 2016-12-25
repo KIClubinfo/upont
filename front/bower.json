@@ -28,7 +28,8 @@
     "js-base64": "latest",
     "moment": "latest",
     "ng-infinite-scroll-npm-is-better-than-bower": "latest",
-    "ng-file-upload": "latest"
+    "ng-file-upload": "latest",
+    "raven-js": "^3.9.1"
   },
   "overrides": {
     "highmaps": {
@@ -61,6 +62,12 @@
     },
     "jquery": {
       "main": []
+    },
+    "raven-js": {
+      "main": [
+        "dist/raven.js",
+        "dist/plugins/angular.js"
+      ]
     }
   }
 }
