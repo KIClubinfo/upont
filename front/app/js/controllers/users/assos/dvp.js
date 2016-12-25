@@ -1,15 +1,15 @@
 angular.module('upont')
-    .controller('DVP_Ctrl', ['$scope', '$rootScope', '$http', 'baskets', 'dates', function ($scope, $rootScope, $http, baskets, dates) {
+    .controller('DVP_Ctrl', ['$scope', '$rootScope', '$http', 'baskets', 'dates', function($scope, $rootScope, $http, baskets, dates) {
         $scope.baskets = baskets;
         $scope.dates = dates;
         $scope.basketOrders = {};
 
-        $scope.loadOrders = function (email) {
-            $http.get(apiPrefix + 'baskets-orders/' + email).success(function (data) {
-                $scope.orders = data;
+        $scope.loadOrders = function(email) {
+            $http.get(apiPrefix + 'baskets-orders/' + email).then(function(response) {
+                $scope.orders = response.data;
                 for (var i = 0; i < $scope.orders.length; i++) {
                     var order = $scope.orders[i];
-                    if(typeof $scope.basketOrders[order.basket.slug] === 'undefined')
+                    if (typeof $scope.basketOrders[order.basket.slug] === 'undefined')
                         $scope.basketOrders[order.basket.slug] = {};
 
                     $scope.basketOrders[order.basket.slug][order.date_retrieve.id] = true;
@@ -17,20 +17,20 @@ angular.module('upont')
             });
         };
 
-        if($rootScope.isLogged) {
+        if ($rootScope.isLogged) {
             $scope.email = $rootScope.me.email;
             $scope.loadOrders($scope.email);
         }
 
-        $scope.after = function(item){
+        $scope.after = function(item) {
             return item.date_retrieve.date_retrieve >= moment().format();
         };
 
-        $scope.before = function(item){
+        $scope.before = function(item) {
             return item.date_retrieve.date_retrieve < moment().format();
         };
 
-        $scope.post = function (firstName, lastName, email, phone) {
+        $scope.post = function(firstName, lastName, email, phone) {
             var postData = {
                 orders: []
             };
@@ -75,14 +75,14 @@ angular.module('upont')
                 }
             }
 
-            $http.post(apiPrefix + 'baskets-orders', postData).then(function () {
+            $http.post(apiPrefix + 'baskets-orders', postData).then(function() {
                 alertify.success('Commande envoyée !');
                 $scope.loadOrders($scope.email);
             });
         };
 
     }])
-    .config(['$stateProvider', function ($stateProvider) {
+    .config(['$stateProvider', function($stateProvider) {
         $stateProvider
             .state('root.users.assos.dvp', {
                 url: '/paniers',
@@ -93,10 +93,10 @@ angular.module('upont')
                     top: true
                 },
                 resolve: {
-                    baskets: ['$resource', function ($resource) {
+                    baskets: ['$resource', function($resource) {
                         return $resource(apiPrefix + 'baskets').query().$promise;
                     }],
-                    dates: ['$resource', function ($resource) {
+                    dates: ['$resource', function($resource) {
                         return $resource(apiPrefix + 'basketdates').query().$promise;
                     }]
                 }
@@ -111,10 +111,10 @@ angular.module('upont')
                     top: true
                 },
                 resolve: {
-                    baskets: ['$resource', function ($resource) {
+                    baskets: ['$resource', function($resource) {
                         return $resource(apiPrefix + 'baskets').query().$promise;
                     }],
-                    dates: ['$resource', function ($resource) {
+                    dates: ['$resource', function($resource) {
                         return $resource(apiPrefix + 'basketdates').query().$promise;
                     }]
                 }

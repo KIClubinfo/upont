@@ -8,9 +8,9 @@ angular.module('upont')
                 return;
             }
 
-            $http.post(apiPrefix + 'tutos', {name: name}).success(function(data){
+            $http.post(apiPrefix + 'tutos', {name: name}).then(function(response){
                 alertify.alert('Tuto créé ! Redirection...');
-                $state.go('root.users.resources.tutorials.simple', {slug: data.slug});
+                $state.go('root.users.resources.tutorials.simple', {slug: response.data.slug});
             });
         };
     }])

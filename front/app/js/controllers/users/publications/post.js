@@ -116,13 +116,13 @@ angular.module('upont')
                                         url: apiPrefix + 'newsitems',
                                         data: params
                                     })
-                                    .success(function(data) {
+                                    .then(function() {
                                         $rootScope.$broadcast('newNewsitem');
                                         Achievements.check();
                                         alertify.success('News publiée');
                                         init();
                                         $scope.isLoading = false;
-                                    }).error(function() {
+                                    }, function() {
                                         alertify.error('Formulaire vide ou mal rempli');
                                         $scope.isLoading = false;
                                 });
@@ -178,13 +178,13 @@ angular.module('upont')
                                         method: "POST",
                                         url: apiPrefix + 'events',
                                         data: params
-                                    }).success(function(data) {
+                                    }).then(function() {
                                         $rootScope.$broadcast('newEvent');
                                         Achievements.check();
                                         init();
                                         alertify.success('Événement publié');
                                         $scope.isLoading = false;
-                                    }).error(function() {
+                                    }, function() {
                                         alertify.error('Formulaire vide ou mal rempli');
                                         $scope.isLoading = false;
                                     });
@@ -192,13 +192,13 @@ angular.module('upont')
                             );
                         } else {
                             $http.patch(apiPrefix + 'events/' + post.slug, params)
-                            .success(function(data) {
+                            .then(function() {
                                 $rootScope.$broadcast('newEvent');
                                 alertify.success('Événement modifié');
                                 init();
                                 $scope.modify = false;
                                 $scope.isLoading = false;
-                            }).error(function() {
+                            }, function() {
                                 alertify.error('Formulaire vide ou mal rempli');
                                 $scope.isLoading = false;
                             });

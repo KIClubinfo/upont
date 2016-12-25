@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "dependencies": {
     "alertify.js": "latest",
-    "angular": "^1.5.0",
+    "angular": "latest",
     "angular-animate": "latest",
     "angular-base64-upload": "latest",
     "angular-bootstrap-calendar": "0.17.6",
@@ -29,10 +29,6 @@
     "moment": "latest",
     "ng-infinite-scroll-npm-is-better-than-bower": "latest",
     "ng-file-upload": "latest"
-  },
-  "resolutions": {
-    "angular": "1.5.0",
-    "fullcalendar": "2.3.1"
   },
   "overrides": {
     "highmaps": {

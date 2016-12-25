@@ -11,15 +11,17 @@ angular.module('upont')
         };
         $scope.delete = function(request) {
             $http.delete(apiPrefix + 'requests/' + request.slug)
-                .success(function(){
-                    alertify.success('Demande supprimée !');
-                    $resource(apiPrefix + 'requests').query(function(data){
-                        $scope.requests = data;
-                    });
-                })
-                .error(function(){
-                    alertify.error('Erreur...');
-                });
+                .then(
+                    function(){
+                        alertify.success('Demande supprimée !');
+                        $resource(apiPrefix + 'requests').query(function(data){
+                            $scope.requests = data;
+                        });
+                    },
+                    function(){
+                        alertify.error('Erreur...');
+                    }
+                );
         };
 
         $scope.post = function(name) {
@@ -29,14 +31,13 @@ angular.module('upont')
             }
 
             $http.post(apiPrefix + 'requests', {name: name})
-                .success(function(){
+                .then(function(){
                     alertify.success('Demande ajoutée !');
                     $resource(apiPrefix + 'requests').query(function(data){
                         $scope.requests = data;
                     });
                     $scope.name = '';
-                })
-                .error(function(){
+                }, function(){
                     alertify.error('Erreur...');
                 })
             ;

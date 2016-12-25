@@ -1,5 +1,5 @@
 angular.module('upont').controller('Admissibles_Ctrl', ['$scope', '$location', '$http', '$timeout', 'Scroll', function($scope, $location, $http, $timeout, Scroll) {
-        $scope.goTo = function (id){
+        $scope.goTo = function(id) {
             $location.hash(id);
             Scroll.scrollTo(id);
         };
@@ -16,7 +16,7 @@ angular.module('upont').controller('Admissibles_Ctrl', ['$scope', '$location', '
         $scope.shotgun.openDateString = $scope.shotgun.openDate.format('LLLL');
         $scope.shotgun.closeDateString = $scope.shotgun.closeDate.format('LLLL');
 
-        var tick = function () {
+        var tick = function() {
             $scope.shotgun.fromNow = $scope.shotgun.openDate.fromNow();
             $scope.shotgunOpen = $scope.shotgun.openDate.isBefore() && $scope.shotgun.closeDate.isAfter();
             $timeout(tick, 1000);
@@ -26,7 +26,7 @@ angular.module('upont').controller('Admissibles_Ctrl', ['$scope', '$location', '
         $scope.shotgunOpen = $scope.shotgun.openDate.isBefore() && $scope.shotgun.closeDate.isAfter();
 
         $scope.submit = function(data) {
-            if(!$scope.isLoading) {
+            if (!$scope.isLoading) {
                 $scope.isLoading = true;
 
                 if (data.lastName === undefined || data.firstName === undefined || data.scei === undefined || data.contact === undefined || data.serie === undefined || data.room === undefined || data.lastName === '' || data.firstName === '' || data.scei === '' || data.contact === '' || data.serie === '' || data.room === '') {
@@ -34,12 +34,12 @@ angular.module('upont').controller('Admissibles_Ctrl', ['$scope', '$location', '
                     return;
                 }
 
-                $http.post(apiPrefix + 'admissibles', data).success(function (data) {
+                $http.post(apiPrefix + 'admissibles', data).then(function() {
                     $scope.isLoading = false;
                     alertify.success('Demande prise en compte !');
-                }).error(function(data) {
+                }, function(response) {
                     $scope.isLoading = false;
-                    if(data.code == 400 && data.errors.children.scei.errors !== undefined)
+                    if (response.data.code == 400 && response.data.errors.children.scei.errors !== undefined)
                         alertify.error('Tu es déjà inscrit !');
                     else
                         alertify.error('Erreur...');

@@ -23,7 +23,7 @@ angular.module('upont')
                 active: course.active
             };
 
-            $http.patch(apiPrefix + 'courses/' + course.slug, params).success(function() {
+            $http.patch(apiPrefix + 'courses/' + course.slug, params).then(function() {
                 $scope.course.groups = groups;
                 $scope.course.groups.sort();
                 alertify.success('Modifications prises en compte !');
@@ -49,7 +49,7 @@ angular.module('upont')
                 withCredentials: true,
                 headers: {'Content-Type': undefined },
                 transformRequest: angular.identity
-            }).success(function() {
+            }).then(function() {
                 $scope.name = '';
                 var input = $('#fileUpload');
                 input.replaceWith(input.val('').clone(true));
@@ -79,7 +79,7 @@ angular.module('upont')
             $scope.isLoading = true;
 
             course.active = !course.active;
-            $http.patch(apiPrefix + 'courses/' + course.slug, {active: course.active}).success(function(){
+            $http.patch(apiPrefix + 'courses/' + course.slug, {active: course.active}).then(function(){
                 $scope.isLoading = false;
             });
         };

@@ -27,8 +27,8 @@ angular.module('upont')
 
 		$scope.loadStats = function() {
 			$scope.globalStatistics = globalStatistics;
-			$http.get(apiPrefix + 'statistics/facegame/' + $rootScope.username).success(function(data){
-				$scope.userStatistics = data;
+			$http.get(apiPrefix + 'statistics/facegame/' + $rootScope.username).then(function(response){
+				$scope.userStatistics = response.data;
 			});
 		};
 
@@ -72,7 +72,7 @@ angular.module('upont')
 				params.promo = undefined;
 			}
 
-			$http.post($rootScope.url + 'facegames', params).success(function(data) {
+			$http.post($rootScope.url + 'facegames', params).then(function(response) {
 				$scope.hardcore = hardcore;
 				$scope.playing = true;
 				$scope.end = false;
@@ -83,7 +83,7 @@ angular.module('upont')
 				$scope.clock = Date.now();
 				timer = $timeout(tick, $scope.tickInterval);
 
-				$scope.gameData = data;
+				$scope.gameData = response.data;
 
 				$scope.answer = $scope.gameData.list_users[$scope.position].answer;
 				$scope.name = $scope.gameData.list_users[$scope.position][$scope.answer].name;
@@ -104,9 +104,8 @@ angular.module('upont')
 					$scope.traitValue3 = $scope.gameData.list_users[$scope.position][2].trait;
 				}
 				$scope.loadStats();
-			}).error(function() {
+			}, function() {
 				alertify.error('La promo sélectionnée ne contient pas assez d\'élèves.');
-				return;
 			});
 		};
 

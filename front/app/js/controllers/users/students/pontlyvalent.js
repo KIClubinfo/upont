@@ -10,8 +10,8 @@ angular.module('upont')
             if (string === '') {
                 $scope.searchResultsPost = [];
             } else {
-                $http.post(apiPrefix + 'search', {search: 'User/' + string}).success(function(data){
-                    $scope.searchResultsPost = data.users;
+                $http.post(apiPrefix + 'search', {search: 'User/' + string}).then(function(response){
+                    $scope.searchResultsPost = response.data.users;
                 });
             }
         };

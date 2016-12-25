@@ -54,7 +54,7 @@ angular.module('upont')
                 params.image = image.base64;
             }
 
-            $http.patch($rootScope.url + 'users/' + user.username, params).success(function(){
+            $http.patch($rootScope.url + 'users/' + user.username, params).then(function(){
                 $resource(apiPrefix + 'users/:slug', {slug: user.username}).get(function(data){
                     user = data;
                     Achievements.check();
@@ -81,14 +81,13 @@ angular.module('upont')
             };
 
             $http.post($rootScope.url + 'own/user', params)
-                .success(function(){
+                .then(function(){
                     $resource(apiPrefix + 'users/:slug', {slug: $rootScope.username}).get(function(data){
                         $rootScope.me = data;
                         Achievements.check();
                     });
                     alertify.success('Compte mis à jour !');
-                })
-                .error(function(){
+                }, function(){
                     alertify.error('Ancien mot de passe incorrect');
                 })
             ;
@@ -108,7 +107,7 @@ angular.module('upont')
             e.preventDefault();
             if (!$rootScope.me.tour)
                 return;
-            $http.patch($rootScope.url + 'users/' + $rootScope.username, {tour: false}).success(function(){
+            $http.patch($rootScope.url + 'users/' + $rootScope.username, {tour: false}).then(function(){
                 $rootScope.me.tour = false;
                 $rootScope.$broadcast('tourEnabled');
                 alertify.success('Tutoriel réactivé !');

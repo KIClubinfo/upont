@@ -27,7 +27,7 @@ angular.module('upont')
                 params.banner = banner.base64;
             }
 
-            $http.patch(apiPrefix + 'clubs/' + $scope.club.slug, params).success(function(){
+            $http.patch(apiPrefix + 'clubs/' + $scope.club.slug, params).then(function(){
                 alertify.success('Modifications prises en compte !');
             });
         };
@@ -49,12 +49,14 @@ angular.module('upont')
                 confirm: confirm
             };
 
-            $http.post($rootScope.url + 'own/user', params).success(function(){
-                alertify.success('Compte mis à jour !');
-            })
-            .error(function(){
-                alertify.error('Ancien mot de passe incorrect');
-            });
+            $http.post($rootScope.url + 'own/user', params).then(
+                function(){
+                    alertify.success('Compte mis à jour !');
+                },
+                function(){
+                    alertify.error('Ancien mot de passe incorrect');
+                }
+            );
         };
 
     }])

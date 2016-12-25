@@ -20,10 +20,10 @@ angular.module('upont')
                 params.image = image.base64;
             }
 
-            $http.post(apiPrefix + 'newsitems', params).success(function(data){
+            $http.post(apiPrefix + 'newsitems', params).then(function(){
                 $rootScope.$broadcast('newMessage');
                 init();
-            }).error(function(){
+            }, function(){
                 alertify.error('Formulaire vide ou mal rempli');
             });
         };

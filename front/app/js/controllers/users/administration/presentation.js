@@ -8,7 +8,7 @@ angular.module('upont')
         };
 
         $scope.modify = function(presentation) {
-            $http.patch(apiPrefix + 'clubs/' + club.slug, {presentation: presentation}).success(function() {
+            $http.patch(apiPrefix + 'clubs/' + club.slug, {presentation: presentation}).then(function() {
                 $scope.presentation = $sce.trustAsHtml(presentation);
                 alertify.success('Modifications prises en compte !');
             });

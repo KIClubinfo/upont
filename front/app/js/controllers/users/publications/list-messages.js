@@ -5,8 +5,8 @@ angular.module('upont')
     .controller('Publications_List_Messages_Ctrl', ['$scope', '$resource', '$http', 'messages', 'Paginate', function($scope, $resource, $http, messages, Paginate) {
         $scope.messages = messages;
         $scope.next = function() {
-            Paginate.next($scope.messages).then(function(data){
-                $scope.messages = data;
+            Paginate.next($scope.messages).then(function(response){
+                $scope.messages = response;
             });
         };
 
@@ -17,7 +17,7 @@ angular.module('upont')
             // On demande confirmation
             alertify.prompt('Tu peux modifier ton message :', function(e, str){
                 if (e) {
-                    $http.patch(apiPrefix + 'newsitems/' + $scope.messages.data[index].slug, {text: str}).success(function() {
+                    $http.patch(apiPrefix + 'newsitems/' + $scope.messages.data[index].slug, {text: str}).then(function() {
                         $scope.messages.data[index].text = str;
                         alertify.success('Message correctement édité');
                     });
@@ -39,8 +39,8 @@ angular.module('upont')
         };
 
         $scope.$on('newMessage', function(event, args) {
-            Paginate.first($scope.messages).then(function(data){
-                $scope.messages = data;
+            Paginate.first($scope.messages).then(function(response){
+                $scope.messages = response;
             });
         });
     }])

@@ -13,11 +13,11 @@ angular.module('upont')
         }
 
         $scope.reload = function() {
-            Paginate.first($scope.ownFixs).then(function(data){
-                $scope.ownFixs = data;
+            Paginate.first($scope.ownFixs).then(function(response){
+                $scope.ownFixs = response.data;
             });
-            Paginate.first($scope.fixs).then(function(data){
-                $scope.fixs = data;
+            Paginate.first($scope.fixs).then(function(response){
+                $scope.fixs = response.data;
             });
         };
 
@@ -31,7 +31,7 @@ angular.module('upont')
                 fix: isFix
             };
 
-            $http.post(apiPrefix + 'fixs', params).success(function(data){
+            $http.post(apiPrefix + 'fixs', params).then(function(){
                 $scope.fix = '';
                 $scope.msg = '';
                 alertify.success('Demande correctement envoyée !');
@@ -41,7 +41,7 @@ angular.module('upont')
         };
 
         $scope.changeStatus = function(fix) {
-            $http.patch(apiPrefix + 'fixs/' + fix.slug, {status: fix.status}).success(function(data){
+            $http.patch(apiPrefix + 'fixs/' + fix.slug, {status: fix.status}).then(function(){
                 $scope.reload();
             });
         };
@@ -49,7 +49,7 @@ angular.module('upont')
         $scope.delete = function(fix) {
             alertify.confirm('Veux-tu vraiment supprimer le ticket ?', function(e) {
                 if (e) {
-                    $http.delete(apiPrefix + 'fixs/' + fix.slug).success(function(data){
+                    $http.delete(apiPrefix + 'fixs/' + fix.slug).then(function(){
                         $scope.reload();
                     });
                 }

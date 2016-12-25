@@ -30,8 +30,8 @@ angular.module('upont')
         };
 
         $scope.next = function() {
-            Paginate.next($scope.courses).then(function(data){
-                $scope.courses = data;
+            Paginate.next($scope.courses).then(function(response){
+                $scope.courses = response;
             });
         };
 
@@ -45,8 +45,8 @@ angular.module('upont')
             if (criterias.ects != 'all')
                 url += '&ects=' + criterias.ects;
 
-            Paginate.get(url, 50).then(function(data){
-                $scope.courses = data;
+            Paginate.get(url, 50).then(function(response){
+                $scope.courses = response;
                 $scope.next();
             });
         };
@@ -122,7 +122,7 @@ angular.module('upont')
             $scope.isLoading = true;
 
             course.active = !course.active;
-            $http.patch(apiPrefix + 'courses/' + course.slug, {active: course.active}).success(function(){
+            $http.patch(apiPrefix + 'courses/' + course.slug, {active: course.active}).then(function(){
                 $scope.isLoading = false;
             });
         };
@@ -137,13 +137,13 @@ angular.module('upont')
             if (course.groups.length != 1) {
                 alertify.prompt('Dans quel groupe es-tu ? Groupes valides : ' + course.groups.join(','), function(e, str){
                     if (e) {
-                        $http.post(apiPrefix + 'courses/' + course.slug + '/attend', {group: str}).success(function() {
+                        $http.post(apiPrefix + 'courses/' + course.slug + '/attend', {group: str}).then(function() {
                             $resource(apiPrefix + 'own/courses').query(function(data) {
                                 $scope.load(data);
                                 $scope.isLoading = false;
                                 Achievements.check();
                             });
-                        }).error(function(){
+                        }, function(){
                             alertify.error('Groupe invalide !');
                             $scope.isLoading = false;
                         });

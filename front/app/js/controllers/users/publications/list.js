@@ -59,24 +59,24 @@ angular.module('upont')
         $scope.edit = null;
 
         $scope.next = function() {
-            Paginate.next($scope.newsItems).then(function(data){
-                $scope.newsItems = data;
+            Paginate.next($scope.newsItems).then(function(response){
+                $scope.newsItems = response;
             });
 
-            Paginate.next($scope.events).then(function(data){
-                $scope.events = data;
+            Paginate.next($scope.events).then(function(response){
+                $scope.events = response;
             });
         };
 
         $scope.$on('newEvent', function(event, args) {
-            Paginate.first($scope.events).then(function(data){
-                $scope.events = data;
+            Paginate.first($scope.events).then(function(response){
+                $scope.events = response;
             });
         });
 
         $scope.$on('newNewsitem', function(event, args) {
-            Paginate.first($scope.newsItems).then(function(data){
-                $scope.newsItems = data;
+            Paginate.first($scope.newsItems).then(function(response){
+                $scope.newsItems = response;
             });
         });
 
@@ -84,12 +84,12 @@ angular.module('upont')
             var i = $scope.events.data.indexOf(publication);
             // Si la personne attend déjà on ne fait qu'annuler le attend
             if ($scope.events.data[i].attend) {
-                $http.delete(apiPrefix + 'events/' + $scope.events.data[i].slug + '/attend').success(function(data){
+                $http.delete(apiPrefix + 'events/' + $scope.events.data[i].slug + '/attend').then(function(){
                     $scope.events.data[i].attend = false;
                     $scope.events.data[i].attendees--;
                 });
             } else {
-                $http.post(apiPrefix + 'events/' + $scope.events.data[i].slug + '/attend').success(function(data){
+                $http.post(apiPrefix + 'events/' + $scope.events.data[i].slug + '/attend').then(function(){
                     $scope.events.data[i].attend = true;
                     $scope.events.data[i].attendees++;
 
@@ -107,12 +107,12 @@ angular.module('upont')
             var i = $scope.events.data.indexOf(publication);
             // Si la personne pookie déjà on ne fait qu'annuler le pookie
             if ($scope.events.data[i].pookie) {
-                $http.delete(apiPrefix + 'events/' + $scope.events.data[i].slug + '/decline').success(function(data){
+                $http.delete(apiPrefix + 'events/' + $scope.events.data[i].slug + '/decline').then(function(){
                     $scope.events.data[i].pookie = false;
                     $scope.events.data[i].pookies--;
                 });
             } else {
-                $http.post(apiPrefix + 'events/' + $scope.events.data[i].slug + '/decline').success(function(data){
+                $http.post(apiPrefix + 'events/' + $scope.events.data[i].slug + '/decline').then(function(){
                     $scope.events.data[i].pookie = true;
                     $scope.events.data[i].pookies++;
                     alertify.success('Cet événement ne sera plus affiché par la suite. Tu pourras toujours le retrouver sur la page de l\'assos.');
@@ -141,8 +141,8 @@ angular.module('upont')
             publication.displayAttendees = !publication.displayAttendees;
 
             if (publication.userlist === undefined) {
-                $http.get(apiPrefix + 'events/' + publication.slug + '/attendees').success(function(data){
-                    publication.userlist = data;
+                $http.get(apiPrefix + 'events/' + publication.slug + '/attendees').then(function(response){
+                    publication.userlist = response.data;
                 });
             }
         };
@@ -185,7 +185,7 @@ angular.module('upont')
         };
 
         $scope.modify = function(post) {
-            $http.patch(apiPrefix + $scope.item + '/' + post.slug, {text: post.text}).success(function(data){
+            $http.patch(apiPrefix + $scope.item + '/' + post.slug, {text: post.text}).then(function(){
                 alertify.success('Publication modifiée');
                 $scope.edit.text = post.text ;
                 $scope.edit = null;
