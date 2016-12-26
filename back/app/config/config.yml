@@ -149,4 +149,5 @@ services:
         alias: doctrine
 
 sentry:
-    dsn: "https://7d2c55ff641e4762a7816581a7eba19b:77dba1c4efb947d5b02fcab4c93a0790@sentry.io/124785"
+    dsn: "%sentry_dsn%"
+    environment: "%kernel.environment%"

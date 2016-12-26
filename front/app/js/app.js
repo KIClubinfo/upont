@@ -37,7 +37,7 @@ alertify.set({ labels: {
 }});
 
 Raven
-    .config('https://7d2c55ff641e4762a7816581a7eba19b@sentry.io/124785')
+    .config('https://c1de7d0cdfb14286a0d21efb3c0da318@sentry.io/124785')
     .addPlugin(Raven.Plugins.Angular)
     .install();
 
