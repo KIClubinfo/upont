@@ -189,7 +189,6 @@ class PostFile
 
         if (file_exists($this->file->getRealPath())) {
             $this->file->move($this->getUploadDir(), $this->post->getId()."_".$this->getName());
-            //unset($this->file);
         }
     }
 
