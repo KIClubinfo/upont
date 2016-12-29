@@ -10,8 +10,8 @@ angular.module('upont')
             if (string === '') {
                 $scope.searchResultsPost = [];
             } else {
-                $http.post(apiPrefix + 'search', {search: 'User/' + string}).success(function(data){
-                    $scope.searchResultsPost = data.users;
+                $http.post(apiPrefix + 'search', {search: 'User/' + string}).then(function(response){
+                    $scope.searchResultsPost = response.data.users;
                 });
             }
         };
@@ -30,21 +30,21 @@ angular.module('upont')
                         return;
                     }
 
-                    $http.post(apiPrefix + 'users/' + slug + '/pontlyvalent', {text: text}).success(function() {
+                    $http.post(apiPrefix + 'users/' + slug + '/pontlyvalent', {text: text}).then(function() {
                         alertify.success('Entrée enregistrée');
                         $scope.reload();
-                    }).error(function (data) {
-                        alertify.error(data.error.exception[0].message);
+                    }, function (response) {
+                        alertify.error(response.data.error.exception[0].message);
                     });
                 }
             });
         };
 
         $scope.deleteComment = function(slug) {
-            $http.delete(apiPrefix + 'users/' + slug + '/pontlyvalent').success(function() {
+            $http.delete(apiPrefix + 'users/' + slug + '/pontlyvalent').then(function() {
                 alertify.success('Entrée supprimée');
                 $scope.reload();
-            }).error(function (data) {
+            }, function () {
                 alertify.error();
             });
         };

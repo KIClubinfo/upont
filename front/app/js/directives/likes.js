@@ -174,7 +174,7 @@ angular.module('upont').directive('upLikes', function() {
                 // On demande confirmation
                 alertify.prompt('Tu peux modifier ton message :', function(e, str){
                     if (e) {
-                        $http.patch(apiPrefix + 'comments/' + $scope.comments[index].id, {text: str}).success(function() {
+                        $http.patch(apiPrefix + 'comments/' + $scope.comments[index].id, {text: str}).then(function() {
                             $scope.comments[index].text = str;
                         });
                     }

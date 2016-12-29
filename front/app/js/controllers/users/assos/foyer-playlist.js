@@ -14,8 +14,8 @@ angular.module('upont')
         }
 
         $scope.reload = function() {
-            Paginate.first($scope.youtube).then(function(data){
-                $scope.youtube = data;
+            Paginate.first($scope.youtube).then(function(response){
+                $scope.youtube = response.data;
             });
         };
 
@@ -25,7 +25,7 @@ angular.module('upont')
                 return;
             }
 
-            $http.post(apiPrefix + 'youtubes', {name: 'Lien Youtube Foyer', link: link}).success(function(data){
+            $http.post(apiPrefix + 'youtubes', {name: 'Lien Youtube Foyer', link: link}).then(function(){
                 $scope.link = '';
                 alertify.success('Yeah !');
                 $scope.reload();
@@ -35,7 +35,7 @@ angular.module('upont')
         $scope.delete = function(youtube) {
             alertify.confirm('Veux-tu vraiment faire ça ?', function(e) {
                 if (e) {
-                    $http.delete(apiPrefix + 'youtubes/' + youtube.slug).success(function(data){
+                    $http.delete(apiPrefix + 'youtubes/' + youtube.slug).then(function(){
                         $scope.reload();
                     });
                 }

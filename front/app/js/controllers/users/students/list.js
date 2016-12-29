@@ -10,8 +10,8 @@ angular.module('upont')
         };
 
         $scope.next = function() {
-            Paginate.next($scope.users).then(function(data){
-                $scope.users = data;
+            Paginate.next($scope.users).then(function(response){
+                $scope.users = response;
             });
         };
 
@@ -29,8 +29,8 @@ angular.module('upont')
             if (criterias.gender != 'all')
                 url += '&promo=' + criterias.gender;
 
-            Paginate.get(url, 20).then(function(data){
-                $scope.users = data;
+            Paginate.get(url, 20).then(function(response){
+                $scope.users = response;
                 $scope.next();
             });
         };

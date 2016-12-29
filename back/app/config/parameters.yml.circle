@@ -23,3 +23,4 @@ parameters:
     fleur_token: 1234
     jwt_passphrase: ololol
     facebook_token: null
+    sentry_dsn: null

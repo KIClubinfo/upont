@@ -14,13 +14,13 @@ angular.module('upont')
 
                 $scope.isLoading = true;
                 $http.post(apiPrefix + 'events/' + $scope.event.slug + '/shotgun', {motivation: $scope.motivation})
-                    .success(function(data){
+                    .then(function(){
                         $resource(apiPrefix + 'events/' + $scope.event.slug + '/shotgun').get(function(data){
                             $scope.shotgun = data;
                             $scope.shotgunned = true;
                         });
                         $scope.isLoading = false;
-                    }).error(function(){
+                    }, function(){
                         $scope.isLoading = false;
                     });
             }
@@ -29,8 +29,8 @@ angular.module('upont')
         $scope.deleteShotgun = function(){
             alertify.confirm('Attention c\'est définitif !', function(e) {
                 if (e) {
-                    $http.delete(apiPrefix + 'events/' + $scope.event.slug + '/shotgun').success(function(data){
-                        $scope.shotgun = data;
+                    $http.delete(apiPrefix + 'events/' + $scope.event.slug + '/shotgun').then(function(response){
+                        $scope.shotgun = response.data;
                         $scope.shotgunned = false;
                         alertify.success('Nickel ! Ta place sera redistribuée aux prochains sur la liste d\'attente ;)');
                     });

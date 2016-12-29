@@ -8,16 +8,16 @@ angular.module('upont')
         var clubSlug = $scope.club.name;
 
         $scope.reloadMembers = function() {
-            $http.get(apiPrefix + 'clubs/' + $scope.club.slug + '/users').success(function(data){
-                $scope.members = data;
+            $http.get(apiPrefix + 'clubs/' + $scope.club.slug + '/users').then(function(response) {
+                $scope.members = response.data;
             });
         };
 
         $scope.submitClub = function(name, fullName, icon, image, banner) {
             var params = {
-                'name' : name,
-                'fullName' : fullName,
-                'icon' : icon,
+                'name': name,
+                'fullName': fullName,
+                'icon': icon,
             };
 
             if (image) {
@@ -28,11 +28,11 @@ angular.module('upont')
                 params.banner = banner.base64;
             }
 
-            $http.patch(apiPrefix + 'clubs/' + $scope.club.slug, params).success(function(){
+            $http.patch(apiPrefix + 'clubs/' + $scope.club.slug, params).then(function() {
                 // On recharge le club pour être sûr d'avoir la nouvelle photo
                 if (clubSlug == name) {
-                    $http.get(apiPrefix + 'clubs/' + $scope.club.slug).success(function(data){
-                        $scope.club = data;
+                    $http.get(apiPrefix + 'clubs/' + $scope.club.slug).then(function(response) {
+                        $scope.club = response.data;
                     });
                 } else {
                     alertify.alert('Le nom court du club ayant changé, il est nécessaire de recharger la page du club...');
@@ -51,8 +51,8 @@ angular.module('upont')
             if (string === '') {
                 $scope.searchResults = [];
             } else {
-                $http.post(apiPrefix + 'search', {search: 'User/' + string}).success(function(data){
-                    $scope.searchResults = data.users;
+                $http.post(apiPrefix + 'search', {search: 'User/' + string}).then(function(response) {
+                    $scope.searchResults = response.data.users;
                 });
             }
         };
@@ -66,9 +66,9 @@ angular.module('upont')
                 }
             }
 
-            alertify.prompt('Rôle de ' + user.name + ' :', function(e, role){
+            alertify.prompt('Rôle de ' + user.name + ' :', function(e, role) {
                 if (e) {
-                    $http.post(apiPrefix + 'clubs/' + $scope.club.slug + '/users/' + user.slug, {role: role}).success(function(data){
+                    $http.post(apiPrefix + 'clubs/' + $scope.club.slug + '/users/' + user.slug, {role: role}).then(function() {
                         alertify.success(user.name + ' a été ajouté(e) !');
                         $scope.reloadMembers();
                     });
@@ -85,14 +85,14 @@ angular.module('upont')
                     break;
                 }
             }
-            if(!found) {
+            if (!found) {
                 alertify.error('Pas membre du club !');
                 return;
             }
 
-            alertify.prompt('Nouveau rôle de ' + user.first_name + ' ' + user.last_name + ' :', function(e, role){
+            alertify.prompt('Nouveau rôle de ' + user.first_name + ' ' + user.last_name + ' :', function(e, role) {
                 if (e) {
-                    $http.patch(apiPrefix + 'clubs/' + $scope.club.slug + '/users/' + user.username, {role: role}).success(function(data){
+                    $http.patch(apiPrefix + 'clubs/' + $scope.club.slug + '/users/' + user.username, {role: role}).then(function() {
                         alertify.success(user.first_name + ' ' + user.last_name + ' a été modifié(e) !');
                         $scope.reloadMembers();
                     });
@@ -100,35 +100,38 @@ angular.module('upont')
             });
         };
 
-	$scope.moveMember = function(user, direction) {
-	    // On vérifie qu'une requête n'est pas déjà en cours
-	    if ($scope.isLoading == false) {
-		$scope.isLoading = true;
+        $scope.moveMember = function(user, direction) {
+            // On vérifie qu'une requête n'est pas déjà en cours
+            if ($scope.isLoading == false) {
+                $scope.isLoading = true;
 
-	        // On vérifie que la personne est déjà membre
-	        var found = false;
-	        for (var i = 0; i < $scope.members.length; i++) {
-		    if ($scope.members[i].user.username == user.username) {
-		        found = true;
-		        break;
-		    }
-    	        }
-	        if(!found) {
-		    alertify.error('Pas membre du club !');
-		    return;
-	        }
+                // On vérifie que la personne est déjà membre
+                var found = false;
+                for (var i = 0; i < $scope.members.length; i++) {
+                    if ($scope.members[i].user.username == user.username) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    alertify.error('Pas membre du club !');
+                    return;
+                }
 
-	        $http.patch(apiPrefix + 'clubs/' + $scope.club.slug + '/users/' + user.username + '/' + direction).success(function(data){
-		    $scope.isLoading = false;
-		    $scope.reloadMembers();
-	        }).error(function(data){
-		    $scope.isLoading = false;
-		});
-	    }
+                $http.patch(apiPrefix + 'clubs/' + $scope.club.slug + '/users/' + user.username + '/' + direction).then(
+                    function() {
+                        $scope.isLoading = false;
+                        $scope.reloadMembers();
+                    },
+                    function() {
+                        $scope.isLoading = false;
+                    }
+                );
+            }
         };
 
         $scope.removeMember = function(user) {
-            $http.delete(apiPrefix + 'clubs/' + $scope.club.slug + '/users/' + user.username).success(function(data){
+            $http.delete(apiPrefix + 'clubs/' + $scope.club.slug + '/users/' + user.username).then(function() {
                 alertify.success('Membre supprimé !');
                 $scope.reloadMembers();
             });

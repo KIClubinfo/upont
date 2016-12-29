@@ -9,8 +9,8 @@ angular.module('upont')
         $scope.reload = function(filters) {
             var url = Ponthub.cat($stateParams.category) + '?sort=-added,id';
 
-            Paginate.get(url, 20).then(function(data){
-                $scope.elements = data;
+            Paginate.get(url, 20).then(function(response){
+                $scope.elements = response;
             });
         };
 
@@ -32,8 +32,8 @@ angular.module('upont')
         $scope.icon = $scope.faIcon($stateParams.category);
 
         $scope.next = function() {
-            Paginate.next($scope.elements).then(function(data){
-                $scope.elements = data;
+            Paginate.next($scope.elements).then(function(response){
+                $scope.elements = response;
             });
         };
 

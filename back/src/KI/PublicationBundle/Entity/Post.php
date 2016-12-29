@@ -217,6 +217,7 @@ class Post extends Likeable
 
     /**
      * @ORM\PreFlush()
+     * FIXME :D
      */
     public function upload()
     {
@@ -234,6 +235,8 @@ class Post extends Likeable
                     $this->getFiles()->add($file);
                 }
             }
+
+            $this->uploadedFiles = [];
         }
     }
 

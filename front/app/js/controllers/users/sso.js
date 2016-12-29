@@ -47,26 +47,26 @@ angular.module('upont')
 
         $scope.denyAuth = function () {
             // The user just clicked on 'Cancel'
-            // TODO: log it into Piwik ?
             sendResponse($scope.app.urlCallback, {token: $stateParams.to, success: false});
         };
 
         var sendResponse = function (url, params) {
             $http.post(url, params, {
-                skipAuthorization: true,
-            })
-                .success(function(){
-                    $window.location.href = $scope.app.urlRedirect + '/' + $stateParams.to;
+                    skipAuthorization: true,
                 })
-                .error(function(data, status){
-                    switch(status) {
-                        case '404': alertify.error('GéoPonts dit que vous feriez mieux de réessayer, ce token ne lui dit rien du tout...'); break;
-                        case '403': alertify.alert('Le jeton de connexion a expiré, vous avez été trop lent !\nMerci de réessayer :)'); break;
-                        default: alertify.error('GéoPonts dit que la requête envoyée est incorrecte (' + data.message + ') !'); break;
+                .then(
+                    function(){
+                        $window.location.href = $scope.app.urlRedirect + '/' + $stateParams.to;
+                    },
+                    function(response){
+                        switch(response.status) {
+                            case '404': alertify.error('GéoPonts dit que vous feriez mieux de réessayer, ce token ne lui dit rien du tout...'); break;
+                            case '403': alertify.alert('Le jeton de connexion a expiré, vous avez été trop lent !\nMerci de réessayer :)'); break;
+                            default: alertify.error('GéoPonts dit que la requête envoyée est incorrecte (' + response.data.message + ') !'); break;
+                        }
+                        console.log('Raison du rejet : ' + response.data.message);
                     }
-                    console.log('Raison du rejet : ' + data.message);
-                }
-            );
+                );
         };
 
     }])

@@ -3,10 +3,12 @@ angular.module('upont')
         $scope.reset = function(password, check) {
             if (!empty(password) && !empty(check)) {
                 if (password == check) {
-                    $http.post(apiPrefix + 'resetting/token/' + $stateParams.token, {password: password, check: check}).success(function(){
-                        alertify.success('Mot de passe réinitialisé !');
-                        $state.go('root.login');
-                    });
+                    $http.post(apiPrefix + 'resetting/token/' + $stateParams.token, {password: password, check: check}).then(
+                        function(){
+                            alertify.success('Mot de passe réinitialisé !');
+                            $state.go('root.login');
+                        }
+                    );
                 } else {
                     alertify.error('Les deux mots de passe ne sont pas identiques.');
                 }

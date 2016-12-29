@@ -7,22 +7,22 @@ angular.module('upont')
         $scope.modifying = false;
         $scope.numberOrders = {};
 
-        for (i=0;i<$scope.baskets.length;i++) {
+        for (i = 0; i < $scope.baskets.length; i++) {
             $scope.numberOrders[$scope.baskets[i].name] = 0;
         }
 
-        for (i=0;i<$scope.orders.length;i++) {
+        for (i = 0; i < $scope.orders.length; i++) {
             $scope.numberOrders[$scope.orders[i].basket.name]++;
         }
 
         $scope.reloadBaskets = function() {
-            $http.get(apiPrefix + 'baskets').success(function(data) {
-                $scope.baskets = data;
+            $http.get(apiPrefix + 'baskets').then(function(response) {
+                $scope.baskets = response.data;
                 $scope.numberOrders = {};
-                for (i=0;i<$scope.orders.length;i++) {
+                for (i = 0; i < $scope.orders.length; i++) {
                     $scope.numberOrders[$scope.orders[i].basket.name]++;
                 }
-                for (i=0;i<$scope.baskets.length;i++) {
+                for (i = 0; i < $scope.baskets.length; i++) {
                     $scope.numberOrders[$scope.baskets[i].name] = 0;
                 }
             });
@@ -43,12 +43,12 @@ angular.module('upont')
             }
 
             var params = {
-                'name' : name,
-                'content' : content,
-                'price' : price
+                'name': name,
+                'content': content,
+                'price': price
             };
 
-            $http.post(apiPrefix + 'baskets', params).success(function() {
+            $http.post(apiPrefix + 'baskets', params).then(function() {
                 alertify.success('Panier créé !');
                 $scope.newBasket = {'name': '', 'content': '', 'price': 0};
                 $scope.reloadBaskets();
@@ -56,7 +56,7 @@ angular.module('upont')
         };
 
         $scope.removeBasket = function(slug) {
-            $http.delete(apiPrefix + 'baskets/' + slug).success(function() {
+            $http.delete(apiPrefix + 'baskets/' + slug).then(function() {
                 alertify.success('Panier supprimé !');
                 $scope.reloadBaskets();
                 $scope.reloadOrders();
@@ -88,7 +88,7 @@ angular.module('upont')
                 'price': basket.price
             };
 
-            $http.patch(apiPrefix + 'baskets/' + basket.slug, params).success(function() {
+            $http.patch(apiPrefix + 'baskets/' + basket.slug, params).then(function() {
                 alertify.success('Panier modifié !');
                 $scope.reloadBaskets();
                 $scope.changedBasket = {};
@@ -97,20 +97,20 @@ angular.module('upont')
         };
 
         $scope.reloadOrders = function() {
-            $http.get(apiPrefix + 'baskets-orders').success(function(data) {
-                $scope.orders = data;
+            $http.get(apiPrefix + 'baskets-orders').then(function(response) {
+                $scope.orders = response.data;
                 $scope.numberOrders = {};
-                for (i=0;i<$scope.baskets.length;i++) {
+                for (i = 0; i < $scope.baskets.length; i++) {
                     $scope.numberOrders[$scope.baskets[i].name] = 0;
                 }
-                for (i=0;i<$scope.orders.length;i++) {
+                for (i = 0; i < $scope.orders.length; i++) {
                     $scope.numberOrders[$scope.orders[i].basket.name]++;
                 }
             });
         };
 
         $scope.removeOrder = function(slug, email, date) {
-            $http.delete(apiPrefix + 'baskets/' + slug + '/order/' + email + '/' + date).success(function() {
+            $http.delete(apiPrefix + 'baskets/' + slug + '/order/' + email + '/' + date).then(function() {
                 alertify.success('Commande supprimée !');
                 $scope.reloadOrders();
             });

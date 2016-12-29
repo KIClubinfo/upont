@@ -36,8 +36,33 @@ alertify.set({ labels: {
     cancel : 'Annuler'
 }});
 
+Raven
+    .config('https://c1de7d0cdfb14286a0d21efb3c0da318@sentry.io/124785')
+    .addPlugin(Raven.Plugins.Angular)
+    .install();
 
-angular.module('upont', ['ui.router', 'ngResource', 'ngAnimate', 'mgcrea.ngStrap', 'ngSanitize', 'angular-jwt', 'angular.filter', 'naif.base64', 'infinite-scroll', 'ui.bootstrap.datetimepicker', 'monospaced.elastic', 'youtube-embed', 'angular-redactor', 'piwik', 'mwl.calendar', 'ngTouch', 'templates', 'ngFileUpload'])
+angular.module('upont', [
+    'angular-jwt',
+    'angular-redactor',
+    'angular.filter',
+    'angulartics',
+    'angulartics.piwik',
+    'infinite-scroll',
+    'mgcrea.ngStrap',
+    'monospaced.elastic',
+    'mwl.calendar',
+    'naif.base64',
+    'ngAnimate',
+    'ngFileUpload',
+    'ngRaven',
+    'ngResource',
+    'ngSanitize',
+    'ngTouch',
+    'templates',
+    'ui.bootstrap.datetimepicker',
+    'ui.router',
+    'youtube-embed',
+])
     .config(['redactorOptions', function(redactorOptions) {
         redactorOptions.buttons = ['html', 'formatting', 'bold', 'italic', 'underline', 'deleted', 'unorderedlist', 'image', 'file', 'link', 'alignment', 'horizontalrule'];
         redactorOptions.lang = 'fr';

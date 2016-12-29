@@ -16,15 +16,17 @@ angular.module('upont')
             }
 
             $http.post(apiPrefix + 'users', {email: email, lastName: lastName, firstName: firstName})
-                .success(function(){
-                    alertify.success('Mail envoyé !');
-                    $scope.firstName = '';
-                    $scope.lastName = '';
-                    $scope.email = '';
-                })
-                .error(function(){
-                    alertify.error('Un utilisateur avec cette adresse existe déjà');
-                })
+                .then(
+                    function(){
+                        alertify.success('Mail envoyé !');
+                        $scope.firstName = '';
+                        $scope.lastName = '';
+                        $scope.email = '';
+                    },
+                    function(){
+                        alertify.error('Un utilisateur avec cette adresse existe déjà');
+                    }
+                )
             ;
         };
 
@@ -43,7 +45,7 @@ angular.module('upont')
                 withCredentials: true,
                 headers: {'Content-Type': undefined },
                 transformRequest: angular.identity
-            }).success(function() {
+            }).then(function() {
                 var input = $('#fileUpload');
                 input.replaceWith(input.val('').clone(true));
                 alertify.success('Import effectué, un rapport a été envoyé à root@clubinfo.enpc.fr');

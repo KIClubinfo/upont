@@ -111,6 +111,10 @@ angular.module('upont')
                 template: '<div ui-view></div>'
             });
     }])
+    // FIXME hides errors related to ui-router 0.3.2
+    .config(['$qProvider', function ($qProvider) {
+        $qProvider.errorOnUnhandledRejections(false);
+    }])
     .run(['$rootScope', 'StorageService', 'Permissions', '$state', '$interval', '$resource', '$location', '$window', '$sce', 'Achievements', function ($rootScope, StorageService, Permissions, $state, $interval, $resource, $location, $window, $sce, Achievements) {
         Permissions.load();
 

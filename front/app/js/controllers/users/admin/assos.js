@@ -26,7 +26,7 @@ angular.module('upont')
                 return;
             }
 
-            $http.post($rootScope.url + 'clubs', params).success(function(){
+            $http.post($rootScope.url + 'clubs', params).then(function(){
                 alertify.success('Assos créée');
             });
 

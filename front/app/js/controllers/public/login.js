@@ -21,28 +21,30 @@ angular.module('upont')
 
             function attachPostLogin(promise) {
                 promise
-                    .success(function (data, status, headers, config) {
-                        Permissions.set(data.token, data.data.roles);
+                    .then(
+                        function (response) {
+                            Permissions.set(response.data.token, response.data.data.roles);
 
-                        // Soyons polis
-                        if (Permissions.hasRight('ROLE_EXTERIEUR'))
-                            alertify.success('Connecté avec succès !');
-                        else
-                            alertify.success('Salut ' + data.data.first_name + ' !');
-                        Achievements.check();
+                            // Soyons polis
+                            if (Permissions.hasRight('ROLE_EXTERIEUR'))
+                                alertify.success('Connecté avec succès !');
+                            else
+                                alertify.success('Salut ' + response.data.data.first_name + ' !');
+                            Achievements.check();
 
-                        if (typeof $rootScope.urlRef !== 'undefined' && $rootScope.urlRef !== null && $rootScope.urlRef != '/') {
-                            window.location.href = $rootScope.urlRef;
-                            $rootScope.urlRef = null;
-                        } else {
-                            $state.go('root.users.publications.index');
+                            if (typeof $rootScope.urlRef !== 'undefined' && $rootScope.urlRef !== null && $rootScope.urlRef != '/') {
+                                window.location.href = $rootScope.urlRef;
+                                $rootScope.urlRef = null;
+                            } else {
+                                $state.go('root.users.publications.index');
+                            }
+                        },
+                        function (response) {
+                            // Supprime tout token en cas de mauvaise identification
+                            Permissions.remove();
+                            alertify.error('Mauvais identifiant. Soit l\'identifiant n\'existe pas, soit le mot de passe est incorrect.');
                         }
-                    })
-                    .error(function (data, status, headers, config) {
-                        // Supprime tout token en cas de mauvaise identification
-                        Permissions.remove();
-                        alertify.error('Mauvais identifiant. Soit l\'identifiant n\'existe pas, soit le mot de passe est incorrect.');
-                    });
+                    );
             }
 
             var ticket = getParameterByName('ticket', $window.location.href);

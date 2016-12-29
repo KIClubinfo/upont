@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "dependencies": {
     "alertify.js": "latest",
-    "angular": "^1.5.0",
+    "angular": "latest",
     "angular-animate": "latest",
     "angular-base64-upload": "latest",
     "angular-bootstrap-calendar": "0.17.6",
@@ -13,7 +13,6 @@
     "angular-i18n": "latest",
     "angular-jwt": "latest",
     "angular-mocks": "latest",
-    "angular-piwik": "latest",
     "angular-redactor": "latest",
     "angular-resource": "latest",
     "angular-sanitize": "latest",
@@ -29,11 +28,9 @@
     "js-base64": "latest",
     "moment": "latest",
     "ng-infinite-scroll-npm-is-better-than-bower": "latest",
-    "ng-file-upload": "latest"
-  },
-  "resolutions": {
-    "angular": "1.5.0",
-    "fullcalendar": "2.3.1"
+    "ng-file-upload": "latest",
+    "raven-js": "^3.9.1",
+    "angulartics-piwik": "^1.0.4"
   },
   "overrides": {
     "highmaps": {
@@ -66,6 +63,12 @@
     },
     "jquery": {
       "main": []
+    },
+    "raven-js": {
+      "main": [
+        "dist/raven.js",
+        "dist/plugins/angular.js"
+      ]
     }
   }
 }
