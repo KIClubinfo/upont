@@ -45,6 +45,8 @@ angular.module('upont', [
     'angular-jwt',
     'angular-redactor',
     'angular.filter',
+    'angulartics',
+    'angulartics.piwik',
     'infinite-scroll',
     'mgcrea.ngStrap',
     'monospaced.elastic',

@@ -1,4 +1,4 @@
-angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', '$resource', 'jwtHelper', function(StorageService, $rootScope, $resource, jwtHelper) {
+angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', '$resource', 'jwtHelper', '$analytics', function(StorageService, $rootScope, $resource, jwtHelper, $analytics) {
     remove = function() {
         $rootScope.isLogged = false;
         $rootScope.isAdmin = false;
@@ -12,13 +12,13 @@ angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', 
     load = function() {
         if (StorageService.get('token') && !jwtHelper.isTokenExpired(StorageService.get('token'))) {
             $rootScope.isLogged = true;
-            $rootScope.isAdmin = (StorageService.get('droits').indexOf('ROLE_ADMIN') != -1) ? true : false;
-            $rootScope.isAdmissible = (StorageService.get('droits').indexOf('ROLE_ADMISSIBLE') != -1) ? true : false;
-            $rootScope.isExterieur = (StorageService.get('droits').indexOf('ROLE_EXTERIEUR') != -1) ? true : false;
+            $rootScope.isAdmin = StorageService.get('droits').indexOf('ROLE_ADMIN') != -1;
+            $rootScope.isAdmissible = StorageService.get('droits').indexOf('ROLE_ADMISSIBLE') != -1;
+            $rootScope.isExterieur = StorageService.get('droits').indexOf('ROLE_EXTERIEUR') != -1;
 
             var username = jwtHelper.decodeToken(StorageService.get('token')).username;
             $rootScope.username = username;
-            // FIXME Piwik.setUserId(username);
+            $analytics.setUsername(username);
             // On récupère les données utilisateur
             $resource(apiPrefix + 'users/:slug', {slug: username}).get(function(data){
                 $rootScope.me = data;
