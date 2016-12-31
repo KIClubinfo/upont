@@ -9,7 +9,7 @@ class ClubUserRepository extends ResourceRepository
 {
     public function getUserBelowInClubWithPromo(Club $club, $promo, $priority)
     {
-        $this->getEntityManager()->createQuery('SELECT cu
+        return $this->getEntityManager()->createQuery('SELECT cu
                 FROM KIUserBundle:ClubUser cu,
                 KIUserBundle:User user
                 WHERE cu.club = :club
