@@ -12,6 +12,7 @@ var uglifycss      = require('gulp-uglifycss');
 var gutil          = require('gulp-util');
 var mainBowerFiles = require('main-bower-files');
 var path           = require('path');
+var sourcemaps     = require('gulp-sourcemaps');
 
 /**
  * Vérifie la syntaxe JS
@@ -52,8 +53,10 @@ gulp.task('build-js', function() {
     var files = redactor.concat(vendorsFiles.concat(appFiles));
     return gulp.src(files)
         .pipe(filter(['**/*.js', '**/*.coffee']))
+        .pipe(sourcemaps.init())
         .pipe(concat('upont.min.js'))
         .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop())
+        .pipe(gutil.env.type === 'production' ? sourcemaps.write('maps') : gutil.noop())
         .pipe(gulp.dest('www/'))
     ;
 });
