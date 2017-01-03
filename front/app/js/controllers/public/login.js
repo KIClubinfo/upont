@@ -63,7 +63,7 @@ angular.module('upont')
                     promise = $http.post(apiPrefix + 'login', {
                         username: pseudo,
                         password: password
-                    })
+                    });
 
                     attachPostLogin(promise);
                 }
