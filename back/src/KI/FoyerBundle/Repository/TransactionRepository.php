@@ -12,6 +12,8 @@ class TransactionRepository extends EntityRepository
      */
     public function getHallOfFame()
     {
+        $sept1 = strtotime("September 1st -1Year");
+
         $hallOfFame = $this->getEntityManager()->createQuery('SELECT usr AS user, SUM(beer.volume) AS liters FROM
             KIUserBundle:User usr,
             KIFoyerBundle:Transaction transac, 
@@ -20,9 +22,11 @@ class TransactionRepository extends EntityRepository
             AND transac.beer = beer            
             AND transac.beer IS NOT NULL
             AND usr.balance > 0
+            AND transac.date > :schoolYear
             GROUP BY usr.id 
             ORDER BY liters DESC
             ')
+            ->setParameter('schoolYear', $sept1)
             ->setMaxResults(10)
             ->getResult();
 
