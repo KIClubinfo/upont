@@ -22,7 +22,7 @@ class JWTCreatedListener
         $expiration = new \DateTime('+7 day');
         $expiration->setTime(2, 0, 0);
 
-        $payload       = $event->getData();
+        $payload = $event->getData();
         $payload['ip'] = $request->getClientIp();
         $payload['exp'] = $expiration->getTimestamp();
 
