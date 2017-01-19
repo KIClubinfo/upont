@@ -85,7 +85,8 @@ class CoreController extends Controller
      */
     protected function isFoyerMember()
     {
-        return $this->isClubMember('foyer') && $this->user->getPromo() == '018';
+        return $this->isClubMember('foyer')
+            && $this->user->getPromo() == $this->container->getParameter('upont')['promos']['assos'];
     }
 
     /**

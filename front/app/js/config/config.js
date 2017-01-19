@@ -120,6 +120,7 @@ angular.module('upont')
 
         $rootScope.isStudentNetwork = false;
         $resource(apiPrefix + 'config').get(function(data){
+            $rootScope.config = data;
             $rootScope.isStudentNetwork = data.studentNetwork;
         });
 
