@@ -4,7 +4,7 @@ namespace KI\UserBundle\Security;
 
 use KI\UserBundle\Factory\UserFactory;
 use KI\UserBundle\Repository\UserRepository;
-use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTManagerInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -23,7 +23,7 @@ class SsoEnpcLoginAuthenticator extends LoginAuthenticator
     private $proxyUser;
 
     public function __construct(
-        JWTManagerInterface $jwtManager,
+        JWTTokenManagerInterface $jwtManager,
         EventDispatcherInterface $dispatcher,
         UserFactory $userFactory,
         UserRepository $userRepository,
