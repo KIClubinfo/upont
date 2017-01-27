@@ -62,7 +62,3 @@ services:
           - '@ki_user.repository.user'
           - '%proxy_url%'
           - '%proxy_user%'
-
-    jwt_authenticator:
-        class: KI\UserBundle\Security\JwtAuthenticator
-        autowire: true
