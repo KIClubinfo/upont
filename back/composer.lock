@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "93aaf618bce0141b29d81ae36f8befaf",
+    "content-hash": "6ea8e97927d11cb2a1195c4154433135",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -2663,16 +2663,16 @@
         },
         {
             "name": "sentry/sentry-symfony",
-            "version": "0.6.0",
+            "version": "0.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-symfony.git",
-                "reference": "232fed621420841c43d52e635b0f39fe87bde1a6"
+                "reference": "24a8114192ca883944d07deed74e903b5dc2345d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/232fed621420841c43d52e635b0f39fe87bde1a6",
-                "reference": "232fed621420841c43d52e635b0f39fe87bde1a6",
+                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/24a8114192ca883944d07deed74e903b5dc2345d",
+                "reference": "24a8114192ca883944d07deed74e903b5dc2345d",
                 "shasum": ""
             },
             "require": {
@@ -2687,7 +2687,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.6.x-dev"
+                    "dev-master": "0.7.x-dev"
                 }
             },
             "autoload": {
@@ -2713,7 +2713,7 @@
                 "sentry",
                 "symfony"
             ],
-            "time": "2016-10-24T18:35:26+00:00"
+            "time": "2017-01-26T19:23:44+00:00"
         },
         {
             "name": "stof/doctrine-extensions-bundle",
