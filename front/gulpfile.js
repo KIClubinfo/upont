@@ -1,17 +1,18 @@
-var fs             = require('fs');
-var gulp           = require('gulp');
-var templateCache  = require('gulp-angular-templatecache');
 var autoprefixer   = require('gulp-autoprefixer');
 var concat         = require('gulp-concat');
 var filter         = require('gulp-filter');
+var fs             = require('fs');
+var gulp           = require('gulp');
+var gutil          = require('gulp-util');
 var htmlReplace    = require('gulp-html-replace');
 var jshint         = require('gulp-jshint');
 var less           = require('gulp-less');
-var uglify         = require('gulp-uglify');
-var uglifycss      = require('gulp-uglifycss');
-var gutil          = require('gulp-util');
 var mainBowerFiles = require('main-bower-files');
 var path           = require('path');
+var sourcemaps     = require('gulp-sourcemaps');
+var templateCache  = require('gulp-angular-templatecache');
+var uglify         = require('gulp-uglify');
+var uglifycss      = require('gulp-uglifycss');
 
 /**
  * Vérifie la syntaxe JS
@@ -44,16 +45,24 @@ gulp.task('build-js', function() {
     ];
     var vendorsFiles = mainBowerFiles();
     var appFiles = [
+        'app/js/polyfills/*.js',
         'app/js/app.js',
         'app/js/*.js',
         'app/js/**/*.js',
         'app/js/controllers/**/*.js'
     ];
-    var files = redactor.concat(vendorsFiles.concat(appFiles));
-    return gulp.src(files)
+    var filesArray = redactor.concat(vendorsFiles.concat(appFiles));
+
+    var upont = gulp.src(filesArray)
         .pipe(filter(['**/*.js', '**/*.coffee']))
+        .pipe(sourcemaps.init())
+        .pipe(concat('upont.js'))
+    ;
+
+    return upont
         .pipe(concat('upont.min.js'))
         .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop())
+        .pipe(gutil.env.type === 'production' ? sourcemaps.write('maps') : gutil.noop())
         .pipe(gulp.dest('www/'))
     ;
 });

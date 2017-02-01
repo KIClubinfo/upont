@@ -1,5 +1,6 @@
 imports:
     - { resource: parameters.yml }
+    - { resource: upont.yml }
     - { resource: security.yml }
 
 framework:
@@ -147,7 +148,3 @@ nelmio_api_doc:
 services:
     fos_user.doctrine_registry:
         alias: doctrine
-
-sentry:
-    dsn: "%sentry_dsn%"
-    environment: "%kernel.environment%"

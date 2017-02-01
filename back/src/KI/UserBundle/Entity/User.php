@@ -172,6 +172,13 @@ class User extends CoreUser
     protected $achievements;
 
     /**
+     * Clubs de l'utilisateur
+     * @ORM\OneToMany(targetEntity="KI\UserBundle\Entity\ClubUser", mappedBy="user", orphanRemoval=true)
+     * @Assert\Valid()
+     */
+    protected $clubs;
+
+    /**
      * Téléchargements de l'utilisateur
      * @ORM\OneToMany(targetEntity="KI\PonthubBundle\Entity\PonthubFileUser", mappedBy="user", orphanRemoval=true)
      * @Assert\Valid()
@@ -193,6 +200,7 @@ class User extends CoreUser
         parent::__construct();
 
         $this->achievements = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->clubs = new \Doctrine\Common\Collections\ArrayCollection();
         $this->downloads = new \Doctrine\Common\Collections\ArrayCollection();
         $this->transactions = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -617,5 +625,13 @@ class User extends CoreUser
     public function getMailModification()
     {
         return $this->mailModification;
+    }
+
+    /**
+     * @return array
+     */
+    public function getClubs()
+    {
+        return $this->clubs;
     }
 }

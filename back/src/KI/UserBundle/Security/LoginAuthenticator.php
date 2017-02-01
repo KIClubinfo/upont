@@ -4,7 +4,7 @@ namespace KI\UserBundle\Security;
 
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Event\AchievementCheckEvent;
-use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTManagerInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +18,7 @@ abstract class LoginAuthenticator extends AbstractGuardAuthenticator
     private $jwtManager;
     private $dispatcher;
 
-    public function __construct(JWTManagerInterface $jwtManager, EventDispatcherInterface $dispatcher)
+    public function __construct(JWTTokenManagerInterface $jwtManager, EventDispatcherInterface $dispatcher)
     {
         $this->jwtManager = $jwtManager;
         $this->dispatcher = $dispatcher;

@@ -2,7 +2,7 @@
 
 namespace KI\UserBundle\Security;
 
-use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTManagerInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -16,7 +16,7 @@ class FormLoginAuthenticator extends LoginAuthenticator
     private $passwordEncoder;
 
     public function __construct(
-        JWTManagerInterface $jwtManager,
+        JWTTokenManagerInterface $jwtManager,
         EventDispatcherInterface $dispatcher,
         UserPasswordEncoderInterface $passwordEncoder
     )

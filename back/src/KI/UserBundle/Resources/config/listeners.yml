@@ -16,16 +16,6 @@ services:
             - '@ki_user.repository.user'
             - '@ki_user.repository.admissible'
 
-    # Permet de gérer le JSON Web Token
-    ki_user.listener.jwt_response:
-        class: KI\UserBundle\Listener\JWTResponseListener
-        arguments:
-            - '@event_dispatcher'
-            - '@fos_user.user_manager'
-        tags:
-            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
-            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_failure, method: onAuthenticationFailureResponse }
-
     ki_user.listener.jwt_created:
         class: KI\UserBundle\Listener\JWTCreatedListener
         autowire: true

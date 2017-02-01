@@ -6,7 +6,7 @@
     "angular": "latest",
     "angular-animate": "latest",
     "angular-base64-upload": "latest",
-    "angular-bootstrap-calendar": "0.17.6",
+    "angular-bootstrap-calendar": "latest",
     "angular-bootstrap-datetimepicker": "0.3.15",
     "angular-elastic": "latest",
     "angular-filter": "latest",

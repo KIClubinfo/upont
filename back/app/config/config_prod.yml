@@ -33,3 +33,9 @@ swiftmailer:
     spool:
         type: file
         path: '%kernel.root_dir%/spool'
+
+sentry:
+    dsn: "%sentry_dsn%"
+    environment: "%kernel.environment%"
+    options:
+        http_proxy: "%proxy_url%"

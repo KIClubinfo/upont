@@ -102,7 +102,7 @@ angular.module('upont')
 
         $scope.moveMember = function(user, direction) {
             // On vérifie qu'une requête n'est pas déjà en cours
-            if ($scope.isLoading == false) {
+            if ($scope.isLoading === false) {
                 $scope.isLoading = true;
 
                 // On vérifie que la personne est déjà membre

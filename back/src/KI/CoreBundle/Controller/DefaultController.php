@@ -242,7 +242,7 @@ class DefaultController extends BaseController
      */
     public function configAction(Request $request)
     {
-        return $this->json([
+        return $this->json(array_merge([
             'ip' => $request->getClientIp(),
             'studentNetwork' => IpUtils::checkIp($request->getClientIp(), [
 //                '127.0.0.1',
@@ -261,6 +261,6 @@ class DefaultController extends BaseController
                 '172.24.200.0/24',
                 '195.221.194.14',
             ])
-        ]);
+        ], $this->container->getParameter('upont')));
     }
 }

@@ -46,12 +46,28 @@ angular.module('upont').factory('Paginate', ['$resource', '$q', '$rootScope', fu
         },
 
         next: function(load) {
+            if(typeof load.headers.links == 'undefined') {
+                load.headers.links = '';
+                Raven.captureMessage('headers.links undefines', {
+                    level: 'error',
+                    extra: {
+                        headers: load.headers
+                    }
+                });
+            }
             return loadData(load, load.headers.links.match(/self,<\/(.*?)>;rel=next/), true);
         },
 
         first: function(load) {
-            if(typeof load.headers.links == 'undefined')
+            if(typeof load.headers.links == 'undefined') {
                 load.headers.links = '';
+                Raven.captureMessage('headers.links undefines', {
+                    level: 'error',
+                    extra: {
+                        headers: load.headers
+                    }
+                });
+            }
             return loadData(load, load.headers.links.match(/<\/(.*?)>;rel=first/));
         }
     };

@@ -352,9 +352,9 @@ class ClubsController extends SubresourceController
 
         // Trouve les clubUsers assiciés aux Users
         $clubUserRepository = $this->manager->getRepository('KIUserBundle:ClubUser');
-        $link = $clubUserRepository->findOneBy(['club' => $club, 'user' => $user]);
+        $clubUser = $clubUserRepository->findOneBy(['club' => $club, 'user' => $user]);
 
-        $priority = $link->getPriority();
+        $priority = $clubUser->getPriority();
         $promo = $user->getPromo();
 
         if ($direction == 'down') {
@@ -364,7 +364,7 @@ class ClubsController extends SubresourceController
         } else
             throw new BadRequestHttpException('Direction invalide');
 
-        $link->setPriority($swappedWith->getPriority());
+        $clubUser->setPriority($swappedWith->getPriority());
         $swappedWith->setPriority($priority);
         $this->manager->flush();
 

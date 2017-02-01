@@ -6,13 +6,9 @@ angular.module('upont')
 		$scope.start = 0;
 		$scope.clock = 0;
 	    $scope.tickInterval = 1;
-	    $scope.promos = [
-		    '016',
-		    '017',
-			'018',
-            '019',
-		    'Toutes'
-		];
+	    $scope.promos = $rootScope.config.promos.all.slice($rootScope.config.promos.all.length - 4).concat([
+            'Toutes'
+        ]);
 	    $scope.promo = 'Toutes';
 	    $scope.hardcore = false;
 	    $scope.firstPart = false;

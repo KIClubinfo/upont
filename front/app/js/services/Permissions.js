@@ -11,14 +11,18 @@ angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', 
     // Charge les permissions à partir du token stocké dans le Storage
     load = function() {
         if (StorageService.get('token') && !jwtHelper.isTokenExpired(StorageService.get('token'))) {
+            var token = jwtHelper.decodeToken(StorageService.get('token'));
             $rootScope.isLogged = true;
             $rootScope.isAdmin = StorageService.get('droits').indexOf('ROLE_ADMIN') != -1;
             $rootScope.isAdmissible = StorageService.get('droits').indexOf('ROLE_ADMISSIBLE') != -1;
             $rootScope.isExterieur = StorageService.get('droits').indexOf('ROLE_EXTERIEUR') != -1;
 
-            var username = jwtHelper.decodeToken(StorageService.get('token')).username;
+            var username = token.username;
             $rootScope.username = username;
             $analytics.setUsername(username);
+            Raven.setUserContext({
+                username: username
+            });
             // On récupère les données utilisateur
             $resource(apiPrefix + 'users/:slug', {slug: username}).get(function(data){
                 $rootScope.me = data;

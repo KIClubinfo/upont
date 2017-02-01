@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('Calendar_Ctrl', ['$rootScope', '$scope', '$filter', 'events', 'courseitems', '$location', function($rootScope, $scope, $filter, events, courseitems, $location) {
+    .controller('Calendar_Ctrl', ['$rootScope', '$scope', '$filter', 'events', 'courseitems', 'calendarConfig', function($rootScope, $scope, $filter, events, courseitems, calendarConfig) {
         $scope.events = [];
         for (var i = 0; i < events.length; i++) {
             var type;
@@ -9,7 +9,7 @@ angular.module('upont')
                 case 'Ferie':   type = 'success'; break;
             }
             $scope.events.push({
-                type: type,
+                color: calendarConfig.colorTypes[type],
                 startsAt: new Date(events[i].start_date*1000),
                 endsAt: new Date(events[i].end_date*1000),
                 title: events[i].author_club.name + ' : ' + events[i].name,
@@ -24,7 +24,7 @@ angular.module('upont')
         for (i = 0; i < courseitems.length; i++) {
             var group = courseitems[i].group;
             $scope.events.push({
-                type: 'info',
+                color: calendarConfig.colorTypes.info,
                 startsAt: new Date(courseitems[i].start_date*1000),
                 endsAt: new Date(courseitems[i].end_date*1000),
                 title: '[' + courseitems[i].location + '] ' + courseitems[i].course.name + (group !== 0 ? ' (Gr ' + group +')' : ''),
@@ -68,23 +68,19 @@ angular.module('upont')
                 }]
             });
     }])
-    .config(['calendarConfigProvider', function(calendarConfigProvider) {
-        calendarConfigProvider.setDateFormatter('moment');
-        calendarConfigProvider.setDateFormats({
-            hour: 'HH:mm',
-            datetime: 'D MMM, HH:mm',
+    .config(['calendarConfig', function(calendarConfig) {
+        calendarConfig.dateFormatter = 'moment';
 
-        });
+        calendarConfig.allDateFormats.moment.date.hour = 'HH:mm';
+        calendarConfig.allDateFormats.moment.date.datetime = 'D MMM, HH:mm';
 
-        calendarConfigProvider.setTitleFormats({
-            day: 'ddd D MMM',
-            week: 'Semaine {week}',
-        });
-        calendarConfigProvider.setDisplayAllMonthEvents(true);
-        calendarConfigProvider.setDisplayEventEndTimes(true);
+        calendarConfig.allDateFormats.moment.title.day = 'ddd D MMM';
 
-        calendarConfigProvider.setI18nStrings({
-            eventsLabel: 'Événements',
-            timeLabel: 'Temps'
-        });
+        calendarConfig.displayAllMonthEvents = true;
+        calendarConfig.displayEventEndTimes = true;
+        calendarConfig.showTimesOnWeekView = true;
+
+        calendarConfig.i18nStrings.eventsLabel = 'Événements';
+        calendarConfig.i18nStrings.timeLabel = 'Temps';
+        calendarConfig.i18nStrings.weekNumber = 'Semaine {week}';
     }]);

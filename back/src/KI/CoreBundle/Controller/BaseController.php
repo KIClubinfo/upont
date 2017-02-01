@@ -80,4 +80,44 @@ abstract class BaseController extends CoreController
 
         return $item;
     }
+
+    /**
+     * Sert à checker si l'user actuel est membre du club au nom duquel il poste
+     * @param  string $club
+     * @return boolean
+     */
+    protected function isClubMember($club = null)
+    {
+        if ($this->is('ADMISSIBLE')) {
+            return false;
+        }
+
+        // On vérifie que la requete est valide.
+        // Si aucun club n'est précisé, c'est qu'on publie à son nom
+        // (par exemple message perso) donc ok
+        $request = $this->get('request_stack')->getCurrentRequest()->request;
+        if (!$request->has('authorClub') && $club === null) {
+            return $this->is('USER');
+        }
+
+        $repo = $this->manager->getRepository('KIUserBundle:Club');
+        $club = $repo->findOneBySlug($request->has('authorClub') ? $request->get('authorClub') : $club);
+
+        if (!$club) {
+            return false;
+        }
+
+        // On vérifie que l'utilisateur fait bien partie du club
+        return $this->get('ki_user.service.permission')->isClubMember($this->user, $club);
+    }
+
+    /**
+     * Sert à checker si l'user courant est membre du foyer actuel
+     * @return boolean
+     */
+    protected function isFoyerMember()
+    {
+        return $this->isClubMember('foyer')
+        && $this->user->getPromo() == $this->getConfig('promos.assos');
+    }
 }

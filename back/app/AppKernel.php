@@ -24,7 +24,6 @@ class AppKernel extends Kernel
             new BOMO\IcalBundle\BOMOIcalBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Nelmio\CorsBundle\NelmioCorsBundle(),
-            new Sentry\SentryBundle\SentryBundle(),
 
             new KI\ClubinfoBundle\KIClubinfoBundle(),
             new KI\CoreBundle\KICoreBundle(),
@@ -40,6 +39,10 @@ class AppKernel extends Kernel
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
             $bundles[] = new Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
+        }
+
+        if($this->getEnvironment() === "prod"){
+            $bundles[] = new Sentry\SentryBundle\SentryBundle();
         }
 
         return $bundles;
