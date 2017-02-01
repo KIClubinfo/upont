@@ -12,7 +12,7 @@
     },
     "config": {
         "platform": {
-            "php": "5.6.17"
+            "php": "5.5.9"
         }
     },
     "require": {
@@ -43,7 +43,7 @@
         "liip/functional-test-bundle": "~1.6",
         "sensio/generator-bundle": "~3.0",
         "symfony/phpunit-bridge": "~3.0",
-        "phpunit/phpunit": "~5.7"
+        "phpunit/phpunit": "~4.0"
     },
     "scripts": {
         "post-root-package-install": [

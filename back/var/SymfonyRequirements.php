@@ -739,9 +739,9 @@ class SymfonyRequirements extends RequirementCollection
 
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $this->addRecommendation(
-                $this->getRealpathCacheSize() > 5 * 1024 * 1024,
-                'realpath_cache_size should be above 5242880 in php.ini',
-                'Setting "<strong>realpath_cache_size</strong>" to e.g. "<strong>5242880</strong>" or "<strong>5000k</strong>" in php.ini<a href="#phpini">*</a> may improve performance on Windows significantly in some cases.'
+                $this->getRealpathCacheSize() >= 5 * 1024 * 1024,
+                'realpath_cache_size should be at least 5M in php.ini',
+                'Setting "<strong>realpath_cache_size</strong>" to e.g. "<strong>5242880</strong>" or "<strong>5M</strong>" in php.ini<a href="#phpini">*</a> may improve performance on Windows significantly in some cases.'
             );
         }
 
@@ -780,7 +780,11 @@ class SymfonyRequirements extends RequirementCollection
     {
         $size = ini_get('realpath_cache_size');
         $size = trim($size);
-        $unit = strtolower(substr($size, -1, 1));
+        $unit = '';
+        if (!ctype_digit($size)) {
+            $unit = strtolower(substr($size, -1, 1));
+            $size = (int) substr($size, 0, -1);
+        }
         switch ($unit) {
             case 'g':
                 return $size * 1024 * 1024 * 1024;
