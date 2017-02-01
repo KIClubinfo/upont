@@ -4,7 +4,11 @@
 sudo ls > /dev/null
 cd /srv/upont
 touch back/var/cache/maintenance.lock
-git pull
+
+# database backup
+DATE=`date +"%Y%m%d%H%M%S"`
+SQLFILE=upont-${DATE}.sql
+mysqldump --opt --user=root --password upont > /home/odin/$SQLFILE
 
 export SYMFONY_ENV=prod
 
