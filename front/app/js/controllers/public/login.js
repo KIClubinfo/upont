@@ -59,7 +59,7 @@ angular.module('upont')
             $scope.login = function (pseudo, password, firstTime) {
                 var promise;
 
-                if (pseudo.length && password.length) {
+                if (pseudo && password) {
                     promise = $http.post(apiPrefix + 'login', {
                         username: pseudo,
                         password: password
