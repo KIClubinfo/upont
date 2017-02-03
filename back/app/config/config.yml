@@ -99,6 +99,12 @@ lexik_jwt_authentication:
     pass_phrase:     '%jwt_passphrase%'                        # ssh key pass phrase
     token_ttl:        86400                                   # token ttl - defaults to 86400
 
+    # token extraction settings
+    token_extractors:
+        query_parameter:           # check token in query string parameter
+            enabled: true
+            name:    bearer
+
 # Nécessaire pour que FOSRestBundle prenne le pas sur la génération des vues
 sensio_framework_extra:
     view:    { annotations: false }
