@@ -16,14 +16,14 @@ class TransactionRepository extends EntityRepository
 
         $hallOfFame = $this->getEntityManager()->createQuery('SELECT usr AS user, SUM(beer.volume) AS liters FROM
             KIUserBundle:User usr,
-            KIFoyerBundle:Transaction transac, 
+            KIFoyerBundle:Transaction transac,
             KIFoyerBundle:Beer beer
             WHERE transac.user = usr
-            AND transac.beer = beer            
+            AND transac.beer = beer
             AND transac.beer IS NOT NULL
             AND usr.balance > 0
             AND transac.date > :schoolYear
-            GROUP BY usr.id 
+            GROUP BY usr.id
             ORDER BY liters DESC
             ')
             ->setParameter('schoolYear', $sept1)
@@ -42,7 +42,7 @@ class TransactionRepository extends EntityRepository
      */
     public function getPromoBalances()
     {
-        $promoBalances = $this->getEntityManager()->createQuery('SELECT 
+        $promoBalances = $this->getEntityManager()->createQuery('SELECT
             SUM(usr.balance) AS promoBalance, usr.promo as promo FROM
             KIUserBundle:User usr
             GROUP BY promo
@@ -56,6 +56,31 @@ class TransactionRepository extends EntityRepository
 
         return $promoBalances;
     }
+
+    /**
+     * @return object[]
+     */
+    public function getSoldBeers()
+    {
+        $sept1 = strtotime("September 1st -1Year");
+
+        $soldBeers = $this->getEntityManager()->createQuery('SELECT
+            COUNT(beer.id) AS soldBeer, beer.name as name FROM
+            KIFoyerBundle:Transaction transac,
+            KIFoyerBundle:Beer beer
+            WHERE transac.beer = beer
+            AND transac.beer IS NOT NULL
+            AND transac.date > :schoolYear
+            GROUP BY beer.id
+            ORDER BY soldBeer DESC
+            ')
+            ->setParameter('schoolYear', $sept1)
+            ->getArrayResult();
+
+        return $soldBeers;
+    }
+
+
 
 
     /**
