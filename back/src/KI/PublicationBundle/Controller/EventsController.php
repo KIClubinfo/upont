@@ -374,6 +374,17 @@ class EventsController extends ResourceController
 
         // Si on est l'auteur du shotgun, on peut récupérer la liste d'attente
         if ($event->getAuthorUser() == $user) {
+            // It's a trap
+            if (time() >= $event->getShotgunDate()){
+                $result['success'] = $success;
+                $result['fail'] = $fail;
+            } else {
+                $result['success'] = [];
+                $result['fail'] = [];
+            }
+        }
+
+        if ($this->is('ADMIN')){
             $result['success'] = $success;
             $result['fail'] = $fail;
         }
