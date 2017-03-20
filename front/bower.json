@@ -22,8 +22,7 @@
     "angular-youtube-mb": "latest",
     "bootstrap": "latest",
     "fontawesome": "latest",
-    "highcharts-release": "latest",
-    "highmaps": "latest",
+    "highcharts": "latest",
     "jquery": "latest",
     "js-base64": "latest",
     "moment": "latest",
@@ -33,12 +32,7 @@
     "angulartics-piwik": "^1.0.4"
   },
   "overrides": {
-    "highmaps": {
-      "main": [
-        "./modules/map.js"
-      ]
-    },
-    "highcharts-release": {
+    "highcharts": {
       "main": [
         "highcharts.js",
         "highcharts-more.js",
