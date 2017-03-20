@@ -40,13 +40,24 @@ class DefaultController extends BaseController
                 'labels' => [],
                 'data' => [],
             ],
+            'soldBeers' => [
+                'labels' => [],
+                'data' => [],
+            ],
         ];
 
         $promoBalances = $this->manager->getRepository('KIFoyerBundle:Transaction')->getPromoBalances();
 
         foreach ($promoBalances as $promoBalance){
             $statistics['promoBalances']['labels'][] = trim($promoBalance['promo']);
-            $statistics['promoBalances']['data'][] += round($promoBalance['promoBalance'], 2);
+            $statistics['promoBalances']['data'][] = round($promoBalance['promoBalance'], 2);
+        }
+
+        $soldBeers = $this->manager->getRepository('KIFoyerBundle:Transaction')->getSoldBeers();
+
+        foreach ($soldBeers as $soldBeer){
+            $statistics['soldBeers']['labels'][] = trim($soldBeer['name']);
+            $statistics['soldBeers']['data'][] = $soldBeer['soldBeer'];
         }
 
         return $this->json($statistics);

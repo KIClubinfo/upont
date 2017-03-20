@@ -1,4 +1,5 @@
-angular.module('upont').controller('Admissibles_Ctrl', ['$scope', '$location', '$http', '$timeout', 'Scroll', function($scope, $location, $http, $timeout, Scroll) {
+angular.module('upont').controller('Admissibles_Ctrl', [
+    '$scope', '$rootScope', '$location', '$http', '$timeout', 'Scroll', function($scope, $rootScope, $location, $http, $timeout, Scroll) {
         $scope.goTo = function(id) {
             $location.hash(id);
             Scroll.scrollTo(id);
