@@ -62,3 +62,4 @@ services:
           - '@ki_user.repository.user'
           - '%proxy_url%'
           - '%proxy_user%'
+          - '%upont.promos.latest%'

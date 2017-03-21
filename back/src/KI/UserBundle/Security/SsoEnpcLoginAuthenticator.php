@@ -21,6 +21,7 @@ class SsoEnpcLoginAuthenticator extends LoginAuthenticator
     private $userRepository;
     private $proxyUrl;
     private $proxyUser;
+    private $lastPromo;
 
     public function __construct(
         JWTTokenManagerInterface $jwtManager,
@@ -28,7 +29,8 @@ class SsoEnpcLoginAuthenticator extends LoginAuthenticator
         UserFactory $userFactory,
         UserRepository $userRepository,
         $proxyUrl,
-        $proxyUser
+        $proxyUser,
+        $lastPromo,
     )
     {
         parent::__construct($jwtManager, $dispatcher);
@@ -37,6 +39,7 @@ class SsoEnpcLoginAuthenticator extends LoginAuthenticator
         $this->userRepository = $userRepository;
         $this->proxyUrl = $proxyUrl;
         $this->proxyUser = $proxyUser;
+        $this->lastPromo = $lastPromo;
     }
 
     public function getCredentials(Request $request)
@@ -88,7 +91,7 @@ class SsoEnpcLoginAuthenticator extends LoginAuthenticator
                 'firstName' => $credentials['givenName'],
                 'lastName' => ucwords(strtolower($credentials['sn'])),
                 'email' => $credentials['mail'],
-                'promo' => '0' . ( substr(strftime('%Y'), 2) + 3)
+                'promo' => $this->lastPromo,
             ];
 
             $user = $this->userFactory->createUser($username, [], $credentials);
