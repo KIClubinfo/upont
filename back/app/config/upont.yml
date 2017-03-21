@@ -1,8 +1,13 @@
 parameters:
   upont:
+    foyer:
+      trust:
+        - '018'
+        - '019'
+
     promos:
       latest: '019'
-      assos: '018'
+      assos: '019'
       all:
         - '014'
         - '015'

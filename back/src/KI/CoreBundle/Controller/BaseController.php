@@ -118,6 +118,6 @@ abstract class BaseController extends CoreController
     protected function isFoyerMember()
     {
         return $this->isClubMember('foyer')
-        && $this->user->getPromo() == $this->getConfig('promos.assos');
+        && in_array($this->user->getPromo(), $this->getConfig('foyer.trust'));
     }
 }
