@@ -32,7 +32,7 @@ class ImageServiceTest extends WebTestCase
 
     public function testUploadUrl()
     {
-        $url = 'http://www.youtube.com/yt/brand/media/image/YouTube-logo-full_color.png';
+        $url = 'https://www.youtube.com/yt/brand/media/image/YouTube-logo-full_color.png';
         $result = $this->service->uploadFromUrl($url);
         $this->assertTrue($result['image'] !== null);
         $this->assertEquals($result['extension'], 'png');

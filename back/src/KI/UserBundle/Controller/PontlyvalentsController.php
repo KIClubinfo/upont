@@ -119,7 +119,7 @@ class PontlyvalentsController extends ResourceController
          */
         $target = $this->manager->getRepository('KIUserBundle:User')->findOneByUsername($targetUsername);
 
-        $targetPromo = $this->getConfig('promos.assos');
+        $targetPromo = array_slice($this->getConfig('promos.all'), -2, 1)[0];
         if ($target->getPromo() != $targetPromo) {
             throw new BadRequestHttpException('Ce n\'est pas un ' . $targetPromo . ' !');
         }
