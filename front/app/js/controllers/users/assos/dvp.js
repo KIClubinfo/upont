@@ -31,36 +31,40 @@ angular.module('upont')
         };
 
         $scope.post = function(firstName, lastName, email, phone) {
-            var postData = {
-                orders: []
-            };
-
             if (!$rootScope.isLogged) {
-                if (!firstName) {
-                    alertify.error('Prénom manquant !');
-                    return;
-                }
-
-                if (!lastName) {
-                    alertify.error('Nom manquant !');
-                    return;
-                }
-
-                if (!email) {
-                    alertify.error('Email manquant !');
-                    return;
-                }
-
-                if (!phone) {
-                    alertify.error('Numéro de téléphone manquant !');
-                    return;
-                }
-
-                postData.firstName = $scope.firstName;
-                postData.lastName = $scope.lastName;
-                postData.email = $scope.email;
-                postData.phone = $scope.phone;
+                firstName = $scope.firstName;
+                lastName = $scope.lastName;
+                email = $scope.email;
+                phone = $scope.phone;
             }
+
+            if (!firstName) {
+                alertify.error('Prénom manquant !');
+                return;
+            }
+
+            if (!lastName) {
+                alertify.error('Nom manquant !');
+                return;
+            }
+
+            if (!email) {
+                alertify.error('Email manquant !');
+                return;
+            }
+
+            if (!phone) {
+                alertify.error('Numéro de téléphone manquant !');
+                return;
+            }
+
+            var postData = {
+                orders: [],
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                phone: phone,
+            };
 
             for (var i = 0; i < $scope.baskets.length; i++) {
                 var currBasket = $scope.basketOrders[baskets[i].slug];
