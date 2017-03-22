@@ -10,11 +10,17 @@ class BasketOrdersControllerTest extends WebTestCase
     // Ne pas oublier de supprimer à la fin avec le test DELETE.
     public function testPost()
     {
+        $this->client->request('GET', '/basketdates');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 200);
+
+        $dateId = json_decode($response->getContent(), true)[0]['id'];
+
         // Poste une commande
         $this->client->request('POST', '/baskets-orders', [
                 'orders' => [
                     [
-                        'dateRetrieve' => 1,
+                        'dateRetrieve' => $dateId,
                         'ordered' => true,
                         'basket' => 'panier-test'
                     ]

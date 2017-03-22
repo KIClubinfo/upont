@@ -43,7 +43,7 @@ class FormHelper
         $form->handleRequest($this->request);
         $code = 400;
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             if ($method == 'POST') {
                 $this->manager->persist($item);
                 $code = 201;

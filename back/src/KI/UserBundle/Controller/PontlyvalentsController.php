@@ -138,7 +138,7 @@ class PontlyvalentsController extends ResourceController
         $form = $this->createForm(PontlyvalentType::class, $pontlyvalent, ['method' => 'POST']);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->manager->persist($pontlyvalent);
             $this->manager->flush();
 
