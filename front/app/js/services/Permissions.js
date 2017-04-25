@@ -12,10 +12,6 @@ angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', 
     load = function() {
         if (StorageService.get('token') && !jwtHelper.isTokenExpired(StorageService.get('token'))) {
             var token = jwtHelper.decodeToken(StorageService.get('token'));
-            $rootScope.isLogged = true;
-            $rootScope.isAdmin = StorageService.get('droits').indexOf('ROLE_ADMIN') != -1;
-            $rootScope.isAdmissible = StorageService.get('droits').indexOf('ROLE_ADMISSIBLE') != -1;
-            $rootScope.isExterieur = StorageService.get('droits').indexOf('ROLE_EXTERIEUR') != -1;
 
             var username = token.username;
             $rootScope.username = username;
@@ -27,6 +23,12 @@ angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', 
             $resource(apiPrefix + 'users/:slug', {slug: username}).get(function(data){
                 $rootScope.me = data;
             });
+
+            $rootScope.isLogged = true;
+            $rootScope.isAdmin = StorageService.get('roles').indexOf('ROLE_ADMIN') != -1;
+            $rootScope.isAdmissible = StorageService.get('roles').indexOf('ROLE_ADMISSIBLE') != -1;
+            $rootScope.isExterieur = StorageService.get('roles').indexOf('ROLE_EXTERIEUR') != -1;
+
 
             // On récupère les clubs de l'utilisateurs pour déterminer ses droits de publication
             $resource(apiPrefix + 'users/:slug/clubs', {slug: username }).query(function(data){
@@ -52,17 +54,17 @@ angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', 
 
         // Vérifie si l'utilisateur a les droits sur un role
         hasRight: function(role) {
-            if (StorageService.get('droits') === null)
+            if (StorageService.get('roles') === null)
                 return false;
             // Ces rôles là ne doivent pas être répercutés aux admins
             if (role == 'ROLE_EXTERIEUR' || role == 'ROLE_ADMISSIBLE')
-                return StorageService.get('droits').indexOf(role) != -1;
-            if (StorageService.get('droits').indexOf('ROLE_ADMIN') != -1)
+                return StorageService.get('roles').indexOf(role) != -1;
+            if (StorageService.get('roles').indexOf('ROLE_ADMIN') != -1)
                 return true;
             // Le modo a tous les droits sauf ceux de l'admin
-            if (StorageService.get('droits').indexOf('ROLE_MODO') != -1 && role != 'ROLE_ADMIN')
+            if (StorageService.get('roles').indexOf('ROLE_MODO') != -1 && role != 'ROLE_ADMIN')
                 return true;
-            return StorageService.get('droits').indexOf(role) != -1;
+            return StorageService.get('roles').indexOf(role) != -1;
         },
 
         load: function() {
@@ -71,7 +73,7 @@ angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', 
 
         set: function(token, roles) {
             StorageService.set('token', token);
-            StorageService.set('droits', roles);
+            StorageService.set('roles', roles);
             load();
         },
 
