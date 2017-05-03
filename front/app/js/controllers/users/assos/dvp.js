@@ -31,7 +31,7 @@ angular.module('upont')
         };
 
         $scope.post = function(firstName, lastName, email, phone) {
-            if (!$rootScope.isLogged) {
+            if ($rootScope.isLogged) {
                 firstName = $scope.firstName;
                 lastName = $scope.lastName;
                 email = $scope.email;
