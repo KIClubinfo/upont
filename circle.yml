@@ -29,45 +29,45 @@ test:
     - mkdir -p $CIRCLE_TEST_REPORTS/phpunit
     - |
         if [ $CIRCLE_BRANCH = 'master' ]; then
-            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/core.xml --coverage-clover=core.clover --testsuite core
+            vendor/bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/core.xml --coverage-clover=core.clover --testsuite core
         else
-            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/core.xml --testsuite core
+            vendor/bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/core.xml --testsuite core
         fi
     - |
         if [ $CIRCLE_BRANCH = 'master' ]; then
-            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/user.xml --coverage-clover=user.clover --testsuite user
+            vendor/bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/user.xml --coverage-clover=user.clover --testsuite user
         else
-            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/user.xml --testsuite user
+            vendor/bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/user.xml --testsuite user
         fi
     - |
         if [ $CIRCLE_BRANCH = 'master' ]; then
-            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/publication.xml --coverage-clover=publication.clover --testsuite publication
+            vendor/bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/publication.xml --coverage-clover=publication.clover --testsuite publication
         else
-            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/publication.xml --testsuite publication
+            vendor/bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/publication.xml --testsuite publication
         fi
     - |
         if [ $CIRCLE_BRANCH = 'master' ]; then
-            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/ponthub.xml --coverage-clover=ponthub.clover --testsuite ponthub
+            vendor/bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/ponthub.xml --coverage-clover=ponthub.clover --testsuite ponthub
         else
-            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/ponthub.xml --testsuite ponthub
+            vendor/bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/ponthub.xml --testsuite ponthub
         fi
     - |
         if [ $CIRCLE_BRANCH = 'master' ]; then
-            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/foyer.xml --coverage-clover=foyer.clover --testsuite foyer
+            vendor/bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/foyer.xml --coverage-clover=foyer.clover --testsuite foyer
         else
-            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/foyer.xml --testsuite foyer
+            vendor/bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/foyer.xml --testsuite foyer
         fi
     - |
         if [ $CIRCLE_BRANCH = 'master' ]; then
-            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/clubinfo.xml --coverage-clover=clubinfo.clover --testsuite clubinfo
+            vendor/bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/clubinfo.xml --coverage-clover=clubinfo.clover --testsuite clubinfo
         else
-            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/clubinfo.xml --testsuite clubinfo
+            vendor/bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/clubinfo.xml --testsuite clubinfo
         fi
     - |
         if [ $CIRCLE_BRANCH = 'master' ]; then
-            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/dvp.xml --coverage-clover=dvp.clover --testsuite dvp
+            vendor/bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/dvp.xml --coverage-clover=dvp.clover --testsuite dvp
         else
-            phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/dvp.xml --testsuite dvp
+            vendor/bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/dvp.xml --testsuite dvp
         fi
 
   post:
