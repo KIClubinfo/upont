@@ -1,17 +1,16 @@
 angular.module('upont').factory('ErrorCodes_Interceptor', [
+    'Permissions',
     'StorageService',
     '$rootScope',
     '$location',
     '$q',
-    function(StorageService, $rootScope, $location, $q) {
+    function(Permissions, StorageService, $rootScope, $location, $q) {
         //On est obligé d'utiliser $location pour les changements d'url parcque le router n'est initialisé qu'après $http
         return {
             responseError: function(response) {
                 switch (response.status) {
                     case 401:
-                        StorageService.remove('token');
-                        StorageService.remove('droits');
-                        $rootScope.isLogged = false;
+                        Permissions.remove();
                         $location.path('/');
                         break;
                     case 403:
@@ -42,22 +41,19 @@ angular.module('upont').factory('ErrorCodes_Interceptor', [
     function($httpProvider, jwtOptionsProvider) {
         jwtOptionsProvider.config({
             tokenGetter: [
+                'Permissions',
                 'StorageService',
                 'options',
                 'jwtHelper',
                 '$rootScope',
                 '$q',
-                function(StorageService, options, jwtHelper, $rootScope, $q) {
+                function(Permissions, StorageService, options, jwtHelper, $rootScope, $q) {
                     //On n'envoie pas le token pour les templates
                     if (options.url.substr(options.url.length - 5) == '.html')
                         return null;
 
                     if (StorageService.get('token') && jwtHelper.isTokenExpired(StorageService.get('token'))) {
-                        $rootScope.isLogged = false;
-                        $rootScope.isAdmin = false;
-                        $rootScope.isAdmissible = false;
-                        StorageService.remove('token');
-                        StorageService.remove('droits');
+                        Permissions.remove();
                         return $q.reject(options);
                     }
                     return StorageService.get('token');
@@ -102,7 +98,22 @@ angular.module('upont').factory('ErrorCodes_Interceptor', [
             },
             views: {
                 '': {
-                    template: '<div class="Page__main" ui-view></div>'
+                    template: '<div class="Page__main" ui-view></div>',
+                    resolve: {
+                        user: ['$resource', '$rootScope', function($resource, $rootScope) {
+                            $resource(apiPrefix + 'own/user').get(function(data){
+                                $rootScope.me = data;
+                                return data;
+                            });
+                        }],
+                        userClubs: ['$resource', '$rootScope', function($resource, $rootScope) {
+                            // On récupère les clubs de l'utilisateurs pour déterminer ses roles de publication
+                            $resource(apiPrefix + 'own/clubs').query(function(data){
+                                $rootScope.clubs = data;
+                                return data;
+                            });
+                        }],
+                    }
                 },
                 topbar: {
                     templateUrl: 'controllers/users/top-bar.html'
@@ -155,7 +166,7 @@ angular.module('upont').factory('ErrorCodes_Interceptor', [
             $state.go('root.login');
         };
 
-        // Vérifie si l'utilisateur a les droits sur un club/role
+        // Vérifie si l'utilisateur a les roles sur un club/role
         $rootScope.hasClub = function(slug) {
             return Permissions.hasClub(slug);
         };

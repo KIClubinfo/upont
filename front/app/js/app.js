@@ -74,6 +74,8 @@ alertify.set({
 
 Raven.config('https://c1de7d0cdfb14286a0d21efb3c0da318@sentry.io/124785').addPlugin(Raven.Plugins.Angular).install();
 
+angular.module('upontConfig', []);
+
 angular.module('upont', [
     'angular-jwt',
     'angular-redactor',
