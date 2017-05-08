@@ -12,24 +12,28 @@ angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', 
     load = function() {
         var token = StorageService.get('token');
 
-        if (token && !jwtHelper.isTokenExpired(token)) {
-            var token = jwtHelper.decodeToken(StorageService.get('token'));
+        if(!token)
+            return;
 
-            var username = token.username;
-            $rootScope.username = username;
-            $analytics.setUsername(username);
-            Raven.setUserContext({
-                username: username
-            });
-
-            var roles = StorageService.get('roles');
-            $rootScope.isLogged = true;
-            $rootScope.isAdmin = roles.indexOf('ROLE_ADMIN') != -1;
-            $rootScope.isAdmissible = roles.indexOf('ROLE_ADMISSIBLE') != -1;
-            $rootScope.isExterieur = roles.indexOf('ROLE_EXTERIEUR') != -1;
-        } else {
+        if (jwtHelper.isTokenExpired(token)) {
             remove();
+            return;
         }
+
+        var userData = jwtHelper.decodeToken(token);
+        var username = userData.username;
+        var roles = StorageService.get('roles');
+
+        $rootScope.username = username;
+        $analytics.setUsername(username);
+        Raven.setUserContext({
+            username: username
+        });
+
+        $rootScope.isAdmin = roles.indexOf('ROLE_ADMIN') != -1;
+        $rootScope.isAdmissible = roles.indexOf('ROLE_ADMISSIBLE') != -1;
+        $rootScope.isExterieur = roles.indexOf('ROLE_EXTERIEUR') != -1;
+        $rootScope.isLogged = true;
     };
 
     return {

@@ -74,6 +74,33 @@ alertify.set({
 
 Raven.config('https://c1de7d0cdfb14286a0d21efb3c0da318@sentry.io/124785').addPlugin(Raven.Plugins.Angular).install();
 
+angular.module('upontConfig', []);
+
+angular.module('upont', [
+    'angular-jwt',
+    'angular-redactor',
+    'angular.filter',
+    'angulartics',
+    'angulartics.piwik',
+    'infinite-scroll',
+    'mgcrea.ngStrap',
+    'monospaced.elastic',
+    'mwl.calendar',
+    'naif.base64',
+    'ngAnimate',
+    'ngFileUpload',
+    'ngRaven',
+    'ngResource',
+    'ngSanitize',
+    'ngTouch',
+    'templates',
+    'ui.bootstrap.datetimepicker',
+    'ui.router',
+    'youtube-embed',
+    // root configuration
+    'upontConfig'
+]);
+
 (function() {
     // Get Angular's $http module.
     var initInjector = angular.injector(['ng']);
@@ -82,31 +109,6 @@ Raven.config('https://c1de7d0cdfb14286a0d21efb3c0da318@sentry.io/124785').addPlu
     $http.get(apiPrefix + 'config').then(function(success){
         // Define a 'upontConfig' module.
         angular.module('upontConfig', []).constant('upontConfig', success.data);
-
-        angular.module('upont', [
-            'angular-jwt',
-            'angular-redactor',
-            'angular.filter',
-            'angulartics',
-            'angulartics.piwik',
-            'infinite-scroll',
-            'mgcrea.ngStrap',
-            'monospaced.elastic',
-            'mwl.calendar',
-            'naif.base64',
-            'ngAnimate',
-            'ngFileUpload',
-            'ngRaven',
-            'ngResource',
-            'ngSanitize',
-            'ngTouch',
-            'templates',
-            'ui.bootstrap.datetimepicker',
-            'ui.router',
-            'youtube-embed',
-            // root configuration
-            'upontConfig'
-        ]);
 
         // Start upont manually.
         angular.element(document).ready(function() {
