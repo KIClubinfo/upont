@@ -1,16 +1,18 @@
-angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', '$resource', 'jwtHelper', '$analytics', function(StorageService, $rootScope, $resource, jwtHelper, $analytics) {
+angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', 'jwtHelper', '$analytics', function(StorageService, $rootScope, jwtHelper, $analytics) {
     remove = function() {
         $rootScope.isLogged = false;
         $rootScope.isAdmin = false;
         $rootScope.isAdmissible = false;
         $rootScope.isExterieur = false;
         StorageService.remove('token');
-        StorageService.remove('droits');
+        StorageService.remove('roles');
     };
 
     // Charge les permissions à partir du token stocké dans le Storage
     load = function() {
-        if (StorageService.get('token') && !jwtHelper.isTokenExpired(StorageService.get('token'))) {
+        var token = StorageService.get('token');
+
+        if (token && !jwtHelper.isTokenExpired(token)) {
             var token = jwtHelper.decodeToken(StorageService.get('token'));
 
             var username = token.username;
@@ -19,28 +21,19 @@ angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', 
             Raven.setUserContext({
                 username: username
             });
-            // On récupère les données utilisateur
-            $resource(apiPrefix + 'users/:slug', {slug: username}).get(function(data){
-                $rootScope.me = data;
-            });
 
+            var roles = StorageService.get('roles');
             $rootScope.isLogged = true;
-            $rootScope.isAdmin = StorageService.get('roles').indexOf('ROLE_ADMIN') != -1;
-            $rootScope.isAdmissible = StorageService.get('roles').indexOf('ROLE_ADMISSIBLE') != -1;
-            $rootScope.isExterieur = StorageService.get('roles').indexOf('ROLE_EXTERIEUR') != -1;
-
-
-            // On récupère les clubs de l'utilisateurs pour déterminer ses droits de publication
-            $resource(apiPrefix + 'users/:slug/clubs', {slug: username }).query(function(data){
-                $rootScope.clubs = data;
-            });
+            $rootScope.isAdmin = roles.indexOf('ROLE_ADMIN') != -1;
+            $rootScope.isAdmissible = roles.indexOf('ROLE_ADMISSIBLE') != -1;
+            $rootScope.isExterieur = roles.indexOf('ROLE_EXTERIEUR') != -1;
         } else {
             remove();
         }
     };
 
     return {
-        // Vérifie si l'utilisateur a les droits sur un club
+        // Vérifie si l'utilisateur a les roles sur un club
         hasClub: function(slug) {
             if ($rootScope.isAdmin)
                 return true;
@@ -52,7 +45,7 @@ angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', 
             return false;
         },
 
-        // Vérifie si l'utilisateur a les droits sur un role
+        // Vérifie si l'utilisateur a les roles sur un role
         hasRight: function(role) {
             if (StorageService.get('roles') === null)
                 return false;
@@ -61,7 +54,7 @@ angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', 
                 return StorageService.get('roles').indexOf(role) != -1;
             if (StorageService.get('roles').indexOf('ROLE_ADMIN') != -1)
                 return true;
-            // Le modo a tous les droits sauf ceux de l'admin
+            // Le modo a tous les roles sauf ceux de l'admin
             if (StorageService.get('roles').indexOf('ROLE_MODO') != -1 && role != 'ROLE_ADMIN')
                 return true;
             return StorageService.get('roles').indexOf(role) != -1;
