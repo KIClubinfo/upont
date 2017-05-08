@@ -18,7 +18,7 @@
     "angular-sanitize": "latest",
     "angular-strap": "latest",
     "angular-touch": "latest",
-    "angular-ui-router": "latest",
+    "angular-ui-router": "0.x",
     "angular-youtube-mb": "latest",
     "bootstrap": "latest",
     "fontawesome": "latest",
