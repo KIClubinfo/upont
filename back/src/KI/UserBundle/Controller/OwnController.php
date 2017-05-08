@@ -704,6 +704,26 @@ class OwnController extends ResourceController
 
     /**
      * @ApiDoc(
+     *  description="Renvoie les clubs de l'utilisateur actuel",
+     *  output="KI\UserBundle\Entity\ClubUser",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Utilisateurs"
+     * )
+     * @Route("/own/clubs")
+     * @Method("GET")
+     */
+    public function getOwnClubsAction()
+    {
+        return $this->json($this->user->getClubs());
+    }
+
+    /**
+     * @ApiDoc(
      *  description="Met à jour les informations du compte",
      *  requirements={
      *   {
