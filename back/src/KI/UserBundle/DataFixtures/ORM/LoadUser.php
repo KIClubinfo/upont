@@ -24,7 +24,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $userManager = $this->container->get('fos_user.user_manager');
-        
+
         $user = $userManager->createUser();
         $user->setUsername('archlinux');
         $user->setEmail('philippe.ferreira-de-sousa@eleves.enpc.fr');
@@ -47,7 +47,7 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $this->addReference('user-archlinux', $user);
 
         $user = $userManager->createUser();
-        $user->setUsername('trezzini');
+        $user->setUsername('trezzinl');
         $user->setEmail('louis.trezzini@eleves.enpc.fr');
         $user->setPlainPassword('password');
         $user->setLoginMethod('form');
@@ -63,9 +63,9 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setMailShotgun(false);
         $user->setEnabled(true);
         $user->addGroupUser($this->getReference('group-admin'));
-        $user->setImage($this->getReference('image-user-trezzinil'));
+        $user->setImage($this->getReference('image-user-trezzinl'));
         $userManager->updateUser($user);
-        $this->addReference('user-trezzinil', $user);
+        $this->addReference('user-trezzinl', $user);
 
         $user = $userManager->createUser();
         $user->setUsername('kadaouic');
