@@ -100,15 +100,15 @@ angular.module('upont').factory('ErrorCodes_Interceptor', [
                 '': {
                     template: '<div class="Page__main" ui-view></div>',
                     resolve: {
-                        user: ['$resource', '$rootScope', function($resource, $rootScope) {
-                            $resource(apiPrefix + 'own/user').get(function(data){
+                        user: ['$http', '$rootScope', function($http, $rootScope) {
+                            return $http.get(apiPrefix + 'own/user').then(function(data){
                                 $rootScope.me = data;
                                 return data;
                             });
                         }],
-                        userClubs: ['$resource', '$rootScope', function($resource, $rootScope) {
+                        userClubs: ['$http', '$rootScope', function($http, $rootScope) {
                             // On récupère les clubs de l'utilisateurs pour déterminer ses roles de publication
-                            $resource(apiPrefix + 'own/clubs').query(function(data){
+                            return $http.get(apiPrefix + 'own/clubs').then(function(data){
                                 $rootScope.clubs = data;
                                 return data;
                             });
