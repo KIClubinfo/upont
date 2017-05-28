@@ -19,7 +19,6 @@ class ResourceController extends LikeableController
         $paginateHelper = $this->get('ki_core.helper.paginate');
         extract($paginateHelper->paginateData($this->repository));
 
-        $results = $this->repository->findBy($findBy, $sortBy, $limit, $offset);
         list($results, $links, $count) = $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
 
         return $this->json($results, 200, [

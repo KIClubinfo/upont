@@ -31,7 +31,7 @@ class BasketDate
 
     /**
      * Indique si la commande a été payée
-     * @ORM\Column(name="locked", type="integer")
+     * @ORM\Column(name="locked", type="boolean")
      * @JMS\Expose
      * @Assert\Type("boolean")
      */

@@ -37,7 +37,7 @@ class BasketDatesController extends ResourceController
     public function getBasketDatesAction(Request $request)
     {
         $request->query->set('sort', 'dateRetrieve');
-        $request->query->set('locked', false);
+        $request->query->set('locked', '0');
         $request->query->set('limit', 4);
 
         return $this->getAll($this->is('EXTERIEUR'));

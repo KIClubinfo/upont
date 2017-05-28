@@ -77,6 +77,11 @@ class PaginateHelper
             }
             $queryBuilder->andWhere($and);
         }
+
+        foreach($sortBy as $field => $order){
+            $queryBuilder->addOrderBy('o.' . $field, $order);
+        }
+
         $count = $queryBuilder->getQuery()->getSingleScalarResult();
 
         // On vérifie que l'utilisateur ne fasse pas de connerie avec les variables
@@ -86,6 +91,12 @@ class PaginateHelper
         $page  = min($page, $totalPages);
         $page  = max($page, 1);
 
+        $results = $queryBuilder->select('o')
+                    ->setMaxResults($limit)
+                    ->setFirstResult(($page - 1)*$limit)
+                    ->getQuery()
+                    ->getResult();
+
         return [
             'findBy'     => $findBy,
             'sortBy'     => $sortBy,
@@ -93,7 +104,8 @@ class PaginateHelper
             'offset'     => ($page - 1)*$limit,
             'page'       => $page,
             'totalPages' => $totalPages,
-            'count'      => $count
+            'count'      => $count,
+            'results'    => $results,
         ];
     }
 
