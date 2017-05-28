@@ -50,17 +50,27 @@ class PaginateHelper
             }
         }
 
-        foreach ($request->all() as $key => $value) {
+        foreach ($request->all() as $key => $values) {
             if ($key != 'page' && $key != 'limit' && $key != 'sort') {
-                $findBy[$key] = $value;
+                $findBy[$key] = explode(',', $values);
             }
         }
 
         // On compte le nombre total d'entrées dans la BDD
         $queryBuilder->select('count(o.id)');
-        foreach ($findBy as $key => $value){
-            $queryBuilder->andWhere('o.' . $key . ' = :' . $key);
-            $queryBuilder->setParameter($key, $value);
+        foreach ($findBy as $key => $values){
+            $andCount = 0;
+            $and = '';
+            foreach($values as $value){
+                if($andCount > 0){
+                    $and .= ' OR ';
+                }
+                $and .= 'o.' . $key . ' = :' . $key . $andCount;
+                $queryBuilder->setParameter($key . $andCount, $value);
+
+                $andCount++;
+            }
+            $queryBuilder->andWhere($and);
         }
         $count = $queryBuilder->getQuery()->getSingleScalarResult();
 
