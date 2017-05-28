@@ -33,6 +33,11 @@ class PaginateHelper
         $queryBuilder = $repository->createQueryBuilder('o');
         $request = $this->request->query;
 
+        // On s'assure de bien recevoir des arrays
+        foreach ($findBy as $key => $value) {
+            $findBy[$key] = array($value);
+        }
+
         // On récupère les paramètres de la requête
         $page  = $request->has('page') ? $request->get('page') : 1;
         $limit = $request->has('limit') ? $request->get('limit') : 100;
