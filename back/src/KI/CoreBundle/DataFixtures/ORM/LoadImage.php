@@ -14,6 +14,8 @@ class LoadImageFixture extends AbstractFixture implements OrderedFixtureInterfac
     public function load(ObjectManager $manager)
     {
         $images = [
+            'user-archlinux' => 'archlinux.png',
+            'user-trezzinl' => 'trezzinl.jpg',
             'user-bochetc' => 'bochetc.jpg',
             'user-de-boisc' => 'de-boisc.jpg',
             'user-trancara' => 'trancara.jpg',

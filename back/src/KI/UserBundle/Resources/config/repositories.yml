@@ -1,10 +1,4 @@
 services:
-    ki_user.repository.admissible:
-        class: Doctrine\ORM\EntityRepository
-        factory: ['@doctrine.orm.default_entity_manager', getRepository]
-        arguments:
-            - KI\UserBundle\Entity\Admissible
-
     ki_user.repository.clubuser:
         class: Doctrine\ORM\EntityRepository
         factory: ['@doctrine.orm.default_entity_manager', getRepository]

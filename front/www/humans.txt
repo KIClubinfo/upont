@@ -1,0 +1,21 @@
+/ * TEAM * /
+IT club of the Ponts ParisTech french engineering school
+
+Philippe Ferreira De Sousa : responsable hébergement et upont '019
+Louis Trezzini : président technique '018
+Charles Auguste : trésorier '018
+Cécile Taquet-Gaspérini : présidente '017
+Adrian Lemaigre : vice président '017
+Adrien Lina : président technique '017
+Corentin de Boisset : président technique '016
+Chaïmaa Kadaoui : trésorière '016
+Alberic Trancart : président '015
+Mickael Bergem : responsable hébergement '015
+
+/ * SITE * /
+
+uPont version 2.0, the intranet of the École nationale des ponts et chaussées. It is project launched by Charles BOCHET, Dark President of promotion 2015, during his scientific training course. It is probably the most ambitious project led by the KI at the present time. It aims at gathering as many functionalities and information related to the associative life of the Ponts as possible in a great website. Clubs can now write their presentations dirctly on uPont, create events withut being moderated on mailinglists, interacts with students. Students can choose the content they want to be filled on in not to miss anything relevant to them. It features an AngularJS front-end powered by a Symfony3 REST API.
+
+Language : French
+Doctype : html
+Technologies : Symfony3, AngularJS, CircleCI, Scrutinizer, Composer, Bower.js, Gulp.js, Piwik, Sentry

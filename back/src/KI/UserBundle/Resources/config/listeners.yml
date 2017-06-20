@@ -9,13 +9,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: upont.achievement, method: check }
 
-    ki_user.listener.admissible:
-        class: KI\UserBundle\Listener\AdmissibleListener
-        arguments:
-            - '@ki_user.service.mailer'
-            - '@ki_user.repository.user'
-            - '@ki_user.repository.admissible'
-
     ki_user.listener.jwt_created:
         class: KI\UserBundle\Listener\JWTCreatedListener
         autowire: true

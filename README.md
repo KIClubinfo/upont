@@ -1,7 +1,7 @@
 uPont 2.0
 =========
 
-uPont version 2.0, the intranet of the _École nationale des ponts et chaussées_. It features an AngularJS front-end and a Cordova mobile app powered by a Symfony2 REST API.
+uPont version 2.0, the intranet of the _École nationale des ponts et chaussées_. It features an AngularJS front-end powered by a Symfony3 REST API.
 
 [![CircleCI](https://circleci.com/gh/KIClubinfo/upont/tree/master.svg?style=svg)](https://circleci.com/gh/KIClubinfo/upont/tree/master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/KIClubinfo/upont/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/KIClubinfo/upont/?branch=master)
@@ -52,9 +52,14 @@ Join the project
 Join the [Trello board](https://trello.com/b/a7pIk6zk/upont).
 
 Tutorials (in French):
-  * [Git](http://openclassrooms.com/courses/gerez-vos-codes-source-avec-git)
+  * Git :
+    [OpenClassroom's tutorial](https://openclassrooms.com/courses/developpez-vos-applications-web-avec-angularjs)
+    [Interactive tutorial](http://learngitbranching.js.org/)
   * [HTML/CSS](http://openclassrooms.com/courses/apprenez-a-creer-votre-site-web-avec-html5-et-css3)
   * [PHP](http://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql)
-  * [Symfony](http://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony2)
-  * [Angular](http://openclassrooms.com/courses/angular-js)
+  * [Symfony3](https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony) (très proche de Symfony2)
+  * AngularJS :
+    [OpenClassroom's course](http://openclassrooms.com/courses/angular-js)
+    [Grafikart's YT playlist](https://www.youtube.com/playlist?list=PLjwdMgw5TTLUDlJyx4yIPQjoI-w-7Zs1r)
   * [OnsenUI](http://onsen.io/guide/overview.html)
+  * [Composer](https://www.youtube.com/watch?v=EBZ1owgiSSQ)

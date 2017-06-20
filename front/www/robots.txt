@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /$
-Allow: /admissibles
 Allow: /vie-etudiante
 Disallow: /
 Sitemap: https://upont.enpc.fr/sitemap.xml

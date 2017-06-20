@@ -18,8 +18,3 @@ parameters:
 
     pontlyvalent:
       open: false
-
-    admissibles:
-      openDate: '2016-06-15 20:00 +0200'
-      closeDate: '2016-06-20 23:00 +0200'
-
