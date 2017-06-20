@@ -22,7 +22,7 @@
                     </figure>
 
                     <!-- Actions -->
-                    <section flex="100" ng-show="$root.hasClub(publication.author_club.slug)">
+                    <section flex="100" ng-if="$root.hasClub(publication.author_club.slug)">
                         <i class="Link  Link--reverse  fa  fa-pencil"
                            title="Modifier la publication"
                            ng-click="enableModify(publication)"></i>

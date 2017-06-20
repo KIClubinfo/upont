@@ -42,6 +42,10 @@ angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', 
             if ($rootScope.isAdmin)
                 return true;
 
+            if (typeof $rootScope.clubs === "undefined") {
+                return false;
+            }
+
             for (var i = 0; i < $rootScope.clubs.length; i++) {
                 if ($rootScope.clubs[i].club.slug == slug)
                     return true;
