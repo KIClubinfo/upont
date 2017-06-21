@@ -18,7 +18,10 @@ angular.module('upont')
         };
 
         if ($rootScope.isLogged) {
+            $scope.firstName = $rootScope.me.firstName;
+            $scope.lastName = $rootScope.me.lastName;
             $scope.email = $rootScope.me.email;
+            $scope.phone = $rootScope.me.phone;
             $scope.loadOrders($scope.email);
         }
 

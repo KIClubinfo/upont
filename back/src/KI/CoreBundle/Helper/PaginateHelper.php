@@ -33,6 +33,11 @@ class PaginateHelper
         $queryBuilder = $repository->createQueryBuilder('o');
         $request = $this->request->query;
 
+        // On s'assure de bien recevoir des arrays
+        foreach ($findBy as $key => $value) {
+            $findBy[$key] = array($value);
+        }
+
         // On récupère les paramètres de la requête
         $page  = $request->has('page') ? $request->get('page') : 1;
         $limit = $request->has('limit') ? $request->get('limit') : 100;
@@ -50,18 +55,33 @@ class PaginateHelper
             }
         }
 
-        foreach ($request->all() as $key => $value) {
+        foreach ($request->all() as $key => $values) {
             if ($key != 'page' && $key != 'limit' && $key != 'sort') {
-                $findBy[$key] = $value;
+                $findBy[$key] = explode(',', $values);
             }
         }
 
         // On compte le nombre total d'entrées dans la BDD
         $queryBuilder->select('count(o.id)');
-        foreach ($findBy as $key => $value){
-            $queryBuilder->andWhere('o.' . $key . ' = :' . $key);
-            $queryBuilder->setParameter($key, $value);
+        foreach ($findBy as $key => $values){
+            $andCount = 0;
+            $and = '';
+            foreach($values as $value){
+                if($andCount > 0){
+                    $and .= ' OR ';
+                }
+                $and .= 'o.' . $key . ' = :' . $key . $andCount;
+                $queryBuilder->setParameter($key . $andCount, $value);
+
+                $andCount++;
+            }
+            $queryBuilder->andWhere($and);
         }
+
+        foreach($sortBy as $field => $order){
+            $queryBuilder->addOrderBy('o.' . $field, $order);
+        }
+
         $count = $queryBuilder->getQuery()->getSingleScalarResult();
 
         // On vérifie que l'utilisateur ne fasse pas de connerie avec les variables
@@ -71,6 +91,12 @@ class PaginateHelper
         $page  = min($page, $totalPages);
         $page  = max($page, 1);
 
+        $results = $queryBuilder->select('o')
+                    ->setMaxResults($limit)
+                    ->setFirstResult(($page - 1)*$limit)
+                    ->getQuery()
+                    ->getResult();
+
         return [
             'findBy'     => $findBy,
             'sortBy'     => $sortBy,
@@ -78,7 +104,8 @@ class PaginateHelper
             'offset'     => ($page - 1)*$limit,
             'page'       => $page,
             'totalPages' => $totalPages,
-            'count'      => $count
+            'count'      => $count,
+            'results'    => $results,
         ];
     }
 

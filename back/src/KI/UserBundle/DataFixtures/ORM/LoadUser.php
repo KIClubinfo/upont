@@ -26,6 +26,48 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $userManager = $this->container->get('fos_user.user_manager');
 
         $user = $userManager->createUser();
+        $user->setUsername('archlinux');
+        $user->setEmail('philippe.ferreira-de-sousa@eleves.enpc.fr');
+        $user->setPlainPassword('password');
+        $user->setLoginMethod('form');
+        $user->setFirstName('Philippe');
+        $user->setLastName('Ferreira De Sousa');
+        $user->setPromo('019');
+        $user->setLocation('Meunier');
+        $user->setDepartment('1A');
+        $user->setNationality('Français');
+        $user->setOrigin('Concours Commun MP');
+        $user->setMailEvent(false);
+        $user->setMailModification(false);
+        $user->setMailShotgun(false);
+        $user->setEnabled(true);
+        $user->addGroupUser($this->getReference('group-admin'));
+        $user->setImage($this->getReference('image-user-archlinux'));
+        $userManager->updateUser($user);
+        $this->addReference('user-archlinux', $user);
+
+        $user = $userManager->createUser();
+        $user->setUsername('trezzinl');
+        $user->setEmail('louis.trezzini@eleves.enpc.fr');
+        $user->setPlainPassword('password');
+        $user->setLoginMethod('form');
+        $user->setFirstName('Louis');
+        $user->setLastName('Trezzini');
+        $user->setPromo('018');
+        $user->setLocation('Nowhere');
+        $user->setDepartment('IMI');
+        $user->setNationality('Français');
+        $user->setOrigin('Concours Commun MP');
+        $user->setMailEvent(false);
+        $user->setMailModification(false);
+        $user->setMailShotgun(false);
+        $user->setEnabled(true);
+        $user->addGroupUser($this->getReference('group-admin'));
+        $user->setImage($this->getReference('image-user-trezzinl'));
+        $userManager->updateUser($user);
+        $this->addReference('user-trezzinl', $user);
+
+        $user = $userManager->createUser();
         $user->setUsername('kadaouic');
         $user->setEmail('chaimaa.kadaoui@eleves.test.enpc.fr');
         $user->setPlainPassword('password');

@@ -81,7 +81,6 @@ security:
         - { path: ^/(_(profiler|wdt|doc))/,           methods: [GET],  roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/coffee,                           methods: [GET],  roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/version,                          methods: [GET],  roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admissibles,                      methods: [POST], roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/basketdates,                      methods: [GET], roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/baskets,                          methods: [GET, POST], roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/filelist,                         methods: [POST], roles: IS_AUTHENTICATED_ANONYMOUSLY }

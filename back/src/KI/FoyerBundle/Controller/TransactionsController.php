@@ -78,23 +78,16 @@ class TransactionsController extends ResourceController
      * @Route("/users/{slug}/transactions")
      * @Method("GET")
      */
-    public function getUserTransactionsAction($slug)
+    public function getUserTransactionsAction(Request $request, $slug)
     {
         $userRepository = $this->getDoctrine()->getManager()->getRepository('KIUserBundle:User');
         $user = $userRepository->findOneByUsername($slug);
 
         $this->trust($this->isFoyerMember() || $this->user == $user);
 
-        $paginateHelper = $this->get('ki_core.helper.paginate');
-        extract($paginateHelper->paginateData($this->repository, ['user' => $user]));
+        $request->query->set('user', $user->getId());
 
-        $transactions = $this->repository->findBy($findBy, $sortBy, $limit, $offset);
-        list($results, $links, $count) = $paginateHelper->paginateView($transactions, $limit, $page, $totalPages, $count);
-
-        return $this->json($transactions, 200, [
-            'Links' => implode(',', $links),
-            'Total-count' => $count
-        ]);
+        return $this->getAll();
     }
 
 
