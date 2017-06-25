@@ -77,7 +77,7 @@ angular.module('upont').factory('ErrorCodes_Interceptor', [
         $stateProvider.state('root', {
             abstract: true,
             url: '/',
-            templateUrl: 'container.html'
+            template: '<div ui-view></div>'
         }).state('root.403', {
             url: '403',
             templateUrl: 'controllers/public/errors/403.html'
@@ -93,36 +93,36 @@ angular.module('upont').factory('ErrorCodes_Interceptor', [
         }).state('root.users', {
             url: '',
             abstract: true,
+            resolve: {
+                user: ['$http', '$rootScope', function($http, $rootScope) {
+                    return $http.get(apiPrefix + 'own/user').then(function(response){
+                        $rootScope.me = response.data;
+                        return response.data;
+                    });
+                }],
+                userClubs: ['$http', '$rootScope', function($http, $rootScope) {
+                    // On récupère les clubs de l'utilisateurs pour déterminer ses roles de publication
+                    return $http.get(apiPrefix + 'own/clubs').then(function(response){
+                        $rootScope.clubs = response.data;
+                        return response.data;
+                    });
+                }],
+            },
             data: {
                 needLogin: true
             },
             views: {
                 '': {
-                    template: '<div class="Page__main" ui-view></div>',
-                    resolve: {
-                        user: ['$http', '$rootScope', function($http, $rootScope) {
-                            return $http.get(apiPrefix + 'own/user').then(function(data){
-                                $rootScope.me = data;
-                                return data;
-                            });
-                        }],
-                        userClubs: ['$http', '$rootScope', function($http, $rootScope) {
-                            // On récupère les clubs de l'utilisateurs pour déterminer ses roles de publication
-                            return $http.get(apiPrefix + 'own/clubs').then(function(data){
-                                $rootScope.clubs = data;
-                                return data;
-                            });
-                        }],
-                    }
+                    templateUrl: 'controllers/users/container.html',
                 },
-                topbar: {
+                'topbar@root.users': {
                     templateUrl: 'controllers/users/top-bar.html'
                 },
-                aside: {
+                'aside@root.users': {
                     templateUrl: 'controllers/users/aside.html',
                     controller: 'Aside_Ctrl'
                 },
-                tour: {
+                'tour@root.users': {
                     templateUrl: 'controllers/users/tour.html',
                     controller: 'Tour_Ctrl'
                 }
