@@ -88,11 +88,7 @@ gulp.task('build-css', function() {
     var vendorsFiles = mainBowerFiles();
     var themeFiles;
 
-    if (gutil.env.type == "production") {
-        themeFiles = getFiles(themesPath);
-    } else {
-        themeFiles = ['classic.less', 'classic-dark.less'];
-    }
+    themeFiles = getFiles(themesPath);
 
 
     var tasks = themeFiles.map(function(file) {
