@@ -79,12 +79,12 @@ function getFiles(dir) {
             return !fs.statSync(path.join(dir, file)).isDirectory();
         });
 }
-var themesPath = 'app/css/themes/';
+var themesPath = 'app/css-themes/themes/';
 
 /**
- * Construit le CSS en créeant un fichier CSS par thème
+ * Construit le CSS des thèmes de uPont en créeant un fichier CSS par thème
  */
-gulp.task('build-css', function() {
+gulp.task('build-css-themes', function() {
     var vendorsFiles = mainBowerFiles();
     var themeFiles;
 
@@ -104,6 +104,25 @@ gulp.task('build-css', function() {
         ;
    });
 });
+
+/**
+ * Construit le CSS de l'animation de chargement comprenant la bibliothèque loading.io : https://loading.io/animation/
+ */
+gulp.task('build-css-loading', function(){
+    return gulp.src('app/css-loading/*')
+        .pipe(filter(['**/*.css', '**/*.less']))
+        .pipe(less())
+        .pipe(concat('loading.min.css'))
+        .pipe(autoprefixer({
+            cascade: false
+        }))
+        .pipe(gutil.env.type === 'production' ? uglifycss() : gutil.noop())
+        .pipe(gulp.dest('www/'))
+});
+
+
+gulp.task('build-css', ['build-css-themes', 'build-css-loading']);
+
 
 /**
  * Construit le fichier HTML suivant l'environnement

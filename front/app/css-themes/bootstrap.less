@@ -54,7 +54,9 @@
  * @col-font doit se distinguer de @col-neg
  * @col-font doit se distinguer de @col-bckgnd
  */
+
 @col-light: white;
+
 .theme(@col-dark, @col-primary, @col-alt, @dark) when (@dark = false) {
     @col-bckgnd: darken(@col-light, 10%);
 
