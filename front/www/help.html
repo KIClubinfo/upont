@@ -17,17 +17,34 @@
     </head>
 
     <body>
-        <div style="width:50%;text-align:justify;margin:auto;padding:100px">
-            <img src="img/icon.svg" style="height:200px;width:200px;display:block;margin:auto;"/>
-            <p>Si tu ne parviens pas à charger uPont, la raison peut-être parmi les suivantes :
-            <ul>
-            <li>Tu as été mal déconnecté : <a class="Link" href="http://www.rapidomaine.fr/support/rapidomaine/142-vider-cache-navigateur-internet">vide le cache</a> ton navigateur (au moins pour le domaine enpc.fr)</li>
-            <li>Ton navigateur lague car tu as trop d'onglets d'ouvert. Ces pages peuvent encombrer la connexion, la mémoire et l'interpréteur javascript: redémarre ton navigateur</li>
-            <li>Ta connexion internet est trop faible pour récupérer toutes les ressources de uPont dans un temps résonnable : change de connexion</li>
-            <li>Ton navigateur ne supporte pas les technologies de pointe déployées par le KI pour ton confort : change ou <a class="Link" href="https://browser-update.org">met à jour</a> ton navigateur</li>
-            </ul>
-            <p>En cas d'échec, tu peux contacter le KI par sa <a class="Link" href="https://www.facebook.com/enpc.clubinfo/">page Facebook</a> ou en passant au local un midi en P401, avec ton appareil ! Tu pourras nous rapporter les éventuelles erreurs dans la console du navigateur (F12 sous Chrome, Firefox et Edge; sous Safari il faut activer l'onglet développeur dans les préférences).</p>
+        <div class="Page__landing" col="space-between stretch">
+            <div col="center stretch" style="height: 100%" class="flex-col flex p-center s-stretch">
+                <section class="Page__landing--help" flex="90" flex-md="55" row="center stretch" class="flex-col flex p-center s-stretch">
+                    <aside class="Page__landing--left  padded" flex="90" flex-md="40">
+                        <div row="center stretch">
+                            <svg-image flex="40" src="img/icon.svg" class="svg up-logo"></svg-image>
+                        </div>
+                        <section class="padded small">
+                            <h1>Bienvenue sur la page d'aide de uPont</h1>
+                            <p>Tu y trouveras des suggestions qui te permetteront de comprendre comment tu as cassé uPont</p>
+                        </section>
+                    </aside>
+                    <section class="Page__landing--right padded" flex="90" flex-md="70" style="text-align:justify;  ">
+                        <h1 class="padded">Répare uPont !</h1>
+                        <div class="padded" row wrap>
+                            <p class="padded" flex="100">Si tu ne parviens pas à charger uPont, la raison peut-être parmi les suivantes :
+                                <ul>
+                                    <li>Tu as été mal déconnecté : <a class="Link" href="http://www.rapidomaine.fr/support/rapidomaine/142-vider-cache-navigateur-internet">vide le cache</a> ton navigateur (au moins pour le domaine enpc.fr)</li>
+                                    <li>Ton navigateur lague car tu as trop d'onglets d'ouvert. Ces pages peuvent encombrer la connexion, la mémoire et l'interpréteur javascript: redémarre ton navigateur</li>
+                                    <li>Ta connexion internet est trop faible pour récupérer toutes les ressources de uPont dans un temps résonnable : change de connexion</li>
+                                    <li>Ton navigateur ne supporte pas les technologies de pointe déployées par le KI pour ton confort : change ou <a class="Link" href="https://browser-update.org">met à jour</a> ton navigateur</li>
+                                </ul>
+                            <p>
+                            <p class="padded"  flex="100" row="end stretch">En cas d'échec, tu peux contacter le KI par sa <a class="Link" href="https://www.facebook.com/enpc.clubinfo/">page Facebook</a> ou en passant au local un midi en P401, avec ton appareil ! Tu pourras nous rapporter les éventuelles erreurs dans la console du navigateur (F12 sous Chrome, Firefox et Edge; sous Safari il faut activer l'onglet développeur dans les préférences).</p>
+                        </div>
+                    </section>
+                </section>
+            </div>
         </div>
-
     </body>
 </html>
