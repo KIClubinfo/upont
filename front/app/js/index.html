@@ -36,13 +36,15 @@
         <!-- D'abord la page est blanche lors du parsage du html et des requêtes successives dans le header jusqu'à upont.min.js qui bloque le parsage. Vers la fin de son exécution, il applique les ng-cloak avant de requêter la config de upont asynchronously. Le parsage de l'html continue alors, la section des images zoomés n'est pas rendered grâce au ng-cloak, cette section s'affiche avec seulement le style de loading.css car le css du thème a besoin de $root.theme pour être chargé. Cette section existe donc pendant le chargement de la config du upont : /api/config puis disparait ensuite avec la fin de l'exécution de upont.min.js qui rend possible l'évaluation des directives d'angularjs (le ng-if=false fait disparaître la section), le ui-view fait apparaître la page de login, puis avec l'évaluation de $root.theme le style du thème charge.
         Cette section n'avait pas lieu d'exister avant car le chargement de la config de upont était intantannée, cette section a donc été créé car pendant le chargement de cette config, la section des images zoomées étaient devenues apparantes, voir terminale sur mobile où uPont ne chargeait pas -->
 
-        <div ng-if="false" class="Page__landing">
-            <section class="Loading">
-                <img src="img/icon.svg" class="ld ld-heartbeat x2 Loading__image"/>
-                <p class="Loading__element"> <span class="ld ld-spinner ld-spin padded"></span> Chargement en cours...</p>
-                <br/>
-                <a class="Loading__element" href="help.html"><button class="Button">Un problème ?</button></a>
-            </section>
+        <div ng-if="false" class="Page__landing flex flex-col p-center s-stretch">
+            <div class="flex flex-raw p-center">
+                <section class="Page__landing--right padded Loading__section flex-35pct flex flex-col p-center s-center">
+                    <img src="img/icon.svg" class="ld ld-heartbeat x2 Loading__image"/>
+                    <p> <!--<span class="ld ld-spinner ld-spin padded"></span>--> <span class="padded">Chargement en cours...</span></p>
+                    <!-- le spinner se stylise correctement qu'après avoir disparu -->
+                    <button class="Button"><a href="help.html">Un problème ?</a></button>
+                </section>
+            </div>
         </div>
 
 
