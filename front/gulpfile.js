@@ -163,7 +163,7 @@ gulp.task('copy-fonts', function () {
 gulp.task('watch', function() {
     gulp.watch(['app/js/**/*.js', 'app/js/*.js'], ['lint-js', 'build-js']);
     gulp.watch(['app/js/*.html', 'app/js/**/*.html'], ['build-templates']);
-    gulp.watch(['app/css/**/*.less'], ['build-css']);
+    gulp.watch(['app/css-*/**/*.less'], ['build-css']);
     gulp.watch(['app/js/index.html'], ['build-html']);
 });
 

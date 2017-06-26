@@ -27,8 +27,17 @@
             background: rgba(red(@col-input-bckgnd), green(@col-input-bckgnd), blue(@col-input-bckgnd), 0.9);
         }
 
-        &--login {
-            margin-left: 3em;
+        &--public {
+            height: 100%;
+            padding: 0 2em;
+
+            @media(min-width: @sizeMd) {
+                padding: 0 4em;
+            }
+
+            @media(min-width: @sizeLg) {
+                padding: 0 6em;
+            }
         }
 
         &--centeredContent {
