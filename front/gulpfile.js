@@ -125,15 +125,6 @@ gulp.task('build-css', ['build-css-themes', 'build-css-loading']);
 
 
 /**
- * Construit le fichier HTML suivant l'environnement
- */
-gulp.task('build-html', function(){
-    return gulp.src('app/js/index.html')
-        .pipe(gutil.env.type == "production" ? htmlReplace({base: '<base href="/">'}) : gutil.noop())
-        .pipe(gulp.dest('www/'));
-});
-
-/**
  * Récupère les vues, les compile et les met dans le cache Angular
  */
 gulp.task('build-templates', function(){
@@ -164,7 +155,6 @@ gulp.task('watch', function() {
     gulp.watch(['app/js/**/*.js', 'app/js/*.js'], ['lint-js', 'build-js']);
     gulp.watch(['app/js/*.html', 'app/js/**/*.html'], ['build-templates']);
     gulp.watch(['app/css-*/**/*.less'], ['build-css']);
-    gulp.watch(['app/js/index.html'], ['build-html']);
 });
 
 /**
@@ -173,7 +163,6 @@ gulp.task('watch', function() {
 gulp.task('build', [
     'build-js',
     'build-css',
-    'build-html',
     'build-templates',
     'copy-fonts'
 ]);

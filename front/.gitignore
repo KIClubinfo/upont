@@ -5,7 +5,6 @@ node_modules
 /www/style.css
 /www/*.min.css
 /www/upont.min.js
-/www/index.html
 /www/templates.js
 coverage
 .sublime-gulp.cache
