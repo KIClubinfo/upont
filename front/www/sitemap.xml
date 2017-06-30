@@ -4,11 +4,17 @@
         <loc>https://upont.enpc.fr/</loc>
     </url>
     <url>
+        <loc>https://upont.enpc.fr/help</loc>
+    </url>
+    <url>
         <loc>https://upont.enpc.fr/public/assos</loc>
     </url>
     <!--
     <url>
         <loc>https://upont.enpc.fr/public/paniers</loc>
+    </url>
+    <url>
+        <loc>https://upont.enpc.fr/mot-de-passe-oublie</loc>
     </url>
     -->
 </urlset>

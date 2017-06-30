@@ -12,11 +12,12 @@
         <link rel="stylesheet" href="themes/classic.min.css">
         <link type="text/plain" rel="author" href="humans.txt" />
 
+        <script type="text/javascript" src="help.js"></script>
     </head>
 
     <body>
         <div class="Page__landing Page__landing--public flex flex-col p-center s-stretch">
-            <section class="flex-100pct flex flex-row p-center s-stretch flex-wrap">
+            <section class="autoscroll flex-100pct flex flex-row p-center s-stretch flex-wrap">
                 <aside class="Page__landing--left Page__landing--centeredContent padded flex-100pct flex-sm-30pct flex-md-25pct flex-lg-20pct flex flex-row flex-wrap">
                     <div class="flex-25pct flex-sm-100pct flex flex-row p-center s-stretch">
                         <svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve" class="svg up-logo flex-90pct">
@@ -42,21 +43,37 @@
                         <p>Tu y trouveras des suggestions pour comprendre comment tu as cassé uPont.</p>
                     </section>
                 </aside>
-                <section class="Page__landing--right padded flex-100pct flex-sm-70pct flex-md-75pct flex-lg-80pct">
-                    <h1 class="padded">Répare uPont !</h1>
-                    <div class="padded flex flex-row flex-wrap">
-                        <p class="padded flex-100pct">Si tu ne parviens pas à charger uPont, la raison peut-être parmi les suivantes :
-                            <ul>
-                                <li>Tu as été mal déconnecté : <a class="Link" href="http://www.rapidomaine.fr/support/rapidomaine/142-vider-cache-navigateur-internet">vide le cache</a> de ton navigateur (au moins pour le domaine enpc.fr)</li>
-                                <li>Ton navigateur lague car tu as trop d'onglets d'ouvert. Ces pages peuvent encombrer la connexion, la mémoire et l'interpréteur javascript: redémarre ton navigateur</li>
-                                <li>Ta connexion internet est trop faible pour récupérer toutes les ressources de uPont dans un temps résonnable : change de connexion</li>
-                                <li>Ton navigateur ne supporte pas les technologies de pointe déployées par le KI pour ton confort : change ou <a class="Link" href="https://browser-update.org">met à jour</a> ton navigateur</li>
-                            </ul>
-                        <p>
-                        <p class="padded flex-100pct">En cas d'échec, tu peux contacter le KI par sa <a class="Link" href="https://www.facebook.com/enpc.clubinfo/">page Facebook</a> ou en passant au local un midi en P401, avec ton appareil ! Tu pourras nous rapporter les erreurs dans la console du navigateur (F12 sous Chrome, Firefox et Edge; sous Safari il faut activer l'onglet développeur dans les préférences).</p>
+                <section class="Page__landing--right flex-100pct flex-sm-70pct flex-md-75pct flex-lg-80pct">
+                <nav class="Navbar">
+                    <div class="flex flex-row p-space-around flex-wrap">
+                        <a id="ChargementLink" class="Navbar__link active" onclick="openTab(event, 'Chargement')">Chargement</a>
+                        <a id="ConnexionLink" class="Navbar__link" onclick="openTab(event, 'Connexion')">Connexion</a>
+                        <a id="AssistanceLink" class="Navbar__link" onclick="openTab(event, 'Assistance')">Assistance</a>
+                    </div>
+                </nav>
+                <div class="padded flex flex-row flex-wrap">
+                    <div id="Chargement" class="padded tabcontent flex-100pct">
+                        <p>Si tu ne parviens pas à charger uPont, la raison peut-être parmi les suivantes :</p>
+                        <ul>
+                            <li>Tu as été mal déconnecté : <a class="Link" href="http://www.rapidomaine.fr/support/rapidomaine/142-vider-cache-navigateur-internet">vide le cache</a> de ton navigateur (au moins pour le domaine enpc.fr)</li>
+                            <li>Ton navigateur lague car tu as trop d'onglets d'ouvert. Ces pages peuvent encombrer la connexion, la mémoire et l'interpréteur javascript: redémarre ton navigateur</li>
+                            <li>Ta connexion internet est trop faible pour récupérer toutes les ressources de uPont dans un temps raisonnable : change de connexion</li>
+                            <li>Ton navigateur ne supporte pas les technologies de pointe déployées par le KI pour ton confort : change ou <a class="Link" href="https://browser-update.org">met à jour</a> ton navigateur</li>
+                        </ul>
+                    </div>
+                    <div id="Connexion" class="padded tabcontent flex-100pct">
+                        <p>Il existe deux types de connexion, l'authentification d'origine par le formulaire de la page d'accueil grâce aux identifiants qui t'ont été transmis par mail par le KI à ton arrivée aux Ponts (type a.trancart), ainsi que la connexion SSO qui te permet de te connecter à uPont grâce à ton compte DSI (type alberic.trancart@enpc.fr). Tu dois donc te connecter la première fois sur uPont via SSO pour que ton compte uPont soit créé en récupérant les informations de ton compte DSI (Nom, Prénom, adresse email...). Et les vieux qui se connecte pour la première fois par SSO, parait que ça reset les stats.</p>
+                    </div>
+                    <div id="Assistance" class="padded tabcontent flex-100pct">
+                        <p>En cas d'échec, tu peux contacter le KI par sa <a class="Link" href="https://www.facebook.com/enpc.clubinfo/">page Facebook</a>, sa <a class="Link" href="mailto:clubinfo@upont.enpc.fr">mailling list</a>, ou en passant au local un midi en P401, avec ton appareil ! Tu pourras nous rapporter les erreurs dans la console du navigateur (F12 sous Chrome, Firefox et Edge; sous Safari il faut activer l'onglet développeur dans les préférences).</p>
+                        <p>Tu peux en outre t'adresser à n'importe quel KIien, le respo uPont restant ton interlocuteur prévilégié.</p>
                     </div>
                 </section>
             </section>
         </div>
+        <script>
+            // Affichage au chargement de la première tab
+            document.getElementById("ChargementLink").click();
+        </script>
     </body>
 </html>

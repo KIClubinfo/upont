@@ -13,13 +13,29 @@
         <link rel="stylesheet" type="text/css" href="loading.min.css"/>
         <link rel="stylesheet" ng-href="{{ 'themes/' + $root.theme + '.min.css' }}">
         <link type="text/plain" rel="author" href="humans.txt" />
+    </head>
+
+    <body>
+
+        <!-- Endroit réservé à l'animation de chargement de uPont -->
+
+        <!-- La page de chargement s'afficher tout de suite, puis upont.min.js est est récupéré et exécuté, ce qui bloque le parsage du html (on the fly selon la spécification html5). Vers la fin de son exécution, il met en vigueur les ng-cloak avant de requêter la config de upont asynchronously. Le parsage de l'html continue alors, la section des images zoomés n'est pas rendered jusqu'à au chargement complet d'angularjs grâce au ng-cloak, la page de  chargement n'est affecté que par le style de loading.css car le css du thème a besoin de $root.theme pour être chargé. Après le chargement de la config du upont : /api/config, la fin de l'exécution de upont.min.js permet d'évaluation les directives d'angularjs et le ng-if=false fait disparaître la section de la page de chargement, le ui-view fait apparaître la page de login, puis avec l'évaluation de $root.theme le style du thème charge.
+        Cette section n'avait pas lieu d'exister avant car le chargement de la config de upont était intantannée, cette section a donc été créé car pendant le chargement de cette config, la section des images zoomées étaient devenues apparantes avec du html non-stylisé dégueulasse -->
+
+        <div ng-if="false" class="Page__landing flex flex-col p-center s-stretch">
+            <div class="flex flex-raw p-center">
+                <section class="Page__landing--right padded Loading__section flex flex-col p-center s-center">
+                    <img src="img/icon.svg" class="ld ld-heartbeat x2 Loading__image"/>
+                    <p> <!--<span class="ld ld-spinner ld-spin padded"></span>--> <span class="padded">Chargement en cours...</span></p>
+                    <!-- le spinner se stylise correctement qu'après avoir disparu -->
+                    <button class="Button"><a href="help.html">Un problème ?</a></button>
+                </section>
+            </div>
+        </div>
 
         <script type="text/javascript" src="upont.min.js"></script>
         <script type="text/javascript" src="templates.js"></script>
         <script type="text/javascript" src="https://www.youtube.com/iframe_api"></script>
-    </head>
-
-    <body>
 
         <div ui-view autoscroll="false"></div>
 
@@ -28,23 +44,6 @@
             <img class="Zoom__image  Image" ng-src="{{ $root.zoomUrl }}" alt="Image zoomée">
             <strong>Clic gauche pour fermer</strong>
         </div>
-
-        <!-- Endroit réservé à l'animation de chargement de uPont -->
-
-        <!-- D'abord la page est blanche lors du parsage du html et des requêtes successives dans le header jusqu'à upont.min.js qui bloque le parsage. Vers la fin de son exécution, il applique les ng-cloak avant de requêter la config de upont asynchronously. Le parsage de l'html continue alors, la section des images zoomés n'est pas rendered grâce au ng-cloak, cette section s'affiche avec seulement le style de loading.css car le css du thème a besoin de $root.theme pour être chargé. Cette section existe donc pendant le chargement de la config du upont : /api/config puis disparait ensuite avec la fin de l'exécution de upont.min.js qui rend possible l'évaluation des directives d'angularjs (le ng-if=false fait disparaître la section), le ui-view fait apparaître la page de login, puis avec l'évaluation de $root.theme le style du thème charge.
-        Cette section n'avait pas lieu d'exister avant car le chargement de la config de upont était intantannée, cette section a donc été créé car pendant le chargement de cette config, la section des images zoomées étaient devenues apparantes, voir terminale sur mobile où uPont ne chargeait pas -->
-
-        <div ng-if="false" class="Page__landing flex flex-col p-center s-stretch">
-            <div class="flex flex-raw p-center">
-                <section class="Page__landing--right padded Loading__section flex flex-col p-center s-center">
-                    <img src="img/icon.svg" class="ld ld-heartbeat x2 Loading__image"/>
-                    <p> <!--<span class="ld ld-spinner ld-spin padded"></span>--> <span class="padded">Chargement en cours...</span></p>
-                    <!-- le spinner se stylise correctement qu'après avoir disparu -->
-                    <button class="Button Loading__button"><a href="help.html">Un problème ?</a></button>
-                </section>
-            </div>
-        </div>
-
 
         <!-- Piwik -->
         <script type="text/javascript">
