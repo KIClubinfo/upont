@@ -1,0 +1,40 @@
+<div class="Page__landing Page__landing--public" col="center stretch">
+    <section class="autoscroll" flex="100" row="center stretch" wrap>
+        <aside class="Page__landing--left Page__landing--centeredContent padded" flex="100" flex-sm="30" flex-md="25" flex-lg="20" row wrap>
+            <div flex="25" flex-sm="100" row="center stretch">
+                <svg-image flex="80" src="img/icon.svg" class="svg up-logo"></svg-image>
+            </div>
+            <section class="padded small" flex="75" flex-sm="100" col="center stretch">
+                <h1>Bienvenue sur l'aide de uPont</h1>
+                <p>Tu y trouveras des suggestions pour comprendre comment tu as cassé uPont.</p>
+            </section>
+        </aside>
+        <section class="Page__landing--right" flex="100" flex-sm="70" flex-md="75" flex-lg="80" raw wrap>
+            <nav class="Navbar">
+                <div row="space-around" wrap>
+                    <a id="Chargement" class="Navbar__link active" ng-click="switchDisplayedTab('Chargement')">Chargement</a>
+                    <a id="Connexion" class="Navbar__link" ng-click="switchDisplayedTab('Connexion')">Connexion</a>
+                    <a id="Assistance" class="Navbar__link" ng-click="switchDisplayedTab('Assistance')">Assistance</a>
+                </div>
+            </nav>
+            <div class="padded" row wrap>
+                <div id="Chargement" class="padded tabcontent" flex="100" ng-show="displayTab('Chargement')">
+                    <p>Si tu ne parviens pas à charger uPont, la raison peut-être parmi les suivantes :</p>
+                    <ul>
+                        <li>Tu as été mal déconnecté : <a class="Link" href="http://www.rapidomaine.fr/support/rapidomaine/142-vider-cache-navigateur-internet">vide le cache</a> de ton navigateur (au moins pour le domaine enpc.fr)</li>
+                        <li>Ton navigateur lague car tu as trop d'onglets d'ouvert. Ces pages peuvent encombrer la connexion, la mémoire et l'interpréteur javascript: redémarre ton navigateur</li>
+                        <li>Ta connexion internet est trop faible pour récupérer toutes les ressources de uPont dans un temps raisonnable : change de connexion</li>
+                        <li>Ton navigateur ne supporte pas les technologies de pointe déployées par le KI pour ton confort : change ou <a class="Link" href="https://browser-update.org">met à jour</a> ton navigateur</li>
+                    </ul>
+                </div>
+                <div id="Connexion" class="padded tabcontent" flex="100" ng-show="displayTab('Connexion')">
+                    <p>Il existe deux types de connexion, l'authentification d'origine par le formulaire de la page d'accueil grâce aux identifiants qui t'ont été transmis par mail par le KI à ton arrivée aux Ponts (type a.trancart), ainsi que la connexion SSO qui te permet de te connecter à uPont grâce à ton compte DSI (type alberic.trancart@enpc.fr). Tu dois donc te connecter la première fois sur uPont via SSO pour que ton compte uPont soit créé en récupérant les informations de ton compte DSI (Nom, Prénom, adresse email...). Et les vieux qui se connecte pour la première fois par SSO, parait que ça reset les stats.</p>
+                </div>
+                <div id="Assistance" class="padded tabcontent" flex="100" ng-show="displayTab('Assistance')">
+                    <p>En cas d'échec, tu peux contacter le KI par sa <a class="Link" href="https://www.facebook.com/enpc.clubinfo/">page Facebook</a>, sa <a class="Link" href="mailto:clubinfo@upont.enpc.fr">mailling list</a>, ou en passant au local un midi en P401, avec ton appareil ! Tu pourras nous rapporter les erreurs dans la console du navigateur (F12 sous Chrome, Firefox et Edge; sous Safari il faut activer l'onglet développeur dans les préférences).</p>
+                    <p>Tu peux en outre t'adresser à n'importe quel KIien, le respo uPont restant ton interlocuteur prévilégié.</p>
+                </div>
+            </div>
+        </section>
+    </section>
+</div>
