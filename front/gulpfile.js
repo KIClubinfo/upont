@@ -79,12 +79,12 @@ function getFiles(dir) {
             return !fs.statSync(path.join(dir, file)).isDirectory();
         });
 }
-var themesPath = 'app/css-themes/themes/';
+var themesPath = 'app/css/main/themes/';
 
 /**
  * Construit le CSS des thèmes de uPont en créeant un fichier CSS par thème
  */
-gulp.task('build-css-themes', function() {
+gulp.task('build-css-main', function() {
     var vendorsFiles = mainBowerFiles();
     var themeFiles;
 
@@ -109,7 +109,7 @@ gulp.task('build-css-themes', function() {
  * Construit le CSS de l'animation de chargement comprenant la bibliothèque loading.io : https://loading.io/animation/
  */
 gulp.task('build-css-loading', function(){
-    return gulp.src('app/css-loading/*')
+    return gulp.src('app/css/loading/*')
         .pipe(filter(['**/*.css', '**/*.less']))
         .pipe(less())
         .pipe(concat('loading.min.css'))
@@ -121,7 +121,7 @@ gulp.task('build-css-loading', function(){
 });
 
 
-gulp.task('build-css', ['build-css-themes', 'build-css-loading']);
+gulp.task('build-css', ['build-css-main', 'build-css-loading']);
 
 
 /**
@@ -154,7 +154,7 @@ gulp.task('copy-fonts', function () {
 gulp.task('watch', function() {
     gulp.watch(['app/js/**/*.js', 'app/js/*.js'], ['lint-js', 'build-js']);
     gulp.watch(['app/js/*.html', 'app/js/**/*.html'], ['build-templates']);
-    gulp.watch(['app/css-*/**/*.less'], ['build-css']);
+    gulp.watch(['app/css/main/**/*.less', 'app/css/loading/*'], ['build-css']);
 });
 
 /**

@@ -67,8 +67,8 @@ Highcharts.setOptions({
 
 alertify.set({
     labels: {
-        ok: 'Ok !',
-        cancel: 'Même pas en rêve !'
+        ok: 'Oui !',
+        cancel: 'Non !'
     }
 });
 

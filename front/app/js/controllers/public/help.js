@@ -2,20 +2,11 @@ angular.module('upont')
     .controller('Help_Ctrl', ['$scope', function ($scope) {
             $scope.displayedTab = "Chargement";
 
-            $scope.switchDisplayedTab = function (tabId) {
+            $scope.setTab = function (tabId) {
                 $scope.displayedTab = tabId;
-                tablinks = $('.Navbar__link');
-                for (i = 0; i < tablinks.length; i++) {
-                    if (tablinks[i].id === tabId) {
-                        tablinks[i].className += " active";
-                    }
-                    else {
-                        tablinks[i].className = tablinks[i].className.replace(" active", "");   
-                    }
-                }
-            };
+            }
 
-            $scope.displayTab = function (tabId) {
+            $scope.isTab = function (tabId) {
                 return $scope.displayedTab === tabId;
             };
         }]

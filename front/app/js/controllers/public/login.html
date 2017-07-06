@@ -1,7 +1,7 @@
 <div class="Page__landing" col="space-between stretch">
     <header row="space-around stretch">
         <div flex="45" flex-md="20" col>
-            <a class="Button" ui-sref="root.public.help" title="La page d'aide de uPonts">
+            <a class="Button" ui-sref="root.public.help" title="La page d'aide de uPont">
                <strong>Aide</strong>
             </a>
         </div>
@@ -11,7 +11,7 @@
            </a>
         </div>
     </header>
-    <div col="center stretch" class="Page__landing--public">
+    <div col="center stretch" class="Page__landing--home">
         <section flex="100" flex-sm="85" flex-md="70" flex-lg="60" row="center stretch" wrap>
             <aside class="Page__landing--left padded" flex="100" flex-sm="35">
                 <div row="center stretch">
@@ -39,7 +39,7 @@
                 </form>
                 <div class="padded" row wrap autocomplete="off" ng-if="!formLogin">
                     <div class="padded" flex="100" row="end stretch">
-                        <button class="Button" title="Se connecter" ng-click="login('sso', 'sso')" >
+                        <button class="Button" title="Se connecter" ng-click="loginSSO()" >
                             Connexion SSO
                         </button>
                     </div>
