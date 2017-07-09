@@ -56,3 +56,5 @@ sudo npm install -g bower
 sudo npm install -g gulp
 
 echo "127.0.0.1 dev-upont.enpc.fr" | sudo tee -a /etc/hosts
+
+phpdoc

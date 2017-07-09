@@ -11,7 +11,6 @@ npm install
 bower update
 gulp build-js
 gulp build-css
-gulp build-html
 gulp build-templates
 gulp copy-fonts
 
@@ -29,3 +28,5 @@ rm -rf web/uploads/images/*
 rm -rf web/uploads/tmp/*
 echo "Y" | bin/console doctrine:fixtures:load
 sudo chmod 777 -R var/cache && sudo chmod 777 -R var/logs && sudo chmod 777 -R web/uploads
+
+phpdoc

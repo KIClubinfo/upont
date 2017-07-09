@@ -8,7 +8,7 @@
 /build/
 /vendor/
 /coverage/
-/composer.phar
+/phpdoc/*
 /app/var/jwt/private.pem
 /app/var/jwt/public.pem
 
