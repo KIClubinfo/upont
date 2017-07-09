@@ -79,20 +79,16 @@ function getFiles(dir) {
             return !fs.statSync(path.join(dir, file)).isDirectory();
         });
 }
-var themesPath = 'app/css/themes/';
+var themesPath = 'app/css/main/themes/';
 
 /**
- * Construit le CSS en créeant un fichier CSS par thème
+ * Construit le CSS des thèmes de uPont en créeant un fichier CSS par thème
  */
-gulp.task('build-css', function() {
+gulp.task('build-css-main', function() {
     var vendorsFiles = mainBowerFiles();
     var themeFiles;
 
-    if (gutil.env.type == "production") {
-        themeFiles = getFiles(themesPath);
-    } else {
-        themeFiles = ['classic.less', 'classic-dark.less'];
-    }
+    themeFiles = getFiles(themesPath);
 
 
     var tasks = themeFiles.map(function(file) {
@@ -110,13 +106,23 @@ gulp.task('build-css', function() {
 });
 
 /**
- * Construit le fichier HTML suivant l'environnement
+ * Construit le CSS de l'animation de chargement comprenant la bibliothèque loading.io : https://loading.io/animation/
  */
-gulp.task('build-html', function(){
-    return gulp.src('app/js/index.html')
-        .pipe(gutil.env.type == "production" ? htmlReplace({base: '<base href="/">'}) : gutil.noop())
-        .pipe(gulp.dest('www/'));
+gulp.task('build-css-loading', function(){
+    return gulp.src('app/css/loading/*')
+        .pipe(filter(['**/*.css', '**/*.less']))
+        .pipe(less())
+        .pipe(concat('loading.min.css'))
+        .pipe(autoprefixer({
+            cascade: false
+        }))
+        .pipe(gutil.env.type === 'production' ? uglifycss() : gutil.noop())
+        .pipe(gulp.dest('www/'))
 });
+
+
+gulp.task('build-css', ['build-css-main', 'build-css-loading']);
+
 
 /**
  * Récupère les vues, les compile et les met dans le cache Angular
@@ -148,8 +154,7 @@ gulp.task('copy-fonts', function () {
 gulp.task('watch', function() {
     gulp.watch(['app/js/**/*.js', 'app/js/*.js'], ['lint-js', 'build-js']);
     gulp.watch(['app/js/*.html', 'app/js/**/*.html'], ['build-templates']);
-    gulp.watch(['app/css/**/*.less'], ['build-css']);
-    gulp.watch(['app/js/index.html'], ['build-html']);
+    gulp.watch(['app/css/main/**/*.less', 'app/css/loading/*'], ['build-css']);
 });
 
 /**
@@ -158,7 +163,6 @@ gulp.task('watch', function() {
 gulp.task('build', [
     'build-js',
     'build-css',
-    'build-html',
     'build-templates',
     'copy-fonts'
 ]);

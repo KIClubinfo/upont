@@ -67,8 +67,8 @@ Highcharts.setOptions({
 
 alertify.set({
     labels: {
-        ok: 'Ok !',
-        cancel: 'Annuler'
+        ok: 'Oui !',
+        cancel: 'Non !'
     }
 });
 
