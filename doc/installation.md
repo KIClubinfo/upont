@@ -11,13 +11,13 @@ Before anything, you need the following software installed on your machine:
 Project installation
 --------------------
 To install the project, you must first clone the project's repository then run the installation script. By default this script will install the uPont project in the directory /var/www/upont/
-**Warning** : if you already have a setup of fastCGI process manager, nginx or php on your computer, the installation script will erase and replacetheir configuration files, read the script for more details
+**Warning** : if you already have a setup of fastCGI process manager, nginx or php on your computer, the installation script will erase and replace their configuration files, read the script for more details
 
 ```
 cd /var/www
+sudo chown $(whoami) .
 git clone https://github.com/KIClubinfo/upont.git
 cd upont
-chmod +x install.sh
 ```
 
 On a Debian-based distro

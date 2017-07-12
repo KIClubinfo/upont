@@ -12,8 +12,15 @@ sudo -E apt-get update
 sudo -E apt-get install -y curl expect git make nano netcat traceroute sl tree vim unzip zip
 sudo -E apt-get install -y mysql-server python-mysqldb php-cli php-fpm php-curl php-gd php-imap php-intl php-mcrypt php-mysql nginx apt-transport-https
 
-echo -e "\e[1m\e[34mConfiguration de git...\e[0m"
+echo -e "\e[1m\e[34mAttribution des permissions...\e[0m"
+
 sudo chown -R www-data:www-data /var/www/upont
+usermod -a -G www-data $(whoami)
+sudo chmod 2775 /var/www/upont
+sudo setfacl -dR -m u::rwX,g::rwX /var/www/upont
+sudo setfacl -R -m u::rwX,g::rwX /var/www/upont
+
+echo -e "\e[1m\e[34mConfiguration de git...\e[0m"
 
 git config --global user.name $name
 git config --global user.email $mail
@@ -32,20 +39,23 @@ sudo cp utils/install/global.ini /etc/php/7.0/conf.d/global.ini
 sudo cp utils/install/php-fpm.conf /etc/nginx/conf.d/php-fpm.conf
 sudo service php5-fpm restart
 
+echo -e "\e[1m\e[34mInstallation de Composer...\e[0m"
+
 curl -sL https://getcomposer.org/installer | sudo -E php -- --install-dir=/usr/local/bin
 sudo mv /usr/local/bin/composer.phar /usr/local/bin/composer
-mkdir ~/.composer/cache
+mkdir ~/.composer
 chmod -R 0777 ~/.composer/cache
+
+echo -e "\e[1m\e[34mInstallation de Phpdoc...\e[0m"
 
 curl -sL http://www.phpdoc.org/phpDocumentor.phar | sudo -E php -- --install-dir=/usr/local/bin
 sudo mv /usr/local/bin/phpDocumentor.phar /usr/local/bin/phpdoc
 
+echo -e "\e[1m\e[34mConfiguration de Nginx...\e[0m"
+
 sudo cp utils/install/dev-upont.enpc.fr.conf /etc/nginx/sites-available/dev-upont.enpc.fr.conf
 sudo ln -s /etc/nginx/sites-available/dev-upont.enpc.fr.conf /etc/nginx/sites-enabled/dev-upont.enpc.fr.conf
 sudo service nginx restart
-
-curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
-sudo -E apt-get install nodejs
 
 echo -e "\e[1m\e[34mConfiguration du proxy...\e[0m"
 if [ -z "$http_proxy" ]; then
@@ -55,24 +65,29 @@ else
     npm config set https-proxy $http_proxy
 fi
 
+echo -e "\e[1m\e[34mInstallation de nodejs, bower et gulp...\e[0m"
+
+curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+sudo -E apt-get install nodejs
+
 sudo npm install -g npm
 sudo npm install -g bower
 sudo npm install -g gulp
 
-echo "127.0.0.1 dev-upont.enpc.fr" | sudo tee -a /etc/hosts
+echo -e "\e[1m\e[34mInstallation des dépendances php avec Composer...\e[0m"
 
 cd back
 composer install
+
+echo -e "\e[1m\e[34mInstallation des dépendances js avec nodejs et bower\e[0m"
 
 cd ../front
 npm install
 bower install
 
-sudo chown -R http:http /var/www/upont
-usermod -a -G http $(whoami)
-sudo chmod 2775 /var/www/upont
-sudo setfacl -dR -m u::rwX,g::rwX /var/www/upont
-sudo setfacl -R -m u::rwX,g::rwX /var/www/upont
+echo -e "\e[1m\e[34mAjout de dev-upont.enpc.fr au fichier hosts\e[0m"
+
+echo "127.0.0.1 dev-upont.enpc.fr" | sudo tee -a /etc/hosts
 
 # Génère la documentation et les logs php à back/phpdoc
 # phpdoc

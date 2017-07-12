@@ -10,7 +10,15 @@ read -p "Prénom Nom : " name
 echo -e "\e[1m\e[34mInstallation des dépendances...\e[0m"
 sudo -E pacman -Syu
 sudo -E pacman -S curl expect git make nano gnu-netcat traceroute sl tree vim unzip zip
-sudo -E pacman -S mysql php php-fpm php-gd php-imap php-intl php-mcrypt nginx-mainline
+sudo -E pacman -S mysql php php-fpm php-gd php-imap php-intl php-mcrypt nginx-mainline nodejs
+
+echo -e "\e[1m\e[34mAttribution des permissions...\e[0m"
+
+sudo chown -R http:http /var/www/upont
+usermod -a -G http $(whoami)
+sudo chmod 2775 /var/www/upont
+sudo setfacl -dR -m u::rwX,g::rwX /var/www/upont
+sudo setfacl -R -m u::rwX,g::rwX /var/www/upont
 
 echo -e "\e[1m\e[34mConfiguration de git...\e[0m"
 
@@ -26,12 +34,7 @@ sudo mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
 sudo systemctl start mariadb
 echo "CREATE DATABASE upont" | mysql -u root -p
 
-sudo cp utils/install/www.conf-arch /etc/php/php-fpm.d/www.conf
-sudo mkdir /etc/php/conf.d # vérifier si ce répertoire existe déjà
-sudo cp utils/install/global.ini /etc/php/conf.d/global.ini
-
-sudo cp utils/install/php-fpm.conf /etc/php/php-fpm.conf
-sudo systemctl php-fpm restart
+echo -e "\e[1m\e[34mInstallation de Composer...\e[0m"
 
 curl -sL https://getcomposer.org/installer | sudo -E php -- --install-dir=/usr/local/bin
 sudo mv /usr/local/bin/composer.phar /usr/local/bin/composer
@@ -39,8 +42,21 @@ mkdir ~/.composer	# vérifier si ce répertoire existe déjà
 mkdir ~/.composer/cache
 chmod -R 0777 ~/.composer/cache
 
+echo -e "\e[1m\e[34mInstallation de Phpdoc...\e[0m"
+
 curl -sL http://www.phpdoc.org/phpDocumentor.phar
 sudo mv /usr/local/bin/phpDocumentor.phar /usr/local/bin/phpdoc
+
+echo -e "\e[1m\e[34mConfiguration de Fast-CGI...\e[0m"
+
+sudo cp utils/install/www.conf-arch /etc/php/php-fpm.d/www.conf
+sudo mkdir /etc/php/conf.d # vérifier si ce répertoire existe déjà
+sudo cp utils/install/global.ini /etc/php/conf.d/global.ini
+
+sudo cp utils/install/php-fpm.conf /etc/php/php-fpm.conf
+sudo systemctl php-fpm restart
+
+echo -e "\e[1m\e[34mConfiguration de Nginx...\e[0m"
 
 sudo mkdir /etc/nginx/servers-available # vérifier si ce répertoire existe déjà
 sudo mkdir /etc/nginx/servers-enabled # vérifier si ce répertoire existe déjà
@@ -48,8 +64,6 @@ sudo mkdir /etc/nginx/servers-enabled # vérifier si ce répertoire existe déj�
 sudo cp utils/install/dev-upont.enpc.fr.conf /etc/nginx/servers-available/dev-upont.enpc.fr.conf
 sudo ln -s /etc/nginx/servers-available/dev-upont.enpc.fr.conf /etc/nginx/servers-enabled/dev-upont.enpc.fr.conf
 sudo systemctl restart nginx
-
-sudo -E pacman -S nodejs
 
 echo -e "\e[1m\e[34mConfiguration du proxy...\e[0m"
 if [ -z "$http_proxy" ]; then
@@ -65,24 +79,26 @@ else
     echo } >> ~/.bowerrc
 fi
 
+echo -e "\e[1m\e[34mInstallation de bower et gulp...\e[0m"
+
 sudo npm install -g npm
 sudo npm install -g bower
 sudo npm install -g gulp
 
-echo "127.0.0.1 dev-upont.enpc.fr" | sudo tee -a /etc/hosts
+echo -e "\e[1m\e[34mInstallation des dépendances php avec Composer...\e[0m"
 
 cd back
 composer install
+
+echo -e "\e[1m\e[34mInstallation des dépendances js avec nodejs et bower\e[0m"
 
 cd ../front
 npm install
 bower install
 
-sudo chown -R http:http /var/www/upont
-usermod -a -G http $(whoami)
-sudo chmod 2775 /var/www/upont
-sudo setfacl -dR -m u::rwX,g::rwX /var/www/upont
-sudo setfacl -R -m u::rwX,g::rwX /var/www/upont
+echo -e "\e[1m\e[34mAjout de dev-upont.enpc.fr au fichier hosts\e[0m"
+
+echo "127.0.0.1 dev-upont.enpc.fr" | sudo tee -a /etc/hosts
 
 # Génère la documentation et les logs php à back/phpdoc
 # phpdoc
