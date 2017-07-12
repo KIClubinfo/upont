@@ -31,6 +31,12 @@ On an Arch-based distro
 ```
 ./install-arch.sh
 ```
+Finally uncomment the following lines in /etc/php/php.ini :
+```
+extension=pdo_mysql.so
+extension=mysqli.so
+extension=xsl.so
+```
 
 The script is interactive, you will be prompted to provide parameters (default values will do, except if you are behind a proxy).
 

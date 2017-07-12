@@ -37,7 +37,7 @@ sudo mkdir /etc/php/7.0/conf.d
 sudo cp utils/install/global.ini /etc/php/7.0/conf.d/global.ini
 
 sudo cp utils/install/php-fpm.conf /etc/nginx/conf.d/php-fpm.conf
-sudo service php5-fpm restart
+sudo service php-fpm restart
 
 echo -e "\e[1m\e[34mInstallation de Composer...\e[0m"
 
