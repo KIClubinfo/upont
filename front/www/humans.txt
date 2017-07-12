@@ -14,7 +14,7 @@ Mickael Bergem : responsable hébergement '015
 
 / * SITE * /
 
-uPont version 2.0, the intranet of the École nationale des ponts et chaussées. It is project launched by Charles BOCHET, Dark President of promotion 2015, during his scientific training course. It is probably the most ambitious project led by the KI at the present time. It aims at gathering as many functionalities and information related to the associative life of the Ponts as possible in a great website. Clubs can now write their presentations dirctly on uPont, create events withut being moderated on mailinglists, interacts with students. Students can choose the content they want to be filled on in not to miss anything relevant to them. It features an AngularJS front-end powered by a Symfony3 REST API.
+uPont version 2.0, the intranet of the École Nationale des Ponts et Chaussées. It is a project launched by Charles BOCHET, Dark President of promotion 2015, during his scientific training course. It is probably the most ambitious project led by the KI at the present time. It aims at gathering as many functionalities and information related to the associative life of the Ponts as possible in a great website. Clubs can now write their presentations directly on uPont, create events without being moderated on mailinglists, interact with students. Students can choose the content they want to be filled on in not to miss anything relevant to them. It features an AngularJS front-end powered by a Symfony3 REST API.
 
 Language : French
 Doctype : html

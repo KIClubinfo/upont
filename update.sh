@@ -29,4 +29,5 @@ rm -rf web/uploads/tmp/*
 echo "Y" | bin/console doctrine:fixtures:load
 sudo chmod 777 -R var/cache && sudo chmod 777 -R var/logs && sudo chmod 777 -R web/uploads
 
-phpdoc
+# Génère la documentation et les logs php à back/phpdoc
+# phpdoc
