@@ -1,23 +1,28 @@
 <div class="Page__landing" col="space-between stretch">
-    <header row="end stretch">
+    <header row="space-around stretch">
+        <div flex="45" flex-md="20" col>
+            <a class="Button" ui-sref="root.public.help" title="La page d'aide de uPont">
+               <strong>Aide</strong>
+            </a>
+        </div>
         <div flex="45" flex-md="20" col>
             <a class="Button" ui-sref="root.public.assos" title="La vie associative des Ponts">
                <strong>Clubs &amp; assos</strong>
            </a>
         </div>
     </header>
-    <div col="center stretch" style="height: 100%">
-        <section class="Page__landing--login" flex="100" flex-md="55" row="center stretch">
-            <aside class="Page__landing--left  padded" flex="90" flex-md="40">
+    <div col="center stretch" class="Page__landing--home">
+        <section flex="100" flex-sm="85" flex-md="70" flex-lg="60" row="center stretch" wrap>
+            <aside class="Page__landing--left padded" flex="100" flex-sm="35">
                 <div row="center stretch">
                     <svg-image flex="40" src="img/icon.svg" class="svg up-logo"></svg-image>
                 </div>
-                <section class="padded  small">
+                <section class="padded  small flex-hide-xs">
                     <h1>Bienvenue sur uPont</h1>
                     <p>uPont est l'intranet étudiant de l'École des Ponts ParisTech.</p>
                 </section>
             </aside>
-            <section class="Page__landing--right  padded" flex="90" flex-md="70">
+            <section class="Page__landing--right padded" flex="100" flex-sm="65">
                 <h1 class="padded">Connecte-toi !</h1>
                 <form class="padded" row wrap ng-submit="login(pseudo, password)" autocomplete="off" ng-if="formLogin">
                     <div class="padded" flex="100">
@@ -27,14 +32,14 @@
                         <input class="Input" ng-model="password" type="password" placeholder="Mot de passe" />
                     </div>
                     <div class="padded" flex="100" row="end stretch">
-                        <button class="Button" flex="50" title="Se connecter">
+                        <button class="Button" title="Se connecter">
                             Connecte-toi !
                         </button>
                     </div>
                 </form>
                 <div class="padded" row wrap autocomplete="off" ng-if="!formLogin">
                     <div class="padded" flex="100" row="end stretch">
-                        <button class="Button" flex="50" title="Se connecter" ng-click="login('sso', 'sso')" >
+                        <button class="Button" title="Se connecter" ng-click="loginSSO()" >
                             Connexion SSO
                         </button>
                     </div>
@@ -50,7 +55,7 @@
                        ng-click="loginSSO()"
                        ng-if="formLogin"
                     >
-                        Connexion SSO (beta)
+                        Connexion SSO
                     </a>
                     &nbsp;&nbsp;-&nbsp;&nbsp;
                     <a class="Link  Link--reverse" title="Réinitialiser le mot de passe" ui-sref="root.request">Mot de passe oublié ?</a>

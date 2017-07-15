@@ -1,4 +1,4 @@
-<footer class="Tour" ng-class="{'Tour--shown': !$root.me.tour}">
+<footer class="Tour Tour--shown" ng-if="!$root.me.tour">
     <div class="Tour__toggle" ng-click="off()">
         <i class="fa  fa-times" title="Stopper le tuto"></i>
     </div>

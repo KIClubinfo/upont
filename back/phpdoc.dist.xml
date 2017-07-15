@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+    <title>uPont</title>
+    <parser>
+        <target>phpdoc/doc</target>
+        <encoding>utf8</encoding>
+        <markers>
+            <item>TODO</item>
+            <item>FIXME</item>
+        </markers>
+    </parser>
+    <transformer>
+        <target>phpdoc/doc</target>
+    </transformer>
+    <logging>
+        <level>warn</level>
+        <paths>
+            <default>{APP_ROOT}/phpdoc/log/{DATE}.log</default>
+            <errors>{APP_ROOT}/phpdoc/log/{DATE}.errors.log</errors>
+        </paths>
+    </logging>
+    <transformations>
+        <template name="clean"/>
+    </transformations>
+    <files>
+        <directory>src</directory>
+    </files>
+</phpdoc>
