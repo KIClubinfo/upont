@@ -2,9 +2,7 @@ parameters:
   upont:
     foyer:
       trust:
-        - '018'
         - '019'
-        - '020'
 
     promos:
       latest: '020'
