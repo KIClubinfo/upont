@@ -67,8 +67,8 @@ Highcharts.setOptions({
 
 alertify.set({
     labels: {
-        ok: 'Ok !',
-        cancel: 'Annuler'
+        ok: 'Oui !',
+        cancel: 'Non !'
     }
 });
 
@@ -124,7 +124,8 @@ var promos = [
     '016',
     '017',
     '018',
-    '019'
+    '019',
+    '020'
 ];
 
 var departments = [
