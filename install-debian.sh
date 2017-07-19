@@ -10,12 +10,12 @@ read -p "Prénom Nom : " name
 echo -e "\e[1m\e[34mInstallation des dépendances...\e[0m"
 sudo -E apt-get update
 sudo -E apt-get install -y curl expect git make nano netcat traceroute sl tree vim unzip zip
-sudo -E apt-get install -y mysql-server python-mysqldb php-cli php-fpm php-curl php-gd php-imap php-intl php-mcrypt php-mysql nginx apt-transport-https
+sudo -E apt-get install -y mysql-server python-mysqldb php7.0-cli php7.0-fpm php7.0-curl php7.0-gd php7.0-imap ph.0-intl php7.0-mcrypt php7.0-mysql nginx apt-transport-https
 
 echo -e "\e[1m\e[34mAttribution des permissions...\e[0m"
 
 sudo chown -R www-data:www-data /var/www/upont
-usermod -a -G www-data $(whoami)
+sudo usermod -a -G www-data $(whoami)
 sudo chmod 2775 /var/www/upont
 sudo setfacl -dR -m u::rwX,g::rwX /var/www/upont
 sudo setfacl -R -m u::rwX,g::rwX /var/www/upont
@@ -44,11 +44,12 @@ echo -e "\e[1m\e[34mInstallation de Composer...\e[0m"
 curl -sL https://getcomposer.org/installer | sudo -E php -- --install-dir=/usr/local/bin
 sudo mv /usr/local/bin/composer.phar /usr/local/bin/composer
 mkdir ~/.composer
+mkdir ~/.composer/cache
 chmod -R 0777 ~/.composer/cache
 
 echo -e "\e[1m\e[34mInstallation de Phpdoc...\e[0m"
 
-curl -sL http://www.phpdoc.org/phpDocumentor.phar | sudo -E php -- --install-dir=/usr/local/bin
+curl -sL http://www.phpdoc.org/phpDocumentor.phar
 sudo mv /usr/local/bin/phpDocumentor.phar /usr/local/bin/phpdoc
 
 echo -e "\e[1m\e[34mConfiguration de Nginx...\e[0m"

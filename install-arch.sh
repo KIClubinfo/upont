@@ -15,7 +15,7 @@ sudo -E pacman -S mysql php php-fpm php-gd php-imap php-intl php-mcrypt nginx-ma
 echo -e "\e[1m\e[34mAttribution des permissions...\e[0m"
 
 sudo chown -R http:http /var/www/upont
-usermod -a -G http $(whoami)
+sudo usermod -a -G http $(whoami)
 sudo chmod 2775 /var/www/upont
 sudo setfacl -dR -m u::rwX,g::rwX /var/www/upont
 sudo setfacl -R -m u::rwX,g::rwX /var/www/upont
