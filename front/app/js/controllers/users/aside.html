@@ -43,54 +43,8 @@
 
         <hr class="Aside__separator">
 
-        <section class="padded">
-            <a class="Link  Link--reverse" title="Faire une remarque sur uPont"
-               ng-if="!$root.isAdmissible" ui-sref="root.users.assos.ki">
-                <i class="fa fa-bullhorn"></i> Contacter le KI !
-            </a><br>
-
-            <span ng-hide="$root.me.balance == null">
-                <i class="fa fa-beer"></i> Compte Foyer : {{ $root.me.balance | number:2 }} €</i>
-                <a class="Link  Link--reverse" target="_blank" href="https://lydia-app.com/collect/foyer-enpc-rechargement" title="Rechargement via Lydia"><i class="fa  fa-money"></i></a>
-            </span><br>
-
-            <a class="Link  Link--reverse" title="Voir les achievements" ui-sref="root.users.students.simple({slug:$root.username})">
-                <i class="fa fa-{{ level.image }}"></i> {{ level.name }}
-            </a><br>
-
-            <i class="fa fa-child"></i> En ligne :
-            <span ng-repeat="user in online">
-                <span ng-if="$index < 10" up-user user="user">{{ user.nick }}<span ng-if="$index != online.length-1 && $index < 9">,</span></span>
-            </span>
-            <span ng-if="online.length > 10">et {{ online.length - 10 }} autre{{ online.length == 11 ? ' utilisateur' : 's utilisateurs' }}.</span><br>
-        </section>
+        <div ng-include="'controllers/users/infos.html'"></div>
     </section>
 
-    <footer col="space-around end" class="Aside__footer  text-center">
-        <section flex="100">
-            <div flex="100" row="center stretch">
-                <div class="padded" flex="75">
-                    <select class="Input" ng-model="theme" ng-change="$root.switchTheme(theme)">
-                        <option ng-repeat="themeItem in $root.themes" value="{{ themeItem.value }}" ng-selected="$root.theme == themeItem.value">{{ themeItem.name }}</option>
-                    </select>
-                </div>
-            </div>
-
-            <a class="Link  Link--reverse" target="_blank" href="https://trello.com/b/a7pIk6zk/upont" title="Board Trello de uPont">
-                <i class="fa fa-trello"></i>
-                uPont {{ version.version }}.{{ version.major }}.{{ version.minor }}
-            </a>
-            &nbsp;&nbsp;-&nbsp;&nbsp;
-            <a class="Link  Link--reverse" title="Se déconnecter" ng-click="logout()">
-                <i class="fa fa-sign-out"></i> Déconnexion
-            </a><br>
-
-
-            <a class="Link  Link--reverse" target="_blank" title="Repo GitHub de uPont"
-               ng-href="https://github.com/KIClubinfo/upont/commit/{{ version.build }}">
-                <i class="fa fa-github"></i> Build {{ version.build }}
-            </a>
-            &nbsp;({{ version.date | formatDate }})
-        </section>
-    </footer>
+    <div ng-include="'controllers/users/footer.html'"></div>
 </aside>

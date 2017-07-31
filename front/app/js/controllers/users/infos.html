@@ -1,0 +1,21 @@
+<section class="padded">
+    <a class="Link  Link--reverse" title="Faire une remarque sur uPont"
+       ng-if="!$root.isAdmissible" ui-sref="root.users.assos.ki">
+        <i class="fa fa-bullhorn"></i> Contacter le KI !
+    </a><br>
+
+    <span ng-hide="$root.me.balance == null">
+        <i class="fa fa-beer"></i> Compte Foyer : {{ $root.me.balance | number:2 }} €</i>
+        <a class="Link  Link--reverse" target="_blank" href="https://lydia-app.com/collect/foyer-enpc-rechargement" title="Rechargement via Lydia"><i class="fa  fa-money"></i></a>
+    </span><br>
+
+    <a class="Link  Link--reverse" title="Voir les achievements" ui-sref="root.users.students.simple({slug:$root.username})">
+        <i class="fa fa-{{ level.image }}"></i> {{ level.name }}
+    </a><br>
+
+    <i class="fa fa-child"></i> En ligne :
+    <span ng-repeat="user in online">
+        <span ng-if="$index < 10" up-user user="user">{{ user.nick }}<span ng-if="$index != online.length-1 && $index < 9">,</span></span>
+    </span>
+    <span ng-if="online.length > 10">et {{ online.length - 10 }} autre{{ online.length == 11 ? ' utilisateur' : 's utilisateurs' }}.</span><br>
+</section>

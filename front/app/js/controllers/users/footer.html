@@ -1,0 +1,27 @@
+<footer col="space-around end" class="Aside__footer  text-center">
+    <section flex="100">
+        <div flex="100" row="center stretch">
+            <div class="padded" flex="75">
+                <select class="Input" ng-model="theme" ng-change="$root.switchTheme(theme)">
+                    <option ng-repeat="themeItem in $root.themes" value="{{ themeItem.value }}" ng-selected="$root.theme == themeItem.value">{{ themeItem.name }}</option>
+                </select>
+            </div>
+        </div>
+
+        <a class="Link  Link--reverse" target="_blank" href="https://trello.com/b/a7pIk6zk/upont" title="Board Trello de uPont">
+            <i class="fa fa-trello"></i>
+            uPont {{ version.version }}.{{ version.major }}.{{ version.minor }}
+        </a>
+        &nbsp;&nbsp;-&nbsp;&nbsp;
+        <a class="Link  Link--reverse" title="Se déconnecter" ng-click="logout()">
+            <i class="fa fa-sign-out"></i> Déconnexion
+        </a><br>
+
+
+        <a class="Link  Link--reverse" target="_blank" title="Repo GitHub de uPont"
+           ng-href="https://github.com/KIClubinfo/upont/commit/{{ version.build }}">
+            <i class="fa fa-github"></i> Build {{ version.build }}
+        </a>
+        &nbsp;({{ version.date | formatDate }})
+    </section>
+</footer>
