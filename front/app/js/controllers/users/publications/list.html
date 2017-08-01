@@ -4,7 +4,7 @@
         <article col class="Ticket  Ticket--color{{ publication.slug.length%5+1 }}"
             ng-repeat="publication in events.data | concat: newsItems.data | orderBy: 'date' | reverse"
             ng-if="publication.entry_method != 'Ferie'">
-            <div row>
+            <div row class="flex-hide-xs">
                 <aside col="start center" flex="25" class="padded  text-center">
                     <!-- Image de la publication -->
                     <figure flex="100">
@@ -78,6 +78,115 @@
 
                         <!-- Date de la publication -->
                         <time class="Ticket__date  small" title="{{publication.date | date: 'mm:HH dd/MM/yy' }}">{{ publication.date | fromNow }}</time>
+                    </header>
+
+                    <!-- Liste des participants -->
+                    <section class="padded" row wrap ng-if="publication.displayAttendees">
+                        <div class="Image" flex="10" flex-lg="5" up-user user="user" ng-repeat="user in publication.userlist" ui-sref="root.users.students.simple({slug: user.username})" title="{{user.nick}}">
+                            <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ user.image_url | thumb | urlFile }})' }"></div>
+                        </div>
+                    </section>
+
+                    <!-- Contenu de la publication -->
+                    <p class="wysiwyg-data" up-overflow string="publication.text"
+                       ng-hide="edit !== null && publication.slug == edit.slug"></p>
+
+                    <div col ng-if="edit !== null && publication.slug == edit.slug">
+                        <textarea flex="100" ng-model="publication.text" redactor></textarea>
+                        <button flex="50" flex-lg="25" class="Button" ng-click="modify(publication)">Envoyer</button>
+                    </div>
+
+                    <!-- Fichiers joints -->
+                    <section ng-if="publication.files.length">
+                        <h3>
+                            <i class="fa fa-file-o"></i> Pièces jointes
+                        </h3>
+                        <ul class="Link  Link--reverse padded">
+                            <li ng-repeat="file in publication.files | orderBy:['name']">
+                                <a title="Télécharger le fichier" target="_blank" ng-href="{{ file.url | urlFile }}">
+                                    {{ file.name }} ({{ file.size | formatSize }})
+                                </a>
+                            </li>
+                        </ul>
+                    </section>
+                </section>
+            </div>
+            <div class="flex-hide-sm flex-hide-md flex-hide-lg">
+                <aside row>
+                    <div col="start center" flex="50" class="text-center">
+                        <!-- Image de la publication -->
+                        <figure flex="100">
+                            <div class="up-img-home  clickable"
+                                 ng-click="$root.zoomIn('/api/' + publication.image_url)"
+                                 ng-style="{'background-image': 'url({{ publication.image_url | thumb | urlFile }})'}">
+                            </div>
+                            <figcaption>
+                                <a rel="author" title="Lien vers la page du club" class="Link  bold"
+                                   ui-sref="root.users.assos.simple.publications({slug: publication.author_club.slug})"
+                                   ng-if="!$root.isExterieur">
+                                    {{ publication.author_club.name }}
+                                </a>
+                            </figcaption>
+                        </figure>
+
+                        <!-- Actions -->
+                        <section flex="100" ng-if="$root.hasClub(publication.author_club.slug)">
+                            <i class="Link  Link--reverse  fa  fa-pencil"
+                               title="Modifier la publication"
+                               ng-click="enableModify(publication)"></i>
+                            <i class="Link  Link--reverse  Link--danger  fa  fa-trash"
+                               title="Supprimer la publication"
+                               ng-click="delete(publication)"></i>
+                        </section>
+                    </div>
+                    <div col="start center" flex="50" class="text-center">
+                        <!-- Date de la publication -->
+                        <time class="Ticket__date  small" title="{{publication.date | date: 'mm:HH dd/MM/yy' }}">{{ publication.date | fromNow }}</time>
+
+                        <!-- Détails -->
+                        <section flex="100" class="small" ng-if="publication.start_date">
+                            <i class="fa  fa-map-marker"      title="Lieu"></i>  <time>{{ publication.place }}</time><br>
+                            <i class="fa  fa-hourglass-start" title="Début"></i> <time>{{ publication.start_date | formatDate }}</time><br>
+                            <i class="fa  fa-hourglass-end"   title="Fin"></i>   <time>{{ publication.end_date | formatDate }}</time><br>
+                        </section>
+
+                        <!-- Boutons de participation -->
+                        <section flex="100" ng-if="publication.start_date && !publication.shotgun_date" up-row center>
+                            <a class="Link  Link--reverse" ng-class="{'Link--active': publication.attend}" ng-disabled="$root.isAdmissible"
+                                  ng-click="attend(publication)">
+                                <i class="fa fa-check"></i> Go !
+                            </a>
+                            &nbsp;&nbsp;&nbsp;
+                            <span class="Link  Link--reverse"  ng-class="{'Link--active': publication.pookie}" ng-disabled="$root.isAdmissible"
+                                  ng-click="pookie(publication)">
+                                <i class="fa fa-times"></i> Bof...
+                            </span>
+                        </section>
+                    </div>
+                </aside>
+                <section col flex="100" class="Ticket-content">
+                    <header row="space-between start" flex="100">
+                        <div flex="100">
+                            <!-- Titre -->
+                            <h2 class="Link  Link--reverse" rel="bookmark" title="Afficher la publication"
+                                ui-sref="root.users.publications.simple({slug: publication.slug})">{{ publication.name }}</h2>
+
+                            <!-- Lien du Shotgun -->
+                            <a class="Link  bold" title="Lien vers la page de shotgun" ng-disabled="$root.isAdmissible"
+                               ng-if="publication.start_date && publication.entry_method == 'Shotgun'"
+                               ui-sref="root.users.shotgun({slug: publication.slug})">
+                                Shotgun : {{ publication.shotgun_date | formatDate }}
+                            </a>
+
+                            <!-- Activation liste des participants -->
+                            <section ng-if="publication.start_date" ng-show="publication.attendees > 0">
+                                <a class="Link" title="Afficher les participants"
+                                   ng-click="toggleAttendees(publication)">
+                                    {{ publication.attendees }}
+                                    {{ publication.attendees == 1 ? 'personne y participe' : 'personnes y participent' }}
+                                </a>
+                            </section>
+                        </div>
                     </header>
 
                     <!-- Liste des participants -->
