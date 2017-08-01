@@ -1,4 +1,9 @@
 .Search {
+    &__container {
+        position: relative;
+        width: 115%;
+    }
+
     &__input {
         .padded;
         margin: 0px 0.5em;
@@ -20,11 +25,21 @@
         padding: 0;
     }
 
+    label {
+        width: 100%;
+    }
+
     &__results {
-        width: 332px;
         padding: 10px;
         position: absolute;
-        left: 2em;
+        @media(min-width: @sizeSm) {
+            width: 400px;
+            left: 2em;
+        }
+        @media(max-width: @sizeSm) {
+            width: 100%;
+            left: -1em;
+        }
         border-radius: 3px;
         text-align: left;
         z-index: 3;
