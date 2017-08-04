@@ -77,7 +77,7 @@ angular.module('upont').factory('ErrorCodes_Interceptor', [
         $stateProvider.state('root', {
             abstract: true,
             url: '/',
-            template: '<div ui-view></div>'
+            template: '<div ui-view class="fullscreen"></div>'
         }).state('root.403', {
             url: '403',
             templateUrl: 'controllers/public/errors/403.html'
