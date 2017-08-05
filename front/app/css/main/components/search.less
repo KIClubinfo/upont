@@ -30,7 +30,6 @@
     }
 
     &__results {
-        padding: 10px;
         position: absolute;
         @media(min-width: @sizeSm) {
             width: 400px;
@@ -51,7 +50,9 @@
         border-bottom: solid 2px rgba(red(@col-bckgnd), green(@col-bckgnd), blue(@col-bckgnd), 0.2);
     }
     &__cell{
-        .padded;
+        @media(min-width: @sizeSm) {
+            .padded;
+        }
         &:not(:last-of-type){
             border-right:solid 2px rgba(red(@col-bckgnd), green(@col-bckgnd), blue(@col-bckgnd), 0.2);
         }
