@@ -16,6 +16,7 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $club->setName('KI');
         $club->setFullName('Club Informatique');
         $club->setActive(true);
+        $club->setCategory('club');
         $club->setIcon('download');
         $club->setImage($this->getReference('image-club-ki'));
         $club->setPresentation('Ce club est OMG fucking trop bien.');
@@ -26,7 +27,7 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $club->setName('BDE');
         $club->setFullName('Bureau Des Élèves');
         $club->setActive(true);
-        $club->setAssos(true);
+        $club->setCategory('asso');
         $club->setImage($this->getReference('image-club-bde'));
         $club->setBanner($this->getReference('image-supaero'));
         $manager->persist($club);
@@ -36,6 +37,7 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $club->setName('BDA');
         $club->setFullName('Bureau Des Arts');
         $club->setActive(true);
+        $club->setCategory('club');
         $club->setIcon('paint-brush');
         $club->setImage($this->getReference('image-club-bda'));
         $manager->persist($club);
@@ -45,7 +47,7 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $club->setName('PEP');
         $club->setFullName('Ponts Études Projets');
         $club->setActive(true);
-        $club->setAssos(true);
+        $club->setCategory('asso');
         $club->setIcon('eur');
         $club->setImage($this->getReference('image-club-pep'));
         $manager->persist($club);
@@ -54,13 +56,15 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $club = new Club();
         $club->setName('Mediatek');
         $club->setFullName('Médiatek');
-        $club->setActive(true);
+        $club->setActive(false);
+        $club->setCategory('club');
         $manager->persist($club);
         $this->addReference('club-mediatek', $club);
 
         $club = new Club();
         $club->setName('Foyer');
         $club->setFullName('Foyer');
+        $club->setCategory('club');
         $club->setActive(true);
         $club->setImage($this->getReference('image-club-foyer'));
         $manager->persist($club);
@@ -69,11 +73,22 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $club = new Club();
         $club->setName('GCC');
         $club->setFullName('Génie Civil et Construction');
-        $club->setActive(false);
+        $club->setActive(true);
         $club->setAdministration(true);
         $club->setImage($this->getReference('image-user-gcc'));
         $manager->persist($club);
         $this->addReference('club-gcc', $club);
+
+        $club = new Club();
+        $club->setName('La DDASS');
+        $club->setFullName('La DDASS');
+        $club->setActive(true);
+        $club->setCategory('famille');
+        $club->setAdministration(false);
+        $club->setImage($this->getReference('image-club-la-ddass'));
+        $club->setPresentation('La meilleure famille des Ponts ! <3');
+        $manager->persist($club);
+        $this->addReference('club-la-ddass', $club);
 
         $manager->flush();
     }

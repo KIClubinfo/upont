@@ -18,7 +18,7 @@ class ClubType extends AbstractType
             ->add('icon')
             ->add('presentation')
             ->add('active')
-            ->add('assos')
+            ->add('category')
             ->add('administration')
             ->add('image', ImageSelector::class)
             ->add('banner', ImageSelector::class);
