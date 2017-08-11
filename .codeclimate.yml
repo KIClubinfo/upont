@@ -1,0 +1,26 @@
+---
+engines:
+  stylelint:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - javascript
+      - php
+  eslint:
+    enabled: true
+  fixme:
+    enabled: true
+  phpmd:
+    enabled: true
+ratings:
+  paths:
+  - "**.css"
+  - "**.less"
+  - "**.js"
+  - "**.php"
+exclude_paths:
+  - back/tests/
+  - back/app/DoctrineMigrations/
+  - back/var/SymfonyRequirements.php
