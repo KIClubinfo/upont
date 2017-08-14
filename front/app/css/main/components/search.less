@@ -1,10 +1,10 @@
 .Search {
-    &--container {
+    &__container {
         position: relative;
         width: 115%;
     }
 
-    &--input {
+    &__input {
         .padded;
         margin: 0px 0.5em;
         position: relative;
@@ -29,7 +29,7 @@
         width: 100%;
     }
 
-    &--results {
+    &__results {
         position: absolute;
         @media(min-width: @sizeSm) {
             width: 400px;
@@ -49,7 +49,7 @@
     &:not(:last-of-type){
         border-bottom: solid 2px rgba(red(@col-bckgnd), green(@col-bckgnd), blue(@col-bckgnd), 0.2);
     }
-    &--cell{
+    &__cell{
         @media(min-width: @sizeSm) {
             .padded;
         }
@@ -57,7 +57,7 @@
             border-right:solid 2px rgba(red(@col-bckgnd), green(@col-bckgnd), blue(@col-bckgnd), 0.2);
         }
     }
-    &--item{
+    &__item{
         .padded;
         .clickable;
         border-radius: 5px;

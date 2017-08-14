@@ -36,7 +36,7 @@
         <div ng-if="!hardcore && !gameData.list_users[position].firstPart" row="center stretch" wrap>
             <h3 class="padded" flex="100">Comment s'appelle cette personne ?</h3>
             <div class="Image" flex="25">
-                <div class="Image--filler  Image--radius" ng-style="{ 'background-image' : 'url(' + (picture | thumb | urlFile) + ')' }"></div>
+                <div class="Image__filler  Image--radius" ng-style="{ 'background-image' : 'url(' + (picture | thumb | urlFile) + ')' }"></div>
             </div>
         </div>
 
@@ -47,7 +47,7 @@
 
         <div ng-if="hardcore && gameData.list_users[position].firstPart" row="center stretch" wrap>
             <div class="Image" flex="25">
-                <div class="Image--filler  Image--radius" ng-style="{ 'background-image' : 'url(' + (picture | thumb | urlFile) + ')' }"></div>
+                <div class="Image__filler  Image--radius" ng-style="{ 'background-image' : 'url(' + (picture | thumb | urlFile) + ')' }"></div>
             </div>
             <h3 class="padded" flex="100">{{ name }}</h3>
             <h3 class="padded" flex="100">{{ text(trait) }} ?</h3>
@@ -58,12 +58,12 @@
                 <button flex="100" class="Button  Button--special" ng-if="!gameData.list_users[position].firstPart && !hardcore">{{ name1 }}</button>
 
                 <div class="Image clickable" ng-if="gameData.list_users[position].firstPart && !hardcore">
-                    <div class="Image--filler  Image--radius" ng-style="{ 'background-image' : 'url(' + (picture1 | thumb | urlFile) + ')' }"></div>
+                    <div class="Image__filler  Image--radius" ng-style="{ 'background-image' : 'url(' + (picture1 | thumb | urlFile) + ')' }"></div>
                 </div>
 
                 <div ng-if="!gameData.list_users[position].firstPart && hardcore">
                     <div class="Image clickable">
-                        <div class="Image--filler  Image--radius" ng-style="{ 'background-image' : 'url(' + (picture1 | thumb | urlFile) + ')' }"></div>
+                        <div class="Image__filler  Image--radius" ng-style="{ 'background-image' : 'url(' + (picture1 | thumb | urlFile) + ')' }"></div>
                     </div>
                     <button flex="100" class="Button  Button--special">{{ name1 }}</button>
                 </div>
@@ -74,12 +74,12 @@
                 <button flex="100" class="Button  Button--special" ng-if="!gameData.list_users[position].firstPart && !hardcore">{{ name2 }}</button>
 
                 <div class="Image clickable" ng-if="gameData.list_users[position].firstPart && !hardcore">
-                    <div class="Image--filler  Image--radius" ng-style="{ 'background-image' : 'url(' + (picture2 | thumb | urlFile) + ')' }"></div>
+                    <div class="Image__filler  Image--radius" ng-style="{ 'background-image' : 'url(' + (picture2 | thumb | urlFile) + ')' }"></div>
                 </div>
 
                 <div ng-if="!gameData.list_users[position].firstPart && hardcore">
                     <div class="Image clickable">
-                        <div class="Image--filler  Image--radius" ng-style="{ 'background-image' : 'url(' + (picture2 | thumb | urlFile) + ')' }"></div>
+                        <div class="Image__filler  Image--radius" ng-style="{ 'background-image' : 'url(' + (picture2 | thumb | urlFile) + ')' }"></div>
                     </div>
                     <button flex="100" class="Button  Button--special">{{ name2 }}</button>
                 </div>
@@ -90,12 +90,12 @@
                 <button flex="100" class="Button  Button--special" ng-if="!gameData.list_users[position].firstPart && !hardcore">{{ name3 }}</button>
 
                 <div class="Image clickable" ng-if="gameData.list_users[position].firstPart && !hardcore">
-                    <div class="Image--filler  Image--radius" ng-style="{ 'background-image' : 'url(' + (picture3 | thumb | urlFile) + ')' }"></div>
+                    <div class="Image__filler  Image--radius" ng-style="{ 'background-image' : 'url(' + (picture3 | thumb | urlFile) + ')' }"></div>
                 </div>
 
                 <div ng-if="!gameData.list_users[position].firstPart && hardcore">
                     <div class="Image clickable">
-                        <div class="Image--filler  Image--radius" ng-style="{ 'background-image' : 'url(' + (picture3 | thumb | urlFile) + ')' }"></div>
+                        <div class="Image__filler  Image--radius" ng-style="{ 'background-image' : 'url(' + (picture3 | thumb | urlFile) + ')' }"></div>
                     </div>
                     <button flex="100" class="Button  Button--special">{{ name3 }}</button>
                 </div>
@@ -132,7 +132,7 @@
         <section row="space-around stretch" wrap>
             <div class="text-left padded" flex="50" row ng-repeat="face in gameData.list_users">
                 <div class="Image" flex="30">
-                    <div class="Image--filler  Image--radius" ng-style="{ 'background-image' : 'url({{ face[face.answer]['picture'] | urlFile }})' }"></div>
+                    <div class="Image__filler  Image--radius" ng-style="{ 'background-image' : 'url({{ face[face.answer]['picture'] | urlFile }})' }"></div>
                 </div>
 
                 <div class="padded" flex="70">

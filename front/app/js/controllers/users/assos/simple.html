@@ -1,15 +1,15 @@
 <nav class="Navbar">
-    <div class="Navbar--image Image" ng-if="club.banner_url">
-        <div class="Image--filler" ng-style="{ 'background-image' : 'url({{ club.banner_url | urlFile }})' }"></div>
+    <div class="Navbar__image Image" ng-if="club.banner_url">
+        <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ club.banner_url | urlFile }})' }"></div>
     </div>
     <div row="space-around" wrap>
-        <a class="Navbar--link" ui-sref-active="active" ui-sref="root.users.assos.simple.presentation">{{ club.full_name }} <span ng-if="club.full_name !== club.name">({{ club.name }})</span></a>
-        <a class="Navbar--link" ui-sref-active="active" ng-if="(isAdmin || $root.hasClub(club.slug) || club.presentation !== undefined) && !club.administration" ui-sref="root.users.assos.simple.publications">Activité</a>
-        <a class="Navbar--link" ui-sref-active="active" ng-if="club.slug == 'ki'" ui-sref="root.users.assos.ki">Dépannage</a>
-        <a class="Navbar--link" ui-sref-active="active" ng-if="club.slug == 'foyer'" ui-sref="root.users.assos.foyer-playlist">C'est TON Foyer</a>
-        <a class="Navbar--link" ui-sref-active="active" ng-if="club.slug == 'dvp'" ui-sref="root.users.assos.dvp">Paniers Fruits et Légumes</a>
-        <a class="Navbar--link" ui-sref-active="active" ng-if="(isAdmin || $root.hasClub(dvp)) && club.slug == 'dvp'" ui-sref="root.users.assos.simple.baskets">Gestion paniers</a>
-        <a class="Navbar--link" ui-sref-active="active" ng-if="isAdmin || $root.hasClub(club.slug)" ui-sref="root.users.assos.simple.modify">Gestion</a>
+        <a class="Navbar__link" ui-sref-active="active" ui-sref="root.users.assos.simple.presentation">{{ club.full_name }} <span ng-if="club.full_name !== club.name">({{ club.name }})</span></a>
+        <a class="Navbar__link" ui-sref-active="active" ng-if="(isAdmin || $root.hasClub(club.slug) || club.presentation !== undefined) && !club.administration" ui-sref="root.users.assos.simple.publications">Activité</a>
+        <a class="Navbar__link" ui-sref-active="active" ng-if="club.slug == 'ki'" ui-sref="root.users.assos.ki">Dépannage</a>
+        <a class="Navbar__link" ui-sref-active="active" ng-if="club.slug == 'foyer'" ui-sref="root.users.assos.foyer-playlist">C'est TON Foyer</a>
+        <a class="Navbar__link" ui-sref-active="active" ng-if="club.slug == 'dvp'" ui-sref="root.users.assos.dvp">Paniers Fruits et Légumes</a>
+        <a class="Navbar__link" ui-sref-active="active" ng-if="(isAdmin || $root.hasClub(dvp)) && club.slug == 'dvp'" ui-sref="root.users.assos.simple.baskets">Gestion paniers</a>
+        <a class="Navbar__link" ui-sref-active="active" ng-if="isAdmin || $root.hasClub(club.slug)" ui-sref="root.users.assos.simple.modify">Gestion</a>
     </div>
 </nav>
 
