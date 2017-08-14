@@ -5,7 +5,7 @@
                 <div row="center stretch" wrap>
                     <h1 flex="100" class="padded text-center">{{ user.nick }}</h1>
                     <div class="Image  clickable" flex="50" ng-click="$root.zoomIn('/api/' + user.image_url)">
-                        <div class="Image--filler  Image--round" ng-style="{ 'background-image' : 'url({{ user.image_url | urlFile }})' }"></div>
+                        <div class="Image__filler  Image--round" ng-style="{ 'background-image' : 'url({{ user.image_url | urlFile }})' }"></div>
                     </div>
                 </div>
                 <div class="up-user-infos" up-row wrap padded>
@@ -46,7 +46,7 @@
                     <div ng-repeat="membership in clubs" flex="33">
                         <div class="Image  clickable" flex="100" title="{{membership.club.name}}{{membership.role !== ''?' - '+membership.role:''}}"
                              ui-sref="root.users.assos.simple.publications({slug: membership.club.slug})">
-                            <div class="Image--filler  Image--grey" ng-style="{ 'background-image' : 'url({{ membership.club.image_url | urlFile }})' }"></div>
+                            <div class="Image__filler  Image--grey" ng-style="{ 'background-image' : 'url({{ membership.club.image_url | urlFile }})' }"></div>
                         </div>
                     </div>
                 </div>

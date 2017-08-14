@@ -17,7 +17,7 @@ angular.module('upont').directive('upOverflow', ['$sce', function($sce) {
         }],
         template: '<div ng-class="{\'Overflow\': overflow}">' +
             '<div ng-bind-html="content"></div>' +
-            '<div class="Overflow--toggle" ng-if="overflow" col="end stretch"><span class="Link" ng-click="open()">Afficher la suite...</span></div>' +
+            '<div class="Overflow__toggle" ng-if="overflow" col="end stretch"><span class="Link" ng-click="open()">Afficher la suite...</span></div>' +
         '</div>',
     };
 }]);

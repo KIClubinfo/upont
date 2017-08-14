@@ -4,7 +4,7 @@
 
         <div class="padded" row="center stretch">
             <div class="Image  clickable" flex="25" ng-click="$root.zoomIn('/api/' + user.image_url)">
-                <div class="Image--filler" ng-style="{ 'background-image' : 'url({{ user.image_url | urlFile }})' }"></div>
+                <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ user.image_url | urlFile }})' }"></div>
             </div>
         </div>
 
@@ -334,7 +334,7 @@
         <div row wrap>
             <div class="padded" row="space-between stretch" flex="100" flex-sm="50" flex-md="33" flex-lg="25" ng-repeat="club in clubs | orderBy:'name'">
                 <div class="Image" flex="33">
-                    <div class="Image--filler" ng-style="{ 'background-image' : 'url({{ club.image_url | thumb | urlFile }})' }"></div>
+                    <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ club.image_url | thumb | urlFile }})' }"></div>
                 </div>
                 <div flex="60" col="space-around start">
                     <h3 class="Link  Link--reverse  big" ui-sref="root.users.assos.simple.publications({slug: club.slug})">{{ club.name }}</h3>

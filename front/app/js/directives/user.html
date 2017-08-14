@@ -3,10 +3,10 @@
         ng-transclude></span>
 
     <!-- Hover -->
-    <section class="User--ticket Ticket" ng-show="hover">
+    <section class="User__ticket Ticket" ng-show="hover">
         <div row="space-between center">
             <div class="Image" flex="30">
-                <div class="Image--filler" ng-style="{ 'background-image' : 'url({{ user.image_url | thumb | urlFile }})' }"></div>
+                <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ user.image_url | thumb | urlFile }})' }"></div>
             </div>
             <div flex="65">
                 <h3>{{ user.first_name }} {{ user.last_name }}</h3>

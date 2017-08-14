@@ -34,7 +34,7 @@
                     </div>
                     <div col="start center" flex="50" flex-sm="100">
                         <!-- Date de la publication -->
-                        <time class="Ticket--date  small flex-hide-sm flex-hide-md flex-hide-lg" title="{{publication.date | date: 'mm:HH dd/MM/yy' }}">{{ publication.date | fromNow }}</time>
+                        <time class="Ticket__date  small flex-hide-sm flex-hide-md flex-hide-lg" title="{{publication.date | date: 'mm:HH dd/MM/yy' }}">{{ publication.date | fromNow }}</time>
 
                         <!-- Détails -->
                         <section flex="100" class="small" ng-if="publication.start_date">
@@ -83,13 +83,13 @@
                         </div>
 
                         <!-- Date de la publication -->
-                        <time class="Ticket--date  small flex-hide-xs" title="{{publication.date | date: 'mm:HH dd/MM/yy' }}">{{ publication.date | fromNow }}</time>
+                        <time class="Ticket__date  small flex-hide-xs" title="{{publication.date | date: 'mm:HH dd/MM/yy' }}">{{ publication.date | fromNow }}</time>
                     </header>
 
                     <!-- Liste des participants -->
                     <section class="padded" row wrap ng-if="publication.displayAttendees">
                         <div class="Image" flex="10" flex-lg="5" up-user user="user" ng-repeat="user in publication.userlist" ui-sref="root.users.students.simple({slug: user.username})" title="{{user.nick}}">
-                            <div class="Image--filler" ng-style="{ 'background-image' : 'url({{ user.image_url | thumb | urlFile }})' }"></div>
+                            <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ user.image_url | thumb | urlFile }})' }"></div>
                         </div>
                     </section>
 
