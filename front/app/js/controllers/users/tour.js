@@ -105,13 +105,22 @@ angular.module('upont')
         };
 
         $scope.previous = function() {
-            if ($scope.step > 0)
-                $scope.loadStep($scope.step - 1);
+            if ($scope.step > 0) {
+                if ($scope.step === 9 && !$rootScope.isStudentNetwork) {
+                    $scope.loadStep($scope.step - 2);
+                } else {
+                  $scope.loadStep($scope.step - 1);
+                }
+            }
         };
 
         $scope.next = function() {
             if ($scope.step + 1 < steps.length) {
-                $scope.loadStep($scope.step + 1);
+                if ($scope.step === 7 && !$rootScope.isStudentNetwork) {
+                    $scope.loadStep($scope.step + 2);
+                } else {
+                    $scope.loadStep($scope.step + 1);
+                }
             } else if ($scope.step + 1 == steps.length) {
                 $http.patch($rootScope.url + 'users/' + $rootScope.username + '?achievement=unlocked', {tour: true}).then(function(){
                     $rootScope.me.tour = true;

@@ -1,13 +1,12 @@
 .Topbar{
-    z-index: 2;
 
-    &__header {
+    &--header {
         .padded;
         color: @col-aside;
         background-color: @col-aside-bckgnd;
     }
 
-    &__link{
+    &--link{
         .big;
         .padded;
         display: block;
@@ -17,5 +16,11 @@
         .fa{
             width: 2em;
         }
+    }
+
+    &--dropdown {
+        position: absolute;
+        z-index: 1000;
+        padding: 0 0.5em 0;
     }
 }

@@ -5,7 +5,7 @@
             <header row="start center" ng-mouseover="showModify=true" ng-mouseleave="showModify=false">
                 <div class="Image  Image--thumb  Image--margin">
                     <a ui-sref="root.users.students.simple({slug: message.author_user.username})">
-                        <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ message.author_user.image_url | thumb | urlFile }})' }"></div>
+                        <div class="Image--filler" ng-style="{ 'background-image' : 'url({{ message.author_user.image_url | thumb | urlFile }})' }"></div>
                     </a>
                 </div>
 

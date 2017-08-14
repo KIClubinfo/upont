@@ -4,7 +4,7 @@ angular.module('upont')
 
             $scope.setTab = function (tabId) {
                 $scope.displayedTab = tabId;
-            }
+            };
 
             $scope.isTab = function (tabId) {
                 return $scope.displayedTab === tabId;

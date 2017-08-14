@@ -18,7 +18,7 @@
     <!-- Commentaires -->
     <div class="padded" row="start center" ng-repeat="comment in comments | orderBy: date" ng-mouseover="showModify=true" ng-mouseleave="showModify=false">
         <div class="Image  Image--thumb  Image--margin">
-            <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ comment.author.image_url | thumb | urlFile }})' }"></div>
+            <div class="Image--filler" ng-style="{ 'background-image' : 'url({{ comment.author.image_url | thumb | urlFile }})' }"></div>
         </div>
 
         <div>
@@ -52,7 +52,7 @@
     <!-- Publier un commentaire -->
     <form row="space-around center" autocomplete="off" ng-if="!$root.isAdmissible">
         <div class="Image  Image--thumb  Image--margin">
-            <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ $root.me.image_url | thumb | urlFile }})' }"></div>
+            <div class="Image--filler" ng-style="{ 'background-image' : 'url({{ $root.me.image_url | thumb | urlFile }})' }"></div>
         </div>
             <textarea class="Input" rows="1" ng-model="commentText" placeholder="Ajouter un commentaire" msd-elastic ng-keydown="submitComment($event, commentText) ? commentText = '' : null"></textarea>
     </form>
