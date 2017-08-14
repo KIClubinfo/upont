@@ -1,5 +1,5 @@
 <label for="search-input">
-    <div row class="Search__input" ng-class="{'Search__input--focused': displaySearch}">
+    <div row class="Search--input" ng-class="{'Search--input--focused': displaySearch}">
         <i flex="15" class="fa fa-search" style="padding-top:3px"></i>
         <input flex="85" type="text" placeholder="Rechercher"
                ng-change="doSearch(searchValue)" ng-model="searchValue"
@@ -8,20 +8,20 @@
     </div>
 </label>
 
-<div class="Search__container">
-    <section class="Search__results  Ticket" ng-mouseenter="hoverSearch=true" ng-mouseleave="hoverSearch=false"
+<div class="Search--container">
+    <section class="Search--results  Ticket" ng-mouseenter="hoverSearch=true" ng-mouseleave="hoverSearch=false"
              ng-show="(displaySearch || hoverSearch) && (searchResults.posts.length || searchResults.clubs.length || searchResults.files.length || searchResults.users.length || searchResults.courses.length)">
 
         <section class="Results" row ng-if="searchResults.clubs.length">
-            <div class="Results__cell" flex="25" flex-sm="20">
+            <div class="Results--cell" flex="25" flex-sm="20">
                 <h3 class="small bold">CLUBS</h3>
             </div>
-            <div class="Results__cell" flex="75" flex-sm="80">
-                <div class="Results__item" row="space-between center"
+            <div class="Results--cell" flex="75" flex-sm="80">
+                <div class="Results--item" row="space-between center"
                      ng-repeat="club in searchResults.clubs | limitTo:4"
                      ui-sref="{{ redirect(club) }}" ng-click="resetSearch()">
                     <div class="Image" flex="20">
-                        <div class="Image__filler"
+                        <div class="Image--filler"
                              ng-style="{ 'background-image' : 'url({{ club.image_url | thumb | urlFile }})' }"></div>
                     </div>
                     <div flex="75">{{ club.name }}</div>
@@ -30,15 +30,15 @@
         </section>
 
         <section class="Results" row ng-if="searchResults.users.length">
-            <div class="Results__cell" flex="25" flex-sm="20">
+            <div class="Results--cell" flex="25" flex-sm="20">
                 <h3 class="small bold">ÉLÈVES</h3>
             </div>
-            <div class="Results__cell" flex="75" flex-sm="80">
-                <div class="Results__item" row="space-between center"
+            <div class="Results--cell" flex="75" flex-sm="80">
+                <div class="Results--item" row="space-between center"
                      ng-repeat="user in searchResults.users | limitTo:4"
                      ui-sref="{{ redirect(user) }}" ng-click="resetSearch()">
                     <div class="Image" flex="20" ng-if="user.image_url">
-                        <div class="Image__filler"
+                        <div class="Image--filler"
                              ng-style="{ 'background-image' : 'url({{ user.image_url | thumb | urlFile }})' }"></div>
                     </div>
                     <i ng-if="!user.image_url" class="fa fa-user"></i>
@@ -48,15 +48,15 @@
         </section>
 
         <section class="Results" row ng-if="searchResults.files.length">
-            <div class="Results__cell" flex="25" flex-sm="20">
+            <div class="Results--cell" flex="25" flex-sm="20">
                 <h3 class="small bold">PONTHUB</h3>
             </div>
-            <div class="Results__cell" flex="75" flex-sm="80">
-                <div class="Results__item" row="space-between center"
+            <div class="Results--cell" flex="75" flex-sm="80">
+                <div class="Results--item" row="space-between center"
                      ng-repeat="file in searchResults.files | limitTo:4"
                      ui-sref="{{ redirect(file) }}" ng-click="resetSearch()">
                     <div class="Image" flex="20" ng-if="file.image_url">
-                        <div class="Image__filler"
+                        <div class="Image--filler"
                              ng-style="{ 'background-image' : 'url({{ file.image_url | thumb | urlFile }})' }"></div>
                     </div>
                     <i ng-if="!file.image_url" class="fa fa-{{ icon(file) }}"></i>
@@ -66,11 +66,11 @@
         </section>
 
         <section class="Results" row ng-if="searchResults.courses.length">
-            <div class="Results__cell" flex="25" flex-sm="20">
+            <div class="Results--cell" flex="25" flex-sm="20">
                 <h3 class="small bold">COURS</h3>
             </div>
-            <div class="Results__cell" flex="75" flex-sm="80">
-                <div class="Results__item" row="space-between center"
+            <div class="Results--cell" flex="75" flex-sm="80">
+                <div class="Results--item" row="space-between center"
                      ng-repeat="course in searchResults.courses | limitTo:4"
                      ui-sref="{{ redirect(course) }}" ng-click="resetSearch()">
                     <i class="fa fa-graduation-cap"></i>
@@ -80,15 +80,15 @@
         </section>
 
         <section class="Results" row ng-if="searchResults.posts.length">
-            <div class="Results__cell" flex="25" flex-sm="20">
+            <div class="Results--cell" flex="25" flex-sm="20">
                 <h3 class="small bold">POSTS</h3>
             </div>
-            <div class="Results__cell" flex="75" flex-sm="80">
-                <div class="Results__item" row="space-between center"
+            <div class="Results--cell" flex="75" flex-sm="80">
+                <div class="Results--item" row="space-between center"
                      ng-repeat="post in searchResults.posts | limitTo:4"
                      ui-sref="{{ redirect(post) }}" ng-click="resetSearch()">
                     <div class="Image" flex="20">
-                        <div class="Image__filler"
+                        <div class="Image--filler"
                              ng-style="{ 'background-image' : 'url({{ post.image_url | thumb | urlFile }})' }"></div>
                     </div>
                     <div flex="75">{{ post.name }}</div>

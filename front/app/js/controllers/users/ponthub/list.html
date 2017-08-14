@@ -5,8 +5,8 @@
              ui-sref="root.users.ponthub.category.simple({slug: element.slug})">
             <div class="Image  clickable"
                  ng-class="{'Image--portrait': category == 'films' || category == 'series', 'Image--landscape': category == 'jeux'}" >
-                <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ element.image_url | urlFile }})' }" ng-if="element.image_url"></div>
-                <div class="Image__filler  Image--fa  fa  {{ icon }}" ng-if="!element.image_url"></div>
+                <div class="Image--filler" ng-style="{ 'background-image' : 'url({{ element.image_url | urlFile }})' }" ng-if="element.image_url"></div>
+                <div class="Image--filler  Image--fa  fa  {{ icon }}" ng-if="!element.image_url"></div>
             </div>
 
 
