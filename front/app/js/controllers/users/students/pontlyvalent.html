@@ -11,7 +11,7 @@
 
             <div class="Search padded">
                 <label for="search-input-post">
-                    <div row class="Search__input" ng-class="{'Search__input--focused': displaySearchPost}">
+                    <div row class="Search--input" ng-class="{'Search--input--focused': displaySearchPost}">
                         <i flex="15" class="fa fa-search" style="padding-top:3px"></i>
                         <input flex="85" type="text" placeholder="Élève"
                                ng-change="searchUserPost(searchPost)" ng-model="searchPost"
@@ -19,12 +19,12 @@
                                ng-init="displaySearchPost=false;hoverSearchPost=false" id="search-input-post"/>
                     </div>
                 </label>
-                <section class="Search__results  Ticket" ng-mouseenter="hoverSearchPost=true" ng-mouseleave="hoverSearchPost=false" ng-show="(displaySearchPost || hoverSearchPost) && searchResultsPost.length">
+                <section class="Search--results  Ticket" ng-mouseenter="hoverSearchPost=true" ng-mouseleave="hoverSearchPost=false" ng-show="(displaySearchPost || hoverSearchPost) && searchResultsPost.length">
                     <section class="Results" row>
-                        <div class="Results__cell" flex="75">
-                            <div class="Results__item" row="space-between center" ng-repeat="result in searchResultsPost | limitTo: 5" ng-click="addComment(result.slug, result.name)">
+                        <div class="Results--cell" flex="75">
+                            <div class="Results--item" row="space-between center" ng-repeat="result in searchResultsPost | limitTo: 5" ng-click="addComment(result.slug, result.name)">
                                 <div class="Image" flex="20">
-                                    <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ result.image_url | thumb | urlFile }})' }"></div>
+                                    <div class="Image--filler" ng-style="{ 'background-image' : 'url({{ result.image_url | thumb | urlFile }})' }"></div>
                                 </div>
                                 <div flex="75" ng-bind-html="result.name | match: searchPost"></div>
                             </div>

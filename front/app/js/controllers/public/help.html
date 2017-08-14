@@ -1,23 +1,23 @@
-<div class="Page__landing Page__landing--home" col="center stretch">
+<div class="Page--landing Page--landing--home" col="center stretch">
     <section class="autoscroll" flex="100" row="center stretch" wrap>
-        <aside class="Page__landing--left Page__landing--centeredContent padded" flex="100" flex-sm="30" flex-md="25" flex-lg="20" row wrap>
-            <div flex="25" flex-sm="100" row="center stretch">
-                <svg-image flex="80" src="img/icon.svg" class="svg up-logo"></svg-image>
+        <aside class="Page--landing--left Page--landing--centeredContent padded" flex="100" flex-sm="30" flex-md="25" flex-lg="20" row wrap>
+            <div flex="25" flex-sm="100" row="center stretch" ui-sref="root.login">
+                <svg-image flex="80" src="img/icon.svg" class="svg up-logo clickable"></svg-image>
             </div>
             <section class="padded small" flex="75" flex-sm="100" col="center stretch">
                 <h1>Bienvenue sur l'aide de uPont</h1>
                 <p>Tu y trouveras des suggestions pour comprendre comment tu as cassé uPont.</p>
             </section>
         </aside>
-        <section class="Page__landing--right" flex="100" flex-sm="70" flex-md="75" flex-lg="80" raw wrap>
+        <section class="Page--landing--right" flex="100" flex-sm="70" flex-md="75" flex-lg="80" raw wrap>
             <nav class="Navbar">
                 <div row="space-around" wrap>
-                    <a id="Chargement" class="Navbar__link active" ng-class="{'active': isTab('Chargement')}" ng-click="setTab('Chargement')">Chargement</a>
-                    <a id="Connexion" class="Navbar__link" ng-class="{'active': isTab('Connexion')}" ng-click="setTab('Connexion')">Connexion</a>
-                    <a id="Assistance" class="Navbar__link" ng-class="{'active': isTab('Connexion')}" ng-click="setTab('Assistance')">Assistance</a>
+                    <a id="Chargement" class="Navbar--link active" ng-class="{'active': isTab('Chargement')}" ng-click="setTab('Chargement')">Chargement</a>
+                    <a id="Connexion" class="Navbar--link" ng-class="{'active': isTab('Connexion')}" ng-click="setTab('Connexion')">Connexion</a>
+                    <a id="Assistance" class="Navbar--link" ng-class="{'active': isTab('Assistance')}" ng-click="setTab('Assistance')">Assistance</a>
                 </div>
             </nav>
-            <div class="padded" row wrap>
+            <div class="padded">
                 <div id="Chargement" class="padded tabcontent" flex="100" ng-show="isTab('Chargement')">
                     <p>Si tu ne parviens pas à charger uPont, la raison peut-être parmi les suivantes :</p>
                     <ul>
@@ -28,7 +28,9 @@
                     </ul>
                 </div>
                 <div id="Connexion" class="padded tabcontent" flex="100" ng-show="isTab('Connexion')">
-                    <p>Il existe deux types de connexion, l'authentification d'origine par le formulaire de la page d'accueil grâce aux identifiants qui t'ont été transmis par mail par le KI à ton arrivée aux Ponts (format prenom.nom), ainsi que la connexion SSO qui te permet de te connecter à uPont grâce à ton compte DSI (type prenom.nom@enpc.fr). La SSO (Single Sign-On) s'appelle en français authentification unique. C'est une méthode permettant à un utilisateur d'accéder à plusieurs applications informatiques (ou sites web sécurisés) en ne procédant qu'à une seule authentification. Avec ton compte DSI tu peux donc te connexter à Educnet, au site de la bibliothèque, à uPont... Tu dois donc te connecter la première fois sur uPont via SSO pour que ton compte uPont soit créé en récupérant les informations de ton compte DSI (Nom, Prénom, adresse email...). Si les comptes DSI sont supprimés à l'obtention du diplôme et avec eux la possibilité de se connecter en SSO, ce n'est pas le cas des comptes uPont.</p>
+                    <p>Il existe deux types de connexion, l'authentification d'origine par le formulaire de la page d'accueil grâce aux identifiants qui t'ont été transmis par mail par le KI à ton arrivée aux Ponts (format prenom.nom), ainsi que la connexion SSO qui te permet de te connecter à uPont grâce à ton compte DSI (type prenom.nom@enpc.fr).</p>
+                    <p>La SSO (Single Sign-On) s'appelle en français authentification unique. C'est une méthode permettant à un utilisateur d'accéder à plusieurs applications informatiques (ou sites web sécurisés) en ne procédant qu'à une seule authentification. Avec ton compte DSI tu peux donc te connecter à Educnet, au site de la bibliothèque, à uPont...</p>
+                    <p>Il faut donc se connecter pour la première fois sur uPont via SSO pour que ton compte uPont soit créé en récupérant les informations de ton compte DSI (nom, prénom, adresse email...). Si les comptes DSI sont supprimés à l'obtention du diplôme et avec eux la possibilité de se connecter en SSO, ce n'est pas le cas des comptes uPont.</p>
                 </div>
                 <div id="Assistance" class="padded tabcontent" flex="100" ng-show="isTab('Assistance')">
                     <p>En cas d'échec, tu peux contacter le KI par sa <a class="Link" href="https://www.facebook.com/enpc.clubinfo/">page Facebook</a> ou en passant au local un midi en P401, avec ton appareil ! Tu pourras nous rapporter les erreurs dans la console du navigateur (F12 sous Chrome, Firefox et Edge; sous Safari il faut activer l'onglet développeur dans les préférences).</p>
