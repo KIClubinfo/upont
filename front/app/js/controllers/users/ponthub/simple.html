@@ -10,7 +10,7 @@
         <aside flex="25" ng-if="element.image_url" col>
             <div class="Image  clickable" ng-click="$root.zoomIn('/api/' + element.image_url)"
                  ng-class="{'Image--portrait': category == 'films' || category == 'series', 'Image--landscape': category == 'jeux'}">
-                <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ element.image_url | urlFile }})' }"></div>
+                <div class="Image--filler" ng-style="{ 'background-image' : 'url({{ element.image_url | urlFile }})' }"></div>
             </div>
         </aside>
 
@@ -68,7 +68,7 @@
                 </h2>
 
                 <ul class="List  padded" ng-show="openSeason == $index">
-                    <li class="List__element" ng-repeat="episode in saison | orderBy:['name']">
+                    <li class="List--element" ng-repeat="episode in saison | orderBy:['name']">
                         <a title="Télécharger le fichier" target="_blank" ng-href="{{ type + '/' + element.slug + '/episodes/' + episode.slug + '/download?bearer=' + token | urlFile }}">
                             {{ episode.name }}
                         </a>

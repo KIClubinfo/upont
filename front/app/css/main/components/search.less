@@ -1,5 +1,10 @@
 .Search {
-    &__input {
+    &--container {
+        position: relative;
+        width: 115%;
+    }
+
+    &--input {
         .padded;
         margin: 0px 0.5em;
         position: relative;
@@ -20,11 +25,20 @@
         padding: 0;
     }
 
-    &__results {
-        width: 332px;
-        padding: 10px;
+    label {
+        width: 100%;
+    }
+
+    &--results {
         position: absolute;
-        left: 2em;
+        @media(min-width: @sizeSm) {
+            width: 400px;
+            left: 2em;
+        }
+        @media(max-width: @sizeSm) {
+            width: 100%;
+            left: -1em;
+        }
         border-radius: 3px;
         text-align: left;
         z-index: 3;
@@ -35,13 +49,15 @@
     &:not(:last-of-type){
         border-bottom: solid 2px rgba(red(@col-bckgnd), green(@col-bckgnd), blue(@col-bckgnd), 0.2);
     }
-    &__cell{
-        .padded;
+    &--cell{
+        @media(min-width: @sizeSm) {
+            .padded;
+        }
         &:not(:last-of-type){
             border-right:solid 2px rgba(red(@col-bckgnd), green(@col-bckgnd), blue(@col-bckgnd), 0.2);
         }
     }
-    &__item{
+    &--item{
         .padded;
         .clickable;
         border-radius: 5px;

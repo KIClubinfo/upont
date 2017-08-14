@@ -4,55 +4,61 @@
         <article col class="Ticket  Ticket--color{{ publication.slug.length%5+1 }}"
             ng-repeat="publication in events.data | concat: newsItems.data | orderBy: 'date' | reverse"
             ng-if="publication.entry_method != 'Ferie'">
-            <div row>
-                <aside col="start center" flex="25" class="padded  text-center">
-                    <!-- Image de la publication -->
-                    <figure flex="100">
-                        <div class="up-img-home  clickable"
-                             ng-click="$root.zoomIn('/api/' + publication.image_url)"
-                             ng-style="{'background-image': 'url({{ publication.image_url | thumb | urlFile }})'}">
-                        </div>
-                        <figcaption>
-                            <a rel="author" title="Lien vers la page du club" class="Link  bold"
-                               ui-sref="root.users.assos.simple.publications({slug: publication.author_club.slug})"
-                               ng-if="!$root.isExterieur">
-                                {{ publication.author_club.name }}
+            <div row wrap>
+                <aside row flex="100" flex-sm="25" wrap class="padded text-center align-content-start">
+                    <div col="start center" flex="50" flex-sm="100">
+                        <!-- Image de la publication -->
+                        <figure flex="100">
+                            <div class="up-img-home  clickable"
+                                 ng-click="$root.zoomIn('/api/' + publication.image_url)"
+                                 ng-style="{'background-image': 'url({{ publication.image_url | thumb | urlFile }})'}">
+                            </div>
+                            <figcaption>
+                                <a rel="author" title="Lien vers la page du club" class="Link  bold"
+                                   ui-sref="root.users.assos.simple.publications({slug: publication.author_club.slug})"
+                                   ng-if="!$root.isExterieur">
+                                    {{ publication.author_club.name }}
+                                </a>
+                            </figcaption>
+                        </figure>
+
+                        <!-- Actions -->
+                        <section flex="100" ng-if="$root.hasClub(publication.author_club.slug)">
+                            <i class="Link  Link--reverse  fa  fa-pencil"
+                               title="Modifier la publication"
+                               ng-click="enableModify(publication)"></i>
+                            <i class="Link  Link--reverse  Link--danger  fa  fa-trash"
+                               title="Supprimer la publication"
+                               ng-click="delete(publication)"></i>
+                        </section>
+                    </div>
+                    <div col="start center" flex="50" flex-sm="100">
+                        <!-- Date de la publication -->
+                        <time class="Ticket--date  small flex-hide-sm flex-hide-md flex-hide-lg" title="{{publication.date | date: 'mm:HH dd/MM/yy' }}">{{ publication.date | fromNow }}</time>
+
+                        <!-- Détails -->
+                        <section flex="100" class="small" ng-if="publication.start_date">
+                            <i class="fa  fa-map-marker"      title="Lieu"></i>  <time>{{ publication.place }}</time><br>
+                            <i class="fa  fa-hourglass-start" title="Début"></i> <time>{{ publication.start_date | formatDate }}</time><br>
+                            <i class="fa  fa-hourglass-end"   title="Fin"></i>   <time>{{ publication.end_date | formatDate }}</time><br>
+                        </section>
+
+                        <!-- Boutons de participation -->
+                        <section flex="100" ng-if="publication.start_date && !publication.shotgun_date" up-row center>
+                            <a class="Link  Link--reverse" ng-class="{'Link--active': publication.attend}" ng-disabled="$root.isAdmissible"
+                                  ng-click="attend(publication)">
+                                <i class="fa fa-check"></i> Go !
                             </a>
-                        </figcaption>
-                    </figure>
-
-                    <!-- Actions -->
-                    <section flex="100" ng-if="$root.hasClub(publication.author_club.slug)">
-                        <i class="Link  Link--reverse  fa  fa-pencil"
-                           title="Modifier la publication"
-                           ng-click="enableModify(publication)"></i>
-                        <i class="Link  Link--reverse  Link--danger  fa  fa-trash"
-                           title="Supprimer la publication"
-                           ng-click="delete(publication)"></i>
-                    </section>
-
-                    <!-- Détails -->
-                    <section flex="100" class="small" ng-if="publication.start_date">
-                        <i class="fa  fa-map-marker"      title="Lieu"></i>  <time>{{ publication.place }}</time><br>
-                        <i class="fa  fa-hourglass-start" title="Début"></i> <time>{{ publication.start_date | formatDate }}</time><br>
-                        <i class="fa  fa-hourglass-end"   title="Fin"></i>   <time>{{ publication.end_date | formatDate }}</time><br>
-                    </section>
-
-                    <!-- Boutons de participation -->
-                    <section flex="100" ng-if="publication.start_date && !publication.shotgun_date" up-row center>
-                        <a class="Link  Link--reverse" ng-class="{'Link--active': publication.attend}" ng-disabled="$root.isAdmissible"
-                              ng-click="attend(publication)">
-                            <i class="fa fa-check"></i> Go !
-                        </a>
-                        &nbsp;&nbsp;&nbsp;
-                        <span class="Link  Link--reverse"  ng-class="{'Link--active': publication.pookie}" ng-disabled="$root.isAdmissible"
-                              ng-click="pookie(publication)">
-                            <i class="fa fa-times"></i> Bof...
-                        </span>
-                    </section>
+                            &nbsp;&nbsp;&nbsp;
+                            <span class="Link  Link--reverse"  ng-class="{'Link--active': publication.pookie}" ng-disabled="$root.isAdmissible"
+                                  ng-click="pookie(publication)">
+                                <i class="fa fa-times"></i> Bof...
+                            </span>
+                        </section>
+                    </div>
                 </aside>
 
-                <section col flex="75" class="Ticket-content">
+                <section col flex="100" flex-sm="75" class="Ticket-content">
                     <header row="space-between start" flex="100">
                         <div>
                             <!-- Titre -->
@@ -77,13 +83,13 @@
                         </div>
 
                         <!-- Date de la publication -->
-                        <time class="Ticket__date  small" title="{{publication.date | date: 'mm:HH dd/MM/yy' }}">{{ publication.date | fromNow }}</time>
+                        <time class="Ticket--date  small flex-hide-xs" title="{{publication.date | date: 'mm:HH dd/MM/yy' }}">{{ publication.date | fromNow }}</time>
                     </header>
 
                     <!-- Liste des participants -->
                     <section class="padded" row wrap ng-if="publication.displayAttendees">
                         <div class="Image" flex="10" flex-lg="5" up-user user="user" ng-repeat="user in publication.userlist" ui-sref="root.users.students.simple({slug: user.username})" title="{{user.nick}}">
-                            <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ user.image_url | thumb | urlFile }})' }"></div>
+                            <div class="Image--filler" ng-style="{ 'background-image' : 'url({{ user.image_url | thumb | urlFile }})' }"></div>
                         </div>
                     </section>
 

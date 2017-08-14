@@ -3,7 +3,7 @@ angular.module('upont').directive('upRibbon', function() {
         transclude: true,
         template:
             '<div class="Ribbon">' +
-                '<div class="Ribbon__content" ng-transclude></div>' +
+                '<div class="Ribbon--content" ng-transclude></div>' +
             '</div>',
     };
 });
