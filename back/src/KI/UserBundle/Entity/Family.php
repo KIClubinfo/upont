@@ -8,13 +8,17 @@ use KI\CoreBundle\Entity\Likeable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * Family
+ *
+ * @ORM\Table(name="family")
+ * @ORM\Entity(repositoryClass="KI\UserBundle\Repository\FamilyRepository")
  * @JMS\ExclusionPolicy("all")
  */
-class Club extends Likeable
+class Family extends Likeable
 {
+
     /**
-     * Nom complet du club
+     * Nom complet de la famille
      * @ORM\Column(name="fullName", type="string")
      * @JMS\Expose
      * @Assert\Type("string")
@@ -37,44 +41,12 @@ class Club extends Likeable
     protected $banner;
 
     /**
-     * Icône (utilisée par l'application mobile)
-     * @ORM\Column(name="icon", type="string", nullable=true)
-     * @JMS\Expose
-     * @Assert\Type("string")
-     */
-    protected $icon;
-
-    /**
      * Corps du texte
      * @ORM\Column(name="presentation", type="text", nullable=true)
      * @JMS\Expose
      * @Assert\Type("string")
      */
     protected $presentation;
-
-    /**
-     * Club actif ou non ?
-     * @ORM\Column(name="active", type="boolean", nullable=true)
-     * @JMS\Expose
-     * @Assert\Type("boolean")
-     */
-    protected $active;
-
-    /**
-     * Asso, club ou NULL si autre
-     * @ORM\Column(name="category", type="string", nullable=true)
-     * @JMS\Expose
-     * @Assert\Type("string")
-     */
-    protected $category;
-
-    /**
-     * Channel géré par l'administration ?
-     * @ORM\Column(name="administration", type="boolean", nullable=true)
-     * @JMS\Expose
-     * @Assert\Type("boolean")
-     */
-    protected $administration;
 
     /**
      * @JMS\VirtualProperty()
@@ -91,6 +63,9 @@ class Club extends Likeable
     {
         return $this->banner !== null ? $this->banner->getWebPath() : null;
     }
+
+
+
 
 
 
@@ -124,29 +99,6 @@ class Club extends Likeable
     }
 
     /**
-     * Set icon
-     *
-     * @param string $icon
-     * @return Club
-     */
-    public function setIcon($icon)
-    {
-        $this->icon = $icon;
-
-        return $this;
-    }
-
-    /**
-     * Get icon
-     *
-     * @return string
-     */
-    public function getIcon()
-    {
-        return $this->icon;
-    }
-
-    /**
      * Set presentation
      *
      * @param text $presentation
@@ -167,75 +119,6 @@ class Club extends Likeable
     public function getPresentation()
     {
         return $this->presentation;
-    }
-
-    /**
-     * Set active
-     *
-     * @param boolean $active
-     * @return Club
-     */
-    public function setActive($active)
-    {
-        $this->active = $active;
-
-        return $this;
-    }
-
-    /**
-     * Get active
-     *
-     * @return boolean
-     */
-    public function getActive()
-    {
-        return $this->active;
-    }
-
-    /**
-     * Set category
-     *
-     * @param boolean $category
-     * @return Club
-     */
-    public function setCategory($category)
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
-    /**
-     * Get category
-     *
-     * @return string
-     */
-    public function getCategory()
-    {
-        return $this->category;
-    }
-
-    /**
-     * Get administration
-     *
-     * @return boolean
-     */
-    public function getAdministration()
-    {
-        return $this->administration;
-    }
-
-    /**
-     * Set administration
-     *
-     * @param boolean $administration
-     * @return Club
-     */
-    public function setAdministration($administration)
-    {
-        $this->administration = $administration;
-
-        return $this;
     }
 
     /**

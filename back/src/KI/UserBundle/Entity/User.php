@@ -179,6 +179,14 @@ class User extends CoreUser
     protected $clubs;
 
     /**
+     * Famille de l'utilisateur
+     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User", inversedBy="users")
+     * @JMS\Expose
+     * @Assert\Valid()
+     */
+    protected $family;
+
+    /**
      * Téléchargements de l'utilisateur
      * @ORM\OneToMany(targetEntity="KI\PonthubBundle\Entity\PonthubFileUser", mappedBy="user", orphanRemoval=true)
      * @Assert\Valid()
@@ -190,6 +198,7 @@ class User extends CoreUser
      * @ORM\OneToMany(targetEntity="KI\FoyerBundle\Entity\Transaction", mappedBy="user")
      * @Assert\Valid()
      */
+
     protected $transactions;
 
     /**
@@ -647,5 +656,29 @@ class User extends CoreUser
     public function getClubs()
     {
         return $this->clubs;
+    }
+
+    /**
+     * Set family
+     *
+     * @param \KI\UserBundle\Entity\User $family
+     *
+     * @return User
+     */
+    public function setFamily(\KI\UserBundle\Entity\User $family = null)
+    {
+        $this->family = $family;
+
+        return $this;
+    }
+
+    /**
+     * Get family
+     *
+     * @return \KI\UserBundle\Entity\User
+     */
+    public function getFamily()
+    {
+        return $this->family;
     }
 }
