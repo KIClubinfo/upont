@@ -180,7 +180,7 @@ class User extends CoreUser
 
     /**
      * Famille de l'utilisateur
-     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User", inversedBy="users")
+     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\Family", inversedBy="users", cascade={"persist", "remove"})
      * @JMS\Expose
      * @Assert\Valid()
      */
@@ -665,7 +665,7 @@ class User extends CoreUser
      *
      * @return User
      */
-    public function setFamily(\KI\UserBundle\Entity\User $family = null)
+    public function setFamily(\KI\UserBundle\Entity\Family $family = null)
     {
         $this->family = $family;
 

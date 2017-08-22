@@ -27,10 +27,18 @@ class Family extends Likeable
     protected $fullName;
 
     /**
+     * Membres de la famille
+     * @ORM\OneToMany(targetEntity="KI\UserBundle\Entity\User", mappedBy="family", orphanRemoval=true)
+     * @Assert\Valid()
+     */
+    protected $users;
+
+    /**
      * Logo
      * @ORM\OneToOne(targetEntity="KI\CoreBundle\Entity\Image", cascade={"persist", "remove"})
      * @Assert\Valid()
      */
+
     protected $image;
 
     /**
@@ -96,6 +104,40 @@ class Family extends Likeable
     public function getFullName()
     {
         return $this->fullName;
+    }
+
+    /**
+     * Add user
+     *
+     * @param \KI\UserBundle\Entity\User $user
+     *
+     * @return Family
+     */
+    public function addUser(\KI\UserBundle\Entity\User $user)
+    {
+        $this->users[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \KI\UserBundle\Entity\User $user
+     */
+    public function removeUser(\KI\UserBundle\Entity\User $user)
+    {
+        $this->users->removeElement($user);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUsers()
+    {
+        return $this->users;
     }
 
     /**
