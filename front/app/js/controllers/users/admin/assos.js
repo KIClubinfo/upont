@@ -12,7 +12,7 @@ angular.module('upont')
                 fullName: club.fullname,
                 name: club.name,
                 administration: club.administration,
-                assos: !club.isClub,
+                category: club.category,
                 active: true
             };
 
@@ -34,7 +34,7 @@ angular.module('upont')
                 fullname: '',
                 name: '',
                 administration: false,
-                isClub: true
+                category: true
             };
         };
 
