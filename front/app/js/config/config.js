@@ -186,8 +186,8 @@ angular.module('upont').factory('ErrorCodes_Interceptor', [
         $rootScope.searchCategory = 'Assos';
 
         // Easter egg
-        // $rootScope.surprise = (Math.floor(Math.random() * 1000) == 314);
-        $rootScope.surprise = false;
+        $rootScope.surprise = (Math.floor(Math.random() * 1000) == 314);
+        // $rootScope.surprise = false;
 
         // Zoom sur les images
         $rootScope.zoom = false;

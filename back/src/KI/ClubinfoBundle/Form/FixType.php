@@ -17,7 +17,7 @@ class FixType extends AbstractType
             ->add('problem')
             ->add('fix')
             ->add('status', null, [
-                'empty_data' => 'Non vu'
+                'empty_data' => 'En attente'
             ])
         ;
     }
