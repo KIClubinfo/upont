@@ -46,14 +46,18 @@ class FacebookImportUserRegistrationListener
                 $id = '1739424532975028';
                 break;  // WEI'STED
             case '019':
-                $id = '1739424532975028';
-                break;  // WEI'STED
+                $id = '313192685791329';
+                break;  // WEI'T FOR IT
+            case '020':
+                $id = '313192685791329';
+                break;  // WEI'T FOR IT
             default:
-                return;
+                $id = '313192685791329';
+                break;  // WEI'T FOR IT
         }
 
         // On récupère la liste des membres
-        $baseUrl = 'https://graph.facebook.com/v2.7';
+        $baseUrl = 'https://graph.facebook.com/v2.10';
         $data = json_decode($this->curlService->curl($baseUrl . '/' . $id . '/members' . $token . '&limit=10000'), true);
 
         $bestMatch = null;
