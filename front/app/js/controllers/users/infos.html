@@ -1,14 +1,14 @@
 <section class="padded">
-        <a class="Link  Link--reverse" title="Contacter le KI par messenger"
-       target="_blank" href="https://m.me/enpc.clubinfo">
+    <a class="Link  Link--reverse" title="Contacter le KI par messenger"
+        target="_blank" href="https://m.me/enpc.clubinfo">
         <i class="fa fa-facebook-official"></i> Contacter le KI par Fb !
     </a><br>
 
     <a class="Link  Link--reverse" title="Faire une remarque sur uPont"
-       ng-if="!$root.isAdmissible" ui-sref="root.users.assos.ki">
+        ng-if="!$root.isAdmissible" ui-sref="root.users.assos.ki">
         <i class="fa fa-bullhorn"></i> Contacter le KI sans Fb !
     </a><br>
-    
+
     <span ng-hide="$root.me.balance == null">
         <i class="fa fa-beer"></i> Compte Foyer : {{ $root.me.balance | number:2 }} €</i>
         <a class="Link  Link--reverse" target="_blank" href="https://lydia-app.com/collect/foyer-enpc-rechargement" title="Rechargement via Lydia"><i class="fa  fa-money"></i></a>
