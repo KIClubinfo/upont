@@ -52,8 +52,7 @@ class FacebookImportUserRegistrationListener
                 $id = '313192685791329';
                 break;  // WEI'T FOR IT
             default:
-                $id = '313192685791329';
-                break;  // WEI'T FOR IT
+                return;
         }
 
         // On récupère la liste des membres
