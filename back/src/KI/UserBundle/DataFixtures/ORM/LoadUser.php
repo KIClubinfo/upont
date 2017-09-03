@@ -26,6 +26,25 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $userManager = $this->container->get('fos_user.user_manager');
 
         $user = $userManager->createUser();
+        $user->setUsername('matthias.dreveton');
+        $user->setEmail('matthias.dreveton@eleves.enpc.fr');
+        $user->setPlainPassword('password');
+        $user->setLoginMethod('form');
+        $user->setFirstName('Matthias');
+        $user->setLastName('Dreveton');
+        $user->setPromo('019');
+        $user->setDepartment('1A');
+        $user->setNationality('Français');
+        $user->setOrigin('Concours Commun');
+        $user->setMailEvent(false);
+        $user->setMailModification(false);
+        $user->setMailShotgun(false);
+        $user->setEnabled(true);
+        $user->addGroupUser($this->getReference('group-user'));
+        $userManager->updateUser($user);
+        $this->addReference('user-matthias.dreveton', $user);
+
+        $user = $userManager->createUser();
         $user->setUsername('archlinux');
         $user->setEmail('philippe.ferreira-de-sousa@eleves.enpc.fr');
         $user->setPlainPassword('password');
