@@ -61,14 +61,15 @@ class PhotoUpdateCommand extends ContainerAwareCommand
         $baseUrl = 'https://graph.facebook.com/v2.10';
         $data = json_decode($curlService->curl($baseUrl . '/' . $id . '/members' . $token . '&limit=10000'), true);
 
-        $bestMatch = null;
-        $bestPercent = -1;
         $updateCount = 0;
         $unfoundCount = 0;
 
         $output->writeln('Fb photo imported for the following people :');
 
         foreach ($users as $user) {
+            $bestMatch = null;
+            $bestPercent = -1;
+
             if ($user->imageUrl() === 'uploads/others/default-user.png') {
                 foreach ($data['data'] as $member) {
                     $percent = $this->isSimilar($user, $member);
@@ -84,7 +85,7 @@ class PhotoUpdateCommand extends ContainerAwareCommand
                     $image = $imageService->upload($dataImage['data']['url'], true);
                     $user->setImage($image);
                     $updateCount++;
-                    $output->writeln($user->getFirstName().' '.$user->getLastName());
+                    $output->writeln($user->getFirstName().' '.$user->getLastName().' <- '.$bestMatch['name'].' ('.$bestPercent.'% similar)');
                 }
                 else {
                     $unfoundCount++;
