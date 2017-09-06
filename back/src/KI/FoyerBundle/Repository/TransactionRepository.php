@@ -12,7 +12,10 @@ class TransactionRepository extends EntityRepository
      */
     public function getHallOfFame()
     {
-        $sept1 = strtotime("September 1st -1Year");
+        $sept1 = strtotime("September 1st");
+        if ($sept1 > time()) {
+            $sept1 = strtotime("September 1st -1Year");
+        }
 
         $hallOfFame = $this->getEntityManager()->createQuery('SELECT usr AS user, SUM(beer.volume) AS liters FROM
             KIUserBundle:User usr,
