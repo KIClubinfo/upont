@@ -62,7 +62,10 @@ class TransactionRepository extends EntityRepository
      */
     public function getSoldBeers()
     {
-        $sept1 = strtotime("September 1st -1Year");
+        $sept1 = strtotime("September 1st");
+        if ($sept1 > time()) {
+            $sept1 = strtotime("September 1st -1Year");
+        }
 
         $soldBeers = $this->getEntityManager()->createQuery('SELECT
             COUNT(beer.id) AS soldBeer, beer.name as name FROM
