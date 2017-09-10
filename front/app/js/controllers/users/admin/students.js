@@ -48,7 +48,7 @@ angular.module('upont')
             }).then(function() {
                 var input = $('#fileUpload');
                 input.replaceWith(input.val('').clone(true));
-                alertify.success('Import effectué, un rapport a été envoyé à root@clubinfo.enpc.fr');
+                alertify.success('Import effectué, un rapport a été envoyé à ovh@clubinfo.enpc.fr');
             });
         };
     }])
