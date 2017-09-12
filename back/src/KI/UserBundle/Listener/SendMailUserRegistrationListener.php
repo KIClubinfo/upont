@@ -38,7 +38,7 @@ class SendMailUserRegistrationListener
         $message = Swift_Message::newInstance()
             ->setSubject('[uPont] Nouvelle inscription (' . $username . ')')
             ->setFrom('noreply@upont.enpc.fr')
-            ->setTo('ovh@clubinfo.enpc.fr')
+            ->setTo('upont@clubinfo.enpc.fr')
             ->setBody($this->twigEngine->render('KIUserBundle::registration-ki.txt.twig', $attributes));
 
         $this->swiftMailer->send($message);

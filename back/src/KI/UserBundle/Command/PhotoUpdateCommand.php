@@ -5,6 +5,7 @@ namespace KI\UserBundle\Command;
 use KI\UserBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -16,6 +17,8 @@ class PhotoUpdateCommand extends ContainerAwareCommand
             ->setName('upont:update:photo')
             ->setDescription('Import missing photos from Facebook for the given promo')
             ->addArgument('promo', InputArgument::REQUIRED, 'The promo whose photos are to be updated.')
+            ->addOption('preview', 'p', InputOption::VALUE_NONE, 'Make a preview of the photos to be imported without importing them')
+            ->addOption('similarity-threshold', 's', InputOption::VALUE_REQUIRED, 'Similarity threshold with Fb profiles above which photos are imported (in % between 0 and 100)', 85)
         ;
     }
 
@@ -64,7 +67,7 @@ class PhotoUpdateCommand extends ContainerAwareCommand
         $updateCount = 0;
         $unfoundCount = 0;
 
-        $output->writeln('Fb photo imported for the following people :');
+        $output->writeln('Fb photos '.($input->getOption('preview') ? 'would be ' : '').'imported for the following people (> '.$input->getOption('similarity-threshold').'% similar) :');
 
         foreach ($users as $user) {
             $bestMatch = null;
@@ -79,13 +82,15 @@ class PhotoUpdateCommand extends ContainerAwareCommand
                     }
                 }
 
-                if ($bestPercent > 85) {
-                    $url = '/' . $bestMatch['id'] . '/picture' . $token . '&width=9999&redirect=false';
-                    $dataImage = json_decode($curlService->curl($baseUrl . $url), true);
-                    $image = $imageService->upload($dataImage['data']['url'], true);
-                    $user->setImage($image);
-                    $updateCount++;
+                if ($bestPercent > $input->getOption('similarity-threshold')) {
+                    if (!$input->getOption('preview')) {
+                        $url = '/' . $bestMatch['id'] . '/picture' . $token . '&width=9999&redirect=false';
+                        $dataImage = json_decode($curlService->curl($baseUrl . $url), true);
+                        $image = $imageService->upload($dataImage['data']['url'], true);
+                        $user->setImage($image);
+                    }
                     $output->writeln($user->getFirstName().' '.$user->getLastName().' <- '.$bestMatch['name'].' ('.$bestPercent.'% similar)');
+                    $updateCount++;
                 }
                 else {
                     $unfoundCount++;
@@ -99,7 +104,7 @@ class PhotoUpdateCommand extends ContainerAwareCommand
           '',
           'Students in promo '.$input->getArgument('promo').': '.count($users),
           'Missing photos in promo: '.($updateCount+$unfoundCount),
-          'Imported missing photos :'.$updateCount,
+          ($input->getOption('preview') ? 'To be i' : 'I').'mported missing photos :'.$updateCount,
           'Remaining missing photos (unfound Facebook profiles): '.$unfoundCount
           ]);
     }
