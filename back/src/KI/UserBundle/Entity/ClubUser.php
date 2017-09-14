@@ -36,7 +36,7 @@ class ClubUser
     private $club;
 
     /**
-     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\User", inversedBy="clubs")
      * @ORM\JoinColumn(nullable=false)
      * @JMS\Expose
      */
