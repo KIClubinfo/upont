@@ -44,11 +44,11 @@ class DepartmentUpdateCommand extends ContainerAwareCommand
                 $successCount++;
             }
             else {
-                $output->writeln('Username '.$username.' n\'existe pas');
+                $output->writeln('<error>Username '.$username.' n\'existe pas<error>');
             }
         }
         $em->flush();
 
-        $output->writeln($input->getArgument('department').' : '.$successCount.' élèves sur '.count($usernameArray).' mis à jours');
+        $output->writeln('<comment>'.$input->getArgument('department').' : '.$successCount.' élève'.($successCount >= 2 ? 's' : '').' sur '.count($usernameArray).' mis à jour'.'<comment>');
     }
 }
