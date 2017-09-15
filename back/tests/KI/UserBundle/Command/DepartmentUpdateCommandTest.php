@@ -10,37 +10,25 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class DepartmentUpdateCommandTest extends KernelTestCase
 {
-    public function testDepartmentFromListUpdate()
+     /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    private $em;
+
+     /**
+      * {@inheritDoc}
+      */
+    protected function setUp()
     {
-        /**
-        * @var \Doctrine\ORM\EntityManager
-        */
-        private $em;
+        self::bootKernel();
 
-        /**
-         * {@inheritDoc}
-         */
-        protected function setUp()
-        {
-            self::bootKernel();
+        $this->em = static::$kernel->getContainer()
+            ->get('doctrine')
+            ->getManager();
+    }
 
-            $this->em = static::$kernel->getContainer()
-                ->get('doctrine')
-                ->getManager();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        protected function tearDown()
-        {
-            parent::tearDown();
-
-            $this->em->close();
-            $this->em = null; // avoid memory leaks
-        }
-
-        $this->setUp();
+    public function testUpdateDepartment()
+    {
         $dreveton = $this->em->getRepository(User::class)->findOneByUsername('matthias.dreveton');
 
         $application = new Application(static::$kernel);
@@ -57,7 +45,16 @@ class DepartmentUpdateCommandTest extends KernelTestCase
         $this->assertContains('IMI : 3 élèves sur 4 mis à jour', $output);
         $this->assertContains('Username dsfqsdfefdfq n\'existe pas', $output);
         $this->assertEquals('IMI', $dreveton->getDepartment());
+    }
 
-        $this->tearDown();
+     /**
+      * {@inheritDoc}
+      */
+    protected function tearDown()
+    {
+        parent::tearDown();
+
+        $this->em->close();
+        $this->em = null; // avoid memory leaks
     }
 }
