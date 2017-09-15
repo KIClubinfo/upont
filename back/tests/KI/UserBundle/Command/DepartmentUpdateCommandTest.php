@@ -3,7 +3,7 @@
 namespace Tests\KI\UserBundle\Command;
 
 use KI\UserBundle\Entity\User;
-use Tests\KI\UserBundle\Command\DepartmentUpdateCommand;
+use KI\UserBundle\Command\DepartmentUpdateCommand;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
