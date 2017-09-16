@@ -79,6 +79,17 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($club);
         $this->addReference('club-gcc', $club);
 
+        $club = new Club();
+        $club->setName('La DDASS');
+        $club->setFullName('La DDASS');
+        $club->setActive(true);
+        $club->setCategory('famille');
+        $club->setAdministration(false);
+        $club->setImage($this->getReference('image-club-la-ddass'));
+        $club->setPresentation('La meilleure famille des Ponts ! <3');
+        $manager->persist($club);
+        $this->addReference('club-la-ddass', $club);
+
         $manager->flush();
     }
 

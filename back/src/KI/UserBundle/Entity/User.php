@@ -179,14 +179,6 @@ class User extends CoreUser
     protected $clubs;
 
     /**
-     * Famille de l'utilisateur
-     * @ORM\ManyToOne(targetEntity="KI\UserBundle\Entity\Family", inversedBy="users", cascade={"persist", "remove"})
-     * @JMS\Expose
-     * @Assert\Valid()
-     */
-    protected $family;
-
-    /**
      * Téléchargements de l'utilisateur
      * @ORM\OneToMany(targetEntity="KI\PonthubBundle\Entity\PonthubFileUser", mappedBy="user", orphanRemoval=true)
      * @Assert\Valid()
@@ -198,7 +190,6 @@ class User extends CoreUser
      * @ORM\OneToMany(targetEntity="KI\FoyerBundle\Entity\Transaction", mappedBy="user")
      * @Assert\Valid()
      */
-
     protected $transactions;
 
     /**
@@ -657,6 +648,7 @@ class User extends CoreUser
     {
         return $this->clubs;
     }
+<<<<<<< HEAD
 
     /**
      * Set family
@@ -681,4 +673,6 @@ class User extends CoreUser
     {
         return $this->family;
     }
+=======
+>>>>>>> parent of c99dc6d0... Création entité famille
 }
