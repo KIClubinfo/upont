@@ -3,6 +3,10 @@
         <a class="Navbar__link" up-state-active ui-sref="root.users.students.list">Ponts'binoscope</a>
         <a class="Navbar__link" up-state-active="root.users.students.simple" ui-sref="root.users.students.simple({slug: $root.username})">Voir le profil</a>
         <a class="Navbar__link" up-state-active ui-sref="root.users.students.modify({slug: $root.username})" ng-if="!$root.isAdmissible">Modifier le profil</a>
+<<<<<<< HEAD
+=======
+        <a class="Navbar__link" up-state-active ui-sref="root.users.students.family({slug: $root.me.family})" ng-if="$root.me.family">Famille</a>
+>>>>>>> parent of 7d0d1607... Controller Family pas fini
         <a class="Navbar__link" up-state-active ui-sref="root.users.students.game">La Réponse D</a>
         <a class="Navbar__link" up-state-active ui-sref="root.users.students.pontlyvalent">Pontlyvalent</a>
     </div>

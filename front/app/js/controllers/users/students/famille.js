@@ -10,7 +10,7 @@ angular.module('upont')
             .state('root.users.students.family', {
                 url: '/:slug',
                 abstract: true,
-                controller: 'Students_Family_Ctrl',
+                controller: 'Family_Simple_Ctrl',
                 templateUrl: 'controllers/users/students/family.html',
                 resolve: {
                     family: ['$resource', '$stateParams', function($resource, $stateParams) {
@@ -18,7 +18,7 @@ angular.module('upont')
                             slug: $stateParams.slug
                         }).$promise;
                     }],
-                    users: ['$resource', '$stateParams', function($resource, $stateParams) {
+                    members: ['$resource', '$stateParams', function($resource, $stateParams) {
                         return $resource(apiPrefix + 'family/:slug/users').query({
                             slug: $stateParams.slug
                         }).$promise;
