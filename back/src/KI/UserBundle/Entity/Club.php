@@ -61,7 +61,7 @@ class Club extends Likeable
     protected $active;
 
     /**
-     * Asso, club, famille ou NULL si autre
+     * "asso", "club" ou autre
      * @ORM\Column(name="category", type="string", nullable=true)
      * @JMS\Expose
      * @Assert\Type("string")

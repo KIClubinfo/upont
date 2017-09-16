@@ -45,36 +45,13 @@
 <hr>
 
 <section class="Ticket padded">
-    <h2 class="padded">Familles</h2>
-</section>
-
-<section row wrap>
-    <section class="padded" flex="100" flex-sm="50" flex-md="33" flex-lg="25" row
-             ui-sref="root.users.assos.simple.presentation({slug: club.slug})"
-             ng-repeat="club in clubs" ng-if="club.active && club.category==='famille'">
-        <div class="Ticket  Ticket--link  Ticket--shadow" flex="100">
-            <div row="space-between center">
-                <div class="Image" flex="40">
-                    <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ club.image_url | thumb | urlFile }})' }"></div>
-                </div>
-                <div flex="50">
-                    <h3>{{ club.full_name }}</h3>
-                </div>
-            </div>
-        </div>
-    </section>
-</section>
-
-<hr>
-
-<section class="Ticket padded">
     <h2 class="padded">Autres</h2>
 </section>
 
 <section row wrap>
     <section class="padded" flex="100" flex-sm="50" flex-md="33" flex-lg="25" row
              ui-sref="root.users.assos.simple.presentation({slug: club.slug})"
-             ng-repeat="club in clubs" ng-if="club.active && club.category!=='asso' && club.category!=='club' && club.category!=='famille'">
+             ng-repeat="club in clubs" ng-if="club.active && club.category!=='asso' && club.category!=='club'">
         <div class="Ticket  Ticket--link  Ticket--shadow" flex="100">
             <div row="space-between center">
                 <div class="Image" flex="40">

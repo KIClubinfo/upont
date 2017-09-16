@@ -648,31 +648,4 @@ class User extends CoreUser
     {
         return $this->clubs;
     }
-<<<<<<< HEAD
-
-    /**
-     * Set family
-     *
-     * @param \KI\UserBundle\Entity\User $family
-     *
-     * @return User
-     */
-    public function setFamily(\KI\UserBundle\Entity\User $family = null)
-    {
-        $this->family = $family;
-
-        return $this;
-    }
-
-    /**
-     * Get family
-     *
-     * @return \KI\UserBundle\Entity\User
-     */
-    public function getFamily()
-    {
-        return $this->family;
-    }
-=======
->>>>>>> parent of c99dc6d0... Création entité famille
 }
