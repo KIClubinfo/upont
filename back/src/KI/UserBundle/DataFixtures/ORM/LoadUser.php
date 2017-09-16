@@ -60,7 +60,6 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setMailModification(false);
         $user->setMailShotgun(false);
         $user->setEnabled(true);
-        $user->setFamily($this->getReference('family-la-ddass'));
         $user->addGroupUser($this->getReference('group-admin'));
         $user->setImage($this->getReference('image-user-archlinux'));
         $userManager->updateUser($user);
@@ -82,7 +81,6 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
         $user->setMailModification(false);
         $user->setMailShotgun(false);
         $user->setEnabled(true);
-        $user->setFamily($this->getReference('family-la-ddass'));
         $user->addGroupUser($this->getReference('group-admin'));
         $user->setImage($this->getReference('image-user-trezzinl'));
         $userManager->updateUser($user);
@@ -365,6 +363,6 @@ class LoadUserFixture extends AbstractFixture implements OrderedFixtureInterface
 
     public function getOrder()
     {
-        return 4;
+        return 3;
     }
 }

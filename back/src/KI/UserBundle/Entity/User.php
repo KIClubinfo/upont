@@ -657,7 +657,7 @@ class User extends CoreUser
      *
      * @return User
      */
-    public function setFamily(\KI\UserBundle\Entity\Family $family = null)
+    public function setFamily(\KI\UserBundle\Entity\User $family = null)
     {
         $this->family = $family;
 
