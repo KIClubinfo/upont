@@ -4,7 +4,7 @@ angular.module('upont')
             fullname: '',
             name: '',
             administration: false,
-            isClub: true
+            category: ''
         };
 
         $scope.post = function(club) {
@@ -34,7 +34,7 @@ angular.module('upont')
                 fullname: '',
                 name: '',
                 administration: false,
-                category: true
+                category: ''
             };
         };
 
