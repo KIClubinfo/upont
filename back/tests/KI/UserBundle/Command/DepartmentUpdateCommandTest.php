@@ -8,6 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
+// This test is not unitary, it has a side effect : it sets Matthias Dreveton's department to 'IMI'
+
 class DepartmentUpdateCommandTest extends KernelTestCase
 {
      /**
