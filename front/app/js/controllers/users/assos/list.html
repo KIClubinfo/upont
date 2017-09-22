@@ -22,13 +22,82 @@
 <hr>
 
 <section class="Ticket padded">
-    <h2 class="padded">Clubs</h2>
+    <h2 class="padded">Clubs gastronomiques</h2>
 </section>
 
 <section row wrap>
     <section class="padded" flex="100" flex-sm="50" flex-md="33" flex-lg="25" row
              ui-sref="root.users.assos.simple.presentation({slug: club.slug})"
-             ng-repeat="club in clubs" ng-if="club.active && club.category === 'club'">
+             ng-repeat="club in clubs" ng-if="club.active && club.category === 'club-gastronomique'">
+        <div class="Ticket  Ticket--link  Ticket--shadow" flex="100">
+            <div row="space-between center">
+                <div class="Image" flex="40">
+                    <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ club.image_url | thumb | urlFile }})' }"></div>
+                </div>
+                <div flex="50">
+                    <h3>{{ club.full_name }}</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+
+<hr>
+
+<section class="Ticket padded">
+    <h2 class="padded">Clubs artistiques</h2>
+</section>
+
+<section row wrap>
+    <section class="padded" flex="100" flex-sm="50" flex-md="33" flex-lg="25" row
+             ui-sref="root.users.assos.simple.presentation({slug: club.slug})"
+             ng-repeat="club in clubs" ng-if="club.active && club.category === 'club-artistique'">
+        <div class="Ticket  Ticket--link  Ticket--shadow" flex="100">
+            <div row="space-between center">
+                <div class="Image" flex="40">
+                    <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ club.image_url | thumb | urlFile }})' }"></div>
+                </div>
+                <div flex="50">
+                    <h3>{{ club.full_name }}</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+
+<hr>
+
+<section class="Ticket padded">
+    <h2 class="padded">Clubs de divertissement</h2>
+</section>
+
+<section row wrap>
+    <section class="padded" flex="100" flex-sm="50" flex-md="33" flex-lg="25" row
+             ui-sref="root.users.assos.simple.presentation({slug: club.slug})"
+             ng-repeat="club in clubs" ng-if="club.active && club.category === 'club-divertissement'">
+        <div class="Ticket  Ticket--link  Ticket--shadow" flex="100">
+            <div row="space-between center">
+                <div class="Image" flex="40">
+                    <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ club.image_url | thumb | urlFile }})' }"></div>
+                </div>
+                <div flex="50">
+                    <h3>{{ club.full_name }}</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+
+<hr>
+
+<section class="Ticket padded">
+    <h2 class="padded">Clubs culturels</h2>
+</section>
+
+<section row wrap>
+    <section class="padded" flex="100" flex-sm="50" flex-md="33" flex-lg="25" row
+             ui-sref="root.users.assos.simple.presentation({slug: club.slug})"
+             ng-repeat="club in clubs" ng-if="club.active && club.category === 'club-culturel'">
         <div class="Ticket  Ticket--link  Ticket--shadow" flex="100">
             <div row="space-between center">
                 <div class="Image" flex="40">
@@ -51,7 +120,8 @@
 <section row wrap>
     <section class="padded" flex="100" flex-sm="50" flex-md="33" flex-lg="25" row
              ui-sref="root.users.assos.simple.presentation({slug: club.slug})"
-             ng-repeat="club in clubs" ng-if="club.active && club.category !== 'asso' && club.category !== 'club'">
+             ng-repeat="club in clubs" ng-if="club.active && club.category !== 'asso' && club.category !== 'club-gastronomique'
+             && club.category !== 'club-artistique' && club.category !== 'club-divertissement' && club.category !== 'club-culturel'">
         <div class="Ticket  Ticket--link  Ticket--shadow" flex="100">
             <div row="space-between center">
                 <div class="Image" flex="40">
@@ -68,7 +138,7 @@
 <hr>
 
 <section class="Ticket">
-    <h2 class="padded">Archivés</h2>
+    <h2 class="padded">Clubs abandonnés</h2>
 </section>
 
 <section row wrap>

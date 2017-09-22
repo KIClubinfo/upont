@@ -16,7 +16,7 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $club->setName('KI');
         $club->setFullName('Club Informatique');
         $club->setActive(true);
-        $club->setCategory('club');
+        $club->setCategory('club-divertissement');
         $club->setIcon('download');
         $club->setImage($this->getReference('image-club-ki'));
         $club->setPresentation('Ce club est OMG fucking trop bien.');
@@ -37,7 +37,7 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $club->setName('BDA');
         $club->setFullName('Bureau Des Arts');
         $club->setActive(true);
-        $club->setCategory('club');
+        $club->setCategory('club-artistique');
         $club->setIcon('paint-brush');
         $club->setImage($this->getReference('image-club-bda'));
         $manager->persist($club);
@@ -57,14 +57,14 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $club->setName('Mediatek');
         $club->setFullName('Médiatek');
         $club->setActive(false);
-        $club->setCategory('club');
+        $club->setCategory('club-divertissement');
         $manager->persist($club);
         $this->addReference('club-mediatek', $club);
 
         $club = new Club();
         $club->setName('Foyer');
         $club->setFullName('Foyer');
-        $club->setCategory('club');
+        $club->setCategory('club-divertissement');
         $club->setActive(true);
         $club->setImage($this->getReference('image-club-foyer'));
         $manager->persist($club);
@@ -73,11 +73,30 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $club = new Club();
         $club->setName('GCC');
         $club->setFullName('Génie Civil et Construction');
+        $club->setCategory('autre');
         $club->setActive(true);
         $club->setAdministration(true);
         $club->setImage($this->getReference('image-user-gcc'));
         $manager->persist($club);
         $this->addReference('club-gcc', $club);
+
+        $club = new Club();
+        $club->setName('BPC');
+        $club->setFullName('Brunch Ponts Club');
+        $club->setCategory('club-gastronomique');
+        $club->setActive(true);
+        $club->setImage($this->getReference('image-club-bpc'));
+        $manager->persist($club);
+        $this->addReference('club-bpc', $club);
+
+        $club = new Club();
+        $club->setName('PMA');
+        $club->setFullName('Ponts Monde Arabe');
+        $club->setCategory('club-culturel');
+        $club->setActive(true);
+        $club->setImage($this->getReference('image-club-pma'));
+        $manager->persist($club);
+        $this->addReference('club-pma', $club);
 
         $manager->flush();
     }
