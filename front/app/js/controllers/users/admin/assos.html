@@ -12,7 +12,17 @@
             </div>
 
             <div flex="100" flex-md="50" class="padded">
-                <input class="Input" type="text" ng-model="club.category" placeholder="asso | club-gastronomique/artistique/divertissement/culturel | autre">
+                <select class="Input" ng-model="club.category">
+                    <option value="" disabled selected>Catégorie</option>
+                    <option value="asso">Association</option>
+                    <optgroup label="Clubs du BDE">
+                        <option value="club-gastronomique">Gastronomie</option>
+                        <option value="club-artistique">Art</option>
+                        <option value="club-divertissement">Divertissement</option>
+                        <option value="club-culturel">Culture (débat, échanges...)</option>
+                        <option value="autre">Autre</option>
+                    </optgroup>
+                </select>
             </div>
 
             <div flex="100" flex-md="50" class="padded">
