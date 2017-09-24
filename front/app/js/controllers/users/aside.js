@@ -18,11 +18,11 @@ angular.module('upont')
         });
 
         // Gens en ligne
-        reloadOnline = function() {
-            $resource(apiPrefix + 'online').query(function(data){
+        refreshData = function() {
+            $resource(apiPrefix + 'refresh').query(function(data){
                 $scope.online = data;
             });
         };
-        reloadOnline();
-        $rootScope.reloadOnline = $interval(reloadOnline, 60000);
+        refreshData();
+        $rootScope.updateInfo = $interval(refreshData, 60000);
     }]);
