@@ -3,7 +3,7 @@ angular.module('upont')
         $scope.clubs = clubs;
         $rootScope.displayTabs = true;
         $scope.clubTypes = [{name: "Assos", slug: "asso"}, {name: "Clubs gastronomiques", slug: "club-gastronomique"}, {name: "Clubs artistiques", slug: "club-artistique"}, {name: "Clubs de divertissement", slug: "club-divertissement"}, {name: "Clubs culturels", slug: "club-culturel"}];
-        $scope.clubSlugs = $scope.clubTypes.map(function(dico) { return dico['slug']; });
+        $scope.clubSlugs = $scope.clubTypes.map(function(dict) { return dict['slug']; });
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
