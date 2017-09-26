@@ -1,16 +1,19 @@
 <main class="Page__noaside">
-	<nav class="Navbar">
-		<div row="start end" wrap>
-		    <div row="left stretch" flex="50">
-		        <a class="Navbar__link" up-state-active ui-sref="root.users.administration.presentation({slug: $root.username})">Présentation</a>
-		        <a class="Navbar__link" up-state-active ui-sref="root.users.administration.publications({slug: $root.username})">Activité</a>
-		        <a class="Navbar__link" up-state-active ui-sref="root.users.administration.modify({slug: $root.username})">Gestion</a>
-		    </div>
-		    <div flex="50" row="end stretch">
-	            <button class="Button" ng-click="logout()">Se déconnecter</button>
-	        </div>
-		</div>
-	</nav>
+    <nav class="Navbar">
+        <div class="Navbar__image Image" ng-if="clubs[0].club.banner_url">
+            <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ clubs[0].club.banner_url | urlFile }})' }"></div>
+        </div>
+        <div row="start end" wrap>
+            <div row="space-around stretch" wrap flex="70">
+                <a class="Navbar__link" up-state-active ui-sref="root.users.administration.presentation({slug: $root.username})">Présentation</a>
+                <a class="Navbar__link" up-state-active ui-sref="root.users.administration.publications({slug: $root.username})">Activité</a>
+                <a class="Navbar__link" up-state-active ui-sref="root.users.administration.modify({slug: $root.username})">Gestion</a>
+            </div>
+            <div flex="30" row="end stretch">
+                <button class="Button" ng-click="logout()">Se déconnecter</button>
+            </div>
+        </div>
+    </nav>
 
-	<div class="padded" ui-view root-state="root.users.administration" autoscroll="false"></div>
+    <div class="padded" ui-view root-state="root.users.administration" autoscroll="false"></div>
 </main>
