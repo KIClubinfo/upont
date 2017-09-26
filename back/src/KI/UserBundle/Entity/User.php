@@ -193,6 +193,20 @@ class User extends CoreUser
     protected $transactions;
 
     /**
+     * Notifications de l'utilisateur
+     * @ORM\ManyToMany(targetEntity="KI\UserBundle\Entity\Notification", mappedBy="recipients")
+     * @Assert\Valid()
+     */
+    protected $notifications;
+
+    /**
+     * Notifications lues de l'utilisateur
+     * @ORM\ManyToMany(targetEntity="KI\UserBundle\Entity\Notification", mappedBy="reads")
+     * @Assert\Valid()
+     */
+    protected $notificationsRead;
+
+    /**
      * Constructor
      */
     public function __construct()

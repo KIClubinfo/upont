@@ -292,11 +292,11 @@ class OwnController extends ResourceController
             $mode = $notification->getMode();
             if ($mode == 'to') {
                 // Si la notification n'a pas été lue
-                if ($notification->getRecipient()->contains($user) && !$notification->getRead()->contains($user))
+                if ($notification->getRecipients()->contains($user) && !$notification->getReads()->contains($user))
                     $return[] = $notification;
             } else if ($mode == 'exclude') {
                 // Si la notification n'a pas été lue
-                if (!$notification->getRead()->contains($user) && !$notification->getRecipient()->contains($user))
+                if (!$notification->getReads()->contains($user) && !$notification->getRecipients()->contains($user))
                     $return[] = $notification;
             } else
                 throw new \Exception('Notification : mode d\'envoi inconnu (' . $mode . ')');

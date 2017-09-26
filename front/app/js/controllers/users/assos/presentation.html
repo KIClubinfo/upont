@@ -1,5 +1,5 @@
-<div row="space-between start" ng-if="!club.administration" wrap>
-    <section class="Ticket" flex="100" flex-md="66">
+<div row="space-between start" wrap>
+    <section class="Ticket" flex="100" ng-class="{'flex-md-66pct': !club.administration}">
         <div ng-hide="edit">
             <p flex="100" ng-bind-html="presentation"></p>
 
@@ -18,7 +18,7 @@
         </div>
     </section>
 
-    <section class="Ticket" flex="100" flex-md="33">
+    <section class="Ticket" flex="100" flex-md="33"  ng-if="!club.administration">
         <h2>Membres - {{ club.full_name }}</h2>
 
         <table class="Table" flex="90">

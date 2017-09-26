@@ -70,23 +70,23 @@ class Notification
 
     /**
      * Destinataire(s) ou liste d'exclusion suivant le mode d'envoi choisi
-     * @ORM\ManyToMany(targetEntity="KI\UserBundle\Entity\User", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="KI\UserBundle\Entity\User", inversedBy="notifications")
      * @ORM\JoinTable(name="notifications_recipient",
-     *      joinColumns={@ORM\JoinColumn(name="notifications_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     *      joinColumns={@ORM\JoinColumn(name="notifications_id", referencedColumnName="id", onDelete="cascade")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="cascade")}
      * )
      */
-    protected $recipient;
+    protected $recipients;
 
     /**
      * Personnes ayant lu la notification
-     * @ORM\ManyToMany(targetEntity="KI\UserBundle\Entity\User", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="KI\UserBundle\Entity\User", inversedBy="notificationsRead")
      * @ORM\JoinTable(name="notifications_read",
-     *      joinColumns={@ORM\JoinColumn(name="notification_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     *      joinColumns={@ORM\JoinColumn(name="notification_id", referencedColumnName="id", onDelete="cascade")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="cascade")}
      *  )
      */
-    protected $read;
+    protected $reads;
 
 
 
@@ -101,8 +101,8 @@ class Notification
      */
     public function __construct($reason, $title, $message, $mode = 'to', $resource = '')
     {
-        $this->recipient = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->read = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->recipients = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->reads = new \Doctrine\Common\Collections\ArrayCollection();
 
         $this->setReason($reason);
         $this->setTitle(strip_tags($title));
@@ -268,7 +268,7 @@ class Notification
      */
     public function addRecipient(\KI\UserBundle\Entity\User $recipient)
     {
-        $this->recipient[] = $recipient;
+        $this->recipients[] = $recipient;
 
         return $this;
     }
@@ -280,7 +280,7 @@ class Notification
      */
     public function removeRecipient(\KI\UserBundle\Entity\User $recipient)
     {
-        $this->recipient->removeElement($recipient);
+        $this->recipients->removeElement($recipient);
     }
 
     /**
@@ -288,9 +288,9 @@ class Notification
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getRecipient()
+    public function getRecipients()
     {
-        return $this->recipient;
+        return $this->recipients;
     }
 
     /**
@@ -301,7 +301,7 @@ class Notification
      */
     public function addRead(\KI\UserBundle\Entity\User $read)
     {
-        $this->read[] = $read;
+        $this->reads[] = $read;
 
         return $this;
     }
@@ -313,7 +313,7 @@ class Notification
      */
     public function removeRead(\KI\UserBundle\Entity\User $read)
     {
-        $this->read->removeElement($read);
+        $this->reads->removeElement($read);
     }
 
     /**
@@ -321,8 +321,8 @@ class Notification
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getRead()
+    public function getReads()
     {
-        return $this->read;
+        return $this->reads;
     }
 }

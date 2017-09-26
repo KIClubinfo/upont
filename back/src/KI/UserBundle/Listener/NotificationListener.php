@@ -33,7 +33,7 @@ class NotificationListener
         // Si le mode d'envoi est direct, on envoie aux utilisateurs qui ont
         // enregistré un ou plusieurs Devices
         if ($notification->getMode() == 'to') {
-            foreach ($notification->getRecipient() as $user) {
+            foreach ($notification->getRecipients() as $user) {
                 // Si l'utilisateur a indiqué ne pas vouloir recevoir la notification
                 if (!$user->getPreferences()[$notification->getReason()])
                     continue;
@@ -52,7 +52,7 @@ class NotificationListener
         // Si on est en mode exclusion, on parcourt les Devices enregistrés
         // et on envoie à ceux qui ne sont pas dans la liste d'exclusion
         if ($notification->getMode() == 'exclude') {
-            $list = $notification->getRecipient();
+            $list = $notification->getRecipients();
             foreach ($devices as $device) {
                 if (!$list->contains($device->getOwner())) {
                     // Si l'utilisateur a indiqué ne pas vouloir recevoir la notification

@@ -7,7 +7,7 @@
         </div>
     </div>
 
-    <form row="start center" wrap ng-submit="submitClub(club.name, club.full_name, club.icon, profilePicture, bannerPicture)" autocomplete="off">
+    <form row="start center" wrap ng-submit="submitClub(club.name, club.full_name, club.icon, club.category, profilePicture, bannerPicture)" autocomplete="off">
         <div class="padded" flex="50" flex-md="25">
             <i class="fa fa-angle-double-right"></i>
             Nom long
@@ -30,6 +30,23 @@
         </div>
         <div class="padded" flex="50" flex-md="25">
             <input class="Input" type="text" ng-model="club.icon">
+        </div>
+
+        <div ng-if="!club.administration" class="padded" flex="50" flex-md="25">
+            <i class="fa fa-tag"></i>
+            Catégorie
+        </div>
+        <div ng-if="!club.administration" class="padded" flex="50" flex-md="25">
+            <select class="Input" ng-model="club.category">
+                <option value="asso">Association</option>
+                <optgroup label="Clubs du BDE">
+                    <option value="club-gastronomique">Gastronomie</option>
+                    <option value="club-artistique">Art</option>
+                    <option value="club-divertissement">Divertissement</option>
+                    <option value="club-culturel">Culture (débat, échanges...)</option>
+                    <option value="autre">Autre</option>
+                </optgroup>
+            </select>
         </div>
 
         <div class="padded" flex="50" flex-md="25">
@@ -64,7 +81,7 @@
     </div>
 </section>
 
-<section class="Ticket">
+<section class="Ticket" ng-if="!club.administration">
     <h2>Membres</h2>
 
     <div class="Search  padded">
