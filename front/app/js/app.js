@@ -2,6 +2,16 @@ var apiPrefix = '/api/';
 if (!location.origin)
     location.origin = location.protocol + '//' + location.host;
 
+// Web notifications via One Signal
+var OneSignal = window.OneSignal || [];
+    OneSignal.push(["init", {
+      appId: "94ba10b7-b625-4ead-885c-3351153c4a59",
+      autoRegister: false,
+      notifyButton: {
+        enable: true /* Set to false to hide */
+      }
+    }]);
+
 // Configuration de la langue
 moment.locale('fr', {
     week: {

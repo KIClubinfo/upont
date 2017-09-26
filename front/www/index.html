@@ -9,6 +9,8 @@
         <meta name="keywords" content="ponts chaussées upont intranet étudiant clubs associations paristech" />
         <meta name="author" content="KI - Club Informatique">
 
+        <!-- Progressive web app manifest -->
+        <link rel="manifest" href="/manifest.json">
         <!-- Tile Icon for Windows -->
         <meta name="msapplication-TileImage" content="img/icons/icon-144x144.png">
         <meta name="msapplication-TileColor" content="#6690b5">
@@ -22,7 +24,6 @@
         <link ng-if="false" rel="stylesheet" type="text/css" href="loading.min.css"/>
         <link rel="stylesheet" ng-href="{{ 'themes/' + $root.theme + '.min.css' }}">
         <link type="text/plain" rel="author" href="humans.txt" />
-        <link rel="manifest" href="/manifest.json">
     </head>
 
     <body>
@@ -42,9 +43,10 @@
             </div>
         </div>
 
+        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
         <script type="text/javascript" src="upont.min.js"></script>
         <script type="text/javascript" src="templates.js"></script>
-        <script type="text/javascript" src="https://www.youtube.com/iframe_api"></script>
+        <script type="text/javascript" src="https://www.youtube.com/iframe_api" async></script>
 
         <div ui-view autoscroll="false"></div>
 
