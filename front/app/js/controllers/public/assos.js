@@ -4,7 +4,7 @@ angular.module('upont')
         $scope.assos = [];
 
         angular.forEach(clubs, function(value, key) {
-            if (value.hasOwnProperty('assos') && value.assos === true)
+            if (value.hasOwnProperty('category') && value.category === 'asso')
                 $scope.assos.push(value);
             else
                 $scope.clubs.push(value);
