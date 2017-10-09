@@ -91,24 +91,6 @@ angular.module('upont')
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state('root.users.assos.dvp', {
-                url: '/paniers',
-                templateUrl: 'controllers/users/assos/dvp.html',
-                controller: 'DVP_Ctrl',
-                data: {
-                    title: 'DVP - uPont',
-                    top: true
-                },
-                resolve: {
-                    baskets: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'baskets').query().$promise;
-                    }],
-                    dates: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'basketdates').query().$promise;
-                    }]
-                }
-            })
-
             .state('root.public.dvp', {
                 url: '/paniers',
                 templateUrl: 'controllers/public/dvp.html',
