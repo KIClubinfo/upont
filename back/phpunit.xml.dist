@@ -20,10 +20,6 @@
             <directory>tests/KI/ClubinfoBundle</directory>
         </testsuite>
 
-        <testsuite name="dvp">
-            <directory>tests/KI/DvpBundle</directory>
-        </testsuite>
-
         <testsuite name="foyer">
             <directory>tests/KI/FoyerBundle</directory>
         </testsuite>

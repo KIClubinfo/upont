@@ -63,12 +63,6 @@ test:
         else
             vendor/bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/clubinfo.xml --testsuite clubinfo
         fi
-    - |
-        if [ $CIRCLE_BRANCH = 'master' ]; then
-            vendor/bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/dvp.xml --coverage-clover=dvp.clover --testsuite dvp
-        else
-            vendor/bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/dvp.xml --testsuite dvp
-        fi
 
   post:
     - |
@@ -98,8 +92,4 @@ test:
     - |
         if [ $CIRCLE_BRANCH = 'master' ]; then
             php ocular.phar code-coverage:upload --format=php-clover clubinfo.clover
-        fi
-    - |
-        if [ $CIRCLE_BRANCH = 'master' ]; then
-            php ocular.phar code-coverage:upload --format=php-clover dvp.clover
         fi

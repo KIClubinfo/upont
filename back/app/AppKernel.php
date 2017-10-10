@@ -27,7 +27,6 @@ class AppKernel extends Kernel
 
             new KI\ClubinfoBundle\KIClubinfoBundle(),
             new KI\CoreBundle\KICoreBundle(),
-            new KI\DvpBundle\KIDvpBundle(),
             new KI\FoyerBundle\KIFoyerBundle(),
             new KI\PonthubBundle\KIPonthubBundle(),
             new KI\PublicationBundle\KIPublicationBundle(),
