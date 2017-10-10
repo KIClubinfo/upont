@@ -40,6 +40,17 @@ class ClubUserRepository extends ResourceRepository
             ->setMaxResults(1)
             ->getSingleResult();
     }
+
+    public function getCountUsersInClubWithPromo(Club $club, $promo)
+    {
+        return $this->getEntityManager()->createQuery('SELECT count(cu)
+                FROM KIUserBundle:ClubUser cu,
+                KIUserBundle:User user
+                WHERE cu.club = :club
+              AND cu.user = user
+                AND user.promo = :promo')
+            ->setParameter('club', $club)
+            ->setParameter('promo', $promo)
+            ->getSingleScalarResult();
+    }
 }
-
-
