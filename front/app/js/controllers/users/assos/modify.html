@@ -7,7 +7,7 @@
         </div>
     </div>
 
-    <form row="start center" wrap ng-submit="submitClub(club.name, club.full_name, club.icon, club.category, profilePicture, bannerPicture)" autocomplete="off">
+    <form row="start center" wrap ng-submit="submitClub(club.name, club.full_name, club.icon, club.category, profilePicture, bannerPicture, club.active)" autocomplete="off">
         <div class="padded" flex="50" flex-md="25">
             <i class="fa fa-angle-double-right"></i>
             Nom long
@@ -63,6 +63,14 @@
         </div>
         <div class="padded" flex="50" flex-md="25">
             <input type="file" class="Input" ng-model="bannerPicture" base-sixty-four-input>
+        </div>
+
+        <div class="padded" flex="50" flex-md="25">
+            <i class="fa fa-lock"></i>
+            Actif
+        </div>
+        <div class="padded" flex="50" flex-md="25" ng-if="isAdmin">
+            <input type="checkbox" class="Input" ng-model="club.active">
         </div>
 
         <div class="padded" flex="100" row="end start">

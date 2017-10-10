@@ -13,12 +13,13 @@ angular.module('upont')
             });
         };
 
-        $scope.submitClub = function(name, fullName, icon, category, image, banner) {
+        $scope.submitClub = function(name, fullName, icon, category, image, banner, active) {
             var params = {
                 'name': name,
                 'fullName': fullName,
                 'icon': icon,
-                'category': category
+                'category': category,
+                'active': active
             };
 
             if (image) {
