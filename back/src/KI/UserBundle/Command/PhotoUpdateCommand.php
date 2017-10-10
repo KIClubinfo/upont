@@ -33,7 +33,7 @@ class PhotoUpdateCommand extends ContainerAwareCommand
         $curlService = $this->getContainer()->get('ki_core.service.curl');
         $imageService = $this->getContainer()->get('ki_core.service.image');
         $fbToken = $this->getContainer()->getParameter('facebook_token');
-        $helper = $this->getHelper('question');
+        $questionHelper = $this->getHelper('question');
 
         $users = $repo->findByPromo($input->getArgument('promo'));
         $usernames = $input->getArgument('usernames');
@@ -100,7 +100,7 @@ class PhotoUpdateCommand extends ContainerAwareCommand
 
                 if ($bestPercent > $input->getOption('similarity-threshold')) {
                     $output->writeln($user->getFirstName().' '.$user->getLastName().' <- '.$bestMatch['name'].' ('.$bestPercent.'% similar)'.($input->getOption('all') ? ' ['.($noPhoto ? 'to update' : 'already updated').']' : ''));
-                    $updateConfirmation = $input->getOption('interactive') ? $helper->ask($input, $output, $question) : true;
+                    $updateConfirmation = $input->getOption('interactive') ? $questionHelper->ask($input, $output, $question) : true;
                     if (!$input->getOption('preview') && $updateConfirmation) {
                         $url = '/' . $bestMatch['id'] . '/picture' . $token . '&width=9999&redirect=false';
                         $dataImage = json_decode($curlService->curl($baseUrl . $url), true);
