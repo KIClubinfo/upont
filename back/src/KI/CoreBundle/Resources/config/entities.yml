@@ -6,8 +6,6 @@ parameters:
             - Tuto
         core:
             - Comment
-        dvp:
-            - Basket
         foyer:
             - Beer
             - Youtube

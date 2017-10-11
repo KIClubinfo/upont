@@ -10,12 +10,6 @@ ki_core:
     defaults: { _format: 'json' }
     prefix:   /
 
-ki_dvp:
-    type:     annotation
-    resource: '@KIDvpBundle/Controller'
-    defaults: { _format: 'json' }
-    prefix:   /
-
 ki_foyer:
     type:     annotation
     resource: '@KIFoyerBundle/Controller'

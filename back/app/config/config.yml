@@ -51,7 +51,6 @@ doctrine:
                 mappings:
                     KIClubinfoBundle: ~
                     KICoreBundle: ~
-                    KIDvpBundle: ~
                     KIFoyerBundle: ~
                     KIPonthubBundle: ~
                     KIPublicationBundle: ~

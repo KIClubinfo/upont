@@ -110,7 +110,6 @@ class Achievement
     //const COURSES_OFFER = 23;
     //const COURSES_SHOTGUN = 24;
     //const CONFIG_NOTIFICATIONS = 25;
-    //const DVP = 27;
     const FOYER = 130;
     const FOYER_BIS = 140;
     //const MEDIATEK = 29;
@@ -284,12 +283,6 @@ class Achievement
         'description' => 'Configurer ses notifications',
         'points'      => 20,
         'image'       => '',
-    ),*/
-    /*self::DVP => array(
-        'name'        => 'Végétarien',
-        'description' => 'Commander un panier DVP',
-        'points'      => 30,
-        'image'       => 'recycle',
     ),*/
     self::FOYER => [
         'name'        => 'Ruine',
