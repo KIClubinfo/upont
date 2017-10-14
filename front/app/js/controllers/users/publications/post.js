@@ -27,6 +27,7 @@ angular.module('upont')
             $scope.focus = false;
             $scope.post = {
                 entry_method: 'Entrée libre',
+                publication_state: 'Publier',
                 text: '',
                 start_date: '',
                 end_date: '',
@@ -133,6 +134,7 @@ angular.module('upont')
                 case 'event':
                     params.place = post.place;
                     params.entryMethod = post.entry_method;
+                    params.publicationState = post.publication_state;
                     params.startDate = moment(post.start_date).unix();
                     params.endDate = moment(post.end_date).unix();
 

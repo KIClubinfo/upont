@@ -36,7 +36,7 @@ angular.module('upont')
             });
         }
 
-        $scope.calendarView = 'month';
+        $scope.calendarView = 'week';
         $scope.calendarDay = new Date();
 
         $scope.setView = function(view) {
@@ -54,7 +54,7 @@ angular.module('upont')
                 },
                 resolve: {
                     events: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'own/events').query().$promise;
+                        return $resource(apiPrefix + 'own/events?publicationState=Scheduled').query().$promise;
                     }],
                     courseitems: ['$resource', function($resource) {
                         return $resource(apiPrefix + 'own/courseitems').query().$promise;

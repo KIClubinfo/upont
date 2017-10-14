@@ -19,6 +19,7 @@ class EventType extends AbstractType
             ->add('startDate')
             ->add('endDate')
             ->add('entryMethod')
+            ->add('publicationState')
             ->add('shotgunDate')
             ->add('shotgunLimit')
             ->add('shotgunText')

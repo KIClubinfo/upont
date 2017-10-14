@@ -369,10 +369,14 @@ class OwnController extends ResourceController
 
         // Si on prend tout on renvoie comme ça
         if ($request->query->has('all')) {
-            $events = $userRepository->findFollowedEvents($this->getUser()->getId());
+            $events = $userRepository->findFollowedEvents(
+                $this->getUser()->getId(),
+                $request->query->get('publicationState')
+            );
         } else {
             $events = $userRepository->findFollowedEvents(
                 $this->getUser()->getId(),
+                $request->query->get('publicationState'),
                 $request->query->get('limit'),
                 $request->query->get('page')
             );

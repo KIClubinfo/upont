@@ -18,6 +18,7 @@ class LoadEventFixture extends AbstractFixture implements OrderedFixtureInterfac
         $event->setAuthorClub($this->getReference('club-ki'));
         $event->setAuthorUser($this->getReference('user-trancara'));
         $event->setEntryMethod('Libre');
+        $event->setPublicationState('Draft');
         $event->setStartDate(mktime(0, 0, 0) + 36*3600);
         $event->setEndDate(mktime(0, 0, 0) + 37.5*3600);
         $event->setPlace('P102');
@@ -35,6 +36,7 @@ class LoadEventFixture extends AbstractFixture implements OrderedFixtureInterfac
         $event->setAuthorClub($this->getReference('club-ki'));
         $event->setAuthorUser($this->getReference('user-muzardt'));
         $event->setEntryMethod('Libre');
+        $event->setPublicationState('Scheduled');
         $event->setStartDate(mktime(0, 0, 0) + 36*3600);
         $event->setEndDate(mktime(0, 0, 0) + 36.5*3600);
         $event->setPlace('P402');
@@ -51,6 +53,7 @@ class LoadEventFixture extends AbstractFixture implements OrderedFixtureInterfac
         $event->setAuthorClub($this->getReference('club-mediatek'));
         $event->setAuthorUser($this->getReference('user-trancara'));
         $event->setEntryMethod('Shotgun');
+        $event->setPublicationState('Published');
         $event->setStartDate(1413918000);
         $event->setEndDate(1413930600);
         $event->setShotgunDate(1413396000);
@@ -68,6 +71,7 @@ class LoadEventFixture extends AbstractFixture implements OrderedFixtureInterfac
         $event->setAuthorClub($this->getReference('club-pep'));
         $event->setAuthorUser($this->getReference('user-guerinh'));
         $event->setEntryMethod('Libre');
+        $event->setPublicationState('Scheduled');
         $event->setStartDate(1413999000);
         $event->setEndDate(1414009800);
         $event->setPlace('Amphi Navier');
@@ -83,6 +87,7 @@ class LoadEventFixture extends AbstractFixture implements OrderedFixtureInterfac
         $event->setAuthorClub($this->getReference('club-bde'));
         $event->setAuthorUser($this->getReference('user-dziris'));
         $event->setEntryMethod('Libre');
+        $event->setPublicationState('Published');
         $event->setStartDate(mktime(0, 0, 0) + 9*3600);
         $event->setEndDate(mktime(0, 0, 0) + 15*3600);
         $event->setPlace('Salle Polyvalente');
@@ -102,6 +107,7 @@ class LoadEventFixture extends AbstractFixture implements OrderedFixtureInterfac
         $event->setAuthorClub($this->getReference('club-bda'));
         $event->setAuthorUser($this->getReference('user-donat-bb'));
         $event->setEntryMethod('Shotgun');
+        $event->setPublicationState('Scheduled');
         $event->setStartDate(mktime(0, 0, 0) + 40*3600);
         $event->setEndDate(mktime(0, 0, 0) + 44*3600);
         $event->setShotgunDate(time() + 3600);
@@ -120,6 +126,7 @@ class LoadEventFixture extends AbstractFixture implements OrderedFixtureInterfac
         $event->setAuthorClub($this->getReference('club-ki'));
         $event->setAuthorUser($this->getReference('user-trancara'));
         $event->setEntryMethod('Ferie');
+        $event->setPublicationState('Draft');
         $event->setStartDate(time() - 400*3600);
         $event->setEndDate(time() + 600*3600);
         $manager->persist($event);

@@ -223,8 +223,8 @@ angular.module('upont')
                     events: ['Paginate', 'Permissions', '$rootScope', function(Paginate, Permissions, $rootScope) {
                         // Si c'est l'administration on ne charge que le seul club de l'user actuel
                         if (Permissions.hasRight('ROLE_EXTERIEUR'))
-                            return Paginate.get('clubs/' + Permissions.username() + '/events?sort=-date', 10);
-                        return Paginate.get('own/events', 10);
+                            return Paginate.get('clubs/' + Permissions.username() + '/events?sort=-date&publicationState=Published', 10);
+                        return Paginate.get('own/events?publicationState=Published', 10);
                     }],
                     messages: ['Paginate', function(Paginate) {
                         return Paginate.get('newsitems?sort=-date&limit=10&name=message');

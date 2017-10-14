@@ -44,6 +44,15 @@ class Event extends Post
     const TYPE_FERIE   = 'Ferie';
 
     /**
+     * Etat de la publication [Draft|Scheduled|Published]
+     * @ORM\Column(name="publicationState", type="integer", nullable=false)
+     * @JMS\Expose
+     * @Assert\Type("integer")
+     */
+    protected $publicationState;
+    const STATE_ORDER = array('Draft' => 1, 'Scheduled' => 2, 'Published' => 3);
+
+    /**
      * Date du shotgun (timestamp)
      * @ORM\Column(name="shotgunDate", type="integer", nullable=true)
      * @JMS\Expose
@@ -392,4 +401,32 @@ class Event extends Post
     {
         return $this->pookie = $pookie;
     }
+
+    /**
+     * Set publicationState
+     *
+     * @param string $publicationState
+     *
+     * @return Event
+     */
+    public function setPublicationState($publicationState)
+    {
+        if (array_key_exists($publicationState, $this::STATE_ORDER)) {
+            return $this->publicationState = $this::STATE_ORDER[$publicationState];
+        }
+        else {
+          throw new BadRequestHttpException('L\'état de la publication doit être Draft, Scheduled ou Published !');
+        }
+    }
+
+    /**
+     * Get publicationState
+     *
+     * @return string
+     */
+    public function getPublicationState()
+    {
+        return array_search($this->publicationState, $this::STATE_ORDER);
+    }
+
 }

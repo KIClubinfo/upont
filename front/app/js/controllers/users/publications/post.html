@@ -29,11 +29,20 @@
             </div>
 
             <!-- entryMethod -->
-            <div class="padded" flex="100" flex-md="50" ng-if="!$root.isExterieur" ng-show="type == 'event'">
+            <div class="padded" flex="100" flex-md="25" ng-if="!$root.isExterieur" ng-show="type == 'event'">
                 <select class="Input" ng-model="post.entry_method" ng-disabled="modify">
                     <option selected>Entrée libre</option>
                     <option>Shotgun</option>
                     <option ng-if="$root.isAdmin">Ferie</option>
+                </select>
+            </div>
+
+            <!-- publicationState -->
+            <div class="padded" flex="100" flex-md="25" ng-if="!$root.isExterieur" ng-show="type == 'event'">
+                <select class="Input" ng-model="post.publication_state" ng-disabled="modify">
+                    <option value="Draft">Brouillon</option>
+                    <option value="Scheduled">Planifier</option>
+                    <option value="Published" selected>Publier</option>
                 </select>
             </div>
 
@@ -58,7 +67,7 @@
 
             <div class="padded" col flex="100" ng-if="focus || modify">
                 <!-- Textarea principale -->
-                <textarea redactor ng-model="post.text" placeholder="{{ placeholder }}"></textarea>
+                <textarea redactor ng-model="post.text" placeholder="{{ placeholder }}" ng-show="type != 'event' || publication_state!='Planifier'"></textarea>
 
                 <!-- Toolbar du bas -->
                 <div row="start start" wrap>

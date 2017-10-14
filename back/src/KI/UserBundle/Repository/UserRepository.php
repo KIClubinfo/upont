@@ -3,6 +3,7 @@ namespace KI\UserBundle\Repository;
 
 use KI\CoreBundle\Repository\ResourceRepository;
 use KI\UserBundle\Entity\User;
+use KI\PublicationBundle\Entity\Event;
 
 /**
  * Class UserRepository
@@ -11,11 +12,12 @@ class UserRepository extends ResourceRepository
 {
     /**
      * @param  int $userId
+     * @param  string $publicationState
      * @param  int $limit
      * @param  int $page
      * @return \KI\PublicationBundle\Entity\Event[]
      */
-    public function findFollowedEvents($userId, $limit = null, $page = null)
+    public function findFollowedEvents($userId, $publicationState = null, $limit = null, $page = null)
     {
          $query = $this->getEntityManager()->createQuery('SELECT event FROM
             KIPublicationBundle:Event event,
@@ -29,9 +31,11 @@ class UserRepository extends ResourceRepository
                 )
             )
             AND event.authorClub NOT IN (SELECT cnf FROM KIUserBundle:User usr JOIN usr.clubsNotFollowed cnf WHERE usr.id = user.id)
+            AND (:publicationState IS NULL OR (event.publicationState >= :publicationState))
             ORDER BY event.date DESC
         ')
-            ->setParameter('userId', $userId);
+            ->setParameter('userId', $userId)
+            ->setParameter('publicationState', Event::STATE_ORDER[$publicationState]);
 
         if($limit !== null && $limit > 0) {
             $query->setMaxResults($limit);
