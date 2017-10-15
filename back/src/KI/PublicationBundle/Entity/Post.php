@@ -53,10 +53,10 @@ class Post extends Likeable
     protected $text;
 
     /**
-     * Etat de la publication [Draft|Scheduled|Published]
-     * @ORM\Column(name="publicationState", type="integer", nullable=true, options={"default" = 3})
+     * Etat de la publication [Draft|Scheduled|Published|Emailed]
+     * @ORM\Column(name="publicationState", type="string", nullable=true, options={"default" = "Published"})
      * @JMS\Expose
-     * @Assert\Type("integer")
+     * @Assert\Choice({"Draft", "Scheduled", "Published", "Emailed"})
      */
     protected $publicationState;
     const STATE_ORDER = array('Draft' => 1, 'Scheduled' => 2, 'Published' => 3, 'Emailed' => 4);
@@ -251,10 +251,10 @@ class Post extends Likeable
     public function setPublicationState($publicationState)
     {
         if (array_key_exists($publicationState, $this::STATE_ORDER)) {
-            if (isset($this->publicationState) && $this::STATE_ORDER[$publicationState] < $this->publicationState) {
+            if (isset($this->publicationState) && $this::STATE_ORDER[$publicationState] < $this::STATE_ORDER[$this->publicationState]) {
                 throw new BadRequestHttpException('Revenir à un état de publication antérieure est interdit !');
             }
-            return $this->publicationState = $this::STATE_ORDER[$publicationState];
+            return $this->publicationState = $publicationState;
         }
         else {
             throw new BadRequestHttpException('L\'état de la publication doit être Draft, Scheduled, Published ou Emailed !');
@@ -268,7 +268,7 @@ class Post extends Likeable
      */
     public function getPublicationState()
     {
-        return array_search($this->publicationState, $this::STATE_ORDER);
+        return $this->publicationState;
     }
 
     /**
@@ -292,6 +292,6 @@ class Post extends Likeable
      */
     public function getSendMail()
     {
-        return ($this->getPublicationState == 4);
+        return ($this->getPublicationState() == 'Emailed');
     }
 }

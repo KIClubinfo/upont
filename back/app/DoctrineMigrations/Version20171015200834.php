@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20171015160958 extends AbstractMigration
+class Version20171015200834 extends AbstractMigration
 {
     /**
      * @param Schema $schema
@@ -18,7 +18,7 @@ class Version20171015160958 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE Post ADD publicationState INT DEFAULT 3, DROP send_mail');
+        $this->addSql('ALTER TABLE Post ADD publicationState VARCHAR(255) DEFAULT \'Published\', DROP send_mail');
     }
 
     /**

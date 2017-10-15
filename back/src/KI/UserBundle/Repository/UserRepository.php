@@ -19,7 +19,19 @@ class UserRepository extends ResourceRepository
      */
     public function findFollowedEvents($userId, $publicationState = null, $limit = null, $page = null)
     {
-         $query = $this->getEntityManager()->createQuery('SELECT event FROM
+        if ($publicationState == null) {
+            $publicationStates = Post::STATE_ORDER.array_keys();
+        }
+        else {
+            $publicationStates = array();
+            foreach (Post::STATE_ORDER as $key => $value) {
+                if ($value >= Post::STATE_ORDER[$publicationState]) {
+                    $publicationStates[] = $key;
+                }
+            }
+        }
+
+        $query = $this->getEntityManager()->createQuery('SELECT event FROM
             KIPublicationBundle:Event event,
             KIUserBundle:Club club,
             KIUserBundle:User user
@@ -31,11 +43,11 @@ class UserRepository extends ResourceRepository
                 )
             )
             AND event.authorClub NOT IN (SELECT cnf FROM KIUserBundle:User usr JOIN usr.clubsNotFollowed cnf WHERE usr.id = user.id)
-            AND event.publicationState > 1 AND (:publicationState IS NULL OR (event.publicationState >= :publicationState))
+            AND event.publicationState != \'Draft\' AND event.publicationState IN (:publicationStates)
             ORDER BY event.date DESC
         ')
             ->setParameter('userId', $userId)
-            ->setParameter('publicationState', Post::STATE_ORDER[$publicationState]);
+            ->setParameter('publicationStates', $publicationStates);
 
         if($limit !== null && $limit > 0) {
             $query->setMaxResults($limit);

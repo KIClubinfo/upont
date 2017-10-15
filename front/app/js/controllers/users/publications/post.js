@@ -5,22 +5,30 @@ angular.module('upont')
         var club = clubDummy;
         $scope.display = true;
         $scope.isLoading = false;
-        $scope.publication_info = {
+        $scope.pub_info = {
             'Draft': {
                 description: "Seul les membres du club ont accès aux brouillons dans la liste des publications du club.",
-                action: "Créer le brouillon"
+                action: "Créer le brouillon",
+                label: 'Brouillon',
+                number: 1,
             },
             'Scheduled': {
                 description: "Cette publication apparaîtra seulement sur le calendrier uPont.",
-                action: "Planifier"
+                action: "Planifier",
+                label: "Planification",
+                number: 2,
             },
             'Published': {
                 description: "Cette publication sera publique sur uPont, vous pourrez envoyer un mail plus tard.",
-                action: "Publier"
+                action: "Publier",
+                label: "Publication",
+                number: 3
             },
             'Emailed': {
                 description: "La publication sera publiée et envoyée par mail à tous les utilisateurs de uPont qui suivent le club.",
-                action: "Envoyer par mail"
+                action: "Envoyer par mail",
+                label: "Email",
+                number: 4
             }
         };
 
@@ -132,7 +140,7 @@ angular.module('upont')
                                 'Veux-tu envoyer un mail pour cette news ? Si non, tu pourras l\'envoyer ultérieurement.',
                                 function (e) {
                                     if (e) {
-                                        params.publicationState = 'Emailed';
+                                        params.publicationState = $scope.pub_info['Emailed'].number;
                                     }
 
                                     Upload.upload({
@@ -196,7 +204,7 @@ angular.module('upont')
                                 'Veux-tu envoyer un mail pour cet événement ? Si non, tu pourras l\'envoyer ultérieurement.',
                                 function(e) {
                                     if(e) {
-                                        params.publicationState = 'Emailed';
+                                        params.publicationState = $scope.pub_info['Emailed'].number;
                                     }
 
                                     Upload.upload({
@@ -253,6 +261,7 @@ angular.module('upont')
             }
 
             $scope.post = post;
+            $scope.initialPubNumber = $scope.pub_info[post.publication_state].number;
             window.scrollTo(0, 0);
         });
     }]);

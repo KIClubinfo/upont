@@ -39,18 +39,15 @@
 
             <!-- publicationState -->
             <div class="padded" flex="100" flex-md="25" ng-if="!$root.isExterieur && (focus || modify)">
-                <select class="Input" ng-model="post.publication_state" ng-disabled="modify">
-                    <option value="Draft">Brouillon</option>
-                    <option value="Scheduled" ng-show="type == 'event'">Planification</option>
-                    <option value="Published" selected>Publication</option>
-                    <option value="Emailed" selected>Email</option>
+                <select class="Input" ng-model="post.publication_state">
+                      <option ng-repeat="(state, item) in pub_info" ng-value="state"  ng-disabled="modify && initialPubNumber > item.number" ng-hide="type == 'news' && state == 'Scheduled'">{{ item.label }}</option>
                 </select>
             </div>
 
             <!-- Information on publication action -->
             <div class="padded" ng-if="!$root.isExterieur && (focus || modify)">
                 <i class="hpadded fa fa-info-circle"></i>
-                {{ publication_info[post.publication_state]['description'] }}
+                {{ pub_info[post.publication_state]['description'] }}
             </div>
 
             <!-- shotgunDate -->
@@ -74,7 +71,7 @@
 
             <div class="padded" col flex="100" ng-if="focus || modify">
                 <!-- Textarea principale -->
-                <textarea redactor ng-model="post.text" placeholder="{{ placeholder }}" ng-show="type != 'event' || publication_state!='Planifier'"></textarea>
+                <textarea redactor ng-model="post.text" placeholder="{{ placeholder }}" ng-show="type != 'event'"></textarea>
 
                 <!-- Toolbar du bas -->
                 <div row="start start" wrap>
@@ -100,7 +97,7 @@
                         <span ng-repeat="file in postFiles"> {{ file.name ? file.name : 'Fichier' }} </span>
                         <button class="InputButton__fileinput" ngf-select="selectFiles($files)" multiple></button>
                     </div>
-                    <button class="Button" style="margin-left: auto;">{{ modify ? 'Modifier' : publication_info[post.publication_state]['action'] }}</button>
+                    <button class="Button" style="margin-left: auto;">{{ modify ? 'Modifier' : pub_info[post.publication_state]['action'] }}</button>
                 </div>
             </div>
         </form>
