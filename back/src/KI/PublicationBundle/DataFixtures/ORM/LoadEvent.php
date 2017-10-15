@@ -18,11 +18,10 @@ class LoadEventFixture extends AbstractFixture implements OrderedFixtureInterfac
         $event->setAuthorClub($this->getReference('club-ki'));
         $event->setAuthorUser($this->getReference('user-trancara'));
         $event->setEntryMethod('Libre');
-        $event->setPublicationState('Draft');
+        $event->setPublicationState('Emailed');
         $event->setStartDate(mktime(0, 0, 0) + 36*3600);
         $event->setEndDate(mktime(0, 0, 0) + 37.5*3600);
         $event->setPlace('P102');
-        $event->setSendMail(true);
         $event->addAttendee($this->getReference('user-taquet-c'));
         $event->addAttendee($this->getReference('user-de-boisc'));
         $event->setLikes([$this->getReference('user-taquet-c')]);
@@ -40,7 +39,6 @@ class LoadEventFixture extends AbstractFixture implements OrderedFixtureInterfac
         $event->setStartDate(mktime(0, 0, 0) + 36*3600);
         $event->setEndDate(mktime(0, 0, 0) + 36.5*3600);
         $event->setPlace('P402');
-        $event->setSendMail(true);
         $event->addAttendee($this->getReference('user-taquet-c'));
         $event->addAttendee($this->getReference('user-de-boisc'));
         $event->addAttendee($this->getReference('user-muzardt'));
@@ -53,12 +51,11 @@ class LoadEventFixture extends AbstractFixture implements OrderedFixtureInterfac
         $event->setAuthorClub($this->getReference('club-mediatek'));
         $event->setAuthorUser($this->getReference('user-trancara'));
         $event->setEntryMethod('Shotgun');
-        $event->setPublicationState('Published');
+        $event->setPublicationState('Emailed');
         $event->setStartDate(1413918000);
         $event->setEndDate(1413930600);
         $event->setShotgunDate(1413396000);
         $event->setPlace('P102');
-        $event->setSendMail(false);
         $event->addAttendee($this->getReference('user-taquet-c'));
         $event->addAttendee($this->getReference('user-trancara'));
         $event->addAttendee($this->getReference('user-guerinh'));
@@ -75,7 +72,6 @@ class LoadEventFixture extends AbstractFixture implements OrderedFixtureInterfac
         $event->setStartDate(1413999000);
         $event->setEndDate(1414009800);
         $event->setPlace('Amphi Navier');
-        $event->setSendMail(false);
         $event->addAttendee($this->getReference('user-taquet-c'));
         $event->addAttendee($this->getReference('user-guerinh'));
         $manager->persist($event);
@@ -91,7 +87,6 @@ class LoadEventFixture extends AbstractFixture implements OrderedFixtureInterfac
         $event->setStartDate(mktime(0, 0, 0) + 9*3600);
         $event->setEndDate(mktime(0, 0, 0) + 15*3600);
         $event->setPlace('Salle Polyvalente');
-        $event->setSendMail(false);
         $event->addAttendee($this->getReference('user-taquet-c'));
         $event->addAttendee($this->getReference('user-trancara'));
         $event->addAttendee($this->getReference('user-guerinh'));
@@ -112,7 +107,6 @@ class LoadEventFixture extends AbstractFixture implements OrderedFixtureInterfac
         $event->setEndDate(mktime(0, 0, 0) + 44*3600);
         $event->setShotgunDate(time() + 3600);
         $event->setPlace('Opéra Bastille');
-        $event->setSendMail(true);
         $event->setShotgunLimit(12);
         $event->setShotgunText('Viens chercher la place chez moi');
         $manager->persist($event);
@@ -121,7 +115,6 @@ class LoadEventFixture extends AbstractFixture implements OrderedFixtureInterfac
         $event->setName('Vacances de Noël');
         $event->setText('I\'m fucking Santa Claus bitchies!');
         $event->setPlace('Ta mère');
-        $event->setSendMail(false);
         $event->setDate(1421778600);
         $event->setAuthorClub($this->getReference('club-ki'));
         $event->setAuthorUser($this->getReference('user-trancara'));

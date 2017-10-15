@@ -3,7 +3,7 @@ namespace KI\UserBundle\Repository;
 
 use KI\CoreBundle\Repository\ResourceRepository;
 use KI\UserBundle\Entity\User;
-use KI\PublicationBundle\Entity\Event;
+use KI\PublicationBundle\Entity\Post;
 
 /**
  * Class UserRepository
@@ -31,11 +31,11 @@ class UserRepository extends ResourceRepository
                 )
             )
             AND event.authorClub NOT IN (SELECT cnf FROM KIUserBundle:User usr JOIN usr.clubsNotFollowed cnf WHERE usr.id = user.id)
-            AND (:publicationState IS NULL OR (event.publicationState >= :publicationState))
+            AND event.publicationState > 1 AND (:publicationState IS NULL OR (event.publicationState >= :publicationState))
             ORDER BY event.date DESC
         ')
             ->setParameter('userId', $userId)
-            ->setParameter('publicationState', Event::STATE_ORDER[$publicationState]);
+            ->setParameter('publicationState', Post::STATE_ORDER[$publicationState]);
 
         if($limit !== null && $limit > 0) {
             $query->setMaxResults($limit);

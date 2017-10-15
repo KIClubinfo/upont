@@ -53,12 +53,13 @@ class Post extends Likeable
     protected $text;
 
     /**
-     * La publication envoie-t-elle un mail ?
-     * @ORM\Column(name="send_mail", type="boolean", nullable=false)
+     * Etat de la publication [Draft|Scheduled|Published]
+     * @ORM\Column(name="publicationState", type="integer", nullable=true, options={"default" = 3})
      * @JMS\Expose
-     * @Assert\Type("boolean")
+     * @Assert\Type("integer")
      */
-    protected $sendMail = false;
+    protected $publicationState;
+    const STATE_ORDER = array('Draft' => 1, 'Scheduled' => 2, 'Published' => 3, 'Emailed' => 4);
 
     /**
      * @var ArrayCollection
@@ -241,15 +242,45 @@ class Post extends Likeable
     }
 
     /**
+     * Set publicationState
+     *
+     * @param string $publicationState
+     *
+     * @return Event
+     */
+    public function setPublicationState($publicationState)
+    {
+        if (array_key_exists($publicationState, $this::STATE_ORDER)) {
+            if (isset($this->publicationState) && $this::STATE_ORDER[$publicationState] < $this->publicationState) {
+                throw new BadRequestHttpException('Revenir à un état de publication antérieure est interdit !');
+            }
+            return $this->publicationState = $this::STATE_ORDER[$publicationState];
+        }
+        else {
+            throw new BadRequestHttpException('L\'état de la publication doit être Draft, Scheduled, Published ou Emailed !');
+        }
+    }
+
+    /**
+     * Get publicationState
+     *
+     * @return string
+     */
+    public function getPublicationState()
+    {
+        return array_search($this->publicationState, $this::STATE_ORDER);
+    }
+
+    /**
      * Set sendMail
      *
      * @param boolean $sendMail
      *
      * @return Post
      */
-    public function setSendMail($sendMail)
+    public function setSendMail()
     {
-        $this->sendMail = $sendMail;
+        $this->setPublicationState('Emailed');
 
         return $this;
     }
@@ -261,6 +292,6 @@ class Post extends Likeable
      */
     public function getSendMail()
     {
-        return $this->sendMail;
+        return ($this->getPublicationState == 4);
     }
 }

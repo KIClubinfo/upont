@@ -5,6 +5,24 @@ angular.module('upont')
         var club = clubDummy;
         $scope.display = true;
         $scope.isLoading = false;
+        $scope.publication_info = {
+            'Draft': {
+                description: "Seul les membres du club ont accès aux brouillons dans la liste des publications du club.",
+                action: "Créer le brouillon"
+            },
+            'Scheduled': {
+                description: "Cette publication apparaîtra seulement sur le calendrier uPont.",
+                action: "Planifier"
+            },
+            'Published': {
+                description: "Cette publication sera publique sur uPont, vous pourrez envoyer un mail plus tard.",
+                action: "Publier"
+            },
+            'Emailed': {
+                description: "La publication sera publiée et envoyée par mail à tous les utilisateurs de uPont qui suivent le club.",
+                action: "Envoyer par mail"
+            }
+        };
 
         // Si on est sur une page d'assos
         if ($stateParams.slug !== null && $stateParams.slug !== undefined) {
@@ -27,7 +45,7 @@ angular.module('upont')
             $scope.focus = false;
             $scope.post = {
                 entry_method: 'Entrée libre',
-                publication_state: 'Publier',
+                publication_state: 'Published',
                 text: '',
                 start_date: '',
                 end_date: '',
@@ -55,6 +73,9 @@ angular.module('upont')
                         $scope.placeholder = 'Texte de la news';
                     else
                         $scope.placeholder = 'Que se passe-t-il d\'intéressant dans ton asso ?';
+                    if ($scope.post.publication_state == 'Scheduled') {
+                        $scope.post.publication_state = 'Published';
+                    }
                     break;
                 case 'event':
                     $scope.placeholder = 'Description de l\'événement';
@@ -80,6 +101,7 @@ angular.module('upont')
             var params  = {
                 text: nl2br(post.text),
                 name: post.name,
+                publicationState: post.publication_state
             };
 
             if (!$scope.modify) {
@@ -105,36 +127,37 @@ angular.module('upont')
                         $scope.isLoading = true;
 
                         // On demande si on envoie un mail
-                        alertify.confirm(
-                            'Veux-tu envoyer un mail pour cette news ?',
-                            function (e) {
-                                if (e) {
-                                    params.sendMail = true;
-                                }
+                        if(params.publicationState == 'Published') {
+                            alertify.confirm(
+                                'Veux-tu envoyer un mail pour cette news ? Si non, tu pourras l\'envoyer ultérieurement.',
+                                function (e) {
+                                    if (e) {
+                                        params.publicationState = 'Emailed';
+                                    }
 
-                                Upload.upload({
-                                        method: "POST",
-                                        url: apiPrefix + 'newsitems',
-                                        data: params
-                                    })
-                                    .then(function() {
-                                        $rootScope.$broadcast('newNewsitem');
-                                        Achievements.check();
-                                        alertify.success('News publiée');
-                                        init();
-                                        $scope.isLoading = false;
-                                    }, function() {
-                                        alertify.error('Formulaire vide ou mal rempli');
-                                        $scope.isLoading = false;
-                                });
-                            }
-                        );
+                                    Upload.upload({
+                                            method: "POST",
+                                            url: apiPrefix + 'newsitems',
+                                            data: params
+                                        })
+                                        .then(function() {
+                                            $rootScope.$broadcast('newNewsitem');
+                                            Achievements.check();
+                                            alertify.success('News publiée');
+                                            init();
+                                            $scope.isLoading = false;
+                                        }, function() {
+                                            alertify.error('Formulaire vide ou mal rempli');
+                                            $scope.isLoading = false;
+                                    });
+                                }
+                            );
+                        }
                     }
                     break;
                 case 'event':
                     params.place = post.place;
                     params.entryMethod = post.entry_method;
-                    params.publicationState = post.publication_state;
                     params.startDate = moment(post.start_date).unix();
                     params.endDate = moment(post.end_date).unix();
 
@@ -170,10 +193,10 @@ angular.module('upont')
 
                             // On demande si on envoie un mail
                             alertify.confirm(
-                                'Veux-tu envoyer un mail pour cet événement ?',
+                                'Veux-tu envoyer un mail pour cet événement ? Si non, tu pourras l\'envoyer ultérieurement.',
                                 function(e) {
                                     if(e) {
-                                        params.sendMail = true;
+                                        params.publicationState = 'Emailed';
                                     }
 
                                     Upload.upload({

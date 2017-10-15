@@ -24,7 +24,6 @@ class EventType extends AbstractType
             ->add('shotgunLimit')
             ->add('shotgunText')
             ->add('place')
-            ->add('sendMail')
             ->add('authorClub', ClubSelector::class)
             ->add('uploadedFiles', FileType::class, [
                     'multiple' => true,

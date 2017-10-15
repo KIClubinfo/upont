@@ -16,9 +16,8 @@ class EventsControllerTest extends WebTestCase
             'startDate' => 151515,
             'endDate' => 314159,
             'entryMethod' => 'libre',
-            'publicationState' => 'Published',
+            'publicationState' => 'Emailed',
             'place' => 'DTC',
-            'sendMail' => true,
             'authorClub' => 'bde'
         ]);
         $response = $this->client->getResponse();
@@ -135,8 +134,7 @@ class EventsControllerTest extends WebTestCase
             'shotgunDate' => 101010,
             'shotgunLimit' => 1,
             'shotgunText' => 'Il est deux heures du matin, et tout va bien',
-            'place' => 'Far Far Away',
-            'sendMail' => true
+            'place' => 'Far Far Away'
         ]);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
