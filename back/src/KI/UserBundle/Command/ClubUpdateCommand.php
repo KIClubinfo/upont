@@ -41,7 +41,7 @@ class ClubUpdateCommand extends ContainerAwareCommand
         $clubNumber = -1;
         foreach ($clubsToUpdate as $clubToUpdate) {
             $clubNumber++;
-            if (!$clubToUpdate) {
+            if (count($clubToUpdate) == 0) {
                 $output->writeln('<error>The slug "'.$clubSlugs[$clubNumber].'" doesn\'t match with any club</error>');
                 continue;
             }
@@ -56,7 +56,7 @@ class ClubUpdateCommand extends ContainerAwareCommand
                     $output->writeln('<comment>'.$clubToUpdate->getFullName().' disabled'.'</comment>');
                 }
             }
-            else if ($countUsers != 0 && !$clubToUpdate->getActive()) {
+            else if ($countUsers > 0 && !$clubToUpdate->getActive()) {
                 if ($input->getOption('preview')) {
                     $output->writeln('<info>'.$clubToUpdate->getFullName().' to be enabled'.'</info>');
                 }
