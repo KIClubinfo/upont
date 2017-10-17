@@ -18,7 +18,7 @@ angular.module('upont')
                 controller: 'Assos_Publications_Ctrl',
                 resolve: {
                     events: ['$stateParams', 'Paginate', function($stateParams, Paginate) {
-                        return Paginate.get('clubs/' + $stateParams.slug + '/events?sort=-date,publicationState=published', 10);
+                        return Paginate.get('clubs/' + $stateParams.slug + '/events?sort=-date', 10);
                     }],
                     newsItems: ['$stateParams', 'Paginate', function($stateParams, Paginate) {
                         return Paginate.get('clubs/' + $stateParams.slug + '/newsitems?sort=-date', 10);

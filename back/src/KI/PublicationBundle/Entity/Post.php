@@ -274,8 +274,6 @@ class Post extends Likeable
     /**
      * Set sendMail
      *
-     * @param boolean $sendMail
-     *
      * @return Post
      */
     public function setSendMail()

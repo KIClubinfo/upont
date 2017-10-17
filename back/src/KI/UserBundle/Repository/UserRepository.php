@@ -20,7 +20,7 @@ class UserRepository extends ResourceRepository
     public function findFollowedEvents($userId, $publicationState = null, $limit = null, $page = null)
     {
         if ($publicationState == null) {
-            $publicationStates = Post::STATE_ORDER.array_keys();
+            $publicationStates = array_keys(Post::STATE_ORDER);
         }
         else {
             $publicationStates = array();
@@ -33,17 +33,19 @@ class UserRepository extends ResourceRepository
 
         $query = $this->getEntityManager()->createQuery('SELECT event FROM
             KIPublicationBundle:Event event,
-            KIUserBundle:Club club,
             KIUserBundle:User user
             WHERE user.id = :userId AND
             (
                 (event.authorUser = user.id AND event.authorClub IS NULL) OR
-                (event.authorClub = club.id AND user.id NOT IN (
+                (user.id NOT IN (
                     SELECT lp FROM KIPublicationBundle:Event evt JOIN evt.listPookies lp WHERE evt.id = event.id)
                 )
             )
             AND event.authorClub NOT IN (SELECT cnf FROM KIUserBundle:User usr JOIN usr.clubsNotFollowed cnf WHERE usr.id = user.id)
-            AND event.publicationState != \'Draft\' AND event.publicationState IN (:publicationStates)
+            AND (event.publicationState != \'Draft\' OR event.authorClub IN (
+                SELECT cl FROM KIUserBundle:User us JOIN us.clubs cl WHERE us.id = user.id)
+                )
+            AND event.publicationState IN (:publicationStates)
             ORDER BY event.date DESC
         ')
             ->setParameter('userId', $userId)
@@ -67,14 +69,11 @@ class UserRepository extends ResourceRepository
     {
         return $this->getEntityManager()->createQuery('SELECT event FROM
             KIPublicationBundle:Event event,
-            KIUserBundle:Club club,
             KIUserBundle:User user
             WHERE user.id = :userId AND event.endDate > :now AND
             (
                 (event.authorUser = user.id AND event.authorClub IS NULL) OR
-                (event.authorClub = club.id AND user.id NOT IN (
-                    SELECT lp FROM KIPublicationBundle:Event evt JOIN evt.listPookies lp WHERE evt.id = event.id)
-                )
+                user.id NOT IN (SELECT lp FROM KIPublicationBundle:Event evt JOIN evt.listPookies lp WHERE evt.id = event.id)
             )
             AND event.authorClub NOT IN (SELECT cnf FROM KIUserBundle:User usr JOIN usr.clubsNotFollowed cnf WHERE usr.id = user.id)
         ')

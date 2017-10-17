@@ -17,7 +17,7 @@ class NewsitemType extends AbstractType
         $builder
             ->add('name')
             ->add('text')
-            ->add('sendMail')
+            ->add('publicationState')
             ->add('authorClub', ClubSelector::class)
             ->add('image', ImageSelector::class)
             ->add('uploadedFiles', FileType::class, [

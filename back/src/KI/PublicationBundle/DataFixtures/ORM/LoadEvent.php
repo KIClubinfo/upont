@@ -68,7 +68,7 @@ class LoadEventFixture extends AbstractFixture implements OrderedFixtureInterfac
         $event->setAuthorClub($this->getReference('club-pep'));
         $event->setAuthorUser($this->getReference('user-guerinh'));
         $event->setEntryMethod('Libre');
-        $event->setPublicationState('Scheduled');
+        $event->setPublicationState('Draft');
         $event->setStartDate(1413999000);
         $event->setEndDate(1414009800);
         $event->setPlace('Amphi Navier');

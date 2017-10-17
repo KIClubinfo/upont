@@ -406,7 +406,7 @@ class OwnController extends ResourceController
         } else {
             $userRepository = $this->manager->getRepository('KIUserBundle:User');
 
-            $events = $userRepository->findFollowedEvents($user->getId());
+            $events = $userRepository->findFollowedEvents($user->getId(), "Scheduled");
             $courses = $this->getCourseitems($user);
 
             $calStr = $this->get('ki_publication.service.calendar')->getCalendar($user, $events, $courses);
@@ -458,13 +458,24 @@ class OwnController extends ResourceController
      * @Route("/own/newsitems")
      * @Method("GET")
      */
-    public function getNewsItemsAction()
+    public function getNewsItemsAction(Request $request)
     {
         $repository = $this->manager->getRepository('KIPublicationBundle:Newsitem');
 
         $paginateHelper = $this->get('ki_core.helper.paginate');
         extract($paginateHelper->paginateData($repository));
         $findBy['authorClub'] = $this->getFollowedClubs();
+
+        if ($request->query->has('publicationState')) {
+            $publicationState = $request->query->get('publicationState');
+            $findBy['authorClub'] = array();
+            foreach (Post::STATE_ORDER as $key => $value) {
+                if ($value >= Post::STATE_ORDER[$publicationState]) {
+                    $findBy['authorClub'][] = $key;
+                }
+            }
+        }
+
         $results = $repository->findBy($findBy, $sortBy, $limit, $offset);
 
         list($results, $links, $count) = $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);

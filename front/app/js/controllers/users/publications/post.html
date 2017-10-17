@@ -38,14 +38,14 @@
             </div>
 
             <!-- publicationState -->
-            <div class="padded" flex="100" flex-md="25" ng-if="!$root.isExterieur && (focus || modify)">
+            <div class="padded" flex="100" flex-md="25" ng-if="focus || modify">
                 <select class="Input" ng-model="post.publication_state">
                       <option ng-repeat="(state, item) in pub_info" ng-value="state"  ng-disabled="modify && initialPubNumber > item.number" ng-hide="type == 'news' && state == 'Scheduled'">{{ item.label }}</option>
                 </select>
             </div>
 
             <!-- Information on publication action -->
-            <div class="padded" ng-if="!$root.isExterieur && (focus || modify)">
+            <div class="padded" ng-if="focus || modify">
                 <i class="hpadded fa fa-info-circle"></i>
                 {{ pub_info[post.publication_state]['description'] }}
             </div>

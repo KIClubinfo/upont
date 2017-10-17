@@ -142,25 +142,25 @@ angular.module('upont')
                                     if (e) {
                                         params.publicationState = $scope.pub_info['Emailed'].number;
                                     }
-
-                                    Upload.upload({
-                                            method: "POST",
-                                            url: apiPrefix + 'newsitems',
-                                            data: params
-                                        })
-                                        .then(function() {
-                                            $rootScope.$broadcast('newNewsitem');
-                                            Achievements.check();
-                                            alertify.success('News publiée');
-                                            init();
-                                            $scope.isLoading = false;
-                                        }, function() {
-                                            alertify.error('Formulaire vide ou mal rempli');
-                                            $scope.isLoading = false;
-                                    });
                                 }
                             );
                         }
+                        
+                        Upload.upload({
+                                method: "POST",
+                                url: apiPrefix + 'newsitems',
+                                data: params
+                            })
+                            .then(function() {
+                                $rootScope.$broadcast('newNewsitem');
+                                Achievements.check();
+                                alertify.success('News publiée');
+                                init();
+                                $scope.isLoading = false;
+                            }, function() {
+                                alertify.error('Formulaire vide ou mal rempli');
+                                $scope.isLoading = false;
+                        });
                     }
                     break;
                 case 'event':
@@ -200,29 +200,31 @@ angular.module('upont')
                         if (!$scope.modify) {
 
                             // On demande si on envoie un mail
-                            alertify.confirm(
-                                'Veux-tu envoyer un mail pour cet événement ? Si non, tu pourras l\'envoyer ultérieurement.',
-                                function(e) {
-                                    if(e) {
-                                        params.publicationState = $scope.pub_info['Emailed'].number;
+                            if(params.publicationState == 'Published') {
+                                alertify.confirm(
+                                    'Veux-tu envoyer un mail pour cet événement ? Si non, tu pourras l\'envoyer ultérieurement.',
+                                    function(e) {
+                                        if(e) {
+                                            params.publicationState = $scope.pub_info['Emailed'].number;
+                                        }
                                     }
+                                );
+                            }
 
-                                    Upload.upload({
-                                        method: "POST",
-                                        url: apiPrefix + 'events',
-                                        data: params
-                                    }).then(function() {
-                                        $rootScope.$broadcast('newEvent');
-                                        Achievements.check();
-                                        init();
-                                        alertify.success('Événement publié');
-                                        $scope.isLoading = false;
-                                    }, function() {
-                                        alertify.error('Formulaire vide ou mal rempli');
-                                        $scope.isLoading = false;
-                                    });
-                                }
-                            );
+                            Upload.upload({
+                                method: "POST",
+                                url: apiPrefix + 'events',
+                                data: params
+                            }).then(function() {
+                                $rootScope.$broadcast('newEvent');
+                                Achievements.check();
+                                init();
+                                alertify.success('Événement publié');
+                                $scope.isLoading = false;
+                            }, function() {
+                                alertify.error('Formulaire vide ou mal rempli');
+                                $scope.isLoading = false;
+                            });
                         } else {
                             $http.patch(apiPrefix + 'events/' + post.slug, params)
                             .then(function() {

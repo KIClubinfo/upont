@@ -41,15 +41,7 @@ class EventsController extends ResourceController
      */
     public function getEventsAction()
     {
-        $events = $this->getAll();
-        $publicEvents = array();
-        foreach ($events as $event) {
-            if ($event->getPublicationState() != 1 || $this->isClubMember($event->getAuthorClub())) {
-                $publicEvents[] = $event;
-            };
-        }
-
-        return $publicEvents;
+        return $this->getAll();
     }
 
     /**
@@ -71,7 +63,7 @@ class EventsController extends ResourceController
     public function getEventAction($slug)
     {
         $event = $this->getOne($slug);
-        if ($event->getPublicationState() == 'Draft' && $this->isClubMember($event->getAuthorClub())) {
+        if ($event->getPublicationState() == 'Draft' && !$this->isClubMember($event->getAuthorClub())) {
             throw new BadRequestHttpException('Tu n\'es pas autorisé à lire ce brouillon !');
         }
 

@@ -7,6 +7,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class NewsitemsController extends ResourceController
 {
@@ -56,6 +57,9 @@ class NewsitemsController extends ResourceController
     public function getNewsitemAction($slug)
     {
         $newsitem = $this->getOne($slug, $this->is('EXTERIEUR'));
+        if ($newsitem->getPublicationState() == 'Draft' && !$this->isClubMember($newsitem->getAuthorClub())) {
+            throw new BadRequestHttpException('Tu n\'es pas autorisé à lire ce brouillon !');
+        }
 
         return $this->json($newsitem);
     }
