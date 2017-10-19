@@ -55,8 +55,8 @@ class Post extends Likeable
     /**
      * Etat de la publication [Draft|Scheduled|Published|Emailed]
      * @ORM\Column(name="publicationState", type="string", nullable=true, options={"default" = "Published"})
+     * @Assert\Type("string")
      * @JMS\Expose
-     * @Assert\Choice({"Draft", "Scheduled", "Published", "Emailed"})
      */
     protected $publicationState;
     const STATE_ORDER = array('Draft' => 1, 'Scheduled' => 2, 'Published' => 3, 'Emailed' => 4);
