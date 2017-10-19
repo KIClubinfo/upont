@@ -135,25 +135,13 @@ angular.module('upont')
                         $scope.isLoading = true;
 
                         if (!$scope.modify) {
-                            // On demande si on envoie un mail
-                            if(params.publicationState == 'Published') {
-                                alertify.confirm(
-                                    'Veux-tu envoyer un mail pour cette news ? Si non, tu pourras l\'envoyer ultérieurement.',
-                                    function (e) {
-                                        if (e) {
-                                            params.publicationState = $scope.pub_info['Emailed'].number;
-                                        }
-                                    }
-                                );
-                            }
-
                             Upload.upload({
                                     method: "POST",
                                     url: apiPrefix + 'newsitems',
                                     data: params
                                 })
                                 .then(function() {
-                                    $scope.$emit('newNewsitem');
+                                    $rootScope.$broadcast('newNewsitem');
                                     Achievements.check();
                                     alertify.success('News publiée');
                                     init();
@@ -210,25 +198,12 @@ angular.module('upont')
                         $scope.isLoading = true;
 
                         if (!$scope.modify) {
-
-                            // On demande si on envoie un mail
-                            if(params.publicationState == 'Published') {
-                                alertify.confirm(
-                                    'Veux-tu envoyer un mail pour cet événement ? Si non, tu pourras l\'envoyer ultérieurement.',
-                                    function(e) {
-                                        if(e) {
-                                            params.publicationState = $scope.pub_info['Emailed'].number;
-                                        }
-                                    }
-                                );
-                            }
-
                             Upload.upload({
                                 method: "POST",
                                 url: apiPrefix + 'events',
                                 data: params
                             }).then(function() {
-                                $scope.$emit('newEvent');
+                                $rootScope.$broadcast('newEvent');
                                 Achievements.check();
                                 init();
                                 alertify.success('Événement publié');
