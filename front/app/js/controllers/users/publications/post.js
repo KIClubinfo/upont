@@ -5,32 +5,6 @@ angular.module('upont')
         var club = clubDummy;
         $scope.display = true;
         $scope.isLoading = false;
-        $scope.pub_info = {
-            'Draft': {
-                description: "Seul les membres du club ont accès aux brouillons dans la liste des publications du club.",
-                action: "Créer le brouillon",
-                label: 'Brouillon',
-                number: 1,
-            },
-            'Scheduled': {
-                description: "Cette publication apparaîtra seulement sur le calendrier uPont.",
-                action: "Planifier",
-                label: "Planification",
-                number: 2,
-            },
-            'Published': {
-                description: "Cette publication sera publique sur uPont, vous pourrez envoyer un mail plus tard.",
-                action: "Publier",
-                label: "Publication",
-                number: 3
-            },
-            'Emailed': {
-                description: "La publication sera publiée et envoyée par mail à tous les utilisateurs de uPont qui suivent le club.",
-                action: "Envoyer par mail",
-                label: "Email",
-                number: 4
-            }
-        };
 
         // Si on est sur une page d'assos
         if ($stateParams.slug !== null && $stateParams.slug !== undefined) {

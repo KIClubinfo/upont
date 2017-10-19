@@ -1,7 +1,7 @@
 <div ng-controller="Publications_List_Ctrl" ng-inject="{events: events, newsItems: newsItems}">
     <div infinite-scroll="next()" infinite-scroll-distance="2" infinite-scroll-disabled="$root.infiniteLoading">
 
-        <article col class="Ticket  Ticket--color{{ publication.slug.length%5+1 }}"
+        <article col class="Ticket Ticket--{{ pub_info[publication.publication_state].color }}"
             ng-repeat="publication in events.data | concat: newsItems.data | orderBy: 'date' | reverse"
             ng-if="publication.entry_method != 'Ferie' && ($root.hasClub(publication.author_club.slug) || ['Published', 'Emailed'].includes(publication.publication_state))">
             <up-ribbon class="Ribbon--pink" ng-hide="editSlug == publication.slug"
