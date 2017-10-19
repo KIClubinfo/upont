@@ -176,22 +176,20 @@ angular.module('upont')
 
         $scope.enableModify = function(post) {
             $scope.item = post.start_date !== undefined ? 'events' : 'newsitems' ;
-
+            $scope.edit = post;
             if ($scope.item == 'newsitems') {
-                $scope.edit = post;
+                $scope.$broadcast('modifyNewsitem', post);
             } else {
-                $rootScope.$broadcast('modifyEvent', post);
+                $scope.$broadcast('modifyEvent', post);
             }
         };
 
-        $scope.modify = function(post) {
-            $http.patch(apiPrefix + $scope.item + '/' + post.slug, {text: post.text}).then(function(){
-                alertify.success('Publication modifiée');
-                $scope.edit.text = post.text ;
-                $scope.edit = null;
-                $rootScope.$broadcast('newNewsitem');
-            });
-        };
+        $scope.$on('modifiedNewsitem', function(event) {
+            $scope.edit = null;
+        });
+        $scope.$on('modifiedEvent', function(event) {
+            $scope.edit = null;
+        });
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider

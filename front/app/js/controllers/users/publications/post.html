@@ -1,5 +1,5 @@
 <div ng-controller="Publications_Post_Ctrl">
-    <section class="Ticket Ticket--nopadding" ng-if="$root.clubs.length && display">
+    <section class="Ticket Ticket--nopadding" ng-class="{'Ticket--noborder': modify}" ng-if="$root.clubs.length && display">
         <form row wrap ng-submit="publish(post, postFiles)" autocomplete="off">
             <!-- Inputs liés aux news et events -->
             <div class="padded" flex="100" ng-class="{'flex-md-75pct': (focus || modify) && type == 'news'}" ng-init="focus=false" ng-click="focus=true">
@@ -30,8 +30,8 @@
 
             <!-- entryMethod -->
             <div class="padded" flex="100" flex-md="25" ng-if="!$root.isExterieur" ng-show="type == 'event'">
-                <select class="Input" ng-model="post.entry_method" ng-disabled="modify">
-                    <option selected>Entrée libre</option>
+                <select class="Input" ng-model="post.entry_method">
+                    <option selected ng-disabled="modify && initialEntryMethod == 'Shotgun'">Entrée libre</option>
                     <option>Shotgun</option>
                     <option ng-if="$root.isAdmin">Ferie</option>
                 </select>

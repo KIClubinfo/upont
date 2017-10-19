@@ -4,10 +4,14 @@
         <article col class="Ticket  Ticket--color{{ publication.slug.length%5+1 }}"
             ng-repeat="publication in events.data | concat: newsItems.data | orderBy: 'date' | reverse"
             ng-if="publication.entry_method != 'Ferie' && ($root.hasClub(publication.author_club.slug) || ['Published', 'Emailed'].includes(publication.publication_state))">
-            <up-ribbon class="Ribbon--pink" ng-if="$root.hasClub(publication.author_club.slug) && publication.publication_state == 'Draft'">Brouillon</up-ribbon>
-            <up-ribbon class="Ribbon--aqua" ng-if="$root.hasClub(publication.author_club.slug) && publication.publication_state == 'Scheduled'">Planifié</up-ribbon>
-            <up-ribbon class="Ribbon--yellow" ng-if="$root.hasClub(publication.author_club.slug) && publication.publication_state == 'Published'">Publié</up-ribbon>
-            <up-ribbon class="Ribbon--red" ng-if="$root.hasClub(publication.author_club.slug) && publication.publication_state == 'Emailed'">Email</up-ribbon>
+            <up-ribbon class="Ribbon--pink" ng-hide="edit != null && publication.slug == edit.slug"
+            ng-if="$root.hasClub(publication.author_club.slug) && publication.publication_state == 'Draft'">Brouillon</up-ribbon>
+            <up-ribbon class="Ribbon--aqua" ng-hide="edit != null && publication.slug == edit.slug"
+            ng-if="$root.hasClub(publication.author_club.slug) && publication.publication_state == 'Scheduled'">Planifié</up-ribbon>
+            <up-ribbon class="Ribbon--yellow" ng-hide="edit != null && publication.slug == edit.slug"
+            ng-if="$root.hasClub(publication.author_club.slug) && publication.publication_state == 'Published'">Publié</up-ribbon>
+            <up-ribbon class="Ribbon--red" ng-hide="edit != null && publication.slug == edit.slug"
+            ng-if="$root.hasClub(publication.author_club.slug) && publication.publication_state == 'Emailed'">Email</up-ribbon>
             <div row wrap>
                 <aside row flex="100" flex-sm="25" wrap class="padded text-center align-content-start">
                     <div col="start center" flex="50" flex-sm="100">
@@ -62,7 +66,7 @@
                     </div>
                 </aside>
 
-                <section col flex="100" flex-sm="75" class="Ticket-content">
+                <section col flex="100" flex-sm="75" ng-hide="edit !== null && publication.slug == edit.slug">
                     <header row="space-between start" flex="100">
                         <div>
                             <!-- Titre -->
@@ -98,13 +102,7 @@
                     </section>
 
                     <!-- Contenu de la publication -->
-                    <p class="wysiwyg-data" up-overflow string="publication.text"
-                       ng-hide="edit !== null && publication.slug == edit.slug"></p>
-
-                    <div col ng-if="edit !== null && publication.slug == edit.slug">
-                        <textarea flex="100" ng-model="publication.text" redactor></textarea>
-                        <button flex="50" flex-lg="25" class="Button" ng-click="modify(publication)">Enregistrer</button>
-                    </div>
+                    <p class="wysiwyg-data" up-overflow string="publication.text"></p>
 
                     <!-- Fichiers joints -->
                     <section ng-if="publication.files.length">
@@ -120,9 +118,14 @@
                         </ul>
                     </section>
                 </section>
+                <section flex="100" flex-sm="75" ng-hide="edit == null || publication.slug != edit.slug">
+                    <div ng-include="'controllers/users/publications/post.html'"></div>
+                </section>
+
             </div>
             <div up-likes show="false" objet="publication"
-                 url="(publication.start_date ? 'events/' : 'newsitems/') + publication.slug"></div>
+                 url="(publication.start_date ? 'events/' : 'newsitems/') + publication.slug"
+                 ng-if="!['Draft', 'Scheduled'].includes(publication.publication_state)"></div>
             <div class="padded" ng-if="!$root.isExterieur && ['Draft', 'Scheduled'].includes(publication.publication_state)">
                 <i class="hpadded fa fa-info-circle"></i>
                 Publication visible uniquement par les membres {{ publication.author_club.name }}.
