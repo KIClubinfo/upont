@@ -31,9 +31,9 @@
             <!-- entryMethod -->
             <div class="padded" flex="100" flex-md="25" ng-if="!$root.isExterieur" ng-show="type == 'event'">
                 <select class="Input" ng-model="post.entry_method">
-                    <option selected ng-disabled="modify && initialEntryMethod == 'Shotgun'">Entrée libre</option>
-                    <option>Shotgun</option>
-                    <option ng-if="$root.isAdmin">Ferie</option>
+                    <option value="Libre" selected ng-disabled="modify && initialEntryMethod == 'Shotgun'">Entrée libre</option>
+                    <option value="Shotgun">Shotgun</option>
+                    <option value="Ferie" ng-if="$root.isAdmin" ng-disabled="modify && initialEntryMethod == 'Shotgun'">Ferie</option>
                 </select>
             </div>
 
@@ -95,8 +95,9 @@
                     <div class="InputButton" ng-if="!modify" ng-class="{'active': postFiles.length}">
                         <i class="fa fa-file-o"></i>
                         <span ng-repeat="file in postFiles"> {{ file.name ? file.name : 'Fichier' }} </span>
-                        <button class="InputButton__fileinput" ngf-select="selectFiles($files)" multiple></button>
+                        <button class="InputButton__fileinput" ng-select="selectFiles($files)" multiple></button>
                     </div>
+                    <span class="Button" style="margin-right: auto;" ng-if="modify" ng-click="cancelModify(post)">Annuler</span>
                     <button class="Button" style="margin-left: auto;">{{ modify ? 'Modifier' : pub_info[post.publication_state]['action'] }}</button>
                 </div>
             </div>

@@ -174,9 +174,17 @@ angular.module('upont')
             }
         };
 
+        function clone(copy, obj) {
+            for (var attr in obj) {
+                if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+            }
+        }
+
         $scope.enableModify = function(post) {
             $scope.item = post.start_date !== undefined ? 'events' : 'newsitems' ;
-            $scope.edit = post;
+            $scope.editSlug = post.slug;
+            $scope.initialPost = Object.assign({}, post);
+
             if ($scope.item == 'newsitems') {
                 $scope.$broadcast('modifyNewsitem', post);
             } else {
@@ -184,11 +192,16 @@ angular.module('upont')
             }
         };
 
+        $scope.cancelModify = function(post) {
+            $scope.editSlug = null;
+            clone(post, $scope.initialPost);
+        };
+
         $scope.$on('modifiedNewsitem', function(event) {
-            $scope.edit = null;
+            $scope.editSlug = null;
         });
         $scope.$on('modifiedEvent', function(event) {
-            $scope.edit = null;
+            $scope.editSlug = null;
         });
     }])
     .config(['$stateProvider', function($stateProvider) {
