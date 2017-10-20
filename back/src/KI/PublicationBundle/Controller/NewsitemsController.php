@@ -35,7 +35,8 @@ class NewsitemsController extends ResourceController
      */
     public function getNewsitemsAction()
     {
-        return $this->getAll($this->is('EXTERIEUR'));
+        $findBy = array('publicationState' => array('Scheduled', 'Published', 'Emailed'));
+        return $this->getAll($this->is('EXTERIEUR'), $findBy);
     }
 
     /**
@@ -58,7 +59,7 @@ class NewsitemsController extends ResourceController
     {
         $newsitem = $this->getOne($slug, $this->is('EXTERIEUR'));
         if ($newsitem->getPublicationState() == 'Draft' && !$this->isClubMember($newsitem->getAuthorClub())) {
-            throw new BadRequestHttpException('Tu n\'es pas autorisé à lire ce brouillon !');
+            return $this->json('Tu n\'es pas autorisé à lire ce brouillon !', 403);
         }
 
         return $this->json($newsitem);

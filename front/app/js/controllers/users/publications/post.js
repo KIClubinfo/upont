@@ -26,7 +26,7 @@ angular.module('upont')
         var init = function() {
             $scope.focus = false;
             $scope.post = {
-                entry_method: 'Entrée libre',
+                entry_method: 'Libre',
                 publication_state: 'Published',
                 text: '',
                 start_date: '',
@@ -77,6 +77,36 @@ angular.module('upont')
 
         $scope.selectFiles = function (files) {
             $scope.postFiles = files;
+        };
+
+        $scope.submitEvent = function(params, postSlug) {
+            if (!$scope.modify) {
+                Upload.upload({
+                    method: "POST",
+                    url: apiPrefix + 'events',
+                    data: params
+                }).then(function() {
+                    $rootScope.$broadcast('newEvent');
+                    Achievements.check();
+                    init();
+                    alertify.success('Événement publié');
+                    $scope.isLoading = false;
+                }, function() {
+                    alertify.error('Formulaire vide ou mal rempli');
+                    $scope.isLoading = false;
+                });
+            } else {
+                $http.patch(apiPrefix + 'events/' + postSlug, params)
+                .then(function() {
+                    $scope.$emit('modifiedEvent');
+                    alertify.success('Événement modifié');
+                    init();
+                    $scope.isLoading = false;
+                }, function() {
+                    alertify.error('Formulaire vide ou mal rempli');
+                    $scope.isLoading = false;
+                });
+            }
         };
 
         $scope.publish = function(post, files) {
@@ -170,34 +200,29 @@ angular.module('upont')
 
                     if(!$scope.isLoading) {
                         $scope.isLoading = true;
-
-                        if (!$scope.modify) {
-                            Upload.upload({
-                                method: "POST",
-                                url: apiPrefix + 'events',
-                                data: params
-                            }).then(function() {
-                                $rootScope.$broadcast('newEvent');
-                                Achievements.check();
-                                init();
-                                alertify.success('Événement publié');
-                                $scope.isLoading = false;
-                            }, function() {
-                                alertify.error('Formulaire vide ou mal rempli');
-                                $scope.isLoading = false;
-                            });
-                        } else {
-                            $http.patch(apiPrefix + 'events/' + post.slug, params)
-                            .then(function() {
-                                $scope.$emit('modifiedEvent');
-                                alertify.success('Événement modifié');
-                                init();
-                                $scope.isLoading = false;
-                            }, function() {
-                                alertify.error('Formulaire vide ou mal rempli');
-                                $scope.isLoading = false;
-                            });
-                        }
+                        $http.get(apiPrefix + 'events/' + post.slug + '/check-dates?startDate=' + params.startDate + '&endDate=' + params.endDate).then(function(response){
+                            var unravellingEvents = response.data;
+                            var alertMessage = 'Ces événements sont déjà prévus sur ce créneau : ';
+                            for (var i = 0; i < unravellingEvents.length; i++) {
+                                if (i > 0) { alertMessage += ', '}
+                                alertMessage += '[' + unravellingEvents[i].author_club.name + '] ' + unravellingEvents[i].name;
+                            }
+                            alertMessage += '. Continuer tout de même ?';
+                            if(unravellingEvents.length > 0) {
+                                alertify.confirm(
+                                    alertMessage,
+                                    function(e) {
+                                        if(!e) {
+                                            $scope.isLoading = false;
+                                            return;
+                                        }
+                                        $scope.submitEvent(params, post.slug);
+                                    }
+                                );
+                            } else {
+                                $scope.submitEvent(params, post.slug);
+                            }
+                        });
                     }
                     break;
                 default:

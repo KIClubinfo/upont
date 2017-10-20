@@ -41,7 +41,8 @@ class EventsController extends ResourceController
      */
     public function getEventsAction()
     {
-        return $this->getAll();
+        $findBy = array('publicationState' => array('Scheduled', 'Published', 'Emailed'));
+        return $this->getAll(false, $findBy);
     }
 
     /**
@@ -64,7 +65,7 @@ class EventsController extends ResourceController
     {
         $event = $this->getOne($slug);
         if ($event->getPublicationState() == 'Draft' && !$this->isClubMember($event->getAuthorClub())) {
-            throw new BadRequestHttpException('Tu n\'es pas autorisé à lire ce brouillon !');
+            return $this->json('Tu n\'es pas autorisé à lire ce brouillon !', 403);
         }
 
         return $this->json($event);
@@ -160,6 +161,36 @@ class EventsController extends ResourceController
         $this->delete($slug, $this->isClubMember($club));
 
         return $this->json(null, 204);
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Renvoie la liste des événements qui chevauchent un créneau horaire",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Publications"
+     * )
+     * @Route("/events/{slug}/check-dates")
+     * @Method("GET")
+     */
+    public function getEventCheckDatesAction(Request $request, $slug)
+    {
+        $startDate = $request->query->get('startDate');
+        $endDate = $request->query->get('endDate');
+        $events = $this->repository->findBy(array('publicationState' => array('Scheduled', 'Published', 'Emailed')));
+        $matchedEvents = array();
+        foreach ($events as $event) {
+            $eventStartDate = $event->getStartDate();
+            $eventEndDate = $event->getEndDate();
+            if ($startDate < $eventEndDate && $eventStartDate < $endDate && $slug != $event->getSlug()) {
+                $matchedEvents[] = $event;
+            }
+        }
+        return $this->json($matchedEvents);
+
     }
 
     /**
