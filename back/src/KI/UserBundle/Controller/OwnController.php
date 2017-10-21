@@ -351,7 +351,7 @@ class OwnController extends ResourceController
     /**
      * @ApiDoc(
      *  description="Renvoie la liste des évènements suivis et persos",
-     *  output="KI\PublicationBundle\Entity\Event",
+     *  output="KI\PublicationBundle\Entity\t",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -365,16 +365,14 @@ class OwnController extends ResourceController
      */
     public function getOwnEventsAction(Request $request)
     {
-        $userRepository = $this->manager->getRepository('KIUserBundle:User');
-
         // Si on prend tout on renvoie comme ça
         if ($request->query->has('all')) {
-            $events = $userRepository->findFollowedEvents(
+            $events = $this->repository->findFollowedEvents(
                 $this->getUser()->getId(),
                 $request->query->get('publicationState')
             );
         } else {
-            $events = $userRepository->findFollowedEvents(
+            $events = $this->repository->findFollowedEvents(
                 $this->getUser()->getId(),
                 $request->query->get('publicationState'),
                 $request->query->get('limit'),
@@ -404,9 +402,8 @@ class OwnController extends ResourceController
         if ($user === null) {
             throw new NotFoundHttpException('Aucun utilisateur ne correspond au token saisi');
         } else {
-            $userRepository = $this->manager->getRepository('KIUserBundle:User');
 
-            $events = $userRepository->findFollowedEvents($user->getId(), "Scheduled");
+            $events = $this->repository->findFollowedEvents($user->getId(), "Scheduled");
             $courses = $this->getCourseitems($user);
 
             $calStr = $this->get('ki_publication.service.calendar')->getCalendar($user, $events, $courses);
@@ -465,16 +462,6 @@ class OwnController extends ResourceController
         $paginateHelper = $this->get('ki_core.helper.paginate');
         extract($paginateHelper->paginateData($repository));
         $findBy['authorClub'] = $this->getFollowedClubs();
-
-        if ($request->query->has('publicationState')) {
-            $publicationState = $request->query->get('publicationState');
-            $findBy['authorClub'] = array();
-            foreach (Post::STATE_ORDER as $key => $value) {
-                if ($value >= Post::STATE_ORDER[$publicationState]) {
-                    $findBy['authorClub'][] = $key;
-                }
-            }
-        }
 
         $results = $repository->findBy($findBy, $sortBy, $limit, $offset);
 

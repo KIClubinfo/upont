@@ -20,15 +20,7 @@ class UserRepository extends ResourceRepository
     public function findFollowedEvents($userId, $publicationState = null, $limit = null, $page = null)
     {
         if ($publicationState == null) {
-            $publicationStates = array_keys(Post::STATE_ORDER);
-        }
-        else {
-            $publicationStates = array();
-            foreach (Post::STATE_ORDER as $key => $value) {
-                if ($value >= Post::STATE_ORDER[$publicationState]) {
-                    $publicationStates[] = $key;
-                }
-            }
+            $publicationState = array_keys(Post::STATE_ORDER);
         }
 
         $query = $this->getEntityManager()->createQuery('SELECT event FROM
@@ -49,7 +41,7 @@ class UserRepository extends ResourceRepository
             ORDER BY event.date DESC
         ')
             ->setParameter('userId', $userId)
-            ->setParameter('publicationStates', $publicationStates);
+            ->setParameter('publicationStates', $publicationState);
 
         if($limit !== null && $limit > 0) {
             $query->setMaxResults($limit);

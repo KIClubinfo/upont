@@ -54,7 +54,7 @@ angular.module('upont')
                 },
                 resolve: {
                     events: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'own/events?publicationState=Scheduled').query().$promise;
+                        return $resource(apiPrefix + 'own/events?publicationState=Scheduled,Published,Emailed').query().$promise;
                     }],
                     courseitems: ['$resource', function($resource) {
                         return $resource(apiPrefix + 'own/courseitems').query().$promise;

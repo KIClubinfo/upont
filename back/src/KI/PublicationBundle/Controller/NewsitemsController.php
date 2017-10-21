@@ -7,6 +7,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class NewsitemsController extends ResourceController
@@ -33,10 +34,21 @@ class NewsitemsController extends ResourceController
      * @Route("/newsitems")
      * @Method("GET")
      */
-    public function getNewsitemsAction()
+    public function getNewsitemsAction(Request $request)
     {
-        $findBy = array('publicationState' => array('Scheduled', 'Published', 'Emailed'));
-        return $this->getAll($this->is('EXTERIEUR'), $findBy);
+        if ($request->query->get('name') == 'message') {
+            $findBy = array('name' => 'message');
+            return $this->getAll($this->is('EXTERIEUR'), $findBy);
+        }
+        else {
+            $newsitems = $this->$repository->getAllowedNewsitems(
+                $this->getUser()->getId(),
+                $request->query->get('publicationState'),
+                $request->query->get('limit'),
+                $request->query->get('page'));
+
+            return $this->json($newsitems);
+        }
     }
 
     /**

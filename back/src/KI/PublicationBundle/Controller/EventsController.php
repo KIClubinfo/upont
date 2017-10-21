@@ -39,10 +39,15 @@ class EventsController extends ResourceController
      * @Route("/events")
      * @Method("GET")
      */
-    public function getEventsAction()
+    public function getEventsAction(Request $request)
     {
-        $findBy = array('publicationState' => array('Scheduled', 'Published', 'Emailed'));
-        return $this->getAll(false, $findBy);
+        $events = $this->$repository->getAllowedEvents(
+            $this->getUser()->getId(),
+            $request->query->get('publicationState'),
+            $request->query->get('limit'),
+            $request->query->get('page'));
+
+        return $this->json($events);
     }
 
     /**
