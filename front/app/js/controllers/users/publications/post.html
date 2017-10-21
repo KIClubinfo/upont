@@ -40,7 +40,7 @@
             <!-- publicationState -->
             <div class="padded" flex="100" flex-md="25" ng-if="focus || modify">
                 <select class="Input" ng-model="post.publication_state">
-                      <option ng-repeat="(state, item) in pub_info" ng-value="state"  ng-disabled="modify && initialPubNumber > item.number" ng-hide="type == 'news' && state == 'Scheduled'">{{ item.label }}</option>
+                      <option ng-repeat="(state, item) in pub_info" ng-value="state"  ng-disabled="modify && initialPubOrder > item.order" ng-hide="type == 'news' && state == 'Scheduled'">{{ item.label }}</option>
                 </select>
             </div>
 

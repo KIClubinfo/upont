@@ -255,6 +255,6 @@ angular.module('upont')
 
             $scope.post = post;
             $scope.initialEntryMethod = post.entry_method;
-            $scope.initialPubNumber = $scope.pub_info[post.publication_state].number;
+            $scope.initialPubOrder = $scope.pub_info[post.publication_state].order;
         });
     }]);

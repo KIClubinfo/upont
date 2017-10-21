@@ -36,7 +36,7 @@ angular.module('upont')
             });
         }
 
-        $scope.calendarView = 'week';
+        $scope.calendarView = 'month';
         $scope.calendarDay = new Date();
 
         $scope.setView = function(view) {

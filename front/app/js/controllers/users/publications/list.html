@@ -4,14 +4,8 @@
         <article col class="Ticket Ticket--{{ pub_info[publication.publication_state].color }}"
             ng-repeat="publication in events.data | concat: newsItems.data | orderBy: 'date' | reverse"
             ng-if="publication.entry_method != 'Ferie' && ($root.hasClub(publication.author_club.slug) || ['Published', 'Emailed'].includes(publication.publication_state))">
-            <up-ribbon class="Ribbon--pink" ng-hide="editSlug == publication.slug"
-            ng-if="$root.hasClub(publication.author_club.slug) && publication.publication_state == 'Draft'">Brouillon</up-ribbon>
-            <up-ribbon class="Ribbon--aqua" ng-hide="editSlug == publication.slug"
-            ng-if="$root.hasClub(publication.author_club.slug) && publication.publication_state == 'Scheduled'">Planifié</up-ribbon>
-            <up-ribbon class="Ribbon--yellow" ng-hide="editSlug == publication.slug"
-            ng-if="$root.hasClub(publication.author_club.slug) && publication.publication_state == 'Published'">Publié</up-ribbon>
-            <up-ribbon class="Ribbon--red" ng-hide="editSlug == publication.slug"
-            ng-if="$root.hasClub(publication.author_club.slug) && publication.publication_state == 'Emailed'">Email</up-ribbon>
+            <up-ribbon ng-repeat="(state, item) in pub_info" class="Ribbon--{{ pub_info[publication.publication_state].color }}" ng-hide="editSlug == publication.slug"
+            ng-if="$root.hasClub(publication.author_club.slug) && publication.publication_state == state">{{ item.ribbon }}</up-ribbon>
             <div row wrap>
                 <aside row flex="100" flex-sm="25" wrap class="padded text-center align-content-start">
                     <div col="start center" flex="50" flex-sm="100">

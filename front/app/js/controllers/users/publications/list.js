@@ -8,30 +8,34 @@ angular.module('upont')
             'Draft': {
                 description: "Seul les membres du club ont accès aux brouillons dans la liste des publications du club.",
                 action: "Créer le brouillon",
-                label: 'Brouillon',
-                color: 'pink',
-                number: 1,
+                label: "Brouillon",
+                ribbon: "Brouillon",
+                color: "pink",
+                order: 1,
             },
             'Scheduled': {
                 description: "Cette publication apparaîtra seulement sur le calendrier uPont.",
                 action: "Planifier",
                 label: "Planification",
-                color: 'aqua',
-                number: 2,
+                ribbon: "Planifié",
+                color: "aqua",
+                order: 2,
             },
             'Published': {
                 description: "Cette publication sera publique sur uPont, vous pourrez envoyer un mail plus tard.",
                 action: "Publier",
                 label: "Publication",
-                color: 'yellow',
-                number: 3
+                ribbon: "Publié",
+                color: "yellow",
+                order: 3
             },
             'Emailed': {
                 description: "La publication sera publiée et envoyée par mail à tous les utilisateurs de uPont qui suivent le club.",
                 action: "Envoyer par mail",
                 label: "Email",
-                color: 'red',
-                number: 4
+                ribbon: "Email",
+                color: "red",
+                order: 4
             }
         };
 
