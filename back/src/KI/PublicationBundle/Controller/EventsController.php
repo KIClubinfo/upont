@@ -41,7 +41,7 @@ class EventsController extends ResourceController
      */
     public function getEventsAction(Request $request)
     {
-        $events = $this->$repository->getAllowedEvents(
+        $events = $this->repository->getAllowedEvents(
             $this->getUser()->getId(),
             $request->query->get('publicationState'),
             $request->query->get('limit'),

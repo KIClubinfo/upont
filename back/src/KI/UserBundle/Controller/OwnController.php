@@ -351,7 +351,7 @@ class OwnController extends ResourceController
     /**
      * @ApiDoc(
      *  description="Renvoie la liste des évènements suivis et persos",
-     *  output="KI\PublicationBundle\Entity\t",
+     *  output="KI\PublicationBundle\Entity\Event",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
