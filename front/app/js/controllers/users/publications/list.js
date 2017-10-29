@@ -5,7 +5,7 @@ angular.module('upont')
         $scope.messages = messages;
 
         $scope.pub_info = {
-            'Draft': {
+            'draft': {
                 description: "Seul les membres du club ont accès aux brouillons dans la liste des publications du club.",
                 action: "Créer le brouillon",
                 label: "Brouillon",
@@ -13,7 +13,7 @@ angular.module('upont')
                 color: "pink",
                 order: 1,
             },
-            'Scheduled': {
+            'scheduled': {
                 description: "Cette publication apparaîtra seulement sur le calendrier uPont.",
                 action: "Planifier",
                 label: "Planification",
@@ -21,7 +21,7 @@ angular.module('upont')
                 color: "aqua",
                 order: 2,
             },
-            'Published': {
+            'published': {
                 description: "Cette publication sera publique sur uPont, vous pourrez envoyer un mail plus tard.",
                 action: "Publier",
                 label: "Publication",
@@ -29,7 +29,7 @@ angular.module('upont')
                 color: "yellow",
                 order: 3
             },
-            'Emailed': {
+            'emailed': {
                 description: "La publication sera publiée et envoyée par mail à tous les utilisateurs de uPont qui suivent le club.",
                 action: "Envoyer par mail",
                 label: "Email",

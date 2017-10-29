@@ -14,6 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class EventsController extends ResourceController
 {
@@ -69,8 +70,8 @@ class EventsController extends ResourceController
     public function getEventAction($slug)
     {
         $event = $this->getOne($slug);
-        if ($event->getPublicationState() == 'Draft' && !$this->isClubMember($event->getAuthorClub())) {
-            return $this->json('Tu n\'es pas autorisé à lire ce brouillon !', 403);
+        if ($event->getPublicationState() == 'draft' && !$this->isClubMember($event->getAuthorClub())) {
+            throw $this->createAccessDeniedException('You cannot access this draft!');
         }
 
         return $this->json($event);
@@ -185,8 +186,11 @@ class EventsController extends ResourceController
     {
         $startDate = $request->query->get('startDate');
         $endDate = $request->query->get('endDate');
-        $events = $this->repository->findBy(array('publicationState' => array('Scheduled', 'Published', 'Emailed')));
-        $matchedEvents = array();
+        $events = $this->repository->findBy(['publicationState' => ['scheduled',
+                                                                    'published',
+                                                                    'emailed'],
+                                            ]);
+        $matchedEvents = [];
         foreach ($events as $event) {
             $eventStartDate = $event->getStartDate();
             $eventEndDate = $event->getEndDate();

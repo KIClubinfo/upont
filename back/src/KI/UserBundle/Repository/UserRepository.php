@@ -34,7 +34,7 @@ class UserRepository extends ResourceRepository
                 )
             )
             AND event.authorClub NOT IN (SELECT cnf FROM KIUserBundle:User usr JOIN usr.clubsNotFollowed cnf WHERE usr.id = user.id)
-            AND (event.publicationState != \'Draft\' OR event.authorClub IN (
+            AND (event.publicationState != \'draft\' OR event.authorClub IN (
                 SELECT cl FROM KIUserBundle:User us JOIN us.clubs cl WHERE us.id = user.id)
                 )
             AND event.publicationState IN (:publicationStates)

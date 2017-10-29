@@ -17,7 +17,7 @@ class LoadNewsitemFixture extends AbstractFixture implements OrderedFixtureInter
         $newsitem->setDate(1414242424);
         $newsitem->setAuthorClub($this->getReference('club-ki'));
         $newsitem->setAuthorUser($this->getReference('user-taquet-c'));
-        $newsitem->setPublicationState('Published');
+        $newsitem->setPublicationState('published');
         $newsitem->setLikes([$this->getReference('user-taquet-c')]);
         $newsitem->setDislikes([$this->getReference('user-trancara')]);
         $manager->persist($newsitem);
@@ -28,7 +28,7 @@ class LoadNewsitemFixture extends AbstractFixture implements OrderedFixtureInter
         $newsitem->setDate(1418325122);
         $newsitem->setAuthorClub($this->getReference('club-ki'));
         $newsitem->setAuthorUser($this->getReference('user-trancara'));
-        $newsitem->setPublicationState('Draft');
+        $newsitem->setPublicationState('draft');
         $newsitem->setImage($this->getReference('image-newsitem-git'));
         $manager->persist($newsitem);
 
@@ -38,7 +38,7 @@ class LoadNewsitemFixture extends AbstractFixture implements OrderedFixtureInter
         $newsitem->setDate(1417532897);
         $newsitem->setAuthorClub($this->getReference('club-ki'));
         $newsitem->setAuthorUser($this->getReference('user-trancara'));
-        $newsitem->setPublicationState('Scheduled');
+        $newsitem->setPublicationState('scheduled');
         $manager->persist($newsitem);
 
         $newsitem = new Newsitem();
@@ -47,7 +47,7 @@ class LoadNewsitemFixture extends AbstractFixture implements OrderedFixtureInter
         $newsitem->setDate(1412831521);
         $newsitem->setAuthorClub($this->getReference('club-bde'));
         $newsitem->setAuthorUser($this->getReference('user-dziris'));
-        $newsitem->setPublicationState('Emailed');
+        $newsitem->setPublicationState('emailed');
         $newsitem->setDislikes([$this->getReference('user-trancara'), $this->getReference('user-dziris')]);
         $newsitem->addComment($this->getReference('comment-genial'));
         $newsitem->addComment($this->getReference('comment-rage'));
@@ -60,7 +60,7 @@ class LoadNewsitemFixture extends AbstractFixture implements OrderedFixtureInter
         $newsitem->setDate(1414462150);
         $newsitem->setAuthorClub($this->getReference('club-pep'));
         $newsitem->setAuthorUser($this->getReference('user-guerinh'));
-        $newsitem->setPublicationState('Draft');
+        $newsitem->setPublicationState('draft');
         $manager->persist($newsitem);
 
         $newsitem = new Newsitem();
@@ -70,18 +70,18 @@ class LoadNewsitemFixture extends AbstractFixture implements OrderedFixtureInter
         $newsitem->setAuthorClub($this->getReference('club-bde'));
         $newsitem->setAuthorUser($this->getReference('user-dziris'));
         $newsitem->setImage($this->getReference('image-newsitem-pulls'));
-        $newsitem->setPublicationState('Published');
+        $newsitem->setPublicationState('published');
         $manager->persist($newsitem);
 
         $newsitem = new Newsitem();
-        $newsitem->setName('Le béton c\'est bon.');
-        $newsitem->setText('L\'acier aussi, c\'est complètement METAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL.');
+        $newsitem->setName("Le béton c'est bon.");
+        $newsitem->setText("L'acier aussi, c'est complètement METAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL.");
         $newsitem->setDate(time() - 21*3600);
         $newsitem->setAuthorUser($this->getReference('user-gcc'));
         $newsitem->setAuthorClub($this->getReference('club-gcc'));
         $newsitem->setLikes([$this->getReference('user-taquet-c')]);
         $newsitem->setDislikes([$this->getReference('user-trancara'), $this->getReference('user-dziris')]);
-        $newsitem->setPublicationState('Emailed');
+        $newsitem->setPublicationState('emailed');
         $newsitem->addComment($this->getReference('comment-rage'));
         $newsitem->addComment($this->getReference('comment-arret'));
         $manager->persist($newsitem);
@@ -93,7 +93,7 @@ class LoadNewsitemFixture extends AbstractFixture implements OrderedFixtureInter
         $newsitem->setDate(time() - 3600);
         $newsitem->setAuthorUser($this->getReference('user-trancara'));
         $newsitem->setImage($this->getReference('image-game-age-of-empires-2'));
-        $newsitem->setPublicationState('Published');
+        $newsitem->setPublicationState('published');
         $manager->persist($newsitem);
 
         $newsitem = new Newsitem();
@@ -101,7 +101,7 @@ class LoadNewsitemFixture extends AbstractFixture implements OrderedFixtureInter
         $newsitem->setText('[Le rêve de Jeanine]<br>Est ce que vous voyez la pluie tomber sur notre calme Champs sur Marne? Vous êtes vous seulement posés la question, ne serait-ce qu\'une fois, de ce que toute cette eau devenait? Cette nonchalance de votre part est permise seulement par la puissance de nouveaux radars qui mesurent précisément la minute et la rue où va se déverser le prochain orage sur les villes d\'Ile de France.');
         $newsitem->setDate(time() - 42*3600);
         $newsitem->setAuthorUser($this->getReference('user-dziris'));
-        $newsitem->setPublicationState('Published');
+        $newsitem->setPublicationState('published');
         $manager->persist($newsitem);
 
         $manager->flush();

@@ -14,7 +14,7 @@ class EventRepository extends ResourceRepository
         $query = $this->getEntityManager()->createQuery('SELECT event FROM
             KIPublicationBundle:Event event
             WHERE
-            (event.publicationState != \'Draft\' OR event.authorClub IN (
+            (event.publicationState != \'draft\' OR event.authorClub IN (
                 SELECT cl FROM KIUserBundle:User us JOIN us.clubs cl WHERE us.id = :userId)
             )
             AND event.publicationState IN (:publicationStates)

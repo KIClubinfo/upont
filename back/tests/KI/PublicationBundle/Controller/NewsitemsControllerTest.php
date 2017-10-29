@@ -13,7 +13,7 @@ class NewsitemsControllerTest extends WebTestCase
         $this->client->request('POST', '/newsitems', [
             'name' => 'La Porte',
             'text' => 'C\'est comme perdre',
-            'publicationState' => 'Emailed',
+            'publicationState' => 'emailed',
             'authorClub' => 'ki'
         ]);
         $response = $this->client->getResponse();

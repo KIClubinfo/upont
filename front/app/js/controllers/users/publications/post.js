@@ -27,7 +27,7 @@ angular.module('upont')
             $scope.focus = false;
             $scope.post = {
                 entry_method: 'Libre',
-                publication_state: 'Published',
+                publication_state: 'published',
                 text: '',
                 start_date: '',
                 end_date: '',
@@ -55,8 +55,8 @@ angular.module('upont')
                         $scope.placeholder = 'Texte de la news';
                     else
                         $scope.placeholder = 'Que se passe-t-il d\'intéressant dans ton asso ?';
-                    if ($scope.post.publication_state == 'Scheduled') {
-                        $scope.post.publication_state = 'Published';
+                    if ($scope.post.publication_state == 'scheduled') {
+                        $scope.post.publication_state = 'published';
                     }
                     break;
                 case 'event':

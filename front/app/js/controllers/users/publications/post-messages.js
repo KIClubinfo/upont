@@ -14,7 +14,7 @@ angular.module('upont')
             var params  = {
                 text: msg.text,
                 name: 'message',
-                publicationState: 'Published'
+                publicationState: 'published'
             };
 
             if (image) {

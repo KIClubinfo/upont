@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class NewsitemsController extends ResourceController
 {
@@ -37,7 +38,7 @@ class NewsitemsController extends ResourceController
     public function getNewsitemsAction(Request $request)
     {
         if ($request->query->get('name') == 'message') {
-            $findBy = array('name' => 'message');
+            $findBy = ['name' => 'message'];
             return $this->getAll($this->is('EXTERIEUR'), $findBy);
         }
         else {
@@ -70,8 +71,8 @@ class NewsitemsController extends ResourceController
     public function getNewsitemAction($slug)
     {
         $newsitem = $this->getOne($slug, $this->is('EXTERIEUR'));
-        if ($newsitem->getPublicationState() == 'Draft' && !$this->isClubMember($newsitem->getAuthorClub())) {
-            return $this->json('Tu n\'es pas autorisé à lire ce brouillon !', 403);
+        if ($newsitem->getPublicationState() == 'draft' && !$this->isClubMember($newsitem->getAuthorClub())) {
+            throw $this->createAccessDeniedException('You cannot access this draft!');
         }
 
         return $this->json($newsitem);

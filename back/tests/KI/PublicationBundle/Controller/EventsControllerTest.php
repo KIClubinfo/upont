@@ -16,7 +16,7 @@ class EventsControllerTest extends WebTestCase
             'startDate' => 151515,
             'endDate' => 314159,
             'entryMethod' => 'libre',
-            'publicationState' => 'Emailed',
+            'publicationState' => 'emailed',
             'place' => 'DTC',
             'authorClub' => 'bde'
         ]);
@@ -130,7 +130,7 @@ class EventsControllerTest extends WebTestCase
             'startDate' => 151515,
             'endDate' => 31415,
             'entryMethod' => 'Shotgun',
-            'publicationState' => 'Published',
+            'publicationState' => 'published',
             'shotgunDate' => 101010,
             'shotgunLimit' => 1,
             'shotgunText' => 'Il est deux heures du matin, et tout va bien',

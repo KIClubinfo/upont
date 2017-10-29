@@ -40,7 +40,7 @@
             <!-- publicationState -->
             <div class="padded" flex="100" flex-md="25" ng-if="focus || modify">
                 <select class="Input" ng-model="post.publication_state">
-                      <option ng-repeat="(state, item) in pub_info" ng-value="state"  ng-disabled="modify && initialPubOrder > item.order" ng-hide="type == 'news' && state == 'Scheduled'">{{ item.label }}</option>
+                      <option ng-repeat="(state, item) in pub_info" ng-value="state"  ng-disabled="modify && initialPubOrder > item.order" ng-hide="type == 'news' && state == 'scheduled'">{{ item.label }}</option>
                 </select>
             </div>
 
@@ -95,7 +95,7 @@
                     <div class="InputButton" ng-if="!modify" ng-class="{'active': postFiles.length}">
                         <i class="fa fa-file-o"></i>
                         <span ng-repeat="file in postFiles"> {{ file.name ? file.name : 'Fichier' }} </span>
-                        <button class="InputButton__fileinput" ng-select="selectFiles($files)" multiple></button>
+                        <button class="InputButton__fileinput" ngf-select="selectFiles($files)" multiple></button>
                     </div>
                     <span class="Button" style="margin-right: auto;" ng-if="modify" ng-click="cancelModify(post)">Annuler</span>
                     <button class="Button" style="margin-left: auto;">{{ modify ? 'Modifier' : pub_info[post.publication_state]['action'] }}</button>

@@ -53,13 +53,13 @@ class Post extends Likeable
     protected $text;
 
     /**
-     * Etat de la publication [Draft|Scheduled|Published|Emailed]
-     * @ORM\Column(name="publicationState", type="string", nullable=true, options={"default" = "Published"})
+     * Etat de la publication [draft|scheduled|published|emailed]
+     * @ORM\Column(name="publicationState", type="string", nullable=true, options={"default" = "published"})
      * @Assert\Type("string")
      * @JMS\Expose
      */
     protected $publicationState;
-    const STATE_ORDER = array('Draft' => 1, 'Scheduled' => 2, 'Published' => 3, 'Emailed' => 4);
+    const STATE_ORDER = ['draft' => 1, 'scheduled' => 2, 'published' => 3, 'emailed' => 4];
 
     /**
      * @var ArrayCollection
@@ -252,12 +252,12 @@ class Post extends Likeable
     {
         if (array_key_exists($publicationState, $this::STATE_ORDER)) {
             if (isset($this->publicationState) && $this::STATE_ORDER[$publicationState] < $this::STATE_ORDER[$this->publicationState]) {
-                throw new BadRequestHttpException('Revenir à un état de publication antérieure est interdit !');
+                return;
             }
             return $this->publicationState = $publicationState;
         }
         else {
-            throw new BadRequestHttpException('L\'état de la publication doit être Draft, Scheduled, Published ou Emailed !');
+            return;
         }
     }
 
@@ -272,24 +272,12 @@ class Post extends Likeable
     }
 
     /**
-     * Set sendMail
-     *
-     * @return Post
-     */
-    public function setSendMail()
-    {
-        $this->setPublicationState('Emailed');
-
-        return $this;
-    }
-
-    /**
      * Get sendMail
      *
      * @return boolean
      */
     public function getSendMail()
     {
-        return ($this->getPublicationState() == 'Emailed');
+        return ($this->getPublicationState() == 'emailed');
     }
 }

@@ -3,7 +3,7 @@
 
         <article col class="Ticket Ticket--{{ pub_info[publication.publication_state].color }}"
             ng-repeat="publication in events.data | concat: newsItems.data | orderBy: 'date' | reverse"
-            ng-if="publication.entry_method != 'Ferie' && ($root.hasClub(publication.author_club.slug) || ['Published', 'Emailed'].includes(publication.publication_state))">
+            ng-if="publication.entry_method != 'Ferie' && ($root.hasClub(publication.author_club.slug) || publication.publication_state != 'scheduled')">
             <up-ribbon ng-repeat="(state, item) in pub_info" class="Ribbon--{{ pub_info[publication.publication_state].color }}" ng-hide="editSlug == publication.slug"
             ng-if="$root.hasClub(publication.author_club.slug) && publication.publication_state == state">{{ item.ribbon }}</up-ribbon>
             <div row wrap>
@@ -124,8 +124,8 @@
             </div>
             <div up-likes show="false" objet="publication"
                  url="(publication.start_date ? 'events/' : 'newsitems/') + publication.slug"
-                 ng-if="!['Draft', 'Scheduled'].includes(publication.publication_state)"></div>
-            <div class="padded" ng-if="!$root.isExterieur && ['Draft', 'Scheduled'].includes(publication.publication_state)">
+                 ng-if="['published', 'emailed'].includes(publication.publication_state)"></div>
+            <div class="padded" ng-if="['draft', 'scheduled'].includes(publication.publication_state)">
                 <i class="hpadded fa fa-info-circle"></i>
                 Publication visible uniquement par les membres {{ publication.author_club.name }}.
             </div>

@@ -403,7 +403,7 @@ class OwnController extends ResourceController
             throw new NotFoundHttpException('Aucun utilisateur ne correspond au token saisi');
         } else {
 
-            $events = $this->repository->findFollowedEvents($user->getId(), "Scheduled");
+            $events = $this->repository->findFollowedEvents($user->getId(), "scheduled");
             $courses = $this->getCourseitems($user);
 
             $calStr = $this->get('ki_publication.service.calendar')->getCalendar($user, $events, $courses);
@@ -455,7 +455,7 @@ class OwnController extends ResourceController
      * @Route("/own/newsitems")
      * @Method("GET")
      */
-    public function getNewsItemsAction(Request $request)
+    public function getNewsItemsAction()
     {
         $repository = $this->manager->getRepository('KIPublicationBundle:Newsitem');
 

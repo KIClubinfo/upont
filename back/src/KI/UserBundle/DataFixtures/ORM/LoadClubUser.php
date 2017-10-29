@@ -16,7 +16,7 @@ class LoadClubUserFixture extends AbstractFixture implements OrderedFixtureInter
         $clubUser->setClub($this->getReference('club-bde'));
         $clubUser->setUser($this->getReference('user-matthias.dreveton'));
         $clubUser->setPriority($clubUser->getUser()->getId());
-        $clubUser->setRole('Sex\'Gen');
+        $clubUser->setRole("Sex'Gen");
         $manager->persist($clubUser);
 
         $clubUser = new ClubUser();
