@@ -46,10 +46,8 @@ class FormHelper
         if ($form->isSubmitted() && $form->isValid()) {
             if ($method == 'POST') {
                 $this->manager->persist($item);
-                $code = 201;
-            } else {
-                $code = 204;
             }
+            $code = 201;
             if ($flush)
                 $this->manager->flush();
         } else {

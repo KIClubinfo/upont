@@ -42,7 +42,7 @@ class NewsitemsController extends ResourceController
             return $this->getAll($this->is('EXTERIEUR'), $findBy);
         }
         else {
-            $newsitems = $this->repository->getAllowedNewsitems(
+            $newsitems = $this->repository->findAllowedNewsitems(
                 $this->getUser()->getId(),
                 $request->query->get('publicationState'),
                 $request->query->get('limit'),

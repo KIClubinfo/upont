@@ -1,6 +1,7 @@
 <?php
 namespace KI\PublicationBundle\Repository;
 
+use KI\CoreBundle\Repository\ResourceRepository;
 use KI\PublicationBundle\Entity\Post;
 
 class EventRepository extends ResourceRepository
@@ -33,8 +34,12 @@ class EventRepository extends ResourceRepository
         return $query->getResult();
     }
 
-    public function getSimultaneousEvents($startDate, $endDate, $slug)
+    public function findSimultaneousEvents(int $startDate, int $endDate, string $slug)
     {
+        $publicationState = ['scheduled',
+                             'published',
+                             'emailed'];
+
         return $this->getEntityManager()->createQuery('SELECT event FROM
             KIPublicationBundle:Event event
             WHERE
@@ -47,10 +52,7 @@ class EventRepository extends ResourceRepository
             ->setParameter('startDate', $startDate)
             ->setParameter('endDate', $endDate)
             ->setParameter('slug', $slug)
-            ->setParameter('publicationState', ['publicationState' => ['scheduled',
-                                                                       'published',
-                                                                       'emailed']
-                                                ])
+            ->setParameter('publicationState', $publicationState)
             ->getResult();
     }
 }

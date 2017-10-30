@@ -79,7 +79,7 @@ angular.module('upont')
             $scope.postFiles = files;
         };
 
-        $scope.submitEvent = function(params, postSlug) {
+        $scope.submitEvent = function(params) {
             if (!$scope.modify) {
                 Upload.upload({
                     method: "POST",
@@ -96,8 +96,9 @@ angular.module('upont')
                     $scope.isLoading = false;
                 });
             } else {
-                $http.patch(apiPrefix + 'events/' + postSlug, params)
-                .then(function() {
+                $http.patch(apiPrefix + 'events/' + $scope.initialSlug, params)
+                .then(function(response) {
+                    $scope.post.slug = response.data.slug;
                     $scope.$emit('modifiedEvent');
                     alertify.success('Événement modifié');
                     init();
@@ -155,7 +156,8 @@ angular.module('upont')
                                     $scope.isLoading = false;
                             });
                         } else {
-                            $http.patch(apiPrefix + 'newsitems/' + post.slug, params).then(function(){
+                            $http.patch(apiPrefix + 'newsitems/' + post.slug, params).then(function(response){
+                                $scope.post.slug = response.data.slug;
                                 $scope.$emit('modifiedNewsitem');
                                 alertify.success('Publication modifiée');
                                 init();
@@ -204,7 +206,7 @@ angular.module('upont')
                             var unravellingEvents = response.data;
                             var alertMessage = 'Ces événements sont déjà prévus sur ce créneau : ';
                             for (var i = 0; i < unravellingEvents.length; i++) {
-                                if (i > 0) { alertMessage += ', '}
+                                if (i > 0) { alertMessage += ', '; }
                                 alertMessage += '[' + unravellingEvents[i].author_club.name + '] ' + unravellingEvents[i].name;
                             }
                             alertMessage += '. Continuer tout de même ?';
@@ -216,11 +218,11 @@ angular.module('upont')
                                             $scope.isLoading = false;
                                             return;
                                         }
-                                        $scope.submitEvent(params, post.slug);
+                                        $scope.submitEvent(params);
                                     }
                                 );
                             } else {
-                                $scope.submitEvent(params, post.slug);
+                                $scope.submitEvent(params);
                             }
                         });
                     }
@@ -255,6 +257,7 @@ angular.module('upont')
 
             $scope.post = post;
             $scope.initialEntryMethod = post.entry_method;
+            $scope.initialSlug = post.slug;
             $scope.initialPubOrder = $scope.pub_info[post.publication_state].order;
         });
     }]);

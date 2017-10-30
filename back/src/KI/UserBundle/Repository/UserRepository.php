@@ -26,13 +26,10 @@ class UserRepository extends ResourceRepository
         $query = $this->getEntityManager()->createQuery('SELECT event FROM
             KIPublicationBundle:Event event,
             KIUserBundle:User user
-            WHERE user.id = :userId AND
-            (
-                (event.authorUser = user.id AND event.authorClub IS NULL) OR
-                (user.id NOT IN (
+            WHERE user.id = :userId
+            AND (user.id NOT IN (
                     SELECT lp FROM KIPublicationBundle:Event evt JOIN evt.listPookies lp WHERE evt.id = event.id)
                 )
-            )
             AND event.authorClub NOT IN (SELECT cnf FROM KIUserBundle:User usr JOIN usr.clubsNotFollowed cnf WHERE usr.id = user.id)
             AND (event.publicationState != \'draft\' OR event.authorClub IN (
                 SELECT cl FROM KIUserBundle:User us JOIN us.clubs cl WHERE us.id = user.id)

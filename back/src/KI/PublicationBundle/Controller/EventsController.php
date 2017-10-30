@@ -42,7 +42,7 @@ class EventsController extends ResourceController
      */
     public function getEventsAction(Request $request)
     {
-        $events = $this->repository->getAllowedEvents(
+        $events = $this->repository->findAllowedEvents(
             $this->getUser()->getId(),
             $request->query->get('publicationState'),
             $request->query->get('limit'),
@@ -172,8 +172,9 @@ class EventsController extends ResourceController
     /**
      * @ApiDoc(
      *  description="Renvoie la liste des événements qui chevauchent un créneau horaire",
+     *  input="KI\PublicationBundle\Form\EventType",
      *  statusCodes={
-     *   200="Requête traitée avec succès",
+     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
      *   401="Une authentification est nécessaire pour effectuer cette action",
      *   503="Service temporairement indisponible ou en maintenance",
      *  },
@@ -186,7 +187,7 @@ class EventsController extends ResourceController
     {
         $startDate = $request->query->get('startDate');
         $endDate = $request->query->get('endDate');
-        $matchedEvents = $this->repository->getSimultaneousEvents($startDate, $endDate, $slug);
+        $matchedEvents = $this->repository->findSimultaneousEvents($startDate, $endDate, $slug);
 
         return $this->json($matchedEvents);
 

@@ -1,6 +1,7 @@
 <?php
 namespace KI\PublicationBundle\Repository;
 
+use KI\CoreBundle\Repository\ResourceRepository;
 use KI\PublicationBundle\Entity\Post;
 
 class NewsitemRepository extends ResourceRepository
