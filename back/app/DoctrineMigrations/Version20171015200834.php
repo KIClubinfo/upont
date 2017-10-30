@@ -40,6 +40,9 @@ class Version20171015200834 extends AbstractMigration
             UPDATE Post
             SET Post.send_mail = true
             WHERE Post.publicationState = \'emailed\'
+            ');
+        $this->addSql('
+            UPDATE Post
             SET Post.send_mail = false
             WHERE Post.publicationState != \'emailed\'
             ');
