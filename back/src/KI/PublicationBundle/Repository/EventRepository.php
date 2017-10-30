@@ -17,7 +17,7 @@ class EventRepository extends ResourceRepository
             (event.publicationState != \'draft\' OR event.authorClub IN (
                 SELECT cl FROM KIUserBundle:User us JOIN us.clubs cl WHERE us.id = :userId)
             )
-            AND event.publicationState IN (:publicationStates)
+            AND event.publicationState IN (:publicationState)
             ORDER BY event.date DESC
         ')
             ->setParameter('userId', $userId)
@@ -31,5 +31,26 @@ class EventRepository extends ResourceRepository
         }
 
         return $query->getResult();
+    }
+
+    public function getSimultaneousEvents($startDate, $endDate, $slug)
+    {
+        return $this->getEntityManager()->createQuery('SELECT event FROM
+            KIPublicationBundle:Event event
+            WHERE
+            event.publicationState IN (:publicationState)
+            AND :startDate < event.endDate
+            AND event.startDate < :endDate
+            AND :slug != event.slug
+            ORDER BY event.date DESC
+        ')
+            ->setParameter('startDate', $startDate)
+            ->setParameter('endDate', $endDate)
+            ->setParameter('slug', $slug)
+            ->setParameter('publicationState', ['publicationState' => ['scheduled',
+                                                                       'published',
+                                                                       'emailed']
+                                                ])
+            ->getResult();
     }
 }

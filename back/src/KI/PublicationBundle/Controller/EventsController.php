@@ -186,18 +186,8 @@ class EventsController extends ResourceController
     {
         $startDate = $request->query->get('startDate');
         $endDate = $request->query->get('endDate');
-        $events = $this->repository->findBy(['publicationState' => ['scheduled',
-                                                                    'published',
-                                                                    'emailed'],
-                                            ]);
-        $matchedEvents = [];
-        foreach ($events as $event) {
-            $eventStartDate = $event->getStartDate();
-            $eventEndDate = $event->getEndDate();
-            if ($startDate < $eventEndDate && $eventStartDate < $endDate && $slug != $event->getSlug()) {
-                $matchedEvents[] = $event;
-            }
-        }
+        $matchedEvents = $this->repository->getSimultaneousEvents($startDate, $endDate, $slug);
+
         return $this->json($matchedEvents);
 
     }

@@ -54,7 +54,7 @@ class Post extends Likeable
 
     /**
      * Etat de la publication [draft|scheduled|published|emailed]
-     * @ORM\Column(name="publicationState", type="string", nullable=true, options={"default" = "published"})
+     * @ORM\Column(name="publicationState", type="string", nullable=false, options={"default" = "published"})
      * @Assert\Type("string")
      * @JMS\Expose
      */
