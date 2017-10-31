@@ -365,21 +365,8 @@ class OwnController extends ResourceController
      */
     public function getOwnEventsAction(Request $request)
     {
-        // Si on prend tout on renvoie comme ça
-        if ($request->query->has('all')) {
-            $events = $this->repository->findFollowedEvents(
-                $this->getUser()->getId(),
-                $request->query->get('publicationState')
-            );
-        } else {
-            $events = $this->repository->findFollowedEvents(
-                $this->getUser()->getId(),
-                $request->query->get('publicationState'),
-                $request->query->get('limit'),
-                $request->query->get('page')
-            );
-        }
-        return $this->json($events);
+        $dql = $this->repository->getFollowedEventsDql($this->getUser()->getId(), $request->query->all());
+        return $this->getPaginatedResponse($dql);
     }
 
     /**
@@ -457,20 +444,8 @@ class OwnController extends ResourceController
      */
     public function getNewsItemsAction()
     {
-        $repository = $this->manager->getRepository('KIPublicationBundle:Newsitem');
-
-        $paginateHelper = $this->get('ki_core.helper.paginate');
-        extract($paginateHelper->paginateData($repository));
-        $findBy['authorClub'] = $this->getFollowedClubs();
-
-        $results = $repository->findBy($findBy, $sortBy, $limit, $offset);
-
-        list($results, $links, $count) = $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
-
-        return $this->json($results, 200, [
-            'Links' => implode(',', $links),
-            'Total-count' => $count
-        ]);
+        $dql = $this->repository->getFollowedNewsitemsDql($this->getUser()->getId());
+        return $this->getPaginatedResponse($dql);
     }
 
     /**
@@ -490,7 +465,7 @@ class OwnController extends ResourceController
      */
     public function getOwnCoursesAction()
     {
-        $repo = $this->getDoctrine()->getManager()->getRepository('KIPublicationBundle:CourseUser');
+        $repo = $this->manager->getRepository('KIPublicationBundle:CourseUser');
 
         $return = [];
         foreach ($repo->findBy(['user' => $this->user]) as $courseUser) {

@@ -450,19 +450,11 @@ class ClubsController extends SubresourceController
      */
     public function getNewsitemsClubAction($slug)
     {
-        $repository = $this->manager->getRepository('KIPublicationBundle:Newsitem');
+        $newsitemRepo = $this->manager->getRepository('KIPublicationBundle:Newsitem');
 
-        $paginateHelper = $this->get('ki_core.helper.paginate');
-        extract($paginateHelper->paginateData($repository));
-
-        $findBy['authorClub'] = $this->findBySlug($slug);
-        $results = $repository->findBy($findBy, $sortBy, $limit, $offset);
-        list($results, $links, $count) = $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
-
-        return $this->json($results, 200, [
-            'Links' => implode(',', $links),
-            'Total-count' => $count
-        ]);
+        $findBy = ['authorClub' => $this->findBySlug($slug)];
+        $dql = $newsitemRepo->getAllowedNewsitemsDql($this->getUser()->getId(), $findBy);
+        return $this->getPaginatedResponse($dql);
     }
 
     /**

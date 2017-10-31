@@ -6,31 +6,22 @@ use KI\PublicationBundle\Entity\Post;
 
 class NewsitemRepository extends ResourceRepository
 {
-    public function findAllowedNewsitems($userId, $publicationState = null, $limit = null, $page = null)
+    /**
+     * @param  int $userId
+     * @param  array $findBy
+     * @return string
+     */
+    public function getAllowedNewsitemsDql($userId, $findBy = [])
     {
-        if ($publicationState == null) {
-            $publicationState = array_keys(Post::STATE_ORDER);
-        }
-
-        $query = $this->getEntityManager()->createQuery('SELECT event FROM
-            KIPublicationBundle:Newsitem event
+        $dql = 'SELECT newsitem FROM
+            KIPublicationBundle:Newsitem newsitem
             WHERE
-            (event.publicationState != \'draft\' OR event.authorClub IN (
-                SELECT cl FROM KIUserBundle:User us JOIN us.clubs cl WHERE us.id = :userId)
+            (newsitem.publicationState != \'draft\' OR newsitem.authorClub IN (
+                SELECT cl FROM KIUserBundle:User us JOIN us.clubs cl WHERE us.id = ' . $userId . ')
             )
-            AND event.publicationState IN (:publicationStates)
-            ORDER BY event.date DESC
-        ')
-            ->setParameter('userId', $userId)
-            ->setParameter('publicationState', $publicationState);
+            AND newsitem.name != \'message\'
+        ';
 
-        if($limit !== null && $limit > 0) {
-            $query->setMaxResults($limit);
-
-            if ($page !== null && $page > 0)
-                $query->setFirstResult(($page - 1) * $limit);
-        }
-
-        return $query->getResult();
+        return $this->findByDql($dql, "newsitem", $findBy);
     }
 }

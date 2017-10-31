@@ -42,13 +42,8 @@ class EventsController extends ResourceController
      */
     public function getEventsAction(Request $request)
     {
-        $events = $this->repository->findAllowedEvents(
-            $this->getUser()->getId(),
-            $request->query->get('publicationState'),
-            $request->query->get('limit'),
-            $request->query->get('page'));
-
-        return $this->json($events);
+        $dql = $this->repository->getAllowedNewsitemsDql($this->getUser()->getId(), $request->query->all());
+        return $this->getPaginatedResponse($dql);
     }
 
     /**

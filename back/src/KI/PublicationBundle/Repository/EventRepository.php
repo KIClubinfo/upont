@@ -6,6 +6,11 @@ use KI\PublicationBundle\Entity\Post;
 
 class EventRepository extends ResourceRepository
 {
+    /**
+     * @param  int $userId
+     * @param  array $findBy
+     * @return string
+     */
     public function findAllowedEvents($userId, $publicationState = null, $limit = null, $page = null)
     {
         if ($publicationState == null) {

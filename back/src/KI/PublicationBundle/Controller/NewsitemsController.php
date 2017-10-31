@@ -42,13 +42,8 @@ class NewsitemsController extends ResourceController
             return $this->getAll($this->is('EXTERIEUR'), $findBy);
         }
         else {
-            $newsitems = $this->repository->findAllowedNewsitems(
-                $this->getUser()->getId(),
-                $request->query->get('publicationState'),
-                $request->query->get('limit'),
-                $request->query->get('page'));
-
-            return $this->json($newsitems);
+            $dql = $this->repository->getAllowedNewsitemsDql($this->getUser()->getId(), $request->query->all());
+            return $this->getPaginatedResponse($dql);
         }
     }
 

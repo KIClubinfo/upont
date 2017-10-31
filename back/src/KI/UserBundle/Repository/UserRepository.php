@@ -12,42 +12,47 @@ class UserRepository extends ResourceRepository
 {
     /**
      * @param  int $userId
-     * @param  string $publicationState
-     * @param  int $limit
-     * @param  int $page
-     * @return \KI\PublicationBundle\Entity\Event[]
+     * @param  array $findBy
+     * @return string
      */
-    public function findFollowedEvents($userId, $publicationState = null, $limit = null, $page = null)
+    public function getFollowedNewsitemsDql($userId, $findBy = [])
     {
-        if ($publicationState == null) {
-            $publicationState = array_keys(Post::STATE_ORDER);
-        }
+        $dql = 'SELECT newsitem FROM
+            KIPublicationBundle:Newsitem newsitem,
+            KIUserBundle:User user
+            WHERE user.id = ' . $userId . '
+            AND (newsitem.publicationState != \'draft\' OR newsitem.authorClub IN (
+                    SELECT cl FROM KIUserBundle:User us JOIN us.clubs cl WHERE us.id = user.id)
+                )
+            AND newsitem.name != \'message\'
+            AND newsitem.authorClub NOT IN (SELECT cnf FROM KIUserBundle:User usr JOIN usr.clubsNotFollowed cnf WHERE usr.id = user.id)
+        ';
 
-        $query = $this->getEntityManager()->createQuery('SELECT event FROM
+        return $this->findByDql($dql, "newsitem", $findBy);
+    }
+
+    /**
+     * @param  int $userId
+     * @param  array $findBy
+     * @return string
+     */
+    public function getFollowedEventsDql($userId, $findBy = [])
+    {
+        $dql = 'SELECT event FROM
             KIPublicationBundle:Event event,
             KIUserBundle:User user
-            WHERE user.id = :userId
+            WHERE user.id = ' . $userId . '
             AND (user.id NOT IN (
                     SELECT lp FROM KIPublicationBundle:Event evt JOIN evt.listPookies lp WHERE evt.id = event.id)
                 )
-            AND event.authorClub NOT IN (SELECT cnf FROM KIUserBundle:User usr JOIN usr.clubsNotFollowed cnf WHERE usr.id = user.id)
             AND (event.publicationState != \'draft\' OR event.authorClub IN (
-                SELECT cl FROM KIUserBundle:User us JOIN us.clubs cl WHERE us.id = user.id)
+                    SELECT cl FROM KIUserBundle:User us JOIN us.clubs cl WHERE us.id = user.id)
                 )
-            AND event.publicationState IN (:publicationStates)
-            ORDER BY event.date DESC
-        ')
-            ->setParameter('userId', $userId)
-            ->setParameter('publicationStates', $publicationState);
+            AND event.name != \'message\'
+            AND event.authorClub NOT IN (SELECT cnf FROM KIUserBundle:User usr JOIN usr.clubsNotFollowed cnf WHERE usr.id = user.id)
+        ';
 
-        if($limit !== null && $limit > 0) {
-            $query->setMaxResults($limit);
-
-            if ($page !== null && $page > 0)
-                $query->setFirstResult(($page - 1) * $limit);
-        }
-
-        return $query->getResult();
+        return $this->findByDql($dql, "event", $findBy);
     }
 
     /**

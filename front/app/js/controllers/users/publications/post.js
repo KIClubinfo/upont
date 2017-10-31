@@ -238,6 +238,8 @@ angular.module('upont')
             $scope.modify = true;
             $scope.changeType('news');
             $scope.post = post;
+            $scope.initialSlug = post.slug;
+            $scope.initialPubOrder = $scope.pub_info[post.publication_state].order;
         });
 
         $scope.$on('modifyEvent', function(event, post) {
