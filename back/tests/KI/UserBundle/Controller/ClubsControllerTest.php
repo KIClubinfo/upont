@@ -15,7 +15,9 @@ class ClubsControllerTest extends WebTestCase
                 'name' => 'CPT',
                 'administration' => true,
                 'category' => 'club',
-                'presentation' => 'La liste pipeau'
+                'presentation' => 'La liste pipeau',
+                'place' => 'Meunier',
+                'open' => false
             ]
         );
         $response = $this->client->getResponse();
@@ -35,6 +37,10 @@ class ClubsControllerTest extends WebTestCase
         $this->client->request('GET', '/clubs/sjoajsiohaysahais-asbsksaba7');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
+
+        $this->client->request('GET', '/clubs/cpt/open');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 200);
     }
 
     public function testGetPublications()

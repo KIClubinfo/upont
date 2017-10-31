@@ -77,6 +77,21 @@ class Club extends Likeable
     protected $administration;
 
     /**
+     * Adresse du local
+     * @ORM\Column(name="place", type="string", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("string")
+     */
+    protected $place;
+
+    /**
+     * Local ouvert ?
+     * @ORM\Column(name="open", type="boolean", nullable=true, options={"default" = false})
+     * @JMS\Expose
+     * @Assert\Type("boolean")
+     */
+    protected $open;
+    /**
      * @JMS\VirtualProperty()
      */
     public function imageUrl()
@@ -282,5 +297,53 @@ class Club extends Likeable
     public function getBanner()
     {
         return $this->banner;
+    }
+
+    /**
+     * Set place
+     *
+     * @param string $place
+     *
+     * @return Club
+     */
+    public function setPlace($place)
+    {
+        $this->place = $place;
+
+        return $this;
+    }
+
+    /**
+     * Get place
+     *
+     * @return string
+     */
+    public function getPlace()
+    {
+        return $this->place;
+    }
+
+    /**
+     * Set open
+     *
+     * @param boolean $open
+     *
+     * @return Club
+     */
+    public function setOpen($open)
+    {
+        $this->open = $open;
+
+        return $this;
+    }
+
+    /**
+     * Get open
+     *
+     * @return boolean
+     */
+    public function getOpen()
+    {
+        return $this->open;
     }
 }

@@ -15,6 +15,16 @@ class DefaultControllerTest extends WebTestCase
         $this->assertJsonResponse($this->client->getResponse(), 200);
     }
 
+    public function testRefresh()
+    {
+        $this->client->request('GET', '/refresh');
+        $this->assertJsonResponse($this->client->getResponse(), 200);
+
+        $this->client->request('GET', '/refresh?delay=5');
+        $this->assertJsonResponse($this->client->getResponse(), 200);
+    }
+
+
     public function testRequestResetting()
     {
         $client = static::createClient();

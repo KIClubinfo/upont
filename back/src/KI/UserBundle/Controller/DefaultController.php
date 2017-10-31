@@ -77,8 +77,12 @@ class DefaultController extends BaseController
     public function refreshAction(Request $request)
     {
         $delay = $request->query->has('delay') ? (int)$request->query->get('delay') : 30;
+        $clubRepo = $this->manager->getRepository('KIUserBundle:Club');
 
-        return $this->onlineAction($request);
+        return $this->json([
+                                'online' => $this->repository->getOnlineUsers($delay),
+                                'open' => $clubRepo->findOneBySlug('ki')->getOpen()
+                           ]);
     }
 
 
