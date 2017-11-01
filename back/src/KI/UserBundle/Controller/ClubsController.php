@@ -496,25 +496,4 @@ class ClubsController extends SubresourceController
             'Total-count' => $count
         ]);
     }
-
-    /**
-     * @ApiDoc(
-     *  description="Indique si le local du club est ouvert",
-     *  output="KI\UserBundle\Entity\Club",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   404="Ressource non trouvée"
-     *  },
-     *  section="Utilisateurs"
-     * )
-     * @Route("/clubs/{slug}/open")
-     * @Method("GET")
-     */
-    public function getOpenAction($slug)
-    {
-        $club = $this->getOne($slug);
-
-        return $this->json($club->getOpen(), 200);
-    }
 }

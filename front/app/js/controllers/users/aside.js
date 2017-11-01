@@ -24,7 +24,7 @@ angular.module('upont')
         }
         // Gens en ligne
         refreshData = function() {
-            $resource(apiPrefix + 'refresh/').get(function(data){
+            $resource(apiPrefix + 'refresh').get(function(data){
                 $scope.online = data.online;
                 $scope.open = data.open;
             });
