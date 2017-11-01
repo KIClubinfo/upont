@@ -6,15 +6,6 @@ use Tests\KI\CoreBundle\WebTestCase;
 
 class DefaultControllerTest extends WebTestCase
 {
-    public function testOnline()
-    {
-        $this->client->request('GET', '/online');
-        $this->assertJsonResponse($this->client->getResponse(), 200);
-
-        $this->client->request('GET', '/online?delay=5');
-        $this->assertJsonResponse($this->client->getResponse(), 200);
-    }
-
     public function testRefresh()
     {
         $this->client->request('GET', '/refresh');

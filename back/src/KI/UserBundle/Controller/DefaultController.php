@@ -23,36 +23,6 @@ class DefaultController extends BaseController
 
     /**
      * @ApiDoc(
-     *  description="Retourne les utilisateurs étant connectés (intervalle de x minutes)",
-     *  parameters={
-     *   {
-     *    "name"="delay",
-     *    "dataType"="integer",
-     *    "required"=false,
-     *    "description"="Temps de l'intervalle considéré en minutes (30 minutes par défaut)"
-     *   }
-     *  },
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *   503="Service temporairement indisponible ou en maintenance",
-     *  },
-     *  section="Utilisateurs"
-     * )
-     * @Route("/online")
-     * @Method("GET")
-     */
-    public function onlineAction(Request $request)
-    {
-        $delay = $request->query->has('delay') ? (int)$request->query->get('delay') : 30;
-
-        return $this->json($this->repository->getOnlineUsers($delay));
-    }
-
-    /**
-     * @ApiDoc(
      *  description="Retourne les utilisateurs étant connectés et si le KI est ouvert",
      *  parameters={
      *   {
