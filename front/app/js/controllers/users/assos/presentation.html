@@ -45,7 +45,7 @@
                         value="{{ promoItem }}">Année '{{ promoItem }}</option>
             </select>
         </section>
-        <section row class="Ticket" ng-if="!club.administration">
+        <section row class="Ticket" ng-if="!club.administration && club.place">
             <div class="padded" flex="50">
                 <i class="fa fa-home"></i>
                 Local :
