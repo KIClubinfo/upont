@@ -1,5 +1,5 @@
 angular.module('upont')
-    .controller('Aside_Ctrl', ['$scope', '$rootScope', '$resource', '$interval', 'Achievements', function($scope, $rootScope, $resource, $interval, Achievements) {
+    .controller('Aside_Ctrl', ['$scope', '$rootScope', '$resource', '$http', '$interval', 'Achievements', function($scope, $rootScope, $resource, $http, $interval, Achievements) {
         // CHARGEMENT DES DONNÉES DE BASE
         // Version de uPont
         $resource(apiPrefix + 'version').get(function(data){
@@ -17,12 +17,18 @@ angular.module('upont')
             loadAchievements();
         });
 
+        $scope.toggleOpenState = function() {
+            $http.patch(apiPrefix + 'clubs/ki', {open: !$scope.open}).then(function(response){
+                    $scope.open = response.data.open;
+                });
+        }
         // Gens en ligne
-        reloadOnline = function() {
-            $resource(apiPrefix + 'online').query(function(data){
-                $scope.online = data;
+        refreshData = function() {
+            $resource(apiPrefix + 'refresh').get(function(data){
+                $scope.online = data.online;
+                $scope.open = data.open;
             });
         };
-        reloadOnline();
-        $rootScope.reloadOnline = $interval(reloadOnline, 60000);
+        refreshData();
+        $rootScope.updateInfo = $interval(refreshData, 60000);
     }]);

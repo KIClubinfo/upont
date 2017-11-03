@@ -20,6 +20,8 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $club->setIcon('download');
         $club->setImage($this->getReference('image-club-ki'));
         $club->setPresentation('Ce club est OMG fucking trop bien.');
+        $club->setPlace('P401');
+        $club->setOpen(true);
         $manager->persist($club);
         $this->addReference('club-ki', $club);
 
@@ -30,6 +32,7 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $club->setCategory('asso');
         $club->setImage($this->getReference('image-club-bde'));
         $club->setBanner($this->getReference('image-supaero'));
+        $club->setPlace('V0??');
         $manager->persist($club);
         $this->addReference('club-bde', $club);
 
@@ -40,6 +43,7 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $club->setCategory('club-artistique');
         $club->setIcon('paint-brush');
         $club->setImage($this->getReference('image-club-bda'));
+        $club->setPlace('P2??');
         $manager->persist($club);
         $this->addReference('club-bda', $club);
 
@@ -50,6 +54,7 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $club->setCategory('asso');
         $club->setIcon('eur');
         $club->setImage($this->getReference('image-club-pep'));
+        $club->setPlace('P1??');
         $manager->persist($club);
         $this->addReference('club-pep', $club);
 
@@ -67,6 +72,7 @@ class LoadClubFixture extends AbstractFixture implements OrderedFixtureInterface
         $club->setCategory('club-divertissement');
         $club->setActive(true);
         $club->setImage($this->getReference('image-club-foyer'));
+        $club->setPlace('Suivez l\'odeur');
         $manager->persist($club);
         $this->addReference('club-foyer', $club);
 

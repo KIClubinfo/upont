@@ -31,6 +31,86 @@
         padding: 0.2em 0.5em;
     }
 
+    &--clubopening {
+        width: 40px;
+        height: 40px;
+        position: relative;
+        display: inline-block;
+
+        input {
+            /* First, we make it as wide as the container */
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            /* Then, we put it on top of everything else */
+            z-index: 100;
+            /* Last, we make it invisible */
+            opacity: 0;
+            /* This one is just for ergonomy */
+            cursor: pointer;
+        }
+
+        label {
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            border-radius: 50%;
+            background: #eaeaea;
+            box-shadow:
+                0 3px 5px rgba(0,0,0,0.25),
+                inset 0 1px 0 rgba(255,255,255,0.3),
+                inset 0 -5px 5px rgba(100,100,100,0.1),
+                inset 0 5px 5px rgba(255,255,255,0.3);
+        }
+
+        label:after {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            top: -8%;
+            right: -8%;
+            bottom: -8%;
+            left: -8%;
+            border-radius: inherit;
+            background: #ddd; /* Fallback */
+            background: linear-gradient(#ccc, #fff);
+            box-shadow:
+                inset 0 2px 1px rgba(0,0,0,0.15),
+                0 2px 5px rgba(200,200,200,0.1);
+        }
+
+        label:before {
+            content: "";
+            position: absolute;
+            width: 60%;
+            height: 60%;
+            left: 20%;
+            top: 20%;
+            border-radius: inherit;
+            background: #969696; /* Fallback */
+            background: radial-gradient(40% 35%, #ccc, #969696 60%);
+            box-shadow:
+                inset 0 2px 4px 1px rgba(0,0,0,0.3),
+                0 1px 0 rgba(255,255,255,1),
+                inset 0 1px 0 white;
+        }
+
+        input:checked ~ label { /* Button */
+            background: #e5e5e5; /* Fallback */
+            background: linear-gradient(#dedede, #fdfdfd);
+        }
+
+        input:checked ~ label:before { /* LED */
+            background: #25d025; /* Fallback */
+            background: radial-gradient(40% 35%, #5aef5a, #25d025 60%);
+            box-shadow:
+                inset 0 3px 5px 1px rgba(0,0,0,0.1),
+                0 1px 0 rgba(255,255,255,0.4),
+                0 0 10px 2px rgba(0, 210, 0, 0.5);
+        }
+    }
+
     &:active {
         top: 1px;
         outline: none;

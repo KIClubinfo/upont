@@ -15,7 +15,9 @@ class ClubsControllerTest extends WebTestCase
                 'name' => 'CPT',
                 'administration' => true,
                 'category' => 'club',
-                'presentation' => 'La liste pipeau'
+                'presentation' => 'La liste pipeau',
+                'place' => 'Meunier',
+                'open' => false
             ]
         );
         $response = $this->client->getResponse();
