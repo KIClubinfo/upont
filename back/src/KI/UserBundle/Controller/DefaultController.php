@@ -23,7 +23,7 @@ class DefaultController extends BaseController
 
     /**
      * @ApiDoc(
-     *  description="Retourne les utilisateurs étant connectés (intervalle de x minutes)",
+     *  description="Retourne les utilisateurs étant connectés et si le KI est ouvert",
      *  parameters={
      *   {
      *    "name"="delay",
@@ -41,14 +41,18 @@ class DefaultController extends BaseController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/online")
+     * @Route("/refresh")
      * @Method("GET")
      */
-    public function onlineAction(Request $request)
+    public function refreshAction(Request $request)
     {
         $delay = $request->query->has('delay') ? (int)$request->query->get('delay') : 30;
+        $clubRepo = $this->manager->getRepository('KIUserBundle:Club');
 
-        return $this->json($this->repository->getOnlineUsers($delay));
+        return $this->json([
+                                'online' => $this->repository->getOnlineUsers($delay),
+                                'open' => $clubRepo->findOneBySlug('ki')->getOpen()
+                           ]);
     }
 
 

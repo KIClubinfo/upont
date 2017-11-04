@@ -17,32 +17,42 @@
             </div>
         </div>
     </section>
+    <div col flex="100" flex-md="33">
+        <section class="Ticket" ng-if="!club.administration">
+            <h2>Membres - {{ club.full_name }}</h2>
 
-    <section class="Ticket" flex="100" flex-md="33"  ng-if="!club.administration">
-        <h2>Membres - {{ club.full_name }}</h2>
+            <table class="Table" flex="90">
+                <thead>
+                    <tr>
+                        <th>Élève</th>
+                        <th>Rôle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="member in filtered =  (members | promoFilter: promo | orderBy:orderBy:['priority'])">
+                        <td><span up-user user="member.user">{{ member.user.first_name }} {{ member.user.last_name }}</span></td>
+                        <td>{{ member.role }}</td>
+                    </tr>
+                    <tr ng-hide="filtered.length">
+                        <td>Rien à afficher</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
 
-        <table class="Table" flex="90">
-            <thead>
-                <tr>
-                    <th>Élève</th>
-                    <th>Rôle</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="member in filtered =  (members | promoFilter: promo | orderBy:orderBy:['priority'])">
-                    <td><span up-user user="member.user">{{ member.user.first_name }} {{ member.user.last_name }}</span></td>
-                    <td>{{ member.role }}</td>
-                </tr>
-                <tr ng-hide="filtered.length">
-                    <td>Rien à afficher</td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <select class="Input" ng-model="promo">
-            <option ng-selected="promoItem == promo" ng-repeat="promoItem in $root.promos | reverse"
-                    value="{{ promoItem }}">Année '{{ promoItem }}</option>
-        </select>
-    </section>
+            <select class="Input" ng-model="promo">
+                <option ng-selected="promoItem == promo" ng-repeat="promoItem in $root.promos | reverse"
+                        value="{{ promoItem }}">Année '{{ promoItem }}</option>
+            </select>
+        </section>
+        <section row class="Ticket" ng-if="!club.administration && club.place">
+            <div class="padded" flex="50">
+                <i class="fa fa-home"></i>
+                Local :
+            </div>
+            <div class="padded" flex="50">
+                {{ club.place }}
+            </div>
+        </section>
+    </div>
 </div>
