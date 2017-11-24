@@ -13,7 +13,7 @@
         </section>
         <section col="center stretch">
             <div class="Button--clubopening" title="KI ouvert ? (P401)">
-                <input type="checkbox" ng-if="$root.hasClub(ki)" ng-change="toggleOpenState()" ng-model="open">
+                <input type="checkbox" ng-disabled="!$root.hasClub('ki')" ng-change="toggleOpenState()" ng-model="open">
                 <label></label>
             </div>
         </section>
