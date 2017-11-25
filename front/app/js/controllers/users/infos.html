@@ -16,7 +16,7 @@
             </span>
         </section>
         <section col="center stretch">
-            <div class="Button--clubopening" ng-attr-title="{{ open && 'KI ouvert' || 'KI fermé' }}">
+            <div class="Button--clubopening" ng-attr-title="{{ open ? 'KI ouvert' : 'KI fermé' }}">
                 <input type="checkbox" ng-disabled="!$root.hasClub('ki')" ng-change="toggleOpenState()" ng-model="open">
                 <label></label>
             </div>
