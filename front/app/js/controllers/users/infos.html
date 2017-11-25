@@ -1,18 +1,22 @@
 <section class="padded">
     <div row="space-between stretch">
         <section>
-            <a class="Link  Link--reverse" title="Contacter le KI par messenger"
-                target="_blank" href="https://m.me/enpc.clubinfo">
-                <i class="fa fa-facebook-official"></i> Contacter le KI par Fb !
-            </a><br />
-
             <a class="Link  Link--reverse" title="Faire une remarque sur uPont"
                 ng-if="!$root.isAdmissible" ui-sref="root.users.assos.ki">
                 <i class="fa fa-bullhorn"></i> Contacter le KI sans Fb !
             </a>
+            <br />
+            <a class="Link  Link--reverse" title="Contacter le KI par messenger"
+                target="_blank" href="https://m.me/enpc.clubinfo">
+                <i class="fa fa-facebook-official"></i> Contacter le KI par Fb !
+            </a>
+            <br />
+            <span>
+                <i class="fa fa-phone"></i> 01 64 15 33 82 (P401)
+            </span>
         </section>
         <section col="center stretch">
-            <div class="Button--clubopening" title="KI ouvert ? (P401)">
+            <div class="Button--clubopening" ng-attr-title="{{ open && 'KI ouvert' || 'KI fermé' }}">
                 <input type="checkbox" ng-disabled="!$root.hasClub('ki')" ng-change="toggleOpenState()" ng-model="open">
                 <label></label>
             </div>
