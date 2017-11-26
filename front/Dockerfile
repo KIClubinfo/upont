@@ -9,13 +9,10 @@ RUN npm install -g -s --no-progress yarn bower gulp http-server
 
 USER node
 
-COPY package.json package.json
-COPY yarn.lock yarn.lock
-COPY bower.json bower.json
-COPY .bowerrc .bowerrc
+COPY package.json yarn.lock bower.json .bowerrc /app/
 RUN yarn
 
-COPY . /app
+COPY . /app/
 RUN yarn run build && \
     yarn run prune && \
     yarn cache clean

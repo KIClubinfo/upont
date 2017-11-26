@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "344e5e361d5317c5f6202f401c1f703c",
+    "content-hash": "93369ce2e5c42b8f50408f525bb74a13",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -5137,8 +5137,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "kigkonsult/icalcreator": 20,
-        "friendsofsymfony/user-bundle": 20
+        "friendsofsymfony/user-bundle": 20,
+        "kigkonsult/icalcreator": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

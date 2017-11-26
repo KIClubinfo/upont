@@ -3,7 +3,6 @@
 /web/uploads/
 !/web/uploads/tests/
 /web/maintenance.lock
-/app/config/parameters.yml
 /app/spool/*
 /build/
 /vendor/

@@ -63,29 +63,34 @@ services:
             - upont-uploads:/upont/back/web/uploads:rw
         links:
             - db
+        environment:
+            - DATABASE_HOST=db
+            - DATABASE_NAME=upont
+            - DATABASE_USER=upont
+            - DATABASE_PASSWORD=ezgnJHdzqdkjqzdg!537
         restart: always
 
-    nginx:
-        build: docker/nginx
-        volumes:
-            # Configuration files
-            - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-            - ./nginx/conf.d:/etc/nginx/conf.d:ro
-            - ./config/dev-upont.enpc.fr.conf:/etc/nginx/sites-enabled/dev-upont.enpc.fr.conf:ro
-            # For production
-            # - ./config/upont.enpc.fr.conf:/etc/nginx/sites-enabled/upont.enpc.fr.conf:ro
-            # - /var/www/.well-known:/var/www/.well-known:ro
-            # - /etc/letsencrypt:/etc/letsencrypt:ro
-        links:
-            - upont-back
-            - upont-front
-            # - pochtron2
-            # - piwik
-        ports:
-            - 80:80
-            - 443:443
-        restart: always
-        # command: /bin/bash -c "envsubst < /etc/nginx/sites-enabled/upont.enpc.fr.conf > /etc/nginx/sites-enabled/upont.enpc.fr.conf"
+    # nginx:
+    #     build: docker/nginx
+    #     volumes:
+    #         # Configuration files
+    #         - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    #         - ./nginx/conf.d:/etc/nginx/conf.d:ro
+    #         - ./config/dev-upont.enpc.fr.conf:/etc/nginx/sites-enabled/dev-upont.enpc.fr.conf:ro
+    #         # For production
+    #         # - ./config/upont.enpc.fr.conf:/etc/nginx/sites-enabled/upont.enpc.fr.conf:ro
+    #         # - /var/www/.well-known:/var/www/.well-known:ro
+    #         # - /etc/letsencrypt:/etc/letsencrypt:ro
+    #     links:
+    #         - upont-back
+    #         - upont-front
+    #         # - pochtron2
+    #         # - piwik
+    #     ports:
+    #         - 80:80
+    #         - 443:443
+    #     restart: always
+    #     # command: /bin/bash -c "envsubst < /etc/nginx/sites-enabled/upont.enpc.fr.conf > /etc/nginx/sites-enabled/upont.enpc.fr.conf"
 
 volumes:
     db-data:

@@ -12,7 +12,7 @@ RUN docker-php-ext-install pdo pdo_mysql iconv mcrypt && \
     docker-php-ext-install gd
 
 
-COPY php-fpm.conf etc/php7/fpm/pool.d/www.conf
+COPY php-fpm.conf /etc/php-fpm/www.conf
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
@@ -24,9 +24,12 @@ RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo ${TIMEZONE} >
 
 USER php
 
-COPY . .
-RUN composer install --prefer-dist --no-dev --optimize-autoloader && \
-    bin/console cache:clear --env=prod --no-debug && \
-    bin/console doctrine:migration:migrate -n
+COPY composer.json composer.lock /app/
+RUN composer install --no-dev --no-scripts --no-autoloader
 
+COPY --chown=php:php . /app/
+ENV SYMFONY_ENV=prod
+
+ENTRYPOINT ["/app/entrypoint.sh"]
+CMD ["php-fpm"]
 EXPOSE 9000
