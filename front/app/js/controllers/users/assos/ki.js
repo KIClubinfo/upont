@@ -1,16 +1,9 @@
 angular.module('upont')
-    .controller('KI_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'fixs', 'ownFixs', 'members', 'Paginate', 'Achievements', function($scope, $rootScope, $resource, $http, fixs, ownFixs, members, Paginate, Achievements) {
+    .controller('KI_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'fixs', 'ownFixs', 'Paginate', 'Achievements', function($scope, $rootScope, $resource, $http, fixs, ownFixs, Paginate, Achievements) {
         $('#focus-input').focus();
         $scope.fixs = fixs;
         $scope.ownFixs = ownFixs;
-        $scope.isFromKI = false;
         $rootScope.displayTabs = true;
-
-        for (var key in members) {
-            if (members[key].user !== undefined && members[key].user.username == $rootScope.username) {
-                $scope.isFromKI = true;
-            }
-        }
 
         $scope.reload = function() {
             Paginate.first($scope.ownFixs).then(function(response){
@@ -72,9 +65,6 @@ angular.module('upont')
                     }],
                     ownFixs: ['Paginate', function(Paginate) {
                         return Paginate.get('own/fixs', 50);
-                    }],
-                    members: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'clubs/ki/users').query().$promise;
                     }]
                 }
             });

@@ -79,12 +79,6 @@ angular.module('upont')
                 data: {
                     title: 'Authentification centralisée - uPont',
                     top: true
-                },
-                // Déclenchement de l'erreur 401 si non connecté
-                resolve: {
-                    online: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'online').query().$promise;
-                    }],
                 }
             });
     }]);

@@ -17,13 +17,13 @@
             <div ng-repeat="fix in ownFixs.data | filter:{fix:true} | statusFilter" ng-include="'controllers/users/assos/fix.html'" flex="100"></div>
         </div>
 
-        <div ng-if="isFromKI" class="Ticket">
+        <div ng-if="$root.hasClub('ki')" class="Ticket">
             <h2>Problèmes en attente</h2>
 
             <p>Tu vois ces demandes parce que tu es membre du KI... à toi de les résoudre au mieux !</p>
         </div>
 
-        <div ng-if="isFromKI" row wrap>
+        <div ng-if="$root.hasClub('ki')" row wrap>
             <div ng-repeat="fix in fixs.data | filter:{fix:true} | statusFilter" ng-include="'controllers/users/assos/fix.html'" flex="100"></div>
         </div>
     </div>
