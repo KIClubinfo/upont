@@ -61,8 +61,8 @@ gulp.task('build-js', function() {
 
     return upont
         .pipe(concat('upont.min.js'))
-        .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop())
-        .pipe(gutil.env.type === 'production' ? sourcemaps.write('maps') : gutil.noop())
+        .pipe(process.env.NODE_ENV === 'production' ? uglify() : gutil.noop())
+        .pipe(process.env.NODE_ENV === 'production' ? sourcemaps.write('maps') : gutil.noop())
         .pipe(gulp.dest('www/'))
     ;
 });
@@ -99,7 +99,7 @@ gulp.task('build-css-main', function() {
             .pipe(autoprefixer({
                 cascade: false
             }))
-            .pipe(gutil.env.type === 'production' ? uglifycss() : gutil.noop())
+            .pipe(process.env.NODE_ENV === 'production' ? uglifycss() : gutil.noop())
             .pipe(gulp.dest('www/themes/'))
         ;
    });
@@ -116,7 +116,7 @@ gulp.task('build-css-loading', function(){
         .pipe(autoprefixer({
             cascade: false
         }))
-        .pipe(gutil.env.type === 'production' ? uglifycss() : gutil.noop())
+        .pipe(process.env.NODE_ENV === 'production' ? uglifycss() : gutil.noop())
         .pipe(gulp.dest('www/'))
 });
 

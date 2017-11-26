@@ -1,4 +1,4 @@
-node_modules
+/node_modules/
 /www/fonts/
 /www/libs/
 /www/themes/

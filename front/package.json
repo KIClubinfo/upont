@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "L'application essentielle de la vie aux Ponts !",
   "private": true,
+  "scripts": {
+      "postinstall": "bower install",
+      "build": "gulp build-js && gulp build-css && gulp build-templates && gulp copy-fonts",
+      "prune": "rm -rf node_modules/ && rm -rf www/libs/"
+  },
   "devDependencies": {
     "gulp": "latest",
     "gulp-angular-templatecache": "latest",

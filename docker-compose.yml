@@ -1,0 +1,94 @@
+version: "2"
+
+services:
+    # piwik_db:
+    #     image: mysql
+    #     volumes:
+    #         - "./.data/piwik_db:/var/lib/mysql"
+    #     environment:
+    #         - MYSQL_RANDOM_ROOT_PASSWORD=yes
+    #         - MYSQL_DATABASE=piwik
+    #         - MYSQL_USER=piwik
+    #         - MYSQL_PASSWORD=8yenqfFkj0khg!dq
+    #     # ports:
+    #     #   - "127.0.0.1:3306:3306"
+    #     restart: always
+    #
+    # piwik:
+    #     image: piwik
+    #     volumes:
+    #         - ./config/piwik:/var/www/html/config
+    #     links:
+    #         - piwik_db:db
+    #     depends_on:
+    #         - piwik_db
+    #     restart: always
+
+    db:
+        image: mysql
+        volumes:
+            - db-data:/var/lib/mysql
+        environment:
+            - MYSQL_RANDOM_ROOT_PASSWORD=yes
+            - MYSQL_DATABASE=upont
+            - MYSQL_USER=upont
+            - MYSQL_PASSWORD=ezgnJHdzqdkjqzdg!537
+        restart: always
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        links:
+            - db
+        restart: always
+
+    upont-front:
+        image: kiclubinfo/upont/front
+        build:
+            context: front
+        restart: always
+
+    # pochtron2:
+    #     image: kiclubinfo/pochtron2
+    #     restart: always
+
+    upont-back:
+        image: kiclubinfo/upont/back
+        build:
+            context: back
+        environment:
+            - SYMFONY_ENV=dev
+        volumes:
+            - ./config/parameters.yml:/srv/upont/back/app/config/parameters.yml:rw
+            - ./config/jwt:/srv/upont/back/app/var/jwt:ro
+            - upont-uploads:/upont/back/web/uploads:rw
+        links:
+            - db
+        restart: always
+
+    nginx:
+        build: docker/nginx
+        volumes:
+            # Configuration files
+            - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+            - ./nginx/conf.d:/etc/nginx/conf.d:ro
+            - ./config/dev-upont.enpc.fr.conf:/etc/nginx/sites-enabled/dev-upont.enpc.fr.conf:ro
+            # For production
+            # - ./config/upont.enpc.fr.conf:/etc/nginx/sites-enabled/upont.enpc.fr.conf:ro
+            # - /var/www/.well-known:/var/www/.well-known:ro
+            # - /etc/letsencrypt:/etc/letsencrypt:ro
+        links:
+            - upont-back
+            - upont-front
+            # - pochtron2
+            # - piwik
+        ports:
+            - 80:80
+            - 443:443
+        restart: always
+        # command: /bin/bash -c "envsubst < /etc/nginx/sites-enabled/upont.enpc.fr.conf > /etc/nginx/sites-enabled/upont.enpc.fr.conf"
+
+volumes:
+    db-data:
+        driver: local
+    upont-uploads:
+        driver: local
