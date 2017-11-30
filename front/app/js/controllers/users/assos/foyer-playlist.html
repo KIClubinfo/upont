@@ -35,14 +35,16 @@
             <table class="Table" flex="90">
                 <thead>
                     <tr>
-                        <th><a ng-click="predicate = 'liters'; reverse=!reverse">Litres bus</a></th>
-                        <th><a ng-click="predicate = 'user.nick'; reverse=!reverse">Élève</a></th>
-                        <th><a ng-click="predicate = 'user.promo'; reverse=!reverse">Promo</a></th>
+                        <th class="text-center"><a ng-click="predicate = 'volume'; reverse=!reverse">Alcool absorbé (en L)</a></th>
+                        <th class="text-center"><a ng-click="predicate = 'alcohol'; reverse=!reverse">Degré moyen</a></th>
+                        <th class="text-center"><a ng-click="predicate = 'user.nick'; reverse=!reverse">Compétiteur</a></th>
+                        <th class="text-center"><a ng-click="predicate = 'user.promo'; reverse=!reverse">Promo</a></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="text-center">
                     <tr ng-repeat="competitor in stats.hallOfFame | orderBy:predicate:reverse">
-                        <td>{{ competitor.liters }}</td>
+                        <td>{{ competitor.volume }}</td>
+                        <td>{{ competitor.alcohol }}</td>
                         <td><span up-user user="competitor.user">{{ competitor.user.nick }}</span></td>
                         <td>{{ competitor.user.promo }}</td>
                     </tr>
