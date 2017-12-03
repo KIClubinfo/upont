@@ -128,11 +128,11 @@
                 <input type="checkbox" ng-model="user.stats_foyer">
             </div>
 
-            <div ng-if="$root.username == user.username" class="padded" flex="80" flex-md="40">
+            <div ng-if="$root.username == user.username && $root.isStudentNetwork" class="padded" flex="80" flex-md="40">
                 <i class="fa  fa-block  fa-download"></i>
                 PontHub
             </div>
-            <div ng-if="$root.username == user.username" class="padded" flex="20" flex-md="10">
+            <div ng-if="$root.username == user.username && $root.isStudentNetwork" class="padded" flex="20" flex-md="10">
                 <input type="checkbox" ng-model="user.stats_ponthub">
             </div>
 
