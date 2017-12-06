@@ -29,7 +29,7 @@
     "ng-infinite-scroll-npm-is-better-than-bower": "latest",
     "ng-file-upload": "latest",
     "raven-js": "^3.9.1",
-    "angulartics-piwik": "^1.0.4"
+    "open-sans-fontface": "^1.4.2"
   },
   "overrides": {
     "highcharts": {
