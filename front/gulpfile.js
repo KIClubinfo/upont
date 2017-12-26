@@ -1,28 +1,29 @@
-var autoprefixer   = require('gulp-autoprefixer');
-var concat         = require('gulp-concat');
-var filter         = require('gulp-filter');
-var fs             = require('fs');
-var gulp           = require('gulp');
-var gutil          = require('gulp-util');
-var htmlReplace    = require('gulp-html-replace');
-var jshint         = require('gulp-jshint');
-var less           = require('gulp-less');
-var mainBowerFiles = require('main-bower-files');
-var path           = require('path');
-var sourcemaps     = require('gulp-sourcemaps');
-var templateCache  = require('gulp-angular-templatecache');
-var uglify         = require('gulp-uglify');
-var uglifycss      = require('gulp-uglifycss');
+var autoprefixer = require('gulp-autoprefixer');
+var concat = require('gulp-concat');
+var filter = require('gulp-filter');
+var fs = require('fs');
+var gulp = require('gulp');
+var gutil = require('gulp-util');
+var htmlReplace = require('gulp-html-replace');
+var jshint = require('gulp-jshint');
+var less = require('gulp-less');
+var path = require('path');
+var sourcemaps = require('gulp-sourcemaps');
+var templateCache = require('gulp-angular-templatecache');
+var uglify = require('gulp-uglify');
+var uglifycss = require('gulp-uglifycss');
+var webpack = require('webpack-stream');
+
 
 /**
  * Vérifie la syntaxe JS
  */
 gulp.task('lint-js', function() {
     var appFiles = [
-        'app/js/app.js',
-        'app/js/*.js',
-        'app/js/**/*.js',
-        'app/js/controllers/**/*.js'
+        'src/app/js/app.js',
+        'src/app/js/*.js',
+        'src/app/js/**/*.js',
+        'src/app/js/controllers/**/*.js'
     ];
     return gulp.src(appFiles)
         .pipe(jshint())
@@ -34,36 +35,33 @@ gulp.task('lint-js', function() {
  * Construit le fichier JS
  */
 gulp.task('build-js', function() {
-    // On doit charger le redactor avant angular-redactor qui est dans les bowerfiles, mais redactor dépend de jquery
     // On exclut donc jquery du main dans le bower.json et on l'introduit manuellement
     var redactor = [
-        'www/libs/jquery/dist/jquery.js',
-        'www/libs/redactor/redactor.js',
-        'www/libs/redactor/table.js',
-        'www/libs/redactor/video.js',
-        'www/libs/redactor/fr.js'
+        'src/libs/redactor/redactor.js',
+        'src/libs/redactor/table.js',
+        'src/libs/redactor/video.js',
+        'src/libs/redactor/fr.js'
     ];
-    var vendorsFiles = mainBowerFiles();
     var appFiles = [
-        'app/js/polyfills/*.js',
-        'app/js/app.js',
-        'app/js/*.js',
-        'app/js/**/*.js',
-        'app/js/controllers/**/*.js'
+        'src/app/js/app.js',
+        'src/app/js/*.js',
+        'src/app/js/services/*.js',
+        'src/app/js/config/*.js',
+        'src/app/js/directives/**/*.js',
+        'src/app/js/filters/**/*.js',
+        'src/app/js/controllers/**/*.js',
     ];
-    var filesArray = redactor.concat(vendorsFiles.concat(appFiles));
+    var filesArray = appFiles; // redactor.concat(appFiles);
+
+    gulp.src('public/**/*').pipe(gulp.dest('dist/'));
 
     var upont = gulp.src(filesArray)
-        .pipe(filter(['**/*.js', '**/*.coffee']))
-        .pipe(sourcemaps.init())
-        .pipe(concat('upont.js'))
+        // .pipe(concat('upont.js'))
     ;
 
-    return upont
-        .pipe(concat('upont.min.js'))
-        .pipe(process.env.NODE_ENV === 'production' ? uglify() : gutil.noop())
-        .pipe(process.env.NODE_ENV === 'production' ? sourcemaps.write('maps') : gutil.noop())
-        .pipe(gulp.dest('www/'))
+    return gulp.src('src/app/js/app.js')
+        .pipe(webpack(require('./webpack.config.js')))
+        .pipe(gulp.dest('dist/'))
     ;
 });
 
@@ -79,20 +77,17 @@ function getFiles(dir) {
             return !fs.statSync(path.join(dir, file)).isDirectory();
         });
 }
-var themesPath = 'app/css/main/themes/';
+var themesPath = 'src/app/css/main/themes/';
 
 /**
  * Construit le CSS des thèmes de uPont en créeant un fichier CSS par thème
  */
 gulp.task('build-css-main', function() {
-    var vendorsFiles = mainBowerFiles();
-    var themeFiles;
-
-    themeFiles = getFiles(themesPath);
+    var themeFiles = getFiles(themesPath);
 
 
     var tasks = themeFiles.map(function(file) {
-        return gulp.src(vendorsFiles.concat([themesPath + file]))
+        return gulp.src(themesPath + file)
             .pipe(filter(['**/*.css', '**/*.less']))
             .pipe(less())
             .pipe(concat(file.replace(/less/, '') + 'min.css'))
@@ -100,7 +95,7 @@ gulp.task('build-css-main', function() {
                 cascade: false
             }))
             .pipe(process.env.NODE_ENV === 'production' ? uglifycss() : gutil.noop())
-            .pipe(gulp.dest('www/themes/'))
+            .pipe(gulp.dest('dist/themes/'))
         ;
    });
 });
@@ -109,7 +104,7 @@ gulp.task('build-css-main', function() {
  * Construit le CSS de l'animation de chargement comprenant la bibliothèque loading.io : https://loading.io/animation/
  */
 gulp.task('build-css-loading', function(){
-    return gulp.src('app/css/loading/*')
+    return gulp.src('src/app/css/loading/*')
         .pipe(filter(['**/*.css', '**/*.less']))
         .pipe(less())
         .pipe(concat('loading.min.css'))
@@ -117,7 +112,7 @@ gulp.task('build-css-loading', function(){
             cascade: false
         }))
         .pipe(process.env.NODE_ENV === 'production' ? uglifycss() : gutil.noop())
-        .pipe(gulp.dest('www/'))
+        .pipe(gulp.dest('dist/'))
 });
 
 
@@ -129,32 +124,23 @@ gulp.task('build-css', ['build-css-main', 'build-css-loading']);
  */
 gulp.task('build-templates', function(){
     gulp.src([
-        'app/js/*.html',
-        'app/js/**/*.html',
+        'src/app/js/*.html',
+        'src/app/js/**/*.html',
     ])
     .pipe(templateCache({
         module: 'templates',
         standalone: true
     }))
-    .pipe(gulp.dest('./www'));
-});
-
-/**
- * Copie les polices des vendors dans le bon dossier
- */
-gulp.task('copy-fonts', function () {
-    return gulp.src(mainBowerFiles().concat('www/libs/fontawesome/fonts/*'))
-        .pipe(filter(['**/*.eot', '**/*.svg', '**/*.ttf', '**/*.woff', '**/*.woff2', '**/*.otf']))
-        .pipe(gulp.dest('www/fonts/'));
+    .pipe(gulp.dest('dist/'));
 });
 
 /**
  * Définition du WATCH
  */
 gulp.task('watch', function() {
-    gulp.watch(['app/js/**/*.js', 'app/js/*.js'], ['lint-js', 'build-js']);
-    gulp.watch(['app/js/*.html', 'app/js/**/*.html'], ['build-templates']);
-    gulp.watch(['app/css/main/**/*.less', 'app/css/loading/*'], ['build-css']);
+    gulp.watch(['src/app/js/**/*.js', 'src/app/js/*.js'], ['lint-js', 'build-js']);
+    gulp.watch(['src/app/js/*.html', 'src/app/js/**/*.html'], ['build-templates']);
+    gulp.watch(['src/app/css/main/**/*.less', 'src/app/css/loading/*'], ['build-css']);
 });
 
 /**

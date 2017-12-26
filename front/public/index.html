@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="fr" ng-strict-di>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <base href="/">
+        <title ng-bind="title">uPont</title>
+        <meta name="description" content="uPont, le site étudiant de l'École des Ponts ParisTech">
+        <meta name="keywords" content="ponts chaussées upont intranet étudiant clubs associations paristech" />
+        <meta name="author" content="KI - Club Informatique">
+
+        <link rel="icon" type="image/png" href="img/favicon.png" />
+        <link ng-if="false" rel="stylesheet" type="text/css" href="loading.min.css"/>
+        <link rel="stylesheet" ng-href="{{ 'themes/' + ($root.theme || 'classic' ) + '.min.css' }}">
+        <link type="text/plain" rel="author" href="humans.txt" />
+    </head>
+
+    <body>
+
+        <!-- Endroit réservé à l'animation de chargement de uPont -->
+
+        <!-- La page de chargement s'afficher tout de suite, puis upont.min.js est est récupéré et exécuté, ce qui bloque le parsage du html (on the fly selon la spécification html5). Vers la fin de son exécution, il met en vigueur les ng-cloak avant de requêter la config de upont asynchronously. Le parsage de l'html continue alors, la section des images zoomés n'est pas rendered jusqu'à au chargement complet d'angularjs grâce au ng-cloak, la page de  chargement n'est affecté que par le style de loading.css car le css du thème a besoin de $root.theme pour être chargé. Après le chargement de la config du upont : /api/config, la fin de l'exécution de upont.min.js permet d'évaluation les directives d'angularjs et le ng-if=false fait disparaître la section de la page de chargement, le ui-view fait apparaître la page de login, puis avec l'évaluation de $root.theme le style du thème charge.
+        Cette section n'avait pas lieu d'exister avant car le chargement de la config de upont était intantannée, cette section a donc été créé car pendant le chargement de cette config, la section des images zoomées étaient devenues apparantes avec du html non-stylisé dégueulasse -->
+
+        <div ng-if="false" class="Page__landing flex flex-col p-center s-stretch">
+            <div class="flex flex-raw p-center">
+                <section class="Page__landing--right padded Loading__section flex flex-col p-center s-center">
+                    <img src="img/icon.svg" class="ld ld-heartbeat x2 Loading__image"/>
+                    <p><span class="padded">Chargement en cours...</span></p>
+                    <button class="Button"><a href="help.html">Un problème ?</a></button>
+                </section>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="upont.min.js"></script>
+        <script type="text/javascript" src="https://www.youtube.com/iframe_api"></script>
+
+        <div ui-view autoscroll="false"></div>
+
+        <!-- Endroit réservé aux images zoomées -->
+        <div ng-cloak class="Zoom" ng-if="$root.zoom" ng-click="$root.zoomOut($event)">
+            <img class="Zoom__image  Image" ng-src="{{ $root.zoomUrl }}" alt="Image zoomée">
+            <strong>Clic gauche pour fermer</strong>
+        </div>
+
+        <!-- Piwik -->
+        <script type="text/javascript">
+            var _paq = _paq || [];
+            // _paq.push(['trackPageView']);
+            _paq.push(['enableLinkTracking']);
+            (function() {
+                var u="https://upont.enpc.fr/piwik/";
+                _paq.push(['setTrackerUrl', u+'piwik.php']);
+                _paq.push(['setSiteId', 1]);
+                var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+                g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+            })();
+        </script>
+        <noscript><p><img src="https://upont.enpc.fr/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+        <!-- End Piwik Code -->
+
+        <!-- Compatibilité -->
+        <script>
+            var $buoop = {vs:{i:10,f:30,o:15,s:7},c:2};
+            function $buo_f(){
+                var e = document.createElement('script');
+                e.src = '//browser-update.org/update.min.js';
+                document.body.appendChild(e);
+            };
+            try {
+                document.addEventListener('DOMContentLoaded', $buo_f,false);
+            } catch (e) {
+                window.attachEvent('onload', $buo_f);
+            }
+        </script>
+    </body>
+</html>
