@@ -27,7 +27,7 @@ angular.module('upont')
                 params.banner = banner.base64;
             }
 
-            $http.patch(apiPrefix + 'clubs/' + $scope.club.slug, params).then(function(){
+            $http.patch(API_PREFIX + 'clubs/' + $scope.club.slug, params).then(function(){
                 alertify.success('Modifications prises en compte !');
             });
         };

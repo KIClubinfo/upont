@@ -25,7 +25,7 @@ angular.module('upont')
                 return;
             }
 
-            $http.post(apiPrefix + 'youtubes', {name: 'Lien Youtube Foyer', link: link}).then(function(){
+            $http.post(API_PREFIX + 'youtubes', {name: 'Lien Youtube Foyer', link: link}).then(function(){
                 $scope.link = '';
                 alertify.success('Yeah !');
                 $scope.reload();
@@ -35,7 +35,7 @@ angular.module('upont')
         $scope.delete = function(youtube) {
             alertify.confirm('Veux-tu vraiment faire ça ?', function(e) {
                 if (e) {
-                    $http.delete(apiPrefix + 'youtubes/' + youtube.slug).then(function(){
+                    $http.delete(API_PREFIX + 'youtubes/' + youtube.slug).then(function(){
                         $scope.reload();
                     });
                 }
@@ -57,10 +57,10 @@ angular.module('upont')
                         return Paginate.get('youtubes?sort=-date', 20);
                     }],
                     stats: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'statistics/foyer').get().$promise;
+                        return $resource(API_PREFIX + 'statistics/foyer').get().$promise;
                     }],
                     members: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'clubs/foyer/users').query().$promise;
+                        return $resource(API_PREFIX + 'clubs/foyer/users').query().$promise;
                     }]
                 }
             });

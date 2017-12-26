@@ -1,6 +1,6 @@
-angular.module('upont')
-    .controller('Tour_Ctrl', ['$scope', '$rootScope', '$http', '$state', 'Achievements', function($scope, $rootScope, $http, $state, Achievements) {
-        var steps = [
+class Tour_Ctrl {
+    constructor($scope, $rootScope, $http, $state, Achievements) {
+        const steps = [
             {
                 state: 'root.users.publications.index',
                 icon: 'sign-in',
@@ -147,4 +147,7 @@ angular.module('upont')
             $scope.step = 0;
             $scope.loadStep(0);
         });
-    }]);
+    }
+}
+
+export default Tour_Ctrl;

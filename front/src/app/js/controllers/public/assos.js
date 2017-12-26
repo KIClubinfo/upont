@@ -1,5 +1,7 @@
-angular.module('upont')
-    .controller('Assos_Public_Ctrl', ['$scope', 'clubs', function($scope, clubs) {
+import './assos-simple.html';
+
+class Assos_Public_Ctrl {
+    constructor($scope, clubs) {
         $scope.clubs = [];
         $scope.assos = [];
 
@@ -9,21 +11,7 @@ angular.module('upont')
             else
                 $scope.clubs.push(value);
         });
-    }])
-    .config(['$stateProvider', function($stateProvider) {
-        $stateProvider
-            .state('root.public.assos', {
-                url: '/assos',
-                templateUrl: 'controllers/public/assos.html',
-                controller: 'Assos_Public_Ctrl',
-                data: {
-                    title: 'Clubs & Assos - uPont',
-                    top: true
-                },
-                resolve: {
-                    clubs: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'clubs?sort=name').query().$promise;
-                    }]
-                }
-            });
-    }]);
+    }
+}
+
+export default Assos_Public_Ctrl;

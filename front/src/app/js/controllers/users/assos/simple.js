@@ -14,12 +14,12 @@ angular.module('upont')
                 templateUrl: 'controllers/users/assos/simple.html',
                 resolve: {
                     club: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(apiPrefix + 'clubs/:slug').get({
+                        return $resource(API_PREFIX + 'clubs/:slug').get({
                             slug: $stateParams.slug
                         }).$promise;
                     }],
                     members: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(apiPrefix + 'clubs/:slug/users').query({
+                        return $resource(API_PREFIX + 'clubs/:slug/users').query({
                             slug: $stateParams.slug
                         }).$promise;
                     }]

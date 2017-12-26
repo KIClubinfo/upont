@@ -65,7 +65,7 @@ angular.module('upont')
                 },
                 resolve: {
                     ponthub: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'statistics/ponthub').get().$promise;
+                        return $resource(API_PREFIX + 'statistics/ponthub').get().$promise;
                     }]
                 }
             })
@@ -75,7 +75,7 @@ angular.module('upont')
                 templateUrl: 'controllers/users/ponthub/requests.html',
                 resolve: {
                     requests: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(apiPrefix + 'requests').query().$promise;
+                        return $resource(API_PREFIX + 'requests').query().$promise;
                     }]
                 }
             })
@@ -97,7 +97,7 @@ angular.module('upont')
                 },
                 resolve: {
                     element: ['$resource', '$stateParams', 'Ponthub', function($resource, $stateParams, Ponthub) {
-                        return $resource(apiPrefix + ':cat/:slug').get({
+                        return $resource(API_PREFIX + ':cat/:slug').get({
                             cat: Ponthub.cat($stateParams.category),
                             slug: $stateParams.slug
                         }).$promise;
@@ -105,7 +105,7 @@ angular.module('upont')
                     episodes: ['$resource', '$stateParams', 'Ponthub', function($resource, $stateParams, Ponthub) {
                         if(Ponthub.cat($stateParams.category) != 'series')
                             return false;
-                        return $resource(apiPrefix + ':cat/:slug/episodes').query({
+                        return $resource(API_PREFIX + ':cat/:slug/episodes').query({
                             cat: 'series',
                             slug: $stateParams.slug
                         }).$promise;
@@ -121,7 +121,7 @@ angular.module('upont')
                 },
                 resolve: {
                     element: ['$resource', '$stateParams', 'Ponthub', function($resource, $stateParams, Ponthub) {
-                        return $resource(apiPrefix + ':cat/:slug').get({
+                        return $resource(API_PREFIX + ':cat/:slug').get({
                             cat: Ponthub.cat($stateParams.category),
                             slug: $stateParams.slug
                         }).$promise;

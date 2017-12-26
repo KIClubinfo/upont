@@ -300,27 +300,27 @@ angular.module('upont')
                 controller: 'Students_Simple_Ctrl',
                 resolve: {
                     user: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(apiPrefix + 'users/:slug').get({
+                        return $resource(API_PREFIX + 'users/:slug').get({
                             slug: $stateParams.slug
                         }).$promise;
                     }],
                     foyer: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(apiPrefix + 'statistics/foyer/:slug').get({
+                        return $resource(API_PREFIX + 'statistics/foyer/:slug').get({
                             slug: $stateParams.slug
                         }).$promise;
                     }],
                     ponthub: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(apiPrefix + 'statistics/ponthub/:slug').get({
+                        return $resource(API_PREFIX + 'statistics/ponthub/:slug').get({
                             slug: $stateParams.slug
                         }).$promise;
                     }],
                     clubs: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(apiPrefix + 'users/:slug/clubs').query({
+                        return $resource(API_PREFIX + 'users/:slug/clubs').query({
                             slug: $stateParams.slug
                         }).$promise;
                     }],
                     achievements: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(apiPrefix + 'users/:slug/achievements?all').get({
+                        return $resource(API_PREFIX + 'users/:slug/achievements?all').get({
                             slug: $stateParams.slug
                         }).$promise;
                     }]

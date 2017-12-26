@@ -10,7 +10,7 @@ angular.module('upont').directive('upSearch', function() {
 
             $scope.doSearch = function(string) {
                 if (string.length > 2) {
-                    $resource(apiPrefix + 'search').save({search: '/' + string}, function(data){
+                    $resource(API_PREFIX + 'search').save({search: '/' + string}, function(data){
                         $scope.searchResults = data;
 
                         if(!$rootScope.isStudentNetwork)

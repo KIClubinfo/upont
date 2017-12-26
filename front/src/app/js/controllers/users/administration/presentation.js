@@ -8,7 +8,7 @@ angular.module('upont')
         };
 
         $scope.modify = function(presentation) {
-            $http.patch(apiPrefix + 'clubs/' + club.slug, {presentation: presentation}).then(function() {
+            $http.patch(API_PREFIX + 'clubs/' + club.slug, {presentation: presentation}).then(function() {
                 $scope.presentation = $sce.trustAsHtml(presentation);
                 alertify.success('Modifications prises en compte !');
             });
@@ -26,7 +26,7 @@ angular.module('upont')
                 },
                 resolve: {
                     club: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(apiPrefix + 'clubs/:slug').get({
+                        return $resource(API_PREFIX + 'clubs/:slug').get({
                             slug: $stateParams.slug
                         }).$promise;
                     }]

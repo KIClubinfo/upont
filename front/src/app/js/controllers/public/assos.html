@@ -19,10 +19,10 @@
 
     <div row wrap>
         <div class="padded" flex="100" flex-md="50" row ng-repeat="club in assos" ng-if="$index%2 === 0 && club.active && !club.administration">
-            <div flex="100" ng-include="'controllers/public/assos-simple.html'"></div>
+            <div flex="100" ng-include="'src/app/js/controllers/public/assos-simple.html'"></div>
         </div>
         <div class="padded" flex="100" flex-md="50" row ng-repeat="club in assos" ng-if="$index%2 === 1 && club.active && !club.administration">
-            <div flex="100" ng-include="'controllers/public/assos-simple.html'"></div>
+            <div flex="100" ng-include="'src/app/js/controllers/public/assos-simple.html'"></div>
         </div>
     </div>
 
@@ -30,10 +30,10 @@
 
     <div row wrap>
         <div class="padded" flex="100" flex-md="50" row ng-repeat="club in clubs" ng-if="$index%2 === 0 && club.active && !club.administration">
-            <div flex="100" ng-include="'controllers/public/assos-simple.html'"></div>
+            <div flex="100" ng-include="'src/app/js/controllers/public/assos-simple.html'"></div>
         </div>
         <div class="padded" flex="100" flex-md="50" row ng-repeat="club in clubs" ng-if="$index%2 === 1 && club.active && !club.administration">
-            <div flex="100" ng-include="'controllers/public/assos-simple.html'"></div>
+            <div flex="100" ng-include="'src/app/js/controllers/public/assos-simple.html'"></div>
         </div>
     </div>
 </main>

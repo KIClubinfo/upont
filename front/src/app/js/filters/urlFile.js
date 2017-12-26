@@ -1,25 +1,27 @@
+import { API_PREFIX } from 'upont/js/config/constants';
+
 angular.module('upont').filter('urlFile', function() {
     return function(input, inputParent) {
         if (typeof(input) == 'string')
-            return apiPrefix + input;
-        // return apiPrefix + url;
+            return API_PREFIX + input;
+        // return API_PREFIX + url;
         else if (typeof(input) == 'object') {
             switch (input.type) {
                 case 'movie':
-                    return apiPrefix + 'movies/' + input.slug + '/download';
+                    return API_PREFIX + 'movies/' + input.slug + '/download';
                 case 'game':
-                    return apiPrefix + 'games/' + input.slug + '/download';
+                    return API_PREFIX + 'games/' + input.slug + '/download';
                 case 'software':
-                    return apiPrefix + 'softwares/' + input.slug + '/download';
+                    return API_PREFIX + 'softwares/' + input.slug + '/download';
                 case 'other':
-                    return apiPrefix + 'others/' + input.slug + '/download';
+                    return API_PREFIX + 'others/' + input.slug + '/download';
                 case 'episode':
                     if (inputParent && typeof(inputParent) == 'object' && inputParent.type == 'serie')
-                        return apiPrefix + 'series/' + inputParent.slug + '/episodes/' + input.slug + '/download';
+                        return API_PREFIX + 'series/' + inputParent.slug + '/episodes/' + input.slug + '/download';
                     break;
                 case 'exercice':
                     if (inputParent && typeof(inputParent) == 'object' && inputParent.type == 'course')
-                        return apiPrefix + 'courses/' + inputParent.slug + '/exercices/' + input.slug + '/download';
+                        return API_PREFIX + 'courses/' + inputParent.slug + '/exercices/' + input.slug + '/download';
             }
         }
         return '#';

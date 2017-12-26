@@ -7,14 +7,14 @@ angular.module('upont')
 
         $scope.addPoint = function(request) {
             request.votes = request.votes+1 ;
-            $http.patch(apiPrefix + 'requests/' + request.slug + '/upvote');
+            $http.patch(API_PREFIX + 'requests/' + request.slug + '/upvote');
         };
         $scope.delete = function(request) {
-            $http.delete(apiPrefix + 'requests/' + request.slug)
+            $http.delete(API_PREFIX + 'requests/' + request.slug)
                 .then(
                     function(){
                         alertify.success('Demande supprimée !');
-                        $resource(apiPrefix + 'requests').query(function(data){
+                        $resource(API_PREFIX + 'requests').query(function(data){
                             $scope.requests = data;
                         });
                     },
@@ -30,10 +30,10 @@ angular.module('upont')
                 return;
             }
 
-            $http.post(apiPrefix + 'requests', {name: name})
+            $http.post(API_PREFIX + 'requests', {name: name})
                 .then(function(){
                     alertify.success('Demande ajoutée !');
-                    $resource(apiPrefix + 'requests').query(function(data){
+                    $resource(API_PREFIX + 'requests').query(function(data){
                         $scope.requests = data;
                     });
                     $scope.name = '';

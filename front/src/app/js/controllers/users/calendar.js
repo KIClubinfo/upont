@@ -1,5 +1,5 @@
-angular.module('upont')
-    .controller('Calendar_Ctrl', ['$rootScope', '$scope', '$filter', 'events', 'courseitems', 'calendarConfig', function($rootScope, $scope, $filter, events, courseitems, calendarConfig) {
+class Calendar_Ctrl{
+    constuctor($rootScope, $scope, $filter, events, courseitems, calendarConfig) {
         $scope.events = [];
         for (var i = 0; i < events.length; i++) {
             var type;
@@ -42,45 +42,24 @@ angular.module('upont')
         $scope.setView = function(view) {
             $scope.calendarView = view;
         };
-    }])
-    .config(['$stateProvider', function($stateProvider) {
-        $stateProvider
-            .state('root.users.calendar', {
-                url: 'calendrier',
-                templateUrl: 'controllers/users/calendar.html',
-                controller: 'Calendar_Ctrl',
-                data: {
-                    title: 'Calendrier - uPont'
-                },
-                resolve: {
-                    events: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'own/events').query().$promise;
-                    }],
-                    courseitems: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'own/courseitems').query().$promise;
-                    }]
-                },
-                onEnter: ['$rootScope', function($rootScope) {
-                    $rootScope.hideFooter = true;
-                }],
-                onExit: ['$rootScope', function($rootScope) {
-                    $rootScope.hideFooter = false;
-                }]
-            });
-    }])
-    .config(['calendarConfig', function(calendarConfig) {
-        calendarConfig.dateFormatter = 'moment';
+    }
+}
 
-        calendarConfig.allDateFormats.moment.date.hour = 'HH:mm';
-        calendarConfig.allDateFormats.moment.date.datetime = 'D MMM, HH:mm';
+export default Calendar_Ctrl;
 
-        calendarConfig.allDateFormats.moment.title.day = 'ddd D MMM';
-
-        calendarConfig.displayAllMonthEvents = true;
-        calendarConfig.displayEventEndTimes = true;
-        calendarConfig.showTimesOnWeekView = true;
-
-        calendarConfig.i18nStrings.eventsLabel = 'Événements';
-        calendarConfig.i18nStrings.timeLabel = 'Temps';
-        calendarConfig.i18nStrings.weekNumber = 'Semaine {week}';
-    }]);
+    // .config(['calendarConfig', function(calendarConfig) {
+    //     calendarConfig.dateFormatter = 'moment';
+    //
+    //     calendarConfig.allDateFormats.moment.date.hour = 'HH:mm';
+    //     calendarConfig.allDateFormats.moment.date.datetime = 'D MMM, HH:mm';
+    //
+    //     calendarConfig.allDateFormats.moment.title.day = 'ddd D MMM';
+    //
+    //     calendarConfig.displayAllMonthEvents = true;
+    //     calendarConfig.displayEventEndTimes = true;
+    //     calendarConfig.showTimesOnWeekView = true;
+    //
+    //     calendarConfig.i18nStrings.eventsLabel = 'Événements';
+    //     calendarConfig.i18nStrings.timeLabel = 'Temps';
+    //     calendarConfig.i18nStrings.weekNumber = 'Semaine {week}';
+    // }]);

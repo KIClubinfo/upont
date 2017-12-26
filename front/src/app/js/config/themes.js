@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 angular.module('upont').run(['$rootScope', 'StorageService', function($rootScope, StorageService) {
     $rootScope.themes = [
         {value: 'classic',      name: 'Classic'},

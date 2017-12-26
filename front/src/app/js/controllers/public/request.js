@@ -1,8 +1,10 @@
-angular.module('upont')
-    .controller('Request_Ctrl', ['$scope', '$http', function($scope, $http) {
+import { API_PREFIX } from 'upont/js/config/constants';
+
+class Request_Ctrl {
+    constructor($scope, $http) {
         $scope.request = function(username) {
             if (!empty(username)) {
-                $http.post(apiPrefix + 'resetting/request', {username: username}).then(
+                $http.post(API_PREFIX + 'resetting/request', {username: username}).then(
                     function(){
                         alertify.success('Mail de réinitialisation envoyé !');
                     },
@@ -14,12 +16,7 @@ angular.module('upont')
                 alertify.error('Donne ton identifiant !');
             }
         };
-    }])
-    .config(['$stateProvider', function($stateProvider) {
-        $stateProvider
-            .state('root.request', {
-                url: 'mot-de-passe-oublie',
-                controller: 'Request_Ctrl',
-                templateUrl: 'controllers/public/request.html',
-            });
-    }]);
+    }
+}
+
+export default Request_Ctrl;

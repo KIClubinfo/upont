@@ -113,7 +113,7 @@ angular.module('upont')
 
                                 Upload.upload({
                                         method: "POST",
-                                        url: apiPrefix + 'newsitems',
+                                        url: API_PREFIX + 'newsitems',
                                         data: params
                                     })
                                     .then(function() {
@@ -176,7 +176,7 @@ angular.module('upont')
 
                                     Upload.upload({
                                         method: "POST",
-                                        url: apiPrefix + 'events',
+                                        url: API_PREFIX + 'events',
                                         data: params
                                     }).then(function() {
                                         $rootScope.$broadcast('newEvent');
@@ -191,7 +191,7 @@ angular.module('upont')
                                 }
                             );
                         } else {
-                            $http.patch(apiPrefix + 'events/' + post.slug, params)
+                            $http.patch(API_PREFIX + 'events/' + post.slug, params)
                             .then(function() {
                                 $rootScope.$broadcast('newEvent');
                                 alertify.success('Événement modifié');

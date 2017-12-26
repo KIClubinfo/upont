@@ -1,3 +1,8 @@
+import Raven from 'raven-js';
+
+import { API_PREFIX } from 'upont/js/config/constants';
+
+
 angular.module('upont').factory('Paginate', ['$resource', '$q', '$rootScope', function($resource, $q, $rootScope) {
     loadData = function(load, url, append) {
         // On indique qu'on est en train de charger de nouvelles données
@@ -6,7 +11,7 @@ angular.module('upont').factory('Paginate', ['$resource', '$q', '$rootScope', fu
 
         // S'il y a une page, on la charge
         if (url) {
-            $resource(apiPrefix + url[1]).query(function(data, headers){
+            $resource(API_PREFIX + url[1]).query(function(data, headers){
                 var result;
                 if (!append) {
                     result = data;
@@ -37,7 +42,7 @@ angular.module('upont').factory('Paginate', ['$resource', '$q', '$rootScope', fu
             }
             var defered = $q.defer();
 
-            $resource(apiPrefix + url + suffix).query(function(data, headers){
+            $resource(API_PREFIX + url + suffix).query(function(data, headers){
                 defered.resolve({data: data, headers: headers()});
             }, function(httpResponse){
                 defered.reject(httpResponse);

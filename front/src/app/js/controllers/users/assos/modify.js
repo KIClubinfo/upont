@@ -8,7 +8,7 @@ angular.module('upont')
         var clubSlug = $scope.club.name;
 
         $scope.reloadMembers = function() {
-            $http.get(apiPrefix + 'clubs/' + $scope.club.slug + '/users').then(function(response) {
+            $http.get(API_PREFIX + 'clubs/' + $scope.club.slug + '/users').then(function(response) {
                 $scope.members = response.data;
             });
         };
@@ -31,10 +31,10 @@ angular.module('upont')
                 params.banner = banner.base64;
             }
 
-            $http.patch(apiPrefix + 'clubs/' + $scope.club.slug, params).then(function() {
+            $http.patch(API_PREFIX + 'clubs/' + $scope.club.slug, params).then(function() {
                 // On recharge le club pour être sûr d'avoir la nouvelle photo
                 if (clubSlug == name) {
-                    $http.get(apiPrefix + 'clubs/' + $scope.club.slug).then(function(response) {
+                    $http.get(API_PREFIX + 'clubs/' + $scope.club.slug).then(function(response) {
                         $scope.club = response.data;
                     });
                 } else {
@@ -54,7 +54,7 @@ angular.module('upont')
             if (string === '') {
                 $scope.searchResults = [];
             } else {
-                $http.post(apiPrefix + 'search', {search: 'User/' + string}).then(function(response) {
+                $http.post(API_PREFIX + 'search', {search: 'User/' + string}).then(function(response) {
                     $scope.searchResults = response.data.users;
                 });
             }
@@ -71,7 +71,7 @@ angular.module('upont')
 
             alertify.prompt('Rôle de ' + user.name + ' :', function(e, role) {
                 if (e) {
-                    $http.post(apiPrefix + 'clubs/' + $scope.club.slug + '/users/' + user.slug, {role: role}).then(function() {
+                    $http.post(API_PREFIX + 'clubs/' + $scope.club.slug + '/users/' + user.slug, {role: role}).then(function() {
                         alertify.success(user.name + ' a été ajouté(e) !');
                         $scope.reloadMembers();
                     });
@@ -95,7 +95,7 @@ angular.module('upont')
 
             alertify.prompt('Nouveau rôle de ' + user.first_name + ' ' + user.last_name + ' :', function(e, role) {
                 if (e) {
-                    $http.patch(apiPrefix + 'clubs/' + $scope.club.slug + '/users/' + user.username, {role: role}).then(function() {
+                    $http.patch(API_PREFIX + 'clubs/' + $scope.club.slug + '/users/' + user.username, {role: role}).then(function() {
                         alertify.success(user.first_name + ' ' + user.last_name + ' a été modifié(e) !');
                         $scope.reloadMembers();
                     });
@@ -121,7 +121,7 @@ angular.module('upont')
                     return;
                 }
 
-                $http.patch(apiPrefix + 'clubs/' + $scope.club.slug + '/users/' + user.username + '/' + direction).then(
+                $http.patch(API_PREFIX + 'clubs/' + $scope.club.slug + '/users/' + user.username + '/' + direction).then(
                     function() {
                         $scope.isLoading = false;
                         $scope.reloadMembers();
@@ -134,7 +134,7 @@ angular.module('upont')
         };
 
         $scope.removeMember = function(user) {
-            $http.delete(apiPrefix + 'clubs/' + $scope.club.slug + '/users/' + user.username).then(function() {
+            $http.delete(API_PREFIX + 'clubs/' + $scope.club.slug + '/users/' + user.username).then(function() {
                 alertify.success('Membre supprimé !');
                 $scope.reloadMembers();
             });

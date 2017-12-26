@@ -29,7 +29,7 @@ angular.module('upont')
             if (typeof presentation == 'string')
                 params.text = presentation;
 
-            $http.patch(apiPrefix + 'tutos/' + $scope.tuto.slug, params).then(function(){
+            $http.patch(API_PREFIX + 'tutos/' + $scope.tuto.slug, params).then(function(){
                 if (tutoSlug != tuto.name) {
                     alertify.alert('Le nom du tuto ayant changé, il est nécessaire de recharger la page du tuto...');
                     $state.go('root.users.resources.tutorials.list');
@@ -44,7 +44,7 @@ angular.module('upont')
         $scope.delete = function() {
             alertify.confirm('Veux-tu vraiment supprimer ce tuto ?', function(e){
                 if (e) {
-                    $http.delete(apiPrefix + 'tutos/' + $scope.tuto.slug).then(function(){
+                    $http.delete(API_PREFIX + 'tutos/' + $scope.tuto.slug).then(function(){
                         alertify.success('Tuto supprimé !');
                         $state.go('root.users.resources.tutorials.list');
                     });
@@ -64,7 +64,7 @@ angular.module('upont')
                 },
                 resolve: {
                     tuto: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(apiPrefix + 'tutos/:slug').get({
+                        return $resource(API_PREFIX + 'tutos/:slug').get({
                             slug: $stateParams.slug
                         }).$promise;
                     }],

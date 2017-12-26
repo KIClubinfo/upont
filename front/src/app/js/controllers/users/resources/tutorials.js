@@ -8,7 +8,7 @@ angular.module('upont')
                 return;
             }
 
-            $http.post(apiPrefix + 'tutos', {name: name}).then(function(response){
+            $http.post(API_PREFIX + 'tutos', {name: name}).then(function(response){
                 alertify.alert('Tuto créé ! Redirection...');
                 $state.go('root.users.resources.tutorials.simple', {slug: response.data.slug});
             });
@@ -35,7 +35,7 @@ angular.module('upont')
                 },
                 resolve: {
                     tutos: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'tutos').query().$promise;
+                        return $resource(API_PREFIX + 'tutos').query().$promise;
                     }]
                 },
             })

@@ -14,7 +14,7 @@ angular.module('upont')
         $scope.devices = devices;
 
         $scope.subscribe = function(slug) {
-            $resource(apiPrefix + 'clubs/:slug/follow', {slug: slug}).save();
+            $resource(API_PREFIX + 'clubs/:slug/follow', {slug: slug}).save();
             $scope.clubs.forEach(function (element, index, array){
                 if(element.slug == slug)
                     element.suivi = true;
@@ -22,7 +22,7 @@ angular.module('upont')
         };
 
         $scope.unsubscribe = function(slug) {
-            $resource(apiPrefix + 'clubs/:slug/unfollow', {slug: slug}).save();
+            $resource(API_PREFIX + 'clubs/:slug/unfollow', {slug: slug}).save();
             $scope.clubs.forEach(function (element, index, array){
                 if(element.slug == slug)
                     element.suivi = false;
@@ -55,7 +55,7 @@ angular.module('upont')
             }
 
             $http.patch($rootScope.url + 'users/' + user.username, params).then(function(){
-                $resource(apiPrefix + 'users/:slug', {slug: user.username}).get(function(data){
+                $resource(API_PREFIX + 'users/:slug', {slug: user.username}).get(function(data){
                     user = data;
                     Achievements.check();
                 });
@@ -82,7 +82,7 @@ angular.module('upont')
 
             $http.post($rootScope.url + 'own/user', params)
                 .then(function(){
-                    $resource(apiPrefix + 'users/:slug', {slug: $rootScope.username}).get(function(data){
+                    $resource(API_PREFIX + 'users/:slug', {slug: $rootScope.username}).get(function(data){
                         $rootScope.me = data;
                         Achievements.check();
                     });
@@ -122,24 +122,24 @@ angular.module('upont')
                 controller: 'Students_Modify_Ctrl',
                 resolve: {
                     preferences: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'own/preferences').get().$promise;
+                        return $resource(API_PREFIX + 'own/preferences').get().$promise;
                     }],
                     token: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'own/token').get().$promise;
+                        return $resource(API_PREFIX + 'own/token').get().$promise;
                     }],
                     devices: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'own/devices').query().$promise;
+                        return $resource(API_PREFIX + 'own/devices').query().$promise;
                     }],
                     user: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(apiPrefix + 'users/:slug').get({
+                        return $resource(API_PREFIX + 'users/:slug').get({
                             slug: $stateParams.slug
                         }).$promise;
                     }],
                     clubs: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'clubs?sort=name').query().$promise;
+                        return $resource(API_PREFIX + 'clubs?sort=name').query().$promise;
                     }],
                     clubsSuivis: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'own/followed').query().$promise;
+                        return $resource(API_PREFIX + 'own/followed').query().$promise;
                     }]
                 },
                 data: {

@@ -23,7 +23,7 @@ angular.module('upont')
                 active: course.active
             };
 
-            $http.patch(apiPrefix + 'courses/' + course.slug, params).then(function() {
+            $http.patch(API_PREFIX + 'courses/' + course.slug, params).then(function() {
                 $scope.course.groups = groups;
                 $scope.course.groups.sort();
                 alertify.success('Modifications prises en compte !');
@@ -45,7 +45,7 @@ angular.module('upont')
 
             $scope.fd.append('name', name);
 
-            $http.post(apiPrefix + 'courses/' + course.slug + '/exercices', $scope.fd, {
+            $http.post(API_PREFIX + 'courses/' + course.slug + '/exercices', $scope.fd, {
                 withCredentials: true,
                 headers: {'Content-Type': undefined },
                 transformRequest: angular.identity
@@ -56,15 +56,15 @@ angular.module('upont')
                 alertify.success('Annale uploadée !');
 
                 // On recharge les annales
-                $resource(apiPrefix + 'courses/' + $scope.course.slug + '/exercices').query(function(data){
+                $resource(API_PREFIX + 'courses/' + $scope.course.slug + '/exercices').query(function(data){
                     $scope.exercices = data;
                 });
             });
         };
 
         $scope.removeExercice = function(course, exercice) {
-            $resource(apiPrefix + 'courses/' + course.slug + '/exercices/' + exercice.slug).delete(function() {
-                $resource(apiPrefix + 'courses/' + course.slug + '/exercices').query(function(data){
+            $resource(API_PREFIX + 'courses/' + course.slug + '/exercices/' + exercice.slug).delete(function() {
+                $resource(API_PREFIX + 'courses/' + course.slug + '/exercices').query(function(data){
                     $scope.exercices = data;
                 });
                 alertify.success('Annale supprimée.');
@@ -79,7 +79,7 @@ angular.module('upont')
             $scope.isLoading = true;
 
             course.active = !course.active;
-            $http.patch(apiPrefix + 'courses/' + course.slug, {active: course.active}).then(function(){
+            $http.patch(API_PREFIX + 'courses/' + course.slug, {active: course.active}).then(function(){
                 $scope.isLoading = false;
             });
         };
@@ -96,12 +96,12 @@ angular.module('upont')
                 controller: 'Courses_Simple_Ctrl',
                 resolve: {
                     course: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(apiPrefix + 'courses/:slug').get({
+                        return $resource(API_PREFIX + 'courses/:slug').get({
                             slug: $stateParams.slug
                         }).$promise;
                     }],
                     exercices: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(apiPrefix + 'courses/:slug/exercices').query({
+                        return $resource(API_PREFIX + 'courses/:slug/exercices').query({
                             slug: $stateParams.slug
                         }).$promise;
                     }]

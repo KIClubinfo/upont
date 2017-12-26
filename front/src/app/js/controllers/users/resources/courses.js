@@ -66,7 +66,7 @@ angular.module('upont')
             $scope.isLoading = true;
 
             if (!$scope.objet.like) {
-                $resource(apiPrefix + 'courses/' + $scope.objet.slug + '/like').save(function() {
+                $resource(API_PREFIX + 'courses/' + $scope.objet.slug + '/like').save(function() {
                     $scope.objet.likes++;
                     $scope.objet.like = true;
                     $scope.isLoading = false;
@@ -77,7 +77,7 @@ angular.module('upont')
                     }
                 });
             } else {
-                $resource(apiPrefix + 'courses/' + $scope.objet.slug + '/like').remove(function() {
+                $resource(API_PREFIX + 'courses/' + $scope.objet.slug + '/like').remove(function() {
                     $scope.objet.likes--;
                     $scope.objet.like = false;
                     $scope.isLoading = false;
@@ -96,7 +96,7 @@ angular.module('upont')
             $scope.isLoading = true;
 
             if (!$scope.objet.dislike) {
-                $resource(apiPrefix + 'courses/' + $scope.objet.slug + '/dislike').save(function() {
+                $resource(API_PREFIX + 'courses/' + $scope.objet.slug + '/dislike').save(function() {
                     $scope.objet.dislikes++;
                     $scope.objet.dislike = true;
                     $scope.isLoading = false;
@@ -107,7 +107,7 @@ angular.module('upont')
                     }
                 });
             } else {
-                $resource(apiPrefix + 'courses/' + $scope.objet.slug + '/dislike').remove(function() {
+                $resource(API_PREFIX + 'courses/' + $scope.objet.slug + '/dislike').remove(function() {
                     $scope.objet.dislikes--;
                     $scope.objet.dislike = false;
                     $scope.isLoading = false;
@@ -122,7 +122,7 @@ angular.module('upont')
             $scope.isLoading = true;
 
             course.active = !course.active;
-            $http.patch(apiPrefix + 'courses/' + course.slug, {active: course.active}).then(function(){
+            $http.patch(API_PREFIX + 'courses/' + course.slug, {active: course.active}).then(function(){
                 $scope.isLoading = false;
             });
         };
@@ -137,8 +137,8 @@ angular.module('upont')
             if (course.groups.length != 1) {
                 alertify.prompt('Dans quel groupe es-tu ? Groupes valides : ' + course.groups.join(','), function(e, str){
                     if (e) {
-                        $http.post(apiPrefix + 'courses/' + course.slug + '/attend', {group: str}).then(function() {
-                            $resource(apiPrefix + 'own/courses').query(function(data) {
+                        $http.post(API_PREFIX + 'courses/' + course.slug + '/attend', {group: str}).then(function() {
+                            $resource(API_PREFIX + 'own/courses').query(function(data) {
                                 $scope.load(data);
                                 $scope.isLoading = false;
                                 Achievements.check();
@@ -152,8 +152,8 @@ angular.module('upont')
                     }
                 });
             } else {
-                $resource(apiPrefix + 'courses/' + course.slug + '/attend').save(function() {
-                    $resource(apiPrefix + 'own/courses').query(function(data) {
+                $resource(API_PREFIX + 'courses/' + course.slug + '/attend').save(function() {
+                    $resource(API_PREFIX + 'own/courses').query(function(data) {
                         $scope.load(data);
                         $scope.isLoading = false;
                         Achievements.check();
@@ -167,8 +167,8 @@ angular.module('upont')
                 return;
             }
             $scope.isLoading = true;
-            $resource(apiPrefix + 'courses/' + course.slug + '/attend').delete(function() {
-                $resource(apiPrefix + 'own/courses').query(function(data) {
+            $resource(API_PREFIX + 'courses/' + course.slug + '/attend').delete(function() {
+                $resource(API_PREFIX + 'own/courses').query(function(data) {
                     $scope.load(data);
                     $scope.isLoading = false;
                 });
@@ -208,7 +208,7 @@ angular.module('upont')
                         return Paginate.get('courses?sort=name', 50);
                     }],
                     followed: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'own/courses').query().$promise;
+                        return $resource(API_PREFIX + 'own/courses').query().$promise;
                     }]
                 },
             });

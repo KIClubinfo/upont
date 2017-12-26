@@ -31,7 +31,7 @@ angular.module('upont')
                 fix: isFix
             };
 
-            $http.post(apiPrefix + 'fixs', params).then(function(){
+            $http.post(API_PREFIX + 'fixs', params).then(function(){
                 $scope.fix = '';
                 $scope.msg = '';
                 alertify.success('Demande correctement envoyée !');
@@ -41,7 +41,7 @@ angular.module('upont')
         };
 
         $scope.changeStatus = function(fix) {
-            $http.patch(apiPrefix + 'fixs/' + fix.slug, {status: fix.status}).then(function(){
+            $http.patch(API_PREFIX + 'fixs/' + fix.slug, {status: fix.status}).then(function(){
                 $scope.reload();
             });
         };
@@ -49,7 +49,7 @@ angular.module('upont')
         $scope.delete = function(fix) {
             alertify.confirm('Veux-tu vraiment supprimer le ticket ?', function(e) {
                 if (e) {
-                    $http.delete(apiPrefix + 'fixs/' + fix.slug).then(function(){
+                    $http.delete(API_PREFIX + 'fixs/' + fix.slug).then(function(){
                         $scope.reload();
                     });
                 }
@@ -74,7 +74,7 @@ angular.module('upont')
                         return Paginate.get('own/fixs', 50);
                     }],
                     members: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'clubs/ki/users').query().$promise;
+                        return $resource(API_PREFIX + 'clubs/ki/users').query().$promise;
                     }]
                 }
             });

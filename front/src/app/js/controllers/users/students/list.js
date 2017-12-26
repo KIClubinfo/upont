@@ -1,5 +1,5 @@
-angular.module('upont')
-    .controller('Students_List_Ctrl', ['$scope', 'users', 'Paginate', function($scope, users, Paginate) {
+class Students_List_Ctrl {
+    constructor($scope, users, Paginate) {
         $scope.users = users;
         $scope.search = {
             promo: 'all',
@@ -34,28 +34,7 @@ angular.module('upont')
                 $scope.next();
             });
         };
-    }])
-    .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('root.users.students', {
-                url: 'eleves',
-                templateUrl: 'controllers/users/students/index.html',
-                abstract: true,
-                data: {
-                    title: 'Élèves - uPont',
-                    top: true
-                },
-            })
-            .state('root.users.students.list', {
-                url: '',
-                templateUrl: 'controllers/users/students/list.html',
-                controller: 'Students_List_Ctrl',
-                resolve: {
-                    users: ['Paginate', function(Paginate) {
-                        return Paginate.get('users?sort=-promo,firstName,lastName', 20);
-                    }]
-                },
-                data: {
-                    top: true
-                }
-            });
-    }]);
+    }
+}
+
+export default Students_List_Ctrl;

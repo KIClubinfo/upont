@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 import { API_PREFIX } from './constants';
 
 angular.module('upont').factory('ErrorCodes_Interceptor', [
@@ -66,83 +68,14 @@ angular.module('upont').factory('ErrorCodes_Interceptor', [
         $httpProvider.interceptors.push('jwtInterceptor');
         $httpProvider.interceptors.push('ErrorCodes_Interceptor');
     }
-]).config([
-    '$stateProvider',
-    '$urlRouterProvider',
-    '$locationProvider',
-    '$urlMatcherFactoryProvider',
-    function($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) {
-        $urlMatcherFactoryProvider.strictMode(false);
-        $urlRouterProvider.otherwise('/404');
-        $locationProvider.html5Mode(true);
-
-        $stateProvider.state('root', {
-            abstract: true,
-            url: '/',
-            template: '<div ui-view></div>'
-        }).state('root.403', {
-            url: '403',
-            templateUrl: require('../controllers/public/errors/403.html')
-        }).state('root.404', {
-            url: '404',
-            templateUrl: require('../controllers/public/errors/404.html')
-        }).state('root.418', {
-            url: '418',
-            templateUrl: require('../controllers/public/errors/418.html')
-        }).state('root.erreur', {
-            url: 'erreur',
-            templateUrl: require('../controllers/public/errors/500.html')
-        }).state('root.users', {
-            url: '',
-            abstract: true,
-            resolve: {
-                user: ['$http', '$rootScope', function($http, $rootScope) {
-                    return $http.get(API_PREFIX + 'own/user').then(function(response){
-                        $rootScope.me = response.data;
-                        return response.data;
-                    });
-                }],
-                userClubs: ['$http', '$rootScope', function($http, $rootScope) {
-                    // On récupère les clubs de l'utilisateurs pour déterminer ses roles de publication
-                    return $http.get(API_PREFIX + 'own/clubs').then(function(response){
-                        $rootScope.clubs = response.data;
-                        return response.data;
-                    });
-                }],
-            },
-            data: {
-                needLogin: true
-            },
-            views: {
-                '': {
-                    templateUrl: 'controllers/users/container.html',
-                },
-                'topbar@root.users': {
-                    templateUrl: 'controllers/users/top-bar.html'
-                },
-                'aside@root.users': {
-                    templateUrl: 'controllers/users/aside.html',
-                    controller: 'Aside_Ctrl'
-                },
-                'tour@root.users': {
-                    templateUrl: 'controllers/users/tour.html',
-                    controller: 'Tour_Ctrl'
-                }
-            }
-        }).state('root.public', {
-            url: 'public',
-            abstract: true,
-            template: '<div ui-view></div>'
-        });
-    }
 ])
+.config(['$urlRouterProvider', '$locationProvider', '$urlMatcherFactoryProvider', ($urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) => {
+    $urlMatcherFactoryProvider.strictMode(false);
+    $urlRouterProvider.otherwise('/404');
+    $locationProvider.html5Mode(true);
+}])
 // FIXME hides errors related to ui-router 0.3.2
-.config([
-    '$qProvider',
-    function($qProvider) {
-        $qProvider.errorOnUnhandledRejections(false);
-    }
-])
+.config(['$qProvider', $qProvider => $qProvider.errorOnUnhandledRejections(false)])
 ;
 
 angular.module('upont').run([

@@ -13,7 +13,7 @@ angular.module('upont').directive('upLikes', function() {
             }
 
             if($scope.objet.comments > 0){
-                $resource(apiPrefix + $scope.url + '/comments').query(function(data){
+                $resource(API_PREFIX + $scope.url + '/comments').query(function(data){
                     $scope.comments = data;
                 });
                 $scope.shownComments = -5;
@@ -33,7 +33,7 @@ angular.module('upont').directive('upLikes', function() {
                 $scope.isLoading = true;
 
                 if (!$scope.objet.like) {
-                    $resource(apiPrefix + $scope.url + '/like').save(function() {
+                    $resource(API_PREFIX + $scope.url + '/like').save(function() {
                         $scope.objet.likes++;
                         $scope.objet.like = true;
                         $scope.isLoading = false;
@@ -44,7 +44,7 @@ angular.module('upont').directive('upLikes', function() {
                         }
                     });
                 } else {
-                    $resource(apiPrefix + $scope.url + '/like').remove(function() {
+                    $resource(API_PREFIX + $scope.url + '/like').remove(function() {
                         $scope.objet.likes--;
                         $scope.objet.like = false;
                         $scope.isLoading = false;
@@ -62,7 +62,7 @@ angular.module('upont').directive('upLikes', function() {
                 $scope.isLoading = true;
 
                 if (!$scope.objet.dislike) {
-                    $resource(apiPrefix + $scope.url + '/dislike').save(function() {
+                    $resource(API_PREFIX + $scope.url + '/dislike').save(function() {
                         $scope.objet.dislikes++;
                         $scope.objet.dislike = true;
                         $scope.isLoading = false;
@@ -73,7 +73,7 @@ angular.module('upont').directive('upLikes', function() {
                         }
                     });
                 } else {
-                    $resource(apiPrefix + $scope.url + '/dislike').remove(function() {
+                    $resource(API_PREFIX + $scope.url + '/dislike').remove(function() {
                         $scope.objet.dislikes--;
                         $scope.objet.dislike = false;
                         $scope.isLoading = false;
@@ -93,13 +93,13 @@ angular.module('upont').directive('upLikes', function() {
 
                 // Si la personne like déjà on ne fait qu'annuler le like
                 if ($scope.comments[index].like) {
-                    $resource(apiPrefix + 'comments/' + $scope.comments[index].id + '/like').remove(function() {
+                    $resource(API_PREFIX + 'comments/' + $scope.comments[index].id + '/like').remove(function() {
                         $scope.comments[index].like = false;
                         $scope.comments[index].likes--;
                         $scope.isLoading = false;
                     });
                 } else {
-                    $resource(apiPrefix + 'comments/' + $scope.comments[index].id + '/like').save(function() {
+                    $resource(API_PREFIX + 'comments/' + $scope.comments[index].id + '/like').save(function() {
                         $scope.comments[index].like = true;
                         $scope.comments[index].likes++;
                         $scope.isLoading = false;
@@ -125,13 +125,13 @@ angular.module('upont').directive('upLikes', function() {
 
                 // Si la personne dislike déjà on ne fait qu'annuler le dislike
                 if ($scope.comments[index].dislike) {
-                    $resource(apiPrefix + 'comments/' + $scope.comments[index].id + '/dislike').remove(function() {
+                    $resource(API_PREFIX + 'comments/' + $scope.comments[index].id + '/dislike').remove(function() {
                         $scope.comments[index].dislike = false;
                         $scope.comments[index].dislikes--;
                         $scope.isLoading = false;
                     });
                 } else {
-                    $resource(apiPrefix + 'comments/' + $scope.comments[index].id + '/dislike').save(function() {
+                    $resource(API_PREFIX + 'comments/' + $scope.comments[index].id + '/dislike').save(function() {
                         $scope.comments[index].dislike = true;
                         $scope.comments[index].dislikes++;
                         $scope.isLoading = false;
@@ -156,7 +156,7 @@ angular.module('upont').directive('upLikes', function() {
 
                 $event.preventDefault();
                 if(text.length > 0){
-                    $resource(apiPrefix + $scope.url + '/comments').save({ text: nl2br(text) }, function(data){
+                    $resource(API_PREFIX + $scope.url + '/comments').save({ text: nl2br(text) }, function(data){
                         $scope.comments.push(data);
                         if($scope.shownComments < 0)
                             $scope.shownComments--;
@@ -174,7 +174,7 @@ angular.module('upont').directive('upLikes', function() {
                 // On demande confirmation
                 alertify.prompt('Tu peux modifier ton message :', function(e, str){
                     if (e) {
-                        $http.patch(apiPrefix + 'comments/' + $scope.comments[index].id, {text: str}).then(function() {
+                        $http.patch(API_PREFIX + 'comments/' + $scope.comments[index].id, {text: str}).then(function() {
                             $scope.comments[index].text = str;
                         });
                     }
@@ -187,7 +187,7 @@ angular.module('upont').directive('upLikes', function() {
                 // On demande confirmation
                 alertify.confirm('Est-ce vraiment ce que tu veux ?', function(e){
                     if (e) {
-                        $resource(apiPrefix + 'comments/' + $scope.comments[index].id).delete(function() {
+                        $resource(API_PREFIX + 'comments/' + $scope.comments[index].id).delete(function() {
                             $scope.comments.splice(index, 1);
                             if($scope.shownComments < 0)
                                 $scope.shownComments++;

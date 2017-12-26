@@ -39,7 +39,7 @@ angular.module('upont')
         };
 
         $scope.delete = function() {
-            $resource(apiPrefix + ':cat/:slug', {
+            $resource(API_PREFIX + ':cat/:slug', {
                 cat: Ponthub.cat($stateParams.category),
                 slug: $stateParams.slug
             }).delete(function() {

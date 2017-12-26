@@ -1,13 +1,5 @@
-angular.module('upont')
-    .controller('SingleSignOn_Ctrl', [
-        '$scope',
-        '$rootScope',
-        '$stateParams',
-        '$location',
-        '$http',
-        '$window',
-        'StorageService',
-    function($scope, $rootScope, $stateParams, $location, $http, $window, StorageService) {
+class SingleSignOn_Ctrl {
+    constuctor($scope, $rootScope, $stateParams, $location, $http, $window, StorageService) {
         // Identify the external application
         switch($stateParams.appId) {
             case '3ce745a47e998d2461ed9132dc18979c':
@@ -69,16 +61,7 @@ angular.module('upont')
                 );
         };
 
-    }])
-    .config(['$stateProvider', function($stateProvider) {
-        $stateProvider
-            .state('root.users.sso', {
-                url: 'sso?appId&to',
-                templateUrl: 'controllers/users/sso.html',
-                controller: 'SingleSignOn_Ctrl',
-                data: {
-                    title: 'Authentification centralisée - uPont',
-                    top: true
-                }
-            });
-    }]);
+    }
+}
+
+export default SingleSignOn_Ctrl;

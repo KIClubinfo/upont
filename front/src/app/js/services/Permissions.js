@@ -1,3 +1,7 @@
+import angular from 'angular';
+
+import Raven from 'raven-js';
+
 angular.module('upont').factory('Permissions', ['StorageService', '$rootScope', 'jwtHelper', '$analytics', function(StorageService, $rootScope, jwtHelper, $analytics) {
     const remove = function() {
         $rootScope.isLogged = false;

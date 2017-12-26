@@ -6,7 +6,12 @@ import moment from 'moment';
 import Raven from 'raven-js';
 
 import 'typeface-open-sans';
-import 'fontawesome';
+// import 'fontawesome';
+
+import 'upont/css/loading/loading.css';
+import 'upont/css/loading/loading.less';
+
+import 'upont/css/main/themes/classic.less';
 
 if (!location.origin)
     location.origin = location.protocol + '//' + location.host;
@@ -89,7 +94,7 @@ angular.module('upontConfig', []);
 require('angulartics-piwik');
 require('angular-redactor');
 
-angular.module('upont', [
+const upont = angular.module('upont', [
     // JWT Auth
     require('angular-jwt'),
 
@@ -98,7 +103,7 @@ angular.module('upont', [
     require('angular-ui-router'),
 
     // Additionnal | filters
-    require('angular-filter'),
+    // require('angular-filter'),
 
     // Analytics
     require('angulartics'),
@@ -146,6 +151,30 @@ import { API_PREFIX } from './config/constants';
         // Start upont manually.
         angular.element(document).ready(function() {
             angular.bootstrap(document, ['upont']);
+
+            var $rootScope = angular.element(document.querySelector('[ng-app]') || document).injector().get('$rootScope');
+
+            $rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams){
+              console.log('$stateChangeStart to '+toState.to+'- fired when the transition begins. toState,toParams : \n',toState, toParams);
+            });
+
+            $rootScope.$on('$stateChangeError',function(event, toState, toParams, fromState, fromParams){
+              console.log('$stateChangeError - fired when an error occurs during transition.');
+              console.log(arguments);
+            });
+
+            $rootScope.$on('$stateChangeSuccess',function(event, toState, toParams, fromState, fromParams){
+              console.log('$stateChangeSuccess to '+toState.name+'- fired once the state transition is complete.');
+            });
+
+            $rootScope.$on('$viewContentLoaded',function(event){
+              console.log('$viewContentLoaded - fired after dom rendered',event);
+            });
+
+            $rootScope.$on('$stateNotFound',function(event, unfoundState, fromState, fromParams){
+              console.log('$stateNotFound '+unfoundState.to+'  - fired when a state cannot be found by its name.');
+              console.log(unfoundState, fromState, fromParams);
+            });
         });
     });
 })();
@@ -157,5 +186,37 @@ require('./services/Permissions');
 require('./services/Ponthub');
 require('./services/Scroll');
 require('./services/StorageService');
+
 require('./config/config');
 require('./config/themes');
+
+require('./directives/chart');
+require('./directives/flex');
+require('./directives/likes');
+// FIXME get rid of
+require('./directives/ng-inject');
+require('./directives/panel');
+require('./directives/ribbon');
+require('./directives/search');
+require('./directives/state-active');
+require('./directives/svg-image');
+require('./directives/text-overflow');
+require('./directives/user');
+
+require('./filters/courseHour');
+require('./filters/formatDate');
+require('./filters/formatDuration');
+require('./filters/formatPosition');
+require('./filters/formatSize');
+require('./filters/fromNow');
+require('./filters/match');
+require('./filters/nl2br');
+require('./filters/numberFixedLen');
+require('./filters/reverse');
+require('./filters/stripTags');
+require('./filters/thumb');
+require('./filters/ucfirst');
+require('./filters/urlFile');
+
+import Router from 'upont/js/config/router';
+upont.config(Router);

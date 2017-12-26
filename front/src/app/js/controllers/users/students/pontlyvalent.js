@@ -9,14 +9,14 @@ angular.module('upont')
             if (string === '') {
                 $scope.searchResultsPost = [];
             } else {
-                $http.post(apiPrefix + 'search', {search: 'User/' + string}).then(function(response){
+                $http.post(API_PREFIX + 'search', {search: 'User/' + string}).then(function(response){
                     $scope.searchResultsPost = response.data.users;
                 });
             }
         };
 
         $scope.reload = function() {
-            $resource(apiPrefix + 'users/pontlyvalent').query(function(data){
+            $resource(API_PREFIX + 'users/pontlyvalent').query(function(data){
                 $scope.comments = data;
             });
         };
@@ -29,7 +29,7 @@ angular.module('upont')
                         return;
                     }
 
-                    $http.post(apiPrefix + 'users/' + slug + '/pontlyvalent', {text: text}).then(function() {
+                    $http.post(API_PREFIX + 'users/' + slug + '/pontlyvalent', {text: text}).then(function() {
                         alertify.success('Entrée enregistrée');
                         $scope.reload();
                     }, function (response) {
@@ -40,7 +40,7 @@ angular.module('upont')
         };
 
         $scope.deleteComment = function(slug) {
-            $http.delete(apiPrefix + 'users/' + slug + '/pontlyvalent').then(function() {
+            $http.delete(API_PREFIX + 'users/' + slug + '/pontlyvalent').then(function() {
                 alertify.success('Entrée supprimée');
                 $scope.reload();
             }, function () {
@@ -57,7 +57,7 @@ angular.module('upont')
                 controller: 'Students_Pontlyvalent_Ctrl',
                 resolve: {
                     comments: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'users/pontlyvalent').query().$promise;
+                        return $resource(API_PREFIX + 'users/pontlyvalent').query().$promise;
                     }]
                 },
                 data: {

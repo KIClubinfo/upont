@@ -20,7 +20,7 @@ angular.module('upont')
                 params.image = image.base64;
             }
 
-            $http.post(apiPrefix + 'newsitems', params).then(function(){
+            $http.post(API_PREFIX + 'newsitems', params).then(function(){
                 $rootScope.$broadcast('newMessage');
                 init();
             }, function(){

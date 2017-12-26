@@ -21,7 +21,7 @@ angular.module('upont').directive('upUser', function() {
                 if (!$rootScope.hovering && !$scope.hover) {
                     $scope.timer = $timeout(function () {
                         $rootScope.hovering = true;
-                        $resource(apiPrefix + 'users/' + $scope.user.username + '/clubs').query(function(data) {
+                        $resource(API_PREFIX + 'users/' + $scope.user.username + '/clubs').query(function(data) {
                             $scope.clubs = data;
 
                             // On ferme tous les autres

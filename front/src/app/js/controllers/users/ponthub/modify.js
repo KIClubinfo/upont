@@ -18,7 +18,7 @@ angular.module('upont')
 
                 criteria = criteria.replace(/ \([0-9]{4}\)/, '');
 
-                $http.post(apiPrefix + 'imdb/search', {name: criteria}).then(function(response){
+                $http.post(API_PREFIX + 'imdb/search', {name: criteria}).then(function(response){
                     $scope.propositions = response.data;
 
                     if (response.data.length > 0) {
@@ -35,7 +35,7 @@ angular.module('upont')
                 if (!proposition.length) {
                     alertify.error('Aucun film recherché !');
                 } else {
-                    $http.post(apiPrefix + 'imdb/infos', {id: proposition}).then(function(response){
+                    $http.post(API_PREFIX + 'imdb/infos', {id: proposition}).then(function(response){
                         var data = response.data;
                         $scope.element.name = data.title;
                         $scope.element.year = data.year;
@@ -97,7 +97,7 @@ angular.module('upont')
                     break;
             }
 
-            $http.patch(apiPrefix + $scope.type + '/' + element.slug, params).then(function(){
+            $http.patch(API_PREFIX + $scope.type + '/' + element.slug, params).then(function(){
                 $state.go('root.users.ponthub.category.list', {category: $stateParams.category});
                 alertify.success('Modifications prises en compte !');
             });

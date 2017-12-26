@@ -1,24 +1,32 @@
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
+
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-    // resolve: {
-    //     modules: [path.resolve('./app'), path.resolve('./node_modules')]
-    // },
+    resolve: {
+        alias: {
+            upont: path.resolve(__dirname, 'src/app/'),
+            libs: path.resolve(__dirname, 'src/libs/')
+        },
+        modules: ['node_modules']
+    },
     devtool: 'source-map',
-    output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: 'upont.min.js'
+    entry: {
+        upont: [
+            'babel-polyfill',
+            path.resolve(__dirname, 'src/app/js/app.js')
+        ]
     },
     module: {
         rules: [
             {
-                test: /\.js$/,
-                enforce: 'pre',
+                test: /src\/app\/.*\.js$/,
                 use: [
+                    // {
+                    //     loader: 'ng-annotate-loader'
+                    // },
                     {
-                        loader: 'baggage-loader?[file].html&[file].less'
-                    }, {
                         loader: 'babel-loader'
                     }
                 ],
@@ -67,10 +75,25 @@ module.exports = {
                     }
                 ]
             }, {
-                test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
-                use: [{ loader: 'file-loader' }]
+                test: /\.(png|jpg|jpeg|gif)$/,
+                use: [
+                    {
+                        loader: 'file-loader'
+                    }
+                ]
             }
         ]
     },
-    plugins: [new webpack.ProvidePlugin({$: "jquery", jQuery: "jquery"})]
+    plugins: [
+        new CopyWebpackPlugin([
+            { // Copy directory contents to {output}/
+                from: 'public/'
+            }
+        ]),
+        new webpack.ProvidePlugin({$: "jquery", jQuery: "jquery"}), // Automatically move all modules defined outside of application directory to vendor bundle.
+        new webpack.optimize.CommonsChunkPlugin({
+            minChunks: (module, count) => module.resource && module.resource.indexOf(path.resolve(__dirname, 'src')) === -1,
+            name: 'vendors'
+        })
+    ]
 };

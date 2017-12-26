@@ -15,7 +15,7 @@ angular.module('upont')
                 alertify.error('Désolé, seules les adresses des Ponts sont acceptées !');
             }
 
-            $http.post(apiPrefix + 'users', {email: email, lastName: lastName, firstName: firstName})
+            $http.post(API_PREFIX + 'users', {email: email, lastName: lastName, firstName: firstName})
                 .then(
                     function(){
                         alertify.success('Mail envoyé !');
@@ -41,7 +41,7 @@ angular.module('upont')
                 alertify.error('Le fichier n\'a pas été choisi !');
             }
 
-            $http.post(apiPrefix + 'import/users', $scope.fd, {
+            $http.post(API_PREFIX + 'import/users', $scope.fd, {
                 withCredentials: true,
                 headers: {'Content-Type': undefined },
                 transformRequest: angular.identity

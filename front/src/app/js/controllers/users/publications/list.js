@@ -84,12 +84,12 @@ angular.module('upont')
             var i = $scope.events.data.indexOf(publication);
             // Si la personne attend déjà on ne fait qu'annuler le attend
             if ($scope.events.data[i].attend) {
-                $http.delete(apiPrefix + 'events/' + $scope.events.data[i].slug + '/attend').then(function(){
+                $http.delete(API_PREFIX + 'events/' + $scope.events.data[i].slug + '/attend').then(function(){
                     $scope.events.data[i].attend = false;
                     $scope.events.data[i].attendees--;
                 });
             } else {
-                $http.post(apiPrefix + 'events/' + $scope.events.data[i].slug + '/attend').then(function(){
+                $http.post(API_PREFIX + 'events/' + $scope.events.data[i].slug + '/attend').then(function(){
                     $scope.events.data[i].attend = true;
                     $scope.events.data[i].attendees++;
 
@@ -107,12 +107,12 @@ angular.module('upont')
             var i = $scope.events.data.indexOf(publication);
             // Si la personne pookie déjà on ne fait qu'annuler le pookie
             if ($scope.events.data[i].pookie) {
-                $http.delete(apiPrefix + 'events/' + $scope.events.data[i].slug + '/decline').then(function(){
+                $http.delete(API_PREFIX + 'events/' + $scope.events.data[i].slug + '/decline').then(function(){
                     $scope.events.data[i].pookie = false;
                     $scope.events.data[i].pookies--;
                 });
             } else {
-                $http.post(apiPrefix + 'events/' + $scope.events.data[i].slug + '/decline').then(function(){
+                $http.post(API_PREFIX + 'events/' + $scope.events.data[i].slug + '/decline').then(function(){
                     $scope.events.data[i].pookie = true;
                     $scope.events.data[i].pookies++;
                     alertify.success('Cet événement ne sera plus affiché par la suite. Tu pourras toujours le retrouver sur la page de l\'assos.');
@@ -141,7 +141,7 @@ angular.module('upont')
             publication.displayAttendees = !publication.displayAttendees;
 
             if (publication.userlist === undefined) {
-                $http.get(apiPrefix + 'events/' + publication.slug + '/attendees').then(function(response){
+                $http.get(API_PREFIX + 'events/' + publication.slug + '/attendees').then(function(response){
                     publication.userlist = response.data;
                 });
             }
@@ -155,7 +155,7 @@ angular.module('upont')
                 // On demande confirmation
                 alertify.confirm('Veux-tu vraiment supprimer cet évènement ?', function(e){
                     if (e) {
-                        $resource(apiPrefix + 'events/' + $scope.events.data[index].slug).delete(function() {
+                        $resource(API_PREFIX + 'events/' + $scope.events.data[index].slug).delete(function() {
                             $scope.events.data.splice(index, 1);
                         });
                     }
@@ -166,7 +166,7 @@ angular.module('upont')
                 // On demande confirmation
                 alertify.confirm('Veux-tu vraiment supprimer cette news ?', function(e){
                     if (e) {
-                        $resource(apiPrefix + 'newsitems/' + $scope.newsItems.data[index].slug).delete(function() {
+                        $resource(API_PREFIX + 'newsitems/' + $scope.newsItems.data[index].slug).delete(function() {
                             $scope.newsItems.data.splice(index, 1);
                         });
                     }
@@ -185,7 +185,7 @@ angular.module('upont')
         };
 
         $scope.modify = function(post) {
-            $http.patch(apiPrefix + $scope.item + '/' + post.slug, {text: post.text}).then(function(){
+            $http.patch(API_PREFIX + $scope.item + '/' + post.slug, {text: post.text}).then(function(){
                 alertify.success('Publication modifiée');
                 $scope.edit.text = post.text ;
                 $scope.edit = null;
@@ -230,7 +230,7 @@ angular.module('upont')
                         return Paginate.get('newsitems?sort=-date&limit=10&name=message');
                     }],
                     courseitems: ['$resource', function($resource) {
-                        return $resource(apiPrefix + 'own/courseitems').query().$promise;
+                        return $resource(API_PREFIX + 'own/courseitems').query().$promise;
                     }]
                 }
             })

@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 angular.module('upont').factory('StorageService', function() {
     return {
         get: function(key) {

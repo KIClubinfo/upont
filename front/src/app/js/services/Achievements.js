@@ -4,7 +4,7 @@ angular.module('upont').factory('Achievements', ['$resource', '$rootScope', 'Per
             if(Permissions.hasRight('ROLE_EXTERIEUR'))
                 return;
 
-            $resource(apiPrefix + 'own/achievements').get(function(data){
+            $resource(API_PREFIX + 'own/achievements').get(function(data){
                 var unlocked = data.unlocked;
                 for (var key in unlocked) {
                     alertify.success('<div class="flex-row flex p-space-between s-stretch">' +

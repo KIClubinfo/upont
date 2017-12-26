@@ -13,9 +13,9 @@ angular.module('upont')
                 }
 
                 $scope.isLoading = true;
-                $http.post(apiPrefix + 'events/' + $scope.event.slug + '/shotgun', {motivation: $scope.motivation})
+                $http.post(API_PREFIX + 'events/' + $scope.event.slug + '/shotgun', {motivation: $scope.motivation})
                     .then(function(){
-                        $resource(apiPrefix + 'events/' + $scope.event.slug + '/shotgun').get(function(data){
+                        $resource(API_PREFIX + 'events/' + $scope.event.slug + '/shotgun').get(function(data){
                             $scope.shotgun = data;
                             $scope.shotgunned = true;
                         });
@@ -29,7 +29,7 @@ angular.module('upont')
         $scope.deleteShotgun = function(){
             alertify.confirm('Attention c\'est définitif !', function(e) {
                 if (e) {
-                    $http.delete(apiPrefix + 'events/' + $scope.event.slug + '/shotgun').then(function(response){
+                    $http.delete(API_PREFIX + 'events/' + $scope.event.slug + '/shotgun').then(function(response){
                         $scope.shotgun = response.data;
                         $scope.shotgunned = false;
                         alertify.success('Nickel ! Ta place sera redistribuée aux prochains sur la liste d\'attente ;)');
@@ -49,12 +49,12 @@ angular.module('upont')
                 },
                 resolve: {
                     event: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(apiPrefix + 'events/:slug').get({
+                        return $resource(API_PREFIX + 'events/:slug').get({
                             slug: $stateParams.slug
                         }).$promise;
                     }],
                     shotgun: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(apiPrefix + 'events/:slug/shotgun').get({
+                        return $resource(API_PREFIX + 'events/:slug/shotgun').get({
                             slug: $stateParams.slug
                         }).$promise;
                     }]

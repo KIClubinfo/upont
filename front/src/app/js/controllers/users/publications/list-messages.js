@@ -17,7 +17,7 @@ angular.module('upont')
             // On demande confirmation
             alertify.prompt('Tu peux modifier ton message :', function(e, str){
                 if (e) {
-                    $http.patch(apiPrefix + 'newsitems/' + $scope.messages.data[index].slug, {text: str}).then(function() {
+                    $http.patch(API_PREFIX + 'newsitems/' + $scope.messages.data[index].slug, {text: str}).then(function() {
                         $scope.messages.data[index].text = str;
                         alertify.success('Message correctement édité');
                     });
@@ -31,7 +31,7 @@ angular.module('upont')
             // On demande confirmation
             alertify.confirm('Est-ce vraiment ce que tu veux ?', function(e){
                 if (e) {
-                    $resource(apiPrefix + 'newsitems/' + $scope.messages.data[index].slug).delete(function() {
+                    $resource(API_PREFIX + 'newsitems/' + $scope.messages.data[index].slug).delete(function() {
                         $scope.messages.data.splice(index, 1);
                     });
                 }
