@@ -1,3 +1,5 @@
+import { API_PREFIX } from 'upont/js/config/constants';
+
 angular.module('upont')
     .controller('KI_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'fixs', 'ownFixs', 'members', 'Paginate', 'Achievements', function($scope, $rootScope, $resource, $http, fixs, ownFixs, members, Paginate, Achievements) {
         $('#focus-input').focus();

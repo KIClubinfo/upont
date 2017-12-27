@@ -76,6 +76,22 @@ angular.module('upont').factory('ErrorCodes_Interceptor', [
 }])
 // FIXME hides errors related to ui-router 0.3.2
 .config(['$qProvider', $qProvider => $qProvider.errorOnUnhandledRejections(false)])
+.config(['calendarConfig', function(calendarConfig) {
+    calendarConfig.dateFormatter = 'moment';
+
+    calendarConfig.allDateFormats.moment.date.hour = 'HH:mm';
+    calendarConfig.allDateFormats.moment.date.datetime = 'D MMM, HH:mm';
+
+    calendarConfig.allDateFormats.moment.title.day = 'ddd D MMM';
+
+    calendarConfig.displayAllMonthEvents = true;
+    calendarConfig.displayEventEndTimes = true;
+    calendarConfig.showTimesOnWeekView = true;
+
+    calendarConfig.i18nStrings.eventsLabel = 'Événements';
+    calendarConfig.i18nStrings.timeLabel = 'Temps';
+    calendarConfig.i18nStrings.weekNumber = 'Semaine {week}';
+}])
 ;
 
 angular.module('upont').run([
@@ -114,10 +130,6 @@ angular.module('upont').run([
 
         // Diverses variables globales
         $rootScope.url = location.origin + API_PREFIX;
-        $rootScope.promos = $window.promos;
-        $rootScope.departments = $window.departments;
-        $rootScope.origins = $window.origins;
-        $rootScope.countries = $window.countries;
         $rootScope.displayTabs = true;
         $rootScope.showTopMenu = false;
 
@@ -191,9 +203,7 @@ angular.module('upont').run([
             $state.go('root.404');
         });
     }
-]);
-
-angular.module('upont').run([
+]).run([
     'redactorOptions',
     function(redactorOptions) {
         redactorOptions.buttons = [

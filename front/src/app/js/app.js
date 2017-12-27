@@ -1,3 +1,11 @@
+// Import php.js globally (super ugly!)
+require('script-loader!./php');
+
+require('../../libs/redactor/redactor');
+require('../../libs/redactor/table');
+require('../../libs/redactor/video');
+require('../../libs/redactor/fr');
+
 import angular from 'angular';
 
 import alertify from 'alertifyjs';
@@ -6,7 +14,6 @@ import moment from 'moment';
 import Raven from 'raven-js';
 
 import 'typeface-open-sans';
-// import 'fontawesome';
 
 import 'upont/css/loading/loading.css';
 import 'upont/css/loading/loading.less';
@@ -80,9 +87,54 @@ Highcharts.setOptions({
 });
 
 alertify.defaults = {
+    // dialogs defaults
+    autoReset: true,
+    basic: false,
+    closable: true,
+    closableByDimmer: true,
+    frameless: false,
+    maintainFocus: true, // <== global default not per instance, applies to all dialogs
+    maximizable: true,
+    modal: true,
+    movable: true,
+    moveBounded: false,
+    overflow: true,
+    padding: true,
+    pinnable: true,
+    pinned: true,
+    preventBodyShift: false, // <== global default not per instance, applies to all dialogs
+    resizable: true,
+    startMaximized: false,
+    transition: 'pulse',
+
+    // notifier defaults
+    notifier: {
+        // auto-dismiss wait time (in seconds)
+        delay: 5,
+        // default position
+        position: 'bottom-right',
+        // adds a close button to notifier messages
+        closeButton: false
+    },
+
+    // language resources
     glossary: {
-        ok: 'Oui !',
-        cancel: 'Non !'
+        // dialogs default title
+        title: 'uPont',
+        // ok button text
+        ok: 'OK',
+        // cancel button text
+        cancel: 'Annuler'
+    },
+
+    // theme settings
+    theme: {
+        // class name attached to prompt dialog input textbox.
+        input: 'ajs-input',
+        // class name attached to ok button
+        ok: 'ajs-ok',
+        // class name attached to cancel button
+        cancel: 'ajs-cancel'
     }
 };
 
@@ -99,11 +151,10 @@ const upont = angular.module('upont', [
     require('angular-jwt'),
 
     // Routing
-    // require('@uirouter/angularjs'),
     require('angular-ui-router'),
 
     // Additionnal | filters
-    // require('angular-filter'),
+    require('angular-filter'),
 
     // Analytics
     require('angulartics'),
@@ -124,7 +175,7 @@ const upont = angular.module('upont', [
 
     // 'naif.base64',
     // require('angular-animate'),
-    // 'ngFileUpload',
+    require('ng-file-upload'),
     // 'ngRaven',
     // 'ngSanitize',
     // 'ngTouch',
@@ -137,14 +188,14 @@ const upont = angular.module('upont', [
     'upontConfig'
 ]);
 
-import { API_PREFIX } from './config/constants';
+import {API_PREFIX} from './config/constants';
 
 (function() {
     // Get Angular's $http module.
     var initInjector = angular.injector(['ng']);
     var $http = initInjector.get('$http');
 
-    $http.get(API_PREFIX + 'config').then(function(success){
+    $http.get(API_PREFIX + 'config').then(function(success) {
         // Define a 'upontConfig' module.
         angular.module('upontConfig', []).constant('upontConfig', success.data);
 
@@ -154,26 +205,26 @@ import { API_PREFIX } from './config/constants';
 
             var $rootScope = angular.element(document.querySelector('[ng-app]') || document).injector().get('$rootScope');
 
-            $rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams){
-              console.log('$stateChangeStart to '+toState.to+'- fired when the transition begins. toState,toParams : \n',toState, toParams);
+            $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+                console.log('$stateChangeStart to ' + toState.to + '- fired when the transition begins. toState,toParams : \n', toState, toParams);
             });
 
-            $rootScope.$on('$stateChangeError',function(event, toState, toParams, fromState, fromParams){
-              console.log('$stateChangeError - fired when an error occurs during transition.');
-              console.log(arguments);
+            $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams) {
+                console.log('$stateChangeError - fired when an error occurs during transition.');
+                console.log(arguments);
             });
 
-            $rootScope.$on('$stateChangeSuccess',function(event, toState, toParams, fromState, fromParams){
-              console.log('$stateChangeSuccess to '+toState.name+'- fired once the state transition is complete.');
+            $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+                console.log('$stateChangeSuccess to ' + toState.name + '- fired once the state transition is complete.');
             });
 
-            $rootScope.$on('$viewContentLoaded',function(event){
-              console.log('$viewContentLoaded - fired after dom rendered',event);
+            $rootScope.$on('$viewContentLoaded', function(event) {
+                console.log('$viewContentLoaded - fired after dom rendered', event);
             });
 
-            $rootScope.$on('$stateNotFound',function(event, unfoundState, fromState, fromParams){
-              console.log('$stateNotFound '+unfoundState.to+'  - fired when a state cannot be found by its name.');
-              console.log(unfoundState, fromState, fromParams);
+            $rootScope.$on('$stateNotFound', function(event, unfoundState, fromState, fromParams) {
+                console.log('$stateNotFound ' + unfoundState.to + '  - fired when a state cannot be found by its name.');
+                console.log(unfoundState, fromState, fromParams);
             });
         });
     });

@@ -1,5 +1,7 @@
-angular.module('upont')
-    .controller('Courses_Simple_Ctrl', ['$scope', 'course', 'exercices', '$http', '$resource', function($scope, course, exercices, $http, $resource) {
+import { API_PREFIX } from 'upont/js/config/constants';
+
+class Resources_Courses_Simple_Ctrl {
+    constructor($scope, course, exercices, $http, $resource) {
         $scope.course = course;
         $scope.exercices = exercices;
         $scope.predicate = 'exercice.date';
@@ -83,28 +85,7 @@ angular.module('upont')
                 $scope.isLoading = false;
             });
         };
-    }])
-    .config(['$stateProvider', function($stateProvider) {
-        $stateProvider
-            .state('root.users.resources.courses.simple', {
-                url: '/:slug',
-                templateUrl: 'controllers/users/resources/course.html',
-                data: {
-                    title: 'Cours - uPont',
-                    top: true
-                },
-                controller: 'Courses_Simple_Ctrl',
-                resolve: {
-                    course: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(API_PREFIX + 'courses/:slug').get({
-                            slug: $stateParams.slug
-                        }).$promise;
-                    }],
-                    exercices: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(API_PREFIX + 'courses/:slug/exercices').query({
-                            slug: $stateParams.slug
-                        }).$promise;
-                    }]
-                }
-            });
-    }]);
+    }
+}
+
+export default Resources_Courses_Simple_Ctrl;

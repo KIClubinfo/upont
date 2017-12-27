@@ -1,5 +1,5 @@
-angular.module('upont')
-    .controller('Admin_Assos_Ctrl', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
+class Admin_Assos_Ctrl {
+    constructor($scope, $rootScope, $http) {
         $scope.club = {
             fullname: '',
             name: '',
@@ -38,16 +38,7 @@ angular.module('upont')
             };
         };
 
-    }])
-    .config(['$stateProvider', function($stateProvider) {
-        $stateProvider
-            .state('root.users.admin.assos', {
-                url: '/assos',
-                templateUrl: 'controllers/users/admin/assos.html',
-                controller: 'Admin_Assos_Ctrl',
-                data: {
-                    title: 'Administration des assos - uPont',
-                    top: true
-                }
-            });
-    }]);
+    }
+}
+
+export default Admin_Assos_Ctrl;

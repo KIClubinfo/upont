@@ -1900,9 +1900,9 @@ flush-write-stream@^1.0.0:
     inherits "^2.0.1"
     readable-stream "^2.0.4"
 
-fontawesome@^4.7.2:
-  version "4.7.2"
-  resolved "https://registry.yarnpkg.com/fontawesome/-/fontawesome-4.7.2.tgz#7f0c72ac7a6b029d3375bacb23522d9acfc50a52"
+font-awesome@^4.7.0:
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/font-awesome/-/font-awesome-4.7.0.tgz#8fa8cf0411a1a31afd07b06d2902bb9fc815a133"
 
 for-in@^1.0.1:
   version "1.0.2"
@@ -3705,6 +3705,10 @@ ng-annotate@1.2.1:
     stringset "~0.2.1"
     tryor "~0.1.2"
 
+ng-file-upload@^12.2.13:
+  version "12.2.13"
+  resolved "https://registry.yarnpkg.com/ng-file-upload/-/ng-file-upload-12.2.13.tgz#01800f3872e526f95310f8477e99e4f12d0d8d14"
+
 ng-infinite-scroll@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/ng-infinite-scroll/-/ng-infinite-scroll-1.3.0.tgz#c2e98d8fd134b0525a4d2cf58c95d9b583755112"
@@ -4584,6 +4588,10 @@ raw-body@2.3.2:
     iconv-lite "0.4.19"
     unpipe "1.0.0"
 
+raw-loader@~0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/raw-loader/-/raw-loader-0.5.1.tgz#0c3d0beaed8a01c966d9787bf778281252a979aa"
+
 rc@^1.1.7:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.2.tgz#d8ce9cb57e8d64d9c7badd9876c7c34cbe3c7077"
@@ -4884,6 +4892,12 @@ schema-utils@^0.3.0:
   dependencies:
     ajv "^5.0.0"
 
+script-loader@^0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/script-loader/-/script-loader-0.7.2.tgz#2016db6f86f25f5cf56da38915d83378bb166ba7"
+  dependencies:
+    raw-loader "~0.5.1"
+
 select-hose@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/select-hose/-/select-hose-2.0.0.tgz#625d8658f865af43ec962bfc376a37359a4994ca"
@@ -5063,13 +5077,9 @@ source-map-url@~0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/source-map-url/-/source-map-url-0.3.0.tgz#7ecaf13b57bcd09da8a40c5d269db33799d4aaf9"
 
-source-map@0.5.6:
+source-map@0.5.6, source-map@0.5.x, source-map@0.X, source-map@^0.5.1, source-map@^0.5.3, source-map@^0.5.6, source-map@~0.5.0, source-map@~0.5.1, source-map@~0.5.3:
   version "0.5.6"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.6.tgz#75ce38f52bf0733c5a7f0c118d81334a2bb5f412"
-
-source-map@0.5.x, source-map@0.X, source-map@^0.5.1, source-map@^0.5.3, source-map@^0.5.6, source-map@~0.5.0, source-map@~0.5.1, source-map@~0.5.3:
-  version "0.5.7"
-  resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.7.tgz#8a039d2d1021d22d1ea14c80d8ea468ba2ef3fcc"
 
 source-map@^0.1.38:
   version "0.1.43"

@@ -28,7 +28,7 @@ class Aside_Ctrl {
                 });
         };
         // Gens en ligne
-        refreshData = function() {
+        const refreshData = () => {
             $resource(API_PREFIX + 'refresh').get(function(data){
                 $scope.online = data.online;
                 $scope.open = data.open;

@@ -1,3 +1,5 @@
+import { API_PREFIX } from 'upont/js/config/constants';
+
 class Students_Game_Ctrl {
     constructor($scope, $rootScope, $http, $timeout, Achievements, globalStatistics) {
         $scope.playing = false;

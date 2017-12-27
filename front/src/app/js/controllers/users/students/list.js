@@ -1,5 +1,9 @@
+import constants from 'upont/js/config/constants';
+
 class Students_List_Ctrl {
     constructor($scope, users, Paginate) {
+        $scope.PROMOS = constants.PROMOS;
+
         $scope.users = users;
         $scope.search = {
             promo: 'all',

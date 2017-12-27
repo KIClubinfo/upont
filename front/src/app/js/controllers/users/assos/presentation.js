@@ -1,5 +1,9 @@
+import constants, { API_PREFIX } from 'upont/js/config/constants';
+
 angular.module('upont')
     .controller('Assos_Presentation_Ctrl', ['$scope', '$http', '$sce', '$filter', function($scope, $http, $sce, $filter) {
+        $scope.PROMOS = constants.PROMOS;
+
         $scope.presentation = $sce.trustAsHtml($scope.club.presentation);
         $scope.edit = false;
 

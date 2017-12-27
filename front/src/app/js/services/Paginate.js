@@ -4,7 +4,7 @@ import { API_PREFIX } from 'upont/js/config/constants';
 
 
 angular.module('upont').factory('Paginate', ['$resource', '$q', '$rootScope', function($resource, $q, $rootScope) {
-    loadData = function(load, url, append) {
+    const loadData = (load, url, append) => {
         // On indique qu'on est en train de charger de nouvelles données
         $rootScope.infiniteLoading = true;
         var defered = $q.defer();

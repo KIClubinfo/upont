@@ -1,3 +1,5 @@
+import { API_PREFIX } from 'upont/js/config/constants';
+
 angular.module('upont')
     .controller('Assos_List_Ctrl', ['$rootScope', '$scope', 'clubs', function($rootScope, $scope, clubs) {
         $scope.clubs = clubs;

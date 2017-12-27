@@ -1,3 +1,8 @@
+import { API_PREFIX } from 'upont/js/config/constants';
+
+import template_user from './user.html';
+
+
 angular.module('upont').directive('upUser', function() {
     return {
         transclude: true,
@@ -45,6 +50,6 @@ angular.module('upont').directive('upUser', function() {
                 $scope.hover = false;
             });
         }],
-        templateUrl: 'directives/user.html'
+        templateUrl: template_user
     };
 });

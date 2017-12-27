@@ -1,7 +1,7 @@
 <div row="space-between start" class="padded" ng-if="!isExterieur">
     <div col flex="100" flex-md="66">
-        <div ng-include="'controllers/users/publications/post.html'"></div>
-        <div ng-include="'controllers/users/publications/list.html'"></div>
+        <div ui-view="post"></div>
+        <div ui-view="list"></div>
     </div>
 
     <div col flex="33" class="flex-hide-xs  flex-hide-sm">
@@ -34,9 +34,7 @@
             </p>
         </div>
 
-        <div ng-include="'controllers/users/publications/post-messages.html'"></div>
-        <div ng-include="'controllers/users/publications/list-messages.html'"></div>
     </div>
 </div>
 
-<div ng-if="$root.isExterieur" ng-include="'controllers/users/administration/index.html'"></div>
+<!-- <div ng-if="$root.isExterieur" ui-view="administration"></div> -->

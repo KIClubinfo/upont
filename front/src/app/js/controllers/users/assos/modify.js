@@ -1,8 +1,12 @@
+import constants, { API_PREFIX } from 'upont/js/config/constants';
+
 angular.module('upont')
     .controller('Assos_Modify_Ctrl', ['$scope', '$controller', '$http', '$state', function($scope, $controller, $http, $state) {
+        $scope.PROMOS = constants.PROMOS;
+
         $scope.showIcons = false;
         $scope.isLoading = false;
-        $scope.faIcons = faIcons;
+        $scope.faIcons = constants.FA_ICONS;
         $scope.search = '';
         $scope.searchResults = [];
         var clubSlug = $scope.club.name;

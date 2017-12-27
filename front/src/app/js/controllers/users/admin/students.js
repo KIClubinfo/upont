@@ -1,5 +1,7 @@
-angular.module('upont')
-    .controller('Admin_Students_Ctrl', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
+import { API_PREFIX } from 'upont/js/config/constants';
+
+class Admin_Students_Ctrl {
+    constructor($scope, $rootScope, $http) {
         $scope.firstName = '';
         $scope.lastName = '';
         $scope.email = '';
@@ -51,25 +53,7 @@ angular.module('upont')
                 alertify.success('Import effectué, un rapport a été envoyé à upont@clubinfo.enpc.fr');
             });
         };
-    }])
-    .config(['$stateProvider', function($stateProvider) {
-        $stateProvider
-            .state('root.users.admin', {
-                url: 'admin',
-                templateUrl: 'controllers/users/admin/index.html',
-                abstract: true,
-                data: {
-                    title: 'Administration - uPont',
-                    top: true
-                }
-            })
-            .state('root.users.admin.students', {
-                url: '/eleves',
-                templateUrl: 'controllers/users/admin/students.html',
-                controller: 'Admin_Students_Ctrl',
-                data: {
-                    title: 'Administration des élèves - uPont',
-                    top: true
-                }
-            });
-    }]);
+    }
+}
+
+export default Admin_Students_Ctrl;

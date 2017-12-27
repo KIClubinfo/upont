@@ -1,8 +1,10 @@
+import { API_PREFIX, FA_ICONS } from 'upont/js/config/constants';
+
 angular.module('upont')
     .controller('Administration_Modify_Ctrl', ['$rootScope', '$scope', '$http', '$state', 'club', function($rootScope, $scope, $http, $state, club) {
         $scope.club = club;
         $scope.showIcons = false;
-        $scope.faIcons = faIcons;
+        $scope.faIcons = FA_ICONS;
         $scope.search = '';
         $scope.searchResults = [];
         $scope.user = $rootScope.me;

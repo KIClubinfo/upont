@@ -1,3 +1,5 @@
+import { API_PREFIX } from 'upont/js/config/constants';
+
 angular.module('upont')
     .controller('Administration_Presentation_Ctrl', ['$scope', '$http', '$sce', '$filter', 'club', function($scope, $http, $sce, $filter, club) {
         $scope.presentation = club.presentation;

@@ -22,8 +22,7 @@ module.exports = {
         rules: [
             {
                 test: /src\/app\/.*\.js$/,
-                use: [
-                    // {
+                use: [// {
                     //     loader: 'ng-annotate-loader'
                     // },
                     {
@@ -90,7 +89,8 @@ module.exports = {
                 from: 'public/'
             }
         ]),
-        new webpack.ProvidePlugin({$: "jquery", jQuery: "jquery"}), // Automatically move all modules defined outside of application directory to vendor bundle.
+        new webpack.ProvidePlugin({$: "jquery", jQuery: "jquery"}),
+        // Automatically move all modules defined outside of application directory to vendor bundle.
         new webpack.optimize.CommonsChunkPlugin({
             minChunks: (module, count) => module.resource && module.resource.indexOf(path.resolve(__dirname, 'src')) === -1,
             name: 'vendors'

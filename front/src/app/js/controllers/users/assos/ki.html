@@ -14,7 +14,7 @@
         </div>
 
         <div row wrap>
-            <div ng-repeat="fix in ownFixs.data | filter:{fix:true} | statusFilter" ng-include="'controllers/users/assos/fix.html'" flex="100"></div>
+            <div ng-repeat="fix in ownFixs.data | filter:{fix:true} | statusFilter" ng-include="'src/app/js/controllers/users/assos/fix.html'" flex="100"></div>
         </div>
 
         <div ng-if="isFromKI" class="Ticket">
@@ -24,7 +24,7 @@
         </div>
 
         <div ng-if="isFromKI" row wrap>
-            <div ng-repeat="fix in fixs.data | filter:{fix:true} | statusFilter" ng-include="'controllers/users/assos/fix.html'" flex="100"></div>
+            <div ng-repeat="fix in fixs.data | filter:{fix:true} | statusFilter" ng-include="'src/app/js/controllers/users/assos/fix.html'" flex="100"></div>
         </div>
     </div>
 
@@ -43,7 +43,7 @@
         </div>
 
         <div row wrap>
-            <div flex="100" ng-repeat="fix in fixs.data | filter:{fix:false} | statusFilter" ng-include="'controllers/users/assos/fix.html'"></div>
+            <div flex="100" ng-repeat="fix in fixs.data | filter:{fix:false} | statusFilter" ng-include="'src/app/js/controllers/users/assos/fix.html'"></div>
         </div>
     </div>
 </div>

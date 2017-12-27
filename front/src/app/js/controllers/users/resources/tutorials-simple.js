@@ -1,11 +1,13 @@
-angular.module('upont')
-    .controller('Tutorial_Ctrl', ['$scope', 'tuto', '$http', '$sce', '$state', function($scope, tuto, $http, $sce, $state) {
+import { FA_ICONS } from 'upont/js/config/constants';
+
+class Resource_Tutorials_Simple_Ctrl {
+    constructor($scope, tuto, $http, $sce, $state) {
         $scope.tuto = tuto;
         $scope.presentation = $sce.trustAsHtml($scope.tuto.text);
         $scope.edit = false;
         var tutoSlug = tuto.name;
         $scope.showIcons = false;
-        $scope.faIcons = faIcons;
+        $scope.faIcons = FA_ICONS;
 
         $scope.editTuto = function() {
             $scope.edit = true;
@@ -51,24 +53,7 @@ angular.module('upont')
                 }
             });
         };
-    }])
-    .config(['$stateProvider', function($stateProvider) {
-        $stateProvider
-            .state('root.users.resources.tutorials.simple', {
-                url: '/:slug',
-                templateUrl: 'controllers/users/resources/tutorial.html',
-                controller: 'Tutorial_Ctrl',
-                data: {
-                    title: 'Tutoriels - uPont',
-                    top: true
-                },
-                resolve: {
-                    tuto: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(API_PREFIX + 'tutos/:slug').get({
-                            slug: $stateParams.slug
-                        }).$promise;
-                    }],
-                },
-            })
-        ;
-    }]);
+    }
+}
+
+export default Resource_Tutorials_Simple_Ctrl;

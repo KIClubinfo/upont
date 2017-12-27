@@ -1,8 +1,7 @@
-angular.module('upont')
-    .controller('Publications_Ctrl', ['$scope', 'newsItems', 'events', 'messages', 'courseitems', function($scope, newsItems, events, messages, courseitems) {
+class Publications_Ctrl {
+    constructor($scope, newsItems, events, courseItems) {
         $scope.events = events;
         $scope.newsItems = newsItems;
-        $scope.messages = messages;
 
         $scope.calendarView = 'day';
 
@@ -38,13 +37,13 @@ angular.module('upont')
                 });
             }
         }
-        for (i = 0; i < courseitems.length; i++) {
-            var group = courseitems[i].group;
+        for (i = 0; i < courseItems.length; i++) {
+            var group = courseItems[i].group;
             $scope.calendarEvents.push({
                 type: 'info',
-                startsAt: new Date(courseitems[i].start_date*1000),
-                endsAt: new Date(courseitems[i].end_date*1000),
-                title: '[' + courseitems[i].location + '] ' + courseitems[i].course.name + ((group != '0' && group !== undefined) ? ' (Gr ' + group +')' : ''),
+                startsAt: new Date(courseItems[i].start_date*1000),
+                endsAt: new Date(courseItems[i].end_date*1000),
+                title: '[' + courseItems[i].location + '] ' + courseItems[i].course.name + ((group != '0' && group !== undefined) ? ' (Gr ' + group +')' : ''),
                 editable: false,
                 deletable: false,
                 draggable: false,
@@ -52,8 +51,12 @@ angular.module('upont')
                 incrementsBadgeTotal: true,
             });
         }
-    }])
-    .controller('Publications_List_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'newsItems', 'events', 'Paginate', 'Achievements', '$location', function($scope, $rootScope, $resource, $http, newsItems, events, Paginate, Achievements, $location) {
+    }
+}
+
+class Publications_List_Ctrl extends Publications_Ctrl {
+    constructor($scope, $rootScope, $resource, $http, newsItems, events, courseItems, Paginate, Achievements, $location) {
+        super($scope, newsItems, events, courseItems);
         $scope.events = events;
         $scope.newsItems = newsItems;
         $scope.edit = null;
@@ -192,69 +195,7 @@ angular.module('upont')
                 $rootScope.$broadcast('newNewsitem');
             });
         };
-    }])
-    .config(['$stateProvider', function($stateProvider) {
-        $stateProvider
-            .state('root.users.publications', {
-                url: '',
-                template: '<div ui-view></div>',
-                abstract: true,
-                data: {
-                    title: 'Accueil - uPont',
-                    top: true
-                }
-            })
-            .state('root.users.publications.index', {
-                url: '',
-                templateUrl: 'controllers/users/publications/index.html',
-                data: {
-                    title: 'Accueil - uPont',
-                    top: true
-                },
-                controller: 'Publications_Ctrl',
-                resolve: {
-                    newsItems: ['Paginate', 'Permissions', '$rootScope', function(Paginate, Permissions, $rootScope) {
+    }
+}
 
-                        // Si c'est l'administration on ne charge que le seul club de l'user actuel
-                        if (Permissions.hasRight('ROLE_EXTERIEUR'))
-                            return Paginate.get('clubs/' + Permissions.username() + '/newsitems?sort=-date', 10);
-                        return Paginate.get('own/newsitems?sort=-date', 10);
-                    }],
-                    events: ['Paginate', 'Permissions', '$rootScope', function(Paginate, Permissions, $rootScope) {
-                        // Si c'est l'administration on ne charge que le seul club de l'user actuel
-                        if (Permissions.hasRight('ROLE_EXTERIEUR'))
-                            return Paginate.get('clubs/' + Permissions.username() + '/events?sort=-date', 10);
-                        return Paginate.get('own/events', 10);
-                    }],
-                    messages: ['Paginate', function(Paginate) {
-                        return Paginate.get('newsitems?sort=-date&limit=10&name=message');
-                    }],
-                    courseitems: ['$resource', function($resource) {
-                        return $resource(API_PREFIX + 'own/courseitems').query().$promise;
-                    }]
-                }
-            })
-            .state('root.users.publications.simple', {
-                url: 'publications/:slug',
-                templateUrl: 'controllers/users/publications/list.html',
-                data: {
-                    title: 'Publication - uPont',
-                    top: true
-                },
-                controller: 'Publications_Ctrl',
-                resolve: {
-                    newsItems: ['Paginate', '$stateParams', function(Paginate, $stateParams) {
-                        return Paginate.get('newsitems?slug=' + $stateParams.slug);
-                    }],
-                    events: ['Paginate', '$stateParams', function(Paginate, $stateParams) {
-                        return Paginate.get('events?slug=' + $stateParams.slug);
-                    }],
-                    messages: ['Paginate', '$stateParams', function(Paginate, $stateParams) {
-                        return Paginate.get('newsitems?slug=' + $stateParams.slug);
-                    }],
-                    courseitems: function($resource) {
-                        return [];
-                    }
-                }
-            });
-    }]);
+export default Publications_List_Ctrl;

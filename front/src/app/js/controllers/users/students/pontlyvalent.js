@@ -1,5 +1,7 @@
-angular.module('upont')
-    .controller('Students_Pontlyvalent_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'comments', function($scope, $rootScope, $resource, $http, comments) {
+import { API_PREFIX } from 'upont/js/config/constants';
+
+class Students_Pontlyvalent_Ctrl {
+    constructor($scope, $rootScope, $resource, $http, comments) {
         $scope.searchResultsPost = [];
         $scope.searchPost = '';
         $scope.searchName = '';
@@ -48,21 +50,7 @@ angular.module('upont')
             });
         };
 
-    }])
-    .config(['$stateProvider', function($stateProvider) {
-        $stateProvider
-            .state('root.users.students.pontlyvalent', {
-                url: '/pontlyvalent',
-                templateUrl: 'controllers/users/students/pontlyvalent.html',
-                controller: 'Students_Pontlyvalent_Ctrl',
-                resolve: {
-                    comments: ['$resource', function($resource) {
-                        return $resource(API_PREFIX + 'users/pontlyvalent').query().$promise;
-                    }]
-                },
-                data: {
-                    title: 'Pontlyvalent - uPont',
-                    top: true
-                },
-            });
-    }]);
+    }
+}
+
+export default Students_Pontlyvalent_Ctrl;

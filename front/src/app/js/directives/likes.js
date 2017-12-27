@@ -1,3 +1,9 @@
+import { API_PREFIX } from 'upont/js/config/constants';
+
+
+import template_likes from './likes.html';
+
+
 angular.module('upont').directive('upLikes', function() {
     return {
         scope: {
@@ -199,6 +205,6 @@ angular.module('upont').directive('upLikes', function() {
                 });
             };
         }],
-        templateUrl : 'directives/likes.html'
+        templateUrl : template_likes
     };
 });

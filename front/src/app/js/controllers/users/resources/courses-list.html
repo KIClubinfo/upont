@@ -5,7 +5,7 @@
     <div class="padded" flex="100">
         <select class="Input" ng-model="search.department" ng-change="reload(search)">
             <option value="all">Tous</option>
-            <option ng-repeat="item in $root.departments">{{ item }}</option>
+            <option ng-repeat="item in DEPARTMENTS">{{ item }}</option>
             <option>SHS</option>
             <option>DFL</option>
         </select>

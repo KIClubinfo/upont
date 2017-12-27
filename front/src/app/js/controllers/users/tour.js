@@ -1,5 +1,7 @@
+import alertify from 'alertifyjs';
+
 class Tour_Ctrl {
-    constructor($scope, $rootScope, $http, $state, Achievements) {
+    constructor($scope, $rootScope, $http, $sce, $state, Achievements) {
         const steps = [
             {
                 state: 'root.users.publications.index',
@@ -133,14 +135,14 @@ class Tour_Ctrl {
             $state.go(steps[step].state, steps[step].params).then(function(){
                 $scope.step = step;
                 $scope.icon = steps[step].icon;
-                $scope.text = steps[step].text;
+                $scope.text = $sce.trustAsHtml(steps[step].text);
             });
         };
 
         if ($rootScope.me !== undefined && ($rootScope.me.tour === undefined || !$rootScope.me.tour)) {
             $scope.step = 0;
             $scope.icon = steps[0].icon;
-            $scope.text = steps[0].text;
+            $scope.text = $sce.trustAsHtml(steps[0].text);
         }
 
         $rootScope.$on('tourEnabled', function() {

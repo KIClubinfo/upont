@@ -1,5 +1,7 @@
-angular.module('upont')
-    .controller('Publications_Post_Ctrl', ['$scope', '$rootScope', '$http', '$stateParams', 'Achievements', 'Upload', function($scope, $rootScope, $http, $stateParams, Achievements, Upload) {
+import moment from 'moment';
+
+class Publications_Post_Ctrl {
+    constructor($scope, $rootScope, $http, $stateParams, Achievements, Upload) {
         // Fonctions relatives à la publication
         var clubDummy = {name: 'Au nom de...'};
         var club = clubDummy;
@@ -230,4 +232,7 @@ angular.module('upont')
             $scope.post = post;
             window.scrollTo(0, 0);
         });
-    }]);
+    }
+}
+
+export default Publications_Post_Ctrl;

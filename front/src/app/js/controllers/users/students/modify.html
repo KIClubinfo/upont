@@ -32,7 +32,7 @@
             </div>
             <div class="padded" flex="50" flex-md="25">
                 <select class="Input" ng-model="user.promo">
-                    <option ng-repeat="item in $root.promos | reverse">{{ item }}</option>
+                    <option ng-repeat="item in PROMOS | reverse">{{ item }}</option>
                 </select>
             </div>
 
@@ -53,7 +53,7 @@
             </div>
             <div class="padded" flex="50" flex-md="25">
                 <select class="Input" ng-model="user.nationality">
-                    <option ng-repeat="item in $root.countries">{{ item }}</option>
+                    <option ng-repeat="item in COUNTRIES">{{ item }}</option>
                 </select>
             </div>
 
@@ -78,7 +78,7 @@
             </div>
             <div class="padded" flex="50" flex-md="25">
                 <select class="Input" ng-model="user.department">
-                    <option ng-repeat="item in $root.departments">{{ item }}</option>
+                    <option ng-repeat="item in DEPARTMENTS">{{ item }}</option>
                 </select>
             </div>
 
@@ -88,7 +88,7 @@
             </div>
             <div class="padded" flex="50" flex-md="25">
                 <select class="Input" ng-model="user.origin">
-                    <option ng-repeat="item in $root.origins">{{ item }}</option>
+                    <option ng-repeat="item in ORIGINS">{{ item }}</option>
                 </select>
             </div>
 
@@ -242,15 +242,15 @@
         <section class="padded text-center" row="center stretch" wrap ng-show="openICS == 'iOS'">
             <figure class="padded" flex="33">
                 <figcaption class="padded"><strong>1.</strong> Va dans "Réglages" puis dans "Mail, Contacts, Calendrier"</figcaption>
-                <img class="Image" src="img/tuto-ics-ios-1.png" alt="Cliquer sur Abonnement à un calendrier...">
+                <img class="Image" src="/img/tuto-ics-ios-1.png" alt="Cliquer sur Abonnement à un calendrier...">
             </figure>
             <figure class="padded" flex="33">
                 <figcaption class="padded"><strong>2.</strong> Clique sur "Ajouter un compte" puis sur "Autre"</figcaption>
-                <img class="Image" src="img/tuto-ics-ios-2.png" alt="Cliquer sur Ajouter un calendrier avec abonnement">
+                <img class="Image" src="/img/tuto-ics-ios-2.png" alt="Cliquer sur Ajouter un calendrier avec abonnement">
             </figure>
             <figure class="padded" flex="33">
                 <figcaption class="padded"><strong>3.</strong> Clique sur "Ajouter un calendrier avec abonnement"</figcaption>
-                <img class="Image" src="img/tuto-ics-ios-3.png" alt="Copier le lien"/>
+                <img class="Image" src="/img/tuto-ics-ios-3.png" alt="Copier le lien"/>
             </figure>
             <p flex="100">
                 <strong>4.</strong> Copie le lien suivant : <a class="Link" title="Calendrier ICS" ng-click="achievementCheck()" ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a><br>
@@ -265,11 +265,11 @@
         <section class="padded text-center" row="center stretch" wrap ng-show="openICS == 'mac'">
             <figure class="padded" flex="50">
                 <figcaption class="padded"><strong>1.</strong> Clique sur "Fichier", puis sur "Abonnement à un calendrier..."</figcaption>
-                <img class="Image" src="img/tuto-ics-mac-1.png" alt="Cliquer sur Abonnement à un calendrier..."/>
+                <img class="Image" src="/img/tuto-ics-mac-1.png" alt="Cliquer sur Abonnement à un calendrier..."/>
             </figure>
             <figure class="padded" flex="50">
                 <figcaption class="padded"><strong>2.</strong> Copie-colle le lien suivant : <a class="Link" title="Calendrier ICS" ng-click="achievementCheck()" ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a></figcaption>
-                <img class="Image" src="img/tuto-ics-mac-2.png" alt="Copier coller le lien"/>
+                <img class="Image" src="/img/tuto-ics-mac-2.png" alt="Copier coller le lien"/>
             </figure>
 
             <p flex="100">
@@ -289,11 +289,11 @@
 
             <figure class="padded" flex="50">
                 <figcaption class="padded"><strong>1.</strong> Clique sur "Ajouter par URL" dans la catégorie "Autres agendas" de Calendar</figcaption>
-                <img class="Image" src="img/tuto-ics-google-calendar-1.png" alt="Cliquer sur ajouter par URL"/>
+                <img class="Image" src="/img/tuto-ics-google-calendar-1.png" alt="Cliquer sur ajouter par URL"/>
             </figure>
             <figure class="padded" flex="50">
                 <figcaption class="padded"><strong>2.</strong> Copie-colle le lien suivant : <a  ng-click="achievementCheck()" title="Calendrier ICS" ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a></figcaption>
-                <img class="Image" src="img/tuto-ics-google-calendar-2.png" alt="Copier coller le lien"/>
+                <img class="Image" src="/img/tuto-ics-google-calendar-2.png" alt="Copier coller le lien"/>
             </figure>
 
             <p flex="100">
@@ -309,15 +309,15 @@
         <section class="padded text-center" row="center stretch" wrap ng-show="openICS == 'thunderbird'">
             <figure class="padded" flex="50">
                 <figcaption class="padded"><strong>1.</strong> Cliques droit dans le menu de gauche dans la partie "Agendas" et fais "Nouvel Agenda"</figcaption>
-                <img class="Image" src="img/tuto-ics-thunderbird-1.png" alt="Cliquer sur ajouter par URL"/>
+                <img class="Image" src="/img/tuto-ics-thunderbird-1.png" alt="Cliquer sur ajouter par URL"/>
             </figure>
             <figure class="padded" flex="50">
                 <figcaption class="padded"><strong>2.</strong> Choisis "Sur le réseau"</figcaption>
-                <img class="Image" src="img/tuto-ics-thunderbird-2.png" alt="Choisir sur le réseau"/>
+                <img class="Image" src="/img/tuto-ics-thunderbird-2.png" alt="Choisir sur le réseau"/>
             </figure>
             <figure class="padded" flex="50">
                 <figcaption class="padded"><strong>3.</strong> Copie-colle le lien suivant : <a  ng-click="achievementCheck()" title="Calendrier ICS" ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a></figcaption>
-                <img class="Image" src="img/tuto-ics-thunderbird-3.png" alt="Copier coller le lien"/>
+                <img class="Image" src="/img/tuto-ics-thunderbird-3.png" alt="Copier coller le lien"/>
             </figure>
 
             <p flex="100">

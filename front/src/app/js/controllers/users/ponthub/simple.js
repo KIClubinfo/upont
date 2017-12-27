@@ -1,5 +1,7 @@
-angular.module('upont')
-    .controller('Ponthub_Element_Ctrl', ['$scope', '$state', '$stateParams', '$q', 'Ponthub', 'StorageService', '$window', '$http', '$resource', 'element', 'episodes', function($scope, $state, $stateParams, $q, Ponthub, StorageService, $window, $http, $resource, element, episodes) {
+import moment from 'moment';
+
+class Ponthub_Simple_Ctrl {
+    constructor($scope, $state, $stateParams, $q, Ponthub, StorageService, $window, $http, $resource, element, episodes) {
         $scope.element = element;
         $scope.category = $stateParams.category;
         $scope.lastWeek = moment().subtract(7, 'days').unix();
@@ -62,5 +64,7 @@ angular.module('upont')
                     return $scope.element.downloads;
             }
         };
-    }])
-;
+    }
+}
+
+export default Ponthub_Simple_Ctrl;

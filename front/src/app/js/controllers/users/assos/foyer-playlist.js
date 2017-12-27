@@ -1,3 +1,5 @@
+import { API_PREFIX } from 'upont/js/config/constants';
+
 angular.module('upont')
     .controller('Foyer_Playlist_Ctrl', ['$scope', '$rootScope', '$http', 'youtube', 'stats', 'members', 'Paginate', function($scope, $rootScope, $http, youtube, stats, members, Paginate) {
         $('#focus-input').focus();

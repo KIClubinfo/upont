@@ -1,5 +1,12 @@
-angular.module('upont')
-    .controller('Students_Modify_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'preferences', 'user', 'clubs', 'clubsSuivis', 'token', 'devices', 'Achievements', function($scope, $rootScope, $resource, $http, preferences, user, clubs, clubsSuivis, token, devices, Achievements) {
+import constants, { API_PREFIX } from 'upont/js/config/constants';
+
+class Students_Modify_Ctrl {
+    constructor($scope, $rootScope, $resource, $http, preferences, user, clubs, clubsSuivis, token, devices, Achievements) {
+        $scope.COUNTRIES = constants.COUNTRIES;
+        $scope.DEPARTMENTS = constants.DEPARTMENTS;
+        $scope.ORIGINS = constants.ORIGINS;
+        $scope.PROMOS = constants.PROMOS;
+
         for (var i = 0; i < clubsSuivis.length; i++)
             clubsSuivis[i] = clubsSuivis[i].slug;
 
@@ -113,38 +120,7 @@ angular.module('upont')
                 alertify.success('Tutoriel réactivé !');
             });
         };
-    }])
-    .config(['$stateProvider', function($stateProvider) {
-        $stateProvider
-            .state('root.users.students.modify', {
-                url: '/:slug/modifier',
-                templateUrl: 'controllers/users/students/modify.html',
-                controller: 'Students_Modify_Ctrl',
-                resolve: {
-                    preferences: ['$resource', function($resource) {
-                        return $resource(API_PREFIX + 'own/preferences').get().$promise;
-                    }],
-                    token: ['$resource', function($resource) {
-                        return $resource(API_PREFIX + 'own/token').get().$promise;
-                    }],
-                    devices: ['$resource', function($resource) {
-                        return $resource(API_PREFIX + 'own/devices').query().$promise;
-                    }],
-                    user: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(API_PREFIX + 'users/:slug').get({
-                            slug: $stateParams.slug
-                        }).$promise;
-                    }],
-                    clubs: ['$resource', function($resource) {
-                        return $resource(API_PREFIX + 'clubs?sort=name').query().$promise;
-                    }],
-                    clubsSuivis: ['$resource', function($resource) {
-                        return $resource(API_PREFIX + 'own/followed').query().$promise;
-                    }]
-                },
-                data: {
-                    title: 'Profil - uPont',
-                    top: true
-                }
-            });
-    }]);
+    }
+}
+
+export default Students_Modify_Ctrl;

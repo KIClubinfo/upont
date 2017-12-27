@@ -1,5 +1,7 @@
-angular.module('upont')
-    .controller('Courses_List_Ctrl', ['$scope', '$rootScope', 'courses', 'followed', 'Paginate', '$http', '$resource', 'Achievements', function($scope, $rootScope, courses, followed, Paginate, $http, $resource, Achievements) {
+import { API_PREFIX } from 'upont/js/config/constants';
+
+class Resources_Courses_List_Ctrl {
+    constructor($scope, $rootScope, courses, followed, Paginate, $http, $resource, Achievements) {
         $scope.courses = courses;
         $scope.modo = false;
         $scope.search = {
@@ -174,42 +176,7 @@ angular.module('upont')
                 });
             });
         };
-    }])
-    .config(['$stateProvider', function($stateProvider) {
-        $stateProvider
-            .state('root.users.resources', {
-                url: 'ressources',
-                templateUrl: 'controllers/users/resources/index.html',
-                abstract: true,
-                data: {
-                    title: 'Ressources - uPont',
-                    top: true
-                }
-            })
-            .state('root.users.resources.courses', {
-                url: '/cours',
-                abstract: true,
-                template: '<div ui-view></div>',
-                data: {
-                    title: 'Cours - uPont',
-                    top: true
-                },
-            })
-            .state('root.users.resources.courses.list', {
-                url: '',
-                templateUrl: 'controllers/users/resources/courses.html',
-                data: {
-                    title: 'Liste des cours - uPont',
-                    top: true
-                },
-                controller: 'Courses_List_Ctrl',
-                resolve: {
-                    courses: ['Paginate', function(Paginate) {
-                        return Paginate.get('courses?sort=name', 50);
-                    }],
-                    followed: ['$resource', function($resource) {
-                        return $resource(API_PREFIX + 'own/courses').query().$promise;
-                    }]
-                },
-            });
-    }]);
+    }
+}
+
+export default Resources_Courses_List_Ctrl;

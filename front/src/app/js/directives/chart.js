@@ -1,3 +1,5 @@
+import Highcharts from 'highcharts';
+
 angular.module('upont').directive('upChart', function() {
     return {
         priority: 10001,

@@ -1,5 +1,5 @@
-angular.module('upont')
-    .controller('Ponthub_Statistics_Ctrl', ['$scope', 'ponthub', function($scope, ponthub) {
+class Ponthub_Statistics_Ctrl {
+    constructor($scope, ponthub) {
         $scope.chartDownloaders = {
             chart: {
                 renderTo: 'downloaders',
@@ -334,4 +334,7 @@ angular.module('upont')
             },
             series: ponthub.years.series
         };
-    }]);
+    }
+}
+
+export default Ponthub_Statistics_Ctrl;

@@ -1,3 +1,6 @@
+import template_panel from './panel.html';
+
+
 angular.module('upont').directive('upPanel', function() {
     return {
         transclude: true,
@@ -11,6 +14,6 @@ angular.module('upont').directive('upPanel', function() {
                 $scope.isShown = !$scope.isShown;
             };
         }],
-        templateUrl: 'directives/panel.html',
+        templateUrl: template_panel,
     };
 });

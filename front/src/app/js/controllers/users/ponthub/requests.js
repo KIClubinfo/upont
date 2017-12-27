@@ -1,5 +1,7 @@
-angular.module('upont')
-    .controller('Ponthub_Requests_Ctrl', ['$rootScope', '$scope', '$http','$resource', 'requests', function($rootScope, $scope, $http, $resource, requests) {
+import { API_PREFIX } from 'upont/js/config/constants';
+
+class Ponthub_Requests_Ctrl {
+    constructor($rootScope, $scope, $http, $resource, requests) {
         $scope.requests = requests;
         $scope.predicate = 'votes';
         $scope.reverse = true;
@@ -43,4 +45,7 @@ angular.module('upont')
             ;
         };
 
-    }]);
+    }
+}
+
+export default Ponthub_Requests_Ctrl;

@@ -164,7 +164,7 @@
     </table>
 
     <select class="Input" ng-model="promo">
-        <option ng-repeat="promoItem in $root.promos"
+        <option ng-repeat="promoItem in PROMOS"
                 ng-selected="promoItem == promo"
                     value="{{ promoItem }}">Année '{{ promoItem }}</option>
     </select>

@@ -41,7 +41,7 @@
             </table>
 
             <select class="Input" ng-model="promo">
-                <option ng-selected="promoItem == promo" ng-repeat="promoItem in $root.promos | reverse"
+                <option ng-selected="promoItem == promo" ng-repeat="promoItem in PROMOS | reverse"
                         value="{{ promoItem }}">Année '{{ promoItem }}</option>
             </select>
         </section>

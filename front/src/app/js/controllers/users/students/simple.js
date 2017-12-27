@@ -1,5 +1,7 @@
-angular.module('upont')
-    .controller('Students_Simple_Ctrl', ['$rootScope', '$scope', '$resource', '$http', 'user', 'foyer', 'ponthub', 'clubs', 'achievements', function($rootScope, $scope, $resource, $http, user, foyer, ponthub, clubs, achievements) {
+import Highcharts from 'highcharts';
+
+class Students_Simple_Ctrl {
+    constructor($rootScope, $scope, $resource, $http, user, foyer, ponthub, clubs, achievements) {
         $scope.user = user;
         $scope.foyer = foyer;
         $scope.displayFoyer = user.stats_foyer;
@@ -291,43 +293,7 @@ angular.module('upont')
                 }]
             };
         }
-    }])
-    .config(['$stateProvider', function($stateProvider) {
-        $stateProvider
-            .state('root.users.students.simple', {
-                url: '/:slug',
-                templateUrl: 'controllers/users/students/simple.html',
-                controller: 'Students_Simple_Ctrl',
-                resolve: {
-                    user: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(API_PREFIX + 'users/:slug').get({
-                            slug: $stateParams.slug
-                        }).$promise;
-                    }],
-                    foyer: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(API_PREFIX + 'statistics/foyer/:slug').get({
-                            slug: $stateParams.slug
-                        }).$promise;
-                    }],
-                    ponthub: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(API_PREFIX + 'statistics/ponthub/:slug').get({
-                            slug: $stateParams.slug
-                        }).$promise;
-                    }],
-                    clubs: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(API_PREFIX + 'users/:slug/clubs').query({
-                            slug: $stateParams.slug
-                        }).$promise;
-                    }],
-                    achievements: ['$resource', '$stateParams', function($resource, $stateParams) {
-                        return $resource(API_PREFIX + 'users/:slug/achievements?all').get({
-                            slug: $stateParams.slug
-                        }).$promise;
-                    }]
-                },
-                data: {
-                    title: 'Profil - uPont',
-                    top: true
-                }
-            });
-    }]);
+    }
+}
+
+export default Students_Simple_Ctrl;

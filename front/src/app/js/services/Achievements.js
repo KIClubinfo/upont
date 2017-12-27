@@ -1,3 +1,5 @@
+import { API_PREFIX } from 'upont/js/config/constants';
+
 angular.module('upont').factory('Achievements', ['$resource', '$rootScope', 'Permissions', function($resource, $rootScope, Permissions) {
     return {
         check: function() {

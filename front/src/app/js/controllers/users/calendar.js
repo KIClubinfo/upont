@@ -1,5 +1,5 @@
-class Calendar_Ctrl{
-    constuctor($rootScope, $scope, $filter, events, courseitems, calendarConfig) {
+class Calendar_Ctrl {
+    constuctor($rootScope, $scope, $filter, events, courseItems, calendarConfig) {
         $scope.events = [];
         for (var i = 0; i < events.length; i++) {
             var type;
@@ -21,13 +21,13 @@ class Calendar_Ctrl{
             });
         }
 
-        for (i = 0; i < courseitems.length; i++) {
-            var group = courseitems[i].group;
+        for (i = 0; i < courseItems.length; i++) {
+            var group = courseItems[i].group;
             $scope.events.push({
                 color: calendarConfig.colorTypes.info,
-                startsAt: new Date(courseitems[i].start_date*1000),
-                endsAt: new Date(courseitems[i].end_date*1000),
-                title: '[' + courseitems[i].location + '] ' + courseitems[i].course.name + (group !== 0 ? ' (Gr ' + group +')' : ''),
+                startsAt: new Date(courseItems[i].start_date*1000),
+                endsAt: new Date(courseItems[i].end_date*1000),
+                title: '[' + courseItems[i].location + '] ' + courseItems[i].course.name + (group !== 0 ? ' (Gr ' + group +')' : ''),
                 editable: false,
                 deletable: false,
                 draggable: false,
@@ -46,20 +46,3 @@ class Calendar_Ctrl{
 }
 
 export default Calendar_Ctrl;
-
-    // .config(['calendarConfig', function(calendarConfig) {
-    //     calendarConfig.dateFormatter = 'moment';
-    //
-    //     calendarConfig.allDateFormats.moment.date.hour = 'HH:mm';
-    //     calendarConfig.allDateFormats.moment.date.datetime = 'D MMM, HH:mm';
-    //
-    //     calendarConfig.allDateFormats.moment.title.day = 'ddd D MMM';
-    //
-    //     calendarConfig.displayAllMonthEvents = true;
-    //     calendarConfig.displayEventEndTimes = true;
-    //     calendarConfig.showTimesOnWeekView = true;
-    //
-    //     calendarConfig.i18nStrings.eventsLabel = 'Événements';
-    //     calendarConfig.i18nStrings.timeLabel = 'Temps';
-    //     calendarConfig.i18nStrings.weekNumber = 'Semaine {week}';
-    // }]);

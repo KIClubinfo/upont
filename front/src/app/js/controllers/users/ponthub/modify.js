@@ -1,5 +1,7 @@
-angular.module('upont')
-    .controller('Ponthub_Modify_Ctrl', ['$scope', '$state', '$stateParams', 'Ponthub', '$http', 'element', function($scope, $state, $stateParams, Ponthub, $http, element) {
+import { API_PREFIX } from 'upont/js/config/constants';
+
+class Ponthub_Modify_Ctrl {
+    constructor($scope, $state, $stateParams, Ponthub, $http, element) {
         $scope.init = function(element) {
             $scope.element = element;
             $scope.element.tags = $scope.element.tags.join();
@@ -102,5 +104,7 @@ angular.module('upont')
                 alertify.success('Modifications prises en compte !');
             });
         };
-    }])
-;
+    }
+}
+
+export default Ponthub_Modify_Ctrl;
