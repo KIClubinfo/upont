@@ -1,7 +1,9 @@
+import alertify from 'alertifyjs';
+
 import constants, { API_PREFIX } from 'upont/js/config/constants';
 
-angular.module('upont')
-    .controller('Assos_Presentation_Ctrl', ['$scope', '$http', '$sce', '$filter', function($scope, $http, $sce, $filter) {
+class Assos_Presentation_Ctrl {
+    constructor($scope, $http, $sce) {
         $scope.PROMOS = constants.PROMOS;
 
         $scope.presentation = $sce.trustAsHtml($scope.club.presentation);
@@ -18,16 +20,7 @@ angular.module('upont')
             });
             $scope.edit = false;
         };
-    }])
-    .config(['$stateProvider', function($stateProvider) {
-        $stateProvider
-            .state('root.users.assos.simple.presentation', {
-                url: '/presentation',
-                controller : 'Assos_Presentation_Ctrl',
-                templateUrl: 'controllers/users/assos/presentation.html',
-                data: {
-                    title: 'Présentation - uPont',
-                    top: true
-                }
-            });
-    }]);
+    }
+}
+
+export default Assos_Presentation_Ctrl;

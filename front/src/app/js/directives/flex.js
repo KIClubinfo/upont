@@ -22,6 +22,8 @@ function setFlexLayout(layout, element, args) {
     }
 }
 
+import angular from 'angular';
+
 angular.module('upont')
     .directive('row', function() {
         return {

@@ -1,3 +1,7 @@
+import angular from 'angular';
+
+import { API_PREFIX } from 'upont/js/config/constants';
+
 import template_search from './search.html';
 
 angular.module('upont').directive('upSearch', function() {

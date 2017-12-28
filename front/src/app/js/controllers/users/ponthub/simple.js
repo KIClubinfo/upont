@@ -1,4 +1,7 @@
+import alertify from 'alertifyjs';
 import moment from 'moment';
+
+import {API_PREFIX} from 'upont/js/config/constants';
 
 class Ponthub_Simple_Ctrl {
     constructor($scope, $state, $stateParams, $q, Ponthub, StorageService, $window, $http, $resource, element, episodes) {
@@ -9,17 +12,6 @@ class Ponthub_Simple_Ctrl {
         $scope.openSeason = -1;
         $scope.fleur = null;
         $scope.token = StorageService.get('token');
-
-        function pingFleur() {
-            var defered = $q.defer();
-            var bool = false;
-            ping('fleur.enpc.fr', function(status) { 
-                if (status == 'timeout')
-                    bool  = false;
-                defered.resolve({test: bool});
-            });
-            return defered.promise;
-        }
 
         if (episodes) {
             $scope.saisons = [];
@@ -33,7 +25,9 @@ class Ponthub_Simple_Ctrl {
         }
 
         $scope.open = function(index) {
-            $scope.openSeason = $scope.openSeason != index ? index : -1;
+            $scope.openSeason = $scope.openSeason != index
+                ? index
+                : -1;
         };
 
         $scope.popular = function(count) {
@@ -55,7 +49,7 @@ class Ponthub_Simple_Ctrl {
             switch ($scope.category) {
                 case 'series':
                     $scope.saisons.forEach(function(entry) {
-                        for(var j = 0; j < entry.length; j++) {
+                        for (var j = 0; j < entry.length; j++) {
                             count += entry[j].downloads;
                         }
                     });

@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
@@ -22,70 +23,52 @@ module.exports = {
         rules: [
             {
                 test: /src\/app\/.*\.js$/,
-                use: [// {
-                    //     loader: 'ng-annotate-loader'
-                    // },
-                    {
-                        loader: 'babel-loader'
-                    }
+                use: [
+                    'babel-loader',
+                    // 'eslint-loader',
                 ],
                 exclude: /node_modules/
             }, {
                 test: /\.html$/,
                 use: [
-                    {
-                        loader: 'ngtemplate-loader?relativeTo=' + __dirname + '/'
-                    }, {
-                        loader: 'html-loader'
-                    }
+                    'ngtemplate-loader?relativeTo=' + __dirname + '/',
+                    'html-loader'
                 ]
             }, {
                 test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 use: [
-                    {
-                        loader: "url-loader?limit=10000&mimetype=application/font-woff"
-                    }
+                    'url-loader?limit=10000&mimetype=application/font-woff'
                 ]
             }, {
                 test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 use: [
-                    {
-                        loader: "file-loader"
-                    }
+                    'file-loader'
                 ]
             }, {
                 test: /\.css$/,
-                use: [
-                    {
-                        loader: 'style-loader'
-                    }, {
-                        loader: 'css-loader'
-                    }
-                ]
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: ['css-loader?sourceMap', 'postcss-loader?sourceMap']
+                })
             }, {
                 test: /\.less$/,
-                use: [
-                    {
-                        loader: 'style-loader'
-                    }, {
-                        loader: 'css-loader'
-                    }, {
-                        loader: 'less-loader'
-                    }
-                ]
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: ['css-loader?sourceMap', 'postcss-loader?sourceMap', 'less-loader?sourceMap']
+                })
             }, {
                 test: /\.(png|jpg|jpeg|gif)$/,
                 use: [
-                    {
-                        loader: 'file-loader'
-                    }
+                    'file-loader'
                 ]
             }
         ]
     },
     plugins: [
+        new ExtractTextPlugin({filename: '[name].min.css', allChunks: true}),
         new CopyWebpackPlugin([
-            { // Copy directory contents to {output}/
+            {
+                // Copy directory contents to {output}/
                 from: 'public/'
             }
         ]),

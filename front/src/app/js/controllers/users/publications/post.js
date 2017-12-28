@@ -1,9 +1,16 @@
+import alertify from 'alertifyjs';
 import moment from 'moment';
+
+import { API_PREFIX } from 'upont/js/config/constants';
+
+import { nl2br } from 'upont/js/php';
 
 class Publications_Post_Ctrl {
     constructor($scope, $rootScope, $http, $stateParams, Achievements, Upload) {
         // Fonctions relatives à la publication
-        var clubDummy = {name: 'Au nom de...'};
+        var clubDummy = {
+            name: 'Au nom de...'
+        };
         var club = clubDummy;
         $scope.display = true;
         $scope.isLoading = false;
@@ -25,7 +32,7 @@ class Publications_Post_Ctrl {
         if ($rootScope.hasRight('ROLE_EXTERIEUR'))
             club = $rootScope.clubs[0].club;
 
-        var init = function() {
+        var init = function() {
             $scope.focus = false;
             $scope.post = {
                 entry_method: 'Entrée libre',
@@ -72,15 +79,14 @@ class Publications_Post_Ctrl {
             $scope.toggle = false;
         };
 
-
-        $scope.selectFiles = function (files) {
+        $scope.selectFiles = function(files) {
             $scope.postFiles = files;
         };
 
-        $scope.publish = function(post, files) {
-            var params  = {
+        $scope.publish = function(post) {
+            var params = {
                 text: nl2br(post.text),
-                name: post.name,
+                name: post.name
             };
 
             if (!$scope.modify) {
@@ -102,34 +108,30 @@ class Publications_Post_Ctrl {
 
             switch ($scope.type) {
                 case 'news':
-                    if(!$scope.isLoading) {
+                    if (!$scope.isLoading) {
                         $scope.isLoading = true;
 
                         // On demande si on envoie un mail
-                        alertify.confirm(
-                            'Veux-tu envoyer un mail pour cette news ?',
-                            function (e) {
-                                if (e) {
-                                    params.sendMail = true;
-                                }
-
-                                Upload.upload({
-                                        method: "POST",
-                                        url: API_PREFIX + 'newsitems',
-                                        data: params
-                                    })
-                                    .then(function() {
-                                        $rootScope.$broadcast('newNewsitem');
-                                        Achievements.check();
-                                        alertify.success('News publiée');
-                                        init();
-                                        $scope.isLoading = false;
-                                    }, function() {
-                                        alertify.error('Formulaire vide ou mal rempli');
-                                        $scope.isLoading = false;
-                                });
+                        alertify.confirm('Veux-tu envoyer un mail pour cette news ?', function(e) {
+                            if (e) {
+                                params.sendMail = true;
                             }
-                        );
+
+                            Upload.upload({
+                                method: "POST",
+                                url: API_PREFIX + 'newsitems',
+                                data: params
+                            }).then(function() {
+                                $rootScope.$broadcast('newNewsitem');
+                                Achievements.check();
+                                alertify.success('News publiée');
+                                init();
+                                $scope.isLoading = false;
+                            }, function() {
+                                alertify.error('Formulaire vide ou mal rempli');
+                                $scope.isLoading = false;
+                            });
+                        });
                     }
                     break;
                 case 'event':
@@ -163,38 +165,34 @@ class Publications_Post_Ctrl {
                         }
                     }
 
-                    if(!$scope.isLoading) {
+                    if (!$scope.isLoading) {
                         $scope.isLoading = true;
 
                         if (!$scope.modify) {
 
                             // On demande si on envoie un mail
-                            alertify.confirm(
-                                'Veux-tu envoyer un mail pour cet événement ?',
-                                function(e) {
-                                    if(e) {
-                                        params.sendMail = true;
-                                    }
-
-                                    Upload.upload({
-                                        method: "POST",
-                                        url: API_PREFIX + 'events',
-                                        data: params
-                                    }).then(function() {
-                                        $rootScope.$broadcast('newEvent');
-                                        Achievements.check();
-                                        init();
-                                        alertify.success('Événement publié');
-                                        $scope.isLoading = false;
-                                    }, function() {
-                                        alertify.error('Formulaire vide ou mal rempli');
-                                        $scope.isLoading = false;
-                                    });
+                            alertify.confirm('Veux-tu envoyer un mail pour cet événement ?', function(e) {
+                                if (e) {
+                                    params.sendMail = true;
                                 }
-                            );
+
+                                Upload.upload({
+                                    method: "POST",
+                                    url: API_PREFIX + 'events',
+                                    data: params
+                                }).then(function() {
+                                    $rootScope.$broadcast('newEvent');
+                                    Achievements.check();
+                                    init();
+                                    alertify.success('Événement publié');
+                                    $scope.isLoading = false;
+                                }, function() {
+                                    alertify.error('Formulaire vide ou mal rempli');
+                                    $scope.isLoading = false;
+                                });
+                            });
                         } else {
-                            $http.patch(API_PREFIX + 'events/' + post.slug, params)
-                            .then(function() {
+                            $http.patch(API_PREFIX + 'events/' + post.slug, params).then(function() {
                                 $rootScope.$broadcast('newEvent');
                                 alertify.success('Événement modifié');
                                 init();

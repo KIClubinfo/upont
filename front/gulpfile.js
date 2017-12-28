@@ -16,56 +16,6 @@ var webpack = require('webpack-stream');
 
 
 /**
- * Vérifie la syntaxe JS
- */
-gulp.task('lint-js', function() {
-    var appFiles = [
-        'src/app/js/app.js',
-        'src/app/js/*.js',
-        'src/app/js/**/*.js',
-        'src/app/js/controllers/**/*.js'
-    ];
-    return gulp.src(appFiles)
-        .pipe(jshint())
-        .pipe(jshint.reporter('jshint-stylish'))
-    ;
-});
-
-/**
- * Construit le fichier JS
- */
-gulp.task('build-js', function() {
-    // On exclut donc jquery du main dans le bower.json et on l'introduit manuellement
-    var redactor = [
-        'src/libs/redactor/redactor.js',
-        'src/libs/redactor/table.js',
-        'src/libs/redactor/video.js',
-        'src/libs/redactor/fr.js'
-    ];
-    var appFiles = [
-        'src/app/js/app.js',
-        'src/app/js/*.js',
-        'src/app/js/services/*.js',
-        'src/app/js/config/*.js',
-        'src/app/js/directives/**/*.js',
-        'src/app/js/filters/**/*.js',
-        'src/app/js/controllers/**/*.js',
-    ];
-    var filesArray = appFiles; // redactor.concat(appFiles);
-
-    gulp.src('public/**/*').pipe(gulp.dest('dist/'));
-
-    var upont = gulp.src(filesArray)
-        // .pipe(concat('upont.js'))
-    ;
-
-    return gulp.src('src/app/js/app.js')
-        .pipe(webpack(require('./webpack.config.js')))
-        .pipe(gulp.dest('dist/'))
-    ;
-});
-
-/**
  * Liste les fichiers d'un répertoire
  * @param  {string} dir Le dossier
  * @return {string[]}   La liste des fichiers

@@ -1,3 +1,5 @@
+import alertify from 'alertifyjs';
+
 angular.module('upont')
     .controller('Messages_Ctrl', ['$scope', 'messages', function($scope, messages) {
         $scope.messages = messages;

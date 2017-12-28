@@ -5,7 +5,7 @@ class Assos_Public_Ctrl {
         $scope.clubs = [];
         $scope.assos = [];
 
-        angular.forEach(clubs, function(value, key) {
+        clubs.forEach(function(value) {
             if (value.hasOwnProperty('category') && value.category === 'asso')
                 $scope.assos.push(value);
             else

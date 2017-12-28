@@ -1,3 +1,5 @@
+import alertify from 'alertifyjs';
+
 import { API_PREFIX } from 'upont/js/config/constants';
 
 class Students_Game_Ctrl {
@@ -44,8 +46,6 @@ class Students_Game_Ctrl {
         };
 
         $scope.text = function(trait) {
-            var text = '';
-
             if (trait === 'department') {
                 return 'Département';
             } else if (trait === 'promo') {

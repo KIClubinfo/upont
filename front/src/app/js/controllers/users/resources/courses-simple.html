@@ -47,7 +47,7 @@
             </div>
 
             <div class="padded" flex="100" flex-sm="33">
-                <input class="Input" type="file" name="file" id="fileUpload" onchange="angular.element(this).scope().uploadFile(this.files)">
+                <input class="Input" type="file" ng-model="files" onchange="angular.element(this).scope().uploadFile(this.files)">
             </div>
 
             <div class="padded" flex="100" flex-sm="33">

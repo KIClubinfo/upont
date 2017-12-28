@@ -1,3 +1,6 @@
+import alertify from 'alertifyjs';
+import angular from 'angular';
+
 import { API_PREFIX } from 'upont/js/config/constants';
 
 class Resources_Courses_Simple_Ctrl {
@@ -53,8 +56,7 @@ class Resources_Courses_Simple_Ctrl {
                 transformRequest: angular.identity
             }).then(function() {
                 $scope.name = '';
-                var input = $('#fileUpload');
-                input.replaceWith(input.val('').clone(true));
+                $scope.files = [];
                 alertify.success('Annale uploadée !');
 
                 // On recharge les annales

@@ -1,3 +1,5 @@
+import alertify from 'alertifyjs';
+
 class SingleSignOn_Ctrl {
     constuctor($scope, $rootScope, $stateParams, $location, $http, $window, StorageService) {
         // Identify the external application
@@ -56,7 +58,6 @@ class SingleSignOn_Ctrl {
                             case '403': alertify.alert('Le jeton de connexion a expiré, vous avez été trop lent !\nMerci de réessayer :)'); break;
                             default: alertify.error('GéoPonts dit que la requête envoyée est incorrecte (' + response.data.message + ') !'); break;
                         }
-                        console.log('Raison du rejet : ' + response.data.message);
                     }
                 );
         };

@@ -1,5 +1,6 @@
-import template_panel from './panel.html';
+import angular from 'angular';
 
+import template_panel from './panel.html';
 
 angular.module('upont').directive('upPanel', function() {
     return {

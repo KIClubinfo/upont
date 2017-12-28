@@ -1,3 +1,7 @@
+import alertify from 'alertifyjs';
+import angular from 'angular';
+import $ from 'jquery';
+
 import { API_PREFIX } from 'upont/js/config/constants';
 
 class Admin_Students_Ctrl {
@@ -38,7 +42,7 @@ class Admin_Students_Ctrl {
             $scope.fd.append('users', files[0]);
         };
 
-        $scope.import = function(name) {
+        $scope.import = function() {
             if ($scope.fd === null) {
                 alertify.error('Le fichier n\'a pas été choisi !');
             }

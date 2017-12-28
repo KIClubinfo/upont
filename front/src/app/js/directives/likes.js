@@ -1,5 +1,9 @@
+import alertify from 'alertifyjs';
+import angular from 'angular';
+
 import { API_PREFIX } from 'upont/js/config/constants';
 
+import { nl2br } from 'upont/js/php';
 
 import template_likes from './likes.html';
 

@@ -1,3 +1,6 @@
+import alertify from 'alertifyjs';
+import angular from 'angular';
+
 // Service effectuant des opérations de mise à jour au fur et à mesure des versions
 angular.module('upont').factory('Migration', ['$http', '$rootScope', function($http, $rootScope) {
     return {

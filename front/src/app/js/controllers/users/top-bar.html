@@ -7,13 +7,12 @@
         </div>
         <up-search flex="60"></up-search>
         <div flex="15" row="center stretch">
-            <a ng-hide="$root.surprise" class="Logo" ui-sref="root.users.publications.index"></a>
+            <a ng-hide="$root.surprise" class="Logo" ui-sref="root.users.publications.list"></a>
         </div>
     </header>
 
     <ul class="Ticket Topbar__dropdown" flex="100" ng-show="$root.showTopMenu" ng-click="$root.showTopMenu=!$root.showTopMenu">
-        <li><a class="Topbar__link  Link  Link--reverse" ui-sref="root.users.publications.index"><i class="fa fa-comment"></i>News</a></li>
-        <li><a class="Topbar__link  Link  Link--reverse" ui-sref="root.users.messages"><i class="fa fa-comments"></i>Messages</a></li>
+        <li><a class="Topbar__link  Link  Link--reverse" ui-sref="root.users.publications.list"><i class="fa fa-comment"></i>News</a></li>
         <li><a class="Topbar__link  Link  Link--reverse" ui-sref="root.users.calendar"><i class="fa fa-calendar"></i>Calendrier</a></li>
         <li><a class="Topbar__link  Link  Link--reverse" ui-sref="root.users.assos.list"><i class="fa fa-thumbs-o-up"></i>Assos</a></li>
         <li><a class="Topbar__link  Link  Link--reverse" ui-sref="root.users.students.list"><i class="fa fa-graduation-cap"></i>Élèves</a></li>

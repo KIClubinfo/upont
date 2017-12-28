@@ -4,20 +4,26 @@ class Calendar_Ctrl {
         for (var i = 0; i < events.length; i++) {
             var type;
             switch (events[i].entry_method) {
-                case 'Shotgun': type = 'important'; break;
-                case 'Libre':   type = 'warning'; break;
-                case 'Ferie':   type = 'success'; break;
+                case 'Shotgun':
+                    type = 'important';
+                    break;
+                case 'Libre':
+                    type = 'warning';
+                    break;
+                case 'Ferie':
+                    type = 'success';
+                    break;
             }
             $scope.events.push({
                 color: calendarConfig.colorTypes[type],
-                startsAt: new Date(events[i].start_date*1000),
-                endsAt: new Date(events[i].end_date*1000),
+                startsAt: new Date(events[i].start_date * 1000),
+                endsAt: new Date(events[i].end_date * 1000),
                 title: events[i].author_club.name + ' : ' + events[i].name,
                 editable: false,
                 deletable: false,
                 draggable: false,
                 resizable: false,
-                incrementsBadgeTotal: true,
+                incrementsBadgeTotal: true
             });
         }
 
@@ -25,14 +31,17 @@ class Calendar_Ctrl {
             var group = courseItems[i].group;
             $scope.events.push({
                 color: calendarConfig.colorTypes.info,
-                startsAt: new Date(courseItems[i].start_date*1000),
-                endsAt: new Date(courseItems[i].end_date*1000),
-                title: '[' + courseItems[i].location + '] ' + courseItems[i].course.name + (group !== 0 ? ' (Gr ' + group +')' : ''),
+                startsAt: new Date(courseItems[i].start_date * 1000),
+                endsAt: new Date(courseItems[i].end_date * 1000),
+                title: '[' + courseItems[i].location + '] ' + courseItems[i].course.name + (
+                    group !== 0
+                    ? ' (Gr ' + group + ')'
+                    : ''),
                 editable: false,
                 deletable: false,
                 draggable: false,
                 resizable: false,
-                incrementsBadgeTotal: true,
+                incrementsBadgeTotal: true
             });
         }
 

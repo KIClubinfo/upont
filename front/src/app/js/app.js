@@ -1,11 +1,3 @@
-// Import php.js globally (super ugly!)
-require('script-loader!./php');
-
-require('../../libs/redactor/redactor');
-require('../../libs/redactor/table');
-require('../../libs/redactor/video');
-require('../../libs/redactor/fr');
-
 import angular from 'angular';
 
 import alertify from 'alertifyjs';
@@ -15,10 +7,7 @@ import Raven from 'raven-js';
 
 import 'typeface-open-sans';
 
-import 'upont/css/loading/loading.css';
-import 'upont/css/loading/loading.less';
-
-import 'upont/css/main/themes/classic.less';
+import 'upont/css/themes/classic.less';
 
 if (!location.origin)
     location.origin = location.protocol + '//' + location.host;
@@ -144,12 +133,12 @@ angular.module('upontConfig', []);
 
 // Export issue in these libs
 require('angulartics-piwik');
-require('angular-redactor');
 
 const upont = angular.module('upont', [
+    // $resource
+    require('angular-resource'),
     // JWT Auth
     require('angular-jwt'),
-
     // Routing
     require('angular-ui-router'),
 
@@ -164,26 +153,28 @@ const upont = angular.module('upont', [
     require('ng-infinite-scroll'),
 
     // Calendar
-    require('angular-bootstrap-calendar'),
     require('angular-ui-bootstrap'),
+    require('angular-bootstrap-calendar'),
 
-    // $resource
-    require('angular-resource'),
+    // Datetime picker
+    require('bootstrap-ui-datetime-picker'),
 
-    // Redactor
-    'angular-redactor',
+    // Rich text editor
+    require('ng-quill'),
 
-    // 'naif.base64',
-    // require('angular-animate'),
+    // Youtube integration
+    require('angular-youtube-embed'),
+
+    // File upload
     require('ng-file-upload'),
+
     // 'ngRaven',
     // 'ngSanitize',
     // 'ngTouch',
-    // 'templates',
-    // 'ui.bootstrap.datetimepicker',
     // 'mgcrea.ngStrap',
-    // 'monospaced.elastic',
-    // 'youtube-embed',
+    // 'naif.base64',
+    // require('angular-animate'),
+
     // root configuration
     'upontConfig'
 ]);
@@ -240,12 +231,11 @@ require('./services/StorageService');
 
 require('./config/config');
 require('./config/themes');
+import './config/quill';
 
 require('./directives/chart');
 require('./directives/flex');
 require('./directives/likes');
-// FIXME get rid of
-require('./directives/ng-inject');
 require('./directives/panel');
 require('./directives/ribbon');
 require('./directives/search');
@@ -261,10 +251,8 @@ require('./filters/formatPosition');
 require('./filters/formatSize');
 require('./filters/fromNow');
 require('./filters/match');
-require('./filters/nl2br');
 require('./filters/numberFixedLen');
 require('./filters/reverse');
-require('./filters/stripTags');
 require('./filters/thumb');
 require('./filters/ucfirst');
 require('./filters/urlFile');

@@ -1,18 +1,15 @@
 import alertify from 'alertifyjs';
 
-import { API_PREFIX } from 'upont/js/config/constants';
+import {API_PREFIX} from 'upont/js/config/constants';
 
 class Request_Ctrl {
     constructor($scope, $http) {
         $scope.request = function(username) {
-            if (!empty(username)) {
-                $http.post(API_PREFIX + 'resetting/request', {username: username}).then(
-                    function(){
-                        alertify.success('Mail de réinitialisation envoyé !');
-                    },
-                    function(){
-                        alertify.error('Identifiant non trouvé !');
-                        $state.go('root.request');
+            if (username) {
+                $http.post(API_PREFIX + 'resetting/request', {username: username}).then(function() {
+                    alertify.success('Mail de réinitialisation envoyé !');
+                }, function() {
+                    alertify.error('Identifiant non trouvé !');
                 });
             } else {
                 alertify.error('Donne ton identifiant !');

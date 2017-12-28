@@ -5,18 +5,16 @@ RUN mkdir /app && chown node:node /app && chmod 700 /app
 WORKDIR /app
 
 RUN apk --no-cache add git
-RUN npm install -g -s --no-progress yarn bower gulp http-server
+RUN npm install -g -s --no-progress yarn http-server
 
 USER node
 
-COPY package.json yarn.lock bower.json .bowerrc /app/
-RUN yarn
+COPY package.json yarn.lock /app/
+RUN yarn --dev
 
 COPY . /app/
-RUN yarn run build && \
-    yarn run prune && \
-    yarn cache clean
+RUN yarn build
 
-WORKDIR /app/www
+WORKDIR /app/dist
 CMD ["hs", "-p", "3000"]
 EXPOSE 3000

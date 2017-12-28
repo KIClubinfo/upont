@@ -4,7 +4,7 @@ import './infos.html';
 import './footer.html';
 
 class Aside_Ctrl {
-    constructor($scope, $rootScope, $resource, $http, $interval, Achievements) {
+    constructor($scope, $rootScope, $resource, $http, $interval) {
         // CHARGEMENT DES DONNÉES DE BASE
         // Version de uPont
         $resource(API_PREFIX + 'version').get(function(data){

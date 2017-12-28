@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 angular.module('upont').directive('upRibbon', function() {
     return {
         transclude: true,

@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 angular.module('upont').factory('Ponthub', function() {
     return {
         isPopular: function(count, category) {
@@ -21,9 +23,9 @@ angular.module('upont').factory('Ponthub', function() {
                 case 'films':
                     return 'movies';
                 case 'jeux':
-                    return'games';
+                    return 'games';
                 case 'logiciels':
-                    return'softwares';
+                    return 'softwares';
                 case 'autres':
                     return 'others';
                 case 'series':

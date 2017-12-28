@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-import { API_PREFIX } from './constants';
+import {API_PREFIX} from './constants';
 
 angular.module('upont').factory('ErrorCodes_Interceptor', [
     'Permissions',
@@ -68,31 +68,42 @@ angular.module('upont').factory('ErrorCodes_Interceptor', [
         $httpProvider.interceptors.push('jwtInterceptor');
         $httpProvider.interceptors.push('ErrorCodes_Interceptor');
     }
+]).config([
+    '$urlRouterProvider',
+    '$locationProvider',
+    '$urlMatcherFactoryProvider',
+    ($urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) => {
+        $urlMatcherFactoryProvider.strictMode(false);
+        $urlRouterProvider.otherwise('/404');
+        $locationProvider.html5Mode(true);
+    }
 ])
-.config(['$urlRouterProvider', '$locationProvider', '$urlMatcherFactoryProvider', ($urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) => {
-    $urlMatcherFactoryProvider.strictMode(false);
-    $urlRouterProvider.otherwise('/404');
-    $locationProvider.html5Mode(true);
-}])
 // FIXME hides errors related to ui-router 0.3.2
-.config(['$qProvider', $qProvider => $qProvider.errorOnUnhandledRejections(false)])
-.config(['calendarConfig', function(calendarConfig) {
-    calendarConfig.dateFormatter = 'moment';
+    .config([
+    '$qProvider', $qProvider => $qProvider.errorOnUnhandledRejections(false)
+]).config([
+    'calendarConfig',
+    function(calendarConfig) {
+        calendarConfig.dateFormatter = 'moment';
 
-    calendarConfig.allDateFormats.moment.date.hour = 'HH:mm';
-    calendarConfig.allDateFormats.moment.date.datetime = 'D MMM, HH:mm';
+        calendarConfig.allDateFormats.moment.date.hour = 'HH:mm';
+        calendarConfig.allDateFormats.moment.date.datetime = 'D MMM, HH:mm';
 
-    calendarConfig.allDateFormats.moment.title.day = 'ddd D MMM';
+        calendarConfig.allDateFormats.moment.title.day = 'ddd D MMM';
 
-    calendarConfig.displayAllMonthEvents = true;
-    calendarConfig.displayEventEndTimes = true;
-    calendarConfig.showTimesOnWeekView = true;
+        calendarConfig.displayAllMonthEvents = true;
+        calendarConfig.displayEventEndTimes = true;
+        calendarConfig.showTimesOnWeekView = true;
 
-    calendarConfig.i18nStrings.eventsLabel = 'Événements';
-    calendarConfig.i18nStrings.timeLabel = 'Temps';
-    calendarConfig.i18nStrings.weekNumber = 'Semaine {week}';
-}])
-;
+        calendarConfig.i18nStrings.eventsLabel = 'Événements';
+        calendarConfig.i18nStrings.timeLabel = 'Temps';
+        calendarConfig.i18nStrings.weekNumber = 'Semaine {week}';
+    }
+]).config([
+    'ngQuillConfigProvider', ngQuillConfigProvider => {
+        ngQuillConfigProvider.set({});
+    }
+]);
 
 angular.module('upont').run([
     '$rootScope',
@@ -105,8 +116,7 @@ angular.module('upont').run([
     '$window',
     '$sce',
     'upontConfig',
-    'Achievements',
-    function($rootScope, StorageService, Permissions, $state, $interval, $resource, $location, $window, $sce, upontConfig, Achievements) {
+    function($rootScope, StorageService, Permissions, $state, $interval, $resource, $location, $window, $sce, upontConfig) {
         Permissions.load();
 
         $rootScope.config = upontConfig;
@@ -154,7 +164,7 @@ angular.module('upont').run([
         };
 
         // Au changement de page
-        $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+        $rootScope.$on('$stateChangeStart', function(event, toState) {
             function needLogin(state) {
                 if (state.data && state.data.needLogin)
                     return state.data.needLogin;
@@ -175,7 +185,7 @@ angular.module('upont').run([
             }
         });
 
-        $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+        $rootScope.$on('$stateChangeSuccess', function(event, toState) {
             function getName(state) {
                 if (state.data && state.data.title)
                     return state.data.title;
@@ -199,29 +209,8 @@ angular.module('upont').run([
         );
 
         // Erreur 404
-        $rootScope.$on('$stateNotFound', function(event, toState, toParams, fromState, fromParams) {
+        $rootScope.$on('$stateNotFound', function() {
             $state.go('root.404');
         });
-    }
-]).run([
-    'redactorOptions',
-    function(redactorOptions) {
-        redactorOptions.buttons = [
-            'html',
-            'formatting',
-            'bold',
-            'italic',
-            'underline',
-            'deleted',
-            'unorderedlist',
-            'image',
-            'file',
-            'link',
-            'alignment',
-            'horizontalrule'
-        ];
-        redactorOptions.lang = 'fr';
-        redactorOptions.plugins = ['video', 'table', 'imagemanager'];
-        redactorOptions.imageUpload = API_PREFIX + 'images?bearer=' + localStorage.getItem('token');
     }
 ]);

@@ -12,7 +12,7 @@
 
 <section class="Ticket" ng-if="edit">
     <div>
-        <textarea ng-model="presentation" redactor></textarea>
+        <ng-quill-editor ng-model="presentation"></ng-quill-editor>
     </div>
 
     <form class="padded" row wrap autocomplete="off">

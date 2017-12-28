@@ -54,6 +54,6 @@
         <div class="Image  Image--thumb  Image--margin">
             <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ $root.me.image_url | thumb | urlFile }})' }"></div>
         </div>
-            <textarea class="Input" rows="1" ng-model="commentText" placeholder="Ajouter un commentaire" msd-elastic ng-keydown="submitComment($event, commentText) ? commentText = '' : null"></textarea>
+            <textarea class="Input" rows="1" ng-model="commentText" placeholder="Ajouter un commentaire" ng-keydown="submitComment($event, commentText) ? commentText = '' : null"></textarea>
     </form>
 </section>

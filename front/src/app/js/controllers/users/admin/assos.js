@@ -1,3 +1,5 @@
+import alertify from 'alertifyjs';
+
 class Admin_Assos_Ctrl {
     constructor($scope, $rootScope, $http) {
         $scope.club = {

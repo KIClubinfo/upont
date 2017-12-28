@@ -3,8 +3,6 @@
   "version": "1.0.0",
   "dependencies": {
     "angular-base64-upload": "latest",
-    "angular-bootstrap-datetimepicker": "0.3.15",
-    "angular-elastic": "latest",
     "angular-i18n": "latest",
     "angular-mocks": "latest",
     "angular-sanitize": "latest",
@@ -13,6 +11,5 @@
     "angular-youtube-mb": "latest",
     "bootstrap": "latest",
     "js-base64": "latest",
-    "ng-file-upload": "latest"
   }
 }

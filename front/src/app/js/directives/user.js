@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 import { API_PREFIX } from 'upont/js/config/constants';
 
 import template_user from './user.html';
@@ -10,7 +12,7 @@ angular.module('upont').directive('upUser', function() {
             user: '='
         },
         link: {
-            post: function(scope, element, args){
+            post: function(scope, element){
                 element.addClass('User');
             }
         },

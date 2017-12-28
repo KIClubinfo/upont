@@ -1,3 +1,5 @@
+import alertify from 'alertifyjs';
+
 import { API_PREFIX } from 'upont/js/config/constants';
 
 class Resources_Tutorials_List_Ctrl {

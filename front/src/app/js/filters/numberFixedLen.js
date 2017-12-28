@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 angular.module('upont').filter('numberFixedLen', function () {
     return function (n, l) {
         var num = parseInt(n,10);

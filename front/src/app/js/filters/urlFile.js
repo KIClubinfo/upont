@@ -1,10 +1,11 @@
+import angular from 'angular';
+
 import { API_PREFIX } from 'upont/js/config/constants';
 
 angular.module('upont').filter('urlFile', function() {
     return function(input, inputParent) {
         if (typeof(input) == 'string')
-            return API_PREFIX + input;
-        // return API_PREFIX + url;
+            return API_PREFIX + input; // return API_PREFIX + url;
         else if (typeof(input) == 'object') {
             switch (input.type) {
                 case 'movie':
@@ -22,8 +23,8 @@ angular.module('upont').filter('urlFile', function() {
                 case 'exercice':
                     if (inputParent && typeof(inputParent) == 'object' && inputParent.type == 'course')
                         return API_PREFIX + 'courses/' + inputParent.slug + '/exercices/' + input.slug + '/download';
-            }
-        }
-        return '#';
-    };
-});
+                    }
+                }
+            return '#';
+        };
+    });

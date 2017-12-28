@@ -7,14 +7,14 @@
 
             <form row="end start" wrap ng-submit="post(fix, true)" autocomplete="off">
                 <textarea class="Input" placeholder="Une explication la plus détaillée possible du problème."
-                          rows="3" ng-model="fix" ng-disabled="$root.isAdmissible" msd-elastic style="min-height:2em">
+                          rows="3" ng-model="fix" ng-disabled="$root.isAdmissible" style="min-height:2em">
                 </textarea>
                 <button class="Button" ng-disabled="$root.isAdmissible">Envoyer !</button>
             </form>
         </div>
 
         <div row wrap>
-            <div ng-repeat="fix in ownFixs.data | filter:{fix:true} | statusFilter" ng-include="'src/app/js/controllers/users/assos/fix.html'" flex="100"></div>
+            <div ng-repeat="fix in ownFixs.data | filter:{fix:true}" ng-include="'src/app/js/controllers/users/assos/ki-fix.html'" flex="100"></div>
         </div>
 
         <div ng-if="isFromKI" class="Ticket">
@@ -24,7 +24,7 @@
         </div>
 
         <div ng-if="isFromKI" row wrap>
-            <div ng-repeat="fix in fixs.data | filter:{fix:true} | statusFilter" ng-include="'src/app/js/controllers/users/assos/fix.html'" flex="100"></div>
+            <div ng-repeat="fix in fixs.data | filter:{fix:true}" ng-include="'src/app/js/controllers/users/assos/ki-fix.html'" flex="100"></div>
         </div>
     </div>
 
@@ -36,14 +36,14 @@
 
             <form row="end start" wrap ng-submit="post(msg, false)" autocomplete="off">
                 <textarea class="Input" placeholder="Ce qui te passe par la tête... ce que tu aimes, ce que tu n'aimes pas, un bug..."
-                          rows="3" ng-model="msg" ng-disabled="$root.isAdmissible" msd-elastic autofocus style="min-height:2em">
+                          rows="3" ng-model="msg" ng-disabled="$root.isAdmissible" autofocus style="min-height:2em">
                 </textarea>
                 <button class="Button" ng-disabled="$root.isAdmissible">Envoyer !</button>
             </form>
         </div>
 
         <div row wrap>
-            <div flex="100" ng-repeat="fix in fixs.data | filter:{fix:false} | statusFilter" ng-include="'src/app/js/controllers/users/assos/fix.html'"></div>
+            <div flex="100" ng-repeat="fix in fixs.data | filter:{fix:false}" ng-include="'src/app/js/controllers/users/assos/ki-fix.html'"></div>
         </div>
     </div>
 </div>

@@ -1,25 +1,28 @@
+import alertify from 'alertifyjs';
+
 import { API_PREFIX } from 'upont/js/config/constants';
 
-angular.module('upont')
-    .controller('KI_Ctrl', ['$scope', '$rootScope', '$resource', '$http', 'fixs', 'ownFixs', 'members', 'Paginate', 'Achievements', function($scope, $rootScope, $resource, $http, fixs, ownFixs, members, Paginate, Achievements) {
-        $('#focus-input').focus();
-        $scope.fixs = fixs;
-        $scope.ownFixs = ownFixs;
+import './ki-fix.html';
+
+class Assos_KI_Ctrl {
+    constructor($scope, $rootScope, $resource, $http, fixs, ownFixs, members, Paginate, Achievements) {
+        $scope.fixs = this.assignFixs(fixs);
+        $scope.ownFixs = this.assignFixs(ownFixs);
         $scope.isFromKI = false;
         $rootScope.displayTabs = true;
 
-        for (var key in members) {
-            if (members[key].user !== undefined && members[key].user.username == $rootScope.username) {
+        for (const member of members) {
+            if (member.user !== undefined && member.user.username == $rootScope.username) {
                 $scope.isFromKI = true;
             }
         }
 
         $scope.reload = function() {
             Paginate.first($scope.ownFixs).then(function(response){
-                $scope.ownFixs = response.data;
+                $scope.ownFixs = this.assignFixs(response.data);
             });
             Paginate.first($scope.fixs).then(function(response){
-                $scope.fixs = response.data;
+                $scope.fixs = this.assignFixs(response.data);
             });
         };
 
@@ -57,50 +60,40 @@ angular.module('upont')
                 }
             });
         };
-    }])
-    .config(['$stateProvider', function($stateProvider) {
-        $stateProvider
-            .state('root.users.assos.ki', {
-                url: '/depannage',
-                templateUrl: 'controllers/users/assos/ki.html',
-                controller: 'KI_Ctrl',
-                data: {
-                    title: 'Dépannage - uPont',
-                    top: true
-                },
-                resolve: {
-                    fixs: ['Paginate', function(Paginate) {
-                        return Paginate.get('fixs', 50);
-                    }],
-                    ownFixs: ['Paginate', function(Paginate) {
-                        return Paginate.get('own/fixs', 50);
-                    }],
-                    members: ['$resource', function($resource) {
-                        return $resource(API_PREFIX + 'clubs/ki/users').query().$promise;
-                    }]
-                }
-            });
-    }])
-    .filter('statusFilter', function() {
-        return function(array) {
-            fixs = {
-                unseen: [],
-                waiting: [],
-                doing: [],
-                done: [],
-                closed: []
-            };
+    }
 
-            for (var key in array) {
-                switch (array[key].status) {
-                    case 'Non vu': fixs.unseen.push(array[key]); break;
-                    case 'En attente': fixs.waiting.push(array[key]); break;
-                    case 'En cours': fixs.doing.push(array[key]); break;
-                    case 'Résolu': fixs.done.push(array[key]); break;
-                    case 'Fermé': fixs.closed.push(array[key]); break;
-                }
-            }
-            return fixs.unseen.concat(fixs.waiting.concat(fixs.doing.concat(fixs.done.concat(fixs.closed))));
+    assignFixs(fixs) {
+        fixs.data = this.reorderFixsByStatus(fixs.data);
+        return fixs;
+    }
+
+    reorderFixsByStatus(fixs) {
+        const fixs_buckets = {
+            unseen: [],
+            waiting: [],
+            doing: [],
+            done: [],
+            closed: []
         };
-    })
-;
+
+        for (const fix of fixs) {
+            switch (fix.status) {
+                case 'Non vu': fixs_buckets.unseen.push(fix); break;
+                case 'En attente': fixs_buckets.waiting.push(fix); break;
+                case 'En cours': fixs_buckets.doing.push(fix); break;
+                case 'Résolu': fixs_buckets.done.push(fix); break;
+                case 'Fermé': fixs_buckets.closed.push(fix); break;
+            }
+        }
+
+        return [
+            ...fixs_buckets.unseen,
+            ...fixs_buckets.waiting,
+            ...fixs_buckets.doing,
+            ...fixs_buckets.done,
+            ...fixs_buckets.closed,
+        ];
+    }
+}
+
+export default Assos_KI_Ctrl;

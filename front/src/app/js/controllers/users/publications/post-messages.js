@@ -1,3 +1,5 @@
+import alertify from 'alertifyjs';
+
 angular.module('upont')
     .controller('Publications_Post_Messages_Ctrl', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
         // Fonctions relatives à la publication

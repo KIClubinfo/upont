@@ -5,7 +5,7 @@ import { API_PREFIX } from 'upont/js/config/constants';
 class Reset_Ctrl {
     constructor($scope, $http, $state, $stateParams) {
         $scope.reset = function(password, check) {
-            if (!empty(password) && !empty(check)) {
+            if (password && check) {
                 if (password == check) {
                     $http.post(API_PREFIX + 'resetting/token/' + $stateParams.token, {password: password, check: check}).then(
                         function(){

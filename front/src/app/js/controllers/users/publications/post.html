@@ -57,7 +57,7 @@
 
         <div class="padded" col flex="100" ng-if="focus || modify">
             <!-- Textarea principale -->
-            <textarea redactor ng-model="post.text" placeholder="{{ placeholder }}"></textarea>
+            <ng-quill-editor ng-model="post.text" placeholder="{{ placeholder }}"></ng-quill-editor>
 
             <!-- Toolbar du bas -->
             <div row="start start" wrap>

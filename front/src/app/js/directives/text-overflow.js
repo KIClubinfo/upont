@@ -1,9 +1,11 @@
+import angular from 'angular';
+
 angular.module('upont').directive('upOverflow', ['$sce', function($sce) {
     return {
         scope: {
             string: '='
         },
-        link: function(scope, element, attrs){
+        link: function(scope){
             //Dans un premier temps, on cherche à savoir si le texte est trop gros
             var split = scope.string.split(/\r\n|\r|\n/);
             scope.overflow = (split.length > 5 || scope.string.length > 550);

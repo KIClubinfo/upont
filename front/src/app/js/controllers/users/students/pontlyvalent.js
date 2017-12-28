@@ -1,3 +1,5 @@
+import alertify from 'alertifyjs';
+
 import { API_PREFIX } from 'upont/js/config/constants';
 
 class Students_Pontlyvalent_Ctrl {

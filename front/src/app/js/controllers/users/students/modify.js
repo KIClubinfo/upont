@@ -1,3 +1,5 @@
+import alertify from 'alertifyjs';
+
 import constants, { API_PREFIX } from 'upont/js/config/constants';
 
 class Students_Modify_Ctrl {
@@ -22,7 +24,7 @@ class Students_Modify_Ctrl {
 
         $scope.subscribe = function(slug) {
             $resource(API_PREFIX + 'clubs/:slug/follow', {slug: slug}).save();
-            $scope.clubs.forEach(function (element, index, array){
+            $scope.clubs.forEach(function (element){
                 if(element.slug == slug)
                     element.suivi = true;
             });
@@ -30,7 +32,7 @@ class Students_Modify_Ctrl {
 
         $scope.unsubscribe = function(slug) {
             $resource(API_PREFIX + 'clubs/:slug/unfollow', {slug: slug}).save();
-            $scope.clubs.forEach(function (element, index, array){
+            $scope.clubs.forEach(function (element){
                 if(element.slug == slug)
                     element.suivi = false;
             });

@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 // Remplace les images svg par leur data afin de pouvoir les modifier via CSS
 angular.module('upont').directive('svgImage', ['$http', function ($http) {
     return {
@@ -7,7 +9,6 @@ angular.module('upont').directive('svgImage', ['$http', function ($http) {
             var request = $http.get(imgURL, {'Content-Type': 'application/xml'});
 
             scope.manipulateImgNode = function (data, elem) {
-                var tmp = angular.element(data);
                 var $svg = angular.element(data)[4];
                 var imgClass = elem.attr('class');
                 if (typeof(imgClass) !== 'undefined') {

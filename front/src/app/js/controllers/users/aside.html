@@ -1,7 +1,7 @@
 <aside col class="Aside">
     <header col="space-around start" class="Aside__header  text-center">
         <div flex="100" class="padded">
-            <a ng-hide="$root.surprise" class="Logo" ui-sref="root.users.publications.index"></a>
+            <a ng-hide="$root.surprise" class="Logo" ui-sref="root.users.publications.list"></a>
             <a ng-show="$root.surprise" class="Logo  Logo--pr0n" target="_blank" href="http://www.youporn.com"></a>
         </div>
 
@@ -10,11 +10,8 @@
 
     <section class="Aside__middle">
         <nav>
-            <a class="Aside__navlink" ui-sref="root.users.publications.index" up-state-active>
+            <a class="Aside__navlink" ui-sref="root.users.publications.list" up-state-active>
                 <i class="fa fa-comment"></i> News
-            </a>
-            <a class="Aside__navlink  flex-hide-md  flex-hide-lg" ui-sref="root.users.messages" up-state-active>
-                <i class="fa fa-comments"></i> Messages
             </a>
             <a class="Aside__navlink" ui-sref="root.users.calendar" up-state-active>
                 <i class="fa fa-calendar"></i> Calendrier

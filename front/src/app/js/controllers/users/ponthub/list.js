@@ -1,7 +1,5 @@
 import moment from 'moment';
 
-import { API_PREFIX } from 'upont/js/config/constants';
-
 class Ponthub_List_Ctrl {
     constructor($scope, $stateParams, elements, Paginate, Ponthub, StorageService) {
         $scope.elements = elements;
@@ -10,7 +8,7 @@ class Ponthub_List_Ctrl {
         $scope.lastWeek = moment().subtract(7 , 'days').unix();
         $scope.token = StorageService.get('token');
 
-        $scope.reload = function(filters) {
+        $scope.reload = function() {
             var url = Ponthub.cat($stateParams.category) + '?sort=-added,id';
 
             Paginate.get(url, 20).then(function(response){

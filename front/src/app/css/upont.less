@@ -1,3 +1,5 @@
+@import '~bootstrap/less/bootstrap.less';
+
 // Définition des variables
 @asideTicketWidth: 150px;
 @radius: 6px;
@@ -24,6 +26,7 @@
     @import './components/input.less';
     @import './components/link.less';
     @import './components/list.less';
+    @import './components/loading.less';
     @import './components/logo.less';
     @import './components/navbar.less';
     @import './components/overflow.less';
@@ -43,7 +46,9 @@
     @import './resets/chart.less';
     @import './resets/fonts.less';
     @import './resets/html.less';
-    @import './resets/redactor.less';
+
+    @import "~quill/dist/quill.core.css";
+    @import "~quill/dist/quill.snow.css";
 }
 
 /**

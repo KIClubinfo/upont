@@ -1,7 +1,9 @@
+import alertify from 'alertifyjs';
+
 import constants, { API_PREFIX } from 'upont/js/config/constants';
 
-angular.module('upont')
-    .controller('Assos_Modify_Ctrl', ['$scope', '$controller', '$http', '$state', function($scope, $controller, $http, $state) {
+class Assos_Modify_Ctrl {
+    constructor($scope, $controller, $http, $state) {
         $scope.PROMOS = constants.PROMOS;
 
         $scope.showIcons = false;
@@ -143,16 +145,7 @@ angular.module('upont')
                 $scope.reloadMembers();
             });
         };
-    }])
-    .config(['$stateProvider', function($stateProvider) {
-        $stateProvider
-            .state('root.users.assos.simple.modify', {
-                url: '/gestion',
-                controller: 'Assos_Modify_Ctrl',
-                templateUrl: 'controllers/users/assos/modify.html',
-                data: {
-                    title: 'Gestion - uPont',
-                    top: true
-                },
-            });
-    }]);
+    }
+}
+
+export default Assos_Modify_Ctrl;

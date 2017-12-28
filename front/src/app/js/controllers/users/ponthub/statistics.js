@@ -1,22 +1,24 @@
+import Highcharts from 'highcharts';
+
 class Ponthub_Statistics_Ctrl {
     constructor($scope, ponthub) {
         $scope.chartDownloaders = {
             chart: {
                 renderTo: 'downloaders',
-                backgroundColor:'rgba(255, 255, 255, 0)',
+                backgroundColor: 'rgba(255, 255, 255, 0)',
                 type: 'column'
             },
             credits: {
-                enabled: false,
+                enabled: false
             },
             exporting: {
-                enabled: false,
+                enabled: false
             },
             title: {
                 text: 'Hall Of Fame'
             },
             subtitle: {
-                text: 'Et les ponts pompèrent, pompèrent...',
+                text: 'Et les ponts pompèrent, pompèrent...'
             },
             xAxis: {
                 categories: ponthub.downloaders.categories
@@ -44,9 +46,8 @@ class Ponthub_Statistics_Ctrl {
                 shadow: false
             },
             tooltip: {
-                formatter: function () {
-                    return '<b>' + this.x + '</b><br/>' +
-                        this.series.name + ': ' + this.y + ' Go<br/>';
+                formatter: function() {
+                    return '<b>' + this.x + '</b><br/>' + this.series.name + ': ' + this.y + ' Go<br/>';
                 }
             },
             plotOptions: {
@@ -67,20 +68,20 @@ class Ponthub_Statistics_Ctrl {
         $scope.chartDownloads = {
             chart: {
                 renderTo: 'downloads',
-                backgroundColor:'rgba(255, 255, 255, 0)',
+                backgroundColor: 'rgba(255, 255, 255, 0)',
                 type: 'column'
             },
             credits: {
-                enabled: false,
+                enabled: false
             },
             exporting: {
-                enabled: false,
+                enabled: false
             },
             title: {
                 text: 'Best Of'
             },
             subtitle: {
-                text: 'Les fichiers plus populaires que ta mère',
+                text: 'Les fichiers plus populaires que ta mère'
             },
             xAxis: {
                 type: 'category'
@@ -106,11 +107,13 @@ class Ponthub_Statistics_Ctrl {
                 headerFormat: '<span style="font-size:11px">Téléchargements</span><br>',
                 pointFormat: '<b>{point.y}</b>  <span style="color:{point.color}">{point.name}</span> téléchargés au total<br/>'
             },
-            series: [{
-                name: 'Téléchargements',
-                colorByPoint: true,
-                data: ponthub.downloads.serie
-            }],
+            series: [
+                {
+                    name: 'Téléchargements',
+                    colorByPoint: true,
+                    data: ponthub.downloads.serie
+                }
+            ],
             drilldown: {
                 series: ponthub.downloads.drilldown
             }
@@ -119,23 +122,36 @@ class Ponthub_Statistics_Ctrl {
         $scope.chartTimeline = {
             chart: {
                 renderTo: 'timeline',
-                backgroundColor:'rgba(255, 255, 255, 0)',
+                backgroundColor: 'rgba(255, 255, 255, 0)',
                 type: 'column'
             },
             credits: {
-                enabled: false,
+                enabled: false
             },
             exporting: {
-                enabled: false,
+                enabled: false
             },
             title: {
                 text: '0xx\' daubés'
             },
             subtitle: {
-                text: 'C\'était mieux avant ?',
+                text: 'C\'était mieux avant ?'
             },
             xAxis: {
-                categories: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
+                categories: [
+                    'Janvier',
+                    'Février',
+                    'Mars',
+                    'Avril',
+                    'Mai',
+                    'Juin',
+                    'Juillet',
+                    'Août',
+                    'Septembre',
+                    'Octobre',
+                    'Novembre',
+                    'Décembre'
+                ]
             },
             yAxis: {
                 title: {
@@ -147,89 +163,88 @@ class Ponthub_Statistics_Ctrl {
                 pointFormat: ' <span style="color:{series.color}">{series.name}</span> : <b>{point.y} Go</b> téléchargés au total<br/>'
             },
             labels: {
-                items: [{
-                    html: 'Répartition totale',
-                    style: {
-                        left: '75px',
-                        top: '-20px',
+                items: [
+                    {
+                        html: 'Répartition totale',
+                        style: {
+                            left: '75px',
+                            top: '-20px'
+                        }
                     }
-                }]
+                ]
             },
-            series: [{
-                type: 'column',
-                name: '016',
-                data: ponthub.timeline.promo016
-            }, {
-                type: 'column',
-                name: '017',
-                data: ponthub.timeline.promo017
-            }, {
-                type: 'column',
-                name: '018',
-                data: ponthub.timeline.promo018
-            }, {
-                type: 'column',
-                name: '019',
-                data: ponthub.timeline.promo019
-            }, {
-                type: 'spline',
-                name: 'Moyenne',
-                data: ponthub.timeline.average,
-                marker: {
-                    lineWidth: 2,
-                    lineColor: Highcharts.getOptions().colors[3],
-                    fillColor: 'white'
-                }
-            }, {
-                type: 'pie',
-                name: 'Répartition totale',
-                data: [{
+            series: [
+                {
+                    type: 'column',
                     name: '016',
-                    y: ponthub.timeline.pie.promo016
+                    data: ponthub.timeline.promo016
                 }, {
+                    type: 'column',
                     name: '017',
-                    y: ponthub.timeline.pie.promo017
+                    data: ponthub.timeline.promo017
                 }, {
+                    type: 'column',
                     name: '018',
-                    y: ponthub.timeline.pie.promo018
+                    data: ponthub.timeline.promo018
                 }, {
+                    type: 'column',
                     name: '019',
-                    y: ponthub.timeline.pie.promo019
-                }],
-                center: [100, 60],
-                size: 100
-            }]
+                    data: ponthub.timeline.promo019
+                }, {
+                    type: 'spline',
+                    name: 'Moyenne',
+                    data: ponthub.timeline.average,
+                    marker: {
+                        lineWidth: 2,
+                        lineColor: Highcharts.getOptions().colors[3],
+                        fillColor: 'white'
+                    }
+                }, {
+                    type: 'pie',
+                    name: 'Répartition totale',
+                    data: [
+                        {
+                            name: '016',
+                            y: ponthub.timeline.pie.promo016
+                        }, {
+                            name: '017',
+                            y: ponthub.timeline.pie.promo017
+                        }, {
+                            name: '018',
+                            y: ponthub.timeline.pie.promo018
+                        }, {
+                            name: '019',
+                            y: ponthub.timeline.pie.promo019
+                        }
+                    ],
+                    center: [
+                        100, 60
+                    ],
+                    size: 100
+                }
+            ]
         };
 
-        var points = [],
-        region_p,
-        region_val,
-        region_i,
-        category_p,
-        category_i;
-        var data = ponthub.ponthub;
+        let points = [];
 
-        region_i = 0;
-        for (var region in data) {
-            region_val = 0;
-            region_p = {
+        let region_i = 0;
+        for (const region in ponthub.ponthub) {
+            const region_p = {
                 id: 'id_' + region_i,
                 name: region,
                 value: 1
             };
-            category_i = 0;
-            for (var category in data[region]) {
-                category_p = {
+            let category_i = 0;
+            for (const category in ponthub.ponthub[region]) {
+                points.push({
                     id: region_p.id + '_' + category_i,
                     name: category,
                     parent: region_p.id,
                     color: Highcharts.getOptions().colors[region_i],
-                    value: Math.round(data[region][category])
-                };
-                points.push(category_p);
+                    value: Math.round(ponthub.ponthub[region][category])
+                });
                 category_i++;
             }
-            //region_p.value = Math.round(region_val / category_i);
             points.push(region_p);
             region_i++;
         }
@@ -237,81 +252,87 @@ class Ponthub_Statistics_Ctrl {
         $scope.chartPonthub = {
             chart: {
                 renderTo: 'ponthub',
-                backgroundColor:'rgba(255, 255, 255, 0)',
+                backgroundColor: 'rgba(255, 255, 255, 0)'
             },
             credits: {
-                enabled: false,
+                enabled: false
             },
             exporting: {
-                enabled: false,
+                enabled: false
             },
             title: {
                 text: 'Catalogue PontHub'
             },
             subtitle: {
-                text: 'Les totaux des totaux',
+                text: 'Les totaux des totaux'
             },
-            series: [{
-                type: 'treemap',
-                layoutAlgorithm: 'stripes',
-                alternateStartingDirection: true,
-                levels: [{
-                    level: 1,
-                    layoutAlgorithm: 'sliceAndDice',
-                    dataLabels: {
-                        enabled: true,
-                        align: 'left',
-                        verticalAlign: 'top',
-                        style: {
-                            fontSize: '15px',
-                            fontWeight: 'bold'
+            series: [
+                {
+                    type: 'treemap',
+                    layoutAlgorithm: 'stripes',
+                    alternateStartingDirection: true,
+                    levels: [
+                        {
+                            level: 1,
+                            layoutAlgorithm: 'sliceAndDice',
+                            dataLabels: {
+                                enabled: true,
+                                align: 'left',
+                                verticalAlign: 'top',
+                                style: {
+                                    fontSize: '15px',
+                                    fontWeight: 'bold'
+                                }
+                            }
                         }
-                    }
-                }],
-                data: points
-            }]
+                    ],
+                    data: points
+                }
+            ]
         };
 
         var categories = ponthub.years.categories;
         $scope.chartYears = {
             chart: {
                 renderTo: 'years',
-                backgroundColor:'rgba(255, 255, 255, 0)',
+                backgroundColor: 'rgba(255, 255, 255, 0)',
                 type: 'bar'
             },
             credits: {
-                enabled: false,
+                enabled: false
             },
             exporting: {
-                enabled: false,
+                enabled: false
             },
             title: {
                 text: 'Répartition par années'
             },
             subtitle: {
-                text: 'Oldies but goldies',
+                text: 'Oldies but goldies'
             },
-            xAxis: [{
-                categories: categories,
-                reversed: false,
-                labels: {
-                    step: 1
+            xAxis: [
+                {
+                    categories: categories,
+                    reversed: false,
+                    labels: {
+                        step: 1
+                    }
+                }, { // mirror axis on right side
+                    opposite: true,
+                    reversed: false,
+                    categories: categories,
+                    linkedTo: 0,
+                    labels: {
+                        step: 1
+                    }
                 }
-            }, { // mirror axis on right side
-                opposite: true,
-                reversed: false,
-                categories: categories,
-                linkedTo: 0,
-                labels: {
-                    step: 1
-                }
-            }],
+            ],
             yAxis: {
                 title: {
                     text: 'Nombre de fichiers'
                 },
                 labels: {
-                    formatter: function () {
+                    formatter: function() {
                         return Math.abs(this.value);
                     }
                 },
@@ -326,10 +347,11 @@ class Ponthub_Statistics_Ctrl {
             },
 
             tooltip: {
-                formatter: function () {
-                    return '<b>' + this.series.name + ' de ' + this.point.category + '</b><br/>' +
-                    Highcharts.numberFormat(Math.abs(this.point.y), 0) + ' fichier' +
-                    (this.point.y > 1 ? 's' : '');
+                formatter: function() {
+                    return '<b>' + this.series.name + ' de ' + this.point.category + '</b><br/>' + Highcharts.numberFormat(Math.abs(this.point.y), 0) + ' fichier' + (
+                        this.point.y > 1
+                        ? 's'
+                        : '');
                 }
             },
             series: ponthub.years.series

@@ -1,3 +1,5 @@
+import alertify from 'alertifyjs';
+
 import { API_PREFIX } from 'upont/js/config/constants';
 
 class Ponthub_Modify_Ctrl {
@@ -58,12 +60,6 @@ class Ponthub_Modify_Ctrl {
                 'name' : element.name,
                 'description' : element.description,
             };
-
-            var genres = [];
-            var actors = [];
-            var tags = [];
-            var list = [];
-            var i = 0;
 
             params.tags = element.tags;
             params.genres = element.genres;
