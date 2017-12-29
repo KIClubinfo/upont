@@ -127,7 +127,12 @@ alertify.defaults = {
     }
 };
 
-// Raven.config('https://c1de7d0cdfb14286a0d21efb3c0da318@sentry.io/124785').addPlugin(Raven.Plugins.Angular).install();
+import ngRaven from 'raven-js/plugins/angular';
+
+Raven
+    .config('https://c1de7d0cdfb14286a0d21efb3c0da318@sentry.io/124785')
+    .addPlugin(ngRaven, angular)
+    .install();
 
 angular.module('upontConfig', []);
 
@@ -167,35 +172,11 @@ const upont = angular.module('upont', [
 
     // File upload
     require('ng-file-upload'),
+    require('angular-base64-upload'),
 
-    // 'ngRaven',
-    // 'ngSanitize',
-    // 'ngTouch',
-    // 'mgcrea.ngStrap',
-    // 'naif.base64',
-    // require('angular-animate'),
-
-    // root configuration
-    'upontConfig'
+    // Sentry reporting
+    'ngRaven',
 ]);
-
-import {API_PREFIX} from './config/constants';
-
-(function() {
-    // Get Angular's $http module.
-    var initInjector = angular.injector(['ng']);
-    var $http = initInjector.get('$http');
-
-    $http.get(API_PREFIX + 'config').then(function(success) {
-        // Define a 'upontConfig' module.
-        angular.module('upontConfig', []).constant('upontConfig', success.data);
-
-        // Start upont manually.
-        angular.element(document).ready(function() {
-            angular.bootstrap(document, ['upont']);
-        });
-    });
-})();
 
 require('./services/Achievements');
 require('./services/Migration');

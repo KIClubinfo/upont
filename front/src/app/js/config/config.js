@@ -208,12 +208,8 @@ angular.module('upont').run([
     '$location',
     '$window',
     '$sce',
-    'upontConfig',
-    function($rootScope, StorageService, Permissions, $state, $interval, $resource, $location, $window, $sce, upontConfig) {
+    function($rootScope, StorageService, Permissions, $state, $interval, $resource, $location, $window, $sce) {
         Permissions.load();
-
-        $rootScope.config = upontConfig;
-        $rootScope.isStudentNetwork = upontConfig.studentNetwork;
 
         // Déconnexion
         $rootScope.logout = function() {

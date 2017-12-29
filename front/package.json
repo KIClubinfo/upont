@@ -35,7 +35,7 @@
   "dependencies": {
     "alertifyjs": "^1.11.0",
     "angular": "^1.6.8",
-    "angular-animate": "^1.6.8",
+    "angular-base64-upload": "^0.1.23",
     "angular-bootstrap-calendar": "^0.30.0",
     "angular-filter": "^0.5.17",
     "angular-jwt": "^0.1.9",

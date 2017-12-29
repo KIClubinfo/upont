@@ -1,7 +1,7 @@
 import PublicRouter from './public';
 import UsersRouter from './users';
 
-export const Router = $stateProvider => {
+export const Router = ['$stateProvider', $stateProvider => {
     $stateProvider.state('root', {
         abstract: true,
         url: '/',
@@ -10,6 +10,6 @@ export const Router = $stateProvider => {
 
     PublicRouter($stateProvider);
     UsersRouter($stateProvider);
-};
+}];
 
 export default Router;

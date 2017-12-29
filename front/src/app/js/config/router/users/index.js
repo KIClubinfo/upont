@@ -51,6 +51,18 @@ export const UsersRouter = $stateProvider => {
                         return response.data;
                     });
                 }
+            ],
+            config: [
+                '$http',
+                '$rootScope',
+                ($http, $rootScope) => {
+                    // On récupère les clubs de l'utilisateurs pour déterminer ses roles de publication
+                    return $http.get(API_PREFIX + 'config').then(function(response) {
+                        $rootScope.config = response.data;
+                        $rootScope.isStudentNetwork = response.data.studentNetwork;
+                        return response.data;
+                    });
+                }
             ]
         },
         data: {
