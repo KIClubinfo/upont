@@ -6,6 +6,8 @@ import template_publications_list from 'upont/js/controllers/users/publications/
 import Publications_List_Ctrl from 'upont/js/controllers/users/publications/list';
 import template_publications_post from 'upont/js/controllers/users/publications/post.html';
 import Publications_Post_Ctrl from 'upont/js/controllers/users/publications/post';
+import template_publications_calendar from 'upont/js/controllers/users/publications/calendar.html';
+import Publications_Calendar_Ctrl from 'upont/js/controllers/users/publications/calendar';
 
 import template_publications_shotgun from 'upont/js/controllers/users/publications/shotgun.html';
 import Publications_Shotgun_Ctrl from 'upont/js/controllers/users/publications/shotgun';
@@ -64,6 +66,10 @@ export const UsersPublicationsRouter = $stateProvider => {
             'list@root.users.publications.list': {
                 templateUrl: template_publications_list,
                 controller: Publications_List_Ctrl
+            },
+            'calendar@root.users.publications.list': {
+                templateUrl: template_publications_calendar,
+                controller: Publications_Calendar_Ctrl
             },
             // 'administration@root.users.publications.list': {
             //     templateUrl: template_tour,

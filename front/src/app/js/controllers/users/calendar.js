@@ -1,5 +1,5 @@
 class Calendar_Ctrl {
-    constuctor($rootScope, $scope, $filter, events, courseItems, calendarConfig) {
+    constructor($rootScope, $scope, $filter, events, courseItems, calendarConfig) {
         $scope.events = [];
         for (var i = 0; i < events.length; i++) {
             var type;

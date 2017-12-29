@@ -1,5 +1,12 @@
 import Highcharts from 'highcharts';
 
+import * as HighchartsMore from 'highcharts/highcharts-more';
+import Treemap from 'highcharts/modules/treemap';
+
+// Register the "more" module into Highcharts
+HighchartsMore(Highcharts);
+Treemap(Highcharts);
+
 class Ponthub_Statistics_Ctrl {
     constructor($scope, ponthub) {
         $scope.chartDownloaders = {

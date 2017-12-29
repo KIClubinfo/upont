@@ -26,7 +26,7 @@ angular.module('upont').factory('ErrorCodes_Interceptor', [
                         $location.path('/404');
                         break;
                     case 500:
-                        $location.path('/erreur');
+                        $location.path('/500');
                         break;
                     case 503:
                         if (response.data.until)

@@ -1,5 +1,10 @@
 import Highcharts from 'highcharts';
 
+import * as HighchartsMore from 'highcharts/highcharts-more';
+
+// Register the "more" module into Highcharts
+HighchartsMore(Highcharts);
+
 class Students_Simple_Ctrl {
     constructor($rootScope, $scope, $resource, $http, user, foyer, ponthub, clubs, achievements) {
         $scope.user = user;
