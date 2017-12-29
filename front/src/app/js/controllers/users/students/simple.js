@@ -1,9 +1,11 @@
 import Highcharts from 'highcharts';
 
 import * as HighchartsMore from 'highcharts/highcharts-more';
+import Funnel from 'highcharts/modules/funnel';
 
 // Register the "more" module into Highcharts
 HighchartsMore(Highcharts);
+Funnel(Highcharts);
 
 class Students_Simple_Ctrl {
     constructor($rootScope, $scope, $resource, $http, user, foyer, ponthub, clubs, achievements) {

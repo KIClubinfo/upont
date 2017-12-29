@@ -134,8 +134,6 @@ Raven
     .addPlugin(ngRaven, angular)
     .install();
 
-angular.module('upontConfig', []);
-
 // Export issue in these libs
 require('angulartics-piwik');
 
