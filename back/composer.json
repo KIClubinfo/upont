@@ -40,7 +40,7 @@
         "sentry/sentry-symfony": "~0.6",
         "stof/doctrine-extensions-bundle": "~1.1",
         "symfony/monolog-bundle": "~3.0",
-        "symfony/swiftmailer-bundle": "~2.3",
+        "symfony/swiftmailer-bundle": "~3.0",
         "symfony/symfony": "~3.1"
     },
     "require-dev": {

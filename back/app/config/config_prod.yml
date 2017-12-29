@@ -22,10 +22,9 @@ monolog:
             action_level: error
             handler:      nested
         nested:
-            type:  rotating_file
-            path:  '%kernel.logs_dir%/%kernel.environment%.log'
+            type:  stream
+            path:  "php://stderr"
             level: debug
-            max_files: 0
         console:
             type:  console
 

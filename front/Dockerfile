@@ -9,7 +9,7 @@ RUN npm install -g -s --no-progress yarn http-server
 
 USER node
 
-COPY package.json yarn.lock /app/
+COPY .yarnrc package.json yarn.lock /app/
 RUN yarn --dev
 
 COPY . /app/

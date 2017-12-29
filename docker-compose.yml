@@ -1,38 +1,15 @@
-version: "2"
+version: "3"
 
 services:
-    # piwik_db:
-    #     image: mysql
-    #     volumes:
-    #         - "./.data/piwik_db:/var/lib/mysql"
-    #     environment:
-    #         - MYSQL_RANDOM_ROOT_PASSWORD=yes
-    #         - MYSQL_DATABASE=piwik
-    #         - MYSQL_USER=piwik
-    #         - MYSQL_PASSWORD=8yenqfFkj0khg!dq
-    #     # ports:
-    #     #   - "127.0.0.1:3306:3306"
-    #     restart: always
-    #
-    # piwik:
-    #     image: piwik
-    #     volumes:
-    #         - ./config/piwik:/var/www/html/config
-    #     links:
-    #         - piwik_db:db
-    #     depends_on:
-    #         - piwik_db
-    #     restart: always
-
     db:
         image: mysql
         volumes:
             - db-data:/var/lib/mysql
         environment:
             - MYSQL_RANDOM_ROOT_PASSWORD=yes
-            - MYSQL_DATABASE=upont
-            - MYSQL_USER=upont
-            - MYSQL_PASSWORD=ezgnJHdzqdkjqzdg!537
+            - MYSQL_DATABASE
+            - MYSQL_USER
+            - MYSQL_PASSWORD
         restart: always
 
     phpmyadmin:
@@ -56,41 +33,32 @@ services:
         build:
             context: back
         environment:
-            - SYMFONY_ENV=dev
+            - SYMFONY_ENV
         volumes:
-            - ./config/parameters.yml:/srv/upont/back/app/config/parameters.yml:rw
-            - ./config/jwt:/srv/upont/back/app/var/jwt:ro
-            - upont-uploads:/upont/back/web/uploads:rw
+            # Strange but correct
+            - ./docker/config/jwt:/app/app/var/jwt:ro
+            - upont-uploads:/app/web/uploads:rw
         links:
             - db
         environment:
-            - DATABASE_HOST=db
-            - DATABASE_NAME=upont
-            - DATABASE_USER=upont
-            - DATABASE_PASSWORD=ezgnJHdzqdkjqzdg!537
+            - MYSQL_HOST=db
+        env_file:
+            - .env
         restart: always
 
-    # nginx:
-    #     build: docker/nginx
-    #     volumes:
-    #         # Configuration files
-    #         - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-    #         - ./nginx/conf.d:/etc/nginx/conf.d:ro
-    #         - ./config/dev-upont.enpc.fr.conf:/etc/nginx/sites-enabled/dev-upont.enpc.fr.conf:ro
-    #         # For production
-    #         # - ./config/upont.enpc.fr.conf:/etc/nginx/sites-enabled/upont.enpc.fr.conf:ro
-    #         # - /var/www/.well-known:/var/www/.well-known:ro
-    #         # - /etc/letsencrypt:/etc/letsencrypt:ro
-    #     links:
-    #         - upont-back
-    #         - upont-front
-    #         # - pochtron2
-    #         # - piwik
-    #     ports:
-    #         - 80:80
-    #         - 443:443
-    #     restart: always
-    #     # command: /bin/bash -c "envsubst < /etc/nginx/sites-enabled/upont.enpc.fr.conf > /etc/nginx/sites-enabled/upont.enpc.fr.conf"
+    ingress:
+        image: kiclubinfo/upont/ingress
+        build:
+            context: docker/ingress
+        volumes:
+            - ./docker/upont-docker-preprod.enpc.fr.conf:/etc/nginx/sites-enabled/upont.conf:ro
+        links:
+            - upont-back
+            - upont-front
+            # - pochtron2
+        ports:
+            - 8080:80
+        restart: always
 
 volumes:
     db-data:
