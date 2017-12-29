@@ -26,7 +26,7 @@
                                 <div class="Image" flex="20">
                                     <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ result.image_url | thumb | urlFile }})' }"></div>
                                 </div>
-                                <div flex="75" ng-bind-html="result.name | match: searchPost"></div>
+                                <div flex="75" ng-bind-html="result.name | match: searchPost | trustAsHtml"></div>
                             </div>
                         </div>
                     </section>

@@ -15,7 +15,8 @@ angular.module('upont').filter('promoFilter', function() {
             ) {
                 results.push(member);
             }
-            
+        }
+
         return results;
     };
 });

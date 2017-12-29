@@ -6,6 +6,6 @@
         <h2 class="padded">{{ club.full_name }}</h2>
     </header>
 
-    <p class="wysiwyg-data" ng-show="showPresentation" ng-if="club.presentation !== undefined" ng-bind-html="club.presentation"></p>
+    <p class="wysiwyg-data" ng-show="showPresentation" ng-if="club.presentation !== undefined" ng-bind-html="club.presentation | trustAsHtml"></p>
     <p ng-show="showPresentation" ng-if="club.presentation === undefined"><em>{{ club.assos ? 'Cette asso' : 'Ce club' }} n'a pas encore fourni de présentation</em></p>
 </article>

@@ -17,6 +17,6 @@
                    ng-click="next()"></i>
             </div>
         </aside>
-        <section class="Tour__text" ng-bind-html="text"></section>
+        <section class="Tour__text" ng-bind-html="text | trustAsHtml"></section>
     </div>
 </footer>

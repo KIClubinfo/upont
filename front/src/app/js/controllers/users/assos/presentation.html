@@ -1,7 +1,7 @@
 <div row="space-between start" wrap>
     <section class="Ticket" flex="100" ng-class="{'flex-md-66pct': !club.administration}">
         <div ng-hide="edit">
-            <p flex="100" ng-bind-html="presentation"></p>
+            <p flex="100" ng-bind-html="club.presentation | trustAsHtml"></p>
 
             <div row="center center" flex="100" ng-if="isAdmin || $root.hasClub(club.slug)">
                 <button class="Button" ng-click="editPresentation()">Modifier</button>
@@ -10,10 +10,10 @@
 
         <div ng-if="edit">
             <div flex="100">
-                <textarea ng-model="presentation" redactor></textarea>
+                <ng-quill-editor flex="100" ng-model="club.presentation"></ng-quill-editor>
             </div>
             <div flex="100" row="end start">
-                <button class="Button" ng-click="modify(presentation)">Envoyer</button>
+                <button class="Button" ng-click="modify()">Envoyer</button>
             </div>
         </div>
     </section>

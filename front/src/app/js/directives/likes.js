@@ -7,7 +7,8 @@ import { nl2br } from 'upont/js/php';
 
 import template_likes from './likes.html';
 
-
+// TODO refactor
+// TODO remove dependency on trustAsHtml filter
 angular.module('upont').directive('upLikes', function() {
     return {
         scope: {

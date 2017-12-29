@@ -1,6 +1,6 @@
 <section class="Ticket" flex="100" flex-md="100">
     <div ng-hide="edit">
-        <p flex="100" ng-bind-html="presentation"></p>
+        <p flex="100" ng-bind-html="club.presentation | trustAsHtml"></p>
 
         <div row="center center" flex="100">
             <button class="Button" ng-click="editPresentation()">Modifier</button>
@@ -9,10 +9,10 @@
 
     <div ng-if="edit">
         <div flex="100">
-            <textarea ng-model="presentation" redactor></textarea>
+            <textarea ng-model="club.presentation" redactor></textarea>
         </div>
         <div flex="100" row="end start">
-            <button class="Button" ng-click="modify(presentation)">Envoyer</button>
+            <button class="Button" ng-click="modify(club.presentation)">Envoyer</button>
         </div>
     </div>
 </section>

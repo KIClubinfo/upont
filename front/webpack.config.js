@@ -32,7 +32,7 @@ module.exports = {
                 test: /\.html$/,
                 use: [
                     'ngtemplate-loader?relativeTo=' + __dirname + '/',
-                    'html-loader'
+                    'html-loader?sourceMap'
                 ]
             }, {
                 test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,

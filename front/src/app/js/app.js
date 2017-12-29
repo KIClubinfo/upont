@@ -252,8 +252,10 @@ require('./filters/formatSize');
 require('./filters/fromNow');
 require('./filters/match');
 require('./filters/numberFixedLen');
+require('./filters/promoFilter');
 require('./filters/reverse');
 require('./filters/thumb');
+require('./filters/trustAsHtml');
 require('./filters/ucfirst');
 require('./filters/urlFile');
 

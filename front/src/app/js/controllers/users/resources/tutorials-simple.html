@@ -2,7 +2,7 @@
     <div row class="text-center">
     <h1>{{ tuto.name }}</h1>
 </div>
-    <div ng-bind-html="presentation"></div>
+    <div ng-bind-html="tuto.text | trustAsHtml"></div>
     <br><br>
     <div class="padded" flex="25" row="center stretch" ng-if="isAdmin">
         <button class="Button" flex="100" ng-click="editTuto()">Modifier</button>
@@ -12,7 +12,7 @@
 
 <section class="Ticket" ng-if="edit">
     <div>
-        <ng-quill-editor ng-model="presentation"></ng-quill-editor>
+        <ng-quill-editor ng-model="tuto.text"></ng-quill-editor>
     </div>
 
     <form class="padded" row wrap autocomplete="off">
@@ -34,7 +34,7 @@
         </div>
 
         <div class="padded" flex="25" row="center stretch">
-            <button class="Button" flex="100" ng-click="modify(tuto, presentation)">Envoyer</button>
+            <button class="Button" flex="100" ng-click="modify()">Envoyer</button>
         </div>
 
         <div class="padded" flex="25" row="center stretch">

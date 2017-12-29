@@ -19,6 +19,7 @@ class Admin_Students_Ctrl {
             var regex = /@(eleves\.)?enpc\.fr$/;
             if (!regex.test(email)) {
                 alertify.error('Désolé, seules les adresses des Ponts sont acceptées !');
+                return;
             }
 
             $http.post(API_PREFIX + 'users', {email: email, lastName: lastName, firstName: firstName})

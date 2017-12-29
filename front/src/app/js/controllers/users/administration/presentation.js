@@ -2,7 +2,6 @@ import { API_PREFIX } from 'upont/js/config/constants';
 
 angular.module('upont')
     .controller('Administration_Presentation_Ctrl', ['$scope', '$http', '$sce', '$filter', 'club', function($scope, $http, $sce, $filter, club) {
-        $scope.presentation = club.presentation;
         $scope.edit = false;
 
         $scope.editPresentation = function() {
@@ -11,7 +10,6 @@ angular.module('upont')
 
         $scope.modify = function(presentation) {
             $http.patch(API_PREFIX + 'clubs/' + club.slug, {presentation: presentation}).then(function() {
-                $scope.presentation = $sce.trustAsHtml(presentation);
                 alertify.success('Modifications prises en compte !');
             });
             $scope.edit = false;
