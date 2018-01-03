@@ -2,6 +2,7 @@ import alertify from 'alertifyjs';
 
 import { API_PREFIX } from 'upont/js/config/constants';
 
+/* @ngInject */
 class Reset_Ctrl {
     constructor($scope, $http, $state, $stateParams) {
         $scope.reset = function(password, check) {

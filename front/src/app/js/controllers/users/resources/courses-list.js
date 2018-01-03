@@ -2,6 +2,7 @@ import alertify from 'alertifyjs';
 
 import { API_PREFIX } from 'upont/js/config/constants';
 
+/* @ngInject */
 class Resources_Courses_List_Ctrl {
     constructor($scope, $rootScope, courses, followed, Paginate, $http, $resource, Achievements) {
         $scope.courses = courses;

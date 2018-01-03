@@ -3,6 +3,7 @@ import angular from 'angular';
 
 import { API_PREFIX } from 'upont/js/config/constants';
 
+/* @ngInject */
 class Resources_Courses_Simple_Ctrl {
     constructor($scope, course, exercices, $http, $resource) {
         $scope.course = course;

@@ -4,6 +4,7 @@ import $ from 'jquery';
 
 import { API_PREFIX } from 'upont/js/config/constants';
 
+/* @ngInject */
 class Admin_Students_Ctrl {
     constructor($scope, $rootScope, $http) {
         $scope.firstName = '';

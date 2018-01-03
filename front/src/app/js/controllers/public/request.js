@@ -2,6 +2,7 @@ import alertify from 'alertifyjs';
 
 import {API_PREFIX} from 'upont/js/config/constants';
 
+/* @ngInject */
 class Request_Ctrl {
     constructor($scope, $http) {
         $scope.request = function(username) {

@@ -7,6 +7,7 @@ import Funnel from 'highcharts/modules/funnel';
 HighchartsMore(Highcharts);
 Funnel(Highcharts);
 
+/* @ngInject */
 class Students_Simple_Ctrl {
     constructor($rootScope, $scope, $resource, $http, user, foyer, ponthub, clubs, achievements) {
         $scope.user = user;

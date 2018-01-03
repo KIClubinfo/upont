@@ -1,5 +1,6 @@
 import constants from 'upont/js/config/constants';
 
+/* @ngInject */
 class Students_List_Ctrl {
     constructor($scope, users, Paginate) {
         $scope.PROMOS = constants.PROMOS;

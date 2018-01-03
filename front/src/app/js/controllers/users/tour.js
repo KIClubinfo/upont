@@ -1,5 +1,6 @@
 import alertify from 'alertifyjs';
 
+/* @ngInject */
 class Tour_Ctrl {
     constructor($scope, $rootScope, $http, $sce, $state, Achievements) {
         const steps = [

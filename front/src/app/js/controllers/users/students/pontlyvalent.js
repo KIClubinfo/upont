@@ -2,6 +2,7 @@ import alertify from 'alertifyjs';
 
 import { API_PREFIX } from 'upont/js/config/constants';
 
+/* @ngInject */
 class Students_Pontlyvalent_Ctrl {
     constructor($scope, $rootScope, $resource, $http, comments) {
         $scope.searchResultsPost = [];

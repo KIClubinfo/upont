@@ -2,6 +2,7 @@ import alertify from 'alertifyjs';
 
 import { API_PREFIX } from 'upont/js/config/constants';
 
+/* @ngInject */
 class Publications_List_Ctrl {
     constructor($scope, $rootScope, $resource, $http, newsItems, events, Paginate, Achievements, $location) {
         $scope.events = events;

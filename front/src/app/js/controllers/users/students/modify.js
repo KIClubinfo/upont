@@ -2,6 +2,7 @@ import alertify from 'alertifyjs';
 
 import constants, { API_PREFIX } from 'upont/js/config/constants';
 
+/* @ngInject */
 class Students_Modify_Ctrl {
     constructor($scope, $rootScope, $resource, $http, preferences, user, clubs, clubsSuivis, token, devices, Achievements) {
         $scope.COUNTRIES = constants.COUNTRIES;

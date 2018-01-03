@@ -4,6 +4,7 @@ import { API_PREFIX } from 'upont/js/config/constants';
 
 import './ki-fix.html';
 
+/* @ngInject */
 class Assos_KI_Ctrl {
     constructor($scope, $rootScope, $resource, $http, fixs, ownFixs, members, Paginate, Achievements) {
         $scope.fixs = this.assignFixs(fixs);

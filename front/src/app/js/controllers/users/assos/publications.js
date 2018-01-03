@@ -1,3 +1,4 @@
+/* @ngInject */
 class Assos_Publications_Ctrl {
     constructor($scope, events, newsItems) {
         $scope.events = events;

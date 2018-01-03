@@ -7,6 +7,7 @@ import Treemap from 'highcharts/modules/treemap';
 HighchartsMore(Highcharts);
 Treemap(Highcharts);
 
+/* @ngInject */
 class Ponthub_Statistics_Ctrl {
     constructor($scope, ponthub) {
         $scope.chartDownloaders = {

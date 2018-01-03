@@ -3,6 +3,7 @@ import moment from 'moment';
 
 import {API_PREFIX} from 'upont/js/config/constants';
 
+/* @ngInject */
 class Ponthub_Simple_Ctrl {
     constructor($scope, $state, $stateParams, $q, Ponthub, StorageService, $window, $http, $resource, element, episodes) {
         $scope.element = element;

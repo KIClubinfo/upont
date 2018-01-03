@@ -1,3 +1,4 @@
+/* @ngInject */
 class Calendar_Ctrl {
     constructor($rootScope, $scope, $filter, events, courseItems, calendarConfig) {
         $scope.events = [];

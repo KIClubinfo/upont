@@ -2,6 +2,7 @@ import alertify from 'alertifyjs';
 
 import { API_PREFIX, FA_ICONS } from 'upont/js/config/constants';
 
+/* @ngInject */
 class Resource_Tutorials_Simple_Ctrl {
     constructor($scope, tuto, $http, $sce, $state) {
         $scope.tuto = tuto;

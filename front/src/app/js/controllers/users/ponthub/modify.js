@@ -2,6 +2,7 @@ import alertify from 'alertifyjs';
 
 import { API_PREFIX } from 'upont/js/config/constants';
 
+/* @ngInject */
 class Ponthub_Modify_Ctrl {
     constructor($scope, $state, $stateParams, Ponthub, $http, element) {
         $scope.init = function(element) {

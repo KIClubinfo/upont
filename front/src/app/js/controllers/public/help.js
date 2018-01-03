@@ -1,3 +1,4 @@
+/* @ngInject */
 class Help_Ctrl {
     constructor($scope) {
         $scope.displayedTab = "Chargement";

@@ -3,6 +3,7 @@ import { API_PREFIX } from 'upont/js/config/constants';
 import './infos.html';
 import './footer.html';
 
+/* @ngInject */
 class Aside_Ctrl {
     constructor($scope, $rootScope, $resource, $http, $interval) {
         // CHARGEMENT DES DONNÉES DE BASE

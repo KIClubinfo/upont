@@ -1,5 +1,6 @@
 import alertify from 'alertifyjs';
 
+/* @ngInject */
 class SingleSignOn_Ctrl {
     constuctor($scope, $rootScope, $stateParams, $location, $http, $window, StorageService) {
         // Identify the external application

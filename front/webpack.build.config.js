@@ -3,14 +3,10 @@
 const path    = require('path');
 const webpack = require('webpack');
 
-const config = require('./webpack.config');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-const UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
-const uglifyOptions  = {
-  mangle : {
-    except : ['$super', '$', 'exports', 'require', 'angular']
-  }
-};
+const config = require('./webpack.config');
 
 config.output = {
   filename   : '[name].min.js',
@@ -18,6 +14,21 @@ config.output = {
   publicPath : ''
 };
 
-// config.plugins.push(new UglifyJsPlugin(uglifyOptions));
+config.plugins.push(
+    new webpack.NoEmitOnErrorsPlugin(),
+    new UglifyJsPlugin({
+        uglifyOptions: {
+            mangle: {
+                reserved: ['$', 'jQuery']
+            }
+        }
+    }),
+    new CopyWebpackPlugin([
+        {
+            // Copy directory contents to {output}/
+            from: 'public/'
+        }
+    ])
+);
 
 module.exports = config;

@@ -8,10 +8,11 @@
     "start": "./node_modules/.bin/webpack-dev-server --config webpack.dev.config.js"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0-beta.36",
+    "@babel/preset-env": "^7.0.0-beta.36",
     "autoprefixer": "^7.2.3",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-polyfill": "^6.26.0",
+    "babel-loader": "^8.0.0-beta.0",
+    "babel-plugin-angularjs-annotate": "^0.8.2",
     "copy-webpack-plugin": "^4.3.1",
     "css-loader": "^0.28.7",
     "eslint": "^4.14.0",
@@ -21,13 +22,12 @@
     "html-loader": "^0.5.1",
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
-    "main-bower-files": "latest",
-    "ng-annotate-loader": "^0.6.1",
     "ngtemplate-loader": "^2.0.1",
     "postcss": "^6.0.14",
     "postcss-loader": "^2.0.9",
     "script-loader": "^0.7.2",
     "style-loader": "^0.19.1",
+    "uglifyjs-webpack-plugin": "^1.1.5",
     "url-loader": "^0.6.2",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.9.7"
@@ -55,5 +55,6 @@
     "ng-quill": "^3.5.1",
     "raven-js": "^3.21.0",
     "typeface-open-sans": "^0.0.45"
-  }
+  },
+  "browserslist": "last 2 versions"
 }

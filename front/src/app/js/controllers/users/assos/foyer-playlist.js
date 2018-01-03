@@ -2,6 +2,7 @@ import alertify from 'alertifyjs';
 
 import { API_PREFIX } from 'upont/js/config/constants';
 
+/* @ngInject */
 class Assos_FoyerPlaylist_Ctrl {
     constructor($scope, $rootScope, $http, youtube, stats, members, Paginate) {
         $scope.youtube = youtube;

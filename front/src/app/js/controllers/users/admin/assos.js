@@ -1,5 +1,6 @@
 import alertify from 'alertifyjs';
 
+/* @ngInject */
 class Admin_Assos_Ctrl {
     constructor($scope, $rootScope, $http) {
         $scope.club = {

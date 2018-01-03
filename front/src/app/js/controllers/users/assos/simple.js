@@ -1,3 +1,4 @@
+/* @ngInject */
 class Assos_Simple_Ctrl {
     constructor($rootScope, $scope, club, members) {
         $scope.club = club;

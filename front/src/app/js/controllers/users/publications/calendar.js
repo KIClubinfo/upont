@@ -2,6 +2,7 @@ import alertify from 'alertifyjs';
 
 import { API_PREFIX } from 'upont/js/config/constants';
 
+/* @ngInject */
 class Publications_Calendar_Ctrl {
     constructor($scope, newsItems, events, courseItems) {
         $scope.events = events;

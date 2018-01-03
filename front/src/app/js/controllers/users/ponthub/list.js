@@ -1,5 +1,6 @@
 import moment from 'moment';
 
+/* @ngInject */
 class Ponthub_List_Ctrl {
     constructor($scope, $stateParams, elements, Paginate, Ponthub, StorageService) {
         $scope.elements = elements;

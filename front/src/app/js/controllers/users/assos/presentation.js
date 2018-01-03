@@ -2,6 +2,7 @@ import alertify from 'alertifyjs';
 
 import constants, {API_PREFIX} from 'upont/js/config/constants';
 
+/* @ngInject */
 class Assos_Presentation_Ctrl {
     constructor($scope, $http, $sce) {
         $scope.PROMOS = constants.PROMOS;

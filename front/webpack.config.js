@@ -2,7 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     resolve: {
@@ -14,17 +13,20 @@ module.exports = {
     },
     devtool: 'source-map',
     entry: {
-        upont: [
-            'babel-polyfill',
-            path.resolve(__dirname, 'src/app/js/app.js')
-        ]
+        upont: path.resolve(__dirname, 'src/app/js/app.js')
     },
     module: {
         rules: [
             {
                 test: /src\/app\/.*\.js$/,
                 use: [
-                    'babel-loader',
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            // presets: ['@babel/preset-env'],
+                            plugins: [require('babel-plugin-angularjs-annotate')]
+                        }
+                    },
                     // 'eslint-loader',
                 ],
                 exclude: /node_modules/
@@ -36,14 +38,10 @@ module.exports = {
                 ]
             }, {
                 test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                use: [
-                    'url-loader?limit=10000&mimetype=application/font-woff'
-                ]
+                use: ['url-loader?limit=10000&mimetype=application/font-woff']
             }, {
                 test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                use: [
-                    'file-loader'
-                ]
+                use: ['file-loader']
             }, {
                 test: /\.css$/,
                 use: ExtractTextPlugin.extract({
@@ -58,20 +56,12 @@ module.exports = {
                 })
             }, {
                 test: /\.(png|jpg|jpeg|gif)$/,
-                use: [
-                    'file-loader'
-                ]
+                use: ['file-loader']
             }
         ]
     },
     plugins: [
         new ExtractTextPlugin({filename: '[name].min.css', allChunks: true}),
-        new CopyWebpackPlugin([
-            {
-                // Copy directory contents to {output}/
-                from: 'public/'
-            }
-        ]),
         new webpack.ProvidePlugin({$: "jquery", jQuery: "jquery"}),
         // Automatically move all modules defined outside of application directory to vendor bundle.
         new webpack.optimize.CommonsChunkPlugin({

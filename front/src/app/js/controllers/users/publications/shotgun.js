@@ -2,6 +2,7 @@ import alertify from 'alertifyjs';
 
 import { API_PREFIX } from 'upont/js/config/constants';
 
+/* @ngInject */
 class Publications_Shotgun_Ctrl {
     constructor($scope, $resource, $http, event, shotgun) {
         $scope.event = event;

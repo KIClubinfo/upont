@@ -1,5 +1,6 @@
 import './assos-simple.html';
 
+/* @ngInject */
 class Assos_Public_Ctrl {
     constructor($scope, clubs) {
         $scope.clubs = [];

@@ -2,6 +2,7 @@ import alertify from 'alertifyjs';
 
 import { API_PREFIX } from 'upont/js/config/constants';
 
+/* @ngInject */
 class Ponthub_Requests_Ctrl {
     constructor($rootScope, $scope, $http, $resource, requests) {
         $scope.requests = requests;
