@@ -1,12 +1,20 @@
 <?php
 namespace KI\UserBundle\Repository;
 
-use KI\CoreBundle\Repository\ResourceRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
+
 use KI\UserBundle\Entity\Club;
+use KI\UserBundle\Entity\ClubUser;
 use KI\UserBundle\Entity\User;
 
-class ClubUserRepository extends ResourceRepository
+class ClubUserRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, ClubUser::class);
+    }
+
     public function getUserBelowInClubWithPromo(Club $club, $promo, $priority)
     {
         return $this->getEntityManager()->createQuery('SELECT cu

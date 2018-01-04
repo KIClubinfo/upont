@@ -12,7 +12,7 @@ class CurlServiceTest extends WebTestCase
     {
         parent::__construct();
         $this->container = static::$kernel->getContainer();
-        $this->service = $this->container->get('ki_core.service.curl');
+        $this->service = $this->container->get('KI\CoreBundle\Service\CurlService');
     }
     public function testCurl()
     {

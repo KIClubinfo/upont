@@ -452,7 +452,7 @@ class ClubsController extends SubresourceController
     {
         $repository = $this->manager->getRepository('KIPublicationBundle:Newsitem');
 
-        $paginateHelper = $this->get('ki_core.helper.paginate');
+        $paginateHelper = $this->get('KI\CoreBundle\Helper\PaginateHelper');
         extract($paginateHelper->paginateData($repository));
 
         $findBy['authorClub'] = $this->findBySlug($slug);
@@ -484,7 +484,7 @@ class ClubsController extends SubresourceController
     {
         $repository = $this->manager->getRepository('KIPublicationBundle:Event');
 
-        $paginateHelper = $this->get('ki_core.helper.paginate');
+        $paginateHelper = $this->get('KI\CoreBundle\Helper\PaginateHelper');
         extract($paginateHelper->paginateData($repository));
 
         $findBy['authorClub'] = $this->findBySlug($slug);

@@ -11,4 +11,4 @@ services:
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@ki_publication.repository.course'
-            - '@ki_core.service.curl'
+            - '@KI\CoreBundle\Service\CurlService'

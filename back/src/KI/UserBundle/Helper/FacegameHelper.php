@@ -2,11 +2,11 @@
 
 namespace KI\UserBundle\Helper;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Entity\Facegame;
 use KI\UserBundle\Event\AchievementCheckEvent;
+use KI\UserBundle\Repository\UserRepository;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -21,8 +21,8 @@ class FacegameHelper
     protected $tokenStorage;
 
     public function __construct(
-        EntityManager            $manager,
-        EntityRepository         $repository,
+        EntityManagerInterface   $manager,
+        UserRepository         $repository,
         EventDispatcherInterface $dispatcher,
         TokenStorageInterface    $tokenStorage
     )

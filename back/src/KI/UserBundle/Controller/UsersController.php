@@ -5,6 +5,7 @@ namespace KI\UserBundle\Controller;
 use KI\CoreBundle\Controller\ResourceController;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Entity\User;
+use KI\UserBundle\Factory\UserFactory;
 use KI\UserBundle\Event\AchievementCheckEvent;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -196,7 +197,7 @@ class UsersController extends ResourceController
      * @Route("/users")
      * @Method("POST")
      */
-    public function postUsersAction(Request $request)
+    public function postUsersAction(UserFactory $userFactory, Request $request)
     {
         //On limite la création de compte aux admins
         if (!$this->isGranted('ROLE_ADMIN')) {
@@ -238,7 +239,7 @@ class UsersController extends ResourceController
             'lastName' => $lastName,
         ];
 
-        $this->get('ki_user.factory.user')->createUser($login, [], $attributes);
+        $userFactory->createUser($login, [], $attributes);
 
         return $this->json(null, 201);
     }

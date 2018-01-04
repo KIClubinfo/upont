@@ -2,16 +2,17 @@
 
 namespace KI\CoreBundle\Service;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+
+use KI\UserBundle\Repository\UserRepository;
 
 class SearchService
 {
     protected $manager;
     protected $userRepository;
 
-    public function __construct(EntityManager $manager, EntityRepository $userRepository)
+    public function __construct(EntityManagerInterface $manager, UserRepository $userRepository)
     {
         $this->manager        = $manager;
         $this->userRepository = $userRepository;

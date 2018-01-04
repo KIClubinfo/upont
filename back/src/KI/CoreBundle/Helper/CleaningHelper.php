@@ -2,8 +2,8 @@
 
 namespace KI\CoreBundle\Helper;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use KI\UserBundle\Repository\NotificationRepository;
 
 // Valide les formulaires pour une entité et affiche la réponse à la demande
 class CleaningHelper
@@ -11,7 +11,7 @@ class CleaningHelper
     protected $manager;
     protected $notificationRepository;
 
-    public function __construct(EntityManager $manager, EntityRepository $notificationRepository)
+    public function __construct(EntityManagerInterface $manager, NotificationRepository $notificationRepository)
     {
         $this->manager                = $manager;
         $this->notificationRepository = $notificationRepository;

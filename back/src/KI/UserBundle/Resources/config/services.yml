@@ -3,47 +3,44 @@ parameters:
     ki_upont.push.gcm: 'AIzaSyCHrIJMqsou89Er6ksjfuqIZQLdOsuky2Q'
 
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    KI\UserBundle\:
+        resource: '../../*'
+        exclude: '../../{Entity,DataFixtures}'
+
+    KI\UserBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
+    KI\UserBundle\Command\:
+        resource: '../../Command/*'
+        tags: ['console.command']
+
     # Permet de gérer des tokens comme on veut
-    ki_user.service.token:
-        class: KI\UserBundle\Service\TokenService
+    KI\UserBundle\Service\TokenService:
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@security.token_storage'
 
     # Gère l'envoi de mails
-    ki_user.service.mailer:
-        class: KI\UserBundle\Service\MailerService
+    KI\UserBundle\Service\MailerService:
         arguments:
             - '@mailer'
             - '@templating'
 
-    # Gère l'envoi de notification
-    ki_user.service.notify:
-        class: KI\UserBundle\Service\NotifyService
-        arguments:
-            - '@ki_user.service.gcm'
-            - '@doctrine.orm.entity_manager'
-            - '@ki_user.repository.device'
-            - '@ki_user.repository.user'
-
     # Interface Google Cloud Messages
-    ki_user.service.gcm:
-        class: KI\UserBundle\Service\GcmService
+    KI\UserBundle\Service\GcmService:
         arguments:
-            - '@ki_core.service.curl'
+            - '@KI\CoreBundle\Service\CurlService'
             - '%ki_upont.push.gcm%'
 
     # Interface avancée de gestion des permissions utilisateurs
-    ki_user.service.permission:
-        class: KI\UserBundle\Service\PermissionService
-        arguments:
-            - '@ki_user.repository.clubuser'
-
-    ki_user.factory.user:
-        class: KI\UserBundle\Factory\UserFactory
-        arguments:
-          - '@fos_user.user_manager'
-          - '@event_dispatcher'
+    KI\UserBundle\Service\PermissionService:
+        public: true
 
     form_login_authenticator:
         class: KI\UserBundle\Security\FormLoginAuthenticator
@@ -58,8 +55,60 @@ services:
         arguments:
           - '@lexik_jwt_authentication.jwt_manager'
           - '@event_dispatcher'
-          - '@ki_user.factory.user'
-          - '@ki_user.repository.user'
+          - '@KI\UserBundle\Factory\UserFactory'
+          - '@KI\UserBundle\Repository\UserRepository'
           - '%proxy_url%'
           - '%proxy_user%'
           - '%upont%'
+
+    KI\UserBundle\Setter\UserSetter:
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+
+    KI\UserBundle\Selector\ClubSelector:
+        tags:
+           - { name: form.type, alias: club_selector }
+
+    # Écoute les checks d'achievements demandés un peu partout dans le code
+    KI\UserBundle\Listener\AchievementCheckListener:
+        tags:
+            - { name: kernel.event_listener, event: upont.achievement, method: check }
+
+    KI\UserBundle\Listener\JWTCreatedListener:
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
+
+    KI\UserBundle\Listener\JWTDecodedListener:
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_decoded, method: onJWTDecoded }
+
+    # Écoute le lancement de notifications push
+    KI\UserBundle\Listener\NotificationListener:
+        arguments:
+            - '@KI\CoreBundle\Service\CurlService'
+            - '%ki_upont.push.gcm%'
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+
+    # Ajoute les gens online
+    KI\UserBundle\Listener\OnlineListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    KI\UserBundle\Listener\SendMailUserRegistrationListener:
+        tags:
+            - { name: kernel.event_listener, event: upont.user_registration, method: sendMail }
+
+    KI\UserBundle\Listener\FacebookImportUserRegistrationListener:
+        arguments:
+            - '@KI\CoreBundle\Service\CurlService'
+            - '@KI\CoreBundle\Service\ImageService'
+            - '@doctrine.orm.entity_manager'
+            - '%facebook_token%'
+        tags:
+            - { name: kernel.event_listener, event: upont.user_registration, method: facebookImport }
+
+    # Sert pour la compatibilité FOSUserBundle
+    KI\UserBundle\Form\UserType:
+        tags:
+            - { name: form.type, alias: user }

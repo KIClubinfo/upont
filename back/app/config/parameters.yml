@@ -1,28 +1,28 @@
 parameters:
-    database_host: %env(MYSQL_HOST)%
-    database_name: %env(MYSQL_DATABASE)%
-    database_user: %env(MYSQL_USER)%
-    database_password: %env(MYSQL_PASSWORD)%
+    database_host: '%env(MYSQL_HOST)%'
+    database_name: '%env(MYSQL_DATABASE)%'
+    database_user: '%env(MYSQL_USER)%'
+    database_password: '%env(MYSQL_PASSWORD)%'
     locale: fr
-    proxy_url: %env(PROXY_URL)%
-    proxy_user: %env(PROXY_USER)%
+    proxy_url: '%env(PROXY_URL)%'
+    proxy_user: '%env(PROXY_USER)%'
     database_driver: pdo_mysql
     database_port: null
     mailer_transport: smtp
-    mailer_auth_mode: %env(MAILER_AUTH_MODE)%
-    mailer_host: %env(MAILER_HOST)%
-    mailer_port: %env(MAILER_PORT)%
-    mailer_user: %env(MAILER_USER)%
-    mailer_password: %env(MAILER_PASSWORD)%
-    mailer_encryption: %env(MAILER_ENCRYPTION)%
-    secret: %env(SYMFONY_SECRET)%
+    mailer_auth_mode: '%env(MAILER_AUTH_MODE)%'
+    mailer_host: '%env(MAILER_HOST)%'
+    mailer_port: '%env(MAILER_PORT)%'
+    mailer_user: '%env(MAILER_USER)%'
+    mailer_password: '%env(MAILER_PASSWORD)%'
+    mailer_encryption: '%env(MAILER_ENCRYPTION)%'
+    secret: '%env(SYMFONY_SECRET)%'
     debug_toolbar: true
     debug_redirects: false
     use_assetic_controller: true
-    fleur_token: %env(FLEUR_TOKEN)%
-    jwt_passphrase: %env(JWT_PASSPHRASE)%
-    facebook_token: %env(FACEBOOK_TOKEN)%
-    sentry_dsn: %env(SENTRY_DSN)%
+    fleur_token: '%env(FLEUR_TOKEN)%'
+    jwt_passphrase: '%env(JWT_PASSPHRASE)%'
+    facebook_token: '%env(FACEBOOK_TOKEN)%'
+    sentry_dsn: '%env(SENTRY_DSN)%'
 
     env(MYSQL_HOST): localhost
     env(MYSQL_DATABASE): upont

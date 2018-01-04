@@ -38,8 +38,7 @@ class NegativeBalanceCommand extends ContainerAwareCommand
             $user = $row[0];
 
             // Envoi du mail
-            $message = Swift_Message::newInstance()
-                ->setSubject('Pense à recharger ton compte foyer !')
+            $message = (new Swift_Message('Pense à recharger ton compte foyer !'))
                 ->setFrom('foyer.daube@gmail.com')
                 ->setTo($user->getEmail())
                 ->setBody($this->getContainer()->get('twig')->render('KIFoyerBundle::negative-balance.html.twig', [

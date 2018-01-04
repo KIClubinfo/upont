@@ -2,16 +2,16 @@
 
 namespace KI\UserBundle\Listener;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use KI\UserBundle\Entity\User;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class OnlineListener
 {
     protected $manager;
     protected $tokenStorage;
 
-    public function __construct(EntityManager $manager, TokenStorage $tokenStorage)
+    public function __construct(EntityManagerInterface $manager, TokenStorageInterface $tokenStorage)
     {
         $this->manager         = $manager;
         $this->tokenStorage = $tokenStorage;

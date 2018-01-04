@@ -5,28 +5,75 @@ parameters:
     ki_core.base_url: https://upont.enpc.fr/api/
 
 services:
-    ki_core.service.curl:
-        class: KI\CoreBundle\Service\CurlService
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    KI\CoreBundle\:
+        resource: '../../*'
+        exclude: '../../{Entity,DataFixtures}'
+
+    KI\CoreBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
+    KI\CoreBundle\Service\CurlService:
         arguments:
             - '%proxy_url%'
             - '%proxy_user%'
 
-    ki_core.service.image:
-        class: KI\CoreBundle\Service\ImageService
+    KI\CoreBundle\Service\ImageService:
         arguments:
-            - '@ki_core.service.curl'
-            - '%ki_core.images.maxSize%'
+            $imagesMaxSize: '%ki_core.images.maxSize%'
 
-    ki_core.service.maintenance:
-        class: KI\CoreBundle\Service\MaintenanceService
+    KI\CoreBundle\Service\MaintenanceService:
         arguments:
             - '%ki_core.maintenance_lockfile_path%'
 
-    ki_core.service.search:
-        class: KI\CoreBundle\Service\SearchService
+    KI\CoreBundle\Transformer\StringToTagsTransformer:
+        arguments:
+           - '@doctrine.orm.entity_manager'
+           - '@ki_core.repository.tag'
+
+    KI\CoreBundle\Selector\ImageSelector:
+        tags:
+           - { name: form.type, alias: image_selector }
+
+    KI\CoreBundle\Selector\TagsSelector:
+        tags:
+           - { name: form.type, alias: tags_selector }
+
+    ki_core.repository.tag:
+        class: Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - KI\CoreBundle\Entity\Tag
+
+    KI\CoreBundle\Helper\FormHelper:
+        public: true
         arguments:
             - '@doctrine.orm.entity_manager'
-            - '@ki_user.repository.user'
+            - '@form.factory'
+            - '@router'
+        calls:
+            - [setRequest, ['@request_stack']]
 
-    ki_core.service.version:
-        class: KI\CoreBundle\Service\VersionService
+    KI\CoreBundle\Helper\PaginateHelper:
+        public: true
+        calls:
+            - [setRequest, ['@request_stack']]
+
+    KI\CoreBundle\Listener\LikeableListener:
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
+
+    KI\CoreBundle\Listener\MaintenanceListener:
+        arguments:
+            - '%ki_core.maintenance_lockfile_path%'
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    KI\CoreBundle\Listener\JsonRequestTransformerListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 100 }

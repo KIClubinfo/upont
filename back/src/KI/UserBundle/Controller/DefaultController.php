@@ -5,6 +5,8 @@ namespace KI\UserBundle\Controller;
 use KI\CoreBundle\Controller\BaseController;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Event\AchievementCheckEvent;
+use KI\UserBundle\Service\TokenService;
+
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -12,6 +14,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+use Swift_Message;
 
 class DefaultController extends BaseController
 {
@@ -77,7 +81,7 @@ class DefaultController extends BaseController
      * @Route("/resetting/request")
      * @Method("POST")
      */
-    public function resettingAction(Request $request)
+    public function resettingAction(TokenService $tokenService, Request $request)
     {
         if (!$request->request->has('username'))
             throw new BadRequestHttpException('Aucun nom d\'utilisateur fourni');
@@ -90,9 +94,8 @@ class DefaultController extends BaseController
             if ($user->hasRole('ROLE_ADMISSIBLE'))
                 return $this->json(null, 403);
 
-            $token = $this->get('ki_user.service.token')->getToken($user);
-            $message = \Swift_Message::newInstance()
-                ->setSubject('Réinitialisation du mot de passe')
+            $token = $tokenService->getToken($user);
+            $message = (new Swift_Message('Réinitialisation du mot de passe'))
                 ->setFrom('noreply@upont.enpc.fr')
                 ->setTo($user->getEmail())
                 ->setBody($this->renderView('KIUserBundle::resetting.txt.twig', ['token' => $token, 'name' => $user->getFirstName()]));

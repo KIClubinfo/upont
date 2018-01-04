@@ -13,14 +13,14 @@ services:
         class: KI\PublicationBundle\Listener\EventListener
         arguments:
             - '@event_dispatcher'
-            - '@ki_user.service.mailer'
-            - '@ki_user.service.notify'
-            - '@ki_user.repository.user'
+            - '@KI\UserBundle\Service\MailerService'
+            - '@KI\UserBundle\Service\NotifyService'
+            - '@KI\UserBundle\Repository\NotificationRepository'
 
     ki_publication.listener.exercice:
         class: KI\PublicationBundle\Listener\ExerciceListener
         arguments:
-            - '@ki_user.service.notify'
+            - '@KI\UserBundle\Service\NotifyService'
             - '@event_dispatcher'
             - '@ki_publication.repository.courseuser'
 
@@ -28,6 +28,6 @@ services:
         class: KI\PublicationBundle\Listener\NewsitemListener
         arguments:
             - '@event_dispatcher'
-            - '@ki_user.service.mailer'
-            - '@ki_user.service.notify'
-            - '@ki_user.repository.user'
+            - '@KI\UserBundle\Service\MailerService'
+            - '@KI\UserBundle\Service\NotifyService'
+            - '@KI\UserBundle\Repository\NotificationRepository'

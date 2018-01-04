@@ -2,14 +2,15 @@
 
 namespace KI\PublicationBundle\Listener;
 
-use Doctrine\ORM\EntityRepository;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+
 use KI\PublicationBundle\Entity\Event;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Entity\Club;
 use KI\UserBundle\Event\AchievementCheckEvent;
+use KI\UserBundle\Repository\UserRepository;
 use KI\UserBundle\Service\MailerService;
 use KI\UserBundle\Service\NotifyService;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class EventListener
 {
@@ -21,7 +22,7 @@ class EventListener
     public function __construct(EventDispatcherInterface $dispatcher,
                                 MailerService $mailerService,
                                 NotifyService $notifyService,
-                                EntityRepository $userRepository)
+                                userRepository $userRepository)
     {
         $this->dispatcher     = $dispatcher;
         $this->mailerService  = $mailerService;

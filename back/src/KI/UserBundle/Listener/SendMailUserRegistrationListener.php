@@ -6,17 +6,17 @@ use KI\UserBundle\Entity\User;
 use KI\UserBundle\Event\UserRegistrationEvent;
 use Swift_Mailer;
 use Swift_Message;
-use Symfony\Bundle\TwigBundle\TwigEngine;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
 class SendMailUserRegistrationListener
 {
     private $swiftMailer;
-    private $twigEngine;
+    private $templatingEngine;
 
-    public function __construct(Swift_Mailer $swiftMailer, TwigEngine $twigEngine)
+    public function __construct(Swift_Mailer $swiftMailer, EngineInterface $templatingEngine)
     {
         $this->swiftMailer = $swiftMailer;
-        $this->twigEngine = $twigEngine;
+        $this->templatingEngine = $templatingEngine;
     }
 
     // Check si un achievement donné est accompli, si oui envoie une notification
@@ -27,19 +27,17 @@ class SendMailUserRegistrationListener
         $username = $event->getUser()->getUsername();
 
         // Envoi du mail
-        $message = Swift_Message::newInstance()
-            ->setSubject('Inscription uPont')
+        $message = (new Swift_Message('Inscription uPont'))
             ->setFrom('noreply@upont.enpc.fr')
             ->setTo($email)
-            ->setBody($this->twigEngine->render('KIUserBundle::registration.txt.twig', $attributes));
+            ->setBody($this->templatingEngine->render('KIUserBundle::registration.txt.twig', $attributes));
 
         $this->swiftMailer->send($message);
 
-        $message = Swift_Message::newInstance()
-            ->setSubject('[uPont] Nouvelle inscription (' . $username . ')')
+        $message = (new Swift_Message('[uPont] Nouvelle inscription (' . $username . ')'))
             ->setFrom('noreply@upont.enpc.fr')
             ->setTo('upont@clubinfo.enpc.fr')
-            ->setBody($this->twigEngine->render('KIUserBundle::registration-ki.txt.twig', $attributes));
+            ->setBody($this->templatingEngine->render('KIUserBundle::registration-ki.txt.twig', $attributes));
 
         $this->swiftMailer->send($message);
     }

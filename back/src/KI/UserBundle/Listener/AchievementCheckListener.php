@@ -2,13 +2,13 @@
 
 namespace KI\UserBundle\Listener;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Entity\AchievementUser;
 use KI\UserBundle\Entity\User;
 use KI\UserBundle\Event\AchievementCheckEvent;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class AchievementCheckListener
 {
@@ -22,7 +22,7 @@ class AchievementCheckListener
     // Liste des achievements unlockés actuellement (identifiants seulement)
     protected $achievements = [];
 
-    public function __construct(EntityManager $manager, TokenStorage $tokenStorage, AuthorizationChecker $authorizationChecker)
+    public function __construct(EntityManagerInterface $manager, TokenStorageInterface $tokenStorage, AuthorizationCheckerInterface $authorizationChecker)
     {
         $this->manager = $manager;
         $this->tokenStorage = $tokenStorage;

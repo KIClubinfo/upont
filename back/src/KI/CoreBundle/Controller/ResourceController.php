@@ -16,7 +16,7 @@ class ResourceController extends LikeableController
     {
         $this->trust(!$this->is('EXTERIEUR') || $auth);
 
-        $paginateHelper = $this->get('ki_core.helper.paginate');
+        $paginateHelper = $this->get('KI\CoreBundle\Helper\PaginateHelper');
         extract($paginateHelper->paginateData($this->repository));
 
         list($results, $links, $count) = $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
@@ -48,7 +48,7 @@ class ResourceController extends LikeableController
     protected function post($auth = false, $flush = true)
     {
         $this->trust($this->is('MODO') || $auth);
-        $formHelper = $this->get('ki_core.helper.form');
+        $formHelper = $this->get('KI\CoreBundle\Helper\FormHelper');
         return $formHelper->formData(new $this->class(), 'POST', $flush);
     }
 
@@ -63,7 +63,7 @@ class ResourceController extends LikeableController
         $this->trust($this->is('MODO') || $auth);
         $item = $this->findBySlug($slug);
 
-        $formHelper = $this->get('ki_core.helper.form');
+        $formHelper = $this->get('KI\CoreBundle\Helper\FormHelper');
         return $formHelper->formData($item, 'PATCH', $flush);
     }
 

@@ -2,9 +2,11 @@
 
 namespace KI\UserBundle\Service;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
+
 use KI\UserBundle\Entity\Notification;
+use KI\UserBundle\Repository\DeviceRepository;
+use KI\UserBundle\Repository\UserRepository;
 use KI\UserBundle\Service\GcmService;
 
 class NotifyService
@@ -14,7 +16,11 @@ class NotifyService
     protected $deviceRepository;
     protected $userRepository;
 
-    public function __construct(GcmService $gcmService, EntityManager $manager, EntityRepository $deviceRepository, EntityRepository $userRepository)
+    public function __construct(GcmService $gcmService,
+                                EntityManagerInterface $manager,
+                                DeviceRepository $deviceRepository,
+                                UserRepository $userRepository
+    )
     {
         $this->gcmService       = $gcmService;
         $this->manager          = $manager;

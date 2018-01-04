@@ -10,6 +10,11 @@ use Symfony\Component\HttpFoundation\IpUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
+use KI\CoreBundle\Helper\CleaningHelper;
+use KI\CoreBundle\Service\MaintenanceService;
+use KI\CoreBundle\Service\SearchService;
+use KI\CoreBundle\Service\VersionService;
+
 class DefaultController extends BaseController
 {
     public function setContainer(ContainerInterface $container = null)
@@ -32,9 +37,9 @@ class DefaultController extends BaseController
      * @Route("/clean")
      * @Method("GET")
      */
-    public function cleanAction()
+    public function cleanAction(CleaningHelper $cleaningHelper)
     {
-        $this->get('ki_core.helper.cleaning')->clean();
+        $cleaningHelper->clean();
         return $this->json(null, 204);
     }
 
@@ -129,11 +134,11 @@ class DefaultController extends BaseController
      * @Route("/maintenance")
      * @Method("POST")
      */
-    public function maintenanceLockAction(Request $request)
+    public function maintenanceLockAction(MaintenanceService $maintenanceService, Request $request)
     {
         $this->trust($this->is('ADMIN'));
         $until = $request->request->has('until') ? (string)$request->request->get('until') : '';
-        $this->get('ki_core.service.maintenance')->lock($until);
+        $maintenanceService->lock($until);
         return $this->json(null, 204);
     }
 
@@ -150,10 +155,10 @@ class DefaultController extends BaseController
      * @Route("/maintenance")
      * @Method("DELETE")
      */
-    public function maintenanceUnlockAction()
+    public function maintenanceUnlockAction(MaintenanceService $maintenanceService)
     {
         $this->trust($this->is('ADMIN'));
-        $this->get('ki_core.service.maintenance')->unlock();
+        $maintenanceService->unlock();
         return $this->json(null, 204);
     }
 
@@ -197,7 +202,7 @@ class DefaultController extends BaseController
      * @Route("/search")
      * @Method("POST")
      */
-    public function searchAction(Request $request)
+    public function searchAction(SearchService $searchService, Request $request)
     {
         $this->trust($this->is('USER'));
 
@@ -205,7 +210,6 @@ class DefaultController extends BaseController
             throw new BadRequestHttpException('Critère de recherche manquant');
         }
         $search = $request->request->get('search');
-        $searchService = $this->get('ki_core.service.search');
         list($category, $criteria) = $searchService->analyzeRequest($search);
 
         return $this->json($searchService->search($category, $criteria));
@@ -223,9 +227,9 @@ class DefaultController extends BaseController
      * @Route("/version")
      * @Method("GET")
      */
-    public function versionAction()
+    public function versionAction(VersionService $versionService)
     {
-        return $this->json($this->get('ki_core.service.version')->getVersion());
+        return $this->json($versionService->getVersion());
     }
 
     /**

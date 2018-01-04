@@ -292,7 +292,7 @@ class EventsController extends ResourceController
             $userEvents = $repo->findBy(['event' => $event], ['date' => 'ASC']);
 
             if (isset($userEvents[$event->getShotgunLimit()])) {
-                $this->get('ki_user.service.notify')->notify(
+                $this->get('KI\UserBundle\Service\NotifyService')->notify(
                     'notif_shotgun_freed',
                     $event->getName(),
                     'Des places de shotgun se sont libérées, tu as maintenant accès à l\'événément !',

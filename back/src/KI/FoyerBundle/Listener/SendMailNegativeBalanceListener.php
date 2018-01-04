@@ -5,17 +5,17 @@ namespace KI\FoyerBundle\Listener;
 use KI\FoyerBundle\Event\UserNegativeBalanceEvent;
 use Swift_Mailer;
 use Swift_Message;
-use Symfony\Bundle\TwigBundle\TwigEngine;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
 class SendMailNegativeBalanceListener
 {
     private $swiftMailer;
-    private $twigEngine;
+    private $templatingEngine;
 
-    public function __construct(Swift_Mailer $swiftMailer, TwigEngine $twigEngine)
+    public function __construct(Swift_Mailer $swiftMailer, EngineInterface $templatingEngine)
     {
         $this->swiftMailer = $swiftMailer;
-        $this->twigEngine = $twigEngine;
+        $this->templatingEngine = $templatingEngine;
     }
 
     // Check si un achievement donné est accompli, si oui envoie une notification
@@ -23,11 +23,10 @@ class SendMailNegativeBalanceListener
     {
         $user = $event->getUser();
 
-        $message = Swift_Message::newInstance()
-            ->setSubject('Pense à recharger ton compte foyer !')
+        $message = (new Swift_Message('Pense à recharger ton compte foyer !'))
             ->setFrom('foyer.daube@gmail.com')
             ->setTo($user->getEmail())
-            ->setBody($this->twigEngine->render('KIFoyerBundle::negative-balance.html.twig', [
+            ->setBody($this->templatingEngine->render('KIFoyerBundle::negative-balance.html.twig', [
                 'user' => $user
             ]), 'text/html');
 

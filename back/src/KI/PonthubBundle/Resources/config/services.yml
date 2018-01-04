@@ -19,4 +19,4 @@ services:
     ki_ponthub.service.imdb:
         class: KI\PonthubBundle\Service\ImdbService
         arguments:
-            - '@ki_core.service.curl'
+            - '@KI\CoreBundle\Service\CurlService'

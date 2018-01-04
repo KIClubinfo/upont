@@ -2,15 +2,15 @@
 
 namespace KI\UserBundle\Service;
 
-use Doctrine\ORM\EntityRepository;
 use KI\UserBundle\Entity\Club;
 use KI\UserBundle\Entity\User;
+use KI\UserBundle\Repository\ClubUserRepository;
 
 class PermissionService
 {
     protected $clubUserRepository;
 
-    public function __construct(EntityRepository $clubUserRepository)
+    public function __construct(ClubUserRepository $clubUserRepository)
     {
         $this->clubUserRepository = $clubUserRepository;
     }

@@ -1,14 +1,18 @@
 <?php
 namespace KI\UserBundle\Repository;
 
-use KI\CoreBundle\Repository\ResourceRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
+
 use KI\UserBundle\Entity\User;
 
-/**
- * Class UserRepository
- */
-class UserRepository extends ResourceRepository
+class UserRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, User::class);
+    }
+
     /**
      * @param  int $userId
      * @param  int $limit

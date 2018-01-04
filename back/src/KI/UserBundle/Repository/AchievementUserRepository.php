@@ -1,11 +1,19 @@
 <?php
 namespace KI\UserBundle\Repository;
 
-use KI\CoreBundle\Repository\ResourceRepository;
-use KI\UserBundle\Entity\Achievement;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
-class AchievementUserRepository extends ResourceRepository
+use KI\UserBundle\Entity\Achievement;
+use KI\UserBundle\Entity\AchievementUser;
+
+class AchievementUserRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, AchievementUser::class);
+    }
+
     public function getOwnedByCount(Achievement $achievement)
     {
         return $this->createQueryBuilder('au')
@@ -16,5 +24,3 @@ class AchievementUserRepository extends ResourceRepository
             ->getSingleScalarResult();
     }
 }
-
-

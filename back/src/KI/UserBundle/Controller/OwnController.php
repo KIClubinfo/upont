@@ -3,8 +3,10 @@
 namespace KI\UserBundle\Controller;
 
 use KI\CoreBundle\Controller\ResourceController;
+use KI\PublicationBundle\Service\CalendarService;
 use KI\UserBundle\Entity\Achievement;
 use KI\UserBundle\Entity\Device;
+use KI\UserBundle\Service\TokenService;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -394,7 +396,7 @@ class OwnController extends ResourceController
      * @Route("/users/{token}/calendar")
      * @Method("GET")
      */
-    public function getOwnCalendarAction($token)
+    public function getOwnCalendarAction(CalendarService $calendarService, $token)
     {
         $user = $this->repository->findOneByToken($token);
         if ($user === null) {
@@ -405,7 +407,7 @@ class OwnController extends ResourceController
             $events = $userRepository->findFollowedEvents($user->getId());
             $courses = $this->getCourseitems($user);
 
-            $calStr = $this->get('ki_publication.service.calendar')->getCalendar($user, $events, $courses);
+            $calStr = $calendarService->getCalendar($user, $events, $courses);
 
             return new Response($calStr, 200, [
                     'Content-Type' => 'text/calendar; charset=utf-8',
@@ -458,7 +460,7 @@ class OwnController extends ResourceController
     {
         $repository = $this->manager->getRepository('KIPublicationBundle:Newsitem');
 
-        $paginateHelper = $this->get('ki_core.helper.paginate');
+        $paginateHelper = $this->get('KI\CoreBundle\Helper\PaginateHelper');
         extract($paginateHelper->paginateData($repository));
         $findBy['authorClub'] = $this->getFollowedClubs();
         $results = $repository->findBy($findBy, $sortBy, $limit, $offset);
@@ -639,10 +641,10 @@ class OwnController extends ResourceController
      * @Route("/own/token")
      * @Method("GET")
      */
-    public function getTokenAction()
+    public function getTokenAction(TokenService $tokenService)
     {
         return $this->json([
-            'token' => $this->get('ki_user.service.token')->getToken()
+            'token' => $tokenService->getToken()
         ]);
     }
 
@@ -668,7 +670,7 @@ class OwnController extends ResourceController
             throw new AccessDeniedException('Accès refusé');
 
         $repository = $this->manager->getRepository('KIClubinfoBundle:Fix');
-        $paginateHelper = $this->get('ki_core.helper.paginate');
+        $paginateHelper = $this->get('KI\CoreBundle\Helper\PaginateHelper');
         extract($paginateHelper->paginateData($repository));
 
         $findBy['user'] = $user;

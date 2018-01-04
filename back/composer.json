@@ -29,7 +29,7 @@
         "doctrine/orm": "~2.4",
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "jasig/phpcas": "1.3.*",
-        "jms/serializer-bundle": "~1.1",
+        "jms/serializer-bundle": "~2.3",
         "kigkonsult/icalcreator": "dev-master",
         "lexik/jwt-authentication-bundle": "~2.0",
         "nelmio/api-doc-bundle": "~2.8",

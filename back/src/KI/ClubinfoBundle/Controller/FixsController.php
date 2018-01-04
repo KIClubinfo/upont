@@ -108,7 +108,7 @@ class FixsController extends ResourceController
         $fix = $data['item'];
 
         if ($fix->getFix()) {
-            $this->get('ki_user.service.notify')->notify(
+            $this->get('KI\UserBundle\Service\NotifyService')->notify(
                 'notif_fixs',
                 'Demande de dépannage',
                 'Ta demande de dépannage a été actualisée par le KI !',

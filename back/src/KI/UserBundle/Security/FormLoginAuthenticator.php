@@ -26,6 +26,11 @@ class FormLoginAuthenticator extends LoginAuthenticator
         $this->passwordEncoder = $passwordEncoder;
     }
 
+    // TODO investigate what should be the right answer
+    public function supports(Request $request){
+        return true;
+    }
+
     public function getCredentials(Request $request)
     {
         if ($request->getPathInfo() != '/login') {

@@ -51,7 +51,7 @@ class PontlyvalentsController extends ResourceController
      */
     public function getPontlyvalentsAction()
     {
-        $paginateHelper = $this->get('ki_core.helper.paginate');
+        $paginateHelper = $this->get('KI\CoreBundle\Helper\PaginateHelper');
         extract($paginateHelper->paginateData($this->repository));
 
         if ($this->is('MODO') || $this->isClubMember('bde')) {

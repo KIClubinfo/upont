@@ -108,7 +108,7 @@ abstract class BaseController extends CoreController
         }
 
         // On vérifie que l'utilisateur fait bien partie du club
-        return $this->get('ki_user.service.permission')->isClubMember($this->user, $club);
+        return $this->get('KI\UserBundle\Service\PermissionService')->isClubMember($this->user, $club);
     }
 
     /**

@@ -21,8 +21,7 @@ class MailerService
 
     public function send(User $from, array $to, $title, $template, $vars, $attachments = [])
     {
-        $message = Swift_Message::newInstance()
-            ->setSubject($title)
+        $message = (new Swift_Message($title))
             ->setFrom('evenements@upont.enpc.fr')
             ->setReplyTo([$from->getEmail() => $from->getFirstName().' '.$from->getLastName()])
         ;

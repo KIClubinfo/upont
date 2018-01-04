@@ -3,6 +3,8 @@
 namespace KI\UserBundle\Controller;
 
 use KI\CoreBundle\Controller\ResourceController;
+use KI\UserBundle\Helper\FacegameHelper;
+use KI\UserBundle\Repository\UserRepository;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -77,13 +79,11 @@ class FacegamesController extends ResourceController
      * @Route("/facegames")
      * @Method("POST")
      */
-    public function postFacegameAction()
+    public function postFacegameAction(FacegameHelper $facegameHelper)
     {
         $data = $this->post($this->is('USER'));
 
         if ($data['code'] == 201) {
-            $facegameHelper = $this->get('ki_user.helper.facegame');
-
             if (!$facegameHelper->fillUserList($data['item'])) {
                 $this->manager->detach($data['item']);
                 return $this->json($data['item'], 400);
@@ -109,7 +109,7 @@ class FacegamesController extends ResourceController
      * @Route("/facegames/{slug}")
      * @Method("PATCH")
      */
-    public function patchFacegameAction(Request $request, $slug)
+    public function patchFacegameAction(FacegameHelper $facegameHelper, Request $request, $slug)
     {
         $facegame = $this->findBySlug($slug);
 
@@ -117,7 +117,6 @@ class FacegamesController extends ResourceController
             throw new BadRequestHttpException('Paramètre manquant');
         }
 
-        $facegameHelper = $this->get('ki_user.helper.facegame');
         $facegameHelper->endGame($facegame, $request->request->get('wrongAnswers'), $request->request->get('duration'));
 
         return $this->json(null, 204);
@@ -163,10 +162,9 @@ class FacegamesController extends ResourceController
      * @Route("/statistics/facegame/{slug}")
      * @Method("GET")
      */
-    public function getUserStatisticsAction($slug)
+    public function getUserStatisticsAction(UserRepository $userRepository, $slug)
     {
-        $repository = $this->get('ki_user.repository.user');
-        $user = $repository->findOneByUsername($slug);
+        $user = $userRepository->findOneByUsername($slug);
 
         if ($user === null) {
             throw new NotFoundHttpException('Utilisateur non trouvé');

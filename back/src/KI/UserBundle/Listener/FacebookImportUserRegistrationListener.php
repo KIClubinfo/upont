@@ -2,7 +2,7 @@
 
 namespace KI\UserBundle\Listener;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use KI\CoreBundle\Service\CurlService;
 use KI\CoreBundle\Service\ImageService;
 use KI\UserBundle\Entity\User;
@@ -16,7 +16,7 @@ class FacebookImportUserRegistrationListener
     private $manager;
     private $fbToken;
 
-    public function __construct(CurlService $curlService, ImageService $imageService, EntityManager $manager, $facebookToken)
+    public function __construct(CurlService $curlService, ImageService $imageService, EntityManagerInterface $manager, $facebookToken)
     {
         $this->curlService = $curlService;
         $this->imageService = $imageService;

@@ -1,11 +1,19 @@
 <?php
 namespace KI\UserBundle\Repository;
 
-use KI\CoreBundle\Repository\ResourceRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
+
+use KI\UserBundle\Entity\Facegame;
 use KI\UserBundle\Entity\User;
 
-class FacegameRepository extends ResourceRepository
+class FacegameRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Facegame::class);
+    }
+
     public function getNormalGamesCount()
     {
         $qb = $this->createQueryBuilder('o');
