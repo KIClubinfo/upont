@@ -4,14 +4,14 @@ services:
         autoconfigure: true
         public: false
 
-    KI\PublicationBundle\:
+    KI\FoyerBundle\:
         resource: '../../*'
         exclude: '../../{Entity,DataFixtures}'
 
-    KI\PublicationBundle\Controller\:
+    KI\FoyerBundle\Controller\:
         resource: '../../Controller'
         tags: ['controller.service_arguments']
 
-    KI\PublicationBundle\Listener\EventLoadListener:
+    KI\FoyerBundle\Listener\SendMailNegativeBalanceListener:
         tags:
-            - { name: doctrine.event_listener, event: postLoad }
+            - { name: kernel.event_listener, event: upont.negative_balance, method: sendMail }

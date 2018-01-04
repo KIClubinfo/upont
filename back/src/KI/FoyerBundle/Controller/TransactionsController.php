@@ -3,6 +3,8 @@
 namespace KI\FoyerBundle\Controller;
 
 use KI\CoreBundle\Controller\ResourceController;
+use KI\FoyerBundle\Helper\BeerHelper;
+use KI\FoyerBundle\Helper\TransactionHelper;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -54,12 +56,11 @@ class TransactionsController extends ResourceController
      * @Route("/userbeers")
      * @Method("GET")
      */
-    public function getUserBeersAction()
+    public function getUserBeersAction(BeerHelper $beerHelper)
     {
         $this->trust($this->isFoyerMember());
 
-        $helper = $this->get('ki_foyer.helper.beer');
-        $users = $helper->getUserOrderedList();
+        $users = $beerHelper->getUserOrderedList();
         return $this->json($users);
     }
 
@@ -127,7 +128,7 @@ class TransactionsController extends ResourceController
      * @Route("/transactions")
      * @Method("POST")
      */
-    public function postTransactionAction(Request $request)
+    public function postTransactionAction(TransactionHelper $transactionHelper, Request $request)
     {
         $this->trust($this->isFoyerMember());
 
@@ -138,11 +139,10 @@ class TransactionsController extends ResourceController
             throw new BadRequestHttpException('On rajoute une conso ou du crédit, pas les deux');
         }
 
-        $helper = $this->get('ki_foyer.helper.transaction');
         if ($request->request->has('beer')) {
-            $id = $helper->addBeerTransaction($request->request->get('user'), $request->request->get('beer'));
+            $id = $transactionHelper->addBeerTransaction($request->request->get('user'), $request->request->get('beer'));
         } else if ($request->request->has('credit')) {
-            $id = $helper->addCreditTransaction($request->request->get('user'), $request->request->get('credit'));
+            $id = $transactionHelper->addCreditTransaction($request->request->get('user'), $request->request->get('credit'));
         }
 
         return $this->json($id, 201);
@@ -163,13 +163,12 @@ class TransactionsController extends ResourceController
      * @Route("/transactions/{id}")
      * @Method("DELETE")
      */
-    public function deleteTransactionAction($id)
+    public function deleteTransactionAction(TransactionHelper $transactionHelper, $id)
     {
         $this->trust($this->isFoyerMember());
 
         $transaction = $this->findBySlug($id);
-        $helper = $this->get('ki_foyer.helper.transaction');
-        $helper->updateBalance($transaction->getUser(), -1 * $transaction->getAmount());
+        $transactionHelper->updateBalance($transaction->getUser(), -1 * $transaction->getAmount());
 
         $this->delete($id, $this->isFoyerMember());
 

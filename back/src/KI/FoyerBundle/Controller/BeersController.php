@@ -3,6 +3,7 @@
 namespace KI\FoyerBundle\Controller;
 
 use KI\CoreBundle\Controller\ResourceController;
+use KI\FoyerBundle\Helper\BeerHelper;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -32,9 +33,8 @@ class BeersController extends ResourceController
      * @Route("/beers")
      * @Method("GET")
      */
-    public function getBeersAction()
+    public function getBeersAction(BeerHelper $beerHelper)
     {
-        $beerHelper = $this->get('ki_foyer.helper.beer');
         $beers = $beerHelper->getBeerOrderedList();
         return $this->json($beers);
     }

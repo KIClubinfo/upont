@@ -2,7 +2,7 @@
 
 namespace KI\PublicationBundle\Helper;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use KI\CoreBundle\Service\CurlService;
 use KI\PublicationBundle\Entity\Course;
@@ -15,7 +15,7 @@ class CourseParserHelper
     protected $curlService;
     protected $knownCourses;
 
-    public function __construct(EntityManager $manager,
+    public function __construct(EntityManagerInterface $manager,
                                 EntityRepository $courseRepository,
                                 CurlService $curlService)
     {

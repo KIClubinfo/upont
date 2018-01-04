@@ -2,12 +2,14 @@
 
 namespace KI\FoyerBundle\Helper;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use KI\FoyerBundle\Entity\Beer;
 use KI\FoyerBundle\Entity\Transaction;
 use KI\FoyerBundle\Event\UserNegativeBalanceEvent;
+use KI\FoyerBundle\Repository\BeerRepository;
+use KI\FoyerBundle\Repository\TransactionRepository;
 use KI\UserBundle\Entity\User;
+use KI\UserBundle\Repository\UserRepository;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -19,10 +21,10 @@ class TransactionHelper
     protected $manager;
     protected $eventDispatcher;
 
-    public function __construct(EntityRepository $beerRepository,
-                                EntityRepository $transactionRepository,
-                                EntityRepository $userRepository,
-                                EntityManager $manager,
+    public function __construct(BeerRepository $beerRepository,
+                                TransactionRepository $transactionRepository,
+                                UserRepository $userRepository,
+                                EntityManagerInterface $manager,
                                 EventDispatcherInterface $eventDispatcher
     )
     {

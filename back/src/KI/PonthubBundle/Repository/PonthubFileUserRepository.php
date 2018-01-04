@@ -1,13 +1,21 @@
 <?php
 namespace KI\PonthubBundle\Repository;
 
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
+
 use KI\CoreBundle\Repository\ResourceRepository;
 use KI\PonthubBundle\Entity\PonthubFile;
 use KI\PonthubBundle\Entity\Serie;
 use KI\UserBundle\Entity\User;
 
-class PonthubFileUserRepository extends ResourceRepository
+class PonthubFileRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, PonthubFile::class);
+    }
+
     public function hasBeenDownloadedBy(PonthubFile $file, User $user)
     {
         return $this->createQueryBuilder('pfu')

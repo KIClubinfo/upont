@@ -2,9 +2,11 @@
 
 namespace KI\FoyerBundle\Helper;
 
-use Doctrine\ORM\EntityRepository;
 use KI\FoyerBundle\Entity\Beer;
+use KI\FoyerBundle\Repository\BeerRepository;
+use KI\FoyerBundle\Repository\TransactionRepository;
 use KI\UserBundle\Entity\User;
+use KI\UserBundle\Repository\UserRepository;
 
 class BeerHelper
 {
@@ -12,9 +14,9 @@ class BeerHelper
     protected $transactionRepository;
     protected $userRepository;
 
-    public function __construct(EntityRepository $beerRepository,
-                                EntityRepository $transactionRepository,
-                                EntityRepository $userRepository)
+    public function __construct(BeerRepository $beerRepository,
+                                TransactionRepository $transactionRepository,
+                                UserRepository $userRepository)
     {
         $this->beerRepository        = $beerRepository;
         $this->transactionRepository = $transactionRepository;
