@@ -3,6 +3,8 @@
 namespace KI\PonthubBundle\Controller;
 
 use KI\CoreBundle\Controller\ResourceController;
+use KI\PonthubBundle\Helper\FilelistHelper;
+use KI\PonthubBundle\Helper\GlobalStatisticsHelper;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -41,7 +43,7 @@ class DefaultController extends ResourceController
      * @Route("/filelist/{token}")
      * @Method("POST")
      */
-    public function filelistAction($token, Request $request)
+    public function filelistAction(FilelistHelper $filelistHelper, Request $request, $token)
     {
         $path = __DIR__ . '/../../../../web/uploads/tmp/';
         if ($token != $this->container->getParameter('fleur_token')) {
@@ -60,7 +62,6 @@ class DefaultController extends ResourceController
             throw new BadRequestHttpException('Erreur lors de l\'upload du fichier');
         }
 
-        $filelistHelper = $this->get('ki_ponthub.helper.filelist');
         $filelistHelper->parseFilelist($list);
 
         return $this->json(null, 202);
@@ -186,10 +187,8 @@ class DefaultController extends ResourceController
      * @Route("/statistics/ponthub")
      * @Method("GET")
      */
-    public function getPonthubStatisticsMainAction()
+    public function getPonthubStatisticsMainAction(GlobalStatisticsHelper $statisticsHelper)
     {
-        $statisticsHelper = $this->get('ki_ponthub.helper.global_statistics');
-
         return $this->json([
             'downloaders' => $statisticsHelper->getGlobalDownloaders(),
             'downloads' => $statisticsHelper->getGlobalDownloads(),

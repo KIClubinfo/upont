@@ -6,14 +6,15 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 
 use KI\CoreBundle\Repository\ResourceRepository;
 use KI\PonthubBundle\Entity\PonthubFile;
+use KI\PonthubBundle\Entity\PonthubFileUser;
 use KI\PonthubBundle\Entity\Serie;
 use KI\UserBundle\Entity\User;
 
-class PonthubFileRepository extends ServiceEntityRepository
+class PonthubFileUserRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, PonthubFile::class);
+        parent::__construct($registry, PonthubFileUser::class);
     }
 
     public function hasBeenDownloadedBy(PonthubFile $file, User $user)

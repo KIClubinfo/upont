@@ -2,8 +2,11 @@
 
 namespace KI\PonthubBundle\Helper;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
+
+use KI\PonthubBundle\Repository\GenreRepository;
+use KI\PonthubBundle\Repository\PonthubFileRepository;
+use KI\PonthubBundle\Repository\SerieRepository;
 
 class FilelistHelper
 {
@@ -14,10 +17,10 @@ class FilelistHelper
     protected $validExtensions;
     protected $fileHelper;
 
-    public function __construct(EntityManager $manager,
-                                EntityRepository $genreRepository,
-                                EntityRepository $serieRepository,
-                                EntityRepository $ponthubFileRepository,
+    public function __construct(EntityManagerInterface $manager,
+                                GenreRepository $genreRepository,
+                                SerieRepository $serieRepository,
+                                PonthubFileRepository $ponthubFileRepository,
                                 array $validExtensions,
                                 FileHelper $fileHelper)
     {

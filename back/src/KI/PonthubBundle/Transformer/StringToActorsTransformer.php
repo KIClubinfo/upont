@@ -1,9 +1,9 @@
 <?php
 namespace KI\PonthubBundle\Transformer;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use KI\PonthubBundle\Entity\Actor;
+use KI\PonthubBundle\Repository\ActorRepository;
 use Symfony\Component\Form\DataTransformerInterface;
 
 class StringToActorsTransformer implements DataTransformerInterface
@@ -11,7 +11,7 @@ class StringToActorsTransformer implements DataTransformerInterface
     protected $manager;
     protected $actorRepository;
 
-    public function __construct(EntityManager $manager, EntityRepository $actorRepository)
+    public function __construct(EntityManagerInterface $manager, ActorRepository $actorRepository)
     {
         $this->manager         = $manager;
         $this->actorRepository = $actorRepository;

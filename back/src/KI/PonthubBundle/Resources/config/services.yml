@@ -4,10 +4,24 @@ parameters:
     ki_ponthub.gracenote.key2: '136467B84B6BCA2854F072597B216096'
     ki_ponthub.gracenote.key3: '279881507270543439-482465B59397C267B124C2794482BF35'
 
+    ki_ponthub.files.valid_extensions: ['avi', 'mpeg', 'mp4', 'mkv', 'rar', 'zip', 'iso', 'exe', 'msi', 'jpg', 'jpeg', 'png', 'bmp', 'gif', 'srt', 'pdf', 'epub', 'mobi', 'dmg']
+
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    KI\PonthubBundle\:
+        resource: '../../*'
+        exclude: '../../{Entity,DataFixtures}'
+
+    KI\PonthubBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
     # Communique avec l'API Gracenote
-    ki_ponthub.service.gracenote:
-        class: KI\PonthubBundle\Service\GracenoteService
+    KI\PonthubBundle\Service\GracenoteService:
         arguments:
             - '%ki_ponthub.gracenote.key1%'
             - '%ki_ponthub.gracenote.key2%'
@@ -15,8 +29,31 @@ services:
             - '%proxy_url%'
             - '%proxy_user%'
 
-    # Communique avec l'API Imdb
-    ki_ponthub.service.imdb:
-        class: KI\PonthubBundle\Service\ImdbService
+    KI\PonthubBundle\Selector\ActorsSelector:
+        tags:
+           - { name: form.type, alias: actors_selector }
+
+    KI\PonthubBundle\Selector\GenresSelector:
+        tags:
+           - { name: form.type, alias: genres_selector }
+
+    KI\PonthubBundle\Helper\FilelistHelper:
         arguments:
-            - '@KI\CoreBundle\Service\CurlService'
+            - '@doctrine.orm.entity_manager'
+            - '@KI\PonthubBundle\Repository\GenreRepository'
+            - '@KI\PonthubBundle\Repository\SerieRepository'
+            - '@KI\PonthubBundle\Repository\PonthubFileRepository'
+            - '%ki_ponthub.files.valid_extensions%'
+            - '@KI\PonthubBundle\Helper\FileHelper'
+
+    KI\PonthubBundle\Listener\PonthubFileListener:
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
+
+    KI\PonthubBundle\Listener\PonthubFileUserListener:
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+
+    KI\PonthubBundle\Listener\SerieListener:
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }

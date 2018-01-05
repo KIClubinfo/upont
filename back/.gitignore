@@ -1,7 +1,7 @@
 /web/bundles/
 /web/libs/
-/web/uploads/
-!/web/uploads/tests/
+/web/uploads/*
+!/web/uploads/tests/*
 /web/maintenance.lock
 /app/spool/*
 /build/

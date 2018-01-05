@@ -1,9 +1,9 @@
 <?php
 namespace KI\PonthubBundle\Transformer;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use KI\PonthubBundle\Entity\Genre;
+use KI\PonthubBundle\Repository\GenreRepository;
 use Symfony\Component\Form\DataTransformerInterface;
 
 class StringToGenresTransformer implements DataTransformerInterface
@@ -11,7 +11,7 @@ class StringToGenresTransformer implements DataTransformerInterface
     protected $manager;
     protected $genreRepository;
 
-    public function __construct(EntityManager $manager, EntityRepository $genreRepository)
+    public function __construct(EntityManagerInterface $manager, GenreRepository $genreRepository)
     {
         $this->manager         = $manager;
         $this->genreRepository = $genreRepository;

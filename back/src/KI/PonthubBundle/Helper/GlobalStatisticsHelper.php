@@ -2,13 +2,14 @@
 
 namespace KI\PonthubBundle\Helper;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use KI\PonthubBundle\Entity\Episode;
 use KI\PonthubBundle\Entity\Game;
 use KI\PonthubBundle\Entity\Movie;
 use KI\PonthubBundle\Entity\Other;
 use KI\PonthubBundle\Entity\Software;
+use KI\PonthubBundle\Repository\PonthubFileRepository;
+use KI\PonthubBundle\Repository\PonthubFileUserRepository;
 
 class GlobalStatisticsHelper
 {
@@ -16,7 +17,10 @@ class GlobalStatisticsHelper
     protected $ponthubFileRepository;
     protected $ponthubFileUserRepository;
 
-    public function __construct(EntityManager $manager, EntityRepository $ponthubFileRepository, EntityRepository $ponthubFileUserRepository)
+    public function __construct(EntityManagerInterface $manager,
+                                PonthubFileRepository $ponthubFileRepository,
+                                PonthubFileUserRepository $ponthubFileUserRepository
+    )
     {
         $this->manager                   = $manager;
         $this->ponthubFileRepository     = $ponthubFileRepository;

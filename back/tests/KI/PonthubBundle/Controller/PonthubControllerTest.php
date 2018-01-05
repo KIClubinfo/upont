@@ -36,7 +36,7 @@ class PonthubControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
-        $this->client->request('GET', '/movies/the-king-s-speech');
+        $this->client->request('GET', '/movies/the-kings-speech');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 

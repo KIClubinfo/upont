@@ -2,7 +2,7 @@
 
 namespace KI\PonthubBundle\Helper;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use KI\PonthubBundle\Entity\Episode;
 use KI\PonthubBundle\Entity\Game;
 use KI\PonthubBundle\Entity\Genre;
@@ -18,15 +18,15 @@ use KI\PonthubBundle\Entity\Software;
 class FileHelper
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     protected $manager;
 
     /**
      * FileHelper constructor.
-     * @param EntityManager $manager
+     * @param EntityManagerInterface $manager
      */
-    public function __construct(EntityManager $manager)
+    public function __construct(EntityManagerInterface $manager)
     {
         $this->manager = $manager;
     }
