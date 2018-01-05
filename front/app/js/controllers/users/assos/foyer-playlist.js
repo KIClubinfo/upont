@@ -3,15 +3,8 @@ angular.module('upont')
         $('#focus-input').focus();
         $scope.youtube = youtube;
         $scope.stats = stats;
-        $scope.predicate = 'liters';
+        $scope.predicate = 'volume';
         $scope.reverse = true;
-        $scope.isFromFoyer = false;
-
-        for (var key in members) {
-            if (members[key].user !== undefined && members[key].user.username == $rootScope.username) {
-                $scope.isFromFoyer = true;
-            }
-        }
 
         $scope.reload = function() {
             Paginate.first($scope.youtube).then(function(response){
