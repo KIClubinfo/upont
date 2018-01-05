@@ -2,13 +2,13 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\CourseUser;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 
 
-class CourseUserFixtures extends AbstractFixture implements OrderedFixtureInterface
+class CourseUserFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -51,8 +51,11 @@ class CourseUserFixtures extends AbstractFixture implements OrderedFixtureInterf
         $manager->flush();
     }
 
-    public function getOrder()
+    public function getDependencies()
     {
-        return 44;
+        return [
+            UserFixtures::class,
+            CourseFixtures::class
+        ];
     }
 }

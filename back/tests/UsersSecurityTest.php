@@ -3,7 +3,7 @@ namespace App\Tests;
 
 use App\Tests\WebTestCase;
 
-class SecurityTest extends WebTestCase
+class UsersSecurityTest extends WebTestCase
 {
     // Vérifie que les routes non firewallées sont utilisables
     public function testFirewall()

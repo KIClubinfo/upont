@@ -2,14 +2,14 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 // Cette fixture est un peu spéciale car elle doit utiliser la classe User de l'UserBundle
-class UserFixtures extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class UserFixtures extends Fixture implements DependentFixtureInterface, ContainerAwareInterface
 {
     /**
      * @var ContainerInterface
@@ -361,8 +361,11 @@ class UserFixtures extends AbstractFixture implements OrderedFixtureInterface, C
         $userManager->updateUser($user);
     }
 
-    public function getOrder()
+    public function getDependencies()
     {
-        return 3;
+        return [
+            GroupFixtures::class,
+            ImageFixtures::class
+        ];
     }
 }

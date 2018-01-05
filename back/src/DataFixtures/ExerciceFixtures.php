@@ -2,19 +2,19 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Exercice;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\File;
 
 
-class ExerciceFixtures extends AbstractFixture implements OrderedFixtureInterface
+class ExerciceFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $basePath = __DIR__ . '/../../../../../web/uploads/tests/';
+        $basePath = __DIR__ . '/../../tests/uploads/';
         $fs = new Filesystem();
         $fs->copy($basePath . 'file.pdf', $basePath . 'file_tmp.pdf');
         $file = new File($basePath . 'file_tmp.pdf');
@@ -82,8 +82,11 @@ class ExerciceFixtures extends AbstractFixture implements OrderedFixtureInterfac
         $manager->flush();
     }
 
-    public function getOrder()
+    public function getDependencies()
     {
-        return 45;
+        return [
+            UserFixtures::class,
+            CourseFixtures::class
+        ];
     }
 }

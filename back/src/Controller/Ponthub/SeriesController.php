@@ -118,9 +118,9 @@ class SeriesController extends PonthubFileController
      * @Route("/series/{slug}/episodes")
      * @Method("GET")
      */
-    public function getSerieEpisodesAction($slug)
+    public function getSerieEpisodesAction(Serie $serie)
     {
-        $episodes =  $this->getAllSub($slug, 'Episode');
+        $episodes = $serie->getEpisodes();
 
         return $this->json($episodes);
     }

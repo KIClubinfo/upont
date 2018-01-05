@@ -2,13 +2,12 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Beer;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Persistence\ObjectManager;
 
 
-class BeerFixtures extends AbstractFixture implements OrderedFixtureInterface
+class BeerFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
@@ -29,10 +28,5 @@ class BeerFixtures extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($beer);
 
         $manager->flush();
-    }
-
-    public function getOrder()
-    {
-        return 61;
     }
 }

@@ -2,13 +2,13 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Youtube;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 
 
-class YoutubeFixtures extends AbstractFixture implements OrderedFixtureInterface
+class YoutubeFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -29,8 +29,10 @@ class YoutubeFixtures extends AbstractFixture implements OrderedFixtureInterface
         $manager->flush();
     }
 
-    public function getOrder()
+    public function getDependencies()
     {
-        return 60;
+        return [
+            UserFixtures::class,
+        ];
     }
 }

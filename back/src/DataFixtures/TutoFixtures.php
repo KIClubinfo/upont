@@ -2,12 +2,11 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Tuto;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Persistence\ObjectManager;
 
-class TutoFixtures extends AbstractFixture implements OrderedFixtureInterface
+class TutoFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
@@ -32,10 +31,5 @@ class TutoFixtures extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($tuto);
 
         $manager->flush();
-    }
-
-    public function getOrder()
-    {
-        return 51;
     }
 }

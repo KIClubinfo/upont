@@ -2,12 +2,13 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Movie;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use Zend\Code\Generator\DocBlock\Tag;
 
-class MovieFixtures extends AbstractFixture implements OrderedFixtureInterface
+class MovieFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -49,8 +50,13 @@ class MovieFixtures extends AbstractFixture implements OrderedFixtureInterface
         $manager->flush();
     }
 
-    public function getOrder()
+    public function getDependencies()
     {
-        return 22;
+        return [
+            UserFixtures::class,
+            ImageFixtures::class,
+            TagFixtures::class,
+            ActorFixtures::class,
+        ];
     }
 }

@@ -2,12 +2,12 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Comment;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 
-class CommentFixtures extends AbstractFixture implements OrderedFixtureInterface
+class CommentFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -40,8 +40,10 @@ Such rage.');
         $manager->flush();
     }
 
-    public function getOrder()
+    public function getDependencies()
     {
-        return 4;
+        return [
+            UserFixtures::class,
+        ];
     }
 }

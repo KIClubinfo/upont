@@ -10,6 +10,7 @@ use App\Entity\Newsitem;
 use App\Entity\User;
 use App\Form\ClubType;
 use App\Form\ClubUserType;
+use App\Repository\ClubUserRepository;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -165,9 +166,9 @@ class ClubsController extends SubresourceController
      * @Route("/clubs/{slug}/users")
      * @Method("GET")
      */
-    public function getClubUsersAction($slug)
+    public function getClubUsersAction(ClubUserRepository $clubUserRepository, Club $club)
     {
-        $members = $this->getAllSub($slug, 'User', false);
+        $members = $clubUserRepository->findBy(['club' => $club]);
 
         return $this->json($members);
     }

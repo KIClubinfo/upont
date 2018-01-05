@@ -39,9 +39,9 @@ class ExercicesController extends SubresourceController
      * @Route("/courses/{slug}/exercices")
      * @Method("GET")
      */
-    public function getCourseExercicesAction($slug)
+    public function getCourseExercicesAction(Course $course)
     {
-        $exercices = $this->getAllSub($slug, 'Exercice');
+        $exercices = $course->getExercices();
 
         return $this->json($exercices);
     }

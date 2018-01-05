@@ -2,12 +2,12 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Serie;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 
-class SerieFixtures extends AbstractFixture implements OrderedFixtureInterface
+class SerieFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -25,8 +25,10 @@ class SerieFixtures extends AbstractFixture implements OrderedFixtureInterface
         $this->addReference('serie-himym', $serie);
     }
 
-    public function getOrder()
+    public function getDependencies()
     {
-        return 23;
+        return [
+            TagFixtures::class
+        ];
     }
 }

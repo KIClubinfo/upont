@@ -2,13 +2,12 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Course;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Persistence\ObjectManager;
 
 
-class CourseFixtures extends AbstractFixture implements OrderedFixtureInterface
+class CourseFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
@@ -53,10 +52,5 @@ class CourseFixtures extends AbstractFixture implements OrderedFixtureInterface
         $this->addReference('course-rer', $course);
 
         $manager->flush();
-    }
-
-    public function getOrder()
-    {
-        return 42;
     }
 }

@@ -2,12 +2,11 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Actor;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Persistence\ObjectManager;
 
-class ActorFixtures extends AbstractFixture implements OrderedFixtureInterface
+class ActorFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
@@ -37,10 +36,5 @@ class ActorFixtures extends AbstractFixture implements OrderedFixtureInterface
         $this->addReference('actor-monica', $actor);
 
         $manager->flush();
-    }
-
-    public function getOrder()
-    {
-        return 20;
     }
 }

@@ -2,12 +2,15 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Software;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\PonthubFileUser;
 
-class PonthubFileUserFixtures extends AbstractFixture implements OrderedFixtureInterface
+class PonthubFileUserFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -56,8 +59,15 @@ class PonthubFileUserFixtures extends AbstractFixture implements OrderedFixtureI
         $manager->flush();
     }
 
-    public function getOrder()
+    public function getDependencies()
     {
-        return 30;
+        return [
+            UserFixtures::class,
+            GameFixtures::class,
+            OtherFixtures::class,
+            SoftwareFixtures::class,
+            EpisodeFixtures::class,
+            MovieFixtures::class
+        ];
     }
 }

@@ -18,7 +18,7 @@ abstract class WebTestCase extends LiipWebTestCase
         parent::__construct();
 
         // On ne se logge qu'une fois pour tous les tests
-        $path = __DIR__.'/../../../var/cache/token';
+        $path = __DIR__.'/../var/cache/token';
         if (!file_exists($path)) {
             $client = static::createClient();
             $client->request(

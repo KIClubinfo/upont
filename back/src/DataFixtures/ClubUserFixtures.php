@@ -2,13 +2,13 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\ClubUser;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 
 
-class ClubUserFixtures extends AbstractFixture implements OrderedFixtureInterface
+class ClubUserFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -106,8 +106,11 @@ class ClubUserFixtures extends AbstractFixture implements OrderedFixtureInterfac
         $manager->flush();
     }
 
-    public function getOrder()
+    public function getDependencies()
     {
-        return 13;
+        return [
+            UserFixtures::class,
+            ClubFixtures::class,
+        ];
     }
 }

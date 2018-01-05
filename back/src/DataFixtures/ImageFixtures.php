@@ -2,14 +2,13 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Image;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\File;
 
-class ImageFixtures extends AbstractFixture implements OrderedFixtureInterface
+class ImageFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
@@ -41,7 +40,7 @@ class ImageFixtures extends AbstractFixture implements OrderedFixtureInterface
             'supaero' => 'supaero.jpg'
         ];
 
-        $path = __DIR__ . '/../../../../../web/uploads/tests/';
+        $path = __DIR__ . '/../../tests/uploads/';
         $fs = new Filesystem();
 
         foreach ($images as $tag => $name) {
@@ -54,10 +53,5 @@ class ImageFixtures extends AbstractFixture implements OrderedFixtureInterface
             $this->addReference('image-' . $tag, $image);
         }
         $manager->flush();
-    }
-
-    public function getOrder()
-    {
-        return 1;
     }
 }

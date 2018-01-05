@@ -2,12 +2,11 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Tag;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Persistence\ObjectManager;
 
-class TagFixtures extends AbstractFixture implements OrderedFixtureInterface
+class TagFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
@@ -47,10 +46,5 @@ class TagFixtures extends AbstractFixture implements OrderedFixtureInterface
         $this->addReference('tag-metaaal', $tag);
 
         $manager->flush();
-    }
-
-    public function getOrder()
-    {
-        return 0;
     }
 }

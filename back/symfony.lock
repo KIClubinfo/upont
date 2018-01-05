@@ -197,9 +197,6 @@
             "ref": "aaddfdf43cdecd4cf91f992052d76c2cadc04543"
         }
     },
-    "sensio/generator-bundle": {
-        "version": "v3.1.7"
-    },
     "sensiolabs/security-checker": {
         "version": "4.0",
         "recipe": {

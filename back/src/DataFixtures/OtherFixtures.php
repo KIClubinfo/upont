@@ -2,12 +2,14 @@
 
 namespace App\DataFixtures;
 
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Other;
 
-class OtherFixtures extends AbstractFixture implements OrderedFixtureInterface
+class OtherFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -24,8 +26,10 @@ class OtherFixtures extends AbstractFixture implements OrderedFixtureInterface
         $manager->flush();
     }
 
-    public function getOrder()
+    public function getDependencies()
     {
-        return 29;
+        return [
+            TagFixtures::class
+        ];
     }
 }

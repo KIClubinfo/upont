@@ -3,7 +3,7 @@ namespace Tests\App;
 
 use App\Tests\WebTestCase;
 
-class SecurityTest extends WebTestCase
+class FoyerSecurityTest extends WebTestCase
 {
     public function testFoyerStats()
     {

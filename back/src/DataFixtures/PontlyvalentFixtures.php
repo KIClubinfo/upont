@@ -2,13 +2,13 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Pontlyvalent;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 
 
-class PontlyvalentFixtures extends AbstractFixture implements OrderedFixtureInterface
+class PontlyvalentFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -29,8 +29,10 @@ class PontlyvalentFixtures extends AbstractFixture implements OrderedFixtureInte
         $manager->flush();
     }
 
-    public function getOrder()
+    public function getDependencies()
     {
-        return 16;
+        return [
+            UserFixtures::class,
+        ];
     }
 }

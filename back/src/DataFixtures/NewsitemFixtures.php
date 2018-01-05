@@ -2,12 +2,12 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Newsitem;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 
-class NewsitemFixtures extends AbstractFixture implements OrderedFixtureInterface
+class NewsitemFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -98,8 +98,13 @@ class NewsitemFixtures extends AbstractFixture implements OrderedFixtureInterfac
         $manager->flush();
     }
 
-    public function getOrder()
+    public function getDependencies()
     {
-        return 40;
+        return [
+            UserFixtures::class,
+            CommentFixtures::class,
+            ClubFixtures::class,
+            ImageFixtures::class,
+        ];
     }
 }

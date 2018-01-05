@@ -2,12 +2,12 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Transaction;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 
-class TransactionFixtures extends AbstractFixture implements OrderedFixtureInterface
+class TransactionFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -30,8 +30,11 @@ class TransactionFixtures extends AbstractFixture implements OrderedFixtureInter
         $manager->flush();
     }
 
-    public function getOrder()
+    public function getDependencies()
     {
-        return 62;
+        return [
+            UserFixtures::class,
+            BeerFixtures::class
+        ];
     }
 }
