@@ -1,0 +1,5 @@
+controllers:
+    resource: ../../src/Controller/
+    type: annotation
+
+    defaults: { _format: 'json' }

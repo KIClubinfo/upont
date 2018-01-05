@@ -1,0 +1,88 @@
+security:
+    encoders:
+        FOS\UserBundle\Model\UserInterface: sha512
+
+    role_hierarchy:
+        ROLE_MODO:       [ROLE_USER, ROLE_JARDINIER]
+        ROLE_ADMIN:      [ROLE_MODO, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username
+
+    firewalls:
+        # Procédure de login
+
+        login:
+            pattern:  ^/login$
+            stateless: true
+            anonymous: true
+            provider: fos_userbundle
+            guard:
+              authenticators:
+                - form_login_authenticator
+
+        login_sso:
+            pattern:  ^/login/sso$
+            stateless: true
+            anonymous: true
+            provider: fos_userbundle
+            guard:
+              authenticators:
+                - sso_enpc_authenticator
+
+        ping:
+            methods: [GET, HEAD]
+            pattern: ^/ping
+            security: false
+
+        config:
+            methods: [GET]
+            pattern: ^/config
+            security: false
+
+        resetting:
+            methods: [POST]
+            pattern: ^/resetting
+            security: false
+
+        download:
+            methods: [GET]
+            pattern: ^/courses/.+/exercices/.+/download
+            security: false
+
+        calendar:
+            methods: [GET]
+            pattern: ^/users/.+/calendar
+            security: false
+
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        # Firewall principal
+        api:
+            pattern:   ^/.+
+            switch_user: { parameter: _nsa }
+            stateless: true
+            anonymous: true
+            provider: fos_userbundle
+            guard:
+              authenticators:
+                - 'lexik_jwt_authentication.jwt_token_authenticator'
+
+    access_control:
+        - { path: ^/(clubs)(/[a-zA-Z]+)?,             methods: [GET], roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login,                            methods: [GET, POST], roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/ping,                             methods: [HEAD, GET], roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/config,                           methods: [GET], roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/courses,                          methods: [HEAD], roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(_(profiler|wdt|doc))/,           methods: [GET],  roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/coffee,                           methods: [GET],  roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/version,                          methods: [GET],  roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/basketdates,                      methods: [GET], roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/baskets,                          methods: [GET, POST], roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/filelist,                         methods: [POST], roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/users,                            methods: [POST], roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/doc, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^, roles: IS_AUTHENTICATED_FULLY }

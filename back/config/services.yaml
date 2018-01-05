@@ -1,0 +1,312 @@
+parameters:
+    locale: 'en'
+
+    # Liste les entités likeables
+    likeables:
+        clubinfo:
+            - Fix
+            - Tuto
+        core:
+            - Comment
+        foyer:
+            - Beer
+            - Youtube
+        ponthub:
+            - Episode
+            - Game
+            - Movie
+            - Other
+            - Request
+            - Serie
+            - Software
+        publication:
+            - Course
+            - Event
+            - Exercice
+            - Newsitem
+        user:
+            - Club
+            - Experience
+            - User
+
+    upont:
+        foyer:
+            trust:
+                - '019'
+
+        promos:
+            latest: '020'
+            assos: '019'
+            all:
+                - '014'
+                - '015'
+                - '016'
+                - '017'
+                - '018'
+                - '019'
+                - '020'
+
+            pontlyvalent:
+                open: false
+
+    ki_core.images.directory: '%kernel.root_dir%/../web/uploads/images/'
+    ki_core.images.maxSize: 512000 # Taille maximum des images uploadées en octets
+    ki_core.base_url: https://upont.enpc.fr/api/
+
+    ki_clubinfo.slack_hook: https://hooks.slack.com/services/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
+
+    # Tokens d'accès API Gracenote
+    ki_ponthub.gracenote.key1: '14886144'
+    ki_ponthub.gracenote.key2: '136467B84B6BCA2854F072597B216096'
+    ki_ponthub.gracenote.key3: '279881507270543439-482465B59397C267B124C2794482BF35'
+
+    ki_ponthub.files.valid_extensions: ['avi', 'mpeg', 'mp4', 'mkv', 'rar', 'zip', 'iso', 'exe', 'msi', 'jpg', 'jpeg', 'png', 'bmp', 'gif', 'srt', 'pdf', 'epub', 'mobi', 'dmg']
+
+    ki_upont.push.gcm: 'AIzaSyCHrIJMqsou89Er6ksjfuqIZQLdOsuky2Q'
+
+    proxy_url: '%env(PROXY_URL)%'
+    proxy_user: '%env(PROXY_USER)%'
+    secret: '%env(SYMFONY_SECRET)%'
+    debug_redirects: false
+    use_assetic_controller: true
+    fleur_token: '%env(FLEUR_TOKEN)%'
+    facebook_token: '%env(FACEBOOK_TOKEN)%'
+
+    env(PROXY_URL): null
+    env(PROXY_USER): null
+    env(FACEBOOK_TOKEN): null
+    env(SYMFONY_SECRET): ThisTokenIsNotSoSecretChangeIt
+    env(FLEUR_TOKEN): 1234
+
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: false       # Allows optimizing the container by removing unused services; this also means
+                            # fetching services directly from the container via $container->get() won't work.
+                            # The best practice is to be explicit about your dependencies anyway.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{Entity,Migrations,Tests}'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    App\Command\:
+        resource: '../src/Command'
+        tags: ['console.command']
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+    App\Service\CurlService:
+        arguments:
+            - '%proxy_url%'
+            - '%proxy_user%'
+
+    App\Service\ImageService:
+        arguments:
+            $imagesMaxSize: '%ki_core.images.maxSize%'
+
+    App\Transformer\StringToTagsTransformer:
+        arguments:
+           - '@doctrine.orm.entity_manager'
+           - '@ki_core.repository.tag'
+
+    App\Selector\ImageSelector:
+        tags:
+           - { name: form.type, alias: image_selector }
+
+    App\Selector\TagsSelector:
+        tags:
+           - { name: form.type, alias: tags_selector }
+
+    ki_core.repository.tag:
+        class: Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - App\Entity\Tag
+
+    App\Helper\FormHelper:
+        public: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@form.factory'
+            - '@router'
+        calls:
+            - [setRequest, ['@request_stack']]
+
+    App\Helper\PaginateHelper:
+        public: true
+        calls:
+            - [setRequest, ['@request_stack']]
+
+    App\Listener\LikeableListener:
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
+
+    App\Listener\JsonRequestTransformerListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 100 }
+
+    # Permet la communication avec le Slack du KI
+    App\Service\SlackService:
+        arguments:
+            - '@App\Service\CurlService'
+            - '%ki_clubinfo.slack_hook%'
+            - '%kernel.environment%'
+            - '%ki_core.base_url%'
+
+    App\Listener\SendMailNegativeBalanceListener:
+            tags:
+                - { name: kernel.event_listener, event: upont.negative_balance, method: sendMail }
+
+    # Communique avec l'API Gracenote
+    App\Service\GracenoteService:
+        arguments:
+            - '%ki_ponthub.gracenote.key1%'
+            - '%ki_ponthub.gracenote.key2%'
+            - '%ki_ponthub.gracenote.key3%'
+            - '%proxy_url%'
+            - '%proxy_user%'
+
+    App\Selector\ActorsSelector:
+        tags:
+           - { name: form.type, alias: actors_selector }
+
+    App\Selector\GenresSelector:
+        tags:
+           - { name: form.type, alias: genres_selector }
+
+    App\Helper\FilelistHelper:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@App\Repository\GenreRepository'
+            - '@App\Repository\SerieRepository'
+            - '@App\Repository\PonthubFileRepository'
+            - '%ki_ponthub.files.valid_extensions%'
+            - '@App\Helper\FileHelper'
+
+    App\Listener\PonthubFileListener:
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
+
+    App\Listener\PonthubFileUserListener:
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+
+    App\Listener\SerieListener:
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
+
+    App\Listener\EventLoadListener:
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
+
+    # Permet de gérer des tokens comme on veut
+    App\Service\TokenService:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@security.token_storage'
+
+    # Gère l'envoi de mails
+    App\Service\MailerService:
+        arguments:
+            - '@mailer'
+            - '@templating'
+
+    # Interface Google Cloud Messages
+    App\Service\GcmService:
+        arguments:
+            - '@App\Service\CurlService'
+            - '%ki_upont.push.gcm%'
+
+    # Interface avancée de gestion des permissions utilisateurs
+    App\Service\PermissionService:
+        public: true
+
+    form_login_authenticator:
+        class: App\Security\FormLoginAuthenticator
+        arguments:
+          - '@lexik_jwt_authentication.jwt_manager'
+          - '@event_dispatcher'
+          - '@security.password_encoder'
+        public: false
+
+    sso_enpc_authenticator:
+        class: App\Security\SsoEnpcLoginAuthenticator
+        arguments:
+          - '@lexik_jwt_authentication.jwt_manager'
+          - '@event_dispatcher'
+          - '@App\Factory\UserFactory'
+          - '@App\Repository\UserRepository'
+          - '%proxy_url%'
+          - '%proxy_user%'
+          - '%upont%'
+
+    App\Setter\UserSetter:
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+
+    App\Selector\ClubSelector:
+        tags:
+           - { name: form.type, alias: club_selector }
+
+    # Écoute les checks d'achievements demandés un peu partout dans le code
+    App\Listener\AchievementCheckListener:
+        tags:
+            - { name: kernel.event_listener, event: upont.achievement, method: check }
+
+    App\Listener\JWTCreatedListener:
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
+
+    App\Listener\JWTDecodedListener:
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_decoded, method: onJWTDecoded }
+
+    # Écoute le lancement de notifications push
+    App\Listener\NotificationListener:
+        arguments:
+            - '@App\Service\CurlService'
+            - '%ki_upont.push.gcm%'
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+
+    # Ajoute les gens online
+    App\Listener\OnlineListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    App\Listener\SendMailUserRegistrationListener:
+        tags:
+            - { name: kernel.event_listener, event: upont.user_registration, method: sendMail }
+
+    App\Listener\FacebookImportUserRegistrationListener:
+        arguments:
+            - '@App\Service\CurlService'
+            - '@App\Service\ImageService'
+            - '@doctrine.orm.entity_manager'
+            - '%facebook_token%'
+        tags:
+            - { name: kernel.event_listener, event: upont.user_registration, method: facebookImport }
+
+    # Sert pour la compatibilité FOSUserBundle
+    App\Form\UserType:
+        tags:
+            - { name: form.type, alias: user }
+
+
+    # Ugly fix
+#    fos_user.doctrine_registry:
+#        alias: doctrine
+
+    BOMO\IcalBundle\Provider\IcsProvider: '@bomo_ical.ics_provider'

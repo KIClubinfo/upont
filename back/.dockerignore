@@ -1,7 +1,6 @@
 web/bundles/
 web/libs/
 web/uploads/
-web/maintenance.lock
 app/spool/*
 build/
 vendor/

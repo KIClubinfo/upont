@@ -1,0 +1,24 @@
+{{ post.text|replace({'src="../api/uploads/': 'src="https://upont.enpc.fr/api/uploads/'})|raw }}
+<br>
+<hr style="width:50%">
+<br>
+<em style="display:inline-block;width:80px">QUOI :</em> <strong>{{ post.name }}</strong><br>
+<em style="display:inline-block;width:80px">OÙ :</em> <strong>{{ post.place }}</strong><br>
+<em style="display:inline-block;width:80px">QUAND :</em> <strong>{{ start }}</strong> - <strong>{{ end }}</strong><br>
+
+{% if shotgun is defined %}
+<h3>
+    <span style="color:red">Shotgun sur uPont le {{ shotgun }}</span>
+    <a href="https://upont.enpc.fr/shotgun/{{ post.slug }}" title="Aller sur la page du Shotgun">(lien)</a>
+</h3>
+{% else %}
+<h3>
+    <a href="https://upont.enpc.fr/publications/{{ post.slug }}?action=participer" title="Participer à l'événement">Participer</a>
+    -
+    <a href="https://upont.enpc.fr/publications/{{ post.slug }}?action=masquer" title="Masquer l'événement">Ne pas participer</a>
+</h3>
+{% endif %}
+
+{% include 'footer.html.twig' %}
+
+

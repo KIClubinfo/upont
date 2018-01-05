@@ -1,0 +1,4 @@
+swiftmailer:
+    disable_delivery: true
+
+    logging: true

@@ -2,7 +2,6 @@
 /web/libs/
 /web/uploads/*
 !/web/uploads/tests/*
-/web/maintenance.lock
 /app/spool/*
 /build/
 /vendor/
@@ -22,3 +21,14 @@
 /var/sessions/*
 !var/sessions/.gitkeep
 !var/SymfonyRequirements.php
+###> symfony/phpunit-bridge ###
+.phpunit
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> symfony/framework-bundle ###
+.env
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###

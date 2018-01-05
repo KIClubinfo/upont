@@ -1,0 +1,18 @@
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: App\Entity\User
+    group:
+        group_class: App\Entity\Group
+    from_email:
+        address:        noreply@upont.enpc.fr
+        sender_name:    KI
+    change_password:
+        form:
+            type: user
+    registration:
+        form:
+            type: user
+    profile:
+        form:
+            type: user

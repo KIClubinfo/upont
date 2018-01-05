@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+    <SOAP-ENV:Body>
+        <saml1p:Response xmlns:saml1p="urn:oasis:names:tc:SAML:1.0:protocol" IssueInstant="2016-08-22T21:27:52.073Z"
+                         MajorVersion="1" MinorVersion="1" Recipient="http://dev-upont.enpc.fr"
+                         ResponseID="_c50eaa0ed5fc21cbfe96a75e1eec46c2">
+            <saml1p:Status>
+                <saml1p:StatusCode Value="saml1p:Success"/>
+            </saml1p:Status>
+            <saml1:Assertion xmlns:saml1="urn:oasis:names:tc:SAML:1.0:assertion"
+                             AssertionID="_191ebb6fa6fea3f8eb17ec1d90d1a7c2" IssueInstant="2016-08-22T21:27:52.073Z"
+                             Issuer="localhost" MajorVersion="1" MinorVersion="1">
+                <saml1:Conditions NotBefore="2016-08-22T21:27:52.073Z" NotOnOrAfter="2016-08-22T21:28:22.073Z">
+                    <saml1:AudienceRestrictionCondition>
+                        <saml1:Audience>http://dev-upont.enpc.fr</saml1:Audience>
+                    </saml1:AudienceRestrictionCondition>
+                </saml1:Conditions>
+                <saml1:AuthenticationStatement AuthenticationInstant="2016-08-22T21:20:24.191Z"
+                                               AuthenticationMethod="urn:oasis:names:tc:SAML:1.0:am:unspecified">
+                    <saml1:Subject>
+                        <saml1:NameIdentifier>louis.trezzini</saml1:NameIdentifier>
+                        <saml1:SubjectConfirmation>
+                            <saml1:ConfirmationMethod>urn:oasis:names:tc:SAML:1.0:cm:artifact</saml1:ConfirmationMethod>
+                        </saml1:SubjectConfirmation>
+                    </saml1:Subject>
+                </saml1:AuthenticationStatement>
+                <saml1:AttributeStatement>
+                    <saml1:Subject>
+                        <saml1:NameIdentifier>louis.trezzini</saml1:NameIdentifier>
+                        <saml1:SubjectConfirmation>
+                            <saml1:ConfirmationMethod>urn:oasis:names:tc:SAML:1.0:cm:artifact</saml1:ConfirmationMethod>
+                        </saml1:SubjectConfirmation>
+                    </saml1:Subject>
+                    <saml1:Attribute AttributeName="sn" AttributeNamespace="http://www.ja-sig.org/products/cas/">
+                        <saml1:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                              xsi:type="xs:string">TREZZINI
+                        </saml1:AttributeValue>
+                    </saml1:Attribute>
+                    <saml1:Attribute AttributeName="givenName" AttributeNamespace="http://www.ja-sig.org/products/cas/">
+                        <saml1:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                              xsi:type="xs:string">Louis
+                        </saml1:AttributeValue>
+                    </saml1:Attribute>
+                    <saml1:Attribute AttributeName="mail" AttributeNamespace="http://www.ja-sig.org/products/cas/">
+                        <saml1:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                              xsi:type="xs:string">louis.trezzini@eleves.enpc.fr
+                        </saml1:AttributeValue>
+                    </saml1:Attribute>
+                    <saml1:Attribute AttributeName="userprincipalname"
+                                     AttributeNamespace="http://www.ja-sig.org/products/cas/">
+                        <saml1:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                              xsi:type="xs:string">louis.trezzini@enpc.fr
+                        </saml1:AttributeValue>
+                    </saml1:Attribute>
+                    <saml1:Attribute AttributeName="cn" AttributeNamespace="http://www.ja-sig.org/products/cas/">
+                        <saml1:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                              xsi:type="xs:string">Louis TREZZINI
+                        </saml1:AttributeValue>
+                    </saml1:Attribute>
+                </saml1:AttributeStatement>
+            </saml1:Assertion>
+        </saml1p:Response>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
