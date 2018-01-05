@@ -1,5 +1,5 @@
 sentry:
     dsn: '%env(SENTRY_DSN)%'
-    environment: "%kernel.environment%"
     options:
+        environment: "%kernel.environment%"
         http_proxy: "%proxy_url%"
