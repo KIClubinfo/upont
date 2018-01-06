@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Controller\ResourceController;
 use App\Entity\Club;
 use App\Entity\ClubUser;
 use App\Entity\Event;
@@ -192,17 +191,12 @@ class ClubsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/clubs/{slugClub}/users/{username}")
+     * @Route("/clubs/{slug}/users/{username}")
      * @Method("POST")
      */
-    public function postClubUserAction(Request $request, $slugClub, $username)
+    public function postClubUserAction(Request $request, Club $club, User $user)
     {
-        $this->trust($this->is('ADMIN') || $this->isClubMember($slugClub));
-
-        // On récupère les deux entités concernées
-        $userRepository = $this->manager->getRepository(User::class);
-        $user = $userRepository->findOneBy(['username' => $username]);
-        $club = $this->findBySlug($slugClub);
+        $this->trust($this->is('ADMIN') || $this->isClubMember($club->getSlug()));
 
         // Vérifie que la relation n'existe pas déjà
         $repoLink = $this->manager->getRepository(ClubUser::class);
@@ -255,14 +249,9 @@ class ClubsController extends ResourceController
      * @Route("/clubs/{slug}/users/{username}")
      * @Method("PATCH")
      */
-    public function patchClubUserAction(Request $request, $slug, $username)
+    public function patchClubUserAction(Request $request, Club $club, User $user)
     {
-        $this->trust($this->is('ADMIN') || $this->isClubMember($slug));
-
-        // On récupère les deux entités concernées
-        $repo = $this->manager->getRepository(User::class);
-        $user = $repo->findOneByUsername($username);
-        $club = $this->findBySlug($slug);
+        $this->trust($this->is('ADMIN') || $this->isClubMember($club->getSlug()));
 
         // Vérifie que la relation n'existe pas déjà
         $repoLink = $this->manager->getRepository(ClubUser::class);
@@ -299,18 +288,13 @@ class ClubsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/clubs/{slug}/users/{id}")
+     * @Route("/clubs/{slug}/users/{username}")
      * @Method("DELETE")
      */
-    public function deleteClubUserAction($slug, $id)
+    public function deleteClubUserAction(Club $club, User $user)
     {
-        if (!($this->is('ADMIN') || $this->isClubMember($slug)))
+        if (!($this->is('ADMIN') || $this->isClubMember($club->getSlug())))
             throw new AccessDeniedException('Accès refusé');
-
-        // On récupère les deux entités concernées
-        $repo = $this->manager->getRepository(User::class);
-        $user = $repo->findOneByUsername($id);
-        $club = $this->findBySlug($slug);
 
         // On récupère la relation
         $repoLink = $this->manager->getRepository(ClubUser::class);
@@ -415,10 +399,9 @@ class ClubsController extends ResourceController
      * @Route("/clubs/{slug}/unfollow")
      * @Method("POST")
      */
-    public function unFollowClubAction($slug)
+    public function unFollowClubAction(Club $club)
     {
         $user = $this->user;
-        $club = $this->findBySlug($slug);
 
         if ($user->getClubsNotFollowed()->contains($club)) {
             throw new BadRequestHttpException('Vous n\'êtes pas abonné à ce club');
