@@ -1,26 +1,10 @@
-/web/bundles/
-/web/libs/
-/web/uploads/*
-!/web/uploads/tests/*
-/app/spool/*
+/public/uploads/*
 /build/
-/vendor/
 /coverage/
 /phpdoc/
-/app/var/jwt/private.pem
-/app/var/jwt/public.pem
+/config/jwt/private.pem
+/config/jwt/public.pem
 
-/var/*
-!/var/cache/
-/var/cache/*
-!var/cache/.gitkeep
-!/var/logs/
-/var/logs/*
-!var/logs/.gitkeep
-!/var/sessions/
-/var/sessions/*
-!var/sessions/.gitkeep
-!var/SymfonyRequirements.php
 ###> symfony/phpunit-bridge ###
 .phpunit
 /phpunit.xml

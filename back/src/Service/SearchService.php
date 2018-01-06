@@ -109,7 +109,6 @@ class SearchService
         $return = $score = [];
         $percent = 0;
 
-        print_r($results);
         foreach ($results as $result) {
             $name = $result->getName();
             $class = preg_replace('/.*\\\/', '', get_class($result));
