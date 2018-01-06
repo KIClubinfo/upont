@@ -30,9 +30,9 @@ test:
     - mkdir -p $CIRCLE_TEST_REPORTS/phpunit
     - |
         if [ $CIRCLE_BRANCH = 'master-dev' ]; then
-            bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/upont.xml --coverage-clover=upont.clover
+            bin/phpunit -c phpunit.xml.circle --log-junit $CIRCLE_TEST_REPORTS/phpunit/upont.xml --coverage-clover=upont.clover
         else
-            bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/upont.xml
+            bin/phpunit -c phpunit.xml.circle --log-junit $CIRCLE_TEST_REPORTS/phpunit/upont.xml
         fi
 
   post:
