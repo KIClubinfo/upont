@@ -230,6 +230,9 @@
     "symfony/asset": {
         "version": "3.4.x-dev"
     },
+    "symfony/browser-kit": {
+        "version": "v3.4.3"
+    },
     "symfony/cache": {
         "version": "3.4.x-dev"
     },
@@ -256,6 +259,9 @@
     },
     "symfony/doctrine-bridge": {
         "version": "3.4.x-dev"
+    },
+    "symfony/dom-crawler": {
+        "version": "v3.4.3"
     },
     "symfony/dotenv": {
         "version": "3.4.x-dev"

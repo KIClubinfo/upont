@@ -2,7 +2,6 @@
 
 namespace App\Tests;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase as LiipWebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as SymfonyWebTestCase;
 
