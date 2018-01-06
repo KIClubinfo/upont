@@ -304,9 +304,4 @@ services:
         tags:
             - { name: form.type, alias: user }
 
-
-    # Ugly fix
-#    fos_user.doctrine_registry:
-#        alias: doctrine
-
     BOMO\IcalBundle\Provider\IcsProvider: '@bomo_ical.ics_provider'

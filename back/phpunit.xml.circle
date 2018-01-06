@@ -20,6 +20,8 @@
         <env name="JWT_PASSPHRASE" value="ololol" />
 
         <env name="DATABASE_URL" value="mysql://ubuntu@127.0.0.1:3306/circle_test" />
+
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak_vendors" />
     </php>
 
     <testsuites>
