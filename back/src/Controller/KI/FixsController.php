@@ -5,6 +5,7 @@ namespace App\Controller\KI;
 use App\Controller\ResourceController;
 use App\Entity\Fix;
 use App\Form\FixType;
+use App\Service\NotifyService;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -99,14 +100,14 @@ class FixsController extends ResourceController
      * @Route("/fixs/{slug}")
      * @Method("PATCH")
      */
-    public function patchFixAction($slug)
+    public function patchFixAction(NotifyService $notifyService, $slug)
     {
         $data = $this->patch($slug, $this->isClubMember('ki'));
 
         $fix = $data['item'];
 
         if ($fix->getFix()) {
-            $this->get('App\Service\NotifyService')->notify(
+            $notifyService->notify(
                 'notif_fixs',
                 'Demande de dépannage',
                 'Ta demande de dépannage a été actualisée par le KI !',

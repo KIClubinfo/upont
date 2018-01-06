@@ -50,7 +50,6 @@
         "symfony/yaml": "^3.4"
     },
     "require-dev": {
-        "liip/functional-test-bundle": "~1.6",
         "symfony/dotenv": "^3.4",
         "symfony/phpunit-bridge": "^3.4",
         "symfony/web-profiler-bundle": "^3.4"

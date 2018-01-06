@@ -5,6 +5,7 @@ namespace App\Controller\Publications;
 use App\Controller\ResourceController;
 use App\Entity\Newsitem;
 use App\Form\NewsitemType;
+use App\Listener\NewsitemListener;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -76,12 +77,12 @@ class NewsitemsController extends ResourceController
      * @Route("/newsitems")
      * @Method("POST")
      */
-    public function postNewsitemAction()
+    public function postNewsitemAction(NewsitemListener $newsitemListener)
     {
         $data = $this->post($this->isClubMember());
 
         if ($data['code'] == 201) {
-            $this->get('ki_publication.listener.newsitem')->postPersist($data['item']);
+            $newsitemListener->postPersist($data['item']);
         }
 
         return $this->formJson($data);

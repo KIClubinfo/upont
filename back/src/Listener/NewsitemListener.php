@@ -2,11 +2,11 @@
 
 namespace App\Listener;
 
-use Doctrine\ORM\EntityRepository;
-use App\Entity\Newsitem;
 use App\Entity\Achievement;
 use App\Entity\Club;
+use App\Entity\Newsitem;
 use App\Event\AchievementCheckEvent;
+use App\Repository\UserRepository;
 use App\Service\MailerService;
 use App\Service\NotifyService;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -21,7 +21,7 @@ class NewsitemListener
     public function __construct(EventDispatcherInterface $dispatcher,
                                 MailerService $mailerService,
                                 NotifyService $notifyService,
-                                EntityRepository $userRepository)
+                                UserRepository $userRepository)
     {
         $this->dispatcher     = $dispatcher;
         $this->mailerService  = $mailerService;

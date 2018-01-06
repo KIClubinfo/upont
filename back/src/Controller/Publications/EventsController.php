@@ -9,6 +9,7 @@ use App\Entity\Achievement;
 use App\Event\AchievementCheckEvent;
 use App\Form\EventType;
 use App\Listener\EventListener;
+use App\Service\NotifyService;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -270,7 +271,7 @@ class EventsController extends ResourceController
      * @Route("/events/{slug}/shotgun")
      * @Method("DELETE")
      */
-    public function deleteEventUserAction($slug)
+    public function deleteEventUserAction(NotifyService $notifyService, $slug)
     {
         $event = $this->findBySlug($slug);
 
@@ -286,7 +287,7 @@ class EventsController extends ResourceController
             $userEvents = $repo->findBy(['event' => $event], ['date' => 'ASC']);
 
             if (isset($userEvents[$event->getShotgunLimit()])) {
-                $this->get('App\Service\NotifyService')->notify(
+                $notifyService->notify(
                     'notif_shotgun_freed',
                     $event->getName(),
                     'Des places de shotgun se sont libérées, tu as maintenant accès à l\'événément !',

@@ -10,9 +10,10 @@ class ImageServiceTest extends WebTestCase
     protected $service;
     protected $path;
 
-    public function __construct()
+    public function setUp()
     {
-        parent::__construct();
+        parent::setUp();
+
         $this->container = static::$kernel->getContainer();
         $this->service = $this->container->get('App\Service\ImageService');
         $this->path = $this->container->getParameter('ki_core.images.directory');
@@ -50,7 +51,7 @@ class ImageServiceTest extends WebTestCase
 
     public function testFailUploadUrl()
     {
-        $this->setExpectedException('Exception');
+        $this->expectException(\Exception::class);
         $url = 'httzpqq//wsqdqww.youtube.com/yt/brand/media/image/YouTube-logo-full_color.png';
         $result = $this->service->uploadFromUrl($url);
         $this->assertEquals($result, null);

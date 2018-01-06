@@ -128,9 +128,6 @@
             "ref": "751ee6748c1026fa4350c155d1b3a77b7ddca69c"
         }
     },
-    "liip/functional-test-bundle": {
-        "version": "1.9.0"
-    },
     "michelf/php-markdown": {
         "version": "1.7.0"
     },
@@ -233,9 +230,6 @@
     "symfony/asset": {
         "version": "3.4.x-dev"
     },
-    "symfony/browser-kit": {
-        "version": "3.4.x-dev"
-    },
     "symfony/cache": {
         "version": "3.4.x-dev"
     },
@@ -261,9 +255,6 @@
         "version": "3.4.x-dev"
     },
     "symfony/doctrine-bridge": {
-        "version": "3.4.x-dev"
-    },
-    "symfony/dom-crawler": {
         "version": "3.4.x-dev"
     },
     "symfony/dotenv": {

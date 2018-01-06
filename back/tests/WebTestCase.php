@@ -19,7 +19,7 @@ abstract class WebTestCase extends SymfonyWebTestCase
         parent::__construct();
 
         // On ne se logge qu'une fois pour tous les tests
-        $path = __DIR__.'/../var/cache/token';
+        $path = __DIR__ . '/../var/cache/token';
         if (!file_exists($path)) {
             $client = static::createClient();
             $client->request(
@@ -33,8 +33,14 @@ abstract class WebTestCase extends SymfonyWebTestCase
             $this->assertArrayHasKey('token', $data);
             file_put_contents($path, $data['token']);
         }
+    }
 
-        $client = static::createClient();
+    public function setUp()
+    {
+        parent::setUp();
+
+        $client = $this->createClient();
+        $path = __DIR__ . '/../var/cache/token';
         $client->setServerParameter('HTTP_Authorization', $this->authorizationHeaderPrefix.' '.file_get_contents($path));
         $this->client = $client;
     }

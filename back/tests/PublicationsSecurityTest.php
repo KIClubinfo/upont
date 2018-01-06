@@ -75,8 +75,8 @@ class PublicationsSecurityTest extends WebTestCase
         $routes = [
             [200, 'GET', '/newsitems'],
             [403, 'GET', '/courses'],
-            [403, 'POST', '/newsitems/le-beton-c-est-bon/comments'],
-            [200, 'GET', '/newsitems/le-beton-c-est-bon/comments']
+            [403, 'POST', '/newsitems/le-beton-cest-bon/comments'],
+            [200, 'GET', '/newsitems/le-beton-cest-bon/comments']
         ];
         $this->checkRoutes($routes);
     }
