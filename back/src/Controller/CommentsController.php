@@ -113,7 +113,7 @@ class CommentsController extends ResourceController
             $item = $this->findBySlug($slug);
             $item->addComment($data['item']);
         }
-        $this->initialize('Comment', 'Core');
+        $this->initialize(Comment::class, CommentType::class);
         return $this->formJson($data);
     }
 
@@ -141,7 +141,7 @@ class CommentsController extends ResourceController
             $item = $this->findBySlug($subslug);
             $item->addComment($return['item']);
         }
-        $this->initialize('Comment', 'Core');
+        $this->initialize(Comment::class, CommentType::class);
         return $this->postView($return);
     }
 

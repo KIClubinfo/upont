@@ -46,7 +46,7 @@ class PonthubController extends ResourceController
      */
     public function filelistAction(FilelistHelper $filelistHelper, Request $request, $token)
     {
-        $path = __DIR__ . '/../../../../web/uploads/tmp/';
+        $path = __DIR__ . '/../../../public/uploads/tmp/';
         if ($token != $this->container->getParameter('fleur_token')) {
             return $this->json('Vous n\'avez pas le droit de faire ça', 403);
         }

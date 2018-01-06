@@ -52,7 +52,7 @@ class Exercice extends Likeable
 
     public function getBasePath()
     {
-        return __DIR__.'/../../../../web/uploads/exercices/';
+        return __DIR__.'/../../public/uploads/exercices/';
     }
 
     public function getAbsolutePath()

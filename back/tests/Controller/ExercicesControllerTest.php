@@ -11,7 +11,7 @@ class ExercicesControllerTest extends WebTestCase
     // Tests relatifs aux annales
     public function testPostExercice()
     {
-        $basePath = __DIR__.'/../../../../web/uploads/tests/';
+        $basePath = __DIR__.'/../uploads/';
         $fs = new Filesystem();
         $fs->copy($basePath.'file.pdf', $basePath.'file_tmp.pdf');
         $file = new UploadedFile($basePath.'file_tmp.pdf', 'file.pdf');

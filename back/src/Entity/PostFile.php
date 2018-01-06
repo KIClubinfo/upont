@@ -60,7 +60,7 @@ class PostFile
      */
     protected function getUploadDir()
     {
-        return __DIR__.'/../../../../web/uploads/'.$this->getUploadCategory().'/';
+        return __DIR__.'/../../public/uploads/'.$this->getUploadCategory().'/';
     }
 
     /**

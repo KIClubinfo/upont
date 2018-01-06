@@ -39,7 +39,7 @@ class Image
 
     protected $uploadsDirectory;
     public function __construct() {
-        $this->uploadsDirectory = __DIR__.'/../../../../web/uploads/';
+        $this->uploadsDirectory = __DIR__.'/../../public/uploads/';
     }
 
     public function getUploadsDirectory()
@@ -50,7 +50,7 @@ class Image
     public function getAbsolutePath()
     {
         // We need to set complete path because this function is called without the constructor by PreRemove
-        return __DIR__.'/../../../../web/uploads/images/'.$this->id.'.'.$this->ext;
+        return __DIR__.'/../../public/uploads/images/'.$this->id.'.'.$this->ext;
     }
 
     public function getWebPath()
