@@ -8,6 +8,7 @@ use App\Entity\EventUser;
 use App\Entity\Achievement;
 use App\Event\AchievementCheckEvent;
 use App\Form\EventType;
+use App\Listener\EventListener;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -82,12 +83,12 @@ class EventsController extends ResourceController
      * @Route("/events")
      * @Method("POST")
      */
-    public function postEventAction()
+    public function postEventAction(EventListener $eventListener)
     {
         $data = $this->post($this->isClubMember());
 
         if ($data['code'] == 201) {
-            $this->get('ki_publication.listener.event')->postPersist($data['item']);
+            $eventListener->postPersist($data['item']);
         }
 
         return $this->formJson($data);
@@ -109,7 +110,7 @@ class EventsController extends ResourceController
      * @Route("/events/{slug}")
      * @Method("PATCH")
      */
-    public function patchEventAction($slug)
+    public function patchEventAction(EventListener $eventListener, $slug)
     {
         $item = $this->findBySlug($slug);
         $oldItem = clone $item;
@@ -117,7 +118,7 @@ class EventsController extends ResourceController
         $club = $item->getAuthorClub();
         $club = $club ? $club->getSlug() : $club;
         $data = $this->patch($slug, $this->isClubMember($club));
-        $this->get('ki_publication.listener.event')->postUpdate($item, $oldItem);
+        $eventListener->postUpdate($item, $oldItem);
 
         return $this->formJson($data);
     }

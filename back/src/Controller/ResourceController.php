@@ -79,4 +79,29 @@ class ResourceController extends LikeableController
         $this->manager->remove($item);
         $this->manager->flush();
     }
+
+    /**
+     * Route PATCH générique pour un objet
+     * @param  boolean $auth Un override éventuel pour le check des permissions
+     * @return array
+     */
+    protected function patchItem($item, $auth = false, $flush = true)
+    {
+        $this->trust($this->is('MODO') || $auth);
+
+        $formHelper = $this->get('App\Helper\FormHelper');
+        return $formHelper->formData($item, 'PATCH', $flush);
+    }
+
+    /**
+     * Route DELETE générique pour une sous ressource
+     * @param  boolean $auth Un override éventuel pour le check des permissions
+     */
+    protected function deleteItem($item, $auth = false)
+    {
+        $this->trust($this->is('MODO') || $auth);
+
+        $this->manager->remove($item);
+        $this->manager->flush();
+    }
 }

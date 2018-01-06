@@ -2,11 +2,11 @@
 
 namespace App\Helper;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
-use App\Service\CurlService;
 use App\Entity\Course;
 use App\Entity\CourseItem;
+use App\Repository\CourseRepository;
+use App\Service\CurlService;
+use Doctrine\ORM\EntityManagerInterface;
 
 class CourseParserHelper
 {
@@ -16,7 +16,7 @@ class CourseParserHelper
     protected $knownCourses;
 
     public function __construct(EntityManagerInterface $manager,
-                                EntityRepository $courseRepository,
+                                CourseRepository $courseRepository,
                                 CurlService $curlService)
     {
         $this->manager          = $manager;

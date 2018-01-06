@@ -46,8 +46,8 @@ parameters:
                 - '019'
                 - '020'
 
-            pontlyvalent:
-                open: false
+        pontlyvalent:
+            open: false
 
     ki_core.images.directory: '%kernel.root_dir%/../web/uploads/images/'
     ki_core.images.maxSize: 512000 # Taille maximum des images uploadées en octets

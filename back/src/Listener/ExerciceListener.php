@@ -2,10 +2,10 @@
 
 namespace App\Listener;
 
-use Doctrine\ORM\EntityRepository;
-use App\Entity\Exercice;
 use App\Entity\Achievement;
+use App\Entity\Exercice;
 use App\Event\AchievementCheckEvent;
+use App\Repository\CourseUserRepository;
 use App\Service\NotifyService;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -17,7 +17,7 @@ class ExerciceListener
 
     public function __construct(NotifyService $notifyService,
                                 EventDispatcherInterface $dispatcher,
-                                EntityRepository $courseUserRepository)
+                                CourseUserRepository $courseUserRepository)
     {
         $this->notifyService        = $notifyService;
         $this->dispatcher           = $dispatcher;

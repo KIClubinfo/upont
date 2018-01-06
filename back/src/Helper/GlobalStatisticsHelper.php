@@ -133,7 +133,7 @@ class GlobalStatisticsHelper
      */
     private function getTotalDownloads($category) {
         $connection = $this->manager->getConnection();
-        $statement = $connection->prepare('SELECT COUNT(*) AS compte FROM App:PonthubFileUser LEFT JOIN App:Likeable ON Likeable.id = PonthubFileUser.file_id WHERE Likeable.type = :category');
+        $statement = $connection->prepare('SELECT COUNT(*) AS compte FROM PonthubFileUser LEFT JOIN Likeable ON Likeable.id = PonthubFileUser.file_id WHERE Likeable.type = :category');
         $statement->bindValue('category', $category);
         $statement->execute();
         $results = $statement->fetchAll();
@@ -148,7 +148,7 @@ class GlobalStatisticsHelper
      */
     private function getDownloads($category) {
         $connection = $this->manager->getConnection();
-        $statement = $connection->prepare('SELECT Likeable.name, COUNT(*) AS compte FROM App:PonthubFileUser LEFT JOIN App:Likeable ON Likeable.id = PonthubFileUser.file_id WHERE Likeable.type = :category GROUP BY PonthubFileUser.file_id ORDER BY compte DESC LIMIT 10');
+        $statement = $connection->prepare('SELECT Likeable.name, COUNT(*) AS compte FROM PonthubFileUser LEFT JOIN Likeable ON Likeable.id = PonthubFileUser.file_id WHERE Likeable.type = :category GROUP BY PonthubFileUser.file_id ORDER BY compte DESC LIMIT 10');
         $statement->bindValue('category', $category);
         $statement->execute();
         $results = $statement->fetchAll();

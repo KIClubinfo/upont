@@ -6,6 +6,8 @@ use App\Controller\ResourceController;
 use App\Entity\Course;
 use App\Entity\CourseUser;
 use App\Form\CourseType;
+use App\Helper\CourseHelper;
+use App\Helper\CourseParserHelper;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -33,9 +35,9 @@ class CoursesController extends ResourceController
      * @Route("/courses")
      * @Method("HEAD")
      */
-    public function parseCoursesAction()
+    public function parseCoursesAction(CourseParserHelper $courseParserHelper)
     {
-        $this->get('ki_publication.helper.courseparser')->updateCourses();
+        $courseParserHelper->updateCourses();
         return $this->json(null, 202);
     }
 
@@ -173,12 +175,12 @@ class CoursesController extends ResourceController
      * @Route("/courses/{slug}/attend")
      * @Method("POST")
      */
-    public function postCourseUserAction(Request $request, $slug)
+    public function postCourseUserAction(CourseHelper $courseHelper, Request $request, $slug)
     {
         $course = $this->findBySlug($slug);
 
         $group = $request->request->get('group', 0);
-        $this->get('ki_publication.helper.course')->linkCourseUser($course, $this->user, $group);
+        $courseHelper->linkCourseUser($course, $this->user, $group);
         return $this->json(null, 204);
     }
 
@@ -196,10 +198,10 @@ class CoursesController extends ResourceController
      * @Route("/courses/{slug}/attend")
      * @Method("DELETE")
      */
-    public function deleteCourseUserAction($slug)
+    public function deleteCourseUserAction(CourseHelper $courseHelper, $slug)
     {
         $course = $this->findBySlug($slug);
-        $this->get('ki_publication.helper.course')->unlinkCourseUser($course, $this->user);
+        $courseHelper->unlinkCourseUser($course, $this->user);
         return $this->json(null, 204);
     }
 

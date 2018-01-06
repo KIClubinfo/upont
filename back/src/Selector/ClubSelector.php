@@ -1,7 +1,7 @@
 <?php
 namespace App\Selector;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use App\Repository\ClubRepository;
 use App\Transformer\StringToClubTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -9,16 +9,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ClubSelector extends AbstractType
 {
-    private $om;
+    private $clubRepository;
 
-    public function __construct(ObjectManager $om)
+    public function __construct(ClubRepository $clubRepository)
     {
-        $this->om = $om;
+        $this->clubRepository = $clubRepository;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $transformer = new StringToClubTransformer($this->om);
+        $transformer = new StringToClubTransformer($this->clubRepository);
         $builder->addModelTransformer($transformer);
     }
 

@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Controller\SubresourceController;
+use App\Controller\ResourceController;
 use App\Entity\Club;
 use App\Entity\ClubUser;
 use App\Entity\Event;
@@ -20,7 +20,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-class ClubsController extends SubresourceController
+class ClubsController extends ResourceController
 {
     public function setContainer(ContainerInterface $container = null)
     {
@@ -201,7 +201,7 @@ class ClubsController extends SubresourceController
 
         // On récupère les deux entités concernées
         $userRepository = $this->manager->getRepository(User::class);
-        $user = $userRepository->findOneByUsername($username);
+        $user = $userRepository->findOneBy(['username' => $username]);
         $club = $this->findBySlug($slugClub);
 
         // Vérifie que la relation n'existe pas déjà

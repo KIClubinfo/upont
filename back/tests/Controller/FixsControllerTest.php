@@ -30,7 +30,7 @@ class FixsControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
-        $this->client->request('GET', '/fixs/panne-d-internet');
+        $this->client->request('GET', '/fixs/panne-dinternet');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
@@ -43,13 +43,13 @@ class FixsControllerTest extends WebTestCase
     {
         $this->client->request(
             'PATCH',
-            '/fixs/panne-d-internet',
+            '/fixs/panne-dinternet',
             ['status' => 'Résolu !']
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('PATCH', '/fixs/panne-d-internet', ['name' => '']);
+        $this->client->request('PATCH', '/fixs/panne-dinternet', ['name' => '']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
 
@@ -57,18 +57,18 @@ class FixsControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
 
-        $this->client->request('PATCH', '/fixs/panne-d-internet', ['name' => 'miam', 'mail' => '123@mail.fr']);
+        $this->client->request('PATCH', '/fixs/panne-dinternet', ['name' => 'miam', 'mail' => '123@mail.fr']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 400);
     }
 
     public function testDelete()
     {
-        $this->client->request('DELETE', '/fixs/panne-d-internet');
+        $this->client->request('DELETE', '/fixs/panne-dinternet');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
 
-        $this->client->request('DELETE', '/fixs/panne-d-internet');
+        $this->client->request('DELETE', '/fixs/panne-dinternet');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
     }

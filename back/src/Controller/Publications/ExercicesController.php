@@ -2,13 +2,15 @@
 
 namespace App\Controller\Publications;
 
-use App\Controller\SubresourceController;
+use App\Controller\ResourceController;
 use App\Entity\Course;
 use App\Entity\Exercice;
 use App\Form\CourseType;
 use App\Form\ExerciceType;
+use App\Listener\ExerciceListener;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class ExercicesController extends SubresourceController
+class ExercicesController extends ResourceController
 {
     public function setContainer(ContainerInterface $container = null)
     {
@@ -58,13 +60,12 @@ class ExercicesController extends SubresourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/courses/{slugParent}/exercices/{slugSub}")
+     * @Route("/courses/{slug}/exercices/{exercice_slug}")
+     * @ParamConverter("exercice", options={"mapping": {"exercice_slug": "slug"}})
      * @Method("GET")
      */
-    public function getCourseExerciceAction($slugParent, $slugSub)
+    public function getCourseExerciceAction(Course $course, Exercice $exercice)
     {
-        $exercice = $this->getOneSub($slugParent, 'Exercice', $slugSub);
-
         return $this->json($exercice);
     }
 
@@ -80,15 +81,12 @@ class ExercicesController extends SubresourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/courses/{slugParent}/exercices/{slugSub}/download")
+     * @Route("/courses/{slug}/exercices/{exercice_slug}/download")
+     * @ParamConverter("exercice", options={"mapping": {"exercice_slug": "slug"}})
      * @Method("GET")
      */
-    public function downloadCourseExerciceAction($slugParent, $slugSub)
+    public function downloadCourseExerciceAction(Course $course, Exercice $exercice)
     {
-        $this->switchClass(Exercice::class, ExerciceType::class);
-        $exercice = $this->findBySlug($slugSub);
-        $this->switchClass();
-
         if (!file_exists($exercice->getAbsolutePath())) {
             throw new NotFoundHttpException('Fichier PDF non trouvé');
         }
@@ -124,10 +122,8 @@ class ExercicesController extends SubresourceController
      * @Route("/courses/{slug}/exercices")
      * @Method("POST")
      */
-    public function postCourseExerciceAction($slug, Request $request)
+    public function postCourseExerciceAction(Course $course, Request $request, ExerciceListener $exerciceListener)
     {
-        $course = $this->findBySlug($slug);
-
         $this->switchClass(Exercice::class, ExerciceType::class);
         $data = $this->post($this->is('USER'), false);
 
@@ -143,7 +139,7 @@ class ExercicesController extends SubresourceController
 
             // On sauvegarde tout avec le fichier au passage
             $this->manager->flush();
-            $this->get('ki_publication.listener.exercice')->postPersist($data['item']);
+            $exerciceListener->postPersist($data['item']);
         }
         $this->switchClass();
 
@@ -163,12 +159,13 @@ class ExercicesController extends SubresourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/courses/{slugParent}/exercices/{slugSub}")
+     * @Route("/courses/{slug}/exercices/{exercice_slug}")
+     * @ParamConverter("exercice", options={"mapping": {"exercice_slug": "slug"}})
      * @Method("PATCH")
      */
-    public function patchCourseExerciceAction($slugParent, $slugSub)
+    public function patchCourseExerciceAction(Course $course, Exercice $exercice)
     {
-        $data = $this->patchSub($slugParent, 'Exercice', $slugSub, $this->is('MODO'));
+        $data = $this->patchItem($exercice);
 
         return $this->formJson($data);
     }
@@ -184,14 +181,13 @@ class ExercicesController extends SubresourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/courses/{slugParent}/exercices/{slugSub}")
+     * @Route("/courses/{slug}/exercices/{exercice_slug}")
+     * @ParamConverter("exercice", options={"mapping": {"exercice_slug": "slug"}})
      * @Method("DELETE")
      */
-    public function deleteCourseExerciceAction($slugParent, $slugSub)
+    public function deleteCourseExerciceAction(Course $course, Exercice $exercice)
     {
-        $exercice = $this->getOneSub($slugParent, 'Exercice', $slugSub);
-
-        $this->deleteSub($slugParent, 'Exercice', $slugSub, $this->user == $exercice->getUploader() || $this->is('MODO'));
+        $this->deleteItem($exercice);
 
         return $this->json(null, 204);
     }

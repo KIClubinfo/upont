@@ -2,13 +2,13 @@
 
 namespace App\Helper;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
+use App\Entity\Achievement;
 use App\Entity\Course;
 use App\Entity\CourseUser;
-use App\Entity\Achievement;
 use App\Entity\User;
 use App\Event\AchievementCheckEvent;
+use App\Repository\CourseUserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -18,9 +18,9 @@ class CourseHelper
     protected $dispatcher;
     protected $manager;
 
-    public function __construct(EntityRepository $courseUserRepository,
+    public function __construct(CourseUserRepository $courseUserRepository,
                                 EventDispatcherInterface $dispatcher,
-                                EntityManager $manager)
+                                EntityManagerInterface $manager)
     {
         $this->courseUserRepository = $courseUserRepository;
         $this->dispatcher           = $dispatcher;

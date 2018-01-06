@@ -2,20 +2,21 @@
 
 namespace App\Controller\Ponthub;
 
-use App\Controller\SubresourceController;
+use App\Controller\ResourceController;
+use App\Entity\PonthubFile;
 use App\Entity\PonthubFileUser;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 // Surcouche pour les fichiers de type PonthubFile
-class PonthubFileController extends SubresourceController
+class PonthubFileController extends ResourceController
 {
     /**
      * Enregistre un téléchargement Ponthub et redirige vers la Ressource
      * @param  PonthubFile $item Le fichier à télécharger
      * @return mixed             La ressource distante
      */
-    protected function download($item)
+    protected function download(PonthubFile $item)
     {
         $this->trust(!$this->is('EXTERIEUR'));
 

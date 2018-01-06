@@ -4,8 +4,9 @@ namespace App\Tests;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase as LiipWebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as SymfonyWebTestCase;
 
-abstract class WebTestCase extends LiipWebTestCase
+abstract class WebTestCase extends SymfonyWebTestCase
 {
     protected $container;
     protected $client;
@@ -23,7 +24,7 @@ abstract class WebTestCase extends LiipWebTestCase
             $client = static::createClient();
             $client->request(
                 'POST',
-                $this->getUrl('login'),
+                '/login',
                 ['username' => 'trancara', 'password' => 'password']
             );
             $response = $client->getResponse();
@@ -65,7 +66,7 @@ abstract class WebTestCase extends LiipWebTestCase
     public function connect($username, $password)
     {
         $client = static::createClient();
-        $client->request('POST', $this->getUrl('login'), ['username' => $username, 'password' => $password]);
+        $client->request('POST', '/login', ['username' => $username, 'password' => $password]);
         $data = json_decode($client->getResponse()->getContent(), true);
         $client->setServerParameter('HTTP_Authorization', sprintf('%s %s', $this->authorizationHeaderPrefix, $data['token']));
         $this->client = $client;
