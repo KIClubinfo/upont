@@ -16,7 +16,7 @@ dependencies:
     - ./bin/.phpunit/
   pre:
     - echo "date.timezone = Europe/Paris" > /opt/circleci/php/$(phpenv global)/etc/conf.d/date.ini
-    - echo "memory_limit = 256M" > /opt/circleci/php/$(phpenv global)/etc/conf.d/memory.ini
+    - echo "memory_limit = -1" > /opt/circleci/php/$(phpenv global)/etc/conf.d/memory.ini
   override:
     - composer install --no-interaction --optimize-autoloader
 
