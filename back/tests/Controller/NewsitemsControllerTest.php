@@ -10,6 +10,8 @@ class NewsitemsControllerTest extends WebTestCase
     // Ne pas oublier de supprimer à la fin avec le test DELETE.
     public function testPost()
     {
+        $this->client->enableProfiler();
+
         $this->client->request('POST', '/newsitems', [
             'name' => 'La Porte',
             'text' => 'C\'est comme perdre',

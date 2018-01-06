@@ -10,6 +10,8 @@ class EventsControllerTest extends WebTestCase
     // Ne pas oublier de supprimer à la fin avec le test DELETE.
     public function testPost()
     {
+        $this->client->enableProfiler();
+
         $this->client->request('POST', '/events', [
             'name' => 'Manger des chips',
             'text' => 'C\'est bon',
