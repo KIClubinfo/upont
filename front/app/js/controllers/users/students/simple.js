@@ -4,7 +4,7 @@ angular.module('upont')
         $scope.foyer = foyer;
         $scope.displayFoyer = user.stats_foyer;
         $scope.ponthub = ponthub;
-        $scope.displayPonthub = user.stats_ponthub && empty(ponthub.error);
+        $scope.displayPonthub = user.stats_ponthub && empty(ponthub.error) && $rootScope.isStudentNetwork;
         $scope.clubs = clubs;
         $scope.achievements = achievements;
 
