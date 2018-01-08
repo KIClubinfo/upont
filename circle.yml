@@ -3,6 +3,7 @@ general:
 
 machine:
   environment:
+    DATABASE_HOST: 127.0.0.1
     DATABASE_NAME: circle_test
     DATABASE_USER: ubuntu
     DATABASE_PASSWORD: ''
