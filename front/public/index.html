@@ -13,15 +13,11 @@
         <link type="text/plain" rel="author" href="humans.txt" />
         <link rel="stylesheet" href="vendors.min.css" />
         <link rel="stylesheet" href="upont.min.css" />
+        <link rel="stylesheet" ng-href="{{ 'theme_' + $root.theme + '.min.css' }}"> />
     </head>
 
     <body>
-
         <!-- Endroit réservé à l'animation de chargement de uPont -->
-
-        <!-- La page de chargement s'afficher tout de suite, puis upont.min.js est est récupéré et exécuté, ce qui bloque le parsage du html (on the fly selon la spécification html5). Vers la fin de son exécution, il met en vigueur les ng-cloak avant de requêter la config de upont asynchronously. Le parsage de l'html continue alors, la section des images zoomés n'est pas rendered jusqu'à au chargement complet d'angularjs grâce au ng-cloak, la page de  chargement n'est affecté que par le style de loading.css car le css du thème a besoin de $root.theme pour être chargé. Après le chargement de la config du upont : /api/config, la fin de l'exécution de upont.min.js permet d'évaluation les directives d'angularjs et le ng-if=false fait disparaître la section de la page de chargement, le ui-view fait apparaître la page de login, puis avec l'évaluation de $root.theme le style du thème charge.
-        Cette section n'avait pas lieu d'exister avant car le chargement de la config de upont était intantannée, cette section a donc été créé car pendant le chargement de cette config, la section des images zoomées étaient devenues apparantes avec du html non-stylisé dégueulasse -->
-
         <div ng-if="false" class="Page__landing flex flex-col p-center s-stretch">
             <div class="flex flex-raw p-center">
                 <section class="Page__landing--right padded Loading__section flex flex-col p-center s-center">

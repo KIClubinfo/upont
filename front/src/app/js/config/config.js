@@ -15,27 +15,27 @@ angular.module('upont').factory('ErrorCodes_Interceptor', [
         return {
             responseError: function(response) {
                 switch (response.status) {
-                    case 401:
-                        Permissions.remove();
-                        $location.path('/');
-                        break;
-                    case 403:
-                        $location.path('/403');
-                        break;
-                    case 404:
-                        $location.path('/404');
-                        break;
-                    case 500:
-                        $location.path('/500');
-                        break;
-                    case 503:
-                        if (response.data.until)
-                            StorageService.set('maintenance', response.data.until);
-                        else
-                            StorageService.remove('maintenance');
-                        $location.path('/maintenance');
-                        $rootScope.maintenance = true;
-                        break;
+                case 401:
+                    Permissions.remove();
+                    $location.path('/');
+                    break;
+                case 403:
+                    $location.path('/403');
+                    break;
+                case 404:
+                    $location.path('/404');
+                    break;
+                case 500:
+                    $location.path('/500');
+                    break;
+                case 503:
+                    if (response.data.until)
+                        StorageService.set('maintenance', response.data.until);
+                    else
+                        StorageService.remove('maintenance');
+                    $location.path('/maintenance');
+                    $rootScope.maintenance = true;
+                    break;
                 }
                 return $q.reject(response);
             }
@@ -82,121 +82,121 @@ angular.module('upont').factory('ErrorCodes_Interceptor', [
 ])
 // FIXME hides errors related to ui-router 0.3.2
     .config([
-    '$qProvider', $qProvider => $qProvider.errorOnUnhandledRejections(false)
-]).config([
-    'calendarConfig',
-    function(calendarConfig) {
-        calendarConfig.dateFormatter = 'moment';
+        '$qProvider', $qProvider => $qProvider.errorOnUnhandledRejections(false)
+    ]).config([
+        'calendarConfig',
+        function(calendarConfig) {
+            calendarConfig.dateFormatter = 'moment';
 
-        calendarConfig.allDateFormats.moment.date.hour = 'HH:mm';
-        calendarConfig.allDateFormats.moment.date.datetime = 'D MMM, HH:mm';
+            calendarConfig.allDateFormats.moment.date.hour = 'HH:mm';
+            calendarConfig.allDateFormats.moment.date.datetime = 'D MMM, HH:mm';
 
-        calendarConfig.allDateFormats.moment.title.day = 'ddd D MMM';
+            calendarConfig.allDateFormats.moment.title.day = 'ddd D MMM';
 
-        calendarConfig.displayAllMonthEvents = true;
-        calendarConfig.displayEventEndTimes = true;
-        calendarConfig.showTimesOnWeekView = true;
+            calendarConfig.displayAllMonthEvents = true;
+            calendarConfig.displayEventEndTimes = true;
+            calendarConfig.showTimesOnWeekView = true;
 
-        calendarConfig.i18nStrings.eventsLabel = 'Événements';
-        calendarConfig.i18nStrings.timeLabel = 'Temps';
-        calendarConfig.i18nStrings.weekNumber = 'Semaine {week}';
-    }
-]).config([
-    'ngQuillConfigProvider', ngQuillConfigProvider => {
-        ngQuillConfigProvider.set({
-            modules: {
-                toolbar: {
-                    container: [
-                        [
-                            'bold', 'italic', 'underline', 'strike'
-                        ], // toggled buttons
-                        [
-                            'blockquote', 'code-block'
+            calendarConfig.i18nStrings.eventsLabel = 'Événements';
+            calendarConfig.i18nStrings.timeLabel = 'Temps';
+            calendarConfig.i18nStrings.weekNumber = 'Semaine {week}';
+        }
+    ]).config([
+        'ngQuillConfigProvider', ngQuillConfigProvider => {
+            ngQuillConfigProvider.set({
+                modules: {
+                    toolbar: {
+                        container: [
+                            [
+                                'bold', 'italic', 'underline', 'strike'
+                            ], // toggled buttons
+                            [
+                                'blockquote', 'code-block'
+                            ],
+
+                            [
+                                {
+                                    'header': 1
+                                }, {
+                                    'header': 2
+                                }
+                            ], // custom button values
+                            [
+                                {
+                                    'list': 'ordered'
+                                }, {
+                                    'list': 'bullet'
+                                }
+                            ],
+                            [
+                                {
+                                    'script': 'sub'
+                                }, {
+                                    'script': 'super'
+                                }
+                            ], // superscript/subscript
+                            [
+                                {
+                                    'indent': '-1'
+                                }, {
+                                    'indent': '+1'
+                                }
+                            ], // outdent/indent
+                            [
+                                {
+                                    'direction': 'rtl'
+                                }
+                            ], // text direction
+
+                            [
+                                {
+                                    'size': ['small', false, 'large', 'huge']
+                                }
+                            ], // custom dropdown
+                            [
+                                {
+                                    'header': [
+                                        1,
+                                        2,
+                                        3,
+                                        4,
+                                        5,
+                                        6,
+                                        false
+                                    ]
+                                }
+                            ],
+
+                            [
+                                {
+                                    'color': []
+                                }, {
+                                    'background': []
+                                }
+                            ], // dropdown with defaults from theme
+                            [
+                                {
+                                    'font': []
+                                }
+                            ],
+                            [
+                                {
+                                    'align': []
+                                }
+                            ],
+
+                            ['clean'], // remove formatting button
+
+                            ['link', 'image', 'video'] // link and image, video
                         ],
-
-                        [
-                            {
-                                'header': 1
-                            }, {
-                                'header': 2
-                            }
-                        ], // custom button values
-                        [
-                            {
-                                'list': 'ordered'
-                            }, {
-                                'list': 'bullet'
-                            }
-                        ],
-                        [
-                            {
-                                'script': 'sub'
-                            }, {
-                                'script': 'super'
-                            }
-                        ], // superscript/subscript
-                        [
-                            {
-                                'indent': '-1'
-                            }, {
-                                'indent': '+1'
-                            }
-                        ], // outdent/indent
-                        [
-                            {
-                                'direction': 'rtl'
-                            }
-                        ], // text direction
-
-                        [
-                            {
-                                'size': ['small', false, 'large', 'huge']
-                            }
-                        ], // custom dropdown
-                        [
-                            {
-                                'header': [
-                                    1,
-                                    2,
-                                    3,
-                                    4,
-                                    5,
-                                    6,
-                                    false
-                                ]
-                            }
-                        ],
-
-                        [
-                            {
-                                'color': []
-                            }, {
-                                'background': []
-                            }
-                        ], // dropdown with defaults from theme
-                        [
-                            {
-                                'font': []
-                            }
-                        ],
-                        [
-                            {
-                                'align': []
-                            }
-                        ],
-
-                        ['clean'], // remove formatting button
-
-                        ['link', 'image', 'video'] // link and image, video
-                    ],
-                    handlers: {
-                        image: uploadToAPIImageHandler
+                        handlers: {
+                            image: uploadToAPIImageHandler
+                        }
                     }
                 }
-            }
-        });
-    }
-]);
+            });
+        }
+    ]);
 
 angular.module('upont').run([
     '$rootScope',
@@ -257,12 +257,12 @@ angular.module('upont').run([
             function needLogin(state) {
                 if (state.data && state.data.needLogin)
                     return state.data.needLogin;
-                }
+            }
 
             if (!$rootScope.isLogged && needLogin(toState)) {
                 event.preventDefault();
 
-                if ($location.path() != '/')
+                if ($location.path() !== '/')
                     $rootScope.urlRef = window.location.href;
 
                 $state.go('root.login');
@@ -286,7 +286,7 @@ angular.module('upont').run([
             }
 
             // Réglage de la balise <title> du <head>
-            var title = getName(toState);
+            const title = getName(toState);
             if (title)
                 $rootScope.title = title;
             else
@@ -294,7 +294,7 @@ angular.module('upont').run([
 
             if (toState.data && toState.data.top)
                 window.scrollTo(0, 0);
-            }
+        }
         );
 
         // Erreur 404

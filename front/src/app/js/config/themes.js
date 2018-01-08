@@ -17,11 +17,11 @@ angular.module('upont').run(['$rootScope', 'StorageService', function($rootScope
     ];
 
     // On corrige le tir si le theme n'existe pas
-    var theme = StorageService.get('theme');
-    var themeExists = false;
+    const userTheme = StorageService.get('theme');
+    let themeExists = false;
 
-    for (var key in $rootScope.themes) {
-        if (theme == $rootScope.themes[key].value) {
+    for (const theme of $rootScope.themes) {
+        if (userTheme === theme.value) {
             themeExists = true;
         }
     }

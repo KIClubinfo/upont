@@ -7,8 +7,6 @@ import Raven from 'raven-js';
 
 import 'typeface-open-sans';
 
-import 'upont/css/themes/classic.less';
-
 if (!location.origin)
     location.origin = location.protocol + '//' + location.host;
 
