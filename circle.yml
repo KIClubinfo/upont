@@ -3,7 +3,9 @@ general:
 
 machine:
   environment:
-    DATABASE_URL: mysql://ubuntu@127.0.0.1:3306/circle_test
+    DATABASE_NAME: circle_test
+    DATABASE_USER: ubuntu
+    DATABASE_PASSWORD: ''
   php:
     version: 7.1.9
   timezone:
