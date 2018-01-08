@@ -1,4 +1,4 @@
-version: "3"
+version: "2.3"
 
 services:
     db:
@@ -7,14 +7,14 @@ services:
             - db-data:/var/lib/mysql
         environment:
             - MYSQL_RANDOM_ROOT_PASSWORD=yes
-            - MYSQL_DATABASE
-            - MYSQL_USER
-            - MYSQL_PASSWORD
+            - MYSQL_DATABASE=${DATABASE_NAME}
+            - MYSQL_USER=${DATABASE_USER}
+            - MYSQL_PASSWORD=${DATABASE_PASSWORD}
         restart: always
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
-        links:
+        depends_on:
             - db
         restart: always
 
@@ -32,16 +32,13 @@ services:
         image: kiclubinfo/upont/back
         build:
             context: back
-        environment:
-            - SYMFONY_ENV
         volumes:
-            # Strange but correct
-            - ./docker/config/jwt:/app/app/var/jwt:ro
+            - ./docker/config/jwt:/config/jwt:ro
             - upont-uploads:/app/web/uploads:rw
-        links:
+        depends_on:
             - db
         environment:
-            - MYSQL_HOST=db
+            - DATABASE_HOST=db
         env_file:
             - .env
         restart: always
@@ -52,7 +49,7 @@ services:
             context: docker/ingress
         volumes:
             - ./docker/upont-docker-preprod.enpc.fr.conf:/etc/nginx/sites-enabled/upont.conf:ro
-        links:
+        depends_on:
             - upont-back
             - upont-front
             # - pochtron2

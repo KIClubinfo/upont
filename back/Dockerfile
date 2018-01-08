@@ -19,16 +19,16 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
     composer config --global repo.packagist composer https://packagist.org
 
 # Set timezone
-RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo ${TIMEZONE} > /etc/timezone && \
-    printf '[PHP]\ndate.timezone = "%s"\n', ${TIMEZONE} > /usr/local/etc/php/conf.d/tzone.ini
+RUN ln -snf /usr/share/zoneinfo/Europe/Paris /etc/localtime && echo Europe/Paris > /etc/timezone && \
+    printf '[PHP]\ndate.timezone = "Europe/Paris"\n',  > /usr/local/etc/php/conf.d/tzone.ini
 
 USER php
 
+ENV APP_ENV=prod
 COPY composer.json composer.lock /app/
-RUN composer install --no-dev --no-scripts --no-autoloader
+RUN echo $APP_ENV && composer install $( [[ "$APP_ENV" == "prod" ]] && echo "--no-ansi --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader")
 
 COPY --chown=php:php . /app/
-ENV SYMFONY_ENV=prod
 
 ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["php-fpm"]
