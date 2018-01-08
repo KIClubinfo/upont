@@ -33,8 +33,8 @@ services:
         build:
             context: back
         volumes:
-            - ./docker/config/jwt:/config/jwt:ro
-            - upont-uploads:/app/web/uploads:rw
+            - ./docker/config/jwt:/app/config/jwt:ro
+            - upont-uploads:/app/public/uploads:rw
         depends_on:
             - db
         environment:
