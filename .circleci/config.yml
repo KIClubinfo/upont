@@ -18,11 +18,11 @@ jobs:
       - run: cd back/
       - restore_cache:
           keys:
-            - composer-v1-{{ checksum "composer.lock" }}
+            - composer-v1-{{ checksum "back/composer.lock" }}
             - composer-v1-
       - run: composer install --no-interaction
       - save_cache:
-          key: composer-v1-{{ checksum "composer.lock" }}
+          key: composer-v1-{{ checksum "back/composer.lock" }}
           paths:
             - vendor
       - run: bin/console doctrine:migrations:migrate --no-interaction
@@ -56,11 +56,11 @@ jobs:
 #    steps:
 #      - restore_cache:
 #          keys:
-#            - node-v1-{{ checksum "package.json" }}
+#            - node-v1-{{ checksum "front/yarn.lock" }}
 #            - node-v1-
 #      - run: yarn install
 #      - save_cache:
-#          key: node-v1-{{ checksum "package.json" }}
+#          key: node-v1-{{ checksum "front/yarn.lock" }}
 #          paths:
 #            - node_modules
 
