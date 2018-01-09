@@ -41,7 +41,7 @@ jobs:
 
   build:
     docker:
-      - image: docker/docker
+      - image: docker
     steps:
       - setup_remote_docker:
             docker_layer_caching: true
