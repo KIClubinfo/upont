@@ -12,9 +12,10 @@ jobs:
             MYSQL_PASSWORD: upont
     working_directory: ~/upont
     steps:
+      - run: sudo docker-php-ext-install pdo pdo_mysql
+      - run: sudo composer self-update
       - checkout
       - run: cp .env.dist .env
-      - run: sudo composer self-update
       - restore_cache:
           keys:
             - composer-v1-{{ checksum "back/composer.lock" }}
