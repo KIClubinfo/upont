@@ -1,0 +1,73 @@
+version: 2
+
+jobs:
+  test-back:
+    docker:
+      - image: circleci/php:7.1
+      - image: mysql:5.7
+        environment:
+            MYSQL_RANDOM_ROOT_PASSWORD: yes
+            MYSQL_DATABASE: upont
+            MYSQL_USER: upont
+            MYSQL_PASSWORD: upont
+    working_directory: ~/upont
+    steps:
+      - checkout
+      - run: cp .env.dist .env
+      - run: sudo composer self-update
+      - run: cd back/
+      - restore_cache:
+          keys:
+            - composer-v1-{{ checksum "composer.lock" }}
+            - composer-v1-
+      - run: composer install --no-interaction
+      - save_cache:
+          key: composer-v1-{{ checksum "composer.lock" }}
+          paths:
+            - vendor
+      - run: bin/console doctrine:migrations:migrate --no-interaction
+      - run: bin/console doctrine:fixtures:load --no-interaction
+      - run: mkdir -p ~/phpunit
+      - run: bin/phpunit -c phpunit.xml.circle --log-junit ~/phpunit/junit.xml
+      - run: bash <(curl -s https://codecov.io/bash)
+      - store_test_results:
+          path: ~/phpunit
+      - store_artifacts:
+          path: ~/phpunit  
+
+  build:
+    docker:
+      - image: docker/docker
+    steps:
+        - setup_remote_docker:
+            docker_layer_caching: true
+      - run:
+          name: Install Docker Compose
+          command: |
+            curl -L https://github.com/docker/compose/releases/download/1.11.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+      - run: docker-compose build
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - run: docker-compose push
+
+#  test-front:
+#    steps:
+#      - restore_cache:
+#          keys:
+#            - node-v1-{{ checksum "package.json" }}
+#            - node-v1-
+#      - run: yarn install
+#      - save_cache:
+#          key: node-v1-{{ checksum "package.json" }}
+#          paths:
+#            - node_modules
+
+workflows:
+  version: 2
+  build_test:
+    jobs:
+      - test-back
+      - build:
+          requires:
+            - test-back

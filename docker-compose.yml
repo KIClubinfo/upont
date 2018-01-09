@@ -2,7 +2,7 @@ version: "2.3"
 
 services:
     db:
-        image: mysql
+        image: mysql:5.7
         volumes:
             - db-data:/var/lib/mysql
         environment:
@@ -19,7 +19,7 @@ services:
         restart: always
 
     upont-front:
-        image: kiclubinfo/upont/front
+        image: quay.io/kiclubinfo/upont-front:${CIRCLE_BRANCH:-latest}
         build:
             context: front
         restart: always
@@ -29,7 +29,7 @@ services:
     #     restart: always
 
     upont-back:
-        image: kiclubinfo/upont/back
+        image: quay.io/kiclubinfo/upont-back:${CIRCLE_BRANCH:-latest}
         build:
             context: back
         volumes:
@@ -44,7 +44,7 @@ services:
         restart: always
 
     ingress:
-        image: kiclubinfo/upont/ingress
+        image: quay.io/kiclubinfo/upont-ingress:${CIRCLE_BRANCH:-latest}
         build:
             context: docker/ingress
         volumes:
