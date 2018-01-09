@@ -15,21 +15,20 @@ jobs:
       - checkout
       - run: cp .env.dist .env
       - run: sudo composer self-update
-      - run: cd back/
       - restore_cache:
           keys:
             - composer-v1-{{ checksum "back/composer.lock" }}
             - composer-v1-
-      - run: composer install --no-interaction
+      - run: cd back/ && composer install --no-interaction
       - save_cache:
           key: composer-v1-{{ checksum "back/composer.lock" }}
           paths:
             - vendor
-      - run: bin/console doctrine:migrations:migrate --no-interaction
-      - run: bin/console doctrine:fixtures:load --no-interaction
+      - run: cd back/ && bin/console doctrine:migrations:migrate --no-interaction
+      - run: cd back/ && bin/console doctrine:fixtures:load --no-interaction
       - run: mkdir -p ~/phpunit
-      - run: bin/phpunit -c phpunit.xml.circle --log-junit ~/phpunit/junit.xml
-      - run: bash <(curl -s https://codecov.io/bash)
+      - run: cd back/ && bin/phpunit -c phpunit.xml.circle --log-junit ~/phpunit/junit.xml
+      - run: cd back/ && bash <(curl -s https://codecov.io/bash)
       - store_test_results:
           path: ~/phpunit
       - store_artifacts:
