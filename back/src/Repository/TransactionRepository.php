@@ -24,24 +24,27 @@ class TransactionRepository extends ServiceEntityRepository
             $sept1 = strtotime("September 1st -1Year");
         }
 
-        $hallOfFame = $this->getEntityManager()->createQuery('SELECT usr AS user, SUM(beer.volume) AS liters FROM
+        $hallOfFame = $this->getEntityManager()->createQuery('SELECT usr AS user,
+          SUM(beer.volume*beer.alcohol/100) AS volume,
+          AVG(beer.alcohol) AS alcohol FROM
             App:User usr,
             App:Transaction transac,
             App:Beer beer
             WHERE transac.user = usr
             AND transac.beer = beer
             AND transac.beer IS NOT NULL
-            AND usr.balance > 0
+            AND usr.balance >= 0
             AND transac.date > :schoolYear
             GROUP BY usr.id
-            ORDER BY liters DESC
+            ORDER BY volume DESC
             ')
             ->setParameter('schoolYear', $sept1)
             ->setMaxResults(10)
             ->getResult();
 
         foreach ($hallOfFame as &$data){
-            $data['liters'] = round($data['liters'], 2);
+            $data['volume'] = round($data['volume'], 2);
+            $data['alcohol'] = round($data['alcohol'], 2);
         }
 
         return $hallOfFame;

@@ -14,18 +14,18 @@ class Students_Simple_Ctrl {
         $scope.foyer = foyer;
         $scope.displayFoyer = user.stats_foyer;
         $scope.ponthub = ponthub;
-        $scope.displayPonthub = user.stats_ponthub;
+        $scope.displayPonthub = user.stats_ponthub && empty(ponthub.error) && $rootScope.isStudentNetwork;
         $scope.clubs = clubs;
         $scope.achievements = achievements;
 
         if ($scope.displayFoyer) {
             // Définition des graphes Highcharts
-            var beers = [];
-            for(var key in foyer.beersDrunk) {
+            let beers = [];
+            for(const key in foyer.beersDrunk) {
                 beers.push([foyer.beersDrunk[key].beer.name, foyer.beersDrunk[key].count]);
             }
-            var liters = [];
-            for(key in foyer.stackedLiters) {
+            let liters = [];
+            for(const key in foyer.stackedLiters) {
                 liters.push([key*1000, foyer.stackedLiters[key]]);
             }
 

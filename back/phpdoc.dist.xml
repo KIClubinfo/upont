@@ -4,10 +4,6 @@
     <parser>
         <target>phpdoc/doc</target>
         <encoding>utf8</encoding>
-        <markers>
-            <item>TODO</item>
-            <item>FIXME</item>
-        </markers>
     </parser>
     <transformer>
         <target>phpdoc/doc</target>

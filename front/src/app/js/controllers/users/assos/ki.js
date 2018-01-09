@@ -6,17 +6,10 @@ import './ki-fix.html';
 
 /* @ngInject */
 class Assos_KI_Ctrl {
-    constructor($scope, $rootScope, $resource, $http, fixs, ownFixs, members, Paginate, Achievements) {
+    constructor($scope, $rootScope, $resource, $http, fixs, ownFixs, Paginate, Achievements) {
         $scope.fixs = this.assignFixs(fixs);
         $scope.ownFixs = this.assignFixs(ownFixs);
-        $scope.isFromKI = false;
         $rootScope.displayTabs = true;
-
-        for (const member of members) {
-            if (member.user !== undefined && member.user.username == $rootScope.username) {
-                $scope.isFromKI = true;
-            }
-        }
 
         $scope.reload = function() {
             Paginate.first($scope.ownFixs).then(function(response){

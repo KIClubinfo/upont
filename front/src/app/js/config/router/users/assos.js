@@ -41,9 +41,6 @@ export const UsersAssosRouter = $stateProvider => {
             }],
             stats: ['$resource', function($resource) {
                 return $resource(API_PREFIX + 'statistics/foyer').get().$promise;
-            }],
-            members: ['$resource', function($resource) {
-                return $resource(API_PREFIX + 'clubs/foyer/users').query().$promise;
             }]
         }
     }).state('root.users.assos.ki', {
@@ -60,9 +57,6 @@ export const UsersAssosRouter = $stateProvider => {
             }],
             ownFixs: ['Paginate', function(Paginate) {
                 return Paginate.get('own/fixs', 50);
-            }],
-            members: ['$resource', function($resource) {
-                return $resource(API_PREFIX + 'clubs/ki/users').query().$promise;
             }]
         }
     }).state('root.users.assos.list', {
