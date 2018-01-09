@@ -2,8 +2,9 @@
 
 namespace App\Tests;
 
-use Symfony\Component\HttpFoundation\Response;
+use PHPUnit\Framework\ExpectationFailedException;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as SymfonyWebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 abstract class WebTestCase extends SymfonyWebTestCase
 {
@@ -29,7 +30,13 @@ abstract class WebTestCase extends SymfonyWebTestCase
             $response = $client->getResponse();
             $data = json_decode($response->getContent(), true);
 
-            $this->assertArrayHasKey('token', $data);
+            try {
+                $this->assertArrayHasKey('token', $data);
+            }
+            catch (ExpectationFailedException $exception) {
+                print_r($data);
+                throw $exception;
+            }
             file_put_contents($path, $data['token']);
         }
     }
