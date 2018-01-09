@@ -12,7 +12,11 @@ jobs:
             MYSQL_PASSWORD: upont
     working_directory: ~/upont
     steps:
-      - run: sudo docker-php-ext-install pdo pdo_mysql
+      - run: sudo apt update && sudo apt install -y libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev
+      - run: |
+          sudo docker-php-ext-install -j$(nproc) pdo pdo_mysql iconv mcrypt
+          sudo docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
+          sudo docker-php-ext-install -j$(nproc) gd
       - run: sudo composer self-update
       - checkout
       - run: cp .env.dist .env
