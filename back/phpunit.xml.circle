@@ -18,7 +18,11 @@
         <env name="JWT_PRIVATE_KEY_PATH" value="config/jwt/default_private.pem" />
         <env name="JWT_PUBLIC_KEY_PATH" value="config/jwt/default_public.pem" />
         <env name="JWT_PASSPHRASE" value="ololol" />
-        <env name="DATABASE_URL" value="mysql://upont:upont@127.0.0.1:3306/upont" />
+
+        <env name="DATABASE_HOST" value="127.0.0.1" />
+        <env name="DATABASE_NAME" value="upont" />
+        <env name="DATABASE_USER" value="upont" />
+        <env name="DATABASE_PASSWORD" value="upont" />
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak_vendors" />
     </php>
 
