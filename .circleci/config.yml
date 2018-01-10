@@ -41,12 +41,13 @@ jobs:
 
   build:
     docker:
-      - image: docker
+        - image: docker:17-git
     steps:
       - setup_remote_docker:
             docker_layer_caching: true
       - run: apk --no-cache add py-pip && pip install 'docker-compose==1.18.0'
       - checkout
+      - run: cp .env.dist .env
       - run: docker-compose build
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - run: docker-compose push
