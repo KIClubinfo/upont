@@ -19,7 +19,7 @@ services:
         restart: always
 
     upont-front:
-        image: quay.io/kiclubinfo/upont-front:${CIRCLE_BRANCH:-latest}
+        image: quay.io/kiclubinfo/upont-front:${TAG:-latest}
         build:
             context: front
         restart: always
@@ -29,7 +29,7 @@ services:
     #     restart: always
 
     upont-back:
-        image: quay.io/kiclubinfo/upont-back:${CIRCLE_BRANCH:-latest}
+        image: quay.io/kiclubinfo/upont-back:${TAG:-latest}
         build:
             context: back
         volumes:
@@ -44,7 +44,7 @@ services:
         restart: always
 
     ingress:
-        image: quay.io/kiclubinfo/upont-ingress:${CIRCLE_BRANCH:-latest}
+        image: quay.io/kiclubinfo/upont-ingress:${TAG:-latest}
         build:
             context: docker/ingress
         volumes:
