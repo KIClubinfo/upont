@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\HasLifecycleCallbacks
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ExerciceRepository")
  * @JMS\ExclusionPolicy("all")
  */
 class Exercice extends Likeable

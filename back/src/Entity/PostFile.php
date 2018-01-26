@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\PostFileRepository")
  * @ORM\HasLifecycleCallbacks
  * @JMS\ExclusionPolicy("all")
  */

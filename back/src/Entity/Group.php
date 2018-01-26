@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Groupe d'Users utilisé par le FOSUserBundle pour déterminer les permissions
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\GroupRepository")
  * @ORM\Table(name="fos_group")
  * @JMS\ExclusionPolicy("all")
  */

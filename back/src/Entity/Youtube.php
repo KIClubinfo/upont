@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Représentation d'un lien YouTube pour les suggestions de musique du Foyer
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\YoutubeRepository")
  * @JMS\ExclusionPolicy("all")
  */
 class Youtube extends Likeable

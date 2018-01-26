@@ -5,6 +5,10 @@ namespace App\Service;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
+use App\Entity\Club;
+use App\Entity\Course;
+use App\Entity\Post;
+use App\Entity\PonthubFile;
 use App\Repository\UserRepository;
 
 class SearchService
@@ -44,15 +48,16 @@ class SearchService
      */
     public function search($category, $criteria)
     {
+        ini_set('html_errors', 0);
         switch ($category) {
         case 'User':
             return ['users' => $this->searchUser($criteria)];
         case '':
             return [
-                'clubs'   => $this->searchRepository('Club', $criteria, 'fullName'),
-                'courses' => $this->searchRepository('Course', $criteria),
-                'files'   => $this->searchRepository('PonthubFile', $criteria),
-                'posts'   => $this->searchRepository('Post', $criteria),
+                'clubs'   => $this->searchRepository(Club::class, $criteria, 'fullName'),
+                'courses' => $this->searchRepository(Course::class, $criteria),
+                'files'   => $this->searchRepository(PonthubFile::class, $criteria),
+                'posts'   => $this->searchRepository(Post::class, $criteria),
                 'users'   => $this->searchUser($criteria),
             ];
         default:
@@ -74,8 +79,8 @@ class SearchService
         }
 
         $results = $qb
-            ->orwhere('SOUNDEX(e.name) = SOUNDEX(:search)')
-            ->orwhere('e.name LIKE :searchlike')
+            ->orWhere('SOUNDEX(e.name) = SOUNDEX(:search)')
+            ->orWhere('e.name LIKE :searchlike')
             ->andwhere('e.name <> \'message\'')
             ->setParameter('search', $criteria)
             ->setParameter('searchlike', '%'.$criteria.'%')

@@ -8,7 +8,7 @@ use App\Entity\PonthubFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\GameRepository")
  * @JMS\ExclusionPolicy("all")
  */
 class Game extends PonthubFile

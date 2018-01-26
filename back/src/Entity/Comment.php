@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Stocke un commentaire utilisateur
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
  * @JMS\ExclusionPolicy("all")
  */
 class Comment extends LikeClass

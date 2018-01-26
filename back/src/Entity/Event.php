@@ -8,7 +8,7 @@ use App\Entity\User;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
  * @JMS\ExclusionPolicy("all")
  */
 class Event extends Post

@@ -9,7 +9,7 @@ use App\Entity\Likeable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
  * @JMS\ExclusionPolicy("all")
  * @ORM\HasLifecycleCallbacks
  */

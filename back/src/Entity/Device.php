@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Définit un appareil (téléphone, tablette) enregistré pour recevoir des notifications push
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\DeviceRepository")
  * @JMS\ExclusionPolicy("all")
  */
 class Device

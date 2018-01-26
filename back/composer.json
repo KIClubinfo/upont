@@ -10,6 +10,9 @@
         "psr-4": { "App\\Tests\\": "tests/" }
     },
     "config": {
+        "platform": {
+            "php": "7.1"
+        },
         "preferred-install": {
             "*": "dist"
         },
@@ -21,7 +24,7 @@
         "doctrine/doctrine-bundle": "~1.6",
         "doctrine/doctrine-fixtures-bundle": "^3.0",
         "doctrine/doctrine-migrations-bundle": "~1.0",
-        "doctrine/orm": "~2.4",
+        "doctrine/orm": "=2.5.14",
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "jasig/phpcas": "1.3.*",
         "jms/serializer-bundle": "~2.3",

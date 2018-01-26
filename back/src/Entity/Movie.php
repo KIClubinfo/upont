@@ -8,7 +8,7 @@ use App\Entity\PonthubFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\MovieRepository")
  * @JMS\ExclusionPolicy("all")
  */
 class Movie extends PonthubFile

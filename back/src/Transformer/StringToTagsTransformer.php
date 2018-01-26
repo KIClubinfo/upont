@@ -2,20 +2,21 @@
 namespace App\Transformer;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
-use App\Entity\Tag;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
+
+use App\Entity\Tag;
+use App\Repository\TagRepository;
 
 class StringToTagsTransformer implements DataTransformerInterface
 {
     protected $manager;
-    protected $repository;
+    protected $tagRepository;
 
-    public function __construct(EntityManager $manager, EntityRepository $repository)
+    public function __construct(EntityManagerInterface $manager, TagRepository $tagRepository)
     {
         $this->manager    = $manager;
-        $this->repository = $repository;
+        $this->repository = $tagRepository;
     }
 
     // En théorie n'est jamais utilisé

@@ -2,19 +2,19 @@
 
 namespace App\Helper;
 
-use Doctrine\ORM\EntityRepository;
 use App\Entity\Episode;
 use App\Entity\Game;
 use App\Entity\Movie;
 use App\Entity\Other;
 use App\Entity\Software;
 use App\Entity\User;
+use App\Repository\PonthubFileUserRepository;
 
 class StatisticsHelper
 {
     protected $ponthubFileUserRepository;
 
-    public function __construct(EntityRepository $ponthubFileUserRepository)
+    public function __construct(PonthubFileUserRepository $ponthubFileUserRepository)
     {
         $this->ponthubFileUserRepository = $ponthubFileUserRepository;
     }

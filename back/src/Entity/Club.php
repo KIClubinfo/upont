@@ -8,7 +8,7 @@ use App\Entity\Likeable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ClubRepository")
  * @JMS\ExclusionPolicy("all")
  */
 class Club extends Likeable

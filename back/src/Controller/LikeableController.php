@@ -39,15 +39,9 @@ class LikeableController extends BaseController
         $likeables = $this->getParameter('likeables');
         $className = ucfirst(preg_replace('/s$/', '', $object));
 
-        foreach ($likeables as $bundle => $classes) {
-            if (gettype($classes) != 'array') {
-                continue;
-            }
-            foreach ($classes as $class) {
-                if ($class === $className) {
-                    $bundle = ucfirst($bundle);
-                    return $this->initialize('App\\Entity\\' . $class, 'App\\Form\\'  . $class . 'Type');
-                }
+        foreach ($likeables as $class) {
+            if ($class === $className) {
+                return $this->initialize('App\\Entity\\' . $class, 'App\\Form\\'  . $class . 'Type');
             }
         }
         throw new \Exception('Initialisation impossible du controleur');

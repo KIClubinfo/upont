@@ -3,31 +3,25 @@ parameters:
 
     # Liste les entités likeables
     likeables:
-        clubinfo:
-            - Fix
-            - Tuto
-        core:
-            - Comment
-        foyer:
-            - Beer
-            - Youtube
-        ponthub:
-            - Episode
-            - Game
-            - Movie
-            - Other
-            - Request
-            - Serie
-            - Software
-        publication:
-            - Course
-            - Event
-            - Exercice
-            - Newsitem
-        user:
-            - Club
-            - Experience
-            - User
+        - Fix
+        - Tuto
+        - Comment
+        - Beer
+        - Youtube
+        - Episode
+        - Game
+        - Movie
+        - Other
+        - Request
+        - Serie
+        - Software
+        - Course
+        - Event
+        - Exercice
+        - Newsitem
+        - Club
+        - Experience
+        - User
 
     upont:
         foyer:
@@ -116,11 +110,6 @@ services:
         arguments:
             $imagesMaxSize: '%ki_core.images.maxSize%'
 
-    App\Transformer\StringToTagsTransformer:
-        arguments:
-           - '@doctrine.orm.entity_manager'
-           - '@ki_core.repository.tag'
-
     App\Selector\ImageSelector:
         tags:
            - { name: form.type, alias: image_selector }
@@ -128,12 +117,6 @@ services:
     App\Selector\TagsSelector:
         tags:
            - { name: form.type, alias: tags_selector }
-
-    ki_core.repository.tag:
-        class: Doctrine\ORM\EntityRepository
-        factory: ['@doctrine.orm.default_entity_manager', getRepository]
-        arguments:
-            - App\Entity\Tag
 
     App\Helper\FormHelper:
         public: true

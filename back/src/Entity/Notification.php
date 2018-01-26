@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Stocke les notifications utilisateur
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\NotificationRepository")
  * @JMS\ExclusionPolicy("all")
  */
 class Notification
