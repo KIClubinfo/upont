@@ -25,26 +25,6 @@ class FacegamesController extends ResourceController
 
     /**
      * @ApiDoc(
-     *  resource=true,
-     *  description="Liste les jeux",
-     *  output="App\Entity\Facegame",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Utilisateurs"
-     * )
-     * @Route("/facegames")
-     * @Method("GET")
-     */
-    public function getFacegamesAction()
-    {
-        return $this->getAll();
-    }
-
-    /**
-     * @ApiDoc(
      *  description="Retourne un jeu",
      *  output="App\Entity\Facegame",
      *  statusCodes={
@@ -118,6 +98,7 @@ class FacegamesController extends ResourceController
             throw new BadRequestHttpException('Paramètre manquant');
         }
 
+        // FIXME TRICHE POSSIBLE
         $facegameHelper->endGame($facegame, $request->request->get('wrongAnswers'), $request->request->get('duration'));
 
         return $this->json(null, 204);

@@ -1,85 +1,59 @@
 import angular from 'angular';
-import Raven from 'raven-js';
 
-import { API_PREFIX } from 'upont/js/config/constants';
+import {API_PREFIX} from 'upont/js/config/constants';
 
 angular.module('upont').factory('Paginate', [
-    '$resource',
+    '$http',
     '$q',
     '$rootScope',
-    function($resource, $q, $rootScope) {
-        const loadData = (load, url, append) => {
+    function($http, $q, $rootScope) {
+        const loadData = (paginationData, append) => {
             // On indique qu'on est en train de charger de nouvelles données
             $rootScope.infiniteLoading = true;
-            var defered = $q.defer();
 
-            // S'il y a une page, on la charge
-            if (url) {
-                $resource(API_PREFIX + url[1]).query(function(data, headers) {
-                    var result;
-                    if (!append) {
-                        result = data;
-                    } else {
-                        result = load.data.concat(data);
-                    }
+            return $http.get(API_PREFIX + paginationData.url, paginationData.pagination_params).then(function(response) {
+                if (!append) {
+                    paginationData = response.data;
+                } else {
+                    const merged = paginationData.data.concat(response.data.data);
+                    paginationData = response.data;
+                    paginationData.data = merged;
+                }
 
-                    defered.resolve({data: result, headers: headers()});
-                    $rootScope.infiniteLoading = false;
-                }, function(httpResponse) {
-                    defered.reject(httpResponse);
-                    $rootScope.infiniteLoading = false;
-                });
-
-            } else {
-                defered.reject();
                 $rootScope.infiniteLoading = false;
-            }
-            return defered.promise;
+
+                return paginationData;
+            }, function() {
+                $rootScope.infiniteLoading = false;
+            });
         };
 
         return {
             get: function(url, limit) {
-                var suffix = '';
-                if (limit > 0) {
-                    suffix = url.match(/\?/) === null
-                        ? '?'
-                        : '&';
-                    suffix += 'limit=' + limit;
-                }
-                var defered = $q.defer();
-
-                $resource(API_PREFIX + url + suffix).query(function(data, headers) {
-                    defered.resolve({data: data, headers: headers()});
-                }, function(httpResponse) {
-                    defered.reject(httpResponse);
-                });
-                return defered.promise;
+                return $http.get(API_PREFIX + url, {
+                    limit
+                }).then(
+                    (response) => response.data,
+                    () => {
+                    }
+                );
             },
 
-            next: function(load) {
-                if (typeof load.headers.links == 'undefined') {
-                    load.headers.links = '';
-                    Raven.captureMessage('headers.links undefines', {
-                        level: 'error',
-                        extra: {
-                            headers: load.headers
-                        }
+            next: function(paginationData) {
+                if ('next_page' in paginationData.pagination_infos) {
+                    paginationData.pagination_params.page = paginationData.pagination_infos.next_page;
+                    return loadData(paginationData, true);
+                }
+                else {
+                    return $q((resolve) => {
+                        resolve(paginationData);
                     });
                 }
-                return loadData(load, load.headers.links.match(/self,<\/(.*?)>;rel=next/), true);
             },
 
-            first: function(load) {
-                if (typeof load.headers.links == 'undefined') {
-                    load.headers.links = '';
-                    Raven.captureMessage('headers.links undefines', {
-                        level: 'error',
-                        extra: {
-                            headers: load.headers
-                        }
-                    });
-                }
-                return loadData(load, load.headers.links.match(/<\/(.*?)>;rel=first/));
+            first: function(paginationData) {
+                paginationData.pagination_params.page = paginationData.pagination_infos.first_page;
+                return loadData(paginationData);
             }
         };
     }

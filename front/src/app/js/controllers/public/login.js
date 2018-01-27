@@ -1,6 +1,6 @@
 import alertify from 'alertifyjs';
 
-import { API_PREFIX } from 'upont/js/config/constants';
+import {API_PREFIX} from 'upont/js/config/constants';
 
 /* @ngInject */
 class Login_Ctrl {
@@ -14,8 +14,8 @@ class Login_Ctrl {
             if (!url)
                 url = window.location.href;
             name = name.replace(/[\[\]]/g, '\\$&');
-            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-                results = regex.exec(url);
+            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            const results = regex.exec(url);
             if (!results)
                 return null;
             if (!results[2])
@@ -64,10 +64,8 @@ class Login_Ctrl {
                 });
 
                 attachPostLogin(promise);
-            } else
-                return;
             }
-        ;
+        };
     }
 }
 

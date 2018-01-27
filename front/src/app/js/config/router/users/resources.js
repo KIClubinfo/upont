@@ -1,4 +1,4 @@
-import { API_PREFIX } from 'upont/js/config/constants';
+import {API_PREFIX} from 'upont/js/config/constants';
 
 import template_resources from 'upont/js/controllers/users/resources/index.html';
 
@@ -42,8 +42,7 @@ export const UsersResourcesRouter = $stateProvider => {
             title: 'Cours - uPont',
             top: true
         },
-    })
-    .state('root.users.resources.courses.list', {
+    }).state('root.users.resources.courses.list', {
         url: '',
         templateUrl: template_resources_courses_list,
         controller: Resources_Courses_List_Ctrl,
@@ -104,10 +103,8 @@ export const UsersResourcesRouter = $stateProvider => {
         },
         resolve: {
             tutos: [
-                '$resource',
-                function($resource) {
-                    return $resource(API_PREFIX + 'tutos').query().$promise;
-                }
+                'Paginate',
+                (Paginate) => Paginate.get('tutos')
             ]
         }
     }).state('root.users.resources.tutorials.simple', {

@@ -14,7 +14,7 @@ class Students_Simple_Ctrl {
         $scope.foyer = foyer;
         $scope.displayFoyer = user.stats_foyer;
         $scope.ponthub = ponthub;
-        $scope.displayPonthub = user.stats_ponthub && empty(ponthub.error) && $rootScope.isStudentNetwork;
+        $scope.displayPonthub = user.stats_ponthub && !ponthub.error && $rootScope.isStudentNetwork;
         $scope.clubs = clubs;
         $scope.achievements = achievements;
 
@@ -58,7 +58,7 @@ class Students_Simple_Ctrl {
                         cursor: 'pointer',
                         dataLabels: {
                             formatter: function() {
-                            return '<b>'+ this.point.name +'</b> : '+ this.y;
+                                return '<b>'+ this.point.name +'</b> : '+ this.y;
                             }
                         }
                     }

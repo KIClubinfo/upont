@@ -2,18 +2,19 @@
 
 namespace App\Controller;
 
-use App\Controller\ResourceController;
+use App\Entity\Achievement;
 use App\Entity\AchievementUser;
 use App\Entity\Club;
 use App\Entity\CourseUser;
-use App\Entity\Fix;
-use App\Entity\Newsitem;
+use App\Entity\Device;
 use App\Entity\Notification;
 use App\Entity\User;
 use App\Form\UserType;
+use App\Helper\PaginateHelper;
+use App\Repository\FixRepository;
+use App\Repository\NewsitemRepository;
+use App\Repository\UserRepository;
 use App\Service\CalendarService;
-use App\Entity\Achievement;
-use App\Entity\Device;
 use App\Service\TokenService;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -365,21 +366,33 @@ class OwnController extends ResourceController
      * @Route("/own/events")
      * @Method("GET")
      */
-    public function getOwnEventsAction(Request $request)
+    public function getOwnEventsAction(Request $request, UserRepository $userRepository)
     {
-        $userRepository = $this->manager->getRepository(User::class);
+        $limit = $request->query->get('limit');
+        $page = $request->query->get('page');
 
-        // Si on prend tout on renvoie comme ça
-        if ($request->query->has('all')) {
-            $events = $userRepository->findFollowedEvents($this->getUser()->getId());
-        } else {
-            $events = $userRepository->findFollowedEvents(
-                $this->getUser()->getId(),
-                $request->query->get('limit'),
-                $request->query->get('page')
-            );
-        }
-        return $this->json($events);
+        $events = $userRepository->findFollowedEvents(
+            $this->getUser()->getId(),
+            $limit,
+            $page
+        );
+
+        return $this->json([
+            'data' => $events,
+            'pagination_params' => [
+                'find_by' => [],
+                'sort_by' => '',
+
+                'limit' => $limit,
+                'page' => $page,
+            ],
+            'pagination_infos' => [
+                'first_page' => 1,
+                'previous_page' => $page > 1 ? $page - 1 : null,
+                'current_page' => $page,
+                'next_page' => $page + 1,
+            ]
+        ]);
     }
 
     /**
@@ -454,21 +467,13 @@ class OwnController extends ResourceController
      * @Route("/own/newsitems")
      * @Method("GET")
      */
-    public function getNewsItemsAction()
+    public function getNewsItemsAction(NewsitemRepository $newsitemRepository, PaginateHelper $paginateHelper)
     {
-        $repository = $this->manager->getRepository(Newsitem::class);
-
-        $paginateHelper = $this->get('App\Helper\PaginateHelper');
-        extract($paginateHelper->paginateData($repository));
-        $findBy['authorClub'] = $this->getFollowedClubs();
-        $results = $repository->findBy($findBy, $sortBy, $limit, $offset);
-
-        list($results, $links, $count) = $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
-
-        return $this->json($results, 200, [
-            'Links' => implode(',', $links),
-            'Total-count' => $count
+        $resultData = $paginateHelper->paginate($newsitemRepository, [
+            'authorClub' => $this->getFollowedClubs()
         ]);
+
+        return $this->json($resultData, 200);
     }
 
     /**
@@ -654,25 +659,16 @@ class OwnController extends ResourceController
      * @Route("/own/fixs")
      * @Method("GET")
      */
-    public function getOwnFixsAction()
+    public function getOwnFixsAction(FixRepository $fixRepository, PaginateHelper $paginateHelper)
     {
-        $user = $this->user;
         if (!$this->is('USER'))
             throw new AccessDeniedException('Accès refusé');
 
-        $repository = $this->manager->getRepository(Fix::class);
-        $paginateHelper = $this->get('App\Helper\PaginateHelper');
-        extract($paginateHelper->paginateData($repository));
-
-        $findBy['user'] = $user;
-        $results = $repository->findBy($findBy, $sortBy, $limit, $offset);
-
-        list($results, $links, $count) = $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
-
-        return $this->json($results, 200, [
-            'Links' => implode(',', $links),
-            'Total-count' => $count
+        $resultData = $paginateHelper->paginate($fixRepository, [
+            'user' => $this->user
         ]);
+
+        return $this->json($resultData, 200);
     }
 
     /**

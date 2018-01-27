@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
-use App\Controller\ResourceController;
 use App\Entity\Pontlyvalent;
 use App\Entity\User;
 use App\Form\PontlyvalentType;
+use App\Helper\PaginateHelper;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -22,14 +22,15 @@ class PontlyvalentsController extends ResourceController
         $this->initialize(Pontlyvalent::class, PontlyvalentType::class);
     }
 
-    private function checkPontlyvalentOpen(){
+    private function checkPontlyvalentOpen()
+    {
         $lastPromo = $this->getConfig('promos.latest');
 
         if ($this->user->getPromo() == $lastPromo) {
             throw new BadRequestHttpException('Ton tour n\'est pas encore arrivé, petit ' . $lastPromo . ' !');
         }
 
-        if($this->getConfig('pontlyvalent.open')) {
+        if ($this->getConfig('pontlyvalent.open')) {
             throw new BadRequestHttpException('Le pontlyvalent est fermé !');
         }
     }
@@ -49,20 +50,20 @@ class PontlyvalentsController extends ResourceController
      * @Route("/users/pontlyvalent")
      * @Method("GET")
      */
-    public function getPontlyvalentsAction()
+    public function getPontlyvalentsAction(PaginateHelper $paginateHelper)
     {
-        $paginateHelper = $this->get('App\Helper\PaginateHelper');
-        extract($paginateHelper->paginateData($this->repository));
-
         if ($this->is('MODO') || $this->isClubMember('bde')) {
-            $results = $this->repository->findBy($findBy);
+            $filters = [];
         } else {
-            $results = $this->repository->findBy([
+            $filters = [
                 'author' => $this->user
-            ]);
+            ];
         }
 
-        return $this->json($results);
+        return $this->json($paginateHelper->paginate(
+            $this->repository,
+            $filters
+        ));
     }
 
     /**
@@ -88,7 +89,7 @@ class PontlyvalentsController extends ResourceController
 
         $pontlyvalent = $this->repository->getPontlyvalent($target, $this->user);
 
-        if(count($pontlyvalent) != 1)
+        if (count($pontlyvalent) != 1)
             throw new NotFoundHttpException();
 
         return $this->json($pontlyvalent[0]);

@@ -17,14 +17,10 @@ class ResourceController extends LikeableController
         $this->trust(!$this->is('EXTERIEUR') || $auth);
 
         $paginateHelper = $this->get('App\Helper\PaginateHelper');
-        extract($paginateHelper->paginateData($this->repository));
 
-        list($results, $links, $count) = $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
+        $resultData = $paginateHelper->paginate($this->repository);
 
-        return $this->json($results, 200, [
-            'Links' => implode(',', $links),
-            'Total-count' => $count
-        ]);
+        return $this->json($resultData, 200);
     }
 
     /**

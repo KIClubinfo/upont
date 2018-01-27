@@ -31,7 +31,7 @@ class TransactionsControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
 
-        $data = json_decode($response->getContent(), true);
+        $data = json_decode($response->getContent(), true)['data'];
         $this->assertTrue(!empty($data));
         $key = array_keys($data)[0];
         $this->assertTrue(isset($data[$key]['id']));

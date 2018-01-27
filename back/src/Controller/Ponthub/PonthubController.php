@@ -7,6 +7,7 @@ use App\Entity\PonthubFile;
 use App\Entity\User;
 use App\Helper\FilelistHelper;
 use App\Helper\GlobalStatisticsHelper;
+use App\Helper\StatisticsHelper;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -156,11 +157,10 @@ class PonthubController extends ResourceController
      * @Route("/statistics/ponthub/{slug}")
      * @Method("GET")
      */
-    public function getPonthubStatisticsAction($slug)
+    public function getPonthubStatisticsAction($slug, StatisticsHelper $statisticsHelper)
     {
         $userRepository = $this->getDoctrine()->getManager()->getRepository(User::class);
         $user = $userRepository->findOneByUsername($slug);
-        $statisticsHelper = $this->get('ki_ponthub.helper.statistics');
 
         // On vérifie que la personne a le droit de consulter les stats
         if ($user !== $this->user && empty($user->getStatsPonthub()) && !$this->is('ADMIN')) {

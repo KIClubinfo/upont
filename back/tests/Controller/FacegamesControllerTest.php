@@ -6,8 +6,6 @@ use App\Tests\WebTestCase;
 
 class FacegamesControllerTest extends WebTestCase
 {
-    protected $gameId;
-
     // On crée une ressource sur laquelle seront effectués les tests.
     // Ne pas oublier de supprimer à la fin avec le test DELETE.
     public function testPost()
@@ -20,6 +18,18 @@ class FacegamesControllerTest extends WebTestCase
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
+
+        $gameId = json_decode($response->getContent(), true)['id'];
+
+        $this->client->request('GET', '/facegames/' . $gameId);
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 200);
+
+        $this->client->request(
+            'PATCH', '/facegames/' . $gameId, ['wrongAnswers' => 42, 'duration' => 140]
+        );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 204);
     }
 
     // Obligé de faire une seule grosse fonction pour utiliser le meme id
@@ -27,28 +37,9 @@ class FacegamesControllerTest extends WebTestCase
     // lors du chargement des fixtures
     public function testGet()
     {
-        $this->client->request('GET', '/facegames');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-
-        $data = json_decode($response->getContent(), true);
-        $this->assertTrue(!empty($data));
-        $key = array_keys($data)[0];
-        $this->assertTrue(isset($data[$key]['id']));
-        $this->gameId = $data[$key]['id'];
-
-        $this->client->request('GET', '/facegames/'.$this->gameId);
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-
         $this->client->request('GET', '/facegames/sjoajsiohaysahais-asbsksaba7');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
-
-        $this->client->request(
-            'PATCH', '/facegames/'.$this->gameId, ['wrongAnswers' => 42, 'duration' => 140]);
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
 
         $this->client->request('PATCH', '/facegames/0', ['username' => 'miam', 'email' => '123@mail.fr']);
         $response = $this->client->getResponse();

@@ -49,9 +49,10 @@ export const PublicRouter = $stateProvider => {
         },
         resolve: {
             clubs: [
-                '$resource', ($resource) => {
-                    return $resource(API_PREFIX + 'clubs?sort=name').query().$promise;
-                }
+                '$http',
+                ($http) => $http.get(API_PREFIX + 'clubs').then(
+                    (response) => response.data
+                )
             ]
         }
     }).state('root.public.help', {

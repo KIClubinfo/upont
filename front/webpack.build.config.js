@@ -1,6 +1,6 @@
 'use strict';
 
-const path    = require('path');
+const path = require('path');
 const webpack = require('webpack');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');

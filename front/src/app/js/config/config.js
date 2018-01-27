@@ -204,11 +204,10 @@ angular.module('upont').run([
     'Permissions',
     '$state',
     '$interval',
-    '$resource',
     '$location',
     '$window',
     '$sce',
-    function($rootScope, StorageService, Permissions, $state, $interval, $resource, $location, $window, $sce) {
+    function($rootScope, StorageService, Permissions, $state, $interval, $location, $window, $sce) {
         Permissions.load();
 
         // Déconnexion

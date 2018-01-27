@@ -4,9 +4,7 @@ namespace App\Helper;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Response;
 
 class PaginateHelper
 {
@@ -28,20 +26,20 @@ class PaginateHelper
      * @param  EntityRepository $repository Le repository sur lequel effectuer les comptes
      * @return array                        Les données de pagination (nombre de pages, etc.)
      */
-    public function paginateData(EntityRepository $repository, array $findBy = [])
+    public function paginate(EntityRepository $repository, array $findBy = [])
     {
         $queryBuilder = $repository->createQueryBuilder('o');
         $request = $this->request->query;
 
         // On s'assure de bien recevoir des arrays
         foreach ($findBy as $key => $value) {
-            $findBy[$key] = array($value);
+            $findBy[$key] = is_array($value) ? $value : array($value);
         }
 
         // On récupère les paramètres de la requête
-        $page  = $request->has('page') ? $request->get('page') : 1;
-        $limit = $request->has('limit') ? $request->get('limit') : 100;
-        $sort  = $request->has('sort') ? $request->get('sort') : null;
+        $page = $request->has('page') ? (int)$request->get('page') : 1;
+        $limit = $request->has('limit') ? (int)$request->get('limit') : 100;
+        $sort = $request->has('sort') ? $request->get('sort') : null;
 
         if ($sort === null) {
             $sortBy = ['id' => 'DESC'];
@@ -55,19 +53,21 @@ class PaginateHelper
             }
         }
 
+        $requestFindBy = [];
         foreach ($request->all() as $key => $values) {
             if ($key != 'page' && $key != 'limit' && $key != 'sort') {
                 $findBy[$key] = explode(',', $values);
+                $requestFindBy[$key] = $values;
             }
         }
 
         // On compte le nombre total d'entrées dans la BDD
         $queryBuilder->select('count(o.id)');
-        foreach ($findBy as $key => $values){
+        foreach ($findBy as $key => $values) {
             $andCount = 0;
             $and = '';
-            foreach($values as $value){
-                if($andCount > 0){
+            foreach ($values as $value) {
+                if ($andCount > 0) {
                     $and .= ' OR ';
                 }
                 $and .= 'o.' . $key . ' = :' . $key . $andCount;
@@ -78,82 +78,44 @@ class PaginateHelper
             $queryBuilder->andWhere($and);
         }
 
-        foreach($sortBy as $field => $order){
+        foreach ($sortBy as $field => $order) {
             $queryBuilder->addOrderBy('o.' . $field, $order);
         }
 
-        $count = $queryBuilder->getQuery()->getSingleScalarResult();
+        $count = (int)$queryBuilder->getQuery()->getSingleScalarResult();
 
         // On vérifie que l'utilisateur ne fasse pas de connerie avec les variables
-        $totalPages = ceil($count/$limit);
+        $totalPages = (int) ceil($count / $limit);
         $limit = min($limit, 10000);
         $limit = max($limit, 1);
-        $page  = min($page, $totalPages);
-        $page  = max($page, 1);
+        $page = min($page, $totalPages);
+        $page = max($page, 1);
 
         $results = $queryBuilder->select('o')
-                    ->setMaxResults($limit)
-                    ->setFirstResult(($page - 1)*$limit)
-                    ->getQuery()
-                    ->getResult();
+            ->setMaxResults($limit)
+            ->setFirstResult(($page - 1) * $limit)
+            ->getQuery()
+            ->getResult();
 
         return [
-            'findBy'     => $findBy,
-            'sortBy'     => $sortBy,
-            'limit'      => $limit,
-            'offset'     => ($page - 1)*$limit,
-            'page'       => $page,
-            'totalPages' => $totalPages,
-            'count'      => $count,
-            'results'    => $results,
-        ];
-    }
+            'data' => $results,
+            'pagination_params' => [
+                'find_by' => $requestFindBy,
+                'sort_by' => $sortBy,
 
-    /**
-     * Génère les headers de pagination et renvoie la réponse
-     * @param  array   $results    Les résultats à paginer
-     * @param  integer $limit      Le nombre d'objets par page
-     * @param  integer $page       Le numéro de la page en cours
-     * @param  integer $totalPages Le nombre total de pages
-     * @param  integer $count      Le nombre total d'objets
-     * @return Response
-     */
-    public function paginateView($results, $limit, $page, $totalPages, $count)
-    {
-        // On prend l'url de la requête
-        $baseUrl = '<'.str_replace($this->request->getBaseUrl(), '', $this->request->getRequestUri());
+                'limit' => $limit,
+                'page' => $page,
+            ],
+            'pagination_infos' => [
+                'first_page' => 1,
+                'previous_page' => $page > 1 ? $page - 1 : null,
+                'current_page' => $page,
+                'next_page' => $page < $totalPages ? $page + 1 : null,
+                'last_page' => $totalPages,
+                'total_pages' => $totalPages,
 
-        // On enlève tous les paramètres GET de type "page" et "limit" précédents s'il y en avait
-        $baseUrl = preg_replace('/[\?&](page|limit)=\d+/', '', $baseUrl);
-        $baseUrl .= !preg_match('/\?/', $baseUrl) ? '?' : '&';
-
-        // On va générer les notres pour les links
-        $baseUrl .= 'page=';
-        $links = [];
-
-        // First
-        $links[] = $baseUrl.'1'.'&limit='.$limit.'>;rel=first';
-
-        // Previous
-        if ($page > 1) {
-            $links[] = $baseUrl.($page - 1).'&limit='.$limit.'>;rel=previous';
-        }
-
-        // Self
-        $links[] = $baseUrl.$page.'&limit='.$limit.'>;rel=self';
-
-        // Next
-        if ($page < $totalPages) {
-            $links[] = $baseUrl.($page + 1).'&limit='.$limit.'>;rel=next';
-        }
-
-        // Last
-        $links[] = $baseUrl.$totalPages.'&limit='.$limit.'>;rel=last';
-
-        return [
-            $results,
-            $links,
-            $count
+                'count' => $count,
+            ]
         ];
     }
 }

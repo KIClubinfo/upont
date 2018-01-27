@@ -1,4 +1,4 @@
-import { API_PREFIX } from 'upont/js/config/constants';
+import {API_PREFIX} from 'upont/js/config/constants';
 
 import template_assos from 'upont/js/controllers/users/assos/index.html';
 
@@ -64,9 +64,12 @@ export const UsersAssosRouter = $stateProvider => {
         templateUrl: template_assos_list,
         controller: Assos_List_Ctrl,
         resolve: {
-            clubs: ['$resource', function($resource) {
-                return $resource(API_PREFIX + 'clubs?sort=fullName').query().$promise;
-            }]
+            clubs: [
+                '$http',
+                ($http) => $http.get(API_PREFIX + 'clubs').then(
+                    (response) => response.data
+                )
+            ]
         },
         data: {
             top: true
@@ -99,7 +102,7 @@ export const UsersAssosRouter = $stateProvider => {
     }).state('root.users.assos.simple.presentation', {
         url: '/presentation',
         templateUrl: template_assos_presentation,
-        controller : Assos_Presentation_Ctrl,
+        controller: Assos_Presentation_Ctrl,
         data: {
             title: 'Présentation - uPont',
             top: true

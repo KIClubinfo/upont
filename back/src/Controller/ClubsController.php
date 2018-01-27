@@ -4,12 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Club;
 use App\Entity\ClubUser;
-use App\Entity\Event;
-use App\Entity\Newsitem;
 use App\Entity\User;
 use App\Form\ClubType;
 use App\Form\ClubUserType;
+use App\Helper\PaginateHelper;
+use App\Repository\ClubRepository;
 use App\Repository\ClubUserRepository;
+use App\Repository\EventRepository;
+use App\Repository\NewsitemRepository;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -42,9 +44,9 @@ class ClubsController extends ResourceController
      * @Route("/clubs")
      * @Method("GET")
      */
-    public function getClubsAction()
+    public function getClubsAction(ClubRepository $clubRepository)
     {
-        return $this->getAll($this->is('EXTERIEUR'));
+        return $this->json($clubRepository->findAll());
     }
 
     /**
@@ -427,21 +429,15 @@ class ClubsController extends ResourceController
      * @Route("/clubs/{slug}/newsitems")
      * @Method("GET")
      */
-    public function getNewsitemsClubAction($slug)
+    public function getNewsitemsClubAction(Club $club, NewsitemRepository $newsitemRepository, PaginateHelper $paginateHelper)
     {
-        $repository = $this->manager->getRepository(Newsitem::class);
-
         $paginateHelper = $this->get('App\Helper\PaginateHelper');
-        extract($paginateHelper->paginateData($repository));
 
-        $findBy['authorClub'] = $this->findBySlug($slug);
-        $results = $repository->findBy($findBy, $sortBy, $limit, $offset);
-        list($results, $links, $count) = $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
-
-        return $this->json($results, 200, [
-            'Links' => implode(',', $links),
-            'Total-count' => $count
+        $resultData = $paginateHelper->paginate($newsitemRepository, [
+            'authorClub' => $club
         ]);
+
+        return $this->json($resultData, 200);
     }
 
     /**
@@ -458,20 +454,12 @@ class ClubsController extends ResourceController
      * @Route("/clubs/{slug}/events")
      * @Method("GET")
      */
-    public function getEventsClubAction($slug)
+    public function getEventsClubAction(Club $club, EventRepository $eventRepository, PaginateHelper $paginateHelper)
     {
-        $repository = $this->manager->getRepository(Event::class);
-
-        $paginateHelper = $this->get('App\Helper\PaginateHelper');
-        extract($paginateHelper->paginateData($repository));
-
-        $findBy['authorClub'] = $this->findBySlug($slug);
-        $results = $repository->findBy($findBy, $sortBy, $limit, $offset);
-        list($results, $links, $count) = $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
-
-        return $this->json($results, 200, [
-            'Links' => implode(',', $links),
-            'Total-count' => $count
+        $resultData = $paginateHelper->paginate($eventRepository, [
+            'authorClub' => $club
         ]);
+
+        return $this->json($resultData, 200);
     }
 }

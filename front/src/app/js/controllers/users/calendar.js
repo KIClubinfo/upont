@@ -2,18 +2,22 @@
 class Calendar_Ctrl {
     constructor($rootScope, $scope, $filter, events, courseItems, calendarConfig) {
         $scope.events = [];
-        for (var i = 0; i < events.length; i++) {
-            var type;
+
+        // FIXME
+        events = events.data;
+
+        for (let i = 0; i < events.length; i++) {
+            let type;
             switch (events[i].entry_method) {
-                case 'Shotgun':
-                    type = 'important';
-                    break;
-                case 'Libre':
-                    type = 'warning';
-                    break;
-                case 'Ferie':
-                    type = 'success';
-                    break;
+            case 'Shotgun':
+                type = 'important';
+                break;
+            case 'Libre':
+                type = 'warning';
+                break;
+            case 'Ferie':
+                type = 'success';
+                break;
             }
             $scope.events.push({
                 color: calendarConfig.colorTypes[type],
@@ -28,16 +32,16 @@ class Calendar_Ctrl {
             });
         }
 
-        for (i = 0; i < courseItems.length; i++) {
-            var group = courseItems[i].group;
+        for (let i = 0; i < courseItems.length; i++) {
+            const group = courseItems[i].group;
             $scope.events.push({
                 color: calendarConfig.colorTypes.info,
                 startsAt: new Date(courseItems[i].start_date * 1000),
                 endsAt: new Date(courseItems[i].end_date * 1000),
                 title: '[' + courseItems[i].location + '] ' + courseItems[i].course.name + (
                     group !== 0
-                    ? ' (Gr ' + group + ')'
-                    : ''),
+                        ? ' (Gr ' + group + ')'
+                        : ''),
                 editable: false,
                 deletable: false,
                 draggable: false,

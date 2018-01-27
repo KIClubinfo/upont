@@ -24,10 +24,9 @@ export const UsersStudentsRouter = $stateProvider => {
             title: 'Élèves - uPont',
             top: true
         }
-    })
-    // Ces deux states ont besoin d'être enregistrés avant les suivants afin que l'URL "reponse-d" ne soit
-    // pas interpretée comme un élève
-        .state('root.users.students.game', {
+    }).state('root.users.students.game', {
+        // Ces deux states ont besoin d'être enregistrés avant les suivants afin que l'URL "reponse-d" ne soit
+        // pas interpretée comme un élève
         url: '/reponse-d',
         templateUrl: template_students_game,
         controller: Students_Game_Ctrl,
@@ -37,10 +36,10 @@ export const UsersStudentsRouter = $stateProvider => {
         },
         resolve: {
             globalStatistics: [
-                '$resource',
-                function($resource) {
-                    return $resource(API_PREFIX + 'statistics/facegame').get().$promise;
-                }
+                '$http',
+                ($http) => $http.get(API_PREFIX + 'statistics/facegame').then(
+                    (response) => response.data
+                )
             ]
         }
     }).state('root.users.students.pontlyvalent', {
@@ -49,10 +48,8 @@ export const UsersStudentsRouter = $stateProvider => {
         controller: Students_Pontlyvalent_Ctrl,
         resolve: {
             comments: [
-                '$resource',
-                function($resource) {
-                    return $resource(API_PREFIX + 'users/pontlyvalent').query().$promise;
-                }
+                'Paginate',
+                (Paginate) => Paginate.get('users/pontlyvalent')
             ]
         },
         data: {
@@ -66,9 +63,7 @@ export const UsersStudentsRouter = $stateProvider => {
         resolve: {
             users: [
                 'Paginate',
-                function(Paginate) {
-                    return Paginate.get('users?sort=-promo,firstName,lastName', 20);
-                }
+                (Paginate) => Paginate.get('users?sort=-promo,firstName,lastName', 20)
             ]
         },
         data: {
@@ -150,10 +145,10 @@ export const UsersStudentsRouter = $stateProvider => {
                 }
             ],
             clubs: [
-                '$resource',
-                function($resource) {
-                    return $resource(API_PREFIX + 'clubs?sort=name').query().$promise;
-                }
+                '$http',
+                ($http) => $http.get(API_PREFIX + 'clubs').then(
+                    (response) => response.data
+                )
             ],
             clubsSuivis: [
                 '$resource',

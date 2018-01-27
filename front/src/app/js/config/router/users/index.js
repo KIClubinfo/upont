@@ -93,16 +93,12 @@ export const UsersRouter = $stateProvider => {
         },
         resolve: {
             events: [
-                '$resource',
-                function($resource) {
-                    return $resource(API_PREFIX + 'own/events').query().$promise;
-                }
+                'Paginate',
+                (Paginate) => Paginate.get('own/events')
             ],
             courseItems: [
-                '$resource',
-                function($resource) {
-                    return $resource(API_PREFIX + 'own/courseitems').query().$promise;
-                }
+                'Paginate',
+                (Paginate) => Paginate.get('own/courseitems')
             ]
         },
         onEnter: [

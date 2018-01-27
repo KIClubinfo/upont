@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use App\Entity\User;
 
 /**
  * Propriétés de base d'une entité qui se like
@@ -83,8 +83,8 @@ class LikeClass
      */
     public function __construct()
     {
-        $this->listLikes    = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->listDislikes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listLikes = new ArrayCollection();
+        $this->listDislikes = new ArrayCollection();
     }
 
     /**

@@ -2,11 +2,11 @@
 
 namespace App\Helper;
 
-use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Achievement;
 use App\Entity\Facegame;
 use App\Event\AchievementCheckEvent;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -16,42 +16,42 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class FacegameHelper
 {
     protected $manager;
-    protected $repository;
+    protected $userRepository;
     protected $dispatcher;
     protected $tokenStorage;
 
     public function __construct(
-        EntityManagerInterface   $manager,
-        UserRepository         $repository,
+        EntityManagerInterface $manager,
+        UserRepository $userRepository,
         EventDispatcherInterface $dispatcher,
-        TokenStorageInterface    $tokenStorage
+        TokenStorageInterface $tokenStorage
     )
     {
-        $this->manager      = $manager;
-        $this->repository   = $repository;
-        $this->dispatcher   = $dispatcher;
+        $this->manager = $manager;
+        $this->userRepository = $userRepository;
+        $this->dispatcher = $dispatcher;
         $this->tokenStorage = $tokenStorage;
     }
 
     /**
      *  On remplit la listUsers selon les paramètres rentrés
      *  Chaque array contient les noms proposés, une image et la position de la proposition correcte
-     *  @param  Facegame $game La partie à populer
-     *  @return bool Si la partie est possible ou non (assez d'élève dans la promo)
+     * @param  Facegame $game La partie à populer
+     * @return bool Si la partie est possible ou non (assez d'élève dans la promo)
      */
     public function fillUserList(Facegame $facegame)
     {
         $hardcore = $facegame->getHardcore();
-        $promo    = $facegame->getPromo();
-        $player   = $facegame->getUser();
-        $list     = $facegame->getListUsers();
+        $promo = $facegame->getPromo();
+        $player = $facegame->getUser();
+        $list = $facegame->getListUsers();
 
         if ($hardcore) {
             $defaultTraits = ['department', 'promo', 'location', 'origin', 'nationality'];
-            $nbTraits      = count($defaultTraits);
+            $nbTraits = count($defaultTraits);
         }
 
-        $users = $promo !== null ? $this->repository->findByPromo($promo) : $this->repository->findAll();
+        $users = $promo !== null ? $this->userRepository->findByPromo($promo) : $this->userRepository->findAll();
 
         $countUsers = count($users);
         if ($countUsers < 5) {
@@ -59,14 +59,18 @@ class FacegameHelper
         }
 
         // Gestion du nombre de questions possibles
-        $nbQuestions = min(10, $countUsers/2 - 1);
+        $nbQuestions = min(10, $countUsers / 2 - 1);
         $nbPropositions = 3;
+
+        if ($list === null) {
+            $list = [];
+        }
 
         while (count($list) < $nbQuestions) {
             $tempList = [];
-            $ids      = [];
+            $ids = [];
 
-            $tempList['firstPart'] = count($list) < $nbQuestions/2;
+            $tempList['firstPart'] = count($list) < $nbQuestions / 2;
 
             if ($hardcore) {
                 // Si la promo est déjà établie on ne va pas la demander comme carac
@@ -92,22 +96,21 @@ class FacegameHelper
                     } while (in_array($tempId, $ids));
 
                     $ids[] = $tempId;
-                    $user  = $users[$tempId];
+                    $user = $users[$tempId];
 
                     if ($hardcore) {
-                        $method    = 'get'.ucfirst($trait);
+                        $method = 'get' . ucfirst($trait);
                         $tempTrait = $user->$method();
                     }
-                }
-                while (!isset($user)
-                    || $user->getImage() === null
-                    || $user->getPromo() === null
-                    || $user->getUsername() == $player->getUsername()
-                    || $hardcore
-                    && ($tempTrait === null || in_array($tempTrait, $userTraits, true))
+                } while (!isset($user)
+                || $user->getImage() === null
+                || $user->getPromo() === null
+                || $user->getUsername() == $player->getUsername()
+                || $hardcore
+                && ($tempTrait === null || in_array($tempTrait, $userTraits, true))
                 );
 
-                $tempList[$i]['name'] = $user->getFirstName().' '.$user->getLastName();
+                $tempList[$i]['name'] = $user->getFirstName() . ' ' . $user->getLastName();
                 $tempList[$i]['picture'] = $user->getImage()->getWebPath();
 
                 if ($hardcore) {
@@ -123,8 +126,8 @@ class FacegameHelper
 
     /**
      * Finit un jeu
-     * @param Facegame $game     La partie à résoudre
-     * @param integer  $wrongAnswers Le nombre de mauvaises réponses
+     * @param Facegame $game La partie à résoudre
+     * @param integer $wrongAnswers Le nombre de mauvaises réponses
      */
     public function endGame(Facegame $game, $wrongAnswers, $duration)
     {
