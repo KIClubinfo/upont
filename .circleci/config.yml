@@ -14,9 +14,10 @@ jobs:
     steps:
       - run: sudo apt update && sudo apt install -y libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev zlib1g-dev
       - run: |
-          sudo docker-php-ext-install -j$(nproc) pdo pdo_mysql iconv mcrypt zip
+          sudo docker-php-ext-install -j$(nproc) pdo pdo_mysql iconv zip
           sudo docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
           sudo docker-php-ext-install -j$(nproc) gd
+      - run: echo "memory_limit = -1" | sudo tee -a /usr/local/etc/php/conf.d/memory.ini
       - run: sudo composer self-update
       - checkout
       - run: cp .env.dist .env
