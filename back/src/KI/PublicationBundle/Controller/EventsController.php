@@ -14,6 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class EventsController extends ResourceController
 {
@@ -39,9 +40,10 @@ class EventsController extends ResourceController
      * @Route("/events")
      * @Method("GET")
      */
-    public function getEventsAction()
+    public function getEventsAction(Request $request)
     {
-        return $this->getAll();
+        $dql = $this->repository->getAllowedNewsitemsDql($this->getUser()->getId(), $request->query->all());
+        return $this->getPaginatedResponse($dql);
     }
 
     /**
@@ -63,6 +65,9 @@ class EventsController extends ResourceController
     public function getEventAction($slug)
     {
         $event = $this->getOne($slug);
+        if ($event->getPublicationState() == 'draft' && !$this->isClubMember($event->getAuthorClub())) {
+            throw $this->createAccessDeniedException('You cannot access this draft!');
+        }
 
         return $this->json($event);
     }
@@ -157,6 +162,30 @@ class EventsController extends ResourceController
         $this->delete($slug, $this->isClubMember($club));
 
         return $this->json(null, 204);
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Renvoie la liste des événements qui chevauchent un créneau horaire",
+     *  input="KI\PublicationBundle\Form\EventType",
+     *  statusCodes={
+     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   503="Service temporairement indisponible ou en maintenance",
+     *  },
+     *  section="Publications"
+     * )
+     * @Route("/events/{slug}/check-dates")
+     * @Method("GET")
+     */
+    public function getEventCheckDatesAction(Request $request, $slug)
+    {
+        $startDate = $request->query->get('startDate');
+        $endDate = $request->query->get('endDate');
+        $matchedEvents = $this->repository->findSimultaneousEvents($startDate, $endDate, $slug);
+
+        return $this->json($matchedEvents);
+
     }
 
     /**

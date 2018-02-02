@@ -12,12 +12,32 @@ class ResourceController extends LikeableController
      * @param  boolean $auth Un override éventuel pour le check des permissions
      * @return Response
      */
-    public function getAll($auth = false)
+    public function getAll($auth = false, array $findBy = [])
     {
         $this->trust(!$this->is('EXTERIEUR') || $auth);
 
         $paginateHelper = $this->get('ki_core.helper.paginate');
-        extract($paginateHelper->paginateData($this->repository));
+        extract($paginateHelper->paginateData($this->repository, $findBy));
+
+        list($results, $links, $count) = $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
+
+        return $this->json($results, 200, [
+            'Links' => implode(',', $links),
+            'Total-count' => $count
+        ]);
+    }
+
+    /**
+     * Route GET (liste) générique
+     * @param  boolean $auth Un override éventuel pour le check des permissions
+     * @return Response
+     */
+    public function getPaginatedResponse($dql, $auth = false)
+    {
+        $this->trust(!$this->is('EXTERIEUR') || $auth);
+
+        $paginateHelper = $this->get('ki_core.helper.paginate');
+        extract($paginateHelper->paginateQuery($dql));
 
         list($results, $links, $count) = $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
 

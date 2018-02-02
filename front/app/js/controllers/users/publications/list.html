@@ -1,15 +1,17 @@
 <div ng-controller="Publications_List_Ctrl" ng-inject="{events: events, newsItems: newsItems}">
     <div infinite-scroll="next()" infinite-scroll-distance="2" infinite-scroll-disabled="$root.infiniteLoading">
 
-        <article col class="Ticket  Ticket--color{{ publication.slug.length%5+1 }}"
+        <article col class="Ticket Ticket--{{ pub_info[publication.publication_state].color }}"
             ng-repeat="publication in events.data | concat: newsItems.data | orderBy: 'date' | reverse"
-            ng-if="publication.entry_method != 'Ferie'">
+            ng-if="publication.entry_method != 'Ferie' && ($root.hasClub(publication.author_club.slug) || publication.publication_state != 'scheduled')">
+            <up-ribbon ng-repeat="(state, item) in pub_info" class="Ribbon--{{ pub_info[publication.publication_state].color }}" ng-hide="editSlug == publication.slug"
+            ng-if="$root.hasClub(publication.author_club.slug) && publication.publication_state == state">{{ item.ribbon }}</up-ribbon>
             <div row wrap>
                 <aside row flex="100" flex-sm="25" wrap class="padded text-center align-content-start">
                     <div col="start center" flex="50" flex-sm="100">
                         <!-- Image de la publication -->
                         <figure flex="100">
-                            <div class="up-img-home  clickable"
+                            <div class="up-img-home clickable"
                                  ng-click="$root.zoomIn('/api/' + publication.image_url)"
                                  ng-style="{'background-image': 'url({{ publication.image_url | thumb | urlFile }})'}">
                             </div>
@@ -21,20 +23,22 @@
                                 </a>
                             </figcaption>
                         </figure>
-
+                    </div>
+                    <div class="vpadded" col flex="50" flex-sm="100">
                         <!-- Actions -->
                         <section flex="100" ng-if="$root.hasClub(publication.author_club.slug)">
-                            <i class="Link  Link--reverse  fa  fa-pencil"
+                            <i class="Link  Link--reverse fa fa-pencil"
+                               ng-hide="editSlug == publication.slug"
                                title="Modifier la publication"
                                ng-click="enableModify(publication)"></i>
-                            <i class="Link  Link--reverse  Link--danger  fa  fa-trash"
+                            <i class="Link  Link--reverse fa fa-undo"
+                               ng-show="editSlug == publication.slug"
+                               title="Annuler la modification"
+                               ng-click="cancelModify(publication)"></i>
+                            <i class="Link Link--reverse Link--danger fa fa-trash"
                                title="Supprimer la publication"
                                ng-click="delete(publication)"></i>
                         </section>
-                    </div>
-                    <div col="start center" flex="50" flex-sm="100">
-                        <!-- Date de la publication -->
-                        <time class="Ticket__date  small flex-hide-sm flex-hide-md flex-hide-lg" title="{{publication.date | date: 'mm:HH dd/MM/yy' }}">{{ publication.date | fromNow }}</time>
 
                         <!-- Détails -->
                         <section flex="100" class="small" ng-if="publication.start_date">
@@ -55,10 +59,13 @@
                                 <i class="fa fa-times"></i> Bof...
                             </span>
                         </section>
+
+                        <!-- Date de la publication -->
+                        <time class="Ticket__date small" ng-class="{'flex-hide-sm flex-hide-md flex-hide-lg': !$root.hasClub(publication.author_club.slug)}" title="{{publication.date | date: 'mm:HH dd/MM/yy' }}">{{ publication.date | fromNow }}</time>
                     </div>
                 </aside>
 
-                <section col flex="100" flex-sm="75" class="Ticket-content">
+                <section col flex="100" flex-sm="75" ng-hide="editSlug == publication.slug">
                     <header row="space-between start" flex="100">
                         <div>
                             <!-- Titre -->
@@ -83,7 +90,7 @@
                         </div>
 
                         <!-- Date de la publication -->
-                        <time class="Ticket__date  small flex-hide-xs" title="{{publication.date | date: 'mm:HH dd/MM/yy' }}">{{ publication.date | fromNow }}</time>
+                        <time ng-if="!$root.hasClub(publication.author_club.slug)" class="Ticket__date  small flex-hide-xs" title="{{publication.date | date: 'mm:HH dd/MM/yy' }}">{{ publication.date | fromNow }}</time>
                     </header>
 
                     <!-- Liste des participants -->
@@ -94,13 +101,7 @@
                     </section>
 
                     <!-- Contenu de la publication -->
-                    <p class="wysiwyg-data" up-overflow string="publication.text"
-                       ng-hide="edit !== null && publication.slug == edit.slug"></p>
-
-                    <div col ng-if="edit !== null && publication.slug == edit.slug">
-                        <textarea flex="100" ng-model="publication.text" redactor></textarea>
-                        <button flex="50" flex-lg="25" class="Button" ng-click="modify(publication)">Envoyer</button>
-                    </div>
+                    <p class="wysiwyg-data" up-overflow string="publication.text"></p>
 
                     <!-- Fichiers joints -->
                     <section ng-if="publication.files.length">
@@ -116,9 +117,18 @@
                         </ul>
                     </section>
                 </section>
+                <section flex="100" flex-sm="75" ng-show="editSlug == publication.slug">
+                    <div ng-include="'controllers/users/publications/post.html'"></div>
+                </section>
+
             </div>
             <div up-likes show="false" objet="publication"
-                 url="(publication.start_date ? 'events/' : 'newsitems/') + publication.slug"></div>
+                 url="(publication.start_date ? 'events/' : 'newsitems/') + publication.slug"
+                 ng-if="['published', 'emailed'].includes(publication.publication_state)"></div>
+            <div class="padded" ng-if="['draft', 'scheduled'].includes(publication.publication_state)">
+                <i class="hpadded fa fa-info-circle"></i>
+                Publication visible uniquement par les membres {{ publication.author_club.name }}.
+            </div>
         </article>
 
     </div>

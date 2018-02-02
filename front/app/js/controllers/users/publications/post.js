@@ -26,7 +26,8 @@ angular.module('upont')
         var init = function() {
             $scope.focus = false;
             $scope.post = {
-                entry_method: 'Entrée libre',
+                entry_method: 'Libre',
+                publication_state: 'published',
                 text: '',
                 start_date: '',
                 end_date: '',
@@ -54,6 +55,9 @@ angular.module('upont')
                         $scope.placeholder = 'Texte de la news';
                     else
                         $scope.placeholder = 'Que se passe-t-il d\'intéressant dans ton asso ?';
+                    if ($scope.post.publication_state == 'scheduled') {
+                        $scope.post.publication_state = 'published';
+                    }
                     break;
                 case 'event':
                     $scope.placeholder = 'Description de l\'événement';
@@ -75,10 +79,42 @@ angular.module('upont')
             $scope.postFiles = files;
         };
 
+        $scope.submitEvent = function(params) {
+            if (!$scope.modify) {
+                Upload.upload({
+                    method: "POST",
+                    url: apiPrefix + 'events',
+                    data: params
+                }).then(function() {
+                    $rootScope.$broadcast('newEvent');
+                    Achievements.check();
+                    init();
+                    alertify.success('Événement publié');
+                    $scope.isLoading = false;
+                }, function() {
+                    alertify.error('Formulaire vide ou mal rempli');
+                    $scope.isLoading = false;
+                });
+            } else {
+                $http.patch(apiPrefix + 'events/' + $scope.initialSlug, params)
+                .then(function(response) {
+                    $scope.post.slug = response.data.slug;
+                    $scope.$emit('modifiedEvent');
+                    alertify.success('Événement modifié');
+                    init();
+                    $scope.isLoading = false;
+                }, function() {
+                    alertify.error('Formulaire vide ou mal rempli');
+                    $scope.isLoading = false;
+                });
+            }
+        };
+
         $scope.publish = function(post, files) {
             var params  = {
                 text: nl2br(post.text),
                 name: post.name,
+                publicationState: post.publication_state
             };
 
             if (!$scope.modify) {
@@ -103,31 +139,34 @@ angular.module('upont')
                     if(!$scope.isLoading) {
                         $scope.isLoading = true;
 
-                        // On demande si on envoie un mail
-                        alertify.confirm(
-                            'Veux-tu envoyer un mail pour cette news ?',
-                            function (e) {
-                                if (e) {
-                                    params.sendMail = true;
-                                }
-
-                                Upload.upload({
-                                        method: "POST",
-                                        url: apiPrefix + 'newsitems',
-                                        data: params
-                                    })
-                                    .then(function() {
-                                        $rootScope.$broadcast('newNewsitem');
-                                        Achievements.check();
-                                        alertify.success('News publiée');
-                                        init();
-                                        $scope.isLoading = false;
-                                    }, function() {
-                                        alertify.error('Formulaire vide ou mal rempli');
-                                        $scope.isLoading = false;
-                                });
-                            }
-                        );
+                        if (!$scope.modify) {
+                            Upload.upload({
+                                    method: "POST",
+                                    url: apiPrefix + 'newsitems',
+                                    data: params
+                                })
+                                .then(function() {
+                                    $rootScope.$broadcast('newNewsitem');
+                                    Achievements.check();
+                                    alertify.success('News publiée');
+                                    init();
+                                    $scope.isLoading = false;
+                                }, function() {
+                                    alertify.error('Formulaire vide ou mal rempli');
+                                    $scope.isLoading = false;
+                            });
+                        } else {
+                            $http.patch(apiPrefix + 'newsitems/' + post.slug, params).then(function(response){
+                                $scope.post.slug = response.data.slug;
+                                $scope.$emit('modifiedNewsitem');
+                                alertify.success('Publication modifiée');
+                                init();
+                                $scope.isLoading = false;
+                            }, function() {
+                                alertify.error('Formulaire vide ou mal rempli');
+                                $scope.isLoading = false;
+                            });
+                        }
                     }
                     break;
                 case 'event':
@@ -163,46 +202,29 @@ angular.module('upont')
 
                     if(!$scope.isLoading) {
                         $scope.isLoading = true;
-
-                        if (!$scope.modify) {
-
-                            // On demande si on envoie un mail
-                            alertify.confirm(
-                                'Veux-tu envoyer un mail pour cet événement ?',
-                                function(e) {
-                                    if(e) {
-                                        params.sendMail = true;
+                        $http.get(apiPrefix + 'events/' + post.slug + '/check-dates?startDate=' + params.startDate + '&endDate=' + params.endDate).then(function(response){
+                            var unravellingEvents = response.data;
+                            var alertMessage = 'Ces événements sont déjà prévus sur ce créneau : ';
+                            for (var i = 0; i < unravellingEvents.length; i++) {
+                                if (i > 0) { alertMessage += ', '; }
+                                alertMessage += '[' + unravellingEvents[i].author_club.name + '] ' + unravellingEvents[i].name;
+                            }
+                            alertMessage += '. Continuer tout de même ?';
+                            if(unravellingEvents.length > 0) {
+                                alertify.confirm(
+                                    alertMessage,
+                                    function(e) {
+                                        if(!e) {
+                                            $scope.isLoading = false;
+                                            return;
+                                        }
+                                        $scope.submitEvent(params);
                                     }
-
-                                    Upload.upload({
-                                        method: "POST",
-                                        url: apiPrefix + 'events',
-                                        data: params
-                                    }).then(function() {
-                                        $rootScope.$broadcast('newEvent');
-                                        Achievements.check();
-                                        init();
-                                        alertify.success('Événement publié');
-                                        $scope.isLoading = false;
-                                    }, function() {
-                                        alertify.error('Formulaire vide ou mal rempli');
-                                        $scope.isLoading = false;
-                                    });
-                                }
-                            );
-                        } else {
-                            $http.patch(apiPrefix + 'events/' + post.slug, params)
-                            .then(function() {
-                                $rootScope.$broadcast('newEvent');
-                                alertify.success('Événement modifié');
-                                init();
-                                $scope.modify = false;
-                                $scope.isLoading = false;
-                            }, function() {
-                                alertify.error('Formulaire vide ou mal rempli');
-                                $scope.isLoading = false;
-                            });
-                        }
+                                );
+                            } else {
+                                $scope.submitEvent(params);
+                            }
+                        });
                     }
                     break;
                 default:
@@ -211,10 +233,18 @@ angular.module('upont')
         };
 
         $scope.modify = false;
+
+        $scope.$on('modifyNewsitem', function(event, post) {
+            $scope.modify = true;
+            $scope.changeType('news');
+            $scope.post = post;
+            $scope.initialSlug = post.slug;
+            $scope.initialPubOrder = $scope.pub_info[post.publication_state].order;
+        });
+
         $scope.$on('modifyEvent', function(event, post) {
             $scope.modify = true;
             $scope.changeType('event');
-            $rootScope.$broadcast('newEvent');
 
             if (!post.dateModified) {
                 // Fix date to javascript timestamp
@@ -228,6 +258,8 @@ angular.module('upont')
             }
 
             $scope.post = post;
-            window.scrollTo(0, 0);
+            $scope.initialEntryMethod = post.entry_method;
+            $scope.initialSlug = post.slug;
+            $scope.initialPubOrder = $scope.pub_info[post.publication_state].order;
         });
     }]);

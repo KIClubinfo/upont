@@ -19,11 +19,11 @@ class EventType extends AbstractType
             ->add('startDate')
             ->add('endDate')
             ->add('entryMethod')
+            ->add('publicationState')
             ->add('shotgunDate')
             ->add('shotgunLimit')
             ->add('shotgunText')
             ->add('place')
-            ->add('sendMail')
             ->add('authorClub', ClubSelector::class)
             ->add('uploadedFiles', FileType::class, [
                     'multiple' => true,

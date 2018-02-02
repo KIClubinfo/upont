@@ -7,6 +7,9 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class NewsitemsController extends ResourceController
 {
@@ -32,9 +35,16 @@ class NewsitemsController extends ResourceController
      * @Route("/newsitems")
      * @Method("GET")
      */
-    public function getNewsitemsAction()
+    public function getNewsitemsAction(Request $request)
     {
-        return $this->getAll($this->is('EXTERIEUR'));
+        if ($request->query->get('name') == 'message') {
+            $findBy = ['name' => 'message'];
+            return $this->getAll($this->is('EXTERIEUR'), $findBy);
+        }
+        else {
+            $dql = $this->repository->getAllowedNewsitemsDql($this->getUser()->getId(), $request->query->all());
+            return $this->getPaginatedResponse($dql);
+        }
     }
 
     /**
@@ -56,6 +66,9 @@ class NewsitemsController extends ResourceController
     public function getNewsitemAction($slug)
     {
         $newsitem = $this->getOne($slug, $this->is('EXTERIEUR'));
+        if ($newsitem->getPublicationState() == 'draft' && !$this->isClubMember($newsitem->getAuthorClub())) {
+            throw $this->createAccessDeniedException('You cannot access this draft!');
+        }
 
         return $this->json($newsitem);
     }

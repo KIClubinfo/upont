@@ -35,7 +35,7 @@ class PaginateHelper
 
         // On s'assure de bien recevoir des arrays
         foreach ($findBy as $key => $value) {
-            $findBy[$key] = array($value);
+            $findBy[$key] = is_array($value) ? $value : array($value);
         }
 
         // On récupère les paramètres de la requête
@@ -99,6 +99,67 @@ class PaginateHelper
 
         return [
             'findBy'     => $findBy,
+            'sortBy'     => $sortBy,
+            'limit'      => $limit,
+            'offset'     => ($page - 1)*$limit,
+            'page'       => $page,
+            'totalPages' => $totalPages,
+            'count'      => $count,
+            'results'    => $results,
+        ];
+    }
+
+    /**
+     * En fonction de la requête et de la requête DQL, récupère les données utiles à la pagination
+     * Utiliser en cas de requête plus complexe qui ne peut se réduire à une forme normale conjonctive
+     * d'égalités simples sur les attributs de l'objet requêté
+     * @param  string $dql La requête dql à paginer
+     * @return array Les données de pagination (nombre de pages, etc.)
+     */
+    public function paginateQuery(string $dql)
+    {
+        $request = $this->request->query;
+        $objectRefererLength = strpos($dql, "FROM") - 8;
+        $objectReferer = substr($dql, 7, $objectRefererLength);
+
+        // On récupère les paramètres de la requête
+        $page  = $request->has('page') ? $request->get('page') : 1;
+        $limit = $request->has('limit') ? $request->get('limit') : 100;
+        $sort  = $request->has('sort') ? $request->get('sort') : null;
+
+        if ($sort === null) {
+            $sortBy = ['id' => 'DESC'];
+        } else {
+            $sortBy = [];
+
+            foreach (explode(',', $sort) as $value) {
+                $order = preg_match('/^\-.*/isU', $value) ? 'DESC' : 'ASC';
+                $field = preg_replace('/^\-/isU', '', $value);
+                $sortBy[$field] = $order;
+            }
+        }
+
+        foreach($sortBy as $field => $order){
+            $dql .= (' ORDER BY ' . $objectReferer . "." . $field . " " . $order);
+        }
+
+        $posReferer = strpos($dql, $objectReferer);
+        $countDql = substr_replace($dql, "COUNT(" . $objectReferer . ")", $posReferer, strlen($objectReferer));
+        $count = $this->manager->createQuery($countDql)->getSingleScalarResult();
+
+        // On vérifie que l'utilisateur ne fasse pas de connerie avec les variables
+        $totalPages = ceil($count/$limit);
+        $limit = min($limit, 10000);
+        $limit = max($limit, 1);
+        $page  = min($page, $totalPages);
+        $page  = max($page, 1);
+
+        $results = $this->manager->createQuery($dql)
+                                 ->setMaxResults($limit)
+                                 ->setFirstResult(($page - 1)*$limit)
+                                 ->getResult();
+
+        return [
             'sortBy'     => $sortBy,
             'limit'      => $limit,
             'offset'     => ($page - 1)*$limit,

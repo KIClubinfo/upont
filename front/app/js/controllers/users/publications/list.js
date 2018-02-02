@@ -4,6 +4,41 @@ angular.module('upont')
         $scope.newsItems = newsItems;
         $scope.messages = messages;
 
+        $scope.pub_info = {
+            'draft': {
+                description: "Seul les membres du club ont accès aux brouillons dans la liste des publications du club.",
+                action: "Créer le brouillon",
+                label: "Brouillon",
+                ribbon: "Brouillon",
+                color: "pink",
+                order: 1,
+            },
+            'scheduled': {
+                description: "Cette publication apparaîtra seulement sur le calendrier uPont.",
+                action: "Planifier",
+                label: "Planification",
+                ribbon: "Planifié",
+                color: "aqua",
+                order: 2,
+            },
+            'published': {
+                description: "Cette publication sera publique sur uPont, vous pourrez envoyer un mail plus tard.",
+                action: "Publier",
+                label: "Publication",
+                ribbon: "Publié",
+                color: "yellow",
+                order: 3
+            },
+            'emailed': {
+                description: "La publication sera publiée et envoyée par mail à tous les utilisateurs de uPont qui suivent le club.",
+                action: "Envoyer par mail",
+                label: "Email",
+                ribbon: "Email",
+                color: "red",
+                order: 4
+            }
+        };
+
         $scope.calendarView = 'day';
 
         $scope.today = function() {
@@ -174,24 +209,35 @@ angular.module('upont')
             }
         };
 
+        function clone(copy, obj) {
+            for (var attr in obj) {
+                if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+            }
+        }
+
         $scope.enableModify = function(post) {
             $scope.item = post.start_date !== undefined ? 'events' : 'newsitems' ;
+            $scope.editSlug = post.slug;
+            $scope.initialPost = Object.assign({}, post);
 
             if ($scope.item == 'newsitems') {
-                $scope.edit = post;
+                $scope.$broadcast('modifyNewsitem', post);
             } else {
-                $rootScope.$broadcast('modifyEvent', post);
+                $scope.$broadcast('modifyEvent', post);
             }
         };
 
-        $scope.modify = function(post) {
-            $http.patch(apiPrefix + $scope.item + '/' + post.slug, {text: post.text}).then(function(){
-                alertify.success('Publication modifiée');
-                $scope.edit.text = post.text ;
-                $scope.edit = null;
-                $rootScope.$broadcast('newNewsitem');
-            });
+        $scope.cancelModify = function(post) {
+            $scope.editSlug = null;
+            clone(post, $scope.initialPost);
         };
+
+        $scope.$on('modifiedNewsitem', function(event) {
+            $scope.editSlug = null;
+        });
+        $scope.$on('modifiedEvent', function(event) {
+            $scope.editSlug = null;
+        });
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider

@@ -365,19 +365,8 @@ class OwnController extends ResourceController
      */
     public function getOwnEventsAction(Request $request)
     {
-        $userRepository = $this->manager->getRepository('KIUserBundle:User');
-
-        // Si on prend tout on renvoie comme ça
-        if ($request->query->has('all')) {
-            $events = $userRepository->findFollowedEvents($this->getUser()->getId());
-        } else {
-            $events = $userRepository->findFollowedEvents(
-                $this->getUser()->getId(),
-                $request->query->get('limit'),
-                $request->query->get('page')
-            );
-        }
-        return $this->json($events);
+        $dql = $this->repository->getFollowedEventsDql($this->getUser()->getId(), $request->query->all());
+        return $this->getPaginatedResponse($dql);
     }
 
     /**
@@ -400,9 +389,8 @@ class OwnController extends ResourceController
         if ($user === null) {
             throw new NotFoundHttpException('Aucun utilisateur ne correspond au token saisi');
         } else {
-            $userRepository = $this->manager->getRepository('KIUserBundle:User');
 
-            $events = $userRepository->findFollowedEvents($user->getId());
+            $events = $this->repository->findFollowedEvents($user->getId(), "scheduled");
             $courses = $this->getCourseitems($user);
 
             $calStr = $this->get('ki_publication.service.calendar')->getCalendar($user, $events, $courses);
@@ -456,19 +444,8 @@ class OwnController extends ResourceController
      */
     public function getNewsItemsAction()
     {
-        $repository = $this->manager->getRepository('KIPublicationBundle:Newsitem');
-
-        $paginateHelper = $this->get('ki_core.helper.paginate');
-        extract($paginateHelper->paginateData($repository));
-        $findBy['authorClub'] = $this->getFollowedClubs();
-        $results = $repository->findBy($findBy, $sortBy, $limit, $offset);
-
-        list($results, $links, $count) = $paginateHelper->paginateView($results, $limit, $page, $totalPages, $count);
-
-        return $this->json($results, 200, [
-            'Links' => implode(',', $links),
-            'Total-count' => $count
-        ]);
+        $dql = $this->repository->getFollowedNewsitemsDql($this->getUser()->getId());
+        return $this->getPaginatedResponse($dql);
     }
 
     /**
@@ -488,7 +465,7 @@ class OwnController extends ResourceController
      */
     public function getOwnCoursesAction()
     {
-        $repo = $this->getDoctrine()->getManager()->getRepository('KIPublicationBundle:CourseUser');
+        $repo = $this->manager->getRepository('KIPublicationBundle:CourseUser');
 
         $return = [];
         foreach ($repo->findBy(['user' => $this->user]) as $courseUser) {

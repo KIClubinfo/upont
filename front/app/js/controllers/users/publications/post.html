@@ -1,8 +1,8 @@
 <div ng-controller="Publications_Post_Ctrl">
-    <section class="Ticket Ticket--nopadding" ng-if="$root.clubs.length && display">
+    <section class="Ticket Ticket--nopadding" ng-class="{'Ticket--noborder': modify}" ng-if="$root.clubs.length && display">
         <form row wrap ng-submit="publish(post, postFiles)" autocomplete="off">
             <!-- Inputs liés aux news et events -->
-            <div class="padded" flex="100" ng-init="focus=false" ng-click="focus=true">
+            <div class="padded" flex="100" ng-class="{'flex-md-75pct': (focus || modify) && type == 'news'}" ng-init="focus=false" ng-click="focus=true">
                 <input class="Input" type="text" ng-model="post.name" placeholder="{{ focus ? 'Titre' : 'Écrire une publication...' }}"/>
             </div>
 
@@ -29,12 +29,25 @@
             </div>
 
             <!-- entryMethod -->
-            <div class="padded" flex="100" flex-md="50" ng-if="!$root.isExterieur" ng-show="type == 'event'">
-                <select class="Input" ng-model="post.entry_method" ng-disabled="modify">
-                    <option selected>Entrée libre</option>
-                    <option>Shotgun</option>
-                    <option ng-if="$root.isAdmin">Ferie</option>
+            <div class="padded" flex="100" flex-md="25" ng-if="!$root.isExterieur" ng-show="type == 'event'">
+                <select class="Input" ng-model="post.entry_method">
+                    <option value="Libre" selected ng-disabled="modify && initialEntryMethod == 'Shotgun'">Entrée libre</option>
+                    <option value="Shotgun">Shotgun</option>
+                    <option value="Ferie" ng-if="$root.isAdmin" ng-disabled="modify && initialEntryMethod == 'Shotgun'">Ferie</option>
                 </select>
+            </div>
+
+            <!-- publicationState -->
+            <div class="padded" flex="100" flex-md="25" ng-if="focus || modify">
+                <select class="Input" ng-model="post.publication_state">
+                      <option ng-repeat="(state, item) in pub_info" ng-value="state"  ng-disabled="modify && initialPubOrder > item.order" ng-hide="type == 'news' && state == 'scheduled'">{{ item.label }}</option>
+                </select>
+            </div>
+
+            <!-- Information on publication action -->
+            <div class="padded" ng-if="focus || modify">
+                <i class="hpadded fa fa-info-circle"></i>
+                {{ pub_info[post.publication_state]['description'] }}
             </div>
 
             <!-- shotgunDate -->
@@ -58,7 +71,7 @@
 
             <div class="padded" col flex="100" ng-if="focus || modify">
                 <!-- Textarea principale -->
-                <textarea redactor ng-model="post.text" placeholder="{{ placeholder }}"></textarea>
+                <textarea redactor ng-model="post.text" placeholder="{{ placeholder }}" ng-show="type != 'event'"></textarea>
 
                 <!-- Toolbar du bas -->
                 <div row="start start" wrap>
@@ -67,7 +80,7 @@
                     <div class="InputButton" ng-click="changeType('event')" ng-if="!modify" ng-class="{active: type == 'event'}">Événement</div>
 
                     <!-- Sélection du club -->
-                    <div class="InputButton" ng-if="!$root.isExterieur" ng-show="type != 'message' && !modify" ng-class="{'active': club.name != 'Assos'}">
+                    <div class="InputButton" ng-if="!$root.isExterieur" ng-show="type != 'message' && !modify" ng-class="{active: club.name != 'Assos'}">
                         <span ng-click="toggleSelect()">
                             <i class="fa fa-{{ club.icon ? club.icon : 'users' }}"></i> {{ club.name }}
                         </span>
@@ -84,7 +97,8 @@
                         <span ng-repeat="file in postFiles"> {{ file.name ? file.name : 'Fichier' }} </span>
                         <button class="InputButton__fileinput" ngf-select="selectFiles($files)" multiple></button>
                     </div>
-                    <button class="Button" style="margin-left: auto;">{{ modify ? 'Modifier' : 'Publier' }}</button>
+                    <span class="Button" style="margin-right: auto;" ng-if="modify" ng-click="cancelModify(post)">Annuler</span>
+                    <button class="Button" style="margin-left: auto;">{{ modify ? 'Modifier' : pub_info[post.publication_state]['action'] }}</button>
                 </div>
             </div>
         </form>

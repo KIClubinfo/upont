@@ -13,7 +13,7 @@ class NewsitemsControllerTest extends WebTestCase
         $this->client->request('POST', '/newsitems', [
             'name' => 'La Porte',
             'text' => 'C\'est comme perdre',
-            'sendMail' => true,
+            'publicationState' => 'emailed',
             'authorClub' => 'ki'
         ]);
         $response = $this->client->getResponse();
@@ -52,7 +52,7 @@ class NewsitemsControllerTest extends WebTestCase
         $this->client->request(
             'PATCH',
             '/newsitems/la-porte',
-            ['text' => 'ddssqdqsd', 'sendMail' => false]
+            ['text' => 'ddssqdqsd']
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);

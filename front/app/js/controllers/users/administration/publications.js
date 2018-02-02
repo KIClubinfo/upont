@@ -4,6 +4,40 @@ angular.module('upont')
         $scope.newsItems = newsItems;
         $scope.predicate = 'user.firstname';
         $scope.reverse = false;
+        $scope.pub_info = {
+            'draft': {
+                description: "Seul les membres du club ont accès aux brouillons dans la liste des publications du club.",
+                action: "Créer le brouillon",
+                label: "Brouillon",
+                ribbon: "Brouillon",
+                color: "pink",
+                order: 1,
+            },
+            'scheduled': {
+                description: "Cette publication apparaîtra seulement sur le calendrier uPont.",
+                action: "Planifier",
+                label: "Planification",
+                ribbon: "Planifié",
+                color: "aqua",
+                order: 2,
+            },
+            'published': {
+                description: "Cette publication sera publique sur uPont, vous pourrez envoyer un mail plus tard.",
+                action: "Publier",
+                label: "Publication",
+                ribbon: "Publié",
+                color: "yellow",
+                order: 3
+            },
+            'emailed': {
+                description: "La publication sera publiée et envoyée par mail à tous les utilisateurs de uPont qui suivent le club.",
+                action: "Envoyer par mail",
+                label: "Email",
+                ribbon: "Email",
+                color: "red",
+                order: 4
+            }
+        };
     }])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider

@@ -53,12 +53,13 @@ class Post extends Likeable
     protected $text;
 
     /**
-     * La publication envoie-t-elle un mail ?
-     * @ORM\Column(name="send_mail", type="boolean", nullable=false)
+     * Etat de la publication [draft|scheduled|published|emailed]
+     * @ORM\Column(name="publicationState", type="string", nullable=false, options={"default" = "published"})
+     * @Assert\Type("string")
      * @JMS\Expose
-     * @Assert\Type("boolean")
      */
-    protected $sendMail = false;
+    protected $publicationState;
+    const STATE_ORDER = ['draft' => 1, 'scheduled' => 2, 'published' => 3, 'emailed' => 4];
 
     /**
      * @var ArrayCollection
@@ -241,17 +242,33 @@ class Post extends Likeable
     }
 
     /**
-     * Set sendMail
+     * Set publicationState
      *
-     * @param boolean $sendMail
+     * @param string $publicationState
      *
-     * @return Post
+     * @return Event
      */
-    public function setSendMail($sendMail)
+    public function setPublicationState($publicationState)
     {
-        $this->sendMail = $sendMail;
+        if (array_key_exists($publicationState, $this::STATE_ORDER)) {
+            if (isset($this->publicationState) && $this::STATE_ORDER[$publicationState] < $this::STATE_ORDER[$this->publicationState]) {
+                return;
+            }
+            return $this->publicationState = $publicationState;
+        }
+        else {
+            return;
+        }
+    }
 
-        return $this;
+    /**
+     * Get publicationState
+     *
+     * @return string
+     */
+    public function getPublicationState()
+    {
+        return $this->publicationState;
     }
 
     /**
@@ -261,6 +278,6 @@ class Post extends Likeable
      */
     public function getSendMail()
     {
-        return $this->sendMail;
+        return ($this->getPublicationState() == 'emailed');
     }
 }

@@ -13,7 +13,8 @@ angular.module('upont')
         $scope.post = function(msg, image){
             var params  = {
                 text: msg.text,
-                name: 'message'
+                name: 'message',
+                publicationState: 'published'
             };
 
             if (image) {
