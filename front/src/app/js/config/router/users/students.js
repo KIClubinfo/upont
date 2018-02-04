@@ -63,7 +63,10 @@ export const UsersStudentsRouter = $stateProvider => {
         resolve: {
             users: [
                 'Paginate',
-                (Paginate) => Paginate.get('users?sort=-promo,firstName,lastName', 20)
+                (Paginate) => Paginate.get('users', {
+                    sort: '-promo,firstName,lastName',
+                    limit: 20
+                })
             ]
         },
         data: {

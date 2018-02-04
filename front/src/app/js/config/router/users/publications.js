@@ -1,4 +1,4 @@
-import { API_PREFIX } from 'upont/js/config/constants';
+import {API_PREFIX} from 'upont/js/config/constants';
 
 import template_publications from 'upont/js/controllers/users/publications/index.html';
 
@@ -14,7 +14,7 @@ import Publications_Shotgun_Ctrl from 'upont/js/controllers/users/publications/s
 
 export const UsersPublicationsRouter = $stateProvider => {
     $stateProvider.state('root.users.publications', {
-        url: 'publications',
+        url: '',
         template: '<div ui-view></div>',
         abstract: true,
         data: {
@@ -34,8 +34,14 @@ export const UsersPublicationsRouter = $stateProvider => {
                 function(Paginate, Permissions) {
                     // Si c'est l'administration on ne charge que le seul club de l'user actuel
                     if (Permissions.hasRight('ROLE_EXTERIEUR'))
-                        return Paginate.get('clubs/' + Permissions.username() + '/newsitems?sort=-date', 10);
-                    return Paginate.get('own/newsitems?sort=-date', 10);
+                        return Paginate.get('clubs/' + Permissions.username() + '/newsitems', {
+                            sort: '-date',
+                            limit: 10
+                        });
+                    return Paginate.get('own/newsitems', {
+                        sort: '-date',
+                        limit: 10
+                    });
                 }
             ],
             events: [
@@ -44,7 +50,10 @@ export const UsersPublicationsRouter = $stateProvider => {
                 function(Paginate, Permissions) {
                     // Si c'est l'administration on ne charge que le seul club de l'user actuel
                     if (Permissions.hasRight('ROLE_EXTERIEUR'))
-                        return Paginate.get('clubs/' + Permissions.username() + '/events?sort=-date', 10);
+                        return Paginate.get('clubs/' + Permissions.username() + '/events', {
+                            sort: '-date',
+                            limit: 10
+                        });
                     return Paginate.get('own/events', 10);
                 }
             ],
@@ -89,14 +98,14 @@ export const UsersPublicationsRouter = $stateProvider => {
                 'Paginate',
                 '$stateParams',
                 function(Paginate, $stateParams) {
-                    return Paginate.get('newsitems?slug=' + $stateParams.slug);
+                    return Paginate.get('newsitems', {slug: $stateParams.slug});
                 }
             ],
             events: [
                 'Paginate',
                 '$stateParams',
                 function(Paginate, $stateParams) {
-                    return Paginate.get('events?slug=' + $stateParams.slug);
+                    return Paginate.get('events', {slug: $stateParams.slug});
                 }
             ],
             courseItems: function() {

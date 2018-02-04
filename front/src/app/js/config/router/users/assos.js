@@ -37,7 +37,10 @@ export const UsersAssosRouter = $stateProvider => {
         },
         resolve: {
             youtube: ['Paginate', function(Paginate) {
-                return Paginate.get('youtubes?sort=-date', 20);
+                return Paginate.get('youtubes', {
+                    sort: '-date',
+                    limit: 20
+                });
             }],
             stats: ['$resource', function($resource) {
                 return $resource(API_PREFIX + 'statistics/foyer').get().$promise;
@@ -117,10 +120,16 @@ export const UsersAssosRouter = $stateProvider => {
         },
         resolve: {
             events: ['$stateParams', 'Paginate', function($stateParams, Paginate) {
-                return Paginate.get('clubs/' + $stateParams.slug + '/events?sort=-date', 10);
+                return Paginate.get('clubs/' + $stateParams.slug + '/events', {
+                    sort: '-date',
+                    limit: 10
+                });
             }],
             newsItems: ['$stateParams', 'Paginate', function($stateParams, Paginate) {
-                return Paginate.get('clubs/' + $stateParams.slug + '/newsitems?sort=-date', 10);
+                return Paginate.get('clubs/' + $stateParams.slug + '/newsitems', {
+                    sort: '-date',
+                    limit: 10
+                });
             }],
         }
     });

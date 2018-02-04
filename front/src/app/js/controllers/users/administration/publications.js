@@ -9,7 +9,7 @@ angular.module('upont')
         $stateProvider
             .state('root.users.administration.publications', {
                 url: '',
-                controller : 'Administration_Publications_Ctrl',
+                controller: 'Administration_Publications_Ctrl',
                 templateUrl: 'controllers/users/administration/publications.html',
                 data: {
                     title: 'Activité - uPont',
@@ -17,10 +17,16 @@ angular.module('upont')
                 },
                 resolve: {
                     events: ['$stateParams', 'Paginate', function($stateParams, Paginate) {
-                        return Paginate.get('clubs/' + $stateParams.slug + '/events?sort=-date', 10);
+                        return Paginate.get('clubs/' + $stateParams.slug + '/events', {
+                            sort: '-date',
+                            limit: 10
+                        };
                     }],
                     newsItems: ['$stateParams', 'Paginate', function($stateParams, Paginate) {
-                        return Paginate.get('clubs/' + $stateParams.slug + '/newsitems?sort=-date', 10);
+                        return Paginate.get('clubs/' + $stateParams.slug + '/newsitems', {
+                            sort: '-date',
+                            limit: 10
+                        };
                     }],
                 }
             });

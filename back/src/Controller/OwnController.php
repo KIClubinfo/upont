@@ -368,21 +368,25 @@ class OwnController extends ResourceController
      */
     public function getOwnEventsAction(Request $request, UserRepository $userRepository)
     {
-        $limit = $request->query->get('limit');
-        $page = $request->query->get('page');
+        $limit = $request->query->get('limit', 100);
+        $page = $request->query->get('page', 1);
+
+        $userId = $this->getUser()->getId();
+
+        $count = $userRepository->countFollowedEvents($userId);
 
         $events = $userRepository->findFollowedEvents(
-            $this->getUser()->getId(),
+            $userId,
             $limit,
             $page
         );
 
+        $totalPages = (int)ceil($count / $limit);
+
         return $this->json([
             'data' => $events,
             'pagination_params' => [
-                'find_by' => [],
-                'sort_by' => '',
-
+                'sort' => '',
                 'limit' => $limit,
                 'page' => $page,
             ],
@@ -390,7 +394,11 @@ class OwnController extends ResourceController
                 'first_page' => 1,
                 'previous_page' => $page > 1 ? $page - 1 : null,
                 'current_page' => $page,
-                'next_page' => $page + 1,
+                'next_page' => $page < $totalPages ? $page + 1 : null,
+                'last_page' => $totalPages,
+                'total_pages' => $totalPages,
+
+                'count' => $count,
             ]
         ]);
     }

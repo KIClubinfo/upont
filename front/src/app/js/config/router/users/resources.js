@@ -52,7 +52,10 @@ export const UsersResourcesRouter = $stateProvider => {
         },
         resolve: {
             courses: ['Paginate', function(Paginate) {
-                return Paginate.get('courses?sort=name', 50);
+                return Paginate.get('courses', {
+                    sort: 'name',
+                    limit: 50
+                });
             }],
             followed: ['$resource', function($resource) {
                 return $resource(API_PREFIX + 'own/courses').query().$promise;

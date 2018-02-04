@@ -2,6 +2,7 @@
 namespace App\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 use App\Entity\User;
@@ -21,7 +22,7 @@ class UserRepository extends ServiceEntityRepository
      */
     public function findFollowedEvents($userId, $limit = null, $page = null)
     {
-         $query = $this->getEntityManager()->createQuery('SELECT event FROM
+        $query = $this->getEntityManager()->createQuery('SELECT event FROM
             App:Event event,
             App:Club club,
             App:User user
@@ -47,17 +48,13 @@ class UserRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    /**
-     * @param  int $userId
-     * @return \App\Entity\Event[]
-     */
-    public function findUpcomingFollowedEvents($userId)
+    public function countFollowedEvents($userId)
     {
-        return $this->getEntityManager()->createQuery('SELECT event FROM
+        $query = $this->getEntityManager()->createQuery('SELECT COUNT(event) FROM
             App:Event event,
             App:Club club,
             App:User user
-            WHERE user.id = :userId AND event.endDate > :now AND
+            WHERE user.id = :userId AND
             (
                 (event.authorUser = user.id AND event.authorClub IS NULL) OR
                 (event.authorClub = club.id AND user.id NOT IN (
@@ -65,10 +62,11 @@ class UserRepository extends ServiceEntityRepository
                 )
             )
             AND event.authorClub NOT IN (SELECT cnf FROM App:User usr JOIN usr.clubsNotFollowed cnf WHERE usr.id = user.id)
+            ORDER BY event.date DESC
         ')
-            ->setParameter('now', time())
-            ->setParameter('userId', $userId)
-            ->getResult();
+            ->setParameter('userId', $userId);
+
+        return $query->getSingleScalarResult();
     }
 
     public function getDebtsIterator()

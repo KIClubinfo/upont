@@ -21,20 +21,23 @@ class Students_List_Ctrl {
         };
 
         $scope.reload = function(criterias) {
-            var url = 'users?sort=-promo,firstName,lastName';
+            const paginationParams = {
+                sort:'-promo,firstName,lastName',
+                limit: 20,
+            };
 
-            if (criterias.promo != 'all')
-                url += '&promo=' + criterias.promo;
-            if (criterias.department != 'all')
-                url += '&department=' + criterias.department;
-            if (criterias.nationality != 'all')
-                url += '&nationality=' + criterias.nationality;
-            if (criterias.origin != 'all')
-                url += '&origin=' + criterias.origin;
-            if (criterias.gender != 'all')
-                url += '&promo=' + criterias.gender;
+            if (criterias.promo !== 'all')
+                paginationParams['promo'] = criterias.promo;
+            if (criterias.department !== 'all')
+                paginationParams['department'] = criterias.department;
+            if (criterias.nationality !== 'all')
+                paginationParams['nationality'] = criterias.nationality;
+            if (criterias.origin !== 'all')
+                paginationParams['origin'] = criterias.origin;
+            if (criterias.gender !== 'all')
+                paginationParams['gender'] = criterias.gender;
 
-            Paginate.get(url, 20).then(function(response){
+            Paginate.get('users', paginationParams).then(function(response){
                 $scope.users = response;
                 $scope.next();
             });

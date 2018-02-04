@@ -5,36 +5,48 @@ import {API_PREFIX} from 'upont/js/config/constants';
 angular.module('upont').factory('Paginate', [
     '$http',
     '$q',
+    '$httpParamSerializer',
     '$rootScope',
-    function($http, $q, $rootScope) {
+    function($http, $q, $httpParamSerializer, $rootScope) {
         const loadData = (paginationData, append) => {
             // On indique qu'on est en train de charger de nouvelles données
             $rootScope.infiniteLoading = true;
 
-            return $http.get(API_PREFIX + paginationData.url, paginationData.pagination_params).then(function(response) {
-                if (!append) {
-                    paginationData = response.data;
-                } else {
-                    const merged = paginationData.data.concat(response.data.data);
-                    paginationData = response.data;
-                    paginationData.data = merged;
+            const url = paginationData.url;
+
+            return $http({
+                method: 'GET',
+                url: API_PREFIX + url + '?' + $httpParamSerializer(paginationData.pagination_params)
+            }).then(
+                (response) => {
+                    if (!append) {
+                        paginationData = response.data;
+                    } else {
+                        const merged = paginationData.data.concat(response.data.data);
+                        paginationData = response.data;
+                        paginationData.data = merged;
+                    }
+                    paginationData.url = url;
+
+                    $rootScope.infiniteLoading = false;
+
+                    return paginationData;
+                }, () => {
+                    $rootScope.infiniteLoading = false;
                 }
-
-                $rootScope.infiniteLoading = false;
-
-                return paginationData;
-            }, function() {
-                $rootScope.infiniteLoading = false;
-            });
+            );
         };
 
         return {
-            get: function(url, limit) {
-                return $http.get(API_PREFIX + url, {
-                    limit
+            get: function(url, paginationParams) {
+                return $http({
+                    method: 'GET',
+                    url: API_PREFIX + url + '?' + $httpParamSerializer(paginationParams)
                 }).then(
-                    (response) => response.data,
-                    () => {
+                    (response) => {
+                        const paginationData = response.data;
+                        paginationData.url = url;
+                        return paginationData;
                     }
                 );
             },
@@ -45,8 +57,8 @@ angular.module('upont').factory('Paginate', [
                     return loadData(paginationData, true);
                 }
                 else {
-                    return $q((resolve) => {
-                        resolve(paginationData);
+                    return $q((resolve, reject) => {
+                        reject();
                     });
                 }
             },

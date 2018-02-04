@@ -108,7 +108,10 @@ export const UsersPonthubRouter = $stateProvider => {
             controller: Ponthub_List_Ctrl,
             resolve: {
                 elements: ['Paginate', '$stateParams', 'Ponthub', function(Paginate, $stateParams, Ponthub) {
-                    return Paginate.get(Ponthub.cat($stateParams.category) + '?sort=-added,id', 20);
+                    return Paginate.get(Ponthub.cat($stateParams.category), {
+                        sort: '-added,id',
+                        limit: 20
+                    });
                 }]
             },
         });

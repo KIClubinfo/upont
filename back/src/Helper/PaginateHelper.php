@@ -4,11 +4,13 @@ namespace App\Helper;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class PaginateHelper
 {
     protected $manager;
+    /* @var Request */
     protected $request;
 
     public function __construct(EntityManagerInterface $manager)
@@ -36,7 +38,7 @@ class PaginateHelper
             $findBy[$key] = is_array($value) ? $value : array($value);
         }
 
-        // On récupère les paramètres de la requête
+        // On récupère les paramètres de la query
         $page = $request->has('page') ? (int)$request->get('page') : 1;
         $limit = $request->has('limit') ? (int)$request->get('limit') : 100;
         $sort = $request->has('sort') ? $request->get('sort') : null;
@@ -85,7 +87,7 @@ class PaginateHelper
         $count = (int)$queryBuilder->getQuery()->getSingleScalarResult();
 
         // On vérifie que l'utilisateur ne fasse pas de connerie avec les variables
-        $totalPages = (int) ceil($count / $limit);
+        $totalPages = (int)ceil($count / $limit);
         $limit = min($limit, 10000);
         $limit = max($limit, 1);
         $page = min($page, $totalPages);
@@ -99,13 +101,12 @@ class PaginateHelper
 
         return [
             'data' => $results,
-            'pagination_params' => [
-                'find_by' => $requestFindBy,
-                'sort_by' => $sortBy,
+            'pagination_params' => array_merge([
+                'sort' => $sort,
 
                 'limit' => $limit,
                 'page' => $page,
-            ],
+            ], $requestFindBy),
             'pagination_infos' => [
                 'first_page' => 1,
                 'previous_page' => $page > 1 ? $page - 1 : null,

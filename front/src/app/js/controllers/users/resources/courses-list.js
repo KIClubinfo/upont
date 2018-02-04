@@ -41,16 +41,19 @@ class Resources_Courses_List_Ctrl {
         };
 
         $scope.reload = function(criterias) {
-            var url = 'courses?sort=name';
+            const paginationParams = {
+                sort: 'name',
+                limit: 50,
+            };
 
-            if (criterias.department != 'all')
-                url += '&department=' + criterias.department;
-            if (criterias.semester != 'all')
-                url += '&semester=' + criterias.semester;
-            if (criterias.ects != 'all')
-                url += '&ects=' + criterias.ects;
+            if (criterias.department !== 'all')
+                paginationParams['department'] = criterias.department;
+            if (criterias.semester !== 'all')
+                paginationParams['semester'] = criterias.semester;
+            if (criterias.ects !== 'all')
+                paginationParams['ects'] = criterias.ects;
 
-            Paginate.get(url, 50).then(function(response){
+            Paginate.get('courses', paginationParams).then(function(response){
                 $scope.courses = response;
                 $scope.next();
             });

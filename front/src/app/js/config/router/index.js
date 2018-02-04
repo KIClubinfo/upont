@@ -8,8 +8,8 @@ export const Router = ['$stateProvider', $stateProvider => {
         template: '<div ui-view></div>'
     });
 
-    PublicRouter($stateProvider);
     UsersRouter($stateProvider);
+    PublicRouter($stateProvider);
 }];
 
 export default Router;
