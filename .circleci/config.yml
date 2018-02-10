@@ -49,7 +49,7 @@ jobs:
       - run: apk --no-cache add py-pip && pip install 'docker-compose==1.18.0'
       - checkout
       - run: cp .env.dist .env
-      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD quay.io
       - run: TAG=$CIRCLE_BRANCH-$(date +%Y%m%d%H%M%S) docker-compose build && docker-compose push
       - run: TAG=$CIRCLE_BRANCH docker-compose build && docker-compose push
 
