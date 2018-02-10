@@ -1,11 +1,6 @@
-node_modules
-/www/fonts/
-/www/libs/
-/www/themes/
-/www/style.css
-/www/*.min.css
-/www/upont.min.js
-/www/templates.js
+node_modules/
+bower_components/
+dist/
 coverage
 .sublime-gulp.cache
 npm-debug.log

@@ -1,0 +1,50 @@
+.Page {
+    &__main {
+        position: absolute;
+        width: 100%;
+        overflow-y: scroll;
+        @media(min-width:@sizeSm){
+            padding-left: @asideWidth;
+        }
+    }
+
+    &__noaside {
+        margin-left: -@asideWidth;
+    }
+
+    &__landing {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        background-image: url('/img/ponts.jpg');
+        background-size: cover;
+        .full-height;
+
+        &--left {
+            background: rgba(red(@col-aside-bckgnd), green(@col-aside-bckgnd), blue(@col-aside-bckgnd), 0.9);
+            color: white;
+        }
+        &--right {
+            background: rgba(red(@col-input-bckgnd), green(@col-input-bckgnd), blue(@col-input-bckgnd), 0.9);
+        }
+
+        &--home {
+            height: 100%;
+            padding: 2em;
+
+            @media(min-width: @sizeMd) {
+                padding: 2em 4em;
+            }
+
+            @media(min-width: @sizeLg) {
+                padding: 2em 6em;
+            }
+        }
+
+        &--centeredContent {
+            align-content: center;
+        }
+    }
+}

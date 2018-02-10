@@ -1,0 +1,80 @@
+version: 2
+
+jobs:
+  test-back:
+    docker:
+      - image: circleci/php:7.1
+      - image: mysql:5.7
+        environment:
+            MYSQL_RANDOM_ROOT_PASSWORD: yes
+            MYSQL_DATABASE: upont
+            MYSQL_USER: upont
+            MYSQL_PASSWORD: upont
+    working_directory: ~/upont
+    steps:
+      - run: sudo apt update && sudo apt install -y libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev zlib1g-dev
+      - run: |
+          sudo docker-php-ext-install -j$(nproc) pdo pdo_mysql iconv zip
+          sudo docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
+          sudo docker-php-ext-install -j$(nproc) gd
+      - run: echo "memory_limit = -1" | sudo tee -a /usr/local/etc/php/conf.d/memory.ini
+      - run: sudo composer self-update
+      - checkout
+      - run: cp .env.dist .env
+      - restore_cache:
+          keys:
+            - composer-v1-{{ checksum "back/composer.lock" }}
+            - composer-v1-
+      - run: cd back/ && composer install --no-interaction
+      - save_cache:
+          key: composer-v1-{{ checksum "back/composer.lock" }}
+          paths:
+            - vendor
+      - run: cd back/ && bin/console doctrine:migrations:migrate --no-interaction
+      - run: cd back/ && bin/console doctrine:fixtures:load --no-interaction
+      - run: mkdir -p ~/phpunit
+      - run: cd back/ && bin/phpunit -c phpunit.xml.circle --log-junit ~/phpunit/junit.xml
+      - run: cd back/ && bash <(curl -s https://codecov.io/bash)
+      - store_test_results:
+          path: ~/phpunit
+      - store_artifacts:
+          path: ~/phpunit
+
+  build:
+    docker:
+        - image: docker:17-git
+    steps:
+      - setup_remote_docker:
+            docker_layer_caching: true
+      - run: apk --no-cache add py-pip && pip install 'docker-compose==1.18.0'
+      - checkout
+      - run: cp .env.dist .env
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - run: TAG=$CIRCLE_BRANCH-$(date +%Y%m%d%H%M%S) docker-compose build && docker-compose push
+      - run: TAG=$CIRCLE_BRANCH docker-compose build && docker-compose push
+
+#  test-front:
+#    steps:
+#      - restore_cache:
+#          keys:
+#            - node-v1-{{ checksum "front/yarn.lock" }}
+#            - node-v1-
+#      - run: yarn install
+#      - save_cache:
+#          key: node-v1-{{ checksum "front/yarn.lock" }}
+#          paths:
+#            - node_modules
+
+workflows:
+  version: 2
+  build_test:
+    jobs:
+      - test-back
+      - build:
+          requires:
+            - test-back
+          filters:
+            branches:
+              only:
+                - master
+                - master-dev

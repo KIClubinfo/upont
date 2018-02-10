@@ -1,0 +1,73 @@
+<!doctype html>
+ <html lang="fr" ng-app="upont" ng-strict-di>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <base href="/">
+        <title ng-bind="title">uPont</title>
+        <meta name="description" content="uPont, le site étudiant de l'École des Ponts ParisTech">
+        <meta name="keywords" content="ponts chaussées upont intranet étudiant clubs associations paristech" />
+        <meta name="author" content="KI - Club Informatique">
+
+        <link rel="icon" type="image/png" href="img/favicon.png" />
+        <link type="text/plain" rel="author" href="humans.txt" />
+        <link rel="stylesheet" href="vendors.min.css" />
+        <link rel="stylesheet" ng-href="{{ 'theme_' + ($root.theme || 'classic') + '.min.css' }}" />
+    </head>
+
+    <body>
+        <!-- Endroit réservé à l'animation de chargement de uPont -->
+        <div ng-if="false" class="Page__landing flex flex-col p-center s-stretch">
+            <div class="flex flex-raw p-center">
+                <section class="Page__landing--right padded Loading__section flex flex-col p-center s-center">
+                    <img src="img/icon.svg" class="ld ld-heartbeat x2 Loading__image"/>
+                    <p><span class="padded">Chargement en cours...</span></p>
+                    <button class="Button"><a href="help.html">Un problème ?</a></button>
+                </section>
+            </div>
+        </div>
+
+        <script src="vendors.min.js"></script>
+        <script src="https://www.youtube.com/iframe_api"></script>
+        <script src="upont.min.js"></script>
+
+        <div ui-view autoscroll="false"></div>
+
+        <!-- Endroit réservé aux images zoomées -->
+        <div ng-cloak class="Zoom" ng-if="$root.zoom" ng-click="$root.zoomOut($event)">
+            <img class="Zoom__image  Image" ng-src="{{ $root.zoomUrl }}" alt="Image zoomée">
+            <strong>Clic gauche pour fermer</strong>
+        </div>
+
+        <!-- Piwik -->
+        <script type="text/javascript">
+            var _paq = _paq || [];
+            // _paq.push(['trackPageView']);
+            _paq.push(['enableLinkTracking']);
+            (function() {
+                var u="https://upont.enpc.fr/piwik/";
+                _paq.push(['setTrackerUrl', u+'piwik.php']);
+                _paq.push(['setSiteId', 1]);
+                var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+                g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+            })();
+        </script>
+        <noscript><p><img src="https://upont.enpc.fr/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+        <!-- End Piwik Code -->
+
+        <!-- Compatibilité -->
+        <script>
+            var $buoop = {vs:{i:10,f:30,o:15,s:7},c:2};
+            function $buo_f(){
+                var e = document.createElement('script');
+                e.src = '//browser-update.org/update.min.js';
+                document.body.appendChild(e);
+            };
+            try {
+                document.addEventListener('DOMContentLoaded', $buo_f,false);
+            } catch (e) {
+                window.attachEvent('onload', $buo_f);
+            }
+        </script>
+    </body>
+</html>

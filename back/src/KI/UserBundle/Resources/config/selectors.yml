@@ -1,7 +1,0 @@
-services:
-    ki_user.selector.club:
-       class: KI\UserBundle\Selector\ClubSelector
-       arguments:
-           - '@doctrine.orm.entity_manager'
-       tags:
-           - { name: form.type, alias: club_selector }

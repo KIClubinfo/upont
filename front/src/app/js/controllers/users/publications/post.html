@@ -1,0 +1,90 @@
+<section class="Ticket Ticket--nopadding" ng-if="$root.clubs.length && display">
+    <form row wrap ng-submit="publish(post, postFiles)" autocomplete="off">
+        <!-- Inputs liés aux news et events -->
+        <div class="padded" flex="100" ng-init="focus=false" ng-click="focus=true">
+            <input class="Input" type="text" ng-model="post.name" placeholder="{{ focus ? 'Titre' : 'Écrire une publication...' }}"/>
+        </div>
+
+        <!-- startDate -->
+        <div class="padded" flex="100" flex-md="50" ng-show="type == 'event'">
+            <div class="InputGroup" ng-click="startPicker=!startPicker">
+                <input class="Input" type="text" placeholder="Date de début" ng-value="post.start_date | date:'HH:mm dd/MM/yyyy'"/>
+                <span class="InputGroup__addon"><i class="fa fa-calendar"></i></span>
+            </div>
+            <datetimepicker ng-show="startPicker" data-ng-model="post.start_date"></datetimepicker>
+        </div>
+        <!-- endDate -->
+        <div class="padded" flex="100" flex-md="50" ng-show="type == 'event'">
+            <div class="InputGroup" ng-click="startPicker=!startPicker">
+                <input class="Input" type="text" placeholder="Date de fin" ng-value="post.end_date | date:'HH:mm dd/MM/yyyy'"/>
+                <span class="InputGroup__addon"><i class="fa fa-calendar"></i></span>
+            </div>
+            <datetimepicker ng-show="startPicker" data-ng-model="post.end_date"></datetimepicker>
+        </div>
+
+        <!-- place -->
+        <div class="padded" flex="100" flex-md="50" ng-show="type == 'event'">
+            <input class="Input" type="text" ng-model="post.place" placeholder="Lieu"/>
+        </div>
+
+        <!-- entryMethod -->
+        <div class="padded" flex="100" flex-md="50" ng-if="!$root.isExterieur" ng-show="type == 'event'">
+            <select class="Input" ng-model="post.entry_method" ng-disabled="modify">
+                <option selected>Entrée libre</option>
+                <option>Shotgun</option>
+                <option ng-if="$root.isAdmin">Ferie</option>
+            </select>
+        </div>
+
+        <!-- shotgunDate -->
+        <div class="padded" flex="100" flex-md="50" ng-show="type == 'event' && post.entry_method == 'Shotgun'">
+            <div class="InputGroup" ng-click="shotgunPicker=!shotgunPicker">
+                <input class="Input" type="text" placeholder="Date du shotgun" ng-value="post.shotgun_date | date:'HH:mm dd/MM/yyyy'"/>
+                <span class="InputGroup__addon"><i class="fa fa-calendar"></i></span>
+            </div>
+            <datetimepicker ng-show="shotgunPicker" data-ng-model="post.shotgun_date"></datetimepicker>
+        </div>
+
+        <!-- shotgunLimit -->
+        <div class="padded" flex="100" flex-md="50" ng-show="type == 'event' && post.entry_method == 'Shotgun'">
+            <input class="Input" type="text" ng-model="post.shotgun_limit" placeholder="Nombre de places"/>
+        </div>
+
+        <!-- shotgunText -->
+        <div class="padded" flex="100" ng-show="type == 'event' && post.entry_method == 'Shotgun'">
+            <textarea class="Input" ng-model="post.shotgun_text" placeholder="Texte destiné aux vainqueurs du shotgun"></textarea>
+        </div>
+
+        <div class="padded" col flex="100" ng-if="focus || modify">
+            <!-- Textarea principale -->
+            <ng-quill-editor ng-model="post.text" placeholder="{{ placeholder }}"></ng-quill-editor>
+
+            <!-- Toolbar du bas -->
+            <div row="start start" wrap>
+                <!-- Sélection du type de publication -->
+                <div class="InputButton" ng-click="changeType('news')"  ng-if="!modify" ng-class="{active: type == 'news'}">News</div>
+                <div class="InputButton" ng-click="changeType('event')" ng-if="!modify" ng-class="{active: type == 'event'}">Événement</div>
+
+                <!-- Sélection du club -->
+                <div class="InputButton" ng-if="!$root.isExterieur" ng-show="type != 'message' && !modify" ng-class="{'active': club.name != 'Assos'}">
+                    <span ng-click="toggleSelect()">
+                        <i class="fa fa-{{ club.icon ? club.icon : 'users' }}"></i> {{ club.name }}
+                    </span>
+                    <section class="InputButton__select Ticket Results" ng-show="toggle">
+                        <div class="Results__item" flex="100" ng-repeat="club in $root.clubs" ng-click="changeClub(club.club);">
+                            {{ club.club.name }}
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Ajout d'une image -->
+                <div class="InputButton" ng-if="!modify" ng-class="{'active': postFiles.length}">
+                    <i class="fa fa-file-o"></i>
+                    <span ng-repeat="file in postFiles"> {{ file.name ? file.name : 'Fichier' }} </span>
+                    <button class="InputButton__fileinput" ngf-select="selectFiles($files)" multiple></button>
+                </div>
+                <button class="Button" style="margin-left: auto;">{{ modify ? 'Modifier' : 'Publier' }}</button>
+            </div>
+        </div>
+    </form>
+</section>

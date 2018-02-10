@@ -1,6 +1,0 @@
-services:
-    # Sert pour la compatibilité FOSUserBundle
-    ki_user.form.user:
-        class: KI\UserBundle\Form\UserType
-        tags:
-            - { name: form.type, alias: user }

@@ -1,0 +1,347 @@
+<section class="Ticket">
+    <section class="padded" ng-if="$root.isAdmin || $root.username == user.username">
+        <h1>Informations Générales</h1>
+
+        <div class="padded" row="center stretch">
+            <div class="Image  clickable" flex="25" ng-click="$root.zoomIn('/api/' + user.image_url)">
+                <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ user.image_url | urlFile }})' }"></div>
+            </div>
+        </div>
+
+        <form row="start center" wrap ng-submit="submitUser(user, profilePicture)" autocomplete="off">
+
+            <div class="padded" flex="50" flex-md="25" ng-if="$root.isAdmin">
+                <i class="fa  fa-block  fa-user-plus"></i>
+                Prénom
+            </div>
+            <div class="padded" flex="50" flex-md="25" ng-if="$root.isAdmin">
+                <input class="Input" type="text" ng-model="user.first_name" placeholder="Prénom"/>
+            </div>
+
+            <div class="padded" flex="50" flex-md="25" ng-if="$root.isAdmin">
+                <i class="fa  fa-block  fa-user-plus"></i>
+                Nom
+            </div>
+            <div class="padded" flex="50" flex-md="25" ng-if="$root.isAdmin">
+                <input class="Input" type="text" ng-model="user.last_name" placeholder="Nom"/>
+            </div>
+
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-graduation-cap"></i>
+                Promo
+            </div>
+            <div class="padded" flex="50" flex-md="25">
+                <select class="Input" ng-model="user.promo">
+                    <option ng-repeat="item in PROMOS | reverse">{{ item }}</option>
+                </select>
+            </div>
+
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-transgender"></i>
+                Sexe
+            </div>
+            <div class="padded" flex="50" flex-md="25">
+                <select class="Input" ng-model="user.gender">
+                    <option>M</option>
+                    <option>F</option>
+                </select>
+            </div>
+
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-globe"></i>
+                Nationalité
+            </div>
+            <div class="padded" flex="50" flex-md="25">
+                <select class="Input" ng-model="user.nationality">
+                    <option ng-repeat="item in COUNTRIES">{{ item }}</option>
+                </select>
+            </div>
+
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-phone"></i>
+                Téléphone
+            </div>
+            <div class="padded" flex="50" flex-md="25">
+                <input class="Input" type="text" ng-model="user.phone" placeholder="06.xx.xx.xx.xx, +336.xx.xx.xx.xx"/>
+            </div>
+
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-map-marker"></i>
+                Résidence
+            </div>
+            <div class="padded" flex="50" flex-md="25">
+                <input class="Input" type="text" ng-model="user.location" placeholder="Stockholm, M201, 3ème gauche, A53..."/>
+            </div>
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-institution"></i>
+                Département
+            </div>
+            <div class="padded" flex="50" flex-md="25">
+                <select class="Input" ng-model="user.department">
+                    <option ng-repeat="item in DEPARTMENTS">{{ item }}</option>
+                </select>
+            </div>
+
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-street-view"></i>
+                Origine
+            </div>
+            <div class="padded" flex="50" flex-md="25">
+                <select class="Input" ng-model="user.origin">
+                    <option ng-repeat="item in ORIGINS">{{ item }}</option>
+                </select>
+            </div>
+
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-skype"></i>
+                Skype
+            </div>
+            <div class="padded" flex="50" flex-md="25">
+                <input class="Input" type="text" ng-model="user.skype" placeholder="Pseudo Skype"/>
+            </div>
+
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-user"></i>
+                Pseudo
+            </div>
+            <div class="padded" flex="50" flex-md="25">
+                <input class="Input" type="text" ng-model="user.nick" placeholder="Ce que tu souhaites..." />
+            </div>
+
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-file-image-o"></i>
+                Image de profil
+            </div>
+            <div class="padded" flex="50" flex-md="25">
+                <input class="Input" type="file" ng-model="profilePicture" base-sixty-four-input>
+            </div>
+
+            <div ng-if="$root.username == user.username" class="padded" flex="100">
+                <h3>Partager mes statistiques</h3>
+            </div>
+
+            <div ng-if="$root.username == user.username" class="padded" flex="80" flex-md="40">
+                <i class="fa  fa-block  fa-beer"></i>
+                Foyer
+            </div>
+            <div ng-if="$root.username == user.username" class="padded" flex="20" flex-md="10">
+                <input type="checkbox" ng-model="user.stats_foyer">
+            </div>
+
+            <div ng-if="$root.username == user.username && $root.isStudentNetwork" class="padded" flex="80" flex-md="40">
+                <i class="fa  fa-block  fa-download"></i>
+                PontHub
+            </div>
+            <div ng-if="$root.username == user.username && $root.isStudentNetwork" class="padded" flex="20" flex-md="10">
+                <input type="checkbox" ng-model="user.stats_ponthub">
+            </div>
+
+            <div ng-if="$root.username == user.username" class="padded" flex="80" flex-md="40">
+                <i class="fa  fa-block  fa-gamepad"></i>
+                La Réponse D
+            </div>
+            <div ng-if="$root.username == user.username" class="padded" flex="20" flex-md="10">
+                <input type="checkbox" ng-model="user.stats_facegame">
+            </div>
+
+            <div ng-if="$root.username == user.username" class="padded" flex="100">
+                <h3>Récéption de mails</h3>
+            </div>
+
+            <div ng-if="$root.username == user.username" class="padded" flex="80" flex-md="40">
+                <i class="fa  fa-block  fa-envelope"></i>
+                Pour les événements des clubs que je suis
+            </div>
+            <div ng-if="$root.username == user.username" class="padded" flex="20" flex-md="10">
+                <input type="checkbox" ng-model="user.mail_event">
+            </div>
+
+            <div ng-if="$root.username == user.username" class="padded" flex="80" flex-md="40">
+                <i class="fa  fa-block  fa-envelope-o"></i>
+                Quand le lieu/la date d'un événement est modifiée
+            </div>
+            <div ng-if="$root.username == user.username" class="padded" flex="20" flex-md="10">
+                <input type="checkbox" ng-model="user.mail_modification" ng-disabled="!user.mail_event">
+            </div>
+
+            <div ng-if="$root.username == user.username" class="padded" flex="80" flex-md="40">
+                <i class="fa  fa-block  fa-exclamation-triangle"></i>
+                Rappel le matin d'un shotgun
+            </div>
+            <div ng-if="$root.username == user.username" class="padded" flex="20" flex-md="10">
+                <input type="checkbox" ng-model="user.mail_shotgun" ng-disabled="!user.mail_event">
+            </div>
+
+            <div row="end stretch" flex="100">
+                <button class="Button" flex="100" flex-md="25">Modifier !</button>
+            </div>
+        </form>
+    </section>
+
+    <section class="padded" ng-if="$root.username == user.username">
+        <h2>Paramètres du compte</h2>
+
+        <form row wrap ng-submit="submitAccount(user, old, password, confirm)" autocomplete="off">
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-lock"></i>
+                Nouveau mot de passe
+            </div>
+            <div class="padded" flex="50" flex-md="25">
+                <input class="Input" type="password" ng-model="password" placeholder="Nouveau mot de passe"/>
+            </div>
+
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-lock"></i>
+                Confirmation
+            </div>
+            <div class="padded" flex="50" flex-md="25">
+                <input class="Input" type="password" ng-model="confirm" placeholder="Nouveau mot de passe" />
+            </div>
+
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-unlock"></i>
+                Ancien mot de passe
+            </div>
+            <div class="padded" flex="50" flex-md="25">
+                <input class="Input" type="password" ng-model="old" placeholder="Ancien mot de passe"/>
+            </div>
+
+            <div class="padded" flex="50" flex-md="25">
+                <i class="fa  fa-block  fa-envelope"></i>
+                Email
+            </div>
+            <div class="padded" flex="50" flex-md="25">
+                <input class="Input" type="text" ng-model="user.email" placeholder="prenom.nom@eleves.enpc.fr" disabled/>
+            </div>
+
+            <div row="space-between stretch" flex="100">
+                <button class="Button  Button--alt" flex="100" flex-md="25" ng-disabled="!$root.me.tour" ng-click="enableTour($event)">Réactiver le tuto</button>
+                <button class="Button" flex="100" flex-md="25">Modifier !</button>
+            </div>
+        </form>
+    </section>
+</section>
+
+<section class="Ticket" ng-if="$root.username == user.username">
+    <section class="padded">
+
+        <h1>Synchronisation</h1><br>
+
+        <h2>Calendrier ICS</h2>
+
+        <p>Synchronise le calendrier uPont avec ton smartphone/ton ordinateur pour être certain(e) de ne rien rater ! Regarde vite comment faire ci-dessous pour accéder à cette fonctionnalité géniale :</p>
+
+        <div row="center stretch">
+            <a class="Button" ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" flex="100" flex-sm="50" flex-md="25" target="_blank" ng-click="achievementCheck()">Synchroniser !</a>
+        </div>
+
+        <h3 class="Link Link--reverse" ng-click="open('iOS')">
+            <i class="fa" ng-class="{'fa-plus-square-o': openICS != 'iOS', 'fa-minus-square-o': openICS == 'iOS'}"></i> iOS
+        </h3>
+
+        <section class="padded text-center" row="center stretch" wrap ng-show="openICS == 'iOS'">
+            <figure class="padded" flex="33">
+                <figcaption class="padded"><strong>1.</strong> Va dans "Réglages" puis dans "Mail, Contacts, Calendrier"</figcaption>
+                <img class="Image" src="/img/tuto-ics-ios-1.png" alt="Cliquer sur Abonnement à un calendrier...">
+            </figure>
+            <figure class="padded" flex="33">
+                <figcaption class="padded"><strong>2.</strong> Clique sur "Ajouter un compte" puis sur "Autre"</figcaption>
+                <img class="Image" src="/img/tuto-ics-ios-2.png" alt="Cliquer sur Ajouter un calendrier avec abonnement">
+            </figure>
+            <figure class="padded" flex="33">
+                <figcaption class="padded"><strong>3.</strong> Clique sur "Ajouter un calendrier avec abonnement"</figcaption>
+                <img class="Image" src="/img/tuto-ics-ios-3.png" alt="Copier le lien"/>
+            </figure>
+            <p flex="100">
+                <strong>4.</strong> Copie le lien suivant : <a class="Link" title="Calendrier ICS" ng-click="achievementCheck()" ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a><br>
+                <strong>5.</strong> Clique sur "Suivant" puis sur "Enregistrer" et c'est terminé !<br>
+            </p>
+        </section>
+
+        <h3 class="Link Link--reverse" ng-click="open('mac')">
+            <i class="fa" ng-class="{'fa-plus-square-o': openICS != 'mac', 'fa-minus-square-o': openICS == 'mac'}"></i> Mac (Calendar)
+        </h3>
+
+        <section class="padded text-center" row="center stretch" wrap ng-show="openICS == 'mac'">
+            <figure class="padded" flex="50">
+                <figcaption class="padded"><strong>1.</strong> Clique sur "Fichier", puis sur "Abonnement à un calendrier..."</figcaption>
+                <img class="Image" src="/img/tuto-ics-mac-1.png" alt="Cliquer sur Abonnement à un calendrier..."/>
+            </figure>
+            <figure class="padded" flex="50">
+                <figcaption class="padded"><strong>2.</strong> Copie-colle le lien suivant : <a class="Link" title="Calendrier ICS" ng-click="achievementCheck()" ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a></figcaption>
+                <img class="Image" src="/img/tuto-ics-mac-2.png" alt="Copier coller le lien"/>
+            </figure>
+
+            <p flex="100">
+                <strong>3.</strong> Valide et c'est terminé !<br>
+                <strong>Attention ! Ne partage pas le lien, c'est un lien personnalisé...</strong>
+            </p>
+        </section>
+
+        <h3 class="Link Link--reverse" ng-click="open('google')">
+            <i class="fa" ng-class="{'fa-plus-square-o': openICS != 'google', 'fa-minus-square-o': openICS == 'google'}"></i> Android/Google Calendar
+        </h3>
+
+        <section class="padded text-center" row="center stretch" wrap ng-show="openICS == 'google'">
+            <p flex="100">
+                <strong>ATTENTION ! CETTE FONCTION DE GOOGLE CALENDAR EST ASSEZ BUGGÉE, IL EST POSSIBLE QUE LES ÉVÉNEMENTS S'ACTUALISENT DE FAÇON IRRÉGULIÈRE. GOOGLE BOSSE DESSUS MAIS ON NE PEUX PAS FAIRE ACCÉLERER LES CHOSES. NE FAIS DONC PAS TROP CONFIANCE À CETTE FONCTIONNALITÉ POUR L'INSTANT.</strong>
+            </p>
+
+            <figure class="padded" flex="50">
+                <figcaption class="padded"><strong>1.</strong> Clique sur "Ajouter par URL" dans la catégorie "Autres agendas" de Calendar</figcaption>
+                <img class="Image" src="/img/tuto-ics-google-calendar-1.png" alt="Cliquer sur ajouter par URL"/>
+            </figure>
+            <figure class="padded" flex="50">
+                <figcaption class="padded"><strong>2.</strong> Copie-colle le lien suivant : <a  ng-click="achievementCheck()" title="Calendrier ICS" ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a></figcaption>
+                <img class="Image" src="/img/tuto-ics-google-calendar-2.png" alt="Copier coller le lien"/>
+            </figure>
+
+            <p flex="100">
+                <strong>3.</strong> Valide et c'est terminé ! (réessaie une seconde fois s'il t'affiche une erreur la première fois, Google a fait un truc buggé...)<br>
+                <strong>Attention ! Ne partage pas le lien, c'est un lien personnalisé...</strong>
+            </p>
+        </section>
+
+        <h3 class="Link Link--reverse" ng-click="open('thunderbird')">
+            <i class="fa" ng-class="{'fa-plus-square-o': openICS != 'thunderbird', 'fa-minus-square-o': openICS == 'thunderbird'}"></i> Thunderbird
+        </h3>
+
+        <section class="padded text-center" row="center stretch" wrap ng-show="openICS == 'thunderbird'">
+            <figure class="padded" flex="50">
+                <figcaption class="padded"><strong>1.</strong> Cliques droit dans le menu de gauche dans la partie "Agendas" et fais "Nouvel Agenda"</figcaption>
+                <img class="Image" src="/img/tuto-ics-thunderbird-1.png" alt="Cliquer sur ajouter par URL"/>
+            </figure>
+            <figure class="padded" flex="50">
+                <figcaption class="padded"><strong>2.</strong> Choisis "Sur le réseau"</figcaption>
+                <img class="Image" src="/img/tuto-ics-thunderbird-2.png" alt="Choisir sur le réseau"/>
+            </figure>
+            <figure class="padded" flex="50">
+                <figcaption class="padded"><strong>3.</strong> Copie-colle le lien suivant : <a  ng-click="achievementCheck()" title="Calendrier ICS" ng-href="{{ $root.url + 'users/' + token + '/calendar' }}" target="_blank">{{ $root.url + 'users/' + token + '/calendar' }}</a></figcaption>
+                <img class="Image" src="/img/tuto-ics-thunderbird-3.png" alt="Copier coller le lien"/>
+            </figure>
+
+            <p flex="100">
+                <strong>4.</strong> Valide et c'est terminé !<br>
+                <strong>Attention ! Ne partage pas le lien, c'est un lien personnalisé...</strong>
+            </p>
+        </section>
+    </section>
+</section>
+
+<section class="Ticket" ng-if="$root.username == user.username">
+    <section class="padded">
+        <h1>Clubs & Assos suivis</h1>
+        <div row wrap>
+            <div class="padded" row="space-between stretch" flex="100" flex-sm="50" flex-md="33" flex-lg="25" ng-repeat="club in clubs | orderBy:'name'">
+                <div class="Image" flex="33">
+                    <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ club.image_url | thumb | urlFile }})' }"></div>
+                </div>
+                <div flex="60" col="space-around start">
+                    <h3 class="Link  Link--reverse  big" ui-sref="root.users.assos.simple.publications({slug: club.slug})">{{ club.name }}</h3>
+                    <button class="Button  Button--small" ng-show="club.suivi" ng-click="unsubscribe(club.slug);">Suivi</button>
+                    <button class="Button  Button--small  Button--alt" ng-show="!club.suivi" ng-click="subscribe(club.slug);">Suivre</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
