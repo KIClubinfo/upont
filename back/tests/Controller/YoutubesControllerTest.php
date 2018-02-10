@@ -20,9 +20,16 @@ class YoutubesControllerTest extends WebTestCase
         $this->assertJsonResponse($response, 201);
     }
 
-    public function testGet()
+    public function testGetAll()
     {
         $this->client->request('GET', '/youtubes');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 200);
+    }
+
+    public function testGet()
+    {
+        $this->client->request('GET', '/youtubes/nyan-cat');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
     }

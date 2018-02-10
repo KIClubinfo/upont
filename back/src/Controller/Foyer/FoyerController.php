@@ -6,6 +6,7 @@ use App\Controller\BaseController;
 use App\Entity\Transaction;
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\TransactionRepository;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -34,7 +35,7 @@ class FoyerController extends BaseController
      * @Route("/statistics/foyer/dashboard")
      * @Method("GET")
      */
-    public function getFoyerStatisticsDashboardAction()
+    public function getFoyerStatisticsDashboardAction(TransactionRepository $transactionRepository)
     {
         $this->trust($this->isFoyerMember());
 
@@ -49,14 +50,14 @@ class FoyerController extends BaseController
             ],
         ];
 
-        $promoBalances = $this->manager->getRepository(Transaction::class)->getPromoBalances();
+        $promoBalances = $transactionRepository->getPromoBalances();
 
         foreach ($promoBalances as $promoBalance){
             $statistics['promoBalances']['labels'][] = trim($promoBalance['promo']);
             $statistics['promoBalances']['data'][] = round($promoBalance['promoBalance'], 2);
         }
 
-        $soldBeers = $this->manager->getRepository(Transaction::class)->getSoldBeers();
+        $soldBeers = $transactionRepository->getSoldBeers();
 
         foreach ($soldBeers as $soldBeer){
             $statistics['soldBeers']['labels'][] = trim($soldBeer['name']);
@@ -77,19 +78,17 @@ class FoyerController extends BaseController
      *  },
      *  section="Foyer"
      * )
-     * @Route("/statistics/foyer/{slug}")
+     * @Route("/statistics/foyer/{username}")
      * @Method("GET")
      */
-    public function getFoyerStatisticsAction($slug)
+    public function getFoyerStatisticsAction(User $user, TransactionRepository $transactionRepository)
     {
         $this->trust(!$this->is('EXTERIEUR'));
-
-        $user = $this->findBySlug($slug);
 
         if (!$user->getStatsFoyer()) {
             return $this->json(null, 200);
         }
-        $statistics = $this->manager->getRepository(Transaction::class)->getUserStatistics($user);
+        $statistics = $transactionRepository->getUserStatistics($user);
 
         return $this->json($statistics);
     }
@@ -107,12 +106,12 @@ class FoyerController extends BaseController
      * @Route("/statistics/foyer")
      * @Method("GET")
      */
-    public function getFoyerStatisticsMainAction()
+    public function getFoyerStatisticsMainAction(TransactionRepository $transactionRepository)
     {
         $this->trust(!$this->is('EXTERIEUR'));
 
         $statistics = [
-            'hallOfFame' => $this->manager->getRepository(Transaction::class)->getHallOfFame(),
+            'hallOfFame' => $transactionRepository->getHallOfFame(),
         ];
 
         return $this->json($statistics);
@@ -172,7 +171,7 @@ class FoyerController extends BaseController
         $this->trust($this->isFoyerMember());
 
         $response = new StreamedResponse(function () {
-            $results = $this->repository->getPromoBalance();
+            $results = $this->repository->getPromoBalances();
             $handle = fopen('php://output', 'r+');
 
             fputcsv($handle, ['promo', 'balance']);

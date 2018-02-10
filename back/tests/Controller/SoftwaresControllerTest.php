@@ -51,6 +51,10 @@ class SoftwaresControllerTest extends WebTestCase
         $infos = json_decode($response->getContent(), true);
         $this->assertJsonResponse($response, 200);
         $this->assertNotEquals($infos, null);
-        $this->assertEquals($infos['downloads'], 1);
+        $this->assertEquals(1, $infos['downloads']);
+
+        $this->client->request('GET', '/softwares/mac-osx/download');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 302);
     }
 }
