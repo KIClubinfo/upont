@@ -166,12 +166,12 @@ class FoyerController extends BaseController
      * @Route("/foyer/promo-balance")
      * @Method("GET")
      */
-    public function getFoyerPromoBalanceAction()
+    public function getFoyerPromoBalanceAction(TransactionRepository $transactionRepository)
     {
         $this->trust($this->isFoyerMember());
 
-        $response = new StreamedResponse(function () {
-            $results = $this->repository->getPromoBalances();
+        $response = new StreamedResponse(function () use ($transactionRepository) {
+            $results = $transactionRepository->getPromoBalances();
             $handle = fopen('php://output', 'r+');
 
             fputcsv($handle, ['promo', 'balance']);
