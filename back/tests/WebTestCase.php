@@ -3,12 +3,14 @@
 namespace App\Tests;
 
 use PHPUnit\Framework\ExpectationFailedException;
+use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as SymfonyWebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 abstract class WebTestCase extends SymfonyWebTestCase
 {
     protected $container;
+    /* @var Client */
     protected $client;
     protected $authorizationHeaderPrefix = 'Bearer';
     protected $queryParameterName = 'bearer';
@@ -32,8 +34,7 @@ abstract class WebTestCase extends SymfonyWebTestCase
 
             try {
                 $this->assertArrayHasKey('token', $data);
-            }
-            catch (ExpectationFailedException $exception) {
+            } catch (ExpectationFailedException $exception) {
                 print_r($data);
                 throw $exception;
             }
@@ -47,7 +48,7 @@ abstract class WebTestCase extends SymfonyWebTestCase
 
         $client = $this->createClient();
         $path = __DIR__ . '/../var/cache/token';
-        $client->setServerParameter('HTTP_Authorization', $this->authorizationHeaderPrefix.' '.file_get_contents($path));
+        $client->setServerParameter('HTTP_Authorization', $this->authorizationHeaderPrefix . ' ' . file_get_contents($path));
         $this->client = $client;
     }
 
@@ -70,7 +71,7 @@ abstract class WebTestCase extends SymfonyWebTestCase
             $decode = json_decode($response->getContent(), true);
             $this->assertTrue(
                 ($decode !== null && $decode !== false),
-                'is response valid json: ['.$response->getContent().']'
+                'is response valid json: [' . $response->getContent() . ']'
             );
         }
     }
@@ -88,7 +89,7 @@ abstract class WebTestCase extends SymfonyWebTestCase
     public function checkRoutes($routes)
     {
         foreach ($routes as $route) {
-            echo "\n".$route[1].' '.$route[2];
+            echo "\n" . $route[1] . ' ' . $route[2];
             if (isset($route[3]))
                 $this->client->request($route[1], $route[2], $route[3]);
             else

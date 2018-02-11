@@ -56,7 +56,7 @@ class TransactionRepository extends ServiceEntityRepository
     public function getPromoBalances()
     {
         $promoBalances = $this->getEntityManager()->createQuery('SELECT
-            SUM(usr.balance) AS promoBalance, usr.promo as promo FROM
+            usr.promo as promo, SUM(usr.balance) AS promoBalance FROM
             App:User usr
             GROUP BY promo
             ORDER BY promo ASC

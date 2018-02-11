@@ -79,16 +79,6 @@ class UserRepository extends ServiceEntityRepository
             ->iterate();
     }
 
-    public function getPromoBalance()
-    {
-        return $this->getEntityManager()->createQuery('SELECT usr.promo, SUM(usr.balance)
-            FROM App:User usr
-            GROUP BY usr.promo
-            ORDER BY usr.promo
-        ')
-            ->getArrayResult();
-    }
-
     public function getUserClubs(User $user)
     {
         return $this->getEntityManager()->createQuery('SELECT cu, club

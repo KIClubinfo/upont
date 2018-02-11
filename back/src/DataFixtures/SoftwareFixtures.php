@@ -23,6 +23,15 @@ class SoftwareFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($software);
         $this->addReference('software-windows', $software);
 
+        $software = new Software();
+        $software->setSize(1234567);
+        $software->setPath('/root/web/softs/MACOSX.rar');
+        $software->setName('Mac OSX');
+        $software->setDescription('C\'est encore plus pourri mais bon...');
+        $software->setStatus('OK');
+        $software->setOs('Mac');
+        $manager->persist($software);
+
         $manager->flush();
     }
 

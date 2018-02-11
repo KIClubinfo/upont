@@ -87,9 +87,17 @@ class PonthubControllerTest extends WebTestCase
     //     $this->assertEquals($infos['director'], 'George Lucas');
     // }
 
-    public function testStatistics()
+    public function testGlobalStatistics()
     {
         $this->client->request('GET', '/statistics/ponthub');
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 200);
+    }
+
+
+    public function testUserStatistics()
+    {
+        $this->client->request('GET', '/statistics/ponthub/trancara');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
     }
