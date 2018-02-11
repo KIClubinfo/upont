@@ -66,7 +66,7 @@
 
                         <!-- Lien du Shotgun -->
                         <a class="Link  bold" title="Lien vers la page de shotgun" ng-disabled="$root.isAdmissible"
-                           ng-if="publication.start_date && publication.entry_method == 'Shotgun'"
+                           ng-if="publication.start_date && publication.entry_method === 'Shotgun'"
                            ui-sref="root.users.shotgun({slug: publication.slug})">
                             Shotgun : {{ publication.shotgun_date | formatDate }}
                         </a>

@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 /* @ngInject */
 class Calendar_Ctrl {
     constructor($rootScope, $scope, $filter, events, courseItems, calendarConfig) {
@@ -21,8 +23,8 @@ class Calendar_Ctrl {
             }
             $scope.events.push({
                 color: calendarConfig.colorTypes[type],
-                startsAt: new Date(events[i].start_date * 1000),
-                endsAt: new Date(events[i].end_date * 1000),
+                startsAt: moment(events[i].start_date).toDate(),
+                endsAt: moment(events[i].end_date).toDate(),
                 title: events[i].author_club.name + ' : ' + events[i].name,
                 editable: false,
                 deletable: false,

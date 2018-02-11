@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use App\Entity\User;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -15,20 +15,17 @@ class Event extends Post
 {
     /**
      * Début (timestamp)
-     * @ORM\Column(name="startDate", type="integer")
+     * @ORM\Column(name="startDate", type="datetime")
      * @JMS\Expose
-     * @Assert\Type("integer")
-     * @Assert\NotBlank()
-     * @Assert\GreaterThan(1)
+     * @Assert\DateTime()
      */
     protected $startDate;
 
     /**
      * Fin (timestamp)
-     * @ORM\Column(name="endDate", type="integer")
+     * @ORM\Column(name="endDate", type="datetime")
      * @JMS\Expose
-     * @Assert\Type("integer")
-     * @Assert\GreaterThan(1)
+     * @Assert\DateTime()
      */
     protected $endDate;
 
@@ -39,16 +36,15 @@ class Event extends Post
      * @Assert\Type("string")
      */
     protected $entryMethod;
-    const TYPE_LIBRE   = 'Libre';
+    const TYPE_LIBRE = 'Libre';
     const TYPE_SHOTGUN = 'Shotgun';
-    const TYPE_FERIE   = 'Ferie';
+    const TYPE_FERIE = 'Ferie';
 
     /**
      * Date du shotgun (timestamp)
-     * @ORM\Column(name="shotgunDate", type="integer", nullable=true)
+     * @ORM\Column(name="shotgunDate", type="datetime", nullable=true)
      * @JMS\Expose
-     * @Assert\Type("integer")
-     * @Assert\GreaterThan(1)
+     * @Assert\DateTime()
      */
     protected $shotgunDate;
 
@@ -142,52 +138,30 @@ class Event extends Post
     public function __construct()
     {
         parent::__construct();
-        $this->listAttendees = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->listPookies   = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listAttendees = new ArrayCollection();
+        $this->listPookies = new ArrayCollection();
     }
 
-    /**
-     * Set startDate
-     *
-     * @param integer $startDate
-     * @return Event
-     */
-    public function setStartDate($startDate)
+    public function setStartDate(\DateTime $startDate): Event
     {
         $this->startDate = $startDate;
 
         return $this;
     }
 
-    /**
-     * Get startDate
-     *
-     * @return integer
-     */
-    public function getStartDate()
+    public function getStartDate(): \DateTime
     {
         return $this->startDate;
     }
 
-    /**
-     * Set endDate
-     *
-     * @param integer $endDate
-     * @return Event
-     */
-    public function setEndDate($endDate)
+    public function setEndDate(\DateTime $endDate): Event
     {
         $this->endDate = $endDate;
 
         return $this;
     }
 
-    /**
-     * Get endDate
-     *
-     * @return integer
-     */
-    public function getEndDate()
+    public function getEndDate(): \DateTime
     {
         return $this->endDate;
     }
@@ -215,25 +189,14 @@ class Event extends Post
         return $this->entryMethod;
     }
 
-    /**
-     * Set shotgunDate
-     *
-     * @param integer $shotgunDate
-     * @return Event
-     */
-    public function setShotgunDate($shotgunDate)
+    public function setShotgunDate(\DateTime $shotgunDate): Event
     {
         $this->shotgunDate = $shotgunDate;
 
         return $this;
     }
 
-    /**
-     * Get shotgunDate
-     *
-     * @return integer
-     */
-    public function getShotgunDate()
+    public function getShotgunDate(): Event
     {
         return $this->shotgunDate;
     }
@@ -310,10 +273,10 @@ class Event extends Post
     /**
      * Add attendees
      *
-     * @param \App\Entity\User $attendee
+     * @param User $attendee
      * @return Event
      */
-    public function addAttendee(\App\Entity\User $attendee)
+    public function addAttendee(User $attendee)
     {
         $this->listAttendees[] = $attendee;
 
@@ -323,9 +286,9 @@ class Event extends Post
     /**
      * Remove attendees
      *
-     * @param \App\Entity\User $attendee
+     * @param User $attendee
      */
-    public function removeAttendee(\App\Entity\User $attendee)
+    public function removeAttendee(User $attendee)
     {
         $this->listAttendees->removeElement($attendee);
     }
@@ -333,7 +296,7 @@ class Event extends Post
     /**
      * Get attendees
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getAttendees()
     {
@@ -343,10 +306,10 @@ class Event extends Post
     /**
      * Add pookies
      *
-     * @param \App\Entity\User $pookie
+     * @param User $pookie
      * @return Event
      */
-    public function addPookie(\App\Entity\User $pookie)
+    public function addPookie(User $pookie)
     {
         $this->listPookies[] = $pookie;
 
@@ -356,9 +319,9 @@ class Event extends Post
     /**
      * Remove pookies
      *
-     * @param \App\Entity\User $pookie
+     * @param User $pookie
      */
-    public function removePookie(\App\Entity\User $pookie)
+    public function removePookie(User $pookie)
     {
         $this->listPookies->removeElement($pookie);
     }
@@ -366,7 +329,7 @@ class Event extends Post
     /**
      * Get pookies
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getPookies()
     {
