@@ -1,0 +1,3 @@
+ignore:
+  - "back/src/DataFixtures/.*"
+  - "back/src/Migrations/.*"
