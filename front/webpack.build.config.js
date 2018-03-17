@@ -9,9 +9,9 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const config = require('./webpack.config');
 
 config.output = {
-  filename   : '[name].min.js',
-  path       : path.resolve(__dirname, 'dist'),
-  publicPath : ''
+    filename: '[name].min.js',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: ''
 };
 
 config.plugins.push(

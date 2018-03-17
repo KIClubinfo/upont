@@ -28,26 +28,6 @@ class EventsController extends ResourceController
 
     /**
      * @ApiDoc(
-     *  resource=true,
-     *  description="Liste les événements",
-     *  output="App\Entity\Event",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Publications"
-     * )
-     * @Route("/events")
-     * @Method("GET")
-     */
-    public function getEventsAction()
-    {
-        return $this->getAll();
-    }
-
-    /**
-     * @ApiDoc(
      *  description="Retourne un événement",
      *  output="App\Entity\Event",
      *  statusCodes={

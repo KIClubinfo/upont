@@ -56,10 +56,10 @@ export const UsersAssosRouter = $stateProvider => {
         },
         resolve: {
             fixs: ['Paginate', function(Paginate) {
-                return Paginate.get('fixs', 50);
+                return Paginate.get('fixs');
             }],
             ownFixs: ['Paginate', function(Paginate) {
-                return Paginate.get('own/fixs', 50);
+                return Paginate.get('own/fixs');
             }]
         }
     }).state('root.users.assos.list', {

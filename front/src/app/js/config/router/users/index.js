@@ -92,13 +92,9 @@ export const UsersRouter = $stateProvider => {
             title: 'Calendrier - uPont'
         },
         resolve: {
-            events: [
-                'Paginate',
-                (Paginate) => Paginate.get('own/events')
-            ],
-            courseItems: [
-                'Paginate',
-                (Paginate) => Paginate.get('own/courseitems')
+            calendar: [
+                '$http', 'calendarConfig',
+                ($http, calendarConfig) => Calendar_Ctrl.getCalendar($http, calendarConfig, 'month')
             ]
         },
         onEnter: [

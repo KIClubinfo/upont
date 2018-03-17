@@ -14,15 +14,15 @@ use App\Helper\PaginateHelper;
 use App\Repository\FixRepository;
 use App\Repository\NewsitemRepository;
 use App\Repository\UserRepository;
-use App\Service\CalendarService;
 use App\Service\TokenService;
+use DateTime;
+use DateTimeZone;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -405,7 +405,7 @@ class OwnController extends ResourceController
 
     /**
      * @ApiDoc(
-     *  description="Retourne le calendrier de l'utilisateur au format ICS",
+     *  description="Renvoie le calendrier pour la période demandée (liste des cours et évènements suivis)",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -413,28 +413,23 @@ class OwnController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/users/{token}/calendar")
+     * @Route("/own/calendar")
      * @Method("GET")
      */
-    public function getOwnCalendarAction(CalendarService $calendarService, $token)
+    public function getOwnCalendarAction(Request $request, UserRepository $userRepository)
     {
-        $user = $this->repository->findOneByToken($token);
-        if ($user === null) {
-            throw new NotFoundHttpException('Aucun utilisateur ne correspond au token saisi');
-        } else {
-            $userRepository = $this->manager->getRepository(User::class);
+        $DATE_FORMAT = 'Y-m-d\TH:i:s.u\Z';
 
-            $events = $userRepository->findFollowedEvents($user->getId());
-            $courses = $this->getCourseitems($user);
+        $from = $request->query->get('from')
+            ? DateTime::createFromFormat($DATE_FORMAT, $request->query->get('from'), new DateTimeZone('Etc/UTC'))
+            : null;
+        $to = $request->query->get('to')
+            ? DateTime::createFromFormat($DATE_FORMAT, $request->query->get('to'), new DateTimeZone('Etc/UTC'))
+            : null;
 
-            $calStr = $calendarService->getCalendar($user, $events, $courses);
+        $events = $userRepository->findFollowedEventsBetween($this->getUser(), $from, $to);
 
-            return new Response($calStr, 200, [
-                    'Content-Type' => 'text/calendar; charset=utf-8',
-                    'Content-Disposition' => 'attachment; filename="calendar.ics"',
-                ]
-            );
-        }
+        return $this->json($events);
     }
 
     private function getCourseitems($user = null)

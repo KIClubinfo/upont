@@ -8,12 +8,15 @@ class Publications_Calendar_Ctrl {
 
         $scope.calendarView = 'day';
 
+        const now = moment();
+        const tomorrow = now.clone().add(1, 'day');
+
         $scope.today = function() {
-            $scope.calendarDay = moment('today');
+            $scope.calendarDay = now.toDate();
             $scope.todayActive = true;
         };
         $scope.tomorrow = function() {
-            $scope.calendarDay = moment('tomorrow');
+            $scope.calendarDay = tomorrow.toDate();
             $scope.todayActive = false;
         };
         $scope.today();
@@ -34,8 +37,8 @@ class Publications_Calendar_Ctrl {
             if (events.data[i]) {
                 $scope.calendarEvents.push({
                     type: type,
-                    startsAt: moment(events.data[i].start_date),
-                    endsAt: moment(events.data[i].end_date),
+                    startsAt: moment(events.data[i].start_date).toDate(),
+                    endsAt: moment(events.data[i].end_date).toDate(),
                     title: events.data[i].author_club.name + ' : ' + events.data[i].name,
                     editable: false,
                     deletable: false,

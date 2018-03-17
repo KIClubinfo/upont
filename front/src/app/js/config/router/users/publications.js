@@ -54,14 +54,15 @@ export const UsersPublicationsRouter = $stateProvider => {
                             sort: '-date',
                             limit: 10
                         });
-                    return Paginate.get('own/events', 10);
+                    return Paginate.get('own/events', {
+                        sort: '-date',
+                        limit: 10
+                    });
                 }
             ],
-            courseItems: [
-                '$resource',
-                function($resource) {
-                    return $resource(API_PREFIX + 'own/courseitems').query().$promise;
-                }
+            calendar: [
+                '$http',
+                ($http) => $http.get(API_PREFIX + 'own/calendar')
             ]
         },
         views: {

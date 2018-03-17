@@ -1,16 +1,53 @@
 import moment from 'moment';
+import {API_PREFIX} from 'upont/js/config/constants';
 
 /* @ngInject */
 class Calendar_Ctrl {
-    constructor($rootScope, $scope, $filter, events, courseItems, calendarConfig) {
-        $scope.events = [];
+    constructor($http, $scope, calendar, calendarConfig) {
+        $scope.toScope = (calendar) => {
+            $scope.calendarEvents = calendar.events;
+            $scope.calendarView = calendar.view;
+            $scope.calendarDay = calendar.day;
+        };
+        $scope.toScope(calendar);
 
-        // FIXME
-        events = events.data;
+        $scope.setView = (view) => {
+            Calendar_Ctrl.getCalendar($http, calendarConfig, view, $scope.calendarDay).then(
+                (calendar) => $scope.toScope(calendar)
+            );
+        };
+    }
 
-        for (let i = 0; i < events.length; i++) {
+    static getCalendar($http, calendarConfig, view, day) {
+        if (day === null) {
+            day = moment().toDate();
+        }
+
+        const from = moment(day).startOf(view);
+        const to = moment(day).endOf(view);
+
+        return $http.get(API_PREFIX + 'own/calendar', {
+            params: {
+                from: from.toISOString(),
+                to: to.toISOString(),
+            }
+        }).then(
+            (response) => {
+                return {
+                    view,
+                    day,
+                    events: Calendar_Ctrl.createCalendarEvents(response.data, calendarConfig)
+                };
+            }
+        );
+    }
+
+    static createCalendarEvents(calendar, calendarConfig) {
+        const calendarEvents = [];
+
+        for (let i = 0; i < calendar.length; i++) {
             let type;
-            switch (events[i].entry_method) {
+            switch (calendar[i].entry_method) {
             case 'Shotgun':
                 type = 'important';
                 break;
@@ -21,11 +58,11 @@ class Calendar_Ctrl {
                 type = 'success';
                 break;
             }
-            $scope.events.push({
+            calendarEvents.push({
                 color: calendarConfig.colorTypes[type],
-                startsAt: moment(events[i].start_date).toDate(),
-                endsAt: moment(events[i].end_date).toDate(),
-                title: events[i].author_club.name + ' : ' + events[i].name,
+                startsAt: moment(calendar[i].start_date).toDate(),
+                endsAt: moment(calendar[i].end_date).toDate(),
+                title: calendar[i].author_club.name + ' : ' + calendar[i].name,
                 editable: false,
                 deletable: false,
                 draggable: false,
@@ -34,30 +71,24 @@ class Calendar_Ctrl {
             });
         }
 
-        for (let i = 0; i < courseItems.length; i++) {
-            const group = courseItems[i].group;
-            $scope.events.push({
-                color: calendarConfig.colorTypes.info,
-                startsAt: new Date(courseItems[i].start_date * 1000),
-                endsAt: new Date(courseItems[i].end_date * 1000),
-                title: '[' + courseItems[i].location + '] ' + courseItems[i].course.name + (
-                    group !== 0
-                        ? ' (Gr ' + group + ')'
-                        : ''),
-                editable: false,
-                deletable: false,
-                draggable: false,
-                resizable: false,
-                incrementsBadgeTotal: true
-            });
-        }
-
-        $scope.calendarView = 'month';
-        $scope.calendarDay = new Date();
-
-        $scope.setView = function(view) {
-            $scope.calendarView = view;
-        };
+        // FIXME
+        // for (let i = 0; i < courseItems.length; i++) {
+        //     const group = courseItems[i].group;
+        //     calendarEvents.push({
+        //         color: calendarConfig.colorTypes.info,
+        //         startsAt: new Date(courseItems[i].start_date * 1000),
+        //         endsAt: new Date(courseItems[i].end_date * 1000),
+        //         title: '[' + courseItems[i].location + '] ' + courseItems[i].course.name + (
+        //             group !== 0
+        //                 ? ' (Gr ' + group + ')'
+        //                 : ''),
+        //         editable: false,
+        //         deletable: false,
+        //         draggable: false,
+        //         resizable: false,
+        //         incrementsBadgeTotal: true
+        //     });
+        // }
     }
 }
 
