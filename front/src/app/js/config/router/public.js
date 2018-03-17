@@ -13,10 +13,7 @@ import template_help from 'upont/js/controllers/public/help.html';
 import Help_Ctrl from 'upont/js/controllers/public/help';
 import template_login from 'upont/js/controllers/public/login.html';
 import Login_Ctrl from 'upont/js/controllers/public/login';
-import template_request from 'upont/js/controllers/public/request.html';
-import Request_Ctrl from 'upont/js/controllers/public/request';
-import template_reset from 'upont/js/controllers/public/reset.html';
-import Reset_Ctrl from 'upont/js/controllers/public/reset';
+import OAuth2Callback_Ctrl from 'upont/js/controllers/public/oauth2/callback';
 
 export const PublicRouter = $stateProvider => {
     $stateProvider.state('root.403', {
@@ -68,14 +65,14 @@ export const PublicRouter = $stateProvider => {
         url: '',
         templateUrl: template_login,
         controller: Login_Ctrl
-    }).state('root.request', {
-        url: 'mot-de-passe-oublie',
-        templateUrl: template_request,
-        controller: Request_Ctrl
-    }).state('root.reset', {
-        url: 'reset/:token',
-        templateUrl: template_reset,
-        controller: Reset_Ctrl
+    }).state('root.oauth2', {
+        url: 'oauth2',
+        abstract: true,
+        template: '<div ui-view></div>'
+    }).state('root.oauth2.callback', {
+        url: '/callback',
+        controller: OAuth2Callback_Ctrl,
+        template: '<div></div>'
     });
 };
 

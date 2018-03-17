@@ -30,14 +30,15 @@ export const UsersPublicationsRouter = $stateProvider => {
         resolve: {
             newsItems: [
                 'Paginate',
-                'Permissions',
-                function(Paginate, Permissions) {
+                'AuthService',
+                function(Paginate, AuthService) {
                     // Si c'est l'administration on ne charge que le seul club de l'user actuel
-                    if (Permissions.hasRight('ROLE_EXTERIEUR'))
-                        return Paginate.get('clubs/' + Permissions.username() + '/newsitems', {
+                    if (!AuthService.getUser().isStudent) {
+                        return Paginate.get('clubs/' + AuthService.getUsername() + '/newsitems', {
                             sort: '-date',
                             limit: 10
                         });
+                    }
                     return Paginate.get('own/newsitems', {
                         sort: '-date',
                         limit: 10
@@ -46,14 +47,15 @@ export const UsersPublicationsRouter = $stateProvider => {
             ],
             events: [
                 'Paginate',
-                'Permissions',
-                function(Paginate, Permissions) {
+                'AuthService',
+                function(Paginate, AuthService) {
                     // Si c'est l'administration on ne charge que le seul club de l'user actuel
-                    if (Permissions.hasRight('ROLE_EXTERIEUR'))
-                        return Paginate.get('clubs/' + Permissions.username() + '/events', {
+                    if (!AuthService.getUser().isStudent) {
+                        return Paginate.get('clubs/' + AuthService.getUsername() + '/events', {
                             sort: '-date',
                             limit: 10
                         });
+                    }
                     return Paginate.get('own/events', {
                         sort: '-date',
                         limit: 10
@@ -97,16 +99,16 @@ export const UsersPublicationsRouter = $stateProvider => {
         resolve: {
             newsItems: [
                 'Paginate',
-                '$stateParams',
-                function(Paginate, $stateParams) {
-                    return Paginate.get('newsitems', {slug: $stateParams.slug});
+                '$transition$',
+                function(Paginate, $transition$) {
+                    return Paginate.get('newsitems', {slug: $transition$.params().slug});
                 }
             ],
             events: [
                 'Paginate',
-                '$stateParams',
-                function(Paginate, $stateParams) {
-                    return Paginate.get('events', {slug: $stateParams.slug});
+                '$transition$',
+                function(Paginate, $transition$) {
+                    return Paginate.get('events', {slug: $transition$.params().slug});
                 }
             ],
             courseItems: function() {
@@ -121,14 +123,14 @@ export const UsersPublicationsRouter = $stateProvider => {
             top: true
         },
         resolve: {
-            event: ['$resource', '$stateParams', function($resource, $stateParams) {
+            event: ['$resource', '$transition$', function($resource, $transition$) {
                 return $resource(API_PREFIX + 'events/:slug').get({
-                    slug: $stateParams.slug
+                    slug: $transition$.params().slug
                 }).$promise;
             }],
-            shotgun: ['$resource', '$stateParams', function($resource, $stateParams) {
+            shotgun: ['$resource', '$transition$', function($resource, $transition$) {
                 return $resource(API_PREFIX + 'events/:slug/shotgun').get({
-                    slug: $stateParams.slug
+                    slug: $transition$.params().slug
                 }).$promise;
             }]
         }

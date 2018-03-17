@@ -10,30 +10,30 @@
 
     <section class="Aside__middle">
         <nav>
-            <a class="Aside__navlink" ui-sref="root.users.publications.list" up-state-active>
+            <a class="Aside__navlink" ui-sref="root.users.publications.list" ui-sref-active="active">
                 <i class="fa fa-comment"></i> News
             </a>
-            <a class="Aside__navlink" ui-sref="root.users.calendar" up-state-active>
+            <a class="Aside__navlink" ui-sref="root.users.calendar" ui-sref-active="active">
                 <i class="fa fa-calendar"></i> Calendrier
             </a>
-            <a class="Aside__navlink" ui-sref="root.users.assos.list" up-state-active="root.users.assos">
+            <a class="Aside__navlink" ui-sref="root.users.assos.list" ui-sref-active="active"="root.users.assos">
                 <i class="fa fa-thumbs-o-up"></i> Assos
             </a>
-            <a class="Aside__navlink" ui-sref="root.users.students.list" up-state-active="root.users.students" id="link-students">
+            <a class="Aside__navlink" ui-sref="root.users.students.list" ui-sref-active="active"="root.users.students" id="link-students">
                 <i class="fa fa-graduation-cap"></i> Élèves
             </a>
-            <a class="Aside__navlink" ui-sref="root.users.resources.courses.list" up-state-active="root.users.resources">
+            <a class="Aside__navlink" ui-sref="root.users.resources.courses.list" ui-sref-active="active"="root.users.resources">
                 <i class="fa fa-suitcase"></i> Ressources
             </a>
             <div ng-if="$root.isStudentNetwork">
-                <a class="Aside__navlink" ui-sref="root.users.ponthub.category.list" up-state-active="root.users.ponthub">
+                <a class="Aside__navlink" ui-sref="root.users.ponthub.category.list" ui-sref-active="active"="root.users.ponthub">
                     <i class="fa fa-film"></i> PontHub
                 </a>
             </div>
-            <a class="Aside__navlink" ng-if="!$root.isAdmissible" ui-sref="root.users.students.modify({slug: $root.username})" up-state-active>
+            <a class="Aside__navlink" ng-if="!$root.isAdmissible" ui-sref="root.users.students.modify({slug: $root.username})" ui-sref-active="active">
                 <i class="fa fa-address-card-o"></i> Profil
             </a>
-            <a class="Aside__navlink" ng-if="$root.isAdmin" ui-sref="root.users.admin.students" up-state-active="root.users.admin">
+            <a class="Aside__navlink" ng-if="$root.isAdmin" ui-sref="root.users.admin.students" ui-sref-active="active"="root.users.admin">
                 <i class="fa fa-wrench"></i> Zone Admin
             </a>
         </nav>

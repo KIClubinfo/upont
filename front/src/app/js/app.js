@@ -128,7 +128,7 @@ moment.updateLocale('fr', {
 import ngRaven from 'raven-js/plugins/angular';
 
 Raven
-    .config('https://c1de7d0cdfb14286a0d21efb3c0da318@sentry.io/124785')
+    .config('https://cc1de7d0cdfb14286a0d21efb3c0da318@sentry.io/124785')
     .addPlugin(ngRaven, angular)
     .install();
 
@@ -136,13 +136,15 @@ Raven
 require('angulartics-piwik');
 require('angular-moment-picker');
 
+import UiRouter from '@uirouter/angularjs';
+
 const upont = angular.module('upont', [
     // $resource
     require('angular-resource'),
     // JWT Auth
     require('angular-jwt'),
     // Routing
-    require('angular-ui-router'),
+    UiRouter,
 
     // Additionnal | filters
     require('angular-filter'),
@@ -178,7 +180,6 @@ const upont = angular.module('upont', [
 require('./services/Achievements');
 require('./services/Migration');
 require('./services/Paginate');
-require('./services/Permissions');
 require('./services/Ponthub');
 require('./services/Scroll');
 require('./services/StorageService');
@@ -193,7 +194,6 @@ require('./directives/likes');
 require('./directives/panel');
 require('./directives/ribbon');
 require('./directives/search');
-require('./directives/state-active');
 require('./directives/svg-image');
 require('./directives/text-overflow');
 require('./directives/user');
@@ -216,3 +216,6 @@ require('./filters/urlFile');
 
 import Router from 'upont/js/config/router';
 upont.config(Router);
+
+import { AuthService } from 'upont/js/services/AuthService';
+upont.service('AuthService', AuthService);

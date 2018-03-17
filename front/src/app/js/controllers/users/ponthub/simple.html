@@ -41,20 +41,31 @@
                     <strong>Extension :</strong> .{{ element.path.split('.')[element.path.split('.').length-1] }}
                     <i ng-if="element.path.split('.')[element.path.split('.').length-1] == 'mp4'"> (Streamable)</i>
                 </li>
-                <li ng-if="element.os"><strong>Platforme :</strong> {{ element.os }}</li>
+                <li ng-if="element.os">
+                    <strong>Platforme :</strong> {{ element.os }}
+                </li>
 
                 <div class="padded" row="space-between stretch">
-                    <a class="Button" title="Télécharger le fichier" target="_blank" ng-href="{{ type + '/' + element.slug + '/download?bearer=' + token | urlFile }}" ng-hide="category == 'series'">
+                    <a class="Button" title="Télécharger le fichier"
+                       target="_blank" ng-href="{{ type + '/' + element.slug + '/download?bearer=' + token | urlFile }}"
+                       ng-if="category == 'series'"
+                    >
                         <i class="fa  fa-download"></i>
                         Télécharger !
                     </a>
 
-                    <a class="Button  Button--alt" title="Ranger le fichier" ui-sref="root.users.ponthub.category.modify({slug: element.slug})" ng-if="$root.hasRight('ROLE_JARDINIER')">
+                    <a class="Button  Button--alt" title="Ranger le fichier"
+                       ui-sref="root.users.ponthub.category.modify({slug: element.slug})"
+                       ng-if="$root.user.isJardinier"
+                    >
                         <i class="fa  fa-cogs"></i>
                         Ranger
                     </a>
 
-                    <a class="Button  Button--alt" title="Supprimer le fichier" ng-click="delete()" ng-if="$root.hasRight('ROLE_JARDINIER')">
+                    <a class="Button  Button--alt" title="Supprimer le fichier"
+                       ng-click="delete()"
+                       ng-if="$root.user.isJardinier"
+                    >
                         <i class="fa  fa-trash"></i>
                         Supprimer
                     </a>

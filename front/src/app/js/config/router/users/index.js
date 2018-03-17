@@ -16,9 +16,6 @@ import Calendar_Ctrl from 'upont/js/controllers/users/calendar';
 
 import template_dashboard from 'upont/js/controllers/users/dashboard.html';
 
-import template_sso from 'upont/js/controllers/users/sso.html';
-import SingleSignOn_Ctrl from 'upont/js/controllers/users/sso';
-
 import UsersAdminRouter from './admin';
 import UsersAssosRouter from './assos';
 import UsersPonthubRouter from './ponthub';
@@ -64,9 +61,6 @@ export const UsersRouter = $stateProvider => {
                     }, () => console.error('Failed to retrieve config'));
                 }
             ]
-        },
-        data: {
-            needLogin: true
         },
         views: {
             '': {
@@ -115,14 +109,6 @@ export const UsersRouter = $stateProvider => {
         controller: Aside_Ctrl,
         data: {
             title: 'Tableau de bord - uPont',
-            top: true
-        }
-    }).state('root.users.sso', {
-        url: 'sso?appId&to',
-        templateUrl: template_sso,
-        controller: SingleSignOn_Ctrl,
-        data: {
-            title: 'Authentification centralisée - uPont',
             top: true
         }
     });

@@ -74,43 +74,43 @@ export const UsersStudentsRouter = $stateProvider => {
             top: true
         }
     }).state('root.users.students.simple', {
-        url: '/:slug',
+        url: '/{slug}',
         templateUrl: template_students_simple,
         controller: Students_Simple_Ctrl,
         resolve: {
             user: [
                 '$resource',
-                '$stateParams',
-                function($resource, $stateParams) {
-                    return $resource(API_PREFIX + 'users/:slug').get({slug: $stateParams.slug}).$promise;
+                '$transition$',
+                function($resource, $transition$) {
+                    return $resource(API_PREFIX + 'users/:slug').get({slug: $transition$.params().slug}).$promise;
                 }
             ],
             foyer: [
                 '$resource',
-                '$stateParams',
-                function($resource, $stateParams) {
-                    return $resource(API_PREFIX + 'statistics/foyer/:slug').get({slug: $stateParams.slug}).$promise;
+                '$transition$',
+                function($resource, $transition$) {
+                    return $resource(API_PREFIX + 'statistics/foyer/:slug').get({slug: $transition$.params().slug}).$promise;
                 }
             ],
             ponthub: [
                 '$resource',
-                '$stateParams',
-                function($resource, $stateParams) {
-                    return $resource(API_PREFIX + 'statistics/ponthub/:slug').get({slug: $stateParams.slug}).$promise;
+                '$transition$',
+                function($resource, $transition$) {
+                    return $resource(API_PREFIX + 'statistics/ponthub/:slug').get({slug: $transition$.params().slug}).$promise;
                 }
             ],
             clubs: [
                 '$resource',
-                '$stateParams',
-                function($resource, $stateParams) {
-                    return $resource(API_PREFIX + 'users/:slug/clubs').query({slug: $stateParams.slug}).$promise;
+                '$transition$',
+                function($resource, $transition$) {
+                    return $resource(API_PREFIX + 'users/:slug/clubs').query({slug: $transition$.params().slug}).$promise;
                 }
             ],
             achievements: [
                 '$resource',
-                '$stateParams',
-                function($resource, $stateParams) {
-                    return $resource(API_PREFIX + 'users/:slug/achievements?all').get({slug: $stateParams.slug}).$promise;
+                '$transition$',
+                function($resource, $transition$) {
+                    return $resource(API_PREFIX + 'users/:slug/achievements?all').get({slug: $transition$.params().slug}).$promise;
                 }
             ]
         },
@@ -143,9 +143,9 @@ export const UsersStudentsRouter = $stateProvider => {
             ],
             user: [
                 '$resource',
-                '$stateParams',
-                function($resource, $stateParams) {
-                    return $resource(API_PREFIX + 'users/:slug').get({slug: $stateParams.slug}).$promise;
+                '$transition$',
+                function($resource, $transition$) {
+                    return $resource(API_PREFIX + 'users/:slug').get({slug: $transition$.params().slug}).$promise;
                 }
             ],
             clubs: [

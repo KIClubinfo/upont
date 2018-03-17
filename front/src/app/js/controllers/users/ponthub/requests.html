@@ -8,7 +8,7 @@
                 <th><a ng-click="predicate = 'date'; reverse=!reverse">Date</a></th>
                 <th><a ng-click="predicate = 'votes'; reverse=!reverse">Votes</a></th>
                 <th></th>
-                <th ng-if="$root.hasRight('ROLE_JARDINIER')"></th>
+                <th ng-if="$root.user.isJardinier"></th>
             </tr>
         </thead>
         <tbody>
@@ -17,7 +17,7 @@
                 <td>{{ request.date | formatDate }}</td>
                 <td>{{ request.votes }}</td>
                 <td><i class="fa fa-thumbs-o-up Link Link--reverse" title="+1" ng-click="addPoint(request)"></i></td>
-                <td ng-if="$root.hasRight('ROLE_JARDINIER')">
+                <td ng-if="$root.user.isJardinier">
                     <i class="fa fa-trash Link Link--reverse" ng-click="delete(request)"></i>
                 </td>
             </tr>

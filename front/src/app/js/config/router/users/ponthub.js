@@ -37,8 +37,8 @@ export const UsersPonthubRouter = $stateProvider => {
                 top: true
             },
             resolve: {
-                ponthub: ['$resource', function($resource) {
-                    return $resource(API_PREFIX + 'statistics/ponthub').get().$promise;
+                ponthub: ['$http', ($http) => {
+                    return $http.get(API_PREFIX + 'statistics/ponthub').then((response) => response.data);
                 }]
             }
         })
@@ -54,7 +54,7 @@ export const UsersPonthubRouter = $stateProvider => {
             }
         })
         .state('root.users.ponthub.category', {
-            url: '/:category',
+            url: '/{category}',
             template: '<div ui-view></div>',
             abstract: true,
             params: {
@@ -63,25 +63,25 @@ export const UsersPonthubRouter = $stateProvider => {
         })
         // Idem, le state simple doit être enregistré avant le state de list
         .state('root.users.ponthub.category.simple', {
-            url: '/:slug',
+            url: '/{slug}',
             templateUrl: template_ponthub_simple,
             controller: Ponthub_Simple_Ctrl,
             data: {
                 top: true
             },
             resolve: {
-                element: ['$resource', '$stateParams', 'Ponthub', function($resource, $stateParams, Ponthub) {
+                element: ['$resource', '$transition$', 'Ponthub', function($resource, $transition$, Ponthub) {
                     return $resource(API_PREFIX + ':cat/:slug').get({
-                        cat: Ponthub.cat($stateParams.category),
-                        slug: $stateParams.slug
+                        cat: Ponthub.cat($transition$.params().category),
+                        slug: $transition$.params().slug
                     }).$promise;
                 }],
-                episodes: ['$resource', '$stateParams', 'Ponthub', function($resource, $stateParams, Ponthub) {
-                    if (Ponthub.cat($stateParams.category) != 'series')
+                episodes: ['$resource', '$transition$', 'Ponthub', function($resource, $transition$, Ponthub) {
+                    if (Ponthub.cat($transition$.params().category) != 'series')
                         return false;
                     return $resource(API_PREFIX + ':cat/:slug/episodes').query({
                         cat: 'series',
-                        slug: $stateParams.slug
+                        slug: $transition$.params().slug
                     }).$promise;
                 }],
             }
@@ -94,10 +94,10 @@ export const UsersPonthubRouter = $stateProvider => {
                 top: true
             },
             resolve: {
-                element: ['$resource', '$stateParams', 'Ponthub', function($resource, $stateParams, Ponthub) {
+                element: ['$resource', '$transition$', 'Ponthub', function($resource, $transition$, Ponthub) {
                     return $resource(API_PREFIX + ':cat/:slug').get({
-                        cat: Ponthub.cat($stateParams.category),
-                        slug: $stateParams.slug
+                        cat: Ponthub.cat($transition$.params().category),
+                        slug: $transition$.params().slug
                     }).$promise;
                 }]
             }
@@ -107,8 +107,8 @@ export const UsersPonthubRouter = $stateProvider => {
             templateUrl: template_ponthub_list,
             controller: Ponthub_List_Ctrl,
             resolve: {
-                elements: ['Paginate', '$stateParams', 'Ponthub', function(Paginate, $stateParams, Ponthub) {
-                    return Paginate.get(Ponthub.cat($stateParams.category), {
+                elements: ['Paginate', '$transition$', 'Ponthub', function(Paginate, $transition$, Ponthub) {
+                    return Paginate.get(Ponthub.cat($transition$.params().category), {
                         sort: '-added,id',
                         limit: 20
                     });

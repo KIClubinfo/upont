@@ -33,6 +33,9 @@
     "webpack-dev-server": "^2.9.7"
   },
   "dependencies": {
+    "@uirouter/angularjs": "^1.0.15",
+    "@uirouter/core": "^5.0.17",
+    "@uirouter/visualizer": "^6.0.0",
     "alertifyjs": "^1.11.0",
     "angular": "^1.6.8",
     "angular-base64-upload": "^0.1.23",
@@ -41,7 +44,6 @@
     "angular-jwt": "^0.1.9",
     "angular-moment-picker": "^0.10.2",
     "angular-resource": "^1.6.8",
-    "angular-ui-router": "0.x",
     "angular-youtube-embed": "^1.3.1",
     "angulartics": "^1.5.0",
     "angulartics-piwik": "^1.0.6",
@@ -53,6 +55,7 @@
     "ng-file-upload": "^12.2.13",
     "ng-infinite-scroll": "^1.3.0",
     "ng-quill": "^3.5.1",
+    "oidc-client": "^1.4.1",
     "raven-js": "^3.21.0",
     "typeface-open-sans": "^0.0.45"
   },

@@ -42,12 +42,15 @@ export const UsersAssosRouter = $stateProvider => {
                     limit: 20
                 });
             }],
-            stats: ['$http', function($http) {
-                return $http.get(API_PREFIX + 'statistics/foyer').then(
-                    (response) => response.data,
-                    () => console.error('Failed to retrieve foyer statistics')
-                );
-            }]
+            stats: [
+                '$http',
+                ($http) => {
+                    return $http.get(API_PREFIX + 'statistics/foyer').then(
+                        (response) => response.data,
+                        () => console.error('Failed to retrieve foyer statistics')
+                    );
+                }
+            ]
         }
     }).state('root.users.assos.ki', {
         url: '/depannage',
@@ -58,12 +61,14 @@ export const UsersAssosRouter = $stateProvider => {
             top: true
         },
         resolve: {
-            fixs: ['Paginate', function(Paginate) {
-                return Paginate.get('fixs');
-            }],
-            ownFixs: ['Paginate', function(Paginate) {
-                return Paginate.get('own/fixs');
-            }]
+            fixs: [
+                'Paginate',
+                (Paginate) => Paginate.get('fixs')
+            ],
+            ownFixs: [
+                'Paginate',
+                (Paginate) => Paginate.get('own/fixs')
+            ],
         }
     }).state('root.users.assos.list', {
         url: '',
@@ -76,32 +81,35 @@ export const UsersAssosRouter = $stateProvider => {
                     (response) => response.data,
                     () => console.error('Failed to retrieve clubs')
                 )
-            ]
+            ],
         },
         data: {
             top: true
         }
     }).state('root.users.assos.simple', {
-        url: '/:slug',
+        url: '/{slug}',
         abstract: true,
         controller: Assos_Simple_Ctrl,
         templateUrl: template_assos_simple,
         resolve: {
-            club: ['$http', '$stateParams',
-                ($http, $stateParams) => {
-                return $http.get(API_PREFIX + 'clubs/' + $stateParams.slug)
-                .then(
-                    (response) => response.data,
-                    () => console.error('Failed to retrieve club')
-                );
-            }],
-            members: ['$http', '$stateParams', function($http, $stateParams) {
-                return $http.get(API_PREFIX + 'clubs/' + $stateParams.slug + '/users')
-                .then(
-                    (response) => response.data,
-                    () => console.error('Failed to retrieve club members')
-                );
-            }]
+            club: [
+                '$http', '$transition$',
+                ($http, $transition$) => {
+                    return $http.get(API_PREFIX + 'clubs/' + $transition$.params().slug).then(
+                        (response) => response.data,
+                        () => console.error('Failed to retrieve club')
+                    );
+                }
+            ],
+            members: [
+                '$http', '$transition$',
+                ($http, $transition$) => {
+                    return $http.get(`${API_PREFIX}clubs/${$transition$.params().slug}/users`).then(
+                        (response) => response.data,
+                        () => console.error('Failed to retrieve club members')
+                    );
+                }
+            ],
         }
     }).state('root.users.assos.simple.modify', {
         url: '/gestion',
@@ -128,19 +136,25 @@ export const UsersAssosRouter = $stateProvider => {
             top: true
         },
         resolve: {
-            events: ['$stateParams', 'Paginate', function($stateParams, Paginate) {
-                return Paginate.get('clubs/' + $stateParams.slug + '/events', {
-                    sort: '-date',
-                    limit: 10
-                });
-            }],
-            newsItems: ['$stateParams', 'Paginate', function($stateParams, Paginate) {
-                return Paginate.get('clubs/' + $stateParams.slug + '/newsitems', {
-                    sort: '-date',
-                    limit: 10
-                });
-            }],
-        }
+            events: [
+                '$transition$', 'Paginate',
+                ($transition$, Paginate) => {
+                    return Paginate.get('clubs/' + $transition$.params().slug + '/events', {
+                        sort: '-date',
+                        limit: 10
+                    });
+                }
+            ],
+            newsItems: [
+                '$transition$', 'Paginate',
+                ($transition$, Paginate) => {
+                    return Paginate.get('clubs/' + $transition$.params().slug + '/newsitems', {
+                        sort: '-date',
+                        limit: 10
+                    });
+                }
+            ],
+        },
     });
 };
 

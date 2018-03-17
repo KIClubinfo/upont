@@ -62,7 +62,7 @@ export const UsersResourcesRouter = $stateProvider => {
             }]
         },
     }).state('root.users.resources.courses.simple', {
-        url: '/:slug',
+        url: '/{slug}',
         templateUrl: template_resources_courses_simple,
         controller: Resources_Courses_Simple_Ctrl,
         data: {
@@ -70,14 +70,14 @@ export const UsersResourcesRouter = $stateProvider => {
             top: true
         },
         resolve: {
-            course: ['$resource', '$stateParams', function($resource, $stateParams) {
+            course: ['$resource', '$transition$', function($resource, $transition$) {
                 return $resource(API_PREFIX + 'courses/:slug').get({
-                    slug: $stateParams.slug
+                    slug: $transition$.params().slug
                 }).$promise;
             }],
-            exercices: ['$resource', '$stateParams', function($resource, $stateParams) {
+            exercices: ['$resource', '$transition$', function($resource, $transition$) {
                 return $resource(API_PREFIX + 'courses/:slug/exercices').query({
-                    slug: $stateParams.slug
+                    slug: $transition$.params().slug
                 }).$promise;
             }]
         }
@@ -121,9 +121,9 @@ export const UsersResourcesRouter = $stateProvider => {
         resolve: {
             tuto: [
                 '$resource',
-                '$stateParams',
-                function($resource, $stateParams) {
-                    return $resource(API_PREFIX + 'tutos/:slug').get({slug: $stateParams.slug}).$promise;
+                '$transition$',
+                function($resource, $transition$) {
+                    return $resource(API_PREFIX + 'tutos/:slug').get({slug: $transition$.params().slug}).$promise;
                 }
             ]
         }
