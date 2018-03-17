@@ -58,7 +58,7 @@ angular.module('upont').factory('ErrorCodes_Interceptor', [
                     if (!AuthService.isLoggedIn()) {
                         return $q.reject(options);
                     }
-                    return AuthService.getAuthorizationHeaderValue();
+                    return AuthService.getUser().accessToken;
                 }
             ],
             whiteListedDomains: ['upont.enpc.fr', 'localhost'],
@@ -68,10 +68,12 @@ angular.module('upont').factory('ErrorCodes_Interceptor', [
         $httpProvider.interceptors.push('ErrorCodes_Interceptor');
     }
 ]).config([
+    '$locationProvider',
     '$urlServiceProvider',
-    ($urlServiceProvider) => {
+    ($locationProvider, $urlServiceProvider) => {
+        $locationProvider.html5Mode(true);
         $urlServiceProvider.config.strictMode(false);
-        $urlServiceProvider.config.html5Mode(true);
+        // $urlServiceProvider.config.html5Mode(true);
         $urlServiceProvider.rules.otherwise('/404');
     }
 ]).config(['momentPickerProvider', function (momentPickerProvider) {
