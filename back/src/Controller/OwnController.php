@@ -15,8 +15,7 @@ use App\Repository\FixRepository;
 use App\Repository\NewsitemRepository;
 use App\Repository\UserRepository;
 use App\Service\TokenService;
-use DateTime;
-use DateTimeZone;
+use Carbon\Carbon;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -371,15 +370,14 @@ class OwnController extends ResourceController
         $limit = $request->query->get('limit', 100);
         $page = $request->query->get('page', 1);
 
-        $userId = $this->getUser()->getId();
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
 
-        $count = $userRepository->countFollowedEvents($userId);
+        $count = $userRepository->countFollowedEvents($user);
 
-        $events = $userRepository->findFollowedEvents(
-            $userId,
-            $limit,
-            $page
-        );
+        $events = $userRepository->findFollowedEvents($user, $limit, $page);
 
         $totalPages = (int)ceil($count / $limit);
 
@@ -418,13 +416,11 @@ class OwnController extends ResourceController
      */
     public function getOwnCalendarAction(Request $request, UserRepository $userRepository)
     {
-        $DATE_FORMAT = 'Y-m-d\TH:i:s.u\Z';
-
         $from = $request->query->get('from')
-            ? DateTime::createFromFormat($DATE_FORMAT, $request->query->get('from'), new DateTimeZone('Etc/UTC'))
+            ? Carbon::parse($request->query->get('from'))
             : null;
         $to = $request->query->get('to')
-            ? DateTime::createFromFormat($DATE_FORMAT, $request->query->get('to'), new DateTimeZone('Etc/UTC'))
+            ? Carbon::parse($request->query->get('to'))
             : null;
 
         $events = $userRepository->findFollowedEventsBetween($this->getUser(), $from, $to);
@@ -432,7 +428,7 @@ class OwnController extends ResourceController
         return $this->json($events);
     }
 
-    private function getCourseitems($user = null)
+    private function getCourseItems($user = null)
     {
         $repo = $this->getDoctrine()->getManager()->getRepository(CourseUser::class);
 
@@ -521,7 +517,7 @@ class OwnController extends ResourceController
      */
     public function getCourseitemsAction()
     {
-        return $this->json($this->getCourseitems());
+        return $this->json($this->getCourseItems());
     }
 
     /**

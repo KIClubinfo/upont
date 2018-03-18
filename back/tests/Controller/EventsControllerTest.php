@@ -15,8 +15,8 @@ class EventsControllerTest extends WebTestCase
         $this->client->request('POST', '/events', [
             'name' => 'Manger des chips',
             'text' => 'C\'est bon',
-            'startDate' => 151515,
-            'endDate' => 314159,
+            'startDate' => '2018-03-18T09:17:01.943Z',
+            'endDate' => '2018-03-18T19:17:01.943Z',
             'entryMethod' => 'libre',
             'place' => 'DTC',
             'sendMail' => true,
@@ -40,10 +40,6 @@ class EventsControllerTest extends WebTestCase
 
     public function testGet()
     {
-        $this->client->request('GET', '/events');
-        $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
-
         $this->client->request('GET', '/events/manger-des-chips');
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
@@ -66,7 +62,7 @@ class EventsControllerTest extends WebTestCase
         $this->client->request(
             'PATCH',
             '/events/manger-des-chips',
-            ['endDate' => 12345]
+            ['endDate' => '2018-03-18T11:17:01.943Z']
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 204);
@@ -129,10 +125,10 @@ class EventsControllerTest extends WebTestCase
         $this->client->request('POST', '/events', [
             'name' => 'Semaine Ski',
             'text' => 'Il fait froid',
-            'startDate' => 151515,
-            'endDate' => 31415,
+            'startDate' => '2018-03-18T09:17:01.943Z',
+            'endDate' => '2018-03-18T19:17:01.943Z',
             'entryMethod' => 'Shotgun',
-            'shotgunDate' => 101010,
+            'shotgunDate' => '2018-03-11T09:17:01.943Z',
             'shotgunLimit' => 1,
             'shotgunText' => 'Il est deux heures du matin, et tout va bien',
             'place' => 'Far Far Away',

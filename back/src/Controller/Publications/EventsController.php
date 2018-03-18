@@ -10,6 +10,7 @@ use App\Event\AchievementCheckEvent;
 use App\Form\EventType;
 use App\Listener\EventListener;
 use App\Service\NotifyService;
+use Carbon\Carbon;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -178,7 +179,7 @@ class EventsController extends ResourceController
             throw new BadRequestHttpException('Tu es déjà inscrit !');
 
         //S'il est l'heure, on accepte le shotgun
-        if (time() >= $event->getShotgunDate()) {
+        if (Carbon::now() >= $event->getShotgunDate()) {
             $userEvent = new EventUser();
             $userEvent->setEvent($event);
             $userEvent->setUser($user);
@@ -349,7 +350,7 @@ class EventsController extends ResourceController
         // Si on est l'auteur du shotgun, on peut récupérer la liste d'attente
         if ($event->getAuthorUser() == $user) {
             // It's a trap
-            if (time() >= $event->getShotgunDate()){
+            if (Carbon::now() >= $event->getShotgunDate()){
                 $result['success'] = $success;
                 $result['fail'] = $fail;
             } else {

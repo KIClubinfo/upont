@@ -47,13 +47,13 @@ class EventListener
 
             $vars = [
                 'post' => $event,
-                'start' => ucfirst(strftime('%a %d %B à %Hh%M', $event->getStartDate())),
-                'end'   => ucfirst(strftime('%a %d %B à %Hh%M', $event->getEndDate()))
+                'start' => $event->getStartDate()->formatLocalized('%A %d %B à %Hh%M'),
+                'end'   => $event->getEndDate()->formatLocalized('%A %d %B à %Hh%M'),
             ];
 
             $shotgunPrefix = '';
             if (!empty($event->getShotgunDate())) {
-                $vars['shotgun'] = ucfirst(strftime('%a %d %B à %Hh%M', $event->getShotgunDate()));
+                $vars['shotgun'] = $event->getShotgunDate()->formatLocalized('%A %d %B à %Hh%M');
                 $shotgunPrefix = '[SHOTGUN]';
             }
 
@@ -98,12 +98,12 @@ class EventListener
             if ($event->getStartDate() != $oldEvent->getStartDate()
                 || $event->getEndDate() != $oldEvent->getEndDate()
                 ) {
-                $modifications['start'] = ucfirst(strftime('%a %d %B à %Hh%M', $event->getStartDate()));
-                $modifications['end']   = ucfirst(strftime('%a %d %B à %Hh%M', $event->getEndDate()));
+                $modifications['start'] = $event->getStartDate()->formatLocalized('%A %d %B à %Hh%M');
+                $modifications['end']   = $event->getEndDate()->formatLocalized('%A %d %B à %Hh%M');
             }
 
             if ($event->getShotgunDate() != $oldEvent->getShotgunDate()) {
-                $modifications['shotgun'] = ucfirst(strftime('%a %d %B à %Hh%M', $event->getShotgunDate()));
+                $modifications['shotgun'] = $event->getShotgunDate()->formatLocalized('%A %d %B à %Hh%M');
             }
 
             if ($event->getPlace() != $oldEvent->getPlace()) {

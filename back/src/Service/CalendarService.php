@@ -6,7 +6,9 @@ use BOMO\IcalBundle\Provider\IcsProvider;
 use App\Entity\Achievement;
 use App\Entity\User;
 use App\Event\AchievementCheckEvent;
+use Carbon\Carbon;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use \DateTime;
 
 class CalendarService
 {
@@ -54,8 +56,8 @@ class CalendarService
         foreach ($events as $eventDb) {
             $event = $cal->newEvent();
             $event
-                ->setStartDate($this->toDateTime($eventDb->getStartDate()))
-                ->setEndDate($this->toDateTime($eventDb->getEndDate()))
+                ->setStartDate($eventDb->getStartDate())
+                ->setEndDate($eventDb->getEndDate())
                 ->setName($eventDb->getName())
                 ->setDescription($eventDb->getText())
                 ->setLocation($eventDb->getPlace())

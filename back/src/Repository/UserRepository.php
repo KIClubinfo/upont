@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Event;
 use App\Entity\User;
+use Carbon\Carbon;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -70,11 +72,11 @@ class UserRepository extends ServiceEntityRepository
 
     /**
      * @param  User $user
-     * @param \DateTime|null $from
-     * @param \DateTime|null $to
-     * @return \App\Entity\Event[]
+     * @param Carbon|null $from
+     * @param Carbon|null $to
+     * @return Event[]
      */
-    public function findFollowedEventsBetween(User $user, \DateTime $from = null, \DateTime $to = null)
+    public function findFollowedEventsBetween(User $user, Carbon $from = null, Carbon $to = null)
     {
         $query = $this->getEntityManager()->createQuery('SELECT event FROM
             App:Event event,

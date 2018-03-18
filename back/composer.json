@@ -20,6 +20,7 @@
     },
     "require": {
         "php": "~7.1",
+        "beberlei/DoctrineExtensions": "^1.0",
         "bomo/ical-bundle": "~1.0",
         "doctrine/doctrine-bundle": "~1.6",
         "doctrine/doctrine-fixtures-bundle": "^3.0",
@@ -32,6 +33,7 @@
         "lexik/jwt-authentication-bundle": "~2.0",
         "nelmio/api-doc-bundle": "~2.8",
         "nelmio/cors-bundle": "~1.4",
+        "nesbot/carbon": "^1.24",
         "sensio/distribution-bundle": "~5.0",
         "sensio/framework-extra-bundle": "^5.1",
         "sentry/sentry-symfony": "~2.0",

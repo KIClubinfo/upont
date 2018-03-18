@@ -1,4 +1,7 @@
 {
+    "beberlei/doctrineextensions": {
+        "version": "v1.0.21"
+    },
     "behat/transliterator": {
         "version": "v1.2.0"
     },
@@ -154,6 +157,9 @@
             "version": "1.5",
             "ref": "7b6cbc842f8cd3d550815247d12294f6f304a8c4"
         }
+    },
+    "nesbot/carbon": {
+        "version": "1.24.2"
     },
     "ocramius/proxy-manager": {
         "version": "2.1.1"

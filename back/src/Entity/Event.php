@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
+use Carbon\Carbon;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
@@ -15,7 +16,7 @@ class Event extends Post
 {
     /**
      * Début (timestamp)
-     * @ORM\Column(name="startDate", type="datetime")
+     * @ORM\Column(name="startDate", type="carbondatetime")
      * @JMS\Expose
      * @Assert\DateTime()
      */
@@ -23,7 +24,7 @@ class Event extends Post
 
     /**
      * Fin (timestamp)
-     * @ORM\Column(name="endDate", type="datetime")
+     * @ORM\Column(name="endDate", type="carbondatetime")
      * @JMS\Expose
      * @Assert\DateTime()
      */
@@ -42,7 +43,7 @@ class Event extends Post
 
     /**
      * Date du shotgun (timestamp)
-     * @ORM\Column(name="shotgunDate", type="datetime", nullable=true)
+     * @ORM\Column(name="shotgunDate", type="carbondatetime", nullable=true)
      * @JMS\Expose
      * @Assert\DateTime()
      */
@@ -142,26 +143,26 @@ class Event extends Post
         $this->listPookies = new ArrayCollection();
     }
 
-    public function setStartDate(\DateTime $startDate): Event
+    public function setStartDate(Carbon $startDate): Event
     {
         $this->startDate = $startDate;
 
         return $this;
     }
 
-    public function getStartDate(): \DateTime
+    public function getStartDate(): ?Carbon
     {
         return $this->startDate;
     }
 
-    public function setEndDate(\DateTime $endDate): Event
+    public function setEndDate(Carbon $endDate): Event
     {
         $this->endDate = $endDate;
 
         return $this;
     }
 
-    public function getEndDate(): \DateTime
+    public function getEndDate(): ?Carbon
     {
         return $this->endDate;
     }
@@ -179,24 +180,19 @@ class Event extends Post
         return $this;
     }
 
-    /**
-     * Get entryMethod
-     *
-     * @return string
-     */
     public function getEntryMethod()
     {
         return $this->entryMethod;
     }
 
-    public function setShotgunDate(\DateTime $shotgunDate): Event
+    public function setShotgunDate(Carbon $shotgunDate): Event
     {
         $this->shotgunDate = $shotgunDate;
 
         return $this;
     }
 
-    public function getShotgunDate(): Event
+    public function getShotgunDate(): ?Carbon
     {
         return $this->shotgunDate;
     }
@@ -207,7 +203,7 @@ class Event extends Post
      * @param integer $shotgunLimit
      * @return Event
      */
-    public function setShotgunLimit($shotgunLimit)
+    public function setShotgunLimit(int $shotgunLimit)
     {
         $this->shotgunLimit = $shotgunLimit;
 
