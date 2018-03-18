@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
-abstract class LoginAuthenticator extends AbstractGuardAuthenticator
+abstract class AbstractLoginAuthenticator extends AbstractGuardAuthenticator
 {
     private $jwtManager;
     private $dispatcher;

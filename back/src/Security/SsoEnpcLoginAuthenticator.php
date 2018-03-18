@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 
-class SsoEnpcLoginAuthenticator extends LoginAuthenticator
+class SsoEnpcLoginAuthenticator extends AbstractLoginAuthenticator
 {
     private $userFactory;
     private $userRepository;
