@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -213,10 +214,10 @@ class User extends CoreUser
     {
         parent::__construct();
 
-        $this->achievements = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->clubs = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->downloads = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->transactions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->achievements = new ArrayCollection();
+        $this->clubs = new ArrayCollection();
+        $this->downloads = new ArrayCollection();
+        $this->transactions = new ArrayCollection();
     }
 
     protected function acronyme()

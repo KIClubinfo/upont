@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\User as FOSUser;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -11,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Ici sont stockées les infos primaires dont on a besoin 100% du temps.
  * @JMS\ExclusionPolicy("all")
  */
-class CoreUser extends \FOS\UserBundle\Model\User
+class CoreUser extends FOSUser
 {
     /**
      * @ORM\Id
