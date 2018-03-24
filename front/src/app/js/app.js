@@ -110,6 +110,8 @@ alertify.defaults = {
     }
 };
 
+moment.locale('fr');
+
 import ngRaven from 'raven-js/plugins/angular';
 
 Raven
@@ -185,6 +187,7 @@ require('./directives/user');
 require('./filters/courseHour');
 require('./filters/formatDate');
 require('./filters/formatDuration');
+require('./filters/formatMoment');
 require('./filters/formatPosition');
 require('./filters/formatSize');
 require('./filters/fromNow');

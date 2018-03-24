@@ -98,6 +98,10 @@ services:
         resource: '../src/Command'
         tags: ['console.command']
 
+    App\JMS\:
+        resource: '../src/JMS'
+        tags: ['jms_serializer.subscribing_handler']
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 

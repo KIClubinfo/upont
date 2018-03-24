@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use JMS\Serializer\Annotation\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 use Carbon\Carbon;
 

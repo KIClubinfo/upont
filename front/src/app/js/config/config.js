@@ -64,7 +64,8 @@ angular.module('upont').factory('ErrorCodes_Interceptor', [
                     }
                     return StorageService.get('token');
                 }
-            ]
+            ],
+            whiteListedDomains: ['upont.enpc.fr', 'localhost'],
         });
 
         $httpProvider.interceptors.push('jwtInterceptor');

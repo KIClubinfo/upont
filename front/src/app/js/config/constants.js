@@ -1,3 +1,5 @@
+export const API_PREFIX = process.env.NODE_ENV === 'production' ? '/api/' : 'http://localhost:8000/';
+
 export const PROMOS = [
     '014',
     '015',
@@ -586,8 +588,6 @@ export const FA_ICONS = [
     'youtube-play',
     'youtube-square'
 ];
-
-export const API_PREFIX = '/api/';
 
 export default {
     API_PREFIX,

@@ -4,7 +4,7 @@
   "description": "L'application essentielle de la vie aux Ponts !",
   "private": true,
   "scripts": {
-    "build": "./node_modules/.bin/webpack --config webpack.build.config.js",
+    "build": "NODE_ENV=production ./node_modules/.bin/webpack --config webpack.build.config.js",
     "start": "./node_modules/.bin/webpack-dev-server --config webpack.dev.config.js"
   },
   "devDependencies": {

@@ -4,3 +4,4 @@ dist/
 coverage
 .sublime-gulp.cache
 npm-debug.log
+yarn-error.log

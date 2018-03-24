@@ -38,8 +38,8 @@
                     <!-- Détails -->
                     <section flex="100" class="small" ng-if="publication.start_date">
                         <i class="fa  fa-map-marker"      title="Lieu"></i>  <time>{{ publication.place }}</time><br>
-                        <i class="fa  fa-hourglass-start" title="Début"></i> <time>{{ publication.start_date | formatDate }}</time><br>
-                        <i class="fa  fa-hourglass-end"   title="Fin"></i>   <time>{{ publication.end_date | formatDate }}</time><br>
+                        <i class="fa  fa-hourglass-start" title="Début"></i> <time>{{ publication.start_date | formatMoment }}</time><br>
+                        <i class="fa  fa-hourglass-end"   title="Fin"></i>   <time>{{ publication.end_date | formatMoment }}</time><br>
                     </section>
 
                     <!-- Boutons de participation -->
@@ -68,7 +68,7 @@
                         <a class="Link  bold" title="Lien vers la page de shotgun" ng-disabled="$root.isAdmissible"
                            ng-if="publication.start_date && publication.entry_method === 'Shotgun'"
                            ui-sref="root.users.shotgun({slug: publication.slug})">
-                            Shotgun : {{ publication.shotgun_date | formatDate }}
+                            Shotgun : {{ publication.shotgun_date | formatMoment }}
                         </a>
 
                         <!-- Activation liste des participants -->
