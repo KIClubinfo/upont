@@ -1,0 +1,14 @@
+version: "2.3"
+
+services:
+    upont-front:
+        build:
+            context: front
+
+    upont-back:
+        build:
+            context: back
+
+    ingress:
+        build:
+            context: docker/ingress
