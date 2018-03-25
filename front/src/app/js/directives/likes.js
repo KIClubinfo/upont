@@ -196,17 +196,15 @@ angular.module('upont').directive('upLikes', function() {
                 var index = $scope.comments.indexOf(comment);
 
                 // On demande confirmation
-                alertify.confirm('Est-ce vraiment ce que tu veux ?', function(e){
-                    if (e) {
-                        $resource(API_PREFIX + 'comments/' + $scope.comments[index].id).delete(function() {
-                            $scope.comments.splice(index, 1);
-                            if($scope.shownComments < 0)
-                                $scope.shownComments++;
-                            else
-                                $scope.shownComments--;
-                            $scope.objet.comments--;
-                        });
-                    }
+                alertify.confirm('Est-ce vraiment ce que tu veux ?', () => {
+                    $resource(API_PREFIX + 'comments/' + $scope.comments[index].id).delete(function() {
+                        $scope.comments.splice(index, 1);
+                        if($scope.shownComments < 0)
+                            $scope.shownComments++;
+                        else
+                            $scope.shownComments--;
+                        $scope.objet.comments--;
+                    });
                 });
             };
         }],

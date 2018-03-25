@@ -30,12 +30,10 @@ class Assos_FoyerPlaylist_Ctrl {
         };
 
         $scope.delete = function(youtube) {
-            alertify.confirm('Veux-tu vraiment faire ça ?', function(e) {
-                if (e) {
-                    $http.delete(API_PREFIX + 'youtubes/' + youtube.slug).then(function(){
-                        $scope.reload();
-                    });
-                }
+            alertify.confirm('Veux-tu vraiment faire ça ?', () => {
+                $http.delete(API_PREFIX + 'youtubes/' + youtube.slug).then(function(){
+                    $scope.reload();
+                });
             });
         };
     }

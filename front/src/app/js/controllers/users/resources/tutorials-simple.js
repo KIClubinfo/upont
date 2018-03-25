@@ -43,13 +43,11 @@ class Resource_Tutorials_Simple_Ctrl {
         };
 
         $scope.delete = function() {
-            alertify.confirm('Veux-tu vraiment supprimer ce tuto ?', function(e){
-                if (e) {
-                    $http.delete(API_PREFIX + 'tutos/' + $scope.tuto.slug).then(function(){
-                        alertify.success('Tuto supprimé !');
-                        $state.go('root.users.resources.tutorials.list');
-                    });
-                }
+            alertify.confirm('Veux-tu vraiment supprimer ce tuto ?', () => {
+                $http.delete(API_PREFIX + 'tutos/' + $scope.tuto.slug).then(function(){
+                    alertify.success('Tuto supprimé !');
+                    $state.go('root.users.resources.tutorials.list');
+                });
             });
         };
     }

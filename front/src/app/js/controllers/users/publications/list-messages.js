@@ -31,12 +31,10 @@ angular.module('upont')
             var index = $scope.messages.data.indexOf(message);
 
             // On demande confirmation
-            alertify.confirm('Est-ce vraiment ce que tu veux ?', function(e){
-                if (e) {
-                    $resource(API_PREFIX + 'newsitems/' + $scope.messages.data[index].slug).delete(function() {
-                        $scope.messages.data.splice(index, 1);
-                    });
-                }
+            alertify.confirm('Est-ce vraiment ce que tu veux ?', () => {
+                $resource(API_PREFIX + 'newsitems/' + $scope.messages.data[index].slug).delete(function() {
+                    $scope.messages.data.splice(index, 1);
+                });
             });
         };
 
