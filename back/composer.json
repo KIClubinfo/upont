@@ -20,7 +20,6 @@
     },
     "require": {
         "php": "~7.1",
-        "beberlei/DoctrineExtensions": "^1.0",
         "bomo/ical-bundle": "~1.0",
         "doctrine/doctrine-bundle": "~1.6",
         "doctrine/doctrine-fixtures-bundle": "^3.0",

@@ -25,9 +25,6 @@ doctrine:
         user: '%env(DATABASE_USER)%'
         password: '%env(DATABASE_PASSWORD)%'
 
-        types:
-            carbondatetime: DoctrineExtensions\Types\CarbonDateTimeType
-
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         # naming_strategy: doctrine.orm.naming_strategy.underscore
