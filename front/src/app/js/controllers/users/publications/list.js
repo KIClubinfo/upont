@@ -105,23 +105,19 @@ class Publications_List_Ctrl {
                 index = $scope.events.data.indexOf(post);
 
                 // On demande confirmation
-                alertify.confirm('Veux-tu vraiment supprimer cet évènement ?', function(e) {
-                    if (e) {
-                        $resource(API_PREFIX + 'events/' + $scope.events.data[index].slug).delete(function() {
-                            $scope.events.data.splice(index, 1);
-                        });
-                    }
+                alertify.confirm('Veux-tu vraiment supprimer cet évènement ?', () => {
+                    $resource(API_PREFIX + 'events/' + $scope.events.data[index].slug).delete(function() {
+                        $scope.events.data.splice(index, 1);
+                    });
                 });
             } else {
                 index = $scope.newsItems.data.indexOf(post);
 
                 // On demande confirmation
-                alertify.confirm('Veux-tu vraiment supprimer cette news ?', function(e) {
-                    if (e) {
-                        $resource(API_PREFIX + 'newsitems/' + $scope.newsItems.data[index].slug).delete(function() {
-                            $scope.newsItems.data.splice(index, 1);
-                        });
-                    }
+                alertify.confirm('Veux-tu vraiment supprimer cette news ?', () => {
+                    $resource(API_PREFIX + 'newsitems/' + $scope.newsItems.data[index].slug).delete(function() {
+                        $scope.newsItems.data.splice(index, 1);
+                    });
                 });
             }
         };

@@ -73,13 +73,11 @@ class Tour_Ctrl {
 
         $scope.off = function() {
             // On demande confirmation
-            alertify.confirm('Veux-tu quitter le tutoriel ? Tu pourras toujours le réactiver depuis la page de profil.', function(e) {
-                if (e) {
-                    $http.patch($rootScope.url + 'users/' + $rootScope.username, {tour: true}).then(function() {
-                        $rootScope.me.tour = true;
-                        alertify.success('Tutoriel masqué !');
-                    });
-                }
+            alertify.confirm('Veux-tu quitter le tutoriel ? Tu pourras toujours le réactiver depuis la page de profil.', () => {
+                $http.patch($rootScope.url + 'users/' + $rootScope.username, {tour: true}).then(function() {
+                    $rootScope.me.tour = true;
+                    alertify.success('Tutoriel masqué !');
+                });
             });
         };
 

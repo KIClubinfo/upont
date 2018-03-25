@@ -32,14 +32,12 @@ class Publications_Shotgun_Ctrl {
         };
 
         $scope.deleteShotgun = function(){
-            alertify.confirm('Attention c\'est définitif !', function(e) {
-                if (e) {
-                    $http.delete(API_PREFIX + 'events/' + $scope.event.slug + '/shotgun').then(function(response){
-                        $scope.shotgun = response.data;
-                        $scope.shotgunned = false;
-                        alertify.success('Nickel ! Ta place sera redistribuée aux prochains sur la liste d\'attente ;)');
-                    });
-                }
+            alertify.confirm('Attention c\'est définitif !', () => {
+                $http.delete(API_PREFIX + 'events/' + $scope.event.slug + '/shotgun').then((response) => {
+                    $scope.shotgun = response.data;
+                    $scope.shotgunned = false;
+                    alertify.success('Nickel ! Ta place sera redistribuée aux prochains sur la liste d\'attente ;)');
+                });
             });
         };
     }
