@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Carbon\Carbon;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -35,10 +36,10 @@ class EventUser
     private $user;
 
     /**
-     * Date du shotgun (timestamp)
-     * @ORM\Column(name="shotgunDate", type="integer")
+     * Date du shotgun
+     * @ORM\Column(name="shotgunDate", type="carbondatetime")
      * @JMS\Expose
-     * @Assert\Type("integer")
+     * @Assert\DateTime()
      */
     protected $date;
 
@@ -63,10 +64,10 @@ class EventUser
     /**
      * Set event
      *
-     * @param \App\Entity\Event $event
+     * @param Event $event
      * @return EventUser
      */
-    public function setEvent(\App\Entity\Event $event)
+    public function setEvent(Event $event): EventUser
     {
         $this->event = $event;
 
@@ -76,7 +77,7 @@ class EventUser
     /**
      * Get event
      *
-     * @return \App\Entity\Event
+     * @return Event
      */
     public function getEvent()
     {
@@ -86,10 +87,10 @@ class EventUser
     /**
      * Set user
      *
-     * @param \App\Entity\User $user
+     * @param User $user
      * @return EventUser
      */
-    public function setUser(\App\Entity\User $user)
+    public function setUser(User $user): EventUser
     {
         $this->user = $user;
 
@@ -99,7 +100,7 @@ class EventUser
     /**
      * Get user
      *
-     * @return \App\Entity\User
+     * @return User
      */
     public function getUser()
     {
@@ -109,10 +110,10 @@ class EventUser
     /**
      * Set date
      *
-     * @param integer $date
+     * @param Carbon $date
      * @return EventUser
      */
-    public function setDate($date)
+    public function setDate(Carbon $date): EventUser
     {
         $this->date = $date;
 
@@ -122,9 +123,9 @@ class EventUser
     /**
      * Get date
      *
-     * @return integer
+     * @return Carbon
      */
-    public function getDate()
+    public function getDate(): ?Carbon
     {
         return $this->date;
     }
@@ -135,7 +136,7 @@ class EventUser
      * @param string $motivation
      * @return EventUser
      */
-    public function setMotivation($motivation)
+    public function setMotivation($motivation): EventUser
     {
         $this->motivation = $motivation;
 

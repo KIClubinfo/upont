@@ -16,7 +16,7 @@ use Carbon\Carbon;
 class Event extends Post
 {
     /**
-     * Début (timestamp)
+     * Début
      * @ORM\Column(name="startDate", type="carbondatetime")
      * @JMS\Expose
      * @Assert\DateTime()
@@ -24,7 +24,7 @@ class Event extends Post
     protected $startDate;
 
     /**
-     * Fin (timestamp)
+     * Fin
      * @ORM\Column(name="endDate", type="carbondatetime")
      * @JMS\Expose
      * @Assert\DateTime()
@@ -43,7 +43,7 @@ class Event extends Post
     const TYPE_FERIE = 'Ferie';
 
     /**
-     * Date du shotgun (timestamp)
+     * Date du shotgun
      * @ORM\Column(name="shotgunDate", type="carbondatetime", nullable=true)
      * @JMS\Expose
      * @Assert\DateTime()

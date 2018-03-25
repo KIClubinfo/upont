@@ -111,6 +111,16 @@ alertify.defaults = {
 };
 
 moment.locale('fr');
+moment.updateLocale('fr', {
+    calendar: {
+        sameDay : '[Aujourd’hui à] LT',
+        nextDay : '[Demain à] LT',
+        nextWeek : 'dddd [à] LT',
+        lastDay : '[Hier à] LT',
+        lastWeek : 'dddd [dernier à] LT',
+        sameElse : 'LLLL',
+    },
+});
 
 import ngRaven from 'raven-js/plugins/angular';
 

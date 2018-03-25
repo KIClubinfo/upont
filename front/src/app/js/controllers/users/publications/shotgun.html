@@ -1,6 +1,6 @@
 <section class="padded">
     <section class="Ticket" ng-hide="event.entry_method != 'Shotgun'">
-        <h1>{{ event.name }} - Shotgun - {{ event.shotgun_date | formatDate }}</h1>
+        <h1>{{ event.name }} - Shotgun - {{ event.shotgun_date | formatMoment }}</h1>
 
         <!-- Si on a pas shotgunné -->
         <div class="padded  big  text-center" row wrap ng-hide="shotgunned || shotgun.position">
