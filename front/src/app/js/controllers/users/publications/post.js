@@ -1,5 +1,4 @@
 import alertify from 'alertifyjs';
-import moment from 'moment';
 
 import {API_PREFIX} from 'upont/js/config/constants';
 
@@ -112,12 +111,7 @@ class Publications_Post_Ctrl {
                 if (!$scope.isLoading) {
                     $scope.isLoading = true;
 
-                    // On demande si on envoie un mail
-                    alertify.confirm('Veux-tu envoyer un mail pour cette news ?', function(e) {
-                        if (e) {
-                            params.sendMail = true;
-                        }
-
+                    const postNews = () => {
                         Upload.upload({
                             method: 'POST',
                             url: API_PREFIX + 'newsitems',
@@ -132,27 +126,42 @@ class Publications_Post_Ctrl {
                             alertify.error('Formulaire vide ou mal rempli');
                             $scope.isLoading = false;
                         });
+                    };
+
+                    // On demande si on envoie un mail
+                    alertify.confirm(
+                        'Veux-tu envoyer un mail pour cette news ?', () => {
+                            params.sendMail = true;
+                            postNews();
+                        },
+                        () => {
+                            params.sendMail = false;
+                            postNews();
+                        },
+                    ).set('labels', {
+                        ok: 'Oui',
+                        cancel: 'Non',
                     });
                 }
                 break;
             case 'event':
                 params.place = post.place;
                 params.entryMethod = post.entry_method;
-                params.startDate = moment(post.start_date);
-                params.endDate = moment(post.end_date);
+                params.startDate = post.start_date.toISOString();
+                params.endDate = post.end_date.toISOString();
 
                 if (!post.start_date || !post.end_date) {
                     alertify.error('Il faut préciser une date de début et de fin');
                     return;
                 }
 
-                if (params.startDate.isAfter(params.endDate)) {
+                if (post.start_date.isAfter(post.end_date)) {
                     alertify.error('La date de début doit être avant la date de fin');
                     return;
                 }
 
                 if (post.entry_method === 'Shotgun') {
-                    params.shotgunDate = moment(post.shotgun_date);
+                    params.shotgunDate = post.shotgun_date.toISOString();
                     params.shotgunLimit = post.shotgun_limit;
                     params.shotgunText = post.shotgun_text;
 
@@ -160,7 +169,7 @@ class Publications_Post_Ctrl {
                         alertify.error('Il faut préciser une date de shotgun');
                         return;
                     }
-                    if (params.shotgunDate.isAfter(params.startDate)) {
+                    if (post.shotgun_date.isAfter(post.start_date)) {
                         alertify.error('La date de shotgun doit être avant la date de début');
                         return;
                     }
@@ -171,12 +180,7 @@ class Publications_Post_Ctrl {
 
                     if (!$scope.modify) {
 
-                        // On demande si on envoie un mail
-                        alertify.confirm('Veux-tu envoyer un mail pour cet événement ?', function(e) {
-                            if (e) {
-                                params.sendMail = true;
-                            }
-
+                        const postEvent = () => {
                             Upload.upload({
                                 method: 'POST',
                                 url: API_PREFIX + 'events',
@@ -191,6 +195,22 @@ class Publications_Post_Ctrl {
                                 alertify.error('Formulaire vide ou mal rempli');
                                 $scope.isLoading = false;
                             });
+                        };
+
+                        // On demande si on envoie un mail
+                        alertify.confirm(
+                            'Veux-tu envoyer un mail pour cet événement ?',
+                            () => {
+                                params.sendMail = true;
+                                postEvent();
+                            },
+                            () => {
+                                params.sendMail = false;
+                                postEvent();
+                            },
+                        ).set('labels', {
+                            ok: 'Oui',
+                            cancel: 'Non',
                         });
                     } else {
                         $http.patch(API_PREFIX + 'events/' + post.slug, params).then(function() {

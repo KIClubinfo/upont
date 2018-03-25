@@ -2,12 +2,11 @@
 
 namespace App\Entity;
 
+use Carbon\Carbon;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use JMS\Serializer\Annotation\Type;
 use Symfony\Component\Validator\Constraints as Assert;
-use Carbon\Carbon;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
@@ -17,17 +16,15 @@ class Event extends Post
 {
     /**
      * Début
-     * @ORM\Column(name="startDate", type="carbondatetime")
-     * @JMS\Expose
-     * @Assert\DateTime()
+     * @ORM\Column(name="startDate", type="integer")
+     * @Assert\Type("int")
      */
     protected $startDate;
 
     /**
      * Fin
-     * @ORM\Column(name="endDate", type="carbondatetime")
-     * @JMS\Expose
-     * @Assert\DateTime()
+     * @ORM\Column(name="endDate", type="integer")
+     * @Assert\Type("int")
      */
     protected $endDate;
 
@@ -44,9 +41,8 @@ class Event extends Post
 
     /**
      * Date du shotgun
-     * @ORM\Column(name="shotgunDate", type="carbondatetime", nullable=true)
-     * @JMS\Expose
-     * @Assert\DateTime()
+     * @ORM\Column(name="shotgunDate", type="integer", nullable=true)
+     * @Assert\Type("int")
      */
     protected $shotgunDate;
 
@@ -146,26 +142,32 @@ class Event extends Post
 
     public function setStartDate(Carbon $startDate): Event
     {
-        $this->startDate = $startDate;
+        $this->startDate = $startDate->getTimestamp();
 
         return $this;
     }
 
+    /**
+     * @JMS\VirtualProperty()
+     */
     public function getStartDate(): ?Carbon
     {
-        return $this->startDate;
+        return Carbon::createFromTimestamp($this->startDate);
     }
 
     public function setEndDate(Carbon $endDate): Event
     {
-        $this->endDate = $endDate;
+        $this->endDate = $endDate->getTimestamp();
 
         return $this;
     }
 
+    /**
+     * @JMS\VirtualProperty()
+     */
     public function getEndDate(): ?Carbon
     {
-        return $this->endDate;
+        return Carbon::createFromTimestamp($this->endDate);
     }
 
     /**
@@ -186,16 +188,23 @@ class Event extends Post
         return $this->entryMethod;
     }
 
-    public function setShotgunDate(Carbon $shotgunDate): Event
+    public function setShotgunDate(?Carbon $shotgunDate): Event
     {
-        $this->shotgunDate = $shotgunDate;
+        $this->shotgunDate = $shotgunDate ? $shotgunDate->getTimestamp() : null;
 
         return $this;
     }
 
+    /**
+     * @JMS\VirtualProperty()
+     */
     public function getShotgunDate(): ?Carbon
     {
-        return $this->shotgunDate;
+        if ($this->shotgunDate === null) {
+            return null;
+        }
+
+        return Carbon::createFromTimestamp($this->shotgunDate);
     }
 
     /**

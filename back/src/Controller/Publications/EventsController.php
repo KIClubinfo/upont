@@ -183,7 +183,7 @@ class EventsController extends ResourceController
             $userEvent = new EventUser();
             $userEvent->setEvent($event);
             $userEvent->setUser($user);
-            $userEvent->setDate(time());
+            $userEvent->setDate(Carbon::now());
             $userEvent->setMotivation($request->request->get('motivation'));
 
             $this->manager->persist($userEvent);

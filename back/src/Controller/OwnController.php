@@ -413,6 +413,9 @@ class OwnController extends ResourceController
      * )
      * @Route("/own/calendar")
      * @Method("GET")
+     * @param Request $request
+     * @param UserRepository $userRepository
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function getOwnCalendarAction(Request $request, UserRepository $userRepository)
     {
@@ -465,6 +468,9 @@ class OwnController extends ResourceController
      * )
      * @Route("/own/newsitems")
      * @Method("GET")
+     * @param NewsitemRepository $newsitemRepository
+     * @param PaginateHelper $paginateHelper
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function getNewsItemsAction(NewsitemRepository $newsitemRepository, PaginateHelper $paginateHelper)
     {

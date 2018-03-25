@@ -68,7 +68,7 @@
                         <tr ng-repeat="item in shotgun.success">
                             <td># {{ $index+1 }}</td>
                             <td>{{ item.user.first_name }} {{ item.user.last_name }}</td>
-                            <td>+{{ item.date - event.shotgun_date | formatDuration }}</td>
+                            <td>+{{ computeDelay(item) | formatDuration }}</td>
                             <td>{{ item.motivation }}</td>
                         </tr>
                         <tr ng-hide="shotgun.success.length">
@@ -93,7 +93,7 @@
                         <tr ng-repeat="item in shotgun.fail">
                             <td># {{ $index+1 }}</td>
                             <td>{{ item.user.first_name }} {{ item.user.last_name }}</td>
-                            <td>+{{ item.date - event.shotgun_date | formatDuration }}</td>
+                            <td>+{{ computeDelay(item) | formatDuration }}</td>
                             <td>{{ item.motivation }}</td>
                         </tr>
                         <tr ng-hide="shotgun.fail.length">

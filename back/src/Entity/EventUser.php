@@ -37,9 +37,8 @@ class EventUser
 
     /**
      * Date du shotgun
-     * @ORM\Column(name="shotgunDate", type="carbondatetime")
-     * @JMS\Expose
-     * @Assert\DateTime()
+     * @ORM\Column(name="shotgunDate", type="integer")
+     * @Assert\Type("int")
      */
     protected $date;
 
@@ -115,19 +114,20 @@ class EventUser
      */
     public function setDate(Carbon $date): EventUser
     {
-        $this->date = $date;
+        $this->date = $date->getTimestamp();
 
         return $this;
     }
 
     /**
+     * @JMS\Expose
      * Get date
      *
      * @return Carbon
      */
     public function getDate(): ?Carbon
     {
-        return $this->date;
+        return Carbon::createFromTimestamp($this->date);
     }
 
     /**

@@ -22,6 +22,10 @@ class StringToCarbonTransformer implements DataTransformerInterface
 
     public function reverseTransform($string)
     {
+        if(empty($string)) {
+            return null;
+        }
+
         return Carbon::parse($string);
     }
 }

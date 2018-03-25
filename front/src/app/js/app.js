@@ -7,6 +7,9 @@ import Raven from 'raven-js';
 
 import 'typeface-open-sans';
 
+// datepicker hack
+window['moment'] = moment;
+
 if (!location.origin)
     location.origin = location.protocol + '//' + location.host;
 
@@ -131,6 +134,7 @@ Raven
 
 // Export issue in these libs
 require('angulartics-piwik');
+require('angular-moment-picker');
 
 const upont = angular.module('upont', [
     // $resource
@@ -155,7 +159,7 @@ const upont = angular.module('upont', [
     require('angular-bootstrap-calendar'),
 
     // Datetime picker
-    require('bootstrap-ui-datetime-picker'),
+    'moment-picker',
 
     // Rich text editor
     require('ng-quill'),

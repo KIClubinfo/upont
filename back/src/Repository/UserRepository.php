@@ -94,8 +94,8 @@ class UserRepository extends ServiceEntityRepository
             ORDER BY event.date DESC
         ')
             ->setParameter('user', $user)
-            ->setParameter('from', $from)
-            ->setParameter('to', $to);
+            ->setParameter('from', $from ? $from->getTimestamp() : null)
+            ->setParameter('to', $to ? $to->getTimestamp() : null);
 
         return $query->getResult();
     }
