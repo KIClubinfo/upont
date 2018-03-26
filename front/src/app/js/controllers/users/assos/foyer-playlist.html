@@ -26,7 +26,7 @@
         </article>
     </section>
 
-    <section class="padded" flex="100" flex-lg="50">
+    <section col class="padded" flex="100" flex-lg="50">
         <section class="Ticket">
             <h2>Hall Of Fame</h2>
 
@@ -42,7 +42,36 @@
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    <tr ng-repeat="competitor in stats.hallOfFame | orderBy:predicate:reverse">
+                    <tr ng-repeat="competitor in stats.hallOfFame.slice(0,10) | orderBy:predicate:reverse">
+                        <td>{{ competitor.volume }}</td>
+                        <td>{{ competitor.alcohol }}</td>
+                        <td><span up-user user="competitor.user">{{ competitor.user.nick }}</span></td>
+                        <td>{{ competitor.user.promo }}</td>
+                    </tr>
+                    <tr ng-hide="stats.hallOfFame">
+                        <td>Rien à afficher</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section class="Ticket">
+            <h2>Hall of Lame</h2>
+
+            <p>Toutes ces personnes ont malheureusement failli à leur réputation, chu à leur devoir, au pied du Hall of Fame !</p>
+
+            <table class="Table" flex="90">
+                <thead>
+                    <tr>
+                        <th class="text-center"><a ng-click="predicate = 'volume'; reverse=!reverse">Alcool absorbé (en L)</a></th>
+                        <th class="text-center"><a ng-click="predicate = 'alcohol'; reverse=!reverse">Degré moyen</a></th>
+                        <th class="text-center"><a ng-click="predicate = 'user.nick'; reverse=!reverse">Compétiteur</a></th>
+                        <th class="text-center"><a ng-click="predicate = 'user.promo'; reverse=!reverse">Promo</a></th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    <tr ng-repeat="competitor in stats.hallOfFame.slice(10) | orderBy:predicate:reverse">
                         <td>{{ competitor.volume }}</td>
                         <td>{{ competitor.alcohol }}</td>
                         <td><span up-user user="competitor.user">{{ competitor.user.nick }}</span></td>
