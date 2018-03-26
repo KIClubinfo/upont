@@ -209,6 +209,8 @@ class CoreController extends BaseController
                 '172.24.192.0/21',
                 '172.24.200.0/24',
                 '195.221.194.14',
+                '195.221.194.42',
+                '195.221.194.43',
             ])
         ], $this->container->getParameter('upont')));
     }

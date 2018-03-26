@@ -30,7 +30,7 @@ class PontlyvalentsController extends ResourceController
             throw new BadRequestHttpException('Ton tour n\'est pas encore arrivé, petit ' . $lastPromo . ' !');
         }
 
-        if ($this->getConfig('pontlyvalent.open')) {
+        if (!$this->getConfig('pontlyvalent.open')) {
             throw new BadRequestHttpException('Le pontlyvalent est fermé !');
         }
     }

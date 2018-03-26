@@ -5,10 +5,10 @@ sudo ls > /dev/null
 bin/console cache:clear
 sudo rm -rf app/cache/*
 sudo rm -rf app/logs/*
-rm -rf web/uploads/exercices/*
-rm -rf web/uploads/files/*
-rm -rf web/uploads/images/*
-rm -rf web/uploads/thumbnails/*
-rm -rf web/uploads/tmp/*
+rm -rf public/uploads/exercices/*
+rm -rf public/uploads/files/*
+rm -rf public/uploads/images/*
+rm -rf public/uploads/thumbnails/*
+rm -rf public/uploads/tmp/*
 echo "Y" | bin/console doctrine:fixtures:load
-sudo chmod 777 -R app/cache && sudo chmod 777 -R app/logs && sudo chmod 777 -R web/uploads
+sudo chmod 777 -R app/cache && sudo chmod 777 -R app/logs && sudo chmod 777 -R public/uploads
