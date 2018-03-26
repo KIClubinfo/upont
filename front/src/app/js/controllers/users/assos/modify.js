@@ -76,7 +76,7 @@ class Assos_Modify_Ctrl {
                 }
             }
 
-            alertify.prompt('Rôle de ' + user.name + ' :', function(e, role) {
+            alertify.prompt('Rôle de ' + user.name + ' :', '', function(e, role) {
                 if (e) {
                     $http.post(API_PREFIX + 'clubs/' + $scope.club.slug + '/users/' + user.slug, {role: role}).then(function() {
                         alertify.success(user.name + ' a été ajouté(e) !');
@@ -100,7 +100,7 @@ class Assos_Modify_Ctrl {
                 return;
             }
 
-            alertify.prompt('Nouveau rôle de ' + user.first_name + ' ' + user.last_name + ' :', function(e, role) {
+            alertify.prompt('Nouveau rôle de ' + user.first_name + ' ' + user.last_name + ' :', '', function(e, role) {
                 if (e) {
                     $http.patch(API_PREFIX + 'clubs/' + $scope.club.slug + '/users/' + user.username, {role: role}).then(function() {
                         alertify.success(user.first_name + ' ' + user.last_name + ' a été modifié(e) !');

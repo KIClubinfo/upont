@@ -183,7 +183,7 @@ angular.module('upont').directive('upLikes', function() {
                 var index = $scope.comments.indexOf(comment);
 
                 // On demande confirmation
-                alertify.prompt('Tu peux modifier ton message :', function(e, str){
+                alertify.prompt('Tu peux modifier ton message :', '', function(e, str){
                     if (e) {
                         $http.patch(API_PREFIX + 'comments/' + $scope.comments[index].id, {text: str}).then(function() {
                             $scope.comments[index].text = str;

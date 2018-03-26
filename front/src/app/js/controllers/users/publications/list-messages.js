@@ -17,7 +17,7 @@ angular.module('upont')
             var index = $scope.messages.data.indexOf(message);
 
             // On demande confirmation
-            alertify.prompt('Tu peux modifier ton message :', function(e, str){
+            alertify.prompt('Tu peux modifier ton message :', '', function(e, str){
                 if (e) {
                     $http.patch(API_PREFIX + 'newsitems/' + $scope.messages.data[index].slug, {text: str}).then(function() {
                         $scope.messages.data[index].text = str;

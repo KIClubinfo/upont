@@ -143,7 +143,7 @@ class Resources_Courses_List_Ctrl {
 
             // S'il y a plusieurs groupes pour ce cours on demande lequel sera suivi
             if (course.groups.length != 1) {
-                alertify.prompt('Dans quel groupe es-tu ? Groupes valides : ' + course.groups.join(','), function(e, str){
+                alertify.prompt('Dans quel groupe es-tu ? Groupes valides : ' + course.groups.join(','), '', function(e, str){
                     if (e) {
                         $http.post(API_PREFIX + 'courses/' + course.slug + '/attend', {group: str}).then(function() {
                             $resource(API_PREFIX + 'own/courses').query(function(data) {

@@ -27,7 +27,7 @@ class Students_Pontlyvalent_Ctrl {
         };
 
         $scope.addComment = function(slug, name) {
-            alertify.prompt('Entrée pour ' + name + ' :', function(e, text) {
+            alertify.prompt('Entrée pour ' + name + ' :', '', function(e, text) {
                 if (e) {
                     if (!text) {
                         alertify.error('Il faut entrer un texte !');
