@@ -33,6 +33,7 @@
         "nelmio/api-doc-bundle": "~2.8",
         "nelmio/cors-bundle": "~1.4",
         "nesbot/carbon": "^1.24",
+        "ory/hydra-sdk": "master-dev",
         "sensio/distribution-bundle": "~5.0",
         "sensio/framework-extra-bundle": "^5.1",
         "sentry/sentry-symfony": "~2.0",

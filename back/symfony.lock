@@ -161,6 +161,9 @@
     "ocramius/proxy-manager": {
         "version": "2.1.1"
     },
+    "ory/hydra-sdk": {
+        "version": "dev-master"
+    },
     "paragonie/random_compat": {
         "version": "v2.0.11"
     },

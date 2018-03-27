@@ -23,6 +23,10 @@ export class UserProfile {
         return this.user.access_token;
     }
 
+    get idToken() {
+        return this.user.id_token;
+    }
+
     get isJardinier() {
         return this.user.scopes.includes('upont:jardinier');
     }
@@ -121,7 +125,7 @@ export class AuthService {
 export function getClientSettings() {
     return {
         authority: 'http://localhost:4444',
-        client_id: 'upont-dev',
+        client_id: 'upont-front-dev',
         redirect_uri: 'http://localhost:8080/oauth2/callback',
         post_logout_redirect_uri: 'http://localhost:8080/',
         response_type: "id_token token",

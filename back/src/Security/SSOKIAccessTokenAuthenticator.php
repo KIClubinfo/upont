@@ -1,11 +1,8 @@
 <?php
 
 
-namespace Auth0\JWTAuthBundle\Security;
+namespace App\Security;
 
-use Auth0\JWTAuthBundle\Security\Core\JWTUserProviderInterface;
-use Doctrine\Common\Proxy\Exception\InvalidArgumentException;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
@@ -16,15 +13,14 @@ use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationExc
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 use Symfony\Component\Security\Http\Authentication\SimplePreAuthenticatorInterface;
+use UnexpectedValueException;
 
-class SSOKIAccesTokenAuthenticator implements SimplePreAuthenticatorInterface, AuthenticationFailureHandlerInterface
+class SSOKIAccessTokenAuthenticator implements SimplePreAuthenticatorInterface, AuthenticationFailureHandlerInterface
 {
-    use ContainerAwareTrait;
     protected $auth0Service;
 
-    public function __construct(Hydra $auth0Service)
+    public function __construct()
     {
-        $this->auth0Service = $auth0Service;
     }
 
     public function createToken(Request $request, $providerKey)
@@ -43,7 +39,7 @@ class SSOKIAccesTokenAuthenticator implements SimplePreAuthenticatorInterface, A
         try {
             $jwt = $this->auth0Service->decodeJWT($authToken);
             $jwt->token = $authToken;
-        } catch (\UnexpectedValueException $ex) {
+        } catch (UnexpectedValueException $ex) {
             throw new BadCredentialsException('Invalid token');
         }
 
@@ -97,7 +93,8 @@ class SSOKIAccesTokenAuthenticator implements SimplePreAuthenticatorInterface, A
         return $jwt->sub;
     }
 
-    private function translateScopesToRoles($jwt) {
+    private function translateScopesToRoles($jwt)
+    {
         $roles = array();
         $roles[] = 'ROLE_OAUTH_AUTHENTICATED';
         if (isset($jwt->scope)) {

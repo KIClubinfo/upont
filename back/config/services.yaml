@@ -220,25 +220,6 @@ services:
     App\Service\PermissionService:
         public: true
 
-    form_login_authenticator:
-        class: App\Security\FormLoginAuthenticator
-        arguments:
-          - '@lexik_jwt_authentication.jwt_manager'
-          - '@event_dispatcher'
-          - '@security.password_encoder'
-        public: false
-
-    sso_enpc_authenticator:
-        class: App\Security\SsoEnpcLoginAuthenticator
-        arguments:
-          - '@lexik_jwt_authentication.jwt_manager'
-          - '@event_dispatcher'
-          - '@App\Factory\UserFactory'
-          - '@App\Repository\UserRepository'
-          - '%proxy_url%'
-          - '%proxy_user%'
-          - '%upont%'
-
     App\Setter\UserSetter:
         tags:
             - { name: doctrine.event_listener, event: prePersist }
