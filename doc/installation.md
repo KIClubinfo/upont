@@ -8,7 +8,7 @@ Before anything, you need the following software installed on your machine:
   * Linux (based on Debian or Archlinux)
   * If needed, the proxy should be configured
   * `npm`
-  * `php` 7+
+  * `php` 7+ et `php-gd`
   * `mysql` 5.6 or above
 
 Project installation
@@ -18,6 +18,7 @@ Project installation
 - Uncomment the following lines in /etc/php/php.ini :
 ```
 extension=pdo_mysql.so
+extension=gd
 ```
 - Create the database `mysql -u root`
 ```
@@ -26,6 +27,12 @@ CREATE USER upont;
 GRANT ALL ON upont.* TO 'upont'@'localhost' IDENTIFIED BY 'upont';
 ```
 - `sudo npm install -g yarn`
+
+- Install Composer
+```
+curl -sL https://getcomposer.org/installer | sudo -E php -- --install-dir=/usr/local/bin
+sudo mv /usr/local/bin/composer.phar /usr/local/bin/composer
+```
 
 ### Front
 - Go to `front/`
