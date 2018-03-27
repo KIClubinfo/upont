@@ -7,7 +7,6 @@ class Calendar_Ctrl {
         $scope.loading = false;
 
         $scope.toScope = (calendar) => {
-            console.log(calendar);
             $scope.calendarEvents = calendar.events;
             $scope.calendarView = calendar.view;
             $scope.calendarDay = calendar.day;
@@ -28,6 +27,7 @@ class Calendar_Ctrl {
             });
         }
 
+        // If any of these scope variables change, update the view by fetching events from the API
         $scope.$watchGroup(
             ['calendarView', 'calendarDay'],
             () => updateView(),
