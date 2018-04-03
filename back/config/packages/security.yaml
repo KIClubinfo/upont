@@ -49,10 +49,10 @@ security:
             anonymous: true
             provider: fos_userbundle
             simple_preauth:
-              authenticator: App\Security\SSOKIAccessTokenAuthenticator
+              authenticator: App\Security\KIAuthIdTokenAuthenticator
 #            guard:
-#              authenticators:
-#                - App\Security\SSOKIAccessTokenAuthenticator
+#               authenticators:
+#                 - 'lexik_jwt_authentication.jwt_token_authenticator'
 
     access_control:
         - { path: ^/(clubs)(/[a-zA-Z]+)?,             methods: [GET], roles: IS_AUTHENTICATED_ANONYMOUSLY }

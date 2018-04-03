@@ -58,7 +58,7 @@ angular.module('upont').factory('ErrorCodes_Interceptor', [
                     if (!AuthService.isLoggedIn()) {
                         return $q.reject(options);
                     }
-                    return AuthService.getUser().accessToken;
+                    return AuthService.getUser().idToken;
                 }
             ],
             whiteListedDomains: ['upont.enpc.fr', 'localhost'],

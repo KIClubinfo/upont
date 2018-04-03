@@ -3,6 +3,10 @@
 
 namespace App\Security;
 
+use App\OidcClient\OidcClientSettings;
+use App\OidcClient\Service\ValidationService;
+use Exception;
+use Lcobucci\JWT\Token;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
@@ -13,14 +17,17 @@ use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationExc
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 use Symfony\Component\Security\Http\Authentication\SimplePreAuthenticatorInterface;
-use UnexpectedValueException;
 
-class SSOKIAccessTokenAuthenticator implements SimplePreAuthenticatorInterface, AuthenticationFailureHandlerInterface
+class KIAuthIdTokenAuthenticator implements SimplePreAuthenticatorInterface, AuthenticationFailureHandlerInterface
 {
-    protected $auth0Service;
+    protected $validationService;
 
     public function __construct()
     {
+        $validationService = new ValidationService(new OidcClientSettings([
+            'authority' => 'http://localhost:4444'
+        ]));
+        $this->validationService = $validationService;
     }
 
     public function createToken(Request $request, $providerKey)
@@ -33,13 +40,12 @@ class SSOKIAccessTokenAuthenticator implements SimplePreAuthenticatorInterface, 
         }
 
         // extract the JWT
-        $authToken = str_replace('Bearer ', '', $authorizationHeader);
+        $idToken = str_replace('Bearer ', '', $authorizationHeader);
 
         // decode and validate the JWT
         try {
-            $jwt = $this->auth0Service->decodeJWT($authToken);
-            $jwt->token = $authToken;
-        } catch (UnexpectedValueException $ex) {
+            $jwt = $this->validationService->validateIdToken($idToken);
+        } catch (Exception $ex) {
             throw new BadCredentialsException('Invalid token');
         }
 
@@ -88,9 +94,9 @@ class SSOKIAccessTokenAuthenticator implements SimplePreAuthenticatorInterface, 
         return new Response("Authentication Failed: {$exception->getMessage()}", 403);
     }
 
-    private function getUsernameFromJWT($jwt)
+    private function getUsernameFromJWT(Token $jwt)
     {
-        return $jwt->sub;
+        return $jwt->getClaim('sub');
     }
 
     private function translateScopesToRoles($jwt)
