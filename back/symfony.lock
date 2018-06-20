@@ -155,6 +155,9 @@
             "ref": "7b6cbc842f8cd3d550815247d12294f6f304a8c4"
         }
     },
+    "nesbot/carbon": {
+        "version": "1.24.2"
+    },
     "ocramius/proxy-manager": {
         "version": "2.1.1"
     },
@@ -341,6 +344,9 @@
     "symfony/polyfill-apcu": {
         "version": "v1.6.0"
     },
+    "symfony/polyfill-ctype": {
+        "version": "v1.8.0"
+    },
     "symfony/polyfill-intl-icu": {
         "version": "v1.6.0"
     },
@@ -432,6 +438,15 @@
             "branch": "master",
             "version": "3.3",
             "ref": "6bdfa1a95f6b2e677ab985cd1af2eae35d62e0f6"
+        }
+    },
+    "symfony/web-server-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "dae9b39fd6717970be7601101ce5aa960bf53d9a"
         }
     },
     "symfony/yaml": {

@@ -32,6 +32,7 @@ angular.module('upont').factory('Paginate', [
 
                     return paginationData;
                 }, () => {
+                    console.error('Failed to load more data');
                     $rootScope.infiniteLoading = false;
                 }
             );
@@ -47,7 +48,8 @@ angular.module('upont').factory('Paginate', [
                         const paginationData = response.data;
                         paginationData.url = url;
                         return paginationData;
-                    }
+                    },
+                    () => console.error('Failed to load initial data'),
                 );
             },
 

@@ -51,7 +51,8 @@ export const PublicRouter = $stateProvider => {
             clubs: [
                 '$http',
                 ($http) => $http.get(API_PREFIX + 'clubs').then(
-                    (response) => response.data
+                    (response) => response.data,
+                    () => console.error('Failed to retrieve clubs'),
                 )
             ]
         }

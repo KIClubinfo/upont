@@ -1,18 +1,17 @@
 import alertify from 'alertifyjs';
-import moment from 'moment';
 
-import { API_PREFIX } from 'upont/js/config/constants';
+import {API_PREFIX} from 'upont/js/config/constants';
 
-import { nl2br } from 'upont/js/php';
+import {nl2br} from 'upont/js/php';
 
 /* @ngInject */
 class Publications_Post_Ctrl {
     constructor($scope, $rootScope, $http, $stateParams, Achievements, Upload) {
         // Fonctions relatives à la publication
-        var clubDummy = {
+        const clubDummy = {
             name: 'Au nom de...'
         };
-        var club = clubDummy;
+        let club = clubDummy;
         $scope.display = true;
         $scope.isLoading = false;
 
@@ -20,7 +19,7 @@ class Publications_Post_Ctrl {
         if ($stateParams.slug !== null && $stateParams.slug !== undefined) {
             // Par défaut on n'affiche pas le module
             $scope.display = false;
-            for (var key in $rootScope.clubs) {
+            for (const key in $rootScope.clubs) {
                 // Si on appartient au club, on affiche avec le club préséléctionné
                 if ($rootScope.clubs[key].club !== undefined && $rootScope.clubs[key].club.slug == $stateParams.slug) {
                     club = $rootScope.clubs[key].club;
@@ -33,7 +32,7 @@ class Publications_Post_Ctrl {
         if ($rootScope.hasRight('ROLE_EXTERIEUR'))
             club = $rootScope.clubs[0].club;
 
-        var init = function() {
+        const init = function() {
             $scope.focus = false;
             $scope.post = {
                 entry_method: 'Entrée libre',
@@ -59,15 +58,15 @@ class Publications_Post_Ctrl {
             $scope.type = type;
 
             switch (type) {
-                case 'news':
-                    if ($rootScope.hasRight('ROLE_EXTERIEUR'))
-                        $scope.placeholder = 'Texte de la news';
-                    else
-                        $scope.placeholder = 'Que se passe-t-il d\'intéressant dans ton asso ?';
-                    break;
-                case 'event':
-                    $scope.placeholder = 'Description de l\'événement';
-                    break;
+            case 'news':
+                if ($rootScope.hasRight('ROLE_EXTERIEUR'))
+                    $scope.placeholder = 'Texte de la news';
+                else
+                    $scope.placeholder = 'Que se passe-t-il d\'intéressant dans ton asso ?';
+                break;
+            case 'event':
+                $scope.placeholder = 'Description de l\'événement';
+                break;
             }
         };
 
@@ -85,7 +84,7 @@ class Publications_Post_Ctrl {
         };
 
         $scope.publish = function(post) {
-            var params = {
+            const params = {
                 text: nl2br(post.text),
                 name: post.name
             };
@@ -108,106 +107,127 @@ class Publications_Post_Ctrl {
             }
 
             switch ($scope.type) {
-                case 'news':
-                    if (!$scope.isLoading) {
-                        $scope.isLoading = true;
+            case 'news':
+                if (!$scope.isLoading) {
+                    $scope.isLoading = true;
 
-                        // On demande si on envoie un mail
-                        alertify.confirm('Veux-tu envoyer un mail pour cette news ?', function(e) {
-                            if (e) {
-                                params.sendMail = true;
-                            }
+                    const postNews = () => {
+                        Upload.upload({
+                            method: 'POST',
+                            url: API_PREFIX + 'newsitems',
+                            data: params
+                        }).then(function() {
+                            $rootScope.$broadcast('newNewsitem');
+                            Achievements.check();
+                            alertify.success('News publiée');
+                            init();
+                            $scope.isLoading = false;
+                        }, function() {
+                            alertify.error('Formulaire vide ou mal rempli');
+                            $scope.isLoading = false;
+                        });
+                    };
 
+                    // On demande si on envoie un mail
+                    alertify.confirm(
+                        'Veux-tu envoyer un mail pour cette news ?', () => {
+                            params.sendMail = true;
+                            postNews();
+                        },
+                        () => {
+                            params.sendMail = false;
+                            postNews();
+                        },
+                    ).set('labels', {
+                        ok: 'Oui',
+                        cancel: 'Non',
+                    });
+                }
+                break;
+            case 'event':
+                params.place = post.place;
+                params.entryMethod = post.entry_method;
+                params.startDate = post.start_date.toISOString();
+                params.endDate = post.end_date.toISOString();
+
+                if (!post.start_date || !post.end_date) {
+                    alertify.error('Il faut préciser une date de début et de fin');
+                    return;
+                }
+
+                if (post.start_date.isAfter(post.end_date)) {
+                    alertify.error('La date de début doit être avant la date de fin');
+                    return;
+                }
+
+                if (post.entry_method === 'Shotgun') {
+                    params.shotgunDate = post.shotgun_date.toISOString();
+                    params.shotgunLimit = post.shotgun_limit;
+                    params.shotgunText = post.shotgun_text;
+
+                    if (!post.shotgun_date) {
+                        alertify.error('Il faut préciser une date de shotgun');
+                        return;
+                    }
+                    if (post.shotgun_date.isAfter(post.start_date)) {
+                        alertify.error('La date de shotgun doit être avant la date de début');
+                        return;
+                    }
+                }
+
+                if (!$scope.isLoading) {
+                    $scope.isLoading = true;
+
+                    if (!$scope.modify) {
+
+                        const postEvent = () => {
                             Upload.upload({
-                                method: "POST",
-                                url: API_PREFIX + 'newsitems',
+                                method: 'POST',
+                                url: API_PREFIX + 'events',
                                 data: params
                             }).then(function() {
-                                $rootScope.$broadcast('newNewsitem');
+                                $rootScope.$broadcast('newEvent');
                                 Achievements.check();
-                                alertify.success('News publiée');
                                 init();
+                                alertify.success('Événement publié');
                                 $scope.isLoading = false;
                             }, function() {
                                 alertify.error('Formulaire vide ou mal rempli');
                                 $scope.isLoading = false;
                             });
+                        };
+
+                        // On demande si on envoie un mail
+                        alertify.confirm(
+                            'Veux-tu envoyer un mail pour cet événement ?',
+                            () => {
+                                params.sendMail = true;
+                                postEvent();
+                            },
+                            () => {
+                                params.sendMail = false;
+                                postEvent();
+                            },
+                        ).set('labels', {
+                            ok: 'Oui',
+                            cancel: 'Non',
+                        });
+                    } else {
+                        $http.patch(API_PREFIX + 'events/' + post.slug, params).then(function() {
+                            $rootScope.$broadcast('newEvent');
+                            alertify.success('Événement modifié');
+                            init();
+                            $scope.modify = false;
+                            $scope.isLoading = false;
+                        }, function() {
+                            alertify.error('Formulaire vide ou mal rempli');
+                            $scope.isLoading = false;
                         });
                     }
-                    break;
-                case 'event':
-                    params.place = post.place;
-                    params.entryMethod = post.entry_method;
-                    params.startDate = moment(post.start_date).unix();
-                    params.endDate = moment(post.end_date).unix();
-
-                    if (!post.start_date || !post.end_date) {
-                        alertify.error('Il faut préciser une date de début et de fin');
-                        return;
-                    }
-
-                    if (params.startDate >= params.endDate) {
-                        alertify.error('La date de début doit être avant la date de fin');
-                        return;
-                    }
-
-                    if (post.entry_method == 'Shotgun') {
-                        params.shotgunDate = moment(post.shotgun_date).unix();
-                        params.shotgunLimit = post.shotgun_limit;
-                        params.shotgunText = post.shotgun_text;
-
-                        if (!post.shotgun_date) {
-                            alertify.error('Il faut préciser une date de shotgun');
-                            return;
-                        }
-                        if (params.shotgunDate >= params.startDate) {
-                            alertify.error('La date de shotgun doit être avant la date de début');
-                            return;
-                        }
-                    }
-
-                    if (!$scope.isLoading) {
-                        $scope.isLoading = true;
-
-                        if (!$scope.modify) {
-
-                            // On demande si on envoie un mail
-                            alertify.confirm('Veux-tu envoyer un mail pour cet événement ?', function(e) {
-                                if (e) {
-                                    params.sendMail = true;
-                                }
-
-                                Upload.upload({
-                                    method: "POST",
-                                    url: API_PREFIX + 'events',
-                                    data: params
-                                }).then(function() {
-                                    $rootScope.$broadcast('newEvent');
-                                    Achievements.check();
-                                    init();
-                                    alertify.success('Événement publié');
-                                    $scope.isLoading = false;
-                                }, function() {
-                                    alertify.error('Formulaire vide ou mal rempli');
-                                    $scope.isLoading = false;
-                                });
-                            });
-                        } else {
-                            $http.patch(API_PREFIX + 'events/' + post.slug, params).then(function() {
-                                $rootScope.$broadcast('newEvent');
-                                alertify.success('Événement modifié');
-                                init();
-                                $scope.modify = false;
-                                $scope.isLoading = false;
-                            }, function() {
-                                alertify.error('Formulaire vide ou mal rempli');
-                                $scope.isLoading = false;
-                            });
-                        }
-                    }
-                    break;
-                default:
-                    alertify.error('Type de publication non encore pris en charge');
+                }
+                break;
+            default:
+                alertify.error('Type de publication non encore pris en charge');
             }
         };
 
@@ -216,17 +236,6 @@ class Publications_Post_Ctrl {
             $scope.modify = true;
             $scope.changeType('event');
             $rootScope.$broadcast('newEvent');
-
-            if (!post.dateModified) {
-                // Fix date to javascript timestamp
-                post.start_date = moment.unix(post.start_date).toDate();
-                post.end_date = moment.unix(post.end_date).toDate();
-                if (post.shotgun_date) {
-                    post.shotgun_date = moment.unix(post.shotgun_date).toDate();
-                }
-
-                post.dateModified = true;
-            }
 
             $scope.post = post;
             window.scrollTo(0, 0);

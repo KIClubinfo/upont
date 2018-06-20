@@ -7,11 +7,11 @@ angular.module('upont').filter('promoFilter', function() {
             // Pas de xor en javasale...
             const isRightYear = member.user.promo == year;
             const isYearBefore = member.user.promo == year - 1;
-            const isRespo2A = member.role.match(/2A/g);
+            const isRespo2A = member.role.match(/2A/gi);
 
             if (
-                (isRightYear && !(isRespo2A && isYearBefore)) ||
-                (!isRightYear && (isRespo2A && isYearBefore))
+                (isRightYear && !isRespo2A) ||
+                (isYearBefore && isRespo2A)
             ) {
                 results.push(member);
             }

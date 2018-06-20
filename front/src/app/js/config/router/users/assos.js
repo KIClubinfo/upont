@@ -42,8 +42,11 @@ export const UsersAssosRouter = $stateProvider => {
                     limit: 20
                 });
             }],
-            stats: ['$resource', function($resource) {
-                return $resource(API_PREFIX + 'statistics/foyer').get().$promise;
+            stats: ['$http', function($http) {
+                return $http.get(API_PREFIX + 'statistics/foyer').then(
+                    (response) => response.data,
+                    () => console.error('Failed to retrieve foyer statistics')
+                );
             }]
         }
     }).state('root.users.assos.ki', {
@@ -56,10 +59,10 @@ export const UsersAssosRouter = $stateProvider => {
         },
         resolve: {
             fixs: ['Paginate', function(Paginate) {
-                return Paginate.get('fixs', 50);
+                return Paginate.get('fixs');
             }],
             ownFixs: ['Paginate', function(Paginate) {
-                return Paginate.get('own/fixs', 50);
+                return Paginate.get('own/fixs');
             }]
         }
     }).state('root.users.assos.list', {
@@ -70,7 +73,8 @@ export const UsersAssosRouter = $stateProvider => {
             clubs: [
                 '$http',
                 ($http) => $http.get(API_PREFIX + 'clubs').then(
-                    (response) => response.data
+                    (response) => response.data,
+                    () => console.error('Failed to retrieve clubs')
                 )
             ]
         },
@@ -83,15 +87,20 @@ export const UsersAssosRouter = $stateProvider => {
         controller: Assos_Simple_Ctrl,
         templateUrl: template_assos_simple,
         resolve: {
-            club: ['$resource', '$stateParams', function($resource, $stateParams) {
-                return $resource(API_PREFIX + 'clubs/:slug').get({
-                    slug: $stateParams.slug
-                }).$promise;
+            club: ['$http', '$stateParams',
+                ($http, $stateParams) => {
+                return $http.get(API_PREFIX + 'clubs/' + $stateParams.slug)
+                .then(
+                    (response) => response.data,
+                    () => console.error('Failed to retrieve club')
+                );
             }],
-            members: ['$resource', '$stateParams', function($resource, $stateParams) {
-                return $resource(API_PREFIX + 'clubs/:slug/users').query({
-                    slug: $stateParams.slug
-                }).$promise;
+            members: ['$http', '$stateParams', function($http, $stateParams) {
+                return $http.get(API_PREFIX + 'clubs/' + $stateParams.slug + '/users')
+                .then(
+                    (response) => response.data,
+                    () => console.error('Failed to retrieve club members')
+                );
             }]
         }
     }).state('root.users.assos.simple.modify', {

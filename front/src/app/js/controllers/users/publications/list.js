@@ -100,9 +100,8 @@ class Publications_List_Ctrl {
         };
 
         $scope.delete = function(post) {
-            var index = null;
             if (post.start_date) {
-                index = $scope.events.data.indexOf(post);
+                const index = $scope.events.data.indexOf(post);
 
                 // On demande confirmation
                 alertify.confirm('Veux-tu vraiment supprimer cet évènement ?', () => {
@@ -111,7 +110,7 @@ class Publications_List_Ctrl {
                     });
                 });
             } else {
-                index = $scope.newsItems.data.indexOf(post);
+                const index = $scope.newsItems.data.indexOf(post);
 
                 // On demande confirmation
                 alertify.confirm('Veux-tu vraiment supprimer cette news ?', () => {
@@ -127,7 +126,7 @@ class Publications_List_Ctrl {
                 ? 'events'
                 : 'newsitems';
 
-            if ($scope.item == 'newsitems') {
+            if ($scope.item === 'newsitems') {
                 $scope.edit = post;
             } else {
                 $rootScope.$broadcast('modifyEvent', post);

@@ -7,19 +7,23 @@
 
         <!-- startDate -->
         <div class="padded" flex="100" flex-md="50" ng-show="type == 'event'">
-            <div class="InputGroup" ng-click="startPicker=!startPicker">
-                <input class="Input" type="text" placeholder="Date de début" ng-value="post.start_date | date:'HH:mm dd/MM/yyyy'"/>
+            <div class="InputGroup" moment-picker="start_date_display" ng-model="post.start_date">
+                <input class="Input" type="text"
+                       placeholder="Date de début"
+                       ng-model="start_date_display"
+                       ng-model-options="{ updateOn: 'blur' }">
                 <span class="InputGroup__addon"><i class="fa fa-calendar"></i></span>
             </div>
-            <datetimepicker ng-show="startPicker" data-ng-model="post.start_date"></datetimepicker>
         </div>
         <!-- endDate -->
         <div class="padded" flex="100" flex-md="50" ng-show="type == 'event'">
-            <div class="InputGroup" ng-click="startPicker=!startPicker">
-                <input class="Input" type="text" placeholder="Date de fin" ng-value="post.end_date | date:'HH:mm dd/MM/yyyy'"/>
+            <div class="InputGroup" moment-picker="end_date_display" ng-model="post.end_date">
+                <input class="Input" type="text"
+                       placeholder="Date de fin"
+                       ng-model="end_date_display"
+                       ng-model-options="{ updateOn: 'blur' }">
                 <span class="InputGroup__addon"><i class="fa fa-calendar"></i></span>
             </div>
-            <datetimepicker ng-show="startPicker" data-ng-model="post.end_date"></datetimepicker>
         </div>
 
         <!-- place -->
@@ -38,11 +42,13 @@
 
         <!-- shotgunDate -->
         <div class="padded" flex="100" flex-md="50" ng-show="type == 'event' && post.entry_method == 'Shotgun'">
-            <div class="InputGroup" ng-click="shotgunPicker=!shotgunPicker">
-                <input class="Input" type="text" placeholder="Date du shotgun" ng-value="post.shotgun_date | date:'HH:mm dd/MM/yyyy'"/>
+            <div class="InputGroup" moment-picker="shotgun_date_display" ng-model="post.shotgun_date">
+                <input class="Input" type="text"
+                       placeholder="Date du shotgun"
+                       ng-model="shotgun_date_display"
+                       ng-model-options="{ updateOn: 'blur' }">
                 <span class="InputGroup__addon"><i class="fa fa-calendar"></i></span>
             </div>
-            <datetimepicker ng-show="shotgunPicker" data-ng-model="post.shotgun_date"></datetimepicker>
         </div>
 
         <!-- shotgunLimit -->
@@ -78,11 +84,12 @@
                 </div>
 
                 <!-- Ajout d'une image -->
-                <div class="InputButton" ng-if="!modify" ng-class="{'active': postFiles.length}">
-                    <i class="fa fa-file-o"></i>
-                    <span ng-repeat="file in postFiles"> {{ file.name ? file.name : 'Fichier' }} </span>
-                    <button class="InputButton__fileinput" ngf-select="selectFiles($files)" multiple></button>
-                </div>
+                <!--<div class="InputButton" ng-if="!modify" ng-class="{'active': postFiles.length}">-->
+                    <!--<i class="fa fa-file-o"></i>-->
+                    <!--<span ng-repeat="file in postFiles"> {{ file.name ? file.name : 'Fichier' }} </span>-->
+                    <!--<button class="InputButton__fileinput" ngf-select="selectFiles($files)" multiple></button>-->
+                <!--</div>-->
+
                 <button class="Button" style="margin-left: auto;">{{ modify ? 'Modifier' : 'Publier' }}</button>
             </div>
         </div>

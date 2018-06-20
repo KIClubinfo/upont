@@ -7,69 +7,45 @@ Before anything, you need the following software installed on your machine:
 
   * Linux (based on Debian or Archlinux)
   * If needed, the proxy should be configured
+  * `npm`
+  * `php` 7+ et `php-gd`
+  * `mysql` 5.6 or above
 
 Project installation
 --------------------
-To install the project, you must first clone the project's repository then run the installation script. By default this script will install the uPont project in the directory /var/www/upont/
-**Warning** : if you already have a setup of fastCGI process manager, nginx or php on your computer, the installation script will erase and replace their configuration files, read the script for more details
 
-```
-cd /var/www
-sudo chown $(whoami) .
-git clone https://github.com/KIClubinfo/upont.git
-cd upont
-```
-
-On a Debian-based distro
--------------------------
-```
-./install-debian.sh
-```
-
-On an Arch-based distro
-------------------------
-```
-./install-arch.sh
-```
-Finally uncomment the following lines in /etc/php/php.ini :
+### System
+- Uncomment the following lines in /etc/php/php.ini :
 ```
 extension=pdo_mysql.so
-extension=mysqli.so
-extension=xsl.so
+extension=gd
+```
+- Create the database `mysql -u root`
+```
+CREATE DATABASE upont;
+CREATE USER upont;
+GRANT ALL ON upont.* TO 'upont'@'localhost' IDENTIFIED BY 'upont';
+```
+- `sudo npm install -g yarn`
+
+- Install Composer
+```
+curl -sL https://getcomposer.org/installer | sudo -E php -- --install-dir=/usr/local/bin
+sudo mv /usr/local/bin/composer.phar /usr/local/bin/composer
 ```
 
-The script is interactive, you will be prompted to provide parameters (default values will do, except if you are behind a proxy).
+### Front
+- Go to `front/`
+- `yarn`
+- `yarn start` to launch webpack dev server
 
-If you **do not** have an Debian-based or Arch-based distro, find the equivalent for your distro of the commands of the installation script.
-
-Append the following line at the end of the http block in /etc/nginx/nginx.conf:
-```
-include servers-enabled/*;
-```
-
-If the installation of an [nginx server](http://nginx.org/en/docs/beginners_guide.html) with FastCGI via the installation script failed, you can understand the error messages thanks to [this tutorial](https://www.youtube.com/watch?v=SqE5uUbBU78) and install a php server with the help of [this page](http://symfony.com/doc/current/setup/web_server_configuration.html).
-
-You can find the owner of the nginx process with :
-```
-ps aux | grep nginx
-```
-It should be www-data for Debian and http for Archlinux by default as mentioned by default in the configuration files of nginx and fpm
-
-Some more documentation :
-  - Debian :
-    * https://www.howtoforge.com/tutorial/installing-nginx-with-php7-fpm-and-mysql-on-ubuntu-16.04-lts-lemp/
-  - Archlinux :
-    * https://wiki.archlinux.org/index.php/PHP
-    * https://wiki.archlinux.org/index.php/nginx
-
-
-Hosts
------
-Now you should be able to access the application in your Web browser :
-  * Use http://localhost/front/ for the front-end interface
-  * Use http://localhost/api/doc/ for the API documentation
-  * Use http://localhost/mobile/ for the mobile interface
-
+### Back
+- Go to `back/`
+- `cp .env.dist .env`
+- `composer install`
+- `bin/console doctrine:migration:migrate` to create the tables
+- `bin/console doctrine:fixture:load` to load example data
+- `bin/console server:run` to run symfony dev server
 
 Setting up SSH keys with GitHub
 -------------------------------

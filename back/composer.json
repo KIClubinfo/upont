@@ -32,6 +32,7 @@
         "lexik/jwt-authentication-bundle": "~2.0",
         "nelmio/api-doc-bundle": "~2.8",
         "nelmio/cors-bundle": "~1.4",
+        "nesbot/carbon": "^1.24",
         "sensio/distribution-bundle": "~5.0",
         "sensio/framework-extra-bundle": "^5.1",
         "sentry/sentry-symfony": "~2.0",
@@ -55,7 +56,8 @@
         "symfony/browser-kit": "^3.4",
         "symfony/dotenv": "^3.4",
         "symfony/phpunit-bridge": "^3.4",
-        "symfony/web-profiler-bundle": "^3.4"
+        "symfony/web-profiler-bundle": "^3.4",
+        "symfony/web-server-bundle": "^3.4"
     },
     "scripts": {
         "symfony-scripts": [

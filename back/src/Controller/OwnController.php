@@ -14,15 +14,14 @@ use App\Helper\PaginateHelper;
 use App\Repository\FixRepository;
 use App\Repository\NewsitemRepository;
 use App\Repository\UserRepository;
-use App\Service\CalendarService;
 use App\Service\TokenService;
+use Carbon\Carbon;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -371,15 +370,14 @@ class OwnController extends ResourceController
         $limit = $request->query->get('limit', 100);
         $page = $request->query->get('page', 1);
 
-        $userId = $this->getUser()->getId();
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
 
-        $count = $userRepository->countFollowedEvents($userId);
+        $count = $userRepository->countFollowedEvents($user);
 
-        $events = $userRepository->findFollowedEvents(
-            $userId,
-            $limit,
-            $page
-        );
+        $events = $userRepository->findFollowedEvents($user, $limit, $page);
 
         $totalPages = (int)ceil($count / $limit);
 
@@ -405,7 +403,7 @@ class OwnController extends ResourceController
 
     /**
      * @ApiDoc(
-     *  description="Retourne le calendrier de l'utilisateur au format ICS",
+     *  description="Renvoie le calendrier pour la période demandée (liste des cours et évènements suivis)",
      *  statusCodes={
      *   200="Requête traitée avec succès",
      *   401="Une authentification est nécessaire pour effectuer cette action",
@@ -413,31 +411,27 @@ class OwnController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/users/{token}/calendar")
+     * @Route("/own/calendar")
      * @Method("GET")
+     * @param Request $request
+     * @param UserRepository $userRepository
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function getOwnCalendarAction(CalendarService $calendarService, $token)
+    public function getOwnCalendarAction(Request $request, UserRepository $userRepository)
     {
-        $user = $this->repository->findOneByToken($token);
-        if ($user === null) {
-            throw new NotFoundHttpException('Aucun utilisateur ne correspond au token saisi');
-        } else {
-            $userRepository = $this->manager->getRepository(User::class);
+        $from = $request->query->get('from')
+            ? Carbon::parse($request->query->get('from'))
+            : null;
+        $to = $request->query->get('to')
+            ? Carbon::parse($request->query->get('to'))
+            : null;
 
-            $events = $userRepository->findFollowedEvents($user->getId());
-            $courses = $this->getCourseitems($user);
+        $events = $userRepository->findFollowedEventsBetween($this->getUser(), $from, $to);
 
-            $calStr = $calendarService->getCalendar($user, $events, $courses);
-
-            return new Response($calStr, 200, [
-                    'Content-Type' => 'text/calendar; charset=utf-8',
-                    'Content-Disposition' => 'attachment; filename="calendar.ics"',
-                ]
-            );
-        }
+        return $this->json($events);
     }
 
-    private function getCourseitems($user = null)
+    private function getCourseItems($user = null)
     {
         $repo = $this->getDoctrine()->getManager()->getRepository(CourseUser::class);
 
@@ -474,6 +468,9 @@ class OwnController extends ResourceController
      * )
      * @Route("/own/newsitems")
      * @Method("GET")
+     * @param NewsitemRepository $newsitemRepository
+     * @param PaginateHelper $paginateHelper
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function getNewsItemsAction(NewsitemRepository $newsitemRepository, PaginateHelper $paginateHelper)
     {
@@ -526,7 +523,7 @@ class OwnController extends ResourceController
      */
     public function getCourseitemsAction()
     {
-        return $this->json($this->getCourseitems());
+        return $this->json($this->getCourseItems());
     }
 
     /**

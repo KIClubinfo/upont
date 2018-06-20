@@ -73,6 +73,10 @@ module.exports = {
         ]
     },
     plugins: [
+        new webpack.EnvironmentPlugin({
+            NODE_ENV: 'development', // use 'development' unless process.env.NODE_ENV is defined
+        }),
+        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en|fr/),
         new ExtractTextPlugin({filename: '[name].min.css', allChunks: true}),
         new webpack.ProvidePlugin({$: "jquery", jQuery: "jquery"}),
         // Automatically move all modules defined outside of application directory to vendor bundle.

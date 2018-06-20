@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
+use Carbon\Carbon;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use App\Entity\User;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -14,21 +15,16 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Event extends Post
 {
     /**
-     * Début (timestamp)
+     * Début
      * @ORM\Column(name="startDate", type="integer")
-     * @JMS\Expose
-     * @Assert\Type("integer")
-     * @Assert\NotBlank()
-     * @Assert\GreaterThan(1)
+     * @Assert\Type("int")
      */
     protected $startDate;
 
     /**
-     * Fin (timestamp)
+     * Fin
      * @ORM\Column(name="endDate", type="integer")
-     * @JMS\Expose
-     * @Assert\Type("integer")
-     * @Assert\GreaterThan(1)
+     * @Assert\Type("int")
      */
     protected $endDate;
 
@@ -39,16 +35,14 @@ class Event extends Post
      * @Assert\Type("string")
      */
     protected $entryMethod;
-    const TYPE_LIBRE   = 'Libre';
+    const TYPE_LIBRE = 'Libre';
     const TYPE_SHOTGUN = 'Shotgun';
-    const TYPE_FERIE   = 'Ferie';
+    const TYPE_FERIE = 'Ferie';
 
     /**
-     * Date du shotgun (timestamp)
+     * Date du shotgun
      * @ORM\Column(name="shotgunDate", type="integer", nullable=true)
-     * @JMS\Expose
-     * @Assert\Type("integer")
-     * @Assert\GreaterThan(1)
+     * @Assert\Type("int")
      */
     protected $shotgunDate;
 
@@ -142,54 +136,38 @@ class Event extends Post
     public function __construct()
     {
         parent::__construct();
-        $this->listAttendees = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->listPookies   = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listAttendees = new ArrayCollection();
+        $this->listPookies = new ArrayCollection();
     }
 
-    /**
-     * Set startDate
-     *
-     * @param integer $startDate
-     * @return Event
-     */
-    public function setStartDate($startDate)
+    public function setStartDate(Carbon $startDate): Event
     {
-        $this->startDate = $startDate;
+        $this->startDate = $startDate->getTimestamp();
 
         return $this;
     }
 
     /**
-     * Get startDate
-     *
-     * @return integer
+     * @JMS\VirtualProperty()
      */
-    public function getStartDate()
+    public function getStartDate(): ?Carbon
     {
-        return $this->startDate;
+        return Carbon::createFromTimestamp($this->startDate);
     }
 
-    /**
-     * Set endDate
-     *
-     * @param integer $endDate
-     * @return Event
-     */
-    public function setEndDate($endDate)
+    public function setEndDate(Carbon $endDate): Event
     {
-        $this->endDate = $endDate;
+        $this->endDate = $endDate->getTimestamp();
 
         return $this;
     }
 
     /**
-     * Get endDate
-     *
-     * @return integer
+     * @JMS\VirtualProperty()
      */
-    public function getEndDate()
+    public function getEndDate(): ?Carbon
     {
-        return $this->endDate;
+        return Carbon::createFromTimestamp($this->endDate);
     }
 
     /**
@@ -205,37 +183,28 @@ class Event extends Post
         return $this;
     }
 
-    /**
-     * Get entryMethod
-     *
-     * @return string
-     */
     public function getEntryMethod()
     {
         return $this->entryMethod;
     }
 
-    /**
-     * Set shotgunDate
-     *
-     * @param integer $shotgunDate
-     * @return Event
-     */
-    public function setShotgunDate($shotgunDate)
+    public function setShotgunDate(?Carbon $shotgunDate): Event
     {
-        $this->shotgunDate = $shotgunDate;
+        $this->shotgunDate = $shotgunDate ? $shotgunDate->getTimestamp() : null;
 
         return $this;
     }
 
     /**
-     * Get shotgunDate
-     *
-     * @return integer
+     * @JMS\VirtualProperty()
      */
-    public function getShotgunDate()
+    public function getShotgunDate(): ?Carbon
     {
-        return $this->shotgunDate;
+        if ($this->shotgunDate === null) {
+            return null;
+        }
+
+        return Carbon::createFromTimestamp($this->shotgunDate);
     }
 
     /**
@@ -244,7 +213,7 @@ class Event extends Post
      * @param integer $shotgunLimit
      * @return Event
      */
-    public function setShotgunLimit($shotgunLimit)
+    public function setShotgunLimit(int $shotgunLimit)
     {
         $this->shotgunLimit = $shotgunLimit;
 
@@ -310,10 +279,10 @@ class Event extends Post
     /**
      * Add attendees
      *
-     * @param \App\Entity\User $attendee
+     * @param User $attendee
      * @return Event
      */
-    public function addAttendee(\App\Entity\User $attendee)
+    public function addAttendee(User $attendee)
     {
         $this->listAttendees[] = $attendee;
 
@@ -323,9 +292,9 @@ class Event extends Post
     /**
      * Remove attendees
      *
-     * @param \App\Entity\User $attendee
+     * @param User $attendee
      */
-    public function removeAttendee(\App\Entity\User $attendee)
+    public function removeAttendee(User $attendee)
     {
         $this->listAttendees->removeElement($attendee);
     }
@@ -333,7 +302,7 @@ class Event extends Post
     /**
      * Get attendees
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getAttendees()
     {
@@ -343,10 +312,10 @@ class Event extends Post
     /**
      * Add pookies
      *
-     * @param \App\Entity\User $pookie
+     * @param User $pookie
      * @return Event
      */
-    public function addPookie(\App\Entity\User $pookie)
+    public function addPookie(User $pookie)
     {
         $this->listPookies[] = $pookie;
 
@@ -356,9 +325,9 @@ class Event extends Post
     /**
      * Remove pookies
      *
-     * @param \App\Entity\User $pookie
+     * @param User $pookie
      */
-    public function removePookie(\App\Entity\User $pookie)
+    public function removePookie(User $pookie)
     {
         $this->listPookies->removeElement($pookie);
     }
@@ -366,7 +335,7 @@ class Event extends Post
     /**
      * Get pookies
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getPookies()
     {

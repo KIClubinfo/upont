@@ -7,6 +7,9 @@ import Raven from 'raven-js';
 
 import 'typeface-open-sans';
 
+// datepicker hack
+window['moment'] = moment;
+
 if (!location.origin)
     location.origin = location.protocol + '//' + location.host;
 
@@ -110,6 +113,18 @@ alertify.defaults = {
     }
 };
 
+moment.locale('fr');
+moment.updateLocale('fr', {
+    calendar: {
+        sameDay : '[Aujourd’hui à] LT',
+        nextDay : '[Demain à] LT',
+        nextWeek : 'dddd [à] LT',
+        lastDay : '[Hier à] LT',
+        lastWeek : 'dddd [dernier à] LT',
+        sameElse : 'LLLL',
+    },
+});
+
 import ngRaven from 'raven-js/plugins/angular';
 
 Raven
@@ -119,6 +134,7 @@ Raven
 
 // Export issue in these libs
 require('angulartics-piwik');
+require('angular-moment-picker');
 
 const upont = angular.module('upont', [
     // $resource
@@ -143,7 +159,7 @@ const upont = angular.module('upont', [
     require('angular-bootstrap-calendar'),
 
     // Datetime picker
-    require('bootstrap-ui-datetime-picker'),
+    'moment-picker',
 
     // Rich text editor
     require('ng-quill'),
@@ -185,6 +201,7 @@ require('./directives/user');
 require('./filters/courseHour');
 require('./filters/formatDate');
 require('./filters/formatDuration');
+require('./filters/formatMoment');
 require('./filters/formatPosition');
 require('./filters/formatSize');
 require('./filters/fromNow');

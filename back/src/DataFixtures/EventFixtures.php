@@ -3,9 +3,11 @@
 namespace App\DataFixtures;
 
 use App\Entity\Event;
+use Carbon\Carbon;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class EventFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -18,8 +20,8 @@ class EventFixtures extends Fixture implements DependentFixtureInterface
         $event->setAuthorClub($this->getReference('club-ki'));
         $event->setAuthorUser($this->getReference('user-trancara'));
         $event->setEntryMethod('Libre');
-        $event->setStartDate(mktime(0, 0, 0) + 36*3600);
-        $event->setEndDate(mktime(0, 0, 0) + 37.5*3600);
+        $event->setStartDate(Carbon::createFromTimestamp(mktime(0, 0, 0) + 36*3600));
+        $event->setEndDate(Carbon::createFromTimestamp(mktime(0, 0, 0) + 37.5*3600));
         $event->setPlace('P102');
         $event->setSendMail(true);
         $event->addAttendee($this->getReference('user-taquet-c'));
@@ -35,8 +37,8 @@ class EventFixtures extends Fixture implements DependentFixtureInterface
         $event->setAuthorClub($this->getReference('club-ki'));
         $event->setAuthorUser($this->getReference('user-muzardt'));
         $event->setEntryMethod('Libre');
-        $event->setStartDate(mktime(0, 0, 0) + 36*3600);
-        $event->setEndDate(mktime(0, 0, 0) + 36.5*3600);
+        $event->setStartDate(Carbon::createFromTimestamp(mktime(0, 0, 0) + 36*3600));
+        $event->setEndDate(Carbon::createFromTimestamp(mktime(0, 0, 0) + 36.5*3600));
         $event->setPlace('P402');
         $event->setSendMail(true);
         $event->addAttendee($this->getReference('user-taquet-c'));
@@ -51,9 +53,9 @@ class EventFixtures extends Fixture implements DependentFixtureInterface
         $event->setAuthorClub($this->getReference('club-mediatek'));
         $event->setAuthorUser($this->getReference('user-trancara'));
         $event->setEntryMethod('Shotgun');
-        $event->setStartDate(1413918000);
-        $event->setEndDate(1413930600);
-        $event->setShotgunDate(1413396000);
+        $event->setStartDate(Carbon::createFromTimestamp(1413918000));
+        $event->setEndDate(Carbon::createFromTimestamp(1413930600));
+        $event->setShotgunDate(Carbon::createFromTimestamp(1413396000));
         $event->setPlace('P102');
         $event->setSendMail(false);
         $event->addAttendee($this->getReference('user-taquet-c'));
@@ -68,8 +70,8 @@ class EventFixtures extends Fixture implements DependentFixtureInterface
         $event->setAuthorClub($this->getReference('club-pep'));
         $event->setAuthorUser($this->getReference('user-guerinh'));
         $event->setEntryMethod('Libre');
-        $event->setStartDate(1413999000);
-        $event->setEndDate(1414009800);
+        $event->setStartDate(Carbon::createFromTimestamp(1413999000));
+        $event->setEndDate(Carbon::createFromTimestamp(1414009800));
         $event->setPlace('Amphi Navier');
         $event->setSendMail(false);
         $event->addAttendee($this->getReference('user-taquet-c'));
@@ -83,8 +85,8 @@ class EventFixtures extends Fixture implements DependentFixtureInterface
         $event->setAuthorClub($this->getReference('club-bde'));
         $event->setAuthorUser($this->getReference('user-dziris'));
         $event->setEntryMethod('Libre');
-        $event->setStartDate(mktime(0, 0, 0) + 9*3600);
-        $event->setEndDate(mktime(0, 0, 0) + 15*3600);
+        $event->setStartDate(Carbon::createFromTimestamp(mktime(0, 0, 0) + 9*3600));
+        $event->setEndDate(Carbon::createFromTimestamp(mktime(0, 0, 0) + 15*3600));
         $event->setPlace('Salle Polyvalente');
         $event->setSendMail(false);
         $event->addAttendee($this->getReference('user-taquet-c'));
@@ -102,9 +104,9 @@ class EventFixtures extends Fixture implements DependentFixtureInterface
         $event->setAuthorClub($this->getReference('club-bda'));
         $event->setAuthorUser($this->getReference('user-donat-bb'));
         $event->setEntryMethod('Shotgun');
-        $event->setStartDate(mktime(0, 0, 0) + 40*3600);
-        $event->setEndDate(mktime(0, 0, 0) + 44*3600);
-        $event->setShotgunDate(time() + 3600);
+        $event->setStartDate(Carbon::createFromTimestamp(mktime(0, 0, 0) + 40*3600));
+        $event->setEndDate(Carbon::createFromTimestamp(mktime(0, 0, 0) + 44*3600));
+        $event->setShotgunDate(Carbon::createFromTimestamp(time() + 3600));
         $event->setPlace('Opéra Bastille');
         $event->setSendMail(true);
         $event->setShotgunLimit(12);
@@ -120,8 +122,8 @@ class EventFixtures extends Fixture implements DependentFixtureInterface
         $event->setAuthorClub($this->getReference('club-ki'));
         $event->setAuthorUser($this->getReference('user-trancara'));
         $event->setEntryMethod('Ferie');
-        $event->setStartDate(time() - 400*3600);
-        $event->setEndDate(time() + 600*3600);
+        $event->setStartDate(Carbon::createFromTimestamp(time() - 400*3600));
+        $event->setEndDate(Carbon::createFromTimestamp(time() + 600*3600));
         $manager->persist($event);
 
         $manager->flush();

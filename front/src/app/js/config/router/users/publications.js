@@ -54,15 +54,16 @@ export const UsersPublicationsRouter = $stateProvider => {
                             sort: '-date',
                             limit: 10
                         });
-                    return Paginate.get('own/events', 10);
+                    return Paginate.get('own/events', {
+                        sort: '-date',
+                        limit: 10
+                    });
                 }
             ],
-            courseItems: [
-                '$resource',
-                function($resource) {
-                    return $resource(API_PREFIX + 'own/courseitems').query().$promise;
-                }
-            ]
+            calendar: [
+                '$http', 'calendarConfig',
+                ($http, calendarConfig) => Publications_Calendar_Ctrl.getCalendar($http, calendarConfig, 'day')
+            ],
         },
         views: {
             '': {
@@ -70,15 +71,15 @@ export const UsersPublicationsRouter = $stateProvider => {
             },
             'post@root.users.publications.list': {
                 templateUrl: template_publications_post,
-                controller: Publications_Post_Ctrl
+                controller: Publications_Post_Ctrl,
             },
             'list@root.users.publications.list': {
                 templateUrl: template_publications_list,
-                controller: Publications_List_Ctrl
+                controller: Publications_List_Ctrl,
             },
             'calendar@root.users.publications.list': {
                 templateUrl: template_publications_calendar,
-                controller: Publications_Calendar_Ctrl
+                controller: Publications_Calendar_Ctrl,
             },
             // 'administration@root.users.publications.list': {
             //     templateUrl: template_tour,
@@ -113,7 +114,7 @@ export const UsersPublicationsRouter = $stateProvider => {
             }
         }
     }).state('root.users.publications.shotgun', {
-        url: '/:slug/shotgun',
+        url: 'shotgun/:slug',
         templateUrl: template_publications_shotgun,
         controller: Publications_Shotgun_Ctrl,
         data: {

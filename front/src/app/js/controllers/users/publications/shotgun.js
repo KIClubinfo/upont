@@ -11,6 +11,11 @@ class Publications_Shotgun_Ctrl {
         $scope.motivation = '';
         $scope.isLoading = false;
 
+        $scope.computeDelay = (entry) => {
+          const delay = moment.duration(moment(entry.date).diff(moment(event.shotgun_date)));
+          return delay.asSeconds();
+        };
+
         $scope.shotgunEvent = function(){
             if(!$scope.isLoading) {
                 if ($scope.motivation === '') {

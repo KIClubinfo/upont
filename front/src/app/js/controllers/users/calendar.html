@@ -25,20 +25,30 @@
         </button>
     </div>
 
-    <div><h3 style="margin:0 auto; margin-top: 5px;">{{ calendarTitle | ucfirst }}</h3></div>
+    <h3 style="margin:0 auto; margin-top: 5px;">
+        {{ calendarTitle | ucfirst }}
+    </h3>
 
     <div class="btn-group pull-right">
-        <label class="btn btn-primary" ng-class="{'active':calendarView=='year'}"  ng-click="setView('year')">Année</label>
-        <label class="btn btn-primary" ng-class="{'active':calendarView=='month'}" ng-click="setView('month')">Mois</label>
-        <label class="btn btn-primary" ng-class="{'active':calendarView=='week'}"  ng-click="setView('week')">Semaine</label>
-        <label class="btn btn-primary" ng-class="{'active':calendarView=='day'}"   ng-click="setView('day')">Jour</label>
+        <label class="btn btn-primary" ng-class="{'active': calendarView === 'year'}"  ng-click="calendarView = 'year'">
+            Année
+        </label>
+        <label class="btn btn-primary" ng-class="{'active': calendarView === 'month'}" ng-click="calendarView = 'month'">
+            Mois
+        </label>
+        <label class="btn btn-primary" ng-class="{'active': calendarView === 'week'}"  ng-click="calendarView = 'week'">
+            Semaine
+        </label>
+        <label class="btn btn-primary" ng-class="{'active': calendarView === 'day'}"   ng-click="calendarView = 'day'">
+            Jour
+        </label>
     </div>
 </div>
 
 <mwl-calendar
     view="calendarView"
     view-date="calendarDay"
-    events="events"
+    events="calendarEvents"
     view-title="calendarTitle"
     day-view-start="08:00"
     day-view-end="23:59"

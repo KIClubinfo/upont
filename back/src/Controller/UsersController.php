@@ -8,11 +8,14 @@ use App\Entity\User;
 use App\Factory\UserFactory;
 use App\Event\AchievementCheckEvent;
 use App\Form\UserType;
+use App\Repository\UserRepository;
+use App\Service\CalendarService;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Exception;
@@ -162,6 +165,34 @@ class UsersController extends ResourceController
         $clubs = $this->repository->getUserClubs($user);
 
         return $this->json($clubs, 200);
+    }
+
+    /**
+     * @ApiDoc(
+     *  description="Retourne le calendrier de l'utilisateur au format ICS",
+     *  statusCodes={
+     *   200="Requête traitée avec succès",
+     *   401="Une authentification est nécessaire pour effectuer cette action",
+     *   403="Pas les droits suffisants pour effectuer cette action",
+     *  },
+     *  section="Utilisateurs"
+     * )
+     * @Route("/users/{token}/calendar")
+     * @Method("GET")
+     */
+    public function getUserCalendarAction(CalendarService $calendarService, User $user, UserRepository $userRepository)
+    {
+        $events = $userRepository->findFollowedEvents($user);
+        // $courses = $this->getCourseitems($user);
+        // FIXME
+
+        $calStr = $calendarService->getCalendar($user, $events, []);
+
+        return new Response($calStr, 200, [
+                'Content-Type' => 'text/calendar; charset=utf-8',
+                'Content-Disposition' => 'attachment; filename="calendar.ics"',
+            ]
+        );
     }
 
     /**

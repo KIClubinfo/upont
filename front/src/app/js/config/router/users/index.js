@@ -35,10 +35,10 @@ export const UsersRouter = $stateProvider => {
                 '$http',
                 '$rootScope',
                 ($http, $rootScope) => {
-                    return $http.get(API_PREFIX + 'own/user').then(function(response) {
+                    return $http.get(API_PREFIX + 'own/user').then((response) => {
                         $rootScope.me = response.data;
                         return response.data;
-                    });
+                    }, () => console.error('Failed to retrieve own user'));
                 }
             ],
             userClubs: [
@@ -49,7 +49,7 @@ export const UsersRouter = $stateProvider => {
                     return $http.get(API_PREFIX + 'own/clubs').then(function(response) {
                         $rootScope.clubs = response.data;
                         return response.data;
-                    });
+                    }, () => console.error('Failed to retrieve own clubs'));
                 }
             ],
             config: [
@@ -61,7 +61,7 @@ export const UsersRouter = $stateProvider => {
                         $rootScope.config = response.data;
                         $rootScope.isStudentNetwork = response.data.studentNetwork;
                         return response.data;
-                    });
+                    }, () => console.error('Failed to retrieve config'));
                 }
             ]
         },
@@ -92,24 +92,20 @@ export const UsersRouter = $stateProvider => {
             title: 'Calendrier - uPont'
         },
         resolve: {
-            events: [
-                'Paginate',
-                (Paginate) => Paginate.get('own/events')
-            ],
-            courseItems: [
-                'Paginate',
-                (Paginate) => Paginate.get('own/courseitems')
+            calendar: [
+                '$http', 'calendarConfig',
+                ($http, calendarConfig) => Calendar_Ctrl.getCalendar($http, calendarConfig, 'month')
             ]
         },
         onEnter: [
             '$rootScope',
-            function($rootScope) {
+            ($rootScope) => {
                 $rootScope.hideFooter = true;
             }
         ],
         onExit: [
             '$rootScope',
-            function($rootScope) {
+            ($rootScope) => {
                 $rootScope.hideFooter = false;
             }
         ]
