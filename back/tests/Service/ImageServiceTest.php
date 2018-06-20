@@ -38,7 +38,7 @@ class ImageServiceTest extends WebTestCase
         $this->assertTrue($result['image'] !== null);
         $this->assertEquals($result['extension'], 'png');
 
-        $url = 'http://ia.media-imdb.com/images/M/MV5BMTg2OTIwNTQ2OF5BMl5BanBnXkFtZTcwNTA4NDAwMQ@@._V1_SX300.jpg';
+        $url = 'https://ia.media-imdb.com/images/M/MV5BMTg2OTIwNTQ2OF5BMl5BanBnXkFtZTcwNTA4NDAwMQ@@._V1_SX300.jpg';
         $result = $this->service->uploadFromUrl($url);
         $this->assertTrue($result['image'] !== null);
         $this->assertEquals($result['extension'], 'jpeg');
