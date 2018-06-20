@@ -4,7 +4,7 @@ import constants, {API_PREFIX} from 'upont/js/config/constants';
 
 /* @ngInject */
 class Assos_Presentation_Ctrl {
-    constructor($scope, $http, $sce) {
+    constructor($scope, $http) {
         $scope.PROMOS = constants.PROMOS;
 
         $scope.edit = false;

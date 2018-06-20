@@ -89,17 +89,15 @@ export const UsersAssosRouter = $stateProvider => {
         resolve: {
             club: ['$http', '$stateParams',
                 ($http, $stateParams) => {
-                return $http.get(API_PREFIX + 'clubs/:slug', {
-                    slug: $stateParams.slug
-                }).then(
+                return $http.get(API_PREFIX + 'clubs/' + $stateParams.slug)
+                .then(
                     (response) => response.data,
                     () => console.error('Failed to retrieve club')
                 );
             }],
             members: ['$http', '$stateParams', function($http, $stateParams) {
-                return $http.get(API_PREFIX + 'clubs/:slug/users', {
-                    slug: $stateParams.slug
-                }).then(
+                return $http.get(API_PREFIX + 'clubs/' + $stateParams.slug + '/users')
+                .then(
                     (response) => response.data,
                     () => console.error('Failed to retrieve club members')
                 );

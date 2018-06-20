@@ -2,7 +2,6 @@ angular.module('upont')
     .controller('Administration_Publications_Ctrl', ['$scope', 'events', 'newsItems', function($scope, events, newsItems) {
         $scope.events = events;
         $scope.newsItems = newsItems;
-        $scope.predicate = 'user.firstname';
         $scope.reverse = false;
     }])
     .config(['$stateProvider', function($stateProvider) {

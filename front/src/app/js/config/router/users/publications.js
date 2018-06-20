@@ -114,7 +114,7 @@ export const UsersPublicationsRouter = $stateProvider => {
             }
         }
     }).state('root.users.publications.shotgun', {
-        url: '/:slug/shotgun',
+        url: 'shotgun/:slug',
         templateUrl: template_publications_shotgun,
         controller: Publications_Shotgun_Ctrl,
         data: {

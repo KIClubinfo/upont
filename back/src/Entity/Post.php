@@ -85,7 +85,7 @@ class Post extends Likeable
             return $this->authorClub->getImage()->getWebPath();
         }
 
-        return 'uploads/others/default-user.png';
+        return 'default-user.png';
     }
 
     public function __construct()
