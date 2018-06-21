@@ -1,11 +1,16 @@
 import alertify from 'alertifyjs';
 
+import {API_PREFIX} from 'upont/js/config/constants';
+
 angular.module('upont')
     .controller('Messages_Ctrl', ['$scope', 'messages', function($scope, messages) {
         $scope.messages = messages;
+        $scope.api_prefix = API_PREFIX;
     }])
     .controller('Publications_List_Messages_Ctrl', ['$scope', '$resource', '$http', 'messages', 'Paginate', function($scope, $resource, $http, messages, Paginate) {
         $scope.messages = messages;
+        $scope.API_PREFIX = API_PREFIX;
+
         $scope.next = function() {
             Paginate.next($scope.messages).then(function(response){
                 $scope.messages = response;

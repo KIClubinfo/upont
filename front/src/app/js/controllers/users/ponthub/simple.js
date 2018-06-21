@@ -13,6 +13,7 @@ class Ponthub_Simple_Ctrl {
         $scope.openSeason = -1;
         $scope.fleur = null;
         $scope.token = StorageService.get('token');
+        $scope.API_PREFIX = API_PREFIX;
 
         if (episodes) {
             $scope.saisons = [];

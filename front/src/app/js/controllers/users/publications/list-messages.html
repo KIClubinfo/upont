@@ -31,7 +31,7 @@
                 <br>
 
                 <img class="img-responsive clickable" ng-if="message.image_url"
-                     ng-click="$root.zoomIn('/api/' + message.image_url)"
+                     ng-click="$root.zoomIn(API_PREFIX + message.image_url)"
                      ng-src="{{ message.image_url | urlFile }}">
             </section>
 

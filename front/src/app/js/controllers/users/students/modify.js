@@ -9,6 +9,7 @@ class Students_Modify_Ctrl {
         $scope.DEPARTMENTS = constants.DEPARTMENTS;
         $scope.ORIGINS = constants.ORIGINS;
         $scope.PROMOS = constants.PROMOS;
+        $scope.API_PREFIX = API_PREFIX;
 
         for (var i = 0; i < clubsSuivis.length; i++)
             clubsSuivis[i] = clubsSuivis[i].slug;

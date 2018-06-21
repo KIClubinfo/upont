@@ -3,6 +3,8 @@ import Highcharts from 'highcharts';
 import * as HighchartsMore from 'highcharts/highcharts-more';
 import Funnel from 'highcharts/modules/funnel';
 
+import constants, { API_PREFIX } from 'upont/js/config/constants';
+
 // Register the "more" module into Highcharts
 HighchartsMore(Highcharts);
 Funnel(Highcharts);
@@ -17,6 +19,7 @@ class Students_Simple_Ctrl {
         $scope.displayPonthub = user.stats_ponthub && !ponthub.error && $rootScope.isStudentNetwork;
         $scope.clubs = clubs;
         $scope.achievements = achievements;
+        $scope.API_PREFIX = API_PREFIX;
 
         if ($scope.displayFoyer) {
             // Définition des graphes Highcharts

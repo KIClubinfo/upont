@@ -7,6 +7,7 @@ class Publications_List_Ctrl {
     constructor($scope, $rootScope, $resource, $http, newsItems, events, Paginate, Achievements, $location) {
         $scope.events = events;
         $scope.newsItems = newsItems;
+        $scope.API_PREFIX = API_PREFIX;
 
         $scope.edit = null;
 
