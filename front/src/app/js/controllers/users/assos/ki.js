@@ -9,7 +9,6 @@ class Assos_KI_Ctrl {
     constructor($scope, $rootScope, $resource, $http, fixs, ownFixs, Paginate, Achievements) {
         $scope.fixs = this.assignFixs(fixs);
         $scope.ownFixs = this.assignFixs(ownFixs);
-        $rootScope.displayTabs = true;
 
         $scope.reload = function() {
             Paginate.first($scope.ownFixs).then(function(response){

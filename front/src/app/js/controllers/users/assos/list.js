@@ -2,7 +2,6 @@
 class Assos_List_Ctrl {
     constructor($rootScope, $scope, clubs) {
         $scope.clubs = clubs;
-        $rootScope.displayTabs = true;
         $scope.clubTypes = [
             {name: 'Assos', slug: 'asso'},
             {name: 'Clubs gastronomiques', slug: 'club-gastronomique'},

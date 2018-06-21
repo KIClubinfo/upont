@@ -178,7 +178,6 @@ const upont = angular.module('upont', [
 ]);
 
 require('./services/Achievements');
-require('./services/Migration');
 require('./services/Paginate');
 require('./services/Ponthub');
 require('./services/Scroll');

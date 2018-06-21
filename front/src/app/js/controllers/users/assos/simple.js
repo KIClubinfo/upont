@@ -4,7 +4,6 @@ class Assos_Simple_Ctrl {
         $scope.club = club;
         $scope.members = members;
         $scope.promo = $rootScope.config.promos.assos;
-        $rootScope.displayTabs = false;
     }
 }
 

@@ -32,7 +32,7 @@ angular.module('upont').run(['$rootScope', 'StorageService', function($rootScope
     $rootScope.theme = StorageService.get('theme');
 
     // Switch de thème
-    $rootScope.switchTheme = function(theme) {
+    $rootScope.switchTheme = (theme) => {
         StorageService.set('theme', theme);
         $rootScope.theme = theme;
     };

@@ -1,3 +1,5 @@
+import alertify from 'alertifyjs';
+
 import { API_PREFIX, FA_ICONS } from 'upont/js/config/constants';
 
 angular.module('upont')
@@ -8,7 +10,6 @@ angular.module('upont')
         $scope.search = '';
         $scope.searchResults = [];
         $scope.user = $rootScope.me;
-        var clubSlug = club.name;
 
         $scope.setIcon = function(icon) {
             $scope.club.icon = icon;
@@ -16,9 +17,9 @@ angular.module('upont')
         };
 
         $scope.submitGeneral = function(fullName, icon, image, banner) {
-            var params = {
-                'fullName' : fullName,
-                'icon' : icon,
+            const params = {
+                'fullName': fullName,
+                'icon': icon,
             };
 
             if (image) {
@@ -40,18 +41,18 @@ angular.module('upont')
                 return;
             }
 
-            if (password != confirm) {
+            if (password !== confirm) {
                 alertify.error('Les deux mots de passe ne sont pas identiques');
                 return;
             }
 
-            var params = {
+            const params = {
                 old: old,
                 password: password,
-                confirm: confirm
+                confirm: confirm,
             };
 
-            $http.post($rootScope.url + 'own/user', params).then(
+            $http.post(API_PREFIX + 'own/user', params).then(
                 function(){
                     alertify.success('Compte mis à jour !');
                 },

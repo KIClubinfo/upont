@@ -61,17 +61,17 @@ class Students_Game_Ctrl {
         };
 
         $scope.post = function(promo, hardcore) {
-            var params = {
+            const params = {
                 promo: promo,
-                hardcore: hardcore
+                hardcore: hardcore,
             };
             $scope.hardcore = hardcore;
 
-            if (promo == 'Toutes') {
+            if (promo === 'Toutes') {
                 params.promo = undefined;
             }
 
-            $http.post($rootScope.url + 'facegames', params).then(function(response) {
+            $http.post(API_PREFIX + 'facegames', params).then(function(response) {
                 $scope.hardcore = hardcore;
                 $scope.playing = true;
                 $scope.end = false;
@@ -109,7 +109,7 @@ class Students_Game_Ctrl {
         };
 
         $scope.next = function(num) {
-            if (num == $scope.answer) {
+            if (num === $scope.answer) {
                 $scope.gameData.list_users[$scope.position].result = true;
             } else {
                 $scope.gameData.list_users[$scope.position].result = false;
@@ -119,12 +119,15 @@ class Students_Game_Ctrl {
 
             $scope.position++;
 
-            if ($scope.position == $scope.gameData.list_users.length) {
+            if ($scope.position === $scope.gameData.list_users.length) {
                 $timeout.cancel(timer);
                 $scope.end = true;
                 $scope.playing = false;
 
-                $http.patch($rootScope.url + 'facegames/' + $scope.gameData.id, {wrongAnswers: $scope.numWrong, duration: ($scope.clock-$scope.start) + 5000 * $scope.numWrong}).then(function(){
+                $http.patch(API_PREFIX + 'facegames/' + $scope.gameData.id, {
+                    wrongAnswers: $scope.numWrong,
+                    duration: ($scope.clock-$scope.start) + 5000 * $scope.numWrong
+                }).then(() => {
                     Achievements.check();
                 });
             } else {

@@ -1,5 +1,4 @@
-import {UserManager, WebStorageStateStore} from 'oidc-client';
-import alertify from 'alertifyjs';
+import { UserManager, WebStorageStateStore } from 'oidc-client';
 import Raven from 'raven-js';
 
 export class UserProfile {
@@ -58,7 +57,7 @@ export class AuthService {
 
     loadUser() {
         return this.userManager.getUser().then((user) => {
-            if(user) {
+            if (user) {
                 return this._setUser(user);
             }
             else {
@@ -83,12 +82,13 @@ export class AuthService {
     }
 
     completeAuthentication() {
-        return this.userManager.signinRedirectCallback().then(() => {
-            return this.getUser();
-        }, () => {
-            this.logout();
-            return Promise.reject();
-        });
+        return this.userManager.signinRedirectCallback().then(
+            () => this.getUser(),
+            () => {
+                this.logout();
+                return Promise.reject();
+            }
+        );
     }
 
     logout() {
@@ -128,10 +128,10 @@ export function getClientSettings() {
         client_id: 'upont-front-dev',
         redirect_uri: 'http://localhost:8080/oauth2/callback',
         post_logout_redirect_uri: 'http://localhost:8080/',
-        response_type: "id_token token",
-        scope: "openid profile upont",
+        response_type: 'id_token token',
+        scope: 'openid profile upont',
         filterProtocolClaims: true,
         loadUserInfo: true,
-        userStore: new WebStorageStateStore({ store: window.localStorage || window.sessionStorage }),
+        userStore: new WebStorageStateStore({store: window.localStorage || window.sessionStorage}),
     };
 }

@@ -5,7 +5,7 @@ import './footer.html';
 
 /* @ngInject */
 class Aside_Ctrl {
-    constructor($scope, $rootScope, $resource, $http, $interval) {
+    constructor($scope, $rootScope, $resource, $http, $interval, $state, AuthService) {
         // CHARGEMENT DES DONNÉES DE BASE
         // Version de uPont
         $resource(API_PREFIX + 'version').get(function (data) {
@@ -28,6 +28,7 @@ class Aside_Ctrl {
                 $scope.open = response.data.open;
             });
         };
+
         // Gens en ligne
         const refreshOnlineUsers = () => {
             $resource(API_PREFIX + 'refresh').get(
@@ -38,7 +39,14 @@ class Aside_Ctrl {
                 () => console.error('Failed to refresh online users'));
         };
         refreshOnlineUsers();
-        $rootScope.updateInfo = $interval(refreshOnlineUsers, 60000);
+        $scope.updateInfo = $interval(refreshOnlineUsers, 60000);
+
+        $scope.logout = () => {
+            AuthService.logout();
+            // On arrête de regarder en permanence qui est en ligne
+            $interval.cancel($scope.updateInfo);
+            $state.go('root.login');
+        };
     }
 }
 
