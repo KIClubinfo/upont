@@ -10,7 +10,7 @@ RUN npm install -g -s --no-progress yarn superstatic
 USER node
 
 COPY .yarnrc package.json yarn.lock /app/
-RUN yarn --dev
+RUN yarn --dev --frozen-lockfile
 
 COPY . /app/
 RUN yarn build
