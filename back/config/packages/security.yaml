@@ -12,6 +12,14 @@ security:
 
     firewalls:
         # Procédure de login
+        login:
+            pattern:  ^/login$
+            stateless: true
+            anonymous: true
+            provider: fos_userbundle
+            guard:
+              authenticators:
+                - form_login_authenticator
 
         ping:
             methods: [GET, HEAD]
@@ -48,11 +56,11 @@ security:
             stateless: true
             anonymous: true
             provider: fos_userbundle
-            simple_preauth:
-              authenticator: App\Security\KIAuthIdTokenAuthenticator
-#            guard:
-#               authenticators:
-#                 - 'lexik_jwt_authentication.jwt_token_authenticator'
+#            simple_preauth:
+#              authenticator: App\Security\KIAuthIdTokenAuthenticator
+            guard:
+               authenticators:
+                 - 'lexik_jwt_authentication.jwt_token_authenticator'
 
     access_control:
         - { path: ^/(clubs)(/[a-zA-Z]+)?,             methods: [GET], roles: IS_AUTHENTICATED_ANONYMOUSLY }

@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationExc
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-class FormLoginAuthenticator extends LoginAuthenticator
+class FormLoginAuthenticator extends AbstractLoginAuthenticator
 {
     private $passwordEncoder;
 
@@ -39,7 +39,7 @@ class FormLoginAuthenticator extends LoginAuthenticator
 
         return [
             'username' => $request->request->get('username'),
-            'password' => $request->request->get('password')
+            'password' => $request->request->get('password'),
         ];
     }
 

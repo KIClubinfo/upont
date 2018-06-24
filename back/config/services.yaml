@@ -220,6 +220,14 @@ services:
     App\Service\PermissionService:
         public: true
 
+    form_login_authenticator:
+        class: App\Security\FormLoginAuthenticator
+        arguments:
+          - '@lexik_jwt_authentication.jwt_manager'
+          - '@event_dispatcher'
+          - '@security.password_encoder'
+        public: false
+
     App\Setter\UserSetter:
         tags:
             - { name: doctrine.event_listener, event: prePersist }

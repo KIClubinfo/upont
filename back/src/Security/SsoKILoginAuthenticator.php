@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 
-class SsoEnpcLoginAuthenticator extends AbstractLoginAuthenticator
+class SsoKILoginAuthenticator extends AbstractLoginAuthenticator
 {
     private $userFactory;
     private $userRepository;
@@ -48,34 +48,15 @@ class SsoEnpcLoginAuthenticator extends AbstractLoginAuthenticator
             return;
         }
 
-        ob_start();
-        try {
-            \phpCAS::setDebug();
-            \phpCAS::setVerbose(true);
-            \phpCAS::client(SAML_VERSION_1_1, 'cas.enpc.fr', 443, '/cas', false);
-            \phpCAS::setNoCasServerValidation();
-            \phpCAS::setExtraCurlOption(CURLOPT_PROXY, $this->proxyUrl);
-            \phpCAS::setExtraCurlOption(CURLOPT_PROXYUSERPWD, $this->proxyUser);
-            \phpCAS::setNoClearTicketsFromUrl();
-            \phpCAS::forceAuthentication();
-        } catch (\CAS_AuthenticationException $exception) {
-            throw new CustomUserMessageAuthenticationException('CAS authentication exception');
-        } finally {
-            ob_end_clean();
-        }
-        return array_merge([
-            'username' => \phpCAS::getUser(),
-            'validateUrl' => \phpCAS::getServiceURL(),
-        ], \phpCAS::getAttributes());
+        $accessToken = $request->request->get('access_token');
+
+        return [];
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $username = $credentials['username'];
-
         $email = $credentials['mail'];
-        if(!preg_match('/@eleves\.enpc\.fr$/', $email))
-            throw new AccessDeniedException();
 
         $user = null;
 
@@ -86,7 +67,7 @@ class SsoEnpcLoginAuthenticator extends AbstractLoginAuthenticator
         }
 
         if(!$user) {
-            $user = $this->userRepository->findOneBy(['email' => $credentials['mail']]);
+            $user = $this->userRepository->findOneBy(['email' => $email]);
         }
 
         if (!$user) {

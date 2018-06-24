@@ -566,7 +566,7 @@ class User extends CoreUser
     /**
      * Get balance
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return float
      */
     public function getBalance()
     {
@@ -643,7 +643,7 @@ class User extends CoreUser
     }
 
     /**
-     * @return array
+     * @return ArrayCollection
      */
     public function getClubs()
     {
