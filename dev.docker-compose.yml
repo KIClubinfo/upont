@@ -1,0 +1,6 @@
+version: "2.3"
+
+services:
+    db:
+        ports:
+            - 3306:3306

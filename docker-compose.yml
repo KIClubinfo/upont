@@ -16,49 +16,12 @@ services:
         image: phpmyadmin/phpmyadmin
         depends_on:
             - db
-        restart: always
-
-    upont-front:
-        image: quay.io/kiclubinfo/upont-front:${TAG:-latest}
-        build:
-            context: front
-        restart: always
-
-    # pochtron2:
-    #     image: kiclubinfo/pochtron2
-    #     restart: always
-
-    upont-back:
-        image: quay.io/kiclubinfo/upont-back:${TAG:-latest}
-        build:
-            context: back
-        volumes:
-            - ./docker/config/jwt:/app/config/jwt:ro
-            - upont-uploads:/app/public/uploads:rw
-        depends_on:
-            - db
         environment:
-            - DATABASE_HOST=db
-        env_file:
-            - .env
-        restart: always
-
-    ingress:
-        image: quay.io/kiclubinfo/upont-ingress:${TAG:-latest}
-        build:
-            context: docker/ingress
-        volumes:
-            - ./docker/upont-docker-preprod.enpc.fr.conf:/etc/nginx/sites-enabled/upont.conf:ro
-        depends_on:
-            - upont-back
-            - upont-front
-            # - pochtron2
+            - MYSQL_USER=${DATABASE_USER}
+            - MYSQL_PASSWORD=${DATABASE_PASSWORD}
         ports:
-            - 8080:80
+            - 8081:80
         restart: always
 
 volumes:
     db-data:
-        driver: local
-    upont-uploads:
-        driver: local
