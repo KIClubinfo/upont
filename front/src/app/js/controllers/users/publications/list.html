@@ -15,7 +15,7 @@
                         <figcaption>
                             <a rel="author" title="Lien vers la page du club" class="Link  bold"
                                ui-sref="root.users.assos.simple.publications({slug: publication.author_club.slug})"
-                               ng-if="!$root.isExterieur">
+                            >
                                 {{ publication.author_club.name }}
                             </a>
                         </figcaption>
@@ -44,13 +44,11 @@
 
                     <!-- Boutons de participation -->
                     <section flex="100" ng-if="publication.start_date && !publication.shotgun_date" up-row center>
-                        <a class="Link  Link--reverse" ng-class="{'Link--active': publication.attend}" ng-disabled="$root.isAdmissible"
-                              ng-click="attend(publication)">
+                        <a class="Link  Link--reverse" ng-class="{'Link--active': publication.attend}" ng-click="attend(publication)">
                             <i class="fa fa-check"></i> Go !
                         </a>
                         &nbsp;&nbsp;&nbsp;
-                        <span class="Link  Link--reverse"  ng-class="{'Link--active': publication.pookie}" ng-disabled="$root.isAdmissible"
-                              ng-click="pookie(publication)">
+                        <span class="Link  Link--reverse"  ng-class="{'Link--active': publication.pookie}" ng-click="pookie(publication)">
                             <i class="fa fa-times"></i> Bof...
                         </span>
                     </section>
@@ -65,7 +63,7 @@
                             ui-sref="root.users.publications.simple({slug: publication.slug})">{{ publication.name }}</h2>
 
                         <!-- Lien du Shotgun -->
-                        <a class="Link  bold" title="Lien vers la page de shotgun" ng-disabled="$root.isAdmissible"
+                        <a class="Link  bold" title="Lien vers la page de shotgun"
                            ng-if="publication.start_date && publication.entry_method === 'Shotgun'"
                            ui-sref="root.users.publications.shotgun({slug: publication.slug})">
                             Shotgun : {{ publication.shotgun_date | formatMoment }}

@@ -275,7 +275,7 @@ angular.module('upont')
                 const $rootScope = trans.injector().get('$rootScope');
                 const AuthService = trans.injector().get('AuthService');
 
-                if (!AuthService.getUser().isStudent || !$rootScope.isStudentNetwork) {
+                if (!AuthService.getUser().isStudent() || !$rootScope.isStudentNetwork) {
                     return trans.router.stateService.target('root.404');
                 }
             });

@@ -65,8 +65,6 @@ class Resources_Courses_List_Ctrl {
 
         $scope.upvote = function(objet) {
             $scope.objet = objet;
-            if ($rootScope.isAdmissible)
-                return;
 
             if ($scope.isLoading) {
                 return;
@@ -95,8 +93,6 @@ class Resources_Courses_List_Ctrl {
 
         $scope.downvote = function(objet) {
             $scope.objet = objet;
-            if ($rootScope.isAdmissible)
-                return;
 
             if ($scope.isLoading) {
                 return;

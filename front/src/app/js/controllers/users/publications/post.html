@@ -32,7 +32,7 @@
         </div>
 
         <!-- entryMethod -->
-        <div class="padded" flex="100" flex-md="50" ng-if="!$root.isExterieur" ng-show="type == 'event'">
+        <div class="padded" flex="100" flex-md="50" ng-show="type == 'event'">
             <select class="Input" ng-model="post.entry_method" ng-disabled="modify">
                 <option selected>Entrée libre</option>
                 <option>Shotgun</option>
@@ -72,7 +72,7 @@
                 <div class="InputButton" ng-click="changeType('event')" ng-if="!modify" ng-class="{active: type == 'event'}">Événement</div>
 
                 <!-- Sélection du club -->
-                <div class="InputButton" ng-if="!$root.isExterieur" ng-show="type != 'message' && !modify" ng-class="{'active': club.name != 'Assos'}">
+                <div class="InputButton" ng-show="type != 'message' && !modify" ng-class="{'active': club.name != 'Assos'}">
                     <span ng-click="toggleSelect()">
                         <i class="fa fa-{{ club.icon ? club.icon : 'users' }}"></i> {{ club.name }}
                     </span>

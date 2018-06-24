@@ -1,5 +1,5 @@
 <div ng-controller="Publications_Post_Messages_Ctrl">
-    <section class="Ticket" ng-if="!$root.isAdmissible">
+    <section class="Ticket">
         <form row ng-submit="post(msg, postPicture)" autocomplete="off">
             <div col flex="100">
                 <textarea class="Input" rows="1" ng-focus="focus=true" ng-init="focus=false" ng-model="msg.text"

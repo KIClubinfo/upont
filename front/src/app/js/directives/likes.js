@@ -35,9 +35,6 @@ angular.module('upont').directive('upLikes', function() {
             }
 
             $scope.upvote = function() {
-                if ($rootScope.isAdmissible)
-                    return;
-
                 if ($scope.isLoading) {
                     return;
                 }
@@ -64,9 +61,6 @@ angular.module('upont').directive('upLikes', function() {
             };
 
             $scope.downvote = function() {
-                if ($rootScope.isAdmissible)
-                    return;
-
                 if ($scope.isLoading) {
                     return;
                 }
@@ -93,9 +87,6 @@ angular.module('upont').directive('upLikes', function() {
             };
 
             $scope.likeComment = function(comment) {
-                if ($rootScope.isAdmissible)
-                    return;
-
                 if ($scope.isLoading) {
                     return;
                 }
@@ -125,9 +116,6 @@ angular.module('upont').directive('upLikes', function() {
             };
 
             $scope.dislikeComment = function(comment) {
-                if ($rootScope.isAdmissible)
-                    return;
-
                 if ($scope.isLoading) {
                     return;
                 }

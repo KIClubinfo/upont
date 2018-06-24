@@ -7,9 +7,9 @@
 
             <form row="end start" wrap ng-submit="post(fix, true)" autocomplete="off">
                 <textarea class="Input" placeholder="Une explication la plus détaillée possible du problème."
-                          rows="3" ng-model="fix" ng-disabled="$root.isAdmissible" style="min-height:2em">
+                          rows="3" ng-model="fix" style="min-height:2em">
                 </textarea>
-                <button class="Button" ng-disabled="$root.isAdmissible">Envoyer !</button>
+                <button class="Button">Envoyer !</button>
             </form>
         </div>
 
@@ -36,9 +36,9 @@
 
             <form row="end start" wrap ng-submit="post(msg, false)" autocomplete="off">
                 <textarea class="Input" placeholder="Ce qui te passe par la tête... ce que tu aimes, ce que tu n'aimes pas, un bug..."
-                          rows="3" ng-model="msg" ng-disabled="$root.isAdmissible" autofocus style="min-height:2em">
+                          rows="3" ng-model="msg" autofocus style="min-height:2em">
                 </textarea>
-                <button class="Button" ng-disabled="$root.isAdmissible">Envoyer !</button>
+                <button class="Button">Envoyer !</button>
             </form>
         </div>
 

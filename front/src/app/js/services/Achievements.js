@@ -6,7 +6,7 @@ import {API_PREFIX} from 'upont/js/config/constants';
 angular.module('upont').factory('Achievements', ['$http', '$rootScope', 'AuthService', function ($http, $rootScope, AuthService) {
     return {
         check: function () {
-            if (!AuthService.getUser().isStudent)
+            if (!AuthService.getUser().isStudent())
                 return;
 
             $http.get(API_PREFIX + 'own/achievements').then((response) => {

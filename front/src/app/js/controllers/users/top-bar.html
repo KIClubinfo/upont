@@ -12,14 +12,49 @@
     </header>
 
     <ul class="Ticket Topbar__dropdown" flex="100" ng-show="$root.showTopMenu" ng-click="$root.showTopMenu=!$root.showTopMenu">
-        <li><a class="Topbar__link  Link  Link--reverse" ui-sref="root.users.publications.list"><i class="fa fa-comment"></i>News</a></li>
-        <li><a class="Topbar__link  Link  Link--reverse" ui-sref="root.users.calendar"><i class="fa fa-calendar"></i>Calendrier</a></li>
-        <li><a class="Topbar__link  Link  Link--reverse" ui-sref="root.users.assos.list"><i class="fa fa-thumbs-o-up"></i>Assos</a></li>
-        <li><a class="Topbar__link  Link  Link--reverse" ui-sref="root.users.students.list"><i class="fa fa-graduation-cap"></i>Élèves</a></li>
-        <li><a class="Topbar__link  Link  Link--reverse" ui-sref="root.users.resources.courses.list"><i class="fa fa-suitcase"></i>Ressources</a></li>
-        <li ng-if="$root.isStudentNetwork"><a class="Topbar__link  Link  Link--reverse" ui-sref="root.users.ponthub.category.list"><i class="fa fa-film"></i>PontHub</a></li>
-        <li><a class="Topbar__link  Link  Link--reverse" ng-if="!$root.isAdmissible" ui-sref="root.users.students.modify({slug: $root.username})"><i class="fa fa-address-card-o"></i>Profil</a></li>
-        <li ng-if="$root.isAdmin"><a class="Topbar__link  Link  Link--reverse" ui-sref="root.users.admin.students"><i class="fa fa-wrench"></i>Zone Admin</a></li>
-        <li><a class="Topbar__link  Link  Link--reverse" ui-sref="root.users.dashboard"><i class="fa fa-power-off"></i>Tableau de bord</a></li>
+        <li>
+            <a class="Topbar__link  Link  Link--reverse" ui-sref="root.users.publications.list">
+                <i class="fa fa-comment"></i>News
+            </a>
+        </li>
+        <li>
+            <a class="Topbar__link  Link  Link--reverse" ui-sref="root.users.calendar">
+                <i class="fa fa-calendar"></i>Calendrier
+            </a>
+        </li>
+        <li>
+            <a class="Topbar__link  Link  Link--reverse" ui-sref="root.users.assos.list">
+                <i class="fa fa-thumbs-o-up"></i>Assos
+            </a>
+        </li>
+        <li>
+            <a class="Topbar__link  Link  Link--reverse" ui-sref="root.users.students.list">
+                <i class="fa fa-graduation-cap"></i>Élèves
+            </a>
+        </li>
+        <li>
+            <a class="Topbar__link  Link  Link--reverse" ui-sref="root.users.resources.courses.list">
+                <i class="fa fa-suitcase"></i>Ressources
+            </a>
+        </li>
+        <li ng-if="$root.isStudentNetwork">
+            <a class="Topbar__link  Link  Link--reverse" ui-sref="root.users.ponthub.category.list">
+                <i class="fa fa-film"></i>PontHub
+            </a>
+        </li>
+        <li>
+            <a class="Topbar__link  Link  Link--reverse" ui-sref="root.users.students.modify({slug: $root.username})">
+                <i class="fa fa-address-card-o"></i>Profil</a>
+        </li>
+        <li ng-if="$root.isAdmin">
+            <a class="Topbar__link  Link  Link--reverse" ui-sref="root.users.admin.students">
+                <i class="fa fa-wrench"></i>Zone Admin
+            </a>
+        </li>
+        <li>
+            <a class="Topbar__link  Link  Link--reverse" ui-sref="root.users.dashboard">
+                <i class="fa fa-power-off"></i>Tableau de bord
+            </a>
+        </li>
     </ul>
 </nav>

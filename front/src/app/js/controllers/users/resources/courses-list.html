@@ -57,19 +57,19 @@
                 <div class="Media  Media--main  Media--hover  padded" flex="100" row>
                     <h3 flex="75" class="clickable" ui-sref="root.users.resources.courses.simple({slug: course.slug})">{{ course.name }}</h3>
                     <div flex="25" row wrap>
-                        <div class="Link  Link--reverse  Link--alt" ng-class="{'Link--active': course.like}" flex="50" ng-click="upvote(course);" ng-disabled="$root.isAdmissible">
+                        <div class="Link  Link--reverse  Link--alt" ng-class="{'Link--active': course.like}" flex="50" ng-click="upvote(course);">
                             <i class="fa  fa-thumbs-o-up"></i> {{ course.likes >= 0 ? course.likes : 0 }}
                         </div>
 
-                        <div class="Link  Link--reverse  Link--alt" ng-class="{'Link--active': course.dislike}" flex="50" ng-click="downvote(course);" ng-disabled="$root.isAdmissible">
+                        <div class="Link  Link--reverse  Link--alt" ng-class="{'Link--active': course.dislike}" flex="50" ng-click="downvote(course);">
                             <i class="fa  fa-thumbs-o-down"></i> {{ course.dislikes >= 0 ? course.dislikes : 0 }}
                         </div>
 
-                        <div flex="50" ng-disabled="$root.isAdmissible">
+                        <div flex="50">
                             <i class="fa  fa-comment"></i> {{ course.comments }}
                         </div>
 
-                        <div class="Link  Link--reverse  Link--alt  text-center" flex="50" title="Suivre le cours" ng-click="leave(course)" ng-disabled="$root.isAdmissible">
+                        <div class="Link  Link--reverse  Link--alt  text-center" flex="50" title="Suivre le cours" ng-click="leave(course)">
                             <i class="fa  fa-eye"></i> {{ followedIds[course.slug] !== true ? followedIds[course.slug] : '' }}
                         </div>
                     </div>
@@ -86,19 +86,19 @@
                 <div class="Ticket" flex="100" row>
                     <h3 class="Link  Link--reverse" flex="75" ui-sref="root.users.resources.courses.simple({slug: course.slug})">{{ course.name }}</h3>
                     <div flex="25" row wrap ng-show="!modo">
-                        <div flex="50" class="Link  Link--reverse" ng-class="{'Link--active': course.like}" ng-click="upvote(course);" ng-disabled="$root.isAdmissible">
+                        <div flex="50" class="Link  Link--reverse" ng-class="{'Link--active': course.like}" ng-click="upvote(course);">
                             <i class="fa fa-thumbs-o-up"></i> {{ course.likes >= 0 ? course.likes : 0 }}
                         </div>
 
-                        <div flex="50" class="Link  Link--reverse" ng-class="{'Link--active': course.dislike}" ng-click="downvote(course);" ng-disabled="$root.isAdmissible">
+                        <div flex="50" class="Link  Link--reverse" ng-class="{'Link--active': course.dislike}" ng-click="downvote(course);">
                             <i class="fa fa-thumbs-o-down"></i> {{ course.dislikes >= 0 ? course.dislikes : 0 }}
                         </div>
 
-                        <div flex="50" up-col="50%" ng-disabled="$root.isAdmissible">
+                        <div flex="50" up-col="50%">
                             <i class="fa fa-comment"></i> {{ course.comments }}
                         </div>
 
-                        <div flex="50" class="Link  Link--reverse  text-center" title="Suivre le cours" ng-click="attend(course)" ng-disabled="$root.isAdmissible">
+                        <div flex="50" class="Link  Link--reverse  text-center" title="Suivre le cours" ng-click="attend(course)">
                             <i class="fa fa-eye"></i>
                         </div>
                     </div>

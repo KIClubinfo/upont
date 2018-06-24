@@ -1,9 +1,9 @@
 <section row="end center">
-    <div class="Link Link--reverse padded" ng-click="upvote(url);" ng-class="{'Link--active' : objet.like, admissibles : $root.isAdmissible || $root.isExterieur}">
+    <div class="Link Link--reverse padded" ng-click="upvote(url);" ng-class="{'Link--active' : objet.like}">
         <i class="fa fa-thumbs-o-up"></i> {{ objet.likes >= 0 ? objet.likes : 0 }}
     </div>
 
-    <div class="Link Link--reverse padded" ng-if="!$root.isExterieur" ng-click="downvote(url);" ng-class="{'Link--active' : objet.dislike, admissibles : $root.isAdmissible || $root.isExterieur}">
+    <div class="Link Link--reverse padded" ng-click="downvote(url);" ng-class="{'Link--active' : objet.dislike}">
         <i class="fa fa-thumbs-o-down"></i> {{ objet.dislikes >= 0 ? objet.dislikes : 0 }}
     </div>
 
@@ -12,7 +12,7 @@
     </div>
 </section>
 
-<hr ng-if="(!$root.isAdmissible || comments.length > 0) && show">
+<hr ng-if="show">
 
 <section ng-if="show">
     <!-- Commentaires -->
@@ -22,19 +22,18 @@
         </div>
 
         <div>
-            <strong ng-if="!$root.isExterieur"><span up-user user="comment.author">{{ comment.author.nick }}</span> : </strong>
-            <strong ng-if="$root.isExterieur">{{ comment.author.first_name }} {{ comment.author.last_name }} : </strong>
+            <strong><span up-user user="comment.author">{{ comment.author.nick }}</span> : </strong>
 
             <span ng-bind-html="comment.text | trustAsHtml"></span><br>
 
             <footer>
                 {{ comment.date | fromNow }}
 
-                <span class="Link  Link--reverse" ng-class="{'Link--active' : comment.like, admissibles : $root.isAdmissible || $root.isExterieur}" ng-click="likeComment(comment)">
+                <span class="Link  Link--reverse" ng-class="{'Link--active' : comment.like}" ng-click="likeComment(comment)">
                     <i class="fa  fa-thumbs-o-up"></i> {{ comment.likes >= 0 ? comment.likes : 0 }}
                 </span>
 
-                <span class="Link  Link--reverse" ng-class="{'Link--active' : comment.dislike, admissibles : $root.isAdmissible || $root.isExterieur}" ng-if="!$root.isExterieur" ng-click="dislikeComment(comment)">
+                <span class="Link  Link--reverse" ng-class="{'Link--active' : comment.dislike}" ng-click="dislikeComment(comment)">
                     <i class="fa  fa-thumbs-o-down"></i> {{ comment.dislikes >= 0 ? comment.dislikes : 0 }}
                 </span>
 
@@ -50,7 +49,7 @@
     </div>
 
     <!-- Publier un commentaire -->
-    <form row="space-around center" autocomplete="off" ng-if="!$root.isAdmissible">
+    <form row="space-around center" autocomplete="off">
         <div class="Image  Image--thumb  Image--margin">
             <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ $root.me.image_url | thumb | urlFile }})' }"></div>
         </div>

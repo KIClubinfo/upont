@@ -1,5 +1,5 @@
 <div row="space-between start" wrap>
-    <section class="Ticket" flex="100" ng-class="{'flex-md-66pct': !club.administration}">
+    <section class="Ticket" flex="100" flex-md="66">
         <div ng-hide="edit">
             <p flex="100" ng-bind-html="club.presentation | trustAsHtml"></p>
 
@@ -18,7 +18,7 @@
         </div>
     </section>
     <div col flex="100" flex-md="33">
-        <section class="Ticket" ng-if="!club.administration">
+        <section class="Ticket">
             <h2>Membres - {{ club.full_name }}</h2>
 
             <table class="Table" flex="90">
@@ -45,7 +45,7 @@
                         value="{{ promoItem }}">Année '{{ promoItem }}</option>
             </select>
         </section>
-        <section row class="Ticket" ng-if="!club.administration && club.place">
+        <section row class="Ticket" ng-if="club.place">
             <div class="padded" flex="50">
                 <i class="fa fa-home"></i>
                 Local :

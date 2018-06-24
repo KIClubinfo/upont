@@ -33,7 +33,7 @@ export const UsersPublicationsRouter = $stateProvider => {
                 'AuthService',
                 function(Paginate, AuthService) {
                     // Si c'est l'administration on ne charge que le seul club de l'user actuel
-                    if (!AuthService.getUser().isStudent) {
+                    if (!AuthService.getUser().isStudent()) {
                         return Paginate.get('clubs/' + AuthService.getUsername() + '/newsitems', {
                             sort: '-date',
                             limit: 10
@@ -50,7 +50,7 @@ export const UsersPublicationsRouter = $stateProvider => {
                 'AuthService',
                 function(Paginate, AuthService) {
                     // Si c'est l'administration on ne charge que le seul club de l'user actuel
-                    if (!AuthService.getUser().isStudent) {
+                    if (!AuthService.getUser().isStudent()) {
                         return Paginate.get('clubs/' + AuthService.getUsername() + '/events', {
                             sort: '-date',
                             limit: 10

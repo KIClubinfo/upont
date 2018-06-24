@@ -19,18 +19,13 @@ class Publications_Post_Ctrl {
         if ($stateParams.slug !== null && $stateParams.slug !== undefined) {
             // Par défaut on n'affiche pas le module
             $scope.display = false;
-            for (const key in $rootScope.clubs) {
+            for (const key of $rootScope.clubs) {
                 // Si on appartient au club, on affiche avec le club préséléctionné
-                if ($rootScope.clubs[key].club !== undefined && $rootScope.clubs[key].club.slug == $stateParams.slug) {
+                if ($rootScope.clubs[key].club !== undefined && $rootScope.clubs[key].club.slug === $stateParams.slug) {
                     club = $rootScope.clubs[key].club;
                     $scope.display = true;
                 }
             }
-        }
-
-        // Si l'utilisateur est un exterieur de l'administration
-        if (!AuthService.getUser().isStudent) {
-            club = $rootScope.clubs[0].club;
         }
 
         const init = function () {
@@ -46,7 +41,7 @@ class Publications_Post_Ctrl {
             $scope.club = club;
             $scope.toggle = false;
 
-            if (!AuthService.getUser().isStudent) {
+            if (!AuthService.getUser().isStudent()) {
                 $scope.placeholder = 'Texte de la news';
             }
             else {
@@ -62,7 +57,7 @@ class Publications_Post_Ctrl {
 
             switch (type) {
             case 'news':
-                if (!AuthService.getUser().isStudent) {
+                if (!AuthService.getUser().isStudent()) {
                     $scope.placeholder = 'Texte de la news';
                 }
                 else {
@@ -98,7 +93,7 @@ class Publications_Post_Ctrl {
                 if ($scope.club != clubDummy) {
                     params.authorClub = $scope.club.slug;
                 } else {
-                    if (!AuthService.getUser().isStudent) {
+                    if (!AuthService.getUser().isStudent()) {
                         params.authorClub = $rootScope.clubs[0].club.slug;
                     } else {
                         alertify.error('Tu n\'as pas choisi avec quelle assos publier');

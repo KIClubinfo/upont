@@ -7,7 +7,6 @@ class Admin_Assos_Ctrl {
         $scope.club = {
             fullname: '',
             name: '',
-            administration: false,
             category: ''
         };
 
@@ -15,7 +14,6 @@ class Admin_Assos_Ctrl {
             const params = {
                 fullName: club.fullname,
                 name: club.name,
-                administration: club.administration,
                 category: club.category,
                 active: true,
             };
@@ -37,7 +35,6 @@ class Admin_Assos_Ctrl {
             $scope.club = {
                 fullname: '',
                 name: '',
-                administration: false,
                 category: ''
             };
         };
