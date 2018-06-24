@@ -51,16 +51,12 @@ angular.module('upont').factory('ErrorCodes_Interceptor', [
             tokenGetter: [
                 'AuthService',
                 'options',
-                '$q',
-                function(AuthService, options, $q) {
+                (AuthService, options) => {
                     //On n'envoie pas le token pour les templates
                     if (options.url.substr(options.url.length - 5) === '.html')
                         return null;
 
-                    if (!AuthService.isLoggedIn()) {
-                        return $q.reject(options);
-                    }
-                    return AuthService.getUser().idToken;
+                    return AuthService.getAccessToken();
                 },
             ],
             whiteListedDomains: ['upont.enpc.fr', 'localhost'],
@@ -220,44 +216,41 @@ angular.module('upont').factory('ErrorCodes_Interceptor', [
 ])
 ;
 
-angular.module('upont').run([
-    '$rootScope',
-    'StorageService',
-    'AuthService',
-    '$interval',
-    '$window',
-    '$sce',
-    function($rootScope, StorageService, AuthService, $interval, $window, $sce, $state) {
-        // Vérifie si l'utilisateur a les roles sur un club/role
-        $rootScope.hasClub = (slug) => AuthService.hasClub(slug);
-
-        // Diverses variables globales
-        $rootScope.url = location.origin + API_PREFIX;
-        $rootScope.showTopMenu = false;
-
-        // Zoom sur les images
-        $rootScope.zoom = false;
-        $rootScope.zoomUrl = null;
-        $rootScope.zoomOut = (event) => {
-            if (event.which === 1) {
-                $rootScope.zoom = false;
-                $rootScope.zoomUrl = null;
-            }
-        };
-        $rootScope.zoomIn = (url) => {
-            $rootScope.zoom = true;
-            $rootScope.zoomUrl = $sce.trustAsUrl(url);
-        };
-
-        AuthService.loadUser();
-    },
-])
+angular.module('upont')
     .run([
-        '$trace',
-        '$uiRouter',
-        ($trace, $uiRouter) => {
-            $uiRouter.plugin(Visualizer);
-            $trace.enable('TRANSITION');
+        '$rootScope',
+        'AuthService',
+        '$sce',
+        ($rootScope, AuthService, $sce) => {
+            $rootScope.clubs = [];
+            // Vérifie si l'utilisateur a les roles sur un club/role
+            $rootScope.hasClub = (slug) => {
+                if (AuthService.isLoggedIn() && AuthService.getUser().isAdmin()) {
+                    return true;
+                }
+
+                return $rootScope.clubs.indexOf(slug) !== -1;
+            };
+
+            // Diverses variables globales
+            $rootScope.url = location.origin + API_PREFIX;
+            $rootScope.showTopMenu = false;
+
+            // Zoom sur les images
+            $rootScope.zoom = false;
+            $rootScope.zoomUrl = null;
+            $rootScope.zoomOut = (event) => {
+                if (event.which === 1) {
+                    $rootScope.zoom = false;
+                    $rootScope.zoomUrl = null;
+                }
+            };
+            $rootScope.zoomIn = (url) => {
+                $rootScope.zoom = true;
+                $rootScope.zoomUrl = $sce.trustAsUrl(url);
+            };
+
+            AuthService.loadUser();
         },
     ])
     .run([
@@ -269,7 +262,7 @@ angular.module('upont').run([
 
                 if (!AuthService.isLoggedIn()) {
                     // FIXME
-                    // if (trans. !== '/') {
+                    // if ($location.path() !== '/') {
                     //     $rootScope.urlRef = window.location.href;
                     // }
 
@@ -309,4 +302,5 @@ angular.module('upont').run([
                     window.scrollTo(0, 0);
             });
         },
-    ]);
+    ])
+;

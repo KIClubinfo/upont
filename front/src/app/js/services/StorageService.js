@@ -7,7 +7,7 @@ angular.module('upont').factory('StorageService', function() {
         },
 
         set: function(key, data) {
-            if (typeof(data) == 'object')
+            if (typeof(data) === 'object')
                 localStorage.setItem(key, JSON.stringify(data));
             else
                 localStorage.setItem(key, data);

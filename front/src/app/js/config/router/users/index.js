@@ -43,7 +43,7 @@ export const UsersRouter = $stateProvider => {
                 '$rootScope',
                 ($http, $rootScope) => {
                     // On récupère les clubs de l'utilisateurs pour déterminer ses roles de publication
-                    return $http.get(API_PREFIX + 'own/clubs').then(function(response) {
+                    return $http.get(API_PREFIX + 'own/clubs').then((response) => {
                         $rootScope.clubs = response.data;
                         return response.data;
                     }, () => console.error('Failed to retrieve own clubs'));
@@ -54,7 +54,7 @@ export const UsersRouter = $stateProvider => {
                 '$rootScope',
                 ($http, $rootScope) => {
                     // On récupère les clubs de l'utilisateurs pour déterminer ses roles de publication
-                    return $http.get(API_PREFIX + 'config').then(function(response) {
+                    return $http.get(API_PREFIX + 'config').then((response) => {
                         $rootScope.config = response.data;
                         $rootScope.isStudentNetwork = response.data.studentNetwork;
                         return response.data;

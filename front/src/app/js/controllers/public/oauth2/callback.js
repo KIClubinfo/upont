@@ -2,10 +2,10 @@ import alertify from 'alertifyjs';
 
 /* @ngInject */
 class OAuth2Callback_Ctrl {
-    constructor($rootScope, $state, AuthService, Achievements) {
-        AuthService.completeAuthentication().then((user) => {
+    constructor($rootScope, $state, OAuth2Service, Achievements) {
+        OAuth2Service.completeAuthentication().then((user) => {
             // Soyons polis
-            if (!user.isStudent) {
+            if (!user.isStudent()) {
                 alertify.success('Connecté avec succès !');
             }
             else {
@@ -14,13 +14,14 @@ class OAuth2Callback_Ctrl {
 
             Achievements.check();
 
-            if (typeof $rootScope.urlRef !== 'undefined' && $rootScope.urlRef !== null && $rootScope.urlRef != '/') {
+            if (typeof $rootScope.urlRef !== 'undefined' && $rootScope.urlRef !== null && $rootScope.urlRef !== '/') {
                 window.location.href = $rootScope.urlRef;
                 $rootScope.urlRef = null;
             } else {
                 $state.go('root.users.publications.list');
             }
-        }, () => {
+        }, (e) => {
+            console.error(e);
             alertify.error('Mauvais identifiant. Soit l\'identifiant n\'existe pas, soit le mot de passe est incorrect.');
             $state.go('root.login');
         });

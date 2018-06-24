@@ -1,72 +1,25 @@
-import { UserManager, WebStorageStateStore } from 'oidc-client';
 import Raven from 'raven-js';
 
-export class UserProfile {
-    constructor(user) {
-        this.user = user;
-    }
-
-    static fromOidcUser(user) {
-        return new UserProfile(user);
-    }
-
-    get isExpired() {
-        return this.user.expired || false;
-    }
-
-    get username() {
-        return this.user.profile.sub;
-    }
-
-    get accessToken() {
-        return this.user.access_token;
-    }
-
-    get idToken() {
-        return this.user.id_token;
-    }
-
-    get isJardinier() {
-        return this.user.scopes.includes('upont:jardinier');
-    }
-
-    get isStudent() {
-        return this.user.scopes.includes('upont:student');
-    }
-}
+import { API_PREFIX } from 'upont/js/config/constants';
 
 /* @ngInject */
 export class AuthService {
-    constructor($rootScope, $analytics) {
+    constructor($rootScope, $analytics, StorageService, jwtHelper) {
         // Dependency Injection
         this.$rootScope = $rootScope;
         this.$analytics = $analytics;
-
-        this.userManager = new UserManager(getClientSettings());
+        this.StorageService = StorageService;
+        this.jwtHelper = jwtHelper;
 
         this.user = null;
-
-        this.userManager.events.addUserLoaded((user) => {
-            this._setUser(user);
-        });
-
-        this.userManager.events.addUserUnloaded(() => {
-            this._resetUser();
-        });
     }
 
     loadUser() {
-        return this.userManager.getUser().then((user) => {
-            if (user) {
-                return this._setUser(user);
-            }
-            else {
-                return null;
-            }
-        }, (error) => {
-            console.warn(error);
-            return null;
-        });
+        const token = this.StorageService.get('token');
+
+        if (token) {
+            this.setUserFromToken(token);
+        }
     }
 
     getUser() {
@@ -74,32 +27,26 @@ export class AuthService {
     }
 
     isLoggedIn() {
-        return this.user != null && !this.user.isExpired;
+        return this.user != null && !this.user.isExpired();
     }
 
-    startAuthentication() {
-        return this.userManager.signinRedirect();
-    }
-
-    completeAuthentication() {
-        return this.userManager.signinRedirectCallback().then(
-            () => this.getUser(),
-            () => {
-                this.logout();
-                return Promise.reject();
-            }
-        );
+    getAccessToken() {
+        return this.user != null ? this.user.accessToken : null;
     }
 
     logout() {
-        this.userManager.removeUser();
+        this.resetUser();
+        this.StorageService.remove('token');
     }
 
-    // Private functions
-    _setUser(user) {
-        console.log(user);
+    setUserFromToken(jwtToken) {
+        this.StorageService.set('token', jwtToken);
 
-        user = UserProfile.fromOidcUser(user);
+        const user = new UserAuth(
+            jwtToken,
+            this.jwtHelper.decodeToken(jwtToken),
+        );
+
         this.user = user;
         this.$rootScope.user = user;
 
@@ -112,7 +59,7 @@ export class AuthService {
         return this.user;
     }
 
-    _resetUser() {
+    resetUser() {
         this.user = null;
         this.$rootScope.user = null;
 
@@ -122,16 +69,57 @@ export class AuthService {
 
 }
 
-export function getClientSettings() {
-    return {
-        authority: 'http://localhost:4444',
-        client_id: 'upont-front-dev',
-        redirect_uri: 'http://localhost:8080/oauth2/callback',
-        post_logout_redirect_uri: 'http://localhost:8080/',
-        response_type: 'id_token token',
-        scope: 'openid profile upont',
-        filterProtocolClaims: true,
-        loadUserInfo: true,
-        userStore: new WebStorageStateStore({store: window.localStorage || window.sessionStorage}),
-    };
+export class UserAuth {
+    constructor(jwtToken, decodedToken) {
+        this.jwtToken = jwtToken;
+        this.decodedToken = decodedToken;
+    }
+
+    isExpired() {
+        const exp = new Date(0);
+        exp.setUTCSeconds(this.decodedToken.exp);
+
+        return exp <= new Date();
+    }
+
+    get username() {
+        return this.decodedToken.username;
+    }
+
+    get accessToken() {
+        if (this.isExpired()) {
+            throw new Error('Expired access token');
+        }
+
+        return this.jwtToken;
+    }
+
+    isJardinier() {
+        return this.hasRole('ROLE_JARDINIER');
+    }
+
+    isStudent() {
+        return this.hasRole('ROLE_STUDENT');
+    }
+
+    isAdmin() {
+        return this.hasRole('ROLE_ADMIN');
+    }
+
+    hasRole(role) {
+        const roles = this.decodedToken.roles;
+
+        // Ces rôles là ne doivent pas être répercutés aux admins
+        if (role === 'ROLE_EXTERIEUR' || role === 'ROLE_ADMISSIBLE')
+            return roles.indexOf(role) !== -1;
+
+        if (roles.indexOf('ROLE_ADMIN') !== -1)
+            return true;
+
+        // Le modo a tous les roles sauf ceux de l'admin
+        if (roles.indexOf('ROLE_MODO') !== -1 && role !== 'ROLE_ADMIN')
+            return true;
+
+        return roles.indexOf(role) !== -1;
+    }
 }

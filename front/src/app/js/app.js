@@ -218,3 +218,6 @@ upont.config(Router);
 
 import { AuthService } from 'upont/js/services/AuthService';
 upont.service('AuthService', AuthService);
+
+import { OAuth2Service } from 'upont/js/services/OAuth2Service';
+upont.service('OAuth2Service', OAuth2Service);
