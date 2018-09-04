@@ -11,8 +11,8 @@ class Admin_Assos_Ctrl {
             category: '',
         };
 
-        $scope.post = function (club) {
-            var params = {
+        $scope.post = (club) => {
+            const params = {
                 fullName: club.fullname,
                 name: club.name,
                 administration: club.administration,
@@ -30,9 +30,7 @@ class Admin_Assos_Ctrl {
                 return;
             }
 
-            $http.post(API_PREFIX + 'clubs', params).then(function () {
-                alertify.success('Assos créée');
-            });
+            $http.post(API_PREFIX + 'clubs', params).then(() => alertify.success('Assos créée'));
 
             $scope.club = {
                 fullname: '',
