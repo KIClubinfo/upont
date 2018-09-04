@@ -50,7 +50,7 @@ export const UsersStudentsRouter = $stateProvider => {
         resolve: {
             comments: [
                 'Paginate',
-                (Paginate) => Paginate.get('users/pontlyvalent')
+                (Paginate) => Paginate.get('users/pontlyvalent', { limit: 100000 })
             ]
         },
         data: {

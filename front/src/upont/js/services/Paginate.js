@@ -7,7 +7,7 @@ angular.module('upont').factory('Paginate', [
     '$q',
     '$httpParamSerializer',
     '$rootScope',
-    function($http, $q, $httpParamSerializer, $rootScope) {
+    ($http, $q, $httpParamSerializer, $rootScope) => {
         const loadData = (paginationData, append) => {
             // On indique qu'on est en train de charger de nouvelles données
             $rootScope.infiniteLoading = true;
@@ -39,7 +39,7 @@ angular.module('upont').factory('Paginate', [
         };
 
         return {
-            get: function(url, paginationParams) {
+            get: (url, paginationParams) => {
                 return $http({
                     method: 'GET',
                     url: API_PREFIX + url + '?' + $httpParamSerializer(paginationParams)
@@ -53,7 +53,7 @@ angular.module('upont').factory('Paginate', [
                 );
             },
 
-            next: function(paginationData) {
+            next: (paginationData) => {
                 if ('next_page' in paginationData.pagination_infos) {
                     paginationData.pagination_params.page = paginationData.pagination_infos.next_page;
                     return loadData(paginationData, true);
@@ -65,7 +65,7 @@ angular.module('upont').factory('Paginate', [
                 }
             },
 
-            first: function(paginationData) {
+            first: (paginationData) => {
                 paginationData.pagination_params.page = paginationData.pagination_infos.first_page;
                 return loadData(paginationData);
             }

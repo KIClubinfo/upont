@@ -8,21 +8,21 @@ class Students_Pontlyvalent_Ctrl {
         $scope.searchResultsPost = [];
         $scope.searchPost = '';
         $scope.searchName = '';
-        $scope.comments = comments;
+        $scope.comments = comments.data;
 
-        $scope.searchUserPost = function(string) {
-            if (string === '') {
+        $scope.searchUserPost = (userQuery) => {
+            if (userQuery === '') {
                 $scope.searchResultsPost = [];
             } else {
-                $http.post(API_PREFIX + 'search', {search: 'User/' + string}).then(function(response){
+                $http.post(API_PREFIX + 'search', {search: 'User/' + userQuery}).then((response) => {
                     $scope.searchResultsPost = response.data.users;
                 });
             }
         };
 
-        $scope.reload = function() {
-            $resource(API_PREFIX + 'users/pontlyvalent').query(function(data){
-                $scope.comments = data;
+        $scope.reload = () => {
+            Paginate.get('users/pontlyvalent', { limit: 100000 }).then((response) => {
+                $scope.comments = response.data;
             });
         };
 

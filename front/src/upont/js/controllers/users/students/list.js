@@ -15,7 +15,7 @@ class Students_List_Ctrl {
         };
 
         $scope.next = function() {
-            Paginate.next($scope.users).then(function(response){
+            Paginate.next($scope.users).then((response) => {
                 $scope.users = response;
             });
         };

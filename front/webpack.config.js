@@ -30,7 +30,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /src\/app\/.*\.js$/,
+                test: /src\/upont\/.*\.js$/,
                 use: [
                     {
                         loader: 'babel-loader',
