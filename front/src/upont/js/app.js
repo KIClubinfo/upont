@@ -176,7 +176,6 @@ const upont = angular.module('upont', [
 ]);
 
 require('./services/Achievements');
-require('./services/Migration');
 require('./services/Paginate');
 require('./services/Permissions');
 require('./services/Ponthub');

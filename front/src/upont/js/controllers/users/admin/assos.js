@@ -1,5 +1,5 @@
 import alertify from 'alertifyjs';
-import {API_PREFIX} from "upont/js/config/constants";
+import { API_PREFIX } from "upont/js/config/constants";
 
 /* @ngInject */
 class Admin_Assos_Ctrl {
@@ -8,16 +8,16 @@ class Admin_Assos_Ctrl {
             fullname: '',
             name: '',
             administration: false,
-            category: ''
+            category: '',
         };
 
-        $scope.post = function(club) {
-            var params ={
+        $scope.post = function (club) {
+            var params = {
                 fullName: club.fullname,
                 name: club.name,
                 administration: club.administration,
                 category: club.category,
-                active: true
+                active: true,
             };
 
             if (!club.fullname) {
@@ -30,7 +30,7 @@ class Admin_Assos_Ctrl {
                 return;
             }
 
-            $http.post(API_PREFIX + 'clubs', params).then(function(){
+            $http.post(API_PREFIX + 'clubs', params).then(function () {
                 alertify.success('Assos créée');
             });
 
@@ -38,7 +38,7 @@ class Admin_Assos_Ctrl {
                 fullname: '',
                 name: '',
                 administration: false,
-                category: ''
+                category: '',
             };
         };
 

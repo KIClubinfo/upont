@@ -6,26 +6,26 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
     resolve: {
         alias: {
-            upont: path.resolve(__dirname, 'src/app/'),
+            upont: path.resolve(__dirname, 'src/upont/'),
             libs: path.resolve(__dirname, 'src/libs/')
         },
         modules: ['node_modules']
     },
     devtool: 'source-map',
     entry: {
-        upont: path.resolve(__dirname, 'src/app/js/app.js'),
-        'theme_classic': path.resolve(__dirname, 'src/app/css/themes/classic.less'),
-        'theme_classic-dark': path.resolve(__dirname, 'src/app/css/themes/classic-dark.less'),
-        'theme_grey-dark': path.resolve(__dirname, 'src/app/css/themes/grey-dark.less'),
-        'theme_grey': path.resolve(__dirname, 'src/app/css/themes/grey.less'),
-        'theme_grey-green': path.resolve(__dirname, 'src/app/css/themes/grey-green.less'),
-        'theme_grey-red': path.resolve(__dirname, 'src/app/css/themes/grey-red.less'),
-        'theme_grey-yellow': path.resolve(__dirname, 'src/app/css/themes/grey-yellow.less'),
-        'theme_green': path.resolve(__dirname, 'src/app/css/themes/green.less'),
-        'theme_brown': path.resolve(__dirname, 'src/app/css/themes/brown.less'),
-        'theme_brown-dark': path.resolve(__dirname, 'src/app/css/themes/brown-dark.less'),
-        'theme_orange': path.resolve(__dirname, 'src/app/css/themes/orange.less'),
-        'theme_violet-dark': path.resolve(__dirname, 'src/app/css/themes/violet-dark.less'),
+        upont: path.resolve(__dirname, 'src/upont/js/app.js'),
+        'theme_classic': path.resolve(__dirname, 'src/upont/css/themes/classic.less'),
+        'theme_classic-dark': path.resolve(__dirname, 'src/upont/css/themes/classic-dark.less'),
+        'theme_grey-dark': path.resolve(__dirname, 'src/upont/css/themes/grey-dark.less'),
+        'theme_grey': path.resolve(__dirname, 'src/upont/css/themes/grey.less'),
+        'theme_grey-green': path.resolve(__dirname, 'src/upont/css/themes/grey-green.less'),
+        'theme_grey-red': path.resolve(__dirname, 'src/upont/css/themes/grey-red.less'),
+        'theme_grey-yellow': path.resolve(__dirname, 'src/upont/css/themes/grey-yellow.less'),
+        'theme_green': path.resolve(__dirname, 'src/upont/css/themes/green.less'),
+        'theme_brown': path.resolve(__dirname, 'src/upont/css/themes/brown.less'),
+        'theme_brown-dark': path.resolve(__dirname, 'src/upont/css/themes/brown-dark.less'),
+        'theme_orange': path.resolve(__dirname, 'src/upont/css/themes/orange.less'),
+        'theme_violet-dark': path.resolve(__dirname, 'src/upont/css/themes/violet-dark.less'),
     },
     module: {
         rules: [

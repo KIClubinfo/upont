@@ -12,7 +12,7 @@ class Students_Game_Ctrl {
         $scope.clock = 0;
         $scope.tickInterval = 1;
         $scope.promos = $rootScope.config.promos.all.slice($rootScope.config.promos.all.length - 4).concat([
-            'Toutes'
+            'Toutes',
         ]);
         $scope.promo = 'Toutes';
         $scope.hardcore = false;
@@ -23,12 +23,12 @@ class Students_Game_Ctrl {
             promo: 'Promo',
             department: 'Département',
             nationality: 'Nationalité',
-            origin: 'Origine'
+            origin: 'Origine',
         };
 
         $scope.loadStats = function() {
             $scope.globalStatistics = globalStatistics;
-            $http.get(API_PREFIX + 'statistics/facegame/' + $rootScope.username).then(function(response){
+            $http.get(API_PREFIX + 'statistics/facegame/' + $rootScope.username).then(function(response) {
                 $scope.userStatistics = response.data;
             });
         };
@@ -63,11 +63,11 @@ class Students_Game_Ctrl {
         $scope.post = function(promo, hardcore) {
             var params = {
                 promo: promo,
-                hardcore: hardcore
+                hardcore: hardcore,
             };
             $scope.hardcore = hardcore;
 
-            if (promo == 'Toutes') {
+            if (promo === 'Toutes') {
                 params.promo = undefined;
             }
 
@@ -109,7 +109,7 @@ class Students_Game_Ctrl {
         };
 
         $scope.next = function(num) {
-            if (num == $scope.answer) {
+            if (num === $scope.answer) {
                 $scope.gameData.list_users[$scope.position].result = true;
             } else {
                 $scope.gameData.list_users[$scope.position].result = false;
@@ -119,12 +119,15 @@ class Students_Game_Ctrl {
 
             $scope.position++;
 
-            if ($scope.position == $scope.gameData.list_users.length) {
+            if ($scope.position === $scope.gameData.list_users.length) {
                 $timeout.cancel(timer);
                 $scope.end = true;
                 $scope.playing = false;
 
-                $http.patch(API_PREFIX + 'facegames/' + $scope.gameData.id, {wrongAnswers: $scope.numWrong, duration: ($scope.clock-$scope.start) + 5000 * $scope.numWrong}).then(function(){
+                $http.patch(API_PREFIX + 'facegames/' + $scope.gameData.id, {
+                    wrongAnswers: $scope.numWrong,
+                    duration: ($scope.clock - $scope.start) + 5000 * $scope.numWrong,
+                }).then(function() {
                     Achievements.check();
                 });
             } else {
