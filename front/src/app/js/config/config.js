@@ -270,11 +270,9 @@ angular.module('upont').run([
                 $rootScope.zoomUrl = null;
             }
         };
-        $rootScope.zoomIn = function(url, isExternal=false) {
-            let fullUrl = isExternal ? API_PREFIX : '';
-            fullUrl += url;
+        $rootScope.zoomIn = function(url) {
             $rootScope.zoom = true;
-            $rootScope.zoomUrl = $sce.trustAsUrl(fullUrl);
+            $rootScope.zoomUrl = $sce.trustAsUrl(API_PREFIX + url);
         };
 
         // Au changement de page

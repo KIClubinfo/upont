@@ -8,7 +8,7 @@
     <div class="padded" row>
         <!-- Image du fichier -->
         <aside flex="25" ng-if="element.image_url" col>
-            <div class="Image  clickable" ng-click="$root.zoomIn(element.image_url, isExternal=true)"
+            <div class="Image  clickable" ng-click="$root.zoomIn(element.image_url)"
                  ng-class="{'Image--portrait': category == 'films' || category == 'series', 'Image--landscape': category == 'jeux'}">
                 <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ element.image_url | urlFile }})' }"></div>
             </div>
