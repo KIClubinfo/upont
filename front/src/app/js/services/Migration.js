@@ -1,5 +1,6 @@
 import alertify from 'alertifyjs';
 import angular from 'angular';
+import {API_PREFIX} from "upont/js/config/constants";
 
 // Service effectuant des opérations de mise à jour au fur et à mesure des versions
 angular.module('upont').factory('Migration', ['$http', '$rootScope', function($http, $rootScope) {
@@ -13,7 +14,7 @@ angular.module('upont').factory('Migration', ['$http', '$rootScope', function($h
                     'Laisse-les publiques et tes potes verront qu\'ils ont encore du chemin à faire avant de te rattraper !<br>' +
                     '(Ce réglage est toujours modifiable depuis la page de modification du profil)',
                     () => {
-                        $http.patch($rootScope.url + 'users/' + user.username, {statsFoyer: true, statsPonthub: true}).then(function(){
+                        $http.patch(API_PREFIX + 'users/' + user.username, {statsFoyer: true, statsPonthub: true}).then(function(){
                             $rootScope.me.statsFoyer = true;
                             $rootScope.me.statsPonthub = true;
                             alertify.success('Super !');
@@ -21,7 +22,7 @@ angular.module('upont').factory('Migration', ['$http', '$rootScope', function($h
                         });
                     },
                     () => {
-                        $http.patch($rootScope.url + 'users/' + user.username, {statsFoyer: false, statsPonthub: false}).then(function(){
+                        $http.patch(API_PREFIX + 'users/' + user.username, {statsFoyer: false, statsPonthub: false}).then(function(){
                             $rootScope.me.statsFoyer = false;
                             $rootScope.me.statsPonthub = false;
                             alertify.success('Dommage :(');

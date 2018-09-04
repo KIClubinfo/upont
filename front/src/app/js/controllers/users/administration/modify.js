@@ -51,7 +51,7 @@ angular.module('upont')
                 confirm: confirm
             };
 
-            $http.post($rootScope.url + 'own/user', params).then(
+            $http.post(API_PREFIX + 'own/user', params).then(
                 function(){
                     alertify.success('Compte mis à jour !');
                 },

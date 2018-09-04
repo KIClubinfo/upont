@@ -1,4 +1,5 @@
 import alertify from 'alertifyjs';
+import {API_PREFIX} from "upont/js/config/constants";
 
 /* @ngInject */
 class Tour_Ctrl {
@@ -74,7 +75,7 @@ class Tour_Ctrl {
         $scope.off = function() {
             // On demande confirmation
             alertify.confirm('Veux-tu quitter le tutoriel ? Tu pourras toujours le réactiver depuis la page de profil.', () => {
-                $http.patch($rootScope.url + 'users/' + $rootScope.username, {tour: true}).then(function() {
+                $http.patch(API_PREFIX + 'users/' + $rootScope.username, {tour: true}).then(function() {
                     $rootScope.me.tour = true;
                     alertify.success('Tutoriel masqué !');
                 });
@@ -99,7 +100,7 @@ class Tour_Ctrl {
                     $scope.loadStep($scope.step + 1);
                 }
             } else if ($scope.step + 1 == steps.length) {
-                $http.patch($rootScope.url + 'users/' + $rootScope.username + '?achievement=unlocked', {tour: true}).then(function() {
+                $http.patch(API_PREFIX + 'users/' + $rootScope.username + '?achievement=unlocked', {tour: true}).then(function() {
                     $rootScope.me.tour = true;
                     Achievements.check();
                 });

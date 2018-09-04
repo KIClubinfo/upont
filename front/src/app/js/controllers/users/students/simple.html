@@ -4,7 +4,7 @@
             <div flex="100" class="Ticket">
                 <div row="center stretch" wrap>
                     <h1 flex="100" class="padded text-center">{{ user.nick }}</h1>
-                    <div class="Image  clickable" flex="50" ng-click="$root.zoomIn(API_PREFIX + user.image_url)">
+                    <div class="Image  clickable" flex="50" ng-click="$root.zoomIn(user.image_url, isExternal=true)">
                         <div class="Image__filler  Image--round" ng-style="{ 'background-image' : 'url({{ user.image_url | urlFile }})' }"></div>
                     </div>
                 </div>

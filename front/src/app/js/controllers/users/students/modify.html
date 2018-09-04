@@ -3,7 +3,7 @@
         <h1>Informations Générales</h1>
 
         <div class="padded" row="center stretch">
-            <div class="Image  clickable" flex="25" ng-click="$root.zoomIn(API_PREFIX + user.image_url)">
+            <div class="Image  clickable" flex="25" ng-click="$root.zoomIn(user.image_url, isExternal=true)">
                 <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ user.image_url | urlFile }})' }"></div>
             </div>
         </div>

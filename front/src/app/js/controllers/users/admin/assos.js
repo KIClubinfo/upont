@@ -1,4 +1,5 @@
 import alertify from 'alertifyjs';
+import {API_PREFIX} from "upont/js/config/constants";
 
 /* @ngInject */
 class Admin_Assos_Ctrl {
@@ -29,7 +30,7 @@ class Admin_Assos_Ctrl {
                 return;
             }
 
-            $http.post($rootScope.url + 'clubs', params).then(function(){
+            $http.post(API_PREFIX + 'clubs', params).then(function(){
                 alertify.success('Assos créée');
             });
 

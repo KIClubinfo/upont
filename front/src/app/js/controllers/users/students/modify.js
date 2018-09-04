@@ -9,7 +9,6 @@ class Students_Modify_Ctrl {
         $scope.DEPARTMENTS = constants.DEPARTMENTS;
         $scope.ORIGINS = constants.ORIGINS;
         $scope.PROMOS = constants.PROMOS;
-        $scope.API_PREFIX = API_PREFIX;
 
         for (var i = 0; i < clubsSuivis.length; i++)
             clubsSuivis[i] = clubsSuivis[i].slug;
@@ -65,7 +64,7 @@ class Students_Modify_Ctrl {
                 params.image = image.base64;
             }
 
-            $http.patch($rootScope.url + 'users/' + user.username, params).then(function(){
+            $http.patch(API_PREFIX + 'users/' + user.username, params).then(function(){
                 $resource(API_PREFIX + 'users/:slug', {slug: user.username}).get(function(data){
                     user = data;
                     Achievements.check();
@@ -91,7 +90,7 @@ class Students_Modify_Ctrl {
                 confirm: confirm
             };
 
-            $http.post($rootScope.url + 'own/user', params)
+            $http.post(API_PREFIX + 'own/user', params)
                 .then(function(){
                     $resource(API_PREFIX + 'users/:slug', {slug: $rootScope.username}).get(function(data){
                         $rootScope.me = data;
@@ -118,7 +117,7 @@ class Students_Modify_Ctrl {
             e.preventDefault();
             if (!$rootScope.me.tour)
                 return;
-            $http.patch($rootScope.url + 'users/' + $rootScope.username, {tour: false}).then(function(){
+            $http.patch(API_PREFIX + 'users/' + $rootScope.username, {tour: false}).then(function(){
                 $rootScope.me.tour = false;
                 $rootScope.$broadcast('tourEnabled');
                 alertify.success('Tutoriel réactivé !');

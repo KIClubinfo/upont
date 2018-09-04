@@ -71,7 +71,7 @@ class Students_Game_Ctrl {
                 params.promo = undefined;
             }
 
-            $http.post($rootScope.url + 'facegames', params).then(function(response) {
+            $http.post(API_PREFIX + 'facegames', params).then(function(response) {
                 $scope.hardcore = hardcore;
                 $scope.playing = true;
                 $scope.end = false;
@@ -124,7 +124,7 @@ class Students_Game_Ctrl {
                 $scope.end = true;
                 $scope.playing = false;
 
-                $http.patch($rootScope.url + 'facegames/' + $scope.gameData.id, {wrongAnswers: $scope.numWrong, duration: ($scope.clock-$scope.start) + 5000 * $scope.numWrong}).then(function(){
+                $http.patch(API_PREFIX + 'facegames/' + $scope.gameData.id, {wrongAnswers: $scope.numWrong, duration: ($scope.clock-$scope.start) + 5000 * $scope.numWrong}).then(function(){
                     Achievements.check();
                 });
             } else {

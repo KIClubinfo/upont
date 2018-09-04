@@ -9,7 +9,7 @@
                     <!-- Image de la publication -->
                     <figure flex="100">
                         <div class="up-img-home  clickable"
-                             ng-click="$root.zoomIn(API_PREFIX + publication.image_url)"
+                             ng-click="$root.zoomIn(publication.image_url, isExternal=true)"
                              ng-style="{'background-image': 'url({{ publication.image_url | thumb | urlFile }})'}">
                         </div>
                         <figcaption>

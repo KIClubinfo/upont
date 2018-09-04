@@ -252,7 +252,6 @@ angular.module('upont').run([
         };
 
         // Diverses variables globales
-        $rootScope.url = location.origin + API_PREFIX;
         $rootScope.displayTabs = true;
         $rootScope.showTopMenu = false;
 
@@ -271,9 +270,11 @@ angular.module('upont').run([
                 $rootScope.zoomUrl = null;
             }
         };
-        $rootScope.zoomIn = function(url) {
+        $rootScope.zoomIn = function(url, isExternal=false) {
+            let fullUrl = isExternal ? API_PREFIX : '';
+            fullUrl += url;
             $rootScope.zoom = true;
-            $rootScope.zoomUrl = $sce.trustAsUrl(url);
+            $rootScope.zoomUrl = $sce.trustAsUrl(fullUrl);
         };
 
         // Au changement de page
