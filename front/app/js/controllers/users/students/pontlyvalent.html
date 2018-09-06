@@ -19,7 +19,7 @@
                                ng-init="displaySearchPost=false;hoverSearchPost=false" id="search-input-post"/>
                     </div>
                 </label>
-                <section class="Search__results  Ticket" ng-mouseenter="hoverSearchPost=true" ng-mouseleave="hoverSearchPost=false" ng-show="(displaySearchPost || hoverSearchPost) && searchResultsPost.length">
+                <section class="Search__results  Ticket" ng-mouseenter="hoverSearchPost=true" ng-mouseleave="hoverSearchPost=false" ng-show="(displaySearchPost || hoverSearchPost) && searchResultsPost.length" style="position: relative; left: 20px;">
                     <section class="Results" row>
                         <div class="Results__cell" flex="75">
                             <div class="Results__item" row="space-between center" ng-repeat="result in searchResultsPost | limitTo: 5" ng-click="addComment(result.slug, result.name)">

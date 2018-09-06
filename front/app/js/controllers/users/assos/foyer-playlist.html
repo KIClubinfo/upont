@@ -26,8 +26,8 @@
         </article>
     </section>
 
-    <section class="padded" flex="100" flex-lg="50">
-        <section class="Ticket">
+    <section class="padded" col flex="100" flex-lg="50">
+        <section class="Ticket" flex>
             <h2>Hall Of Fame</h2>
 
             <p>Ici sont recensés les plus gros buveurs... attention, seuls les méritants <em>(c'est à dire ceux avec un compte Foyer en positif...)</em> pourront rentrer dans ce classement prestigieux !</p>
@@ -35,14 +35,45 @@
             <table class="Table" flex="90">
                 <thead>
                     <tr>
-                        <th><a ng-click="predicate = 'liters'; reverse=!reverse">Litres bus</a></th>
-                        <th><a ng-click="predicate = 'user.nick'; reverse=!reverse">Élève</a></th>
-                        <th><a ng-click="predicate = 'user.promo'; reverse=!reverse">Promo</a></th>
+                        <th class="text-center"><a ng-click="predicate = 'volume'; reverse=!reverse">Alcool absorbé (en L)</a></th>
+                        <th class="text-center"><a ng-click="predicate = 'alcohol'; reverse=!reverse">Degré moyen</a></th>
+                        <th class="text-center"><a ng-click="predicate = 'user.nick'; reverse=!reverse">Compétiteur</a></th>
+                        <th class="text-center"><a ng-click="predicate = 'user.promo'; reverse=!reverse">Promo</a></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr ng-repeat="competitor in stats.hallOfFame | orderBy:predicate:reverse">
-                        <td>{{ competitor.liters }}</td>
+                <tbody class="text-center">
+                    <tr ng-repeat="competitor in stats.hallOfFame.slice(0,10) | orderBy:predicate:reverse">
+                        <td>{{ competitor.volume }}</td>
+                        <td>{{ competitor.alcohol }}</td>
+                        <td><span up-user user="competitor.user">{{ competitor.user.nick }}</span></td>
+                        <td>{{ competitor.user.promo }}</td>
+                    </tr>
+                    <tr ng-hide="stats.hallOfFame">
+                        <td>Rien à afficher</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section class="Ticket">
+            <h2>Hall of Lame</h2>
+
+            <p>Toutes ces personnes ont malheureusement failli à leur réputation, chu à leur devoir, au pied du Hall of Fame !</p>
+
+            <table class="Table" flex="90">
+                <thead>
+                    <tr>
+                        <th class="text-center"><a ng-click="predicate = 'volume'; reverse=!reverse">Alcool absorbé (en L)</a></th>
+                        <th class="text-center"><a ng-click="predicate = 'alcohol'; reverse=!reverse">Degré moyen</a></th>
+                        <th class="text-center"><a ng-click="predicate = 'user.nick'; reverse=!reverse">Compétiteur</a></th>
+                        <th class="text-center"><a ng-click="predicate = 'user.promo'; reverse=!reverse">Promo</a></th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    <tr ng-repeat="competitor in stats.hallOfFame.slice(10) | orderBy:predicate:reverse">
+                        <td>{{ competitor.volume }}</td>
+                        <td>{{ competitor.alcohol }}</td>
                         <td><span up-user user="competitor.user">{{ competitor.user.nick }}</span></td>
                         <td>{{ competitor.user.promo }}</td>
                     </tr>

@@ -45,12 +45,12 @@ services:
         tags:
             - { name: kernel.event_listener, event: upont.user_registration, method: sendMail }
 
-    ki_user.listener.user_registration.facebook_import:
-        class: KI\UserBundle\Listener\FacebookImportUserRegistrationListener
-        arguments:
-            - '@ki_core.service.curl'
-            - '@ki_core.service.image'
-            - '@doctrine.orm.entity_manager'
-            - '%facebook_token%'
-        tags:
-            - { name: kernel.event_listener, event: upont.user_registration, method: facebookImport }
+    # ki_user.listener.user_registration.facebook_import:
+    #     class: KI\UserBundle\Listener\FacebookImportUserRegistrationListener
+    #     arguments:
+    #         - '@ki_core.service.curl'
+    #         - '@ki_core.service.image'
+    #         - '@doctrine.orm.entity_manager'
+    #         - '%facebook_token%'
+    #     tags:
+    #         - { name: kernel.event_listener, event: upont.user_registration, method: facebookImport }
