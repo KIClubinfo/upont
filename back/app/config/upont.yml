@@ -2,11 +2,12 @@ parameters:
   upont:
     foyer:
       trust:
-        - '019'
+        - '020'
+        - '021'
 
     promos:
-      latest: '020'
-      assos: '019'
+      latest: '021'
+      assos: '020'
       all:
         - '014'
         - '015'
@@ -15,6 +16,7 @@ parameters:
         - '018'
         - '019'
         - '020'
+        - '021'
 
     pontlyvalent:
       open: false

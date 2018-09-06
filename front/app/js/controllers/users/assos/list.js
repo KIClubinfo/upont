@@ -35,7 +35,7 @@ angular.module('upont')
             var results = [];
             for (var i = 0; i < members.length; i++) {
                 // Pas de xor en javasale...
-                if ((members[i].user.promo == year && !(members[i].role.match(/2A/g) && members[i].user.promo == year-1)) || (members[i].user.promo != year && (members[i].role.match(/2A/g) && members[i].user.promo == year-1)))
+                if ((members[i].user.promo == year && !members[i].role.match(/2A/g)) || (members[i].user.promo == year-1 && members[i].role.match(/2A/g)))
                     results.push(members[i]);
             }
             return results;

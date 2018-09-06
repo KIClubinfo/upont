@@ -6,7 +6,7 @@
         <up-ribbon class="Ribbon--pink"   ng-if="fix.status == 'Résolu'">RÉSOLU</up-ribbon>
         <up-ribbon class="Ribbon--violet" ng-if="fix.status == 'Fermé'">FERMÉ</up-ribbon>
 
-        <div ng-if="isFromKI">
+        <div ng-if="$root.hasClub('ki')">
             <select class="Input" ng-model="fix.status" ng-change="changeStatus(fix)">
                 <option>Non vu</option>
                 <option>En attente</option>
@@ -18,7 +18,7 @@
 
         <p>{{ fix.problem }}</p>
 
-        <div ng-if="isFromKI || $root.username == fix.user.username">
+        <div ng-if="$root.hasClub('ki') || $root.username == fix.user.username">
             <a class="Link" title="Supprimer le ticket" ng-click="delete(fix)">Supprimer</a>
         </div>
     </section>
