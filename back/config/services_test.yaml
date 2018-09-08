@@ -2,11 +2,11 @@ parameters:
     upont:
         foyer:
             trust:
-            - '020'
+            - '017'
 
         promos:
-            latest: '021'
-            assos: '020'
+            latest: '019'
+            assos: '017'
             all:
             - '014'
             - '015'
@@ -14,10 +14,9 @@ parameters:
             - '017'
             - '018'
             - '019'
-            - '020'
-            - '021'
         pontlyvalent:
             open: true
+            promo: '017'
 
 services:
     _defaults:

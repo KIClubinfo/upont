@@ -24,9 +24,10 @@ class PontlyvalentsController extends ResourceController
 
     private function checkPontlyvalentOpen()
     {
-        $lastPromo = $this->getConfig('promos.latest');
+        $targetPromo = $this->getConfig('pontlyvalent.promo');
+        $isTooYoung = strcmp($this->user->getPromo(), $targetPromo) > 0;
 
-        if ($this->user->getPromo() == $lastPromo) {
+        if ($isTooYoung) {
             throw new BadRequestHttpException('Ton tour n\'est pas encore arrivé, petit ' . $lastPromo . ' !');
         }
 
@@ -120,7 +121,7 @@ class PontlyvalentsController extends ResourceController
          */
         $target = $this->manager->getRepository(User::class)->findOneByUsername($targetUsername);
 
-        $targetPromo = array_slice($this->getConfig('promos.all'), -2, 1)[0];
+        $targetPromo = $this->getConfig('pontlyvalent.promo');
         if ($target->getPromo() != $targetPromo) {
             throw new BadRequestHttpException('Ce n\'est pas un ' . $targetPromo . ' !');
         }
