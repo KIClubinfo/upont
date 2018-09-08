@@ -5,8 +5,7 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class CommentsController extends ResourceController
@@ -28,8 +27,7 @@ class CommentsController extends ResourceController
      *  },
      *  section="Likeable"
      * )
-     * @Route("/comments/{slug}")
-     * @Method("GET")
+     * @Route("/comments/{slug}", methods={"GET"})
      */
     public function getCommentAction($slug)
     {
@@ -49,8 +47,7 @@ class CommentsController extends ResourceController
      *  },
      *  section="Likeable"
      * )
-     * @Route("/{object}/{slug}/comments")
-     * @Method("GET")
+     * @Route("/{object}/{slug}/comments", methods={"GET"})
      */
     public function getCommentsAction($object, $slug)
     {
@@ -71,8 +68,7 @@ class CommentsController extends ResourceController
      *  },
      *  section="Likeable"
      * )
-     * @Route("/{object}/{slug}/{subobject}/{subslug}/comments")
-     * @Method("GET")
+     * @Route("/{object}/{slug}/{subobject}/{subslug}/comments", methods={"GET"})
      */
     public function getCommentsSubAction($object, $slug, $subobject, $subslug)
     {
@@ -101,8 +97,7 @@ class CommentsController extends ResourceController
      *  },
      *  section="Likeable"
      * )
-     * @Route("/{object}/{slug}/comments")
-     * @Method("POST")
+     * @Route("/{object}/{slug}/comments", methods={"POST"})
      */
     public function postCommentAction($object, $slug)
     {
@@ -129,8 +124,7 @@ class CommentsController extends ResourceController
      *  },
      *  section="Likeable"
      * )
-     * @Route("/{object}/{slug}/{subobject}/{subslug}/comments")
-     * @Method("POST")
+     * @Route("/{object}/{slug}/{subobject}/{subslug}/comments", methods={"POST"})
      */
     public function postCommentSubAction($object, $slug, $subobject, $subslug)
     {
@@ -157,8 +151,7 @@ class CommentsController extends ResourceController
      *  },
      *  section="Likeable"
      * )
-     * @Route("/comments/{id}")
-     * @Method("PATCH")
+     * @Route("/comments/{id}", methods={"PATCH"})
      */
     public function patchCommentAction($id)
     {
@@ -181,8 +174,7 @@ class CommentsController extends ResourceController
      *  },
      *  section="Likeable"
      * )
-     * @Route("/comments/{id}")
-     * @Method("DELETE")
+     * @Route("/comments/{id}", methods={"DELETE"})
      */
     public function deleteCommentAction($id)
     {

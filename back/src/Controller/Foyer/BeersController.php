@@ -8,8 +8,8 @@ use App\Entity\Transaction;
 use App\Form\BeerType;
 use App\Helper\BeerHelper;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class BeersController extends ResourceController
@@ -32,8 +32,7 @@ class BeersController extends ResourceController
           *  },
      *  section="Foyer"
      * )
-     * @Route("/beers")
-     * @Method("GET")
+     * @Route("/beers", methods={"GET"})
      */
     public function getBeersAction(BeerHelper $beerHelper)
     {
@@ -53,8 +52,7 @@ class BeersController extends ResourceController
           *  },
      *  section="Foyer"
      * )
-     * @Route("/beers/{slug}")
-     * @Method("GET")
+     * @Route("/beers/{slug}", methods={"GET"})
      */
     public function getBeerAction($slug)
     {
@@ -76,8 +74,7 @@ class BeersController extends ResourceController
           *  },
      *  section="Foyer"
      * )
-     * @Route("/beers")
-     * @Method("POST")
+     * @Route("/beers", methods={"POST"})
      */
     public function postBeerAction()
     {
@@ -99,8 +96,7 @@ class BeersController extends ResourceController
           *  },
      *  section="Foyer"
      * )
-     * @Route("/beers/{slug}")
-     * @Method("PATCH")
+     * @Route("/beers/{slug}", methods={"PATCH"})
      */
     public function patchBeerAction($slug)
     {
@@ -120,8 +116,7 @@ class BeersController extends ResourceController
           *  },
      *  section="Foyer"
      * )
-     * @Route("/beers/{slug}")
-     * @Method("DELETE")
+     * @Route("/beers/{slug}", methods={"DELETE"})
      */
     public function deleteBeerAction($slug)
     {

@@ -12,8 +12,7 @@ use App\Listener\EventListener;
 use App\Service\NotifyService;
 use Carbon\Carbon;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -39,8 +38,7 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/events/{slug}")
-     * @Method("GET")
+     * @Route("/events/{slug}", methods={"GET"})
      */
     public function getEventAction($slug)
     {
@@ -62,8 +60,7 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/events")
-     * @Method("POST")
+     * @Route("/events", methods={"POST"})
      */
     public function postEventAction(EventListener $eventListener)
     {
@@ -89,8 +86,7 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/events/{slug}")
-     * @Method("PATCH")
+     * @Route("/events/{slug}", methods={"PATCH"})
      */
     public function patchEventAction(EventListener $eventListener, $slug)
     {
@@ -116,8 +112,7 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/events/{slug}")
-     * @Method("DELETE")
+     * @Route("/events/{slug}", methods={"DELETE"})
      */
     public function deleteEventAction($slug)
     {
@@ -157,8 +152,7 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/events/{slug}/shotgun")
-     * @Method("POST")
+     * @Route("/events/{slug}/shotgun", methods={"POST"})
      */
     public function postEventUserAction(Request $request, $slug)
     {
@@ -212,8 +206,7 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/events/{slug}/shotgun")
-     * @Method("PATCH")
+     * @Route("/events/{slug}/shotgun", methods={"PATCH"})
      */
     public function patchEventUserAction(Request $request, $slug)
     {
@@ -249,8 +242,7 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/events/{slug}/shotgun")
-     * @Method("DELETE")
+     * @Route("/events/{slug}/shotgun", methods={"DELETE"})
      */
     public function deleteEventUserAction(NotifyService $notifyService, $slug)
     {
@@ -296,8 +288,7 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/events/{slug}/shotgun")
-     * @Method("GET")
+     * @Route("/events/{slug}/shotgun", methods={"GET"})
      */
     public function getEventUserAction($slug)
     {
@@ -388,8 +379,7 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/events/{slug}/attend")
-     * @Method("POST")
+     * @Route("/events/{slug}/attend", methods={"POST"})
      */
     public function attendAction($slug)
     {
@@ -425,8 +415,7 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/events/{slug}/attend")
-     * @Method("DELETE")
+     * @Route("/events/{slug}/attend", methods={"DELETE"})
      */
     public function noAttendAction($slug)
     {
@@ -454,8 +443,7 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/events/{slug}/decline")
-     * @Method("POST")
+     * @Route("/events/{slug}/decline", methods={"POST"})
      */
     public function addPookieAction($slug)
     {
@@ -487,8 +475,7 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/events/{slug}/decline")
-     * @Method("DELETE")
+     * @Route("/events/{slug}/decline", methods={"DELETE"})
      */
     public function removePookieAction($slug)
     {
@@ -516,8 +503,7 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/events/{slug}/attendees")
-     * @Method("GET")
+     * @Route("/events/{slug}/attendees", methods={"GET"})
      */
     public function getAttendeesAction($slug)
     {
@@ -535,8 +521,7 @@ class EventsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/events/{slug}/pookies")
-     * @Method("GET")
+     * @Route("/events/{slug}/pookies", methods={"GET"})
      */
     public function getPookiesAction($slug)
     {

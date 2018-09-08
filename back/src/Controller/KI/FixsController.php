@@ -7,8 +7,7 @@ use App\Entity\Fix;
 use App\Form\FixType;
 use App\Service\NotifyService;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class FixsController extends ResourceController
@@ -31,8 +30,7 @@ class FixsController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route("/fixs")
-     * @Method("GET")
+     * @Route("/fixs", methods={"GET"})
      */
     public function getFixsAction()
     {
@@ -51,8 +49,7 @@ class FixsController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route("/fixs/{slug}")
-     * @Method("GET")
+     * @Route("/fixs/{slug}", methods={"GET"})
      */
     public function getFixAction($slug)
     {
@@ -74,8 +71,7 @@ class FixsController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route("/fixs")
-     * @Method("POST")
+     * @Route("/fixs", methods={"POST"})
      */
     public function postFixAction()
     {
@@ -97,8 +93,7 @@ class FixsController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route("/fixs/{slug}")
-     * @Method("PATCH")
+     * @Route("/fixs/{slug}", methods={"PATCH"})
      */
     public function patchFixAction(NotifyService $notifyService, $slug)
     {
@@ -130,8 +125,7 @@ class FixsController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route("/fixs/{slug}")
-     * @Method("DELETE")
+     * @Route("/fixs/{slug}", methods={"DELETE"})
      */
     public function deleteFixAction($slug)
     {

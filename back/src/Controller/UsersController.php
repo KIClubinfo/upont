@@ -11,8 +11,8 @@ use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Service\CalendarService;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,8 +40,7 @@ class UsersController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/users")
-     * @Method("GET")
+     * @Route("/users", methods={"GET"})
      */
     public function getUsersAction()
     {
@@ -60,8 +59,7 @@ class UsersController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/users/{slug}")
-     * @Method("GET")
+     * @Route("/users/{slug}", methods={"GET"})
      */
     public function getUserAction($slug)
     {
@@ -83,8 +81,7 @@ class UsersController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/users/{slug}")
-     * @Method("PATCH")
+     * @Route("/users/{slug}", methods={"PATCH"})
      */
     public function patchUserAction(Request $request, $slug)
     {
@@ -128,8 +125,7 @@ class UsersController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/users/{slug}")
-     * @Method("DELETE")
+     * @Route("/users/{slug}", methods={"DELETE"})
      */
     public function deleteUserAction($slug)
     {
@@ -155,8 +151,7 @@ class UsersController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/users/{slug}/clubs")
-     * @Method("GET")
+     * @Route("/users/{slug}/clubs", methods={"GET"})
      */
     public function getUserClubsAction($slug)
     {
@@ -177,8 +172,7 @@ class UsersController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/users/{token}/calendar")
-     * @Method("GET")
+     * @Route("/users/{token}/calendar", methods={"GET"})
      */
     public function getUserCalendarAction(CalendarService $calendarService, User $user, UserRepository $userRepository)
     {
@@ -220,8 +214,7 @@ class UsersController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/users")
-     * @Method("POST")
+     * @Route("/users", methods={"POST"})
      */
     public function postUsersAction(UserFactory $userFactory, Request $request)
     {
@@ -285,8 +278,7 @@ class UsersController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/import/users")
-     * @Method("POST")
+     * @Route("/import/users", methods={"POST"})
      */
     public function importUsersAction(Request $request)
     {

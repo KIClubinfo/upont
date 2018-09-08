@@ -7,8 +7,8 @@ use App\Entity\User;
 use App\Form\PontlyvalentType;
 use App\Helper\PaginateHelper;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -48,8 +48,7 @@ class PontlyvalentsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/users/pontlyvalent")
-     * @Method("GET")
+     * @Route("/users/pontlyvalent", methods={"GET"})
      */
     public function getPontlyvalentsAction(PaginateHelper $paginateHelper)
     {
@@ -79,8 +78,7 @@ class PontlyvalentsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/users/{targetUsername}/pontlyvalent")
-     * @Method("GET")
+     * @Route("/users/{targetUsername}/pontlyvalent", methods={"GET"})
      */
     public function getPontlyvalentAction($targetUsername)
     {
@@ -109,8 +107,7 @@ class PontlyvalentsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/users/{targetUsername}/pontlyvalent")
-     * @Method("POST")
+     * @Route("/users/{targetUsername}/pontlyvalent", methods={"POST"})
      */
     public function postPontlyvalentAction(Request $request, $targetUsername)
     {
@@ -164,8 +161,7 @@ class PontlyvalentsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/users/{targetUsername}/pontlyvalent")
-     * @Method("DELETE")
+     * @Route("/users/{targetUsername}/pontlyvalent", methods={"DELETE"})
      */
     public function deletePontlyvalentAction($targetUsername)
     {

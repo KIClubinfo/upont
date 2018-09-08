@@ -13,8 +13,7 @@ use App\Repository\ClubUserRepository;
 use App\Repository\EventRepository;
 use App\Repository\NewsitemRepository;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -41,8 +40,7 @@ class ClubsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/clubs")
-     * @Method("GET")
+     * @Route("/clubs", methods={"GET"})
      */
     public function getClubsAction(ClubRepository $clubRepository)
     {
@@ -61,8 +59,7 @@ class ClubsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/clubs/{slug}")
-     * @Method("GET")
+     * @Route("/clubs/{slug}", methods={"GET"})
      */
     public function getClubAction($slug)
     {
@@ -84,8 +81,7 @@ class ClubsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/clubs")
-     * @Method("POST")
+     * @Route("/clubs", methods={"POST"})
      */
     public function postClubAction()
     {
@@ -107,8 +103,7 @@ class ClubsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/clubs/{slug}")
-     * @Method("PATCH")
+     * @Route("/clubs/{slug}", methods={"PATCH"})
      */
     public function patchClubAction($slug)
     {
@@ -134,8 +129,7 @@ class ClubsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/clubs/{slug}")
-     * @Method("DELETE")
+     * @Route("/clubs/{slug}", methods={"DELETE"})
      */
     public function deleteClubAction($slug)
     {
@@ -164,8 +158,7 @@ class ClubsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/clubs/{slug}/users")
-     * @Method("GET")
+     * @Route("/clubs/{slug}/users", methods={"GET"})
      */
     public function getClubUsersAction(ClubUserRepository $clubUserRepository, Club $club)
     {
@@ -193,8 +186,7 @@ class ClubsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/clubs/{slug}/users/{username}")
-     * @Method("POST")
+     * @Route("/clubs/{slug}/users/{username}", methods={"POST"})
      */
     public function postClubUserAction(Request $request, Club $club, User $user)
     {
@@ -248,8 +240,7 @@ class ClubsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/clubs/{slug}/users/{username}")
-     * @Method("PATCH")
+     * @Route("/clubs/{slug}/users/{username}", methods={"PATCH"})
      */
     public function patchClubUserAction(Request $request, Club $club, User $user)
     {
@@ -290,8 +281,7 @@ class ClubsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/clubs/{slug}/users/{username}")
-     * @Method("DELETE")
+     * @Route("/clubs/{slug}/users/{username}", methods={"DELETE"})
      */
     public function deleteClubUserAction(Club $club, User $user)
     {
@@ -323,8 +313,7 @@ class ClubsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/clubs/{slug}/users/{username}/{direction}")
-     * @Method("PATCH")
+     * @Route("/clubs/{slug}/users/{username}/{direction}", methods={"PATCH"})
      */
     public function swapPriorityClubUserAction($slug, $username, $direction)
     {
@@ -368,8 +357,7 @@ class ClubsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/clubs/{slug}/follow")
-     * @Method("POST")
+     * @Route("/clubs/{slug}/follow", methods={"POST"})
      */
     public function followClubAction($slug)
     {
@@ -398,8 +386,7 @@ class ClubsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/clubs/{slug}/unfollow")
-     * @Method("POST")
+     * @Route("/clubs/{slug}/unfollow", methods={"POST"})
      */
     public function unFollowClubAction(Club $club)
     {
@@ -426,8 +413,7 @@ class ClubsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/clubs/{slug}/newsitems")
-     * @Method("GET")
+     * @Route("/clubs/{slug}/newsitems", methods={"GET"})
      */
     public function getNewsitemsClubAction(Club $club, NewsitemRepository $newsitemRepository, PaginateHelper $paginateHelper)
     {
@@ -451,8 +437,7 @@ class ClubsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/clubs/{slug}/events")
-     * @Method("GET")
+     * @Route("/clubs/{slug}/events", methods={"GET"})
      */
     public function getEventsClubAction(Club $club, EventRepository $eventRepository, PaginateHelper $paginateHelper)
     {

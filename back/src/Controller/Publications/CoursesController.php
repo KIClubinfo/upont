@@ -9,8 +9,7 @@ use App\Form\CourseType;
 use App\Helper\CourseHelper;
 use App\Helper\CourseParserHelper;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -32,8 +31,7 @@ class CoursesController extends ResourceController
      *  },
      *  section="Général"
      * )
-     * @Route("/courses")
-     * @Method("HEAD")
+     * @Route("/courses", methods={"HEAD"})
      */
     public function parseCoursesAction(CourseParserHelper $courseParserHelper)
     {
@@ -53,8 +51,7 @@ class CoursesController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/courses")
-     * @Method("GET")
+     * @Route("/courses", methods={"GET"})
      */
     public function getCoursesAction(Request $request)
     {
@@ -76,8 +73,7 @@ class CoursesController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/courses/{slug}")
-     * @Method("GET")
+     * @Route("/courses/{slug}", methods={"GET"})
      */
     public function getCourseAction($slug)
     {
@@ -99,8 +95,7 @@ class CoursesController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/courses")
-     * @Method("POST")
+     * @Route("/courses", methods={"POST"})
      */
     public function postCourseAction()
     {
@@ -122,8 +117,7 @@ class CoursesController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/courses/{slug}")
-     * @Method("PATCH")
+     * @Route("/courses/{slug}", methods={"PATCH"})
      */
     public function patchCourseAction($slug)
     {
@@ -143,8 +137,7 @@ class CoursesController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/courses/{slug}")
-     * @Method("DELETE")
+     * @Route("/courses/{slug}", methods={"DELETE"})
      */
     public function deleteCourseAction($slug)
     {
@@ -172,8 +165,7 @@ class CoursesController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/courses/{slug}/attend")
-     * @Method("POST")
+     * @Route("/courses/{slug}/attend", methods={"POST"})
      */
     public function postCourseUserAction(CourseHelper $courseHelper, Request $request, $slug)
     {
@@ -195,8 +187,7 @@ class CoursesController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/courses/{slug}/attend")
-     * @Method("DELETE")
+     * @Route("/courses/{slug}/attend", methods={"DELETE"})
      */
     public function deleteCourseUserAction(CourseHelper $courseHelper, $slug)
     {

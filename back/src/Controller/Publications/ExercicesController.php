@@ -9,9 +9,8 @@ use App\Form\CourseType;
 use App\Form\ExerciceType;
 use App\Listener\ExerciceListener;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,8 +37,7 @@ class ExercicesController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/courses/{slug}/exercices")
-     * @Method("GET")
+     * @Route("/courses/{slug}/exercices", methods={"GET"})
      */
     public function getCourseExercicesAction(Course $course)
     {
@@ -60,9 +58,8 @@ class ExercicesController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/courses/{slug}/exercices/{exercice_slug}")
+     * @Route("/courses/{slug}/exercices/{exercice_slug}", methods={"GET"})
      * @ParamConverter("exercice", options={"mapping": {"exercice_slug": "slug"}})
-     * @Method("GET")
      */
     public function getCourseExerciceAction(Course $course, Exercice $exercice)
     {
@@ -81,9 +78,8 @@ class ExercicesController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/courses/{slug}/exercices/{exercice_slug}/download")
+     * @Route("/courses/{slug}/exercices/{exercice_slug}/download", methods={"GET"})
      * @ParamConverter("exercice", options={"mapping": {"exercice_slug": "slug"}})
-     * @Method("GET")
      */
     public function downloadCourseExerciceAction(Course $course, Exercice $exercice)
     {
@@ -119,8 +115,7 @@ class ExercicesController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/courses/{slug}/exercices")
-     * @Method("POST")
+     * @Route("/courses/{slug}/exercices", methods={"POST"})
      */
     public function postCourseExerciceAction(Course $course, Request $request, ExerciceListener $exerciceListener)
     {
@@ -159,9 +154,8 @@ class ExercicesController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/courses/{slug}/exercices/{exercice_slug}")
+     * @Route("/courses/{slug}/exercices/{exercice_slug}", methods={"PATCH"})
      * @ParamConverter("exercice", options={"mapping": {"exercice_slug": "slug"}})
-     * @Method("PATCH")
      */
     public function patchCourseExerciceAction(Course $course, Exercice $exercice)
     {
@@ -181,9 +175,8 @@ class ExercicesController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/courses/{slug}/exercices/{exercice_slug}")
+     * @Route("/courses/{slug}/exercices/{exercice_slug}", methods={"DELETE"})
      * @ParamConverter("exercice", options={"mapping": {"exercice_slug": "slug"}})
-     * @Method("DELETE")
      */
     public function deleteCourseExerciceAction(Course $course, Exercice $exercice)
     {
