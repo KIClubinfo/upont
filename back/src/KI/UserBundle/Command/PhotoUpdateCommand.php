@@ -18,7 +18,8 @@ class PhotoUpdateCommand extends ContainerAwareCommand
             ->setName('upont:update:photo')
             ->setDescription('Import missing photos from Facebook for the given promo')
             ->addArgument('promo', InputArgument::REQUIRED, 'The promo whose photos are to be updated.')
-            ->addArgument('usernames', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'The usernames from the specified promo whose photos are to be updated.')
+            //->addArgument('usernames', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'The usernames from the specified promo whose photos are to be updated.')
+	    ->addArgument('file', InputArgument::REQUIRED, 'Absolute path to a csv containing facebook_name,facebook_id')
             ->addOption('preview', 'p', InputOption::VALUE_NONE, 'Make a preview of the photos to be imported without importing them')
             ->addOption('all', 'a', InputOption::VALUE_NONE, 'Treat the users regardless whether they already have a photo on uPont')
             ->addOption('interactive', 'i', InputOption::VALUE_NONE, 'For each match, ask interactively whether the photo should be updated')
@@ -36,18 +37,20 @@ class PhotoUpdateCommand extends ContainerAwareCommand
         $questionHelper = $this->getHelper('question');
 
         $users = $repo->findByPromo($input->getArgument('promo'));
-        $usernames = $input->getArgument('usernames');
+        //Deprecated since promo021
+	/*$usernames = $input->getArgument('usernames');
         if ($usernames) {
             foreach ($users as $user) {
                 if (!in_array($user, $usernames)) {
                     unset($users[array_search($user, $users)]);
                 }
             }
-        }
+        }*/
         $question = new ConfirmationQuestion('Update? ', false, '/^y/i');
         $token = '?access_token=' . $fbToken;
 
         // Ids des différents groupes facebook
+	// Deprecated depuis promo021 : utiliser un scrapper sur la page des groupes pour obtenir l'id de chaque membre
         switch ($input->getArgument('promo')) {
             // Attention, toujours préciser l'id facebook de la promo d'après
             // pour avoir les étrangers
@@ -75,7 +78,9 @@ class PhotoUpdateCommand extends ContainerAwareCommand
 
         // On récupère la liste des membres
         $baseUrl = 'https://graph.facebook.com/v2.10';
-        $data = json_decode($curlService->curl($baseUrl . '/' . $id . '/members' . $token . '&limit=10000'), true);
+        //$data = json_decode($curlService->curl($baseUrl . '/' . $id . '/members' . $token . '&limit=10000'), true);
+	$serializer = $this->getContainer()->get('serializer');
+	$data = $seralizer->decode(file_get_contents($input->getArgument('file')), 'csv');
 
         $updateCount = 0;
         $unfoundCount = 0;
@@ -125,11 +130,11 @@ class PhotoUpdateCommand extends ContainerAwareCommand
             }
         }
 
-        $userSpecification = $usernames ? 'amongst the '.count($usernames).' specified user'.(count($usernames) > 1 ? 's ' : ' ') : ' ';
+        //$userSpecification = $usernames ? 'amongst the '.count($usernames).' specified user'.(count($usernames) > 1 ? 's ' : ' ') : ' ';
         $output->writeln(
             ['End of list',
             '',
-            'Students in promo '.$input->getArgument('promo').' '.$userSpecification.': '.count($users)
+            'Students in promo '.$input->getArgument('promo').' : '.count($users)
         ]);
         if ($input->getOption('all')) {
             $output->writeln(
@@ -140,7 +145,7 @@ class PhotoUpdateCommand extends ContainerAwareCommand
         }
         else {
             $output->writeln(
-                ['Missing photos in promo '.$userSpecification.': '.($updateCount+$unfoundCount+$notUpdatedInteractivelyCount),
+                ['Missing photos in promo : '.($updateCount+$unfoundCount+$notUpdatedInteractivelyCount),
                 ($input->getOption('preview') && !$input->getOption('interactive') ? 'To be i' : 'I').'mported missing photos: '.$updateCount,
                 'Remaining missing photos (unfound or refused Facebook profiles): '.($unfoundCount+$notUpdatedInteractivelyCount)
             ]);
