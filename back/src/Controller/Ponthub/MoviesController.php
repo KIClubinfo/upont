@@ -5,8 +5,7 @@ namespace App\Controller\Ponthub;
 use App\Entity\Movie;
 use App\Form\MovieType;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class MoviesController extends PonthubFileController
@@ -29,8 +28,7 @@ class MoviesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/movies")
-     * @Method("GET")
+     * @Route("/movies", methods={"GET"})
      */
     public function getMoviesAction()
     {
@@ -49,8 +47,7 @@ class MoviesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/movies/{slug}")
-     * @Method("GET")
+     * @Route("/movies/{slug}", methods={"GET"})
      */
     public function getMovieAction($slug)
     {
@@ -72,8 +69,7 @@ class MoviesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/movies/{slug}")
-     * @Method("PATCH")
+     * @Route("/movies/{slug}", methods={"PATCH"})
      */
     public function patchMovieAction($slug)
     {
@@ -93,8 +89,7 @@ class MoviesController extends PonthubFileController
      *  },
      *  section="Publications"
      * )
-     * @Route("/movies/{slug}")
-     * @Method("DELETE")
+     * @Route("/movies/{slug}", methods={"DELETE"})
      */
     public function deleteMovieAction($slug)
     {
@@ -114,8 +109,7 @@ class MoviesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/movies/{slug}/download")
-     * @Method("GET")
+     * @Route("/movies/{slug}/download", methods={"GET"})
      */
     public function downloadMovieAction($slug)
     {

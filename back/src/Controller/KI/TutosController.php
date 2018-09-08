@@ -6,8 +6,7 @@ use App\Controller\ResourceController;
 use App\Entity\Tuto;
 use App\Form\TutoType;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class TutosController extends ResourceController
@@ -30,8 +29,7 @@ class TutosController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route("/tutos")
-     * @Method("GET")
+     * @Route("/tutos", methods={"GET"})
      */
     public function getTutosAction()
     {
@@ -50,8 +48,7 @@ class TutosController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route("/tutos/{slug}")
-     * @Method("GET")
+     * @Route("/tutos/{slug}", methods={"GET"})
      */
     public function getTutoAction($slug)
     {
@@ -73,8 +70,7 @@ class TutosController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route("/tutos")
-     * @Method("POST")
+     * @Route("/tutos", methods={"POST"})
      */
     public function postTutoAction()
     {
@@ -96,8 +92,7 @@ class TutosController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route("/tutos/{slug}")
-     * @Method("PATCH")
+     * @Route("/tutos/{slug}", methods={"PATCH"})
      */
     public function patchTutoAction($slug)
     {
@@ -117,8 +112,7 @@ class TutosController extends ResourceController
      *  },
      *  section="Clubinfo"
      * )
-     * @Route("/tutos/{slug}")
-     * @Method("DELETE")
+     * @Route("/tutos/{slug}", methods={"DELETE"})
      */
     public function deleteTutoAction($slug)
     {

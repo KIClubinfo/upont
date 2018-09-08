@@ -39,7 +39,7 @@ class TransactionRepository extends ServiceEntityRepository
             ORDER BY volume DESC
             ')
             ->setParameter('schoolYear', $sept1)
-            ->setMaxResults(10)
+            ->setMaxResults(30)
             ->getResult();
 
         foreach ($hallOfFame as &$data){

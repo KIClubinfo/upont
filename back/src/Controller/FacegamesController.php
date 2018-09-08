@@ -8,8 +8,8 @@ use App\Form\FacegameType;
 use App\Helper\FacegameHelper;
 use App\Repository\UserRepository;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -35,8 +35,7 @@ class FacegamesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/facegames/{slug}")
-     * @Method("GET")
+     * @Route("/facegames/{slug}", methods={"GET"})
      */
     public function getFacegameAction($slug)
     {
@@ -58,8 +57,7 @@ class FacegamesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/facegames")
-     * @Method("POST")
+     * @Route("/facegames", methods={"POST"})
      */
     public function postFacegameAction(FacegameHelper $facegameHelper)
     {
@@ -87,8 +85,7 @@ class FacegamesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/facegames/{slug}")
-     * @Method("PATCH")
+     * @Route("/facegames/{slug}", methods={"PATCH"})
      */
     public function patchFacegameAction(FacegameHelper $facegameHelper, Request $request, $slug)
     {
@@ -116,8 +113,7 @@ class FacegamesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/statistics/facegame")
-     * @Method("GET")
+     * @Route("/statistics/facegame", methods={"GET"})
      */
     public function getGlobalStatisticsAction()
     {
@@ -141,8 +137,7 @@ class FacegamesController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/statistics/facegame/{slug}")
-     * @Method("GET")
+     * @Route("/statistics/facegame/{slug}", methods={"GET"})
      */
     public function getUserStatisticsAction(UserRepository $userRepository, $slug)
     {

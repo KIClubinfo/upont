@@ -1,0 +1,42 @@
+<div ng-controller="Publications_List_Messages_Ctrl" ng-inject="{messages: messages}">
+    <div infinite-scroll="next()" infinite-scroll-distance="2" infinite-scroll-disabled="$root.infiniteLoading">
+
+        <div class="Ticket" ng-repeat="message in messages.data">
+            <header row="start center" ng-mouseover="showModify=true" ng-mouseleave="showModify=false">
+                <div class="Image  Image--thumb  Image--margin">
+                    <a ui-sref="root.users.students.simple({slug: message.author_user.username})">
+                        <div class="Image__filler" ng-style="{ 'background-image' : 'url({{ message.author_user.image_url | thumb | urlFile }})' }"></div>
+                    </a>
+                </div>
+
+                <div>
+                    <strong up-user user="message.author_user">{{ message.author_user.nick }}</strong><br>
+                    <small>
+                        <time class="Link Link--reverse" title="Afficher la publication" ui-sref="root.users.publications.message({slug: message.slug})">
+                            {{ message.date | fromNow }}
+                        </time>
+                        <i class="fa  fa-pencil  Link  Link--reverse" title="Modifier le message"
+                           ng-show="($root.isAdmin || message.author_user.username == $root.username) && showModify"
+                           ng-click="modify(message)"></i>
+                        <i class="fa  fa-trash  Link  Link--reverse  Link--danger" title="Supprimer le message"
+                           ng-show="($root.isAdmin || message.author_user.username == $root.username) && showModify"
+                           ng-click="delete(message)"></i>
+                    </small><br>
+                </div>
+            </header>
+
+            <section>
+                <br>
+                <span up-overflow string="message.text"></span>
+                <br>
+
+                <img class="img-responsive clickable" ng-if="message.image_url"
+                     ng-click="$root.zoomIn(message.image_url)"
+                     ng-src="{{ message.image_url | urlFile }}">
+            </section>
+
+            <div up-likes objet="message" url="'newsitems/'+message.slug"></div>
+        </div>
+
+    </div>
+</div>

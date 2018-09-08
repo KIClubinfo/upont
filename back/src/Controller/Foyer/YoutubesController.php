@@ -6,8 +6,7 @@ use App\Controller\ResourceController;
 use App\Entity\Youtube;
 use App\Form\YoutubeType;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class YoutubesController extends ResourceController
@@ -30,8 +29,7 @@ class YoutubesController extends ResourceController
      *  },
      *  section="Foyer"
      * )
-     * @Route("/youtubes")
-     * @Method("GET")
+     * @Route("/youtubes", methods={"GET"})
      */
     public function getYoutubesAction()
     {
@@ -50,8 +48,7 @@ class YoutubesController extends ResourceController
      *  },
      *  section="Foyer"
      * )
-     * @Route("/youtubes/{slug}")
-     * @Method("GET")
+     * @Route("/youtubes/{slug}", methods={"GET"})
      */
     public function getYoutubeAction($slug)
     {
@@ -73,8 +70,7 @@ class YoutubesController extends ResourceController
      *  },
      *  section="Foyer"
      * )
-     * @Route("/youtubes")
-     * @Method("POST")
+     * @Route("/youtubes", methods={"POST"})
      */
     public function postYoutubeAction()
     {
@@ -94,8 +90,7 @@ class YoutubesController extends ResourceController
      *  },
      *  section="Foyer"
      * )
-     * @Route("/youtubes/{slug}")
-     * @Method("DELETE")
+     * @Route("/youtubes/{slug}", methods={"DELETE"})
      */
     public function deleteYoutubeAction($slug)
     {

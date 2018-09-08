@@ -9,8 +9,7 @@ use App\Helper\FilelistHelper;
 use App\Helper\GlobalStatisticsHelper;
 use App\Helper\StatisticsHelper;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -42,8 +41,7 @@ class PonthubController extends ResourceController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/filelist/{token}")
-     * @Method("POST")
+     * @Route("/filelist/{token}", methods={"POST"})
      */
     public function filelistAction(FilelistHelper $filelistHelper, Request $request, $token)
     {
@@ -87,8 +85,7 @@ class PonthubController extends ResourceController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/imdb/search")
-     * @Method("POST")
+     * @Route("/imdb/search", methods={"POST"})
      */
     public function imdbSearchAction(Request $request)
     {
@@ -123,8 +120,7 @@ class PonthubController extends ResourceController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/imdb/infos")
-     * @Method("POST")
+     * @Route("/imdb/infos", methods={"POST"})
      */
     public function imdbInfosAction(Request $request)
     {
@@ -154,8 +150,7 @@ class PonthubController extends ResourceController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/statistics/ponthub/{slug}")
-     * @Method("GET")
+     * @Route("/statistics/ponthub/{slug}", methods={"GET"})
      */
     public function getPonthubStatisticsAction($slug, StatisticsHelper $statisticsHelper)
     {
@@ -181,8 +176,7 @@ class PonthubController extends ResourceController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/statistics/ponthub")
-     * @Method("GET")
+     * @Route("/statistics/ponthub", methods={"GET"})
      */
     public function getPonthubStatisticsMainAction(GlobalStatisticsHelper $statisticsHelper)
     {

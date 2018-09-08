@@ -7,8 +7,8 @@ use App\Entity\User;
 use App\Form\PontlyvalentType;
 use App\Helper\PaginateHelper;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -24,13 +24,14 @@ class PontlyvalentsController extends ResourceController
 
     private function checkPontlyvalentOpen()
     {
-        $lastPromo = $this->getConfig('promos.latest');
+        $targetPromo = $this->getConfig('pontlyvalent.promo');
+        $isTooYoung = strcmp($this->user->getPromo(), $targetPromo) > 0;
 
-        if ($this->user->getPromo() == $lastPromo) {
+        if ($isTooYoung) {
             throw new BadRequestHttpException('Ton tour n\'est pas encore arrivé, petit ' . $lastPromo . ' !');
         }
 
-        if ($this->getConfig('pontlyvalent.open')) {
+        if (!$this->getConfig('pontlyvalent.open')) {
             throw new BadRequestHttpException('Le pontlyvalent est fermé !');
         }
     }
@@ -47,8 +48,7 @@ class PontlyvalentsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/users/pontlyvalent")
-     * @Method("GET")
+     * @Route("/users/pontlyvalent", methods={"GET"})
      */
     public function getPontlyvalentsAction(PaginateHelper $paginateHelper)
     {
@@ -78,8 +78,7 @@ class PontlyvalentsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/users/{targetUsername}/pontlyvalent")
-     * @Method("GET")
+     * @Route("/users/{targetUsername}/pontlyvalent", methods={"GET"})
      */
     public function getPontlyvalentAction($targetUsername)
     {
@@ -108,8 +107,7 @@ class PontlyvalentsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/users/{targetUsername}/pontlyvalent")
-     * @Method("POST")
+     * @Route("/users/{targetUsername}/pontlyvalent", methods={"POST"})
      */
     public function postPontlyvalentAction(Request $request, $targetUsername)
     {
@@ -120,7 +118,7 @@ class PontlyvalentsController extends ResourceController
          */
         $target = $this->manager->getRepository(User::class)->findOneByUsername($targetUsername);
 
-        $targetPromo = array_slice($this->getConfig('promos.all'), -2, 1)[0];
+        $targetPromo = $this->getConfig('pontlyvalent.promo');
         if ($target->getPromo() != $targetPromo) {
             throw new BadRequestHttpException('Ce n\'est pas un ' . $targetPromo . ' !');
         }
@@ -163,8 +161,7 @@ class PontlyvalentsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/users/{targetUsername}/pontlyvalent")
-     * @Method("DELETE")
+     * @Route("/users/{targetUsername}/pontlyvalent", methods={"DELETE"})
      */
     public function deletePontlyvalentAction($targetUsername)
     {

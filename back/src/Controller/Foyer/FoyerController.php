@@ -8,8 +8,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\TransactionRepository;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -32,8 +31,7 @@ class FoyerController extends BaseController
      *  },
      *  section="Foyer"
      * )
-     * @Route("/statistics/foyer/dashboard")
-     * @Method("GET")
+     * @Route("/statistics/foyer/dashboard", methods={"GET"})
      */
     public function getFoyerStatisticsDashboardAction(TransactionRepository $transactionRepository)
     {
@@ -78,8 +76,7 @@ class FoyerController extends BaseController
      *  },
      *  section="Foyer"
      * )
-     * @Route("/statistics/foyer/{username}")
-     * @Method("GET")
+     * @Route("/statistics/foyer/{username}", methods={"GET"})
      */
     public function getFoyerStatisticsAction(User $user, TransactionRepository $transactionRepository)
     {
@@ -103,8 +100,7 @@ class FoyerController extends BaseController
      *  },
      *  section="Foyer"
      * )
-     * @Route("/statistics/foyer")
-     * @Method("GET")
+     * @Route("/statistics/foyer", methods={"GET"})
      */
     public function getFoyerStatisticsMainAction(TransactionRepository $transactionRepository)
     {
@@ -127,8 +123,7 @@ class FoyerController extends BaseController
      *  },
      *  section="Foyer"
      * )
-     * @Route("/foyer/debts")
-     * @Method("GET")
+     * @Route("/foyer/debts", methods={"GET"})
      */
     public function getFoyerDebtsAction()
     {
@@ -163,8 +158,7 @@ class FoyerController extends BaseController
      *  },
      *  section="Foyer"
      * )
-     * @Route("/foyer/promo-balance")
-     * @Method("GET")
+     * @Route("/foyer/promo-balance", methods={"GET"})
      */
     public function getFoyerPromoBalanceAction(TransactionRepository $transactionRepository)
     {

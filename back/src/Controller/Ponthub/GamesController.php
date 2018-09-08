@@ -5,8 +5,7 @@ namespace App\Controller\Ponthub;
 use App\Entity\Game;
 use App\Form\GameType;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class GamesController extends PonthubFileController
@@ -29,8 +28,7 @@ class GamesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/games")
-     * @Method("GET")
+     * @Route("/games", methods={"GET"})
      */
     public function getGamesAction()
     {
@@ -49,8 +47,7 @@ class GamesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/games/{slug}")
-     * @Method("GET")
+     * @Route("/games/{slug}", methods={"GET"})
      */
     public function getGameAction($slug)
     {
@@ -72,8 +69,7 @@ class GamesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/games/{slug}")
-     * @Method("PATCH")
+     * @Route("/games/{slug}", methods={"PATCH"})
      */
     public function patchGameAction($slug)
     {
@@ -94,8 +90,7 @@ class GamesController extends PonthubFileController
      *  },
      *  section="Publications"
      * )
-     * @Route("/games/{slug}")
-     * @Method("DELETE")
+     * @Route("/games/{slug}", methods={"DELETE"})
      */
     public function deleteGameAction($slug)
     {
@@ -115,8 +110,7 @@ class GamesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/games/{slug}/download")
-     * @Method("GET")
+     * @Route("/games/{slug}/download", methods={"GET"})
      */
     public function downloadGameAction($slug)
     {

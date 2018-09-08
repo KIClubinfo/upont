@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use App\Entity\Likeable;
@@ -74,8 +75,8 @@ class Course extends Likeable
      */
     public function __construct()
     {
-        $this->exercices = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->courseitems = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->exercices = new ArrayCollection();
+        $this->courseitems = new ArrayCollection();
     }
 
     /**
@@ -199,7 +200,7 @@ class Course extends Likeable
     /**
      * Get groups
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return array
      */
     public function getGroups()
     {
@@ -232,7 +233,7 @@ class Course extends Likeable
     /**
      * Get exercices
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getExercices()
     {
@@ -275,7 +276,7 @@ class Course extends Likeable
     /**
      * Get courseitems
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getCourseitems()
     {

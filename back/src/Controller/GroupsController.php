@@ -7,8 +7,8 @@ use App\Entity\Group;
 use App\Entity\User;
 use App\Form\GroupType;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,8 +36,7 @@ class GroupsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/groups")
-     * @Method("GET")
+     * @Route("/groups", methods={"GET"})
      */
     public function getGroupsAction()
     {
@@ -56,8 +55,7 @@ class GroupsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/groups/{slug}")
-     * @Method("GET")
+     * @Route("/groups/{slug}", methods={"GET"})
      */
     public function getGroupAction($slug)
     {
@@ -79,8 +77,7 @@ class GroupsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/groups")
-     * @Method("POST")
+     * @Route("/groups", methods={"POST"})
      */
     public function postGroupAction(Request $request)
     {
@@ -116,8 +113,7 @@ class GroupsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/groups/{slug}")
-     * @Method("PATCH")
+     * @Route("/groups/{slug}", methods={"PATCH"})
      */
     public function patchGroupAction(Request $request, $slug)
     {
@@ -168,8 +164,7 @@ class GroupsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/groups/{slug}")
-     * @Method("DELETE")
+     * @Route("/groups/{slug}", methods={"DELETE"})
      */
     public function deleteGroupAction($slug)
     {
@@ -197,8 +192,7 @@ class GroupsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/groups/{slug}/users/{id}")
-     * @Method("POST")
+     * @Route("/groups/{slug}/users/{id}", methods={"POST"})
      */
     public function postUserGroupAction($slug, $id)
     {
@@ -234,8 +228,7 @@ class GroupsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/groups/{slug}/users/{id}")
-     * @Method("DELETE")
+     * @Route("/groups/{slug}/users/{id}", methods={"DELETE"})
      */
     public function removeUserGroupAction($slug, $id)
     {
@@ -269,8 +262,7 @@ class GroupsController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/groups/{slug}/users")
-     * @Method("GET")
+     * @Route("/groups/{slug}/users", methods={"GET"})
      */
     public function getUsersGroupAction($slug)
     {

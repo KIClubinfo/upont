@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Image;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -22,8 +22,7 @@ class ImagesController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route("/images")
-     * @Method("POST")
+     * @Route("/images", methods={"POST"})
      */
     public function postImageAction(Request $request)
     {

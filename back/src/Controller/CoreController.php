@@ -5,8 +5,8 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\IpUtils;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,8 +35,7 @@ class CoreController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route("/clean")
-     * @Method("GET")
+     * @Route("/clean", methods={"GET"})
      */
     public function cleanAction(CleaningHelper $cleaningHelper)
     {
@@ -52,8 +51,7 @@ class CoreController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route("/coffee")
-     * @Method("GET")
+     * @Route("/coffee", methods={"GET"})
      */
     public function coffeeAction()
     {
@@ -72,8 +70,7 @@ class CoreController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route("/dirty")
-     * @Method("GET")
+     * @Route("/dirty", methods={"GET"})
      */
     public function dirtyAction()
     {
@@ -103,8 +100,7 @@ class CoreController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route("/login", name="login")
-     * @Method("POST")
+     * @Route("/login", name="login", methods={"POST"})
      */
     public function loginAction()
     {
@@ -120,8 +116,7 @@ class CoreController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route("/ping", name="ping")
-     * @Method({"HEAD", "GET"})
+     * @Route("/ping", name="ping", methods={"HEAD", "GET"})
      */
     public function pingAction()
     {
@@ -146,8 +141,7 @@ class CoreController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route("/search")
-     * @Method("POST")
+     * @Route("/search", methods={"POST"})
      */
     public function searchAction(SearchService $searchService, Request $request)
     {
@@ -170,8 +164,7 @@ class CoreController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route("/version")
-     * @Method("GET")
+     * @Route("/version", methods={"GET"})
      */
     public function versionAction(VersionService $versionService)
     {
@@ -186,8 +179,7 @@ class CoreController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route("/config")
-     * @Method("GET")
+     * @Route("/config", methods={"GET"})
      */
     public function configAction(Request $request)
     {
@@ -209,6 +201,8 @@ class CoreController extends BaseController
                 '172.24.192.0/21',
                 '172.24.200.0/24',
                 '195.221.194.14',
+                '195.221.194.42',
+                '195.221.194.43',
             ])
         ], $this->container->getParameter('upont')));
     }

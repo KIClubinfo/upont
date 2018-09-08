@@ -11,8 +11,8 @@ use App\Form\UserType;
 use App\Service\TokenService;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -47,8 +47,7 @@ class LoginController extends BaseController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/refresh")
-     * @Method("GET")
+     * @Route("/refresh", methods={"GET"})
      */
     public function refreshAction(Request $request)
     {
@@ -79,8 +78,7 @@ class LoginController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route("/resetting/request")
-     * @Method("POST")
+     * @Route("/resetting/request", methods={"POST"})
      */
     public function resettingAction(TokenService $tokenService, Request $request)
     {
@@ -133,8 +131,7 @@ class LoginController extends BaseController
      *  },
      *  section="Général"
      * )
-     * @Route("/resetting/token/{token}")
-     * @Method("POST")
+     * @Route("/resetting/token/{token}", methods={"POST"})
      */
     public function resettingTokenAction(Request $request, $token)
     {

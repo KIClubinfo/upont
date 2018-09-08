@@ -17,8 +17,7 @@ use App\Repository\UserRepository;
 use App\Service\TokenService;
 use Carbon\Carbon;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,8 +43,7 @@ class OwnController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/own/achievements")
-     * @Method("GET")
+     * @Route("/own/achievements", methods={"GET"})
      */
     public function getAchievementsAction(Request $request)
     {
@@ -62,8 +60,7 @@ class OwnController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/users/{slug}/achievements")
-     * @Method("GET")
+     * @Route("/users/{slug}/achievements", methods={"GET"})
      */
     public function getUserAchievementsAction(Request $request, $slug)
     {
@@ -171,8 +168,7 @@ class OwnController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/own/devices")
-     * @Method("GET")
+     * @Route("/own/devices", methods={"GET"})
      */
     public function getDevicesAction()
     {
@@ -206,8 +202,7 @@ class OwnController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/own/devices")
-     * @Method("POST")
+     * @Route("/own/devices", methods={"POST"})
      */
     public function postDeviceAction(Request $request)
     {
@@ -247,8 +242,7 @@ class OwnController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/own/devices/{id}")
-     * @Method("DELETE")
+     * @Route("/own/devices/{id}", methods={"DELETE"})
      */
     public function deleteDeviceAction($id)
     {
@@ -279,8 +273,7 @@ class OwnController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/own/notifications")
-     * @Method("GET")
+     * @Route("/own/notifications", methods={"GET"})
      */
     public function getNotificationsAction()
     {
@@ -326,8 +319,7 @@ class OwnController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/own/followed")
-     * @Method("GET")
+     * @Route("/own/followed", methods={"GET"})
      */
     public function getFollowedAction()
     {
@@ -362,8 +354,7 @@ class OwnController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/own/events")
-     * @Method("GET")
+     * @Route("/own/events", methods={"GET"})
      */
     public function getOwnEventsAction(Request $request, UserRepository $userRepository)
     {
@@ -411,8 +402,7 @@ class OwnController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/own/calendar")
-     * @Method("GET")
+     * @Route("/own/calendar", methods={"GET"})
      * @param Request $request
      * @param UserRepository $userRepository
      * @return \Symfony\Component\HttpFoundation\Response
@@ -466,8 +456,7 @@ class OwnController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/own/newsitems")
-     * @Method("GET")
+     * @Route("/own/newsitems", methods={"GET"})
      * @param NewsitemRepository $newsitemRepository
      * @param PaginateHelper $paginateHelper
      * @return \Symfony\Component\HttpFoundation\Response
@@ -492,8 +481,7 @@ class OwnController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/own/courses")
-     * @Method("GET")
+     * @Route("/own/courses", methods={"GET"})
      */
     public function getOwnCoursesAction()
     {
@@ -518,8 +506,7 @@ class OwnController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/own/courseitems")
-     * @Method("GET")
+     * @Route("/own/courseitems", methods={"GET"})
      */
     public function getCourseitemsAction()
     {
@@ -549,8 +536,7 @@ class OwnController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/own/preferences")
-     * @Method("PATCH")
+     * @Route("/own/preferences", methods={"PATCH"})
      */
     public function changePreferenceAction(Request $request)
     {
@@ -588,8 +574,7 @@ class OwnController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/own/preferences")
-     * @Method("DELETE")
+     * @Route("/own/preferences", methods={"DELETE"})
      */
     public function removePreferenceAction(Request $request)
     {
@@ -621,8 +606,7 @@ class OwnController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/own/preferences")
-     * @Method("GET")
+     * @Route("/own/preferences", methods={"GET"})
      */
     public function getPreferencesAction()
     {
@@ -640,8 +624,7 @@ class OwnController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/own/token")
-     * @Method("GET")
+     * @Route("/own/token", methods={"GET"})
      */
     public function getTokenAction(TokenService $tokenService)
     {
@@ -661,8 +644,7 @@ class OwnController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/own/fixs")
-     * @Method("GET")
+     * @Route("/own/fixs", methods={"GET"})
      */
     public function getOwnFixsAction(FixRepository $fixRepository, PaginateHelper $paginateHelper)
     {
@@ -687,8 +669,7 @@ class OwnController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/own/user")
-     * @Method("GET")
+     * @Route("/own/user", methods={"GET"})
      */
     public function getOwnUserAction()
     {
@@ -706,8 +687,7 @@ class OwnController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/own/clubs")
-     * @Method("GET")
+     * @Route("/own/clubs", methods={"GET"})
      */
     public function getOwnClubsAction()
     {
@@ -742,8 +722,7 @@ class OwnController extends ResourceController
      *  },
      *  section="Utilisateurs"
      * )
-     * @Route("/own/user")
-     * @Method("POST")
+     * @Route("/own/user", methods={"POST"})
      */
     public function postOwnUserAction(Request $request)
     {

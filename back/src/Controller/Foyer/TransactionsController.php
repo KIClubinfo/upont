@@ -8,8 +8,7 @@ use App\Entity\User;
 use App\Helper\BeerHelper;
 use App\Helper\TransactionHelper;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -34,8 +33,7 @@ class TransactionsController extends ResourceController
      *  },
      *  section="Foyer"
      * )
-     * @Route("/transactions")
-     * @Method("GET")
+     * @Route("/transactions", methods={"GET"})
      */
     public function getTransactionsAction()
     {
@@ -53,8 +51,7 @@ class TransactionsController extends ResourceController
      *  },
      *  section="Foyer"
      * )
-     * @Route("/userbeers")
-     * @Method("GET")
+     * @Route("/userbeers", methods={"GET"})
      */
     public function getUserBeersAction(BeerHelper $beerHelper)
     {
@@ -75,8 +72,7 @@ class TransactionsController extends ResourceController
      *  },
      *  section="Foyer"
      * )
-     * @Route("/users/{slug}/transactions")
-     * @Method("GET")
+     * @Route("/users/{slug}/transactions", methods={"GET"})
      */
     public function getUserTransactionsAction(Request $request, $slug)
     {
@@ -123,8 +119,7 @@ class TransactionsController extends ResourceController
      *  },
      *  section="Foyer"
      * )
-     * @Route("/transactions")
-     * @Method("POST")
+     * @Route("/transactions", methods={"POST"})
      */
     public function postTransactionAction(TransactionHelper $transactionHelper, Request $request)
     {
@@ -157,8 +152,7 @@ class TransactionsController extends ResourceController
      *  },
      *  section="Foyer"
      * )
-     * @Route("/transactions/{id}")
-     * @Method("DELETE")
+     * @Route("/transactions/{id}", methods={"DELETE"})
      */
     public function deleteTransactionAction(TransactionHelper $transactionHelper, $id)
     {

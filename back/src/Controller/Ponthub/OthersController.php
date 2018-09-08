@@ -5,8 +5,7 @@ namespace App\Controller\Ponthub;
 use App\Entity\Other;
 use App\Form\OtherType;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class OthersController extends PonthubFileController
@@ -29,8 +28,7 @@ class OthersController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/others")
-     * @Method("GET")
+     * @Route("/others", methods={"GET"})
      */
     public function getOthersAction()
     {
@@ -49,8 +47,7 @@ class OthersController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/others/{slug}")
-     * @Method("GET")
+     * @Route("/others/{slug}", methods={"GET"})
      */
     public function getOtherAction($slug)
     {
@@ -72,8 +69,7 @@ class OthersController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/others/{slug}")
-     * @Method("PATCH")
+     * @Route("/others/{slug}", methods={"PATCH"})
      */
     public function patchOtherAction($slug)
     {
@@ -94,8 +90,7 @@ class OthersController extends PonthubFileController
      *  },
      *  section="Publications"
      * )
-     * @Route("/others/{slug}")
-     * @Method("DELETE")
+     * @Route("/others/{slug}", methods={"DELETE"})
      */
     public function deleteOtherAction($slug)
     {
@@ -115,8 +110,7 @@ class OthersController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/others/{slug}/download")
-     * @Method("GET")
+     * @Route("/others/{slug}/download", methods={"GET"})
      */
     public function downloadOtherAction($slug)
     {

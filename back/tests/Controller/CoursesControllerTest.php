@@ -19,13 +19,15 @@ class CoursesControllerTest extends WebTestCase
         $this->client->request(
             'POST',
             '/courses',
-            ['name' => 'Mécanique des familles',
+            [
+                'name' => 'Mécanique des familles',
                 'groups' => [0, 1, 2, 3],
                 'semester' => 'Année complète',
                 'active' => true,
                 'ects' => 3.5,
-                'department' => 'GCC']
-            );
+                'department' => 'GCC'
+            ]
+        );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
     }

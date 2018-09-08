@@ -6,8 +6,7 @@ use App\Controller\ResourceController;
 use App\Entity\Request;
 use App\Form\RequestType;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class RequestsController extends ResourceController
@@ -30,8 +29,7 @@ class RequestsController extends ResourceController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/requests")
-     * @Method("GET")
+     * @Route("/requests", methods={"GET"})
      */
     public function getRequestsAction()
     {
@@ -50,8 +48,7 @@ class RequestsController extends ResourceController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/requests/{slug}")
-     * @Method("GET")
+     * @Route("/requests/{slug}", methods={"GET"})
      */
     public function getRequestAction($slug)
     {
@@ -73,8 +70,7 @@ class RequestsController extends ResourceController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/requests")
-     * @Method("POST")
+     * @Route("/requests", methods={"POST"})
      */
     public function postRequestAction()
     {
@@ -94,8 +90,7 @@ class RequestsController extends ResourceController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/requests/{slug}")
-     * @Method("DELETE")
+     * @Route("/requests/{slug}", methods={"DELETE"})
      */
     public function deleteRequestAction($slug)
     {
@@ -115,8 +110,7 @@ class RequestsController extends ResourceController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/requests/{slug}/upvote")
-     * @Method("PATCH")
+     * @Route("/requests/{slug}/upvote", methods={"PATCH"})
      */
     public function upvoteRequestAction($slug)
     {
@@ -138,8 +132,7 @@ class RequestsController extends ResourceController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/requests/{slug}/downvote")
-     * @Method("PATCH")
+     * @Route("/requests/{slug}/downvote", methods={"PATCH"})
      */
     public function downvoteRequestAction($slug)
     {

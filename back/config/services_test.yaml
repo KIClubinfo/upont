@@ -1,3 +1,24 @@
+parameters:
+    upont:
+        foyer:
+            trust:
+            - '017'
+
+        promos:
+            latest: '019'
+            assos: '017'
+            all:
+            - '014'
+            - '015'
+            - '016'
+            - '017'
+            - '018'
+            - '019'
+
+        pontlyvalent:
+            open: true
+            promo: '017'
+
 services:
     _defaults:
         public: true

@@ -7,8 +7,7 @@ use App\Entity\Newsitem;
 use App\Form\NewsitemType;
 use App\Listener\NewsitemListener;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class NewsitemsController extends ResourceController
@@ -31,8 +30,7 @@ class NewsitemsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/newsitems")
-     * @Method("GET")
+     * @Route("/newsitems", methods={"GET"})
      */
     public function getNewsitemsAction()
     {
@@ -51,8 +49,7 @@ class NewsitemsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/newsitems/{slug}")
-     * @Method("GET")
+     * @Route("/newsitems/{slug}", methods={"GET"})
      */
     public function getNewsitemAction($slug)
     {
@@ -74,8 +71,7 @@ class NewsitemsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/newsitems")
-     * @Method("POST")
+     * @Route("/newsitems", methods={"POST"})
      */
     public function postNewsitemAction(NewsitemListener $newsitemListener)
     {
@@ -101,8 +97,7 @@ class NewsitemsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/newsitems/{slug}")
-     * @Method("PATCH")
+     * @Route("/newsitems/{slug}", methods={"PATCH"})
      */
     public function patchNewsitemAction($slug)
     {
@@ -124,8 +119,7 @@ class NewsitemsController extends ResourceController
      *  },
      *  section="Publications"
      * )
-     * @Route("/newsitems/{slug}")
-     * @Method("DELETE")
+     * @Route("/newsitems/{slug}", methods={"DELETE"})
      */
     public function deleteNewsitemAction($slug)
     {

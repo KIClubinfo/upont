@@ -5,8 +5,6 @@ namespace App\Controller\Ponthub;
 use App\Controller\ResourceController;
 use App\Entity\PonthubFile;
 use App\Entity\PonthubFileUser;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 // Surcouche pour les fichiers de type PonthubFile
 class PonthubFileController extends ResourceController

@@ -5,8 +5,7 @@ namespace App\Controller\Ponthub;
 use App\Entity\Software;
 use App\Form\SoftwareType;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class SoftwaresController extends PonthubFileController
@@ -29,8 +28,7 @@ class SoftwaresController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/softwares")
-     * @Method("GET")
+     * @Route("/softwares", methods={"GET"})
      */
     public function getSoftwaresAction()
     {
@@ -49,8 +47,7 @@ class SoftwaresController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/softwares/{slug}")
-     * @Method("GET")
+     * @Route("/softwares/{slug}", methods={"GET"})
      */
     public function getSoftwareAction($slug)
     {
@@ -72,8 +69,7 @@ class SoftwaresController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/softwares/{slug}")
-     * @Method("PATCH")
+     * @Route("/softwares/{slug}", methods={"PATCH"})
      */
     public function patchSoftwareAction($slug)
     {
@@ -93,8 +89,7 @@ class SoftwaresController extends PonthubFileController
      *  },
      *  section="Publications"
      * )
-     * @Route("/softwares/{slug}")
-     * @Method("DELETE")
+     * @Route("/softwares/{slug}", methods={"DELETE"})
      */
     public function deleteSoftwareAction($slug)
     {
@@ -114,8 +109,7 @@ class SoftwaresController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/softwares/{slug}/download")
-     * @Method("GET")
+     * @Route("/softwares/{slug}/download", methods={"GET"})
      */
     public function downloadSoftwareAction($slug)
     {

@@ -6,9 +6,8 @@ use App\Entity\Episode;
 use App\Entity\Serie;
 use App\Form\SerieType;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class SeriesController extends PonthubFileController
@@ -31,8 +30,7 @@ class SeriesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/series")
-     * @Method("GET")
+     * @Route("/series", methods={"GET"})
      */
     public function getSeriesAction()
     {
@@ -51,8 +49,7 @@ class SeriesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/series/{slug}")
-     * @Method("GET")
+     * @Route("/series/{slug}", methods={"GET"})
      */
     public function getSerieAction(Serie $serie)
     {
@@ -72,8 +69,7 @@ class SeriesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/series/{slug}")
-     * @Method("PATCH")
+     * @Route("/series/{slug}", methods={"PATCH"})
      */
     public function patchSerieAction(Serie $serie)
     {
@@ -93,8 +89,7 @@ class SeriesController extends PonthubFileController
      *  },
      *  section="Publications"
      * )
-     * @Route("/series/{slug}")
-     * @Method("DELETE")
+     * @Route("/series/{slug}", methods={"DELETE"})
      */
     public function deleteSerieAction(Serie $serie)
     {
@@ -115,8 +110,7 @@ class SeriesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/series/{slug}/episodes")
-     * @Method("GET")
+     * @Route("/series/{slug}/episodes", methods={"GET"})
      */
     public function getSerieEpisodesAction(Serie $serie)
     {
@@ -137,9 +131,8 @@ class SeriesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/series/{slug}/episodes/{episode_slug}")
+     * @Route("/series/{slug}/episodes/{episode_slug}", methods={"GET"})
      * @ParamConverter("episode", options={"mapping": {"episode_slug": "slug"}})
-     * @Method("GET")
      */
     public function getSerieEpisodeAction(Serie $serie, Episode $episode)
     {
@@ -159,9 +152,8 @@ class SeriesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/series/{slug}/episodes/{episode_slug}")
+     * @Route("/series/{slug}/episodes/{episode_slug}", methods={"PATCH"})
      * @ParamConverter("episode", options={"mapping": {"episode_slug": "slug"}})
-     * @Method("PATCH")
      */
     public function patchSerieEpisodeAction(Serie $serie, Episode $episode)
     {
@@ -181,9 +173,8 @@ class SeriesController extends PonthubFileController
      *  },
      *  section="Ponthub"
      * )
-     * @Route("/series/{slug}/episodes/{episode_slug}/download")
+     * @Route("/series/{slug}/episodes/{episode_slug}/download", methods={"GET"})
      * @ParamConverter("episode", options={"mapping": {"episode_slug": "slug"}})
-     * @Method("GET")
      */
     public function downloadEpisodeAction(Serie $serie, Episode $episode)
     {

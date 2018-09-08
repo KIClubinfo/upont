@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Likeable;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 // Fonctions de like/dislike/commentaire
@@ -134,8 +134,7 @@ class LikeableController extends BaseController
      *  },
      *  section="Likeable"
      * )
-     * @Route("/{object}/{slug}/like")
-     * @Method("POST")
+     * @Route("/{object}/{slug}/like", methods={"POST"})
      */
     public function likeAction($object, $slug)
     {
@@ -155,8 +154,7 @@ class LikeableController extends BaseController
      *  },
      *  section="Likeable"
      * )
-     * @Route("/{object}/{slug}/dislike")
-     * @Method("POST")
+     * @Route("/{object}/{slug}/dislike", methods={"POST"})
      */
     public function dislikeAction($object, $slug)
     {
@@ -176,8 +174,7 @@ class LikeableController extends BaseController
      *  },
      *  section="Likeable"
      * )
-     * @Route("/{object}/{slug}/like")
-     * @Method("DELETE")
+     * @Route("/{object}/{slug}/like", methods={"DELETE"})
      */
     public function deleteLikeAction($object, $slug)
     {
@@ -197,8 +194,7 @@ class LikeableController extends BaseController
      *  },
      *  section="Likeable"
      * )
-     * @Route("/{object}/{slug}/dislike")
-     * @Method("DELETE")
+     * @Route("/{object}/{slug}/dislike", methods={"DELETE"})
      */
     public function deleteDislikeAction($object, $slug)
     {
@@ -218,8 +214,7 @@ class LikeableController extends BaseController
      *  },
      *  section="Likeable"
      * )
-     * @Route("/{object}/{slug}/{subobject}/{subslug}/like")
-     * @Method("POST")
+     * @Route("/{object}/{slug}/{subobject}/{subslug}/like", methods={"POST"})
      */
     public function likeSubAction($object, $slug, $subobject, $subslug)
     {
@@ -239,8 +234,7 @@ class LikeableController extends BaseController
      *  },
      *  section="Likeable"
      * )
-     * @Route("/{object}/{slug}/{subobject}/{subslug}/dislike")
-     * @Method("POST")
+     * @Route("/{object}/{slug}/{subobject}/{subslug}/dislike", methods={"POST"})
      */
     public function dislikeSubAction($object, $slug, $subobject, $subslug)
     {
@@ -260,8 +254,7 @@ class LikeableController extends BaseController
      *  },
      *  section="Likeable"
      * )
-     * @Route("/{object}/{slug}/{subobject}/{subslug}/like")
-     * @Method("DELETE")
+     * @Route("/{object}/{slug}/{subobject}/{subslug}/like", methods={"DELETE"})
      */
     public function deleteLikeSubAction($object, $slug, $subobject, $subslug)
     {
@@ -281,8 +274,7 @@ class LikeableController extends BaseController
      *  },
      *  section="Likeable"
      * )
-     * @Route("/{object}/{slug}/{subobject}/{subslug}/dislike")
-     * @Method("DELETE")
+     * @Route("/{object}/{slug}/{subobject}/{subslug}/dislike", methods={"DELETE"})
      */
     public function deleteDislikeSubAction($object, $slug, $subobject, $subslug)
     {
