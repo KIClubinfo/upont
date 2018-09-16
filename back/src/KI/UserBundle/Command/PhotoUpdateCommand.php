@@ -1,7 +1,5 @@
 <?php
-
 namespace KI\UserBundle\Command;
-
 use KI\UserBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -9,149 +7,105 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\CsvEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 class PhotoUpdateCommand extends ContainerAwareCommand
 {
+    protected $FACEBOOK_API_URL = 'https://graph.facebook.com/v2.10';
     protected function configure()
     {
         $this
             ->setName('upont:update:photo')
             ->setDescription('Import missing photos from Facebook for the given promo')
             ->addArgument('promo', InputArgument::REQUIRED, 'The promo whose photos are to be updated.')
-            //->addArgument('usernames', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'The usernames from the specified promo whose photos are to be updated.')
-	    ->addArgument('file', InputArgument::REQUIRED, 'Absolute path to a csv containing facebook_name,facebook_id')
+            ->addArgument('file', InputArgument::REQUIRED, 'Absolute path to a csv containing facebook_name,facebook_id')
             ->addOption('preview', 'p', InputOption::VALUE_NONE, 'Make a preview of the photos to be imported without importing them')
             ->addOption('all', 'a', InputOption::VALUE_NONE, 'Treat the users regardless whether they already have a photo on uPont')
             ->addOption('interactive', 'i', InputOption::VALUE_NONE, 'For each match, ask interactively whether the photo should be updated')
             ->addOption('similarity-threshold', 's', InputOption::VALUE_REQUIRED, 'Similarity threshold with Fb profiles above which photos are imported in non-preview and non-interactive mode (in % between 0 and 100)', 85)
         ;
     }
-
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
-        $repo = $this->getContainer()->get('doctrine')->getRepository(User::class);
+        $usersRepo = $this->getContainer()->get('doctrine')->getRepository(User::class);
         $curlService = $this->getContainer()->get('ki_core.service.curl');
         $imageService = $this->getContainer()->get('ki_core.service.image');
-        $fbToken = $this->getContainer()->getParameter('facebook_token');
         $questionHelper = $this->getHelper('question');
-
-        $users = $repo->findByPromo($input->getArgument('promo'));
-        //Deprecated since promo021
-	/*$usernames = $input->getArgument('usernames');
-        if ($usernames) {
-            foreach ($users as $user) {
-                if (!in_array($user, $usernames)) {
-                    unset($users[array_search($user, $users)]);
-                }
-            }
-        }*/
+        $isPreview = $input->getOption('preview');
+        $users = $usersRepo->findByPromo($input->getArgument('promo'));
         $question = new ConfirmationQuestion('Update? ', false, '/^y/i');
-        $token = '?access_token=' . $fbToken;
-
-        // Ids des différents groupes facebook
-	// Deprecated depuis promo021 : utiliser un scrapper sur la page des groupes pour obtenir l'id de chaque membre
-        switch ($input->getArgument('promo')) {
-            // Attention, toujours préciser l'id facebook de la promo d'après
-            // pour avoir les étrangers
-            case '015':
-                $id = '359646667495742';
-                break;  // Wei't spirit
-            case '016':
-                $id = '1451446761806184';
-                break; // Wei't the phoque
-            case '017':
-                $id = '737969042997359';
-                break;  // F'wei'ght Club
-            case '018':
-                $id = '1739424532975028';
-                break;  // WEI'STED
-            case '019':
-                $id = '313192685791329';
-                break;  // WEI'T FOR IT
-            case '020':
-                $id = '313192685791329';
-                break;  // WEI'T FOR IT
-            default:
-                return;
-        }
-
-        // On récupère la liste des membres
-        $baseUrl = 'https://graph.facebook.com/v2.10';
-        //$data = json_decode($curlService->curl($baseUrl . '/' . $id . '/members' . $token . '&limit=10000'), true);
-	$serializer = $this->getContainer()->get('serializer');
-	$data = $seralizer->decode(file_get_contents($input->getArgument('file')), 'csv');
-
-        $updateCount = 0;
-        $unfoundCount = 0;
-        $notUpdatedInteractivelyCount = 0;
-        $updateExistingPhoto = 0;
-
-        $output->writeln('Fb photos '.($input->getOption('preview') ? 'would be ' : '').'imported for the following people (> '.$input->getOption('similarity-threshold').'% similar) :');
-
+	$serializer = new Serializer([new ObjectNormalizer()], [new CsvEncoder()]);
+        $csvData = $serializer->decode(file_get_contents($input->getArgument('file')), 'csv');
+        $noPhotoCount = 0;
+        $notFoundCount = 0;
+        $updatedNoPhotoCount = 0;
+        $updatedExistingPhotoCount = 0;
+	$similarityThreshold = $input->getOption("similarity-threshold");
+        $output->writeln('Importing facebook photos for users (> ' . $similarityThreshold . '% similar) :');
         foreach ($users as $user) {
-            $bestMatch = null;
-            $bestPercent = -1;
             $noPhoto = $user->imageUrl() === 'uploads/others/default-user.png';
-
+            if (!$noPhoto) {
+                $noPhotoCount++;
+            }
             if ($noPhoto || $input->getOption('all')) {
-                foreach ($data['data'] as $member) {
+                // Find best match
+                $bestMatch = null;
+                $bestPercent = -1;
+                foreach ($csvData as $member) {
                     $percent = $this->isSimilar($user, $member);
                     if ($percent > $bestPercent) {
                         $bestPercent = $percent;
                         $bestMatch = $member;
                     }
                 }
-
-                if ($bestPercent > $input->getOption('similarity-threshold')) {
-                    $output->writeln($user->getFirstName().' '.$user->getLastName().' <- '.$bestMatch['name'].' ('.$bestPercent.'% similar)'.($input->getOption('all') ? ' ['.($noPhoto ? 'to update' : 'already updated').']' : ''));
+                if ($bestPercent > $similarityThreshold) {
+                    $userFullName = $user->getFirstName() . ' ' . $user->getLastName();
+                    $pictureInfo = $noPhoto ? '[Picture MISSING]' : '[Picture exists]';
+                    $output->writeln($userFullName . ' <- ' . $bestMatch['name'] . ' (' . $bestPercent . '% similar) ' . $pictureInfo);
                     $updateConfirmation = $input->getOption('interactive') ? $questionHelper->ask($input, $output, $question) : true;
-                    if (!$input->getOption('preview') && $updateConfirmation) {
-                        $url = '/' . $bestMatch['id'] . '/picture' . $token . '&width=9999&redirect=false';
-                        $dataImage = json_decode($curlService->curl($baseUrl . $url), true);
-                        $image = $imageService->upload($dataImage['data']['url'], true);
-                        $user->setImage($image);
-                    }
-                    if (!$input->getOption('interactive') || $updateConfirmation) {
-                        $updateCount++;
+                    if ($updateConfirmation) {
                         if (!$noPhoto) {
-                            $updateExistingPhoto++;
+                            $updatedExistingPhotoCount++;
+                        } else {
+                            $updatedNoPhotoCount++;
                         }
-                    }
-                    else {
-                        $notUpdatedInteractivelyCount++;
+                        if(!$isPreview) {
+                            $url = '/' . $bestMatch['id'] . '/picture?width=9999&redirect=false';
+                            $dataImage = json_decode($curlService->curl($this->FACEBOOK_API_URL . $url), true);
+                            $image = $imageService->upload($dataImage['data']['url'], true);
+                            $user->setImage($image);
+                        }
                     }
                 }
                 else {
-                    $unfoundCount++;
+                    $notFoundCount++;
                 }
-
                 $em->flush();
             }
         }
-
-        //$userSpecification = $usernames ? 'amongst the '.count($usernames).' specified user'.(count($usernames) > 1 ? 's ' : ' ') : ' ';
-        $output->writeln(
-            ['End of list',
+        $output->writeln([
+            'End of list',
             '',
-            'Students in promo '.$input->getArgument('promo').' : '.count($users)
+            'Students in promo ' . $input->getArgument('promo') . ' : ' . count($users)
         ]);
         if ($input->getOption('all')) {
-            $output->writeln(
-                [($input->getOption('preview') && !$input->getOption('interactive') ? 'To be i' : 'I').'mported missing photos: '.($updateCount-$updateExistingPhoto),
-                'Non-updated photos: '.($unfoundCount+$notUpdatedInteractivelyCount),
-                'Replaced photos: '.$updateExistingPhoto
+            $output->writeln([
+                'Imported missing photos: ' . $updatedNoPhotoCount,
+                'Not found photos: ' . $notFoundCount,
+                'Replaced photos: ' . $updatedExistingPhotoCount,
             ]);
         }
         else {
-            $output->writeln(
-                ['Missing photos in promo : '.($updateCount+$unfoundCount+$notUpdatedInteractivelyCount),
-                ($input->getOption('preview') && !$input->getOption('interactive') ? 'To be i' : 'I').'mported missing photos: '.$updateCount,
-                'Remaining missing photos (unfound or refused Facebook profiles): '.($unfoundCount+$notUpdatedInteractivelyCount)
+            $output->writeln([
+                'Missing photos in promo : ' . $noPhotoCount,
+                'Imported missing photos: ' . $updatedNoPhotoCount,
+                'Not found photos: ' . $notFoundCount,
+                'Remaining missing photos: ' . ($noPhotoCount - $updatedNoPhotoCount),
             ]);
         }
     }
-
     // Compare un User uPont et un utilisateur Facebook et essaye de deviner si
     // ce sont les mêmes personnes
     private function isSimilar(User $user, array $member)
