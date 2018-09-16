@@ -36,13 +36,13 @@ class PhotoUpdateCommand extends ContainerAwareCommand
         $isPreview = $input->getOption('preview');
         $users = $usersRepo->findByPromo($input->getArgument('promo'));
         $question = new ConfirmationQuestion('Update? ', false, '/^y/i');
-	$serializer = new Serializer([new ObjectNormalizer()], [new CsvEncoder()]);
+	    $serializer = new Serializer([new ObjectNormalizer()], [new CsvEncoder()]);
         $csvData = $serializer->decode(file_get_contents($input->getArgument('file')), 'csv');
         $noPhotoCount = 0;
         $notFoundCount = 0;
         $updatedNoPhotoCount = 0;
         $updatedExistingPhotoCount = 0;
-	$similarityThreshold = $input->getOption("similarity-threshold");
+	    $similarityThreshold = $input->getOption("similarity-threshold");
         $output->writeln('Importing facebook photos for users (> ' . $similarityThreshold . '% similar) :');
         foreach ($users as $user) {
             $noPhoto = $user->imageUrl() === 'uploads/others/default-user.png';
