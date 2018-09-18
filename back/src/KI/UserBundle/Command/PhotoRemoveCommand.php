@@ -22,6 +22,7 @@ class PhotoRemoveCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine')->getManager();
         $repo = $this->getContainer()->get('doctrine')->getRepository(User::class);
         $user = $repo->findOneByUsername($input->getArgument('username'));
+        $user->getImage()->removeUpload();
         $image = null;
         $user->setImage($image);
 	$em->flush();
