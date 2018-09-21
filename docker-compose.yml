@@ -49,6 +49,7 @@ services:
             context: docker/ingress
         volumes:
             - ./docker/upont-docker-preprod.enpc.fr.conf:/etc/nginx/sites-enabled/upont.conf:ro
+            - upont-uploads:/upont/uploads:ro
         depends_on:
             - upont-back
             - upont-front
