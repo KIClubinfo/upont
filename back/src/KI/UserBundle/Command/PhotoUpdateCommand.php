@@ -43,7 +43,7 @@ class PhotoUpdateCommand extends ContainerAwareCommand
         $updatedNoPhotoCount = 0;
         $updatedExistingPhotoCount = 0;
         $similarityThreshold = $input->getOption("similarity-threshold");
-        $output->writeln('Importing facebook photos for users (> ' . $similarityThreshold . ' score similar) :');
+        $output->writeln('Importing facebook photos for users (> ' . $similarityThreshold . ' similarity score) :');
         foreach ($users as $user) {
             $noPhoto = $user->imageUrl() === 'uploads/others/default-user.png';
             if (!$noPhoto) {
@@ -114,18 +114,27 @@ class PhotoUpdateCommand extends ContainerAwareCommand
         $firstName = $this->cleanString($user->getFirstName());
         $lastName = $this->cleanString($user->getLastName());
         
-        $firstName_fb = $this->cleanString(substr($member['name'], 0, strpos($member['name'], ' ')));
-        $lastName_fb = $this->cleanString(substr($member['name'], strpos($member['name'], ' ') + 1));
+        $firstNameFb = $this->cleanString(substr($member['name'], 0, strpos($member['name'], ' ')));
+        $lastNameFb = $this->cleanString(substr($member['name'], strpos($member['name'], ' ') + 1));
 
-        $score += $this->compareStr($firstName, $firstName_fb);
-        $score += $this->compareStr($lastName, $lastName_fb) * 3; //Parameter may be adapted
+        $score += $this->compareStr($firstName, $firstNameFb);
+	// Le match sur le nom de famille est un facteur bien plus important
+	// que celui pour le nom
+        $score += 3 * $this->compareStr($lastName, $lastNameFb); //Parameter may be adapted
         return $score;
     }
 
+    // Compare deux chaînes de caractères selon un algorithme fait maison
+    // dans le but de détecter les personnes ayant un nom différent sur Facebook
+    // Ex: Vanlaer -> Vnlr
+    // Favorise le match entre des chaînes ayant mêmes caractères au début
+    // et à la fin.
+    // Favorise les séquences de caractères identiques, et également les
+    // caractères qui matchent et qui sont proches les uns des autres
     private function compareStr(string $str1, string $str2)
     {
         $score = 0;
-        $good_letters = 0;
+        $goodLetters = 0;
         $shortName = $str1;
         $longName = $str2;
         if (strlen($shortName) > strlen($longName)) {
@@ -133,44 +142,45 @@ class PhotoUpdateCommand extends ContainerAwareCommand
             $shortName = $longName;
             $longName = $tmp;
         }
-        $k = 0;
-        $last_index = -1;
-        $matching_row = 0;
+        $currentIndex = 0;
+        $lastIndex = -1;
+        $matchingRow = 0;
         for ($i = 0 ; $i < strlen($shortName) ; $i++) {
-            while ($k < strlen($longName) && $longName[$k] != $shortName[$i]) {
-                $k += 1;
-                $matching_row = 0;
+            while ($currentIndex < strlen($longName) && $longName[$currentIndex] != $shortName[$i]) {
+                $currentIndex += 1;
+                $matchingRow = 0;
             }
             if ($k < strlen($longName)) {
                 //Parameters may be adapted
-                if ($i == 0 && $k == 0) {
+                if ($i == 0 && $currentIndex == 0) {
                     $score += 10;
                 }
-                elseif ($i == strlen($shortName)-1 && $k == strlen($longName)-1) {
+                elseif ($i == strlen($shortName)-1 && $currentIndex == strlen($longName)-1) {
                     $score += 10;
                 }
-                if ($last_index > -1) {
-                    $score += 5*exp(-($k - $last_index)/2);
+                if ($lastIndex > -1) {
+                    $score += 5 * exp(-($k - $lastIndex) / 2);
                 }
-                $last_index = $k;
-                $matching_row += 1;
-                $score += exp($matching_row/2);
-                $k += 1;
+                $lastIndex = $k;
+                $matchingRow += 1;
+                $score += exp($matchingRow/2);
+                $currentIndex += 1;
             }
         }
         return $score;
     }
 
+    // Nettoie une chaine de caracteres:
+    // -enlève d'eventuels accents
+    // -met tout en minuscule
     private function cleanString(string $str)
     {
-        $str = strtolower($str);
-        $str = str_replace('é', 'e', $str);
-        $str = str_replace('è', 'e', $str);
-        $str = str_replace('ê', 'e', $str);
-        $str = str_replace('ë', 'e', $str);
-        $str = str_replace('î', 'i', $str);
-        $str = str_replace('ï', 'i', $str);
-        $str = str_replace('â', 'a', $str);
-        return $str;
+	$unwanted_array = array(    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
+                            'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U',
+                            'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c',
+                            'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o',
+                            'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y' );
+        $str = strtr( $str, $unwanted_array );
+        return strtolower($str);
     }
 }

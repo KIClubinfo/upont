@@ -13,7 +13,7 @@ class PhotoRemoveCommand extends ContainerAwareCommand
     {
         $this
             ->setName('upont:remove:photo')
-            ->setDescription('Import missing photos from Facebook for the given promo')
+            ->setDescription('Remove the photo of a user')
             ->addArgument('username', InputArgument::REQUIRED, 'The user whose photo is to be removed.')
         ;
     }
@@ -22,10 +22,9 @@ class PhotoRemoveCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine')->getManager();
         $repo = $this->getContainer()->get('doctrine')->getRepository(User::class);
         $user = $repo->findOneByUsername($input->getArgument('username'));
-        $user->getImage()->removeUpload();
         $image = null;
         $user->setImage($image);
-	$em->flush();
+        $em->flush();
     }
 }
 ?>
