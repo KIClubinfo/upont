@@ -20,8 +20,6 @@ services:
 
   upont-front:
     image: quay.io/kiclubinfo/upont-front:${TAG:-latest}
-    build:
-      context: front
     restart: always
 
   # pochtron2:
@@ -30,8 +28,6 @@ services:
 
   upont-back:
     image: quay.io/kiclubinfo/upont-back:${TAG:-latest}
-    build:
-      context: back
     volumes:
     - ./docker/config/jwt:/app/config/jwt:ro
     - upont-uploads:/app/public/uploads:rw
@@ -45,8 +41,6 @@ services:
 
   ingress:
     image: quay.io/kiclubinfo/upont-ingress:${TAG:-latest}
-    build:
-      context: docker/ingress
     volumes:
     - ./docker/upont-docker-preprod.enpc.fr.conf:/etc/nginx/sites-enabled/upont.conf:ro
     - upont-uploads:/upont/uploads:ro
