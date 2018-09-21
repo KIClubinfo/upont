@@ -51,15 +51,11 @@ jobs:
       - run: cp .env.dist .env
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD quay.io
       - run: |
-          export TAG=${CIRCLE_BRANCH}-$(date +%Y%m%d%H%M%S)
+          export TAG=${CIRCLE_BRANCH}
           export VERSION_HASH=${CIRCLE_SHA1}
           export VERSION_TAG=${CIRCLE_TAG}
-          docker-compose build
-          docker-compose push
-      - run: |
-          export TAG=$CIRCLE_BRANCH
-          docker-compose build
-          docker-compose push
+          docker-compose -f docker-compose.yml -f build.override.yml build
+          docker-compose -f docker-compose.yml -f build.override.yml push
 
 #  test-front:
 #    steps:
