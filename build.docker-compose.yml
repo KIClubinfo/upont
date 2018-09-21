@@ -9,8 +9,8 @@ services:
     build:
       context: back
       args:
-        CIRCLE_SHA1: ${CIRCLE_SHA1}
-        CIRCLE_TAG: ${CIRCLE_TAG}
+        VERSION_HASH: ${VERSION_HASH:-}
+        VERSION_TAG: ${VERSION_TAG:-}
 
   ingress:
     build:
