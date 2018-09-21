@@ -122,7 +122,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
             if (file_exists($this->image->getAbsolutePath()))
                 return $this->image->getWebPath();
         }
-        return 'default-user.png';
+        return null;
     }
 
     /**

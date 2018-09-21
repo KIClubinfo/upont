@@ -96,7 +96,7 @@ class Club extends Likeable
      */
     public function imageUrl()
     {
-        return $this->image !== null ? $this->image->getWebPath() : 'default-user.png';
+        return $this->image !== null ? $this->image->getWebPath() : null;
     }
 
     /**

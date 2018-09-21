@@ -87,7 +87,7 @@ class PhotoUpdateCommand extends ContainerAwareCommand
         foreach ($users as $user) {
             $bestMatch = null;
             $bestPercent = -1;
-            $noPhoto = $user->imageUrl() === 'default-user.png';
+            $noPhoto = $user->imageUrl() === null;
 
             if ($noPhoto || $input->getOption('all')) {
                 foreach ($data['data'] as $member) {
