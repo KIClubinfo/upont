@@ -30,8 +30,8 @@ RUN echo $APP_ENV && composer install $( [[ "$APP_ENV" == "prod" ]] && echo "--n
 
 COPY --chown=php:php . /app/
 
-ARG CIRCLE_SHA1
-ARG CIRCLE_TAG
+ARG VERSION_HASH
+ARG VERSION_TAG
 RUN /app/create-circle-version.sh
 
 ENTRYPOINT ["/app/entrypoint.sh"]
