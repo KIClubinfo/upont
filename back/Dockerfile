@@ -30,6 +30,8 @@ RUN echo $APP_ENV && composer install $( [[ "$APP_ENV" == "prod" ]] && echo "--n
 
 COPY --chown=php:php . /app/
 
+RUN create-circle-version.sh
+
 ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["php-fpm"]
 EXPOSE 9000

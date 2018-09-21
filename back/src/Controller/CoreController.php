@@ -166,9 +166,10 @@ class CoreController extends BaseController
      * )
      * @Route("/version", methods={"GET"})
      */
-    public function versionAction(VersionService $versionService)
+    public function versionAction()
     {
-        return $this->json($versionService->getVersion());
+        $versionInfo = $this->container->getParameter('version-info');
+        return $this->json($versionInfo);
     }
 
     /**
