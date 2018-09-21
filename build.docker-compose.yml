@@ -1,14 +1,17 @@
 version: "2.3"
 
 services:
-    upont-front:
-        build:
-            context: front
+  upont-front:
+    build:
+      context: front
 
-    upont-back:
-        build:
-            context: back
+  upont-back:
+    build:
+      context: back
+      args:
+        CIRCLE_SHA1: ${CIRCLE_SHA1}
+        CIRCLE_TAG: ${CIRCLE_TAG}
 
-    ingress:
-        build:
-            context: docker/ingress
+  ingress:
+    build:
+      context: docker/ingress

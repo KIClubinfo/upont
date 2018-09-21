@@ -1,0 +1,7 @@
+parameters:
+  version-info:
+    major: 3
+    minor: 0
+    patch: 0
+    hash: abcdefgh
+    date: 0

@@ -5,7 +5,7 @@ RUN addgroup php && adduser -D -G php php
 RUN mkdir /app && chown php:php /app && chmod 700 /app
 WORKDIR /app
 
-RUN apk --no-cache add git libmcrypt-dev libjpeg-turbo-dev libpng-dev freetype-dev
+RUN apk --no-cache add bash git libmcrypt-dev libjpeg-turbo-dev libpng-dev freetype-dev
 
 RUN docker-php-ext-install pdo pdo_mysql iconv mcrypt && \
     docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
@@ -29,6 +29,10 @@ COPY composer.json composer.lock /app/
 RUN echo $APP_ENV && composer install $( [[ "$APP_ENV" == "prod" ]] && echo "--no-ansi --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader")
 
 COPY --chown=php:php . /app/
+
+ARG CIRCLE_SHA1
+ARG CIRCLE_TAG
+RUN /app/create-circle-version.sh
 
 ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["php-fpm"]
