@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -eux
 
 VERSION_REGEX="^v([0-9]+)\.([0-9]+)\.([0-9]{1}.*)$"

@@ -5,7 +5,7 @@ RUN addgroup php && adduser -D -G php php
 RUN mkdir /app && chown php:php /app && chmod 700 /app
 WORKDIR /app
 
-RUN apk --no-cache add git libmcrypt-dev libjpeg-turbo-dev libpng-dev freetype-dev
+RUN apk --no-cache add bash git libmcrypt-dev libjpeg-turbo-dev libpng-dev freetype-dev
 
 RUN docker-php-ext-install pdo pdo_mysql iconv mcrypt && \
     docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
