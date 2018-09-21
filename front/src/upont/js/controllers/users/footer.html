@@ -20,7 +20,7 @@
 
         <a class="Link  Link--reverse" target="_blank" title="Repo GitHub de uPont"
            ng-href="https://github.com/KIClubinfo/upont/commit/{{ version.hash }}">
-            <i class="fa fa-github"></i> Build {{ version.hash }}
+            <i class="fa fa-github"></i> Build {{ version.hash | limitTo:7 }}
         </a>
         &nbsp;({{ version.date | formatDate }})
     </section>
