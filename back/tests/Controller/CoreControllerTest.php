@@ -109,9 +109,9 @@ class CoreControllerTest extends WebTestCase
         $this->client->request('GET', '/version');
         $this->assertJsonResponse($this->client->getResponse(), 200);
         $response = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertArrayHasKey('version', $response);
         $this->assertArrayHasKey('major', $response);
         $this->assertArrayHasKey('minor', $response);
-        $this->assertArrayHasKey('build', $response);
+        $this->assertArrayHasKey('patch', $response);
+        $this->assertArrayHasKey('hash', $response);
     }
 }
