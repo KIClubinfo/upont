@@ -16,6 +16,8 @@ services:
     image: phpmyadmin/phpmyadmin
     depends_on:
     - db
+    environment:
+    - PMA_HOST=db
     restart: always
 
   upont-front:
