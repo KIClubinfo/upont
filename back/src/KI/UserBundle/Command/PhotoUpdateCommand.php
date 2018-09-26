@@ -135,17 +135,11 @@ class PhotoUpdateCommand extends ContainerAwareCommand
     {
         $score = 0;
         $goodLetters = 0;
-        $shortName = $str1;
-        $longName = $str2;
-        if (strlen($shortName) > strlen($longName)) {
-            $tmp = $shortName;
-            $shortName = $longName;
-            $longName = $tmp;
-        }
+        list($shortName, $longName) = $this->compareStringLength($str1, $str2);
         $currentIndex = 0;
         $lastIndex = -1;
         $matchingRow = 0;
-        for ($i = 0 ; $i < strlen($shortName) ; $i++) {
+        for ($i = 0;$i < strlen($shortName);$i++) {
             while ($currentIndex < strlen($longName) && $longName[$currentIndex] != $shortName[$i]) {
                 $currentIndex += 1;
                 $matchingRow = 0;
@@ -168,6 +162,17 @@ class PhotoUpdateCommand extends ContainerAwareCommand
             }
         }
         return $score;
+    }
+
+    //Compare 2 string et renvoie la plus petite et la plus grande
+    private function compareStringLength(string $str1, string $str2)
+    {
+        if (strlen($str1) > strlen($str2)) {
+	    return [$str2, $str1];
+	}
+	else {
+	    return [$str1, $str2];
+	}
     }
 
     // Nettoie une chaine de caracteres:
