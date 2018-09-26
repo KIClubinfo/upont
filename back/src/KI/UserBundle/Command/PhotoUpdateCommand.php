@@ -1,5 +1,7 @@
 <?php
+
 namespace KI\UserBundle\Command;
+
 use KI\UserBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -10,9 +12,11 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+
 class PhotoUpdateCommand extends ContainerAwareCommand
 {
     protected $FACEBOOK_API_URL = 'https://graph.facebook.com/v2.10';
+
     protected function configure()
     {
         $this
@@ -23,9 +27,9 @@ class PhotoUpdateCommand extends ContainerAwareCommand
             ->addOption('preview', 'p', InputOption::VALUE_NONE, 'Make a preview of the photos to be imported without importing them')
             ->addOption('all', 'a', InputOption::VALUE_NONE, 'Treat the users regardless whether they already have a photo on uPont')
             ->addOption('interactive', 'i', InputOption::VALUE_NONE, 'For each match, ask interactively whether the photo should be updated')
-            ->addOption('similarity-threshold', 's', InputOption::VALUE_REQUIRED, 'Similarity threshold with Fb profiles above which photos are imported in non-preview and non-interactive mode (arbitrary unit, 200 by default)', 200)
-        ;
+            ->addOption('similarity-threshold', 's', InputOption::VALUE_REQUIRED, 'Similarity threshold with Fb profiles above which photos are imported in non-preview and non-interactive mode (arbitrary unit, 200 by default)', 200);
     }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
@@ -71,15 +75,14 @@ class PhotoUpdateCommand extends ContainerAwareCommand
                         } else {
                             $updatedNoPhotoCount++;
                         }
-                        if(!$isPreview) {
+                        if (!$isPreview) {
                             $url = '/' . $bestMatch['id'] . '/picture?width=9999&redirect=false';
                             $dataImage = json_decode($curlService->curl($this->FACEBOOK_API_URL . $url), true);
                             $image = $imageService->upload($dataImage['data']['url'], true);
                             $user->setImage($image);
                         }
                     }
-                }
-                else {
+                } else {
                     $notFoundCount++;
                 }
                 $em->flush();
@@ -96,8 +99,7 @@ class PhotoUpdateCommand extends ContainerAwareCommand
                 'Not found photos: ' . $notFoundCount,
                 'Replaced photos: ' . $updatedExistingPhotoCount,
             ]);
-        }
-        else {
+        } else {
             $output->writeln([
                 'Missing photos in promo : ' . $noPhotoCount,
                 'Imported missing photos: ' . $updatedNoPhotoCount,
@@ -113,13 +115,13 @@ class PhotoUpdateCommand extends ContainerAwareCommand
         $score = 0;
         $firstName = $this->cleanString($user->getFirstName());
         $lastName = $this->cleanString($user->getLastName());
-        
+
         $firstNameFb = $this->cleanString(substr($member['name'], 0, strpos($member['name'], ' ')));
         $lastNameFb = $this->cleanString(substr($member['name'], strpos($member['name'], ' ') + 1));
 
         $score += $this->compareStr($firstName, $firstNameFb);
-	// Le match sur le nom de famille est un facteur bien plus important
-	// que celui pour le nom
+        // Le match sur le nom de famille est un facteur bien plus important
+        // que celui pour le nom
         $score += 3 * $this->compareStr($lastName, $lastNameFb); //Parameter may be adapted
         return $score;
     }
@@ -134,12 +136,11 @@ class PhotoUpdateCommand extends ContainerAwareCommand
     private function compareStr(string $str1, string $str2)
     {
         $score = 0;
-        $goodLetters = 0;
         list($shortName, $longName) = $this->compareStringLength($str1, $str2);
         $currentIndex = 0;
         $lastIndex = -1;
         $matchingRow = 0;
-        for ($i = 0;$i < strlen($shortName);$i++) {
+        for ($i = 0; $i < strlen($shortName); $i++) {
             while ($currentIndex < strlen($longName) && $longName[$currentIndex] != $shortName[$i]) {
                 $currentIndex += 1;
                 $matchingRow = 0;
@@ -148,8 +149,7 @@ class PhotoUpdateCommand extends ContainerAwareCommand
                 //Parameters may be adapted
                 if ($i == 0 && $currentIndex == 0) {
                     $score += 10;
-                }
-                elseif ($i == strlen($shortName)-1 && $currentIndex == strlen($longName)-1) {
+                } elseif ($i == strlen($shortName) - 1 && $currentIndex == strlen($longName) - 1) {
                     $score += 10;
                 }
                 if ($lastIndex > -1) {
@@ -168,11 +168,10 @@ class PhotoUpdateCommand extends ContainerAwareCommand
     private function compareStringLength(string $str1, string $str2)
     {
         if (strlen($str1) > strlen($str2)) {
-	    return [$str2, $str1];
-	}
-	else {
-	    return [$str1, $str2];
-	}
+            return [$str2, $str1];
+        } else {
+            return [$str1, $str2];
+        }
     }
 
     // Nettoie une chaine de caracteres:
@@ -180,12 +179,24 @@ class PhotoUpdateCommand extends ContainerAwareCommand
     // -met tout en minuscule
     private function cleanString(string $str)
     {
-	$unwanted_array = ['Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
-                            'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U',
-                            'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c',
-                            'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o',
-                            'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y'];
-        $str = strtr( $str, $unwanted_array );
+        $replacePairs = [
+            'Š' => 'S',
+            'š' => 's',
+            'Ž' => 'Z', 'ž' => 'z',
+            'À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'A', 'Å' => 'A', 'Æ' => 'A',
+            'Ç' => 'C',
+            'È' => 'E', 'É' => 'E', 'Ê' => 'E', 'Ë' => 'E',
+            'Ì' => 'I', 'Í' => 'I', 'Î' => 'I', 'Ï' => 'I',
+            'Ñ' => 'N', 'Ò' => 'O', 'Ó' => 'O', 'Ô' => 'O', 'Õ' => 'O', 'Ö' => 'O', 'Ø' => 'O', 'Ù' => 'U',
+            'Ú' => 'U', 'Û' => 'U', 'Ü' => 'U', 'Ý' => 'Y', 'Þ' => 'B', 'ß' => 'Ss',
+            'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a', 'å' => 'a', 'æ' => 'a',
+            'ç' => 'c',
+            'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e',
+            'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i',
+            'ð' => 'o', 'ñ' => 'n', 'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'o', 'ø' => 'o',
+            'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ý' => 'y', 'þ' => 'b', 'ÿ' => 'y'
+        ];
+        $str = strtr($str, $replacePairs);
         return strtolower($str);
     }
 }

@@ -1,12 +1,12 @@
 <?php
 namespace KI\UserBundle\Command;
+
 use KI\UserBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
+
 class PhotoRemoveCommand extends ContainerAwareCommand
 {
     protected function configure()
@@ -14,9 +14,9 @@ class PhotoRemoveCommand extends ContainerAwareCommand
         $this
             ->setName('upont:remove:photo')
             ->setDescription('Remove the photo of a user')
-            ->addArgument('username', InputArgument::REQUIRED, 'The user whose photo is to be removed.')
-        ;
+            ->addArgument('username', InputArgument::REQUIRED, 'The user whose photo is to be removed.');
     }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
@@ -26,4 +26,3 @@ class PhotoRemoveCommand extends ContainerAwareCommand
         $em->flush();
     }
 }
-?>
