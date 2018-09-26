@@ -39,7 +39,7 @@ class Newsitem extends Post
             if ($this->authorClub !== null && $this->authorClub->getImage() !== null) {
                 return $this->authorClub->getImage()->getWebPath();
             } else
-                return 'default-user.png';
+                return null;
         }
     }
 
