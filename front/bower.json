@@ -21,7 +21,7 @@
     "angular-ui-router": "0.x",
     "angular-youtube-mb": "latest",
     "bootstrap": "latest",
-    "fontawesome": "latest",
+    "fontawesome": "4.7.0",
     "highcharts": "latest",
     "jquery": "latest",
     "js-base64": "latest",
