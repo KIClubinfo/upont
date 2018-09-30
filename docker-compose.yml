@@ -12,21 +12,19 @@ services:
     - MYSQL_PASSWORD=${DATABASE_PASSWORD}
     restart: always
 
-  phpmyadmin:
+  upont-phpmyadmin:
     image: phpmyadmin/phpmyadmin
     depends_on:
     - db
     environment:
     - PMA_HOST=db
+    networks:
+    - public
     restart: always
 
   upont-front:
     image: quay.io/kiclubinfo/upont-front:${TAG:-latest}
     restart: always
-
-  # pochtron2:
-  #     image: kiclubinfo/pochtron2
-  #     restart: always
 
   upont-back:
     image: quay.io/kiclubinfo/upont-back:${TAG:-latest}
@@ -44,14 +42,12 @@ services:
   ingress:
     image: quay.io/kiclubinfo/upont-ingress:${TAG:-latest}
     volumes:
-    - ./docker/upont-docker-preprod.enpc.fr.conf:/etc/nginx/sites-enabled/upont.conf:ro
     - upont-uploads:/upont/uploads:ro
     depends_on:
     - upont-back
     - upont-front
-    # - pochtron2
-    ports:
-    - 8080:80
+    networks:
+    - public
     restart: always
 
 volumes:
@@ -59,3 +55,7 @@ volumes:
     driver: local
   upont-uploads:
     driver: local
+
+networks:
+  public:
+    external: true
