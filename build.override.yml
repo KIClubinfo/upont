@@ -14,4 +14,4 @@ services:
 
   ingress:
     build:
-      context: docker/ingress
+      context: ingress
