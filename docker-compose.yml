@@ -12,14 +12,12 @@ services:
     - MYSQL_PASSWORD=${DATABASE_PASSWORD}
     restart: always
 
-  upont-phpmyadmin:
+  phpmyadmin:
     image: phpmyadmin/phpmyadmin
     depends_on:
     - db
     environment:
     - PMA_HOST=db
-    networks:
-    - public
     restart: always
 
   upont-front:
@@ -46,8 +44,6 @@ services:
     depends_on:
     - upont-back
     - upont-front
-    networks:
-    - public
     restart: always
 
 volumes:
@@ -55,7 +51,3 @@ volumes:
     driver: local
   upont-uploads:
     driver: local
-
-networks:
-  public:
-    external: true
