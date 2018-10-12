@@ -12,6 +12,20 @@ services:
     - MYSQL_PASSWORD=${DATABASE_PASSWORD}
     restart: always
 
+  db-backup:
+    image: selim13/automysqlbackup
+    volumes:
+      - "./backup:/backup"
+    environment:
+      USERNAME: ${DATABASE_USER}
+      PASSWORD: ${DATABASE_PASSWORD}
+      DBHOST: db
+      CRON_SCHEDULE: "0 0 * * *"
+    depends_on:
+      - db
+    restart: always
+
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     depends_on:
