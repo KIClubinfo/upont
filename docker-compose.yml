@@ -18,6 +18,8 @@ services:
     - db
     environment:
     - PMA_HOST=db
+    ports:
+    - 127.0.0.1:10102:80
     restart: always
 
   upont-front:
@@ -44,6 +46,8 @@ services:
     depends_on:
     - upont-back
     - upont-front
+    ports:
+    - 127.0.0.1:10101:80
     restart: always
 
 volumes:
