@@ -1122,12 +1122,12 @@
             "version": "v2.5.14",
             "source": {
                 "type": "git",
-                "url": "https://github.com/doctrine/doctrine2.git",
+                "url": "https://github.com/doctrine/orm.git",
                 "reference": "810a7baf81462a5ddf10e8baa8cb94b6eec02754"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/810a7baf81462a5ddf10e8baa8cb94b6eec02754",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/810a7baf81462a5ddf10e8baa8cb94b6eec02754",
                 "reference": "810a7baf81462a5ddf10e8baa8cb94b6eec02754",
                 "shasum": ""
             },
@@ -4017,16 +4017,16 @@
         },
         {
             "name": "symfony/form",
-            "version": "v3.4.15",
+            "version": "v3.4.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/form.git",
-                "reference": "fd473c8731c208e771078c18d240f60545a661d4"
+                "reference": "ddf55d5a380be3d76e7848e773a4c13d85d95844"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/form/zipball/fd473c8731c208e771078c18d240f60545a661d4",
-                "reference": "fd473c8731c208e771078c18d240f60545a661d4",
+                "url": "https://api.github.com/repos/symfony/form/zipball/ddf55d5a380be3d76e7848e773a4c13d85d95844",
+                "reference": "ddf55d5a380be3d76e7848e773a4c13d85d95844",
                 "shasum": ""
             },
             "require": {
@@ -4094,7 +4094,7 @@
             ],
             "description": "Symfony Form Component",
             "homepage": "https://symfony.com",
-            "time": "2018-08-24T10:16:13+00:00"
+            "time": "2019-01-05T06:17:43+00:00"
         },
         {
             "name": "symfony/framework-bundle",
@@ -4489,6 +4489,11 @@
         {
             "name": "symfony/lts",
             "version": "v3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/lts.git",
+                "reference": "3a4e88df038e3197e6b66d091d2495fd7d255c0b"
+            },
             "conflict": {
                 "symfony/asset": ">=4",
                 "symfony/browser-kit": ">=4",
@@ -4565,6 +4570,7 @@
             ],
             "description": "Enforces Long Term Supported versions of Symfony components",
             "homepage": "https://symfony.com",
+            "abandoned": "symfony/flex",
             "time": "2017-10-19T02:02:36+00:00"
         },
         {
@@ -5372,16 +5378,16 @@
         },
         {
             "name": "symfony/security",
-            "version": "v3.4.15",
+            "version": "v3.4.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security.git",
-                "reference": "367fdfa49d35342db68381260ca004a64f70e0dd"
+                "reference": "cf155892eda9ac8ecab73ab93f04273ab2d0a077"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security/zipball/367fdfa49d35342db68381260ca004a64f70e0dd",
-                "reference": "367fdfa49d35342db68381260ca004a64f70e0dd",
+                "url": "https://api.github.com/repos/symfony/security/zipball/cf155892eda9ac8ecab73ab93f04273ab2d0a077",
+                "reference": "cf155892eda9ac8ecab73ab93f04273ab2d0a077",
                 "shasum": ""
             },
             "require": {
@@ -5428,7 +5434,10 @@
                     "Symfony\\Component\\Security\\": ""
                 },
                 "exclude-from-classmap": [
-                    "/Tests/"
+                    "/Core/Tests/",
+                    "/Csrf/Tests/",
+                    "/Guard/Tests/",
+                    "/Http/Tests/"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -5447,20 +5456,20 @@
             ],
             "description": "Symfony Security Component",
             "homepage": "https://symfony.com",
-            "time": "2018-08-18T20:38:48+00:00"
+            "time": "2019-01-01T13:45:19+00:00"
         },
         {
             "name": "symfony/security-bundle",
-            "version": "v3.4.15",
+            "version": "v3.4.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security-bundle.git",
-                "reference": "c1a40c223a0abb1e53eed63ab02b6d1eb92a3fa7"
+                "reference": "b5678b2c3eb077b01aed9bf4ed186a25cf6b1a90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security-bundle/zipball/c1a40c223a0abb1e53eed63ab02b6d1eb92a3fa7",
-                "reference": "c1a40c223a0abb1e53eed63ab02b6d1eb92a3fa7",
+                "url": "https://api.github.com/repos/symfony/security-bundle/zipball/b5678b2c3eb077b01aed9bf4ed186a25cf6b1a90",
+                "reference": "b5678b2c3eb077b01aed9bf4ed186a25cf6b1a90",
                 "shasum": ""
             },
             "require": {
@@ -5532,7 +5541,7 @@
             ],
             "description": "Symfony SecurityBundle",
             "homepage": "https://symfony.com",
-            "time": "2018-08-18T16:47:20+00:00"
+            "time": "2019-01-01T13:45:19+00:00"
         },
         {
             "name": "symfony/swiftmailer-bundle",
