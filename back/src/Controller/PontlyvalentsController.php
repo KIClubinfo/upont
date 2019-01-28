@@ -6,10 +6,12 @@ use App\Entity\Pontlyvalent;
 use App\Entity\User;
 use App\Form\PontlyvalentType;
 use App\Helper\PaginateHelper;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 class PontlyvalentsController extends ResourceController
 {
@@ -25,7 +27,7 @@ class PontlyvalentsController extends ResourceController
         $isTooYoung = strcmp($this->user->getPromo(), $targetPromo) > 0;
 
         if ($isTooYoung) {
-            throw new BadRequestHttpException('Ton tour n\'est pas encore arrivé, petit ' . $lastPromo . ' !');
+            throw new BadRequestHttpException('Ton tour n\'est pas encore arrivé, petit ' . $this->user->getPromo() . ' !');
         }
 
         if (!$this->getConfig('pontlyvalent.open')) {
