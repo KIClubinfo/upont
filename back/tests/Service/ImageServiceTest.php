@@ -2,6 +2,7 @@
 
 namespace Tests\App\Services;
 
+use App\Service\ImageService;
 use App\Tests\WebTestCase;
 
 class ImageServiceTest extends WebTestCase
@@ -15,7 +16,7 @@ class ImageServiceTest extends WebTestCase
         parent::setUp();
 
         $this->container = static::$kernel->getContainer();
-        $this->service = $this->container->get('App\Service\ImageService');
+        $this->service = $this->container->get(ImageService::class);
         $this->path = $this->container->getParameter('ki_core.images.directory');
     }
 
