@@ -6,9 +6,6 @@ use App\Entity\Pontlyvalent;
 use App\Entity\User;
 use App\Form\PontlyvalentType;
 use App\Helper\PaginateHelper;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;

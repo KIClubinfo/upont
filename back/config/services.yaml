@@ -30,6 +30,7 @@ parameters:
         foyer:
             trust:
                 - '020'
+                - '021'
 
         promos:
             latest: '021'
@@ -282,14 +283,14 @@ services:
         tags:
             - { name: kernel.event_listener, event: upont.user_registration, method: sendMail }
 
-    App\Listener\FacebookImportUserRegistrationListener:
-        arguments:
-            - '@App\Service\CurlService'
-            - '@App\Service\ImageService'
-            - '@doctrine.orm.entity_manager'
-            - '%facebook_token%'
-        tags:
-            - { name: kernel.event_listener, event: upont.user_registration, method: facebookImport }
+#    App\Listener\FacebookImportUserRegistrationListener:
+#        arguments:
+#            - '@App\Service\CurlService'
+#            - '@App\Service\ImageService'
+#            - '@doctrine.orm.entity_manager'
+#            - '%facebook_token%'
+#        tags:
+#            - { name: kernel.event_listener, event: upont.user_registration, method: facebookImport }
 
     # Sert pour la compatibilité FOSUserBundle
     App\Form\UserType:

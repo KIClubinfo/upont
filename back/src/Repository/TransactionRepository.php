@@ -25,7 +25,7 @@ class TransactionRepository extends ServiceEntityRepository
         }
 
         $hallOfFame = $this->getEntityManager()->createQuery('SELECT usr AS user,
-          SUM(beer.volume*beer.alcohol/100) AS volume,
+          SUM(beer.volume * beer.alcohol / 100) AS volume,
           AVG(beer.alcohol) AS alcohol FROM
             App:User usr,
             App:Transaction transac,
