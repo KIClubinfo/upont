@@ -13,23 +13,57 @@ The following environments are available for this project:
   * ***IP*** : 92.222.29.69
   * ***Associated Git branch*** : master-dev
 
-Deploy to pre-production
-------------------------
-TODO
+
+Create a dev environment
+-------------------------------
+
+```bash
+git checkout master-dev
+git pull
+
+cp .env.dist .env
+
+mkdir -p docker/config/jwt
+cp back/config/jwt/* docker/config/jwt/
+
+docker-compose -f docker-compose.yml -f build.override.yml build --build-arg=BUILD_APP_ENV=dev
+docker-compose up -d
+
+docker-compose exec back bin/console doctrine:fixtures:load
+```
+
+Create a prod environment
+-------------------------------
+
+```bash
+git checkout master-dev
+git pull
+
+cp .env.dist .env
+# EDIT .env with SECRET values!!!
+
+mkdir -p docker/config/jwt
+cp <jwt_tokens> docker/config/jwt/
+
+docker-compose -f docker-compose.yml -f build.override.yml build --build-arg=BUILD_APP_ENV=dev
+docker-compose up -d
+
+docker-compose exec back bin/console doctrine:fixtures:load
+```
+
 
 Deploy to production
 --------------------
-Lorsqu’une version est prête à être déployée, la branche de version est mergée dans master, un tag est créé, un changelog est posté sur uPont et les cartes Trello correspondantes sont archivées. Côté serveur, le déploiement est effectué en utilisant le script utils/update-prod.sh après s’être mis sur la branche voulue. Il ne faut en aucun cas utiliser le script update.sh !
-En effet, celui-ci télécharge des bundles de version dev, efface totalement la base de données et purge les images.
-Comment déployer
-```
-ssh odin
-[MDP]
-cd /srv/upont
+Lorsqu’une version est prête à être déployée, la branche de version est mergée dans master, un tag est créé, un changelog est posté sur uPont et les cartes Trello correspondantes sont archivées.
+
+#### Comment déployer
+```bash
+ssh clubinfo
+cd /srv/upont.enpc.fr
+git checkout <version_tag>
 git pull
-./utils/update−prod.sh
-# NE SURTOUT PAS lancer le script update.sh
-# il doit etre utilise uniquement pour la version locale car il reset la BDD
+docker-compose pull
+docker-compose up -d
 ```
 
 Bumper de version (exemple v2.0.1 −> v2.0.2)
