@@ -16,7 +16,7 @@ class ImageServiceTest extends WebTestCase
         parent::setUp();
 
         $this->container = static::$kernel->getContainer();
-        $this->service = $this->container->get(ImageService::class);
+        $this->service = $this->container->get('test.App\Service\ImageService');
         $this->path = $this->container->getParameter('ki_core.images.directory');
     }
 
