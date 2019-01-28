@@ -25,9 +25,9 @@ services:
   # aliases are prefixed with test. For example:
 
   test.App\Service\CurlService:
-    alias: '@App\Service\CurlService'
+    alias: 'App\Service\CurlService'
     public: true
 
   test.App\Service\ImageService:
-    alias: '@App\Service\ImageService'
+    alias: 'App\Service\ImageService'
     public: true
