@@ -24,9 +24,10 @@ RUN ln -snf /usr/share/zoneinfo/Europe/Paris /etc/localtime && echo Europe/Paris
 
 USER php
 
-ENV APP_ENV=prod
-COPY composer.json composer.lock /app/
-RUN echo $APP_ENV && composer install $( [[ "$APP_ENV" == "prod" ]] && echo "--no-ansi --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader")
+ARG BUILD_APP_ENV=prod
+ENV APP_ENV=$BUILD_APP_ENV
+COPY --chown=php:php composer.json composer.lock symfony.lock /app/
+RUN echo $BUILD_APP_ENV && composer install --no-scripts $( [[ "$BUILD_APP_ENV" == "prod" ]] && echo "--no-ansi --no-dev --no-interaction --no-progress --optimize-autoloader")
 
 COPY --chown=php:php . /app/
 
