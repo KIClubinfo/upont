@@ -21,7 +21,6 @@ class ClubFixtures extends Fixture implements DependentFixtureInterface
         $club->setImage($this->getReference('image-club-ki'));
         $club->setPresentation('Ce club est OMG fucking trop bien.');
         $club->setPlace('P401');
-        $club->setOpen(true);
         $manager->persist($club);
         $this->addReference('club-ki', $club);
 

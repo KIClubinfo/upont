@@ -30,7 +30,7 @@ class LoginController extends BaseController
 
     /**
      * @ApiDoc(
-     *  description="Retourne les utilisateurs étant connectés et si le KI est ouvert",
+     *  description="Retourne les utilisateurs étant connectés",
      *  parameters={
      *   {
      *    "name"="delay",
@@ -55,8 +55,7 @@ class LoginController extends BaseController
         $clubRepo = $this->manager->getRepository(Club::class);
 
         return $this->json([
-                                'online' => $this->repository->getOnlineUsers($delay),
-                                'open' => $clubRepo->findOneBySlug('ki')->getOpen()
+                                'online' => $this->repository->getOnlineUsers($delay)
                            ]);
     }
 

@@ -15,9 +15,9 @@
                 <i class="fa fa-phone"></i> 01 64 15 33 82 (P401)
             </span>
         </section>
-        <section col="center stretch">
+        <section col="center stretch" ng-if="doorServiceUp">
             <div class="Button--clubopening" ng-attr-title="{{ open ? 'KI ouvert' : 'KI fermé' }}">
-                <input type="checkbox" ng-disabled="!$root.hasClub('ki')" ng-change="toggleOpenState()" ng-model="open">
+                <input type="checkbox" disabled ng-model="open">
                 <label></label>
             </div>
         </section>

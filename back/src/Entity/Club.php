@@ -85,13 +85,6 @@ class Club extends Likeable
     protected $place;
 
     /**
-     * Local ouvert ?
-     * @ORM\Column(name="open", type="boolean", nullable=true, options={"default" = false})
-     * @JMS\Expose
-     * @Assert\Type("boolean")
-     */
-    protected $open;
-    /**
      * @JMS\VirtualProperty()
      */
     public function imageUrl()
@@ -321,29 +314,5 @@ class Club extends Likeable
     public function getPlace()
     {
         return $this->place;
-    }
-
-    /**
-     * Set open
-     *
-     * @param boolean $open
-     *
-     * @return Club
-     */
-    public function setOpen($open)
-    {
-        $this->open = $open;
-
-        return $this;
-    }
-
-    /**
-     * Get open
-     *
-     * @return boolean
-     */
-    public function getOpen()
-    {
-        return $this->open;
     }
 }

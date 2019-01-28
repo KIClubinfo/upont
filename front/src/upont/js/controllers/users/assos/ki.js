@@ -1,15 +1,29 @@
 import alertify from 'alertifyjs';
 
-import { API_PREFIX } from 'upont/js/config/constants';
+import { API_PREFIX, DOOR_SERVICE_API } from '../../../config/constants';
 
 import './ki-fix.html';
 
+const DOOR_HISTORY_URL = DOOR_SERVICE_API + 'timetable';
+
 /* @ngInject */
 class Assos_KI_Ctrl {
-    constructor($scope, $rootScope, $resource, $http, fixs, ownFixs, Paginate, Achievements) {
+    constructor($scope, $rootScope, $resource, $http, $sce, fixs, ownFixs, Paginate, Achievements) {
         $scope.fixs = this.assignFixs(fixs);
         $scope.ownFixs = this.assignFixs(ownFixs);
         $rootScope.displayTabs = true;
+        $scope.kiTimetableUrl = DOOR_HISTORY_URL;
+
+        $scope.doorServiceUp = false;
+        $resource(DOOR_HISTORY_URL).get(
+            () => {
+                $scope.doorServiceUp = true;
+            }
+        );
+
+        $scope.trustSrc = function(src) {
+            return $sce.trustAsResourceUrl(src);
+        };
 
         $scope.reload = function() {
             Paginate.first($scope.ownFixs).then(function(response){

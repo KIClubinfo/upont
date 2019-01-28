@@ -15,7 +15,7 @@ services:
   db-backup:
     image: selim13/automysqlbackup
     volumes:
-      - "./backup:/backup"
+      - "./docker/db-backup:/backup"
     environment:
       USERNAME: ${DATABASE_USER}
       PASSWORD: ${DATABASE_PASSWORD}
@@ -42,7 +42,7 @@ services:
   upont-back:
     image: quay.io/kiclubinfo/upont-back:${TAG:-latest}
     volumes:
-    - ./docker/config/jwt:/app/config/jwt:ro
+    - "./docker/upont-back/jwt:/app/config/jwt:ro"
     - upont-uploads:/app/public/uploads:rw
     depends_on:
     - db
