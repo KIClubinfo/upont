@@ -22,8 +22,7 @@ class ClubType extends AbstractType
             ->add('administration')
             ->add('image', ImageSelector::class)
             ->add('banner', ImageSelector::class)
-            ->add('place')
-            ->add('open');
+            ->add('place');
     }
 
     public function configureOptions(OptionsResolver $resolver)

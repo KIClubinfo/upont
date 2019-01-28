@@ -125,18 +125,11 @@ moment.updateLocale('fr', {
     },
 });
 
-import ngRaven from 'raven-js/plugins/angular';
-
-Raven
-    .config('https://c1de7d0cdfb14286a0d21efb3c0da318@sentry.io/124785')
-    .addPlugin(ngRaven, angular)
-    .install();
-
 // Export issue in these libs
 require('angulartics-piwik');
 require('angular-moment-picker');
 
-const upont = angular.module('upont', [
+const modules = [
     // $resource
     require('angular-resource'),
     // JWT Auth
@@ -170,10 +163,21 @@ const upont = angular.module('upont', [
     // File upload
     require('ng-file-upload'),
     require('angular-base64-upload'),
+];
 
-    // Sentry reporting
-    'ngRaven',
-]);
+// Sentry reporting in production
+if (process.env.NODE_ENV === 'production') {
+    const ravenJs = require('raven-js/plugins/angular');
+
+    Raven
+        .config('https://c1de7d0cdfb14286a0d21efb3c0da318@sentry.io/124785')
+        .addPlugin(ravenJs.ngRaven, angular)
+        .install();
+
+    modules.push('ngRaven');
+}
+
+const upont = angular.module('upont', modules);
 
 require('./services/Achievements');
 require('./services/Paginate');

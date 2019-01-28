@@ -1,4 +1,10 @@
-export const API_PREFIX = process.env.NODE_ENV === 'production' ? '/api/' : 'http://localhost:8000/';
+export const API_PREFIX = process.env.NODE_ENV === 'production'
+    ? '/api/'
+    : 'http://localhost:8000/';
+
+export const DOOR_SERVICE_API = process.env.NODE_ENV === 'production'
+    ? '/services/ki-door/'
+    : 'http://localhost:5000/';
 
 export const PROMOS = [
     '014',
@@ -7,7 +13,8 @@ export const PROMOS = [
     '017',
     '018',
     '019',
-    '020'
+    '020',
+    '021',
 ];
 
 export const DEPARTMENTS = [
@@ -591,6 +598,7 @@ export const FA_ICONS = [
 
 export default {
     API_PREFIX,
+    DOOR_SERVICE_API,
     PROMOS,
     DEPARTMENTS,
     ORIGINS,
