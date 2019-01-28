@@ -314,9 +314,6 @@
     "symfony/intl": {
         "version": "3.4.x-dev"
     },
-    "symfony/lts": {
-        "version": "v3"
-    },
     "symfony/monolog-bridge": {
         "version": "3.4.x-dev"
     },
@@ -456,7 +453,7 @@
         }
     },
     "symfony/yaml": {
-        "version": "3.4.x-dev"
+        "version": "v3.4.21"
     },
     "twig/twig": {
         "version": "v2.4.4"
