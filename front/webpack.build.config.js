@@ -17,6 +17,7 @@ config.output = {
 config.plugins.push(
     new webpack.NoEmitOnErrorsPlugin(),
     new UglifyJsPlugin({
+        sourceMap: true,
         uglifyOptions: {
             mangle: {
                 reserved: ['$', 'jQuery']

@@ -37,7 +37,6 @@ module.exports = {
                         options: {
                             // presets: ['@babel/preset-env'],
                             plugins: [require('babel-plugin-angularjs-annotate')],
-                            sourceMaps: true,
                         }
                     },
                     // 'eslint-loader',
