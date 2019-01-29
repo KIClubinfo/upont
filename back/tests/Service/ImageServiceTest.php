@@ -37,7 +37,7 @@ class ImageServiceTest extends WebTestCase
         $url = 'https://scontent-mrs1-1.xx.fbcdn.net/v/t1.0-9/19275070_1361855813851179_815950941904439796_n.jpg?_nc_cat=109&_nc_ht=scontent-mrs1-1.xx&oh=9a3791cb16f00d64799a504b09e57116&oe=5CB3716F';
         $result = $this->service->uploadFromUrl($url);
         $this->assertTrue($result['image'] !== null);
-        $this->assertEquals($result['extension'], 'png');
+        $this->assertEquals($result['extension'], 'jpeg');
 
         $url = 'https://ia.media-imdb.com/images/M/MV5BMTg2OTIwNTQ2OF5BMl5BanBnXkFtZTcwNTA4NDAwMQ@@._V1_SX300.jpg';
         $result = $this->service->uploadFromUrl($url);
