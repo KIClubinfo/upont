@@ -51,7 +51,7 @@ jobs:
       - run: cp .env.dist .env
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD quay.io
       - run: |
-          export TAG=${CIRCLE_BRANCH}
+          export TAG=${CIRCLE_BRANCH:-$CIRCLE_TAG}
           export VERSION_HASH=${CIRCLE_SHA1}
           export VERSION_TAG=${CIRCLE_TAG}
           docker-compose -f docker-compose.yml -f build.override.yml build
