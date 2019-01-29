@@ -34,7 +34,7 @@ class ImageServiceTest extends WebTestCase
 
     public function testUploadUrl()
     {
-        $url = 'https://upont.enpc.fr/img/favicon.png';
+        $url = 'https://scontent-mrs1-1.xx.fbcdn.net/v/t1.0-9/19275070_1361855813851179_815950941904439796_n.jpg?_nc_cat=109&_nc_ht=scontent-mrs1-1.xx&oh=9a3791cb16f00d64799a504b09e57116&oe=5CB3716F';
         $result = $this->service->uploadFromUrl($url);
         $this->assertTrue($result['image'] !== null);
         $this->assertEquals($result['extension'], 'png');
