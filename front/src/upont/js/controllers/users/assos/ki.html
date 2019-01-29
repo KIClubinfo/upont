@@ -1,9 +1,9 @@
 <div row="space-between start" wrap>
-    <div flex="100" flex-md="100" class="padded">
+    <div ng-if="doorServiceUp" flex="100" flex-md="100" class="padded">
         <div class="Ticket">
             <h2>Historique d'ouverture du local KI !</h2>
             <p>Tu peux scroll la ligne temporelle pour la parcourir !</p>
-            <iframe flex="100" ng-src="{{ trustSrc(kiTimetableUrl) }}" ng-if="doorServiceUp" class="ki-door">
+            <iframe flex="100" ng-src="{{ trustSrc(kiTimetableUrl) }}" class="ki-door">
             </iframe>
         </div>
     </div>
