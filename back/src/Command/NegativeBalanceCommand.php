@@ -3,16 +3,10 @@
 namespace App\Command;
 
 use App\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-
 use Swift_Message;
-
-use App\Event\AchievementCheckEvent;
-use App\Entity\Achievement;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class NegativeBalanceCommand extends ContainerAwareCommand
 {
@@ -20,8 +14,7 @@ class NegativeBalanceCommand extends ContainerAwareCommand
     {
         $this
             ->setName('upont:foyer:negativebalance')
-            ->setDescription('Sends email to users with negatif balance')
-        ;
+            ->setDescription('Sends email to users with negatif balance');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

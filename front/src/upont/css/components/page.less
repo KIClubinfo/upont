@@ -6,6 +6,9 @@
         @media(min-width:@sizeSm){
             padding-left: @asideWidth;
         }
+        @media(max-width: @sizeSm) {
+            height: calc(~"100% - 80px");
+        }
         // FIXME : blank dashboard but pagination ok
         //@media(max-width: @sizeSm) {
         //     height: calc(~"100% - 80px");
