@@ -14,7 +14,6 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 use App\Helper\CleaningHelper;
 use App\Service\SearchService;
-use App\Service\VersionService;
 
 class CoreController extends BaseController
 {
@@ -187,7 +186,7 @@ class CoreController extends BaseController
         return $this->json(array_merge([
             'ip' => $request->getClientIp(),
             'studentNetwork' => IpUtils::checkIp($request->getClientIp(), [
-               '127.0.0.1',
+                '127.0.0.1',
                 '172.24.0.0/24',
                 '172.24.20.0/22',
                 '172.24.24.0/21',

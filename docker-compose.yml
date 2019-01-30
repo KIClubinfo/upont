@@ -43,6 +43,7 @@ services:
     image: quay.io/kiclubinfo/upont-back:${TAG:-latest}
     volumes:
     - "./docker/upont-back/jwt:/app/config/jwt:ro"
+    - upont-emails:/app/var/spool:rw
     - upont-uploads:/app/public/uploads:rw
     depends_on:
     - db
@@ -65,6 +66,8 @@ services:
 
 volumes:
   db-data:
+    driver: local
+  upont-emails:
     driver: local
   upont-uploads:
     driver: local
