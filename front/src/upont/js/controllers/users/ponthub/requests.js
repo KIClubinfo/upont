@@ -10,39 +10,39 @@ class Ponthub_Requests_Ctrl {
         $scope.reverse = true;
         $scope.name = '';
 
-        $scope.addPoint = function(request) {
+        $scope.addPoint = request => {
             request.votes = request.votes + 1;
             $http.patch(API_PREFIX + 'requests/' + request.slug + '/upvote');
         };
-        $scope.delete = function(request) {
+        $scope.delete = request => {
             $http.delete(API_PREFIX + 'requests/' + request.slug)
                 .then(
-                    function() {
+                    () => {
                         alertify.success('Demande supprimée !');
                         Paginate.first($scope.requests).then(data => {
                             $scope.requests = data;
                         });
                     },
-                    function() {
+                    () => {
                         alertify.error('Erreur...');
                     },
                 );
         };
 
-        $scope.post = function(name) {
+        $scope.post = name => {
             if (name === undefined) {
                 alertify.error('Au moins un des champs n\'est pas rempli');
                 return;
             }
 
             $http.post(API_PREFIX + 'requests', { name: name })
-                .then(function() {
+                .then(() => {
                     alertify.success('Demande ajoutée !');
                     Paginate.first($scope.requests).then(data => {
                         $scope.requests = data;
                     });
                     $scope.name = '';
-                }, function() {
+                }, () => {
                     alertify.error('Erreur...');
                 })
             ;
