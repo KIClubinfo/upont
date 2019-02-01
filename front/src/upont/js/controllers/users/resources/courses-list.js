@@ -30,17 +30,17 @@ class Resources_Courses_List_Ctrl {
         };
         $scope.load(followed);
 
-        $scope.toggleModo = function() {
+        $scope.toggleModo = () => {
             $scope.modo = !$scope.modo;
         };
 
-        $scope.next = function() {
-            Paginate.next($scope.courses).then(function(response){
-                $scope.courses = response;
+        $scope.next = () => {
+            Paginate.next($scope.courses).then(data => {
+                $scope.courses = data;
             });
         };
 
-        $scope.reload = function(criterias) {
+        $scope.reload = criterias => {
             const paginationParams = {
                 sort: 'name',
                 limit: 50,
@@ -53,8 +53,8 @@ class Resources_Courses_List_Ctrl {
             if (criterias.ects !== 'all')
                 paginationParams['ects'] = criterias.ects;
 
-            Paginate.get('courses', paginationParams).then(function(response){
-                $scope.courses = response;
+            Paginate.get('courses', paginationParams).then(data => {
+                $scope.courses = data;
                 $scope.next();
             });
         };
@@ -63,7 +63,7 @@ class Resources_Courses_List_Ctrl {
         $scope.commentText = '';
         $scope.objet = null;
 
-        $scope.upvote = function(objet) {
+        $scope.upvote = objet => {
             $scope.objet = objet;
             if ($rootScope.isAdmissible)
                 return;
@@ -74,7 +74,7 @@ class Resources_Courses_List_Ctrl {
             $scope.isLoading = true;
 
             if (!$scope.objet.like) {
-                $resource(API_PREFIX + 'courses/' + $scope.objet.slug + '/like').save(function() {
+                $resource(API_PREFIX + 'courses/' + $scope.objet.slug + '/like').save(() => {
                     $scope.objet.likes++;
                     $scope.objet.like = true;
                     $scope.isLoading = false;
@@ -85,7 +85,7 @@ class Resources_Courses_List_Ctrl {
                     }
                 });
             } else {
-                $resource(API_PREFIX + 'courses/' + $scope.objet.slug + '/like').remove(function() {
+                $resource(API_PREFIX + 'courses/' + $scope.objet.slug + '/like').remove(() => {
                     $scope.objet.likes--;
                     $scope.objet.like = false;
                     $scope.isLoading = false;
@@ -93,7 +93,7 @@ class Resources_Courses_List_Ctrl {
             }
         };
 
-        $scope.downvote = function(objet) {
+        $scope.downvote = objet => {
             $scope.objet = objet;
             if ($rootScope.isAdmissible)
                 return;
@@ -104,7 +104,7 @@ class Resources_Courses_List_Ctrl {
             $scope.isLoading = true;
 
             if (!$scope.objet.dislike) {
-                $resource(API_PREFIX + 'courses/' + $scope.objet.slug + '/dislike').save(function() {
+                $resource(API_PREFIX + 'courses/' + $scope.objet.slug + '/dislike').save(() => {
                     $scope.objet.dislikes++;
                     $scope.objet.dislike = true;
                     $scope.isLoading = false;
@@ -115,7 +115,7 @@ class Resources_Courses_List_Ctrl {
                     }
                 });
             } else {
-                $resource(API_PREFIX + 'courses/' + $scope.objet.slug + '/dislike').remove(function() {
+                $resource(API_PREFIX + 'courses/' + $scope.objet.slug + '/dislike').remove(() => {
                     $scope.objet.dislikes--;
                     $scope.objet.dislike = false;
                     $scope.isLoading = false;

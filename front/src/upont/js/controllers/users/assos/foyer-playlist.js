@@ -11,8 +11,8 @@ class Assos_FoyerPlaylist_Ctrl {
         $scope.reverse = true;
 
         $scope.reload = function() {
-            Paginate.first($scope.youtube).then(function(response){
-                $scope.youtube = response.data;
+            Paginate.first($scope.youtube).then(data => {
+                $scope.youtube = data;
             });
         };
 
@@ -22,7 +22,7 @@ class Assos_FoyerPlaylist_Ctrl {
                 return;
             }
 
-            $http.post(API_PREFIX + 'youtubes', {name: 'Lien Youtube Foyer', link: link}).then(function(){
+            $http.post(API_PREFIX + 'youtubes', {name: 'Lien Youtube Foyer', link: link}).then(() => {
                 $scope.link = '';
                 alertify.success('Yeah !');
                 $scope.reload();
@@ -31,7 +31,7 @@ class Assos_FoyerPlaylist_Ctrl {
 
         $scope.delete = function(youtube) {
             alertify.confirm('Veux-tu vraiment faire ça ?', () => {
-                $http.delete(API_PREFIX + 'youtubes/' + youtube.slug).then(function(){
+                $http.delete(API_PREFIX + 'youtubes/' + youtube.slug).then(() => {
                     $scope.reload();
                 });
             });

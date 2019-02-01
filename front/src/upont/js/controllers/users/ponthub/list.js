@@ -13,8 +13,8 @@ class Ponthub_List_Ctrl {
             Paginate.get(Ponthub.cat($stateParams.category), {
                 sort: '-added,id',
                 limit: 20
-            }).then(function(response) {
-                $scope.elements = response;
+            }).then(data => {
+                $scope.elements = data;
             });
         };
 
@@ -36,8 +36,8 @@ class Ponthub_List_Ctrl {
         $scope.icon = $scope.faIcon($stateParams.category);
 
         $scope.next = function() {
-            Paginate.next($scope.elements).then(function(response) {
-                $scope.elements = response;
+            Paginate.next($scope.elements).then(data => {
+                $scope.elements = data;
             });
         };
 

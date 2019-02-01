@@ -4,28 +4,28 @@ import { API_PREFIX } from 'upont/js/config/constants';
 
 /* @ngInject */
 class Ponthub_Requests_Ctrl {
-    constructor($rootScope, $scope, $http, $resource, requests) {
+    constructor($rootScope, $scope, $http, Paginate, requests) {
         $scope.requests = requests;
         $scope.predicate = 'votes';
         $scope.reverse = true;
-        $scope.name ='';
+        $scope.name = '';
 
         $scope.addPoint = function(request) {
-            request.votes = request.votes+1 ;
+            request.votes = request.votes + 1;
             $http.patch(API_PREFIX + 'requests/' + request.slug + '/upvote');
         };
         $scope.delete = function(request) {
             $http.delete(API_PREFIX + 'requests/' + request.slug)
                 .then(
-                    function(){
+                    function() {
                         alertify.success('Demande supprimée !');
-                        $resource(API_PREFIX + 'requests').query(function(data){
+                        Paginate.first($scope.requests).then(data => {
                             $scope.requests = data;
                         });
                     },
-                    function(){
+                    function() {
                         alertify.error('Erreur...');
-                    }
+                    },
                 );
         };
 
@@ -35,14 +35,14 @@ class Ponthub_Requests_Ctrl {
                 return;
             }
 
-            $http.post(API_PREFIX + 'requests', {name: name})
-                .then(function(){
+            $http.post(API_PREFIX + 'requests', { name: name })
+                .then(function() {
                     alertify.success('Demande ajoutée !');
-                    $resource(API_PREFIX + 'requests').query(function(data){
+                    Paginate.first($scope.requests).then(data => {
                         $scope.requests = data;
                     });
                     $scope.name = '';
-                }, function(){
+                }, function() {
                     alertify.error('Erreur...');
                 })
             ;

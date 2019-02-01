@@ -14,13 +14,13 @@ class Students_List_Ctrl {
             gender: 'all',
         };
 
-        $scope.next = function() {
-            Paginate.next($scope.users).then((response) => {
-                $scope.users = response;
+        $scope.next = () => {
+            Paginate.next($scope.users).then((data) => {
+                $scope.users = data;
             });
         };
 
-        $scope.reload = function(criterias) {
+        $scope.reload = criterias => {
             const paginationParams = {
                 sort:'-promo,firstName,lastName',
                 limit: 20,
@@ -37,8 +37,8 @@ class Students_List_Ctrl {
             if (criterias.gender !== 'all')
                 paginationParams['gender'] = criterias.gender;
 
-            Paginate.get('users', paginationParams).then(function(response){
-                $scope.users = response;
+            Paginate.get('users', paginationParams).then(data => {
+                $scope.users = data;
                 $scope.next();
             });
         };
