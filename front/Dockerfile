@@ -1,4 +1,4 @@
-# Stage 0, "build-stage", based on Node.js, to build
+# Stage 0, "build-stage", based on Node.js, to build the front app
 FROM node:alpine as build-stage
 MAINTAINER Louis TREZZINI <louis.trezzini@ponts.org>
 
