@@ -1,13 +1,11 @@
-FROM node:alpine
+# Stage 0, "build-stage", based on Node.js, to build
+FROM node:alpine as build-stage
 MAINTAINER Louis TREZZINI <louis.trezzini@ponts.org>
 
-RUN mkdir /app && chown node:node /app && chmod 700 /app
 WORKDIR /app
 
 RUN apk --no-cache add git
-RUN npm install -g -s --no-progress yarn superstatic
-
-USER node
+RUN npm install -g -s --no-progress yarn
 
 COPY .yarnrc package.json yarn.lock /app/
 RUN yarn --dev
@@ -15,6 +13,7 @@ RUN yarn --dev
 COPY . /app/
 RUN yarn build
 
-WORKDIR /app
-CMD ["superstatic", "-c", "superstatic.json", "--port", "3000", "--host", "0.0.0.0"]
-EXPOSE 3000
+# Stage 1, based on Nginx, to have only the compiled app, ready for production with Nginx
+FROM nginx:alpine
+COPY --from=build-stage /app/dist/ /app/front/
+COPY default.conf /etc/nginx/conf.d/
