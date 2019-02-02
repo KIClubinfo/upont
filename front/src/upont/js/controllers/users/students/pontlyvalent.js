@@ -21,8 +21,8 @@ class Students_Pontlyvalent_Ctrl {
         };
 
         $scope.reload = () => {
-            Paginate.get('users/pontlyvalent', { limit: 100000 }).then((response) => {
-                $scope.comments = response.data;
+            Paginate.get('users/pontlyvalent', { limit: 100000 }).then((data) => {
+                $scope.comments = data;
             });
         };
 

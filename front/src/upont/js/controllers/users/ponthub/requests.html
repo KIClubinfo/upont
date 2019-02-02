@@ -12,7 +12,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="request in filtered = (requests | orderBy:predicate:reverse )">
+            <tr ng-repeat="request in filtered = (requests.data | orderBy:predicate:reverse )">
                 <td>{{ request.name }}</td>
                 <td>{{ request.date | formatDate }}</td>
                 <td>{{ request.votes }}</td>

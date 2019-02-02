@@ -9,38 +9,38 @@ class Publications_List_Ctrl {
         $scope.newsItems = newsItems;
         $scope.edit = null;
 
-        $scope.next = function() {
-            Paginate.next($scope.newsItems).then(function(response) {
-                $scope.newsItems = response;
+        $scope.next = () => {
+            Paginate.next($scope.newsItems).then(data => {
+                $scope.newsItems = data;
             });
 
-            Paginate.next($scope.events).then(function(response) {
-                $scope.events = response;
+            Paginate.next($scope.events).then(data => {
+                $scope.events = data;
             });
         };
 
-        $scope.$on('newEvent', function() {
-            Paginate.first($scope.events).then(function(response) {
-                $scope.events = response;
+        $scope.$on('newEvent', () => {
+            Paginate.first($scope.events).then(data => {
+                $scope.events = data;
             });
         });
 
-        $scope.$on('newNewsitem', function() {
-            Paginate.first($scope.newsItems).then(function(response) {
-                $scope.newsItems = response;
+        $scope.$on('newNewsitem', () => {
+            Paginate.first($scope.newsItems).then(data => {
+                $scope.newsItems = data;
             });
         });
 
-        $scope.attend = function(publication) {
+        $scope.attend = publication => {
             var i = $scope.events.data.indexOf(publication);
             // Si la personne attend déjà on ne fait qu'annuler le attend
             if ($scope.events.data[i].attend) {
-                $http.delete(API_PREFIX + 'events/' + $scope.events.data[i].slug + '/attend').then(function() {
+                $http.delete(API_PREFIX + 'events/' + $scope.events.data[i].slug + '/attend').then(() => {
                     $scope.events.data[i].attend = false;
                     $scope.events.data[i].attendees--;
                 });
             } else {
-                $http.post(API_PREFIX + 'events/' + $scope.events.data[i].slug + '/attend').then(function() {
+                $http.post(API_PREFIX + 'events/' + $scope.events.data[i].slug + '/attend').then(() => {
                     $scope.events.data[i].attend = true;
                     $scope.events.data[i].attendees++;
 

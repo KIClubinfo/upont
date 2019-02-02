@@ -26,11 +26,11 @@ class Assos_KI_Ctrl {
         };
 
         $scope.reload = function() {
-            Paginate.first($scope.ownFixs).then(function(response){
-                $scope.ownFixs = this.assignFixs(response.data);
+            Paginate.first($scope.ownFixs).then((data) => {
+                $scope.ownFixs = this.assignFixs(data);
             });
-            Paginate.first($scope.fixs).then(function(response){
-                $scope.fixs = this.assignFixs(response.data);
+            Paginate.first($scope.fixs).then((data) => {
+                $scope.fixs = this.assignFixs(data);
             });
         };
 

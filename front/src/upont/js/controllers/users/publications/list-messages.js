@@ -17,8 +17,8 @@ angular.module('upont')
         ($scope, $resource, $http, messages, Paginate) => {
             $scope.messages = messages;
             $scope.next = function () {
-                Paginate.next($scope.messages).then((response) => {
-                    $scope.messages = response;
+                Paginate.next($scope.messages).then((data) => {
+                    $scope.messages = data;
                 });
             };
 
@@ -48,9 +48,9 @@ angular.module('upont')
                 });
             };
 
-            $scope.$on('newMessage', function (event, args) {
-                Paginate.first($scope.messages).then(function (response) {
-                    $scope.messages = response;
+            $scope.$on('newMessage', () => {
+                Paginate.first($scope.messages).then(data => {
+                    $scope.messages = data;
                 });
             });
         },

@@ -77,7 +77,7 @@ export const UsersPonthubRouter = $stateProvider => {
                     }).$promise;
                 }],
                 episodes: ['$resource', '$stateParams', 'Ponthub', function($resource, $stateParams, Ponthub) {
-                    if (Ponthub.cat($stateParams.category) != 'series')
+                    if (Ponthub.cat($stateParams.category) !== 'series')
                         return false;
                     return $resource(API_PREFIX + ':cat/:slug/episodes').query({
                         cat: 'series',
