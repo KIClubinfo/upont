@@ -2,7 +2,7 @@ import alertify from 'alertifyjs';
 
 /* @ngInject */
 class SingleSignOn_Ctrl {
-    constuctor($scope, $rootScope, $stateParams, $location, $http, $window, StorageService) {
+    constructor($scope, $rootScope, $stateParams, $location, $http, $window, StorageService) {
         // Identify the external application
         switch($stateParams.appId) {
             case '3ce745a47e998d2461ed9132dc18979c':
