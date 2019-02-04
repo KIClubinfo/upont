@@ -38,8 +38,8 @@ services:
   upont-back:
     image: quay.io/kiclubinfo/upont-back:${TAG:-latest}
     volumes:
-    - "./docker/upont-back/jwt:/jwt:ro"
-    - "./docker/upont-back/spool:/mail-spool:rw"
+    - "./docker/upont-back/jwt:/app/jwt:ro"
+    - "./docker/upont-back/spool:/app/mail-spool:rw"
     - upont-uploads:/app/public/uploads:rw
     depends_on:
     - db

@@ -1,4 +1,4 @@
 swiftmailer:
     spool:
         type: file
-        path: '/mail-spool'
+        path: '/app/mail-spool'
