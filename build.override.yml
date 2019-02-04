@@ -11,7 +11,4 @@ services:
       args:
         VERSION_HASH: ${VERSION_HASH:-}
         VERSION_TAG: ${VERSION_TAG:-}
-
-  ingress:
-    build:
-      context: ingress
+        BUILD_APP_ENV: ${APP_ENV:-}

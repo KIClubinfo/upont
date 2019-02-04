@@ -35,15 +35,11 @@ services:
     - 127.0.0.1:10102:80
     restart: always
 
-  upont-front:
-    image: quay.io/kiclubinfo/upont-front:${TAG:-latest}
-    restart: always
-
   upont-back:
     image: quay.io/kiclubinfo/upont-back:${TAG:-latest}
     volumes:
-    - "./docker/upont-back/jwt:/app/config/jwt:ro"
-    - "./docker/upont-back/spool:/mail-spool:rw"
+    - "./docker/upont-back/jwt:/app/jwt:ro"
+    - "./docker/upont-back/spool:/app/mail-spool:rw"
     - upont-uploads:/app/public/uploads:rw
     depends_on:
     - db
@@ -53,13 +49,12 @@ services:
     - .env
     restart: always
 
-  ingress:
-    image: quay.io/kiclubinfo/upont-ingress:${TAG:-latest}
+  upont-front:
+    image: quay.io/kiclubinfo/upont-front:${TAG:-latest}
     volumes:
     - upont-uploads:/upont/uploads:ro
     depends_on:
     - upont-back
-    - upont-front
     ports:
     - 127.0.0.1:10101:80
     restart: always
