@@ -73,10 +73,10 @@ class PublicationsSecurityTest extends WebTestCase
         // On se présente comme un extérieur de l'administration
         $this->connect('gcc', 'password');
         $routes = [
-            [200, 'GET', '/newsitems'],
+            [403, 'GET', '/newsitems'],
             [403, 'GET', '/courses'],
             [403, 'POST', '/newsitems/le-beton-cest-bon/comments'],
-            [200, 'GET', '/newsitems/le-beton-cest-bon/comments']
+            [403, 'GET', '/newsitems/le-beton-cest-bon/comments']
         ];
         $this->checkRoutes($routes);
     }
