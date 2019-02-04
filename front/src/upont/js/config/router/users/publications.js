@@ -31,7 +31,7 @@ export const UsersPublicationsRouter = $stateProvider => {
             newsItems: [
                 'Paginate',
                 'Permissions',
-                function(Paginate, Permissions) {
+                (Paginate, Permissions) => {
                     // Si c'est l'administration on ne charge que le seul club de l'user actuel
                     if (Permissions.hasRight('ROLE_EXTERIEUR'))
                         return Paginate.get('clubs/' + Permissions.username() + '/newsitems', {
@@ -47,7 +47,7 @@ export const UsersPublicationsRouter = $stateProvider => {
             events: [
                 'Paginate',
                 'Permissions',
-                function(Paginate, Permissions) {
+                (Paginate, Permissions) => {
                     // Si c'est l'administration on ne charge que le seul club de l'user actuel
                     if (Permissions.hasRight('ROLE_EXTERIEUR'))
                         return Paginate.get('clubs/' + Permissions.username() + '/events', {
@@ -87,7 +87,7 @@ export const UsersPublicationsRouter = $stateProvider => {
             // }
         }
     }).state('root.users.publications.simple', {
-        url: '/:slug',
+        url: 'publications/:slug',
         templateUrl: template_publications_list,
         controller: Publications_List_Ctrl,
         data: {
@@ -98,16 +98,12 @@ export const UsersPublicationsRouter = $stateProvider => {
             newsItems: [
                 'Paginate',
                 '$stateParams',
-                function(Paginate, $stateParams) {
-                    return Paginate.get('newsitems', {slug: $stateParams.slug});
-                }
+                (Paginate, $stateParams) => Paginate.get('newsitems', { slug: $stateParams.slug }),
             ],
             events: [
                 'Paginate',
                 '$stateParams',
-                function(Paginate, $stateParams) {
-                    return Paginate.get('events', {slug: $stateParams.slug});
-                }
+                (Paginate, $stateParams) => Paginate.get('events', { slug: $stateParams.slug }),
             ],
             courseItems: function() {
                 return [];
