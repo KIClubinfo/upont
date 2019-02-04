@@ -34,7 +34,7 @@ class NewsitemsController extends ResourceController
      */
     public function getNewsitemsAction()
     {
-        return $this->getAll($this->is('EXTERIEUR'));
+        return $this->getAll();
     }
 
     /**
