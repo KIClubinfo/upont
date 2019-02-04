@@ -76,7 +76,7 @@ class PublicationsSecurityTest extends WebTestCase
             [403, 'GET', '/newsitems'],
             [403, 'GET', '/courses'],
             [403, 'POST', '/newsitems/le-beton-cest-bon/comments'],
-            [403, 'GET', '/newsitems/le-beton-cest-bon/comments']
+            [200, 'GET', '/newsitems/le-beton-cest-bon/comments']
         ];
         $this->checkRoutes($routes);
     }
