@@ -57,35 +57,33 @@ class PonthubControllerTest extends WebTestCase
         $this->assertJsonResponse($response, 200);
     }
 
-    // FIXME disabled because OMDBAPI went private...
+     public function testImdbSearch()
+     {
+         $this->client->request('POST', '/imdb/search', ['album' => 'Back In Black']);
+         $response = $this->client->getResponse();
+         $this->assertJsonResponse($response, 400);
 
-    // public function testImdbSearch()
-    // {
-    //     $this->client->request('POST', '/imdb/search', ['album' => 'Back In Black']);
-    //     $response = $this->client->getResponse();
-    //     $this->assertJsonResponse($response, 400);
-    //
-    //     $this->client->request('POST', '/imdb/search', ['name' => 'Star Wars']);
-    //     $response = $this->client->getResponse();
-    //     $this->assertJsonResponse($response, 200);
-    //     $this->assertTrue(!empty(json_decode($response->getContent())));
-    // }
-    //
-    // public function testImdbInfos()
-    // {
-    //     $this->client->request('POST', '/imdb/infos', ['album' => 'Back In Black']);
-    //     $response = $this->client->getResponse();
-    //     $this->assertJsonResponse($response, 400);
-    //
-    //     $this->client->request('POST', '/imdb/infos', ['id' => 'tt0076759']);
-    //     $response = $this->client->getResponse();
-    //     $this->assertJsonResponse($response, 200);
-    //     $infos = json_decode($response->getContent(), true);
-    //     $this->assertNotEquals($infos, null);
-    //     $this->assertEquals($infos['year'], 1977);
-    //     $this->assertEquals($infos['duration'], 121*60);
-    //     $this->assertEquals($infos['director'], 'George Lucas');
-    // }
+         $this->client->request('POST', '/imdb/search', ['name' => 'Star Wars']);
+         $response = $this->client->getResponse();
+         $this->assertJsonResponse($response, 200);
+         $this->assertTrue(!empty(json_decode($response->getContent())));
+     }
+
+     public function testImdbInfos()
+     {
+         $this->client->request('POST', '/imdb/infos', ['album' => 'Back In Black']);
+         $response = $this->client->getResponse();
+         $this->assertJsonResponse($response, 400);
+
+         $this->client->request('POST', '/imdb/infos', ['id' => 'tt0076759']);
+         $response = $this->client->getResponse();
+         $this->assertJsonResponse($response, 200);
+         $infos = json_decode($response->getContent(), true);
+         $this->assertNotEquals($infos, null);
+         $this->assertEquals($infos['year'], 1977);
+         $this->assertEquals($infos['duration'], 121*60);
+         $this->assertEquals($infos['director'], 'George Lucas');
+     }
 
     public function testGlobalStatistics()
     {

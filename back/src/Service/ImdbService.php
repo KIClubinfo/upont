@@ -8,7 +8,7 @@ namespace App\Service;
 class ImdbService
 {
     protected $curlService;
-    protected $baseUrl = 'http://www.omdbapi.com/';
+    protected $baseUrl = 'http://www.omdbapi.com/?apikey=ab9e4ff5';
 
     public function __construct(CurlService $curlService)
     {
@@ -17,7 +17,7 @@ class ImdbService
 
     public function search($name)
     {
-        $url = $this->baseUrl . '?s=' . urlencode($name);
+        $url = $this->baseUrl . '&s=' . urlencode($name);
         $response = json_decode($this->curlService->curl($url), true);
 
         $return = [];
@@ -37,7 +37,7 @@ class ImdbService
 
     public function infos($id)
     {
-        $url = $this->baseUrl . '?i=' . urlencode($id);
+        $url = $this->baseUrl . '&i=' . urlencode($id);
         $response = json_decode($this->curlService->curl($url), true);
 
         if (!isset($response['Title']))
