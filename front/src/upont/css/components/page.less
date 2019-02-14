@@ -1,18 +1,11 @@
 .Page {
     &__main {
-        position: absolute;
-        width: 100%;
-        overflow-y: scroll;
         @media(min-width:@sizeSm){
             padding-left: @asideWidth;
         }
         @media(max-width: @sizeSm) {
-            height: calc(~"100% - 80px");
+            height: calc(~"100vh - 80px");
         }
-        // FIXME : blank dashboard but pagination ok
-        //@media(max-width: @sizeSm) {
-        //     height: calc(~"100% - 80px");
-        //}
     }
 
     &__noaside {

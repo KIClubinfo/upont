@@ -1,17 +1,5 @@
 .Dashboard {
-    position: absolute;
     .padded;
 
-    @media(min-width:@sizeSm){
-        width: calc(~"100% - 270px"); // 270px=@asideWidth
-    }
-    @media(max-width:@sizeSm){
-        width: 100%;
-        height: 100%;
-    }
-
-    &__middle {
-        overflow-y: auto;
-        height: calc(~"100vh - 7em");
-    }
+    height: 100%;
 }
