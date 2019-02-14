@@ -1,15 +1,15 @@
 import alertify from 'alertifyjs';
 
-import {API_PREFIX} from 'upont/js/config/constants';
+import { API_PREFIX } from 'upont/js/config/constants';
 
-import {nl2br} from 'upont/js/php';
+import { nl2br } from 'upont/js/php';
 
 /* @ngInject */
 class Publications_Post_Ctrl {
     constructor($scope, $rootScope, $http, $stateParams, Achievements, Upload) {
         // Fonctions relatives à la publication
         const clubDummy = {
-            name: 'Au nom de...'
+            name: 'Au nom de...',
         };
         let club = clubDummy;
         $scope.display = true;
@@ -21,7 +21,7 @@ class Publications_Post_Ctrl {
             $scope.display = false;
             for (const key in $rootScope.clubs) {
                 // Si on appartient au club, on affiche avec le club préséléctionné
-                if ($rootScope.clubs[key].club !== undefined && $rootScope.clubs[key].club.slug == $stateParams.slug) {
+                if ($rootScope.clubs[key].club !== undefined && $rootScope.clubs[key].club.slug === $stateParams.slug) {
                     club = $rootScope.clubs[key].club;
                     $scope.display = true;
                 }
@@ -39,7 +39,7 @@ class Publications_Post_Ctrl {
                 text: '',
                 start_date: '',
                 end_date: '',
-                shotgun_date: ''
+                shotgun_date: '',
             };
             $scope.type = 'news';
             $scope.club = club;
@@ -53,6 +53,40 @@ class Publications_Post_Ctrl {
             $scope.postFiles = {};
         };
         init();
+
+        const postNews = (params) => {
+            Upload.upload({
+                method: 'POST',
+                url: API_PREFIX + 'newsitems',
+                data: params,
+            }).then(() => {
+                $rootScope.$broadcast('newNewsitem');
+                Achievements.check();
+                alertify.success('News publiée');
+                init();
+                $scope.isLoading = false;
+            }, () => {
+                alertify.error('Formulaire vide ou mal rempli');
+                $scope.isLoading = false;
+            });
+        };
+
+        const postEvent = (params) => {
+            Upload.upload({
+                method: 'POST',
+                url: API_PREFIX + 'events',
+                data: params,
+            }).then(function() {
+                $rootScope.$broadcast('newEvent');
+                Achievements.check();
+                init();
+                alertify.success('Événement publié');
+                $scope.isLoading = false;
+            }, function() {
+                alertify.error('Formulaire vide ou mal rempli');
+                $scope.isLoading = false;
+            });
+        };
 
         $scope.changeType = function(type) {
             $scope.type = type;
@@ -86,11 +120,11 @@ class Publications_Post_Ctrl {
         $scope.publish = function(post) {
             const params = {
                 text: nl2br(post.text),
-                name: post.name
+                name: post.name,
             };
 
             if (!$scope.modify) {
-                if ($scope.club != clubDummy) {
+                if ($scope.club !== clubDummy) {
                     params.authorClub = $scope.club.slug;
                 } else {
                     if ($rootScope.hasRight('ROLE_EXTERIEUR')) {
@@ -111,32 +145,16 @@ class Publications_Post_Ctrl {
                 if (!$scope.isLoading) {
                     $scope.isLoading = true;
 
-                    const postNews = () => {
-                        Upload.upload({
-                            method: 'POST',
-                            url: API_PREFIX + 'newsitems',
-                            data: params
-                        }).then(function() {
-                            $rootScope.$broadcast('newNewsitem');
-                            Achievements.check();
-                            alertify.success('News publiée');
-                            init();
-                            $scope.isLoading = false;
-                        }, function() {
-                            alertify.error('Formulaire vide ou mal rempli');
-                            $scope.isLoading = false;
-                        });
-                    };
-
                     // On demande si on envoie un mail
                     alertify.confirm(
-                        'Veux-tu envoyer un mail pour cette news ?', () => {
+                        'Veux-tu envoyer un mail pour cette news ?',
+                        () => {
                             params.sendMail = true;
-                            postNews();
+                            postNews(params);
                         },
                         () => {
                             params.sendMail = false;
-                            postNews();
+                            postNews(params);
                         },
                     ).set('labels', {
                         ok: 'Oui',
@@ -180,33 +198,16 @@ class Publications_Post_Ctrl {
 
                     if (!$scope.modify) {
 
-                        const postEvent = () => {
-                            Upload.upload({
-                                method: 'POST',
-                                url: API_PREFIX + 'events',
-                                data: params
-                            }).then(function() {
-                                $rootScope.$broadcast('newEvent');
-                                Achievements.check();
-                                init();
-                                alertify.success('Événement publié');
-                                $scope.isLoading = false;
-                            }, function() {
-                                alertify.error('Formulaire vide ou mal rempli');
-                                $scope.isLoading = false;
-                            });
-                        };
-
                         // On demande si on envoie un mail
                         alertify.confirm(
                             'Veux-tu envoyer un mail pour cet événement ?',
                             () => {
                                 params.sendMail = true;
-                                postEvent();
+                                postEvent(params);
                             },
                             () => {
                                 params.sendMail = false;
-                                postEvent();
+                                postEvent(params);
                             },
                         ).set('labels', {
                             ok: 'Oui',

@@ -18,7 +18,7 @@ class Assos_KI_Ctrl {
         $resource(DOOR_HISTORY_URL).get(
             () => {
                 $scope.doorServiceUp = true;
-            }
+            },
         );
 
         $scope.trustSrc = function(src) {
@@ -35,16 +35,16 @@ class Assos_KI_Ctrl {
         };
 
         $scope.post = function(msg, isFix) {
-            if($rootScope.isAdmissible)
+            if ($rootScope.isAdmissible)
                 return;
 
-            var params  = {
+            var params = {
                 problem: msg,
                 name: msg.substring(0, 20),
-                fix: isFix
+                fix: isFix,
             };
 
-            $http.post(API_PREFIX + 'fixs', params).then(function(){
+            $http.post(API_PREFIX + 'fixs', params).then(function() {
                 $scope.fix = '';
                 $scope.msg = '';
                 alertify.success('Demande correctement envoyée !');
@@ -54,18 +54,16 @@ class Assos_KI_Ctrl {
         };
 
         $scope.changeStatus = function(fix) {
-            $http.patch(API_PREFIX + 'fixs/' + fix.slug, {status: fix.status}).then(function(){
+            $http.patch(API_PREFIX + 'fixs/' + fix.slug, { status: fix.status }).then(() => {
                 $scope.reload();
             });
         };
 
         $scope.delete = function(fix) {
-            alertify.confirm('Veux-tu vraiment supprimer le ticket ?', function(e) {
-                if (e) {
-                    $http.delete(API_PREFIX + 'fixs/' + fix.slug).then(function(){
-                        $scope.reload();
-                    });
-                }
+            alertify.confirm('Veux-tu vraiment supprimer le ticket ?', () => {
+                $http.delete(API_PREFIX + 'fixs/' + fix.slug).then(() => {
+                    $scope.reload();
+                });
             });
         };
     }
@@ -81,16 +79,26 @@ class Assos_KI_Ctrl {
             waiting: [],
             doing: [],
             done: [],
-            closed: []
+            closed: [],
         };
 
         for (const fix of fixs) {
             switch (fix.status) {
-                case 'Non vu': fixs_buckets.unseen.push(fix); break;
-                case 'En attente': fixs_buckets.waiting.push(fix); break;
-                case 'En cours': fixs_buckets.doing.push(fix); break;
-                case 'Résolu': fixs_buckets.done.push(fix); break;
-                case 'Fermé': fixs_buckets.closed.push(fix); break;
+            case 'Non vu':
+                fixs_buckets.unseen.push(fix);
+                break;
+            case 'En attente':
+                fixs_buckets.waiting.push(fix);
+                break;
+            case 'En cours':
+                fixs_buckets.doing.push(fix);
+                break;
+            case 'Résolu':
+                fixs_buckets.done.push(fix);
+                break;
+            case 'Fermé':
+                fixs_buckets.closed.push(fix);
+                break;
             }
         }
 
