@@ -17,4 +17,4 @@ jms_serializer:
         directories:
             FOSUB:
                 namespace_prefix: "FOS\\UserBundle"
-                path: '%kernel.root_dir%/../config/serializer/FOSUserBundle'
+                path: '%kernel.project_dir%/config/serializer/FOSUserBundle'
