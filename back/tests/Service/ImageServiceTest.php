@@ -7,7 +7,6 @@ use App\Tests\WebTestCase;
 
 class ImageServiceTest extends WebTestCase
 {
-    protected $container;
     protected $service;
     protected $path;
 
@@ -15,9 +14,8 @@ class ImageServiceTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->container = static::$kernel->getContainer();
-        $this->service = $this->container->get('test.App\Service\ImageService');
-        $this->path = $this->container->getParameter('ki_core.images.directory');
+        $this->service = self::$container->get('test.App\Service\ImageService');
+        $this->path = self::$container->getParameter('ki_core.images.directory');
     }
 
     public function testUploadBase64()
