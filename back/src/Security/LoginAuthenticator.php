@@ -24,6 +24,11 @@ abstract class LoginAuthenticator extends AbstractGuardAuthenticator
         $this->dispatcher = $dispatcher;
     }
 
+    public function supports(Request $request)
+    {
+        return true;
+    }
+
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         $data = [

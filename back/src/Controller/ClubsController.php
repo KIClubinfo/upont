@@ -208,7 +208,7 @@ class ClubsController extends ResourceController
             $form = $this->createForm(ClubUserType::class, $link, ['method' => 'POST']);
             $form->handleRequest($request);
 
-            if ($form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
                 $this->manager->persist($link);
                 $this->manager->flush();
 
@@ -257,7 +257,7 @@ class ClubsController extends ResourceController
             $form = $this->createForm(ClubUserType::class, $link, ['method' => 'PATCH']);
             $form->handleRequest($request);
 
-            if ($form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
                 $this->manager->persist($link);
                 $this->manager->flush();
 

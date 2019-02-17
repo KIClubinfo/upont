@@ -30,23 +30,13 @@ abstract class BaseController extends Controller
      */
     protected $user = null;
 
-    /**
-     * Initialise le controleur
-     */
     public function setUser()
     {
         $token = $this->get('security.token_storage')->getToken();
         $this->user = $token ? $token->getUser() : null;
     }
 
-    /**
-     * Génère une réponse au format JSON en parsant les propriétés avec le FOSRestBundle
-     * @param  mixed $data    Le contenu à renvoyer
-     * @param  int   $status    Le code d'erreur HTTP à renvoyer
-     * @param  array $headers Des headers spécifiques si nécéssaire
-     * @return Response
-     */
-    public function json($data, $status = 200, $headers = [], $context = [])
+    public function json($data, int $status = 200, array $headers = [], array $context = []): JsonResponse
     {
         return new JsonResponse(
             $this->get('jms_serializer')->serialize($data, 'json'),
