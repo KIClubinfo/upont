@@ -3,9 +3,7 @@
 namespace App\JMS;
 
 use Carbon\Carbon;
-use DateTimeZone;
 use JMS\Serializer\Context;
-use JMS\Serializer\Exception\RuntimeException;
 use JMS\Serializer\GraphNavigator;
 use JMS\Serializer\Handler\SubscribingHandlerInterface;
 use JMS\Serializer\VisitorInterface;
@@ -45,7 +43,7 @@ class CarbonHandler implements SubscribingHandlerInterface
      */
     public function serializeCarbon(VisitorInterface $visitor, Carbon $date, array $type, Context $context)
     {
-        return $visitor->visitString($date->toIso8601ZuluString(), $type, $context);
+        return $visitor->visitString($date->jsonSerialize(), $type, $context);
     }
 
     /**

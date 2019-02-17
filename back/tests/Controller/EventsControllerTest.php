@@ -45,8 +45,8 @@ class EventsControllerTest extends WebTestCase
         $this->assertJsonResponse($response, 200);
 
         $event = json_decode($response->getContent(), true);
-        $this->assertEquals('2018-03-18T09:17:01Z', $event['start_date']);
-        $this->assertEquals('2018-03-18T19:17:01Z', $event['end_date']);
+        $this->assertEquals('2018-03-18T09:17:01.000000Z', $event['start_date']);
+        $this->assertEquals('2018-03-18T19:17:01.000000Z', $event['end_date']);
 
         $this->client->request('GET', '/events/manger-des-chips/attendees');
         $response = $this->client->getResponse();

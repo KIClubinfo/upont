@@ -2,6 +2,7 @@
 
 namespace App\Listener;
 
+use Carbon\Carbon;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 use App\Entity\Event;
@@ -47,13 +48,13 @@ class EventListener
 
             $vars = [
                 'post' => $event,
-                'start' => $event->getStartDate()->formatLocalized('%A %d %B à %Hh%M'),
-                'end'   => $event->getEndDate()->formatLocalized('%A %d %B à %Hh%M'),
+                'start' => $this->formatDate($event->getStartDate()),
+                'end'   => $this->formatDate($event->getEndDate()),
             ];
 
             $shotgunPrefix = '';
             if (!empty($event->getShotgunDate())) {
-                $vars['shotgun'] = $event->getShotgunDate()->formatLocalized('%A %d %B à %Hh%M');
+                $vars['shotgun'] = $this->formatDate($event->getShotgunDate());
                 $shotgunPrefix = '[SHOTGUN]';
             }
 
@@ -98,12 +99,12 @@ class EventListener
             if ($event->getStartDate() != $oldEvent->getStartDate()
                 || $event->getEndDate() != $oldEvent->getEndDate()
                 ) {
-                $modifications['start'] = $event->getStartDate()->formatLocalized('%A %d %B à %Hh%M');
-                $modifications['end']   = $event->getEndDate()->formatLocalized('%A %d %B à %Hh%M');
+                $modifications['start'] = $this->formatDate($event->getStartDate());
+                $modifications['end']   = $this->formatDate($event->getEndDate());
             }
 
             if ($event->getShotgunDate() != $oldEvent->getShotgunDate()) {
-                $modifications['shotgun'] = $event->getShotgunDate()->formatLocalized('%A %d %B à %Hh%M');
+                $modifications['shotgun'] = $this->formatDate($event->getShotgunDate());
             }
 
             if ($event->getPlace() != $oldEvent->getPlace()) {
@@ -149,5 +150,9 @@ class EventListener
             }
         }
         return [$usersPush, $usersMail];
+    }
+
+    private function formatDate(Carbon $date): string {
+        return $date->locale('fr_FR')->formatLocalized('%A %d %B à %Hh%M');
     }
 }

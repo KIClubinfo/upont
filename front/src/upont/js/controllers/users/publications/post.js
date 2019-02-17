@@ -1,4 +1,5 @@
 import alertify from 'alertifyjs';
+import * as moment from 'moment';
 
 import { API_PREFIX } from 'upont/js/config/constants';
 
@@ -165,8 +166,8 @@ class Publications_Post_Ctrl {
             case 'event':
                 params.place = post.place;
                 params.entryMethod = post.entry_method;
-                params.startDate = post.start_date.toISOString();
-                params.endDate = post.end_date.toISOString();
+                params.startDate = post.start_date.seconds(0).toISOString();
+                params.endDate = post.end_date.seconds(0).toISOString();
 
                 if (!post.start_date || !post.end_date) {
                     alertify.error('Il faut préciser une date de début et de fin');
@@ -179,7 +180,7 @@ class Publications_Post_Ctrl {
                 }
 
                 if (post.entry_method === 'Shotgun') {
-                    params.shotgunDate = post.shotgun_date.toISOString();
+                    params.shotgunDate = post.shotgun_date.seconds(0).toISOString();
                     params.shotgunLimit = post.shotgun_limit;
                     params.shotgunText = post.shotgun_text;
 
@@ -233,12 +234,15 @@ class Publications_Post_Ctrl {
         };
 
         $scope.modify = false;
-        $scope.$on('modifyEvent', function(event, post) {
+        $scope.$on('modifyEvent', (event, post) => {
             $scope.modify = true;
             $scope.changeType('event');
             $rootScope.$broadcast('newEvent');
 
             $scope.post = post;
+            $scope.post.start_date = moment($scope.post.start_date);
+            $scope.post.end_date = moment($scope.post.end_date);
+            $scope.post.shotgun_date = moment($scope.post.shotgun_date);
             window.scrollTo(0, 0);
         });
     }

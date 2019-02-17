@@ -11,7 +11,7 @@
     },
     "config": {
         "platform": {
-            "php": "7.1"
+            "php": "7.1.26"
         },
         "preferred-install": {
             "*": "dist"
@@ -19,7 +19,7 @@
         "sort-packages": true
     },
     "require": {
-        "php": "~7.1",
+        "php": "^7.1.8",
         "bomo/ical-bundle": "~1.0",
         "doctrine/doctrine-bundle": "~1.6",
         "doctrine/doctrine-fixtures-bundle": "^3.0",
@@ -32,7 +32,7 @@
         "lexik/jwt-authentication-bundle": "~2.0",
         "nelmio/api-doc-bundle": "~2.8",
         "nelmio/cors-bundle": "~1.4",
-        "nesbot/carbon": "^1.24",
+        "nesbot/carbon": "^2.11",
         "sensio/distribution-bundle": "~5.0",
         "sensio/framework-extra-bundle": "^5.1",
         "sentry/sentry-symfony": "~2.0",
@@ -51,7 +51,9 @@
         "symfony/templating": "^3.4",
         "symfony/twig-bundle": "^3.4",
         "symfony/validator": "^3.4",
-        "symfony/yaml": "^3.4"
+        "symfony/yaml": "^3.4",
+        "ext-json": "*",
+        "ext-curl": "*"
     },
     "require-dev": {
         "symfony/browser-kit": "^3.4",
