@@ -4,18 +4,50 @@ namespace App\Command;
 
 use App\Entity\Club;
 use App\Entity\ClubUser;
+use App\Repository\ClubRepository;
+use App\Repository\ClubUserRepository;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-class ClubUpdateCommand extends ContainerAwareCommand
+class ClubUpdateCommand extends Command
 {
+    protected static $defaultName = 'upont:update:clubs';
+    /**
+     * @var EntityManager
+     */
+    private $entityManager;
+    /**
+     * @var ClubRepository
+     */
+    private $clubRepository;
+    /**
+     * @var ClubUserRepository
+     */
+    private $clubUserRepository;
+    /**
+     * @var ParameterBagInterface
+     */
+    private $params;
+
+    public function __construct(EntityManager $entityManager, ClubRepository $clubRepository, ClubUserRepository $clubUserRepository, ParameterBagInterface $params)
+    {
+        $this->entityManager = $entityManager;
+        $this->clubRepository = $clubRepository;
+        $this->clubUserRepository = $clubUserRepository;
+        $this->params = $params;
+
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this
-            ->setName('upont:update:clubs')
             ->setDescription('Enable or Disable listed clubs according to the existence of members in current associative promo')
             ->addArgument('clubs', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'Clubs to update')
             ->addOption('all', 'a', InputOption::VALUE_NONE, 'Update all clubs')
@@ -25,17 +57,14 @@ class ClubUpdateCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $em = $this->getContainer()->get('doctrine')->getManager();
-        $userRepo = $this->getContainer()->get('doctrine')->getRepository(Club::class);
-        $clubUserRepo = $this->getContainer()->get('doctrine')->getRepository(ClubUser::class);
-        $assoPromo = $this->getContainer()->getParameter('upont')['promos']['assos'];
+        $assoPromo = $this->params->get('upont')['promos']['assos'];
         $clubSlugs = $input->getArgument('clubs');
 
         if ($input->getOption('all')) {
-            $clubsToUpdate = $userRepo->findAll();
+            $clubsToUpdate = $this->clubRepository->findAll();
         }
         else {
-            $clubsToUpdate = array_map([$userRepo, 'findOneBySlug'], $clubSlugs);
+            $clubsToUpdate = array_map([$this->clubRepository, 'findOneBySlug'], $clubSlugs);
         }
 
         $clubNumber = -1;
@@ -45,7 +74,7 @@ class ClubUpdateCommand extends ContainerAwareCommand
                 $output->writeln('<error>The slug "'.$clubSlugs[$clubNumber].'" doesn\'t match with any club</error>');
                 continue;
             }
-            $countUsers = $clubUserRepo->getCountUsersInClubWithPromo($clubToUpdate, $assoPromo);
+            $countUsers = $this->clubUserRepository->getCountUsersInClubWithPromo($clubToUpdate, $assoPromo);
 
             if ($countUsers == 0 && $clubToUpdate->getActive()) {
                 if ($input->getOption('preview')) {
@@ -67,6 +96,6 @@ class ClubUpdateCommand extends ContainerAwareCommand
             }
         }
 
-        $em->flush();
+        $this->entityManager->flush();
     }
 }

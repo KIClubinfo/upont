@@ -4,14 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Club;
 use App\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 // Fonctions génériques
-abstract class BaseController extends Controller
+abstract class BaseController extends AbstractController
 {
     protected $class;
     /**
@@ -48,8 +48,8 @@ abstract class BaseController extends Controller
 
     /**
      * Génère une réponse plain text
-     * @param  mixed $data    Le contenu à renvoyer
-     * @param  int   $code    Le code d'erreur HTTP à renvoyer
+     * @param  mixed $data Le contenu à renvoyer
+     * @param  int $code Le code d'erreur HTTP à renvoyer
      * @param  array $headers Des headers spécifiques si nécéssaire
      * @return Response
      */
@@ -60,7 +60,7 @@ abstract class BaseController extends Controller
 
     /**
      * Génère la réponse relative au traitement d'un formulaire
-     * @param  array  $data   Le formulaire traité
+     * @param  array $data Le formulaire traité
      * @param  object $parent Éventuellement l'objet parent
      * @return Response
      */
@@ -77,8 +77,8 @@ abstract class BaseController extends Controller
 
     /**
      * Retourne une configuration de uPont
-     * @param  string  $path   La clé de configuration
-     * @return string
+     * @param  string $path La clé de configuration
+     * @return mixed
      */
     public function getConfig($path)
     {
@@ -100,16 +100,16 @@ abstract class BaseController extends Controller
 
     /**
      * Initialise le controleur de base
-     * @param string $class  Le nom de la classe sur laquelle se baser
+     * @param string $class Le nom de la classe sur laquelle se baser
      * @param string $bundle Le nom du bundle dans lequel se trouve cette classe
      */
     public function initialize($class, $form)
     {
-        $this->class      = $class;
+        $this->class = $class;
 
-        $this->manager    = $this->getDoctrine()->getManager();
+        $this->manager = $this->getDoctrine()->getManager();
         $this->repository = $this->manager->getRepository($class);
-        $this->form       = $form;
+        $this->form = $form;
 
         $this->setUser();
     }
@@ -152,7 +152,7 @@ abstract class BaseController extends Controller
             }
         }
         if (!$item instanceof $this->class) {
-            throw new NotFoundHttpException('Objet '.$this->class.' non trouvé');
+            throw new NotFoundHttpException('Objet ' . $this->class . ' non trouvé');
         }
 
         return $item;
@@ -195,7 +195,7 @@ abstract class BaseController extends Controller
     protected function isFoyerMember()
     {
         return $this->isClubMember('foyer')
-        && in_array($this->user->getPromo(), $this->getConfig('foyer.trust'));
+            && in_array($this->user->getPromo(), $this->getConfig('foyer.trust'));
     }
 
     /**
@@ -211,7 +211,7 @@ abstract class BaseController extends Controller
     /**
      * Éjecte tous les utilisateurs ne respectant pas la condition
      * @param  boolean $bool
-     * @return boolean
+     * @return void
      */
     protected function trust($bool)
     {

@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\IpUtils;
@@ -165,9 +166,9 @@ class CoreController extends BaseController
      * )
      * @Route("/version", methods={"GET"})
      */
-    public function versionAction()
+    public function versionAction(ParameterBagInterface $params)
     {
-        $versionInfo = $this->container->getParameter('version-info');
+        $versionInfo = $params->get('version-info');
         return $this->json($versionInfo);
     }
 
