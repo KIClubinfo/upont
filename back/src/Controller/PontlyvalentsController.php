@@ -6,7 +6,10 @@ use App\Entity\Pontlyvalent;
 use App\Entity\User;
 use App\Form\PontlyvalentType;
 use App\Helper\PaginateHelper;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use App\Repository\PontlyvalentRepository;
+use App\Repository\UserRepository;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -36,20 +39,26 @@ class PontlyvalentsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  resource=true,
-     *  description="Liste les commentaires",
-     *  output="App\Entity\Pontlyvalent",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Liste les commentaires",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/users/pontlyvalent", methods={"GET"})
      */
-    public function getPontlyvalentsAction(PaginateHelper $paginateHelper)
+    public function getPontlyvalentsAction(PontlyvalentRepository $pontlyvalentRepository, PaginateHelper $paginateHelper)
     {
         if ($this->is('MODO') || $this->isClubMember('bde')) {
             $filters = [];
@@ -60,32 +69,42 @@ class PontlyvalentsController extends ResourceController
         }
 
         return $this->json($paginateHelper->paginate(
-            $this->repository,
+            $pontlyvalentRepository,
             $filters
         ));
     }
 
     /**
-     * @ApiDoc(
-     *  description="Liste les commentaires sur un user",
-     *  output="App\Entity\Pontlyvalent",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée"
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Liste les commentaires sur un user",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/users/{targetUsername}/pontlyvalent", methods={"GET"})
      */
-    public function getPontlyvalentAction($targetUsername)
+    public function getPontlyvalentAction($targetUsername, UserRepository $userRepository, PontlyvalentRepository $pontlyvalentRepository)
     {
         $this->checkPontlyvalentOpen();
 
-        $target = $this->manager->getRepository(User::class)->findOneByUsername($targetUsername);
+        $target = $userRepository->findOneByUsername($targetUsername);
 
-        $pontlyvalent = $this->repository->getPontlyvalent($target, $this->user);
+        $pontlyvalent = $pontlyvalentRepository->getPontlyvalent($target, $this->user);
 
         if (count($pontlyvalent) != 1)
             throw new NotFoundHttpException();
@@ -94,35 +113,51 @@ class PontlyvalentsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Ecrit un commentaire sur quelqu'un",
-     *  input="App\Form\PontlyvalentType",
-     *  output="App\Entity\Pontlyvalent",
-     *  statusCodes={
-     *   201="Requête traitée avec succès avec création d’un document",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Ecrit un commentaire sur quelqu'un",
+     *     @SWG\Parameter(
+     *         name="text",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Requête traitée avec succès avec création d’un document"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/users/{targetUsername}/pontlyvalent", methods={"POST"})
      */
-    public function postPontlyvalentAction(Request $request, $targetUsername)
+    public function postPontlyvalentAction(Request $request, $targetUsername, UserRepository $userRepository, PontlyvalentRepository $pontlyvalentRepository)
     {
         $this->checkPontlyvalentOpen();
 
         /**
          * @var User $target
          */
-        $target = $this->manager->getRepository(User::class)->findOneByUsername($targetUsername);
+        $target = $userRepository->findOneByUsername($targetUsername);
 
         $targetPromo = $this->getConfig('pontlyvalent.promo');
         if ($target->getPromo() != $targetPromo) {
             throw new BadRequestHttpException('Ce n\'est pas un ' . $targetPromo . ' !');
         }
 
-        $pontlyvalent = $this->repository->getPontlyvalent($target, $this->user);
+        $pontlyvalent = $pontlyvalentRepository->getPontlyvalent($target, $this->user);
         if (count($pontlyvalent) == 0) {
             $pontlyvalent = new Pontlyvalent();
             $pontlyvalent->setTarget($target);
@@ -148,27 +183,48 @@ class PontlyvalentsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Supprime un commentaire",
-     *  input="App\Form\PontlyvalentType",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Supprime un commentaire",
+     *     @SWG\Parameter(
+     *         name="text",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/users/{targetUsername}/pontlyvalent", methods={"DELETE"})
      */
-    public function deletePontlyvalentAction($targetUsername)
+    public function deletePontlyvalentAction($targetUsername, UserRepository $userRepository, PontlyvalentRepository $pontlyvalentRepository)
     {
         $this->checkPontlyvalentOpen();
 
-        $target = $this->manager->getRepository(User::class)->findOneByUsername($targetUsername);
+        $target = $userRepository->findOneByUsername($targetUsername);
 
-        $pontlyvalent = $this->repository->getPontlyvalent($target, $this->user);
+        $pontlyvalent = $pontlyvalentRepository->getPontlyvalent($target, $this->user);
 
         if (count($pontlyvalent) != 1) {
             throw new NotFoundHttpException('Commentaire non trouvé');

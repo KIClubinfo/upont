@@ -2,18 +2,17 @@
 
 namespace App\Controller;
 
-use App\Controller\ResourceController;
 use App\Entity\Facegame;
 use App\Form\FacegameType;
 use App\Helper\FacegameHelper;
 use App\Repository\UserRepository;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-
-use Symfony\Component\Routing\Annotation\Route;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 class FacegamesController extends ResourceController
 {
@@ -24,17 +23,27 @@ class FacegamesController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne un jeu",
-     *  output="App\Entity\Facegame",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée"
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Retourne un jeu",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/facegames/{slug}", methods={"GET"})
      */
     public function getFacegameAction($slug)
@@ -45,18 +54,48 @@ class FacegamesController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Crée un jeu",
-     *  input="App\Form\FacegameType",
-     *  output="App\Entity\Facegame",
-     *  statusCodes={
-     *   201="Requête traitée avec succès avec création d’un document",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Crée un jeu",
+     *     @SWG\Parameter(
+     *         name="promo",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="duration",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="integer"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="hardcore",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="boolean"
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Requête traitée avec succès avec création d’un document"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/facegames", methods={"POST"})
      */
     public function postFacegameAction(FacegameHelper $facegameHelper)
@@ -73,18 +112,55 @@ class FacegamesController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Modifie un jeu",
-     *  input="App\Form\FacegameType",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Modifie un jeu",
+     *     @SWG\Parameter(
+     *         name="promo",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="duration",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="integer",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="hardcore",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="boolean",
+     *         schema=""
+     *     ),
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/facegames/{slug}", methods={"PATCH"})
      */
     public function patchFacegameAction(FacegameHelper $facegameHelper, Request $request, $slug)
@@ -102,17 +178,23 @@ class FacegamesController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  resource=false,
-     *  description="Renvoie les statistiques globales sur la Réponse D",
-     *  output="App\Entity\Facegame",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Renvoie les statistiques globales sur la Réponse D",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/statistics/facegame", methods={"GET"})
      */
     public function getGlobalStatisticsAction()
@@ -126,17 +208,27 @@ class FacegamesController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Renvoie les statistiques d'un utilisateur sur la Réponse D",
-     *  output="App\Entity\Facegame",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée"
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Renvoie les statistiques d'un utilisateur sur la Réponse D",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/statistics/facegame/{slug}", methods={"GET"})
      */
     public function getUserStatisticsAction(UserRepository $userRepository, $slug)

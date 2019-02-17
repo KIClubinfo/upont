@@ -7,6 +7,7 @@ use App\Repository\UserRepository;
 use App\Service\CurlService;
 use App\Service\ImageService;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -34,11 +35,11 @@ class PhotoUpdateCommand extends Command
      */
     private $imageService;
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $entityManager;
 
-    public function __construct(EntityManager $entityManager, UserRepository $userRepository, CurlService $curlService, ImageService $imageService)
+    public function __construct(EntityManagerInterface $entityManager, UserRepository $userRepository, CurlService $curlService, ImageService $imageService)
     {
         $this->entityManager = $entityManager;
         $this->userRepository = $userRepository;

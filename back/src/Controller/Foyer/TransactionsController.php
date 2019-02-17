@@ -7,11 +7,12 @@ use App\Entity\Transaction;
 use App\Entity\User;
 use App\Helper\BeerHelper;
 use App\Helper\TransactionHelper;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Routing\Annotation\Route;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 class TransactionsController extends ResourceController
 {
@@ -22,17 +23,23 @@ class TransactionsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  resource=true,
-     *  description="Liste toutes les transactions",
-     *  output="App\Entity\Transaction",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Foyer"
+     * @Operation(
+     *     tags={"Foyer"},
+     *     summary="Liste toutes les transactions",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/transactions", methods={"GET"})
      */
     public function getTransactionsAction()
@@ -41,16 +48,23 @@ class TransactionsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Liste les utilisateurs ayant bu dernièrement",
-     *  output="App\Entity\User",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Foyer"
+     * @Operation(
+     *     tags={"Foyer"},
+     *     summary="Liste les utilisateurs ayant bu dernièrement",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/userbeers", methods={"GET"})
      */
     public function getUserBeersAction(BeerHelper $beerHelper)
@@ -62,16 +76,23 @@ class TransactionsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Liste les transactions d'un utilisateur",
-     *  output="App\Entity\Transaction",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Foyer"
+     * @Operation(
+     *     tags={"Foyer"},
+     *     summary="Liste les transactions d'un utilisateur",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/users/{slug}/transactions", methods={"GET"})
      */
     public function getUserTransactionsAction(Request $request, $slug)
@@ -88,37 +109,41 @@ class TransactionsController extends ResourceController
 
 
     /**
-     * @ApiDoc(
-     *  description="Crée une transaction - conso ou compte crédité (L'UN OU L'AUTRE, PAS LES DEUX EN MÊME TEMPS)",
-     *  requirements={
-     *   {
-     *    "name"="user",
-     *    "dataType"="string",
-     *    "description"="Le slug de l'utilisateur"
-     *   }
-     *  },
-     *  parameters={
-     *   {
-     *    "name"="beer",
-     *    "dataType"="string",
-     *    "required"=false,
-     *    "description"="Le slug de la bière SI C'EST UNE CONSO"
-     *   },
-     *   {
-     *    "name"="credit",
-     *    "dataType"="string",
-     *    "required"=false,
-     *    "description"="Le montant à créditer SI C'EST UNE TRANSACTION DE CRÉDIT"
-     *   }
-     *  },
-     *  statusCodes={
-     *   201="Requête traitée avec succès avec création d’un document",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Foyer"
+     * @Operation(
+     *     tags={"Foyer"},
+     *     summary="Crée une transaction - conso ou compte crédité (L'UN OU L'AUTRE, PAS LES DEUX EN MÊME TEMPS)",
+     *     @SWG\Parameter(
+     *         name="beer",
+     *         in="formData",
+     *         description="Le slug de la bière SI C'EST UNE CONSO",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="credit",
+     *         in="formData",
+     *         description="Le montant à créditer SI C'EST UNE TRANSACTION DE CRÉDIT",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Requête traitée avec succès avec création d’un document"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/transactions", methods={"POST"})
      */
     public function postTransactionAction(TransactionHelper $transactionHelper, Request $request)
@@ -142,16 +167,27 @@ class TransactionsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Supprime une transaction",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Foyer"
+     * @Operation(
+     *     tags={"Foyer"},
+     *     summary="Supprime une transaction",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/transactions/{id}", methods={"DELETE"})
      */
     public function deleteTransactionAction(TransactionHelper $transactionHelper, $id)

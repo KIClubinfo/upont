@@ -12,12 +12,13 @@ use App\Repository\ClubRepository;
 use App\Repository\ClubUserRepository;
 use App\Repository\EventRepository;
 use App\Repository\NewsitemRepository;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Routing\Annotation\Route;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ClubsController extends ResourceController
@@ -29,17 +30,23 @@ class ClubsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  resource=true,
-     *  description="Liste les clubs",
-     *  output="App\Entity\Club",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Liste les clubs",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/clubs", methods={"GET"})
      */
     public function getClubsAction(ClubRepository $clubRepository)
@@ -48,39 +55,126 @@ class ClubsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne un club",
-     *  output="App\Entity\Club",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée"
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Retourne un club",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/clubs/{slug}", methods={"GET"})
      */
     public function getClubAction($slug)
     {
-        $club = $this->getOne($slug, $this->is('EXTERIEUR'));
-
-        return $this->json($club);
+        return $this->json($this->getOne($slug));
     }
 
     /**
-     * @ApiDoc(
-     *  description="Crée un club",
-     *  input="App\Form\ClubType",
-     *  output="App\Entity\Club",
-     *  statusCodes={
-     *   201="Requête traitée avec succès avec création d’un document",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Crée un club",
+     *     @SWG\Parameter(
+     *         name="fullName",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="name",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="icon",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="presentation",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="active",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="boolean"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="category",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="administration",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="boolean"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="image",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="banner",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="place",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Requête traitée avec succès avec création d’un document"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/clubs", methods={"POST"})
      */
     public function postClubAction()
@@ -91,18 +185,111 @@ class ClubsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Modifie un club",
-     *  input="App\Form\ClubType",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Modifie un club",
+     *     @SWG\Parameter(
+     *         name="fullName",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="name",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="icon",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="presentation",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="active",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="boolean",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="category",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="administration",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="boolean",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="image",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="banner",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="place",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/clubs/{slug}", methods={"PATCH"})
      */
     public function patchClubAction($slug)
@@ -119,16 +306,27 @@ class ClubsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Supprime un club",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Supprime un club",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/clubs/{slug}", methods={"DELETE"})
      */
     public function deleteClubAction($slug)
@@ -147,17 +345,27 @@ class ClubsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Liste les membres d'un club",
-     *  output="App\Entity\User",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Liste les membres d'un club",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/clubs/{slug}/users", methods={"GET"})
      */
     public function getClubUsersAction(ClubUserRepository $clubUserRepository, Club $club)
@@ -168,24 +376,31 @@ class ClubsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Ajoute un membre à un club",
-     *  requirements={
-     *   {
-     *    "name"="role",
-     *    "dataType"="string",
-     *    "description"="Le rôle du membre dans le club"
-     *   }
-     *  },
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Ajoute un membre à un club",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/clubs/{slug}/users/{username}", methods={"POST"})
      */
     public function postClubUserAction(Request $request, Club $club, User $user)
@@ -222,24 +437,31 @@ class ClubsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Modifie un membre d'un club",
-     *  requirements={
-     *   {
-     *    "name"="role",
-     *    "dataType"="string",
-     *    "description"="Le rôle du membre dans le club"
-     *   }
-     *  },
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Modifie un membre d'un club",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/clubs/{slug}/users/{username}", methods={"PATCH"})
      */
     public function patchClubUserAction(Request $request, Club $club, User $user)
@@ -271,16 +493,27 @@ class ClubsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Enlève un membre d'un club",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Enlève un membre d'un club",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/clubs/{slug}/users/{username}", methods={"DELETE"})
      */
     public function deleteClubUserAction(Club $club, User $user)
@@ -302,17 +535,31 @@ class ClubsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Echange les priorité des 2 clubUsers associés aux Users",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Echange les priorité des 2 clubUsers associés aux Users",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/clubs/{slug}/users/{username}/{direction}", methods={"PATCH"})
      */
     public function swapPriorityClubUserAction($slug, $username, $direction)
@@ -346,17 +593,31 @@ class ClubsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Abonne un utilisateur à un club",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Abonne un utilisateur à un club",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/clubs/{slug}/follow", methods={"POST"})
      */
     public function followClubAction($slug)
@@ -375,17 +636,31 @@ class ClubsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Désabonne un utilisateur d'un club",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Désabonne un utilisateur d'un club",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/clubs/{slug}/unfollow", methods={"POST"})
      */
     public function unFollowClubAction(Club $club)
@@ -403,16 +678,27 @@ class ClubsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne toutes les news publiées par un club",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Retourne toutes les news publiées par un club",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/clubs/{slug}/newsitems", methods={"GET"})
      */
     public function getNewsitemsClubAction(Club $club, NewsitemRepository $newsitemRepository, PaginateHelper $paginateHelper)
@@ -427,16 +713,27 @@ class ClubsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne tous les events publiés par un club",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Retourne tous les events publiés par un club",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/clubs/{slug}/events", methods={"GET"})
      */
     public function getEventsClubAction(Club $club, EventRepository $eventRepository, PaginateHelper $paginateHelper)

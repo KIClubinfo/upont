@@ -32,7 +32,7 @@
         "jms/serializer-bundle": "~2.3",
         "kigkonsult/icalcreator": "dev-master",
         "lexik/jwt-authentication-bundle": "~2.0",
-        "nelmio/api-doc-bundle": "~2.8",
+        "nelmio/api-doc-bundle": "^3.0",
         "nelmio/cors-bundle": "~1.4",
         "nesbot/carbon": "^2.11",
         "sensio/framework-extra-bundle": "^5.2",

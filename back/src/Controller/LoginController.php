@@ -2,23 +2,21 @@
 
 namespace App\Controller;
 
-use App\Controller\BaseController;
 use App\Entity\Achievement;
-use App\Entity\Club;
 use App\Entity\User;
 use App\Event\AchievementCheckEvent;
 use App\Form\UserType;
+use App\Repository\UserRepository;
 use App\Service\TokenService;
-
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-
-use Symfony\Component\Routing\Annotation\Route;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
+use Swift_Message;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
-use Swift_Message;
+use Symfony\Component\Routing\Annotation\Route;
 
 class LoginController extends BaseController
 {
@@ -29,64 +27,73 @@ class LoginController extends BaseController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne les utilisateurs étant connectés",
-     *  parameters={
-     *   {
-     *    "name"="delay",
-     *    "dataType"="integer",
-     *    "required"=false,
-     *    "description"="Temps de l'intervalle considéré en minutes (30 minutes par défaut)"
-     *   }
-     *  },
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Retourne les utilisateurs étant connectés",
+     *     @SWG\Parameter(
+     *         name="delay",
+     *         in="body",
+     *         description="Temps de l'intervalle considéré en minutes (30 minutes par défaut)",
+     *         required=false,
+     *         type="integer",
+     *         schema=""
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/refresh", methods={"GET"})
      */
-    public function refreshAction(Request $request)
+    public function refreshAction(Request $request, UserRepository $userRepository)
     {
         $delay = $request->query->has('delay') ? (int)$request->query->get('delay') : 30;
-        $clubRepo = $this->manager->getRepository(Club::class);
 
         return $this->json([
-                                'online' => $this->repository->getOnlineUsers($delay)
-                           ]);
+            'online' => $userRepository->getOnlineUsers($delay)
+        ]);
     }
 
 
     /**
-     * @ApiDoc(
-     *  description="Envoie un mail permettant de reset le mot de passe",
-     *  requirements={
-     *   {
-     *    "name"="username",
-     *    "dataType"="string",
-     *    "description"="Le nom d'utilisateur"
-     *   }
-     *  },
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Mauvaise combinaison username/password ou champ nom rempli",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Général"
+     * @Operation(
+     *     tags={"Général"},
+     *     summary="Envoie un mail permettant de reset le mot de passe",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Mauvaise combinaison username/password ou champ nom rempli"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/resetting/request", methods={"POST"})
      */
-    public function resettingAction(TokenService $tokenService, Request $request)
+    public function resettingAction(TokenService $tokenService, Request $request, UserRepository $userRepository, EventDispatcherInterface $eventDispatcher)
     {
         if (!$request->request->has('username'))
             throw new BadRequestHttpException('Aucun nom d\'utilisateur fourni');
 
-        $manager = $this->getDoctrine()->getManager();
-        $repo = $manager->getRepository(User::class);
-        $user = $repo->findOneByUsername($request->request->get('username'));
+        $user = $userRepository->findOneByUsername($request->request->get('username'));
 
         if ($user) {
             if ($user->hasRole('ROLE_ADMISSIBLE'))
@@ -99,9 +106,8 @@ class LoginController extends BaseController
                 ->setBody($this->renderView('resetting.txt.twig', ['token' => $token, 'name' => $user->getFirstName()]));
             $this->get('mailer')->send($message);
 
-            $dispatcher = $this->container->get('event_dispatcher');
             $achievementCheck = new AchievementCheckEvent(Achievement::PASSWORD, $user);
-            $dispatcher->dispatch('upont.achievement', $achievementCheck);
+            $eventDispatcher->dispatch('upont.achievement', $achievementCheck);
 
             return $this->json(null, 204);
         } else
@@ -109,37 +115,31 @@ class LoginController extends BaseController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Reset son mot de passe à partir du mail",
-     *  requirements={
-     *   {
-     *    "name"="password",
-     *    "dataType"="string",
-     *    "description"="Le mot de passe"
-     *   },
-     *   {
-     *    "name"="check",
-     *    "dataType"="string",
-     *    "description"="Le mot de passe une seconde fois (confirmation)"
-     *   }
-     *  },
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Mauvaise combinaison username/password ou champ nom rempli",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Général"
+     * @Operation(
+     *     tags={"Général"},
+     *     summary="Reset son mot de passe à partir du mail",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Mauvaise combinaison username/password ou champ nom rempli"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/resetting/token/{token}", methods={"POST"})
      */
-    public function resettingTokenAction(Request $request, $token)
+    public function resettingTokenAction(Request $request, $token, UserRepository $userRepository)
     {
         if (!$request->request->has('password') || !$request->request->has('check'))
             throw new BadRequestHttpException('Champs password/check non rempli(s)');
 
-        $manager = $this->getDoctrine()->getManager();
-        $repo = $manager->getRepository(User::class);
-        $user = $repo->findOneByToken($token);
+        $user = $userRepository->findOneByToken($token);
 
         if ($user) {
             if ($user->hasRole('ROLE_ADMISSIBLE'))

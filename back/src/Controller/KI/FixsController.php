@@ -6,9 +6,10 @@ use App\Controller\ResourceController;
 use App\Entity\Fix;
 use App\Form\FixType;
 use App\Service\NotifyService;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Routing\Annotation\Route;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 class FixsController extends ResourceController
 {
@@ -19,17 +20,23 @@ class FixsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  resource=true,
-     *  description="Liste les tâches de dépannage",
-     *  output="App\Entity\Fix",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Clubinfo"
+     * @Operation(
+     *     tags={"Clubinfo"},
+     *     summary="Liste les tâches de dépannage",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/fixs", methods={"GET"})
      */
     public function getFixsAction()
@@ -38,17 +45,27 @@ class FixsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne une tâche de dépannage",
-     *  output="App\Entity\Fix",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Clubinfo"
+     * @Operation(
+     *     tags={"Clubinfo"},
+     *     summary="Retourne une tâche de dépannage",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/fixs/{slug}", methods={"GET"})
      */
     public function getFixAction($slug)
@@ -59,18 +76,55 @@ class FixsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Crée une tâche de dépannage",
-     *  input="App\Form\FixType",
-     *  output="App\Entity\Fix",
-     *  statusCodes={
-     *   201="Requête traitée avec succès avec création d’un document",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Clubinfo"
+     * @Operation(
+     *     tags={"Clubinfo"},
+     *     summary="Crée une tâche de dépannage",
+     *     @SWG\Parameter(
+     *         name="name",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="problem",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="fix",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="boolean"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="status",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Requête traitée avec succès avec création d’un document"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/fixs", methods={"POST"})
      */
     public function postFixAction()
@@ -81,18 +135,63 @@ class FixsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Modifie une tâche de dépannage",
-     *  input="App\Form\FixType",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Clubinfo"
+     * @Operation(
+     *     tags={"Clubinfo"},
+     *     summary="Modifie une tâche de dépannage",
+     *     @SWG\Parameter(
+     *         name="name",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="problem",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="fix",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="boolean",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="status",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/fixs/{slug}", methods={"PATCH"})
      */
     public function patchFixAction(NotifyService $notifyService, $slug)
@@ -115,16 +214,27 @@ class FixsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Supprime une tâche de dépannage",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Clubinfo"
+     * @Operation(
+     *     tags={"Clubinfo"},
+     *     summary="Supprime une tâche de dépannage",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/fixs/{slug}", methods={"DELETE"})
      */
     public function deleteFixAction($slug)

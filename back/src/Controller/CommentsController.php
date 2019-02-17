@@ -4,9 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Form\CommentType;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Routing\Annotation\Route;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 class CommentsController extends ResourceController
 {
@@ -17,16 +18,27 @@ class CommentsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne les commentaires",
-     *  statusCodes={
-     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette View",
-     *   403="Pas les droits suffisants pour effectuer cette View",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Likeable"
+     * @Operation(
+     *     tags={"Likeable"},
+     *     summary="Retourne les commentaires",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/comments/{slug}", methods={"GET"})
      */
     public function getCommentAction($slug)
@@ -37,16 +49,27 @@ class CommentsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne les commentaires",
-     *  statusCodes={
-     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette View",
-     *   403="Pas les droits suffisants pour effectuer cette View",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Likeable"
+     * @Operation(
+     *     tags={"Likeable"},
+     *     summary="Retourne les commentaires",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/{object}/{slug}/comments", methods={"GET"})
      */
     public function getCommentsAction($object, $slug)
@@ -58,16 +81,27 @@ class CommentsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne les commentaires d'une sous ressource",
-     *  statusCodes={
-     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette View",
-     *   403="Pas les droits suffisants pour effectuer cette View",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Likeable"
+     * @Operation(
+     *     tags={"Likeable"},
+     *     summary="Retourne les commentaires d'une sous ressource",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/{object}/{slug}/{subobject}/{subslug}/comments", methods={"GET"})
      */
     public function getCommentsSubAction($object, $slug, $subobject, $subslug)
@@ -79,24 +113,31 @@ class CommentsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Ajoute un commentaire",
-     *  requirements={
-     *   {
-     *    "name"="text",
-     *    "dataType"="string",
-     *    "description"="Le commentaire"
-     *   }
-     *  },
-     *  statusCodes={
-     *   201="Requête traitée avec succès avec création d’un document",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette View",
-     *   403="Pas les droits suffisants pour effectuer cette View",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Likeable"
+     * @Operation(
+     *     tags={"Likeable"},
+     *     summary="Ajoute un commentaire",
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Requête traitée avec succès avec création d’un document"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/{object}/{slug}/comments", methods={"POST"})
      */
     public function postCommentAction($object, $slug)
@@ -113,17 +154,31 @@ class CommentsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Ajoute un commentaire à une sous ressource",
-     *  statusCodes={
-     *   201="Requête traitée avec succès avec création d’un document",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette View",
-     *   403="Pas les droits suffisants pour effectuer cette View",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Likeable"
+     * @Operation(
+     *     tags={"Likeable"},
+     *     summary="Ajoute un commentaire à une sous ressource",
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Requête traitée avec succès avec création d’un document"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/{object}/{slug}/{subobject}/{subslug}/comments", methods={"POST"})
      */
     public function postCommentSubAction($object, $slug, $subobject, $subslug)
@@ -140,17 +195,31 @@ class CommentsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Modifie un commentaire",
-     *  statusCodes={
-     *   201="Requête traitée avec succès avec création d’un document",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette View",
-     *   403="Pas les droits suffisants pour effectuer cette View",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Likeable"
+     * @Operation(
+     *     tags={"Likeable"},
+     *     summary="Modifie un commentaire",
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Requête traitée avec succès avec création d’un document"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/comments/{id}", methods={"PATCH"})
      */
     public function patchCommentAction($id)
@@ -163,17 +232,31 @@ class CommentsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Supprime un commentaire",
-     *  statusCodes={
-     *   201="Requête traitée avec succès avec création d’un document",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette View",
-     *   403="Pas les droits suffisants pour effectuer cette View",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Likeable"
+     * @Operation(
+     *     tags={"Likeable"},
+     *     summary="Supprime un commentaire",
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Requête traitée avec succès avec création d’un document"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/comments/{id}", methods={"DELETE"})
      */
     public function deleteCommentAction($id)

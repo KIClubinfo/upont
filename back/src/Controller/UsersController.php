@@ -2,23 +2,22 @@
 
 namespace App\Controller;
 
-use App\Controller\ResourceController;
 use App\Entity\Achievement;
 use App\Entity\User;
-use App\Factory\UserFactory;
 use App\Event\AchievementCheckEvent;
+use App\Factory\UserFactory;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Service\CalendarService;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-
-use Symfony\Component\Routing\Annotation\Route;
+use Exception;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Exception;
 
 class UsersController extends ResourceController
 {
@@ -29,17 +28,23 @@ class UsersController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  resource=true,
-     *  description="Liste les utilisateurs",
-     *  output="App\Entity\User",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Liste les utilisateurs",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/users", methods={"GET"})
      */
     public function getUsersAction()
@@ -48,17 +53,27 @@ class UsersController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne un utilisateur",
-     *  output="App\Entity\User",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Retourne un utilisateur",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/users/{slug}", methods={"GET"})
      */
     public function getUserAction($slug)
@@ -69,18 +84,223 @@ class UsersController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Modifie un utilisateur",
-     *  input="App\Form\UserType",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Modifie un utilisateur",
+     *     @SWG\Parameter(
+     *         name="email",
+     *         in="body",
+     *         description="form.email",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="username",
+     *         in="body",
+     *         description="form.username",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="plainPassword",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="object (RepeatedType)",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="gender",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="firstName",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="lastName",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="nickname",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="promo",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="department",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="origin",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="nationality",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="location",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="phone",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="skype",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="statsFoyer",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="boolean",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="statsPonthub",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="boolean",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="statsFacegame",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="boolean",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="allowedBde",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="boolean",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="allowedBds",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="boolean",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="tour",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="boolean",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="image",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="mailEvent",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="boolean",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="mailModification",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="boolean",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="mailShotgun",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="boolean",
+     *         schema=""
+     *     ),
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/users/{slug}", methods={"PATCH"})
      */
     public function patchUserAction(Request $request, $slug)
@@ -115,16 +335,27 @@ class UsersController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Supprime un utilisateur",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Supprime un utilisateur",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/users/{slug}", methods={"DELETE"})
      */
     public function deleteUserAction($slug)
@@ -140,17 +371,27 @@ class UsersController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Récupère la liste des clubs dont l'utilisateur est membre",
-     *  output="App\Entity\Club",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Récupère la liste des clubs dont l'utilisateur est membre",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/users/{slug}/clubs", methods={"GET"})
      */
     public function getUserClubsAction($slug)
@@ -163,15 +404,23 @@ class UsersController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne le calendrier de l'utilisateur au format ICS",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Retourne le calendrier de l'utilisateur au format ICS",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/users/{token}/calendar", methods={"GET"})
      */
     public function getUserCalendarAction(CalendarService $calendarService, User $user, UserRepository $userRepository)
@@ -190,30 +439,15 @@ class UsersController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Crée un compte et envoie un mail avec le mot de passe",
-     *  requirements={
-     *   {
-     *    "name"="firstName",
-     *    "dataType"="string",
-     *    "description"="Prénom"
-     *   },
-     *   {
-     *    "name"="lastName",
-     *    "dataType"="string",
-     *    "description"="Nom"
-     *   },
-     *   {
-     *    "name"="email",
-     *    "dataType"="string",
-     *    "description"="Adresse email"
-     *   },
-     *  },
-     *  statusCodes={
-     *   201="Requête traitée avec succès avec création d’un document",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Crée un compte et envoie un mail avec le mot de passe",
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Requête traitée avec succès avec création d’un document"
+     *     )
      * )
+     *
      * @Route("/users", methods={"POST"})
      */
     public function postUsersAction(UserFactory $userFactory, Request $request)
@@ -264,20 +498,15 @@ class UsersController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Crée un compte et envoie un mail avec le mot de passe",
-     *  requirements={
-     *   {
-     *    "name"="users",
-     *    "dataType"="file",
-     *    "description"="Prénom"
-     *   },
-     *  },
-     *  statusCodes={
-     *   201="Requête traitée avec succès avec création d’un document",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Crée un compte et envoie un mail avec le mot de passe",
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Requête traitée avec succès avec création d’un document"
+     *     )
      * )
+     *
      * @Route("/import/users", methods={"POST"})
      */
     public function importUsersAction(Request $request)
@@ -308,7 +537,7 @@ class UsersController extends ResourceController
         while (!feof($list)) {
             // On enlève le caractère de fin de ligne
             $line = str_replace(["\r", "\n"], ['', ''], fgets($list));
-            if(empty($line))
+            if (empty($line))
                 continue;
 
             $gender = $login = $firstName = $lastName = $email = $promo = $department = $origin = null;

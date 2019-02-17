@@ -9,12 +9,13 @@ use App\Helper\FilelistHelper;
 use App\Helper\GlobalStatisticsHelper;
 use App\Helper\StatisticsHelper;
 use App\Service\ImdbService;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Routing\Annotation\Route;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 class PonthubController extends ResourceController
 {
@@ -25,23 +26,27 @@ class PonthubController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Actualise la base de données à partir de la liste des fichiers sur Fleur",
-     *  requirements={
-     *   {
-     *    "name"="filelist",
-     *    "dataType"="file",
-     *    "description"="La liste des fichiers sur fleur au formmat : %size% %full_path%"
-     *   }
-     *  },
-     *  statusCodes={
-     *   202="Requête traitée mais sans garantie de résultat",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Ponthub"
+     * @Operation(
+     *     tags={"Ponthub"},
+     *     summary="Actualise la base de données à partir de la liste des fichiers sur Fleur",
+     *     @SWG\Response(
+     *         response="202",
+     *         description="Requête traitée mais sans garantie de résultat"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/filelist/{token}", methods={"POST"})
      */
     public function filelistAction(FilelistHelper $filelistHelper, Request $request, $token)
@@ -69,23 +74,27 @@ class PonthubController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Recherche des films/séries sur Imdb",
-     *  requirements={
-     *   {
-     *    "name"="name",
-     *    "dataType"="string",
-     *    "description"="Le critère de recherche"
-     *   }
-     *  },
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Ponthub"
+     * @Operation(
+     *     tags={"Ponthub"},
+     *     summary="Recherche des films/séries sur Imdb",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/imdb/search", methods={"POST"})
      */
     public function imdbSearchAction(Request $request, ImdbService $imdbService)
@@ -102,24 +111,31 @@ class PonthubController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne les informations sur un film/une série d'Imdb",
-     *  requirements={
-     *   {
-     *    "name"="id",
-     *    "dataType"="string",
-     *    "description"="L'identifiant de la ressource Imdb"
-     *   }
-     *  },
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Ponthub"
+     * @Operation(
+     *     tags={"Ponthub"},
+     *     summary="Retourne les informations sur un film/une série d'Imdb",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/imdb/infos", methods={"POST"})
      */
     public function imdbInfosAction(Request $request, ImdbService $imdbService)
@@ -140,15 +156,23 @@ class PonthubController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne les statistiques d'utilisation de Ponthub pour un utilisateur particulier",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Ponthub"
+     * @Operation(
+     *     tags={"Ponthub"},
+     *     summary="Retourne les statistiques d'utilisation de Ponthub pour un utilisateur particulier",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/statistics/ponthub/{slug}", methods={"GET"})
      */
     public function getPonthubStatisticsAction($slug, StatisticsHelper $statisticsHelper)
@@ -166,15 +190,23 @@ class PonthubController extends ResourceController
 
 
     /**
-     * @ApiDoc(
-     *  description="Retourne les statistiques d'utilisation de Ponthub",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Ponthub"
+     * @Operation(
+     *     tags={"Ponthub"},
+     *     summary="Retourne les statistiques d'utilisation de Ponthub",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/statistics/ponthub", methods={"GET"})
      */
     public function getPonthubStatisticsMainAction(GlobalStatisticsHelper $statisticsHelper)

@@ -89,6 +89,9 @@
     "eluceo/ical": {
         "version": "0.15.0"
     },
+    "exsyst/swagger": {
+        "version": "v0.4.1"
+    },
     "fig/link-util": {
         "version": "1.0.0"
     },
@@ -140,9 +143,6 @@
             "ref": "751ee6748c1026fa4350c155d1b3a77b7ddca69c"
         }
     },
-    "michelf/php-markdown": {
-        "version": "1.8.0"
-    },
     "monolog/monolog": {
         "version": "1.23.0"
     },
@@ -178,6 +178,15 @@
     },
     "phpcollection/phpcollection": {
         "version": "0.5.0"
+    },
+    "phpdocumentor/reflection-common": {
+        "version": "1.0.1"
+    },
+    "phpdocumentor/reflection-docblock": {
+        "version": "4.3.0"
+    },
+    "phpdocumentor/type-resolver": {
+        "version": "0.4.0"
     },
     "phpoption/phpoption": {
         "version": "1.5.0"
@@ -371,6 +380,9 @@
     "symfony/property-access": {
         "version": "3.4.x-dev"
     },
+    "symfony/property-info": {
+        "version": "v4.2.3"
+    },
     "symfony/routing": {
         "version": "3.3",
         "recipe": {
@@ -476,10 +488,16 @@
     "twig/twig": {
         "version": "v2.4.4"
     },
+    "webmozart/assert": {
+        "version": "1.4.0"
+    },
     "zendframework/zend-code": {
         "version": "3.3.0"
     },
     "zendframework/zend-eventmanager": {
         "version": "3.2.0"
+    },
+    "zircote/swagger-php": {
+        "version": "2.0.13"
     }
 }

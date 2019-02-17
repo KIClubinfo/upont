@@ -4,14 +4,15 @@ namespace App\Controller\Publications;
 
 use App\Controller\ResourceController;
 use App\Entity\Course;
-use App\Entity\CourseUser;
 use App\Form\CourseType;
 use App\Helper\CourseHelper;
 use App\Helper\CourseParserHelper;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\CourseUserRepository;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class CoursesController extends ResourceController
 {
@@ -22,15 +23,23 @@ class CoursesController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Parse l'emploi du temps emploidutemps.enpc.fr",
-     *  statusCodes={
-     *   202="Requête traitée mais sans garantie de résultat",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Général"
+     * @Operation(
+     *     tags={"Général"},
+     *     summary="Parse l'emploi du temps emploidutemps.enpc.fr",
+     *     @SWG\Response(
+     *         response="202",
+     *         description="Requête traitée mais sans garantie de résultat"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/courses", methods={"HEAD"})
      */
     public function parseCoursesAction(CourseParserHelper $courseParserHelper)
@@ -40,61 +49,128 @@ class CoursesController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  resource=true,
-     *  description="Liste les cours disponibles",
-     *  output="App\Entity\Course",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Liste les cours disponibles",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/courses", methods={"GET"})
      */
     public function getCoursesAction(Request $request)
     {
         if ($request->query->has('exercices')) {
-            return $this->getAll(null, 'exercices');
+            return $this->getAll(null);
         }
         return $this->getAll();
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne un cours",
-     *  output="App\Entity\Course",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Retourne un cours",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/courses/{slug}", methods={"GET"})
      */
     public function getCourseAction($slug)
     {
-        $course =  $this->getOne($slug);
+        $course = $this->getOne($slug);
 
         return $this->json($course);
     }
 
     /**
-     * @ApiDoc(
-     *  description="Crée un cours",
-     *  input="App\Form\CourseType",
-     *  output="App\Entity\Course",
-     *  statusCodes={
-     *   201="Requête traitée avec succès avec création d’un document",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Crée un cours",
+     *     @SWG\Parameter(
+     *         name="name",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="groups",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="array of strings"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="department",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="semester",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="ects",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="number"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="active",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="boolean"
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Requête traitée avec succès avec création d’un document"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/courses", methods={"POST"})
      */
     public function postCourseAction()
@@ -105,18 +181,79 @@ class CoursesController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Modifie un cours",
-     *  input="App\Form\CourseType",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Modifie un cours",
+     *     @SWG\Parameter(
+     *         name="name",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="groups",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="array of strings",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="department",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="semester",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="ects",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="number",
+     *         schema=""
+     *     ),
+     *     @SWG\Parameter(
+     *         name="active",
+     *         in="body",
+     *         description="",
+     *         required=false,
+     *         type="boolean",
+     *         schema=""
+     *     ),
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/courses/{slug}", methods={"PATCH"})
      */
     public function patchCourseAction($slug)
@@ -127,25 +264,35 @@ class CoursesController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Supprime un cours",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Supprime un cours",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/courses/{slug}", methods={"DELETE"})
      */
-    public function deleteCourseAction($slug)
+    public function deleteCourseAction($slug, CourseUserRepository $courseUserRepository)
     {
         // Les cours possèdent plein de sous propriétés, il faut faire gaffe à toutes les supprimer
         $course = $this->getOne($slug);
-        $repository = $this->manager->getRepository(CourseUser::class);
 
-        foreach ($repository->findByCourse($course) as $courseUser) {
+        foreach ($courseUserRepository->findByCourse($course) as $courseUser) {
             $this->manager->remove($courseUser);
         }
 
@@ -155,16 +302,27 @@ class CoursesController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Ajoute un utilisateur au cours",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Ajoute un utilisateur au cours",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/courses/{slug}/attend", methods={"POST"})
      */
     public function postCourseUserAction(CourseHelper $courseHelper, Request $request, $slug)
@@ -177,16 +335,27 @@ class CoursesController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retire la demande d'inscription",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Retire la demande d'inscription",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/courses/{slug}/attend", methods={"DELETE"})
      */
     public function deleteCourseUserAction(CourseHelper $courseHelper, $slug)

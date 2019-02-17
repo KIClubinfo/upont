@@ -3,18 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\UserType;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Helper\CleaningHelper;
+use App\Service\SearchService;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\IpUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-
-use App\Helper\CleaningHelper;
-use App\Service\SearchService;
+use Symfony\Component\Routing\Annotation\Route;
 
 class CoreController extends BaseController
 {
@@ -22,19 +20,28 @@ class CoreController extends BaseController
     {
         parent::setContainer($container);
         // TODO remove this nonsense
-        $this->initialize(User::class, UserType::class);
+        $this->initialize(User::class, null);
     }
 
+
     /**
-     * @ApiDoc(
-     *  description="Procédure de nettoyage de la BDD à lancer régulièrement",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Général"
+     * @Operation(
+     *     tags={"Général"},
+     *     summary="Procédure de nettoyage de la BDD à lancer régulièrement",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/clean", methods={"GET"})
      */
     public function cleanAction(CleaningHelper $cleaningHelper)
@@ -44,13 +51,15 @@ class CoreController extends BaseController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Avoir du café",
-     *  statusCodes={
-     *   418="Je suis une théière",
-     *  },
-     *  section="Général"
+     * @Operation(
+     *     tags={"Général"},
+     *     summary="Avoir du café",
+     *     @SWG\Response(
+     *         response="418",
+     *         description="Je suis une théière"
+     *     )
      * )
+     *
      * @Route("/coffee", methods={"GET"})
      */
     public function coffeeAction()
@@ -61,15 +70,23 @@ class CoreController extends BaseController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Let's get dirty !",
-     *  statusCodes={
-     *   202="Requête traitée mais sans garantie de résultat",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Général"
+     * @Operation(
+     *     tags={"Général"},
+     *     summary="Let's get dirty !",
+     *     @SWG\Response(
+     *         response="202",
+     *         description="Requête traitée mais sans garantie de résultat"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/dirty", methods={"GET"})
      */
     public function dirtyAction()
@@ -79,27 +96,23 @@ class CoreController extends BaseController
 
     /**
      * Ceci sert juste à documenter cette route, le reste est géré par le LexikJWTAuthenticationBundle
-     * @ApiDoc(
-     *  description="Se loger et recevoir un JSON Web Token",
-     *  requirements={
-     *   {
-     *    "name"="username",
-     *    "dataType"="string",
-     *    "description"="Le nom d'utilisateur (format : sept premières lettres du nom et première lettre du prénom)"
-     *   },
-     *   {
-     *    "name"="password",
-     *    "dataType"="string",
-     *    "description"="Le mot de passe en clair"
-     *   }
-     *  },
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Mauvaise combinaison username/password ou champ nom rempli",
-     *   502="Erreur Proxy : l'utilisateur se connecte pour la première fois, mais le proxy DSI n'est pas configuré",
-     *  },
-     *  section="Général"
+     * @Operation(
+     *     tags={"Général"},
+     *     summary="Se loger et recevoir un JSON Web Token",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Mauvaise combinaison username/password ou champ nom rempli"
+     *     ),
+     *     @SWG\Response(
+     *         response="502",
+     *         description="Erreur Proxy : l'utilisateur se connecte pour la première fois, mais le proxy DSI n'est pas configuré"
+     *     )
      * )
+     *
      * @Route("/login", name="login", methods={"POST"})
      */
     public function loginAction()
@@ -108,14 +121,19 @@ class CoreController extends BaseController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Pinger l'API",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *  },
-     *  section="Général"
+     * @Operation(
+     *     tags={"Général"},
+     *     summary="Pinger l'API",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/ping", name="ping", methods={"HEAD", "GET"})
      */
     public function pingAction()
@@ -124,23 +142,27 @@ class CoreController extends BaseController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Recherche au travers de tout le site",
-     *  requirements={
-     *   {
-     *    "name"="search",
-     *    "dataType"="string",
-     *    "description"="Le critère de recherche"
-     *   }
-     *  },
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Général"
+     * @Operation(
+     *     tags={"Général"},
+     *     summary="Recherche au travers de tout le site",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/search", methods={"POST"})
      */
     public function searchAction(SearchService $searchService, Request $request)
@@ -157,13 +179,15 @@ class CoreController extends BaseController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne la version de uPont",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *  },
-     *  section="Général"
+     * @Operation(
+     *     tags={"Général"},
+     *     summary="Retourne la version de uPont",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     )
      * )
+     *
      * @Route("/version", methods={"GET"})
      */
     public function versionAction(ParameterBagInterface $params)
@@ -173,13 +197,15 @@ class CoreController extends BaseController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne la configuration de uPont",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *  },
-     *  section="Général"
+     * @Operation(
+     *     tags={"Général"},
+     *     summary="Retourne la configuration de uPont",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     )
      * )
+     *
      * @Route("/config", methods={"GET"})
      */
     public function configAction(Request $request)
