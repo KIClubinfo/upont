@@ -17,7 +17,7 @@ class StringToCarbonTransformer implements DataTransformerInterface
             return '';
         }
 
-        return $carbon->toIso8601ZuluString();
+        return $carbon->jsonSerialize();
     }
 
     public function reverseTransform($string)

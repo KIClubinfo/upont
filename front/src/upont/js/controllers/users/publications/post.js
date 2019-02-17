@@ -1,4 +1,5 @@
 import alertify from 'alertifyjs';
+import * as moment from 'moment';
 
 import { API_PREFIX } from 'upont/js/config/constants';
 
@@ -233,12 +234,15 @@ class Publications_Post_Ctrl {
         };
 
         $scope.modify = false;
-        $scope.$on('modifyEvent', function(event, post) {
+        $scope.$on('modifyEvent', (event, post) => {
             $scope.modify = true;
             $scope.changeType('event');
             $rootScope.$broadcast('newEvent');
 
             $scope.post = post;
+            $scope.post.start_date = moment($scope.post.start_date);
+            $scope.post.end_date = moment($scope.post.end_date);
+            $scope.post.shotgun_date = moment($scope.post.shotgun_date);
             window.scrollTo(0, 0);
         });
     }
