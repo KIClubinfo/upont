@@ -283,11 +283,13 @@ angular.module('upont').run([
         };
 
         // Au changement de page
-        $rootScope.$on('$stateChangeStart', function(event, toState) {
-            function needLogin(state) {
+        $rootScope.$on('$stateChangeStart', (event, toState) => {
+            const needLogin = state => {
                 if (state.data && state.data.needLogin)
                     return state.data.needLogin;
-            }
+
+                return false;
+            };
 
             if (!$rootScope.isLogged && needLogin(toState)) {
                 event.preventDefault();
@@ -298,7 +300,7 @@ angular.module('upont').run([
                 $state.go('root.login');
             }
 
-            if (!$rootScope.isStudentNetwork && toState.name.startsWith('root.users.ponthub')) {
+            if ($rootScope.isStudentNetwork === false && toState.name.startsWith('root.users.ponthub')) {
                 event.preventDefault();
                 $state.go('root.404');
             }

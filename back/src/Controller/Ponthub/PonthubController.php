@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Helper\FilelistHelper;
 use App\Helper\GlobalStatisticsHelper;
 use App\Helper\StatisticsHelper;
+use App\Service\ImdbService;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -87,7 +88,7 @@ class PonthubController extends ResourceController
      * )
      * @Route("/imdb/search", methods={"POST"})
      */
-    public function imdbSearchAction(Request $request)
+    public function imdbSearchAction(Request $request, ImdbService $imdbService)
     {
         $this->trust($this->is('USER'));
 
@@ -95,8 +96,7 @@ class PonthubController extends ResourceController
             throw new BadRequestHttpException();
         }
 
-        $imdb = $this->get('ki_ponthub.service.imdb');
-        $infos = $imdb->search($request->request->get('name'));
+        $infos = $imdbService->search($request->request->get('name'));
 
         return $this->json($infos, 200);
     }
@@ -122,7 +122,7 @@ class PonthubController extends ResourceController
      * )
      * @Route("/imdb/infos", methods={"POST"})
      */
-    public function imdbInfosAction(Request $request)
+    public function imdbInfosAction(Request $request, ImdbService $imdbService)
     {
         $this->trust($this->is('USER'));
 
@@ -130,8 +130,7 @@ class PonthubController extends ResourceController
             throw new BadRequestHttpException();
         }
 
-        $imdb = $this->get('ki_ponthub.service.imdb');
-        $infos = $imdb->infos($request->request->get('id'));
+        $infos = $imdbService->infos($request->request->get('id'));
 
         if ($infos === null) {
             throw new NotFoundHttpException('Ce film/cette série n\'existe pas dans la base Imdb');

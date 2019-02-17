@@ -55,11 +55,6 @@ parameters:
 
     ki_clubinfo.slack_hook: https://hooks.slack.com/services/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
 
-    # Tokens d'accès API Gracenote
-    ki_ponthub.gracenote.key1: '14886144'
-    ki_ponthub.gracenote.key2: '136467B84B6BCA2854F072597B216096'
-    ki_ponthub.gracenote.key3: '279881507270543439-482465B59397C267B124C2794482BF35'
-
     ki_ponthub.files.valid_extensions: ['avi', 'mpeg', 'mp4', 'mkv', 'rar', 'zip', 'iso', 'exe', 'msi', 'jpg', 'jpeg', 'png', 'bmp', 'gif', 'srt', 'pdf', 'epub', 'mobi', 'dmg']
 
     ki_upont.push.gcm: 'AIzaSyCHrIJMqsou89Er6ksjfuqIZQLdOsuky2Q'
@@ -161,15 +156,6 @@ services:
     App\Listener\SendMailNegativeBalanceListener:
             tags:
                 - { name: kernel.event_listener, event: upont.negative_balance, method: sendMail }
-
-    # Communique avec l'API Gracenote
-    App\Service\GracenoteService:
-        arguments:
-            - '%ki_ponthub.gracenote.key1%'
-            - '%ki_ponthub.gracenote.key2%'
-            - '%ki_ponthub.gracenote.key3%'
-            - '%proxy_url%'
-            - '%proxy_user%'
 
     App\Selector\ActorsSelector:
         tags:
