@@ -59,6 +59,9 @@
             "ref": "c1431086fec31f17fbcfe6d6d7e92059458facc1"
         }
     },
+    "doctrine/event-manager": {
+        "version": "v1.0.0"
+    },
     "doctrine/inflector": {
         "version": "v1.2.0"
     },
@@ -73,6 +76,12 @@
     },
     "doctrine/orm": {
         "version": "v2.6.0"
+    },
+    "doctrine/persistence": {
+        "version": "v1.1.0"
+    },
+    "doctrine/reflection": {
+        "version": "v1.0.0"
     },
     "egulias/email-validator": {
         "version": "2.1.3"
@@ -132,7 +141,7 @@
         }
     },
     "michelf/php-markdown": {
-        "version": "1.7.0"
+        "version": "1.8.0"
     },
     "monolog/monolog": {
         "version": "1.23.0"
@@ -394,6 +403,9 @@
     },
     "symfony/serializer": {
         "version": "v3.4.21"
+    },
+    "symfony/stopwatch": {
+        "version": "v4.2.3"
     },
     "symfony/swiftmailer-bundle": {
         "version": "2.5",
