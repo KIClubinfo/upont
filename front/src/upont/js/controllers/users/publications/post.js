@@ -166,8 +166,8 @@ class Publications_Post_Ctrl {
             case 'event':
                 params.place = post.place;
                 params.entryMethod = post.entry_method;
-                params.startDate = post.start_date.toISOString();
-                params.endDate = post.end_date.toISOString();
+                params.startDate = post.start_date.seconds(0).toISOString();
+                params.endDate = post.end_date.seconds(0).toISOString();
 
                 if (!post.start_date || !post.end_date) {
                     alertify.error('Il faut préciser une date de début et de fin');
@@ -180,7 +180,7 @@ class Publications_Post_Ctrl {
                 }
 
                 if (post.entry_method === 'Shotgun') {
-                    params.shotgunDate = post.shotgun_date.toISOString();
+                    params.shotgunDate = post.shotgun_date.seconds(0).toISOString();
                     params.shotgunLimit = post.shotgun_limit;
                     params.shotgunText = post.shotgun_text;
 
