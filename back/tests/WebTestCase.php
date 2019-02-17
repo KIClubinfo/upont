@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 abstract class WebTestCase extends SymfonyWebTestCase
 {
-    protected $container;
     /* @var Client */
     protected $client;
     protected $authorizationHeaderPrefix = 'Bearer';
