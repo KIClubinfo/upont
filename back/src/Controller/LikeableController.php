@@ -4,9 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Likeable;
 use Nelmio\ApiDocBundle\Annotation\Operation;
-use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
-
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -33,8 +31,8 @@ class LikeableController extends BaseController
      *  Sert à initialiser le controleur avec la bonne classe quand il est appelé
      *  par les routes génériques de like. Par exemple on veut l'initialiser
      *  avec la classe Newsitems si la route est /newsitems/{slug}/like
-     *  @param  string $object Le type d'objet à initialiser
-     *  @throws Exception Si l'objet ne correspond à aucun entité likeable connue
+     * @param  string $object Le type d'objet à initialiser
+     * @throws Exception Si l'objet ne correspond à aucun entité likeable connue
      */
     protected function autoInitialize($object)
     {
@@ -43,7 +41,7 @@ class LikeableController extends BaseController
 
         foreach ($likeables as $class) {
             if ($class === $className) {
-                return $this->initialize('App\\Entity\\' . $class, 'App\\Form\\'  . $class . 'Type');
+                return $this->initialize('App\\Entity\\' . $class, 'App\\Form\\' . $class . 'Type');
             }
         }
         throw new \Exception('Initialisation impossible du controleur');
@@ -147,32 +145,6 @@ class LikeableController extends BaseController
      *     )
      * )
      *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
      * @Route("/{object}/{slug}/like", methods={"POST"})
      */
     public function likeAction($object, $slug)
@@ -203,32 +175,6 @@ class LikeableController extends BaseController
      *         description="Ressource non trouvée"
      *     )
      * )
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
      *
      * @Route("/{object}/{slug}/dislike", methods={"POST"})
      */
@@ -261,32 +207,6 @@ class LikeableController extends BaseController
      *     )
      * )
      *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
      * @Route("/{object}/{slug}/like", methods={"DELETE"})
      */
     public function deleteLikeAction($object, $slug)
@@ -317,28 +237,6 @@ class LikeableController extends BaseController
      *         description="Ressource non trouvée"
      *     )
      * )
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
      *
      * @Route("/{object}/{slug}/dislike", methods={"DELETE"})
      */
@@ -371,32 +269,6 @@ class LikeableController extends BaseController
      *     )
      * )
      *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
      * @Route("/{object}/{slug}/{subobject}/{subslug}/like", methods={"POST"})
      */
     public function likeSubAction($object, $slug, $subobject, $subslug)
@@ -427,32 +299,6 @@ class LikeableController extends BaseController
      *         description="Ressource non trouvée"
      *     )
      * )
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
      *
      * @Route("/{object}/{slug}/{subobject}/{subslug}/dislike", methods={"POST"})
      */
@@ -485,32 +331,6 @@ class LikeableController extends BaseController
      *     )
      * )
      *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
      * @Route("/{object}/{slug}/{subobject}/{subslug}/like", methods={"DELETE"})
      */
     public function deleteLikeSubAction($object, $slug, $subobject, $subslug)
@@ -541,28 +361,6 @@ class LikeableController extends BaseController
      *         description="Ressource non trouvée"
      *     )
      * )
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
      *
      * @Route("/{object}/{slug}/{subobject}/{subslug}/dislike", methods={"DELETE"})
      */

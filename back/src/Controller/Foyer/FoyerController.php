@@ -17,6 +17,7 @@ class FoyerController extends BaseController
     public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
+        // TODO remove this nonsense
         $this->initialize(User::class, UserType::class);
     }
 

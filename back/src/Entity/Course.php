@@ -75,6 +75,8 @@ class Course extends Likeable
      */
     public function __construct()
     {
+        parent::__construct();
+
         $this->exercices = new ArrayCollection();
         $this->courseitems = new ArrayCollection();
     }

@@ -80,7 +80,9 @@ class ClubsController extends ResourceController
      */
     public function getClubAction($slug)
     {
-        return $this->json($this->getOne($slug));
+        $club = $this->getOne($slug, $this->is('EXTERIEUR'));
+
+        return $this->json($club);
     }
 
     /**

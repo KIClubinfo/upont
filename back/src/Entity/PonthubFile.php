@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use App\Entity\Likeable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -137,9 +137,11 @@ class PonthubFile extends Likeable
      */
     public function __construct()
     {
-        $this->listGenres = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->listTags = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+        parent::__construct();
+
+        $this->listGenres = new ArrayCollection();
+        $this->listTags = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     /**
@@ -260,10 +262,10 @@ class PonthubFile extends Likeable
     /**
      * Set image
      *
-     * @param \App\Entity\Image $image
+     * @param Image $image
      * @return PonthubFile
      */
-    public function setImage(\App\Entity\Image $image = null)
+    public function setImage(Image $image = null)
     {
         $this->image = $image;
 
@@ -273,7 +275,7 @@ class PonthubFile extends Likeable
     /**
      * Get image
      *
-     * @return \App\Entity\Image
+     * @return Image
      */
     public function getImage()
     {
@@ -283,10 +285,10 @@ class PonthubFile extends Likeable
     /**
      * Add tags
      *
-     * @param \App\Entity\Tag $tag
+     * @param Tag $tag
      * @return PonthubFile
      */
-    public function addTag(\App\Entity\Tag $tag)
+    public function addTag(Tag $tag)
     {
         $this->listTags[] = $tag;
 
@@ -296,9 +298,9 @@ class PonthubFile extends Likeable
     /**
      * Remove tags
      *
-     * @param \App\Entity\Tag $tag
+     * @param Tag $tag
      */
-    public function removeTag(\App\Entity\Tag $tag)
+    public function removeTag(Tag $tag)
     {
         $this->listTags->removeElement($tag);
     }
@@ -306,7 +308,7 @@ class PonthubFile extends Likeable
     /**
      * Get tags
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getTags()
     {
@@ -326,10 +328,10 @@ class PonthubFile extends Likeable
     /**
      * Add genres
      *
-     * @param \App\Entity\Genre $genre
+     * @param Genre $genre
      * @return PonthubFile
      */
-    public function addGenre(\App\Entity\Genre $genre)
+    public function addGenre(Genre $genre)
     {
         $this->listGenres[] = $genre;
 
@@ -339,9 +341,9 @@ class PonthubFile extends Likeable
     /**
      * Remove genres
      *
-     * @param \App\Entity\Genre $genre
+     * @param Genre $genre
      */
-    public function removeGenre(\App\Entity\Genre $genre)
+    public function removeGenre(Genre $genre)
     {
         $this->listGenres->removeElement($genre);
     }
@@ -370,10 +372,10 @@ class PonthubFile extends Likeable
     /**
      * Add user
      *
-     * @param \App\Entity\User $user
+     * @param User $user
      * @return PonthubFile
      */
-    public function addUser(\App\Entity\User $user)
+    public function addUser(User $user)
     {
         $this->users[] = $user;
 
@@ -383,9 +385,9 @@ class PonthubFile extends Likeable
     /**
      * Remove users
      *
-     * @param \App\Entity\User $user
+     * @param User $user
      */
-    public function removeUser(\App\Entity\User $user)
+    public function removeUser(User $user)
     {
         $this->users->removeElement($user);
     }
@@ -393,7 +395,7 @@ class PonthubFile extends Likeable
     /**
      * Get users
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getUsers()
     {
