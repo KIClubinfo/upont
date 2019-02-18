@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\User as FOSUser;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -11,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Ici sont stockées les infos primaires dont on a besoin 100% du temps.
  * @JMS\ExclusionPolicy("all")
  */
-class CoreUser extends \FOS\UserBundle\Model\User
+class CoreUser extends FOSUser
 {
     /**
      * @ORM\Id
@@ -102,12 +104,12 @@ class CoreUser extends \FOS\UserBundle\Model\User
 
     protected $preferencesArray = [
         'notif_followed_event' => true,
-        'notif_followed_news'  => true,
-        'notif_news_perso'     => true,
-        'notif_comments'       => true,
-        'notif_shotgun_freed'  => true,
-        'notif_ponthub'        => false,
-        'notif_fixs'           => true,
+        'notif_followed_news' => true,
+        'notif_news_perso' => true,
+        'notif_comments' => true,
+        'notif_shotgun_freed' => true,
+        'notif_ponthub' => false,
+        'notif_fixs' => true,
         'notif_followed_annal' => true,
         //'notif_achievement'    => true,
         //'notif_next_level'     => true
@@ -134,9 +136,20 @@ class CoreUser extends \FOS\UserBundle\Model\User
     }
 
     // On définit des alias pour le slug
-    public function getSlug() { return $this->getUsername(); }
-    public function setSlug($slug) { return $this->setUsername($slug); }
-    public function getName() { return $this->getFirstName().' '.$this->getLastName(); }
+    public function getSlug()
+    {
+        return $this->getUsername();
+    }
+
+    public function setSlug($slug)
+    {
+        return $this->setUsername($slug);
+    }
+
+    public function getName()
+    {
+        return $this->getFirstName() . ' ' . $this->getLastName();
+    }
 
 
 
@@ -148,8 +161,8 @@ class CoreUser extends \FOS\UserBundle\Model\User
      */
     public function __construct()
     {
-        $this->devices = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->clubsNotFollowed = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->devices = new ArrayCollection();
+        $this->clubsNotFollowed = new ArrayCollection();
         parent::__construct();
     }
 
@@ -167,7 +180,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
      * Set firstName
      *
      * @param string $firstName
-     * @return User
+     * @return CoreUser
      */
     public function setFirstName($firstName)
     {
@@ -190,7 +203,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
      * Set lastName
      *
      * @param string $lastName
-     * @return User
+     * @return CoreUser
      */
     public function setLastName($lastName)
     {
@@ -213,7 +226,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
      * Set nickname
      *
      * @param string $nickname
-     * @return User
+     * @return CoreUser
      */
     public function setNickname($nickname)
     {
@@ -225,10 +238,10 @@ class CoreUser extends \FOS\UserBundle\Model\User
     /**
      * Add group
      *
-     * @param \App\Entity\User $group
-     * @return Comment
+     * @param Group $group
+     * @return CoreUser
      */
-    public function addGroupUser(\App\Entity\Group $group)
+    public function addGroupUser(Group $group)
     {
         $this->addGroup($group);
         $group->addUser($this);
@@ -239,9 +252,9 @@ class CoreUser extends \FOS\UserBundle\Model\User
     /**
      * Remove group
      *
-     * @param \App\Entity\User $group
+     * @param Group $group
      */
-    public function removeGroupUser(\App\Entity\Group $group)
+    public function removeGroupUser(Group $group)
     {
         $this->removeGroup($group);
         $group->removeUser($this);
@@ -261,7 +274,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
      * Set lastConnect
      *
      * @param integer $lastConnect
-     * @return User
+     * @return CoreUser
      */
     public function setLastConnect($lastConnect)
     {
@@ -283,10 +296,10 @@ class CoreUser extends \FOS\UserBundle\Model\User
     /**
      * Set image
      *
-     * @param \App\Entity\Image $image
-     * @return User
+     * @param Image $image
+     * @return CoreUser
      */
-    public function setImage(\App\Entity\Image $image = null)
+    public function setImage(Image $image = null)
     {
         $this->image = $image;
 
@@ -296,7 +309,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
     /**
      * Get image
      *
-     * @return \App\Entity\Image
+     * @return Image
      */
     public function getImage()
     {
@@ -306,10 +319,10 @@ class CoreUser extends \FOS\UserBundle\Model\User
     /**
      * Add devices
      *
-     * @param \App\Entity\Device $devices
-     * @return User
+     * @param Device $devices
+     * @return CoreUser
      */
-    public function addDevice(\App\Entity\Device $devices)
+    public function addDevice(Device $devices)
     {
         $this->devices[] = $devices;
 
@@ -319,9 +332,9 @@ class CoreUser extends \FOS\UserBundle\Model\User
     /**
      * Remove devices
      *
-     * @param \App\Entity\Device $devices
+     * @param Device $devices
      */
-    public function removeDevice(\App\Entity\Device $devices)
+    public function removeDevice(Device $devices)
     {
         $this->devices->removeElement($devices);
     }
@@ -339,10 +352,10 @@ class CoreUser extends \FOS\UserBundle\Model\User
     /**
      * Add Club Not Followed
      *
-     * @param \App\Entity\Club $club
-     * @return User
+     * @param Club $club
+     * @return CoreUser
      */
-    public function addClubNotFollowed(\App\Entity\Club $club)
+    public function addClubNotFollowed(Club $club)
     {
         $this->clubsNotFollowed[] = $club;
 
@@ -352,9 +365,9 @@ class CoreUser extends \FOS\UserBundle\Model\User
     /**
      * Remove Club Not Followed
      *
-     * @param \App\Entity\Club $club
+     * @param Club $club
      */
-    public function removeClubNotFollowed(\App\Entity\Club $club)
+    public function removeClubNotFollowed(Club $club)
     {
         $this->clubsNotFollowed->removeElement($club);
     }
@@ -415,7 +428,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
      * Set token
      *
      * @param string $token
-     * @return User
+     * @return CoreUser
      */
     public function setToken($token)
     {
@@ -444,7 +457,7 @@ class CoreUser extends \FOS\UserBundle\Model\User
 
     /**
      * @param string $loginMethod
-     * @return User
+     * @return CoreUser
      */
     public function setLoginMethod($loginMethod)
     {
