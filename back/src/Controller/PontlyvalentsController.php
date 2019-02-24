@@ -51,7 +51,7 @@ class PontlyvalentsController extends ResourceController
      */
     public function getPontlyvalentsAction(PaginateHelper $paginateHelper)
     {
-        if ($this->is('MODO') || $this->isClubMember('bde')) {
+        if ($this->is('MODO')) {
             $filters = [];
         } else {
             $filters = [
