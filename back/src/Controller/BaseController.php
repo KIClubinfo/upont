@@ -103,9 +103,10 @@ abstract class BaseController extends Controller
      * @param string $class Le nom de la classe sur laquelle se baser
      * @param string $bundle Le nom du bundle dans lequel se trouve cette classe
      */
-    public function initialize($class, $form)
+    public function initialize($class, $form = null)
     {
         $this->class = $class;
+
 
         $this->manager = $this->getDoctrine()->getManager();
         $this->repository = $this->manager->getRepository($class);
