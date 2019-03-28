@@ -56,5 +56,5 @@
     "raven-js": "^3.21.0",
     "typeface-open-sans": "^0.0.45"
   },
-  "browserslist": "last 2 versions"
+  "browserslist": "defaults"
 }
