@@ -149,43 +149,38 @@ class BeersController extends ResourceController
      *     summary="Modifie une bière",
      *     @SWG\Parameter(
      *         name="name",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="price",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="number",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="alcohol",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="number",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="volume",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="number",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="image",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Response(
      *         response="204",

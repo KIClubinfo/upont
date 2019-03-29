@@ -89,195 +89,171 @@ class UsersController extends ResourceController
      *     summary="Modifie un utilisateur",
      *     @SWG\Parameter(
      *         name="email",
-     *         in="body",
+     *         in="formData",
      *         description="form.email",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="username",
-     *         in="body",
+     *         in="formData",
      *         description="form.username",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="plainPassword",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
-     *         type="object (RepeatedType)",
-     *         schema=""
+     *         type="string",
      *     ),
      *     @SWG\Parameter(
      *         name="gender",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="firstName",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="lastName",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="nickname",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="promo",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="department",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="origin",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="nationality",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="location",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="phone",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="skype",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="statsFoyer",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="boolean",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="statsPonthub",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="boolean",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="statsFacegame",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="boolean",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="allowedBde",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="boolean",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="allowedBds",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="boolean",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="tour",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="boolean",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="image",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="mailEvent",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="boolean",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="mailModification",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="boolean",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="mailShotgun",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="boolean",
-     *         schema=""
      *     ),
      *     @SWG\Response(
      *         response="204",

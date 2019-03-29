@@ -188,11 +188,10 @@ class PontlyvalentsController extends ResourceController
      *     summary="Supprime un commentaire",
      *     @SWG\Parameter(
      *         name="text",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Response(
      *         response="204",

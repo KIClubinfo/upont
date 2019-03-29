@@ -158,51 +158,45 @@ class NewsitemsController extends ResourceController
      *     summary="Modifie une news",
      *     @SWG\Parameter(
      *         name="name",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="text",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="sendMail",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="boolean",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="authorClub",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="image",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="uploadedFiles",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="file",
-     *         schema=""
      *     ),
      *     @SWG\Response(
      *         response="204",

@@ -79,43 +79,38 @@ class OthersController extends PonthubFileController
      *     summary="Modifie un fichier autre",
      *     @SWG\Parameter(
      *         name="name",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="description",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="genres",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="tags",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="image",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Response(
      *         response="204",

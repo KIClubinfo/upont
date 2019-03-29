@@ -79,67 +79,59 @@ class GamesController extends PonthubFileController
      *     summary="Modifie un jeu",
      *     @SWG\Parameter(
      *         name="name",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="description",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="genres",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="tags",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="year",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="integer",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="studio",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="os",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="image",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Response(
      *         response="204",

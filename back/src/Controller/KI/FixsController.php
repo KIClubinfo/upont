@@ -140,35 +140,31 @@ class FixsController extends ResourceController
      *     summary="Modifie une tâche de dépannage",
      *     @SWG\Parameter(
      *         name="name",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="problem",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="fix",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="boolean",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="status",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Response(
      *         response="204",

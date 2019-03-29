@@ -119,13 +119,6 @@ class CoursesController extends ResourceController
      *         type="string"
      *     ),
      *     @SWG\Parameter(
-     *         name="groups",
-     *         in="formData",
-     *         description="",
-     *         required=false,
-     *         type="array of strings"
-     *     ),
-     *     @SWG\Parameter(
      *         name="department",
      *         in="formData",
      *         description="",
@@ -186,51 +179,38 @@ class CoursesController extends ResourceController
      *     summary="Modifie un cours",
      *     @SWG\Parameter(
      *         name="name",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
-     *     ),
-     *     @SWG\Parameter(
-     *         name="groups",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         type="array of strings",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="department",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="semester",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="ects",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="number",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="active",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="boolean",
-     *         schema=""
      *     ),
      *     @SWG\Response(
      *         response="204",

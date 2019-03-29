@@ -117,27 +117,24 @@ class FacegamesController extends ResourceController
      *     summary="Modifie un jeu",
      *     @SWG\Parameter(
      *         name="promo",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="duration",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="integer",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="hardcore",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="boolean",
-     *         schema=""
      *     ),
      *     @SWG\Response(
      *         response="204",

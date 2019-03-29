@@ -197,19 +197,17 @@ class ExercicesController extends ResourceController
      *     summary="Modifie une annale",
      *     @SWG\Parameter(
      *         name="name",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="file",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="file",
-     *         schema=""
      *     ),
      *     @SWG\Response(
      *         response="204",

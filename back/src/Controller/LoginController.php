@@ -32,11 +32,10 @@ class LoginController extends BaseController
      *     summary="Retourne les utilisateurs étant connectés",
      *     @SWG\Parameter(
      *         name="delay",
-     *         in="body",
+     *         in="formData",
      *         description="Temps de l'intervalle considéré en minutes (30 minutes par défaut)",
      *         required=false,
      *         type="integer",
-     *         schema=""
      *     ),
      *     @SWG\Response(
      *         response="200",

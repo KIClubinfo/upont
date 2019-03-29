@@ -97,13 +97,6 @@ class GroupsController extends ResourceController
      *         required=false,
      *         type="string"
      *     ),
-     *     @SWG\Parameter(
-     *         name="users",
-     *         in="formData",
-     *         description="",
-     *         required=false,
-     *         type="array of choices"
-     *     ),
      *     @SWG\Response(
      *         response="201",
      *         description="Requête traitée avec succès avec création d’un document"
@@ -151,27 +144,17 @@ class GroupsController extends ResourceController
      *     summary="Modifie un groupe",
      *     @SWG\Parameter(
      *         name="name",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="role",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
-     *     ),
-     *     @SWG\Parameter(
-     *         name="users",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         type="array of choices",
-     *         schema=""
      *     ),
      *     @SWG\Response(
      *         response="204",
@@ -237,30 +220,6 @@ class GroupsController extends ResourceController
      * @Operation(
      *     tags={"Utilisateurs"},
      *     summary="Supprime un groupe",
-     *     @SWG\Parameter(
-     *         name="name",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         type="string",
-     *         schema=""
-     *     ),
-     *     @SWG\Parameter(
-     *         name="role",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         type="string",
-     *         schema=""
-     *     ),
-     *     @SWG\Parameter(
-     *         name="users",
-     *         in="body",
-     *         description="",
-     *         required=false,
-     *         type="array of choices",
-     *         schema=""
-     *     ),
      *     @SWG\Response(
      *         response="204",
      *         description="Requête traitée avec succès mais pas d’information à renvoyer"

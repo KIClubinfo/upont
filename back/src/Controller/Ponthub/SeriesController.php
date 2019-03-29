@@ -79,83 +79,73 @@ class SeriesController extends PonthubFileController
      *     summary="Modifie une série",
      *     @SWG\Parameter(
      *         name="name",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="description",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="actors",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="genres",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="tags",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="duration",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="integer",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="director",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="rating",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="integer",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="year",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="integer",
-     *         schema=""
      *     ),
      *     @SWG\Parameter(
      *         name="image",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Response(
      *         response="204",
@@ -286,11 +276,10 @@ class SeriesController extends PonthubFileController
      *     summary="Modifie un épisode d'une série",
      *     @SWG\Parameter(
      *         name="name",
-     *         in="body",
+     *         in="formData",
      *         description="",
      *         required=false,
      *         type="string",
-     *         schema=""
      *     ),
      *     @SWG\Response(
      *         response="204",
