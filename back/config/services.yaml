@@ -46,7 +46,7 @@ parameters:
                 - '021'
 
         pontlyvalent:
-            open: false
+            open: true
             promo: '020'
 
     ki_core.images.directory: '%kernel.project_dir%/web/uploads/images/'
