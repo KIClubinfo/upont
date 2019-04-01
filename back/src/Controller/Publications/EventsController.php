@@ -375,6 +375,12 @@ class EventsController extends ResourceController
      * @Operation(
      *     tags={"Publications"},
      *     summary="Shotgunne un événement",
+     *     @SWG\Parameter(
+     *         name="motivation",
+     *         in="formData",
+     *         required=true,
+     *         type="string",
+     *     ),
      *     @SWG\Response(
      *         response="201",
      *         description="Requête traitée avec succès avec création d’un document"
