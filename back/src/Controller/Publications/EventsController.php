@@ -3,20 +3,21 @@
 namespace App\Controller\Publications;
 
 use App\Controller\ResourceController;
+use App\Entity\Achievement;
 use App\Entity\Event;
 use App\Entity\EventUser;
-use App\Entity\Achievement;
 use App\Event\AchievementCheckEvent;
 use App\Form\EventType;
 use App\Listener\EventListener;
 use App\Service\NotifyService;
 use Carbon\Carbon;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Routing\Annotation\Route;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 class EventsController extends ResourceController
 {
@@ -27,17 +28,23 @@ class EventsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  resource=true,
-     *  description="Liste les événements",
-     *  output="App\Entity\Event",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Liste les événements",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/events", methods={"GET"})
      */
     public function getEventsAction()
@@ -46,17 +53,27 @@ class EventsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne un événement",
-     *  output="App\Entity\Event",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Retourne un événement",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/events/{slug}", methods={"GET"})
      */
     public function getEventAction($slug)
@@ -67,18 +84,111 @@ class EventsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Crée un événement",
-     *  input="App\Form\EventType",
-     *  output="App\Entity\Event",
-     *  statusCodes={
-     *   201="Requête traitée avec succès avec création d’un document",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Crée un événement",
+     *     @SWG\Parameter(
+     *         name="name",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="text",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="startDate",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="endDate",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="entryMethod",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="shotgunDate",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="shotgunLimit",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="integer"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="shotgunText",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="place",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="sendMail",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="boolean"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="authorClub",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="uploadedFiles",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="file"
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Requête traitée avec succès avec création d’un document"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/events", methods={"POST"})
      */
     public function postEventAction(EventListener $eventListener)
@@ -93,18 +203,115 @@ class EventsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Modifie un événement",
-     *  input="App\Form\EventType",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Modifie un événement",
+     *     @SWG\Parameter(
+     *         name="name",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="text",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="startDate",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="endDate",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="entryMethod",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="shotgunDate",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="shotgunLimit",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="integer",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="shotgunText",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="place",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="sendMail",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="boolean",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="authorClub",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="uploadedFiles",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="file",
+     *     ),
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/events/{slug}", methods={"PATCH"})
      */
     public function patchEventAction(EventListener $eventListener, $slug)
@@ -121,16 +328,27 @@ class EventsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Supprime un événement",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Supprime un événement",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/events/{slug}", methods={"DELETE"})
      */
     public function deleteEventAction($slug)
@@ -153,24 +371,27 @@ class EventsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Shotgunne un événement",
-     *  requirements={
-     *   {
-     *    "name"="motivation",
-     *    "dataType"="string",
-     *    "description"="Un texte de motivation"
-     *   }
-     *  },
-     *  output="App\Entity\EventUser",
-     *  statusCodes={
-     *   201="Requête traitée avec succès avec création d’un document",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Shotgunne un événement",
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Requête traitée avec succès avec création d’un document"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/events/{slug}/shotgun", methods={"POST"})
      */
     public function postEventUserAction(Request $request, $slug)
@@ -207,24 +428,31 @@ class EventsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Modifie un shotgun",
-     *  requirements={
-     *   {
-     *    "name"="motivation",
-     *    "dataType"="string",
-     *    "description"="Un texte de motivation"
-     *   }
-     *  },
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Modifie un shotgun",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/events/{slug}/shotgun", methods={"PATCH"})
      */
     public function patchEventUserAction(Request $request, $slug)
@@ -251,16 +479,27 @@ class EventsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Enlève un utilisateur du shotgun",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Enlève un utilisateur du shotgun",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/events/{slug}/shotgun", methods={"DELETE"})
      */
     public function deleteEventUserAction(NotifyService $notifyService, $slug)
@@ -297,16 +536,27 @@ class EventsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne le tableau des utilisateurs ayant réussi le shotgun ainsi que la liste d'attente classée par date de shotgun et le nombre limite de personnes pouvant shotgunner.",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Retourne le tableau des utilisateurs ayant réussi le shotgun ainsi que la liste d'attente classée par date de shotgun et le nombre limite de personnes pouvant shotgunner.",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/events/{slug}/shotgun", methods={"GET"})
      */
     public function getEventUserAction($slug)
@@ -360,7 +610,7 @@ class EventsController extends ResourceController
         // Si on est l'auteur du shotgun, on peut récupérer la liste d'attente
         if ($event->getAuthorUser() == $user) {
             // It's a trap
-            if (Carbon::now() >= $event->getShotgunDate()){
+            if (Carbon::now() >= $event->getShotgunDate()) {
                 $result['success'] = $success;
                 $result['fail'] = $fail;
             } else {
@@ -369,7 +619,7 @@ class EventsController extends ResourceController
             }
         }
 
-        if ($this->is('ADMIN')){
+        if ($this->is('ADMIN')) {
             $result['success'] = $success;
             $result['fail'] = $fail;
         }
@@ -388,16 +638,27 @@ class EventsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Ajoute un utilisateur à l'event",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Ajoute un utilisateur à l'event",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/events/{slug}/attend", methods={"POST"})
      */
     public function attendAction($slug)
@@ -424,16 +685,27 @@ class EventsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retire la demande d'inscription",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Retire la demande d'inscription",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/events/{slug}/attend", methods={"DELETE"})
      */
     public function noAttendAction($slug)
@@ -452,16 +724,27 @@ class EventsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Ajoute un utilisateur qui ne vient pas à l'event",
-     *  statusCodes={
-     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Ajoute un utilisateur qui ne vient pas à l'event",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/events/{slug}/decline", methods={"POST"})
      */
     public function addPookieAction($slug)
@@ -484,16 +767,27 @@ class EventsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retire la demande de désinscription",
-     *  statusCodes={
-     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Retire la demande de désinscription",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/events/{slug}/decline", methods={"DELETE"})
      */
     public function removePookieAction($slug)
@@ -512,16 +806,27 @@ class EventsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne la liste des participants à l'événement",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Retourne la liste des participants à l'événement",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/events/{slug}/attendees", methods={"GET"})
      */
     public function getAttendeesAction($slug)
@@ -530,16 +835,27 @@ class EventsController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne la liste des non-participants à l'événement",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Retourne la liste des non-participants à l'événement",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/events/{slug}/pookies", methods={"GET"})
      */
     public function getPookiesAction($slug)

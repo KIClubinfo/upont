@@ -49,7 +49,7 @@ parameters:
             open: true
             promo: '020'
 
-    ki_core.images.directory: '%kernel.root_dir%/../web/uploads/images/'
+    ki_core.images.directory: '%kernel.project_dir%/web/uploads/images/'
     ki_core.images.maxSize: 512000 # Taille maximum des images uploadées en octets
     ki_core.base_url: https://upont.enpc.fr/api/
 

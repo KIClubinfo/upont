@@ -18,7 +18,7 @@ class PontlyvalentRepository extends ServiceEntityRepository
     /**
      * @param User $target
      * @param User $author
-     * @return Pontlyvalent
+     * @return Pontlyvalent[]
      */
     public function getPontlyvalent(User $target, User $author)
     {

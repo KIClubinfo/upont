@@ -16,17 +16,19 @@ use App\Repository\NewsitemRepository;
 use App\Repository\UserRepository;
 use App\Service\TokenService;
 use Carbon\Carbon;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Routing\Annotation\Route;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class OwnController extends ResourceController
 {
+
     public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
@@ -34,15 +36,23 @@ class OwnController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Renvoie des détails sur les achievements et le niveau de l'utilisateur",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Renvoie des détails sur les achievements et le niveau de l'utilisateur",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/own/achievements", methods={"GET"})
      */
     public function getAchievementsAction(Request $request)
@@ -51,15 +61,23 @@ class OwnController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Renvoie des détails sur les achievements et le niveau de l'utilisateur",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Renvoie des détails sur les achievements et le niveau de l'utilisateur",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/users/{slug}/achievements", methods={"GET"})
      */
     public function getUserAchievementsAction(Request $request, $slug)
@@ -159,15 +177,23 @@ class OwnController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne la liste des smartphones enregistrés",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Retourne la liste des smartphones enregistrés",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/own/devices", methods={"GET"})
      */
     public function getDevicesAction()
@@ -180,28 +206,27 @@ class OwnController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Enregistre un smartphone auprès de l'API",
-     *  requirements={
-     *   {
-     *    "name"="device",
-     *    "dataType"="string",
-     *    "description"="Identifiant du téléphone"
-     *   },
-     *   {
-     *    "name"="type",
-     *    "dataType"="string",
-     *    "description"="Android | iOS | WP"
-     *   }
-     *  },
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Enregistre un smartphone auprès de l'API",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/own/devices", methods={"POST"})
      */
     public function postDeviceAction(Request $request)
@@ -232,16 +257,27 @@ class OwnController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Supprime un smartphone enregistré",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Aucun résultat ne correspond au token transmis",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Supprime un smartphone enregistré",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Aucun résultat ne correspond au token transmis"
+     *     )
      * )
+     *
      * @Route("/own/devices/{id}", methods={"DELETE"})
      */
     public function deleteDeviceAction($id)
@@ -263,16 +299,23 @@ class OwnController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Renvoie les notifications non lues de l'utilisateur actuel",
-     *  output="App\Entity\Notification",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Renvoie les notifications non lues de l'utilisateur actuel",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/own/notifications", methods={"GET"})
      */
     public function getNotificationsAction()
@@ -309,16 +352,23 @@ class OwnController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Renvoie la liste des clubs suivis",
-     *  output="App\Entity\Club",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Renvoie la liste des clubs suivis",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/own/followed", methods={"GET"})
      */
     public function getFollowedAction()
@@ -344,16 +394,23 @@ class OwnController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Renvoie la liste des évènements suivis et persos",
-     *  output="App\Entity\Event",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Renvoie la liste des évènements suivis et persos",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/own/events", methods={"GET"})
      */
     public function getOwnEventsAction(Request $request, UserRepository $userRepository)
@@ -393,15 +450,23 @@ class OwnController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Renvoie le calendrier pour la période demandée (liste des cours et évènements suivis)",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Renvoie le calendrier pour la période demandée (liste des cours et évènements suivis)",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/own/calendar", methods={"GET"})
      * @param Request $request
      * @param UserRepository $userRepository
@@ -446,16 +511,23 @@ class OwnController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Renvoie la liste des news suivies",
-     *  output="App\Entity\Newsitem",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Renvoie la liste des news suivies",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/own/newsitems", methods={"GET"})
      * @param NewsitemRepository $newsitemRepository
      * @param PaginateHelper $paginateHelper
@@ -471,16 +543,23 @@ class OwnController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Renvoie la liste des cours suivis",
-     *  output="App\Entity\Course",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Renvoie la liste des cours suivis",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/own/courses", methods={"GET"})
      */
     public function getOwnCoursesAction()
@@ -496,16 +575,23 @@ class OwnController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Renvoie la liste des prochains cours de l'utilisateur",
-     *  output="App\Entity\Courseitem",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Renvoie la liste des prochains cours de l'utilisateur",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/own/courseitems", methods={"GET"})
      */
     public function getCourseitemsAction()
@@ -514,28 +600,27 @@ class OwnController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Change ou ajoute une préférence",
-     *  requirements={
-     *   {
-     *    "name"="key",
-     *    "dataType"="string",
-     *    "description"="Préférence éditée ou changée"
-     *   },
-     *   {
-     *    "name"="value",
-     *    "dataType"="string",
-     *    "description"="Valeur de la préférence"
-     *   }
-     *  },
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d'information à renvoyer",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Change ou ajoute une préférence",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d'information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/own/preferences", methods={"PATCH"})
      */
     public function changePreferenceAction(Request $request)
@@ -557,23 +642,27 @@ class OwnController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Supprime un préférence",
-     *  requirements={
-     *   {
-     *    "name"="key",
-     *    "dataType"="string",
-     *    "description"="Préférence supprimée"
-     *   }
-     *  },
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Supprime un préférence",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/own/preferences", methods={"DELETE"})
      */
     public function removePreferenceAction(Request $request)
@@ -596,16 +685,23 @@ class OwnController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Renvoie les préférences de l'utilisateur courant",
-     *  output="array",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Renvoie les préférences de l'utilisateur courant",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/own/preferences", methods={"GET"})
      */
     public function getPreferencesAction()
@@ -615,15 +711,23 @@ class OwnController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Crée un token si non existant et le retourne",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Crée un token si non existant et le retourne",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/own/token", methods={"GET"})
      */
     public function getTokenAction(TokenService $tokenService)
@@ -634,16 +738,23 @@ class OwnController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Renvoie la liste des dépannages demandés par l'utilisateur",
-     *  output="App\Entity\Fix",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Renvoie la liste des dépannages demandés par l'utilisateur",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/own/fixs", methods={"GET"})
      */
     public function getOwnFixsAction(FixRepository $fixRepository, PaginateHelper $paginateHelper)
@@ -659,16 +770,23 @@ class OwnController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Renvoie l'utilisateur actuel",
-     *  output="App\Entity\User",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Renvoie l'utilisateur actuel",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/own/user", methods={"GET"})
      */
     public function getOwnUserAction()
@@ -677,16 +795,23 @@ class OwnController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Renvoie les clubs de l'utilisateur actuel",
-     *  output="App\Entity\ClubUser",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Renvoie les clubs de l'utilisateur actuel",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/own/clubs", methods={"GET"})
      */
     public function getOwnClubsAction()
@@ -695,33 +820,27 @@ class OwnController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Met à jour les informations du compte",
-     *  requirements={
-     *   {
-     *    "name"="old",
-     *    "dataType"="string",
-     *    "description"="L'ancien mot de passe"
-     *   },
-     *   {
-     *    "name"="password",
-     *    "dataType"="string",
-     *    "description"="Le nouveau mot de passe"
-     *   },
-     *   {
-     *    "name"="confirm",
-     *    "dataType"="string",
-     *    "description"="Le mot de passe une seconde fois (confirmation)"
-     *   }
-     *  },
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Utilisateurs"
+     * @Operation(
+     *     tags={"Utilisateurs"},
+     *     summary="Met à jour les informations du compte",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/own/user", methods={"POST"})
      */
     public function postOwnUserAction(Request $request)

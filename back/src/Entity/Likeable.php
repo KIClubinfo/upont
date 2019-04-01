@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
@@ -75,7 +76,7 @@ class Likeable extends LikeClass
     public function __construct()
     {
         parent::__construct();
-        $this->listComments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->listComments = new ArrayCollection();
     }
 
     /**

@@ -3,24 +3,55 @@
 namespace App\Command;
 
 use App\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use App\Repository\UserRepository;
+use App\Service\CurlService;
+use App\Service\ImageService;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
-class PhotoUpdateCommand extends ContainerAwareCommand
+class PhotoUpdateCommand extends Command
 {
     protected $FACEBOOK_API_URL = 'https://graph.facebook.com/v2.10';
+    protected static $defaultName = 'upont:update:photo';
+    /**
+     * @var UserRepository
+     */
+    private $userRepository;
+    /**
+     * @var CurlService
+     */
+    private $curlService;
+    /**
+     * @var ImageService
+     */
+    private $imageService;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager, UserRepository $userRepository, CurlService $curlService, ImageService $imageService)
+    {
+        $this->entityManager = $entityManager;
+        $this->userRepository = $userRepository;
+        $this->curlService = $curlService;
+        $this->imageService = $imageService;
+
+        parent::__construct();
+    }
 
     protected function configure()
     {
         $this
-            ->setName('upont:update:photo')
             ->setDescription('Import missing photos from Facebook for the given promo')
             ->addArgument('promo', InputArgument::REQUIRED, 'The promo whose photos are to be updated.')
             ->addArgument('file', InputArgument::REQUIRED, 'Absolute path to a csv containing facebook_name,facebook_id')
@@ -32,13 +63,9 @@ class PhotoUpdateCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $em = $this->getContainer()->get('doctrine')->getManager();
-        $usersRepo = $this->getContainer()->get('doctrine')->getRepository(User::class);
-        $curlService = $this->getContainer()->get('ki_core.service.curl');
-        $imageService = $this->getContainer()->get('ki_core.service.image');
         $questionHelper = $this->getHelper('question');
         $isPreview = $input->getOption('preview');
-        $users = $usersRepo->findByPromo($input->getArgument('promo'));
+        $users = $this->userRepository->findByPromo($input->getArgument('promo'));
         $question = new ConfirmationQuestion('Update? ', false, '/^y/i');
         $serializer = new Serializer([new ObjectNormalizer()], [new CsvEncoder()]);
         $csvData = $serializer->decode(file_get_contents($input->getArgument('file')), 'csv');
@@ -77,15 +104,15 @@ class PhotoUpdateCommand extends ContainerAwareCommand
                         }
                         if (!$isPreview) {
                             $url = '/' . $bestMatch['id'] . '/picture?width=9999&redirect=false';
-                            $dataImage = json_decode($curlService->curl($this->FACEBOOK_API_URL . $url), true);
-                            $image = $imageService->upload($dataImage['data']['url'], true);
+                            $dataImage = json_decode($this->curlService->curl($this->FACEBOOK_API_URL . $url), true);
+                            $image = $this->imageService->upload($dataImage['data']['url'], true);
                             $user->setImage($image);
                         }
                     }
                 } else {
                     $notFoundCount++;
                 }
-                $em->flush();
+                $this->entityManager->flush();
             }
         }
         $output->writeln([

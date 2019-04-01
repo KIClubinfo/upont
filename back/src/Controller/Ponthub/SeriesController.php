@@ -5,10 +5,11 @@ namespace App\Controller\Ponthub;
 use App\Entity\Episode;
 use App\Entity\Serie;
 use App\Form\SerieType;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Operation;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Routing\Annotation\Route;
+use Swagger\Annotations as SWG;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 class SeriesController extends PonthubFileController
 {
@@ -19,17 +20,23 @@ class SeriesController extends PonthubFileController
     }
 
     /**
-     * @ApiDoc(
-     *  resource=true,
-     *  description="Liste les séries",
-     *  output="App\Entity\Serie",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Ponthub"
+     * @Operation(
+     *     tags={"Ponthub"},
+     *     summary="Liste les séries",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/series", methods={"GET"})
      */
     public function getSeriesAction()
@@ -38,17 +45,27 @@ class SeriesController extends PonthubFileController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne une série",
-     *  output="App\Entity\Serie",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Ponthub"
+     * @Operation(
+     *     tags={"Ponthub"},
+     *     summary="Retourne une série",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/series/{slug}", methods={"GET"})
      */
     public function getSerieAction(Serie $serie)
@@ -57,18 +74,101 @@ class SeriesController extends PonthubFileController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Modifie une série",
-     *  input="App\Form\SerieType",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Ponthub"
+     * @Operation(
+     *     tags={"Ponthub"},
+     *     summary="Modifie une série",
+     *     @SWG\Parameter(
+     *         name="name",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="description",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="actors",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="genres",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="tags",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="duration",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="integer",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="director",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="rating",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="integer",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="year",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="integer",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="image",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/series/{slug}", methods={"PATCH"})
      */
     public function patchSerieAction(Serie $serie)
@@ -79,16 +179,27 @@ class SeriesController extends PonthubFileController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Supprime une série",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Supprime une série",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/series/{slug}", methods={"DELETE"})
      */
     public function deleteSerieAction(Serie $serie)
@@ -99,17 +210,27 @@ class SeriesController extends PonthubFileController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Liste les épisodes d'une série",
-     *  output="App\Entity\Episode",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Ponthub"
+     * @Operation(
+     *     tags={"Ponthub"},
+     *     summary="Liste les épisodes d'une série",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/series/{slug}/episodes", methods={"GET"})
      */
     public function getSerieEpisodesAction(Serie $serie)
@@ -120,17 +241,27 @@ class SeriesController extends PonthubFileController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne un épisode d'une série",
-     *  output="App\Entity\Episode",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Ponthub"
+     * @Operation(
+     *     tags={"Ponthub"},
+     *     summary="Retourne un épisode d'une série",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/series/{slug}/episodes/{episode_slug}", methods={"GET"})
      * @ParamConverter("episode", options={"mapping": {"episode_slug": "slug"}})
      */
@@ -140,18 +271,38 @@ class SeriesController extends PonthubFileController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Modifie un épisode d'une série",
-     *  input="App\Form\EpisodeType",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Ponthub"
+     * @Operation(
+     *     tags={"Ponthub"},
+     *     summary="Modifie un épisode d'une série",
+     *     @SWG\Parameter(
+     *         name="name",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/series/{slug}/episodes/{episode_slug}", methods={"PATCH"})
      * @ParamConverter("episode", options={"mapping": {"episode_slug": "slug"}})
      */
@@ -163,16 +314,27 @@ class SeriesController extends PonthubFileController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Télécharge un fichier sur Ponthub, et log le téléchargement",
-     *  statusCodes={
-     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Ponthub"
+     * @Operation(
+     *     tags={"Ponthub"},
+     *     summary="Télécharge un fichier sur Ponthub, et log le téléchargement",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/series/{slug}/episodes/{episode_slug}/download", methods={"GET"})
      * @ParamConverter("episode", options={"mapping": {"episode_slug": "slug"}})
      */

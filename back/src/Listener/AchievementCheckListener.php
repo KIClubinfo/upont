@@ -2,13 +2,13 @@
 
 namespace App\Listener;
 
-use App\Entity\Club;
-use App\Entity\ClubUser;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Achievement;
 use App\Entity\AchievementUser;
+use App\Entity\Club;
+use App\Entity\ClubUser;
 use App\Entity\User;
 use App\Event\AchievementCheckEvent;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -33,7 +33,7 @@ class AchievementCheckListener
         $token = $this->tokenStorage->getToken();
         $this->user = $token === null ? null : $token->getUser();
 
-        if ($this->user !== null) {
+        if ($this->user !== null && $this->user !== 'anon.') {
             $this->loadUser($this->user);
         }
     }

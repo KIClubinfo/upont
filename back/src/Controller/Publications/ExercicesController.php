@@ -8,14 +8,15 @@ use App\Entity\Exercice;
 use App\Form\CourseType;
 use App\Form\ExerciceType;
 use App\Listener\ExerciceListener;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Nelmio\ApiDocBundle\Annotation\Operation;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Routing\Annotation\Route;
+use Swagger\Annotations as SWG;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 class ExercicesController extends ResourceController
 {
@@ -26,17 +27,23 @@ class ExercicesController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  resource=true,
-     *  description="Liste les annales",
-     *  output="App\Entity\Exercice",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Liste les annales",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/courses/{slug}/exercices", methods={"GET"})
      */
     public function getCourseExercicesAction(Course $course)
@@ -47,17 +54,27 @@ class ExercicesController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne une annale",
-     *  output="App\Entity\Exercice",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Retourne une annale",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/courses/{slug}/exercices/{exercice_slug}", methods={"GET"})
      * @ParamConverter("exercice", options={"mapping": {"exercice_slug": "slug"}})
      */
@@ -67,17 +84,27 @@ class ExercicesController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Télécharge une annale au format PDF",
-     *  output="App\Entity\Exercice",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée"
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Télécharge une annale au format PDF",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/courses/{slug}/exercices/{exercice_slug}/download", methods={"GET"})
      * @ParamConverter("exercice", options={"mapping": {"exercice_slug": "slug"}})
      */
@@ -103,18 +130,41 @@ class ExercicesController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Crée une annale",
-     *  input="App\Form\ExerciceType",
-     *  output="App\Entity\Exercice",
-     *  statusCodes={
-     *   201="Requête traitée avec succès avec création d’un document",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Crée une annale",
+     *     @SWG\Parameter(
+     *         name="name",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="file",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="file"
+     *     ),
+     *     @SWG\Response(
+     *         response="201",
+     *         description="Requête traitée avec succès avec création d’un document"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/courses/{slug}/exercices", methods={"POST"})
      */
     public function postCourseExerciceAction(Course $course, Request $request, ExerciceListener $exerciceListener)
@@ -142,18 +192,45 @@ class ExercicesController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Modifie une annale",
-     *  input="App\Form\ExerciceType",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Modifie une annale",
+     *     @SWG\Parameter(
+     *         name="name",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="file",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="file",
+     *     ),
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/courses/{slug}/exercices/{exercice_slug}", methods={"PATCH"})
      * @ParamConverter("exercice", options={"mapping": {"exercice_slug": "slug"}})
      */
@@ -165,16 +242,27 @@ class ExercicesController extends ResourceController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Supprime une annale",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Supprime une annale",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/courses/{slug}/exercices/{exercice_slug}", methods={"DELETE"})
      * @ParamConverter("exercice", options={"mapping": {"exercice_slug": "slug"}})
      */

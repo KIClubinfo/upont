@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Likeable;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-
+use App\Entity\LikeClass;
+use Exception;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -23,16 +25,18 @@ class LikeableController extends BaseController
         }
 
         if (!$item instanceof Likeable) {
-            return;
+            return false;
         }
+
+        return true;
     }
 
     /**
      *  Sert à initialiser le controleur avec la bonne classe quand il est appelé
      *  par les routes génériques de like. Par exemple on veut l'initialiser
      *  avec la classe Newsitems si la route est /newsitems/{slug}/like
-     *  @param  string $object Le type d'objet à initialiser
-     *  @throws Exception Si l'objet ne correspond à aucun entité likeable connue
+     * @param  string $object Le type d'objet à initialiser
+     * @throws Exception Si l'objet ne correspond à aucun entité likeable connue
      */
     protected function autoInitialize($object)
     {
@@ -41,10 +45,10 @@ class LikeableController extends BaseController
 
         foreach ($likeables as $class) {
             if ($class === $className) {
-                return $this->initialize('App\\Entity\\' . $class, 'App\\Form\\'  . $class . 'Type');
+                return $this->initialize('App\\Entity\\' . $class, 'App\\Form\\' . $class . 'Type');
             }
         }
-        throw new \Exception('Initialisation impossible du controleur');
+        throw new Exception('Initialisation impossible du controleur');
     }
 
     /**
@@ -124,17 +128,28 @@ class LikeableController extends BaseController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Like",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette View",
-     *   403="Pas les droits suffisants pour effectuer cette View",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Likeable"
+     * @Operation(
+     *     tags={"Likeable"},
+     *     summary="Like",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
-     * @Route("/{object}/{slug}/like", methods={"POST"})
+     *
+     * @Route("/{object}/{slug}/like", name="like_object", methods={"POST"})
      */
     public function likeAction($object, $slug)
     {
@@ -144,17 +159,28 @@ class LikeableController extends BaseController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Dislike",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette View",
-     *   403="Pas les droits suffisants pour effectuer cette View",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Likeable"
+     * @Operation(
+     *     tags={"Likeable"},
+     *     summary="Dislike",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
-     * @Route("/{object}/{slug}/dislike", methods={"POST"})
+     *
+     * @Route("/{object}/{slug}/dislike", name="dislike_object", methods={"POST"})
      */
     public function dislikeAction($object, $slug)
     {
@@ -164,17 +190,28 @@ class LikeableController extends BaseController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Enlève son like",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette View",
-     *   403="Pas les droits suffisants pour effectuer cette View",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Likeable"
+     * @Operation(
+     *     tags={"Likeable"},
+     *     summary="Enlève son like",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
-     * @Route("/{object}/{slug}/like", methods={"DELETE"})
+     *
+     * @Route("/{object}/{slug}/like", name="unlike_object", methods={"DELETE"})
      */
     public function deleteLikeAction($object, $slug)
     {
@@ -184,17 +221,28 @@ class LikeableController extends BaseController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Enlève son dislike",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette View",
-     *   403="Pas les droits suffisants pour effectuer cette View",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Likeable"
+     * @Operation(
+     *     tags={"Likeable"},
+     *     summary="Enlève son dislike",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
-     * @Route("/{object}/{slug}/dislike", methods={"DELETE"})
+     *
+     * @Route("/{object}/{slug}/dislike", name="undislike_object", methods={"DELETE"})
      */
     public function deleteDislikeAction($object, $slug)
     {
@@ -204,17 +252,28 @@ class LikeableController extends BaseController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Like une sous ressource",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette View",
-     *   403="Pas les droits suffisants pour effectuer cette View",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Likeable"
+     * @Operation(
+     *     tags={"Likeable"},
+     *     summary="Like une sous ressource",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
-     * @Route("/{object}/{slug}/{subobject}/{subslug}/like", methods={"POST"})
+     *
+     * @Route("/{object}/{slug}/{subobject}/{subslug}/like", name="like_subobject", methods={"POST"})
      */
     public function likeSubAction($object, $slug, $subobject, $subslug)
     {
@@ -224,17 +283,28 @@ class LikeableController extends BaseController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Dislike une sous ressource",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette View",
-     *   403="Pas les droits suffisants pour effectuer cette View",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Likeable"
+     * @Operation(
+     *     tags={"Likeable"},
+     *     summary="Dislike une sous ressource",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
-     * @Route("/{object}/{slug}/{subobject}/{subslug}/dislike", methods={"POST"})
+     *
+     * @Route("/{object}/{slug}/{subobject}/{subslug}/dislike", name="dislike_subobject", methods={"POST"})
      */
     public function dislikeSubAction($object, $slug, $subobject, $subslug)
     {
@@ -244,17 +314,28 @@ class LikeableController extends BaseController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Enlève son like d'une sous ressource",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette View",
-     *   403="Pas les droits suffisants pour effectuer cette View",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Likeable"
+     * @Operation(
+     *     tags={"Likeable"},
+     *     summary="Enlève son like d'une sous ressource",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
-     * @Route("/{object}/{slug}/{subobject}/{subslug}/like", methods={"DELETE"})
+     *
+     * @Route("/{object}/{slug}/{subobject}/{subslug}/like", name="unlike_subobject", methods={"DELETE"})
      */
     public function deleteLikeSubAction($object, $slug, $subobject, $subslug)
     {
@@ -264,17 +345,28 @@ class LikeableController extends BaseController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Enlève son dislike d'une sous ressource",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette View",
-     *   403="Pas les droits suffisants pour effectuer cette View",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Likeable"
+     * @Operation(
+     *     tags={"Likeable"},
+     *     summary="Enlève son dislike d'une sous ressource",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette View"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
-     * @Route("/{object}/{slug}/{subobject}/{subslug}/dislike", methods={"DELETE"})
+     *
+     * @Route("/{object}/{slug}/{subobject}/{subslug}/dislike", name="undislike_subobject", methods={"DELETE"})
      */
     public function deleteDislikeSubAction($object, $slug, $subobject, $subslug)
     {

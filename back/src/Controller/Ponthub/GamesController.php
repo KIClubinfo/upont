@@ -4,9 +4,10 @@ namespace App\Controller\Ponthub;
 
 use App\Entity\Game;
 use App\Form\GameType;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Routing\Annotation\Route;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 class GamesController extends PonthubFileController
 {
@@ -17,17 +18,23 @@ class GamesController extends PonthubFileController
     }
 
     /**
-     * @ApiDoc(
-     *  resource=true,
-     *  description="Liste les jeux",
-     *  output="App\Entity\Game",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Ponthub"
+     * @Operation(
+     *     tags={"Ponthub"},
+     *     summary="Liste les jeux",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/games", methods={"GET"})
      */
     public function getGamesAction()
@@ -36,17 +43,27 @@ class GamesController extends PonthubFileController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne un jeu",
-     *  output="App\Entity\Game",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Ponthub"
+     * @Operation(
+     *     tags={"Ponthub"},
+     *     summary="Retourne un jeu",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/games/{slug}", methods={"GET"})
      */
     public function getGameAction($slug)
@@ -57,18 +74,87 @@ class GamesController extends PonthubFileController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Modifie un jeu",
-     *  input="App\Form\GameType",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   400="La syntaxe de la requête est erronée",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Ponthub"
+     * @Operation(
+     *     tags={"Ponthub"},
+     *     summary="Modifie un jeu",
+     *     @SWG\Parameter(
+     *         name="name",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="description",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="genres",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="tags",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="year",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="integer",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="studio",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="os",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="image",
+     *         in="formData",
+     *         description="",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/games/{slug}", methods={"PATCH"})
      */
     public function patchGameAction($slug)
@@ -80,16 +166,27 @@ class GamesController extends PonthubFileController
 
 
     /**
-     * @ApiDoc(
-     *  description="Supprime un jeux",
-     *  statusCodes={
-     *   204="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Publications"
+     * @Operation(
+     *     tags={"Publications"},
+     *     summary="Supprime un jeux",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/games/{slug}", methods={"DELETE"})
      */
     public function deleteGameAction($slug)
@@ -100,21 +197,32 @@ class GamesController extends PonthubFileController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Télécharge un fichier sur Ponthub, et log le téléchargement",
-     *  statusCodes={
-     *   200="Requête traitée avec succès mais pas d’information à renvoyer",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   404="Ressource non trouvée",
-     *  },
-     *  section="Ponthub"
+     * @Operation(
+     *     tags={"Ponthub"},
+     *     summary="Télécharge un fichier sur Ponthub, et log le téléchargement",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
      * )
+     *
      * @Route("/games/{slug}/download", methods={"GET"})
      */
     public function downloadGameAction($slug)
     {
-        $item =  $this->getOne($slug, !$this->is('EXTERIEUR'));
+        $item = $this->getOne($slug, !$this->is('EXTERIEUR'));
         return $this->download($item);
     }
 }

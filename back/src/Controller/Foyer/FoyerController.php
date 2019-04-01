@@ -3,14 +3,14 @@
 namespace App\Controller\Foyer;
 
 use App\Controller\BaseController;
-use App\Entity\Transaction;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\TransactionRepository;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Routing\Annotation\Route;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use Swagger\Annotations as SWG;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\Routing\Annotation\Route;
 
 class FoyerController extends BaseController
 {
@@ -22,15 +22,23 @@ class FoyerController extends BaseController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne des statistiques générales sur le Foyer",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Foyer"
+     * @Operation(
+     *     tags={"Foyer"},
+     *     summary="Retourne des statistiques générales sur le Foyer",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/statistics/foyer/dashboard", methods={"GET"})
      */
     public function getFoyerStatisticsDashboardAction(TransactionRepository $transactionRepository)
@@ -50,14 +58,14 @@ class FoyerController extends BaseController
 
         $promoBalances = $transactionRepository->getPromoBalances();
 
-        foreach ($promoBalances as $promoBalance){
+        foreach ($promoBalances as $promoBalance) {
             $statistics['promoBalances']['labels'][] = trim($promoBalance['promo']);
             $statistics['promoBalances']['data'][] = round($promoBalance['promoBalance'], 2);
         }
 
         $soldBeers = $transactionRepository->getSoldBeers();
 
-        foreach ($soldBeers as $soldBeer){
+        foreach ($soldBeers as $soldBeer) {
             $statistics['soldBeers']['labels'][] = trim($soldBeer['name']);
             $statistics['soldBeers']['data'][] = $soldBeer['soldBeer'];
         }
@@ -66,16 +74,27 @@ class FoyerController extends BaseController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne des statistiques Foyer de l'utilisateur",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *   409="La requête ne peut être traitée à l’état actuel, problème de reconnaisance de nom",
-     *  },
-     *  section="Foyer"
+     * @Operation(
+     *     tags={"Foyer"},
+     *     summary="Retourne des statistiques Foyer de l'utilisateur",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="409",
+     *         description="La requête ne peut être traitée à l’état actuel, problème de reconnaisance de nom"
+     *     )
      * )
+     *
      * @Route("/statistics/foyer/{username}", methods={"GET"})
      */
     public function getFoyerStatisticsAction(User $user, TransactionRepository $transactionRepository)
@@ -91,15 +110,23 @@ class FoyerController extends BaseController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne des statistiques générales sur le Foyer",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Foyer"
+     * @Operation(
+     *     tags={"Foyer"},
+     *     summary="Retourne des statistiques générales sur le Foyer",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/statistics/foyer", methods={"GET"})
      */
     public function getFoyerStatisticsMainAction(TransactionRepository $transactionRepository)
@@ -114,15 +141,23 @@ class FoyerController extends BaseController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne le csv des personnes ayant un compte foyer négatif",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Foyer"
+     * @Operation(
+     *     tags={"Foyer"},
+     *     summary="Retourne le csv des personnes ayant un compte foyer négatif",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/foyer/debts", methods={"GET"})
      */
     public function getFoyerDebtsAction()
@@ -149,15 +184,23 @@ class FoyerController extends BaseController
     }
 
     /**
-     * @ApiDoc(
-     *  description="Retourne le csv de la répartition de l'argent par promo",
-     *  statusCodes={
-     *   200="Requête traitée avec succès",
-     *   401="Une authentification est nécessaire pour effectuer cette action",
-     *   403="Pas les droits suffisants pour effectuer cette action",
-     *  },
-     *  section="Foyer"
+     * @Operation(
+     *     tags={"Foyer"},
+     *     summary="Retourne le csv de la répartition de l'argent par promo",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
      * )
+     *
      * @Route("/foyer/promo-balance", methods={"GET"})
      */
     public function getFoyerPromoBalanceAction(TransactionRepository $transactionRepository)
