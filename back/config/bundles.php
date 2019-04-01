@@ -20,4 +20,6 @@ return [
     Sentry\SentryBundle\SentryBundle::class => ['prod' => true],
     Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle::class => ['all' => true],
     Symfony\Bundle\WebServerBundle\WebServerBundle::class => ['dev' => true],
+    Noxlogic\RateLimitBundle\NoxlogicRateLimitBundle::class => ['all' => true],
+    Snc\RedisBundle\SncRedisBundle::class => ['all' => true],
 ];

@@ -12,6 +12,7 @@ use App\Listener\EventListener;
 use App\Service\NotifyService;
 use Carbon\Carbon;
 use Nelmio\ApiDocBundle\Annotation\Operation;
+use Noxlogic\RateLimitBundle\Annotation\RateLimit;
 use Swagger\Annotations as SWG;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -392,6 +393,7 @@ class EventsController extends ResourceController
      *     )
      * )
      *
+     * @RateLimit(limit=3, period=10)
      * @Route("/events/{slug}/shotgun", methods={"POST"})
      */
     public function postEventUserAction(Request $request, $slug)
@@ -412,7 +414,7 @@ class EventsController extends ResourceController
         if (count($userEvent) != 0)
             throw new BadRequestHttpException('Tu es déjà inscrit !');
 
-        //S'il est l'heure, on accepte le shotgun
+        // S'il est l'heure, on accepte le shotgun
         if (Carbon::now() >= $event->getShotgunDate()) {
             $userEvent = new EventUser();
             $userEvent->setEvent($event);

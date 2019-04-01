@@ -35,6 +35,10 @@ services:
     - 127.0.0.1:10102:80
     restart: always
 
+  redis:
+    image: redis:5-alpine
+    restart: always
+
   upont-back:
     image: quay.io/kiclubinfo/upont-back:${TAG:-latest}
     volumes:
@@ -43,8 +47,10 @@ services:
     - upont-uploads:/app/public/uploads:rw
     depends_on:
     - db
+    - redis
     environment:
     - DATABASE_HOST=db
+    - REDIS_URL=redis://redis
     env_file:
     - .env
     restart: always
