@@ -39,7 +39,6 @@ module.exports = {
                             plugins: [require('babel-plugin-angularjs-annotate')],
                         }
                     },
-                    // 'eslint-loader',
                 ],
                 exclude: /node_modules/
             }, {
