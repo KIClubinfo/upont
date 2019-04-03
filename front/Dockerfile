@@ -7,8 +7,8 @@ WORKDIR /app
 RUN apk --no-cache add git
 RUN npm install -g -s --no-progress yarn
 
-COPY .yarnrc package.json yarn.lock /app/
-RUN yarn --dev
+COPY package.json yarn.lock /app/
+RUN yarn --frozen-lockfile
 
 COPY . /app/
 RUN yarn build
