@@ -34,6 +34,9 @@ curl -sL https://getcomposer.org/installer | sudo -E php -- --install-dir=/usr/l
 sudo mv /usr/local/bin/composer.phar /usr/local/bin/composer
 ```
 
+### Setup
+- `cp .env.dist .env`
+
 ### Front
 - Go to `front/`
 - `yarn`
@@ -41,7 +44,6 @@ sudo mv /usr/local/bin/composer.phar /usr/local/bin/composer
 
 ### Back
 - Go to `back/`
-- `cp .env.dist .env`
 - `composer install`
 - `bin/console doctrine:migration:migrate` to create the tables
 - `bin/console doctrine:fixture:load` to load example data
