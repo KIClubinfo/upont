@@ -32,7 +32,7 @@ class ImageServiceTest extends WebTestCase
 
     public function testUploadUrl()
     {
-        $url = 'https://scontent-mrs1-1.xx.fbcdn.net/v/t1.0-9/19275070_1361855813851179_815950941904439796_n.jpg?_nc_cat=109&_nc_ht=scontent-mrs1-1.xx&oh=9a3791cb16f00d64799a504b09e57116&oe=5CB3716F';
+        $url = 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Lady_Shirley_by_Anthony_van_Dyck%2C_c._1622.jpg/387px-Lady_Shirley_by_Anthony_van_Dyck%2C_c._1622.jpg';
         $result = $this->service->uploadFromUrl($url);
         $this->assertTrue($result['image'] !== null);
         $this->assertEquals($result['extension'], 'jpeg');
