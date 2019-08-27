@@ -29,12 +29,13 @@ parameters:
     upont:
         foyer:
             trust:
-                - '020'
+                # - '020'
                 - '021'
+                - '022'
 
         promos:
-            latest: '021'
-            assos: '020'
+            latest: '022'
+            assos: '021'
             all:
                 - '014'
                 - '015'
@@ -44,10 +45,11 @@ parameters:
                 - '019'
                 - '020'
                 - '021'
+                - '022' 
 
         pontlyvalent:
             open: false
-            promo: '020'
+            promo: '021'
 
     ki_core.images.directory: '%kernel.project_dir%/web/uploads/images/'
     ki_core.images.maxSize: 512000 # Taille maximum des images uploadées en octets
