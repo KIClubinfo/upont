@@ -485,7 +485,7 @@ class UsersController extends ResourceController
      *
      * @Route("/import/users", methods={"POST"})
      */
-    public function importUsersAction(Request $request)
+    public function importUsersAction(UserFactory $userFactory, Request $request)
     {
         set_time_limit(3600);
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
@@ -548,7 +548,7 @@ class UsersController extends ResourceController
                         'origin' => $origin,
                     ];
 
-                    $user = $this->get('ki_user.factory.user')->createUser($login, [], $attributes);
+                    $user = $userFactory->createUser($login, [], $attributes);
                 } else {
                     $user->setPromo($promo);
                     $user->setDepartment($department);
