@@ -15,6 +15,7 @@ export const PROMOS = [
     '019',
     '020',
     '021',
+    '022',
 ];
 
 export const DEPARTMENTS = [
