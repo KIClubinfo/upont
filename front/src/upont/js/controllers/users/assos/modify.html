@@ -144,16 +144,16 @@
         <tbody>
             <tr ng-repeat="member in filtered =  (members | promoFilter: promo | orderBy:['priority'])">
                 <td>
-                    <i class="fa fa-remove up-clickable" ng-click="removeMember(member.user)"></i>
-                    <i class="fa fa-pencil up-clickable"
+                    <i class="fa fa-remove up-clickable pointer" ng-click="removeMember(member.user)"></i>
+                    <i class="fa fa-pencil up-clickable pointer"
                        ng-click="editMember(member.user)"
                     ></i>
                     {{ member.user.first_name }} {{ member.user.last_name }}
                 </td>
                 <td>{{ member.role }}</td>
 		<td>
-		    <i class="fa fa-arrow-up up-clickable" ng-hide="$first" ng-click="moveMember(member.user, 'up')"></i>
-		    <i class="fa fa-arrow-down up-clickable" ng-hide="$last" ng-click="moveMember(member.user, 'down')"></i>
+		    <i class="fa fa-arrow-up up-clickable pointer" ng-hide="$first" ng-click="moveMember(member.user, 'up')"></i>
+		    <i class="fa fa-arrow-down up-clickable pointer" ng-hide="$last" ng-click="moveMember(member.user, 'down')"></i>
 		</td>
             </tr>
             <tr ng-hide="filtered.length">
