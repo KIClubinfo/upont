@@ -29,7 +29,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="member in filtered =  (members | promoFilter: promo | orderBy:orderBy:['priority'])">
+                    <tr ng-repeat="member in filtered =  (members | promoFilter: promo | orderBy:['priority'])">
                         <td><span up-user user="member.user">{{ member.user.first_name }} {{ member.user.last_name }}</span></td>
                         <td>{{ member.role }}</td>
                     </tr>

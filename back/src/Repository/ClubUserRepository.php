@@ -19,7 +19,7 @@ class ClubUserRepository extends ServiceEntityRepository
     {
         return $this->getEntityManager()->createQuery('SELECT cu
                 FROM App:ClubUser cu,
-                User user
+                App:User user
                 WHERE cu.club = :club
 	            AND cu.user = user
                 AND user.promo = :promo
@@ -36,7 +36,7 @@ class ClubUserRepository extends ServiceEntityRepository
     {
         return $this->getEntityManager()->createQuery('SELECT cu
                 FROM App:ClubUser cu,
-                User user
+                App:User user
                 WHERE cu.club = :club
 	            AND cu.user = user
                 AND user.promo = :promo
