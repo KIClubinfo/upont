@@ -29,7 +29,6 @@ parameters:
     upont:
         foyer:
             trust:
-                # - '020'
                 - '021'
                 - '022'
 
@@ -45,10 +44,10 @@ parameters:
                 - '019'
                 - '020'
                 - '021'
-                - '022' 
+                - '022'
 
         pontlyvalent:
-            open: false
+            open: true
             promo: '021'
 
     ki_core.images.directory: '%kernel.project_dir%/web/uploads/images/'
