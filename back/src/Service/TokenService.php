@@ -4,14 +4,14 @@ namespace App\Service;
 
 use Doctrine\ORM\EntityManager;
 use App\Entity\User;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class TokenService
 {
     protected $manager;
     protected $tokenStorage;
 
-    public function __construct(EntityManager $manager, TokenStorage $tokenStorage)
+    public function __construct(EntityManager $manager, TokenStorageInterface $tokenStorage)
     {
         $this->manager         = $manager;
         $this->tokenStorage = $tokenStorage;
