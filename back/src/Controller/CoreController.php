@@ -99,6 +99,18 @@ class CoreController extends BaseController
      * @Operation(
      *     tags={"Général"},
      *     summary="Se loger et recevoir un JSON Web Token",
+     *     @SWG\Parameter(
+     *         name="username",
+     *         in="formData",
+     *         required=true,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="password",
+     *         in="formData",
+     *         required=true,
+     *         type="string"
+     *     ),
      *     @SWG\Response(
      *         response="200",
      *         description="Requête traitée avec succès"
@@ -106,10 +118,6 @@ class CoreController extends BaseController
      *     @SWG\Response(
      *         response="401",
      *         description="Mauvaise combinaison username/password ou champ nom rempli"
-     *     ),
-     *     @SWG\Response(
-     *         response="502",
-     *         description="Erreur Proxy : l'utilisateur se connecte pour la première fois, mais le proxy DSI n'est pas configuré"
      *     )
      * )
      *

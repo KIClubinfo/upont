@@ -24,6 +24,11 @@
         <env name="DATABASE_USER" value="upont" />
         <env name="DATABASE_PASSWORD" value="upont" />
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak_vendors" />
+
+        <!-- ###+ snc/redis-bundle ### -->
+        <!-- passwords that contain special characters (@, %, :, +) must be urlencoded -->
+        <env name="REDIS_URL" value="redis://127.0.0.1"/>
+        <!-- ###- snc/redis-bundle ### -->
     </php>
 
     <logging>

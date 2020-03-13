@@ -1,0 +1,4 @@
+noxlogic_rate_limit:
+  storage_engine: redis
+  display_headers: false
+  rate_response_message: null

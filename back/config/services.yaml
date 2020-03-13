@@ -284,4 +284,6 @@ services:
         tags:
             - { name: form.type, alias: user }
 
-    BOMO\IcalBundle\Provider\IcsProvider: '@bomo_ical.ics_provider'
+    App\Listener\RateLimitGenerateKeyListener:
+        tags:
+            - { name: kernel.event_listener, event: ratelimit.generate.key, method: onGenerateKey }

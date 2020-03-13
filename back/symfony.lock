@@ -170,6 +170,9 @@
     "nesbot/carbon": {
         "version": "1.24.2"
     },
+    "noxlogic/ratelimit-bundle": {
+        "version": "1.14.0"
+    },
     "ocramius/proxy-manager": {
         "version": "2.1.1"
     },
@@ -190,6 +193,9 @@
     },
     "phpoption/phpoption": {
         "version": "1.5.0"
+    },
+    "predis/predis": {
+        "version": "v1.1.1"
     },
     "psr/cache": {
         "version": "1.0.1"
@@ -231,6 +237,15 @@
             "branch": "master",
             "version": "1.0",
             "ref": "fa1a2dfc020798cd7076b5419596e72dca07047a"
+        }
+    },
+    "snc/redis-bundle": {
+        "version": "2.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "2.0",
+            "ref": "e9c58bfc414cfb7f06e8e5ae9f589868498f5d6a"
         }
     },
     "stof/doctrine-extensions-bundle": {
