@@ -5,7 +5,7 @@ MAINTAINER Louis TREZZINI <louis.trezzini@ponts.org>
 WORKDIR /app
 
 RUN apk --no-cache add git
-RUN npm install -g -s --no-progress yarn
+RUN npm install yarn
 
 COPY package.json yarn.lock /app/
 RUN yarn --frozen-lockfile
