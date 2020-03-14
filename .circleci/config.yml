@@ -33,7 +33,7 @@ jobs:
       - run: cd back/ && bin/console doctrine:migrations:migrate --no-interaction
       - run: cd back/ && bin/console doctrine:fixtures:load --no-interaction
       - run: mkdir -p ~/phpunit
-      - run: cd back/ && bin/phpunit -c phpunit.xml.circle --log-junit ~/phpunit/junit.xml
+      - run: cd back/ && bin/phpunit -c phpunit.circle.xml --log-junit ~/phpunit/junit.xml
       - run: cd back/ && bash <(curl -s https://codecov.io/bash)
       - store_test_results:
           path: ~/phpunit
