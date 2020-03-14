@@ -4,7 +4,7 @@ namespace App\Event;
 
 use FOS\UserBundle\Model\UserInterface;
 use App\Entity\User;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 class UserNegativeBalanceEvent extends Event
 {

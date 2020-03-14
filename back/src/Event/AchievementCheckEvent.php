@@ -3,7 +3,7 @@
 namespace App\Event;
 
 use App\Entity\Achievement;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 // Lance un check d'achievement avec l'id de l'achievement correspondant
 // Et l'user qui tente d'obtenir l'achievement
