@@ -2,18 +2,17 @@
 
 namespace App\Listener;
 
-use App\Entity\User;
 use App\Event\UserRegistrationEvent;
 use Swift_Mailer;
 use Swift_Message;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Twig\Environment;
 
 class SendMailUserRegistrationListener
 {
     private $swiftMailer;
     private $templatingEngine;
 
-    public function __construct(Swift_Mailer $swiftMailer, EngineInterface $templatingEngine)
+    public function __construct(Swift_Mailer $swiftMailer, Environment $templatingEngine)
     {
         $this->swiftMailer = $swiftMailer;
         $this->templatingEngine = $templatingEngine;

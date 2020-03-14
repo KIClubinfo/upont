@@ -18,23 +18,23 @@ class LoginControllerTest extends WebTestCase
 
     public function testRequestResetting()
     {
-        $client = static::createClient();
-        $client->enableProfiler();
-        $client->request('POST', '/resetting/request', ['username' => 'iqhjioqiosois']);
+        $this->asAnon();
+        $this->client->enableProfiler();
+        $this->client->request('POST', '/resetting/request', ['username' => 'iqhjioqiosois']);
 
         // On vérifie que l'email a été envoyé
-        $mailCollector = $client->getProfile()->getCollector('swiftmailer');
+        $mailCollector = $this->client->getProfile()->getCollector('swiftmailer');
         $this->assertEquals(0, $mailCollector->getMessageCount());
-        $this->assertJsonResponse($client->getResponse(), 404);
+        $this->assertJsonResponse($this->client->getResponse(), 404);
 
-        $client = static::createClient();
-        $client->enableProfiler();
-        $client->request('POST', '/resetting/request', ['username' => 'trancara']);
+        $this->asAnon();
+        $this->client->enableProfiler();
+        $this->client->request('POST', '/resetting/request', ['username' => 'trancara']);
 
         // On vérifie que l'email a été envoyé
-        $mailCollector = $client->getProfile()->getCollector('swiftmailer');
+        $mailCollector = $this->client->getProfile()->getCollector('swiftmailer');
         $this->assertEquals(1, $mailCollector->getMessageCount());
-        $this->assertJsonResponse($client->getResponse(), 204);
+        $this->assertJsonResponse($this->client->getResponse(), 204);
 
         $collectedMessages = $mailCollector->getMessages();
         $message = $collectedMessages[0];
@@ -61,13 +61,13 @@ class LoginControllerTest extends WebTestCase
         $this->assertJsonResponse($this->client->getResponse(), 204);
 
         // On vérifie que le mot de passe a bien été changé
-        $client = static::createClient();
-        $client->request('POST', '/login', ['username' => 'trancara', 'password' => 'azerty']);
-        $this->assertJsonResponse($client->getResponse(), 200, true);
+        $this->asAnon();
+        $this->client->request('POST', '/login', ['username' => 'trancara', 'password' => 'azerty']);
+        $this->assertJsonResponse($this->client->getResponse(), 200, true);
 
         // On remet l'ancien mot de passe
-        $client = static::createClient();
-        $client->request('POST', '/resetting/token/'.$token, ['password' => 'password', 'check' => 'password']);
+        $this->asAnon();
+        $this->client->request('POST', '/resetting/token/'.$token, ['password' => 'password', 'check' => 'password']);
         $this->assertJsonResponse($this->client->getResponse(), 204);
     }
 }

@@ -22,6 +22,7 @@ abstract class WebTestCase extends SymfonyWebTestCase
         // On ne se logge qu'une fois pour tous les tests
         $path = __DIR__ . '/../var/cache/token';
         if (!file_exists($path)) {
+            self::ensureKernelShutdown();
             $client = static::createClient();
             $client->request(
                 'POST',
@@ -45,6 +46,7 @@ abstract class WebTestCase extends SymfonyWebTestCase
     {
         parent::setUp();
 
+        self::ensureKernelShutdown();
         $client = $this->createClient();
         $path = __DIR__ . '/../var/cache/token';
         $client->setServerParameter('HTTP_Authorization', $this->authorizationHeaderPrefix . ' ' . file_get_contents($path));
@@ -77,10 +79,18 @@ abstract class WebTestCase extends SymfonyWebTestCase
 
     public function connect($username, $password)
     {
+        self::ensureKernelShutdown();
         $client = static::createClient();
         $client->request('POST', '/login', ['username' => $username, 'password' => $password]);
         $data = json_decode($client->getResponse()->getContent(), true);
         $client->setServerParameter('HTTP_Authorization', sprintf('%s %s', $this->authorizationHeaderPrefix, $data['token']));
+        $this->client = $client;
+    }
+
+    public function asAnon()
+    {
+        self::ensureKernelShutdown();
+        $client = static::createClient();
         $this->client = $client;
     }
 
@@ -89,10 +99,11 @@ abstract class WebTestCase extends SymfonyWebTestCase
     {
         foreach ($routes as $route) {
             echo "\n" . $route[1] . ' ' . $route[2];
-            if (isset($route[3]))
+            if (isset($route[3])) {
                 $this->client->request($route[1], $route[2], $route[3]);
-            else
+            } else {
                 $this->client->request($route[1], $route[2]);
+            }
             $this->assertJsonResponse($this->client->getResponse(), $route[0]);
         }
     }

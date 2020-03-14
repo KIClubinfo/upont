@@ -8,7 +8,7 @@ class PublicationsSecurityTest extends WebTestCase
     // Vérifie que les routes non firewallées sont utilisables
     public function testFirewall()
     {
-        $this->client = static::createClient();
+        $this->asAnon();
         $routes = [
             [401, 'GET', '/newsitems'],
             [404, 'GET', '/courses/mecanique-des-structures/exercices/test/download'],

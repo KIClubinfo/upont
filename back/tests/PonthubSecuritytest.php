@@ -8,7 +8,7 @@ class PonthubSecurityTest extends WebTestCase
     // Vérifie que les routes non firewallées sont utilisables
     public function testFirewall()
     {
-        $this->client = static::createClient();
+        $this->asAnon();
         $routes = [
             [401, 'GET', '/series/how-i-met-your-mother/episodes/pilot/download'],
         ];

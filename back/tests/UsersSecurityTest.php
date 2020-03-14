@@ -8,7 +8,7 @@ class UsersSecurityTest extends WebTestCase
     // Vérifie que les routes non firewallées sont utilisables
     public function testFirewall()
     {
-        $this->client = static::createClient();
+        $this->asAnon();
         $routes = [
             [200, 'GET', '/clubs'],
             [200, 'GET', '/clubs/ki'],

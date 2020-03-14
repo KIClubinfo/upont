@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -101,8 +102,8 @@ class Notification
      */
     public function __construct($reason, $title, $message, $mode = 'to', $resource = '')
     {
-        $this->recipients = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->reads = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->recipients = new ArrayCollection();
+        $this->reads = new ArrayCollection();
 
         $this->setReason($reason);
         $this->setTitle(strip_tags($title));

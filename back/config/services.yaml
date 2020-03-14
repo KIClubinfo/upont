@@ -201,7 +201,7 @@ services:
     App\Service\MailerService:
         arguments:
             - '@mailer'
-            - '@templating'
+            - '@twig'
 
     # Interface Google Cloud Messages
     App\Service\GcmService:

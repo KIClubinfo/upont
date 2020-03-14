@@ -6,14 +6,14 @@ use App\Entity\User;
 use Swift_Attachment;
 use Swift_Mailer;
 use Swift_Message;
-use Symfony\Bundle\TwigBundle\TwigEngine;
+use Twig\Environment;
 
 class MailerService
 {
     protected $mailer;
     protected $templating;
 
-    public function __construct(Swift_Mailer $mailer, TwigEngine $templating)
+    public function __construct(Swift_Mailer $mailer, Environment $templating)
     {
         $this->mailer     = $mailer;
         $this->templating = $templating;
