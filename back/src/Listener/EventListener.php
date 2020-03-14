@@ -41,8 +41,7 @@ class EventListener
 
         // Si ce n'est pas un event perso, on notifie les utilisateurs suivant le club
         if ($club) {
-            $achievementCheck = new AchievementCheckEvent(Achievement::EVENT_CREATE);
-            $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
+            $this->dispatcher->dispatch(new AchievementCheckEvent(Achievement::EVENT_CREATE));
 
             list($usersPush, $usersMail) = $this->getUsersToNotify($club, false, $event->getSendMail());
 

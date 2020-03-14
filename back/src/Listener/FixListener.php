@@ -34,11 +34,9 @@ class FixListener
 
             // On regarde les achievements
             if ($entity->getFix()) {
-                $achievementCheck = new AchievementCheckEvent(Achievement::BUG_CONTACT);
-                $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
+                $this->dispatcher->dispatch(new AchievementCheckEvent(Achievement::BUG_CONTACT));
             } else {
-                $achievementCheck = new AchievementCheckEvent(Achievement::BUG_REPORT);
-                $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
+                $this->dispatcher->dispatch(new AchievementCheckEvent(Achievement::BUG_REPORT));
             }
         }
     }

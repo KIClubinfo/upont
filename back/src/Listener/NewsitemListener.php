@@ -36,8 +36,7 @@ class NewsitemListener
 
         // Si ce n'est pas un message perso, on notifie les utilisateurs suivant le club
         if ($club) {
-            $achievementCheck = new AchievementCheckEvent(Achievement::NEWS_CREATE);
-            $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
+            $this->dispatcher->dispatch(new AchievementCheckEvent(Achievement::NEWS_CREATE));
 
             list($usersPush, $usersMail) = $this->getUsersToNotify($club, $newsitem->getSendMail());
 

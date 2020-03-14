@@ -677,8 +677,7 @@ class EventsController extends ResourceController
             $this->manager->flush();
 
             $dispatcher = $this->container->get('event_dispatcher');
-            $achievementCheck = new AchievementCheckEvent(Achievement::EVENT_ATTEND);
-            $dispatcher->dispatch('upont.achievement', $achievementCheck);
+            $dispatcher->dispatch(new AchievementCheckEvent(Achievement::EVENT_ATTEND));
 
             return $this->json(null, 204);
         }

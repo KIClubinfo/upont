@@ -66,8 +66,7 @@ class UserFactory
 
         $this->userManager->updateUser($user);
 
-        $userRegistration = new UserRegistrationEvent($user, $attributes);
-        $this->eventDispatcher->dispatch('upont.user_registration', $userRegistration);
+        $this->eventDispatcher->dispatch(new UserRegistrationEvent($user, $attributes));
 
         return $user;
     }

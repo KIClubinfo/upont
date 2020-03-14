@@ -156,7 +156,7 @@ services:
 
     App\Listener\SendMailNegativeBalanceListener:
             tags:
-                - { name: kernel.event_listener, event: upont.negative_balance, method: sendMail }
+                - { name: kernel.event_listener, event: 'App\Event\UserNegativeBalanceEvent', method: sendMail }
 
     App\Selector\ActorsSelector:
         tags:
@@ -243,7 +243,7 @@ services:
     # Écoute les checks d'achievements demandés un peu partout dans le code
     App\Listener\AchievementCheckListener:
         tags:
-            - { name: kernel.event_listener, event: upont.achievement, method: check }
+            - { name: kernel.event_listener, event: 'App\Event\AchievementCheckEvent', method: check }
 
     App\Listener\JWTCreatedListener:
         tags:
@@ -268,7 +268,7 @@ services:
 
     App\Listener\SendMailUserRegistrationListener:
         tags:
-            - { name: kernel.event_listener, event: upont.user_registration, method: sendMail }
+            - { name: kernel.event_listener, event: 'App\Event\UserRegistrationEvent', method: sendMail }
 
 #    App\Listener\FacebookImportUserRegistrationListener:
 #        arguments:
@@ -277,7 +277,7 @@ services:
 #            - '@doctrine.orm.entity_manager'
 #            - '%facebook_token%'
 #        tags:
-#            - { name: kernel.event_listener, event: upont.user_registration, method: facebookImport }
+#            - { name: kernel.event_listener, event: 'App\Event\UserRegistrationEvent', method: facebookImport }
 
     # Sert pour la compatibilité FOSUserBundle
     App\Form\UserType:

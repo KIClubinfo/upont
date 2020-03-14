@@ -109,12 +109,12 @@ class TransactionHelper
 
         if($newBalance < 0){
             if($balance >= 0) {
-                $negativeBalance = new UserNegativeBalanceEvent($user, true);
+                $negativeBalanceEvent = new UserNegativeBalanceEvent($user, true);
             }
             else {
-                $negativeBalance = new UserNegativeBalanceEvent($user, false);
+                $negativeBalanceEvent = new UserNegativeBalanceEvent($user, false);
             }
-            $this->eventDispatcher->dispatch('upont.negative_balance', $negativeBalance);
+            $this->eventDispatcher->dispatch($negativeBalanceEvent);
         }
     }
 

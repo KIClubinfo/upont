@@ -54,8 +54,7 @@ class CourseHelper
         }
         $link->setGroup($group);
 
-        $achievementCheck = new AchievementCheckEvent(Achievement::COURSES);
-        $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
+        $this->dispatcher->dispatch(new AchievementCheckEvent(Achievement::COURSES));
 
         $this->manager->persist($link);
         $this->manager->flush();

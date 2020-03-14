@@ -105,8 +105,7 @@ class LoginController extends BaseController
                 ->setBody($this->renderView('resetting.txt.twig', ['token' => $token, 'name' => $user->getFirstName()]));
             $this->get('mailer')->send($message);
 
-            $achievementCheck = new AchievementCheckEvent(Achievement::PASSWORD, $user);
-            $eventDispatcher->dispatch('upont.achievement', $achievementCheck);
+            $eventDispatcher->dispatch(new AchievementCheckEvent(Achievement::PASSWORD, $user));
 
             return $this->json(null, 204);
         } else

@@ -26,8 +26,7 @@ class ExerciceListener
 
     public function postPersist(Exercice $exercice)
     {
-        $achievementCheck = new AchievementCheckEvent(Achievement::POOKIE);
-        $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
+        $this->dispatcher->dispatch(new AchievementCheckEvent(Achievement::POOKIE));
 
         // On crée une notification
         $course = $exercice->getCourse();

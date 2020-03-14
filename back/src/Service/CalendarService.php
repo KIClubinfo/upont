@@ -74,8 +74,7 @@ class CalendarService
             $calendar->addComponent($calendarEvent);
         }
 
-        $achievementCheck = new AchievementCheckEvent(Achievement::ICS_CALENDAR, $user);
-        $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
+        $this->dispatcher->dispatch(new AchievementCheckEvent(Achievement::ICS_CALENDAR, $user));
 
         return $calendar->render();
     }

@@ -43,27 +43,21 @@ abstract class LoginAuthenticator extends AbstractGuardAuthenticator
         $user = $token->getUser();
 
         // On commence par checker éventuellement l'achievement de login
-        $achievementCheck = new AchievementCheckEvent(Achievement::LOGIN);
-        $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
+        $this->dispatcher->dispatch(new AchievementCheckEvent(Achievement::LOGIN));
 
-        $achievementCheck = new AchievementCheckEvent(Achievement::SPIRIT);
-        $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
+        $this->dispatcher->dispatch(new AchievementCheckEvent(Achievement::SPIRIT));
 
-        $achievementCheck = new AchievementCheckEvent(Achievement::KIEN);
-        $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
+        $this->dispatcher->dispatch(new AchievementCheckEvent(Achievement::KIEN));
 
-        $achievementCheck = new AchievementCheckEvent(Achievement::ADMIN);
-        $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
+        $this->dispatcher->dispatch(new AchievementCheckEvent(Achievement::ADMIN));
 
 
         $balance = $user->getBalance();
         if ($balance !== null) {
             if ($balance < 0) {
-                $achievementCheck = new AchievementCheckEvent(Achievement::FOYER);
-                $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
+                $this->dispatcher->dispatch(new AchievementCheckEvent(Achievement::FOYER));
             } else {
-                $achievementCheck = new AchievementCheckEvent(Achievement::FOYER_BIS);
-                $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
+                $this->dispatcher->dispatch(new AchievementCheckEvent(Achievement::FOYER_BIS));
             }
         }
 

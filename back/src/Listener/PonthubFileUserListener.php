@@ -22,14 +22,9 @@ class PonthubFileUserListener
         $entity = $args->getEntity();
 
         if ($entity instanceof PonthubFileUser) {
-            $achievementCheck = new AchievementCheckEvent(Achievement::DOWNLOADER);
-            $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
-
-            $achievementCheck = new AchievementCheckEvent(Achievement::SUPER_DOWNLOADER);
-            $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
-
-            $achievementCheck = new AchievementCheckEvent(Achievement::ULTIMATE_DOWNLOADER);
-            $this->dispatcher->dispatch('upont.achievement', $achievementCheck);
+            $this->dispatcher->dispatch(new AchievementCheckEvent(Achievement::DOWNLOADER));
+            $this->dispatcher->dispatch(new AchievementCheckEvent(Achievement::SUPER_DOWNLOADER));
+            $this->dispatcher->dispatch(new AchievementCheckEvent(Achievement::ULTIMATE_DOWNLOADER));
         }
     }
 }

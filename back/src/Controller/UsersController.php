@@ -289,8 +289,7 @@ class UsersController extends ResourceController
 
         if ($request->request->has('image')) {
             $dispatcher = $this->container->get('event_dispatcher');
-            $achievementCheck = new AchievementCheckEvent(Achievement::PHOTO);
-            $dispatcher->dispatch('upont.achievement', $achievementCheck);
+            $dispatcher->dispatch(new AchievementCheckEvent(Achievement::PHOTO));
         }
 
         // Un utilisateur peut se modifier lui même
@@ -298,13 +297,11 @@ class UsersController extends ResourceController
         $patchData = $this->patch($slug, $user->getUsername() == $slug);
 
         $dispatcher = $this->get('event_dispatcher');
-        $achievementCheck = new AchievementCheckEvent(Achievement::PROFILE);
-        $dispatcher->dispatch('upont.achievement', $achievementCheck);
+        $dispatcher->dispatch(new AchievementCheckEvent(Achievement::PROFILE));
 
         if ($request->query->has('achievement')) {
             $dispatcher = $this->get('event_dispatcher');
-            $achievementCheck = new AchievementCheckEvent(Achievement::TOUR);
-            $dispatcher->dispatch('upont.achievement', $achievementCheck);
+            $dispatcher->dispatch(new AchievementCheckEvent(Achievement::TOUR));
         }
 
         return $this->formJson($patchData);
