@@ -15,6 +15,7 @@
                 <option>Fermé</option>
             </select>
         </div>
+            <time class="Ticket__date small" title="{{fix.date | date: 'mm:HH dd/MM/yy' }}">{{ fix.date | fromNow }}</time>
 
         <p>{{ fix.problem }}</p>
 
