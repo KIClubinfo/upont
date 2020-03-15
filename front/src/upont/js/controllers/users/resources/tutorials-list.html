@@ -9,7 +9,7 @@
     </div>
 </section>
 
-<section class="Ticket" ng-if="isAdmin">
+<section class="Ticket" ng-if="$root.hasClub('ki')">
     <h2 class="padded">Nouveau tutoriel</h2>
 
     <form class="padded" row wrap autocomplete="off">

@@ -4,7 +4,7 @@
 </div>
     <div ng-bind-html="tuto.text | trustAsHtml"></div>
     <br><br>
-    <div class="padded" flex="25" row="center stretch" ng-if="isAdmin">
+    <div class="padded" flex="25" row="center stretch" ng-if="$root.hasClub('ki')">
         <button class="Button" flex="100" ng-click="editTuto()">Modifier</button>
     </div>
     <div up-likes objet="tuto" url="'tutos/' + tuto.slug"></div>

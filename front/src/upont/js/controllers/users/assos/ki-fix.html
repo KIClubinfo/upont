@@ -14,8 +14,9 @@
                 <option>Résolu</option>
                 <option>Fermé</option>
             </select>
-        </div>
             <time class="Ticket__date small" title="{{fix.date | date: 'mm:HH dd/MM/yy' }}">{{ fix.date | fromNow }}</time>
+            <span class="small" up-user user="fix.user">{{ fix.user.nick }}</span>
+        </div>
 
         <p>{{ fix.problem }}</p>
 
