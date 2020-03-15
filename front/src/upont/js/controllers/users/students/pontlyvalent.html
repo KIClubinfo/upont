@@ -75,13 +75,16 @@
             <table class="Table" flex="90">
                 <thead>
                     <tr>
+                        <th flex="10">Promo</th>
                         <th flex="25">Élève</th>
                         <th flex="75">Entrée</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <tr ng-repeat="item in comments | orderBy: ['target.first_name', 'target.last_name'] | filter: {target: {$: searchName}}" ng-hide="item.target.username == $root.username">
+                    <tr ng-repeat="item in comments | orderBy: ['-target.promo', 'target.first_name', 'target.last_name'] | filter: {target: {$: searchName}}" ng-hide="item.target.username == $root.username">
+
+                        <td>{{ item.target.promo }}</td>
                         <td>{{ item.target.first_name }} {{ item.target.last_name }}</td>
                         <td>{{ item.text }}</td>
                     </tr>
