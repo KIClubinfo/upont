@@ -17,6 +17,7 @@ class BeerType extends AbstractType
             ->add('price')
             ->add('alcohol')
             ->add('volume')
+            ->add('stock')
             ->add('image', ImageSelector::class)
         ;
     }

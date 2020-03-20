@@ -36,6 +36,38 @@ class TransactionHelper
     }
 
     /**
+     * Réceptionne une bière
+     * @param string $beerSlug
+     * param float $amount
+     * @return integer $newStock
+     * @throws NotFoundHttpException Si la bière n'est pas trouvée
+     */
+    public function addDeliveryTransaction($beerSlug, $amount, $number)
+    {
+        $beer = $this->beerRepository->findOneBySlug($beerSlug);
+        if (!$beer instanceOf Beer) {
+            throw new NotFoundHttpException('Bière non trouvée');
+        }
+
+        $amount = round($amount, 2);
+
+        if (!$amount === 0) {
+            // TODO bière gratuite ?
+            throw new BadRequestHttpException('Bière gratuite ?');
+        }
+
+        $transaction = new Transaction();
+        $transaction->setBeer($beer);
+        $transaction->setAmount($amount);
+        $transaction->setNumber($number);
+        $this->manager->persist($transaction);
+        $this->manager->flush();
+
+        $this->updateStock($beer, $number);
+        return $transaction->getId();
+    }
+
+    /**
      * Ajoute une conso
      * @param  string $userSlug
      * @param  string $beerSlug
@@ -55,15 +87,20 @@ class TransactionHelper
             throw new NotFoundHttpException('Bière non trouvée');
         }
 
-        $amount = round(-1*$beer->getPrice(), 2);
+        // TODO grouper les bières dans un panier ?
+        $number = -1;
+
+        $amount = round($number * $beer->getPrice(), 2);
         $transaction = new Transaction();
         $transaction->setUser($user);
         $transaction->setBeer($beer);
         $transaction->setAmount($amount);
+        $transaction->setNumber($number);
         $this->manager->persist($transaction);
         $this->manager->flush();
 
         $this->updateBalance($user, $amount);
+        $this->updateStock($beer, $number);
         return $transaction->getId();
     }
 
@@ -119,6 +156,24 @@ class TransactionHelper
     }
 
     /**
+     * Met à jour le stock d'une bière
+     * @param Beer $beer
+     * @param integer $update
+     * @return float $newStock
+     */
+    public function updateStock(Beer $beer, $update)
+    {
+        $stock = $beer->getStock();
+        $stock = $stock === null ? 0 : $stock;
+        $newStock = $stock + $update;
+
+        $beer->setStock($newStock);
+        $this->manager->flush();
+
+        // TODO avertissement de stock de bière négatif ?
+    }
+
+    /**
      * Recalcule le solde d'un utilisateur à partir de ses transactions
      * @param  User  $user
      * @return float $balance
@@ -135,4 +190,6 @@ class TransactionHelper
         $this->manager->flush();
         return $balance;
     }
+
+    // TODO rebuildStock ? Livraisons depuis l'origine...
 }

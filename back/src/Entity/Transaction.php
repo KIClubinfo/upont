@@ -37,7 +37,15 @@ class Transaction
     protected $amount;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Beer")
+     * Nombre de bières
+     * @ORM\Column(name="number", type="integer", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("integer")
+     */
+    protected $number = 1;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Beer", inversedBy="transactions")
      * @ORM\JoinColumn(nullable=true)
      * @JMS\Expose
      */
@@ -45,7 +53,7 @@ class Transaction
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="transactions")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @JMS\Expose
      */
     private $user;
@@ -109,6 +117,30 @@ class Transaction
     public function setAmount($amount)
     {
         $this->amount = $amount;
+
+        return $this;
+    }
+
+    /**
+     * Get number
+     *
+     * @return integer
+     */
+    public function getNumber()
+    {
+        return $this->number;
+    }
+
+    /**
+     * Set number
+     *
+     * @param integer $number
+     *
+     * @return Transaction
+     */
+    public function setNumber($number)
+    {
+        $this->number = $number;
 
         return $this;
     }

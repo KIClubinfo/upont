@@ -38,11 +38,36 @@ class Beer extends Likeable
     protected $volume;
 
     /**
+     * Nombre en stock
+     * @ORM\Column(name="stock", type="integer", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("integer")
+     */
+    protected $stock = 0;
+
+    /**
+     * Transactions liées à la bière
+     * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="beer")
+     * @Assert\Valid()
+     */
+    protected $transactions;
+
+    /**
      * Logo
      * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist", "remove"})
      * @Assert\Valid()
      */
     protected $image;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->deliveries = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * @JMS\VirtualProperty()
@@ -122,6 +147,30 @@ class Beer extends Likeable
     public function getVolume()
     {
         return $this->volume;
+    }
+
+    /**
+     * Set stock
+     *
+     * @param integer $stock
+     *
+     * @return Beer
+     */
+    public function setStock($stock)
+    {
+        $this->stock = $stock;
+
+        return $this;
+    }
+
+    /**
+     * Get stock
+     *
+     * @return integer
+     */
+    public function getStock()
+    {
+        return $this->stock;
     }
 
     /**

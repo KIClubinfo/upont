@@ -37,8 +37,8 @@ class BeerHelper
 
         $counts = [];
         foreach ($transactions as $transaction) {
-            // On peut tomber sur une entrée "compte crédité"
-            if ($transaction->getBeer() === null) {
+            // On peut tomber sur un crédit ou une livraison
+            if ($transaction->getBeer() === null or $transaction->getUser() === null) {
                 continue;
             }
             $beerId = $transaction->getBeer()->getId();
@@ -79,7 +79,7 @@ class BeerHelper
         foreach ($transactions as $transaction) {
             $user = $transaction->getUser();
 
-            if (!in_array($user, $users)) {
+            if (!in_array($user, $users) && !$user === null) {
                 $users[] = $user;
             }
             // On ne veut que 48 résultats
