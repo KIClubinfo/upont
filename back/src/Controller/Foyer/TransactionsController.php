@@ -204,17 +204,17 @@ class TransactionsController extends ResourceController
         $number = $request->request->get('number');
         $hasNumber = !($credit === null);
 
-        if ($hasUser and $hasBeer and $hasCredit) {
+        if ($hasUser && $hasBeer && $hasCredit) {
             throw new BadRequestHttpException('Trop d\'info pour une transaction');
         }
 
-        if ($hasUser and $hasBeer) {
+        if ($hasUser && $hasBeer) {
             // conso
             $id = $transactionHelper->addBeerTransaction($user, $beer);
-        } else if ($hasUser and $hasCredit) {
+        } else if ($hasUser && $hasCredit) {
             // crédit
             $id = $transactionHelper->addCreditTransaction($user, $credit);
-        } else if ($hasBeer and $hasCredit and $hasNumber) {
+        } else if ($hasBeer && $hasCredit && $hasNumber) {
             // livraison
             $id = $transactionHelper->addDeliveryTransaction($beer, $credit, $number);
         } else {

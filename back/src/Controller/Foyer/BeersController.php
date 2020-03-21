@@ -281,10 +281,11 @@ class BeersController extends ResourceController
      *
      * @Route("/beers/{slug}/active", methods={"PATCH"})
      */
-    public function patchBeerActiveAction($slug)
+    public function activeBeerAction($slug)
     {
         $beer = $this->findBySlug($slug);
-        $beer->active = !$beer->active;
-        return $this->formJson($active);
+        $beer->setActive(!$beer->getActive());
+        $this->manager->flush();
+        return $this->json(null, 204);
     }
 }

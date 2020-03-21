@@ -74,7 +74,7 @@ class Beer extends Likeable
     {
         parent::__construct();
 
-        $this->deliveries = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->transactions = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
