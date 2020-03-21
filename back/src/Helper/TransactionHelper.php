@@ -88,9 +88,9 @@ class TransactionHelper
         }
 
         // TODO grouper les bières dans un panier ?
-        $number = -1;
+        $number = 1;
 
-        $amount = round($number * $beer->getPrice(), 2);
+        $amount = round(-$number * $beer->getPrice(), 2);
         $transaction = new Transaction();
         $transaction->setUser($user);
         $transaction->setBeer($beer);
@@ -100,7 +100,7 @@ class TransactionHelper
         $this->manager->flush();
 
         $this->updateBalance($user, $amount);
-        $this->updateStock($beer, $number);
+        $this->updateStock($beer, -$number);
         return $transaction->getId();
     }
 

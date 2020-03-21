@@ -202,6 +202,7 @@ class TransactionsController extends ResourceController
         $hasCredit = !($credit === null);
 
         $number = $request->request->get('number');
+        $hasNumber = !($credit === null);
 
         if ($hasUser and $hasBeer and $hasCredit) {
             throw new BadRequestHttpException('Trop d\'info pour une transaction');
