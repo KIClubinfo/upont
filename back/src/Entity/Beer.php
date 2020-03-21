@@ -46,6 +46,14 @@ class Beer extends Likeable
     protected $stock = 0;
 
     /**
+     * Statut de la bière pour l'affichage
+     * @ORM\Column(name="active", type="boolean")
+     * @JMS\Expose
+     * @Assert\Type("boolean")
+     */
+    protected $active = true;
+
+    /**
      * Transactions liées à la bière
      * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="beer")
      * @Assert\Valid()
@@ -171,6 +179,30 @@ class Beer extends Likeable
     public function getStock()
     {
         return $this->stock;
+    }
+
+        /**
+     * Set active
+     *
+     * @param boolean $active
+     *
+     * @return Beer
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean
+     */
+    public function getActive()
+    {
+        return $this->active;
     }
 
     /**

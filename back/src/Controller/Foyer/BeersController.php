@@ -252,4 +252,39 @@ class BeersController extends ResourceController
 
         return $this->json(null, 204);
     }
+
+    /**
+     * @Operation(
+     *     tags={"Foyer"},
+     *     summary="Masque ou affiche une bière",
+     *     @SWG\Response(
+     *         response="204",
+     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *     ),
+     *     @SWG\Response(
+     *         response="400",
+     *         description="La syntaxe de la requête est erronée"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="Ressource non trouvée"
+     *     )
+     * )
+     *
+     * @Route("/beers/{slug}/active", methods={"PATCH"})
+     */
+    public function patchBeerActiveAction($slug)
+    {
+        $beer = $this->findBySlug($slug);
+        $beer->active = !$beer->active;
+        return $this->formJson($active);
+    }
 }
