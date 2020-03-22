@@ -33,7 +33,7 @@ class BeersControllerTest extends WebTestCase
     {
         $this->client->request('PATCH', '/beers/test-kro', ['alcohol' => 100]);
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
 
         $this->client->request('PATCH', '/beers/test-kro', ['alcohol' => 'blah']);
         $response = $this->client->getResponse();

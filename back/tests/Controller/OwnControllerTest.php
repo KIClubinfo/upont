@@ -122,7 +122,7 @@ class OwnControllerTest extends WebTestCase
     {
         $this->client->request('POST', '/own/devices', ['device' => 'sjoajsiohaysahais-asbsksaba7', 'type' => 'iOS']);
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 201);
 
         $this->client->request('POST', '/own/devices', ['device' => 'sjoajsiohaysahais-asbsksaba7', 'type' => 'iOS']);
         $response = $this->client->getResponse();

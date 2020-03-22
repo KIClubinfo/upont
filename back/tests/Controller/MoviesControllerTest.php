@@ -31,7 +31,7 @@ class MoviesControllerTest extends WebTestCase
             'tags' => 'hjihjk'
         ]);
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
 
         $this->client->request('PATCH', '/series/how-i-met-your-mother', [
             'image' => 'https://ia.media-imdb.com/images/M/MV5BMTg2OTIwNTQ2OF5BMl5BanBnXkFtZTcwNTA4NDAwMQ@@._V1_SX300.jpg',
@@ -41,7 +41,7 @@ class MoviesControllerTest extends WebTestCase
             'tags' => 'hjihjk'
         ]);
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
 
         $this->client->request('PATCH', '/movies/pumping-iron', ['size' => 0]);
         $response = $this->client->getResponse();

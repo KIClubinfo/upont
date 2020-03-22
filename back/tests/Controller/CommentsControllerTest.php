@@ -28,7 +28,7 @@ class CommentsControllerTest extends WebTestCase
 
         $this->client->request('PATCH', '/comments/'.$id, ['text' => 'J\'ai perdu au Jeu.']);
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
 
         $this->client->request('PATCH', '/comments/'.$id, ['text' => '']);
         $response = $this->client->getResponse();

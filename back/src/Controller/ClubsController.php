@@ -419,7 +419,7 @@ class ClubsController extends ResourceController
                 $this->manager->persist($link);
                 $this->manager->flush();
 
-                return $this->json(null, 204);
+                return $this->json($link, 200);
             } else {
                 $this->manager->detach($link);
                 return $this->json($form, 400);
@@ -475,7 +475,7 @@ class ClubsController extends ResourceController
                 $this->manager->persist($link);
                 $this->manager->flush();
 
-                return $this->json(null, 204);
+                return $this->json($link, 200);
             } else {
                 $this->manager->detach($link);
                 return $this->json($form, 400);

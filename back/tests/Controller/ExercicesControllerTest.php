@@ -55,7 +55,7 @@ class ExercicesControllerTest extends WebTestCase
     {
         $this->client->request('PATCH', '/courses/mecanique-des-familles/exercices/super-examen', ['name' => 'Annale Test']);
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
 
         $this->client->request('PATCH', '/courses/mecanique-des-familles/exercices/annale-test', ['uploader' => '']);
         $response = $this->client->getResponse();

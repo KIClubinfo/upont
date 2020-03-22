@@ -33,15 +33,15 @@ class RequestsControllerTest extends WebTestCase
     {
         $this->client->request('PATCH', '/requests/sucker-punch/upvote');
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
 
         $this->client->request('PATCH', '/requests/sucker-punch/upvote');
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
 
         $this->client->request('PATCH', '/requests/sucker-punch/upvote');
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
 
         $this->client->request('PATCH', '/requests/susqdsqdsq/upvote');
         $response = $this->client->getResponse();
@@ -52,7 +52,7 @@ class RequestsControllerTest extends WebTestCase
     {
         $this->client->request('PATCH', '/requests/sucker-punch/downvote');
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
 
         $this->client->request('PATCH', '/requests/suckeqsdqdsqqr-punch/downvote');
         $response = $this->client->getResponse();

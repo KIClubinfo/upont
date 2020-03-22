@@ -69,7 +69,7 @@ class EventsControllerTest extends WebTestCase
             ['endDate' => '2018-03-18T11:17:01.943Z']
         );
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
 
         $this->client->request(
             'PATCH',

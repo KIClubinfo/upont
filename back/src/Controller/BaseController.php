@@ -69,7 +69,6 @@ abstract class BaseController extends Controller
         switch ($data['code']) {
             case 400:
                 return $this->json($data['form'], $data['code']);
-            case 204:
             default:
                 return $this->json($data['item'], $data['code']);
         }

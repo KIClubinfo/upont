@@ -42,7 +42,7 @@ class TutosControllerTest extends WebTestCase
     {
         $this->client->request('PATCH', '/tutos/proxy', ['icon' => 'lowl']);
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
 
         $this->client->request('PATCH', '/tutos/sjoajslj', ['username' => 'miam', 'email' => '123@mail.fr']);
         $response = $this->client->getResponse();

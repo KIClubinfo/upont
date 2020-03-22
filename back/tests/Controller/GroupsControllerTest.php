@@ -39,7 +39,7 @@ class GroupsControllerTest extends WebTestCase
         $this->client->request('PATCH', '/groups/groupe-test',
             ['role' => 'ROLE_ADMIN']);
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
 
         $this->client->request('PATCH', '/groups/groupe-test',
             ['firstName' => '']);

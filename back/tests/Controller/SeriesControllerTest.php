@@ -33,7 +33,7 @@ class SeriesControllerTest extends WebTestCase
             'rating' => 42
         ]);
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
 
         $this->client->request('PATCH', '/series/how-i-met-your-mother', ['size' => 0]);
         $response = $this->client->getResponse();
@@ -65,7 +65,7 @@ class SeriesControllerTest extends WebTestCase
     {
         $this->client->request('PATCH', '/series/how-i-met-your-mother/episodes/pilot', ['name' => 'PiLoT']);
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
 
         $this->client->request('PATCH', '/series/how-i-met-your-mother/episodes/pilot', ['size' => 0]);
         $response = $this->client->getResponse();

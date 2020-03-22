@@ -47,8 +47,10 @@ class FormHelper
             if ($method == 'POST') {
                 $this->manager->persist($item);
                 $code = 201;
-            } else {
+            } elseif ($method == 'DELETE') {
                 $code = 204;
+            } else {
+                $code = 200;
             }
             if ($flush)
                 $this->manager->flush();

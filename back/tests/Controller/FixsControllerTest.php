@@ -47,7 +47,7 @@ class FixsControllerTest extends WebTestCase
             ['status' => 'Résolu !']
         );
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
 
         $this->client->request('PATCH', '/fixs/panne-dinternet', ['name' => '']);
         $response = $this->client->getResponse();
