@@ -30,7 +30,7 @@ class Pontlyvalent
 
     /**
      * Date
-     * @ORM\Column(name="date", type="integer", nullable=true)
+     * @ORM\Column(name="date", type="integer")
      * @JMS\Expose
      * @Assert\Type("integer")
      */

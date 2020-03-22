@@ -47,7 +47,7 @@ class Beer extends Likeable
 
     /**
      * Statut de la bière pour l'affichage
-     * @ORM\Column(name="active", type="boolean")
+     * @ORM\Column(name="active", type="boolean", nullable=true)
      * @JMS\Expose
      * @Assert\Type("boolean")
      */
