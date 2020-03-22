@@ -11,37 +11,16 @@ use App\Repository\UserRepository;
 
 class BeerHelper
 {
-    protected $manager;
-    protected $beerRepository;
     protected $transactionRepository;
     protected $userRepository;
 
-    public function __construct(EntityManagerInterface $manager,
-                                BeerRepository $beerRepository,
-                                TransactionRepository $transactionRepository,
-                                UserRepository $userRepository)
+    public function __construct(
+        TransactionRepository $transactionRepository,
+        UserRepository $userRepository
+    )
     {
-        $this->manager               = $manager;
-        $this->beerRepository        = $beerRepository;
         $this->transactionRepository = $transactionRepository;
-        $this->userRepository        = $userRepository;
-    }
-
-    /**
-     * Trie les bières par ordre décroissant de consommation
-     * @return Beer[]
-     */
-    public function getBeerOrderedList()
-    {
-        return $this->manager->createQuery('SELECT beer FROM
-            App:Beer beer,
-            App:Transaction transac
-            WHERE transac.beer = beer.id
-            AND transac.user IS NOT NULL
-            GROUP BY beer.id
-            ORDER BY COUNT(transac) DESC'
-        )
-        ->getResult();
+        $this->userRepository = $userRepository;
     }
 
     /**

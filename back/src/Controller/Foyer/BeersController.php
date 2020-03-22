@@ -7,6 +7,7 @@ use App\Entity\Beer;
 use App\Entity\Transaction;
 use App\Form\BeerType;
 use App\Helper\BeerHelper;
+use App\Repository\BeerRepository;
 use Nelmio\ApiDocBundle\Annotation\Operation;
 use Swagger\Annotations as SWG;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -40,10 +41,9 @@ class BeersController extends ResourceController
      *
      * @Route("/beers", methods={"GET"})
      */
-    public function getBeersAction(BeerHelper $beerHelper)
+    public function getBeersAction(BeerRepository $beerRepository)
     {
-        $beers = $beerHelper->getBeerOrderedList();
-        return $this->json($beers);
+        return $this->json($beerRepository->getBeerOrderedList());
     }
 
     /**

@@ -261,15 +261,14 @@ class TransactionsController extends ResourceController
         $amount = $transaction->getAmount();
 
         if (!($user === null)) {
-            $transactionHelper->updateBalance($user, -1 * $amount);
+            $transactionHelper->updateBalance($user, -$amount);
         }
         if (!($beer === null)) {
             $quantity = $transaction->getQuantity();
-            if ($quantity === null) {
-                $quantity = abs($amount) / $amount;
+            if ($quantity !== null) {
+                $sign = $user === null ? -1 : 1;
+                $transactionHelper->updateStock($beer, $sign * $quantity);
             }
-
-            $transactionHelper->updateStock($beer, -1 * $quantity);
         }
 
         $this->delete($id, $this->isFoyerMember());
