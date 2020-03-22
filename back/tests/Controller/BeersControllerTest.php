@@ -15,11 +15,15 @@ class BeersControllerTest extends WebTestCase
                 'name' => 'Test Kro',
                 'price' => 1,
                 'alcohol' => 1,
-                'volume' => 1
+                'volume' => 1,
+                'active' => true,
             ]
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 201);
+
+        $data = json_decode($response->getContent(), true);
+        $this->assertTrue($data["active"]);
     }
 
     public function testGet()
@@ -42,6 +46,12 @@ class BeersControllerTest extends WebTestCase
         $this->client->request('PATCH', '/beers/test-ksdqsdqsdsdqsdsdqsro', ['alcohol' => 'blah']);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 404);
+
+        $this->client->request('PATCH', '/beers/test-kro', ['active' => false]);
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 200);
+        $data = json_decode($response->getContent(), true);
+        $this->assertFalse($data["active"]);
     }
 
     public function testDelete()
