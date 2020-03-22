@@ -11,6 +11,7 @@ use App\Repository\TransactionRepository;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TransactionHelper
@@ -42,7 +43,7 @@ class TransactionHelper
      * @return integer $newStock
      * @throws NotFoundHttpException Si la bière n'est pas trouvée
      */
-    public function addDeliveryTransaction($beerSlug, $amount, $number)
+    public function addDeliveryTransaction(String $beerSlug, float $amount, int $quantity)
     {
         $beer = $this->beerRepository->findOneBySlug($beerSlug);
         if (!$beer instanceOf Beer) {
@@ -51,7 +52,7 @@ class TransactionHelper
 
         $amount = round($amount, 2);
 
-        if (!$amount === 0) {
+        if ($amount === 0) {
             // TODO bière gratuite ?
             throw new BadRequestHttpException('Bière gratuite ?');
         }
@@ -59,11 +60,11 @@ class TransactionHelper
         $transaction = new Transaction();
         $transaction->setBeer($beer);
         $transaction->setAmount($amount);
-        $transaction->setNumber($number);
+        $transaction->setQuantity($quantity);
         $this->manager->persist($transaction);
         $this->manager->flush();
 
-        $this->updateStock($beer, $number);
+        $this->updateStock($beer, $quantity);
         return $transaction->getId();
     }
 
@@ -88,19 +89,19 @@ class TransactionHelper
         }
 
         // TODO grouper les bières dans un panier ?
-        $number = 1;
+        $quantity = 1;
 
-        $amount = round(-$number * $beer->getPrice(), 2);
+        $amount = round(-$quantity * $beer->getPrice(), 2);
         $transaction = new Transaction();
         $transaction->setUser($user);
         $transaction->setBeer($beer);
         $transaction->setAmount($amount);
-        $transaction->setNumber($number);
+        $transaction->setQuantity($quantity);
         $this->manager->persist($transaction);
         $this->manager->flush();
 
         $this->updateBalance($user, $amount);
-        $this->updateStock($beer, -$number);
+        $this->updateStock($beer, -$quantity);
         return $transaction->getId();
     }
 

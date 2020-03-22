@@ -61,8 +61,11 @@ class BeerHelper
 
         foreach ($transactions as $transaction) {
             $user = $transaction->getUser();
+            if ($user === null) {
+                continue;
+            }
 
-            if (!in_array($user, $users) && !$user === null) {
+            if (!in_array($user, $users)) {
                 $users[] = $user;
             }
             // On ne veut que 48 résultats

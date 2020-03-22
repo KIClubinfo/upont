@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200322140355 extends AbstractMigration
+final class Version20200322133241 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,7 +22,8 @@ final class Version20200322140355 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE Beer ADD active TINYINT(1) DEFAULT NULL');
+        $this->addSql('ALTER TABLE Transaction ADD quantity INT DEFAULT NULL, CHANGE user_id user_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE Beer ADD stock INT NOT NULL, ADD active TINYINT(1) NOT NULL DEFAULT 1');
     }
 
     public function down(Schema $schema) : void
@@ -30,6 +31,7 @@ final class Version20200322140355 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE Beer DROP active');
+        $this->addSql('ALTER TABLE Beer DROP stock, DROP active');
+        $this->addSql('ALTER TABLE Transaction DROP quantity, CHANGE user_id user_id INT NOT NULL');
     }
 }

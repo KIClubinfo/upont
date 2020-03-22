@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use App\Entity\Likeable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -39,7 +39,7 @@ class Beer extends Likeable
 
     /**
      * Nombre en stock
-     * @ORM\Column(name="stock", type="integer", nullable=true)
+     * @ORM\Column(name="stock", type="integer")
      * @JMS\Expose
      * @Assert\Type("integer")
      */
@@ -47,7 +47,7 @@ class Beer extends Likeable
 
     /**
      * Statut de la bière pour l'affichage
-     * @ORM\Column(name="active", type="boolean", nullable=true)
+     * @ORM\Column(name="active", type="boolean")
      * @JMS\Expose
      * @Assert\Type("boolean")
      */
@@ -74,7 +74,7 @@ class Beer extends Likeable
     {
         parent::__construct();
 
-        $this->transactions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->transactions = new ArrayCollection();
     }
 
     /**

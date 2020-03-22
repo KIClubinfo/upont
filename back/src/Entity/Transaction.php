@@ -38,11 +38,11 @@ class Transaction
 
     /**
      * Nombre de bières
-     * @ORM\Column(name="number", type="integer", nullable=true)
+     * @ORM\Column(name="quantity", type="integer", nullable=true)
      * @JMS\Expose
      * @Assert\Type("integer")
      */
-    protected $number = 1;
+    protected $quantity = 1;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Beer", inversedBy="transactions")
@@ -126,21 +126,21 @@ class Transaction
      *
      * @return integer
      */
-    public function getNumber()
+    public function getQuantity()
     {
-        return $this->number;
+        return $this->quantity;
     }
 
     /**
      * Set number
      *
-     * @param integer $number
+     * @param integer $quantity
      *
      * @return Transaction
      */
-    public function setNumber($number)
+    public function setQuantity($quantity)
     {
-        $this->number = $number;
+        $this->quantity = $quantity;
 
         return $this;
     }
@@ -148,11 +148,11 @@ class Transaction
     /**
      * Set beer
      *
-     * @param \App\Entity\Beer $beer
+     * @param Beer $beer
      *
      * @return Transaction
      */
-    public function setBeer(\App\Entity\Beer $beer)
+    public function setBeer(Beer $beer)
     {
         $this->beer = $beer;
 
@@ -162,7 +162,7 @@ class Transaction
     /**
      * Get beer
      *
-     * @return \App\Entity\Beer
+     * @return Beer
      */
     public function getBeer()
     {
@@ -172,11 +172,11 @@ class Transaction
     /**
      * Set user
      *
-     * @param \App\Entity\User $user
+     * @param User $user
      *
      * @return Transaction
      */
-    public function setUser(\App\Entity\User $user)
+    public function setUser(User $user)
     {
         $this->user = $user;
 
@@ -186,7 +186,7 @@ class Transaction
     /**
      * Get user
      *
-     * @return \App\Entity\User
+     * @return User
      */
     public function getUser()
     {

@@ -201,8 +201,8 @@ class TransactionsController extends ResourceController
         $credit = $request->request->get('credit');
         $hasCredit = !($credit === null);
 
-        $number = $request->request->get('number');
-        $hasNumber = !($number === null);
+        $quantity = $request->request->get('quantity');
+        $hasQuantity = !($quantity === null);
 
         if ($hasUser && $hasBeer && $hasCredit) {
             throw new BadRequestHttpException('Trop d\'info pour une transaction');
@@ -214,9 +214,9 @@ class TransactionsController extends ResourceController
         } else if ($hasUser && $hasCredit) {
             // crédit
             $id = $transactionHelper->addCreditTransaction($user, $credit);
-        } else if ($hasBeer && $hasCredit && $hasNumber) {
+        } else if ($hasBeer && $hasCredit && $hasQuantity) {
             // livraison
-            $id = $transactionHelper->addDeliveryTransaction($beer, $credit, $number);
+            $id = $transactionHelper->addDeliveryTransaction($beer, $credit, $quantity);
         } else {
             throw new BadRequestHttpException('Pas assez d\'info pour une transaction');
         }
@@ -252,16 +252,24 @@ class TransactionsController extends ResourceController
     {
         $this->trust($this->isFoyerMember());
 
+        /**
+         * @var $transaction Transaction
+         */
         $transaction = $this->findBySlug($id);
         $user = $transaction->getUser();
         $beer = $transaction->getBeer();
         $amount = $transaction->getAmount();
 
-        if (!($user === null)){
+        if (!($user === null)) {
             $transactionHelper->updateBalance($user, -1 * $amount);
         }
-        if (!($beer === null or $amount === 0)){
-            $transactionHelper->updateStock($beer, - abs($amount) / $amount);
+        if (!($beer === null)) {
+            $quantity = $transaction->getQuantity();
+            if ($quantity === null) {
+                $quantity = abs($amount) / $amount;
+            }
+
+            $transactionHelper->updateStock($beer, -1 * $quantity);
         }
 
         $this->delete($id, $this->isFoyerMember());
