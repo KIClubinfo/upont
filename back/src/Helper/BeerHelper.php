@@ -2,6 +2,7 @@
 
 namespace App\Helper;
 
+use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Beer;
 use App\Repository\BeerRepository;
 use App\Repository\TransactionRepository;
@@ -10,57 +11,16 @@ use App\Repository\UserRepository;
 
 class BeerHelper
 {
-    protected $beerRepository;
     protected $transactionRepository;
     protected $userRepository;
 
-    public function __construct(BeerRepository $beerRepository,
-                                TransactionRepository $transactionRepository,
-                                UserRepository $userRepository)
+    public function __construct(
+        TransactionRepository $transactionRepository,
+        UserRepository $userRepository
+    )
     {
-        $this->beerRepository        = $beerRepository;
         $this->transactionRepository = $transactionRepository;
-        $this->userRepository        = $userRepository;
-    }
-
-    /**
-     * Trie les bières par ordre décroissant de consommation
-     * @return Beer[]
-     */
-    public function getBeerOrderedList()
-    {
-        // On commence par récupérer toutes les bières
-        $beers = $this->beerRepository->findAll();
-
-        // On va établir les comptes sur les 500 dernières consos
-        $transactions = $this->transactionRepository->findBy([], ['date' => 'DESC'], 500);
-
-        $counts = [];
-        foreach ($transactions as $transaction) {
-            // On peut tomber sur une entrée "compte crédité"
-            if ($transaction->getBeer() === null) {
-                continue;
-            }
-            $beerId = $transaction->getBeer()->getId();
-
-            if (!isset($counts[$beerId])) {
-                $counts[$beerId] = 0;
-            }
-
-            $counts[$beerId] = $counts[$beerId] + 1;
-        }
-
-        // On trie
-        $return = $beerCounts = [];
-        foreach ($beers as $beer) {
-            $beerId = $beer->getId();
-
-            $beerCounts[] = isset($counts[$beerId]) ? $counts[$beerId] : 0;
-            $return[]     = $beer;
-        }
-        array_multisort($beerCounts, SORT_DESC, $return);
-
-        return $return;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -69,6 +29,8 @@ class BeerHelper
      */
     public function getUserOrderedList()
     {
+        // TODO SQL, plus délicat
+
         // On commence par récupérer 500 dernières consos
         $transactions = $this->transactionRepository->findBy([], ['date' => 'DESC'], 500);
 
@@ -78,6 +40,9 @@ class BeerHelper
 
         foreach ($transactions as $transaction) {
             $user = $transaction->getUser();
+            if ($user === null) {
+                continue;
+            }
 
             if (!in_array($user, $users)) {
                 $users[] = $user;

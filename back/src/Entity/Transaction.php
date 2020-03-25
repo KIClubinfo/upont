@@ -37,7 +37,15 @@ class Transaction
     protected $amount;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Beer")
+     * Nombre de bières
+     * @ORM\Column(name="quantity", type="integer", nullable=true)
+     * @JMS\Expose
+     * @Assert\Type("integer")
+     */
+    protected $quantity = 1;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Beer", inversedBy="transactions")
      * @ORM\JoinColumn(nullable=true)
      * @JMS\Expose
      */
@@ -45,7 +53,7 @@ class Transaction
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="transactions")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @JMS\Expose
      */
     private $user;
@@ -114,13 +122,37 @@ class Transaction
     }
 
     /**
-     * Set beer
+     * Get number
      *
-     * @param \App\Entity\Beer $beer
+     * @return integer
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * Set number
+     *
+     * @param integer $quantity
      *
      * @return Transaction
      */
-    public function setBeer(\App\Entity\Beer $beer)
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * Set beer
+     *
+     * @param Beer $beer
+     *
+     * @return Transaction
+     */
+    public function setBeer(Beer $beer)
     {
         $this->beer = $beer;
 
@@ -130,7 +162,7 @@ class Transaction
     /**
      * Get beer
      *
-     * @return \App\Entity\Beer
+     * @return Beer
      */
     public function getBeer()
     {
@@ -140,11 +172,11 @@ class Transaction
     /**
      * Set user
      *
-     * @param \App\Entity\User $user
+     * @param User $user
      *
      * @return Transaction
      */
-    public function setUser(\App\Entity\User $user)
+    public function setUser(User $user)
     {
         $this->user = $user;
 
@@ -154,7 +186,7 @@ class Transaction
     /**
      * Get user
      *
-     * @return \App\Entity\User
+     * @return User
      */
     public function getUser()
     {

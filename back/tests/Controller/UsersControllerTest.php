@@ -67,7 +67,7 @@ class UsersControllerTest extends WebTestCase
                 'image' => 'http://i.imgur.com/QKKfs.png'
             ]);
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
 
         $this->client->request('PATCH', '/users/opk', ['firstName' => '']);
         $response = $this->client->getResponse();

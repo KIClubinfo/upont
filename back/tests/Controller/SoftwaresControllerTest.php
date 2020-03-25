@@ -25,7 +25,7 @@ class SoftwaresControllerTest extends WebTestCase
     {
         $this->client->request('PATCH', '/softwares/windows-8', ['image' => 'https://upload.wikimedia.org/wikipedia/commons/5/5a/Wikipedia-logo-v2-fr.png', 'year' => 1999, 'author' => 'Microsoft', 'version' => '0.0.1']);
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
 
         $this->client->request('PATCH', '/softwares/windows-8', ['size' => 0]);
         $response = $this->client->getResponse();

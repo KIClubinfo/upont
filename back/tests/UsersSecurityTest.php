@@ -27,17 +27,17 @@ class UsersSecurityTest extends WebTestCase
 
         $this->client->request('PATCH', '/clubs/bda', ['icon' => 'test']);
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
         // On teste que l'utilisateur puisse modifier son propre profil
 
         $this->client->request('PATCH', '/users/donat-bb', ['firstName' => 'Benoît']);
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
         // On teste le rajout/la suppression de membre
 
         $this->client->request('POST', '/clubs/bda/users/dziris', ['role' => 'Test']);
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
 
         $this->client->request('DELETE', '/clubs/bda/users/dziris', ['role' => 'Test']);
         $response = $this->client->getResponse();
@@ -80,7 +80,7 @@ class UsersSecurityTest extends WebTestCase
             [403, 'GET', '/users'],
             [403, 'POST', '/clubs'],
             [403, 'PATCH', '/users/gcc'],
-            [204, 'PATCH', '/clubs/gcc', ['fullName' => 'Génie']],
+            [200, 'PATCH', '/clubs/gcc', ['fullName' => 'Génie']],
         ];
         $this->checkRoutes($routes);
     }

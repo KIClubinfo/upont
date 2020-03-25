@@ -344,6 +344,4 @@ class CoursesController extends ResourceController
         $courseHelper->unlinkCourseUser($course, $this->user);
         return $this->json(null, 204);
     }
-
-
 }

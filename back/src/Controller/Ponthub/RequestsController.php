@@ -148,8 +148,8 @@ class RequestsController extends ResourceController
      *     tags={"Ponthub"},
      *     summary="Approuve une demande d'ajout de fichier",
      *     @SWG\Response(
-     *         response="204",
-     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *         response="200",
+     *         description="Requête traitée avec succès"
      *     ),
      *     @SWG\Response(
      *         response="401",
@@ -173,7 +173,7 @@ class RequestsController extends ResourceController
         $item->setVotes($item->getVotes() + 1);
         $this->manager->flush();
 
-        return $this->json(null, 204);
+        return $this->json($item, 200);
     }
 
     /**
@@ -181,8 +181,8 @@ class RequestsController extends ResourceController
      *     tags={"Ponthub"},
      *     summary="Désapprouve une demande d'ajout de fichier",
      *     @SWG\Response(
-     *         response="204",
-     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *         response="200",
+     *         description="Requête traitée avec succès"
      *     ),
      *     @SWG\Response(
      *         response="401",
@@ -206,6 +206,6 @@ class RequestsController extends ResourceController
         $item->setVotes($item->getVotes() - 1);
         $this->manager->flush();
 
-        return $this->json(null, 204);
+        return $this->json($item, 200);
     }
 }

@@ -58,7 +58,7 @@ class ClubsControllerTest extends WebTestCase
             ]
         );
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
 
         $this->client->request('PATCH', '/clubs/cpt', ['name' => '']);
         $response = $this->client->getResponse();
@@ -92,11 +92,11 @@ class ClubsControllerTest extends WebTestCase
 
         $this->client->request('POST', '/clubs/cpt/users/dziris', ['role' => 'Test']);
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
 
         $this->client->request('POST', '/clubs/cpt/users/trancara', ['role' => 'Test']);
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
 
         $this->client->request('POST', '/clubs/cpt/users/dziris', ['role' => 'Test 2']);
         $response = $this->client->getResponse();
@@ -115,7 +115,7 @@ class ClubsControllerTest extends WebTestCase
 
         $this->client->request('PATCH', '/clubs/cpt/users/dziris', ['role' => 'Test 33']);
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
     }
 
     public function testUnlink()

@@ -253,7 +253,7 @@ class OwnController extends ResourceController
         $this->manager->persist($device);
         $this->manager->flush();
 
-        return $this->json(null, 204);
+        return $this->json($device, 201);
     }
 
     /**

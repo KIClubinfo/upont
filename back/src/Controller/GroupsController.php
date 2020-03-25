@@ -157,8 +157,8 @@ class GroupsController extends ResourceController
      *         type="string",
      *     ),
      *     @SWG\Response(
-     *         response="204",
-     *         description="Requête traitée avec succès mais pas d’information à renvoyer"
+     *         response="200",
+     *         description="Requête traitée avec succès"
      *     ),
      *     @SWG\Response(
      *         response="400",
@@ -213,7 +213,7 @@ class GroupsController extends ResourceController
 
         $this->manager->persist($group);
         $this->manager->flush();
-        return $this->json($group, 204);
+        return $this->json($group, 200);
     }
 
     /**

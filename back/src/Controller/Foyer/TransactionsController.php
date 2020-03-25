@@ -5,6 +5,7 @@ namespace App\Controller\Foyer;
 use App\Controller\ResourceController;
 use App\Entity\Transaction;
 use App\Entity\User;
+use App\Entity\Beer;
 use App\Helper\BeerHelper;
 use App\Helper\TransactionHelper;
 use Nelmio\ApiDocBundle\Annotation\Operation;
@@ -75,6 +76,7 @@ class TransactionsController extends ResourceController
         return $this->json($users);
     }
 
+
     /**
      * @Operation(
      *     tags={"Foyer"},
@@ -111,18 +113,58 @@ class TransactionsController extends ResourceController
     /**
      * @Operation(
      *     tags={"Foyer"},
-     *     summary="Crée une transaction - conso ou compte crédité (L'UN OU L'AUTRE, PAS LES DEUX EN MÊME TEMPS)",
+     *     summary="Liste les transactions d'une bière",
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Requête traitée avec succès"
+     *     ),
+     *     @SWG\Response(
+     *         response="401",
+     *         description="Une authentification est nécessaire pour effectuer cette action"
+     *     ),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="Pas les droits suffisants pour effectuer cette action"
+     *     )
+     * )
+     *
+     * @Route("/beers/{slug}/transactions", methods={"GET"})
+     */
+    public function getBeerTransactionsAction(Request $request, $slug)
+    {
+        $beerRepository = $this->getDoctrine()->getManager()->getRepository(Beer::class);
+        $beer = $beerRepository->findOneBySlug($slug);
+
+        $this->trust($this->isFoyerMember());
+
+        $request->query->set('beer', $beer->getId());
+
+        return $this->getAll();
+    }
+
+
+    /**
+     * @Operation(
+     *     tags={"Foyer"},
+     *     summary="Crée une transaction - conso OU compte crédité OU livraison",
+     *     @SWG\Parameter(
+     *         name="user",
+     *         in="formData",
+     *         description="Le slug de l'utilisateur SI C'EST UNE CONSO OU UN CRÉDIT",
+     *         required=false,
+     *         type="string"
+     *     ),
      *     @SWG\Parameter(
      *         name="beer",
      *         in="formData",
-     *         description="Le slug de la bière SI C'EST UNE CONSO",
+     *         description="Le slug de la bière SI C'EST UNE CONSO OU UNE LIVRAISON",
      *         required=false,
      *         type="string"
      *     ),
      *     @SWG\Parameter(
      *         name="credit",
      *         in="formData",
-     *         description="Le montant à créditer SI C'EST UNE TRANSACTION DE CRÉDIT",
+     *         description="Le montant à créditer SI C'EST UNE TRANSACTION DE CRÉDIT OU UNE LIVRAISON",
      *         required=false,
      *         type="string"
      *     ),
@@ -150,17 +192,33 @@ class TransactionsController extends ResourceController
     {
         $this->trust($this->isFoyerMember());
 
-        if (!$request->request->has('user')) {
-            throw new BadRequestHttpException('User obligatoire');
-        }
-        if (!($request->request->has('beer') xor $request->request->has('credit'))) {
-            throw new BadRequestHttpException('On rajoute une conso ou du crédit, pas les deux');
+        $user = $request->request->get('user');
+        $hasUser = !($user === null);
+
+        $beer = $request->request->get('beer');
+        $hasBeer = !($beer === null);
+
+        $credit = $request->request->get('credit');
+        $hasCredit = !($credit === null);
+
+        $quantity = $request->request->get('quantity');
+        $hasQuantity = !($quantity === null);
+
+        if ($hasUser && $hasBeer && $hasCredit) {
+            throw new BadRequestHttpException('Trop d\'info pour une transaction');
         }
 
-        if ($request->request->has('beer')) {
-            $id = $transactionHelper->addBeerTransaction($request->request->get('user'), $request->request->get('beer'));
-        } else if ($request->request->has('credit')) {
-            $id = $transactionHelper->addCreditTransaction($request->request->get('user'), $request->request->get('credit'));
+        if ($hasUser && $hasBeer) {
+            // conso
+            $id = $transactionHelper->addBeerTransaction($user, $beer);
+        } else if ($hasUser && $hasCredit) {
+            // crédit
+            $id = $transactionHelper->addCreditTransaction($user, $credit);
+        } else if ($hasBeer && $hasCredit && $hasQuantity) {
+            // livraison
+            $id = $transactionHelper->addDeliveryTransaction($beer, $credit, $quantity);
+        } else {
+            throw new BadRequestHttpException('Pas assez d\'info pour une transaction');
         }
 
         return $this->json($id, 201);
@@ -194,8 +252,24 @@ class TransactionsController extends ResourceController
     {
         $this->trust($this->isFoyerMember());
 
+        /**
+         * @var $transaction Transaction
+         */
         $transaction = $this->findBySlug($id);
-        $transactionHelper->updateBalance($transaction->getUser(), -1 * $transaction->getAmount());
+        $user = $transaction->getUser();
+        $beer = $transaction->getBeer();
+        $amount = $transaction->getAmount();
+
+        if (!($user === null)) {
+            $transactionHelper->updateBalance($user, -$amount);
+        }
+        if (!($beer === null)) {
+            $quantity = $transaction->getQuantity();
+            if ($quantity !== null) {
+                $sign = $user === null ? -1 : 1;
+                $transactionHelper->updateStock($beer, $sign * $quantity);
+            }
+        }
 
         $this->delete($id, $this->isFoyerMember());
 

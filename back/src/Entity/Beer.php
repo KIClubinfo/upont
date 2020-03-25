@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use App\Entity\Likeable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -38,11 +38,44 @@ class Beer extends Likeable
     protected $volume;
 
     /**
+     * Nombre en stock
+     * @ORM\Column(name="stock", type="integer")
+     * @JMS\Expose
+     * @Assert\Type("integer")
+     */
+    protected $stock = 0;
+
+    /**
+     * Statut de la bière pour l'affichage
+     * @ORM\Column(name="active", type="boolean")
+     * @JMS\Expose
+     * @Assert\Type("boolean")
+     */
+    protected $active = true;
+
+    /**
+     * Transactions liées à la bière
+     * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="beer")
+     * @Assert\Valid()
+     */
+    protected $transactions;
+
+    /**
      * Logo
      * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist", "remove"})
      * @Assert\Valid()
      */
     protected $image;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->transactions = new ArrayCollection();
+    }
 
     /**
      * @JMS\VirtualProperty()
@@ -122,6 +155,54 @@ class Beer extends Likeable
     public function getVolume()
     {
         return $this->volume;
+    }
+
+    /**
+     * Set stock
+     *
+     * @param integer $stock
+     *
+     * @return Beer
+     */
+    public function setStock($stock)
+    {
+        $this->stock = $stock;
+
+        return $this;
+    }
+
+    /**
+     * Get stock
+     *
+     * @return integer
+     */
+    public function getStock()
+    {
+        return $this->stock;
+    }
+
+        /**
+     * Set active
+     *
+     * @param boolean $active
+     *
+     * @return Beer
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean
+     */
+    public function getActive()
+    {
+        return $this->active;
     }
 
     /**

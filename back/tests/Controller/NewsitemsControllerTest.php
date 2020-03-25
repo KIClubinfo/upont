@@ -57,7 +57,7 @@ class NewsitemsControllerTest extends WebTestCase
             ['text' => 'ddssqdqsd', 'sendMail' => false]
         );
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
 
         $this->client->request(
             'PATCH',

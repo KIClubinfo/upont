@@ -80,7 +80,7 @@ class CoursesControllerTest extends WebTestCase
             'PATCH', '/courses/mecanique-des-familles', ['semester' => 1]
             );
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
 
         $this->client->request('PATCH', '/courses/sjoajsiohaysahais-asbsksaba7', ['username' => 'miam', 'email' => '123@mail.fr']);
         $response = $this->client->getResponse();

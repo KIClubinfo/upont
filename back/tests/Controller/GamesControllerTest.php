@@ -25,7 +25,7 @@ class GamesControllerTest extends WebTestCase
     {
         $this->client->request('PATCH', '/games/age-of-empires-2', ['genres' => 'Geekage,Lanage', 'year' => 1999]);
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 204);
+        $this->assertJsonResponse($response, 200);
 
         $this->client->request('PATCH', '/games/age-of-empires-2', ['size' => 0]);
         $response = $this->client->getResponse();
