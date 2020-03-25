@@ -63,7 +63,7 @@
         </table>
     </section>
 
-    <section ng-if="$root.hasClub('bde')" flex="100">
+    <section ng-if="$root.hasClub('Pontlyvalent')" flex="100">
         <div class="Ticket">
             <h2>Résultats généraux</h2>
 
@@ -82,7 +82,7 @@
                 </thead>
 
                 <tbody>
-                    <tr ng-repeat="item in comments | orderBy: ['-target.promo', 'target.first_name', 'target.last_name'] | filter: {target: {$: searchName}}" ng-hide="item.target.username == $root.username">
+                    <tr ng-repeat="item in comments | orderBy: ['-target.promo', 'target.first_name', 'target.last_name'] | filter: {target: {$: promo}} | filter: {target: {$: searchName}}" ng-hide="item.target.username == $root.username">
 
                         <td>{{ item.target.promo }}</td>
                         <td>{{ item.target.first_name }} {{ item.target.last_name }}</td>

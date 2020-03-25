@@ -1,6 +1,6 @@
 import alertify from 'alertifyjs';
 
-import { API_PREFIX } from 'upont/js/config/constants';
+import constants, { API_PREFIX } from 'upont/js/config/constants';
 
 /* @ngInject */
 class Students_Pontlyvalent_Ctrl {
@@ -8,6 +8,7 @@ class Students_Pontlyvalent_Ctrl {
         $scope.searchResultsPost = [];
         $scope.searchPost = '';
         $scope.searchName = '';
+        $scope.promo = constants.PROMOS.slice(-2)[0];
         $scope.comments = comments.data;
 
         $scope.searchUserPost = (userQuery) => {
