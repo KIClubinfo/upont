@@ -15,7 +15,7 @@ RUN docker-php-ext-install pdo pdo_mysql iconv mcrypt && \
 COPY php-fpm.conf /etc/php-fpm/www.conf
 
 # Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --version=1.10.20 --filename=composer && \
     composer config --global repo.packagist composer https://packagist.org
 
 # Set timezone
