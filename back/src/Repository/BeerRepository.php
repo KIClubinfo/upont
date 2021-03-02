@@ -19,8 +19,6 @@ class BeerRepository extends ServiceEntityRepository
      */
     public function getBeerOrderedList()
     {
-        return $this->getEntityManager()->createQuery('SELECT beer FROM
-            App:Beer beer'
-        )->getArrayResult();
+        return $this->findAll();
     }
 }
