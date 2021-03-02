@@ -4,6 +4,8 @@ MAINTAINER Louis TREZZINI <louis.trezzini@ponts.org>
 RUN addgroup php && adduser -D -G php php
 RUN mkdir /app && chown php:php /app && chmod 700 /app
 WORKDIR /app
+RUN mkdir -p /app/public/uploads/images
+RUN chown -R php:php /app/public 
 
 RUN apk --no-cache add bash git libmcrypt-dev libjpeg-turbo-dev libpng-dev freetype-dev
 
