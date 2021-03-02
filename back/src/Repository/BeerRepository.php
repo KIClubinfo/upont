@@ -20,11 +20,7 @@ class BeerRepository extends ServiceEntityRepository
     public function getBeerOrderedList()
     {
         return $this->getEntityManager()->createQuery('SELECT beer FROM
-            App:Beer beer
-            LEFT OUTER JOIN beer.transactions transac
-            WHERE transac.user IS NOT NULL OR transac.id IS NULL
-            GROUP BY beer.id
-            ORDER BY COUNT(transac) DESC'
+            App:Beer beer'
         )->getArrayResult();
     }
 }
