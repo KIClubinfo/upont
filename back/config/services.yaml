@@ -30,12 +30,13 @@ parameters:
         foyer:
             trust:
                 # - '021'
-                - '022'
+                # - '022'
                 - '023'
+                - '024'
 
         promos:
-            latest: '023'
-            assos: '022'
+            latest: '024'
+            assos: '023'
             all:
                 - '014'
                 - '015'
@@ -47,10 +48,11 @@ parameters:
                 - '021'
                 - '022'
                 - '023'
+                - '024'
 
         pontlyvalent:
             open: true
-            promo: '022'
+            promo: '023'
 
     ki_core.images.directory: '%kernel.project_dir%/web/uploads/images/'
     ki_core.images.maxSize: 512000 # Taille maximum des images uploadées en octets
